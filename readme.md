@@ -1,7 +1,4 @@
 <html>
-    <head>
-        <title>Windows Azure DocumentDB SDK: node.js</title>
-    </head>
     <body>
         <h2>Windows Azure DocumentDB nodejs SDK</h2>
         <p>
