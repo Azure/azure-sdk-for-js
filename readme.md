@@ -1,6 +1,6 @@
 <html>
     <body>
-        <h2>Windows Azure DocumentDB nodejs SDK</h2>
+        <h2>Microsoft Azure DocumentDB nodejs SDK</h2>
         <p>
             DocumentDB is a purpose built NoSQL JSON document database designed for modern mobile and web applications. DocumentDB supports rich queries over JSON data as well as 
             transactional execution of JavaScript based application logic. <br>
