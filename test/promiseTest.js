@@ -848,23 +848,10 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                 validateCreate(createdResource);
                 return client["read" + className + "s"](parentLink).toArrayAsync();
             })
-            .then(function(response) {
-                resources = response.feed;
-                assert.equal(resources.length, beforeCount + 1, "create should increase the number of resources");
-                if (parentLink) {
-                    return client["query" + className + "s"](parentLink, '(^/"id"/"' + resourceDefinition.id + '")/"_rid"!?', {jpath: true}).toArrayAsync();
-                } else {
-                    return client["query" + className + "s"]('(^/"id"/"' + resourceDefinition.id + '")/"_rid"!?', {jpath: true}).toArrayAsync();
-                }
-            })
 			.then(function(response) {
                 var resources = response.feed;
                 assert(resources.length > 0, "number of resources for the query should be > 0");
-                var query 
-                if (className === "StoredProcedure") {
-                    // SQL doesn't work with stored procedures.
-                   return client["query" + className + "s"](parentLink, '(^/"id"/"' + resourceDefinition.id + '")/"_rid"!?', {jpath: true}).toArrayAsync();
-                } else if (parentLink) { 
+                if (parentLink) { 
 					return client["query" + className + "s"](parentLink, 'select * FROM root r WHERE r.id="' + resourceDefinition.id + '"').toArrayAsync();
 				} else {
 					return client["query" + className + "s"]('select * FROM root r WHERE r.id="' + resourceDefinition.id + '"').toArrayAsync();

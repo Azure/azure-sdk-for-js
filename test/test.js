@@ -60,32 +60,29 @@ describe("NodeJS CRUD Tests", function(){
                     client.readDatabases().toArray(function(err, databases) {
                         assert.equal(databases.length, beforeCreateDatabasesCount + 1, "create should increase the number of databases");
                         // query databases
-                        client.queryDatabases("^/?", {jpath: true}).toArray(function(err, databases) {
-							assert(databases.length > 0, "number of databases for the query should be > 0");
-							client.queryDatabases('SELECT * FROM root r WHERE r.id="' + databaseDefinition.id + '"').toArray(function(err, results) {
-								assert(results.length > 0, "number of results for the query should be > 0");
-								//replace database 
-								db.id = "replaced db";
-								client.replaceDatabase(db._self, db, function(error, replacedDb){
-									assert.equal(replacedDb.id, "replaced db", "Db name should change");
-									assert.equal(db.id, replacedDb.id, "Db id should stay the same");
-									// read database
-									client.readDatabase(replacedDb._self, function(err, database) {
-										assert.equal(err, undefined, "readDatabase should work successfully");
-										assert.equal(replacedDb.id, database.id);
-										// delete database
-										client.deleteDatabase(replacedDb._self, function(err, res){
-											// read database after deletion
-											client.readDatabase(db._self, function(err, database) {
-												var notFoundErrorCode = 404;
-												assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-												done();
-											});
+						client.queryDatabases('SELECT * FROM root r WHERE r.id="' + databaseDefinition.id + '"').toArray(function(err, results) {
+							assert(results.length > 0, "number of results for the query should be > 0");
+							//replace database 
+							db.id = "replaced db";
+							client.replaceDatabase(db._self, db, function(error, replacedDb){
+								assert.equal(replacedDb.id, "replaced db", "Db name should change");
+								assert.equal(db.id, replacedDb.id, "Db id should stay the same");
+								// read database
+								client.readDatabase(replacedDb._self, function(err, database) {
+									assert.equal(err, undefined, "readDatabase should work successfully");
+									assert.equal(replacedDb.id, database.id);
+									// delete database
+									client.deleteDatabase(replacedDb._self, function(err, res){
+										// read database after deletion
+										client.readDatabase(db._self, function(err, database) {
+											var notFoundErrorCode = 404;
+											assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
+											done();
 										});
 									});
 								});
-							})
-                        });
+							});
+						});
                     });
                 });
             });
@@ -110,26 +107,23 @@ describe("NodeJS CRUD Tests", function(){
                         client.readCollections(db._self).toArray(function(err, collections) {
                             assert.equal(collections.length, beforeCreateCollectionsCount + 1, "create should increase the number of collections");
                             // query collections
-                            client.queryCollections(db._self, "^/?", {jpath: true}).toArray(function(err, collections) {
-                                assert(collections.length > 0, "number of collections for the query should be > 0");
-								client.queryCollections(db._self, 'SELECT * FROM root r WHERE r.id="' + collectionDefinition.id + '"').toArray(function(err, results) {
-									assert(results.length > 0, "number of results for the query should be > 0");								
-                                    // read collection
-                                    client.readCollection(collection._self, function(err, collection) {
-                                        assert.equal(err, undefined, "readCollection should work successfully");
-                                        assert.equal(collection.id, collection.id);
-                                        // delete collection
-                                        client.deleteCollection(collection._self, function(err, res){
-                                            // read collection after deletion
-                                            client.readCollection(collection._self, function(err, collection) {
-                                                var notFoundErrorCode = 404;
-                                                assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-                                                done();
-                                            });
-                                        });
-                                    });
+							client.queryCollections(db._self, 'SELECT * FROM root r WHERE r.id="' + collectionDefinition.id + '"').toArray(function(err, results) {
+								assert(results.length > 0, "number of results for the query should be > 0");								
+								// read collection
+								client.readCollection(collection._self, function(err, collection) {
+									assert.equal(err, undefined, "readCollection should work successfully");
+									assert.equal(collection.id, collection.id);
+									// delete collection
+									client.deleteCollection(collection._self, function(err, res){
+										// read collection after deletion
+										client.readCollection(collection._self, function(err, collection) {
+											var notFoundErrorCode = 404;
+											assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
+											done();
+										});
+									});
 								});
-                            });
+							});
                         });
                     });
                 });
@@ -161,9 +155,9 @@ describe("NodeJS CRUD Tests", function(){
 								client.readDocuments(collection._self).toArray(function(err, documents) {
 									assert.equal(documents.length, beforeCreateDocumentsCount + 1, "create should increase the number of documents");
 									// query documents
-									client.queryDocuments(collection._self, "^/?", {jpath: true}).toArray(function(err, documents) {
-										assert(documents.length > 0, "number of documents for the query should be > 0");
-										client.queryDocuments(collection._self, 'SELECT * FROM root r WHERE r.id="' + document.id + '"').toArray(function(err, results) {
+									client.queryDocuments(collection._self, 'SELECT * FROM root r WHERE r.id="' + document.id + '"').toArray(function(err, results) {
+										assert(results.length > 0, "number of results for the query should be > 0");
+										client.queryDocuments(collection._self, 'SELECT * FROM root r WHERE r.id="' + document.id + '"', { enableScanInQuery: true} ).toArray(function(err, results) {
 											assert(results.length > 0, "number of results for the query should be > 0");
 											//replace document 
 											document.name = "replaced document";
@@ -356,33 +350,30 @@ describe("NodeJS CRUD Tests", function(){
                         client.readUsers(db._self).toArray(function(err, users){
                             assert.equal(users.length, beforeCreateCount + 1);
                             // query users
-                            client.queryUsers(db._self, "^/?", {jpath: true}).toArray(function(err, users){
-                                assert(users.length > 0, "number of users for the query should be > 0");
-								client.queryUsers(db._self, 'SELECT * FROM root r WHERE r.id="' + "new user" + '"').toArray(function(err, results) {
-									assert(results.length > 0, "number of results for the query should be > 0");
-									//replace user 
-									user.id = "replaced user";
-									client.replaceUser(user._self, user, function(error, replacedUser){
-										assert.equal(replacedUser.id, "replaced user", "user name should change");
-										assert.equal(user.id, replacedUser.id, "user id should stay the same");
-										// read user
-										client.readUser(replacedUser._self, function(err, user) {
-											assert.equal(err, undefined, "readUser should work successfully");
-											assert.equal(replacedUser.id, user.id);
-											// delete user
-											client.deleteUser(user._self, function(err, res){
-												assert.equal(err, undefined, "delete user should should work successfully");
-												// read user after deletion
-												client.readUser(user._self, function(err, user) {
-													var notFoundErrorCode = 404;
-													assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-													done();
-												});
+							client.queryUsers(db._self, 'SELECT * FROM root r WHERE r.id="' + "new user" + '"').toArray(function(err, results) {
+								assert(results.length > 0, "number of results for the query should be > 0");
+								//replace user 
+								user.id = "replaced user";
+								client.replaceUser(user._self, user, function(error, replacedUser){
+									assert.equal(replacedUser.id, "replaced user", "user name should change");
+									assert.equal(user.id, replacedUser.id, "user id should stay the same");
+									// read user
+									client.readUser(replacedUser._self, function(err, user) {
+										assert.equal(err, undefined, "readUser should work successfully");
+										assert.equal(replacedUser.id, user.id);
+										// delete user
+										client.deleteUser(user._self, function(err, res){
+											assert.equal(err, undefined, "delete user should should work successfully");
+											// read user after deletion
+											client.readUser(user._self, function(err, user) {
+												var notFoundErrorCode = 404;
+												assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
+												done();
 											});
 										});
 									});
 								});
-                            });
+							});
                         });
                     });
                 });
@@ -412,28 +403,25 @@ describe("NodeJS CRUD Tests", function(){
 								client.readPermissions(user._self).toArray(function(err, permissions){
 									assert.equal(permissions.length, beforeCreateCount + 1);
 									// query permissions
-									client.queryPermissions(user._self, "^/?", {jpath: true}).toArray(function(err, permissions){
-										assert(permissions.length > 0, "number of permissions for the query should be > 0");
-										client.queryPermissions(user._self, 'SELECT * FROM root r WHERE r.id="' + permission.id + '"').toArray(function(err, results) {
-											assert(results.length > 0, "number of results for the query should be > 0");
-											//replace permission 
-											permission.id = "replaced permission";
-											client.replacePermission(permission._self, permission, function(error, replacedPermission){
-												assert.equal(replacedPermission.id, "replaced permission", "permission name should change");
-												assert.equal(permission.id, replacedPermission.id, "permission id should stay the same");
-												// read permission
-												client.readPermission(replacedPermission._self, replacedPermission.id, function(err, permission) {
-													assert.equal(err, undefined, "readUser should work successfully");
-													assert.equal(replacedPermission.id, permission.id);
-													// delete permission
-													client.deletePermission(replacedPermission._self, function(err, res){
-														assert.equal(err, undefined, "delete permission should should work successfully");
-														// read permission after deletion
-														client.readPermission(permission._self, function(err, permission) {
-															var notFoundErrorCode = 404;
-															assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-															done();
-														});
+									client.queryPermissions(user._self, 'SELECT * FROM root r WHERE r.id="' + permission.id + '"').toArray(function(err, results) {
+										assert(results.length > 0, "number of results for the query should be > 0");
+										//replace permission 
+										permission.id = "replaced permission";
+										client.replacePermission(permission._self, permission, function(error, replacedPermission){
+											assert.equal(replacedPermission.id, "replaced permission", "permission name should change");
+											assert.equal(permission.id, replacedPermission.id, "permission id should stay the same");
+											// read permission
+											client.readPermission(replacedPermission._self, replacedPermission.id, function(err, permission) {
+												assert.equal(err, undefined, "readUser should work successfully");
+												assert.equal(replacedPermission.id, permission.id);
+												// delete permission
+												client.deletePermission(replacedPermission._self, function(err, res){
+													assert.equal(err, undefined, "delete permission should should work successfully");
+													// read permission after deletion
+													client.readPermission(permission._self, function(err, permission) {
+														var notFoundErrorCode = 404;
+														assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
+														done();
 													});
 												});
 											});
@@ -576,37 +564,34 @@ describe("NodeJS CRUD Tests", function(){
                             client.readTriggers(collection._self).toArray(function(err, triggers) {
                                 assert.equal(triggers.length, beforeCreateTriggersCount + 1, "create should increase the number of triggers");
                                 // query triggers
-                                client.queryTriggers(collection._self, '(^/"id"/"' + triggerDefinition.id + '")/"_rid"!?', {jpath: true}).toArray(function(err, triggers){
-                                    assert(triggers.length > 0, "number of triggers for the query should be > 0");
-									client.queryTriggers(collection._self, 'SELECT * FROM root r WHERE r.id="' + triggerDefinition.id + '"').toArray(function(err, results) {
-										assert(results.length > 0, "number of results for the query should be > 0");
-										//replace trigger 
-										trigger.body = function() {var x = 20;};
-										client.replaceTrigger(trigger._self, trigger, function(error, replacedTrigger){
-											for (var property in triggerDefinition) {
-												if (property !== "serverScript") {
-													assert.equal(replacedTrigger[property], trigger[property], "property " + property + " should match");
-												} else {
-													assert.equal(replacedTrigger.body, "function () {var x = 20;}");
-												}
+								client.queryTriggers(collection._self, 'SELECT * FROM root r WHERE r.id="' + triggerDefinition.id + '"').toArray(function(err, results) {
+									assert(results.length > 0, "number of results for the query should be > 0");
+									//replace trigger 
+									trigger.body = function() {var x = 20;};
+									client.replaceTrigger(trigger._self, trigger, function(error, replacedTrigger){
+										for (var property in triggerDefinition) {
+											if (property !== "serverScript") {
+												assert.equal(replacedTrigger[property], trigger[property], "property " + property + " should match");
+											} else {
+												assert.equal(replacedTrigger.body, "function () {var x = 20;}");
 											}
-											// read trigger
-											client.readTrigger(replacedTrigger._self, function(err, trigger) {
-												assert.equal(err, undefined, "readTrigger should work successfully");
-												assert.equal(replacedTrigger.id, trigger.id);
-												// delete trigger
-												client.deleteTrigger(replacedTrigger._self, function(err, res){
-													// read triggers after deletion
-													client.readTrigger(replacedTrigger._self, function(err, trigger) {
-														var notFoundErrorCode = 404;
-														assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-														done();
-													});
+										}
+										// read trigger
+										client.readTrigger(replacedTrigger._self, function(err, trigger) {
+											assert.equal(err, undefined, "readTrigger should work successfully");
+											assert.equal(replacedTrigger.id, trigger.id);
+											// delete trigger
+											client.deleteTrigger(replacedTrigger._self, function(err, res){
+												// read triggers after deletion
+												client.readTrigger(replacedTrigger._self, function(err, trigger) {
+													var notFoundErrorCode = 404;
+													assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
+													done();
 												});
-											});    
-										});
-									});	
-                                });
+											});
+										});    
+									});
+								});	
                             });
                         });
                     });
@@ -643,37 +628,34 @@ describe("NodeJS CRUD Tests", function(){
                             client.readUserDefinedFunctions(collection._self).toArray(function(err, udfs) {
                                 assert.equal(udfs.length, beforeCreateUdfsCount + 1, "create should increase the number of udfs");
                                 // query udfs
-                                client.queryUserDefinedFunctions(collection._self, '(^/"id"/"' + udfDefinition.id + '")/"_rid"!?', {jpath: true}).toArray(function(err, udfs){
-                                    assert(udfs.length > 0, "number of udfs for the query should be > 0");
-									client.queryUserDefinedFunctions(collection._self, 'SELECT * FROM root r WHERE r.id="' + udfDefinition.id + '"').toArray(function(err, results) {
-										assert(results.length > 0, "number of results for the query should be > 0");
-										// replace udf 
-										udf.body = function() {var x = 20;};
-										client.replaceUserDefinedFunction(udf._self, udf, function(error, replacedUdf){
-											for (var property in udfDefinition) {
-												if (property !== "serverScript") {
-													assert.equal(replacedUdf[property], udf[property], "property " + property + " should match");
-												} else {
-													assert.equal(replacedUdf.body, "function () {var x = 20;}");
-												}
+								client.queryUserDefinedFunctions(collection._self, 'SELECT * FROM root r WHERE r.id="' + udfDefinition.id + '"').toArray(function(err, results) {
+									assert(results.length > 0, "number of results for the query should be > 0");
+									// replace udf 
+									udf.body = function() {var x = 20;};
+									client.replaceUserDefinedFunction(udf._self, udf, function(error, replacedUdf){
+										for (var property in udfDefinition) {
+											if (property !== "serverScript") {
+												assert.equal(replacedUdf[property], udf[property], "property " + property + " should match");
+											} else {
+												assert.equal(replacedUdf.body, "function () {var x = 20;}");
 											}
-											 // read udf
-											client.readUserDefinedFunction(replacedUdf._self, function(err, udf) {
-												assert.equal(err, undefined, "readUserDefinedFunctions should work successfully");
-												assert.equal(replacedUdf.id, udf.id);
-												// delete udf
-												client.deleteUserDefinedFunction(replacedUdf._self, function(err, res){
-													// read udfs after deletion
-													client.readUserDefinedFunction(replacedUdf._self, function(err, udf) {
-														var notFoundErrorCode = 404;
-														assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-														done();
-													});
+										}
+										 // read udf
+										client.readUserDefinedFunction(replacedUdf._self, function(err, udf) {
+											assert.equal(err, undefined, "readUserDefinedFunctions should work successfully");
+											assert.equal(replacedUdf.id, udf.id);
+											// delete udf
+											client.deleteUserDefinedFunction(replacedUdf._self, function(err, res){
+												// read udfs after deletion
+												client.readUserDefinedFunction(replacedUdf._self, function(err, udf) {
+													var notFoundErrorCode = 404;
+													assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
+													done();
 												});
 											});
 										});
-									});	
-                                });
+									});
+								});	
                             });
                         });
                     });
@@ -710,7 +692,7 @@ describe("NodeJS CRUD Tests", function(){
                             client.readStoredProcedures(collection._self).toArray(function(err, sprocs) {
                                 assert.equal(sprocs.length, beforeCreateSprocsCount + 1, "create should increase the number of sprocs");
                                 // query sprocs
-                                client.queryStoredProcedures(collection._self, '(^/"id"/"' + sprocDefinition.id + '")/"_rid"!?', {jpath: true}).toArray(function(err, sprocs){
+                                client.queryStoredProcedures(collection._self, 'select * from root r').toArray(function(err, sprocs){
                                     assert(sprocs.length > 0, "number of sprocs for the query should be > 0");
 									// replace sproc 
 									sproc.body = function() {var x = 20;};
