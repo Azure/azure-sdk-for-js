@@ -1,0 +1,6 @@
+﻿{
+    "HOST"       : "<insert your DocDB endpoint here>",
+    "AUTH_KEY"   : "<insert either primary or secondary key here>",
+    "DATABASE"   : "ToDoList",
+    "COLLECTION" : "Items"
+}
