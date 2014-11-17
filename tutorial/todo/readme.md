@@ -1,1 +1,1 @@
-This is where the source code accompanying the http://azure.microsoft.com/en-us/documentation/articles/documentdb-nodejs-application/ tutorial should go
+The source code accompanying the http://azure.microsoft.com/en-us/documentation/articles/documentdb-nodejs-application/ tutorial
