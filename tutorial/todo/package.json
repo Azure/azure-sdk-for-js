@@ -1,0 +1,17 @@
+{
+  "name": "todo.ref",
+  "version": "0.0.0",
+  "description": "todo.ref",
+  "main": "app.js",
+  "author": {
+    "name": "graha_000",
+    "email": ""
+  },
+  "dependencies": {
+    "express": "3.4.4",
+    "jade": "*",
+    "stylus": "*",
+    "nconf": "*",
+    "documentdb": "*"
+  }
+}

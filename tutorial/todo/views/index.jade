@@ -1,0 +1,29 @@
+﻿extends layout
+
+block content
+  h1= title
+  br
+
+  form(action="/", method="post")
+    table.table.table-striped.table-bordered
+      tr
+        td Name
+        td Category
+        td Complete
+      each task in tasks
+        tr
+            td #{task.name}
+            td #{task.category}
+            td 
+                input(type="checkbox", name="completed", value="#{task.id}", checked=(task.completed == true))
+    button.btn(type="submit") Update tasks
+
+  hr
+
+  form.well(action="/", method="post")
+    label Item Name:  
+    input(name="item[name]", type="textbox")
+    label Item Category: 
+    input(name="item[category]", type="textbox")
+    br
+    button.btn(type="submit") Add item
