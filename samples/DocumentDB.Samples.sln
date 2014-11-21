@@ -8,16 +8,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73AD5D45-8723-49D0-BBD0-733375826AA1}"
 	ProjectSection(SolutionItems) = preProject
 		config.js = config.js
-		Data.json = Data.json
 	EndProjectSection
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DocumentDB.Samples.CollectionManagement", "DocumentDB.Samples.CollectionManagement\DocumentDB.Samples.CollectionManagement.njsproj", "{6FEAE190-7F5C-4A1C-BB11-843B66A7E772}"
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DocumentDB.Samples.DocumentManagement", "DocumentDB.Samples.DocumentManagement\DocumentDB.Samples.DocumentManagement.njsproj", "{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}"
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DocumentDB.Samples.ServerSideScripts", "DocumentDB.Samples.ServerSideScripts\DocumentDB.Samples.ServerSideScripts.njsproj", "{CC9E34AB-7D33-46D0-B366-CC07F870E0AA}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://sqlbuvsts01:8080/main
 		SccLocalPath0 = .
@@ -30,6 +31,9 @@ Global
 		SccProjectUniqueName3 = DocumentDB.Samples.DocumentManagement\\DocumentDB.Samples.DocumentManagement.njsproj
 		SccProjectName3 = DocumentDB.Samples.DocumentManagement
 		SccLocalPath3 = DocumentDB.Samples.DocumentManagement
+		SccProjectUniqueName4 = DocumentDB.Samples.ServerSideScripts\\DocumentDB.Samples.ServerSideScripts.njsproj
+		SccProjectName4 = DocumentDB.Samples.ServerSideScripts
+		SccLocalPath4 = DocumentDB.Samples.ServerSideScripts
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +52,10 @@ Global
 		{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC9E34AB-7D33-46D0-B366-CC07F870E0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC9E34AB-7D33-46D0-B366-CC07F870E0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC9E34AB-7D33-46D0-B366-CC07F870E0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC9E34AB-7D33-46D0-B366-CC07F870E0AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

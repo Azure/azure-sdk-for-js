@@ -19,15 +19,21 @@ console.log();
 
 var DocumentDBClient = require('documentdb').DocumentClient;
 var config = require('../config');
+﻿var fs = require('fs');
 
 var databaseId = config.names.database;
 var collectionId = config.names.collection;
 
+var documentDefinitions = function () {
+    var data = fs.readFileSync('./Data/Families.json');   
+    return JSON.parse(data).Families;
+};
+
 // Establish a new instance of the DocumentDBClient to be used throughout this demo
 var client = new DocumentDBClient(config.connection.endpoint, { masterKey: config.connection.authKey });
 
-// Get some sample data
-documentDefinitions = config.documentDefinitions();
+// Load our sample data
+sampleDocuments = documentDefinitions();
 
 //-----------------------------------------------------------------------------------------
 // This demo performs a few steps
@@ -125,8 +131,8 @@ function getDocumentById(collectionLink, id, callback) {
 function insertDocuments(collectionLink, callback) {
     var createdList = [];
     var counter = 0;
-    for (var i = 0; i < documentDefinitions.length; i++){
-        var docDef = documentDefinitions[i];
+    for (var i = 0; i < sampleDocuments.length; i++){
+        var docDef = sampleDocuments[i];
         
         client.createDocument(collectionLink, docDef, function (err, created) {
             if (err) {
@@ -137,7 +143,7 @@ function insertDocuments(collectionLink, callback) {
             
             createdList.push(created);
             console.log('Document with id \'' + created.id + '\' created.');
-            if (counter === documentDefinitions.length - 1) {
+            if (counter === sampleDocuments.length - 1) {
                 callback(createdList);
             }
         });
