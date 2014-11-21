@@ -1,0 +1,13 @@
+{
+  "name": "DocumentDB.Samples.CollectionManagement",
+  "version": "0.0.0",
+  "description": "DocumentDB.Samples.CollectionManagement",
+  "main": "app.js",
+  "author": {
+    "name": "ryancraw",
+    "email": ""
+  },
+  "dependencies": {
+    "documentdb": "^0.9.1"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "DocumentDB.Samples.DatabaseManagement",
+  "version": "0.0.0",
+  "description": "DocumentDB.Samples.DatabaseManagement",
+  "main": "app.js",
+  "author": {
+    "name": "",
+    "email": ""
+  },
+  "dependencies": {
+    "documentdb": "^0.9.1"
+  }
+}
