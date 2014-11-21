@@ -6,6 +6,7 @@
 .project
 .metadata
 bin/
+obj/
 tmp/
 *.tmp
 *.bak
@@ -248,3 +249,4 @@ node_modules
 # Dependency sub-directories for samples
 **/node_nodules/
 
+*.dat
