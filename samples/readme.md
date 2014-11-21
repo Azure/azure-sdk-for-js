@@ -1,1 +1,1 @@
-This is where the source code for the full Node.js samples will go
+These are the samples for the Node.js driver for Azure DocumentDB
