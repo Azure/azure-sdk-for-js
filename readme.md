@@ -89,6 +89,10 @@ function cleanup(client, database) {
         });
 }
         </pre></p>    
+
+##Community
+- [DoQmentDB](https://github.com/a8m/doqmentdb) - A Promise-based DocumentDB client for MongoDB users
+
 <h4>Running the tests</h4>
 <p><pre>  
 First You need to install mocha and q
