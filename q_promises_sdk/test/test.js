@@ -1,5 +1,5 @@
-var DocumentDBClient = require("documentdb").DocumentClientWrapper
-  , DocumentBase = require("documentdb").DocumentBase
+var DocumentDBClient = require("documentdb-q-promises").DocumentClientWrapper
+  , DocumentBase = require("documentdb-q-promises").DocumentBase
   , assert = require("assert")
   , Stream = require("stream")
   , testConfig = require('./_testConfig')
@@ -220,9 +220,9 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                                 .then(function(response) {
                                     assert.fail("", "", "create shouldn't have succeeded");
                                 },
-                                function(error) {
+                                function(errorResponse) {
                                     var badRequestErrorCode = 400;
-                                    assert.equal(error.code, badRequestErrorCode);
+                                    assert.equal(errorResponse.error.code, badRequestErrorCode);
                                     
                                     contentStream = createReadableStream();
                                     return client.createAttachmentAndUploadMediaAsync(document._self, contentStream, validMediaOptions);
@@ -882,9 +882,9 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                     .then(function(response) {
                         assert.fail("", "", "request should return an error");
                     },
-                    function(error){    
+                    function(errorResponse){    
                         var notFoundErrorCode = 404;
-                        assert.equal(error.code, notFoundErrorCode, "response should return error code 404");
+                        assert.equal(errorResponse.error.code, notFoundErrorCode, "response should return error code 404");
                         deferred.resolve();
                     })
             })

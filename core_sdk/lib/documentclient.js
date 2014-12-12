@@ -1287,10 +1287,7 @@ var DocumentClient = Base.defineClass(
             initialHeaders[Constants.HttpHeaders.Accept] = Constants.MediaTypes.Any;
             var attachmentId = Base.getAttachmentIdFromMediaId(resourceInfo.objectBody.id);
             var headers = Base.getHeaders(this, initialHeaders, "get", path, attachmentId, "media", {});
-            this.get(this.urlConnection, path, headers, function (err, result, headers) {
-                if (err) return callback(err);
-                callback(undefined, result, headers);
-            });
+            this.get(this.urlConnection, path, headers, callback);
         },
 
         /**
@@ -1330,10 +1327,7 @@ var DocumentClient = Base.defineClass(
             var attachmentId = Base.getAttachmentIdFromMediaId(resourceInfo.objectBody.id);
             var headers = Base.getHeaders(this, initialHeaders, "put", path, attachmentId, "media", options);
 
-            this.put(urlConnection, path, readableStream, headers, function (err, result, headers) {
-                if (err) return callback(err);
-                callback(undefined, result, headers);
-            });
+            this.put(urlConnection, path, readableStream, headers, callback);
         },
         
         /**
@@ -1364,11 +1358,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(sprocLink);         
             var headers = Base.getHeaders(this, initialHeaders, "post", path, resourceInfo.objectBody.id, "sprocs", {});
             
-            this.post(urlConnection, path, params, headers, function (err, result, headers) {
-                if (err) return callback(err);
-
-                callback(undefined, result, headers);
-            });
+            this.post(urlConnection, path, params, headers, callback);
         },
         
          /** Gets the Database account information.
@@ -1403,10 +1393,7 @@ var DocumentClient = Base.defineClass(
             var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "post", path, id, type, options);
-            this.post(urlConnection, path, body, headers, function (err, result, headers) {
-                if (err) return callback(err);
-                callback(undefined, result, headers);
-            });
+            this.post(urlConnection, path, body, headers, callback);
         },
 
         /** @ignore */
@@ -1415,10 +1402,7 @@ var DocumentClient = Base.defineClass(
             var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "put", path, id, type, options);
-            this.put(urlConnection, path, resource, headers, function (err, result, headers) {
-                if (err) return callback(err);
-                callback(undefined, result, headers);
-            });
+            this.put(urlConnection, path, resource, headers, callback);
         },
 
         /** @ignore */
@@ -1427,10 +1411,7 @@ var DocumentClient = Base.defineClass(
             var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "get", path, id, type, options);
-            this.get(this.urlConnection, path, headers, function (err, result, headers) {
-                if (err) return callback(err);
-                callback(undefined, result, headers);
-            });
+            this.get(this.urlConnection, path, headers, callback);
         },
 
         /** @ignore */
@@ -1477,7 +1458,7 @@ var DocumentClient = Base.defineClass(
             }
             
             var successCallback = function (err, result, responseHeaders) {
-                if (err) return callback(err);
+                if (err) return callback(err, undefined, responseHeaders);
                 var bodies;
                 if (query) {
                     bodies = resultFn(result);
@@ -1576,4 +1557,5 @@ var DocumentClient = Base.defineClass(
 if (typeof exports !== "undefined") {
     exports.DocumentClient = DocumentClient;
     exports.DocumentBase = AzureDocuments;
+    exports.Base = Base;
 }

@@ -54,9 +54,9 @@ var QueryIterator = Base.defineClass(
             }
             
             if (this._state === this._states.start || (this.continuation && this._state === this._states.inProgress)) {
-                this._fetchMore(function(err, resources){
+                this._fetchMore(function(err, resources, headers){
                     if(err) {
-                        return callback(err);
+                        return callback(err, undefined, headers);
                     }
                     
                     that.resources = resources;
@@ -123,7 +123,7 @@ var QueryIterator = Base.defineClass(
             var that = this;
             this._fetchMore(function(err, resources, responseHeaders) {
                 if(err) {
-                    return callback(err);
+                    return callback(err, undefined, responseHeaders);
                 }
                 
                 callback(undefined, resources, responseHeaders);
@@ -146,9 +146,9 @@ var QueryIterator = Base.defineClass(
         _toArrayImplementation: function(callback){
             var that = this;
             if (this._state === this._states.start || (this.continuation && this._state === this._states.inProgress)) {
-                this._fetchMore(function(err, resources){
+                this._fetchMore(function(err, resources, headers){
                     if(err) {
-                        return callback(err);
+                        return callback(err, undefined, headers);
                     }
                     
                     that.resources = that.resources.concat(resources);
@@ -164,9 +164,9 @@ var QueryIterator = Base.defineClass(
         _forEachImplementation: function(callback){
             var that = this;
             if (this._state === this._states.start || (this.continuation && this._state === this._states.inProgress)) {
-                this._fetchMore(function(err, resources){
+                this._fetchMore(function(err, resources, headers){
                     if(err) {
-                        return callback(err);
+                        return callback(err, undefined, headers);
                     }
                     
                     that.resources = resources;
@@ -190,9 +190,9 @@ var QueryIterator = Base.defineClass(
             var that = this;
             this.options.continuation = this.continuation;
             this.fetchFunction(this.options, function(err, resources, responseHeaders){
-				if(err) {
+                if(err) {
                     that._state = that._states.ended;
-                    return callback(err);
+                    return callback(err, undefined, responseHeaders);
                 }
                 
                 that.continuation = responseHeaders[Constants.HttpHeaders.Continuation];

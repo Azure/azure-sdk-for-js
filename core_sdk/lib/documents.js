@@ -258,7 +258,7 @@ var AzureDocuments = Base.defineClass(null, null,
             });
 
             Object.defineProperty(this, "_defaultRequestTimeout", {
-                value: 10000,
+                value: 60000,
                 writable: true,
                 configurable: true,
                 enumerable: false // this is the default value, so it could be excluded during JSON.stringify
