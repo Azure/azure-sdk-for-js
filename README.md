@@ -4,7 +4,7 @@
 ![](https://img.shields.io/npm/dm/documentdb.svg)
 ![](https://img.shields.io/github/issues/azure/azure-documentdb-node.svg)
 
-This project provides a node module that makes it easy to interact with Azure DocumentDB. For documentation please see the Microsoft Azure [Node.js Developer Center](http://azure.microsoft.com/en-us/develop/nodejs/) and the [JSDocs](http://dl.windowsazure.com/documentDB/jsclientdocs/).
+This project provides a node module that makes it easy to interact with Azure DocumentDB. For documentation please see the Microsoft Azure [Node.js Developer Center](http://azure.microsoft.com/en-us/develop/nodejs/) and the [NodejsDocs](http://dl.windowsazure.com/documentDB/nodedocs/).
 
 ##Installation
 ###Core Module
