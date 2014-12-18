@@ -120,4 +120,4 @@ If you encounter any bugs with the library please file an issue in the [Issues](
 * [Azure Developer Center](http://azure.microsoft.com/en-us/develop/nodejs)
 * [Azure DocumentDB Service](http://azure.microsoft.com/en-us/documentation/services/documentdb/)
 * [Azure DocumentDB Team Blog](http://blogs.msdn.com/b/documentdb/)
-* [JSDocs](http://dl.windowsazure.com/documentDB/jsclientdocs/)
+* [NodeJSDocs](http://dl.windowsazure.com/documentDB/nodedocs/)
