@@ -242,6 +242,14 @@ var Base = {
     
      /** @ignore */
     parsePath: function(resourcePath) {
+        if (resourcePath.length == 0) {
+            /* for DatabaseAccount case, both type and objectBody will be undefined. */
+            return {
+                type: undefined,
+                objectBody: undefined
+            };
+        }
+
         if (resourcePath[resourcePath.length - 1] !== "/") {
             resourcePath = resourcePath + "/";
         }

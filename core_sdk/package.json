@@ -1,0 +1,27 @@
+{
+ "name": "documentdb",
+ "description": "Node.js client for documentdb",
+ "keywords": [
+    "documentdb",
+    "document database",
+    "azure",
+    "nosql",
+    "database",
+    "cloud"
+  ],
+  "version": "0.9.2",
+  "author": "Microsoft Corporation",
+  "main": "./index.js",
+  "engine": {
+    "node": ">=0.8"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "jsdoc": "*",
+    "eslint": "*"
+  },
+  "repository" :    { "type" :  "git",
+                      "url" :   "https://github.com/Azure/azure-documentdb-node" },
+  "licenses" : [ { "type" :  "Apache License, Version 2.0",
+                   "url" :   "http://www.apache.org/licenses/LICENSE-2.0" } ]
+}

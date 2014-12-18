@@ -2,16 +2,16 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
 
-var Base = require("./base")
-  , DocumentClient = require('./documentclient').DocumentClient
-  , DocumentBase = require('./documents')
+var Base = require("documentdb").Base
+  , DocumentClient = require("documentdb").DocumentClient
+  , DocumentBase = require("documentdb").DocumentBase
   , Q = require("q");
 
 function createOperationPromise(contextObject, functionName, parentLink, body, options){
     var deferred = Q.defer();
     var cb = function (error, resource, responseHeaders) {
         if (error) {
-            deferred.reject(error);
+            deferred.reject({error: error, headers: responseHeaders});
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
@@ -30,7 +30,7 @@ function deleteOperationPromise(contextObject, functionName, resourceLink, optio
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, options, function (error, resource, responseHeaders) {
         if (error) {
-            deferred.reject(error);
+            deferred.reject({error: error, headers: responseHeaders});
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
@@ -43,7 +43,7 @@ function replaceOperationPromise(contextObject, functionName, resourceLink, newR
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, newResource, options, function (error, resource, responseHeaders) {
         if (error) {
-            deferred.reject(error);
+            deferred.reject({error: error, headers: responseHeaders});
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
@@ -56,7 +56,7 @@ function readOperationPromise(contextObject, functionName, resourceLink, options
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, options, function (error, resource, responseHeaders) {
         if (error) {
-            deferred.reject(error);
+            deferred.reject({error: error, headers: responseHeaders});
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
@@ -69,7 +69,7 @@ function noParameterPromise(contextObject, functionName, resourceLink){
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, function (error, resources, responseHeaders) {
         if (error) {
-            deferred.reject(error);
+            deferred.reject({error: error, headers: responseHeaders});
         } else {
             deferred.resolve({result: resources, headers: responseHeaders});
         }

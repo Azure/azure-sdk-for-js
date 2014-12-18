@@ -42,8 +42,8 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
             data += chunk;
         });
         response.on("end", function() {
-            if (response.statusCode >= 300) {
-                callback({code:response.statusCode, body:data}); 
+            if (response.statusCode >= 400) {
+	            callback({code:response.statusCode, body:data}, undefined, response.headers); 
                 return;
             }
 
