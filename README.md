@@ -114,6 +114,7 @@ If you encounter any bugs with the library please file an issue in the [Issues](
 
 ##Community
 * [DoQmentDB](https://github.com/a8m/doqmentdb) - A Promise-based DocumentDB client for MongoDB users
+* [Docooment](https://github.com/gian788/docooment) - A Mongoose like Azure DocuomentDB ORM
 
 ##Learn More
 
