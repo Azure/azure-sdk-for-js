@@ -16,7 +16,7 @@
         <p><pre>&gt; npm install documentdb-q-promises</pre></p>
 <h4>Hello world example code using Q promises</h4>
 <p><pre  style="background-color:#eee">
-var DocumentClient = require('documentdb').DocumentClientWrapper;
+var DocumentClient = require('documentdb-q-promises').DocumentClientWrapper;
 
 var host = [hostendpoint];                    // Add your endpoint
 var masterKey = [database account masterkey]; // Add the massterkey of the endpoint
