@@ -2,6 +2,8 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
 
+'use strict';
+
 var Base = require("documentdb").Base
   , DocumentClient = require("documentdb").DocumentClient
   , DocumentBase = require("documentdb").DocumentBase
@@ -11,7 +13,7 @@ function createOperationPromise(contextObject, functionName, parentLink, body, o
     var deferred = Q.defer();
     var cb = function (error, resource, responseHeaders) {
         if (error) {
-            deferred.reject({error: error, headers: responseHeaders});
+            deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
@@ -30,7 +32,7 @@ function deleteOperationPromise(contextObject, functionName, resourceLink, optio
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, options, function (error, resource, responseHeaders) {
         if (error) {
-            deferred.reject({error: error, headers: responseHeaders});
+            deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
@@ -43,7 +45,7 @@ function replaceOperationPromise(contextObject, functionName, resourceLink, newR
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, newResource, options, function (error, resource, responseHeaders) {
         if (error) {
-            deferred.reject({error: error, headers: responseHeaders});
+            deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
@@ -56,7 +58,7 @@ function readOperationPromise(contextObject, functionName, resourceLink, options
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, options, function (error, resource, responseHeaders) {
         if (error) {
-            deferred.reject({error: error, headers: responseHeaders});
+            deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
@@ -69,7 +71,7 @@ function noParameterPromise(contextObject, functionName, resourceLink){
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, function (error, resources, responseHeaders) {
         if (error) {
-            deferred.reject({error: error, headers: responseHeaders});
+            deferred.reject(error);
         } else {
             deferred.resolve({result: resources, headers: responseHeaders});
         }
@@ -139,9 +141,9 @@ var DocumentClientWrapper = Base.defineClass(
         /** lists all databases that satisfy a query. 
          * @memberof DocumentClientWrapper
          * @instance
-         * @param {string} query - A SQL query string.
-         * @param {FeedOptions} [options] - Represents the feed options.
-         * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
+         * @param {SqlQuerySpec | string} query - A SQL query.
+         * @param {FeedOptions} [options]       - Represents the feed options.
+         * @returns {QueryIterator}             - An instance of queryIterator to handle reading feed.
         */
         queryDatabases: function (query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryDatabases(query, options));
@@ -173,10 +175,10 @@ var DocumentClientWrapper = Base.defineClass(
          * Query the collections for the database.
          * @memberof DocumentClientWrapper
          * @instance
-         * @param {string} databaseLink - The self-link of the database.
-         * @param {string} query - A SQL query string.
-         * @param {FeedOptions} [options] - Represents the feed options.
-         * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
+         * @param {string} databaseLink         - The self-link of the database.
+         * @param {SqlQuerySpec | string} query - A SQL query.
+         * @param {FeedOptions} [options]       - Represents the feed options.
+         * @returns {QueryIterator}             - An instance of queryIterator to handle reading feed.
          */
         queryCollections: function (databaseLink, query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryCollections(databaseLink, query, options));
@@ -261,10 +263,10 @@ var DocumentClientWrapper = Base.defineClass(
          * Query the users for the database.
          * @memberof DocumentClientWrapper
          * @instance
-         * @param {string} databaseLink - The self-link of the database.
-         * @param {string} query - A SQL query string.
-         * @param {FeedOptions} [options] - Represents the feed options.
-         * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
+         * @param {string} databaseLink         - The self-link of the database.
+         * @param {SqlQuerySpec | string} query - A SQL query.
+         * @param {FeedOptions} [options]       - Represents the feed options.
+         * @returns {QueryIterator}             - An instance of queryIterator to handle reading feed.
          */
         queryUsers: function(databaseLink, query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryUsers(databaseLink, query, options));
@@ -344,10 +346,10 @@ var DocumentClientWrapper = Base.defineClass(
          * Query the permission for the user.
          * @memberof DocumentClientWrapper
          * @instance
-         * @param {string} userLink - The self-link of the user.
-         * @param {string} query - A SQL query string.
-         * @param {FeedOptions} [options] - Represents the feed options.
-         * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
+         * @param {string} userLink             - The self-link of the user.
+         * @param {SqlQuerySpec | string} query - A SQL query.
+         * @param {FeedOptions} [options]       - Represents the feed options.
+         * @returns {QueryIterator}             - An instance of queryIterator to handle reading feed.
          */
         queryPermissions: function(userLink, query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryPermissions(userLink, query, options));
@@ -423,10 +425,10 @@ var DocumentClientWrapper = Base.defineClass(
          * Query the documents for the collection.
          * @memberof DocumentClientWrapper
          * @instance
-         * @param {string} collectionLink - The self-link of the collection.
-         * @param {string} query - A SQL query string.
-         * @param {FeedOptions} [options] - Represents the feed options.
-         * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
+         * @param {string} collectionLink       - The self-link of the collection.
+         * @param {SqlQuerySpec | string} query - A SQL query.
+         * @param {FeedOptions} [options]       - Represents the feed options.
+         * @returns {QueryIterator}             - An instance of queryIterator to handle reading feed.
          */
         queryDocuments: function (collectionLink, query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryDocuments(collectionLink, query, options));
@@ -481,10 +483,10 @@ var DocumentClientWrapper = Base.defineClass(
          * Query the triggers for the collection.
          * @memberof DocumentClientWrapper
          * @instance
-         * @param {string} collectionLink - The self-link of the collection.
-         * @param {string} query - A SQL query string.
-         * @param {FeedOptions} [options] - Represents the feed options.
-         * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
+         * @param {string} collectionLink       - The self-link of the collection.
+         * @param {SqlQuerySpec | string} query - A SQL query.
+         * @param {FeedOptions} [options]       - Represents the feed options.
+         * @returns {QueryIterator}             - An instance of queryIterator to handle reading feed.
          */
         queryTriggers: function (collectionLink, query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryTriggers(collectionLink, query, options));
@@ -541,10 +543,10 @@ var DocumentClientWrapper = Base.defineClass(
          * Query the user defined functions for the collection.
          * @memberof DocumentClientWrapper
          * @instance
-         * @param {string} collectionLink - The self-link of the collection.
-         * @param {string} query - A SQL query string.
-         * @param {FeedOptions} [options] - Represents the feed options.
-         * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
+         * @param {string} collectionLink       - The self-link of the collection.
+         * @param {SqlQuerySpec | string} query - A SQL query.
+         * @param {FeedOptions} [options]       - Represents the feed options.
+         * @returns {QueryIterator}             - An instance of queryIterator to handle reading feed.
          */
         queryUserDefinedFunctions: function (collectionLink, query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryUserDefinedFunctions(collectionLink, query, options));
@@ -600,10 +602,10 @@ var DocumentClientWrapper = Base.defineClass(
          * Query the storedProcedures for the collection.
          * @memberof DocumentClientWrapper
          * @instance
-         * @param {string} collectionLink - The self-link of the collection.
-         * @param {string} query - A SQL query string.
-         * @param {FeedOptions} [options] - Represents the feed options.
-         * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
+         * @param {string} collectionLink       - The self-link of the collection.
+         * @param {SqlQuerySpec | string} query - A SQL query.
+         * @param {FeedOptions} [options]       - Represents the feed options.
+         * @returns {QueryIterator}             - An instance of queryIterator to handle reading feed.
          */
         queryStoredProcedures: function (collectionLink, query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryStoredProcedures(collectionLink, query, options));
@@ -785,10 +787,10 @@ var DocumentClientWrapper = Base.defineClass(
          * Query the attachments for the document.
          * @memberof DocumentClientWrapper
          * @instance
-         * @param {string} documentLink     - The self-link of the document.
-         * @param {string} query            - A SQL query string.
-         * @param {FeedOptions} [options]   - Represents the feed options.
-         * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
+         * @param {string} documentLink           - The self-link of the document.
+         * @param {SqlQuerySpec | string} query   - A SQL query.
+         * @param {FeedOptions} [options]         - Represents the feed options.
+         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
         */
         queryAttachments: function (documentLink, query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryAttachments(documentLink, query, options));

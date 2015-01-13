@@ -2,6 +2,8 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
 
+'use strict';
+
 var Base = require("./base")
   , Constants = require('./constants');
 

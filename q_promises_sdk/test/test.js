@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------------
+// Copyright (c) Microsoft Corporation.  All rights reserved.
+//----------------------------------------------------------------------------
+
+'use strict';
+
 var DocumentDBClient = require("documentdb-q-promises").DocumentClientWrapper
   , DocumentBase = require("documentdb-q-promises").DocumentBase
   , assert = require("assert")
@@ -220,9 +226,9 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                                 .then(function(response) {
                                     assert.fail("", "", "create shouldn't have succeeded");
                                 },
-                                function(errorResponse) {
+                                function(error) {
                                     var badRequestErrorCode = 400;
-                                    assert.equal(errorResponse.error.code, badRequestErrorCode);
+                                    assert.equal(error.code, badRequestErrorCode);
                                     
                                     contentStream = createReadableStream();
                                     return client.createAttachmentAndUploadMediaAsync(document._self, contentStream, validMediaOptions);
@@ -477,7 +483,7 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
     describe("Validate QueryIterator Functionality", function() {
         var createTestResources = function(client) {
             var deferred = Q.defer();
-            var collection, doc1, doc2, doc3;
+            var db, collection, doc1, doc2, doc3;
             client.createDatabaseAsync({ id: "sample database" })
                 .then(function(response) {
                     db = response.resource;
@@ -831,7 +837,7 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
         var deferred = Q.defer();
         var className = options.className, resourceDefinition = options.resourceDefinition, validateCreate = options.validateCreate, 
             validateReplace = options.validateReplace, replaceProperties = options.replaceProperties;
-        var resources, replacedResources, readResource, createdResource, beforeCount;
+        var resources, replacedResource, readResource, createdResource, beforeCount;
         client["read" + className + "s"](parentLink).toArrayAsync()
             .then(function(response) {
                 resources = response.feed;
@@ -851,10 +857,19 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
 			.then(function(response) {
                 var resources = response.feed;
                 assert(resources.length > 0, "number of resources for the query should be > 0");
-                if (parentLink) { 
-					return client["query" + className + "s"](parentLink, 'select * FROM root r WHERE r.id="' + resourceDefinition.id + '"').toArrayAsync();
+                if (parentLink) {
+                    var querySpec = {
+                        query: 'select * FROM root r WHERE r.id=@id',
+                        parameters: [
+                            {
+                                name: '@id',
+                                value: resourceDefinition.id
+                            }
+                        ]
+                    };
+					return client["query" + className + "s"](parentLink, querySpec).toArrayAsync();
 				} else {
-					return client["query" + className + "s"]('select * FROM root r WHERE r.id="' + resourceDefinition.id + '"').toArrayAsync();
+					return client["query" + className + "s"](querySpec).toArrayAsync();
 				}
             })
             .then(function(response) {
@@ -882,9 +897,9 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                     .then(function(response) {
                         assert.fail("", "", "request should return an error");
                     },
-                    function(errorResponse){    
+                    function(error){    
                         var notFoundErrorCode = 404;
-                        assert.equal(errorResponse.error.code, notFoundErrorCode, "response should return error code 404");
+                        assert.equal(error.code, notFoundErrorCode, "response should return error code 404");
                         deferred.resolve();
                     })
             })
