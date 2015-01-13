@@ -2,6 +2,7 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
 
+'use strict';
 
 var Base = require("./base")
   , AzureDocuments = require('./documents')
@@ -51,6 +52,11 @@ var DocumentClient = Base.defineClass(
         
         // overide this for default query params to be added to the url.
         this.defaultUrlParams = "";
+
+        // Query compatibility mode.
+        // Allows to specify compatibility mode used by client when making query requests. Should be removed when
+        // application/sql is no longer supported.
+        this.queryCompatibilityMode = AzureDocuments.QueryCompatibilityMode.Default;
     },
     {
         /** Send a request for creating a database. 
@@ -666,9 +672,9 @@ var DocumentClient = Base.defineClass(
         /** Lists all databases that satisfy a query. 
          * @memberof DocumentClient
          * @instance
-         * @param {string} query          - A SQL query string.
-         * @param {FeedOptions} [options] - The feed options.
-         * @returns {QueryIterator}       - An instance of QueryIterator to handle reading feed.
+         * @param {SqlQuerySpec | string} query - A SQL query.
+         * @param {FeedOptions} [options]       - The feed options.
+         * @returns {QueryIterator}             - An instance of QueryIterator to handle reading feed.
         */
         queryDatabases: function (query, options) {
             var that = this;
@@ -690,10 +696,10 @@ var DocumentClient = Base.defineClass(
          * Query the collections for the database.
          * @memberof DocumentClient
          * @instance
-         * @param {string} databaseLink     - The self-link of the database.
-         * @param {string} query            - A SQL query string.
-         * @param {FeedOptions} [options]   - Represents the feed options.
-         * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
+         * @param {string} databaseLink           - The self-link of the database.
+         * @param {SqlQuerySpec | string} query   - A SQL query.
+         * @param {FeedOptions} [options]         - Represents the feed options.
+         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
          */
         queryCollections: function (databaseLink, query, options) {
             var that = this;
@@ -717,10 +723,10 @@ var DocumentClient = Base.defineClass(
          * Query the documents for the collection.
          * @memberof DocumentClient
          * @instance
-         * @param {string} collectionLink   - The self-link of the collection.
-         * @param {string} query            - A SQL query string.
-         * @param {FeedOptions} [options]   - Represents the feed options.
-         * @returns {QueryIterator}         - An instance of queryIterator to handle reading feed.
+         * @param {string} collectionLink         - The self-link of the collection.
+         * @param {SqlQuerySpec | string} query   - A SQL query.
+         * @param {FeedOptions} [options]         - Represents the feed options.
+         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
          */
         queryDocuments: function (collectionLink, query, options) {
             var that = this;
@@ -744,10 +750,10 @@ var DocumentClient = Base.defineClass(
          * Query the attachments for the document.
          * @memberof DocumentClient
          * @instance
-         * @param {string} documentLink     - The self-link of the document.
-         * @param {string} query            - A SQL query string.
-         * @param {FeedOptions} [options]   - Represents the feed options.
-         * @returns {QueryIterator}         - An instance of queryIterator to handle reading feed.
+         * @param {string} documentLink           - The self-link of the document.
+         * @param {SqlQuerySpec | string} query   - A SQL query.
+         * @param {FeedOptions} [options]         - Represents the feed options.
+         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
         */
         queryAttachments: function (documentLink, query, options) {
             var that = this;
@@ -771,10 +777,10 @@ var DocumentClient = Base.defineClass(
          * Query the users for the database.
          * @memberof DocumentClient
          * @instance
-         * @param {string} databaseLink     - The self-link of the database.
-         * @param {string} query            - A SQL query string.
-         * @param {FeedOptions} [options]   - Represents the feed options.
-         * @returns {QueryIterator}         - An instance of queryIterator to handle reading feed.
+         * @param {string} databaseLink           - The self-link of the database.
+         * @param {SqlQuerySpec | string} query   - A SQL query.
+         * @param {FeedOptions} [options]         - Represents the feed options.
+         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
          */
         queryUsers: function(databaseLink, query, options) {
             var that = this;
@@ -798,10 +804,10 @@ var DocumentClient = Base.defineClass(
          * Query the permission for the user.
          * @memberof DocumentClient
          * @instance
-         * @param {string} userLink         - The self-link of the user.
-         * @param {string} query            - A SQL query string.
-         * @param {FeedOptions} [options]   - Represents the feed options.
-         * @returns {QueryIterator}         - An instance of queryIterator to handle reading feed.
+         * @param {string} userLink               - The self-link of the user.
+         * @param {SqlQuerySpec | string} query   - A SQL query.
+         * @param {FeedOptions} [options]         - Represents the feed options.
+         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
          */
         queryPermissions: function(userLink, query, options) {
             var that = this;
@@ -825,10 +831,10 @@ var DocumentClient = Base.defineClass(
          * Query the triggers for the collection.
          * @memberof DocumentClient
          * @instance
-         * @param {string} collectionLink   - The self-link of the collection.
-         * @param {string} query            - A SQL query string.
-         * @param {FeedOptions} [options]   - Represents the feed options.
-         * @returns {QueryIterator}         - An instance of queryIterator to handle reading feed.
+         * @param {string} collectionLink         - The self-link of the collection.
+         * @param {SqlQuerySpec | string} query   - A SQL query.
+         * @param {FeedOptions} [options]         - Represents the feed options.
+         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
          */
         queryTriggers: function (collectionLink, query, options) {
             var that = this;
@@ -852,10 +858,10 @@ var DocumentClient = Base.defineClass(
          * Query the user defined functions for the collection.
          * @memberof DocumentClient
          * @instance
-         * @param {string} collectionLink   - The self-link of the collection.
-         * @param {string} query            - A SQL query string.
-         * @param {FeedOptions} [options]   - Represents the feed options.
-         * @returns {QueryIterator}         - An instance of queryIterator to handle reading feed.
+         * @param {string} collectionLink         - The self-link of the collection.
+         * @param {SqlQuerySpec | string} query   - A SQL query.
+         * @param {FeedOptions} [options]         - Represents the feed options.
+         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
          */
         queryUserDefinedFunctions: function (collectionLink, query, options) {
             var that = this;
@@ -879,10 +885,10 @@ var DocumentClient = Base.defineClass(
          * Query the storedProcedures for the collection.
          * @memberof DocumentClient
          * @instance
-         * @param {string} collectionLink   - The self-link of the collection.
-         * @param {string} query            - A SQL query string.
-         * @param {FeedOptions} [options]   - Represents the feed options.
-         * @returns {QueryIterator}         - An instance of queryIterator to handle reading feed.
+         * @param {string} collectionLink         - The self-link of the collection.
+         * @param {SqlQuerySpec | string} query   - A SQL query.
+         * @param {FeedOptions} [options]         - Represents the feed options.
+         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
          */
         queryStoredProcedures: function (collectionLink, query, options) {
             var that = this;
@@ -1478,8 +1484,21 @@ var DocumentClient = Base.defineClass(
                 var headers = Base.getHeaders(documentclient, initialHeaders, "get", path, id, type, options);
                 documentclient.get(urlConnection, path, headers, successCallback);
             } else {
-                initialHeaders[Constants.HttpHeaders.IsQuery] = "true";                
-				initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.SQL;
+                initialHeaders[Constants.HttpHeaders.IsQuery] = "true";
+                switch (this.queryCompatibilityMode) {
+                    case AzureDocuments.QueryCompatibilityMode.SqlQuery:
+                        initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.SQL;
+                        break;
+                    case AzureDocuments.QueryCompatibilityMode.Query:
+                    case AzureDocuments.QueryCompatibilityMode.Default:
+                    default:
+                        if (typeof query === 'string') {
+                            query = { query: query }  // Converts query text to query object.
+                        }
+                        initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.QueryJson;
+                        break;
+                }
+
 				var headers = Base.getHeaders(documentclient, initialHeaders, "post", path, id, type, options);
 				documentclient.post(urlConnection, path, query, headers, successCallback);
             }
@@ -1518,6 +1537,20 @@ var DocumentClient = Base.defineClass(
  * @property {string} [slug]                                                 -         HTTP Slug header value.
  * @property {string} [contentType=application/octet-stream]               -         HTTP ContentType header value.
  *
+ */
+
+ /*
+  * The Sql query parameter.
+  * @typedef {Object} SqlParameter
+  * @property {string} name         -       The name of the parameter.
+  * @property {string} value        -       The value of the parameter.
+  */
+
+ /**
+ * The Sql query specifiction.
+ * @typedef {Object} SqlQuerySpec
+ * @property {string} query         -       The boby of the query.
+ * @property {Array} parameters     -       The array of SqlParameter.
  */
    
  /**

@@ -7,15 +7,16 @@
 var Constants = {
     MediaTypes: {
         Any: "*/*",
-        Json: "application/json",
-        Xml: "application/xml",
-        OctetStream: "application/octet-stream",
-        SQL: "application/sql",
         ImageJpeg: "image/jpeg",
         ImagePng: "image/png",
+        Javascript: "application/x-javascript",
+        Json: "application/json",
+        OctetStream: "application/octet-stream",
+        QueryJson: "application/query+json",
+        SQL: "application/sql",
         TextHtml: "text/html",
-        TextPlain: "text/plain",
-        Javascript: "application/x-javascript"
+        TextPlain: "text/plain",        
+        Xml: "application/xml"
     },
 
     HttpMethods: {

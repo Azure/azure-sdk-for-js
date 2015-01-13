@@ -2,6 +2,8 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
 
+'use strict';
+
 var Base = require("./base");
 //SCRIPT START
 
@@ -162,8 +164,13 @@ var AzureDocuments = Base.defineClass(null, null,
             Direct: 0,
             Gateway: 1,
         }),       
-         
-         
+
+        QueryCompatibilityMode: Object.freeze({
+            Default: 0,
+            Query: 1,
+            SqlQuery: 2,
+        }),
+ 
         /**
          * Enum for media read mode values.
          * @readonly
@@ -234,7 +241,7 @@ var AzureDocuments = Base.defineClass(null, null,
         UserDefinedFunctionType: Object.freeze({
             Javascript: "Javascript"
         }),
-         
+
         /**
          * @global
          * Represents the Connection policy assocated with a DocumentClient.

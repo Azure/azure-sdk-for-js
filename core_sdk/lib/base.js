@@ -1,6 +1,9 @@
 //----------------------------------------------------------------------------
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
+
+'use strict';
+
 var AuthHandler = require("./auth");
 var Constants = require("./constants");
 //SCRIPT START

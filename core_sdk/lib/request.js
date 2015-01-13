@@ -2,6 +2,8 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
 
+'use strict';
+
 var Documents = require('./documents')
   , Constants = require("./constants")
   , https = require("https")
