@@ -1534,12 +1534,12 @@ var DocumentClient = Base.defineClass(
  /**
  * The media options
  * @typedef {Object} MediaOptions                                          -         Options associated with upload media.
- * @property {string} [slug]                                                 -         HTTP Slug header value.
+ * @property {string} [slug]                                               -         HTTP Slug header value.
  * @property {string} [contentType=application/octet-stream]               -         HTTP ContentType header value.
  *
  */
 
- /*
+ /**
   * The Sql query parameter.
   * @typedef {Object} SqlParameter
   * @property {string} name         -       The name of the parameter.
@@ -1547,10 +1547,10 @@ var DocumentClient = Base.defineClass(
   */
 
  /**
- * The Sql query specifiction.
+ * The Sql query specification.
  * @typedef {Object} SqlQuerySpec
- * @property {string} query         -       The boby of the query.
- * @property {Array} parameters     -       The array of SqlParameter.
+ * @property {string} query                       -       The body of the query.
+ * @property {Array<SqlParameter>} parameters     -       The array of {@link SqlParameter}.
  */
    
  /**
