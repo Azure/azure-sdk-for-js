@@ -10,7 +10,7 @@
     "cloud",
     "promises"
   ],
-  "version": "0.9.2",
+  "version": "0.9.3",
   "author": "Microsoft Corporation",
   "main": "./documentclientwrapper.js",
   "engine": {

@@ -772,18 +772,18 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
             createParentResourcesAsync(client, {db: true, coll: true})
                 .then(function(resources) {
                     var collection = resources.createdCollection;
-					var sproc1 = {
-						id: "storedProcedure1",
-						body: function () {
-							for (var i = 0; i < 1000; i++) {
-								var item = getContext().getResponse().getBody();
-								if (i > 0 && item != i - 1) throw 'body mismatch';
-								getContext().getResponse().setBody(i);
-							}
-						}
-					};
+		    var sproc1 = {
+			id: "storedProcedure1",
+			body: function () {
+			for (var i = 0; i < 1000; i++) {
+			    var item = getContext().getResponse().getBody();
+			    if (i > 0 && item != i - 1) throw 'body mismatch';
+			        getContext().getResponse().setBody(i);
+			    }
+			}
+		    };
 
-					client.createStoredProcedureAsync(collection._self, sproc1)
+		    client.createStoredProcedureAsync(collection._self, sproc1)
                         .then(function (response) {
                             return client.executeStoredProcedureAsync(response.resource._self);
                         })
@@ -854,11 +854,10 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                 validateCreate(createdResource);
                 return client["read" + className + "s"](parentLink).toArrayAsync();
             })
-			.then(function(response) {
+	   .then(function(response) {
                 var resources = response.feed;
                 assert(resources.length > 0, "number of resources for the query should be > 0");
-                if (parentLink) {
-                    var querySpec = {
+		var querySpec = {
                         query: 'select * FROM root r WHERE r.id=@id',
                         parameters: [
                             {
@@ -867,10 +866,11 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                             }
                         ]
                     };
-					return client["query" + className + "s"](parentLink, querySpec).toArrayAsync();
-				} else {
-					return client["query" + className + "s"](querySpec).toArrayAsync();
-				}
+                if (parentLink) {
+			return client["query" + className + "s"](parentLink, querySpec).toArrayAsync();
+		} else {
+			return client["query" + className + "s"](querySpec).toArrayAsync();
+		}
             })
             .then(function(response) {
                 var resources = response.feed;
@@ -897,7 +897,7 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                     .then(function(response) {
                         assert.fail("", "", "request should return an error");
                     },
-                    function(error){    
+                    function(error){ 
                         var notFoundErrorCode = 404;
                         assert.equal(error.code, notFoundErrorCode, "response should return error code 404");
                         deferred.resolve();
@@ -930,11 +930,11 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                                             deferred.resolve(createdResources);
                                         })
                                 } else if (options.user) {
-									client.createUserAsync(db._self, {id: "sample user"})
-										.then(function(response){
-											var user = createdResources.createdUser = response.resource;
-											deferred.resolve(createdResources);
-										});
+					client.createUserAsync(db._self, {id: "sample user"})
+						.then(function(response){
+							var user = createdResources.createdUser = response.resource;
+							deferred.resolve(createdResources);
+						});
                                 } else {
                                     deferred.resolve(createdResources);
                                 }
