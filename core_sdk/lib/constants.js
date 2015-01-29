@@ -119,7 +119,7 @@ var Constants = {
         RequestCharge: "x-ms-request-charge"
     },
 	
-    CurrentVersion: "2014-01-14",
+    CurrentVersion: "2014-08-21",
     
     UserAgent: "documentdb-nodejs-sdk-0.9.3"
 }
