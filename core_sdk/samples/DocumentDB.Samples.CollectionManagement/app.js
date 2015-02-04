@@ -17,14 +17,16 @@ console.log('COLLECTION MANAGEMENT');
 console.log('=====================');
 console.log();
 
-var DocumentDBClient = require('documentdb').DocumentClient;
-var config = require('../config');
+var DocumentDBClient = require('documentdb').DocumentClient
+  , config = require('../config')
+  , databaseId = config.names.database
+  , collectionId = config.names.collection
 
-var databaseId = config.names.database;
-var collectionId = config.names.collection;
+var host = config.connection.endpoint;
+var masterKey = config.connection.authKey;
 
 // Establish a new instance of the DocumentDBClient to be used throughout this demo
-var client = new DocumentDBClient(config.connection.endpoint, { masterKey: config.connection.authKey });
+var client = new DocumentDBClient(host, { masterKey: masterKey });
 
 //---------------------------------------------------------------------------------
 // This demo performs a few steps
@@ -87,7 +89,16 @@ function createCollection(databaseLink, collectionId, callback) {
 }
 
 function getOrCreateDatabase(databaseId, callback){
-    client.queryDatabases('SELECT * FROM root r WHERE r.id="' + databaseId + '"').toArray(function (err, results) {
+    var querySpec = {
+        query: 'SELECT * FROM root r WHERE  r.id = @id',
+        parameters: [
+            {
+                name: '@id',
+                value: databaseId
+            }
+        ]
+    };
+    client.queryDatabases(querySpec).toArray(function (err, results) {
         if (err) {
             handleError(err);
         }

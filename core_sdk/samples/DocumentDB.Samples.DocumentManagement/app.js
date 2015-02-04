@@ -17,12 +17,14 @@ console.log('DOCUMENTATION MANAGEMENT');
 console.log('========================');
 console.log();
 
-var DocumentDBClient = require('documentdb').DocumentClient;
-var config = require('../config');
-﻿var fs = require('fs');
+var DocumentDBClient = require('documentdb').DocumentClient
+  , config = require('../config')
+  , fs = require('fs')
+  , databaseId = config.names.database
+  , collectionId = config.names.collection
 
-var databaseId = config.names.database;
-var collectionId = config.names.collection;
+var host = config.connection.endpoint;
+var masterKey = config.connection.authKey;
 
 var documentDefinitions = function () {
     var data = fs.readFileSync('./Data/Families.json');   
@@ -30,7 +32,7 @@ var documentDefinitions = function () {
 };
 
 // Establish a new instance of the DocumentDBClient to be used throughout this demo
-var client = new DocumentDBClient(config.connection.endpoint, { masterKey: config.connection.authKey });
+var client = new DocumentDBClient( host, { masterKey: masterKey });
 
 // Load our sample data
 sampleDocuments = documentDefinitions();
@@ -58,11 +60,20 @@ getOrCreateDatabase(databaseId, function (db) {
         insertDocuments(col._self, function (docs) {
             
             // 3.
-            client.queryDocuments(col._self, "SELECT * FROM Families f WHERE  f.lastName = 'Andersen'").toArray(function (err, results) {
+            var querySpec = {
+                query: 'SELECT * FROM Families f WHERE  f.lastName = @lastName',
+                parameters: [
+                    {
+                        name: '@lastName',
+                        value: 'Anderson'
+                    }
+                ]
+            };
+            client.queryDocuments(col._self, querySpec).toArray(function (err, results) {
                 if (err) {
                     handleError(err);
                 }
-                 
+                
                 //4.
                 //add a new child to this family, and change their lastName
                 var childDef = {
@@ -113,7 +124,16 @@ getOrCreateDatabase(databaseId, function (db) {
 });
 
 function getDocumentById(collectionLink, id, callback) {
-    client.queryDocuments(collectionLink, "SELECT * FROM Families f WHERE  f.id = '" + id + "'").toArray(function (err, results) {
+    var querySpec = {
+        query: 'SELECT * FROM Families f WHERE  f.id = @id',
+        parameters: [
+            {
+                name: '@id',
+                value: id
+            }
+        ]
+    };
+    client.queryDocuments(collectionLink, querySpec).toArray(function (err, results) {
         if (err) {
             handleError(err);
         }
@@ -151,7 +171,16 @@ function insertDocuments(collectionLink, callback) {
 }
 
 function getOrCreateDatabase(databaseId, callback) {
-    client.queryDatabases('SELECT * FROM root r WHERE r.id="' + databaseId + '"').toArray(function (err, results) {
+    var querySpec = {
+        query: 'SELECT * FROM root r WHERE r.id=@id',
+        parameters: [
+            {
+                name: '@id',
+                value: databaseId
+            }
+        ]
+    };
+    client.queryDatabases(querySpec).toArray(function (err, results) {
         if (err) {
             handleError(err);
         }
@@ -176,7 +205,16 @@ function getOrCreateDatabase(databaseId, callback) {
 }
 
 function getOrCreateCollection(databaseLink, collectionId, callback) {
-    client.queryCollections(databaseLink, 'SELECT * FROM root r WHERE r.id="' + collectionId + '"').toArray(function (err, results) {
+    var querySpec = {
+        query: 'SELECT * FROM root r WHERE r.id=@id',
+        parameters: [
+            {
+                name: '@id',
+                value: collectionId
+            }
+        ]
+    };
+    client.queryCollections(databaseLink, querySpec).toArray(function (err, results) {
         if (err) {
             handleError(err);
         }
