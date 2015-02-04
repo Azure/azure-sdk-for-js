@@ -14,27 +14,7 @@ Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DocumentDB.Samples.Collecti
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DocumentDB.Samples.DocumentManagement", "DocumentDB.Samples.DocumentManagement\DocumentDB.Samples.DocumentManagement.njsproj", "{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DocumentDB.Samples.ServerSideScripts", "DocumentDB.Samples.ServerSideScripts\DocumentDB.Samples.ServerSideScripts.njsproj", "{CC9E34AB-7D33-46D0-B366-CC07F870E0AA}"
-EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://sqlbuvsts01:8080/main
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = DocumentDB.Samples.DatabaseManagement\\DocumentDB.Samples.DatabaseManagement.njsproj
-		SccProjectName1 = DocumentDB.Samples.DatabaseManagement
-		SccLocalPath1 = DocumentDB.Samples.DatabaseManagement
-		SccProjectUniqueName2 = DocumentDB.Samples.CollectionManagement\\DocumentDB.Samples.CollectionManagement.njsproj
-		SccProjectName2 = DocumentDB.Samples.CollectionManagement
-		SccLocalPath2 = DocumentDB.Samples.CollectionManagement
-		SccProjectUniqueName3 = DocumentDB.Samples.DocumentManagement\\DocumentDB.Samples.DocumentManagement.njsproj
-		SccProjectName3 = DocumentDB.Samples.DocumentManagement
-		SccLocalPath3 = DocumentDB.Samples.DocumentManagement
-		SccProjectUniqueName4 = DocumentDB.Samples.ServerSideScripts\\DocumentDB.Samples.ServerSideScripts.njsproj
-		SccProjectName4 = DocumentDB.Samples.ServerSideScripts
-		SccLocalPath4 = DocumentDB.Samples.ServerSideScripts
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -52,10 +32,6 @@ Global
 		{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC9E34AB-7D33-46D0-B366-CC07F870E0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC9E34AB-7D33-46D0-B366-CC07F870E0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC9E34AB-7D33-46D0-B366-CC07F870E0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC9E34AB-7D33-46D0-B366-CC07F870E0AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
