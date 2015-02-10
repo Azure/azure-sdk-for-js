@@ -1,0 +1,34 @@
+{
+  "id": "645fe1cf6b7e4a3482f27d619219aba5",
+  "FamilyId": 9379,
+  "LastName": "Andersen",
+  "Parents": [
+    {
+      "FamilyName": null,
+      "FirstName": "Thomas"
+    },
+    {
+      "FamilyName": null,
+      "FirstName": "Mary Kay"
+    }
+  ],
+  "Children": [
+    {
+      "FamilyName": null,
+      "FirstName": "Henriette Thaulow",
+      "Gender": "female",
+      "Grade": 5,
+      "Pets": [
+        {
+          "GivenName": "Fluffy"
+        }
+      ]
+    }
+  ],
+  "Address": {
+    "State": "WA",
+    "County": "King",
+    "City": "Seattle"
+  },
+  "IsRegistered": false
+}

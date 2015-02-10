@@ -1,11 +1,11 @@
 ﻿doctype html
 html
   head
-    title= title
-    meta(http-equiv='X-UA-Compatible', content='IE=10')
+    title #{title}
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css", rel="stylesheet")
   body.app
-    nav.navbar.navbar-fixed-top.navbar-default.navbar-inverse
+    nav.navbar.navbar-default
+      div.navbar-header
         a.navbar-brand(href='/') My Tasks
     block content

@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>DocumentDB.Samples.ServerSideScripts</Name>
+    <RootNamespace>DocumentDB.Samples.ServerSideScripts</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>562daa93-5b86-419d-a272-c9b225c48364</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>app.js</StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartWebBrowser>false</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="app.js" />
+    <Compile Include="foo.js" />
+    <Compile Include="JS\BulkImport.js" />
+    <Compile Include="JS\CanonicalizeSchedule.js" />
+    <Compile Include="JS\Count.js" />
+    <Compile Include="JS\OrderBy.js" />
+    <Compile Include="JS\SimpleScript.js" />
+    <Compile Include="JS\Tax.js" />
+    <Compile Include="JS\UpdateMetadata.js" />
+    <Content Include="Data\0.json" />
+    <Content Include="Data\1.json" />
+    <Content Include="Data\10.json" />
+    <Content Include="Data\11.json" />
+    <Content Include="Data\12.json" />
+    <Content Include="Data\13.json" />
+    <Content Include="Data\14.json" />
+    <Content Include="Data\15.json" />
+    <Content Include="Data\16.json" />
+    <Content Include="Data\17.json" />
+    <Content Include="Data\18.json" />
+    <Content Include="Data\19.json" />
+    <Content Include="Data\2.json" />
+    <Content Include="Data\20.json" />
+    <Content Include="Data\21.json" />
+    <Content Include="Data\22.json" />
+    <Content Include="Data\23.json" />
+    <Content Include="Data\24.json" />
+    <Content Include="Data\25.json" />
+    <Content Include="Data\26.json" />
+    <Content Include="Data\27.json" />
+    <Content Include="Data\28.json" />
+    <Content Include="Data\29.json" />
+    <Content Include="Data\3.json" />
+    <Content Include="Data\30.json" />
+    <Content Include="Data\31.json" />
+    <Content Include="Data\32.json" />
+    <Content Include="Data\33.json" />
+    <Content Include="Data\34.json" />
+    <Content Include="Data\35.json" />
+    <Content Include="Data\36.json" />
+    <Content Include="Data\37.json" />
+    <Content Include="Data\38.json" />
+    <Content Include="Data\39.json" />
+    <Content Include="Data\4.json" />
+    <Content Include="Data\40.json" />
+    <Content Include="Data\41.json" />
+    <Content Include="Data\42.json" />
+    <Content Include="Data\43.json" />
+    <Content Include="Data\44.json" />
+    <Content Include="Data\45.json" />
+    <Content Include="Data\46.json" />
+    <Content Include="Data\47.json" />
+    <Content Include="Data\48.json" />
+    <Content Include="Data\49.json" />
+    <Content Include="Data\5.json" />
+    <Content Include="Data\50.json" />
+    <Content Include="Data\51.json" />
+    <Content Include="Data\52.json" />
+    <Content Include="Data\53.json" />
+    <Content Include="Data\54.json" />
+    <Content Include="Data\55.json" />
+    <Content Include="Data\56.json" />
+    <Content Include="Data\57.json" />
+    <Content Include="Data\58.json" />
+    <Content Include="Data\59.json" />
+    <Content Include="Data\6.json" />
+    <Content Include="Data\60.json" />
+    <Content Include="Data\61.json" />
+    <Content Include="Data\62.json" />
+    <Content Include="Data\63.json" />
+    <Content Include="Data\64.json" />
+    <Content Include="Data\65.json" />
+    <Content Include="Data\66.json" />
+    <Content Include="Data\67.json" />
+    <Content Include="Data\68.json" />
+    <Content Include="Data\69.json" />
+    <Content Include="Data\7.json" />
+    <Content Include="Data\70.json" />
+    <Content Include="Data\71.json" />
+    <Content Include="Data\72.json" />
+    <Content Include="Data\73.json" />
+    <Content Include="Data\74.json" />
+    <Content Include="Data\75.json" />
+    <Content Include="Data\76.json" />
+    <Content Include="Data\77.json" />
+    <Content Include="Data\78.json" />
+    <Content Include="Data\79.json" />
+    <Content Include="Data\8.json" />
+    <Content Include="Data\80.json" />
+    <Content Include="Data\81.json" />
+    <Content Include="Data\82.json" />
+    <Content Include="Data\83.json" />
+    <Content Include="Data\84.json" />
+    <Content Include="Data\85.json" />
+    <Content Include="Data\86.json" />
+    <Content Include="Data\87.json" />
+    <Content Include="Data\88.json" />
+    <Content Include="Data\89.json" />
+    <Content Include="Data\9.json" />
+    <Content Include="Data\90.json" />
+    <Content Include="Data\91.json" />
+    <Content Include="Data\92.json" />
+    <Content Include="Data\93.json" />
+    <Content Include="Data\94.json" />
+    <Content Include="Data\95.json" />
+    <Content Include="Data\96.json" />
+    <Content Include="Data\97.json" />
+    <Content Include="Data\98.json" />
+    <Content Include="Data\99.json" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="JS\" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+</Project>
