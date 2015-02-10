@@ -1,6 +1,6 @@
 ﻿{
-    "HOST"       : "<insert your DocDB endpoint here>",
-    "AUTH_KEY"   : "<insert either primary or secondary key here>",
-    "DATABASE"   : "ToDoList",
-    "COLLECTION" : "Items"
+    "HOST": "[URI for DocumentDB endpoint]",
+    "AUTH_KEY": "[master key for DocumentDB]",
+    "DATABASE": "ToDoList",
+    "COLLECTION": "Items"
 }
