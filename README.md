@@ -27,81 +27,82 @@ You can follow this [tutorial](http://azure.microsoft.com/en-us/documentation/ar
 
 ##Examples
 ###Hello World using Callbacks via the Core Module
+```js
+var DocumentClient = require('documentdb').DocumentClient;
 
-	var DocumentClient = require('documentdb').DocumentClient;
-	
-	var host = [hostendpoint];                     // Add your endpoint
-	var masterKey = [database account masterkey];  // Add the massterkey of the endpoint
-	var client = new DocumentClient(host, {masterKey: masterKey});
+var host = [hostendpoint];                     // Add your endpoint
+var masterKey = [database account masterkey];  // Add the massterkey of the endpoint
+var client = new DocumentClient(host, {masterKey: masterKey});
 
-	var databaseDefinition = { id: "sample database" };
-	var collectionDefinition = { id: "sample collection" };
-	var documentDefinition = { id: "hello world doc", content: "Hello World!" };
-	
-	client.createDatabase(databaseDefinition, function(err, database) {
-	    if(err) return console.log(err);
-	    console.log('created db');
-	
-	    client.createCollection(database._self, collectionDefinition, function(err, collection) {
-	        if(err) return console.log(err);
-	        console.log('created collection');
-	
-	        client.createDocument(collection._self, documentDefinition, function(err, document) {
-	            if(err) return console.log(err);
-	            console.log('Created Document with content: ', document.content);
+var databaseDefinition = { id: "sample database" };
+var collectionDefinition = { id: "sample collection" };
+var documentDefinition = { id: "hello world doc", content: "Hello World!" };
 
-	            cleanup(client, database);
-	        });
-	    });
-	});
-	
-	function cleanup(client, database) {
-	    client.deleteDatabase(database._self, function(err) {
-	        if(err) console.log(err);
-	    })
-	}
+client.createDatabase(databaseDefinition, function(err, database) {
+    if(err) return console.log(err);
+    console.log('created db');
+
+    client.createCollection(database._self, collectionDefinition, function(err, collection) {
+        if(err) return console.log(err);
+        console.log('created collection');
+
+        client.createDocument(collection._self, documentDefinition, function(err, document) {
+            if(err) return console.log(err);
+            console.log('Created Document with content: ', document.content);
+
+            cleanup(client, database);
+        });
+    });
+});
+
+function cleanup(client, database) {
+    client.deleteDatabase(database._self, function(err) {
+        if(err) console.log(err);
+    })
+}
+```
 
 ###Hello World using Q Promises via the Q Promises Module
+```js
+var DocumentClient = require('documentdb').DocumentClientWrapper;
 
-	var DocumentClient = require('documentdb').DocumentClientWrapper;
-	
-	var host = [hostendpoint];                    // Add your endpoint
-	var masterKey = [database account masterkey]; // Add the massterkey of the endpoint
-	var client = new DocumentClient(host, {masterKey: masterKey});
-	
-	var databaseDefinition = { id: "sample database" }
-	var collectionDefinition = { id: "sample collection" };
-	var documentDefinition = { id: "hello world doc", content: "Hello World!" };
-	
-	var database, collection, document;
-	client.createDatabaseAsync(databaseDefinition)
-	    .then(function(databaseResponse) {
-	        database = databaseResponse.resource;
-	        return client.createCollectionAsync(database._self, collectionDefinition);
-	    })
-	    .then(function(collectionResponse) {
-	        collection = collectionResponse.resource;
-	        return client.createDocumentAsync(collection._self, documentDefinition);
-	    })
-	    .then(function(documentResponse) {
-	        var document = documentResponse.resource;
-	        console.log('Created Document with content: ', document.content);
-	        cleanup(client, database);
-	    })
-	    .fail(function(error) {
-	        console.log("An error occured", error);
-	    });
-	
-	function cleanup(client, database) {
-	    client.deleteDatabaseAsync(database._self)
-	        .then(function(response) {
-	            console.log('clean up completed');
-	        })
-	        .fail(function(error){
-	            console.log(error);
-	        });
-	}
+var host = [hostendpoint];                    // Add your endpoint
+var masterKey = [database account masterkey]; // Add the massterkey of the endpoint
+var client = new DocumentClient(host, {masterKey: masterKey});
 
+var databaseDefinition = { id: "sample database" }
+var collectionDefinition = { id: "sample collection" };
+var documentDefinition = { id: "hello world doc", content: "Hello World!" };
+
+var database, collection, document;
+client.createDatabaseAsync(databaseDefinition)
+    .then(function(databaseResponse) {
+        database = databaseResponse.resource;
+        return client.createCollectionAsync(database._self, collectionDefinition);
+    })
+    .then(function(collectionResponse) {
+        collection = collectionResponse.resource;
+        return client.createDocumentAsync(collection._self, documentDefinition);
+    })
+    .then(function(documentResponse) {
+        var document = documentResponse.resource;
+        console.log('Created Document with content: ', document.content);
+        cleanup(client, database);
+    })
+    .fail(function(error) {
+        console.log("An error occured", error);
+    });
+
+function cleanup(client, database) {
+    client.deleteDatabaseAsync(database._self)
+        .then(function(response) {
+            console.log('clean up completed');
+        })
+        .fail(function(error){
+            console.log(error);
+        });
+}
+```
 ##Need Help?
 
 Be sure to check out the Microsoft Azure [Developer Forums on MSDN](https://social.msdn.microsoft.com/forums/azure/en-US/home?forum=AzureDocumentDB) or the [Developer Forums on Stack Overflow](http://stackoverflow.com/questions/tagged/azure-documentdb) if you have trouble with the provided code.
