@@ -11,12 +11,12 @@ var Utils = {
                 }
             ]
         };
-
+        
         client.queryDatabases(querySpec).toArray(function (err, results) {
             if (err) {
-                callbackk(err);
+                callback(err);
             }
-
+            
             if (!err && results.length === 0) {
                 client.createDatabase({ id: databaseId }, function (err, created) {
                     callback(null, created);
@@ -26,8 +26,8 @@ var Utils = {
             }
         });
     },
-
-    getOrCreateCollection: function (client, databaseLink, collectionId, callback){
+    
+    getOrCreateCollection: function (client, databaseLink, collectionId, callback) {
         var querySpec = {
             query: 'SELECT * FROM root r WHERE r.id=@id',
             parameters: [
@@ -37,12 +37,12 @@ var Utils = {
                 }
             ]
         };
-
+        
         client.queryCollections(databaseLink, querySpec).toArray(function (err, results) {
             if (err) {
-                callback (err);
+                callback(err);
             }
-
+            
             if (!err && results.length === 0) {
                 client.createCollection(databaseLink, { id: collectionId }, function (err, created) {
                     callback(null, created);
