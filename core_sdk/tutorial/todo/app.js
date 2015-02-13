@@ -33,45 +33,48 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//app.use('/', routes);
+//app.use('/users', users);
+
 var TaskList = require('./routes/tasklist');
 var Task = require('./models/task');
 var task = new Task(new DocumentDBClient(host, { masterKey: authKey }), databaseId, collectionId);
-var taskList = new TaskList(task);
-
-app.get('/', taskList.showTasks.bind(taskList));
-app.post('/addtask', taskList.addTask.bind(taskList));
-app.post('/completetask', taskList.completeTask.bind(taskList));
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
+task.init(function () {
+    var taskList = new TaskList(task);
+    app.get('/', taskList.showTasks.bind(taskList));
+    app.post('/addtask', taskList.addTask.bind(taskList));
+    app.post('/completetask', taskList.completeTask.bind(taskList));
+    
+    // catch 404 and forward to error handler
+    app.use(function (req, res, next) {
+        var err = new Error('Not Found');
+        err.status = 404;
+        next(err);
+    });
+    
+    // error handlers
+    
+    // development error handler
+    // will print stacktrace
+    if (app.get('env') === 'development') {
+        app.use(function (err, req, res, next) {
+            res.status(err.status || 500);
+            res.render('error', {
+                message: err.message,
+                error: err
+            });
+        });
+    }
+    
+    // production error handler
+    // no stacktraces leaked to user
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
-            error: err
+            error: {}
         });
     });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
 });
-
 
 module.exports = app;
