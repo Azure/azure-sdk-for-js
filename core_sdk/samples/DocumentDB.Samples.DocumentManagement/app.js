@@ -65,7 +65,7 @@ getOrCreateDatabase(databaseId, function (db) {
                 parameters: [
                     {
                         name: '@lastName',
-                        value: 'Anderson'
+                        value: 'Andersen'
                     }
                 ]
             };
