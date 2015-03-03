@@ -1,11 +1,13 @@
-﻿doctype html
+doctype html
 html
   head
-    title #{title}
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    title= title
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body.app
-    nav.navbar.navbar-default
+  body
+    nav.navbar.navbar-inverse.navbar-fixed-top
       div.navbar-header
-        a.navbar-brand(href='/') My Tasks
+        a.navbar-brand(href='#') My Tasks
     block content
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
+    script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')

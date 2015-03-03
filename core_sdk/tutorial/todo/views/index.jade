@@ -1,4 +1,4 @@
-﻿extends layout
+extends layout
 
 block content
   h1 #{title}
@@ -13,7 +13,7 @@ block content
         td Complete
       if (typeof tasks === "undefined")
         tr
-          td 
+          td
       else
         each task in tasks
           tr
@@ -29,9 +29,9 @@ block content
     button.btn(type="submit") Update tasks
   hr
   form.well(action="/addtask", method="post")
-    label Item Name: 
+    label Item Name:
     input(name="name", type="textbox")
-    label Item Category: 
+    label Item Category:
     input(name="category", type="textbox")
     br
     button.btn(type="submit") Add item
