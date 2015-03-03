@@ -3,7 +3,7 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 a {
-  color: #00b7ff;
+  color: #00B7FF;
 }
 .well label {
   display: block;
@@ -13,5 +13,5 @@ a {
 }
 .btn {
   margin-top: 5px;
-  border: outset 1px #c8c8c8;
+  border: outset 1px #C8C8C8;
 }

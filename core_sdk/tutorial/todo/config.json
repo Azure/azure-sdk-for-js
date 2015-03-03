@@ -1,6 +1,0 @@
-﻿{
-    "HOST": "[URI for DocumentDB endpoint]",
-    "AUTH_KEY": "[master key for DocumentDB]",
-    "DATABASE": "ToDoList",
-    "COLLECTION": "Items"
-}

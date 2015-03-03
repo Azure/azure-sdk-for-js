@@ -1,12 +1,8 @@
-﻿var DocumentDBClient = require('documentdb').DocumentClient;
-var nconf = require('nconf');
-
-nconf.env().file({ file: 'config.json' });
-
-var host = nconf.get("HOST");
-var authKey = nconf.get("AUTH_KEY");
-var databaseId = nconf.get("DATABASE");
-var collectionId = nconf.get("COLLECTION");
+// Todo App
+var DocumentDBClient = require('documentdb').DocumentClient;
+var config = require('./config');
+var TaskList = require('./routes/tasklist');
+var TaskDao = require('./models/taskDao');
 
 var express = require('express');
 var path = require('path');
@@ -30,50 +26,48 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use('/', routes);
-//app.use('/users', users);
+// Todo App
+var docDbClient = new DocumentDBClient(config.host, {
+    masterKey: config.authKey
+});
+var taskDao = new TaskDao(docDbClient, config.databaseId, config.collectionId);
+var taskList = new TaskList(taskDao);
+taskDao.init();
 
-var TaskList = require('./routes/tasklist');
-var Task = require('./models/task');
-var task = new Task(new DocumentDBClient(host, { masterKey: authKey }), databaseId, collectionId);
-task.init(function () {
-    var taskList = new TaskList(task);
-    app.get('/', taskList.showTasks.bind(taskList));
-    app.post('/addtask', taskList.addTask.bind(taskList));
-    app.post('/completetask', taskList.completeTask.bind(taskList));
-    
-    // catch 404 and forward to error handler
-    app.use(function (req, res, next) {
-        var err = new Error('Not Found');
-        err.status = 404;
-        next(err);
-    });
-    
-    // error handlers
-    
-    // development error handler
-    // will print stacktrace
-    if (app.get('env') === 'development') {
-        app.use(function (err, req, res, next) {
-            res.status(err.status || 500);
-            res.render('error', {
-                message: err.message,
-                error: err
-            });
-        });
-    }
-    
-    // production error handler
-    // no stacktraces leaked to user
-    app.use(function (err, req, res, next) {
+app.get('/', taskList.showTasks.bind(taskList));
+app.post('/addtask', taskList.addTask.bind(taskList));
+app.post('/completetask', taskList.completeTask.bind(taskList));
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
-            error: {}
+            error: err
         });
+    });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
     });
 });
 
