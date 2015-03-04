@@ -12,7 +12,7 @@ var DocDBUtils = {
 
     client.queryDatabases(querySpec).toArray(function(err, results) {
       if (err) {
-        callbackk(err);
+        callback(err);
       }
 
       if (!err && results.length === 0) {
