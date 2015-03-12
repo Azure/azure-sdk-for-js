@@ -105,6 +105,13 @@ function cleanup(client, database) {
         });
 }
 ```
+
+###Youtube Videos
+
+Getting started with Azure DocumentDB on Node.js:
+
+[![Azure Demo: Getting started with Azure DocumentDB on Node.js](http://img.youtube.com/vi/UAE7h9PCZjA/0.jpg)](http://www.youtube.com/watch?v=UAE7h9PCZjA)
+
 ##Need Help?
 
 Be sure to check out the Microsoft Azure [Developer Forums on MSDN](https://social.msdn.microsoft.com/forums/azure/en-US/home?forum=AzureDocumentDB) or the [Developer Forums on Stack Overflow](http://stackoverflow.com/questions/tagged/azure-documentdb) if you have trouble with the provided code.
