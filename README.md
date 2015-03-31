@@ -66,7 +66,7 @@ function cleanup(client, database) {
 
 ###Hello World using Q Promises via the Q Promises Module
 ```js
-var DocumentClient = require('documentdb').DocumentClientWrapper;
+var DocumentClient = require('documentdb-q-promises').DocumentClientWrapper;
 
 var host = "[hostendpoint]";                    // Add your endpoint
 var masterKey = "[database account masterkey]"; // Add the massterkey of the endpoint
