@@ -186,7 +186,10 @@ var Base = {
         if (options.postTriggerInclude) {
             headers[Constants.HttpHeaders.PostTriggerInclude] = options.postTriggerInclude.constructor === Array? options.postTriggerInclude.join(","): options.postTriggerInclude;
         }
-        
+
+        if (options.offerType != null) {
+            headers[Constants.HttpHeaders.OfferType] = options.offerType;
+        }
 
         if (options.maxItemCount) {
             headers[Constants.HttpHeaders.PageSize] = options.maxItemCount;

@@ -537,7 +537,7 @@ var DocumentClient = Base.defineClass(
             this.read(path, "conflicts", resourceInfo.objectBody.id, undefined, options, callback);
         },
        
-        /** lLsts all databases. 
+        /** Lists all databases. 
          * @memberof DocumentClient
          * @instance
          * @param {FeedOptions} [options] - The feed options.
@@ -1101,26 +1101,6 @@ var DocumentClient = Base.defineClass(
         },
         
         /**
-         * Replace the database object.
-         * @memberof DocumentClient
-         * @instance
-         * @param {string} databaseLink      - The self-link of the database.
-         * @param {object} db                - Represent the new database body.
-         * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request.
-        */
-        replaceDatabase: function (databaseLink, db, options, callback) {
-            if (!callback) {
-                callback = options;
-                options = {};
-            }
-
-            var path = "/" + databaseLink;
-            var resourceInfo = Base.parsePath(databaseLink);
-            this.replace(db, path, "dbs", resourceInfo.objectBody.id, undefined, options, callback);
-        },
-       
-        /**
          * Replace the document object.
          * @memberof DocumentClient
          * @instance
@@ -1366,7 +1346,66 @@ var DocumentClient = Base.defineClass(
             
             this.post(urlConnection, path, params, headers, callback);
         },
-        
+
+        /**
+         * Replace the offer object.
+         * @memberof DocumentClient
+         * @instance
+         * @param {string} offerLink         - The self-link of the offer.
+         * @param {object} offer             - Represent the new offer body.
+         * @param {RequestCallback} callback - The callback for the request.
+         */
+        replaceOffer: function (offerLink, offer, callback) {
+            var path = "/" + offerLink;
+            var resourceInfo = Base.parsePath(offerLink);
+            this.replace(offer, path, "offers", resourceInfo.objectBody.id, undefined, {}, callback);
+        },
+
+        /** Reads an offer. 
+         * @memberof DocumentClient
+         * @instance
+         * @param {string} offerLink         - The self-link of the offer.
+         * @param {RequestCallback} callback    - The callback for the request.
+        */
+        readOffer: function (offerLink, callback) {
+            var path = "/" + offerLink;
+            var resourceInfo = Base.parsePath(offerLink);
+            this.read(path, "offers", resourceInfo.objectBody.id, undefined, {}, callback);
+        },
+
+        /** Lists all offers.
+         * @memberof DocumentClient
+         * @instance
+         * @param {FeedOptions} [options] - The feed options.
+         * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
+        */
+        readOffers: function (options) {
+            return this.queryOffers(undefined, options);
+        },
+
+        /** Lists all offers that satisfy a query. 
+         * @memberof DocumentClient
+         * @instance
+         * @param {SqlQuerySpec | string} query - A SQL query.
+         * @param {FeedOptions} [options]       - The feed options.
+         * @returns {QueryIterator}             - An instance of QueryIterator to handle reading feed.
+        */
+        queryOffers: function (query, options) {
+            var that = this;
+            return new QueryIterator(this, query, options, function (options, callback) {
+                that.queryFeed.call(that,
+                        that,
+                        "/offers",
+                        "offers",
+                        "",
+                        function (result) { return result.Offers; },
+                        function (parent, body) { return body; },
+                        query,
+                        options,
+                        callback);
+            });
+        },
+
          /** Gets the Database account information.
         * @memberof DocumentClient
         * @instance
@@ -1382,11 +1421,6 @@ var DocumentClient = Base.defineClass(
                 databaseAccount.MediaLink                        = "/media/";
                 databaseAccount.MaxMediaStorageUsageInMB         = headers[Constants.HttpHeaders.MaxMediaStorageUsageInMB];
                 databaseAccount.CurrentMediaStorageUsageInMB     = headers[Constants.HttpHeaders.CurrentMediaStorageUsageInMB];
-                databaseAccount.CapacityUnitsConsumed            = headers[Constants.HttpHeaders.DatabaseAccountCapacityUnitsConsumed];
-                databaseAccount.CapacityUnitsProvisioned         = headers[Constants.HttpHeaders.DatabaseAccountCapacityUnitsProvisioned];
-                databaseAccount.ConsumedDocumentStorageInMB      = headers[Constants.HttpHeaders.DatabaseAccountConsumedDocumentStorageInMB];
-                databaseAccount.ReservedDocumentStorageInMB      = headers[Constants.HttpHeaders.DatabaseAccountReservedDocumentStorageInMB];
-                databaseAccount.ProvisionedDocumentStorageInMB   = headers[Constants.HttpHeaders.DatabaseAccountProvisionedDocumentStorageInMB];
                 databaseAccount.ConsistencyPolicy                = result.userConsistencyPolicy;
                 
                 callback(undefined, databaseAccount, headers);
@@ -1519,6 +1553,7 @@ var DocumentClient = Base.defineClass(
  * @property {string} [consistencyLevel]          -         Consistency level required by the client.
  * @property {string} [sessionToken]              -         Token for use with Session consistency.
  * @property {number} [resourceTokenExpirySeconds]-         Expiry time (in seconds) for resource token associated with permission (applicable only for requests on permissions).
+ * @property {string} [offerType]                 -         Offer type when creating document collections.
  */
  
 /**

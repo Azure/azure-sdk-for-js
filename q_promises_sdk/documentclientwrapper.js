@@ -43,27 +43,39 @@ function deleteOperationPromise(contextObject, functionName, resourceLink, optio
 
 function replaceOperationPromise(contextObject, functionName, resourceLink, newResource, options){
     var deferred = Q.defer();
-    contextObject[functionName](resourceLink, newResource, options, function (error, resource, responseHeaders) {
+    var callback = function (error, resource, responseHeaders) {
         if (error) {
             deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
-    });
+    }
+
+    if (options === undefined) {
+        contextObject[functionName](resourceLink, newResource, callback);
+    } else {
+        contextObject[functionName](resourceLink, newResource, options, callback);
+    }
     
     return deferred.promise;
 }
 
 function readOperationPromise(contextObject, functionName, resourceLink, options){
     var deferred = Q.defer();
-    contextObject[functionName](resourceLink, options, function (error, resource, responseHeaders) {
+    var callback = function (error, resource, responseHeaders) {
         if (error) {
             deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
-    });
-    
+    }
+
+    if (options === undefined) {
+        contextObject[functionName](resourceLink, callback);
+    } else {
+        contextObject[functionName](resourceLink, options, callback);
+    }
+
     return deferred.promise;
 }
 
@@ -270,20 +282,6 @@ var DocumentClientWrapper = Base.defineClass(
          */
         queryUsers: function(databaseLink, query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryUsers(databaseLink, query, options));
-        },
-
-         /**
-         * Replace the database object.
-         * @memberof DocumentClientWrapper
-         * @instance
-         * @param {string} databaseLink - The self-link of the database.
-         * @param {Database} db - Represent the new database body.
-         * @param {RequestOptions} [options] - The request options.
-         * @Returns {Object} <p>A promise object for the request completion. <br>
-                             The onFulfilled callback takes a parameter of type {@link ResourceResponse} and the OnError callback takes a parameter of type {@link ResponseError}</p>
-        */
-        replaceDatabaseAsync: function (databaseLink, db, options) {
-            return replaceOperationPromise(this._innerDocumentclient, "replaceDatabase", databaseLink, db, options);
         },
 
         /**
@@ -963,7 +961,55 @@ var DocumentClientWrapper = Base.defineClass(
         */
         deleteConflictAsync: function(conflictLink, options) {
             return deleteOperationPromise(this._innerDocumentclient, "deleteConflict", conflictLink, options);
-        }
+        },
+
+        /**
+         * Replace the Offer object.
+         * @memberof DocumentClientWrapper
+         * @instance
+         * @param {string} offerLink         - The self-link of the offer.
+         * @param {object} offer             - Represent the new offer body.
+         * @Returns {Object} <p>A promise object for the request completion. <br>
+                             The onFulfilled callback takes a parameter of type {@link ResourceResponse} and the OnError callback takes a parameter of type {@link ResponseError}</p>
+        */
+        replaceOfferAsync: function(offerLink, offer) {
+            return replaceOperationPromise(this._innerDocumentclient, "replaceOffer", offerLink, offer, undefined);
+        },
+
+        /**
+         * Reads an offer object.
+         * @memberof DocumentClientWrapper
+         * @instance
+         * @param {string} offerLink - The self-link of the offer.
+         * @Returns {Object} <p>A promise object for the request completion. <br>
+                             The onFulfilled callback takes a parameter of type {@link ResourceResponse} and the OnError callback takes a parameter of type {@link ResponseError}</p>
+         */
+        readOfferAsync: function (offerLink) {
+            return readOperationPromise(this._innerDocumentclient, "readOffer", offerLink, undefined);
+        },
+
+        /**
+         * Get all offers for this database.
+         * @memberof DocumentClientWrapper
+         * @instance
+         * @param {FeedOptions} [options]   - The feed options
+         * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
+        */
+        readOffers: function (options) {
+            return new QueryIteratorWrapper(this._innerDocumentclient.readOffers(options));
+        },
+
+        /**
+         * Query offers for this database.
+         * @memberof DocumentClientWrapper
+         * @instance
+         * @param {SqlQuerySpec | string} query   - A SQL query.
+         * @param {FeedOptions} [options]         - Represents the feed options.
+         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
+        */
+        queryOffers: function (query, options) {
+            return new QueryIteratorWrapper(this._innerDocumentclient.queryOffers(query, options));
+        },
     }
 );
 

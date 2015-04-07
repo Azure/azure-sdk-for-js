@@ -111,17 +111,15 @@ var Constants = {
         CollectionCurrentUsageInMb: "x-ms-collection-usage-mb",
         MaxMediaStorageUsageInMB: "x-ms-max-media-storage-usage-mb",
         CurrentMediaStorageUsageInMB: "x-ms-media-storage-usage-mb",
-        DatabaseAccountCapacityUnitsConsumed:  "x-ms-database-capacity-units-consumed",
-        DatabaseAccountCapacityUnitsProvisioned:  "x-ms-database-capacity-units-provisioned",
-        DatabaseAccountConsumedDocumentStorageInMB:  "x-ms-databaseaccount-consumed-mb",
-        DatabaseAccountReservedDocumentStorageInMB:  "x-ms-databaseaccount-reserved-mb",
-        DatabaseAccountProvisionedDocumentStorageInMB:  "x-ms-databaseaccount-provisioned-mb",
-        RequestCharge: "x-ms-request-charge"
+        RequestCharge: "x-ms-request-charge",
+
+        // Offer header
+        OfferType: "x-ms-offer-type"
     },
 	
-    CurrentVersion: "2014-08-21",
+    CurrentVersion: "2015-04-08",
     
-    UserAgent: "documentdb-nodejs-sdk-0.9.3"
+    UserAgent: "documentdb-nodejs-sdk-1.0.0"
 }
 
 //SCRIPT END

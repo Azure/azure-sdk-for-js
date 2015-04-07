@@ -40,7 +40,7 @@ var AuthHandler = {
             return resourceTokens[resourceId];
         } else {
             var pathParts = path.split("/");
-            var resourceTypes = ["dbs", "colls", "docs", "sprocs", "udfs", "triggers", "users", "permissions", "attachments", "media", "conflicts"];
+            var resourceTypes = ["dbs", "colls", "docs", "sprocs", "udfs", "triggers", "users", "permissions", "attachments", "media", "conflicts", "offers"];
             for (var i = pathParts.length - 1; i >= 0;i--) {
                 if (resourceTypes.indexOf(pathParts[i]) === -1) {
                     if (resourceTokens[pathParts[i]]) {
