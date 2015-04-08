@@ -17,16 +17,6 @@ var AzureDocuments = Base.defineClass(null, null,
 		 * @property {number} MaxMediaStorageUsageInMB  		                -  Attachment content (media) storage quota in MBs ( Retrieved from gateway ).
 		 * @property {number} CurrentMediaStorageUsageInMB                      -  <p> Current attachment content (media) usage in MBs (Retrieved from gateway )<br>
                                                                                     Value is returned from cached information updated periodically and is not guaranteed to be real time. </p>
-         * @property {number} CapacityUnitsConsumed                             -  The number is capacity units database account is currently consuming. <br>
-                                                                                    Value is returned from cached information updated periodically and is not guaranteed to be real time. </p>
-         * @property {number} CapacityUnitsProvisioned                          -  <p> The number of provisioned capacity units for the database account. <br>
-                                                                                    Value is returned from cached information updated periodically and is not guaranteed to be real time. </p>         
-         * @property {number} ConsumedDocumentStorageInMB  	                    -  <p> The cumulative sum of current sizes of created collection in MB.  <br>
-                                                                                    Value is returned from cached information updated periodically and is not guaranteed to be real time. </p>         
-         * @property {number} ReservedDocumentStorageInMB                       -  <p> The cumulative sum of maximum sizes of created collection in MB.  <br>       
-                                                                                    Value is returned from cached information updated periodically and is not guaranteed to be real time. </p>         
-         * @property {number} ProvisionedDocumentStorageInMB                    -  <p> The provisioned documented storage capacity for the database account. <br>    
-                                                                                    Value is returned from cached information updated periodically and is not guaranteed to be real time. </p>         
          * @property {object} ConsistencyPolicy                                 -  Gets the UserConsistencyPolicy settings.
          * @property {string} ConsistencyPolicy.defaultConsistencyLevel         -  The default consistency level and it's of type {@link ConsistencyLevel}.
          * @property {number} ConsistencyPolicy.maxStalenessPrefix              -  In bounded staleness consistency, the maximum allowed staleness in terms difference in sequence numbers (aka version).
@@ -55,20 +45,6 @@ var AzureDocuments = Base.defineClass(null, null,
             });
 			
 			Object.defineProperty(this, "CurrentMediaStorageUsageInMB", {
-                value: 0,
-                writable: true,
-                configurable: true,
-                enumerable: true
-            });
-			
-			Object.defineProperty(this, "CapacityUnitsConsumed", {
-                value: 0,
-                writable: true,
-                configurable: true,
-                enumerable: true
-            });
-			
-			Object.defineProperty(this, "CapacityUnitsProvisioned", {
                 value: 0,
                 writable: true,
                 configurable: true,
@@ -155,14 +131,8 @@ var AzureDocuments = Base.defineClass(null, null,
             Range: "Range",
         }),
 
-        Protocol : Object.freeze({
-            Tcp: 1,
-            Https: 2,
-        }),
-
         ConnectionMode : Object.freeze({
-            Direct: 0,
-            Gateway: 1,
+            Gateway: 0,
         }),       
 
         QueryCompatibilityMode: Object.freeze({
@@ -250,20 +220,6 @@ var AzureDocuments = Base.defineClass(null, null,
          * @property {number} RequestTimeout         - Request timeout (time to wait for response from network peer). Represented in milliseconds.
         */
         ConnectionPolicy : Base.defineClass(function() {
-            Object.defineProperty(this, "_defaultMaxConnections", {
-                value: 20,
-                writable: true,
-                configurable: true,
-                enumerable: false // this is the default value, so it could be excluded during JSON.stringify
-            });
-
-            Object.defineProperty(this, "_defaultMaxConcurrentCallsPerConnection", {
-                value: 50,
-                writable: true,
-                configurable: true,
-                enumerable: false // this is the default value, so it could be excluded during JSON.stringify
-            });
-
             Object.defineProperty(this, "_defaultRequestTimeout", {
                 value: 60000,
                 writable: true,
@@ -280,12 +236,9 @@ var AzureDocuments = Base.defineClass(null, null,
             });
 
             this.ConnectionMode = AzureDocuments.ConnectionMode.Gateway;
-            this.ConnectionProtocol = AzureDocuments.Protocol.Https; 
             this.MediaReadMode = AzureDocuments.MediaReadMode.Buffered;
             this.MediaRequestTimeout = this._defaultMediaRequestTimeout;
             this.RequestTimeout = this._defaultRequestTimeout;
-            this.MaxCallsPerConnections = this._defaultMaxConcurrentCallsPerConnection; // for direct connectivity
-            this.MaxConnections = this._defaultMaxConnections; // for direct connectivity
         })
     }
 );

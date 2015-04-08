@@ -4,7 +4,8 @@
 
 'use strict';
 
-var DocumentDBClient = require("documentdb").DocumentClient
+var Base = require("documentdb").Base
+  , DocumentDBClient = require("documentdb").DocumentClient
   , DocumentBase = require("documentdb").DocumentBase
   , assert = require("assert")
   , testConfig = require('./_testConfig')
@@ -76,28 +77,18 @@ describe("NodeJS CRUD Tests", function(){
                             ]
                         };
                         client.queryDatabases(querySpec).toArray(function (err, results) {
-							assert(results.length > 0, "number of results for the query should be > 0");
-							//replace database 
-							db.id = "replaced db";
-							client.replaceDatabase(db._self, db, function(error, replacedDb){
-								assert.equal(replacedDb.id, "replaced db", "Db name should change");
-								assert.equal(db.id, replacedDb.id, "Db id should stay the same");
-								// read database
-								client.readDatabase(replacedDb._self, function(err, database) {
-									assert.equal(err, undefined, "readDatabase should work successfully");
-									assert.equal(replacedDb.id, database.id);
-									// delete database
-									client.deleteDatabase(replacedDb._self, function(err, res){
-										// read database after deletion
-										client.readDatabase(db._self, function(err, database) {
-											var notFoundErrorCode = 404;
-											assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-											done();
-										});
-									});
-								});
-							});
-						});
+                            assert(results.length > 0, "number of results for the query should be > 0");
+
+                            // delete database
+                            client.deleteDatabase(db._self, function(err, res){
+                                // read database after deletion
+                                client.readDatabase(db._self, function(err, database) {
+                                    var notFoundErrorCode = 404;
+                                    assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
+                                    done();
+                                });
+                            });
+                        });
                     });
                 });
             });
@@ -1151,7 +1142,153 @@ describe("NodeJS CRUD Tests", function(){
             });                
         });
     });
-    
+
+    describe("Validate Offer CRUD", function () {
+        var validateOfferResponseBody = function (offer, expectedCollLink, expectedOfferType) {
+            assert(offer.id, "Id cannot be null");
+            assert(offer._rid, "Resource Id (Rid) cannot be null");
+            assert(offer._self, "Self Link cannot be null");
+            assert(offer.resource, "Resource Link cannot be null");
+            assert(offer._self.indexOf(offer.id) != -1, "Offer id not contained in offer self link.");
+            assert.equal(expectedCollLink.replace(/^\/|\/$/g, ''), offer.resource.replace(/^\/|\/$/g, ''));
+            if (expectedOfferType) {
+                assert.equal(expectedOfferType, offer.offerType);
+            }
+        }
+
+        it("[nativeApi] Should do offer read and query operations successfully", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            // create database
+            client.createDatabase({ id: "sample database" }, function (err, db) {
+                assert(err === undefined);
+                // create collection
+                client.createCollection(db._self, { id: "sample collection" }, function (err, collection) {
+                    assert(err === undefined);
+                    client.readOffers({}).toArray(function (err, offers) {
+                        assert(err === undefined);
+                        assert.equal(offers.length, 1);
+                        var expectedOffer = offers[0];
+                        validateOfferResponseBody(expectedOffer, collection._self, undefined);
+                        // Read the offer
+                        client.readOffer(expectedOffer._self, function (err, readOffer) {
+                            assert(err === undefined);
+                            validateOfferResponseBody(readOffer, collection._self, undefined);
+                            // Check if the read offer is what we expected.
+                            assert.equal(expectedOffer.id, readOffer.id);
+                            assert.equal(expectedOffer._rid, readOffer._rid);
+                            assert.equal(expectedOffer._self, readOffer._self);
+                            assert.equal(expectedOffer.resource, readOffer.resource);
+                            // Read offer with a bad offer link.
+                            var badLink = expectedOffer._self.substring(0, expectedOffer._self.length - 1) + 'x/';
+                            client.readOffer(badLink, function (err, _) {
+                                var notFoundErrorCode = 400;
+                                assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
+
+                                // Query for offer.
+                                var querySpec = {
+                                    query: 'select * FROM root r WHERE r.id=@id',
+                                    parameters: [
+                                        {
+                                            name: '@id',
+                                            value: expectedOffer.id
+                                        }
+                                    ]
+                                };
+                                client.queryOffers(querySpec).toArray(function (err, offers) {
+                                    assert(err === undefined);
+                                    assert.equal(offers.length, 1);
+                                    var oneOffer = offers[0];
+                                    validateOfferResponseBody(oneOffer, collection._self, undefined);
+                                    // Now delete the collection.
+                                    client.deleteCollection(collection._self, function (err, _) {
+                                        // read offer after deleting collection.
+                                        client.readOffer(expectedOffer._self, function (err, _) {
+                                            var notFoundErrorCode = 404;
+                                            assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
+                                            done();
+                                        });
+                                    });
+                                });
+                            })
+                        });
+                    });
+                });
+            });
+        });
+
+        it("[nativeApi] Should do offer replace operations successfully", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            // create database
+            client.createDatabase({ id: "sample database" }, function (err, db) {
+                assert(err === undefined);
+                // create collection
+                client.createCollection(db._self, { id: "sample collection" }, function (err, collection) {
+                    assert(err === undefined);
+                    client.readOffers().toArray(function (err, offers) {
+                        assert(err === undefined);
+                        assert.equal(offers.length, 1);
+                        var expectedOffer = offers[0];
+                        validateOfferResponseBody(expectedOffer, collection._self, undefined);
+                        // Replace the offer.
+                        var offerToReplace = Base.extend({}, expectedOffer);
+                        offerToReplace.offerType = "S2";
+                        client.replaceOffer(offerToReplace._self, offerToReplace, function (err, replacedOffer) {
+                            assert(err === undefined);
+                            validateOfferResponseBody(replacedOffer, collection._self, "S2");
+                            // Check if the replaced offer is what we expect.
+                            assert.equal(replacedOffer.id, offerToReplace.id);
+                            assert.equal(replacedOffer._rid, offerToReplace._rid);
+                            assert.equal(replacedOffer._self, offerToReplace._self);
+                            assert.equal(replacedOffer.resource, offerToReplace.resource);
+                            // Replace an offer with a bad id.
+                            var offerBadId = Base.extend({}, offerToReplace);
+                            offerBadId._rid = "NotAllowed";
+                            client.replaceOffer(offerBadId._self, offerBadId, function (err, _) {
+                                var badRequestErrorCode = 400;
+                                assert.equal(err.code, badRequestErrorCode);
+                                // Replace an offer with a bad rid.
+                                var offerBadRid = Base.extend({}, offerToReplace);
+                                offerBadRid._rid = "InvalidRid";
+                                client.replaceOffer(offerBadRid._self, offerBadRid, function (err, _) {
+                                    var badRequestErrorCode = 400;
+                                    assert.equal(err.code, badRequestErrorCode);
+                                    // Replace an offer with null id and rid.
+                                    var offerNullId = Base.extend({}, offerToReplace);
+                                    offerNullId.id = undefined;
+                                    offerNullId._rid = undefined;
+                                    client.replaceOffer(offerNullId._self, offerNullId, function (err, _) {
+                                        var badRequestErrorCode = 400;
+                                        assert.equal(err.code, badRequestErrorCode);
+                                        done();
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+
+        it("[nativeApi] Should create collection with specified offer type successfully", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            // create database
+            client.createDatabase({ id: "sample database" }, function (err, db) {
+                assert(err === undefined);
+                // create collection
+                client.createCollection(db._self, { id: "sample collection" }, { offerType: "S2" }, function (err, collection) {
+                    assert(err === undefined);
+                    client.readOffers().toArray(function (err, offers) {
+                        assert(err === undefined);
+                        assert.equal(offers.length, 1);
+                        var expectedOffer = offers[0];
+                        assert.equal(expectedOffer.offerType, "S2");
+                        done();
+                    });
+                });
+            });
+        });
+    });
+
     describe("validate database account functionality", function () {
 		it("[nativeApi] Should get database account successfully", function (done) {
 			var client = new DocumentDBClient(host, { masterKey: masterKey });
@@ -1160,11 +1297,6 @@ describe("NodeJS CRUD Tests", function(){
                 assert.equal(databaseAccount.MediaLink , "/media/");
                 assert.equal(databaseAccount.MaxMediaStorageUsageInMB, headers["x-ms-max-media-storage-usage-mb"]);
                 assert.equal(databaseAccount.CurrentMediaStorageUsageInMB, headers["x-ms-media-storage-usage-mb"]);
-                assert.equal(databaseAccount.CapacityUnitsConsumed, headers["x-ms-database-capacity-units-consumed"]);
-                assert.equal(databaseAccount.CapacityUnitsProvisioned, headers["x-ms-database-capacity-units-provisioned"]);
-                assert.equal(databaseAccount.ConsumedDocumentStorageInMB, headers["x-ms-databaseaccount-consumed-mb"]);
-                assert.equal(databaseAccount.ReservedDocumentStorageInMB, headers["x-ms-databaseaccount-reserved-mb"]);
-                assert.equal(databaseAccount.ProvisionedDocumentStorageInMB, headers["x-ms-databaseaccount-provisioned-mb"]);
                 assert(databaseAccount.ConsistencyPolicy.defaultConsistencyLevel != undefined);
                 done();
 			});

@@ -14,7 +14,8 @@ var Documents = require('./documents')
 https.globalAgent.maxSockets = 10000;
 // setting security protocol for the global agent.
 https.globalAgent.options.secureProtocol = "TLSv1_client_method";
-
+// Keeping the connection alive to reuse the sockets.
+https.globalAgent.keepAlive = true;
 //----------------------------------------------------------------------------
 // Utility methods
 //
@@ -123,7 +124,7 @@ var RequestHandler = {
         requestOptions.method = method;
         requestOptions.path = path;
         requestOptions.headers = headers;
-            
+         
         if(queryParams) {
            requestOptions.path += "?" + querystring.stringify(queryParams);
         }

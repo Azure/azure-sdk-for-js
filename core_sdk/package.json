@@ -9,7 +9,7 @@
     "database",
     "cloud"
   ],
-  "version": "0.9.3",
+  "version": "1.0.0",
   "author": "Microsoft Corporation",
   "main": "./index.js",
   "engine": {
