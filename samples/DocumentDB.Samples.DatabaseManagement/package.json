@@ -8,6 +8,6 @@
     "email": ""
   },
   "dependencies": {
-    "documentdb": "^0.9.3"
+    "documentdb": "^1.0.0"
   }
 }
