@@ -1,3 +1,0 @@
-﻿# DocumentDB.Samples.ServerSideScripts
-
-
