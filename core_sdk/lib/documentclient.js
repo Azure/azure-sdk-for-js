@@ -17,7 +17,7 @@ var DocumentClient = Base.defineClass(
      * @constructor DocumentClient
      * @param {string} urlConnection           - The service endpoint to use to create the client.
      * @param {object} auth                    - An object that is used for authenticating requests and must contains one of the options
-     * @param {string} [auth.masterkey]        - The authorization master key to use to create the client.
+     * @param {string} [auth.masterKey]        - The authorization master key to use to create the client.
      * @param {Object} [auth.resourceTokens]   - An object that contains resources tokens. Keys for the object are resource Ids and values are the resource tokens.
      * @param {Array}  [auth.permissionFeed]   - An array of {@link Permission} objects.                              
      * @param {object} [connectionPolicy]      - An instance of {@link ConnectionPolicy} class. This parameter is optional and the default connectionPolicy will be used if omitted.
@@ -220,11 +220,11 @@ var DocumentClient = Base.defineClass(
          * @memberof DocumentClient
          * @instance
          * @param {string} collectionLink           - The self-link of the collection.
-         * @param {object} trigger                  - Represents the body of the trigger.
-         * @param {string} trigger.id             - The id of the trigger.
+         * @param {object} trigger                  - The specification of the trigger.
+         * @param {string} trigger.id               - The id of the trigger.
          * @param {string} trigger.triggerType      - The type of the trigger, should be one of the values of {@link TriggerType}.
          * @param {string} trigger.triggerOperation - The trigger operation, should be one of the values of {@link TriggerOperation}.
-         * @param {function} trigger.serverScript   - The body of the trigger, it can be passed as stringified too.
+         * @param {function} trigger.body           - The body of the trigger, it can be passed as stringified too.
          * @param {RequestOptions} [options]        - The request options.
          * @param {RequestCallback} callback        - The callback for the request.
          */
@@ -256,10 +256,10 @@ var DocumentClient = Base.defineClass(
          * @memberof DocumentClient
          * @instance
          * @param {string} collectionLink                - The self-link of the collection.
-         * @param {object} udf                           - Represents the body of the userDefinedFunction.
-         * @param {string} udf.id                      - The id of the udf.
+         * @param {object} udf                           - The specification of the userDefinedFunction.
+         * @param {string} udf.id                        - The id of the udf.
          * @param {string} udf.userDefinedFunctionType   - The type of the udf, it should be one of the values of {@link UserDefinedFunctionType}
-         * @param {function} udf.serverScript            - Represents the body of the udf, it can be passed as stringified too.
+         * @param {function} udf.body                    - Represents the body of the udf, it can be passed as stringified too.
          * @param {RequestOptions} [options]             - The request options.
          * @param {RequestCallback} callback             - The callback for the request.
          */
@@ -290,9 +290,9 @@ var DocumentClient = Base.defineClass(
          * @memberof DocumentClient
          * @instance
          * @param {string} collectionLink       - The self-link of the collection.
-         * @param {object} sproc                - Represents the body of the stored procedure.
-         * @param {string} sproc.id           - The id of the stored procedure.
-         * @param {function} sproc.serverScript - The body of the stored procedure, it can be passed as stringified too.
+         * @param {object} sproc                - The specification of the stored procedure.
+         * @param {string} sproc.id             - The id of the stored procedure.
+         * @param {function} sproc.body         - The body of the stored procedure, it can be passed as stringified too.
          * @param {RequestOptions} [options]    - The request options.
          * @param {RequestCallback} callback    - The callback for the request.
          */
@@ -1184,10 +1184,14 @@ var DocumentClient = Base.defineClass(
          * Replace the trigger object.
          * @memberof DocumentClient
          * @instance
-         * @param {string} triggerLink       - The self-link of the trigger.
-         * @param {object} trigger           - Represent the new trigger body.
-         * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request.
+         * @param {string} triggerLink              - The self-link of the trigger.
+         * @param {object} trigger                  - The specification of the new trigger.
+         * @param {string} trigger.id               - The id of the trigger.
+         * @param {string} trigger.triggerType      - The type of the trigger, should be one of the values of {@link TriggerType}.
+         * @param {string} trigger.triggerOperation - The trigger operation, should be one of the values of {@link TriggerOperation}.
+         * @param {function} trigger.body           - The body of the trigger, it can be passed as stringified too.
+         * @param {RequestOptions} [options]        - The request options.
+         * @param {RequestCallback} callback        - The callback for the request.
         */
         replaceTrigger: function(triggerLink, trigger, options, callback) {
             if (!callback) {
@@ -1210,10 +1214,13 @@ var DocumentClient = Base.defineClass(
          * Replace the UserDefinedFunction object.
          * @memberof DocumentClient
          * @instance
-         * @param {string} udfLink           - The self-link of the user defined function.
-         * @param {object} udf               - Represent the new udf body.
-         * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request.
+         * @param {string} udfLink                      - The self-link of the user defined function.
+         * @param {object} udf                          - The specification of the new udf.
+         * @param {string} udf.id                       - The id of the udf.
+         * @param {string} udf.userDefinedFunctionType  - The type of the udf, it should be one of the values of {@link UserDefinedFunctionType}
+         * @param {function} udf.body                   - Represents the body of the udf, it can be passed as stringified too.
+         * @param {RequestOptions} [options]            - The request options.
+         * @param {RequestCallback} callback            - The callback for the request.
         */
         replaceUserDefinedFunction: function(udfLink, udf, options, callback) {
             if (!callback) {
@@ -1236,10 +1243,12 @@ var DocumentClient = Base.defineClass(
          * Replace the StoredProcedure object.
          * @memberof DocumentClient
          * @instance
-         * @param {string} sprocLink         - The self-link of the stored procedure.
-         * @param {object} sproc             - Represent the new sproc body.
-         * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request.
+         * @param {string} sprocLink           - The self-link of the stored procedure.
+         * @param {object} sproc               - The specification of the new stored procedure.
+         * @param {string} sproc.id            - The id of the stored procedure.
+         * @param {function} sproc.body        - The body of the stored procedure, it can be passed as stringified too.
+         * @param {RequestOptions} [options]   - The request options.
+         * @param {RequestCallback} callback   - The callback for the request.
         */
         replaceStoredProcedure: function(sprocLink, sproc, options, callback) {
             if (!callback) {
