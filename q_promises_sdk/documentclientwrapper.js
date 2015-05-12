@@ -440,11 +440,11 @@ var DocumentClientWrapper = Base.defineClass(
          * </p>
          * @memberof DocumentClientWrapper
          * @instance
-         * @param {string} collectionLink    						- The self-link of the collection.
-         * @param {object} body              						- Represents the body of the document. Can contain any number of user defined properties.
-         * @param {string} [body.id]         						- The id of the document, MUST be unique for each document.
-         * @param {RequestOptions} [options] 						- The request options.
-		 * @param {boolean} [options.disableAutomaticIdGeneration]	- Disables the automatic id generation. If id is missing in the body and this option is true, an error will be returned.
+         * @param {string} collectionLink                            - The self-link of the collection.
+         * @param {object} body                                      - Represents the body of the document. Can contain any number of user defined properties.
+         * @param {string} [body.id]                                 - The id of the document, MUST be unique for each document.
+         * @param {RequestOptions} [options]                         - The request options.
+         * @param {boolean} [options.disableAutomaticIdGeneration]   - Disables the automatic id generation. If id is missing in the body and this option is true, an error will be returned.
          * @Returns {Object} <p>A promise object for the request completion. <br>
                              The onFulfilled callback takes a parameter of type {@link ResourceResponse} and the OnError callback takes a parameter of type {@link ResponseError}</p>
          */
@@ -642,7 +642,7 @@ var DocumentClientWrapper = Base.defineClass(
         readStoredProcedureAsync: function (sprocLink, options) {
             return readOperationPromise(this._innerDocumentclient, "readStoredProcedure", sprocLink, options);
         },
-		
+        
         /**
          * Get all conflicts in this collection.
          * @memberof DocumentClientWrapper
@@ -651,10 +651,23 @@ var DocumentClientWrapper = Base.defineClass(
          * @param {FeedOptions} [options] - The feed options
          * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
          */
-		readConflicts:  function (collectionLink, options) {
+        readConflicts:  function (collectionLink, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.readConflicts(collectionLink, options));
         },
-		
+
+        /**
+         * Query the conflicts for the collection.
+         * @memberof DocumentClientWrapper
+         * @instance
+         * @param {string} collectionLink       - The self-link of the collection.
+         * @param {SqlQuerySpec | string} query - A SQL query.
+         * @param {FeedOptions} [options]       - Represents the feed options.
+         * @returns {QueryIterator}             - An instance of queryIterator to handle reading feed.
+         */
+        queryConflicts: function (collectionLink, query, options) {
+            return new QueryIteratorWrapper(this._innerDocumentclient.queryConflicts(collectionLink, query, options));
+        },
+
         /**
          * Reads a conflict.
          * @memberof DocumentClientWrapper
@@ -664,7 +677,7 @@ var DocumentClientWrapper = Base.defineClass(
          * @Returns {Object} <p>A promise object for the request completion. <br>
                              The onFulfilled callback takes a parameter of type {@link ResourceResponse} and the OnError callback takes a parameter of type {@link ResponseError}</p>
          */
-		readConflictAsync: function (conflictLink, options) {
+        readConflictAsync: function (conflictLink, options) {
             return readOperationPromise(this._innerDocumentclient, "readConflict", conflictLink, options);
         },
          
@@ -1058,7 +1071,7 @@ var QueryIteratorWrapper = Base.defineClass(
             var deferred = Q.defer();
             var that = this;
             this._innerQueryIterator.toArray(function(error, resources, responseHeaders) {
-				if (error) {
+                if (error) {
                     deferred.reject(error);
                 } else {
                     deferred.resolve({feed: resources, headers: responseHeaders});

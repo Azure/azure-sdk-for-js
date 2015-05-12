@@ -58,12 +58,10 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                 validateCreate: function(created) {
                     assert.equal(created.id, "sampleDb", "wrong id");
                 },
-                validateReplace: function(created, replaced) {
-                    assert.equal(replaced.id, "replaced db", "id should change");
-                    assert.equal(created.id, replaced.id, "id should stay the same");
+                validateReplace: function (created, replaced) {
+                    // database doesn't support replace.
                 },
-                replaceProperties: function(resource) {
-                    resource.id = "replaced db";
+                replaceProperties: function (resource) {
                     return resource;
                 }
             };
@@ -145,7 +143,7 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                 });
         });
     });
-    
+
     describe("Validate Attachment CRUD", function(){
         var createReadableStream = function(firstChunk, secondChunk){
             var readableStream = new Stream.Readable();
@@ -772,18 +770,18 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
             createParentResourcesAsync(client, {db: true, coll: true})
                 .then(function(resources) {
                     var collection = resources.createdCollection;
-		    var sproc1 = {
-			id: "storedProcedure1",
-			body: function () {
-			for (var i = 0; i < 1000; i++) {
-			    var item = getContext().getResponse().getBody();
-			    if (i > 0 && item != i - 1) throw 'body mismatch';
-			        getContext().getResponse().setBody(i);
-			    }
-			}
-		    };
+					var sproc1 = {
+						id: "storedProcedure1",
+						body: function () {
+							for (var i = 0; i < 1000; i++) {
+								var item = getContext().getResponse().getBody();
+								if (i > 0 && item != i - 1) throw 'body mismatch';
+								getContext().getResponse().setBody(i);
+							}
+						}
+					};
 
-		    client.createStoredProcedureAsync(collection._self, sproc1)
+					client.createStoredProcedureAsync(collection._self, sproc1)
                         .then(function (response) {
                             return client.executeStoredProcedureAsync(response.resource._self);
                         })
@@ -832,6 +830,76 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                     });
         });
     });
+
+    describe("Validate Offer CRUD", function () {
+        it("[promiseApi] Should do offer CRUD operations successfully", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            var existingOffer;
+            createParentResourcesAsync(client, { db: true, coll: true })
+                .then(function (createdResources) {
+                    return client.readOffers().toArrayAsync();
+                }).then(function (result) {
+                    var offers = result.feed;
+                    assert.equal(offers.length, 1);
+                    existingOffer = offers[0];
+                    assert.equal(existingOffer.offerType, "S1");  // S1 is the default type
+                    return client.readOfferAsync(existingOffer._self);
+                }).then(function (response) {
+                    var readOffer = response.resource;
+                    assert.equal(readOffer.id, existingOffer.id);
+                    assert.equal(readOffer._rid, existingOffer._rid);
+                    assert.equal(readOffer._self, existingOffer._self);
+                    assert.equal(readOffer.offerType, existingOffer.offerType);
+                    // Replace offer.
+                    readOffer.offerType = "S2";
+                    return client.replaceOfferAsync(readOffer._self, readOffer);
+                }).then(function (response) {
+                    var replacedOffer = response.resource;
+                    assert.equal(replacedOffer.offerType, "S2");
+                    // Query for offer.
+                    var querySpec = {
+                        query: 'select * FROM root r WHERE r.id=@id',
+                        parameters: [
+                            {
+                                name: '@id',
+                                value: existingOffer.id
+                            }
+                        ]
+                    };
+                    return client.queryOffers(querySpec).toArrayAsync();
+                }).then(function (result) {
+                    var offers = result.feed;
+                    assert.equal(offers.length, 1);
+                    var oneOffer = offers[0];
+                    assert.equal(oneOffer.offerType, "S2");
+                    done();
+                }).fail(function (error) {
+                    console.log(error, error.stack);
+                    done();
+                });
+        });
+
+        it("[promiseApi] Should create Collection with specified offer type successfully", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+
+            client.createDatabaseAsync({ id: "sample database" })
+                .then(function (response) {
+                    var db = response.resource;
+                    return client.createCollectionAsync(db._self, { id: "sample coll" }, { offerType: "S2" });
+                }).then(function (response) {
+                    return client.readOffers().toArrayAsync();
+                }).then(function (result) {
+                    var offers = result.feed;
+                    assert.equal(offers.length, 1);
+                    var existingOffer = offers[0];
+                    assert.equal(existingOffer.offerType, "S2");  // S2 is what we created.
+                    done();
+                }).fail(function (error) {
+                    console.log(error, error.stack);
+                    done();
+                });
+        });
+    });
    
     function validateCRUDAsync(client, parentLink, options) {
         var deferred = Q.defer();
@@ -854,10 +922,11 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                 validateCreate(createdResource);
                 return client["read" + className + "s"](parentLink).toArrayAsync();
             })
-	   .then(function(response) {
+			.then(function(response) {
                 var resources = response.feed;
                 assert(resources.length > 0, "number of resources for the query should be > 0");
-		var querySpec = {
+                if (parentLink) {
+                    var querySpec = {
                         query: 'select * FROM root r WHERE r.id=@id',
                         parameters: [
                             {
@@ -866,20 +935,19 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                             }
                         ]
                     };
-                if (parentLink) {
-			return client["query" + className + "s"](parentLink, querySpec).toArrayAsync();
-		} else {
-			return client["query" + className + "s"](querySpec).toArrayAsync();
-		}
+					return client["query" + className + "s"](parentLink, querySpec).toArrayAsync();
+				} else {
+					return client["query" + className + "s"](querySpec).toArrayAsync();
+				}
             })
             .then(function(response) {
                 var resources = response.feed;
                 assert(resources.length > 0, "number of resources for the query should be > 0");
                 createdResource = replaceProperties(createdResource);
-                if (className !== "Collection") {
-                    return client["replace" + className + "Async"](createdResource._self, createdResource); 
+                if (className == "Collection" || className == "Database") {
+                    return client["read" + className + "Async"](createdResource._self);
                 } else {
-                    return client["read" + className + "Async"](createdResource._self); 
+                    return client["replace" + className + "Async"](createdResource._self, createdResource);
                 }
             })
             .then(function(response) {
@@ -897,7 +965,7 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                     .then(function(response) {
                         assert.fail("", "", "request should return an error");
                     },
-                    function(error){ 
+                    function(error){    
                         var notFoundErrorCode = 404;
                         assert.equal(error.code, notFoundErrorCode, "response should return error code 404");
                         deferred.resolve();
@@ -930,11 +998,11 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                                             deferred.resolve(createdResources);
                                         })
                                 } else if (options.user) {
-					client.createUserAsync(db._self, {id: "sample user"})
-						.then(function(response){
-							var user = createdResources.createdUser = response.resource;
-							deferred.resolve(createdResources);
-						});
+									client.createUserAsync(db._self, {id: "sample user"})
+										.then(function(response){
+											var user = createdResources.createdUser = response.resource;
+											deferred.resolve(createdResources);
+										});
                                 } else {
                                     deferred.resolve(createdResources);
                                 }
