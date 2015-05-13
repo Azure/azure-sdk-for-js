@@ -13,18 +13,19 @@ function createOperationPromise(contextObject, functionName, parentLink, body, o
     var deferred = Q.defer();
     var cb = function (error, resource, responseHeaders) {
         if (error) {
+            addOrMergeHeadersForError(error, responseHeaders);
             deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
     };
-    
+
     if (parentLink) {
         contextObject[functionName](parentLink, body, options, cb);
     } else {
         contextObject[functionName](body, options, cb);
     }
-    
+
     return deferred.promise;
 }
 
@@ -32,12 +33,13 @@ function deleteOperationPromise(contextObject, functionName, resourceLink, optio
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, options, function (error, resource, responseHeaders) {
         if (error) {
+            addOrMergeHeadersForError(error, responseHeaders);
             deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
         }
     });
-    
+
     return deferred.promise;
 }
 
@@ -45,6 +47,7 @@ function replaceOperationPromise(contextObject, functionName, resourceLink, newR
     var deferred = Q.defer();
     var callback = function (error, resource, responseHeaders) {
         if (error) {
+            addOrMergeHeadersForError(error, responseHeaders);
             deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
@@ -56,7 +59,7 @@ function replaceOperationPromise(contextObject, functionName, resourceLink, newR
     } else {
         contextObject[functionName](resourceLink, newResource, options, callback);
     }
-    
+
     return deferred.promise;
 }
 
@@ -64,6 +67,7 @@ function readOperationPromise(contextObject, functionName, resourceLink, options
     var deferred = Q.defer();
     var callback = function (error, resource, responseHeaders) {
         if (error) {
+            addOrMergeHeadersForError(error, responseHeaders);
             deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
@@ -83,12 +87,13 @@ function noParameterPromise(contextObject, functionName, resourceLink){
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, function (error, resources, responseHeaders) {
         if (error) {
+            addOrMergeHeadersForError(error, responseHeaders);
             deferred.reject(error);
         } else {
             deferred.resolve({result: resources, headers: responseHeaders});
         }
     });
-    
+
     return deferred.promise;
 }
 
@@ -101,7 +106,7 @@ var DocumentClientWrapper = Base.defineClass(
      * @param {object} auth                  - An object that is used for authenticating requests and must contains one of the options
      * @param {string} [auth.masterkey]      - The authorization master key to use to create the client.
      * @param {Object} [auth.resourceTokens] - An object that contains resources tokens. Keys for the object are resource Ids and values are the resource tokens.
-     * @param {Array}  [auth.permissionFeed] - An array of {@link Permission} objects.                              
+     * @param {Array}  [auth.permissionFeed] - An array of {@link Permission} objects.
      * @param {object} [connectionPolicy]    - An instance of {@link ConnectionPolicy} class. this parameter is optional and the default connectionPolicy will be used if omitted.
      * @param {string} [consistencyLevel]    - An optional parameter that represent the consistency level. It can take any value from {@link ConsistencyLevel}.
     */
@@ -110,7 +115,7 @@ var DocumentClientWrapper = Base.defineClass(
         Base.extend(this, this._innerDocumentclient);
     },
     {
-        /** Send a request for creating a database. 
+        /** Send a request for creating a database.
          * <p>
          *  A database manages users, permissions and a set of collections.  <br>
          *  Each Azure DocumentDB Database Account is able to support multiple independent named databases, with the database being the logical container for data. <br>
@@ -127,8 +132,8 @@ var DocumentClientWrapper = Base.defineClass(
         createDatabaseAsync: function (body, options) {
            return createOperationPromise(this._innerDocumentclient, "createDatabase", undefined, body, options);
         },
-        
-        /** read a database. 
+
+        /** read a database.
          * @memberof DocumentClientWrapper
          * @instance
          * @param {string} databaseLink      - The self-link of the database.
@@ -139,8 +144,8 @@ var DocumentClientWrapper = Base.defineClass(
         readDatabaseAsync: function (databaseLink, options) {
             return readOperationPromise(this._innerDocumentclient, "readDatabase", databaseLink, options);
         },
-        
-         /** lists all databases. 
+
+         /** lists all databases.
          * @memberof DocumentClientWrapper
          * @instance
          * @param {FeedOptions} [options] - Represents the feed options.
@@ -149,8 +154,8 @@ var DocumentClientWrapper = Base.defineClass(
         readDatabases: function (options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.readDatabases(options));
         },
-        
-        /** lists all databases that satisfy a query. 
+
+        /** lists all databases that satisfy a query.
          * @memberof DocumentClientWrapper
          * @instance
          * @param {SqlQuerySpec | string} query - A SQL query.
@@ -160,7 +165,7 @@ var DocumentClientWrapper = Base.defineClass(
         queryDatabases: function (query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryDatabases(query, options));
         },
-        
+
         /** Gets the Database account information.
          * @memberof DocumentClientWrapper
         * @instance
@@ -170,7 +175,7 @@ var DocumentClientWrapper = Base.defineClass(
         getDatabaseAccountAsync: function() {
             return noParameterPromise(this._innerDocumentclient, "getStorageStatistics", function(result) { return result; });
         },
-        
+
         /**
          * Get all collections in this database.
          * @memberof DocumentClientWrapper
@@ -270,7 +275,7 @@ var DocumentClientWrapper = Base.defineClass(
         readUserAsync: function (userLink, options) {
            return readOperationPromise(this._innerDocumentclient, "readUser", userLink, options);
         },
-        
+
         /**
          * Query the users for the database.
          * @memberof DocumentClientWrapper
@@ -296,7 +301,7 @@ var DocumentClientWrapper = Base.defineClass(
         deleteDatabaseAsync: function (databaseLink, options) {
             return deleteOperationPromise(this._innerDocumentclient, "deleteDatabase", databaseLink, options);
         },
-        
+
         /**
          * Create a permission.
          * <p> A permission represents a per-User Permission to access a specific resource e.g. Document or Collection.  </p>
@@ -314,7 +319,7 @@ var DocumentClientWrapper = Base.defineClass(
         createPermissionAsync: function(userLink, body, options) {
             return createOperationPromise(this._innerDocumentclient, "createPermission", userLink, body, options);
         },
-          
+
         /**
          * Reads a permission.
          * @memberof DocumentClientWrapper
@@ -327,7 +332,7 @@ var DocumentClientWrapper = Base.defineClass(
         readPermissionAsync: function (permissionLink, options) {
             return readOperationPromise(this._innerDocumentclient, "readPermission", permissionLink, options);
         },
-            
+
          /**
          * Get all permissions for this user.
          * @memberof DocumentClientWrapper
@@ -406,7 +411,7 @@ var DocumentClientWrapper = Base.defineClass(
         deletePermissionAsync: function(permissionLink, options) {
             return deleteOperationPromise(this._innerDocumentclient, "deletePermission", permissionLink, options);
         },
-        
+
         /**
          * Get all documents in this collection.
          * @memberof DocumentClientWrapper
@@ -434,7 +439,7 @@ var DocumentClientWrapper = Base.defineClass(
 
         /**
          * Create a document.
-         * <p> 
+         * <p>
          * There is no set schema for JSON documents. They may contain any number of custom properties as well as an optional list of attachments. <br>
          * A Document is an application resource and can be authorized using the master key or resource keys
          * </p>
@@ -451,7 +456,7 @@ var DocumentClientWrapper = Base.defineClass(
         createDocumentAsync: function (collectionLink, body, options) {
             return createOperationPromise(this._innerDocumentclient, "createDocument", collectionLink, body, options);
         },
-           
+
         /**
          * Reads a document.
          * @memberof DocumentClientWrapper
@@ -494,7 +499,7 @@ var DocumentClientWrapper = Base.defineClass(
          * Create a trigger.
          * <p>
          * DocumentDB supports pre and post triggers defined in JavaScript to be executed on creates, updates and deletes. <br>
-         * For additional details, refer to the server-side JavaScript API documentation. 
+         * For additional details, refer to the server-side JavaScript API documentation.
          * </p>
          * @memberof DocumentClientWrapper
          * @instance
@@ -511,7 +516,7 @@ var DocumentClientWrapper = Base.defineClass(
         createTriggerAsync: function (collectionLink, trigger, options) {
             return createOperationPromise(this._innerDocumentclient, "createTrigger", collectionLink, trigger, options);
         },
- 
+
         /**
          * Reads a trigger object.
          * @memberof DocumentClientWrapper
@@ -524,7 +529,7 @@ var DocumentClientWrapper = Base.defineClass(
         readTriggerAsync: function (triggerLink, options) {
             return readOperationPromise(this._innerDocumentclient, "readTrigger", triggerLink, options);
         },
-        
+
         /**
          * Get all UserDefinedFunctions in this collection.
          * @memberof DocumentClientWrapper
@@ -583,7 +588,7 @@ var DocumentClientWrapper = Base.defineClass(
         readUserDefinedFunctionAsync: function (udfLink, options) {
             return readOperationPromise(this._innerDocumentclient, "readUserDefinedFunction", udfLink, options);
         },
-        
+
         /**
          * Get all StoredProcedures in this collection.
          * @memberof DocumentClientWrapper
@@ -608,13 +613,13 @@ var DocumentClientWrapper = Base.defineClass(
         queryStoredProcedures: function (collectionLink, query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryStoredProcedures(collectionLink, query, options));
         },
- 
+
         /**
          * Create a StoredProcedure object.
          * <p>
          * DocumentDB allows stored procedures to be executed in the storage tier, directly against a document collection. The script <br>
          * gets executed under ACID transactions on the primary storage partition of the specified collection. For additional details, <br>
-         * refer to the server-side JavaScript API documentation. 
+         * refer to the server-side JavaScript API documentation.
          * </p>
          * @memberof DocumentClientWrapper
          * @instance
@@ -642,7 +647,7 @@ var DocumentClientWrapper = Base.defineClass(
         readStoredProcedureAsync: function (sprocLink, options) {
             return readOperationPromise(this._innerDocumentclient, "readStoredProcedure", sprocLink, options);
         },
-        
+
         /**
          * Get all conflicts in this collection.
          * @memberof DocumentClientWrapper
@@ -680,7 +685,7 @@ var DocumentClientWrapper = Base.defineClass(
         readConflictAsync: function (conflictLink, options) {
             return readOperationPromise(this._innerDocumentclient, "readConflict", conflictLink, options);
         },
-         
+
         /**
          * Replace the collection object.
          * @memberof DocumentClientWrapper
@@ -707,7 +712,7 @@ var DocumentClientWrapper = Base.defineClass(
         deleteCollectionAsync: function(collectionLink, options) {
             return deleteOperationPromise(this._innerDocumentclient, "deleteCollection", collectionLink, options);
         },
-        
+
         /**
          * Replace the document object.
          * @memberof DocumentClientWrapper
@@ -721,7 +726,7 @@ var DocumentClientWrapper = Base.defineClass(
         replaceDocumentAsync: function(documentLink, document, options) {
             return replaceOperationPromise(this._innerDocumentclient, "replaceDocument", documentLink, document, options);
         },
-        
+
         /**
          * Delete the document object.
          * @memberof DocumentClientWrapper
@@ -739,7 +744,7 @@ var DocumentClientWrapper = Base.defineClass(
          * Create an attachment for the document object.
          * <p>
          * Each document may contain zero or more attachemnts. Attachments can be of any MIME type - text, image, binary data. <br>
-         * These are stored externally in Azure Blob storage. Attachments are automatically deleted when the parent document is deleted. 
+         * These are stored externally in Azure Blob storage. Attachments are automatically deleted when the parent document is deleted.
          * </P>
          * @memberof DocumentClientWrapper
          * @instance
@@ -754,7 +759,7 @@ var DocumentClientWrapper = Base.defineClass(
         createAttachmentAsync: function (documentLink, body, options) {
             return createOperationPromise(this._innerDocumentclient, "createAttachment", documentLink, body, options);
         },
-        
+
         /**
          * Create an attachment for the document object.
          * @memberof DocumentClientWrapper
@@ -781,7 +786,7 @@ var DocumentClientWrapper = Base.defineClass(
         readAttachmentAsync: function (attachmentLink, options) {
             return readOperationPromise(this._innerDocumentclient, "readAttachment", attachmentLink, options);
         },
-        
+
         /**
          * Get all attachments for this document.
          * @memberof DocumentClientWrapper
@@ -806,7 +811,7 @@ var DocumentClientWrapper = Base.defineClass(
         queryAttachments: function (documentLink, query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryAttachments(documentLink, query, options));
         },
-        
+
         /**
          * Read the media for the attachment object.
          * @memberof DocumentClientWrapper
@@ -833,7 +838,7 @@ var DocumentClientWrapper = Base.defineClass(
         updateMediaAsync: function (mediaLink, readableStream, options) {
             return replaceOperationPromise(this._innerDocumentclient, "updateMedia", mediaLink, readableStream, options);
         },
-        
+
          /**
          * Replace the attachment object.
          * @memberof DocumentClientWrapper
@@ -860,7 +865,7 @@ var DocumentClientWrapper = Base.defineClass(
         deleteAttachmentAsync: function(attachmentLink, options) {
             return deleteOperationPromise(this._innerDocumentclient, "deleteAttachment", attachmentLink, options);
         },
-        
+
         /**
          * Replace the trigger object.
          * @memberof DocumentClientWrapper
@@ -887,7 +892,7 @@ var DocumentClientWrapper = Base.defineClass(
         deleteTriggerAsync: function(triggerLink, options) {
             return deleteOperationPromise(this._innerDocumentclient, "deleteTrigger", triggerLink, options);
         },
-        
+
         /**
          * Replace the UserDefinedFunction object.
          * @memberof DocumentClientWrapper
@@ -914,7 +919,7 @@ var DocumentClientWrapper = Base.defineClass(
         deleteUserDefinedFunctionAsync: function(udfLink, options) {
             return deleteOperationPromise(this._innerDocumentclient, "deleteUserDefinedFunction", udfLink, options);
         },
-        
+
         /**
          * Execute the StoredProcedure represented by the object.
          * @memberof DocumentClientWrapper
@@ -928,6 +933,7 @@ var DocumentClientWrapper = Base.defineClass(
             var deferred = Q.defer();
             this._innerDocumentclient.executeStoredProcedure(sprocLink, params, function (error, result, responseHeaders) {
                 if (error) {
+                    addOrMergeHeadersForError(error, responseHeaders);
                     deferred.reject(error);
                 } else {
                     deferred.resolve({result: result, headers: responseHeaders});
@@ -935,7 +941,7 @@ var DocumentClientWrapper = Base.defineClass(
             });
             return deferred.promise;
         },
-        
+
         /**
          * Replace the StoredProcedure object.
          * @memberof DocumentClientWrapper
@@ -962,7 +968,7 @@ var DocumentClientWrapper = Base.defineClass(
         deleteStoredProcedureAsync: function(sprocLink, options) {
             return deleteOperationPromise(this._innerDocumentclient, "deleteStoredProcedure", sprocLink, options);
         },
-        
+
          /**
          * Delete the conflict object.
          * @memberof DocumentClientWrapper
@@ -1031,18 +1037,19 @@ function readFeedOperationPromise(contextObject, functionName, query, options, s
     var deferred = Q.defer();
     contextObject[functionName](query, options, function (error, resources, responseHeaders) {
         if (error) {
+            addOrMergeHeadersForError(error, responseHeaders);
             deferred.reject(error);
         } else {
             deferred.resolve(successFn(resources), responseHeaders);
         }
     });
-    
+
     return deferred.promise;
 }
 
 var QueryIteratorWrapper = Base.defineClass(
     /**
-    * Provides a wrapper for all the functions of {@link QueryIterator} that uses the Q module promise API instead of the callback model.    
+    * Provides a wrapper for all the functions of {@link QueryIterator} that uses the Q module promise API instead of the callback model.
     * @constructor QueryIteratorWrapper
     */
     function(queryIterator) {
@@ -1060,7 +1067,7 @@ var QueryIteratorWrapper = Base.defineClass(
         forEach: function(callback){
             this._innerQueryIterator.forEach(callback);
         },
-        
+
          /**
          * Execute a provided function on the next element in the QueryIterator.
          * @memberof QueryIteratorWrapper
@@ -1072,15 +1079,16 @@ var QueryIteratorWrapper = Base.defineClass(
             var that = this;
             this._innerQueryIterator.toArray(function(error, resources, responseHeaders) {
                 if (error) {
+                    addOrMergeHeadersForError(error, responseHeaders);
                     deferred.reject(error);
                 } else {
                     deferred.resolve({feed: resources, headers: responseHeaders});
                 }
             });
-            
+
             return deferred.promise;
         },
-        
+
          /**
          * Gets the next element in the QueryIterator.
          * @memberof QueryIteratorWrapper
@@ -1092,15 +1100,16 @@ var QueryIteratorWrapper = Base.defineClass(
             var that = this;
             this._innerQueryIterator.nextItem(function(error, item, responseHeaders) {
                 if (error) {
+                    addOrMergeHeadersForError(error, responseHeaders);
                     deferred.reject(error);
                 } else {
                     deferred.resolve({resource: item, headers: responseHeaders});
                 }
             });
-            
+
             return deferred.promise;
         },
-        
+
         /**
          * Retrieve the next batch of the feed and pass them as an array to a function
          * @memberof QueryIteratorWrapper
@@ -1112,35 +1121,36 @@ var QueryIteratorWrapper = Base.defineClass(
             var that = this;
             this._innerQueryIterator.executeNext(function(error, resources, responseHeaders) {
                 if (error) {
+                    addOrMergeHeadersForError(error, responseHeaders);
                     deferred.reject(error);
-                } else {                    
+                } else {
                     deferred.resolve({feed: resources, headers: responseHeaders});
                 }
             });
-            
+
             return deferred.promise;
         },
-        
+
         /**
          * Retrieve the current element on the QueryIterator.
          * @memberof QueryIteratorWrapper
          * @instance
          * @returns {Object} The current resource in the QueryIterator, undefined if there isn't.
-         */ 
+         */
         current: function(){
             return this._innerQueryIterator.current();
         },
-        
+
         /**
          * Determine if there are still remaining resources to processs based on the value of the continuation token or the elements remaining on the current batch in the QueryIterator.
          * @memberof QueryIteratorWrapper
          * @instance
          * @returns {Boolean} true if there is other elements to process in the QueryIterator.
-         */ 
+         */
         hasMoreResults: function(){
             return this._innerQueryIterator.hasMoreResults();
         },
-        
+
         /**
          * Reset the QueryIterator to the beginning and clear all the resources inside it
          * @memberof QueryIteratorWrapper
@@ -1152,30 +1162,42 @@ var QueryIteratorWrapper = Base.defineClass(
     }
 );
 
+function addOrMergeHeadersForError(error, responseHeaders){
+    if (!error.responseHeaders) {
+        error.responseHeaders = responseHeaders;
+    } else {
+        for (k in responseHeaders) {
+            if (!error.responseHeaders[k]) {
+                error.responseHeaders[k] = responseHeaders[k];
+            } // else you lose it because we don't overwrite existing...
+        }
+    }
+}
+
 /**
  * The response of a request
- * @typedef {Object} Response                  
+ * @typedef {Object} Response
  * @property {Object} result           -        An object that represents the result of the request.
  * @property {Object} headers          -        An object that contain the response headers.
  *
  */
- 
+
  /**
  * The response of a request that contains a resource.
- * @typedef {Object} ResourceResponse                  
+ * @typedef {Object} ResourceResponse
  * @property {Object} resource         -        An object that represents the requested resource (Db, collection, document ... etc).
  * @property {Object} headers          -        An object that contain the response headers.
  *
  */
- 
+
  /**
  * The feed response of a request
- * @typedef {Object} FeedResponse                  
+ * @typedef {Object} FeedResponse
  * @property {Object} feed             -        An Array of objects that represents the resources (Db, collection, document ... etc).
  * @property {Object} headers          -        An object that contain the response headers.
  *
  */
- 
+
   /**
  * The error of a request
  * @typedef {Object} ResponseError             Contains error information if an error occurs.
