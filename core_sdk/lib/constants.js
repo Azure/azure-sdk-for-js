@@ -119,7 +119,7 @@ var Constants = {
 	
     CurrentVersion: "2015-04-08",
     
-    UserAgent: "documentdb-nodejs-sdk-1.0.1"
+    UserAgent: "documentdb-nodejs-sdk-1.0.2"
 }
 
 //SCRIPT END
