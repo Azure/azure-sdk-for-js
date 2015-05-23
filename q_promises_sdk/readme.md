@@ -60,8 +60,18 @@ function cleanup(client, database) {
 <h4>Running the tests</h4>
 <p><pre>  
 First You need to install mocha and q
-&gt; npm install mocha
+&gt; npm install mocha -g
 &gt; npm install q
+
+Pack the local directory
+&gt; npm pack
+
+Install to node_modules
+&gt; npm install documentdb-q-promises-&lt;ver&gt;.tgz
+
+Edit _testConfig.js, supplying a host and masterKey for an existing DocumentDB account.
+WARNING! - do NOT use an account which contains objects or data which you care about. The test suite
+may delete any or all contents.
 
 From the tests folder run 
 &gt; mocha -t 0 -R spec
