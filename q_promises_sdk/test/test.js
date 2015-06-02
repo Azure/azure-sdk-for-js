@@ -2,21 +2,145 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
 
-'use strict';
+"use strict";
 
 var DocumentDBClient = require("documentdb-q-promises").DocumentClientWrapper
   , DocumentBase = require("documentdb-q-promises").DocumentBase
   , assert = require("assert")
   , Stream = require("stream")
-  , testConfig = require('./_testConfig')
-  , Q = require('q');
+  , testConfig = require("./_testConfig")
+  , Q = require("q");
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var host = testConfig.host;
 var masterKey = testConfig.masterKey;
 
-describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
+describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
+
+    function validateCRUDAsync(client, parentLink, options) {
+        var deferred = Q.defer();
+        var className = options.className, resourceDefinition = options.resourceDefinition, validateCreate = options.validateCreate,
+            validateReplace = options.validateReplace, replaceProperties = options.replaceProperties;
+        var resources, replacedResource, readResource, createdResource, beforeCount;
+        client["read" + className + "s"](parentLink).toArrayAsync()
+            .then(function (response) {
+                resources = response.feed;
+                assert.equal(resources.constructor, Array, "Value should be an array");
+                beforeCount = resources.length;
+                if (parentLink) {
+                    return client["create" + className + "Async"](parentLink, resourceDefinition);
+                } else {
+                    return client["create" + className + "Async"](resourceDefinition);
+                }
+            })
+            .then(function (response) {
+                createdResource = response.resource;
+                validateCreate(createdResource);
+                return client["read" + className + "s"](parentLink).toArrayAsync();
+            })
+            .then(function (response) {
+                var resources = response.feed;
+                assert(resources.length > 0, "number of resources for the query should be > 0");
+                if (parentLink) {
+                    var querySpec = {
+                        query: "select * FROM root r WHERE r.id=@id",
+                        parameters: [
+                            {
+                                name: "@id",
+                                value: resourceDefinition.id
+                            }
+                        ]
+                    };
+                    return client["query" + className + "s"](parentLink, querySpec).toArrayAsync();
+                } else {
+                    return client["query" + className + "s"](querySpec).toArrayAsync();
+                }
+            })
+            .then(function (response) {
+                var resources = response.feed;
+                assert(resources.length > 0, "number of resources for the query should be > 0");
+                createdResource = replaceProperties(createdResource);
+                if (className === "Collection" || className === "Database") {
+                    return client["read" + className + "Async"](createdResource._self);
+                } else {
+                    return client["replace" + className + "Async"](createdResource._self, createdResource);
+                }
+            })
+            .then(function (response) {
+                replacedResource = response.resource;
+                validateReplace(createdResource, replacedResource);
+                return client["read" + className + "Async"](replacedResource._self);
+            })
+            .then(function (response) {
+                var readResource = response.resource;
+                assert.equal(replacedResource.id, readResource.id);
+                return client["delete" + className + "Async"](readResource._self);
+            })
+            .then(function (response) {
+                client["read" + className + "Async"](replacedResource._self)
+                    .then(function (response) {
+                        assert.fail("", "", "request should return an error");
+                    },
+                    function (error) {
+                        var notFoundErrorCode = 404;
+                        assert.equal(error.code, notFoundErrorCode, "response should return error code 404");
+                        deferred.resolve();
+                    });
+            })
+            .fail(function (error) {
+                console.log("error", error, error.stack);
+                assert.fail("", "", "an error occured");
+                deferred.reject(error);
+            });
+
+        return deferred.promise;
+    }
+
+    function createParentResourcesAsync(client, options) {
+        var deferred = Q.defer();
+        var createdResources = {};
+        if (options.db) {
+            client.createDatabaseAsync({ id: "sample database" })
+                .then(function (response) {
+                    var db = createdResources.createdDb = response.resource;
+                    if (options.coll) {
+                        client.createCollectionAsync(db._self, { id: "sample coll" })
+                            .then(function (response) {
+                                var coll = createdResources.createdCollection = response.resource;
+                                if (options.doc) {
+                                    client.createDocumentAsync(coll._self, { id: "sample doc" })
+                                        .then(function (response) {
+                                            var doc = createdResources.createdDoc = response.resource;
+                                            deferred.resolve(createdResources);
+                                        });
+                                } else if (options.user) {
+                                    client.createUserAsync(db._self, { id: "sample user" })
+                                        .then(function (response) {
+                                            var user = createdResources.createdUser = response.resource;
+                                            deferred.resolve(createdResources);
+                                        });
+                                } else {
+                                    deferred.resolve(createdResources);
+                                }
+                            });
+                    } else if (options.user) {
+                        client.createUserAsync(db._self, { id: "sample user" })
+                            .then(function (response) {
+                                var user = createdResources.createdUser = response.resource;
+                                deferred.resolve(createdResources);
+                            });
+                    } else {
+                        deferred.resolve(createdResources);
+                    }
+                })
+                .fail(function (error) {
+                    deferred.reject(error);
+                });
+        }
+
+        return deferred.promise;
+    }
 
     // remove all databases from the endpoint before each test
     beforeEach(function(done) {
@@ -53,7 +177,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
         it("[promiseApi] Should do database CRUD operations successfully", function(done){
             var client = new DocumentDBClient(host, {masterKey: masterKey});
             var validateOptions = {
-                className: "Database" ,
+                className: "Database",
                 resourceDefinition: {id: "sampleDb"},
                 validateCreate: function(created) {
                     assert.equal(created.id, "sampleDb", "wrong id");
@@ -83,7 +207,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             createParentResourcesAsync(client, {db: true})
                 .then(function(createdResources) {
                     var validateOptions = {
-                        className: "Collection" ,
+                        className: "Collection",
                         resourceDefinition: {id: "sample coll"},
                         validateCreate: function(created) {
                             assert.equal(created.id, "sample coll", "wrong id");
@@ -114,7 +238,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             createParentResourcesAsync(client, {db: true, coll: true})
                 .then(function(createdResources) {
                     var validateOptions = {
-                        className: "Document" ,
+                        className: "Document",
                         resourceDefinition: { id: "sample document", foo: "bar", key: "value" },
                         validateCreate: function(created) {
                             assert.equal(created.id, "sample document", "wrong id");
@@ -169,7 +293,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             });
             response.on("end", function() {
                 if (response.statusCode >= 300) {
-                    return callback({code:response.statusCode, body:data});
+                    return callback({code: response.statusCode, body: data});
                 }
 
                 return callback(undefined, data);
@@ -180,9 +304,16 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             var client = new DocumentDBClient(host, {masterKey: masterKey});
             createParentResourcesAsync(client, {db: true, coll: true, doc: true})
                 .then(function(createdResources) {
-                    var attachmentDefinition = { id: "dynamic attachment", media: "http://xstore.", MediaType: "Book", Author:"My Book Author", Title:"My Book Title", contentType:"application/text" };
+                    var attachmentDefinition = {
+                        id: "dynamic attachment",
+                        media: "http://xstore.",
+                        MediaType: "Book",
+                        Author: "My Book Author",
+                        Title: "My Book Title",
+                        contentType: "application/text"
+                    };
                     var validateOptions = {
-                        className: "Attachment" ,
+                        className: "Attachment",
                         resourceDefinition: attachmentDefinition,
                         validateCreate: function(created) {
                             assert.equal(created.MediaType, "Book", "invalid media type");
@@ -214,54 +345,45 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             var validMediaOptions = { slug: "attachment name", contentType: "application/text" };
             var invalidMediaOptions = { slug: "attachment name", contentType: "junt/test" };
             var validAttachment;
-            createParentResourcesAsync(client, {db: true, coll: true, doc: true})
-                .then(function(createdResources) {
-                    var document = createdResources.createdDoc
-                    var validMediaOptions = { slug: "attachment name", contentType: "application/text" };
-                            // create attachment with invalid content-type
-                            var contentStream = createReadableStream();
-                            client.createAttachmentAndUploadMediaAsync(document._self, contentStream, invalidMediaOptions)
-                                .then(function(response) {
-                                    assert.fail("", "", "create shouldn't have succeeded");
-                                },
-                                function(error) {
-                                    var badRequestErrorCode = 400;
-                                    assert.equal(error.code, badRequestErrorCode);
+            createParentResourcesAsync(client, { db: true, coll: true, doc: true }).then(function (createdResources) {
+                var document = createdResources.createdDoc;
+                var validMediaOptions = { slug: "attachment name", contentType: "application/text" };
+                // create attachment with invalid content-type
+                var contentStream = createReadableStream();
+                client.createAttachmentAndUploadMediaAsync(document._self, contentStream, invalidMediaOptions).then(function (response) {
+                    assert.fail("", "", "create shouldn't have succeeded");
+                }, function (error) {
+                    var badRequestErrorCode = 400;
+                    assert.equal(error.code, badRequestErrorCode);
 
-                                    contentStream = createReadableStream();
-                                    return client.createAttachmentAndUploadMediaAsync(document._self, contentStream, validMediaOptions);
-                                })
-                                .then(function(response) {
-                                    validAttachment = response.resource;
-                                    assert.equal(validAttachment.id,  "attachment name", "id of created attachment should be the same as the one in the request");
-                                    return client.readMediaAsync(validAttachment.media);
-                                })
-                                .then(function(response) {
-                                    assert.equal(response.result, "first chunk second chunk");
-                                    contentStream = createReadableStream("modified first chunk ", "modified second chunk");
-                                    return client.updateMediaAsync(validAttachment.media, contentStream, validMediaOptions);
-                                })
-                                .then(function(response) {
-                                    return client.readMediaAsync(validAttachment.media);
-                                })
-                                .then(function(response) {
-                                    // read media streamed
-                                    assert.equal(response.result, "modified first chunk modified second chunk");
-                                    client.connectionPolicy.MediaReadMode = DocumentBase.MediaReadMode.Streamed;
-                                    return client.readMediaAsync(validAttachment.media);
-                                })
-                                .then(function(response) {
-                                    readMediaResponse(response.result, function(err, mediaResult){
-                                        assert.equal(mediaResult, "modified first chunk modified second chunk");
-                                        done();
-                                    });
-                                })
-                                .fail(function(error) {
-                                    console.log(error);
-                                    done();
-                                });
-                })
-
+                    contentStream = createReadableStream();
+                    return client.createAttachmentAndUploadMediaAsync(document._self, contentStream, validMediaOptions);
+                }).then(function (response) {
+                    validAttachment = response.resource;
+                    assert.equal(validAttachment.id, "attachment name", "id of created attachment should be the same as the one in the request");
+                    return client.readMediaAsync(validAttachment.media);
+                }).then(function (response) {
+                    assert.equal(response.result, "first chunk second chunk");
+                    contentStream = createReadableStream("modified first chunk ", "modified second chunk");
+                    return client.updateMediaAsync(validAttachment.media, contentStream, validMediaOptions);
+                }).then(function (response) {
+                    return client.readMediaAsync(validAttachment.media);
+                }).then(function (response) {
+                    // read media streamed
+                    assert.equal(response.result, "modified first chunk modified second chunk");
+                    client.connectionPolicy.MediaReadMode = DocumentBase.MediaReadMode.Streamed;
+                    return client.readMediaAsync(validAttachment.media);
+                }).then(function (response) {
+                    readMediaResponse(response.result, function (err, mediaResult) {
+                        assert.equal(err, undefined, "error reading redia response");
+                        assert.equal(mediaResult, "modified first chunk modified second chunk");
+                        done();
+                    });
+                }).fail(function (error) {
+                    console.log(error);
+                    done();
+                });
+            });
         });
     });
 
@@ -271,7 +393,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             createParentResourcesAsync(client, {db: true})
                 .then(function(createdResources) {
                     var validateOptions = {
-                        className: "User" ,
+                        className: "User",
                         resourceDefinition: { id: "new user"},
                         validateCreate: function(created) {
                             assert.equal(created.id, "new user", "wrong id");
@@ -298,13 +420,13 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
         });
     });
 
-     describe("Validate Permission CRUD", function(){
+    describe("Validate Permission CRUD", function(){
         it("[promiseApi] Should do Permission CRUD operations successfully", function(done){
             var client = new DocumentDBClient(host, {masterKey: masterKey});
             createParentResourcesAsync(client, {db: true, user: true, coll: true})
                 .then(function(createdResources) {
                     var validateOptions = {
-                        className: "Permission" ,
+                        className: "Permission",
                         resourceDefinition: { id: "new permission", permissionMode: DocumentBase.PermissionMode.Read, resource: createdResources.createdCollection._self },
                         validateCreate: function(created) {
                             assert.equal(created.id, "new permission", "wrong id");
@@ -342,13 +464,15 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                 .then(function(createdResources) {
                     var triggerDefinition = {
                         id: "sample trigger",
-                        serverScript: function() {var x = 10;},
+                        serverScript: function () {
+                            var x = 10;
+                        },
                         triggerType: DocumentBase.TriggerType.Pre,
                         triggerOperation: DocumentBase.TriggerOperation.All
                     };
 
                     var validateOptions = {
-                        className: "Trigger" ,
+                        className: "Trigger",
                         resourceDefinition: triggerDefinition,
                         validateCreate: function(created) {
                             for (var property in triggerDefinition) {
@@ -369,7 +493,9 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                             }
                         },
                         replaceProperties: function(resource) {
-                            resource.body = function() {var x = 20;};
+                            resource.body = function () {
+                                var x = 20;
+                            };
                             return resource;
                         }
                     };
@@ -391,17 +517,17 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             var client = new DocumentDBClient(host, {masterKey: masterKey});
             createParentResourcesAsync(client, {db: true, coll: true})
                 .then(function(createdResources) {
-                    var udfDefinition = { id: "sample udf", serverScript: function() {var x = 10;} };
+                    var udfDefinition = { id: "sample udf", serverScript: function() { var x = 10; } };
 
                     var validateOptions = {
-                        className: "UserDefinedFunction" ,
+                        className: "UserDefinedFunction",
                         resourceDefinition: udfDefinition,
                         validateCreate: function(created) {
                             for (var property in udfDefinition) {
                                 if (property !== "serverScript") {
                                     assert.equal(created[property], udfDefinition[property], "property " + property + " should match");
                                 } else {
-                                     assert.equal(created.body, "function () {var x = 10;}");
+                                    assert.equal(created.body, "function () {var x = 10;}");
                                 }
                             }
                         },
@@ -415,7 +541,9 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                             }
                         },
                         replaceProperties: function(resource) {
-                            resource.body = function() {var x = 20;};
+                            resource.body = function () {
+                                var x = 20;
+                            };
                             return resource;
                         }
                     };
@@ -437,17 +565,22 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             var client = new DocumentDBClient(host, {masterKey: masterKey});
             createParentResourcesAsync(client, {db: true, coll: true})
                 .then(function(createdResources) {
-                    var sprocDefinition = { id: "sample sproc", serverScript: function() {var x = 10;}};;
+                    var sprocDefinition = {
+                        id: "sample sproc",
+                        serverScript: function () {
+                            var x = 10;
+                        }
+                    };
 
                     var validateOptions = {
-                        className: "StoredProcedure" ,
+                        className: "StoredProcedure",
                         resourceDefinition: sprocDefinition,
                         validateCreate: function(created) {
-                           for (var property in sprocDefinition) {
+                            for (var property in sprocDefinition) {
                                 if (property !== "serverScript") {
                                     assert.equal(created[property], sprocDefinition[property], "property " + property + " should match");
                                 } else {
-                                     assert.equal(created.body, "function () {var x = 10;}");
+                                    assert.equal(created.body, "function () {var x = 10;}");
                                 }
                             }
                         },
@@ -461,7 +594,9 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                             }
                         },
                         replaceProperties: function(resource) {
-                            resource.body = function() {var x = 20;};
+                            resource.body = function () {
+                                var x = 20;
+                            };
                             return resource;
                         }
                     };
@@ -520,7 +655,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             var client = new DocumentDBClient(host, {masterKey: masterKey});
             createTestResources(client)
                 .then(function(resources) {
-                    var queryIterator = client.readDocuments(resources.coll._self, {maxItemCount:2});
+                    var queryIterator = client.readDocuments(resources.coll._self, {maxItemCount: 2});
                     queryIterator.toArrayAsync()
                         .then(function(response) {
                             var docs = response.feed;
@@ -546,7 +681,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             var client = new DocumentDBClient(host, {masterKey: masterKey});
             createTestResources(client)
                 .then(function(resources) {
-                    var queryIterator = client.readDocuments(resources.coll._self, {maxItemCount:2});
+                    var queryIterator = client.readDocuments(resources.coll._self, {maxItemCount: 2});
                     var counter = 0;
                     // test queryIterator.forEach
                     queryIterator.forEach(function(err, doc) {
@@ -580,7 +715,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             var client = new DocumentDBClient(host, {masterKey: masterKey});
             createTestResources(client)
                 .then(function(resources) {
-                    var queryIterator = client.readDocuments(resources.coll._self, {maxItemCount:2});
+                    var queryIterator = client.readDocuments(resources.coll._self, {maxItemCount: 2});
                     assert.equal(queryIterator.hasMoreResults(), true);
                     queryIterator.nextItemAsync()
                         .then(function(response) {
@@ -620,14 +755,14 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             var client = new DocumentDBClient(host, {masterKey: masterKey});
             createTestResources(client)
                 .then(function(resources) {
-                    var queryIterator = client.readDocuments(resources.coll._self, {maxItemCount:2});
+                    var queryIterator = client.readDocuments(resources.coll._self, {maxItemCount: 2});
                     queryIterator.executeNextAsync()
                         .then(function(response) {
                             var docs = response.feed;
                             assert.equal(docs.length, 2, "first batch size should be 2");
                             assert.equal(docs[0].id, resources.doc1.id, "first batch first document should be doc1");
                             assert.equal(docs[1].id, resources.doc2.id, "batch first second document should be doc2");
-                            return queryIterator.executeNextAsync()
+                            return queryIterator.executeNextAsync();
                         })
                         .then(function(response) {
                             var docs = response.feed;
@@ -652,9 +787,9 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             {
                 id: "t1",
                 body: function() {
-                        var item = getContext().getRequest().getBody();
-                        item.id = item.id.toUpperCase() + 't1';
-                        getContext().getRequest().setBody(item);
+                    var item = getContext().getRequest().getBody();
+                    item.id = item.id.toUpperCase() + "t1";
+                    getContext().getRequest().setBody(item);
                 },
                 triggerType: DocumentBase.TriggerType.Pre,
                 triggerOperation: DocumentBase.TriggerOperation.All
@@ -662,14 +797,14 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
             {
                 id: "t2",
                 body: "function() { }", // trigger already stringified
-                triggerType:  DocumentBase.TriggerType.Pre,
+                triggerType: DocumentBase.TriggerType.Pre,
                 triggerOperation: DocumentBase.TriggerOperation.All
             },
             {
                 id: "t3",
                 body: function() {
                     var item = getContext().getRequest().getBody();
-                    item.id = item.id.toLowerCase() + 't3';
+                    item.id = item.id.toLowerCase() + "t3";
                     getContext().getRequest().setBody(item);
                 },
                 triggerType: DocumentBase.TriggerType.Pre,
@@ -679,9 +814,9 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                 id: "response1",
                 body: function() {
                     var prebody = getContext().getRequest().getBody();
-                    if (prebody.id != 'TESTING POST TRIGGERt1') throw 'id mismatch';
+                    if (prebody.id !== "TESTING POST TRIGGERt1") throw "id mismatch";
                     var postbody = getContext().getResponse().getBody();
-                    if (postbody.id != 'TESTING POST TRIGGERt1') throw 'id mismatch';
+                    if (postbody.id !== "TESTING POST TRIGGERt1") throw "id mismatch";
                 },
                 triggerType: DocumentBase.TriggerType.Post,
                 triggerOperation: DocumentBase.TriggerOperation.All
@@ -690,17 +825,17 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                 id: "triggerOpType",
                 body: "function() { }",
                 triggerType: DocumentBase.TriggerType.Post,
-                triggerOperation: DocumentBase.TriggerOperation.Delete,
-            },
+                triggerOperation: DocumentBase.TriggerOperation.Delete
+            }
         ];
 
 
         var createTriggersImplementation = function(client, collection, index, deferred){
             if (index === triggers.length) {
-				return deferred.resolve();
+                return deferred.resolve();
             }
 
-			client.createTriggerAsync(collection._self, triggers[index])
+            client.createTriggerAsync(collection._self, triggers[index])
                 .then(function(trigger) {
                     createTriggersImplementation(client, collection, index + 1, deferred);
                 })
@@ -742,14 +877,14 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                         })
                         .then(function(response) {
                             assert.equal(response.resource.id, "RESPONSEHEADERSt1");
-                            return client.createDocumentAsync(collection._self, { id: "Docoptype" }, { postTriggerInclude: "triggerOpType" })
+                            return client.createDocumentAsync(collection._self, { id: "Docoptype" }, { postTriggerInclude: "triggerOpType" });
                         })
                         .then(function(response) {
                             assert.fail("", "", "request shouldn't succeed");
                         },
-						function(error){
-							done();
-						})
+                        function(error){
+                            done();
+                        })
                         .fail(function(error) {
                             console.log("error", error, error.stack);
                             assert.fail("", "", "an error occured");
@@ -767,67 +902,58 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
     describe("validate stored procedure functionality", function () {
         it("[promiseApi] Should do stored procedure operations successfully", function (done) {
             var client = new DocumentDBClient(host, {masterKey: masterKey});
-            createParentResourcesAsync(client, {db: true, coll: true})
-                .then(function(resources) {
-                    var collection = resources.createdCollection;
-					var sproc1 = {
-						id: "storedProcedure1",
-						body: function () {
-							for (var i = 0; i < 1000; i++) {
-								var item = getContext().getResponse().getBody();
-								if (i > 0 && item != i - 1) throw 'body mismatch';
-								getContext().getResponse().setBody(i);
-							}
-						}
-					};
+            createParentResourcesAsync(client, {db: true, coll: true}).then(function(resources) {
+                var collection = resources.createdCollection;
+                var sproc1 = {
+                    id: "storedProcedure1",
+                    body: function () {
+                        for (var i = 0; i < 1000; i++) {
+                            var item = getContext().getResponse().getBody();
+                            if (i > 0 && item !== i - 1) throw "body mismatch";
+                            getContext().getResponse().setBody(i);
+                        }
+                    }
+                };
 
-					client.createStoredProcedureAsync(collection._self, sproc1)
-                        .then(function (response) {
-                            return client.executeStoredProcedureAsync(response.resource._self);
-                        })
-                        .then(function(response) {
-                            assert.equal(response.result, 999);
-                            var sproc2 = {
-                                id: "storedProcedure2",
-                                body: function () {
-                                    for (var i = 0; i < 10; i++) getContext().getResponse().appendValue('Body', i);
-                                }
-                            };
+                client.createStoredProcedureAsync(collection._self, sproc1).then(function (response) {
+                    return client.executeStoredProcedureAsync(response.resource._self);
+                }).then(function(response) {
+                    assert.equal(response.result, 999);
+                    var sproc2 = {
+                        id: "storedProcedure2",
+                        body: function () {
+                            for (var i = 0; i < 10; i++) getContext().getResponse().appendValue("Body", i);
+                        }
+                    };
 
-                            return client.createStoredProcedureAsync(collection._self, sproc2);
-                        })
-                        .then(function(response) {
-                            return client.executeStoredProcedureAsync(response.resource._self);
-                        })
-                        .then(function(response) {
-                            assert.equal(response.result, 123456789);
-                            var sproc3 = {
-                                id: "storedProcedure3",
-                                body: function (input) {
-                                    getContext().getResponse().setBody('a' + input.temp);
-                                }
-                            };
+                    return client.createStoredProcedureAsync(collection._self, sproc2);
+                }).then(function(response) {
+                    return client.executeStoredProcedureAsync(response.resource._self);
+                }).then(function(response) {
+                    assert.equal(response.result, 123456789);
+                    var sproc3 = {
+                        id: "storedProcedure3",
+                        body: function (input) {
+                            getContext().getResponse().setBody("a" + input.temp);
+                        }
+                    };
 
-                            return client.createStoredProcedureAsync(collection._self, sproc3);
-                        })
-                        .then(function(response) {
-                             return client.executeStoredProcedureAsync(response.resource._self, {temp: "so"});
-                        })
-                        .then(function(response) {
-                            assert.equal(response.result, "aso");
-                            done();
-                        })
-                        .fail(function(error) {
-                            console.log("error", error, error.stack);
-                            assert.fail("", "", "an error occured");
-                            done();
-                        });
-                    })
-                    .fail(function(error) {
-                        console.log("error", error, error.stack);
-                        assert.fail("", "", "an error occured");
-                        done();
-                    });
+                    return client.createStoredProcedureAsync(collection._self, sproc3);
+                }).then(function(response) {
+                    return client.executeStoredProcedureAsync(response.resource._self, {temp: "so"});
+                }).then(function(response) {
+                    assert.equal(response.result, "aso");
+                    done();
+                }).fail(function(error) {
+                    console.log("error", error, error.stack);
+                    assert.fail("", "", "an error occured");
+                    done();
+                });
+            }).fail(function(error) {
+                console.log("error", error, error.stack);
+                assert.fail("", "", "an error occured");
+                done();
+            });
         });
     });
 
@@ -858,10 +984,10 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                     assert.equal(replacedOffer.offerType, "S2");
                     // Query for offer.
                     var querySpec = {
-                        query: 'select * FROM root r WHERE r.id=@id',
+                        query: "select * FROM root r WHERE r.id=@id",
                         parameters: [
                             {
-                                name: '@id',
+                                name: "@id",
                                 value: existingOffer.id
                             }
                         ]
@@ -900,129 +1026,4 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                 });
         });
     });
-
-    function validateCRUDAsync(client, parentLink, options) {
-        var deferred = Q.defer();
-        var className = options.className, resourceDefinition = options.resourceDefinition, validateCreate = options.validateCreate,
-            validateReplace = options.validateReplace, replaceProperties = options.replaceProperties;
-        var resources, replacedResource, readResource, createdResource, beforeCount;
-        client["read" + className + "s"](parentLink).toArrayAsync()
-            .then(function(response) {
-                resources = response.feed;
-                assert.equal(resources.constructor, Array, "Value should be an array");
-                beforeCount = resources.length;
-                if (parentLink) {
-                    return client["create"+ className + "Async"](parentLink, resourceDefinition);
-                } else {
-                    return client["create"+ className + "Async"](resourceDefinition);
-                }
-            })
-            .then(function(response) {
-                createdResource = response.resource;
-                validateCreate(createdResource);
-                return client["read" + className + "s"](parentLink).toArrayAsync();
-            })
-			.then(function(response) {
-                var resources = response.feed;
-                assert(resources.length > 0, "number of resources for the query should be > 0");
-                if (parentLink) {
-                    var querySpec = {
-                        query: 'select * FROM root r WHERE r.id=@id',
-                        parameters: [
-                            {
-                                name: '@id',
-                                value: resourceDefinition.id
-                            }
-                        ]
-                    };
-					return client["query" + className + "s"](parentLink, querySpec).toArrayAsync();
-				} else {
-					return client["query" + className + "s"](querySpec).toArrayAsync();
-				}
-            })
-            .then(function(response) {
-                var resources = response.feed;
-                assert(resources.length > 0, "number of resources for the query should be > 0");
-                createdResource = replaceProperties(createdResource);
-                if (className == "Collection" || className == "Database") {
-                    return client["read" + className + "Async"](createdResource._self);
-                } else {
-                    return client["replace" + className + "Async"](createdResource._self, createdResource);
-                }
-            })
-            .then(function(response) {
-                replacedResource = response.resource;
-                validateReplace(createdResource, replacedResource);
-                return client["read" + className + "Async"](replacedResource._self);
-            })
-            .then(function(response) {
-                var readResource = response.resource;
-                assert.equal(replacedResource.id, readResource.id);
-                return client["delete" + className + "Async"](readResource._self);
-            })
-            .then(function(response) {
-                client["read" + className + "Async"](replacedResource._self)
-                    .then(function(response) {
-                        assert.fail("", "", "request should return an error");
-                    },
-                    function(error){
-                        var notFoundErrorCode = 404;
-                        assert.equal(error.code, notFoundErrorCode, "response should return error code 404");
-                        assert.equal(error.responseHeaders['content-type'], 'application/json', "response should return content-type header with error");
-                        deferred.resolve();
-                    })
-            })
-            .fail(function(error){
-                console.log("error", error, error.stack);
-                assert.fail("", "", "an error occured");
-                deferred.reject(error);
-            });
-
-        return deferred.promise;
-    }
-
-    function createParentResourcesAsync(client, options) {
-        var deferred = Q.defer();
-        var createdResources = {};
-        if (options.db) {
-            client.createDatabaseAsync({ id: "sample database" })
-                .then(function(response){
-                    var db = createdResources.createdDb = response.resource;
-                    if (options.coll) {
-                        client.createCollectionAsync(db._self, {id: "sample coll"})
-                            .then(function(response){
-                                var coll = createdResources.createdCollection = response.resource;
-                                if (options.doc) {
-                                    client.createDocumentAsync(coll._self, {id: "sample doc"})
-                                        .then(function(response){
-                                            var doc = createdResources.createdDoc = response.resource;
-                                            deferred.resolve(createdResources);
-                                        })
-                                } else if (options.user) {
-									client.createUserAsync(db._self, {id: "sample user"})
-										.then(function(response){
-											var user = createdResources.createdUser = response.resource;
-											deferred.resolve(createdResources);
-										});
-                                } else {
-                                    deferred.resolve(createdResources);
-                                }
-                            });
-                    } else if (options.user) {
-                        client.createUserAsync(db._self, {id: "sample user"})
-                            .then(function(response){
-                                var user = createdResources.createdUser = response.resource;
-                                deferred.resolve(createdResources);
-                            });
-                    } else {
-                        deferred.resolve(createdResources);
-                    }
-                })
-                .fail(function(error) {
-                    deferred.reject(error);
-                });
-        }
-
-        return deferred.promise;
-    }
 });

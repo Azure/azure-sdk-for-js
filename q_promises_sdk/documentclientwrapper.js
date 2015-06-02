@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
 
-'use strict';
+"use strict";
 
 var Base = require("documentdb").Base
   , DocumentClient = require("documentdb").DocumentClient
@@ -13,7 +13,6 @@ function createOperationPromise(contextObject, functionName, parentLink, body, o
     var deferred = Q.defer();
     var cb = function (error, resource, responseHeaders) {
         if (error) {
-            addOrMergeHeadersForError(error, responseHeaders);
             deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
@@ -33,7 +32,6 @@ function deleteOperationPromise(contextObject, functionName, resourceLink, optio
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, options, function (error, resource, responseHeaders) {
         if (error) {
-            addOrMergeHeadersForError(error, responseHeaders);
             deferred.reject(error);
         } else {
             deferred.resolve({resource: resource, headers: responseHeaders});
@@ -47,12 +45,11 @@ function replaceOperationPromise(contextObject, functionName, resourceLink, newR
     var deferred = Q.defer();
     var callback = function (error, resource, responseHeaders) {
         if (error) {
-            addOrMergeHeadersForError(error, responseHeaders);
             deferred.reject(error);
         } else {
-            deferred.resolve({resource: resource, headers: responseHeaders});
+            deferred.resolve({ resource: resource, headers: responseHeaders });
         }
-    }
+    };
 
     if (options === undefined) {
         contextObject[functionName](resourceLink, newResource, callback);
@@ -67,12 +64,11 @@ function readOperationPromise(contextObject, functionName, resourceLink, options
     var deferred = Q.defer();
     var callback = function (error, resource, responseHeaders) {
         if (error) {
-            addOrMergeHeadersForError(error, responseHeaders);
             deferred.reject(error);
         } else {
-            deferred.resolve({resource: resource, headers: responseHeaders});
+            deferred.resolve({ resource: resource, headers: responseHeaders });
         }
-    }
+    };
 
     if (options === undefined) {
         contextObject[functionName](resourceLink, callback);
@@ -87,7 +83,6 @@ function noParameterPromise(contextObject, functionName, resourceLink){
     var deferred = Q.defer();
     contextObject[functionName](resourceLink, function (error, resources, responseHeaders) {
         if (error) {
-            addOrMergeHeadersForError(error, responseHeaders);
             deferred.reject(error);
         } else {
             deferred.resolve({result: resources, headers: responseHeaders});
@@ -97,6 +92,130 @@ function noParameterPromise(contextObject, functionName, resourceLink){
     return deferred.promise;
 }
 
+function readFeedOperationPromise(contextObject, functionName, query, options, successFn) {
+    var deferred = Q.defer();
+    contextObject[functionName](query, options, function (error, resources, responseHeaders) {
+        if (error) {
+            deferred.reject(error);
+        } else {
+            deferred.resolve(successFn(resources), responseHeaders);
+        }
+    });
+
+    return deferred.promise;
+}
+
+var QueryIteratorWrapper = Base.defineClass(
+    /**
+    * Provides a wrapper for all the functions of {@link QueryIterator} that uses the Q module promise API instead of the callback model.
+    * @constructor QueryIteratorWrapper
+    */
+    function (queryIterator) {
+        this._innerQueryIterator = queryIterator;
+    },
+    {
+        /**
+         * Execute a provided function once per feed element.
+         * @memberof QueryIteratorWrapper
+         * @instance
+         * @param {callback} callback - Function to execute for each element. the function takes two parameters error, element.
+         * Note: the last element the callback will be called on will be undefined.
+         * If the callback explicitly returned false, the loop gets stopped.
+         */
+        forEach: function (callback) {
+            this._innerQueryIterator.forEach(callback);
+        },
+
+        /**
+        * Execute a provided function on the next element in the QueryIterator.
+        * @memberof QueryIteratorWrapper
+        * @instance
+        * @Returns {Object} A promise object for the request completion. the onFulfilled callback is of type {@link FeedResponse} and onError callback is of type {@link ResponseError}
+        */
+        toArrayAsync: function () {
+            var deferred = Q.defer();
+            var that = this;
+            this._innerQueryIterator.toArray(function (error, resources, responseHeaders) {
+                if (error) {
+                    deferred.reject(error);
+                } else {
+                    deferred.resolve({ feed: resources, headers: responseHeaders });
+                }
+            });
+
+            return deferred.promise;
+        },
+
+        /**
+        * Gets the next element in the QueryIterator.
+        * @memberof QueryIteratorWrapper
+        * @instance
+        * @Returns {Object} A promise object for the request completion. The onFulfilled callback is of type {@link ResourceResponse} and onError callback is of type {@link ResponseError}
+        */
+        nextItemAsync: function () {
+            var deferred = Q.defer();
+            var that = this;
+            this._innerQueryIterator.nextItem(function (error, item, responseHeaders) {
+                if (error) {
+                    deferred.reject(error);
+                } else {
+                    deferred.resolve({ resource: item, headers: responseHeaders });
+                }
+            });
+
+            return deferred.promise;
+        },
+
+        /**
+         * Retrieve the next batch of the feed and pass them as an array to a function
+         * @memberof QueryIteratorWrapper
+         * @instance
+         * @Returns {Object} A promise object for the request completion. the onFulfilled callback is of type {@link FeedResponse} and onError callback is of type {@link ResponseError}
+         */
+        executeNextAsync: function () {
+            var deferred = Q.defer();
+            var that = this;
+            this._innerQueryIterator.executeNext(function (error, resources, responseHeaders) {
+                if (error) {
+                    deferred.reject(error);
+                } else {
+                    deferred.resolve({ feed: resources, headers: responseHeaders });
+                }
+            });
+
+            return deferred.promise;
+        },
+
+        /**
+         * Retrieve the current element on the QueryIterator.
+         * @memberof QueryIteratorWrapper
+         * @instance
+         * @returns {Object} The current resource in the QueryIterator, undefined if there isn't.
+         */
+        current: function () {
+            return this._innerQueryIterator.current();
+        },
+
+        /**
+         * Determine if there are still remaining resources to processs based on the value of the continuation token or the elements remaining on the current batch in the QueryIterator.
+         * @memberof QueryIteratorWrapper
+         * @instance
+         * @returns {Boolean} true if there is other elements to process in the QueryIterator.
+         */
+        hasMoreResults: function () {
+            return this._innerQueryIterator.hasMoreResults();
+        },
+
+        /**
+         * Reset the QueryIterator to the beginning and clear all the resources inside it
+         * @memberof QueryIteratorWrapper
+         * @instance
+         */
+        reset: function () {
+            return this._innerQueryIterator.reset();
+        }
+    }
+);
 
 var DocumentClientWrapper = Base.defineClass(
      /**
@@ -130,7 +249,7 @@ var DocumentClientWrapper = Base.defineClass(
                              The onFulfilled callback takes a parameter of type {@link ResourceResponse} and the OnError callback takes a parameter of type {@link ResponseError}</p>
         */
         createDatabaseAsync: function (body, options) {
-           return createOperationPromise(this._innerDocumentclient, "createDatabase", undefined, body, options);
+            return createOperationPromise(this._innerDocumentclient, "createDatabase", undefined, body, options);
         },
 
         /** read a database.
@@ -248,7 +367,7 @@ var DocumentClientWrapper = Base.defineClass(
                              The onFulfilled callback takes a parameter of type {@link ResourceResponse} and the OnError callback takes a parameter of type {@link ResponseError}</p>
          */
         createUserAsync: function (databaseLink, body, options) {
-           return createOperationPromise(this._innerDocumentclient, "createUser", databaseLink, body, options);
+            return createOperationPromise(this._innerDocumentclient, "createUser", databaseLink, body, options);
         },
 
         /**
@@ -260,7 +379,7 @@ var DocumentClientWrapper = Base.defineClass(
          * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
          */
         readUsers: function (databaseLink, options) {
-           return new QueryIteratorWrapper(this._innerDocumentclient.readUsers(databaseLink, options));
+            return new QueryIteratorWrapper(this._innerDocumentclient.readUsers(databaseLink, options));
         },
 
         /**
@@ -273,7 +392,7 @@ var DocumentClientWrapper = Base.defineClass(
                              The onFulfilled callback takes a parameter of type {@link ResourceResponse} and the OnError callback takes a parameter of type {@link ResponseError}</p>
          */
         readUserAsync: function (userLink, options) {
-           return readOperationPromise(this._innerDocumentclient, "readUser", userLink, options);
+            return readOperationPromise(this._innerDocumentclient, "readUser", userLink, options);
         },
 
         /**
@@ -420,7 +539,7 @@ var DocumentClientWrapper = Base.defineClass(
          * @param {FeedOptions} [options] - The feed options
          * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
          */
-        readDocuments:  function (collectionLink, options) {
+        readDocuments: function (collectionLink, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.readDocuments(collectionLink, options));
         },
 
@@ -478,7 +597,7 @@ var DocumentClientWrapper = Base.defineClass(
          * @param {FeedOptions} [options] - The feed options
          * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
          */
-        readTriggers:  function (collectionLink, options) {
+        readTriggers: function (collectionLink, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.readTriggers(collectionLink, options));
         },
 
@@ -538,7 +657,7 @@ var DocumentClientWrapper = Base.defineClass(
          * @param {FeedOptions} [options] - The feed options
          * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
          */
-        readUserDefinedFunctions:  function (collectionLink, options) {
+        readUserDefinedFunctions: function (collectionLink, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.readUserDefinedFunctions(collectionLink, options));
         },
 
@@ -597,7 +716,7 @@ var DocumentClientWrapper = Base.defineClass(
          * @param {FeedOptions} [options] - The feed options
          * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
          */
-        readStoredProcedures:  function (collectionLink, options) {
+        readStoredProcedures: function (collectionLink, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.readStoredProcedures(collectionLink, options));
         },
 
@@ -656,7 +775,7 @@ var DocumentClientWrapper = Base.defineClass(
          * @param {FeedOptions} [options] - The feed options
          * @returns {QueryIterator} - An instance of queryIterator to handle reading feed.
          */
-        readConflicts:  function (collectionLink, options) {
+        readConflicts: function (collectionLink, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.readConflicts(collectionLink, options));
         },
 
@@ -933,7 +1052,6 @@ var DocumentClientWrapper = Base.defineClass(
             var deferred = Q.defer();
             this._innerDocumentclient.executeStoredProcedure(sprocLink, params, function (error, result, responseHeaders) {
                 if (error) {
-                    addOrMergeHeadersForError(error, responseHeaders);
                     deferred.reject(error);
                 } else {
                     deferred.resolve({result: result, headers: responseHeaders});
@@ -1028,151 +1146,10 @@ var DocumentClientWrapper = Base.defineClass(
         */
         queryOffers: function (query, options) {
             return new QueryIteratorWrapper(this._innerDocumentclient.queryOffers(query, options));
-        },
-    }
-);
-
-
-function readFeedOperationPromise(contextObject, functionName, query, options, successFn){
-    var deferred = Q.defer();
-    contextObject[functionName](query, options, function (error, resources, responseHeaders) {
-        if (error) {
-            addOrMergeHeadersForError(error, responseHeaders);
-            deferred.reject(error);
-        } else {
-            deferred.resolve(successFn(resources), responseHeaders);
-        }
-    });
-
-    return deferred.promise;
-}
-
-var QueryIteratorWrapper = Base.defineClass(
-    /**
-    * Provides a wrapper for all the functions of {@link QueryIterator} that uses the Q module promise API instead of the callback model.
-    * @constructor QueryIteratorWrapper
-    */
-    function(queryIterator) {
-        this._innerQueryIterator = queryIterator;
-    },
-    {
-        /**
-         * Execute a provided function once per feed element.
-         * @memberof QueryIteratorWrapper
-         * @instance
-         * @param {callback} callback - Function to execute for each element. the function takes two parameters error, element.
-         * Note: the last element the callback will be called on will be undefined.
-         * If the callback explicitly returned false, the loop gets stopped.
-         */
-        forEach: function(callback){
-            this._innerQueryIterator.forEach(callback);
-        },
-
-         /**
-         * Execute a provided function on the next element in the QueryIterator.
-         * @memberof QueryIteratorWrapper
-         * @instance
-         * @Returns {Object} A promise object for the request completion. the onFulfilled callback is of type {@link FeedResponse} and onError callback is of type {@link ResponseError}
-         */
-        toArrayAsync: function(){
-            var deferred = Q.defer();
-            var that = this;
-            this._innerQueryIterator.toArray(function(error, resources, responseHeaders) {
-                if (error) {
-                    addOrMergeHeadersForError(error, responseHeaders);
-                    deferred.reject(error);
-                } else {
-                    deferred.resolve({feed: resources, headers: responseHeaders});
-                }
-            });
-
-            return deferred.promise;
-        },
-
-         /**
-         * Gets the next element in the QueryIterator.
-         * @memberof QueryIteratorWrapper
-         * @instance
-         * @Returns {Object} A promise object for the request completion. The onFulfilled callback is of type {@link ResourceResponse} and onError callback is of type {@link ResponseError}
-         */
-        nextItemAsync: function(){
-            var deferred = Q.defer();
-            var that = this;
-            this._innerQueryIterator.nextItem(function(error, item, responseHeaders) {
-                if (error) {
-                    addOrMergeHeadersForError(error, responseHeaders);
-                    deferred.reject(error);
-                } else {
-                    deferred.resolve({resource: item, headers: responseHeaders});
-                }
-            });
-
-            return deferred.promise;
-        },
-
-        /**
-         * Retrieve the next batch of the feed and pass them as an array to a function
-         * @memberof QueryIteratorWrapper
-         * @instance
-         * @Returns {Object} A promise object for the request completion. the onFulfilled callback is of type {@link FeedResponse} and onError callback is of type {@link ResponseError}
-         */
-        executeNextAsync: function() {
-            var deferred = Q.defer();
-            var that = this;
-            this._innerQueryIterator.executeNext(function(error, resources, responseHeaders) {
-                if (error) {
-                    addOrMergeHeadersForError(error, responseHeaders);
-                    deferred.reject(error);
-                } else {
-                    deferred.resolve({feed: resources, headers: responseHeaders});
-                }
-            });
-
-            return deferred.promise;
-        },
-
-        /**
-         * Retrieve the current element on the QueryIterator.
-         * @memberof QueryIteratorWrapper
-         * @instance
-         * @returns {Object} The current resource in the QueryIterator, undefined if there isn't.
-         */
-        current: function(){
-            return this._innerQueryIterator.current();
-        },
-
-        /**
-         * Determine if there are still remaining resources to processs based on the value of the continuation token or the elements remaining on the current batch in the QueryIterator.
-         * @memberof QueryIteratorWrapper
-         * @instance
-         * @returns {Boolean} true if there is other elements to process in the QueryIterator.
-         */
-        hasMoreResults: function(){
-            return this._innerQueryIterator.hasMoreResults();
-        },
-
-        /**
-         * Reset the QueryIterator to the beginning and clear all the resources inside it
-         * @memberof QueryIteratorWrapper
-         * @instance
-         */
-        reset: function(){
-            return this._innerQueryIterator.reset();
         }
     }
 );
 
-function addOrMergeHeadersForError(error, responseHeaders){
-    if (!error.responseHeaders) {
-        error.responseHeaders = responseHeaders;
-    } else {
-        for (k in responseHeaders) {
-            if (!error.responseHeaders[k]) {
-                error.responseHeaders[k] = responseHeaders[k];
-            } // else you lose it because we don't overwrite existing...
-        }
-    }
-}
 
 /**
  * The response of a request
