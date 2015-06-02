@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-var Client  = require('./documentclient')
+var Client = require("./documentclient");
 
 if (typeof exports !== "undefined") {
     exports.DocumentClient = Client.DocumentClient;

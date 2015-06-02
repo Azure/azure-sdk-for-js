@@ -38,7 +38,7 @@ var Constants = {
         ContentEncoding: "Content-Encoding",
         CharacterSet: "CharacterSet",
         UserAgent: "User-Agent",
-        IfModified_since: "If-Modified-Since",
+        IfModifiedSince: "If-Modified-Since",
         IfMatch: "If-Match",
         IfNoneMatch: "If-None-Match",
         ContentLength: "Content-Length",
@@ -103,7 +103,7 @@ var Constants = {
         EmitVerboseTracesInQuery: "x-ms-documentdb-query-emit-traces",
         // Version headers and values
         Version: "x-ms-version",
-        
+
         //Quota Info
         MaxEntityCount: "x-ms-root-entity-max-count",
         CurrentEntityCount: "x-ms-root-entity-current-count",            
@@ -116,11 +116,11 @@ var Constants = {
         // Offer header
         OfferType: "x-ms-offer-type"
     },
-	
+
     CurrentVersion: "2015-04-08",
-    
-    UserAgent: "documentdb-nodejs-sdk-1.0.2"
-}
+ 
+    UserAgent: "documentdb-nodejs-sdk-1.0.1"
+};
 
 //SCRIPT END
 
