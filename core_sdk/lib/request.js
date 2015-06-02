@@ -2,14 +2,14 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
 
-'use strict';
+"use strict";
 
-var Documents = require('./documents')
+var Documents = require("./documents")
   , Constants = require("./constants")
   , https = require("https")
-  ,	url = require("url")
+  , url = require("url")
   , querystring = require("querystring");
-  
+
 // We don't turn off agent because we want the pooling benefits.
 https.globalAgent.maxSockets = 10000;
 // setting security protocol for the global agent.
@@ -32,21 +32,21 @@ function parse(urlString) { return url.parse(urlString); }
 
 function createRequestObject(connectionPolicy, requestOptions, callback){
     var isMedia = ( requestOptions.path.indexOf("media") > -1 );
-    
+
     var httpsRequest = https.request(requestOptions, function(response) {
         // In case of media response, return the stream to the user and the user will need to handle reading the stream.
-        if(isMedia && connectionPolicy.MediaReadMode === Documents.MediaReadMode.Streamed){
-           callback(undefined, response, response.headers);
-           return;
+        if (isMedia && connectionPolicy.MediaReadMode === Documents.MediaReadMode.Streamed) {
+            callback(undefined, response, response.headers);
+            return;
         }
-        
+
         var data = "";
-        response.on("data", function(chunk) { 
+        response.on("data", function(chunk) {
             data += chunk;
         });
         response.on("end", function() {
             if (response.statusCode >= 400) {
-	            callback({code:response.statusCode, body:data}, undefined, response.headers); 
+                callback({code: response.statusCode, body: data}, undefined, response.headers);
                 return;
             }
 
@@ -58,28 +58,28 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
                     result = data.length > 0 ? JSON.parse(data) : undefined;
                 }
             } catch (exception) {
-               callback(exception);
-               return;
+                callback(exception);
+                return;
             }
 
-            return callback(undefined, result, response.headers);
+            callback(undefined, result, response.headers);
         });
     });
-    
-    httpsRequest.on('socket', function(socket) {
+
+    httpsRequest.on("socket", function(socket) {
         if (isMedia) {
             socket.setTimeout(connectionPolicy.MediaRequestTimeout);
         } else {
             socket.setTimeout(connectionPolicy.RequestTimeout);
         }
-        
-        socket.on('timeout', function() {
+
+        socket.on("timeout", function() {
             httpsRequest.abort();
         });
     });
-    
+
     httpsRequest.on("error", callback);
-	return httpsRequest;
+    return httpsRequest;
 }
 
 var RequestHandler = {
@@ -94,12 +94,12 @@ var RequestHandler = {
      * @param {Object} headers - specific headers for the request.
      * @param {function} callback - the callback that will be called when the response is retrieved and processed.
     */
-    request: function(connectionPolicy, method, url, path, data, queryParams, headers, callback) {
+    request: function (connectionPolicy, method, url, path, data, queryParams, headers, callback) {
         var body;
-        
+
         if (data) {
             body = bodyFromData(data);
-            if (!body) return callback({message:"parameter data must be a javascript object, string, Buffer, or stream"});
+            if (!body) return callback({ message: "parameter data must be a javascript object, string, Buffer, or stream" });
         }
 
         var buffer;
@@ -107,16 +107,13 @@ var RequestHandler = {
         if (body) {
             if (Buffer.isBuffer(body)) {
                 buffer = body;
-            }
-            else if (body.pipe) {
+            } else if (body.pipe) {
                 // it is a stream
                 stream = body;
-            }
-            else if (typeof body === "string") {
+            } else if (typeof body === "string") {
                 buffer = new Buffer(body, "utf8");
-            }
-            else {
-                callback({message:"body must be string, Buffer, or stream"});
+            } else {
+                callback({ message: "body must be string, Buffer, or stream" });
             }
         }
 
@@ -124,17 +121,17 @@ var RequestHandler = {
         requestOptions.method = method;
         requestOptions.path = path;
         requestOptions.headers = headers;
-         
-        if(queryParams) {
-           requestOptions.path += "?" + querystring.stringify(queryParams);
+
+        if (queryParams) {
+            requestOptions.path += "?" + querystring.stringify(queryParams);
         }
-        
+
         if (buffer) {
             requestOptions.headers[Constants.HttpHeaders.ContentLength] = buffer.length;
             var httpsRequest = createRequestObject(connectionPolicy, requestOptions, callback);
             httpsRequest.write(buffer);
             httpsRequest.end();
-        } else if(stream) {
+        } else if (stream) {
             var httpsRequest = createRequestObject(connectionPolicy, requestOptions, callback);
             stream.pipe(httpsRequest);
         } else {
@@ -142,7 +139,7 @@ var RequestHandler = {
             httpsRequest.end();
         }
     }
-}
+};
 
 if (typeof exports !== "undefined") {
     module.exports = RequestHandler;

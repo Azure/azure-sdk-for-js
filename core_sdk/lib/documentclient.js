@@ -2,13 +2,13 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
 
-'use strict';
+"use strict";
 
 var Base = require("./base")
-  , AzureDocuments = require('./documents')
-  , QueryIterator = require('./queryIterator')
-  , RequestHandler = require('./request')
-  , Constants = require('./constants');
+  , AzureDocuments = require("./documents")
+  , QueryIterator = require("./queryIterator")
+  , RequestHandler = require("./request")
+  , Constants = require("./constants");
 
 //SCRIPT START
 var DocumentClient = Base.defineClass(
@@ -19,7 +19,7 @@ var DocumentClient = Base.defineClass(
      * @param {object} auth                    - An object that is used for authenticating requests and must contains one of the options
      * @param {string} [auth.masterkey]        - The authorization master key to use to create the client.
      * @param {Object} [auth.resourceTokens]   - An object that contains resources tokens. Keys for the object are resource Ids and values are the resource tokens.
-     * @param {Array}  [auth.permissionFeed]   - An array of {@link Permission} objects.                              
+     * @param {Array}  [auth.permissionFeed]   - An array of {@link Permission} objects.
      * @param {object} [connectionPolicy]      - An instance of {@link ConnectionPolicy} class. This parameter is optional and the default connectionPolicy will be used if omitted.
      * @param {string} [consistencyLevel]      - An optional parameter that represents the consistency level. It can take any value from {@link ConsistencyLevel}.
     */
@@ -37,19 +37,19 @@ var DocumentClient = Base.defineClass(
                 }
             }
         }
-        
+
         this.connectionPolicy = connectionPolicy || new AzureDocuments.ConnectionPolicy();
         this.defaultHeaders = {};
         this.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
-        this.defaultHeaders[Constants.HttpHeaders.Version] = Constants.CurrentVersion; 
+        this.defaultHeaders[Constants.HttpHeaders.Version] = Constants.CurrentVersion;
         if (consistencyLevel !== undefined){
             this.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] = consistencyLevel;
         }
-        
+
         if (Constants.UserAgent) {
             this.defaultHeaders[Constants.HttpHeaders.UserAgent] = Constants.UserAgent;
         }
-        
+
         // overide this for default query params to be added to the url.
         this.defaultUrlParams = "";
 
@@ -59,7 +59,7 @@ var DocumentClient = Base.defineClass(
         this.queryCompatibilityMode = AzureDocuments.QueryCompatibilityMode.Default;
     },
     {
-        /** Send a request for creating a database. 
+        /** Send a request for creating a database.
          * <p>
          *  A database manages users, permissions and a set of collections.  <br>
          *  Each Azure DocumentDB Database Account is able to support multiple independent named databases, with the database being the logical container for data. <br>
@@ -80,7 +80,7 @@ var DocumentClient = Base.defineClass(
             var path = "/dbs";
             this.create(body, path, "dbs", undefined, undefined, options, callback);
         },
-        
+
         /**
          * Creates a collection.
          * <p>
@@ -103,15 +103,15 @@ var DocumentClient = Base.defineClass(
                 callback = options;
                 options = {};
             }
-            
+
             var path = "/" + databaseLink + "colls/";
             var resourceInfo = Base.parsePath(databaseLink);
             this.create(body, path, "colls", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Create a document.
-         * <p> 
+         * <p>
          * There is no set schema for JSON documents. They may contain any number of custom properties as well as an optional list of attachments. <br>
          * A Document is an application resource and can be authorized using the master key or resource keys
          * </p>
@@ -129,7 +129,7 @@ var DocumentClient = Base.defineClass(
                 callback = options;
                 options = {};
             }
-            
+
             if (!options) {
                 options = {};
             }
@@ -138,7 +138,7 @@ var DocumentClient = Base.defineClass(
             if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
                 body.id = Base.generateGuidId();
             }
-            
+
             var path = "/" + collectionLink + "docs/";
             var resourceInfo = Base.parsePath(collectionLink);
             this.create(body, path, "docs", resourceInfo.objectBody.id, undefined, options, callback);
@@ -148,7 +148,7 @@ var DocumentClient = Base.defineClass(
          * Create an attachment for the document object.
          * <p>
          * Each document may contain zero or more attachemnts. Attachments can be of any MIME type - text, image, binary data. <br>
-         * These are stored externally in Azure Blob storage. Attachments are automatically deleted when the parent document is deleted. 
+         * These are stored externally in Azure Blob storage. Attachments are automatically deleted when the parent document is deleted.
          * </P>
          * @memberof DocumentClient
          * @instance
@@ -169,7 +169,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(documentLink);
             this.create(body, path, "attachments", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Create a database user.
          * @memberof DocumentClient
@@ -209,7 +209,7 @@ var DocumentClient = Base.defineClass(
                 callback = options;
                 options = {};
             }
-            
+
             var path = "/" + userLink + "permissions/";
             var resourceInfo = Base.parsePath(userLink);
             this.create(body, path, "permissions", resourceInfo.objectBody.id, undefined, options, callback);
@@ -219,7 +219,7 @@ var DocumentClient = Base.defineClass(
          * Create a trigger.
          * <p>
          * DocumentDB supports pre and post triggers defined in JavaScript to be executed on creates, updates and deletes. <br>
-         * For additional details, refer to the server-side JavaScript API documentation. 
+         * For additional details, refer to the server-side JavaScript API documentation.
          * </p>
          * @memberof DocumentClient
          * @instance
@@ -233,8 +233,6 @@ var DocumentClient = Base.defineClass(
          * @param {RequestCallback} callback        - The callback for the request.
          */
         createTrigger: function (collectionLink, trigger, options, callback) {
-            var that = this;
-
             if (!callback) {
                 callback = options;
                 options = {};
@@ -244,13 +242,13 @@ var DocumentClient = Base.defineClass(
                 trigger.body = trigger.serverScript.toString();
             } else if (trigger.body) {
                 trigger.body = trigger.body.toString();
-            } 
-            
+            }
+
             var resourceInfo = Base.parsePath(collectionLink);
             var path = "/" + collectionLink + "triggers/";
             this.create(trigger, path, "triggers", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Create a UserDefinedFunction.
          * <p>
@@ -272,24 +270,24 @@ var DocumentClient = Base.defineClass(
                 callback = options;
                 options = {};
             }
-            
+
             if (udf.serverScript) {
                 udf.body = udf.serverScript.toString();
             } else if (udf.body) {
                 udf.body = udf.body.toString();
-            } 
-            
+            }
+
             var path = "/" + collectionLink + "udfs/";
             var resourceInfo = Base.parsePath(collectionLink);
             this.create(udf, path, "udfs", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Create a StoredProcedure.
          * <p>
          * DocumentDB allows stored procedures to be executed in the storage tier, directly against a document collection. The script <br>
          * gets executed under ACID transactions on the primary storage partition of the specified collection. For additional details, <br>
-         * refer to the server-side JavaScript API documentation. 
+         * refer to the server-side JavaScript API documentation.
          * </p>
          * @memberof DocumentClient
          * @instance
@@ -311,12 +309,12 @@ var DocumentClient = Base.defineClass(
             } else if (sproc.body) {
                 sproc.body = sproc.body.toString();
             }
-            
+
             var path = "/" + collectionLink + "sprocs/";
             var resourceInfo = Base.parsePath(collectionLink);
             this.create(sproc, path, "sprocs", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Create an attachment for the document object.
          * @memberof DocumentClient
@@ -331,9 +329,9 @@ var DocumentClient = Base.defineClass(
                 callback = options;
                 options = {};
             }
-            
+
             options = options || {};
-            
+
             var initialHeaders = Base.extend({}, this.defaultHeaders);
 
             // Add required headers slug and content-type.
@@ -346,13 +344,13 @@ var DocumentClient = Base.defineClass(
             } else {
                 initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.OctetStream;
             }
-            
+
             var path = "/" + documentLink + "attachments/";
             var resourceInfo = Base.parsePath(documentLink);
             this.create(readableStream, path, "attachments", resourceInfo.objectBody.id, initialHeaders, options, callback);
         },
-        
-        /** Reads a database. 
+
+        /** Reads a database.
          * @memberof DocumentClient
          * @instance
          * @param {string} databaseLink         - The self-link of the database.
@@ -386,9 +384,9 @@ var DocumentClient = Base.defineClass(
 
             var path = "/" + collectionLink;
             var resourceInfo = Base.parsePath(collectionLink);
-            this.read(path, "colls", resourceInfo.objectBody.id, undefined, options, callback)
+            this.read(path, "colls", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Reads a document.
          * @memberof DocumentClient
@@ -407,7 +405,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(documentLink);
             this.read(path, "docs", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Reads an Attachment object.
          * @memberof DocumentClient
@@ -426,7 +424,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(attachmentLink);
             this.read(path, "attachments", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Reads a user.
          * @memberof DocumentClient
@@ -445,7 +443,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(userLink);
             this.read(path, "users", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Reads a permission.
          * @memberof DocumentClient
@@ -464,7 +462,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(permissionLink);
             this.read(path, "permissions", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Reads a trigger object.
          * @memberof DocumentClient
@@ -483,7 +481,7 @@ var DocumentClient = Base.defineClass(
             var path = "/" + triggerLink;
             this.read(path, "triggers", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Reads a udf object.
          * @memberof DocumentClient
@@ -502,7 +500,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(udfLink);
             this.read(path, "udfs", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Reads a StoredProcedure object.
          * @memberof DocumentClient
@@ -521,7 +519,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(sprocLink);
             this.read(path, "sprocs", resourceInfo.objectBody.id, undefined, options, callback);
         },
-       
+
         /**
          * Reads a conflict.
          * @memberof DocumentClient
@@ -540,8 +538,8 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(conflictLink);
             this.read(path, "conflicts", resourceInfo.objectBody.id, undefined, options, callback);
         },
-       
-        /** Lists all databases. 
+
+        /** Lists all databases.
          * @memberof DocumentClient
          * @instance
          * @param {FeedOptions} [options] - The feed options.
@@ -571,10 +569,10 @@ var DocumentClient = Base.defineClass(
          * @param {FeedOptions} [options] - The feed options.
          * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
          */
-        readDocuments:  function (collectionLink, options) {
+        readDocuments: function (collectionLink, options) {
             return this.queryDocuments(collectionLink, undefined, options);
         },
-        
+
          /**
          * Get all attachments for this document.
          * @memberof DocumentClient
@@ -619,10 +617,10 @@ var DocumentClient = Base.defineClass(
          * @param {FeedOptions} [options]   - The feed options.
          * @returns {QueryIterator}         - An instance of queryIterator to handle reading feed.
          */
-        readTriggers:  function (collectionLink, options) {
+        readTriggers: function (collectionLink, options) {
             return this.queryTriggers(collectionLink, undefined, options);
         },
-        
+
         /**
          * Get all UserDefinedFunctions in this collection.
          * @memberof DocumentClient
@@ -631,10 +629,10 @@ var DocumentClient = Base.defineClass(
          * @param {FeedOptions} [options] - The feed options.
          * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
          */
-        readUserDefinedFunctions:  function (collectionLink, options) {
+        readUserDefinedFunctions: function (collectionLink, options) {
             return this.queryUserDefinedFunctions(collectionLink, undefined, options);
         },
-        
+
         /**
          * Get all StoredProcedures in this collection.
          * @memberof DocumentClient
@@ -643,10 +641,10 @@ var DocumentClient = Base.defineClass(
          * @param {FeedOptions} [options] - The feed options.
          * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
          */
-        readStoredProcedures:  function (collectionLink, options, callback) {
+        readStoredProcedures: function (collectionLink, options) {
             return this.queryStoredProcedures(collectionLink, undefined, options);
         },
-      
+
         /**
          * Get all conflicts in this collection.
          * @memberof DocumentClient
@@ -655,11 +653,11 @@ var DocumentClient = Base.defineClass(
          * @param {FeedOptions} [options] - The feed options.
          * @returns {QueryIterator}       - An instance of QueryIterator to handle reading feed.
          */
-        readConflicts:  function (collectionLink, options) {
+        readConflicts: function (collectionLink, options) {
             return this.queryConflicts(collectionLink, undefined, options);
         },
-   
-        /** Lists all databases that satisfy a query. 
+
+        /** Lists all databases that satisfy a query.
          * @memberof DocumentClient
          * @instance
          * @param {SqlQuerySpec | string} query - A SQL query.
@@ -681,7 +679,7 @@ var DocumentClient = Base.defineClass(
                         callback);
             });
         },
-        
+
         /**
          * Query the collections for the database.
          * @memberof DocumentClient
@@ -708,7 +706,7 @@ var DocumentClient = Base.defineClass(
                     callback);
             });
         },
-         
+
         /**
          * Query the documents for the collection.
          * @memberof DocumentClient
@@ -735,7 +733,7 @@ var DocumentClient = Base.defineClass(
                     callback);
             });
         },
-         
+
         /**
          * Query the attachments for the document.
          * @memberof DocumentClient
@@ -756,13 +754,13 @@ var DocumentClient = Base.defineClass(
                         "attachments",
                         resourceInfo.objectBody.id,
                         function(result) { return result.Attachments; },
-                        function(parent, body) { return body;},
+                        function(parent, body) { return body; },
                         query,
                         options,
                         callback);
-            }); 
+            });
         },
-         
+
         /**
          * Query the users for the database.
          * @memberof DocumentClient
@@ -843,7 +841,7 @@ var DocumentClient = Base.defineClass(
                     callback);
             });
         },
-        
+
         /**
          * Query the user defined functions for the collection.
          * @memberof DocumentClient
@@ -870,7 +868,7 @@ var DocumentClient = Base.defineClass(
                     callback);
             });
         },
-       
+
         /**
          * Query the storedProcedures for the collection.
          * @memberof DocumentClient
@@ -895,7 +893,7 @@ var DocumentClient = Base.defineClass(
                     query,
                     options,
                     callback);
-            }); 
+            });
         },
 
         /**
@@ -907,7 +905,7 @@ var DocumentClient = Base.defineClass(
          * @param {FeedOptions} [options]         - Represents the feed options.
          * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
          */
-        queryConflicts:  function (collectionLink, query, options) {
+        queryConflicts: function (collectionLink, query, options) {
             var that = this;
             var path = "/" + collectionLink + "conflicts/";
             var resourceInfo = Base.parsePath(collectionLink);
@@ -922,7 +920,7 @@ var DocumentClient = Base.defineClass(
                     query,
                     options,
                     callback);
-            }); 
+            });
         },
 
         /**
@@ -931,7 +929,7 @@ var DocumentClient = Base.defineClass(
          * @instance
          * @param {string} databaseLink         - The self-link of the database.
          * @param {RequestOptions} [options]    - The request options.
-         * @param {RequestCallback} callback    - The callback for the request. 
+         * @param {RequestCallback} callback    - The callback for the request.
         */
         deleteDatabase: function (databaseLink, options, callback) {
             if (!callback) {
@@ -943,18 +941,16 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(databaseLink);
             this.deleteResource(path, "dbs", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Delete the collection object.
          * @memberof DocumentClient
          * @instance
          * @param {string} collectionLink    - The self-link of the collection.
          * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request. 
+         * @param {RequestCallback} callback - The callback for the request.
         */
         deleteCollection: function (collectionLink, options, callback) {
-            var that = this;
-
             if (!callback) {
                 callback = options;
                 options = {};
@@ -964,14 +960,14 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(collectionLink);
             this.deleteResource(path, "colls", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Delete the document object.
          * @memberof DocumentClient
          * @instance
          * @param {string} documentLink      - The self-link of the document.
          * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request. 
+         * @param {RequestCallback} callback - The callback for the request.
         */
         deleteDocument: function (documentLink, options, callback) {
             if (!callback) {
@@ -990,7 +986,7 @@ var DocumentClient = Base.defineClass(
          * @instance
          * @param {string} attachmentLink    - The self-link of the attachment.
          * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request. 
+         * @param {RequestCallback} callback - The callback for the request.
          */
         deleteAttachment: function (attachmentLink, options, callback) {
             if (!callback) {
@@ -1000,16 +996,16 @@ var DocumentClient = Base.defineClass(
 
             var path = "/" + attachmentLink;
             var resourceInfo = Base.parsePath(attachmentLink);
-            this.deleteResource(path, "attachments", resourceInfo.objectBody.id, undefined, options, callback)
+            this.deleteResource(path, "attachments", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Delete the user object.
          * @memberof DocumentClient
          * @instance
          * @param {string} userLink          - The self-link of the user.
          * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request. 
+         * @param {RequestCallback} callback - The callback for the request.
         */
         deleteUser: function(userLink, options, callback) {
             if (!callback) {
@@ -1021,14 +1017,14 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(userLink);
             this.deleteResource(path, "users", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Delete the permission object.
          * @memberof DocumentClient
          * @instance
          * @param {string} permissionLink    - The self-link of the permission.
          * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request. 
+         * @param {RequestCallback} callback - The callback for the request.
         */
         deletePermission: function(permissionLink, options, callback) {
             if (!callback) {
@@ -1040,14 +1036,14 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(permissionLink);
             this.deleteResource(path, "permissions", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Delete the trigger object.
          * @memberof DocumentClient
          * @instance
          * @param {string} triggerLink       - The self-link of the trigger.
          * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request. 
+         * @param {RequestCallback} callback - The callback for the request.
         */
         deleteTrigger: function(triggerLink, options, callback) {
             if (!callback) {
@@ -1057,16 +1053,16 @@ var DocumentClient = Base.defineClass(
 
             var path = "/" + triggerLink;
             var resourceInfo = Base.parsePath(triggerLink);
-            this.deleteResource(path, "triggers", resourceInfo.objectBody.id, undefined, options, callback)
+            this.deleteResource(path, "triggers", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Delete the UserDefinedFunction object.
          * @memberof DocumentClient
          * @instance
          * @param {string} udfLink           - The self-link of the user defined function.
          * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request. 
+         * @param {RequestCallback} callback - The callback for the request.
         */
         deleteUserDefinedFunction: function(udfLink, options, callback) {
             if (!callback) {
@@ -1076,16 +1072,16 @@ var DocumentClient = Base.defineClass(
 
             var path = "/" + udfLink;
             var resourceInfo = Base.parsePath(udfLink);
-            this.deleteResource(path, "udfs", resourceInfo.objectBody.id, undefined, options, callback)
+            this.deleteResource(path, "udfs", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Delete the StoredProcedure object.
          * @memberof DocumentClient
          * @instance
          * @param {string} sprocLink         - The self-link of the stored procedure.
          * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request. 
+         * @param {RequestCallback} callback - The callback for the request.
         */
         deleteStoredProcedure: function(sprocLink, options, callback) {
             if (!callback) {
@@ -1095,16 +1091,16 @@ var DocumentClient = Base.defineClass(
 
             var path = "/" + sprocLink;
             var resourceInfo = Base.parsePath(sprocLink);
-            this.deleteResource(path, "sprocs", resourceInfo.objectBody.id, undefined, options, callback)
+            this.deleteResource(path, "sprocs", resourceInfo.objectBody.id, undefined, options, callback);
         },
-       
+
         /**
          * Delete the conflict object.
          * @memberof DocumentClient
          * @instance
          * @param {string} conflictLink      - The self-link of the conflict.
          * @param {RequestOptions} [options] - The request options.
-         * @param {RequestCallback} callback - The callback for the request. 
+         * @param {RequestCallback} callback - The callback for the request.
         */
         deleteConflict: function(conflictLink, options, callback) {
             if (!callback) {
@@ -1116,7 +1112,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(conflictLink);
             this.deleteResource(path, "conflicts", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Replace the document object.
          * @memberof DocumentClient
@@ -1136,7 +1132,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(documentLink);
             this.replace(newDocument, path, "docs", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Replace the attachment object.
          * @memberof DocumentClient
@@ -1156,7 +1152,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(attachmentLink);
             this.replace(attachment, path, "attachments", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Replace the user object.
          * @memberof DocumentClient
@@ -1176,7 +1172,7 @@ var DocumentClient = Base.defineClass(
             var resourceInfo = Base.parsePath(userLink);
             this.replace(user, path, "users", resourceInfo.objectBody.id, undefined, options, callback);
         },
-       
+
         /**
          * Replace the permission object.
          * @memberof DocumentClient
@@ -1216,13 +1212,13 @@ var DocumentClient = Base.defineClass(
                 trigger.body = trigger.serverScript.toString();
             } else if (trigger.body) {
                 trigger.body = trigger.body.toString();
-            } 
-            
+            }
+
             var path = "/" + triggerLink;
             var resourceInfo = Base.parsePath(triggerLink);
             this.replace(trigger, path, "triggers", resourceInfo.objectBody.id, undefined, options, callback);
         },
-        
+
         /**
          * Replace the UserDefinedFunction object.
          * @memberof DocumentClient
@@ -1242,8 +1238,8 @@ var DocumentClient = Base.defineClass(
                 udf.body = udf.serverScript.toString();
             } else if (udf.body) {
                 udf.body = udf.body.toString();
-            } 
-            
+            }
+
             var path = "/" + udfLink;
             var resourceInfo = Base.parsePath(udfLink);
             this.replace(udf, path, "udfs", resourceInfo.objectBody.id, undefined, options, callback);
@@ -1269,12 +1265,12 @@ var DocumentClient = Base.defineClass(
             } else if (sproc.body) {
                 sproc.body = sproc.body.toString();
             }
-           
+
             var path = "/" + sprocLink;
             var resourceInfo = Base.parsePath(sprocLink);
             this.replace(sproc, path, "sprocs", resourceInfo.objectBody.id, undefined, options, callback);
         },
-            
+
        /**
          * Read the media for the attachment object.
          * @memberof DocumentClient
@@ -1307,7 +1303,7 @@ var DocumentClient = Base.defineClass(
                 callback = options;
                 options = {};
             }
-            
+
             var defaultHeaders = this.defaultHeaders;
             var initialHeaders = Base.extend({}, defaultHeaders);
 
@@ -1321,9 +1317,9 @@ var DocumentClient = Base.defineClass(
             } else {
                 initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.OctetStream;
             }
-            
+
             initialHeaders[Constants.HttpHeaders.Accept] = Constants.MediaTypes.Any;
-            
+
             var urlConnection = this.urlConnection;
             var resourceInfo = Base.parsePath(mediaLink);
             var path = "/" + mediaLink;
@@ -1332,7 +1328,7 @@ var DocumentClient = Base.defineClass(
 
             this.put(urlConnection, path, readableStream, headers, callback);
         },
-        
+
         /**
          * Execute the StoredProcedure represented by the object.
          * @memberof DocumentClient
@@ -1346,21 +1342,21 @@ var DocumentClient = Base.defineClass(
                 callback = params;
                 params = null;
             }
-            
+
             var defaultHeaders = this.defaultHeaders;
             var initialHeaders = {};
             initialHeaders = Base.extend(initialHeaders, defaultHeaders);
-            
+
             // Accept a single parameter or an array of parameters.
             if (params && params.constructor !== Array) {
                 params = [params];
             }
-            
+
             var urlConnection = this.urlConnection;
             var path = "/" + sprocLink;
-            var resourceInfo = Base.parsePath(sprocLink);         
+            var resourceInfo = Base.parsePath(sprocLink);
             var headers = Base.getHeaders(this, initialHeaders, "post", path, resourceInfo.objectBody.id, "sprocs", {});
-            
+
             this.post(urlConnection, path, params, headers, callback);
         },
 
@@ -1378,7 +1374,7 @@ var DocumentClient = Base.defineClass(
             this.replace(offer, path, "offers", resourceInfo.objectBody.id, undefined, {}, callback);
         },
 
-        /** Reads an offer. 
+        /** Reads an offer.
          * @memberof DocumentClient
          * @instance
          * @param {string} offerLink         - The self-link of the offer.
@@ -1400,7 +1396,7 @@ var DocumentClient = Base.defineClass(
             return this.queryOffers(undefined, options);
         },
 
-        /** Lists all offers that satisfy a query. 
+        /** Lists all offers that satisfy a query.
          * @memberof DocumentClient
          * @instance
          * @param {SqlQuerySpec | string} query - A SQL query.
@@ -1432,21 +1428,20 @@ var DocumentClient = Base.defineClass(
             var headers = Base.getHeaders(this, this.defaultHeaders, "get", "", "", "", {});
             this.get(this.urlConnection, "", headers, function(err, result, headers) {
                 if (err) return callback(err);
-                
+
                 var databaseAccount = new AzureDocuments.DatabaseAccount();
-                databaseAccount.DatabasesLink                    = "/dbs/";
-                databaseAccount.MediaLink                        = "/media/";
-                databaseAccount.MaxMediaStorageUsageInMB         = headers[Constants.HttpHeaders.MaxMediaStorageUsageInMB];
-                databaseAccount.CurrentMediaStorageUsageInMB     = headers[Constants.HttpHeaders.CurrentMediaStorageUsageInMB];
-                databaseAccount.ConsistencyPolicy                = result.userConsistencyPolicy;
-                
+                databaseAccount.DatabasesLink = "/dbs/";
+                databaseAccount.MediaLink = "/media/";
+                databaseAccount.MaxMediaStorageUsageInMB = headers[Constants.HttpHeaders.MaxMediaStorageUsageInMB];
+                databaseAccount.CurrentMediaStorageUsageInMB = headers[Constants.HttpHeaders.CurrentMediaStorageUsageInMB];
+                databaseAccount.ConsistencyPolicy = result.userConsistencyPolicy;
+
                 callback(undefined, databaseAccount, headers);
             });
         },
 
         /** @ignore */
         create: function (body, path, type, id, initialHeaders, options, callback) {
-            var that = this;
             var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "post", path, id, type, options);
@@ -1455,7 +1450,6 @@ var DocumentClient = Base.defineClass(
 
         /** @ignore */
         replace: function (resource, path, type, id, initialHeaders, options, callback) {
-            var that = this;
             var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "put", path, id, type, options);
@@ -1464,8 +1458,6 @@ var DocumentClient = Base.defineClass(
 
         /** @ignore */
         read: function (path, type, id, initialHeaders, options, callback) {
-            var that = this;
-            var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "get", path, id, type, options);
             this.get(this.urlConnection, path, headers, callback);
@@ -1473,18 +1465,17 @@ var DocumentClient = Base.defineClass(
 
         /** @ignore */
         deleteResource: function (path, type, id, initialHeaders, options, callback) {
-            var that = this;
             var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "delete", path, id, type, options);
             this.delete(urlConnection, path, headers, callback);
         },
-        
+
         /** @ignore */
         get: function(url, path, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "GET", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
-        
+
         /** @ignore */
         post: function(url, path, body, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "POST", url, path, body, this.defaultUrlParams, headers, callback);
@@ -1494,7 +1485,7 @@ var DocumentClient = Base.defineClass(
         put: function(url, path, body, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "PUT", url, path, body, this.defaultUrlParams, headers, callback);
         },
-        
+
         /** @ignore */
         head: function(url, path, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "HEAD", url, path, undefined, this.defaultUrlParams, headers, callback);
@@ -1504,7 +1495,7 @@ var DocumentClient = Base.defineClass(
         delete: function(url, path, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "DELETE", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
-        
+
         /** @ignore */
         queryFeed: function(documentclient, path, type, id, resultFn, createFn, query, options, callback) {
             var that = this;
@@ -1513,7 +1504,7 @@ var DocumentClient = Base.defineClass(
                 callback = options;
                 options = {};
             }
-            
+
             var successCallback = function (err, result, responseHeaders) {
                 if (err) return callback(err, undefined, responseHeaders);
                 var bodies;
@@ -1528,7 +1519,7 @@ var DocumentClient = Base.defineClass(
 
                 callback(undefined, bodies, responseHeaders);
             };
-            
+
             var urlConnection = documentclient.urlConnection;
             var initialHeaders = Base.extend({}, documentclient.defaultHeaders);
             if (query === undefined) {
@@ -1543,8 +1534,8 @@ var DocumentClient = Base.defineClass(
                     case AzureDocuments.QueryCompatibilityMode.Query:
                     case AzureDocuments.QueryCompatibilityMode.Default:
                     default:
-                        if (typeof query === 'string') {
-                            query = { query: query }  // Converts query text to query object.
+                        if (typeof query === "string") {
+                            query = { query: query };  // Converts query text to query object.
                         }
                         initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.QueryJson;
                         break;
@@ -1553,16 +1544,16 @@ var DocumentClient = Base.defineClass(
                 var headers = Base.getHeaders(documentclient, initialHeaders, "post", path, id, type, options);
                 documentclient.post(urlConnection, path, query, headers, successCallback);
             }
-        }  
+        }
     }
 );
 //SCRIPT END
-    
+
 /**
  * The request options
  * @typedef {Object} RequestOptions               -         Options that can be specified for a requested issued to the DocumentDB servers.
- * @property {string} [preTriggerInclude]         -         Indicates what is the pre trigger to be invoked before the operation. 
- * @property {string} [postTriggerInclude]        -         Indicates what is the post trigger to be invoked after the operation. 
+ * @property {string} [preTriggerInclude]         -         Indicates what is the pre trigger to be invoked before the operation.
+ * @property {string} [postTriggerInclude]        -         Indicates what is the post trigger to be invoked after the operation.
  * @property {object} [accessCondition]           -         Conditions Associated with the request.
  * @property {string} accessCondition.type        -         Conditional HTTP method header type.
  * @property {string} accessCondition.condition   -         Conditional HTTP method header value.
@@ -1572,7 +1563,7 @@ var DocumentClient = Base.defineClass(
  * @property {number} [resourceTokenExpirySeconds]-         Expiry time (in seconds) for resource token associated with permission (applicable only for requests on permissions).
  * @property {string} [offerType]                 -         Offer type when creating document collections.
  */
- 
+
 /**
  * The feed options
  * @typedef {Object} FeedOptions                  -         The feed options and query methods.
@@ -1582,7 +1573,7 @@ var DocumentClient = Base.defineClass(
  * @property {boolean} [EnableScanInQuery]        -         Allow scan on the queries which couldn't be served as indexing was opted out on the requested paths.
  *
  */
- 
+
  /**
  * The media options
  * @typedef {Object} MediaOptions                                          -         Options associated with upload media.
@@ -1604,7 +1595,7 @@ var DocumentClient = Base.defineClass(
  * @property {string} query                       -       The body of the query.
  * @property {Array<SqlParameter>} parameters     -       The array of {@link SqlParameter}.
  */
-   
+
  /**
  * The callback to execute after the request execution.
  * @callback RequestCallback
@@ -1613,11 +1604,11 @@ var DocumentClient = Base.defineClass(
  * @param {string} error.body       -       A string represents the error information.
  * @param {Object} resource         -       An object that represents the requested resource (Db, collection, document ... etc) if no error happens.
  * @param {object} responseHeaders  -       An object that contain the response headers.
- */   
- 
+ */
+
   /**
  * The Indexing Policy represents the indexing policy configuration for a collection.
- * @typedef {Object} IndexingPolicy                                         
+ * @typedef {Object} IndexingPolicy
  * @property {boolean} automatic                                           -         Specifies whether automatic indexing is enabled for a collection.
                                                                                      <p>In automatic indexing, documents can be explicitly excluded from indexing using {@link RequestOptions}.
                                                                                      In manual indexing, documents can be explicitly included. </p>
@@ -1626,19 +1617,19 @@ var DocumentClient = Base.defineClass(
  * @property {Array} ExcludedPaths                                            -         An array of strings representing the paths to be excluded from indexing.
  *
  */
- 
+
  /**
  * <p> Indexing paths hints to optimize indexing. <br>
  *     Indexing paths allow tradeoff between indexing storage and query performance
  * </p>
- * @typedef {Object}  IndexingPath                                        
- * @property {string} IndexType                                                      -         The indexing type (range or hash) {@link IndexType}. 
+ * @typedef {Object}  IndexingPath
+ * @property {string} IndexType                                                      -         The indexing type (range or hash) {@link IndexType}.
  * @property {string} Path                                                            -         Path to be indexed.
  * @property {number} NempericPrecission                                            -         Precision for this particular Index type for numeric data.
  * @property {number} StringPrecission                                              -         Precision for this particular Index type for string data.
  *
  */
- 
+
 if (typeof exports !== "undefined") {
     exports.DocumentClient = DocumentClient;
     exports.DocumentBase = AzureDocuments;
