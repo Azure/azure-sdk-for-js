@@ -21,12 +21,22 @@
     "documentdb": "*"
   },
   "devDependencies": {
-    "mocha": "*",
+    "eslint": "*",
+    "grunt": "^0.4.5",
+    "grunt-eslint": "^13.0.0",
     "jsdoc": "*",
-    "eslint": "*"
+    "load-grunt-tasks": "^3.1.0",
+    "mocha": "*",
+    "time-grunt": "^1.2.0"
   },
-  "repository" :    { "type" :  "git",
-                      "url" :   "https://github.com/Azure/azure-documentdb-node" },
-  "licenses" : [ { "type" :  "Apache License, Version 2.0",
-                   "url" :   "http://www.apache.org/licenses/LICENSE-2.0" } ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-documentdb-node"
+  },
+  "licenses": [
+    {
+      "type": "Apache License, Version 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ]
 }
