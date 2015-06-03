@@ -16,7 +16,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 var host = testConfig.host;
 var masterKey = testConfig.masterKey;
 
-describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
+describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
 
     function validateCRUDAsync(client, parentLink, options) {
         var deferred = Q.defer();
@@ -90,7 +90,7 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
             })
             .fail(function (error) {
                 console.log("error", error, error.stack);
-                assert.fail("", "", "an error occured");
+                assert.fail("", "", "an error occurred");
                 deferred.reject(error);
             });
 
@@ -375,7 +375,7 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                     return client.readMediaAsync(validAttachment.media);
                 }).then(function (response) {
                     readMediaResponse(response.result, function (err, mediaResult) {
-                        assert.equal(err, undefined, "error reading redia response");
+                        assert.equal(err, undefined, "error reading media response");
                         assert.equal(mediaResult, "modified first chunk modified second chunk");
                         done();
                     });
@@ -666,12 +666,12 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                             done();
                         })
                         .fail(function(error){
-                            console.log("An error has occured", error, error.stack);
+                            console.log("An error has occurred", error, error.stack);
                             done();
                         });
                 })
                 .fail(function(error){
-                    console.log("An error has occured", error, error.stack);
+                    console.log("An error has occurred", error, error.stack);
                     done();
                 });
         });
@@ -686,7 +686,7 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                     // test queryIterator.forEach
                     queryIterator.forEach(function(err, doc) {
                         if (err) {
-                            console.log("an error occured", err, err.stack);
+                            console.log("an error occurred", err, err.stack);
                             return done();
                         }
 
@@ -706,7 +706,7 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                     });
                 })
                 .fail(function(error){
-                    console.log("An error has occured", error, error.stack);
+                    console.log("An error has occurred", error, error.stack);
                     done();
                 });
         });
@@ -741,12 +741,12 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                             done();
                         })
                         .fail(function(error){
-                            console.log("An error has occured", error, error.stack);
+                            console.log("An error has occurred", error, error.stack);
                             done();
                         });
                 })
                 .fail(function(error){
-                    console.log("An error has occured", error, error.stack);
+                    console.log("An error has occurred", error, error.stack);
                     done();
                 });
         });
@@ -771,12 +771,12 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                             done();
                         })
                         .fail(function(error){
-                            console.log("An error has occured", error, error.stack);
+                            console.log("An error has occurred", error, error.stack);
                             done();
                         });
                 })
                 .fail(function(error){
-                    console.log("An error has occured", error, error.stack);
+                    console.log("An error has occurred", error, error.stack);
                     done();
                 });
         });
@@ -887,13 +887,13 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                         })
                         .fail(function(error) {
                             console.log("error", error, error.stack);
-                            assert.fail("", "", "an error occured");
+                            assert.fail("", "", "an error occurred");
                             done();
                         });
                 })
                 .fail(function(error) {
                     console.log("error", error, error.stack);
-                    assert.fail("", "", "an error occured");
+                    assert.fail("", "", "an error occurred");
                     done();
                 });
         });
@@ -946,12 +946,12 @@ describe("NodeJS Client Q prmise Wrapper CRUD Tests", function(){
                     done();
                 }).fail(function(error) {
                     console.log("error", error, error.stack);
-                    assert.fail("", "", "an error occured");
+                    assert.fail("", "", "an error occurred");
                     done();
                 });
             }).fail(function(error) {
                 console.log("error", error, error.stack);
-                assert.fail("", "", "an error occured");
+                assert.fail("", "", "an error occurred");
                 done();
             });
         });
