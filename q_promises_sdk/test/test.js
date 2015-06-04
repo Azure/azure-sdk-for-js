@@ -464,9 +464,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                 .then(function(createdResources) {
                     var triggerDefinition = {
                         id: "sample trigger",
-                        serverScript: function () {
-                            var x = 10;
-                        },
+                        serverScript: function () { var x = 10; },
                         triggerType: DocumentBase.TriggerType.Pre,
                         triggerOperation: DocumentBase.TriggerOperation.All
                     };
@@ -479,7 +477,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                                 if (property !== "serverScript") {
                                     assert.equal(created[property], triggerDefinition[property], "property " + property + " should match");
                                 } else {
-                                    assert.equal(created.body, "function () {var x = 10;}");
+                                    assert.equal(created.body, "function () { var x = 10; }");
                                 }
                             }
                         },
@@ -488,14 +486,12 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                                 if (property !== "serverScript") {
                                     assert.equal(replaced[property], created[property], "property " + property + " should match");
                                 } else {
-                                    assert.equal(replaced.body, "function () {var x = 20;}");
+                                    assert.equal(replaced.body, "function () { var x = 20; }");
                                 }
                             }
                         },
                         replaceProperties: function(resource) {
-                            resource.body = function () {
-                                var x = 20;
-                            };
+                            resource.body = function () { var x = 20; };
                             return resource;
                         }
                     };
@@ -527,7 +523,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                                 if (property !== "serverScript") {
                                     assert.equal(created[property], udfDefinition[property], "property " + property + " should match");
                                 } else {
-                                    assert.equal(created.body, "function () {var x = 10;}");
+                                    assert.equal(created.body, "function () { var x = 10; }");
                                 }
                             }
                         },
@@ -536,14 +532,12 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                                 if (property !== "serverScript") {
                                     assert.equal(replaced[property], created[property], "property " + property + " should match");
                                 } else {
-                                    assert.equal(replaced.body, "function () {var x = 20;}");
+                                    assert.equal(replaced.body, "function () { var x = 20; }");
                                 }
                             }
                         },
                         replaceProperties: function(resource) {
-                            resource.body = function () {
-                                var x = 20;
-                            };
+                            resource.body = function () { var x = 20; };
                             return resource;
                         }
                     };
@@ -567,9 +561,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                 .then(function(createdResources) {
                     var sprocDefinition = {
                         id: "sample sproc",
-                        serverScript: function () {
-                            var x = 10;
-                        }
+                        serverScript: function () { var x = 10; }
                     };
 
                     var validateOptions = {
@@ -580,7 +572,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                                 if (property !== "serverScript") {
                                     assert.equal(created[property], sprocDefinition[property], "property " + property + " should match");
                                 } else {
-                                    assert.equal(created.body, "function () {var x = 10;}");
+                                    assert.equal(created.body, "function () { var x = 10; }");
                                 }
                             }
                         },
@@ -589,14 +581,12 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                                 if (property !== "serverScript") {
                                     assert.equal(replaced[property], created[property], "property " + property + " should match");
                                 } else {
-                                    assert.equal(replaced.body, "function () {var x = 20;}");
+                                    assert.equal(replaced.body, "function () { var x = 20; }");
                                 }
                             }
                         },
                         replaceProperties: function(resource) {
-                            resource.body = function () {
-                                var x = 20;
-                            };
+                            resource.body = function () { var x = 20; };
                             return resource;
                         }
                     };

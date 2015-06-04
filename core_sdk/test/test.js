@@ -701,7 +701,7 @@ describe("NodeJS CRUD Tests", function() {
                                 if (property !== "serverScript") {
                                     assert.equal(trigger[property], triggerDefinition[property], "property " + property + " should match");
                                 } else {
-                                    assert.equal(trigger.body, "function () {var x = 10;}");
+                                    assert.equal(trigger.body, "function () { var x = 10; }");
                                 }
                             }
                             // read triggers after creation
@@ -722,16 +722,14 @@ describe("NodeJS CRUD Tests", function() {
                                     assert.equal(err, undefined, "error querying triggers");
                                     assert(results.length > 0, "number of results for the query should be > 0");
                                     //replace trigger
-                                    trigger.body = function () {
-                                        var x = 20;
-                                    };
+                                    trigger.body = function () { var x = 20; };
                                     client.replaceTrigger(trigger._self, trigger, function (error, replacedTrigger) {
                                         assert.equal(err, undefined, "error replacing trigger");
                                         for (var property in triggerDefinition) {
                                             if (property !== "serverScript") {
                                                 assert.equal(replacedTrigger[property], trigger[property], "property " + property + " should match");
                                             } else {
-                                                assert.equal(replacedTrigger.body, "function () {var x = 20;}");
+                                                assert.equal(replacedTrigger.body, "function () { var x = 20; }");
                                             }
                                         }
                                         // read trigger
@@ -776,9 +774,7 @@ describe("NodeJS CRUD Tests", function() {
                         var beforeCreateUdfsCount = udfs.length;
                         var udfDefinition = {
                             id: "sample udf",
-                            serverScript: function () {
-                                var x = 10;
-                            }
+                            serverScript: function () { var x = 10; }
                         };
                         client.createUserDefinedFunction(collection._self, udfDefinition, function(err, udf) {
                             assert.equal(err, undefined, "error creating udf");
@@ -786,7 +782,7 @@ describe("NodeJS CRUD Tests", function() {
                                 if (property !== "serverScript") {
                                     assert.equal(udf[property], udfDefinition[property], "property " + property + " should match");
                                 } else {
-                                    assert.equal(udf.body, "function () {var x = 10;}");
+                                    assert.equal(udf.body, "function () { var x = 10; }");
                                 }
                             }
 
@@ -808,16 +804,14 @@ describe("NodeJS CRUD Tests", function() {
                                     assert.equal(err, undefined, "error creating user defined functions");
                                     assert(results.length > 0, "number of results for the query should be > 0");
                                     // replace udf
-                                    udf.body = function () {
-                                        var x = 20;
-                                    };
+                                    udf.body = function () { var x = 20; };
                                     client.replaceUserDefinedFunction(udf._self, udf, function (error, replacedUdf) {
                                         assert.equal(err, undefined, "error replacing user defined function");
                                         for (var property in udfDefinition) {
                                             if (property !== "serverScript") {
                                                 assert.equal(replacedUdf[property], udf[property], "property " + property + " should match");
                                             } else {
-                                                assert.equal(replacedUdf.body, "function () {var x = 20;}");
+                                                assert.equal(replacedUdf.body, "function () { var x = 20; }");
                                             }
                                         }
                                          // read udf
@@ -862,9 +856,7 @@ describe("NodeJS CRUD Tests", function() {
                         var beforeCreateSprocsCount = sprocs.length;
                         var sprocDefinition = {
                             id: "sample sproc",
-                            serverScript: function () {
-                                var x = 10;
-                            }
+                            serverScript: function () { var x = 10; }
                         };
                         client.createStoredProcedure(collection._self, sprocDefinition, function(err, sproc) {
                             assert.equal(err, undefined, "error creating sproc");
@@ -872,7 +864,7 @@ describe("NodeJS CRUD Tests", function() {
                                 if (property !== "serverScript") {
                                     assert.equal(sproc[property], sprocDefinition[property], "property " + property + " should match");
                                 } else {
-                                    assert.equal(sproc.body, "function () {var x = 10;}");
+                                    assert.equal(sproc.body, "function () { var x = 10; }");
                                 }
                             }
 
@@ -888,16 +880,14 @@ describe("NodeJS CRUD Tests", function() {
                                     assert.equal(err, undefined, "error querying stored procedures");
                                     assert(sprocs.length > 0, "number of sprocs for the query should be > 0");
                                     // replace sproc
-                                    sproc.body = function () {
-                                        var x = 20;
-                                    };
+                                    sproc.body = function () { var x = 20; };
                                     client.replaceStoredProcedure(sproc._self, sproc, function (error, replacedSproc) {
                                         assert.equal(error, undefined, "error replacing store procedure");
                                         for (var property in sprocDefinition) {
                                             if (property !== "serverScript") {
                                                 assert.equal(replacedSproc[property], sproc[property], "property " + property + " should match");
                                             } else {
-                                                assert.equal(replacedSproc.body, "function () {var x = 20;}");
+                                                assert.equal(replacedSproc.body, "function () { var x = 20; }");
                                             }
                                         }
                                          // read sproc
@@ -1043,7 +1033,6 @@ describe("NodeJS CRUD Tests", function() {
             var client = new DocumentDBClient(host, {masterKey: masterKey});
             createResources(client, function (resources) {
                 var queryIterator = client.readDocuments(resources.coll._self, { maxItemCount: 2 });
-                assert.equal(err, undefined, "error reading documents");
                 var counter = 0;
                 // test queryIterator.forEach
                 queryIterator.forEach(function (err, doc) {
