@@ -15,7 +15,7 @@ var Constants = {
         QueryJson: "application/query+json",
         SQL: "application/sql",
         TextHtml: "text/html",
-        TextPlain: "text/plain",        
+        TextPlain: "text/plain",
         Xml: "application/xml"
     },
 
@@ -106,7 +106,7 @@ var Constants = {
 
         //Quota Info
         MaxEntityCount: "x-ms-root-entity-max-count",
-        CurrentEntityCount: "x-ms-root-entity-current-count",            
+        CurrentEntityCount: "x-ms-root-entity-current-count",
         CollectionQuotaInMb: "x-ms-collection-quota-mb",
         CollectionCurrentUsageInMb: "x-ms-collection-usage-mb",
         MaxMediaStorageUsageInMB: "x-ms-max-media-storage-usage-mb",
@@ -118,8 +118,8 @@ var Constants = {
     },
 
     CurrentVersion: "2015-04-08",
- 
-    UserAgent: "documentdb-nodejs-sdk-1.0.1"
+
+    UserAgent: "documentdb-nodejs-sdk-1.0.3"
 };
 
 //SCRIPT END
