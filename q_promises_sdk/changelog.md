@@ -1,4 +1,9 @@
+## Changes in 1.1.0 : ##
+
+- Implements V2 indexing policy
+
 ## Changes in 1.0.3 : ##
+
 - Issue [#40] (https://github.com/Azure/azure-documentdb-node/issues/40) - Implemented eslint and grunt configurations in the core and promise SDK
 
 ## Changes in 1.0.2 : ##

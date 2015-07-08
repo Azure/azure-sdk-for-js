@@ -941,29 +941,144 @@ describe("NodeJS CRUD Tests", function() {
                                         "id": "CollectionWithIndexingPolicy",
                                         "indexingPolicy": {
                                              automatic: true,
-                                             indexingMode: "Consistent",
-                                            "IncludedPaths": [
-                                            {
-                                                IndexType: "Hash",
-                                                Path: "/"
-                                            }
-                                            ],
-                                            ExcludedPaths: [
-                                             "/\"systemMetadata\"/*"
-                                            ]
+                                             indexingMode: DocumentBase.IndexingMode.Consistent,
+                                             "includedPaths": [
+                                                 {
+                                                     "path": "/",
+                                                     "indexes": [
+                                                         {
+                                                             "kind": DocumentBase.IndexKind.Hash,
+                                                             "dataType": DocumentBase.DataType.Number,
+                                                             "precision": 2
+                                                         }
+                                                     ]
+                                                 }
+                                             ],
+                                             "excludedPaths": [
+                                                 {
+                                                     "path": "/\"systemMetadata\"/*"
+                                                 }
+                                             ]
                                         }
 
                                     };
 
                                     client.deleteCollection(consistentCollection._self, function (err, coll) {
                                         assert.equal(err, undefined, "error deleting collection");
-                                        client.createCollection(db._self, collectionDefinition, function (err, collectioWithIndexingPolicy) {
+                                        client.createCollection(db._self, collectionDefinition, function (err, collectionWithIndexingPolicy) {
                                             assert.equal(err, undefined, "error creating collection");
-                                            assert.equal(collectioWithIndexingPolicy.indexingPolicy.IncludedPaths.length, 2, "Unexpected includedPaths length");
-                                            assert.equal(collectioWithIndexingPolicy.indexingPolicy.ExcludedPaths.length, 1, "Unexpected excludedPaths length");
+
+                                            // Two included paths.
+                                            assert.equal(2, collectionWithIndexingPolicy.indexingPolicy.includedPaths.length, "Unexpected includedPaths length");
+                                            // The first included path is what we created.
+                                            assert.equal("/", collectionWithIndexingPolicy.indexingPolicy.includedPaths[0].path);
+                                            assert.equal(1, collectionWithIndexingPolicy.indexingPolicy.includedPaths[0].indexes.length);
+                                            assert.equal(DocumentBase.IndexKind.Hash, collectionWithIndexingPolicy.indexingPolicy.includedPaths[0].indexes[0].kind);
+                                            // The second included path is a timestamp index created by the server.
+
+                                            // And one excluded path.
+                                            assert.equal(1, collectionWithIndexingPolicy.indexingPolicy.excludedPaths.length, "Unexpected excludedPaths length");
+                                            assert.equal("/\"systemMetadata\"/*", collectionWithIndexingPolicy.indexingPolicy.excludedPaths[0].path);
+
                                             done();
                                         });
                                     });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+
+        var checkDefaultIndexingPolicyPaths = function (indexingPolicy) {
+            // no excluded paths.
+            assert.equal(0, indexingPolicy["excludedPaths"].length);
+            // included paths should be 2 "_ts" and "/".
+            assert.equal(2, indexingPolicy["includedPaths"].length);
+
+            // check default paths.
+            assert.equal("/*", indexingPolicy["includedPaths"][0]["path"]);
+            assert.equal(2, indexingPolicy["includedPaths"][0]["indexes"].length);
+            assert.equal("Hash", indexingPolicy["includedPaths"][0]["indexes"][0]["kind"]);
+            assert.equal("String", indexingPolicy["includedPaths"][0]["indexes"][0]["dataType"]);
+            assert.equal(3, indexingPolicy["includedPaths"][0]["indexes"][0]["precision"]);
+            assert.equal("Range", indexingPolicy["includedPaths"][0]["indexes"][1]["kind"]);
+            assert.equal("Number", indexingPolicy["includedPaths"][0]["indexes"][1]["dataType"]);
+            assert.equal(-1, indexingPolicy["includedPaths"][0]["indexes"][1]["precision"]);
+
+            // _ts.
+            assert.equal("/\"_ts\"/?", indexingPolicy["includedPaths"][1]["path"]);
+        };
+
+        it("[nativeApi] Should create collection with default indexing policy", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            // create database
+            client.createDatabase({ id: "sample database" }, function (err, db) {
+                assert.equal(err, undefined, "error creating database");
+                // create collection with no indexing policy specified.
+                var collectionDefinition01 = { id: "TestCreateDefaultPolicy01" };
+                client.createCollection(db._self, collectionDefinition01, function (err, collection) {
+                    assert.equal(err, undefined, "error creating collection");
+                    checkDefaultIndexingPolicyPaths(collection["indexingPolicy"]);
+                    // create collection with partial policy specified.
+                    var collectionDefinition02 = {
+                        id: "TestCreateDefaultPolicy02",
+                        indexingPolicy: {
+                            indexingMode: "Lazy",
+                            automatic: true
+                        }
+                    };
+                    client.createCollection(db._self, collectionDefinition02, function (err, collection) {
+                        assert.equal(err, undefined, "error creating collection");
+                        checkDefaultIndexingPolicyPaths(collection["indexingPolicy"]);
+                        // create collection with default policy.
+                        var collectionDefinition03 = {
+                            id: "TestCreateDefaultPolicy03",
+                            indexingPolicy: { }
+                        };
+                        client.createCollection(db._self, collectionDefinition03, function (err, collection) {
+                            assert.equal(err, undefined, "error creating collection");
+                            checkDefaultIndexingPolicyPaths(collection["indexingPolicy"]);
+                            // create collection with indexing policy missing indexes.
+                            var collectionDefinition04 = {
+                                id: "TestCreateDefaultPolicy04",
+                                indexingPolicy: {
+                                    includedPaths: [
+                                        {
+                                            path: "/*"
+                                        }
+                                    ]
+                                }
+                            };
+                            client.createCollection(db._self, collectionDefinition04, function (err, collection) {
+                                assert.equal(err, undefined, "error creating collection");
+                                checkDefaultIndexingPolicyPaths(collection["indexingPolicy"]);
+                                // create collection with indexing policy missing precision.
+                                var collectionDefinition05 = {
+                                    id: "TestCreateDefaultPolicy05",
+                                    indexingPolicy: {
+                                        includedPaths: [
+                                            {
+                                                path: "/*",
+                                                indexes: [
+                                                    {
+                                                        kind: "Hash",
+                                                        dataType: "String"
+                                                    },
+                                                    {
+                                                        kind: "Range",
+                                                        dataType: "Number"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                };
+                                client.createCollection(db._self, collectionDefinition05, function (err, collection) {
+                                    assert.equal(err, undefined, "error creating collection");
+                                    checkDefaultIndexingPolicyPaths(collection["indexingPolicy"]);
+                                    done();
                                 });
                             });
                         });

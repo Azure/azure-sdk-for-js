@@ -104,6 +104,7 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
+            this.useDefaultIndexingPolicy(body);
             var path = "/" + databaseLink + "colls/";
             var resourceInfo = Base.parsePath(databaseLink);
             this.create(body, path, "colls", resourceInfo.objectBody.id, undefined, options, callback);
@@ -1544,6 +1545,62 @@ var DocumentClient = Base.defineClass(
                 var headers = Base.getHeaders(documentclient, initialHeaders, "post", path, id, type, options);
                 documentclient.post(urlConnection, path, query, headers, successCallback);
             }
+        },
+
+        /** @ignore */
+        useDefaultIndexingPolicy: function (collection) {
+            if (!collection) {
+                return;
+            }
+            if (!collection["indexingPolicy"]) {
+                collection["indexingPolicy"] = {};
+            }
+            if (collection["indexingPolicy"]["indexingMode"] !== AzureDocuments.IndexingMode.None &&
+                !collection["indexingPolicy"]["includedPaths"] &&
+                !collection["indexingPolicy"]["excludedPaths"]) {
+                collection["indexingPolicy"]["includedPaths"] = [
+                    {
+                        path: "/*"
+                    }
+                ];
+            }
+            for (var i = 0; i < collection["indexingPolicy"]["includedPaths"].length; ++i) {
+                var includedPath = collection["indexingPolicy"]["includedPaths"][i];
+                if (!includedPath["indexes"]) {
+                    includedPath["indexes"] = [
+                        {
+                            kind: AzureDocuments.IndexKind.Hash,
+                            dataType: AzureDocuments.DataType.String,
+                            precision: Constants.DefaultPrecisions.DefaultStringHashPrecision
+                        },
+                        {
+                            kind: AzureDocuments.IndexKind.Range,
+                            dataType: AzureDocuments.DataType.Number,
+                            precision: Constants.DefaultPrecisions.DefaultNumberRangePrecision
+                        }
+                    ];
+                }
+                for (var j = 0; j < includedPath["indexes"].length; ++j) {
+                    var index = includedPath["indexes"][j];
+                    if (index["kind"] === AzureDocuments.IndexKind.Hash) {
+                        if (!index["precision"]) {
+                            if (index["dataType"] === AzureDocuments.DataType.String) {
+                                index["precision"] = Constants.DefaultPrecisions.DefaultStringHashPrecision;
+                            } else if (index["dataType"] === AzureDocuments.DataType.Number) {
+                                index["precision"] = Constants.DefaultPrecisions.DefaultNumberHashPrecision;
+                            }
+                        }
+                    } else if (index["kind"] === AzureDocuments.IndexKind.Range) {
+                        if (!index["precision"]) {
+                            if (index["dataType"] === AzureDocuments.DataType.String) {
+                                index["precision"] = Constants.DefaultPrecisions.DefaultStringRangePrecision;
+                            } else if (index["dataType"] === AzureDocuments.DataType.Number) {
+                                index["precision"] = Constants.DefaultPrecisions.DefaultNumberRangePrecision;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 );
@@ -1613,22 +1670,37 @@ var DocumentClient = Base.defineClass(
                                                                                      <p>In automatic indexing, documents can be explicitly excluded from indexing using {@link RequestOptions}.
                                                                                      In manual indexing, documents can be explicitly included. </p>
  * @property {string} indexingMode                                         -         The indexing mode (consistent or lazy) {@link IndexingMode}.
- * @property {Array} IncludedPaths                                           -         An array of {@link IndexingPath} represents The paths to be incuded for indexing.
- * @property {Array} ExcludedPaths                                            -         An array of strings representing the paths to be excluded from indexing.
+ * @property {Array} IncludedPaths                                         -         An array of {@link IncludedPath} represents the paths to be included for indexing.
+ * @property {Array} ExcludedPaths                                         -         An array of {@link ExcludedPath} represents the paths to be excluded from indexing.
  *
  */
 
  /**
- * <p> Indexing paths hints to optimize indexing. <br>
- *     Indexing paths allow tradeoff between indexing storage and query performance
+ * <p> Included path. <br>
  * </p>
- * @typedef {Object}  IndexingPath
- * @property {string} IndexType                                                      -         The indexing type (range or hash) {@link IndexType}.
- * @property {string} Path                                                            -         Path to be indexed.
- * @property {number} NempericPrecission                                            -         Precision for this particular Index type for numeric data.
- * @property {number} StringPrecission                                              -         Precision for this particular Index type for string data.
+ * @typedef {Object} IncludedPath
+ * @property {Array} Indexes                                               -         An array of {@link Indexes}.
+ * @property {string} Path                                                 -         Path to be indexed.
  *
  */
+
+/**
+* <p> Index specification. <br>
+* </p>
+* @typedef {Object} Indexes
+* @property {string} Kind                                                  -         The index kind {@link IndexKind}.
+* @property {string} DataType                                              -         The data type {@link DataType}.
+* @property {number} Precision                                             -         The precision.
+*
+*/
+
+/**
+* <p> Excluded path. <br>
+* </p>
+* @typedef {Object} ExcludedPath
+* @property {string} Path                                                  -         Path to be indexed.
+*
+*/
 
 if (typeof exports !== "undefined") {
     exports.DocumentClient = DocumentClient;

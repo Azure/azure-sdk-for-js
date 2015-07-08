@@ -117,9 +117,16 @@ var Constants = {
         OfferType: "x-ms-offer-type"
     },
 
-    CurrentVersion: "2015-04-08",
+    CurrentVersion: "2015-06-03",
 
-    UserAgent: "documentdb-nodejs-sdk-1.0.3"
+    UserAgent: "documentdb-nodejs-sdk-1.1.0",
+
+    DefaultPrecisions: {
+        DefaultNumberHashPrecision: 3,
+        DefaultNumberRangePrecision: -1,
+        DefaultStringHashPrecision: 3,
+        DefaultStringRangePrecision: -1
+    }
 };
 
 //SCRIPT END
