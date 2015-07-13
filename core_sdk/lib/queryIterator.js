@@ -118,7 +118,7 @@ var QueryIterator = Base.defineClass(
          * Retrieve the next batch of the feed and pass them as an array to a function
          * @memberof QueryIterator
          * @instance
-         * @param {callback} callback - Function execute on the feed response, takes two parameters error, resourcesList
+         * @param {callback} callback - Function execute on the feed response, takes three parameters err, resources, and responseHeaders
          */
         executeNext: function(callback) {
             this._fetchMore(function(err, resources, responseHeaders) {
