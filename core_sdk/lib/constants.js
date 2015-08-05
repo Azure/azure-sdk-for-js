@@ -114,12 +114,15 @@ var Constants = {
         RequestCharge: "x-ms-request-charge",
 
         // Offer header
-        OfferType: "x-ms-offer-type"
+        OfferType: "x-ms-offer-type",
+
+        // Index progress headers
+        IndexTransformationProgress: "x-ms-documentdb-collection-index-transformation-progress"
     },
 
     CurrentVersion: "2015-06-03",
 
-    UserAgent: "documentdb-nodejs-sdk-1.1.0",
+    UserAgent: "documentdb-nodejs-sdk-1.2.0",
 
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,

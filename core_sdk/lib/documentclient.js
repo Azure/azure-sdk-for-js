@@ -25,12 +25,12 @@ var DocumentClient = Base.defineClass(
     */
     function DocumentClient(urlConnection, auth, connectionPolicy, consistencyLevel) {
         this.urlConnection = urlConnection;
-        if( auth !== undefined ) {
+        if (auth !== undefined) {
             this.masterKey = auth.masterKey;
             this.resourceTokens = auth.resourceTokens;
             if (auth.permissionFeed) {
                 this.resourceTokens = {};
-                for (var i = 0; i < auth.permissionFeed.length; i++ ){
+                for (var i = 0; i < auth.permissionFeed.length; i++) {
                     var resourceParts = auth.permissionFeed[i].resource.split("/");
                     var rid = resourceParts[resourceParts.length - 1];
                     this.resourceTokens[rid] = auth.permissionFeed[i]._token;
@@ -42,7 +42,7 @@ var DocumentClient = Base.defineClass(
         this.defaultHeaders = {};
         this.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
         this.defaultHeaders[Constants.HttpHeaders.Version] = Constants.CurrentVersion;
-        if (consistencyLevel !== undefined){
+        if (consistencyLevel !== undefined) {
             this.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] = consistencyLevel;
         }
 
@@ -77,6 +77,12 @@ var DocumentClient = Base.defineClass(
                 callback = options;
             }
 
+            var err = {};
+            if (!this.isResourceValid(body, err)) {
+                callback(err);
+                return;
+            }
+
             var path = "/dbs";
             this.create(body, path, "dbs", undefined, undefined, options, callback);
         },
@@ -102,6 +108,12 @@ var DocumentClient = Base.defineClass(
             if (!callback) {
                 callback = options;
                 options = {};
+            }
+
+            var err = {};
+            if (!this.isResourceValid(body, err)) {
+                callback(err);
+                return;
             }
 
             this.useDefaultIndexingPolicy(body);
@@ -140,6 +152,12 @@ var DocumentClient = Base.defineClass(
                 body.id = Base.generateGuidId();
             }
 
+            var err = {};
+            if (!this.isResourceValid(body, err)) {
+                callback(err);
+                return;
+            }
+
             var path = "/" + collectionLink + "docs/";
             var resourceInfo = Base.parsePath(collectionLink);
             this.create(body, path, "docs", resourceInfo.objectBody.id, undefined, options, callback);
@@ -166,6 +184,12 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
+            var err = {};
+            if (!this.isResourceValid(body, err)) {
+                callback(err);
+                return;
+            }
+
             var path = "/" + documentLink + "attachments/";
             var resourceInfo = Base.parsePath(documentLink);
             this.create(body, path, "attachments", resourceInfo.objectBody.id, undefined, options, callback);
@@ -187,6 +211,12 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
+            var err = {};
+            if (!this.isResourceValid(body, err)) {
+                callback(err);
+                return;
+            }
+
             var path = "/" + databaseLink + "users/";
             var resourceInfo = Base.parsePath(databaseLink);
             this.create(body, path, "users", resourceInfo.objectBody.id, undefined, options, callback);
@@ -205,10 +235,16 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options]    - The request options.
          * @param {RequestCallback} callback    - The callback for the request.
          */
-        createPermission: function(userLink, body, options, callback) {
+        createPermission: function (userLink, body, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
+            }
+
+            var err = {};
+            if (!this.isResourceValid(body, err)) {
+                callback(err);
+                return;
             }
 
             var path = "/" + userLink + "permissions/";
@@ -216,23 +252,23 @@ var DocumentClient = Base.defineClass(
             this.create(body, path, "permissions", resourceInfo.objectBody.id, undefined, options, callback);
         },
 
-         /**
-         * Create a trigger.
-         * <p>
-         * DocumentDB supports pre and post triggers defined in JavaScript to be executed on creates, updates and deletes. <br>
-         * For additional details, refer to the server-side JavaScript API documentation.
-         * </p>
-         * @memberof DocumentClient
-         * @instance
-         * @param {string} collectionLink           - The self-link of the collection.
-         * @param {object} trigger                  - Represents the body of the trigger.
-         * @param {string} trigger.id             - The id of the trigger.
-         * @param {string} trigger.triggerType      - The type of the trigger, should be one of the values of {@link TriggerType}.
-         * @param {string} trigger.triggerOperation - The trigger operation, should be one of the values of {@link TriggerOperation}.
-         * @param {function} trigger.serverScript   - The body of the trigger, it can be passed as stringified too.
-         * @param {RequestOptions} [options]        - The request options.
-         * @param {RequestCallback} callback        - The callback for the request.
-         */
+        /**
+        * Create a trigger.
+        * <p>
+        * DocumentDB supports pre and post triggers defined in JavaScript to be executed on creates, updates and deletes. <br>
+        * For additional details, refer to the server-side JavaScript API documentation.
+        * </p>
+        * @memberof DocumentClient
+        * @instance
+        * @param {string} collectionLink           - The self-link of the collection.
+        * @param {object} trigger                  - Represents the body of the trigger.
+        * @param {string} trigger.id             - The id of the trigger.
+        * @param {string} trigger.triggerType      - The type of the trigger, should be one of the values of {@link TriggerType}.
+        * @param {string} trigger.triggerOperation - The trigger operation, should be one of the values of {@link TriggerOperation}.
+        * @param {function} trigger.serverScript   - The body of the trigger, it can be passed as stringified too.
+        * @param {RequestOptions} [options]        - The request options.
+        * @param {RequestCallback} callback        - The callback for the request.
+        */
         createTrigger: function (collectionLink, trigger, options, callback) {
             if (!callback) {
                 callback = options;
@@ -243,6 +279,12 @@ var DocumentClient = Base.defineClass(
                 trigger.body = trigger.serverScript.toString();
             } else if (trigger.body) {
                 trigger.body = trigger.body.toString();
+            }
+
+            var err = {};
+            if (!this.isResourceValid(trigger, err)) {
+                callback(err);
+                return;
             }
 
             var resourceInfo = Base.parsePath(collectionLink);
@@ -278,6 +320,12 @@ var DocumentClient = Base.defineClass(
                 udf.body = udf.body.toString();
             }
 
+            var err = {};
+            if (!this.isResourceValid(udf, err)) {
+                callback(err);
+                return;
+            }
+
             var path = "/" + collectionLink + "udfs/";
             var resourceInfo = Base.parsePath(collectionLink);
             this.create(udf, path, "udfs", resourceInfo.objectBody.id, undefined, options, callback);
@@ -311,6 +359,12 @@ var DocumentClient = Base.defineClass(
                 sproc.body = sproc.body.toString();
             }
 
+            var err = {};
+            if (!this.isResourceValid(sproc, err)) {
+                callback(err);
+                return;
+            }
+
             var path = "/" + collectionLink + "sprocs/";
             var resourceInfo = Base.parsePath(collectionLink);
             this.create(sproc, path, "sprocs", resourceInfo.objectBody.id, undefined, options, callback);
@@ -325,7 +379,7 @@ var DocumentClient = Base.defineClass(
          * @param {MediaOptions} [options]          - The request options.
          * @param {RequestCallback} callback        - The callback for the request.
         */
-        createAttachmentAndUploadMedia: function(documentLink, readableStream, options, callback) {
+        createAttachmentAndUploadMedia: function (documentLink, readableStream, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
@@ -574,14 +628,14 @@ var DocumentClient = Base.defineClass(
             return this.queryDocuments(collectionLink, undefined, options);
         },
 
-         /**
-         * Get all attachments for this document.
-         * @memberof DocumentClient
-         * @instance
-         * @param {string} documentLink   - The self-link of the document.
-         * @param {FeedOptions} [options] - The feed options.
-         * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
-        */
+        /**
+        * Get all attachments for this document.
+        * @memberof DocumentClient
+        * @instance
+        * @param {string} documentLink   - The self-link of the document.
+        * @param {FeedOptions} [options] - The feed options.
+        * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
+       */
         readAttachments: function (documentLink, options) {
             return this.queryAttachments(documentLink, undefined, options);
         },
@@ -606,7 +660,7 @@ var DocumentClient = Base.defineClass(
          * @param {FeedOptions} [feedOptions] - The feed options.
          * @returns {QueryIterator}           - An instance of queryIterator to handle reading feed.
          */
-        readPermissions: function(userLink, options) {
+        readPermissions: function (userLink, options) {
             return this.queryPermissions(userLink, undefined, options);
         },
 
@@ -694,14 +748,14 @@ var DocumentClient = Base.defineClass(
             var that = this;
             var path = "/" + databaseLink + "colls/";
             var resourceInfo = Base.parsePath(databaseLink);
-            return new QueryIterator(this, query, options, function(options, callback) {
+            return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "colls",
                     resourceInfo.objectBody.id,
-                    function(result) { return result.DocumentCollections; },
-                    function(parent, body) { return body; },
+                    function (result) { return result.DocumentCollections; },
+                    function (parent, body) { return body; },
                     query,
                     options,
                     callback);
@@ -721,14 +775,14 @@ var DocumentClient = Base.defineClass(
             var that = this;
             var path = "/" + collectionLink + "docs/";
             var resourceInfo = Base.parsePath(collectionLink);
-            return new QueryIterator(this, query, options, function(options, callback){
+            return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "docs",
                     resourceInfo.objectBody.id,
-                    function(result) { return result.Documents; },
-                    function(parent, body) { return body; },
+                    function (result) { return result.Documents; },
+                    function (parent, body) { return body; },
                     query,
                     options,
                     callback);
@@ -748,14 +802,14 @@ var DocumentClient = Base.defineClass(
             var that = this;
             var path = "/" + documentLink + "attachments/";
             var resourceInfo = Base.parsePath(documentLink);
-            return new QueryIterator(this, query, options, function(options, callback){
+            return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                         that,
                         path,
                         "attachments",
                         resourceInfo.objectBody.id,
-                        function(result) { return result.Attachments; },
-                        function(parent, body) { return body; },
+                        function (result) { return result.Attachments; },
+                        function (parent, body) { return body; },
                         query,
                         options,
                         callback);
@@ -771,18 +825,18 @@ var DocumentClient = Base.defineClass(
          * @param {FeedOptions} [options]         - Represents the feed options.
          * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
          */
-        queryUsers: function(databaseLink, query, options) {
+        queryUsers: function (databaseLink, query, options) {
             var that = this;
             var path = "/" + databaseLink + "users/";
             var resourceInfo = Base.parsePath(databaseLink);
-            return new QueryIterator(this, query, options, function(options, callback){
+            return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "users",
                     resourceInfo.objectBody.id,
-                    function(result) { return result.Users; },
-                    function(parent, body) { return body; },
+                    function (result) { return result.Users; },
+                    function (parent, body) { return body; },
                     query,
                     options,
                     callback);
@@ -798,18 +852,18 @@ var DocumentClient = Base.defineClass(
          * @param {FeedOptions} [options]         - Represents the feed options.
          * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
          */
-        queryPermissions: function(userLink, query, options) {
+        queryPermissions: function (userLink, query, options) {
             var that = this;
             var resourceInfo = Base.parsePath(userLink);
             var path = "/" + userLink + "permissions/";
-            return new QueryIterator(this, query, options, function(options, callback){
+            return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "permissions",
                     resourceInfo.objectBody.id,
-                    function(result) { return result.Permissions; },
-                    function(parent, body) { return body; },
+                    function (result) { return result.Permissions; },
+                    function (parent, body) { return body; },
                     query,
                     options,
                     callback);
@@ -829,14 +883,14 @@ var DocumentClient = Base.defineClass(
             var that = this;
             var resourceInfo = Base.parsePath(collectionLink);
             var path = "/" + collectionLink + "triggers/";
-            return new QueryIterator(this, query, options, function(options, callback){
+            return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "triggers",
                     resourceInfo.objectBody.id,
-                    function(result) { return result.Triggers; },
-                    function(parent, body) { return body; },
+                    function (result) { return result.Triggers; },
+                    function (parent, body) { return body; },
                     query,
                     options,
                     callback);
@@ -856,14 +910,14 @@ var DocumentClient = Base.defineClass(
             var that = this;
             var path = "/" + collectionLink + "udfs/";
             var resourceInfo = Base.parsePath(collectionLink);
-            return new QueryIterator(this, query, options, function(options, callback){
+            return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "udfs",
                     resourceInfo.objectBody.id,
-                    function(result) { return result.UserDefinedFunctions; },
-                    function(parent, body) { return body; },
+                    function (result) { return result.UserDefinedFunctions; },
+                    function (parent, body) { return body; },
                     query,
                     options,
                     callback);
@@ -883,14 +937,14 @@ var DocumentClient = Base.defineClass(
             var that = this;
             var resourceInfo = Base.parsePath(collectionLink);
             var path = "/" + collectionLink + "sprocs/";
-            return new QueryIterator(this, query, options, function(options, callback){
+            return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "sprocs",
                     resourceInfo.objectBody.id,
-                    function(result) { return result.StoredProcedures; },
-                    function(parent, body) { return body; },
+                    function (result) { return result.StoredProcedures; },
+                    function (parent, body) { return body; },
                     query,
                     options,
                     callback);
@@ -910,14 +964,14 @@ var DocumentClient = Base.defineClass(
             var that = this;
             var path = "/" + collectionLink + "conflicts/";
             var resourceInfo = Base.parsePath(collectionLink);
-            return new QueryIterator(this, query, options, function(options, callback){
+            return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "conflicts",
                     resourceInfo.objectBody.id,
-                    function(result) { return result.Conflicts; },
-                    function(parent, body) { return body; },
+                    function (result) { return result.Conflicts; },
+                    function (parent, body) { return body; },
                     query,
                     options,
                     callback);
@@ -1008,7 +1062,7 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options] - The request options.
          * @param {RequestCallback} callback - The callback for the request.
         */
-        deleteUser: function(userLink, options, callback) {
+        deleteUser: function (userLink, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
@@ -1027,7 +1081,7 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options] - The request options.
          * @param {RequestCallback} callback - The callback for the request.
         */
-        deletePermission: function(permissionLink, options, callback) {
+        deletePermission: function (permissionLink, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
@@ -1046,7 +1100,7 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options] - The request options.
          * @param {RequestCallback} callback - The callback for the request.
         */
-        deleteTrigger: function(triggerLink, options, callback) {
+        deleteTrigger: function (triggerLink, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
@@ -1065,7 +1119,7 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options] - The request options.
          * @param {RequestCallback} callback - The callback for the request.
         */
-        deleteUserDefinedFunction: function(udfLink, options, callback) {
+        deleteUserDefinedFunction: function (udfLink, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
@@ -1084,7 +1138,7 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options] - The request options.
          * @param {RequestCallback} callback - The callback for the request.
         */
-        deleteStoredProcedure: function(sprocLink, options, callback) {
+        deleteStoredProcedure: function (sprocLink, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
@@ -1103,7 +1157,7 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options] - The request options.
          * @param {RequestCallback} callback - The callback for the request.
         */
-        deleteConflict: function(conflictLink, options, callback) {
+        deleteConflict: function (conflictLink, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
@@ -1112,6 +1166,32 @@ var DocumentClient = Base.defineClass(
             var path = "/" + conflictLink;
             var resourceInfo = Base.parsePath(conflictLink);
             this.deleteResource(path, "conflicts", resourceInfo.objectBody.id, undefined, options, callback);
+        },
+
+        /**
+         * Replace the document collection.
+         * @memberof DocumentClient
+         * @instance
+         * @param {string} collectionLink    - The self-link of the document collection.
+         * @param {object} collection        - Represent the new document collection body.
+         * @param {RequestOptions} [options] - The request options.
+         * @param {RequestCallback} callback - The callback for the request.
+        */
+        replaceCollection: function (collectionLink, collection, options, callback) {
+            if (!callback) {
+                callback = options;
+                options = {};
+            }
+
+            var err = {};
+            if (!this.isResourceValid(collection, err)) {
+                callback(err);
+                return;
+            }
+
+            var path = "/" + collectionLink;
+            var resourceInfo = Base.parsePath(collectionLink);
+            this.replace(collection, path, "colls", resourceInfo.objectBody.id, undefined, options, callback);
         },
 
         /**
@@ -1127,6 +1207,12 @@ var DocumentClient = Base.defineClass(
             if (!callback) {
                 callback = options;
                 options = {};
+            }
+
+            var err = {};
+            if (!this.isResourceValid(newDocument, err)) {
+                callback(err);
+                return;
             }
 
             var path = "/" + documentLink;
@@ -1149,6 +1235,12 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
+            var err = {};
+            if (!this.isResourceValid(attachment, err)) {
+                callback(err);
+                return;
+            }
+
             var path = "/" + attachmentLink;
             var resourceInfo = Base.parsePath(attachmentLink);
             this.replace(attachment, path, "attachments", resourceInfo.objectBody.id, undefined, options, callback);
@@ -1163,10 +1255,16 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options] - The request options.
          * @param {RequestCallback} callback - The callback for the request.
         */
-        replaceUser: function(userLink, user, options, callback) {
+        replaceUser: function (userLink, user, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
+            }
+
+            var err = {};
+            if (!this.isResourceValid(user, err)) {
+                callback(err);
+                return;
             }
 
             var path = "/" + userLink;
@@ -1183,10 +1281,16 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options] - The request options.
          * @param {RequestCallback} callback - The callback for the request.
         */
-        replacePermission: function(permissionLink, permission, options, callback) {
+        replacePermission: function (permissionLink, permission, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
+            }
+
+            var err = {};
+            if (!this.isResourceValid(permission, err)) {
+                callback(err);
+                return;
             }
 
             var path = "/" + permissionLink;
@@ -1203,7 +1307,7 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options] - The request options.
          * @param {RequestCallback} callback - The callback for the request.
         */
-        replaceTrigger: function(triggerLink, trigger, options, callback) {
+        replaceTrigger: function (triggerLink, trigger, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
@@ -1213,6 +1317,12 @@ var DocumentClient = Base.defineClass(
                 trigger.body = trigger.serverScript.toString();
             } else if (trigger.body) {
                 trigger.body = trigger.body.toString();
+            }
+
+            var err = {};
+            if (!this.isResourceValid(trigger, err)) {
+                callback(err);
+                return;
             }
 
             var path = "/" + triggerLink;
@@ -1229,7 +1339,7 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options] - The request options.
          * @param {RequestCallback} callback - The callback for the request.
         */
-        replaceUserDefinedFunction: function(udfLink, udf, options, callback) {
+        replaceUserDefinedFunction: function (udfLink, udf, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
@@ -1239,6 +1349,12 @@ var DocumentClient = Base.defineClass(
                 udf.body = udf.serverScript.toString();
             } else if (udf.body) {
                 udf.body = udf.body.toString();
+            }
+
+            var err = {};
+            if (!this.isResourceValid(udf, err)) {
+                callback(err);
+                return;
             }
 
             var path = "/" + udfLink;
@@ -1255,7 +1371,7 @@ var DocumentClient = Base.defineClass(
          * @param {RequestOptions} [options] - The request options.
          * @param {RequestCallback} callback - The callback for the request.
         */
-        replaceStoredProcedure: function(sprocLink, sproc, options, callback) {
+        replaceStoredProcedure: function (sprocLink, sproc, options, callback) {
             if (!callback) {
                 callback = options;
                 options = {};
@@ -1267,19 +1383,25 @@ var DocumentClient = Base.defineClass(
                 sproc.body = sproc.body.toString();
             }
 
+            var err = {};
+            if (!this.isResourceValid(sproc, err)) {
+                callback(err);
+                return;
+            }
+
             var path = "/" + sprocLink;
             var resourceInfo = Base.parsePath(sprocLink);
             this.replace(sproc, path, "sprocs", resourceInfo.objectBody.id, undefined, options, callback);
         },
 
-       /**
-         * Read the media for the attachment object.
-         * @memberof DocumentClient
-         * @instance
-         * @param {string} mediaLink         - The media link of the media in the attachment.
-         * @param {RequestCallback} callback - The callback for the request, the result parameter can be a buffer or a stream
-         *                                     depending on the value of {@link MediaReadMode}.
-         */
+        /**
+          * Read the media for the attachment object.
+          * @memberof DocumentClient
+          * @instance
+          * @param {string} mediaLink         - The media link of the media in the attachment.
+          * @param {RequestCallback} callback - The callback for the request, the result parameter can be a buffer or a stream
+          *                                     depending on the value of {@link MediaReadMode}.
+          */
         readMedia: function (mediaLink, callback) {
             var resourceInfo = Base.parsePath(mediaLink);
             var path = "/" + mediaLink;
@@ -1338,7 +1460,7 @@ var DocumentClient = Base.defineClass(
          * @param {Array} [params]              - represent the parameters of the stored procedure.
          * @param {RequestCallback} callback    - The callback for the request.
         */
-        executeStoredProcedure: function(sprocLink, params, callback) {
+        executeStoredProcedure: function (sprocLink, params, callback) {
             if (!callback) {
                 callback = params;
                 params = null;
@@ -1370,6 +1492,12 @@ var DocumentClient = Base.defineClass(
          * @param {RequestCallback} callback - The callback for the request.
          */
         replaceOffer: function (offerLink, offer, callback) {
+            var err = {};
+            if (!this.isResourceValid(offer, err)) {
+                callback(err);
+                return;
+            }
+
             var path = "/" + offerLink;
             var resourceInfo = Base.parsePath(offerLink);
             this.replace(offer, path, "offers", resourceInfo.objectBody.id, undefined, {}, callback);
@@ -1420,14 +1548,14 @@ var DocumentClient = Base.defineClass(
             });
         },
 
-         /** Gets the Database account information.
-        * @memberof DocumentClient
-        * @instance
-        * @param {RequestCallback} callback - The callback for the request. The second parameter of the callback will be of type {@link DatabaseAccount}.
-        */
-        getDatabaseAccount: function(callback) {
+        /** Gets the Database account information.
+       * @memberof DocumentClient
+       * @instance
+       * @param {RequestCallback} callback - The callback for the request. The second parameter of the callback will be of type {@link DatabaseAccount}.
+       */
+        getDatabaseAccount: function (callback) {
             var headers = Base.getHeaders(this, this.defaultHeaders, "get", "", "", "", {});
-            this.get(this.urlConnection, "", headers, function(err, result, headers) {
+            this.get(this.urlConnection, "", headers, function (err, result, headers) {
                 if (err) return callback(err);
 
                 var databaseAccount = new AzureDocuments.DatabaseAccount();
@@ -1473,32 +1601,32 @@ var DocumentClient = Base.defineClass(
         },
 
         /** @ignore */
-        get: function(url, path, headers, callback) {
+        get: function (url, path, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "GET", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
 
         /** @ignore */
-        post: function(url, path, body, headers, callback) {
+        post: function (url, path, body, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "POST", url, path, body, this.defaultUrlParams, headers, callback);
         },
 
         /** @ignore */
-        put: function(url, path, body, headers, callback) {
+        put: function (url, path, body, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "PUT", url, path, body, this.defaultUrlParams, headers, callback);
         },
 
         /** @ignore */
-        head: function(url, path, headers, callback) {
+        head: function (url, path, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "HEAD", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
 
         /** @ignore */
-        delete: function(url, path, headers, callback) {
+        delete: function (url, path, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "DELETE", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
 
         /** @ignore */
-        queryFeed: function(documentclient, path, type, id, resultFn, createFn, query, options, callback) {
+        queryFeed: function (documentclient, path, type, id, resultFn, createFn, query, options, callback) {
             var that = this;
 
             if (!callback) {
@@ -1564,43 +1692,60 @@ var DocumentClient = Base.defineClass(
                     }
                 ];
             }
-            for (var i = 0; i < collection["indexingPolicy"]["includedPaths"].length; ++i) {
-                var includedPath = collection["indexingPolicy"]["includedPaths"][i];
-                if (!includedPath["indexes"]) {
-                    includedPath["indexes"] = [
-                        {
-                            kind: AzureDocuments.IndexKind.Hash,
-                            dataType: AzureDocuments.DataType.String,
-                            precision: Constants.DefaultPrecisions.DefaultStringHashPrecision
-                        },
-                        {
-                            kind: AzureDocuments.IndexKind.Range,
-                            dataType: AzureDocuments.DataType.Number,
-                            precision: Constants.DefaultPrecisions.DefaultNumberRangePrecision
-                        }
-                    ];
-                }
-                for (var j = 0; j < includedPath["indexes"].length; ++j) {
-                    var index = includedPath["indexes"][j];
-                    if (index["kind"] === AzureDocuments.IndexKind.Hash) {
-                        if (!index["precision"]) {
-                            if (index["dataType"] === AzureDocuments.DataType.String) {
-                                index["precision"] = Constants.DefaultPrecisions.DefaultStringHashPrecision;
-                            } else if (index["dataType"] === AzureDocuments.DataType.Number) {
-                                index["precision"] = Constants.DefaultPrecisions.DefaultNumberHashPrecision;
+            if (collection["indexingPolicy"]["includedPaths"]) {
+                for (var i = 0; i < collection["indexingPolicy"]["includedPaths"].length; ++i) {
+                    var includedPath = collection["indexingPolicy"]["includedPaths"][i];
+                    if (!includedPath["indexes"]) {
+                        includedPath["indexes"] = [
+                            {
+                                kind: AzureDocuments.IndexKind.Hash,
+                                dataType: AzureDocuments.DataType.String,
+                                precision: Constants.DefaultPrecisions.DefaultStringHashPrecision
+                            },
+                            {
+                                kind: AzureDocuments.IndexKind.Range,
+                                dataType: AzureDocuments.DataType.Number,
+                                precision: Constants.DefaultPrecisions.DefaultNumberRangePrecision
                             }
-                        }
-                    } else if (index["kind"] === AzureDocuments.IndexKind.Range) {
-                        if (!index["precision"]) {
-                            if (index["dataType"] === AzureDocuments.DataType.String) {
-                                index["precision"] = Constants.DefaultPrecisions.DefaultStringRangePrecision;
-                            } else if (index["dataType"] === AzureDocuments.DataType.Number) {
-                                index["precision"] = Constants.DefaultPrecisions.DefaultNumberRangePrecision;
+                        ];
+                    }
+                    for (var j = 0; j < includedPath["indexes"].length; ++j) {
+                        var index = includedPath["indexes"][j];
+                        if (index["kind"] === AzureDocuments.IndexKind.Hash) {
+                            if (!index["precision"]) {
+                                if (index["dataType"] === AzureDocuments.DataType.String) {
+                                    index["precision"] = Constants.DefaultPrecisions.DefaultStringHashPrecision;
+                                } else if (index["dataType"] === AzureDocuments.DataType.Number) {
+                                    index["precision"] = Constants.DefaultPrecisions.DefaultNumberHashPrecision;
+                                }
+                            }
+                        } else if (index["kind"] === AzureDocuments.IndexKind.Range) {
+                            if (!index["precision"]) {
+                                if (index["dataType"] === AzureDocuments.DataType.String) {
+                                    index["precision"] = Constants.DefaultPrecisions.DefaultStringRangePrecision;
+                                } else if (index["dataType"] === AzureDocuments.DataType.Number) {
+                                    index["precision"] = Constants.DefaultPrecisions.DefaultNumberRangePrecision;
+                                }
                             }
                         }
                     }
                 }
             }
+        },
+
+        /** @ignore */
+        isResourceValid: function (resource, err) {
+            if (resource.id) {
+                if (resource.id.indexOf("/") !== -1 || resource.id.indexOf("\\") !== -1 || resource.id.indexOf("?") !== -1 || resource.id.indexOf("#") !== -1) {
+                    err.message = "Id contains illegal chars.";
+                    return false;
+                }
+                if (resource.id[resource.id.length - 1] === " ") {
+                    err.message = "Id ends with a space.";
+                    return false;
+                }
+            }
+            return true;
         }
     }
 );
@@ -1631,58 +1776,58 @@ var DocumentClient = Base.defineClass(
  *
  */
 
- /**
- * The media options
- * @typedef {Object} MediaOptions                                          -         Options associated with upload media.
- * @property {string} [slug]                                               -         HTTP Slug header value.
- * @property {string} [contentType=application/octet-stream]               -         HTTP ContentType header value.
- *
+/**
+* The media options
+* @typedef {Object} MediaOptions                                          -         Options associated with upload media.
+* @property {string} [slug]                                               -         HTTP Slug header value.
+* @property {string} [contentType=application/octet-stream]               -         HTTP ContentType header value.
+*
+*/
+
+/**
+ * The Sql query parameter.
+ * @typedef {Object} SqlParameter
+ * @property {string} name         -       The name of the parameter.
+ * @property {string} value        -       The value of the parameter.
  */
 
- /**
-  * The Sql query parameter.
-  * @typedef {Object} SqlParameter
-  * @property {string} name         -       The name of the parameter.
-  * @property {string} value        -       The value of the parameter.
-  */
+/**
+* The Sql query specification.
+* @typedef {Object} SqlQuerySpec
+* @property {string} query                       -       The body of the query.
+* @property {Array<SqlParameter>} parameters     -       The array of {@link SqlParameter}.
+*/
 
- /**
- * The Sql query specification.
- * @typedef {Object} SqlQuerySpec
- * @property {string} query                       -       The body of the query.
- * @property {Array<SqlParameter>} parameters     -       The array of {@link SqlParameter}.
- */
+/**
+* The callback to execute after the request execution.
+* @callback RequestCallback
+* @param {object} error            -       Will contain error information if an error occurs, undefined otherwise.
+* @param {number} error.code       -       The response code corresponding to the error.
+* @param {string} error.body       -       A string represents the error information.
+* @param {Object} resource         -       An object that represents the requested resource (Db, collection, document ... etc) if no error happens.
+* @param {object} responseHeaders  -       An object that contain the response headers.
+*/
 
- /**
- * The callback to execute after the request execution.
- * @callback RequestCallback
- * @param {object} error            -       Will contain error information if an error occurs, undefined otherwise.
- * @param {number} error.code       -       The response code corresponding to the error.
- * @param {string} error.body       -       A string represents the error information.
- * @param {Object} resource         -       An object that represents the requested resource (Db, collection, document ... etc) if no error happens.
- * @param {object} responseHeaders  -       An object that contain the response headers.
- */
+/**
+* The Indexing Policy represents the indexing policy configuration for a collection.
+* @typedef {Object} IndexingPolicy
+* @property {boolean} automatic                                           -         Specifies whether automatic indexing is enabled for a collection.
+                                                                                   <p>In automatic indexing, documents can be explicitly excluded from indexing using {@link RequestOptions}.
+                                                                                   In manual indexing, documents can be explicitly included. </p>
+* @property {string} indexingMode                                         -         The indexing mode (consistent or lazy) {@link IndexingMode}.
+* @property {Array} IncludedPaths                                         -         An array of {@link IncludedPath} represents the paths to be included for indexing.
+* @property {Array} ExcludedPaths                                         -         An array of {@link ExcludedPath} represents the paths to be excluded from indexing.
+*
+*/
 
-  /**
- * The Indexing Policy represents the indexing policy configuration for a collection.
- * @typedef {Object} IndexingPolicy
- * @property {boolean} automatic                                           -         Specifies whether automatic indexing is enabled for a collection.
-                                                                                     <p>In automatic indexing, documents can be explicitly excluded from indexing using {@link RequestOptions}.
-                                                                                     In manual indexing, documents can be explicitly included. </p>
- * @property {string} indexingMode                                         -         The indexing mode (consistent or lazy) {@link IndexingMode}.
- * @property {Array} IncludedPaths                                         -         An array of {@link IncludedPath} represents the paths to be included for indexing.
- * @property {Array} ExcludedPaths                                         -         An array of {@link ExcludedPath} represents the paths to be excluded from indexing.
- *
- */
-
- /**
- * <p> Included path. <br>
- * </p>
- * @typedef {Object} IncludedPath
- * @property {Array} Indexes                                               -         An array of {@link Indexes}.
- * @property {string} Path                                                 -         Path to be indexed.
- *
- */
+/**
+* <p> Included path. <br>
+* </p>
+* @typedef {Object} IncludedPath
+* @property {Array} Indexes                                               -         An array of {@link Indexes}.
+* @property {string} Path                                                 -         Path to be indexed.
+*
+*/
 
 /**
 * <p> Index specification. <br>
@@ -1706,4 +1851,5 @@ if (typeof exports !== "undefined") {
     exports.DocumentClient = DocumentClient;
     exports.DocumentBase = AzureDocuments;
     exports.Base = Base;
+    exports.Constants = Constants;
 }
