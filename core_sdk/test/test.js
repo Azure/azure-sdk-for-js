@@ -7,6 +7,7 @@
 var Base = require("documentdb").Base
   , DocumentDBClient = require("documentdb").DocumentClient
   , DocumentBase = require("documentdb").DocumentBase
+  , Constants = require("documentdb").Constants
   , assert = require("assert")
   , testConfig = require("./_testConfig")
   , Stream = require("stream");
@@ -148,10 +149,11 @@ describe("NodeJS CRUD Tests", function() {
                     assert.equal(collections.constructor, Array, "Value should be an array");
                     // create a collection
                     var beforeCreateCollectionsCount = collections.length;
-                    var collectionDefinition = { id: "sample collection" };
+                    var collectionDefinition = { id: "sample collection", indexingPolicy: {indexingMode: "Consistent"} };
                     client.createCollection(db._self, collectionDefinition, function(err, collection) {
                         assert.equal(err, undefined, "error creatong collection");
-                        assert.equal(collection.id, collectionDefinition.id);
+                        assert.equal(collectionDefinition.id, collection.id);
+                        assert.equal("consistent", collection.indexingPolicy.indexingMode);
                         // read collections after creation
                         client.readCollections(db._self).toArray(function (err, collections) {
                             assert.equal(err, undefined, "error reading collections");
@@ -169,18 +171,32 @@ describe("NodeJS CRUD Tests", function() {
                             client.queryCollections(db._self, querySpec).toArray(function (err, results) {
                                 assert.equal(err, undefined, "error querying collections");
                                 assert(results.length > 0, "number of results for the query should be > 0");
-                                // read collection
-                                client.readCollection(collection._self, function(err, collection) {
-                                    assert.equal(err, undefined, "readCollection should work successfully");
-                                    assert.equal(collection.id, collection.id);
-                                    // delete collection
-                                    client.deleteCollection(collection._self, function (err, res) {
-                                        assert.equal(err, undefined, "error deleting collection");
-                                        // read collection after deletion
-                                        client.readCollection(collection._self, function(err, collection) {
-                                            var notFoundErrorCode = 404;
-                                            assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-                                            done();
+
+                                // Replacing indexing policy is allowed.
+                                collection.indexingPolicy.indexingMode = "Lazy";
+                                client.replaceCollection(collection._self, collection, function (err, replacedCollection) {
+                                    assert.equal(err, undefined, "replaceCollection should work successfully");
+                                    assert.equal("lazy", replacedCollection.indexingPolicy.indexingMode);
+
+                                    // Replacing id is not allowed.
+                                    collection.id = "try_to_replace_id";
+                                    client.replaceCollection(collection._self, collection, function (err, replacedCollection) {
+                                        var badRequestErrorCode = 400;
+                                        assert.equal(err.code, badRequestErrorCode, "response should return error code 400");
+                                        // read collection
+                                        client.readCollection(collection._self, function (err, collection) {
+                                            assert.equal(err, undefined, "readCollection should work successfully");
+                                            assert.equal(collectionDefinition.id, collection.id);
+                                            // delete collection
+                                            client.deleteCollection(collection._self, function (err, res) {
+                                                assert.equal(err, undefined, "error deleting collection");
+                                                // read collection after deletion
+                                                client.readCollection(collection._self, function (err, collection) {
+                                                    var notFoundErrorCode = 404;
+                                                    assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
+                                                    done();
+                                                });
+                                            });
                                         });
                                     });
                                 });
@@ -915,6 +931,63 @@ describe("NodeJS CRUD Tests", function() {
         });
     });
 
+    describe("Validate spatial index", function () {
+        it("[nativeApi] Should support spatial index", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            // create database
+            client.createDatabase({ id: "sample database" }, function (err, db) {
+                assert.equal(err, undefined, "error creating database");
+                // create collection using an indexing policy with spatial index.
+                var indexingPolicy = {
+                    includedPaths: [
+                        {
+                            path: "/\"Location\"/?",
+                            indexes: [
+                                {
+                                    kind: "Spatial",
+                                    dataType: "Point"
+                                }
+                            ]
+                        },
+                        {
+                            path: "/"
+                        }
+                    ]
+                };
+                client.createCollection(db._self, { id: "sample collection", indexingPolicy: indexingPolicy }, function (err, collection) {
+                    assert.equal(err, undefined, "error creating collection");
+                    var location1 = {
+                        id: "location1",
+                        Location: {
+                            type: "Point",
+                            coordinates: [20.0, 20.0]
+                        }
+                    };
+                    client.createDocument(collection._self, location1, function (err, _) {
+                        assert.equal(err, undefined, "error creating location1");
+                        var location2 = {
+                            id: "location2",
+                            Location: {
+                                type: "Point",
+                                coordinates: [100.0, 100.0]
+                            }
+                        };
+                        client.createDocument(collection._self, location2, function (err, _) {
+                            assert.equal(err, undefined, "error creating location2");
+                            var query = "SELECT * FROM root WHERE (ST_DISTANCE(root.Location, {type: 'Point', coordinates: [20.1, 20]}) < 20000) ";
+                            client.queryDocuments(collection._self, query).toArray(function (err, results) {
+                                assert.equal(err, undefined, "error querying locations");
+                                assert.equal(1, results.length);
+                                assert.equal("location1", results[0].id);
+                                done();
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+
     describe("Validate collection indexing policy", function() {
         it("[nativeApi] Should create collection with correct indexing policy", function(done) {
             var client = new DocumentDBClient(host, {masterKey: masterKey});
@@ -940,25 +1013,25 @@ describe("NodeJS CRUD Tests", function() {
                                     var collectionDefinition = {
                                         "id": "CollectionWithIndexingPolicy",
                                         "indexingPolicy": {
-                                             automatic: true,
-                                             indexingMode: DocumentBase.IndexingMode.Consistent,
-                                             "includedPaths": [
-                                                 {
-                                                     "path": "/",
-                                                     "indexes": [
-                                                         {
-                                                             "kind": DocumentBase.IndexKind.Hash,
-                                                             "dataType": DocumentBase.DataType.Number,
-                                                             "precision": 2
-                                                         }
-                                                     ]
-                                                 }
-                                             ],
-                                             "excludedPaths": [
-                                                 {
-                                                     "path": "/\"systemMetadata\"/*"
-                                                 }
-                                             ]
+                                            automatic: true,
+                                            indexingMode: DocumentBase.IndexingMode.Consistent,
+                                            "includedPaths": [
+                                                {
+                                                    "path": "/",
+                                                    "indexes": [
+                                                        {
+                                                            "kind": DocumentBase.IndexKind.Hash,
+                                                            "dataType": DocumentBase.DataType.Number,
+                                                            "precision": 2
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "excludedPaths": [
+                                                {
+                                                    "path": "/\"systemMetadata\"/*"
+                                                }
+                                            ]
                                         }
 
                                     };
@@ -972,7 +1045,7 @@ describe("NodeJS CRUD Tests", function() {
                                             assert.equal(2, collectionWithIndexingPolicy.indexingPolicy.includedPaths.length, "Unexpected includedPaths length");
                                             // The first included path is what we created.
                                             assert.equal("/", collectionWithIndexingPolicy.indexingPolicy.includedPaths[0].path);
-                                            assert.equal(1, collectionWithIndexingPolicy.indexingPolicy.includedPaths[0].indexes.length);
+                                            assert(collectionWithIndexingPolicy.indexingPolicy.includedPaths[0].indexes.length > 1);  // Backend adds a default index
                                             assert.equal(DocumentBase.IndexKind.Hash, collectionWithIndexingPolicy.indexingPolicy.includedPaths[0].indexes[0].kind);
                                             // The second included path is a timestamp index created by the server.
 
@@ -1543,6 +1616,75 @@ describe("NodeJS CRUD Tests", function() {
                 assert.equal(databaseAccount.CurrentMediaStorageUsageInMB, headers["x-ms-media-storage-usage-mb"]);
                 assert(databaseAccount.ConsistencyPolicy.defaultConsistencyLevel !== undefined);
                 done();
+            });
+        });
+    });
+
+    describe("Validate response headers", function () {
+        var createThenReadCollection = function (client, databaseLink, body, callback) {
+            client.createCollection(databaseLink, body, function (err, collection, headers) {
+                assert.equal(err, undefined, "error creating collection");
+                client.readCollection(collection._self, function (err, collection, headers) {
+                    assert.equal(err, undefined, "error reading collection");
+                    callback(collection, headers);
+                });
+            });
+        };
+
+        it("[nativeApi] Validate index progress headers", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            client.createDatabase({ id: "sample database" }, function (err, db) {
+                assert.equal(err, undefined, "error creating database");
+                createThenReadCollection(client, db._self, { id: "consistent_coll" }, function (collection, headers) {
+                    assert.notEqual(headers[Constants.HttpHeaders.IndexTransformationProgress], undefined);
+                    assert.equal(headers[Constants.HttpHeaders.LazyIndexingProgress], undefined);
+                    var lazyCollectionDefinition = {
+                        id: "lazy_coll",
+                        indexingPolicy: { indexingMode: DocumentBase.IndexingMode.Lazy }
+                    };
+                    createThenReadCollection(client, db._self, lazyCollectionDefinition, function (collection, headers) {
+                        assert.notEqual(headers[Constants.HttpHeaders.IndexTransformationProgress], undefined);
+                        var noneCollectionDefinition = {
+                            id: "none_coll",
+                            indexingPolicy: { indexingMode: DocumentBase.IndexingMode.None, automatic: false }
+                        };
+                        createThenReadCollection(client, db._self, noneCollectionDefinition, function (collection, headers) {
+                            assert.notEqual(headers[Constants.HttpHeaders.IndexTransformationProgress], undefined);
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+    });
+
+    describe("Validate Id validation", function () {
+        it("[nativeApi] Should fail on illegal Ids.", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            // Id shoudn't end with a space.
+            client.createDatabase({ id: "id_ends_with_space " }, function (err, db) {
+                assert.equal("Id ends with a space.", err.message);
+
+                // Id shoudn't contain "/".
+                client.createDatabase({ id: "id_with_illegal/_char" }, function (err, db) {
+                    assert.equal("Id contains illegal chars.", err.message);
+
+                    // Id shoudn't contain "\\".
+                    client.createDatabase({ id: "id_with_illegal\\_char" }, function (err, db) {
+                        assert.equal("Id contains illegal chars.", err.message);
+
+                        // Id shoudn't contain "?".
+                        client.createDatabase({ id: "id_with_illegal?_?char" }, function (err, db) {
+                            assert.equal("Id contains illegal chars.", err.message);
+
+                            // Id shoudn't contain "#".
+                            client.createDatabase({ id: "id_with_illegal#_char" }, function (err, db) {
+                                assert.equal("Id contains illegal chars.", err.message);
+                                done();
+                            });
+                        });
+                    });
+                });
             });
         });
     });

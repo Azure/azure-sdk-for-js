@@ -6,4 +6,5 @@ if (typeof exports !== "undefined") {
     exports.DocumentClient = Client.DocumentClient;
     exports.DocumentBase = Client.DocumentBase;
     exports.Base = Client.Base;
+    exports.Constants = Client.Constants;
 }
