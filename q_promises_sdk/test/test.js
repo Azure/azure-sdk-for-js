@@ -61,7 +61,7 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                 var resources = response.feed;
                 assert(resources.length > 0, "number of resources for the query should be > 0");
                 createdResource = replaceProperties(createdResource);
-                if (className === "Collection" || className === "Database") {
+                if (className === "Database") {
                     return client["read" + className + "Async"](createdResource._self);
                 } else {
                     return client["replace" + className + "Async"](createdResource._self, createdResource);
@@ -208,14 +208,18 @@ describe("NodeJS Client Q promise Wrapper CRUD Tests", function(){
                 .then(function(createdResources) {
                     var validateOptions = {
                         className: "Collection",
-                        resourceDefinition: {id: "sample coll"},
+                        resourceDefinition: {id: "sample coll", indexingPolicy: { indexingMode: "consistent" } },
                         validateCreate: function(created) {
                             assert.equal(created.id, "sample coll", "wrong id");
                         },
                         validateReplace: function(created, replaced) {
-                            // collection doesn't support replace.
+                            assert.equal(replaced.indexingPolicy.indexingMode,
+                                "lazy",
+                                "indexingMode should have changed");
+                            assert.equal(created.id, replaced.id, "id should stay the same");
                         },
-                        replaceProperties: function(resource) {
+                        replaceProperties: function (resource) {
+                            resource.indexingPolicy.indexingMode = "lazy";
                             return resource;
                         }
                     };
