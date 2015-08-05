@@ -1,7 +1,7 @@
 ## Changes in 1.2.0 : ##
 
-- Supports GeoSpatial index.
-- Validates resource id.
+- Added support for GeoSpatial index.
+- Validates id property for all resources. Ids for resources cannot contain ?, /, #, \\, characters or end with a space. 
 - Adds new header "index transformation progress" to ResourceResponse.
 
 ## Changes in 1.1.0 : ##
