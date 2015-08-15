@@ -18,13 +18,13 @@ var AuthHandler = {
     getAuthorizationTokenUsingMasterKey: function (verb, resourceId, resourceType, headers, masterKey) {
         var key = new Buffer(masterKey, "base64");
 
-        var text = (verb || "") + "\n" +
-                   (resourceType || "") + "\n" +
+        var text = (verb || "").toLowerCase() + "\n" +
+                   (resourceType || "").toLowerCase() + "\n" +
                    (resourceId || "") + "\n" +
-                   (headers["x-ms-date"] || "") + "\n" +
-                   (headers["date"] || "") + "\n";
+                   (headers["x-ms-date"] || "").toLowerCase() + "\n" +
+                   (headers["date"] || "").toLowerCase() + "\n";
 
-        var body = new Buffer(text.toLowerCase(), "utf8");
+        var body = new Buffer(text, "utf8");
 
         var signature = crypto.createHmac("sha256", key).update(body).digest("base64");
 

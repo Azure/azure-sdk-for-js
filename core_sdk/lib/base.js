@@ -347,6 +347,30 @@ var Base = {
         }
 
         return id;
+    },
+
+    isLinkNameBased: function (link) {
+        var parts = link.split("/");
+        var firstId = "";
+        var count = 0;
+        // Get the first id from path.
+        for (var i = 0; i < parts.length; ++i) {
+            if (count === 0 && parts[i].toLowerCase() !== "dbs") {
+                return false;
+            }
+            if (count === 1) {
+                firstId = parts[i];
+                break;
+            }
+            if (parts[i]) {
+                ++count;
+            }
+        }
+        if (!firstId) return false;
+        if (firstId.length !== 8) return true;
+        var buffer = new Buffer(firstId, "base64");
+        if (buffer.length !== 4) return true;
+        return false;
     }
 };
 //SCRIPT END

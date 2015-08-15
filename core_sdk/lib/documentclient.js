@@ -117,9 +117,12 @@ var DocumentClient = Base.defineClass(
             }
 
             this.useDefaultIndexingPolicy(body);
-            var path = "/" + databaseLink + "colls/";
-            var resourceInfo = Base.parsePath(databaseLink);
-            this.create(body, path, "colls", resourceInfo.objectBody.id, undefined, options, callback);
+
+            var isNameBased = Base.isLinkNameBased(databaseLink);
+            var path = this.getPathFromLink(databaseLink, "colls", isNameBased);
+            var id = this.getIdFromLink(databaseLink, isNameBased);
+
+            this.create(body, path, "colls", id, undefined, options, callback);
         },
 
         /**
@@ -158,9 +161,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + collectionLink + "docs/";
-            var resourceInfo = Base.parsePath(collectionLink);
-            this.create(body, path, "docs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "docs", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
+            this.create(body, path, "docs", id, undefined, options, callback);
         },
 
         /**
@@ -190,9 +195,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + documentLink + "attachments/";
-            var resourceInfo = Base.parsePath(documentLink);
-            this.create(body, path, "attachments", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(documentLink);
+            var path = this.getPathFromLink(documentLink, "attachments", isNameBased);
+            var id = this.getIdFromLink(documentLink, isNameBased);
+
+            this.create(body, path, "attachments", id, undefined, options, callback);
         },
 
         /**
@@ -217,9 +224,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + databaseLink + "users/";
-            var resourceInfo = Base.parsePath(databaseLink);
-            this.create(body, path, "users", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(databaseLink);
+            var path = this.getPathFromLink(databaseLink, "users", isNameBased);
+            var id = this.getIdFromLink(databaseLink, isNameBased);
+
+            this.create(body, path, "users", id, undefined, options, callback);
         },
 
         /**
@@ -247,9 +256,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + userLink + "permissions/";
-            var resourceInfo = Base.parsePath(userLink);
-            this.create(body, path, "permissions", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(userLink);
+            var path = this.getPathFromLink(userLink, "permissions", isNameBased);
+            var id = this.getIdFromLink(userLink, isNameBased);
+
+            this.create(body, path, "permissions", id, undefined, options, callback);
         },
 
         /**
@@ -287,9 +298,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var resourceInfo = Base.parsePath(collectionLink);
-            var path = "/" + collectionLink + "triggers/";
-            this.create(trigger, path, "triggers", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "triggers", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
+            this.create(trigger, path, "triggers", id, undefined, options, callback);
         },
 
         /**
@@ -326,9 +339,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + collectionLink + "udfs/";
-            var resourceInfo = Base.parsePath(collectionLink);
-            this.create(udf, path, "udfs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "udfs", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
+            this.create(udf, path, "udfs", id, undefined, options, callback);
         },
 
         /**
@@ -365,9 +380,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + collectionLink + "sprocs/";
-            var resourceInfo = Base.parsePath(collectionLink);
-            this.create(sproc, path, "sprocs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "sprocs", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
+            this.create(sproc, path, "sprocs", id, undefined, options, callback);
         },
 
         /**
@@ -400,9 +417,11 @@ var DocumentClient = Base.defineClass(
                 initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.OctetStream;
             }
 
-            var path = "/" + documentLink + "attachments/";
-            var resourceInfo = Base.parsePath(documentLink);
-            this.create(readableStream, path, "attachments", resourceInfo.objectBody.id, initialHeaders, options, callback);
+            var isNameBased = Base.isLinkNameBased(documentLink);
+            var path = this.getPathFromLink(documentLink, "attachments", isNameBased);
+            var id = this.getIdFromLink(documentLink, isNameBased);
+
+            this.create(readableStream, path, "attachments", id, initialHeaders, options, callback);
         },
 
         /** Reads a database.
@@ -418,9 +437,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + databaseLink;
-            var resourceInfo = Base.parsePath(databaseLink);
-            this.read(path, "dbs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(databaseLink);
+            var path = this.getPathFromLink(databaseLink, "", isNameBased);
+            var id = this.getIdFromLink(databaseLink, isNameBased);
+
+            this.read(path, "dbs", id, undefined, options, callback);
         },
 
         /**
@@ -437,9 +458,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + collectionLink;
-            var resourceInfo = Base.parsePath(collectionLink);
-            this.read(path, "colls", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
+            this.read(path, "colls", id, undefined, options, callback);
         },
 
         /**
@@ -456,9 +479,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + documentLink;
-            var resourceInfo = Base.parsePath(documentLink);
-            this.read(path, "docs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(documentLink);
+            var path = this.getPathFromLink(documentLink, "", isNameBased);
+            var id = this.getIdFromLink(documentLink, isNameBased);
+
+            this.read(path, "docs", id, undefined, options, callback);
         },
 
         /**
@@ -475,9 +500,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + attachmentLink;
-            var resourceInfo = Base.parsePath(attachmentLink);
-            this.read(path, "attachments", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(attachmentLink);
+            var path = this.getPathFromLink(attachmentLink, "", isNameBased);
+            var id = this.getIdFromLink(attachmentLink, isNameBased);
+
+            this.read(path, "attachments", id, undefined, options, callback);
         },
 
         /**
@@ -494,9 +521,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + userLink;
-            var resourceInfo = Base.parsePath(userLink);
-            this.read(path, "users", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(userLink);
+            var path = this.getPathFromLink(userLink, "", isNameBased);
+            var id = this.getIdFromLink(userLink, isNameBased);
+
+            this.read(path, "users", id, undefined, options, callback);
         },
 
         /**
@@ -513,9 +542,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + permissionLink;
-            var resourceInfo = Base.parsePath(permissionLink);
-            this.read(path, "permissions", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(permissionLink);
+            var path = this.getPathFromLink(permissionLink, "", isNameBased);
+            var id = this.getIdFromLink(permissionLink, isNameBased);
+
+            this.read(path, "permissions", id, undefined, options, callback);
         },
 
         /**
@@ -533,8 +564,12 @@ var DocumentClient = Base.defineClass(
             }
 
             var resourceInfo = Base.parsePath(triggerLink);
-            var path = "/" + triggerLink;
-            this.read(path, "triggers", resourceInfo.objectBody.id, undefined, options, callback);
+
+            var isNameBased = Base.isLinkNameBased(triggerLink);
+            var path = this.getPathFromLink(triggerLink, "", isNameBased);
+            var id = this.getIdFromLink(triggerLink, isNameBased);
+
+            this.read(path, "triggers", id, undefined, options, callback);
         },
 
         /**
@@ -551,9 +586,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + udfLink;
-            var resourceInfo = Base.parsePath(udfLink);
-            this.read(path, "udfs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(udfLink);
+            var path = this.getPathFromLink(udfLink, "", isNameBased);
+            var id = this.getIdFromLink(udfLink, isNameBased);
+
+            this.read(path, "udfs", id, undefined, options, callback);
         },
 
         /**
@@ -570,9 +607,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + sprocLink;
-            var resourceInfo = Base.parsePath(sprocLink);
-            this.read(path, "sprocs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(sprocLink);
+            var path = this.getPathFromLink(sprocLink, "", isNameBased);
+            var id = this.getIdFromLink(sprocLink, isNameBased);
+
+            this.read(path, "sprocs", id, undefined, options, callback);
         },
 
         /**
@@ -589,9 +628,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + conflictLink;
-            var resourceInfo = Base.parsePath(conflictLink);
-            this.read(path, "conflicts", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(conflictLink);
+            var path = this.getPathFromLink(conflictLink, "", isNameBased);
+            var id = this.getIdFromLink(conflictLink, isNameBased);
+
+            this.read(path, "conflicts", id, undefined, options, callback);
         },
 
         /** Lists all databases.
@@ -746,14 +787,17 @@ var DocumentClient = Base.defineClass(
          */
         queryCollections: function (databaseLink, query, options) {
             var that = this;
-            var path = "/" + databaseLink + "colls/";
-            var resourceInfo = Base.parsePath(databaseLink);
+
+            var isNameBased = Base.isLinkNameBased(databaseLink);
+            var path = this.getPathFromLink(databaseLink, "colls", isNameBased);
+            var id = this.getIdFromLink(databaseLink, isNameBased);
+
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "colls",
-                    resourceInfo.objectBody.id,
+                    id,
                     function (result) { return result.DocumentCollections; },
                     function (parent, body) { return body; },
                     query,
@@ -773,14 +817,17 @@ var DocumentClient = Base.defineClass(
          */
         queryDocuments: function (collectionLink, query, options) {
             var that = this;
-            var path = "/" + collectionLink + "docs/";
-            var resourceInfo = Base.parsePath(collectionLink);
+
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "docs", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "docs",
-                    resourceInfo.objectBody.id,
+                    id,
                     function (result) { return result.Documents; },
                     function (parent, body) { return body; },
                     query,
@@ -800,14 +847,17 @@ var DocumentClient = Base.defineClass(
         */
         queryAttachments: function (documentLink, query, options) {
             var that = this;
-            var path = "/" + documentLink + "attachments/";
-            var resourceInfo = Base.parsePath(documentLink);
+
+            var isNameBased = Base.isLinkNameBased(documentLink);
+            var path = this.getPathFromLink(documentLink, "attachments", isNameBased);
+            var id = this.getIdFromLink(documentLink, isNameBased);
+
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                         that,
                         path,
                         "attachments",
-                        resourceInfo.objectBody.id,
+                        id,
                         function (result) { return result.Attachments; },
                         function (parent, body) { return body; },
                         query,
@@ -827,14 +877,17 @@ var DocumentClient = Base.defineClass(
          */
         queryUsers: function (databaseLink, query, options) {
             var that = this;
-            var path = "/" + databaseLink + "users/";
-            var resourceInfo = Base.parsePath(databaseLink);
+
+            var isNameBased = Base.isLinkNameBased(databaseLink);
+            var path = this.getPathFromLink(databaseLink, "users", isNameBased);
+            var id = this.getIdFromLink(databaseLink, isNameBased);
+
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "users",
-                    resourceInfo.objectBody.id,
+                    id,
                     function (result) { return result.Users; },
                     function (parent, body) { return body; },
                     query,
@@ -854,14 +907,17 @@ var DocumentClient = Base.defineClass(
          */
         queryPermissions: function (userLink, query, options) {
             var that = this;
-            var resourceInfo = Base.parsePath(userLink);
-            var path = "/" + userLink + "permissions/";
+
+            var isNameBased = Base.isLinkNameBased(userLink);
+            var path = this.getPathFromLink(userLink, "permissions", isNameBased);
+            var id = this.getIdFromLink(userLink, isNameBased);
+
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "permissions",
-                    resourceInfo.objectBody.id,
+                    id,
                     function (result) { return result.Permissions; },
                     function (parent, body) { return body; },
                     query,
@@ -881,14 +937,17 @@ var DocumentClient = Base.defineClass(
          */
         queryTriggers: function (collectionLink, query, options) {
             var that = this;
-            var resourceInfo = Base.parsePath(collectionLink);
-            var path = "/" + collectionLink + "triggers/";
+
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "triggers", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "triggers",
-                    resourceInfo.objectBody.id,
+                    id,
                     function (result) { return result.Triggers; },
                     function (parent, body) { return body; },
                     query,
@@ -908,14 +967,17 @@ var DocumentClient = Base.defineClass(
          */
         queryUserDefinedFunctions: function (collectionLink, query, options) {
             var that = this;
-            var path = "/" + collectionLink + "udfs/";
-            var resourceInfo = Base.parsePath(collectionLink);
+
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "udfs", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "udfs",
-                    resourceInfo.objectBody.id,
+                    id,
                     function (result) { return result.UserDefinedFunctions; },
                     function (parent, body) { return body; },
                     query,
@@ -935,14 +997,17 @@ var DocumentClient = Base.defineClass(
          */
         queryStoredProcedures: function (collectionLink, query, options) {
             var that = this;
-            var resourceInfo = Base.parsePath(collectionLink);
-            var path = "/" + collectionLink + "sprocs/";
+
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "sprocs", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "sprocs",
-                    resourceInfo.objectBody.id,
+                    id,
                     function (result) { return result.StoredProcedures; },
                     function (parent, body) { return body; },
                     query,
@@ -962,14 +1027,17 @@ var DocumentClient = Base.defineClass(
          */
         queryConflicts: function (collectionLink, query, options) {
             var that = this;
-            var path = "/" + collectionLink + "conflicts/";
-            var resourceInfo = Base.parsePath(collectionLink);
+
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "conflicts", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
                     path,
                     "conflicts",
-                    resourceInfo.objectBody.id,
+                    id,
                     function (result) { return result.Conflicts; },
                     function (parent, body) { return body; },
                     query,
@@ -992,9 +1060,10 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + databaseLink;
-            var resourceInfo = Base.parsePath(databaseLink);
-            this.deleteResource(path, "dbs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(databaseLink);
+            var path = this.getPathFromLink(databaseLink, "", isNameBased);
+            var id = this.getIdFromLink(databaseLink, isNameBased);
+            this.deleteResource(path, "dbs", id, undefined, options, callback);
         },
 
         /**
@@ -1011,9 +1080,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + collectionLink;
-            var resourceInfo = Base.parsePath(collectionLink);
-            this.deleteResource(path, "colls", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
+            this.deleteResource(path, "colls", id, undefined, options, callback);
         },
 
         /**
@@ -1030,9 +1101,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + documentLink;
-            var resourceInfo = Base.parsePath(documentLink);
-            this.deleteResource(path, "docs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(documentLink);
+            var path = this.getPathFromLink(documentLink, "", isNameBased);
+            var id = this.getIdFromLink(documentLink, isNameBased);
+
+            this.deleteResource(path, "docs", id, undefined, options, callback);
         },
 
         /**
@@ -1049,9 +1122,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + attachmentLink;
-            var resourceInfo = Base.parsePath(attachmentLink);
-            this.deleteResource(path, "attachments", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(attachmentLink);
+            var path = this.getPathFromLink(attachmentLink, "", isNameBased);
+            var id = this.getIdFromLink(attachmentLink, isNameBased);
+
+            this.deleteResource(path, "attachments", id, undefined, options, callback);
         },
 
         /**
@@ -1068,9 +1143,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + userLink;
-            var resourceInfo = Base.parsePath(userLink);
-            this.deleteResource(path, "users", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(userLink);
+            var path = this.getPathFromLink(userLink, "", isNameBased);
+            var id = this.getIdFromLink(userLink, isNameBased);
+
+            this.deleteResource(path, "users", id, undefined, options, callback);
         },
 
         /**
@@ -1087,9 +1164,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + permissionLink;
-            var resourceInfo = Base.parsePath(permissionLink);
-            this.deleteResource(path, "permissions", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(permissionLink);
+            var path = this.getPathFromLink(permissionLink, "", isNameBased);
+            var id = this.getIdFromLink(permissionLink, isNameBased);
+
+            this.deleteResource(path, "permissions", id, undefined, options, callback);
         },
 
         /**
@@ -1106,9 +1185,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + triggerLink;
-            var resourceInfo = Base.parsePath(triggerLink);
-            this.deleteResource(path, "triggers", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(triggerLink);
+            var path = this.getPathFromLink(triggerLink, "", isNameBased);
+            var id = this.getIdFromLink(triggerLink, isNameBased);
+
+            this.deleteResource(path, "triggers", id, undefined, options, callback);
         },
 
         /**
@@ -1125,9 +1206,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + udfLink;
-            var resourceInfo = Base.parsePath(udfLink);
-            this.deleteResource(path, "udfs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(udfLink);
+            var path = this.getPathFromLink(udfLink, "", isNameBased);
+            var id = this.getIdFromLink(udfLink, isNameBased);
+
+            this.deleteResource(path, "udfs", id, undefined, options, callback);
         },
 
         /**
@@ -1144,9 +1227,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + sprocLink;
-            var resourceInfo = Base.parsePath(sprocLink);
-            this.deleteResource(path, "sprocs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(sprocLink);
+            var path = this.getPathFromLink(sprocLink, "", isNameBased);
+            var id = this.getIdFromLink(sprocLink, isNameBased);
+
+            this.deleteResource(path, "sprocs", id, undefined, options, callback);
         },
 
         /**
@@ -1163,9 +1248,11 @@ var DocumentClient = Base.defineClass(
                 options = {};
             }
 
-            var path = "/" + conflictLink;
-            var resourceInfo = Base.parsePath(conflictLink);
-            this.deleteResource(path, "conflicts", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(conflictLink);
+            var path = this.getPathFromLink(conflictLink, "", isNameBased);
+            var id = this.getIdFromLink(conflictLink, isNameBased);
+
+            this.deleteResource(path, "conflicts", id, undefined, options, callback);
         },
 
         /**
@@ -1189,9 +1276,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + collectionLink;
-            var resourceInfo = Base.parsePath(collectionLink);
-            this.replace(collection, path, "colls", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
+            this.replace(collection, path, "colls", id, undefined, options, callback);
         },
 
         /**
@@ -1215,9 +1304,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + documentLink;
-            var resourceInfo = Base.parsePath(documentLink);
-            this.replace(newDocument, path, "docs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(documentLink);
+            var path = this.getPathFromLink(documentLink, "", isNameBased);
+            var id = this.getIdFromLink(documentLink, isNameBased);
+
+            this.replace(newDocument, path, "docs", id, undefined, options, callback);
         },
 
         /**
@@ -1241,9 +1332,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + attachmentLink;
-            var resourceInfo = Base.parsePath(attachmentLink);
-            this.replace(attachment, path, "attachments", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(attachmentLink);
+            var path = this.getPathFromLink(attachmentLink, "", isNameBased);
+            var id = this.getIdFromLink(attachmentLink, isNameBased);
+
+            this.replace(attachment, path, "attachments", id, undefined, options, callback);
         },
 
         /**
@@ -1267,9 +1360,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + userLink;
-            var resourceInfo = Base.parsePath(userLink);
-            this.replace(user, path, "users", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(userLink);
+            var path = this.getPathFromLink(userLink, "", isNameBased);
+            var id = this.getIdFromLink(userLink, isNameBased);
+
+            this.replace(user, path, "users", id, undefined, options, callback);
         },
 
         /**
@@ -1293,9 +1388,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + permissionLink;
-            var resourceInfo = Base.parsePath(permissionLink);
-            this.replace(permission, path, "permissions", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(permissionLink);
+            var path = this.getPathFromLink(permissionLink, "", isNameBased);
+            var id = this.getIdFromLink(permissionLink, isNameBased);
+
+            this.replace(permission, path, "permissions", id, undefined, options, callback);
         },
 
         /**
@@ -1325,9 +1422,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + triggerLink;
-            var resourceInfo = Base.parsePath(triggerLink);
-            this.replace(trigger, path, "triggers", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(triggerLink);
+            var path = this.getPathFromLink(triggerLink, "", isNameBased);
+            var id = this.getIdFromLink(triggerLink, isNameBased);
+
+            this.replace(trigger, path, "triggers", id, undefined, options, callback);
         },
 
         /**
@@ -1357,9 +1456,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + udfLink;
-            var resourceInfo = Base.parsePath(udfLink);
-            this.replace(udf, path, "udfs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(udfLink);
+            var path = this.getPathFromLink(udfLink, "", isNameBased);
+            var id = this.getIdFromLink(udfLink, isNameBased);
+
+            this.replace(udf, path, "udfs", id, undefined, options, callback);
         },
 
         /**
@@ -1389,9 +1490,11 @@ var DocumentClient = Base.defineClass(
                 return;
             }
 
-            var path = "/" + sprocLink;
-            var resourceInfo = Base.parsePath(sprocLink);
-            this.replace(sproc, path, "sprocs", resourceInfo.objectBody.id, undefined, options, callback);
+            var isNameBased = Base.isLinkNameBased(sprocLink);
+            var path = this.getPathFromLink(sprocLink, "", isNameBased);
+            var id = this.getIdFromLink(sprocLink, isNameBased);
+
+            this.replace(sproc, path, "sprocs", id, undefined, options, callback);
         },
 
         /**
@@ -1407,7 +1510,8 @@ var DocumentClient = Base.defineClass(
             var path = "/" + mediaLink;
             var initialHeaders = Base.extend({}, this.defaultHeaders);
             initialHeaders[Constants.HttpHeaders.Accept] = Constants.MediaTypes.Any;
-            var attachmentId = Base.getAttachmentIdFromMediaId(resourceInfo.objectBody.id);
+            var attachmentId = Base.getAttachmentIdFromMediaId(resourceInfo.objectBody.id).toLowerCase();
+
             var headers = Base.getHeaders(this, initialHeaders, "get", path, attachmentId, "media", {});
             this.get(this.urlConnection, path, headers, callback);
         },
@@ -1446,7 +1550,7 @@ var DocumentClient = Base.defineClass(
             var urlConnection = this.urlConnection;
             var resourceInfo = Base.parsePath(mediaLink);
             var path = "/" + mediaLink;
-            var attachmentId = Base.getAttachmentIdFromMediaId(resourceInfo.objectBody.id);
+            var attachmentId = Base.getAttachmentIdFromMediaId(resourceInfo.objectBody.id).toLowerCase();
             var headers = Base.getHeaders(this, initialHeaders, "put", path, attachmentId, "media", options);
 
             this.put(urlConnection, path, readableStream, headers, callback);
@@ -1476,9 +1580,12 @@ var DocumentClient = Base.defineClass(
             }
 
             var urlConnection = this.urlConnection;
-            var path = "/" + sprocLink;
-            var resourceInfo = Base.parsePath(sprocLink);
-            var headers = Base.getHeaders(this, initialHeaders, "post", path, resourceInfo.objectBody.id, "sprocs", {});
+
+            var isNameBased = Base.isLinkNameBased(sprocLink);
+            var path = this.getPathFromLink(sprocLink, "", isNameBased);
+            var id = this.getIdFromLink(sprocLink, isNameBased);
+
+            var headers = Base.getHeaders(this, initialHeaders, "post", path, id, "sprocs", {});
 
             this.post(urlConnection, path, params, headers, callback);
         },
@@ -1499,8 +1606,8 @@ var DocumentClient = Base.defineClass(
             }
 
             var path = "/" + offerLink;
-            var resourceInfo = Base.parsePath(offerLink);
-            this.replace(offer, path, "offers", resourceInfo.objectBody.id, undefined, {}, callback);
+            var id = Base.parsePath(offerLink).objectBody.id.toLowerCase();
+            this.replace(offer, path, "offers", id, undefined, {}, callback);
         },
 
         /** Reads an offer.
@@ -1511,8 +1618,8 @@ var DocumentClient = Base.defineClass(
         */
         readOffer: function (offerLink, callback) {
             var path = "/" + offerLink;
-            var resourceInfo = Base.parsePath(offerLink);
-            this.read(path, "offers", resourceInfo.objectBody.id, undefined, {}, callback);
+            var id = Base.parsePath(offerLink).objectBody.id.toLowerCase();
+            this.read(path, "offers", id, undefined, {}, callback);
         },
 
         /** Lists all offers.
@@ -1746,6 +1853,32 @@ var DocumentClient = Base.defineClass(
                 }
             }
             return true;
+        },
+
+        /** @ignore */
+        getIdFromLink: function (resourceLink, isNameBased) {
+            if (isNameBased) {
+                return resourceLink;
+            } else {
+                return Base.parsePath(resourceLink).objectBody.id.toLowerCase();
+            }
+        },
+
+        /** @ignore */
+        getPathFromLink: function (resourceLink, resourceType, isNameBased) {
+            if (isNameBased) {
+                if (resourceType) {
+                    return "/" + encodeURI(resourceLink) + "/" + resourceType;
+                } else {
+                    return "/" + encodeURI(resourceLink);
+                }
+            } else {
+                if (resourceType) {
+                    return "/" + resourceLink + resourceType + "/";
+                } else {
+                    return "/" + resourceLink;
+                }
+            }
         }
     }
 );
