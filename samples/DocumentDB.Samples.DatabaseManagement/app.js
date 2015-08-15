@@ -1,15 +1,4 @@
-﻿//--------------------------------------------------------------------------------- 
-// Microsoft (R)  Azure SDK 
-// Software Development Kit 
-//  
-// Copyright (c) Microsoft Corporation. All rights reserved.   
-// 
-// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,  
-// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES  
-// OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.  
-//---------------------------------------------------------------------------------
-
-console.log();
+﻿console.log();
 console.log('Azure DocumentDB Node.js Samples');
 console.log('================================');
 console.log();
@@ -28,47 +17,96 @@ var masterKey = config.connection.authKey;
 // Establish a new instance of the DocumentDBClient to be used throughout this demo
 var client = new DocumentDBClient(host, { masterKey: masterKey });
 
-//---------------------------------------------------------------------------------
-// This demo performs a few steps
-// 1. Attempt to find a database by Id, if found then just complete the sample
-// 2. If the database was not found, try create it
-// 3. Once the database was created, list all the databases on the account
-// 4. Once we've finished listing all databases on the account, 
-//    delete the db we created and finish
-//---------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------
+// This demo performs the following CRUD operations on a Database
+//
+// 1. findDatabaseById  - Attempt to find a database by Id, if found then just complete the sample
+// 2. createDatabase    - If the database was not found, try create it
+// 3. listDatabases     - Once the database was created, list all the databases on the account
+// 4. readDatbase       - Read a database by its _self
+// 5. readDatabase      - Read a database by its id (using new ID Based Routing)
+// 6. deleteDatabase    - Delete a database given its id
+//
+//---------------------------------------------------------------------------------------------------
 
-console.log('Looking for a database named \'' + databaseId + '\'...');
+
 
 // 1.
+console.log('1. findDatabaseById \'' + databaseId + '\'');
 findDatabaseById(databaseId, function (err, db) {
+    
+    //no database found, let's go ahead with sample
     if (db == null) {
-        console.log('Creating database named \'' + databaseId + '\'...')
+        console.log('Database with id ' + databaseId + ' not found.');
+
         // 2.
+        console.log('\n2. createDatabase \'' + databaseId + '\'')
         createDatabase(databaseId, function (db) {
             if (db != null) {
                 console.log('Database with id ' + db.id + ' created.');
                 
                 // 3.
-                console.log('Listing all databases on this account...');
+                console.log('\n3. listDatabases');
                 listDatabases(function (dbs) {
                     for (var i = 0; i < dbs.length; i++) {
                         console.log(dbs[i].id);
                     }
-                                     
+                                
                     // 4.
-                    console.log('Deleting database named \'' + databaseId + '\'...');
-                    deleteDatabase(databaseId, function () {
-                        finish();
+                    console.log('\n4. readDatabase - with _self \'' + db._self + '\'');
+                    readDatabase(db, function (db) {                        
+                        if (db != null) {
+                            console.log('Database with _self \'' + db._self + '\' was found its id is \'' + db.id);
+                        }
+                        
+                        // 5.
+                        console.log('\n5. readDatabase - with id \'' + db.id + '\'');
+                        readDatabaseById(databaseId, function () {
+                            if (db != null) {
+                                console.log('Database with uri of \'dbs/' + db.id + '\' was found its _self is \'' + db._self + '\'');
+                            }
+
+                            // 6.
+                            console.log('\n6. deleteDatabase with id \'' + databaseId + '\'');
+                            deleteDatabase(databaseId, function () {
+                                finish();
+                            });
+                        });
                     });
                 });
             }
-        }); 
+        });
+    
+    //database already present, cleanup for next run
     } else {
-        console.log('Nothing more to do here, A database with id ' + db.id + ' was already found.');
-        finish();
+        console.log('\nNothing more to do here, A database with id ' + databaseId + ' was already found.');
+        deleteDatabase(databaseId, function () {
+            finish();
+        });
     }
 });
 
+//when using the new ID Based Routing URIs, the URI must NOT have a trailing / character
+//i.e. instead of dbs/db/ (which is the format of a db._self) the URI should be dbs/db
+function readDatabaseById(databaseId, callback) {
+    client.readDatabase('dbs/' + databaseId, function (err, db) {
+        if (err) {
+            handleError(err);
+        }
+        
+        callback(db);
+    });
+}
+
+function readDatabase(database, callback) {
+    client.readDatabase(database._self, function (err, db) {
+        if (err) {
+            handleError(err);
+        }
+
+        callback(db);
+    });
+}
 
 function listDatabases(callback) {
     var queryIterator = client.readDatabases().toArray(function (err, dbs) {
@@ -93,19 +131,14 @@ function createDatabase(databaseId, callback) {
 }
 
 function deleteDatabase(databaseId, callback) {
-    findDatabaseById(databaseId, function (err, db) {
+    var dbLink = 'dbs/' + databaseId;
+
+    client.deleteDatabase(dbLink, function (err) {
         if (err) {
-            handleError (err);
-        }
-        
-        if (db != null) {
-            client.deleteDatabase(db._self, function (err) {
-                if (err) {
-                    handleError(err);
-                } else {
-                    callback();
-                }
-            });
+            handleError(err);
+        } else {
+            console.log('Database with id \'' + databaseId + '\' deleted.');
+            callback();
         }
     });
 }
