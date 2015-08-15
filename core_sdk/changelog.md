@@ -1,3 +1,8 @@
+## Changes in 1.2.1 : ##
+
+- Implements ID Based Routing
+- Fixes Issue [#49](https://github.com/Azure/azure-documentdb-node/issues/49) - current property conflicts with method current()
+
 ## Changes in 1.2.0 : ##
 
 - Added support for GeoSpatial index.
