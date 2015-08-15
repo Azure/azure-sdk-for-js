@@ -1,8 +1,9 @@
 Samples for performing basic CRUD operations on DocumentDB Database
 
-- findDatabaseByID	- Attempt to find a database by Id, if found then just complete the sample
-- createDatabase    - If the database was not found, try create it
-- listDatabases     - Once the database was created, list all the databases on the account
-- readDatbase       - Read a database by its _self
-- readDatabase      - Read a database by its id (using new ID Based Routing)
-- deleteDatabase    - Delete a database given its id
+- createCollection  - given an id, create a new Collectionwith thedefault indexingPolicy
+- listCollections   - example of using the QueryIterator to get a list of Collections in a Database
+- readCollection    - Read a collection by its _self
+- readCollection    - Read a collection by its id (using new ID Based Routing)
+- getOfferType      - get the Offer.OfferType for a collection. This is what determines if aCollection is S1, S2, or S3 
+- modifyOfferType   - change the Offer.OfferType for a collection. This is how you scale a Collection up or down
+- deleteCollection  - given just the collection id, delete the collection

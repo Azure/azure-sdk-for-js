@@ -1,6 +1,7 @@
-﻿Samples for performing basic CRUD operations on DocumentDB Collection
-- listCollections - example of using the QueryIterator to get a list of Collections in a Database in to an array
+Samples for performing basic CRUD operations on DocumentDB Collection
+
 - createCollection - given an id, create a new Collection with the default indexingPolicy
-- getOrCreateDatabase - given an id for a database, attempt to find existing Database. if none found, create a new Database
-- deleteCollection - using the supplied collection object, delete the collection
-- deleteDatabase - using the supplied database object, delete the database
+- listCollections - example of using the QueryIterator to get a list of Collections in a Database
+- getOfferType - get the Offer.OfferType for a collection. This is what determines if a Collection is S1, S2, or S3
+- modifyOfferType - change the Offer.OfferType for a collection. This is how you scale a Collection up or down
+- deleteCollection - given just the collection id, delete the collection

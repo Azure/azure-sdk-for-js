@@ -86,9 +86,9 @@ findDatabaseById(databaseId, function (err, db) {
     }
 });
 
-//when using the new ID Based Routing URIs, the URI must NOT have a trailing / character
-//i.e. instead of dbs/db/ (which is the format of a db._self) the URI should be dbs/db
 function readDatabaseById(databaseId, callback) {
+    //when using the new ID Based Routing URIs, the URI must NOT have a trailing / character
+    //i.e. instead of dbs/db/ (which is the format of a db._self) the URI should be dbs/db
     client.readDatabase('dbs/' + databaseId, function (err, db) {
         if (err) {
             handleError(err);
