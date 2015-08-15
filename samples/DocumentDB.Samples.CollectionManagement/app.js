@@ -1,15 +1,4 @@
-﻿//--------------------------------------------------------------------------------- 
-// Microsoft (R)  Azure SDK 
-// Software Development Kit 
-//  
-// Copyright (c) Microsoft Corporation. All rights reserved.   
-// 
-// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,  
-// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES  
-// OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.  
-//---------------------------------------------------------------------------------
-
-console.log();
+﻿console.log();
 console.log('Azure DocumentDB Node.js Samples');
 console.log('================================');
 console.log();
@@ -30,55 +19,77 @@ var client = new DocumentDBClient(host, { masterKey: masterKey });
 
 //---------------------------------------------------------------------------------
 // This demo performs a few steps
-// 1. Read or Create a Database (we always need a database to work with)
-// 2. Create a collection in this database
-// 3. Using the collection selfLink, query for the Offer object and verify the OfferType
-// 4. Scale the collection up by changing the Offer it is linked to
-// 5. List Collections on a database
-// 6. Delete Collection and the database we created
-// 7. finish()
+// 1. Create a collection in the database
+// 2  List all collections on a database
+// 2. Read a specific collection using its Id
+// 3. Get the OfferType for a collection
+// 4. Scale the collection up by changing the Offer.OfferType it is linked to
+// 5. Delete collection and the database we created
+// 6. finish()
 //---------------------------------------------------------------------------------
 
-// 1.
-console.log('Looking for a database named \'' + databaseId + '\'...');
+// ensuring a database exists for us to work with
+console.log('Looking for a database with id of \'' + databaseId + '\'...');
 getOrCreateDatabase(databaseId, function (db) {
-
-    // 2.
-    console.log('Creating a collection called \'' + collectionId + '\'...');
-    createCollection(db._self, collectionId, function (col) {
-
-        // 3.
-        console.log('Verifying offertype...');
-        getOfferType(col._self, function (offer) {
-            console.log('Offer type of collection ' + col.id + ' is ' + offer.offerType);
+    
+    //NOTE: when using the new ID Based Routing URIs, instead of the _self, as we're doing in this sample
+    //      ensure that the URI does not end with a trailing '/' character
+    var dbLink = 'dbs/' + databaseId
+    
+    // 1.
+    console.log();
+    console.log('Creating a collection with id \'' + collectionId + '\'...');
+    createCollection(dbLink, collectionId, function (col) {
+        
+        // 2 .
+        console.log();
+        console.log('Listing all collections on this database...');
+        listCollections(dbLink, function (cols) {
+            for (var i = 0; i < cols.length; i++) {
+                console.log(cols[i].id);
+            }
             
-            // 4.
-            console.log('Changing OfferType of collection...');
-            changeOfferType(col._self, 'S2', function () {
-                console.log('OfferType changed');
-
-                // 5.
-                console.log('Listing all collections on this database...');
-                listCollections(db._self, function (cols) {
-                    for (var i = 0; i < cols.length; i++) {
-                        console.log(cols[i].id);
-                    };
-                    
-                    // 6.
-                    console.log('Cleaning up...');
-                    deleteCollection(col, function () {
-                        deleteDatabase(db, function () {
-                            
-                            // 7.
-                            finish();
-                        });
-                    });
-
-                });
-            });
+            // 6.
+            console.log('\n');
+            console.log('Cleaning up ...');
+            deleteDatabase(dbLink, function () {
+                finish();
+            });            
         });
     });
 });
+
+function createCollection(databaseLink, collectionId, callback) {
+    //we're creating a Collection here using the default indexingPolicy, 
+    //for more information on using other indexingPolicies please consult the IndexManagement sample
+    
+    //we're also setting the OfferType for this new collection to be an "S1"
+    //"S1" is the default, so if a OfferType value is not supplied in the 4th parameter then OfferTyoe of "S1" will apply
+    //for more information on OfferTypes please consult the DocumentDB Documentation on 
+    //http://azure.microsoft.com/en-us/documentation/services/documentdb/
+    
+    client.createCollection(databaseLink, { id: collectionId }, { offerType: "S1" }, function (err, created) {
+        if (err) {
+            handleError(err);
+
+        } else {
+            console.log('Collection \'' + collectionId + '\'created');
+            callback(created);
+        }
+    });
+}
+
+function listCollections(databaseLink, callback) {
+    var queryIterator = client.readCollections(databaseLink).toArray(function (err, cols) {
+        if (err) {
+            handleError(err);
+        
+        } else {            
+            console.log(cols.length + ' Collections found');
+            callback(cols);
+        }
+    });
+}
 
 //Collections and OfferTypes are loosely coupled.
 //An Offer's resource -- Collection's _self property
@@ -132,37 +143,13 @@ function changeOfferType(collectionLink, newOfferType, callback) {
     })
 }
 
-function listCollections(databaseLink, callback) {
-    var queryIterator = client.readCollections(databaseLink).toArray(function (err, cols) {
-        if (err) {
-            handleError(err);
-        }
-        
-        console.log(cols.length + ' Collections found');
-        callback(cols);
-    });
-}
-
-function createCollection(databaseLink, collectionId, callback) {
-    //we're creating a Collection here using the default indexingPolicy, 
-    //for more information on using other indexingPolicies please consult the IndexManagement sample
-     
-    //we're also setting the OfferType for this new collection to be an "S1"
-    //"S1" is the default, so if a OfferType value is not supplied in the 4th parameter then OfferTyoe of "S1" will apply
-    //for more information on OfferTypes please consult the DocumentDB Documentation on 
-    //http://azure.microsoft.com/en-us/documentation/services/documentdb/
-
-    client.createCollection(databaseLink, { id: collectionId }, { offerType: "S1" }, function (err, created) {
-        if (err) handleError(err);
-        
-        console.log('Collection \'' + collectionId + '\'created');
-        callback(created);
-    });
-}
-
 function getOrCreateDatabase(databaseId, callback){
+    //we're using queryDatabases here and not readDatabase
+    //readDatabase will throw an exception if resource is not found
+    //queryDatabases will not, it will return empty resultset. 
+
     var querySpec = {
-        query: 'SELECT * FROM root r WHERE  r.id = @id',
+        query: 'SELECT * FROM root r WHERE r.id=@id',
         parameters: [
             {
                 name: '@id',
@@ -170,16 +157,16 @@ function getOrCreateDatabase(databaseId, callback){
             }
         ]
     };
-
+    
     client.queryDatabases(querySpec).toArray(function (err, results) {
         if (err) {
             handleError(err);
-        }
-        
-        if (results.length === 0) {
+
+        //database not found, create it
+        } else if (results.length === 0) {
             console.log('Database \'' + databaseId + '\'not found');
             var databaseDef = { id: databaseId };
-
+            
             client.createDatabase(databaseDef, function (err, created) {
                 if (err) {
                     handleError(err);
@@ -188,6 +175,8 @@ function getOrCreateDatabase(databaseId, callback){
                 console.log('Database \'' + databaseId + '\'created');
                 callback(created);
             });
+        
+        //database found, return it
         } else {
             console.log('Database \'' + databaseId + '\'found');
             callback(results[0]);
@@ -206,13 +195,31 @@ function deleteCollection(collection, callback) {
     });
 }
 
-function deleteDatabase(database, callback) {
-    client.deleteDatabase(database._self, function (err) {
+function deleteDatabase(dbLink, callback) {
+    client.deleteDatabase(dbLink, function (err) {
         if (err) {
             handleError(err);
         } else {
             console.log('Database \'' + database.id + '\'deleted');
             callback();
+        }
+    });
+}
+
+function deleteDatabase(databaseId, callback) {
+    findDatabaseById(databaseId, function (err, db) {
+        if (err) {
+            handleError(err);
+        }
+        
+        if (db != null) {
+            client.deleteDatabase(db._self, function (err) {
+                if (err) {
+                    handleError(err);
+                } else {
+                    callback();
+                }
+            });
         }
     });
 }
