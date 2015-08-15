@@ -19,7 +19,7 @@ var QueryIterator = Base.defineClass(
         this.documentclient = documentclient;
         this.query = query;
         this.resources = [];
-        this.current = 0;
+        this.currentIndex = 0;
         this.fetchFunction = fetchFunction;
         this.continuation = null;
         this.options = options || {};
@@ -49,15 +49,29 @@ var QueryIterator = Base.defineClass(
          * @instance
          * @param {callback} callback - Function to execute for each element. the function takes two parameters error, element.
          */
-        nextItem: function(callback) {
+        nextItem: function (callback) {
             var that = this;
-            if (this.current < this.resources.length) {
-                return callback(undefined, this.resources[this.current++]);
+            this.current(function (err, resources, headers) {
+                ++that.currentIndex;
+                callback(err, resources, headers);
+            });
+        },
+
+        /**
+         * Retrieve the current element on the QueryIterator.
+         * @memberof QueryIterator
+         * @instance
+         * @param {callback} callback - Function to execute for each element. the function takes two parameters error, element.
+         */
+        current: function(callback) {
+            var that = this;
+            if (this.currentIndex < this.resources.length) {
+                return callback(undefined, this.resources[this.currentIndex], undefined);
             }
 
             if (this._state === this._states.start || (this.continuation && this._state === this._states.inProgress)) {
-                this._fetchMore(function(err, resources, headers){
-                    if(err) {
+                this._fetchMore(function (err, resources, headers) {
+                    if (err) {
                         return callback(err, undefined, headers);
                     }
 
@@ -65,29 +79,19 @@ var QueryIterator = Base.defineClass(
                     if (that.resources.length === 0) {
                         if (!that.continuation) {
                             that._state = that._states.ended;
-                            callback(undefined, undefined);
+                            callback(undefined, undefined, headers);
                         } else {
                             that.nextItem(callback);
                         }
                         return undefined;
                     }
 
-                    callback(undefined, that.resources[that.current++]);
+                    callback(undefined, that.resources[that.currentIndex], headers);
                 });
             } else {
                 this._state = this._states.ended;
-                callback(undefined, undefined);
+                callback(undefined, undefined, undefined);
             }
-        },
-
-        /**
-         * Retrieve the current element on the QueryIterator.
-         * @memberof QueryIterator
-         * @instance
-         * @returns {Object} The current resource in the QueryIterator, undefined if there isn't.
-         */
-        current: function(){
-            return this.resources[this.current];
         },
 
         /**
@@ -97,7 +101,7 @@ var QueryIterator = Base.defineClass(
          * @returns {Boolean} true if there is other elements to process in the QueryIterator.
          */
         hasMoreResults: function() {
-            return this._state === this._states.start || this.continuation !== undefined || this.current < this.resources.length;
+            return this._state === this._states.start || this.continuation !== undefined || this.currentIndex < this.resources.length;
         },
 
         /**
@@ -136,7 +140,7 @@ var QueryIterator = Base.defineClass(
          * @instance
          */
         reset: function() {
-            this.current = 0;
+            this.currentIndex = 0;
             this.continuation = null;
             this.resources = [];
             this._state = this._states.start;
@@ -170,9 +174,9 @@ var QueryIterator = Base.defineClass(
                     }
 
                     that.resources = resources;
-                    while (that.current < that.resources.length) {
+                    while (that.currentIndex < that.resources.length) {
                         // if the callback explicitly returned false, the loop gets stopped.
-                        if (callback(undefined, that.resources[that.current++]) === false) {
+                        if (callback(undefined, that.resources[that.currentIndex++]) === false) {
                             return undefined;
                         }
                     }
@@ -197,7 +201,7 @@ var QueryIterator = Base.defineClass(
 
                 that.continuation = responseHeaders[Constants.HttpHeaders.Continuation];
                 that._state = that._states.inProgress;
-                that.current = 0;
+                that.currentIndex = 0;
                 callback(undefined, resources, responseHeaders);
             });
         }
