@@ -19,7 +19,7 @@ var host = config.connection.endpoint;
 var masterKey = config.connection.authKey;
 
 var documentDefinitions = function () {
-    var data = fs.readFileSync('./Data/Families.json');   
+    var data = fs.readFileSync('../Data/Families.json');   
     return JSON.parse(data).Families;
 };
 
@@ -42,102 +42,113 @@ var client = new DocumentDBClient( host, { masterKey: masterKey });
 //------------------------------------------------------------------------------------------
 
 //ensuring a database & collection exists for us to work with
-init(databaseId, collectionId, function (db, coll) {
-    dbLink = 'dbs/' + db.id;
-    console.log(dbLink);
-    
-    collLink = dbLink + '/colls/' + coll.id;
-    console.log(collLink);
-
-    //1.
-    console.log('\n1. insertDocuments in to database \'' + databaseId + '\' and collection \'' + collectionId + '\'');    
-    insertDocuments(collLink, function (docs) {
-        console.log(docs.length + ' docs created');
-
-        //2. 
-        console.log('\n2. listDocuments in collection \'' + collLink + '\'');
-        listDocuments(collLink, function (docs) {
-            for (var i = 0; i < docs.length; i++) {
-                console.log(docs[i].id);
-            }
+init(function (err) {
+    if (!err) {
+        dbLink = 'dbs/' + databaseId;
+        console.log(dbLink);
+        
+        collLink = dbLink + '/colls/' + collectionId;
+        console.log(collLink);
+        
+        //1.
+        console.log('\n1. insertDocuments in to database \'' + databaseId + '\' and collection \'' + collectionId + '\'');
+        insertDocuments(collLink, function (docs) {
+            console.log(docs.length + ' docs created');
             
-            //3.
-            var docId = docs[0].id;
-            var docLink = collLink + '/docs/' + docId;
-            console.log('\n3. readDocument \'' + docLink + '\'');
-            readDocument(docLink, function (doc) {
-                console.log('Document with id \'' + docId + '\' returned a doc with _self of \''+ doc._self + '\'');
+            //2. 
+            console.log('\n2. listDocuments in collection \'' + collLink + '\'');
+            listDocuments(collLink, function (docs) {
+                for (var i = 0; i < docs.length; i++) {
+                    console.log(docs[i].id);
+                }
                 
-                var querySpec = {
-                    query: 'SELECT * FROM Families f WHERE  f.lastName = @lastName',
-                    parameters: [
-                        {
-                            name: '@lastName',
-                            value: 'Andersen'
-                        }
-                    ]
-                };
-                
-                //4.
-                console.log('\n4. queryDocuments in collection \'' + collLink + '\'');
-                client.queryDocuments(collLink, querySpec).toArray(function (err, results) {
-                    if (err) {
-                        handleError(err);
-
-                    } else if (results.length == 0) {
-                        throw ("No documents found matching");
-
-                    } else if (results.length > 1) {
-                        throw ("More than 1 document found matching");
-
-                    } else {
-                        var doc = results[0];
-                        console.log('The \'' + doc.id + '\' family has lastName \'' + doc.lastName + '\'');
-                        console.log('The \'' + doc.id + '\' family has ' +  doc.children.length + ' children \'');
-                        
-                        docLink = 'dbs/' + databaseId + '/colls/' + collectionId + '/docs/' + doc.id;
-
-                        //add a new child to this family, and change the family's lastName
-                        var childDef = {
-                            "firstName": "Newborn",
-                            "gender": "unknown",
-                            "fingers": 10,
-                            "toes": 10
-                        };
-                                              
-                        doc.children.push(childDef);
-                        doc.lastName = "Updated Family";
-                        
-                        //5.
-                        console.log('\n5. replaceDocument with id \'' + docLink + '\'');
-                        client.replaceDocument(docLink, doc, function (err, updated) {
-                            if (err) {
-                                handleError(err);
-                            } else {
-                                console.log('The \'' + doc.id + '\' family has lastName \'' + doc.lastName + '\'');
-                                console.log('The \'' + doc.id + '\' family has ' + doc.children.length + ' children \'');
-                                                                
-                                //6.
-                                console.log('\n6. deleteDocument \'' + docLink + '\'');
-                                client.deleteDocument(docLink, function (err) {
-                                    if (err) {
-                                        handleError(err);
-                                    } else {
-                                        console.log('Document deleted');
-
-                                        //cleanup & end
-                                        console.log('\nCleaning up ...');
-                                        finish();
-                                    }
-                                });                                                                 
+                //3.
+                var docId = docs[0].id;
+                var docLink = collLink + '/docs/' + docId;
+                console.log('\n3. readDocument \'' + docLink + '\'');
+                readDocument(docLink, function (doc) {
+                    console.log('Document with id \'' + docId + '\' returned a doc with _self of \'' + doc._self + '\'');
+                    
+                    var querySpec = {
+                        query: 'SELECT * FROM Families f WHERE  f.lastName = @lastName',
+                        parameters: [
+                            {
+                                name: '@lastName',
+                                value: 'Andersen'
                             }
-                        });
-                    }
-                });                                               
+                        ]
+                    };
+                    
+                    //4.
+                    console.log('\n4. queryDocuments in collection \'' + collLink + '\'');
+                    client.queryDocuments(collLink, querySpec).toArray(function (err, results) {
+                        if (err) {
+                            handleError(err);
+
+                        } else if (results.length == 0) {
+                            throw ("No documents found matching");
+
+                        } else if (results.length > 1) {
+                            throw ("More than 1 document found matching");
+
+                        } else {
+                            var doc = results[0];
+                            console.log('The \'' + doc.id + '\' family has lastName \'' + doc.lastName + '\'');
+                            console.log('The \'' + doc.id + '\' family has ' + doc.children.length + ' children \'');
+                            
+                            docLink = 'dbs/' + databaseId + '/colls/' + collectionId + '/docs/' + doc.id;
+                            
+                            //add a new child to this family, and change the family's lastName
+                            var childDef = {
+                                "firstName": "Newborn",
+                                "gender": "unknown",
+                                "fingers": 10,
+                                "toes": 10
+                            };
+                            
+                            doc.children.push(childDef);
+                            doc.lastName = "Updated Family";
+                            
+                            //5.
+                            console.log('\n5. replaceDocument with id \'' + docLink + '\'');
+                            client.replaceDocument(docLink, doc, function (err, updated) {
+                                if (err) {
+                                    handleError(err);
+                                } else {
+                                    console.log('The \'' + doc.id + '\' family has lastName \'' + doc.lastName + '\'');
+                                    console.log('The \'' + doc.id + '\' family has ' + doc.children.length + ' children \'');
+                                    
+                                    //6.
+                                    console.log('\n6. deleteDocument \'' + docLink + '\'');
+                                    client.deleteDocument(docLink, function (err) {
+                                        if (err) {
+                                            handleError(err);
+                                        } else {
+                                            console.log('Document deleted');
+                                            
+                                            //cleanup & end
+                                            console.log('\nCleaning up ...');
+                                            finish();
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
             });
         });
-    });
+    }
 });
+
+
+function init(callback) {
+    getOrCreateDatabase(databaseId, function (db) {
+        getOrCreateCollection(db._self, collectionId, function (coll) {
+            callback();
+        });
+    });
+}
 
 function insertDocuments(collLink, callback) {
     var createdList = [];
@@ -197,15 +208,7 @@ function deleteDatabase(dbLink) {
     });
 }
 
-function init(dbId, collId, callback) {
-    getOrCreateDatabase(dbId, function (db) {
-        getOrCreateCollection(db._self, collId, function (coll) {
-            callback(db, coll);
-        });
-    });
-}
-
-function getOrCreateCollection(dbLink, collectionId, callback) {
+function getOrCreateCollection(dbLink, id, callback) {
     //we're using queryCollections here and not readCollection
     //readCollection will throw an exception if resource is not found
     //queryCollections will not, it will return empty resultset. 
@@ -219,7 +222,7 @@ function getOrCreateCollection(dbLink, collectionId, callback) {
         parameters: [
             {
                 name: '@id',
-                value: collectionId
+                value: id
             }
         ]
     };
@@ -230,7 +233,7 @@ function getOrCreateCollection(dbLink, collectionId, callback) {
             
         //collection not found, create it
         } else if (results.length === 0) {
-            var collDef = { id: collectionId };
+            var collDef = { id: id };
             
             client.createCollection(dbLink, collDef, function (err, created) {
                 if (err) {
@@ -248,7 +251,7 @@ function getOrCreateCollection(dbLink, collectionId, callback) {
     });
 }
 
-function getOrCreateDatabase(databaseId, callback) {
+function getOrCreateDatabase(id, callback) {
     //we're using queryDatabases here and not readDatabase
     //readDatabase will throw an exception if resource is not found
     //queryDatabases will not, it will return empty resultset. 
@@ -258,7 +261,7 @@ function getOrCreateDatabase(databaseId, callback) {
         parameters: [
             {
                 name: '@id',
-                value: databaseId
+                value: id
             }
         ]
     };
@@ -269,7 +272,7 @@ function getOrCreateDatabase(databaseId, callback) {
 
         //database not found, create it
         } else if (results.length === 0) {
-            var databaseDef = { id: databaseId };
+            var databaseDef = { id: id };
             
             client.createDatabase(databaseDef, function (err, created) {
                 if (err) {

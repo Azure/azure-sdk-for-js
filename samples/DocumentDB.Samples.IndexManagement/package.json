@@ -1,0 +1,13 @@
+{
+  "name": "DocumentDB.Samples.IndexManagement",
+  "version": "0.0.0",
+  "description": "DocumentDB.Samples.IndexManagement",
+  "main": "app.js",
+  "author": {
+    "name": "ryancraw",
+    "email": ""
+  },
+  "dependencies": {
+    "documentdb": "^1.2.1"
+  }
+}
