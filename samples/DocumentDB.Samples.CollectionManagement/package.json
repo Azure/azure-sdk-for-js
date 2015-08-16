@@ -1,13 +1,9 @@
 {
-  "name": "DocumentDB.Samples.CollectionManagement",
-  "version": "0.0.0",
-  "description": "DocumentDB.Samples.CollectionManagement",
-  "main": "app.js",
-  "author": {
-    "name": "",
-    "email": ""
-  },
-  "dependencies": {
-    "documentdb": "^1.2.1"
-  }
+    "name": "DocumentDB.Samples.CollectionManagement",
+    "version": "0.0.0",
+    "description": "DocumentDB.Samples.CollectionManagement",
+    "main": "app.js",
+    "dependencies": {
+        "documentdb": "^1.2.1"
+    }
 }

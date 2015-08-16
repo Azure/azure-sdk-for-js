@@ -1,14 +1,10 @@
 {
-  "name": "DocumentDB.Samples.DocumentManagement",
-  "version": "0.0.0",
-  "description": "DocumentDB.Samples.DocumentManagement",
-  "main": "app.js",
-  "author": {
-    "name": "",
-    "email": ""
-  },
-  "dependencies": {
-    "async": "^1.4.2",
-    "documentdb": "^1.2.1"
-  }
+    "name": "DocumentDB.Samples.DocumentManagement",
+    "version": "0.0.0",
+    "description": "DocumentDB.Samples.DocumentManagement",
+    "main": "app.js",
+    "dependencies": {
+        "async": "^1.4.2",
+        "documentdb": "^1.2.1"
+    }
 }
