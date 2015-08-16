@@ -10,9 +10,7 @@ var DocumentDBClient = require('documentdb').DocumentClient
   , config = require('../config')
   , fs = require('fs')
   , databaseId = config.names.database
-  , collectionId = config.names.collection
   , dbLink
-  , collLink;
 
 var host = config.connection.endpoint;
 var masterKey = config.connection.authKey;
@@ -24,12 +22,11 @@ var client = new DocumentDBClient(host, { masterKey: masterKey });
 //when using the new IDBased Routing URIs, instead of the _self, as we 're doing in this sample
 //ensure that the URI does not end with a trailing '/' character
 //so dbs/databaseId instead of dbs/databaseId/
-//
 //also, ensure there is no leading space
 
 //-----------------------------------------------------------------------------------------
 // This demo performs a few steps
-// 1. explictlyExcludeFromIndex
+// 1. explictlyExcludeFromIndex - how to manually exclude a document from being indexed
 // 2. useManualIndexing
 // 3. useLazyIndexing
 // 4. useRangeIndexOnStrings
@@ -43,20 +40,75 @@ init(function (err) {
     if (!err) {
         dbLink = 'dbs/' + databaseId;
         console.log(dbLink);
-        
-        collLink = dbLink + '/colls/' + collectionId;
-        console.log(collLink);
-        
-        finish();
+                
+        //1.
+        console.log('\n1.');
+        console.log('explictlyExcludeFromIndex - manually exclude document from being indexed');
+        explictlyExcludeFromIndex(function (err) {
+            if (!err) {
+                finish();
+            }             
+        });
     }
 });
 
 function init(callback) {
     getOrCreateDatabase(databaseId, function (db) {
-        getOrCreateCollection(db._self, collectionId, function (coll) {
-            callback();
-        });
+        callback();
     });
+}
+
+function explictlyExcludeFromIndex(callback) {
+    console.log('create collection with default index policy')
+    createCollection(dbLink, 'ExplictExcludeDemo', null, function (coll) {
+        var collLink = dbLink + '/colls/' + coll.id;        
+        var docSpec = { id : 'doc', foo : "bar" };
+        
+        console.log('Create document, but exclude from index')
+        client.createDocument(collLink, docSpec, { indexingDirective: 'exclude' }, function (err, document) { // maybe 2?
+            if (err) {
+                handleError(err)
+
+            } else {
+                console.log('Document with id \'' + document.id + '\' created');
+
+                var querySpec = {
+                    query: 'SELECT * FROM root r WHERE r.foo=@foo',
+                    parameters: [
+                        {
+                            name: '@foo',
+                            value: "bar"
+                        }
+                    ]
+                };
+
+                console.log('queryDocuments for doc should not find any results');
+                client.queryDatabases(querySpec).toArray(function (err, results) {
+                    if (err) {
+                        callback(err);
+                    } 
+
+                    else if (results != 0) {
+                        callback(new Error('there were not meant to be results'));
+
+                    } else {
+                        console.log('No results found');
+                        
+                        console.log('readDocument should still find the doc');
+                        client.readDocument(collLink + '/docs/doc', function (err, doc) {
+                            if (err) {
+                                callback(err);
+                        
+                            } else {
+                                console.log('readDocument found doc and its _self is \'' + doc._self + '\'');                                
+                                callback();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    })
 }
 
 function deleteDatabase(dbLink) {
@@ -67,45 +119,30 @@ function deleteDatabase(dbLink) {
     });
 }
 
-function getOrCreateCollection(dbLink, id, callback) {
-    //we're using queryCollections here and not readCollection
-    //readCollection will throw an exception if resource is not found
-    //queryCollections will not, it will return empty resultset. 
-    
-    //the collection we create here just uses default IndexPolicy, default OfferType. 
-    //for more on IndexPolicy refer to the IndexManagement samples
-    //for more on OfferTye refer to CollectionManagement samples
-    
-    var querySpec = {
-        query: 'SELECT * FROM root r WHERE r.id=@id',
-        parameters: [
-            {
-                name: '@id',
-                value: id
-            }
-        ]
-    };
-    
-    client.queryCollections(dbLink, querySpec).toArray(function (err, results) {
+function createCollection(dbLink, id, indexPolicy, callback) {
+    var collDef = { id: id };
+
+    if (indexPolicy) {
+
+    }
+
+    client.createCollection(dbLink, collDef, function (err, created) {
         if (err) {
             handleError(err);
-            
-        //collection not found, create it
-        } else if (results.length === 0) {
-            var collDef = { id: id };
-            
-            client.createCollection(dbLink, collDef, function (err, created) {
-                if (err) {
-                    handleError(err);
                 
-                } else {
-                    callback(created);
-                }
-            });
-        
-        //collection found, return it
         } else {
-            callback(results[0]);
+            console.log('Collection id \'' + created.id + '\' created');
+            callback(created);
+        }
+    });
+}
+
+function deleteCollection(collLink, callback){
+    client.deleteCollection(collLink, function (err, result) {
+        if (err) {
+            handleError(err);
+        } else {
+            callback(result);
         }
     });
 }
