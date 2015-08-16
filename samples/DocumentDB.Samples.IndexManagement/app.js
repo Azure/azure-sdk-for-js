@@ -7,6 +7,7 @@ console.log('================');
 console.log();
 
 var DocumentDBClient = require('documentdb').DocumentClient
+  , DocumentBase = require("documentdb").DocumentBase
   , config = require('../config')
   , fs = require('fs')
   , databaseId = config.names.database
@@ -24,16 +25,16 @@ var client = new DocumentDBClient(host, { masterKey: masterKey });
 //so dbs/databaseId instead of dbs/databaseId/
 //also, ensure there is no leading space
 
-//-----------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------
 // This demo performs a few steps
 // 1. explictlyExcludeFromIndex - how to manually exclude a document from being indexed
-// 2. useManualIndexing
+// 2. useManualIndexing         - switch auto indexing off, and then manually add individual docs
 // 3. useLazyIndexing
 // 4. useRangeIndexOnStrings
 // 5. excludePathsFromIndex
 // 6. forceScanOnHashIndexPath
 // 7. performIndexTransforms
-//------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------
 
 //ensuring a database & collection exists for us to work with
 init(function (err) {
@@ -46,7 +47,16 @@ init(function (err) {
         console.log('explictlyExcludeFromIndex - manually exclude document from being indexed');
         explictlyExcludeFromIndex(function (err) {
             if (!err) {
-                finish();
+                
+                //2.
+                console.log('\n2.');
+                console.log('useManualIndexing - switch auto indexing off, and manually index docs');
+                useManualIndexing(function (err) {
+                    if (!err) {
+                                                                        
+                        finish();
+                    }
+                });
             }             
         });
     }
@@ -60,12 +70,20 @@ function init(callback) {
 
 function explictlyExcludeFromIndex(callback) {
     console.log('create collection with default index policy')
-    createCollection(dbLink, 'ExplictExcludeDemo', null, function (coll) {
+    
+    //we're using the default indexing policy because by default indexingMode == consistent & automatic == true
+    //which means that by default all documents added to a collection are indexed as the document is written
+    var collId = 'ExplictExcludeDemo';
+    createCollection(dbLink, collId, null, function (coll) {
         var collLink = dbLink + '/colls/' + coll.id;        
         var docSpec = { id : 'doc', foo : "bar" };
         
         console.log('Create document, but exclude from index')
-        client.createDocument(collLink, docSpec, { indexingDirective: 'exclude' }, function (err, document) { // maybe 2?
+        
+        //createDocument takes RequestOptions as 3rd parameter. 
+        //One of these options is indexingDirectives which can be include, or exclude
+        //we're using exclude this time to manually exclude this document from being indexed
+        client.createDocument(collLink, docSpec, { indexingDirective: 'exclude' }, function (err, document) {
             if (err) {
                 handleError(err)
 
@@ -83,7 +101,7 @@ function explictlyExcludeFromIndex(callback) {
                 };
 
                 console.log('queryDocuments for doc should not find any results');
-                client.queryDatabases(querySpec).toArray(function (err, results) {
+                client.queryDocuments(collLink, querySpec).toArray(function (err, results) {
                     if (err) {
                         callback(err);
                     } 
@@ -100,8 +118,12 @@ function explictlyExcludeFromIndex(callback) {
                                 callback(err);
                         
                             } else {
-                                console.log('readDocument found doc and its _self is \'' + doc._self + '\'');                                
-                                callback();
+                                console.log('readDocument found doc and its _self is \'' + doc._self + '\'');
+
+                                deleteCollection(collLink, function (result) {
+                                    console.log('Collection \'' +  collId + '\' deleted');
+                                    callback();
+                                });                                                            
                             }
                         });
                     }
@@ -109,6 +131,61 @@ function explictlyExcludeFromIndex(callback) {
             }
         });
     })
+}
+
+function useManualIndexing(callback) {
+    console.log('create collection with indexingPolicy.automatic : false')
+    
+    var collId = 'ManualIndexDemo';
+    var indexPolicySpec = { automatic: false };
+    
+    createCollection(dbLink, collId, indexPolicySpec, function (coll) {
+        var collLink = dbLink + '/colls/' + coll.id;
+        
+        //documentClient.createDocument() takes RequestOptions as 3rd parameter. 
+        //One of these options is indexingDirectives which can be include, or exclude
+        //we're using include this time to manually index this particular document
+        console.log('Create document, but exclude from index')        
+        var docSpec = { id : 'doc', foo : "bar" };
+        client.createDocument(collLink, docSpec, { indexingDirective: 'include' }, function (err, document) {
+            if (err) {
+                handleError(err)
+
+            } else {
+                console.log('Document with id \'' + document.id + '\' created');
+                
+                var querySpec = {
+                    query: 'SELECT * FROM root r WHERE r.foo=@foo',
+                    parameters: [
+                        {
+                            name: '@foo',
+                            value: "bar"
+                        }
+                    ]
+                };
+                
+                console.log('queryDocuments for doc should find a result as it was indexed');
+                client.queryDocuments(collLink, querySpec).toArray(function (err, results) {
+                    if (err) {
+                        callback(err);
+                    } 
+
+                    else if (results == 0) {
+                        callback(new Error('There were meant to be results'));
+
+                    } else {
+                        var doc = results[0];                        
+                        console.log('Document with id \'' +  doc.id + '\' found');
+
+                        deleteCollection(collLink, function (result) {
+                            console.log('Collection \'' + collId + '\' deleted');
+                            callback();
+                        });
+                    }
+                });
+            }
+        });
+    })    
 }
 
 function deleteDatabase(dbLink) {
@@ -123,7 +200,7 @@ function createCollection(dbLink, id, indexPolicy, callback) {
     var collDef = { id: id };
 
     if (indexPolicy) {
-
+        collDef.indexingPolicy = indexPolicy;
     }
 
     client.createCollection(dbLink, collDef, function (err, created) {
