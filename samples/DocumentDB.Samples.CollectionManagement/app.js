@@ -16,6 +16,10 @@ var masterKey = config.connection.authKey;
 
 // Establish a new instance of the DocumentDBClient to be used throughout this demo
 var client = new DocumentDBClient(host, { masterKey: masterKey });
+
+//NOTE: 
+//when using the new IDBased Routing URIs, instead of the _self, as we 're doing in this sample
+//ensure that the URI does not end with a trailing '/' character
 var dbLink;
 
 //---------------------------------------------------------------------------------
@@ -29,67 +33,65 @@ var dbLink;
 // 7. deleteCollection  - given just the collection id, delete the collection
 //---------------------------------------------------------------------------------
 
-// ensuring a database exists for us to work with
-getOrCreateDatabase(databaseId, function (db) {
-    
-    //NOTE: when using the new ID Based Routing URIs, instead of the _self, as we're doing in this sample
-    //      ensure that the URI does not end with a trailing '/' character
-    dbLink = 'dbs/' + databaseId;
-    
-    //1.
-    console.log('1. createCollection ith id \'' + collectionId + '\'');
-    createCollection(dbLink, collectionId, function (col) {
-        
-        //2.
-        console.log('\n2. listCollections in database');
-        listCollections(dbLink, function (cols) {
-            for (var i = 0; i < cols.length; i++) {
-                console.log(cols[i].id);
-            }
+//ensuring a database exists for us to work with
+init(databaseId, function (db) {
+    if (dbLink) {
+
+        //1.
+        console.log('1. createCollection ith id \'' + collectionId + '\'');
+        createCollection(dbLink, collectionId, function (col) {
             
-            //3.
-            console.log('\n3. readCollection by its _self');
-            readCollection(col._self, function (result) {
-                if (result) {
-                    console.log('Collection with _self \'' + result._self + '\' was found its id is \'' + result.id);
+            //2.
+            console.log('\n2. listCollections in database');
+            listCollections(dbLink, function (cols) {
+                for (var i = 0; i < cols.length; i++) {
+                    console.log(cols[i].id);
                 }
                 
-                //4.
-                console.log('\n4. readCollection by its id');
-                readCollectionById(collectionId, function (result) {
+                //3.
+                console.log('\n3. readCollection by its _self');
+                readCollection(col._self, function (result) {
                     if (result) {
-                        console.log('Collection with id of \'' + collectionId + '\' was found its _self is \'' + result._self + '\'');
+                        console.log('Collection with _self \'' + result._self + '\' was found its id is \'' + result.id);
                     }
                     
-                    //5.
-                    console.log('\n5. getOfferType by its id');
-                    getOfferType(col, function (offer) {
-                        if (offer) {
-                            console.log('Collection with id of \'' + collectionId + '\' has an Offer Type of \'' + offer.offerType + '\'');                            
+                    //4.
+                    console.log('\n4. readCollection by its id');
+                    readCollectionById(collectionId, function (result) {
+                        if (result) {
+                            console.log('Collection with id of \'' + collectionId + '\' was found its _self is \'' + result._self + '\'');
                         }
                         
-                        //6.
-                        console.log('\n6. changeOfferType to an S2');
-                        offer.offerType = 'S2';
-                        changeOfferType(offer.id, offer, function (offer) {
+                        //5.
+                        console.log('\n5. getOfferType by its id');
+                        getOfferType(col, function (offer) {
                             if (offer) {
-                                console.log('Collection now has offerType of \'' + offer.offerType + '\'');
+                                console.log('Collection with id of \'' + collectionId + '\' has an Offer Type of \'' + offer.offerType + '\'');
                             }
+                            
+                            //6.
+                            console.log('\n6. changeOfferType to an S2');
+                            offer.offerType = 'S2';
+                            changeOfferType(offer.id, offer, function (offer) {
+                                if (offer) {
+                                    console.log('Collection now has offerType of \'' + offer.offerType + '\'');
+                                }
                                 
-                            //7.
-                            console.log('\n7. deleteCollection \'' + collectionId + '\'');
-                            deleteCollection(collectionId, function () {
+                                //7.
+                                console.log('\n7. deleteCollection \'' + collectionId + '\'');
+                                deleteCollection(collectionId, function () {
                                     
-                                //cleanup & end
-                                console.log('\nCleaning up ...');
-                                finish();
+                                    //cleanup & end
+                                    console.log('\nCleaning up ...');
+                                    finish();
+                                });
                             });
                         });
                     });
                 });
-            });            
+            });
         });
-    });
+    }
 });
 
 function createCollection(databaseLink, collectionId, callback) {
@@ -212,7 +214,7 @@ function deleteCollection(collectionId, callback) {
     });
 }
 
-function getOrCreateDatabase(databaseId, callback){
+function init(databaseId, callback){
     //we're using queryDatabases here and not readDatabase
     //readDatabase will throw an exception if resource is not found
     //queryDatabases will not, it will return empty resultset. 
@@ -239,13 +241,17 @@ function getOrCreateDatabase(databaseId, callback){
                 if (err) {
                     handleError(err);
                 }
-
+                
+                dbLink = 'dbs/' + created.id;
                 callback(created);
             });
         
         //database found, return it
         } else {
-            callback(results[0]);
+            var db = results[0];
+            dbLink = 'dbs/' + db.id;
+
+            callback(db);
         }
     });
 }

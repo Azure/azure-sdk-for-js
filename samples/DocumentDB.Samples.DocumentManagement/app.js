@@ -1,27 +1,19 @@
-﻿//--------------------------------------------------------------------------------- 
-// Microsoft (R)  Azure SDK 
-// Software Development Kit 
-//  
-// Copyright (c) Microsoft Corporation. All rights reserved.   
-// 
-// THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,  
-// EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES  
-// OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.  
-//---------------------------------------------------------------------------------
-
-console.log();
+﻿console.log();
 console.log('Azure DocumentDB Node.js Samples');
 console.log('================================');
 console.log();
-console.log('DOCUMENTATION MANAGEMENT');
-console.log('========================');
+console.log('DOCUMENT MANAGEMENT');
+console.log('===================');
 console.log();
 
 var DocumentDBClient = require('documentdb').DocumentClient
   , config = require('../config')
   , fs = require('fs')
+  , async = require('async')
   , databaseId = config.names.database
   , collectionId = config.names.collection
+  , dbLink
+  , collLink;
 
 var host = config.connection.endpoint;
 var masterKey = config.connection.authKey;
@@ -34,177 +26,194 @@ var documentDefinitions = function () {
 // Establish a new instance of the DocumentDBClient to be used throughout this demo
 var client = new DocumentDBClient( host, { masterKey: masterKey });
 
-// Load our sample data
-sampleDocuments = documentDefinitions();
+//NOTE: 
+//when using the new IDBased Routing URIs, instead of the _self, as we 're doing in this sample
+//ensure that the URI does not end with a trailing '/' character
+//so dbs/databaseId instead of dbs/databaseId/
 
 //-----------------------------------------------------------------------------------------
 // This demo performs a few steps
-// 1. Read or Create a Database & Collection (we always need these to work with Documents)
-// 2. Insert some documents
-// 3. Query for a single document on some property
-// 4. Update a document
-// 5. Find a document by id, 
-// 6. then Delete that document
-// 7. Delete Collection and the database we created
-// 8. finish()
+// 1. createDocuments   - Insert some documents in to collection
+// 2. listDocuments     - Read the document feed for a collection
+// 3. readDocument      - Read a single document by its id
+// 4. queryDocuments     - Query for documents by some property
+// 5. replaceDocument   - Update some properties and replace the document
+// 6. deleteDocument    - Given a document id, delete it
 //------------------------------------------------------------------------------------------
 
-// 1.
-console.log('Looking for a database named \'' + databaseId + '\'...');
-getOrCreateDatabase(databaseId, function (db) {
+//ensuring a database & collection exists for us to work with
+init(databaseId, collectionId, function (db, coll) {
+    dbLink = 'dbs/' + db.id;
+    console.log(dbLink);
+    
+    collLink = dbLink + '/colls/' + coll.id;
+    console.log(collLink);
 
-    console.log('Creating a collection called \'' + collectionId + '\'...');
-    getOrCreateCollection(db._self, collectionId, function (col) {
+    //1.
+    console.log('\n1. insertDocuments in to database \'' + databaseId + '\' and collection \'' + collectionId + '\'');    
+    insertDocuments(collLink, function (docs) {
+        console.log(docs.length + ' docs created');
 
-        // 2.
-        insertDocuments(col._self, function (docs) {
+        //2. 
+        console.log('\n2. listDocuments in collection \'' + collLink + '\'');
+        listDocuments(collLink, function (docs) {
+            for (var i = 0; i < docs.length; i++) {
+                console.log(docs[i].id);
+            }
             
-            // 3.
-            var querySpec = {
-                query: 'SELECT * FROM Families f WHERE  f.lastName = @lastName',
-                parameters: [
-                    {
-                        name: '@lastName',
-                        value: 'Andersen'
-                    }
-                ]
-            };
-            client.queryDocuments(col._self, querySpec).toArray(function (err, results) {
-                if (err) {
-                    handleError(err);
-                }
+            //3.
+            var docId = docs[0].id;
+            var docLink = collLink + '/docs/' + docId;
+            console.log('\n3. readDocument \'' + docLink + '\'');
+            readDocument(docLink, function (doc) {
+                console.log('Document with id \'' + docId + '\' returned a doc with _self of \''+ doc._self + '\'');
                 
-                //4.
-                //add a new child to this family, and change their lastName
-                var childDef = {
-                    "firstName": "Newborn",
-                    "gender": "female"
+                var querySpec = {
+                    query: 'SELECT * FROM Families f WHERE  f.lastName = @lastName',
+                    parameters: [
+                        {
+                            name: '@lastName',
+                            value: 'Andersen'
+                        }
+                    ]
                 };
                 
-                var doc = results[0];
-                doc.children.push(childDef);
-                doc.lastName = "Updated";
-                
-                //now replace the document on the server with the updated document
-                console.log('Updating document with id \'' + doc.id + '\'...');
-                client.replaceDocument(doc._self, doc, function (err, updated) {
+                //4.
+                console.log('\n4. queryDocuments in collection \'' + collLink + '\'');
+                client.queryDocuments(collLink, querySpec).toArray(function (err, results) {
                     if (err) {
                         handleError(err);
-                    }
-                    
-                    console.log('Document with id \'' + doc.id + '\' updated. Now has ' + updated.children.length + '\ children.');
-                    
-                    // 5.
-                    //fetch document by id
-                    console.log('Get DocumentById \'WakefieldFamily\'');
-                    getDocumentById(col._self, 'WakefieldFamily', function (doc) {
+
+                    } else if (results.length == 0) {
+                        throw ("No documents found matching");
+
+                    } else if (results.length > 1) {
+                        throw ("More than 1 document found matching");
+
+                    } else {
+                        var doc = results[0];
+                        console.log('The \'' + doc.id + '\' family has lastName \'' + doc.lastName + '\'');
+                        console.log('The \'' + doc.id + '\' family has ' +  doc.children.length + ' children \'');
                         
-                        console.log('Got document by id \'' + doc.id + '\' It\'s SelfLink is: ' + doc._self);
-                        // 6.
-                        client.deleteDocument(doc._self, function (err, result) {
+                        docLink = 'dbs/' + databaseId + '/colls/' + collectionId + '/docs/' + doc.id;
+
+                        //add a new child to this family, and change the family's lastName
+                        var childDef = {
+                            "firstName": "Newborn",
+                            "gender": "unknown",
+                            "fingers": 10,
+                            "toes": 10
+                        };
+                                              
+                        doc.children.push(childDef);
+                        doc.lastName = "Updated Family";
+                        
+                        //5.
+                        console.log('\n5. replaceDocument with id \'' + docLink + '\'');
+                        client.replaceDocument(docLink, doc, function (err, updated) {
                             if (err) {
                                 handleError(err);
-                            }
+                            } else {
+                                console.log('The \'' + doc.id + '\' family has lastName \'' + doc.lastName + '\'');
+                                console.log('The \'' + doc.id + '\' family has ' + doc.children.length + ' children \'');
+                                                                
+                                //6.
+                                console.log('\n6. deleteDocument \'' + docLink + '\'');
+                                client.deleteDocument(docLink, function (err) {
+                                    if (err) {
+                                        handleError(err);
+                                    } else {
+                                        console.log('Document deleted');
 
-                            // 7.
-                            deleteCollection(col, function () {
-                                deleteDatabase(db, function () {
-                                    
-                                    // 8.
-                                    finish();
-                                });
-                            });
+                                        //cleanup & end
+                                        console.log('\nCleaning up ...');
+                                        finish();
+                                    }
+                                });                                                                 
+                            }
                         });
-                    });
-  
-                });
+                    }
+                });                                               
             });
         });
     });
 });
 
-function getDocumentById(collectionLink, id, callback) {
-    var querySpec = {
-        query: 'SELECT * FROM Families f WHERE  f.id = @id',
-        parameters: [
-            {
-                name: '@id',
-                value: id
-            }
-        ]
-    };
-    client.queryDocuments(collectionLink, querySpec).toArray(function (err, results) {
-        if (err) {
-            handleError(err);
-        }
-
-        if (results.length === 0) {
-            throw ("No document found with id matching '" + id + "'");
-        } else if (results.length > 1) {
-            throw ("More than one document found matching id '" + id + "'");
-        }else{
-            callback(results[0]);
-        }
-    });
-}
-
-function insertDocuments(collectionLink, callback) {
+function insertDocuments(collLink, callback) {
     var createdList = [];
-    var counter = 0;
-    for (var i = 0; i < sampleDocuments.length; i++){
-        var docDef = sampleDocuments[i];
+
+    async.each(
+        documentDefinitions(), 
         
-        client.createDocument(collectionLink, docDef, function (err, created) {
-            if (err) {
-                handleError(err);
-            }
-            
-            counter++;
-            
-            createdList.push(created);
-            console.log('Document with id \'' + created.id + '\' created.');
-            if (counter === sampleDocuments.length - 1) {
-                callback(createdList);
-            }
-        });
-    }
+        function iterator(documentDefinition, cb) {
+            client.createDocument(collLink, documentDefinition, function (err, document) {
+                if (err) {
+                    console.log(err);
+
+                } else {
+                    console.log('created ' + document.id);
+                    createdList.push(document);
+                    cb();
+                }
+            });
+        },
+
+        function (err) {
+            console.log('iterating done ' + createdList.length);
+            callback(createdList);
+        }
+    );
 }
 
-function getOrCreateDatabase(databaseId, callback) {
-    var querySpec = {
-        query: 'SELECT * FROM root r WHERE r.id=@id',
-        parameters: [
-            {
-                name: '@id',
-                value: databaseId
-            }
-        ]
-    };
-    client.queryDatabases(querySpec).toArray(function (err, results) {
+function listDocuments(collLink, callback) {
+    var queryIterator = client.readDocuments(collLink).toArray(function (err, docs) {
         if (err) {
             handleError(err);
-        }
         
-        if (results.length === 0) {
-            console.log('Database \'' + databaseId + '\'not found');
-            var databaseDef = { id: databaseId };
-            
-            client.createDatabase(databaseDef, function (err, created) {
-                if (err) {
-                    handleError(err);
-                }
-                
-                console.log('Database \'' + databaseId + '\'created');
-                callback(created);
-            });
         } else {
-            console.log('Database \'' + databaseId + '\'found');
-            callback(results[0]);
+            console.log(docs.length + ' Documents found');
+            callback(docs);
         }
     });
 }
 
-function getOrCreateCollection(databaseLink, collectionId, callback) {
+function readDocument(docLink, callback) {
+    client.readDocument(docLink, function (err, doc) {
+        if (err) {
+            handleError(err);
+        
+        } else {
+            console.log('Document \'' + docLink + '\' found');
+            callback(doc);
+        }
+    });
+}
+
+function deleteDatabase(dbLink) {
+    client.deleteDatabase(dbLink, function (err) {
+        if (err) {
+            handleError(err);
+        }
+    });
+}
+
+function init(dbId, collId, callback) {
+    getOrCreateDatabase(dbId, function (db) {
+        getOrCreateCollection(db._self, collId, function (coll) {
+            callback(db, coll);
+        });
+    });
+}
+
+function getOrCreateCollection(dbLink, collectionId, callback) {
+    //we're using queryCollections here and not readCollection
+    //readCollection will throw an exception if resource is not found
+    //queryCollections will not, it will return empty resultset. 
+    
+    //the collection we create here just uses default IndexPolicy, default OfferType. 
+    //for more on IndexPolicy refer to the IndexManagement samples
+    //for more on OfferTye refer to CollectionManagement samples
+
     var querySpec = {
         query: 'SELECT * FROM root r WHERE r.id=@id',
         parameters: [
@@ -214,62 +223,78 @@ function getOrCreateCollection(databaseLink, collectionId, callback) {
             }
         ]
     };
-    client.queryCollections(databaseLink, querySpec).toArray(function (err, results) {
+    
+    client.queryCollections(dbLink, querySpec).toArray(function (err, results) {
         if (err) {
             handleError(err);
-        }
-        
-        if (results.length === 0) {
-            console.log('Collection \'' + collectionId + '\'not found');
-            var collectionDef = { id: collectionId };
             
-            client.createCollection(databaseLink, collectionDef, function (err, created) {
+        //collection not found, create it
+        } else if (results.length === 0) {
+            var collDef = { id: collectionId };
+            
+            client.createCollection(dbLink, collDef, function (err, created) {
                 if (err) {
                     handleError(err);
-                }
                 
-                console.log('Collection \'' + collectionId + '\'created');
-                callback(created);
+                } else {                    
+                    callback(created);
+                }
             });
+        
+        //collection found, return it
         } else {
-            console.log('Collection \'' + collectionId + '\'found');
             callback(results[0]);
         }
     });
 }
 
-function deleteCollection(collection, callback) {
-    client.deleteCollection(collection._self, function (err) {
+function getOrCreateDatabase(databaseId, callback) {
+    //we're using queryDatabases here and not readDatabase
+    //readDatabase will throw an exception if resource is not found
+    //queryDatabases will not, it will return empty resultset. 
+    
+    var querySpec = {
+        query: 'SELECT * FROM root r WHERE r.id=@id',
+        parameters: [
+            {
+                name: '@id',
+                value: databaseId
+            }
+        ]
+    };
+    
+    client.queryDatabases(querySpec).toArray(function (err, results) {
         if (err) {
             handleError(err);
-        } else {
-            console.log('Collection \'' + collection.id + '\'deleted');
-            callback();
-        }
-    });
-}
 
-function deleteDatabase(database, callback) {
-    client.deleteDatabase(database._self, function (err) {
-        if (err) {
-            handleError(err);
+        //database not found, create it
+        } else if (results.length === 0) {
+            var databaseDef = { id: databaseId };
+            
+            client.createDatabase(databaseDef, function (err, created) {
+                if (err) {
+                    handleError(err);
+                
+                } else {                    
+                    callback(created);
+                }
+            });
+        
+        //database found, return it
         } else {
-            console.log('Database \'' + database.id + '\'deleted');
-            callback();
+            callback(results[0]);
         }
     });
 }
 
 function handleError(error) {
-    console.log();
-    console.log('An error with code \'' + error.code + '\' has occurred:');
+    console.log('\nAn error with code \'' + error.code + '\' has occurred:');
     console.log('\t' + JSON.parse(error.body).message);
-    console.log();
     
     finish();
 }
 
 function finish() {
-    console.log();
-    console.log('End of demo.');
+    deleteDatabase(dbLink);
+    console.log('\nEnd of demo.');
 }
