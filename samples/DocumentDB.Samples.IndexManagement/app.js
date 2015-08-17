@@ -194,7 +194,7 @@ function useManualIndexing(callback) {
         //documentClient.createDocument() takes RequestOptions as 3rd parameter. 
         //One of these options is indexingDirectives which can be include, or exclude
         //we're using include this time to manually index this particular document
-        console.log('Create document, but exclude from index')        
+        console.log('Create document, and explicitly include in index')        
         var docSpec = { id : 'doc', foo : "bar" };
         client.createDocument(collLink, docSpec, { indexingDirective: 'include' }, function (err, document) {
             if (err) {
