@@ -355,15 +355,17 @@ var Base = {
         var count = 0;
         // Get the first id from path.
         for (var i = 0; i < parts.length; ++i) {
-            if (count === 0 && parts[i].toLowerCase() !== "dbs") {
+            if (!parts[i]) {
+                // Skip empty string.
+                continue;
+            }
+            ++count;
+            if (count === 1 && parts[i].toLowerCase() !== "dbs") {
                 return false;
             }
-            if (count === 1) {
+            if (count === 2) {
                 firstId = parts[i];
                 break;
-            }
-            if (parts[i]) {
-                ++count;
             }
         }
         if (!firstId) return false;
