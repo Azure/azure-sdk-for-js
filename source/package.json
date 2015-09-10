@@ -1,6 +1,6 @@
 {
   "name": "documentdb",
-  "description": "Node.js client for documentdb",
+  "description": "Azure DocumentDB Node.js client",
   "keywords": [
     "documentdb",
     "document database",
