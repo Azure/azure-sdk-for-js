@@ -26,6 +26,7 @@ You can follow this [tutorial](http://azure.microsoft.com/en-us/documentation/ar
 
 ##Examples
 ###Hello World using Callbacks via the Core Module
+
 ```js
 var DocumentClient = require('documentdb').DocumentClient;
 
@@ -86,3 +87,4 @@ If you encounter any bugs with the library please file an issue in the [Issues](
 * [Azure Developer Center](http://azure.microsoft.com/en-us/develop/nodejs)
 * [Azure DocumentDB Node.js SDK Documentation](http://azure.github.io/azure-documentdb-node/)
 * [Azure DocumentDB Service](http://azure.microsoft.com/en-us/documentation/services/documentdb/)
+
