@@ -88,3 +88,4 @@ If you encounter any bugs with the library please file an issue in the [Issues](
 * [Azure DocumentDB Node.js SDK Documentation](http://azure.github.io/azure-documentdb-node/)
 * [Azure DocumentDB Service](http://azure.microsoft.com/en-us/documentation/services/documentdb/)
 
+...
