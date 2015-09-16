@@ -117,7 +117,10 @@ var Constants = {
         OfferType: "x-ms-offer-type",
 
         // Index progress headers
-        IndexTransformationProgress: "x-ms-documentdb-collection-index-transformation-progress"
+        IndexTransformationProgress: "x-ms-documentdb-collection-index-transformation-progress",
+        
+        // Upsert header
+        IsUpsert: "x-ms-documentdb-is-upsert"
     },
 
     CurrentVersion: "2015-06-03",
