@@ -1,24 +1,19 @@
 {
- "name": "documentdb-q-promises",
- "description": "Node.js client for documentdb with q promises",
- "keywords": [
+  "name": "documentdb",
+  "description": "Azure DocumentDB Node.js client",
+  "keywords": [
     "documentdb",
     "document database",
     "azure",
     "nosql",
     "database",
-    "cloud",
-    "promises"
+    "cloud"
   ],
   "version": "1.2.1",
   "author": "Microsoft Corporation",
-  "main": "./documentclientwrapper.js",
+  "main": "./index.js",
   "engine": {
     "node": ">=0.8"
-  },
-  "dependencies": {
-    "q": "*",
-    "documentdb": "*"
   },
   "devDependencies": {
     "eslint": "*",

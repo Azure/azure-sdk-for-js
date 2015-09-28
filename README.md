@@ -6,7 +6,9 @@
 ![](https://img.shields.io/npm/dm/documentdb.svg)
 ![](https://img.shields.io/github/issues/azure/azure-documentdb-node.svg)
 
-This project provides a node module that makes it easy to interact with Azure DocumentDB. For documentation please see the Microsoft Azure [Node.js Developer Center](http://azure.microsoft.com/en-us/develop/nodejs/) and the [NodejsDocs](http://dl.windowsazure.com/documentDB/nodedocs/).
+This project provides a node module that makes it easy to interact with Azure DocumentDB. 
+
+For documentation please see the Microsoft Azure [Node.js Developer Center](http://azure.microsoft.com/en-us/develop/nodejs/) and the [Microsoft Azure DocumentDB Node.js SDK Documentation](http://azure.github.io/azure-documentdb-node/).
 
 ##Installation
 ###Core Module
@@ -15,11 +17,6 @@ The core module uses the callbacks model for responses, exposed through the Docu
 
     npm install documentdb
 
-###Q Promises Module 
-
-The Q promises Node.js module extends our core module to uses Q promises for all calls, exposed through the DocumentClientWrapper.
-
-    npm install documentdb-q-promises
 
 ##Usage
 
@@ -29,6 +26,7 @@ You can follow this [tutorial](http://azure.microsoft.com/en-us/documentation/ar
 
 ##Examples
 ###Hello World using Callbacks via the Core Module
+
 ```js
 var DocumentClient = require('documentdb').DocumentClient;
 
@@ -64,48 +62,6 @@ function cleanup(client, database) {
 }
 ```
 
-###Hello World using Q Promises via the Q Promises Module
-```js
-var DocumentClient = require('documentdb-q-promises').DocumentClientWrapper;
-
-var host = "[hostendpoint]";                    // Add your endpoint
-var masterKey = "[database account masterkey]"; // Add the massterkey of the endpoint
-var client = new DocumentClient(host, {masterKey: masterKey});
-
-var databaseDefinition = { id: "sample database" }
-var collectionDefinition = { id: "sample collection" };
-var documentDefinition = { id: "hello world doc", content: "Hello World!" };
-
-var database, collection, document;
-client.createDatabaseAsync(databaseDefinition)
-    .then(function(databaseResponse) {
-        database = databaseResponse.resource;
-        return client.createCollectionAsync(database._self, collectionDefinition);
-    })
-    .then(function(collectionResponse) {
-        collection = collectionResponse.resource;
-        return client.createDocumentAsync(collection._self, documentDefinition);
-    })
-    .then(function(documentResponse) {
-        var document = documentResponse.resource;
-        console.log('Created Document with content: ', document.content);
-        cleanup(client, database);
-    })
-    .fail(function(error) {
-        console.log("An error occured", error);
-    });
-
-function cleanup(client, database) {
-    client.deleteDatabaseAsync(database._self)
-        .then(function(response) {
-            console.log('clean up completed');
-        })
-        .fail(function(error){
-            console.log(error);
-        });
-}
-```
-
 ###Youtube Videos
 
 Getting started with Azure DocumentDB on Node.js:
@@ -129,6 +85,6 @@ If you encounter any bugs with the library please file an issue in the [Issues](
 ##Learn More
 
 * [Azure Developer Center](http://azure.microsoft.com/en-us/develop/nodejs)
+* [Azure DocumentDB Node.js SDK Documentation](http://azure.github.io/azure-documentdb-node/)
 * [Azure DocumentDB Service](http://azure.microsoft.com/en-us/documentation/services/documentdb/)
-* [Azure DocumentDB Team Blog](http://blogs.msdn.com/b/documentdb/)
-* [NodeJSDocs](http://dl.windowsazure.com/documentDB/nodedocs/)
+

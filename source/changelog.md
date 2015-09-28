@@ -1,3 +1,8 @@
+## Changes in 1.2.2 : ##
+
+- Split Q promises wrapper to new repository
+- Update to package file for npm registry
+
 ## Changes in 1.2.1 : ##
 
 - Implements ID Based Routing

@@ -54,14 +54,3 @@ function cleanup(client, database) {
 
 ##Community
 - [DoQmentDB](https://github.com/a8m/doqmentdb) - A Promise-based DocumentDB client for MongoDB users
-
-<h4>Running the tests</h4>
-<p><pre>  
-First You need to install mocha
-&gt; npm install mocha
-
-From the tests folder run 
-&gt; mocha -t 0 -R spec
-</p></pre>
-    </body>
-</html>
