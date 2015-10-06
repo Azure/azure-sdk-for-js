@@ -118,14 +118,15 @@ var Constants = {
 
         // Index progress headers
         IndexTransformationProgress: "x-ms-documentdb-collection-index-transformation-progress",
-        
+        LazyIndexingProgress: "x-ms-documentdb-collection-lazy-indexing-progress",
+
         // Upsert header
         IsUpsert: "x-ms-documentdb-is-upsert"
     },
 
-    CurrentVersion: "2015-06-03",
+    CurrentVersion: "2015-08-06",
 
-    UserAgent: "documentdb-nodejs-sdk-1.3.0",
+    UserAgent: "documentdb-nodejs-sdk-1.4.0",
 
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,

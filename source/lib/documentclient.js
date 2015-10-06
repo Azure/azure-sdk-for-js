@@ -2072,10 +2072,14 @@ var DocumentClient = Base.defineClass(
         
         /** @ignore */
         setIsUpsertHeader: function (headers) {
-            if (headers == undefined || headers == null) {
+            if (headers === undefined || headers === null) {
                 throw new Error('The "headers" parameter must not be null or undefined');
             }
-
+            
+            if (!(headers instanceof Object)) {
+                throw new Error(this.sprintf('The "headers" parameter must be an instance of "Object". Actual type is: "%s".', typeof headers));
+            }
+            
             headers[Constants.HttpHeaders.IsUpsert] = true;
         },
         
@@ -2090,14 +2094,14 @@ var DocumentClient = Base.defineClass(
                 callback = optionsIn;
                 options = new Object();
             } else if (typeof optionsIn !== 'object') {
-                throw new Error(sprintf('The "options" parameter must be of type "object". Actual type is: "%s".', typeof optionsIn));
+                throw new Error(this.sprintf('The "options" parameter must be of type "object". Actual type is: "%s".', typeof optionsIn));
             } else {
                 options = optionsIn;
             }
 
             // callback
             if (callbackIn !== undefined && typeof callbackIn !== 'function') {
-                throw new Error(sprintf('The "callback" parameter must be of type "function". Actual type is: "%s".', typeof callbackIn));
+                throw new Error(this.sprintf('The "callback" parameter must be of type "function". Actual type is: "%s".', typeof callbackIn));
             } else if (typeof callbackIn === 'function') {
                 callback = callbackIn
             }

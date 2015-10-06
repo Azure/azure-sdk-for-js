@@ -2215,12 +2215,14 @@ describe("NodeJS CRUD Tests", function() {
                     };
                     createThenReadCollection(isNameBased, client, db, lazyCollectionDefinition, function (collection, headers) {
                         assert.notEqual(headers[Constants.HttpHeaders.IndexTransformationProgress], undefined);
+                        assert.notEqual(headers[Constants.HttpHeaders.LazyIndexingProgress], undefined);
                         var noneCollectionDefinition = {
                             id: "none_coll",
                             indexingPolicy: { indexingMode: DocumentBase.IndexingMode.None, automatic: false }
                         };
                         createThenReadCollection(isNameBased, client, db, noneCollectionDefinition, function (collection, headers) {
                             assert.notEqual(headers[Constants.HttpHeaders.IndexTransformationProgress], undefined);
+                            assert.equal(headers[Constants.HttpHeaders.LazyIndexingProgress], undefined);
                             done();
                         });
                     });
@@ -2233,7 +2235,7 @@ describe("NodeJS CRUD Tests", function() {
         });
 
         it("[nativeApi] Validate index progress headers [rid based]", function (done) {
-            indexProgressHeadersTest(true, done);
+            indexProgressHeadersTest(false, done);
         });
     });
 
@@ -2272,7 +2274,7 @@ describe("NodeJS CRUD Tests", function() {
         var client = new DocumentDBClient(host, { masterKey: masterKey });
 
         it("[nativeApi] Should add is-upsert header.", function (done) {
-            var headers = {};
+            var headers = client.defaultHeaders;
             assert.equal(undefined, headers[Constants.HttpHeaders.IsUpsert]);
             client.setIsUpsertHeader(headers);
             assert.equal(true, headers[Constants.HttpHeaders.IsUpsert]);
@@ -2289,14 +2291,45 @@ describe("NodeJS CRUD Tests", function() {
         });
 
         it("[nativeApi] Should throw on undefined headers", function (done) {
-            assert.throws(function () { client.setIsUpsertHeader(); });
+            assert.throws(
+                function () { client.setIsUpsertHeader(); },
+                /The "headers" parameter must not be null or undefined/
+            );
             done();
         });
 
         it("[nativeApi] Should throw on null headers", function (done) {
-            assert.throws(function () { client.setIsUpsertHeader(null); });
+            assert.throws(
+                function () { client.setIsUpsertHeader(null); },
+                /The "headers" parameter must not be null or undefined/
+            );
             done();
         });
+
+        it("[nativeApi] Should throw on invalid string headers", function (done) {
+            assert.throws(
+                function () { client.setIsUpsertHeader(""); },
+                /The "headers" parameter must be an instance of "Object". Actual type is: "string"./
+            );
+            done();
+        });
+
+        it("[nativeApi] Should throw on invalid number headers", function (done) {
+            assert.throws(
+                function () { client.setIsUpsertHeader(0); },
+                /The "headers" parameter must be an instance of "Object". Actual type is: "number"./
+            );
+            done();
+        });
+
+        it("[nativeApi] Should throw on invalid boolean headers", function (done) {
+            assert.throws(
+                function () { client.setIsUpsertHeader(false); },
+                /The "headers" parameter must be an instance of "Object". Actual type is: "boolean"./
+            );
+            done();
+        });
+
     });
 
     describe("validateOptionsAndCallback Unit Tests", function () {
@@ -2349,18 +2382,69 @@ describe("NodeJS CRUD Tests", function() {
             done();
         });
 
-        it("[nativeApi] invalid options", function (done) {
-            assert.throws(function () { client.validateOptionsAndCallback("foo", function() {}); });
+        it("[nativeApi] null, callback", function (done) {
+            var result = client.validateOptionsAndCallback(null, function () { });
+            assert.equal(null, result.options);
+            assert.equal("object", typeof result.options);
+            
+            assert.equal("function", typeof result.callback);
             done();
         });
-
-        it("[nativeApi] invalid callback", function (done) {
-            assert.throws(function () { client.validateOptionsAndCallback({}, "bar"); });
+        
+        
+        it("[nativeApi] invalid string options", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback("foo", function () { }); },
+                /The "options" parameter must be of type "object". Actual type is: "string"/
+            );
             done();
         });
-
+        
+        it("[nativeApi] invalid number options", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback(0, function () { }); },
+                /The "options" parameter must be of type "object". Actual type is: "number"/
+            );
+            done();
+        });
+        
+        it("[nativeApi] invalid bool options", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback(false, function () { }); },
+                /The "options" parameter must be of type "object". Actual type is: "boolean"/
+            );
+            done();
+        });
+        
+        it("[nativeApi] invalid string callback", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback({}, "bar"); },
+                /The "callback" parameter must be of type "function". Actual type is: "string"/
+            );
+            done();
+        });
+        
+        it("[nativeApi] invalid number callback", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback({}, 0); },
+                /The "callback" parameter must be of type "function". Actual type is: "number"/
+            );
+            done();
+        });
+        
+        it("[nativeApi] invalid boolean callback", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback({}, false); },
+                /The "callback" parameter must be of type "function". Actual type is: "boolean"/
+            );
+            done();
+        });
+        
         it("[nativeApi] invalid options, invalid callback", function (done) {
-            assert.throws(function () { client.validateOptionsAndCallback("foo", "bar"); });
+            assert.throws(
+                function () { client.validateOptionsAndCallback("foo", "bar"); },
+                /The "options" parameter must be of type "object". Actual type is: "string"/
+            );
             done();
         });
     });
