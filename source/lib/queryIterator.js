@@ -155,12 +155,13 @@ var QueryIterator = Base.defineClass(
                         return callback(err, undefined, headers);
                     }
 
+                    that.resHeaders = headers;
                     that.resources = that.resources.concat(resources);
                     that._toArrayImplementation(callback);
                 });
             } else {
                 this._state = this._states.ended;
-                callback(undefined, this.resources);
+                callback(undefined, this.resources, this.resHeaders);
             }
         },
 
@@ -176,7 +177,7 @@ var QueryIterator = Base.defineClass(
                     that.resources = resources;
                     while (that.currentIndex < that.resources.length) {
                         // if the callback explicitly returned false, the loop gets stopped.
-                        if (callback(undefined, that.resources[that.currentIndex++]) === false) {
+                        if (callback(undefined, that.resources[that.currentIndex++], headers) === false) {
                             return undefined;
                         }
                     }

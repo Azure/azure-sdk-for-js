@@ -1,4 +1,4 @@
-//----------------------------------------------------------------------------
+﻿//----------------------------------------------------------------------------
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //----------------------------------------------------------------------------
 
@@ -50,6 +50,153 @@ describe("NodeJS CRUD Tests", function() {
             });
         });
     });
+    
+    var addUpsertWrapperMethods = function (client, isUpsertTest) {
+        // Document
+        client["createOrUpsertDocument"] = function(collectionLink, body, options, callback)  {
+            if (isUpsertTest) { 
+                this.upsertDocument(collectionLink, body, options, callback);
+            }
+            else{
+                this.createDocument(collectionLink, body, options, callback);
+            }
+        };
+        client["replaceOrUpsertDocument"] = function(collectionLink, documentLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertDocument(collectionLink, body, options, callback);
+            }
+            else { 
+                this.replaceDocument(documentLink, body, options, callback);
+            } 
+        };
+
+        // Attachment
+        client["createOrUpsertAttachment"] = function(documentLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertAttachment(documentLink, body, options, callback);
+            }
+            else { 
+                this.createAttachment(documentLink, body, options, callback);
+            }
+        };
+        client["replaceOrUpsertAttachment"] = function(documentLink, attachmentLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertAttachment(documentLink, body, options, callback);
+            }
+            else{
+                this.replaceAttachment(attachmentLink, body, options, callback);
+            } 
+        };
+        
+        // User
+        client["createOrUpsertUser"] = function(databaseLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertUser(databaseLink, body, options, callback);
+            }
+            else { 
+                this.createUser(databaseLink, body, options, callback);
+            }
+        };
+        client["replaceOrUpsertUser"] = function(databaseLink, userLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertUser(databaseLink, body, options, callback);
+            }
+            else{
+                this.replaceUser(userLink, body, options, callback);
+            } 
+        };
+        
+        // Permission
+        client["createOrUpsertPermission"] = function(userLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertPermission(userLink, body, options, callback);
+            }
+            else { 
+                this.createPermission(userLink, body, options, callback);
+            }
+        };
+        client["replaceOrUpsertPermission"] = function(userLink, permissionLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertPermission(userLink, body, options, callback);
+            }
+            else{
+                this.replacePermission(permissionLink, body, options, callback);
+            } 
+        };
+        
+        // Trigger
+        client["createOrUpsertTrigger"] = function(collectionLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertTrigger(collectionLink, body, options, callback);
+            }
+            else { 
+                this.createTrigger(collectionLink, body, options, callback);
+            }
+        };
+        client["replaceOrUpsertTrigger"] = function(collectionLink, triggerLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertTrigger(collectionLink, body, options, callback);
+            }
+            else{
+                this.replaceTrigger(triggerLink, body, options, callback);
+            } 
+        };
+        
+        // User Defined Function
+        client["createOrUpsertUserDefinedFunction"] = function(collectionLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertUserDefinedFunction(collectionLink, body, options, callback);
+            }
+            else { 
+                this.createUserDefinedFunction(collectionLink, body, options, callback);
+            }
+        };
+        client["replaceOrUpsertUserDefinedFunction"] = function(collectionLink, udfLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertUserDefinedFunction(collectionLink, body, options, callback);
+            }
+            else{
+                this.replaceUserDefinedFunction(udfLink, body, options, callback);
+            } 
+        };
+        
+        // Stored Procedure
+        client["createOrUpsertStoredProcedure"] = function(collectionLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertStoredProcedure(collectionLink, body, options, callback);
+            }
+            else { 
+                this.createStoredProcedure(collectionLink, body, options, callback);
+            }
+        };
+        client["replaceOrUpsertStoredProcedure"] = function(collectionLink, sprocLink, body, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertStoredProcedure(collectionLink, body, options, callback);
+            }
+            else{
+                this.replaceStoredProcedure(sprocLink, body, options, callback);
+            } 
+        };
+        
+        // Attachment and Upload Media
+        client["createOrUpsertAttachmentAndUploadMedia"] = function(documentLink, readableStream, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertAttachmentAndUploadMedia(documentLink, readableStream, options, callback);
+            }
+            else { 
+                this.createAttachmentAndUploadMedia(documentLink, readableStream, options, callback);
+            }
+        };
+        
+        client["updateOrUpsertMedia"] = function(documentLink, mediaLink, readableStream, options, callback) { 
+            if (isUpsertTest) { 
+                this.upsertAttachmentAndUploadMedia(documentLink, readableStream, options, callback);
+            }
+            else { 
+                this.updateMedia(mediaLink, readableStream, options, callback);
+            }
+        };
+    };
 
     var getDatabaseLink = function (isNameBasedLink, db) {
         if (isNameBasedLink) {
@@ -319,8 +466,9 @@ describe("NodeJS CRUD Tests", function() {
     });
 
     describe("Validate Document CRUD", function () {
-        var documentCRUDTest = function (isNameBased, done) {
+        var documentCRUDTest = function (isNameBased, isUpsertTest, done) {
             var client = new DocumentDBClient(host, { masterKey: masterKey });
+            addUpsertWrapperMethods(client, isUpsertTest);
             // create database
             client.createDatabase({ id: "sample 中文 database" }, function (err, db) {
                 assert.equal(err, undefined, "error creating database");
@@ -334,9 +482,9 @@ describe("NodeJS CRUD Tests", function() {
                         // create a document
                         var beforeCreateDocumentsCount = documents.length;
                         var documentDefinition = { name: "sample document", foo: "bar", key: "value", replace: "new property" };
-                        client.createDocument(getCollectionLink(isNameBased, db, collection), documentDefinition, { disableAutomaticIdGeneration: true }, function (err, document) {
+                        client.createOrUpsertDocument(getCollectionLink(isNameBased, db, collection), documentDefinition, { disableAutomaticIdGeneration: true }, function (err, document) {
                             assert(err !== undefined, "should throw an error because automatic id generation is disabled");
-                            client.createDocument(getCollectionLink(isNameBased, db, collection), documentDefinition, function (err, document) {
+                            client.createOrUpsertDocument(getCollectionLink(isNameBased, db, collection), documentDefinition, function (err, document) {
                                 assert.equal(err, undefined, "error creating document");
                                 assert.equal(document.name, documentDefinition.name);
                                 assert(document.id !== undefined);
@@ -363,7 +511,7 @@ describe("NodeJS CRUD Tests", function() {
                                             //replace document
                                             document.name = "replaced document";
                                             document.foo = "not bar";
-                                            client.replaceDocument(getDocumentLink(isNameBased, db, collection, document), document, function (error, replacedDocument) {
+                                            client.replaceOrUpsertDocument(getCollectionLink(isNameBased, db, collection), getDocumentLink(isNameBased, db, collection, document), document, function (error, replacedDocument) {
                                                 assert.equal(replacedDocument.name, "replaced document", "document name property should change");
                                                 assert.equal(replacedDocument.foo, "not bar", "property should have changed");
                                                 assert.equal(document.id, replacedDocument.id, "document id should stay the same");
@@ -394,11 +542,19 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         it("[nativeApi] Should do document CRUD operations successfully [name based]", function(done) {
-            documentCRUDTest(true, done);
+            documentCRUDTest(true, false, done);
         });
 
         it("[nativeApi] Should do document CRUD operations successfully [rid based]", function (done) {
-            documentCRUDTest(false, done);
+            documentCRUDTest(false, false, done);
+        });
+
+        it("[nativeApi] Should do document CRUD operations successfully [name based with upsert]", function(done) {
+            documentCRUDTest(true, true, done);
+        });
+
+        it("[nativeApi] Should do document CRUD operations successfully [rid based with upsert]", function (done) {
+            documentCRUDTest(false, true, done);
         });
     });
 
@@ -434,8 +590,9 @@ describe("NodeJS CRUD Tests", function() {
             });
         };
 
-        var attachmentCRUDTest = function (isNameBased, done) {
+        var attachmentCRUDTest = function (isNameBased, isUpsertTest, done) {
             var client = new DocumentDBClient(host, { masterKey: masterKey });
+            addUpsertWrapperMethods(client, isUpsertTest);
             // create database
             client.createDatabase({ id: "sample database" }, function (err, db) {
                 assert.equal(err, undefined, "error creating database");
@@ -454,13 +611,13 @@ describe("NodeJS CRUD Tests", function() {
                             var invalidMediaOptions = { slug: "attachment name", contentType: "junt/test" };
                             // create attachment with invalid content-type
                             var contentStream = createReadableStream();
-                            client.createAttachmentAndUploadMedia(getDocumentLink(isNameBased, db, collection, document), contentStream, invalidMediaOptions, function (err, attachment) {
+                            client.createOrUpsertAttachmentAndUploadMedia(getDocumentLink(isNameBased, db, collection, document), contentStream, invalidMediaOptions, function (err, attachment) {
                                 assert(err !== undefined, "create attachment should return error on invalid mediatypes");
                                 var badRequestErrorCode = 400;
                                 assert.equal(err.code, badRequestErrorCode);
                                 contentStream = createReadableStream();
                                 // create streamed attachment with valid content-type
-                                client.createAttachmentAndUploadMedia(getDocumentLink(isNameBased, db, collection, document), contentStream, validMediaOptions, function (err, validAttachment) {
+                                client.createOrUpsertAttachmentAndUploadMedia(getDocumentLink(isNameBased, db, collection, document), contentStream, validMediaOptions, function (err, validAttachment) {
                                     assert.equal(err, undefined, "error creating valid attachment");
                                     assert.equal(validAttachment.id, "attachment name", "name of created attachment should be the same as the one in the request");
                                     contentStream = createReadableStream();
@@ -480,7 +637,7 @@ describe("NodeJS CRUD Tests", function() {
                                             Title: "My Book Title",
                                             contentType: "application/text"
                                         };
-                                        client.createAttachment(getDocumentLink(isNameBased, db, collection, document), dynamicAttachment, function (err, attachment) {
+                                        client.createOrUpsertAttachment(getDocumentLink(isNameBased, db, collection, document), dynamicAttachment, function (err, attachment) {
                                             assert.equal(err, undefined, "error creating valid attachment");
                                             assert.equal(attachment.MediaType, "Book", "invalid media type");
                                             assert.equal(attachment.Author, "My Book Author", "invalid property value");
@@ -490,7 +647,7 @@ describe("NodeJS CRUD Tests", function() {
                                                 assert.equal(attachments.length, initialCount + 2, "number of attachments should've increased by 2");
                                                 attachment.Author = "new author";
                                                 //replace the attachment
-                                                client.replaceAttachment(getAttachmentLink(isNameBased, db, collection, document, attachment), attachment, function (err, attachment) {
+                                                client.replaceOrUpsertAttachment(getDocumentLink(isNameBased, db, collection, document), getAttachmentLink(isNameBased, db, collection, document, attachment), attachment, function (err, attachment) {
                                                     assert.equal(err, undefined, "error replacing attachment");
                                                     assert.equal(attachment.MediaType, "Book", "invalid media type");
                                                     assert.equal(attachment.Author, "new author", "invalid property value");
@@ -500,7 +657,7 @@ describe("NodeJS CRUD Tests", function() {
                                                         assert.equal(mediaResponse, "first chunk second chunk");
                                                         contentStream = createReadableStream("modified first chunk ", "modified second chunk");
                                                         // update attachment media
-                                                        client.updateMedia(validAttachment.media, contentStream, validMediaOptions, function (err, mediaResult) {
+                                                        client.updateOrUpsertMedia(getDocumentLink(isNameBased, db, collection, document), validAttachment.media, contentStream, validMediaOptions, function (err, mediaResult) {
                                                             assert.equal(err, undefined, "error update media");
                                                             // read attachment media after update
                                                             // read media buffered
@@ -518,7 +675,7 @@ describe("NodeJS CRUD Tests", function() {
                                                                         client.createDocument(getCollectionLink(isNameBased, db, collection), { id: "document 2" }, function (err, document) {
                                                                             assert.equal(err, undefined, "error creating document");
                                                                             var secondAttachment = { id: validAttachment.id, contentType: validAttachment.contentType, media: validAttachment.media };
-                                                                            client.createAttachment(getDocumentLink(isNameBased, db, collection, document), secondAttachment, function (err, attachment) {
+                                                                            client.createOrUpsertAttachment(getDocumentLink(isNameBased, db, collection, document), secondAttachment, function (err, attachment) {
                                                                                 assert.equal(err, undefined, "error creating attachment");
                                                                                 assert.equal(validAttachment.id, attachment.id, "name mismatch");
                                                                                 assert.equal(validAttachment.media, attachment.media, "media mismatch");
@@ -553,17 +710,25 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         it("[nativeApi] Should do attachment CRUD operations successfully [name based]", function(done) {
-            attachmentCRUDTest(true, done);
+            attachmentCRUDTest(true, false, done);
         });
 
         it("[nativeApi] Should do attachment CRUD operations successfully [rid based]", function (done) {
-            attachmentCRUDTest(false, done);
+            attachmentCRUDTest(false, false, done);
+        });
+        it("[nativeApi] Should do attachment CRUD operations successfully [name based with upsert]", function(done) {
+            attachmentCRUDTest(true, true, done);
+        });
+
+        it("[nativeApi] Should do attachment CRUD operations successfully [rid based with upsert]", function (done) {
+            attachmentCRUDTest(false, true, done);
         });
     });
 
     describe("Validate User CRUD", function () {
-        var userCRUDTest = function (isNameBased, done) {
+        var userCRUDTest = function (isNameBased, isUpsertTest, done) {
             var client = new DocumentDBClient(host, { masterKey: masterKey });
+            addUpsertWrapperMethods(client, isUpsertTest);
             // create database
             client.createDatabase({ id: "sample database" }, function (err, db) {
                 assert.equal(err, undefined, "error creating database");
@@ -573,7 +738,7 @@ describe("NodeJS CRUD Tests", function() {
                     assert.equal(users.constructor, Array, "Value should be an array");
                     var beforeCreateCount = users.length;
                     // create user
-                    client.createUser(getDatabaseLink(isNameBased, db), { id: "new user" }, function (err, user) {
+                    client.createOrUpsertUser(getDatabaseLink(isNameBased, db), { id: "new user" }, function (err, user) {
                         assert.equal(err, undefined, "error creating User");
                         assert.equal(user.id, "new user", "user name error");
                         // list users after creation
@@ -595,7 +760,7 @@ describe("NodeJS CRUD Tests", function() {
                                 assert(results.length > 0, "number of results for the query should be > 0");
                                 //replace user
                                 user.id = "replaced user";
-                                client.replaceUser(user._self, user, function (error, replacedUser) {
+                                client.replaceOrUpsertUser(getDatabaseLink(isNameBased, db), user._self, user, function (error, replacedUser) {
                                     assert.equal(replacedUser.id, "replaced user", "user name should change");
                                     assert.equal(user.id, replacedUser.id, "user id should stay the same");
                                     // read user
@@ -622,17 +787,26 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         it("[nativeApi] Should do User CRUD operations successfully [name based]", function(done) {
-            userCRUDTest(true, done);
+            userCRUDTest(true, false, done);
         });
 
         it("[nativeApi] Should do User CRUD operations successfully [rid based]", function (done) {
-            userCRUDTest(false, done);
+            userCRUDTest(false, false, done);
+        });
+
+        it("[nativeApi] Should do User CRUD operations successfully [name based with upsert]", function(done) {
+            userCRUDTest(true, true, done);
+        });
+
+        it("[nativeApi] Should do User CRUD operations successfully [rid based with upsert]", function (done) {
+            userCRUDTest(false, true, done);
         });
     });
 
     describe("Validate Permission CRUD", function () {
-        var permissionCRUDTest = function (isNameBased, done) {
+        var permissionCRUDTest = function (isNameBased, isUpsertTest, done) {
             var client = new DocumentDBClient(host, { masterKey: masterKey });
+            addUpsertWrapperMethods(client, isUpsertTest);
             // create database
             client.createDatabase({ id: "sample database" }, function (err, db) {
                 assert.equal(err, undefined, "error creating database");
@@ -649,7 +823,7 @@ describe("NodeJS CRUD Tests", function() {
                             var beforeCreateCount = permissions.length;
                             var permission = { id: "new permission", permissionMode: DocumentBase.PermissionMode.Read, resource: coll._self };
                             // create permission
-                            client.createPermission(getUserLink(isNameBased, db, user), permission, function (err, permission) {
+                            client.createOrUpsertPermission(getUserLink(isNameBased, db, user), permission, function (err, permission) {
                                 assert.equal(err, undefined, "error creating permission");
                                 assert.equal(permission.id, "new permission", "permission name error");
                                 // list permissions after creation
@@ -669,24 +843,30 @@ describe("NodeJS CRUD Tests", function() {
                                     client.queryPermissions(getUserLink(isNameBased, db, user), querySpec).toArray(function (err, results) {
                                         assert.equal(err, undefined, "error querying permissions");
                                         assert(results.length > 0, "number of results for the query should be > 0");
-                                        //replace permission
-                                        permission.id = "replaced permission";
-                                        client.replacePermission(permission._self, permission, function (error, replacedPermission) {
+                                        permission.permissionMode = DocumentBase.PermissionMode.All;
+                                        client.replaceOrUpsertPermission(getUserLink(isNameBased, db, user), permission._self, permission, function (error, replacedPermission) {
                                             assert.equal(error, undefined, "error replacing permission");
-                                            assert.equal(replacedPermission.id, "replaced permission", "permission name should change");
+                                            assert.equal(replacedPermission.permissionMode, DocumentBase.PermissionMode.All, "permission mode should change");
                                             assert.equal(permission.id, replacedPermission.id, "permission id should stay the same");
-                                            // read permission
-                                            client.readPermission(getPermissionLink(isNameBased, db, user, replacedPermission), replacedPermission.id, function (err, permission) {
-                                                assert.equal(err, undefined, "readUser should work successfully");
-                                                assert.equal(replacedPermission.id, permission.id);
-                                                // delete permission
-                                                client.deletePermission(getPermissionLink(isNameBased, db, user, replacedPermission), function (err, res) {
-                                                    assert.equal(err, undefined, "delete permission should should work successfully");
-                                                    // read permission after deletion
-                                                    client.readPermission(getPermissionLink(isNameBased, db, user, permission), function (err, permission) {
-                                                        var notFoundErrorCode = 404;
-                                                        assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-                                                        done();
+                                            // to change the id of an existing resourcewe have to use replace
+                                            permission.id = "replaced permission";
+                                            client.replacePermission(permission._self, permission, function (error, replacedPermission) {
+                                                assert.equal(error, undefined, "error replacing permission");
+                                                assert.equal(replacedPermission.id, "replaced permission", "permission name should change");
+                                                assert.equal(permission.id, replacedPermission.id, "permission id should stay the same");
+                                                // read permission
+                                                client.readPermission(getPermissionLink(isNameBased, db, user, replacedPermission), function (err, permission) {
+                                                    assert.equal(err, undefined, "readUser should work successfully");
+                                                    assert.equal(replacedPermission.id, permission.id);
+                                                    // delete permission
+                                                    client.deletePermission(getPermissionLink(isNameBased, db, user, replacedPermission), function (err, res) {
+                                                        assert.equal(err, undefined, "delete permission should should work successfully");
+                                                        // read permission after deletion
+                                                        client.readPermission(getPermissionLink(isNameBased, db, user, permission), function (err, permission) {
+                                                            var notFoundErrorCode = 404;
+                                                            assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
+                                                            done();
+                                                        });
                                                     });
                                                 });
                                             });
@@ -701,11 +881,19 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         it("[nativeApi] Should do Permission CRUD operations successfully [name based]", function(done) {
-            permissionCRUDTest(true, done);
+            permissionCRUDTest(true, false, done);
         });
 
         it("[nativeApi] Should do Permission CRUD operations successfully [rid based]", function (done) {
-            permissionCRUDTest(false, done);
+            permissionCRUDTest(false, false, done);
+        });
+
+        it("[nativeApi] Should do Permission CRUD operations successfully [name based with upsert]", function(done) {
+            permissionCRUDTest(true, true, done);
+        });
+
+        it("[nativeApi] Should do Permission CRUD operations successfully [rid based with upsert]", function (done) {
+            permissionCRUDTest(false, true, done);
         });
     });
 
@@ -742,12 +930,12 @@ describe("NodeJS CRUD Tests", function() {
                                         assert.equal(err, undefined, "error creating user");
                                         var permission = { id: "permission On Coll1", permissionMode: DocumentBase.PermissionMode.Read, resource: collection1._self};
                                         // create permission for collection1
-                                        client.createPermission(getUserLink(isNameBased, db, user1), permission, function (err, permissionOnColl1) {
+                                        client.createOrUpsertPermission(getUserLink(isNameBased, db, user1), permission, function (err, permissionOnColl1) {
                                             assert.equal(err, undefined, "error creating permission");
                                             assert(permissionOnColl1._token !== undefined, "permission token is invalid");
                                             permission = { id: "permission On Doc1", permissionMode: DocumentBase.PermissionMode.All, resource: document2._self};
                                             // create permission for document 2
-                                            client.createPermission(getUserLink(isNameBased, db, user1), permission, function (err, permissionOnDoc2) {
+                                            client.createOrUpsertPermission(getUserLink(isNameBased, db, user1), permission, function (err, permissionOnDoc2) {
                                                 assert.equal(err, undefined, "error creating permission");
                                                 assert(permissionOnDoc2._token !== undefined, "permission token is invalid");
                                                 // create user 2
@@ -755,7 +943,7 @@ describe("NodeJS CRUD Tests", function() {
                                                     assert.equal(err, undefined, "error creating user");
                                                     permission = { id: "permission On coll2", permissionMode: DocumentBase.PermissionMode.All, resource: collection2._self};
                                                     // create permission on collection 2
-                                                    client.createPermission(getUserLink(isNameBased, db, user2), permission, function (err, permissionOnColl2) {
+                                                    client.createOrUpsertPermission(getUserLink(isNameBased, db, user2), permission, function (err, permissionOnColl2) {
                                                         assert.equal(err, undefined, "error creating permission");
                                                         var entities = {
                                                             db: db,
@@ -785,13 +973,14 @@ describe("NodeJS CRUD Tests", function() {
             });
         };
 
-        var authorizationCRUDTest = function (isNameBased, done) {
+        var authorizationCRUDTest = function (isNameBased, isUpsertTest, done) {
             var client = new DocumentDBClient(host);
             client.readDatabases().toArray(function (err, databases) {
                 assert(err !== undefined, "error should not be undefined");
                 var unauthorizedErrorCode = 401;
                 assert.equal(err.code, unauthorizedErrorCode, "error code should be equal to 401");
                 client = new DocumentDBClient(host, { masterKey: masterKey });
+                addUpsertWrapperMethods(client, isUpsertTest);
                 // setup entities
                 setupEntities(isNameBased, client, function (entities) {
                     var resourceTokens = {};
@@ -816,8 +1005,9 @@ describe("NodeJS CRUD Tests", function() {
                                     assert(successDoc !== undefined, "error reading document");
                                     assert.equal(successDoc.id, entities.doc1.id, "Expected to read children using parent permissions");
                                     var col2Client = new DocumentDBClient(host, { permissionFeed: [entities.permissionOnColl2] });
+                                    addUpsertWrapperMethods(col2Client, isUpsertTest);
                                     var doc = { id: "new doc", CustomProperty1: "BBBBBB", customProperty2: 1000 };
-                                    col2Client.createDocument(getCollectionLink(isNameBased, entities.db, entities.coll2), doc, function (err, successDoc) {
+                                    col2Client.createOrUpsertDocument(getCollectionLink(isNameBased, entities.db, entities.coll2), doc, function (err, successDoc) {
                                         assert.equal(err, undefined, "error creating document");
                                         assert(successDoc !== undefined, "error creating document");
                                         assert.equal(successDoc.CustomProperty1, doc.CustomProperty1, "document should have been created successfully");
@@ -832,17 +1022,26 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         it("[nativeApi] Should do authorization successfully [name based]", function(done) {
-            authorizationCRUDTest(true, done);
+            authorizationCRUDTest(true, false, done);
         });
 
         it("[nativeApi] Should do authorization successfully [rid based]", function (done) {
-            authorizationCRUDTest(false, done);
+            authorizationCRUDTest(false, false, done);
+        });
+
+        it("[nativeApi] Should do authorization successfully [name based with upsert]", function(done) {
+            authorizationCRUDTest(true, true, done);
+        });
+
+        it("[nativeApi] Should do authorization successfully [rid based with upsert]", function (done) {
+            authorizationCRUDTest(false, true, done);
         });
     });
 
     describe("Validate Trigger CRUD", function () {
-        var triggerCRUDTest = function (isNameBased, done) {
+        var triggerCRUDTest = function (isNameBased, isUpsertTest, done) {
             var client = new DocumentDBClient(host, { masterKey: masterKey });
+            addUpsertWrapperMethods(client, isUpsertTest);
             // create database
             client.createDatabase({ id: "sample database" }, function (err, db) {
                 assert.equal(err, undefined, "error creating database");
@@ -861,7 +1060,7 @@ describe("NodeJS CRUD Tests", function() {
                             triggerType: DocumentBase.TriggerType.Pre,
                             triggerOperation: DocumentBase.TriggerOperation.All
                         };
-                        client.createTrigger(getCollectionLink(isNameBased, db, collection), triggerDefinition, function (err, trigger) {
+                        client.createOrUpsertTrigger(getCollectionLink(isNameBased, db, collection), triggerDefinition, function (err, trigger) {
                             assert.equal(err, undefined, "error creating trigger");
                             for (var property in triggerDefinition) {
                                 if (property !== "serverScript") {
@@ -889,7 +1088,7 @@ describe("NodeJS CRUD Tests", function() {
                                     assert(results.length > 0, "number of results for the query should be > 0");
                                     //replace trigger
                                     trigger.body = function () { var x = 20; };
-                                    client.replaceTrigger(getTriggerLink(isNameBased, db, collection, trigger), trigger, function (error, replacedTrigger) {
+                                    client.replaceOrUpsertTrigger(getCollectionLink(isNameBased, db, collection), getTriggerLink(isNameBased, db, collection, trigger), trigger, function (error, replacedTrigger) {
                                         assert.equal(err, undefined, "error replacing trigger");
                                         for (var property in triggerDefinition) {
                                             if (property !== "serverScript") {
@@ -923,17 +1122,26 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         it("[nativeApi] Should do trigger CRUD operations successfully [name based]", function(done) {
-            triggerCRUDTest(true, done);
+            triggerCRUDTest(true, false, done);
         });
 
         it("[nativeApi] Should do trigger CRUD operations successfully [rid based]", function (done) {
-            triggerCRUDTest(false, done);
+            triggerCRUDTest(false, false, done);
+        });
+
+        it("[nativeApi] Should do trigger CRUD operations successfully [name based with upsert]", function(done) {
+            triggerCRUDTest(true, true, done);
+        });
+
+        it("[nativeApi] Should do trigger CRUD operations successfully [rid based with upsert]", function (done) {
+            triggerCRUDTest(false, true, done);
         });
     });
 
     describe("Validate UDF CRUD", function () {
-        var udfCRUDTest = function (isNameBased, done) {
+        var udfCRUDTest = function (isNameBased, isUpsertTest, done) {
             var client = new DocumentDBClient(host, { masterKey: masterKey });
+            addUpsertWrapperMethods(client, isUpsertTest);
             // create database
             client.createDatabase({ id: "sample database" }, function (err, db) {
                 assert.equal(err, undefined, "error creating database");
@@ -950,7 +1158,7 @@ describe("NodeJS CRUD Tests", function() {
                             id: "sample udf",
                             serverScript: function () { var x = 10; }
                         };
-                        client.createUserDefinedFunction(getCollectionLink(isNameBased, db, collection), udfDefinition, function (err, udf) {
+                        client.createOrUpsertUserDefinedFunction(getCollectionLink(isNameBased, db, collection), udfDefinition, function (err, udf) {
                             assert.equal(err, undefined, "error creating udf");
                             for (var property in udfDefinition) {
                                 if (property !== "serverScript") {
@@ -979,7 +1187,7 @@ describe("NodeJS CRUD Tests", function() {
                                     assert(results.length > 0, "number of results for the query should be > 0");
                                     // replace udf
                                     udf.body = function () { var x = 20; };
-                                    client.replaceUserDefinedFunction(getUserDefinedFunctionLink(isNameBased, db, collection, udf), udf, function (error, replacedUdf) {
+                                    client.replaceOrUpsertUserDefinedFunction(getCollectionLink(isNameBased, db, collection), getUserDefinedFunctionLink(isNameBased, db, collection, udf), udf, function (error, replacedUdf) {
                                         assert.equal(err, undefined, "error replacing user defined function");
                                         for (var property in udfDefinition) {
                                             if (property !== "serverScript") {
@@ -1013,17 +1221,26 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         it("[nativeApi] Should do UDF CRUD operations successfully [name based]", function(done) {
-            udfCRUDTest(true, done);
+            udfCRUDTest(true, false, done);
         });
 
         it("[nativeApi] Should do UDF CRUD operations successfully [rid based]", function (done) {
-            udfCRUDTest(false, done);
+            udfCRUDTest(false, false, done);
+        });
+
+        it("[nativeApi] Should do UDF CRUD operations successfully [name based with upsert]", function(done) {
+            udfCRUDTest(true, true, done);
+        });
+
+        it("[nativeApi] Should do UDF CRUD operations successfully [rid based with upsert]", function (done) {
+            udfCRUDTest(false, true, done);
         });
     });
 
     describe("Validate sproc CRUD", function () {
-        var sprocCRUDTest = function (isNameBased, done) {
+        var sprocCRUDTest = function (isNameBased, isUpsertTest, done) {
             var client = new DocumentDBClient(host, { masterKey: masterKey });
+            addUpsertWrapperMethods(client, isUpsertTest);
             // create database
             client.createDatabase({ id: "sample database" }, function (err, db) {
                 assert.equal(err, undefined, "error creating database");
@@ -1040,7 +1257,7 @@ describe("NodeJS CRUD Tests", function() {
                             id: "sample sproc",
                             serverScript: function () { var x = 10; }
                         };
-                        client.createStoredProcedure(getCollectionLink(isNameBased, db, collection), sprocDefinition, function (err, sproc) {
+                        client.createOrUpsertStoredProcedure(getCollectionLink(isNameBased, db, collection), sprocDefinition, function (err, sproc) {
                             assert.equal(err, undefined, "error creating sproc");
                             for (var property in sprocDefinition) {
                                 if (property !== "serverScript") {
@@ -1063,7 +1280,7 @@ describe("NodeJS CRUD Tests", function() {
                                     assert(sprocs.length > 0, "number of sprocs for the query should be > 0");
                                     // replace sproc
                                     sproc.body = function () { var x = 20; };
-                                    client.replaceStoredProcedure(getStoredProcedureLink(isNameBased, db, collection, sproc), sproc, function (error, replacedSproc) {
+                                    client.replaceOrUpsertStoredProcedure(getCollectionLink(isNameBased, db, collection), getStoredProcedureLink(isNameBased, db, collection, sproc), sproc, function (error, replacedSproc) {
                                         assert.equal(error, undefined, "error replacing store procedure");
                                         for (var property in sprocDefinition) {
                                             if (property !== "serverScript") {
@@ -1097,17 +1314,26 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         it("[nativeApi] Should do sproc CRUD operations successfully [name based]", function(done) {
-            sprocCRUDTest(true, done);
+            sprocCRUDTest(true, false, done);
         });
 
         it("[nativeApi] Should do sproc CRUD operations successfully [rid based]", function (done) {
-            sprocCRUDTest(false, done);
+            sprocCRUDTest(false, false, done);
+        });
+
+        it("[nativeApi] Should do sproc CRUD operations successfully [name based with upsert]", function(done) {
+            sprocCRUDTest(true, true, done);
+        });
+
+        it("[nativeApi] Should do sproc CRUD operations successfully [rid based with upsert]", function (done) {
+            sprocCRUDTest(false, true, done);
         });
     });
 
     describe("Validate spatial index", function () {
-        var spatialIndexTest = function (isNameBased, done) {
+        var spatialIndexTest = function (isNameBased, isUpsertTest, done) {
             var client = new DocumentDBClient(host, { masterKey: masterKey });
+            addUpsertWrapperMethods(client, isUpsertTest);
             // create database
             client.createDatabase({ id: "sample database" }, function (err, db) {
                 assert.equal(err, undefined, "error creating database");
@@ -1137,7 +1363,7 @@ describe("NodeJS CRUD Tests", function() {
                             coordinates: [20.0, 20.0]
                         }
                     };
-                    client.createDocument(getCollectionLink(isNameBased, db, collection), location1, function (err, _) {
+                    client.createOrUpsertDocument(getCollectionLink(isNameBased, db, collection), location1, function (err, _) {
                         assert.equal(err, undefined, "error creating location1");
                         var location2 = {
                             id: "location2",
@@ -1146,7 +1372,7 @@ describe("NodeJS CRUD Tests", function() {
                                 coordinates: [100.0, 100.0]
                             }
                         };
-                        client.createDocument(getCollectionLink(isNameBased, db, collection), location2, function (err, _) {
+                        client.createOrUpsertDocument(getCollectionLink(isNameBased, db, collection), location2, function (err, _) {
                             assert.equal(err, undefined, "error creating location2");
                             var query = "SELECT * FROM root WHERE (ST_DISTANCE(root.Location, {type: 'Point', coordinates: [20.1, 20]}) < 20000) ";
                             client.queryDocuments(getCollectionLink(isNameBased, db, collection), query).toArray(function (err, results) {
@@ -1162,11 +1388,19 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         it("[nativeApi] Should support spatial index [name based]", function (done) {
-            spatialIndexTest(true, done);
+            spatialIndexTest(true, false, done);
         });
 
         it("[nativeApi] Should support spatial index [rid based]", function (done) {
-            spatialIndexTest(false, done);
+            spatialIndexTest(false, false, done);
+        });
+
+        it("[nativeApi] Should support spatial index [name based with upsert]", function (done) {
+            spatialIndexTest(true, true, done);
+        });
+
+        it("[nativeApi] Should support spatial index [rid based with upsert]", function (done) {
+            spatialIndexTest(false, true, done);
         });
     });
 
@@ -1260,18 +1494,38 @@ describe("NodeJS CRUD Tests", function() {
             // included paths should be 2 "_ts" and "/".
             assert.equal(2, indexingPolicy["includedPaths"].length);
 
-            // check default paths.
-            assert.equal("/*", indexingPolicy["includedPaths"][0]["path"]);
-            assert.equal(2, indexingPolicy["includedPaths"][0]["indexes"].length);
-            assert.equal("Hash", indexingPolicy["includedPaths"][0]["indexes"][0]["kind"]);
-            assert.equal("String", indexingPolicy["includedPaths"][0]["indexes"][0]["dataType"]);
-            assert.equal(3, indexingPolicy["includedPaths"][0]["indexes"][0]["precision"]);
-            assert.equal("Range", indexingPolicy["includedPaths"][0]["indexes"][1]["kind"]);
-            assert.equal("Number", indexingPolicy["includedPaths"][0]["indexes"][1]["dataType"]);
-            assert.equal(-1, indexingPolicy["includedPaths"][0]["indexes"][1]["precision"]);
+            var rootIncludedPath = null;
+            var tsIncludedPath = null;
 
-            // _ts.
-            assert.equal("/\"_ts\"/?", indexingPolicy["includedPaths"][1]["path"]);
+            for (var i = 0; i < 2; ++i) {
+                if (indexingPolicy["includedPaths"][i]["path"] == "/*") {
+                    rootIncludedPath = indexingPolicy["includedPaths"][i];
+                } else if (indexingPolicy["includedPaths"][i]["path"] == "/\"_ts\"/?") {
+                    tsIncludedPath = indexingPolicy["includedPaths"][i];
+                }
+            }
+
+            assert(rootIncludedPath);  // root path should exist.
+            assert(tsIncludedPath);  // ts path should exist.
+
+            // In the root path, there should be one HashIndex for Strings, and one RangeIndex for Numbers.
+            assert.equal(2, rootIncludedPath["indexes"].length);
+
+            var hashIndex = null;
+            var rangeIndex = null;
+
+            for (var i = 0; i < 2; ++i) {
+                if (rootIncludedPath["indexes"][i]["kind"] == "Hash") {
+                    hashIndex = rootIncludedPath["indexes"][i];
+                } else if (rootIncludedPath["indexes"][i]["kind"] == "Range") {
+                    rangeIndex = rootIncludedPath["indexes"][i];
+                }
+            }
+
+            assert(hashIndex);
+            assert.equal("String", hashIndex["dataType"]);
+            assert(rangeIndex);
+            assert.equal("Number", rangeIndex["dataType"]);
         };
 
         var defaultIndexingPolicyTest = function (isNameBased, done) {
@@ -1593,7 +1847,7 @@ describe("NodeJS CRUD Tests", function() {
                 return callback();
             }
 
-            client.createTrigger(collection._self, triggers[index], function (err, trigger) {
+            client.createOrUpsertTrigger(collection._self, triggers[index], function (err, trigger) {
                 assert.equal(err, undefined, "error creating trigger");
                 for (var property in triggers[index]) {
                     assert.equal(trigger[property], triggers[index][property], "property " + property + " should match");
@@ -1603,8 +1857,9 @@ describe("NodeJS CRUD Tests", function() {
             });
         };
 
-        var triggerCRUDTest = function (isNameBased, done) {
+        var triggerCRUDTest = function (isNameBased, isUpsertTest, done) {
             var client = new DocumentDBClient(host, { masterKey: masterKey });
+            addUpsertWrapperMethods(client, isUpsertTest);
             // create database
             client.createDatabase({ id: "sample database" }, function (err, db) {
                 assert.equal(err, undefined, "error creating database");
@@ -1617,22 +1872,22 @@ describe("NodeJS CRUD Tests", function() {
                         // create document
                         client.readTriggers(getCollectionLink(isNameBased, db, collection)).toArray(function (err, triggers) {
                             assert.equal(err, undefined, "error reading triggers");
-                            client.createDocument(getCollectionLink(isNameBased, db, collection), { id: "doc1", key: "value" }, { preTriggerInclude: "t1" }, function (err, document) {
+                            client.createOrUpsertDocument(getCollectionLink(isNameBased, db, collection), { id: "doc1", key: "value" }, { preTriggerInclude: "t1" }, function (err, document) {
                                 assert.equal(err, undefined, "error creating document");
                                 assert.equal(document.id, "DOC1t1", "name should be capitalized");
-                                client.createDocument(getCollectionLink(isNameBased, db, collection), { id: "doc2", key2: "value2" }, { preTriggerInclude: "t2" }, function (err, document2) {
+                                client.createOrUpsertDocument(getCollectionLink(isNameBased, db, collection), { id: "doc2", key2: "value2" }, { preTriggerInclude: "t2" }, function (err, document2) {
                                     assert.equal(err, undefined, "error creating document");
                                     assert.equal(document2.id, "doc2", "name shouldn't change");
-                                    client.createDocument(getCollectionLink(isNameBased, db, collection), { id: "Doc3", prop: "empty" }, { preTriggerInclude: "t3" }, function (err, document3) {
+                                    client.createOrUpsertDocument(getCollectionLink(isNameBased, db, collection), { id: "Doc3", prop: "empty" }, { preTriggerInclude: "t3" }, function (err, document3) {
                                         assert.equal(err, undefined, "error creating document");
                                         assert.equal(document3.id, "doc3t3");
-                                        client.createDocument(getCollectionLink(isNameBased, db, collection), { id: "testing post trigger" }, { postTriggerInclude: "response1", preTriggerInclude: "t1" }, function (err, document4) {
+                                        client.createOrUpsertDocument(getCollectionLink(isNameBased, db, collection), { id: "testing post trigger" }, { postTriggerInclude: "response1", preTriggerInclude: "t1" }, function (err, document4) {
                                             assert.equal(err, undefined, "error creating document");
                                             assert.equal(document4.id, "TESTING POST TRIGGERt1");
-                                            client.createDocument(getCollectionLink(isNameBased, db, collection), { id: "responseheaders" }, { preTriggerInclude: "t1" }, function (err, document5, headers) {
+                                            client.createOrUpsertDocument(getCollectionLink(isNameBased, db, collection), { id: "responseheaders" }, { preTriggerInclude: "t1" }, function (err, document5, headers) {
                                                 assert.equal(err, undefined, "error creating document");
                                                 assert.equal(document5.id, "RESPONSEHEADERSt1");
-                                                client.createDocument(getCollectionLink(isNameBased, db, collection), { id: "Docoptype" }, { postTriggerInclude: "triggerOpType" }, function (err, document6) {
+                                                client.createOrUpsertDocument(getCollectionLink(isNameBased, db, collection), { id: "Docoptype" }, { postTriggerInclude: "triggerOpType" }, function (err, document6) {
                                                     assert(err !== undefined);
                                                     done();
                                                 });
@@ -1648,17 +1903,26 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         it("[nativeApi] Should do trigger operations successfully [name based]", function(done) {
-            triggerCRUDTest(true, done);
+            triggerCRUDTest(true, false, done);
         });
 
         it("[nativeApi] Should do trigger operations successfully [rid based]", function (done) {
-            triggerCRUDTest(false, done);
+            triggerCRUDTest(false, false, done);
+        });
+
+        it("[nativeApi] Should do trigger operations successfully [name based]", function(done) {
+            triggerCRUDTest(true, true, done);
+        });
+
+        it("[nativeApi] Should do trigger operations successfully [rid based]", function (done) {
+            triggerCRUDTest(false, true, done);
         });
     });
 
     describe("validate stored procedure functionality", function () {
-        var storedProcedureCRUDTest = function (isNameBased, done) {
+        var storedProcedureCRUDTest = function (isNameBased, isUpsertTest, done) {
             var client = new DocumentDBClient(host, { masterKey: masterKey });
+            addUpsertWrapperMethods(client, isUpsertTest);
             // create database
             client.createDatabase({ id: "sample database" }, function (err, db) {
                 assert.equal(err, undefined, "error creating database");
@@ -1676,7 +1940,7 @@ describe("NodeJS CRUD Tests", function() {
                         }
                     };
 
-                    client.createStoredProcedure(getCollectionLink(isNameBased, db, collection), sproc1, function (err, retrievedSproc) {
+                    client.createOrUpsertStoredProcedure(getCollectionLink(isNameBased, db, collection), sproc1, function (err, retrievedSproc) {
                         assert.equal(err, undefined, "error creating stored procedure");
                         client.executeStoredProcedure(getStoredProcedureLink(isNameBased, db, collection, retrievedSproc), function (err, result) {
                             assert.equal(err, undefined, "error executing stored procedure");
@@ -1688,7 +1952,7 @@ describe("NodeJS CRUD Tests", function() {
                                 }
                             };
 
-                            client.createStoredProcedure(getCollectionLink(isNameBased, db, collection), sproc2, function (err, retrievedSproc2) {
+                            client.createOrUpsertStoredProcedure(getCollectionLink(isNameBased, db, collection), sproc2, function (err, retrievedSproc2) {
                                 assert.equal(err, undefined, "error creating stored procedure");
                                 client.executeStoredProcedure(getStoredProcedureLink(isNameBased, db, collection, retrievedSproc2), function (err, result) {
                                     assert.equal(err, undefined, "error executing stored procedure");
@@ -1700,7 +1964,7 @@ describe("NodeJS CRUD Tests", function() {
                                         }
                                     };
 
-                                    client.createStoredProcedure(getCollectionLink(isNameBased, db, collection), sproc3, function (err, retrievedSproc3) {
+                                    client.createOrUpsertStoredProcedure(getCollectionLink(isNameBased, db, collection), sproc3, function (err, retrievedSproc3) {
                                         assert.equal(err, undefined, "error creating stored procedure");
                                         client.executeStoredProcedure(getStoredProcedureLink(isNameBased, db, collection, retrievedSproc3), { temp: "so" }, function (err, result) {
                                             assert.equal(err, undefined, "error executing stored procedure");
@@ -1717,11 +1981,19 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         it("[nativeApi] Should do stored procedure operations successfully [name based]", function (done) {
-            storedProcedureCRUDTest(true, done);
+            storedProcedureCRUDTest(true, false, done);
         });
 
         it("[nativeApi] Should do stored procedure operations successfully [rid based]", function (done) {
-            storedProcedureCRUDTest(false, done);
+            storedProcedureCRUDTest(false, false, done);
+        });
+
+        it("[nativeApi] Should do stored procedure operations successfully [name based with upsert]", function (done) {
+            storedProcedureCRUDTest(true, true, done);
+        });
+
+        it("[nativeApi] Should do stored procedure operations successfully [rid based with upsert]", function (done) {
+            storedProcedureCRUDTest(false, true, done);
         });
     });
 
@@ -1943,12 +2215,14 @@ describe("NodeJS CRUD Tests", function() {
                     };
                     createThenReadCollection(isNameBased, client, db, lazyCollectionDefinition, function (collection, headers) {
                         assert.notEqual(headers[Constants.HttpHeaders.IndexTransformationProgress], undefined);
+                        assert.notEqual(headers[Constants.HttpHeaders.LazyIndexingProgress], undefined);
                         var noneCollectionDefinition = {
                             id: "none_coll",
                             indexingPolicy: { indexingMode: DocumentBase.IndexingMode.None, automatic: false }
                         };
                         createThenReadCollection(isNameBased, client, db, noneCollectionDefinition, function (collection, headers) {
                             assert.notEqual(headers[Constants.HttpHeaders.IndexTransformationProgress], undefined);
+                            assert.equal(headers[Constants.HttpHeaders.LazyIndexingProgress], undefined);
                             done();
                         });
                     });
@@ -1961,7 +2235,7 @@ describe("NodeJS CRUD Tests", function() {
         });
 
         it("[nativeApi] Validate index progress headers [rid based]", function (done) {
-            indexProgressHeadersTest(true, done);
+            indexProgressHeadersTest(false, done);
         });
     });
 
@@ -1993,6 +2267,214 @@ describe("NodeJS CRUD Tests", function() {
                     });
                 });
             });
+        });
+    });
+
+    describe("setIsUpsertHeader Unit Tests", function () {
+        var client = new DocumentDBClient(host, { masterKey: masterKey });
+
+        it("[nativeApi] Should add is-upsert header.", function (done) {
+            var headers = client.defaultHeaders;
+            assert.equal(undefined, headers[Constants.HttpHeaders.IsUpsert]);
+            client.setIsUpsertHeader(headers);
+            assert.equal(true, headers[Constants.HttpHeaders.IsUpsert]);
+            done();
+        });
+
+        it("[nativeApi] Should update is-upsert header.", function (done) {
+            var headers = {};
+            headers[Constants.HttpHeaders.IsUpsert] = false;
+            assert.equal(false, headers[Constants.HttpHeaders.IsUpsert]);
+            client.setIsUpsertHeader(headers);
+            assert.equal(true, headers[Constants.HttpHeaders.IsUpsert]);
+            done();
+        });
+
+        it("[nativeApi] Should throw on undefined headers", function (done) {
+            assert.throws(
+                function () { client.setIsUpsertHeader(); },
+                /The "headers" parameter must not be null or undefined/
+            );
+            done();
+        });
+
+        it("[nativeApi] Should throw on null headers", function (done) {
+            assert.throws(
+                function () { client.setIsUpsertHeader(null); },
+                /The "headers" parameter must not be null or undefined/
+            );
+            done();
+        });
+
+        it("[nativeApi] Should throw on invalid string headers", function (done) {
+            assert.throws(
+                function () { client.setIsUpsertHeader(""); },
+                /The "headers" parameter must be an instance of "Object". Actual type is: "string"./
+            );
+            done();
+        });
+
+        it("[nativeApi] Should throw on invalid number headers", function (done) {
+            assert.throws(
+                function () { client.setIsUpsertHeader(0); },
+                /The "headers" parameter must be an instance of "Object". Actual type is: "number"./
+            );
+            done();
+        });
+
+        it("[nativeApi] Should throw on invalid boolean headers", function (done) {
+            assert.throws(
+                function () { client.setIsUpsertHeader(false); },
+                /The "headers" parameter must be an instance of "Object". Actual type is: "boolean"./
+            );
+            done();
+        });
+
+    });
+
+    describe("validateOptionsAndCallback Unit Tests", function () {
+        var client = new DocumentDBClient(host, { masterKey: masterKey });
+
+        it("[nativeApi] no parameters", function (done) {
+            var result = client.validateOptionsAndCallback();
+
+            assert.notEqual(null, result.options);
+            assert.equal("object", typeof result.options);
+
+            assert.equal(undefined, result.callback);
+            done();
+        });
+
+        it("[nativeApi] options", function (done) {
+            var result = client.validateOptionsAndCallback({});
+
+            assert.notEqual(null, result.options);
+            assert.equal("object", typeof result.options);
+
+            assert.equal(undefined, result.callback);
+            done();
+        });
+
+        it("[nativeApi] callback", function (done) {
+            var result = client.validateOptionsAndCallback(function(){});
+            assert.notEqual(null, result.options);
+            assert.equal("object", typeof result.options);
+
+            assert.equal("function", typeof result.callback);
+            done();
+        });
+
+        it("[nativeApi] options, callback.", function (done) {
+            var result = client.validateOptionsAndCallback({}, function(){});
+            assert.notEqual(null, result.options);
+            assert.equal("object", typeof result.options);
+
+            assert.equal("function", typeof result.callback);
+            done();
+        });
+
+        it("[nativeApi] undefined, callback", function (done) {
+            var result = client.validateOptionsAndCallback(undefined, function(){});
+            assert.notEqual(null, result.options);
+            assert.equal("object", typeof result.options);
+
+            assert.equal("function", typeof result.callback);
+            done();
+        });
+
+        it("[nativeApi] null, callback", function (done) {
+            var result = client.validateOptionsAndCallback(null, function () { });
+            assert.equal(null, result.options);
+            assert.equal("object", typeof result.options);
+            
+            assert.equal("function", typeof result.callback);
+            done();
+        });
+        
+        
+        it("[nativeApi] invalid string options", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback("foo", function () { }); },
+                /The "options" parameter must be of type "object". Actual type is: "string"/
+            );
+            done();
+        });
+        
+        it("[nativeApi] invalid number options", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback(0, function () { }); },
+                /The "options" parameter must be of type "object". Actual type is: "number"/
+            );
+            done();
+        });
+        
+        it("[nativeApi] invalid bool options", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback(false, function () { }); },
+                /The "options" parameter must be of type "object". Actual type is: "boolean"/
+            );
+            done();
+        });
+        
+        it("[nativeApi] invalid string callback", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback({}, "bar"); },
+                /The "callback" parameter must be of type "function". Actual type is: "string"/
+            );
+            done();
+        });
+        
+        it("[nativeApi] invalid number callback", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback({}, 0); },
+                /The "callback" parameter must be of type "function". Actual type is: "number"/
+            );
+            done();
+        });
+        
+        it("[nativeApi] invalid boolean callback", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback({}, false); },
+                /The "callback" parameter must be of type "function". Actual type is: "boolean"/
+            );
+            done();
+        });
+        
+        it("[nativeApi] invalid options, invalid callback", function (done) {
+            assert.throws(
+                function () { client.validateOptionsAndCallback("foo", "bar"); },
+                /The "options" parameter must be of type "object". Actual type is: "string"/
+            );
+            done();
+        });
+    });
+
+    describe("sprintf Unit Tests", function () {
+        var client = new DocumentDBClient(host, { masterKey: masterKey });
+
+        it("[nativeApi] 0 strings", function (done) {
+            assert.equal("foo", client.sprintf("foo"));
+            done();
+        });
+
+        it("[nativeApi] 1 string", function (done) {
+            assert.equal("foo", client.sprintf("%s", "foo"));
+            done();
+        });
+
+        it("[nativeApi] 2 strings", function (done) {
+            assert.equal("foobar", client.sprintf("%s%s", "foo", "bar"));
+            done();
+        });
+
+        it("[nativeApi] 3 strings", function (done) {
+            assert.equal("foobarbaz", client.sprintf("%s%s%s", "foo", "bar", "baz"));
+            done();
+        });
+
+        it("[nativeApi] %% escapes", function (done) {
+            assert.equal('%s', client.sprintf("%%s", 'foo'));
+            done();
         });
     });
 });

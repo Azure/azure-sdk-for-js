@@ -1,3 +1,11 @@
+## Changes in 1.4.0 : ##
+
+- Implement Upsert. New upsertXXX methods on documentClient. 
+
+## Changes in 1.3.0 : ##
+
+- Skipped to bring version numbers in alignment with other SDKs
+
 ## Changes in 1.2.2 : ##
 
 - Split Q promises wrapper to new repository

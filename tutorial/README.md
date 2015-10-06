@@ -1,1 +1,0 @@
-This folder contains the source code accompanying the tutorials on [Azure DocumentDB documentation page](http://azure.microsoft.com/en-us/documentation/services/documentdb/)
