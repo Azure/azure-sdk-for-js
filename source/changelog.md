@@ -1,3 +1,7 @@
+## Changes in 1.3.0 : ##
+
+- Skipped to bring version numbers in alignment with other SDKs
+
 ## Changes in 1.2.2 : ##
 
 - Split Q promises wrapper to new repository
