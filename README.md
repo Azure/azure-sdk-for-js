@@ -78,13 +78,9 @@ If you would like to become an active contributor to this project please follow 
 
 If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-documentdb-node/issues) section of the project.
 
-##Community
-* [DoQmentDB](https://github.com/a8m/doqmentdb) - A Promise-based DocumentDB client for MongoDB users
-* [Docooment](https://github.com/gian788/docooment) - A Mongoose like Azure DocuomentDB ORM
-
 ##Learn More
 
 * [Azure Developer Center](http://azure.microsoft.com/en-us/develop/nodejs)
 * [Azure DocumentDB Node.js SDK Documentation](http://azure.github.io/azure-documentdb-node/)
 * [Azure DocumentDB Service](http://azure.microsoft.com/en-us/documentation/services/documentdb/)
-
+* [Azure DocumentDB Community Page](https://azure.microsoft.com/en-us/documentation/articles/documentdb-community/)
