@@ -1,0 +1,35 @@
+{
+  "name": "event-hub-client",
+  "version": "1.0.0-preview.1",
+  "description": "Azure EventHub client",
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "amqp10": "^2.0.1",
+    "bluebird": "^2.10.2"
+  },
+  "devDependencies": {
+    "jshint": "^2.8.0"
+  },
+  "engines": {
+    "node": "^0.12 || ^4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-event-hubs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-event-hubs/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-event-hubs#readme",
+  "scripts": {
+    "lint": "jshint --show-non-errors .", 
+    "unittest-min": "mocha --reporter dot lib/_*_test.js", 
+    "alltest-min": "mocha --reporter dot lib/_*_test*.js", 
+    "unittest": "mocha --reporter spec lib/_*_test.js", 
+    "alltest": "mocha --reporter spec lib/_*_test*.js", 
+    "ci": "npm -s run lint && npm -s run alltest-min", 
+    "test": "npm -s run lint && npm -s run unittest" 
+  }
+}
