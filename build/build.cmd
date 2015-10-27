@@ -49,7 +49,7 @@ if %integration-tests%==0 echo -- Linting and running unit tests --
 if %integration-tests%==1 echo -- Linting and running unit + integration tests --
 echo.
 
-rem call :lint-and-test %node-root%\
+call :lint-and-test %node-root%\
 if errorlevel 1 goto :eof
 
 goto :eof
