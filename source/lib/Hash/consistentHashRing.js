@@ -23,7 +23,7 @@ SOFTWARE.
 
 "use strict";
 
-var Base = require("./base");
+var Base = require("../base");
 
 var ConsistentHashRing = Base.defineClass(
     /**
@@ -32,39 +32,47 @@ var ConsistentHashRing = Base.defineClass(
      * @param {string or function} partitionKeyExtractor  - If partitionKeyExtractor is a string, it should be the name of the property in the document to execute the hashing on.
      *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from any object.
      **/
-    function (hashGenerator, nodes, totalPartitions, byteArrayGenerator) {
-        this.hashGenerator = hashGenerator;
-        this.nodes = nodes;
-        this.totalPartitions = totalPartitions;
-        this.byteArrayGenerator = byteArrayGenerator;
-        this.partitions = HashPartitionResolver.constructPartitions(this);
+	function (options) {
+		options = options || {};
+		
+		ConsistentHashRing._throwIfInvalidConsistentHashRing(options);
+		
+		this.hashGenerator = options.hashGenerator;
+        this.nodes = options.nodes;
+        this.totalPartitions = options.totalPartitions;
+        this.partitions = ConsistentHashRing._constructPartitions(options);
     }, {
-        getNode: function(key) {
-            return this._getNode(key);
-        },
-        /** @ignore */
-        _getNode: function(key) {
-            var partition = this.computePartition(key);
-            return partitions[partition].node;
-        }
-    }, {
-        constructPartitions: function (consistentHashRing) {
-            HashPartitionResolver._throwIfInvalidConsistentHashRing(consistentHashRing);
-
-            var nodeCount = consistentHashRing.nodes.length;
+		getNode: function (key) {
+			var partition = this._findPartition(key);
+			return (partition < this.partitions.length) ? this.partitions[partition].node : null;
+		},
+		/** @ignore */
+		_findPartition: function (key) {
+			//TODO: binary search
+			var hash = this.hashGenerator.computeHash(key);
+			for (var i = 0; i < this.partitions.length; i++) {
+				if (ConsistentHashRing._areEqual(this.partitions[i].hashValue, hash)) break;
+			}
+			
+			return i;
+		}
+	}, {
+		/** @ignore */
+        _constructPartitions: function (options) {
+            var nodeCount = options.nodes.length;
             var partitions = new Array();
-            var partitionsPerNode = consistentHashRing.totalPartitions / nodeCount;
-            var extraPartitions = consistentHashRing.totalPartitions - partitionsPerNode * nodeCount;
+            var partitionsPerNode = options.totalPartitions / nodeCount;
+            var extraPartitions = options.totalPartitions - partitionsPerNode * nodeCount;
 
-            consistentHashRing.nodes.forEach(function (node) {
-                var hashValue = consistentHashRing.hashGenerator.computeHash(node);
+            options.nodes.forEach(function (node) {
+                var hashValue = options.hashGenerator.computeHash(node);
                 for (var j = 0; j < partitionsPerNode + (extraPartitions > 0 ? 1 : 0); j++) {
                     partitions.push({
                         hashValue: hashValue, 
                         node: node
                     });
                     
-                    hashValue = consistentHashRing.hashGenerator.computeHash(hashValue);
+                    hashValue = options.hashGenerator.computeHash(hashValue);
                 }
                 extraPartitions--;
             });
@@ -73,30 +81,23 @@ var ConsistentHashRing = Base.defineClass(
             return partitions;
         },
         /** @ignore */
-        _throwIfInvalidConsistentHashRing: function (consistentHashRing) {
-            if (!Array.isArray(consistentHashRing.nodes.length)) {
+        _throwIfInvalidConsistentHashRing: function (options) {
+            if (!Array.isArray(options.nodes)) {
                 throw new Error("nodes has to be an array.");
             }
-        },
-        /** @ignore */
-        _skipReplicas: function (partitions, partition) {
-            var replica = 0;
-            var dups = [replica];
-            var partition2 = partition;
-            while (replica > 0) {
-                dups[dups.length - replica] = partitions[partition2].node;
-                do {
-                    partition2 = (partition2 + 1) % partitions.Length;
-                    if (partition2 === partition) {
-                        throw new Error("Not enough nodes for the requested replica");
-                    }
-                } while (dups.slice(0, dups.length - replica + 1).indexOf(partitions[partition2].node));
+		},
+		/** @ignore */
+		_areEqual: function (byteArray1, byteArray2) {
+			if (!Array.isArray(byteArray1)) return false;
+			if (!Array.isArray(byteArray2)) return false;
+			if (byteArray1.length !== byteArray2.length) return false;
 
-                replica--;
-            }
+			for (var i = 0; i < byteArray1.length; i++) { 
+				if (byteArray1[i] !== byteArray2[i]) return false;
+			}
 
-            return partition2;
-        }
+			return true;
+		}
     }
 );
 
