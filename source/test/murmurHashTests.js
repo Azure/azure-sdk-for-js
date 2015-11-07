@@ -22,16 +22,16 @@ describe("MurmurHash._toUint tests", function () {
 	it("_toUint(4294967299)", function () { test(4294967299, 3); });
 });
 
-describe("MurmurHash.computeHash tests", function () {
+describe("Test MurmurHash.computeHash()", function () {
 	var test = function (input, expected) {
 		assert.equal(MurmurHash.computeHash(input), expected);
 	};
 	
-	it("computeHash(374.0)", function () {
+	it("374.0 => 3717946798", function () {
 		test(new Buffer([0,0,0,0,0, 96, 119, 64]), 3717946798);
 	});
 
-	it("afdgdd", function () {
+	it("\"afdgdd\" => 1099701186", function () {
 		test(new Buffer("afdgdd"), 1099701186);
 	});
 });
