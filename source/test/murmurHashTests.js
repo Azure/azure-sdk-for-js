@@ -7,7 +7,7 @@
 var MurmurHash = require("../lib/Hash/murmurHash").MurmurHash;
 var assert = require("assert")
 
-describe("_toUint tests", function () {
+describe("MurmurHash._toUint tests", function () {
 	var test = function (input, expected) {
 		assert.equal(MurmurHash._toUint(input), expected);
 	};
@@ -22,14 +22,16 @@ describe("_toUint tests", function () {
 	it("_toUint(4294967299)", function () { test(4294967299, 3); });
 });
 
-describe("computeHash tests", function () {
+describe("MurmurHash.computeHash tests", function () {
 	var test = function (input, expected) {
 		assert.equal(MurmurHash.computeHash(input), expected);
 	};
 	
-	it("computeHash([255,1,1,1])", function () { test([255, 1, 1, 1], 0); });
-	it("computeHash([0,1,1,1])", function () { test([0, 1, 1, 1], 0); });
-	it("computeHash([1,0,1,1])", function () { test([1, 0, 1, 1], 0); });
-	it("computeHash([1,1,0,1])", function () { test([1, 1, 0, 1], 0); });
-	it("computeHash([1,1,1,0])", function () { test([1, 1, 1, 0], 0); });
+	it("computeHash(374.0)", function () {
+		test(new Buffer([0,0,0,0,0, 96, 119, 64]), 3717946798);
+	});
+
+	it("afdgdd", function () {
+		test(new Buffer("afdgdd"), 1099701186);
+	});
 });

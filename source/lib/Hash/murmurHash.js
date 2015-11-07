@@ -29,7 +29,7 @@ var MurmurHash = Base.defineClass(
     undefined, 
     undefined,
     {
-        computeHash: function(bytes, seed) {
+        computeHash: function(buffer, seed) {
             // MurmurHash3 32bit implementation:
             // https://en.wikipedia.org/wiki/MurmurHash
             seed = seed || 0;
@@ -39,8 +39,8 @@ var MurmurHash = Base.defineClass(
 
             var h1 = seed;
 
-            var buffer = new Buffer(bytes);
-            for (var i = 0; i < bytes.length - 3; i += 4) {
+//            var buffer = new Buffer(bytes);
+            for (var i = 0; i < buffer.length - 3; i += 4) {
                 var k1 = buffer.readUIntLE(0, 4); // readUInte32
 
                 k1 *= c1;
@@ -55,20 +55,20 @@ var MurmurHash = Base.defineClass(
             // tail
             var k = 0;
 
-            switch (bytes.Length & 3) {
+            switch (buffer.length & 3) {
             case 3:
-                k ^= this._toUint(bytes[bytes.Length - 1] << 16);
-                k ^= this._toUint(bytes[bytes.Length - 2] << 8);
-                k ^= this._toUint(bytes[bytes.Length - 3]);
+                k ^= this._toUint(buffer[buffer.length - 1] << 16);
+                k ^= this._toUint(buffer[buffer.length - 2] << 8);
+                k ^= this._toUint(buffer[buffer.length - 3]);
                 break;
 
             case 2:
-                k ^= this._toUint(bytes[bytes.Length - 1] << 8);
-                k ^= this._toUint(bytes[bytes.Length - 2]);
+                k ^= this._toUint(buffer[buffer.length - 1] << 8);
+                k ^= this._toUint(buffer[buffer.length - 2]);
                 break;
 
             case 1:
-                k ^= this._toUint(bytes[bytes.Length - 1]);
+                k ^= this._toUint(buffer[buffer.length - 1]);
                 break;
             }
 
@@ -78,7 +78,7 @@ var MurmurHash = Base.defineClass(
             h1 ^= k;
 
             // finalization
-            h1 ^= this._toUint(bytes.Length);
+            h1 ^= this._toUint(buffer.length);
             h1 ^= h1 >> 16;
             h1 *= 0x85ebca6b;
             h1 ^= h1 >> 13;
