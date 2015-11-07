@@ -39,13 +39,12 @@ var MurmurHash = Base.defineClass(
 
             var h1 = seed;
 
-//            var buffer = new Buffer(bytes);
             for (var i = 0; i < buffer.length - 3; i += 4) {
-                var k1 = buffer.readUIntLE(0, 4); // readUInte32
+                var k1 = buffer.readUIntLE(i, 4); // BinaryReader.readUInte32()
 
-                k1 *= c1;
+				k1 = this._toUint(k1 * c1);
                 k1 = this._rotateLeft(k1, 15);
-                k1 *= c2;
+                k1 = this._toUint(k1 * c2);
 
                 h1 ^= k1;
                 h1 = this._rotateLeft(h1, 13);
@@ -87,11 +86,15 @@ var MurmurHash = Base.defineClass(
 
             return h1;
         },
-        _rotateLeft: function(n, numBits) {
-            return (n << numBits) | (n >> (32 - numBits));
-        },
-        _toUint: function(value) {
-            return value>>>0;
+		_rotateLeft: function (n, numBits) {
+			var a = this._toUint(n << numBits);
+			var b = this._toUint(32 - numBits);
+			var c = this._toUint(n >>> b);
+			var d = this._toUint(a | c);
+            return d;
+		},
+		_toUint: function (value) {
+			return value % 0x100000000;
         }
     }
 );
