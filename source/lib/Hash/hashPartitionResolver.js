@@ -23,7 +23,9 @@ SOFTWARE.
 
 "use strict";
 
-var Base = require("./base");
+var Base = require('./base');
+var ConsitentHashRing = require('./consistentHashRing.js');
+var MurmurHash = require('./murmurHash.js');
 
 var HashPartitionResolver = Base.defineClass(
     /**
@@ -32,15 +34,12 @@ var HashPartitionResolver = Base.defineClass(
      * @param {string or function} partitionKeyExtractor  - If partitionKeyExtractor is a string, it should be the name of the property in the document to execute the hashing on.
      *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from any object.
      **/
-    function (partitionKeyExtractor, collectionLinks, options) {
-        options = options || {};
-        
-        this.partitionKeyExtractor = partitionKeyExtractor;
-        this.collectionLinks = collectionLinks;
-        this.numberOfVirtualNodesPerCollection = options.numberOfVirtualNodesPerCollection || 128;
-        this.hashGenerator = options.hashGenerator || {};
-
-        HashPartitionResolver._throwIfInvalidHashPartitionResolver(this);
+	function (partitionKeyExtractor, collectionLinks, options) {
+		this.partitionKeyExtractor = partitionKeyExtractor;
+		HashPartitionResolver._throwIfInvalidHashPartitionResolver(this);
+		
+		options = options || {};
+		this.consistentHashRing = new ConsitentHashRing(collectionLinks, options);
     }, {
         /**
          * Extracts the partition key from the specified document using the partitionKeyExtractor
@@ -48,23 +47,9 @@ var HashPartitionResolver = Base.defineClass(
          * @returns {} 
          **/
         getPartitionKey: function (document) {
-            if (typeof this.partitionKeyExtractor === "string") {
-                return document[this.partitionKeyExtractor];
-            }
-            if (typeof this.partitionKeyExtractor === "function") {
-                return this.partitionKeyExtractor(document);
-            }
-            throw new Error("Unable to extract partition key from document. Ensure PartitionKeyExtractor is a valid function or property name.");
-        },
-        
-        /**
-         * Given a partition key, returns the correct collection link for creating a document.
-         * @param {any} partitionKey - The partition key used to determine the target collection for create
-         * @returns {string}         - The target collection link that will be used for document creation.
-         **/
-        resolveForCreate: function (partitionKey) {
-            HashPartitionResolver._throwIfInvalidPartitionKey(partitionKey);
-            return this.consistentHashRing.GetNode(partitionKey);
+            return (typeof this.partitionKeyExtractor === "string")
+                ? document[this.partitionKeyExtractor]
+				: this.partitionKeyExtractor(document);
         },
         
         /**
@@ -72,9 +57,22 @@ var HashPartitionResolver = Base.defineClass(
          * @param {any} partitionKey - The partition key used to determine the target collection for query
          **/
         resolveForRead: function(partitionKey) {
-            HashPartitionResolver._throwIfInvalidPartitionKey(partitionKey);
-            return [this.consistentHashRing.GetNode(partitionKey)];
-        }
+            return [this._resolve(partitionKey)];
+        },
+		/**
+         * Given a partition key, returns the correct collection link for creating a document.
+         * @param {any} partitionKey - The partition key used to determine the target collection for create
+         * @returns {string}         - The target collection link that will be used for document creation.
+         **/
+        resolveForCreate: function (partitionKey) {
+			return this._resolve(partitionKey);
+		},
+		/** @ignore */
+		_resolve: function (partitionKey) {
+			HashPartitionResolver._throwIfInvalidPartitionKey(partitionKey);
+			return this.consistentHashRing.GetNode(partitionKey);
+		}
+       
     }, {
         /** @ignore */
         _throwIfInvalidPartitionKey: function (partitionKey) {
@@ -92,18 +90,6 @@ var HashPartitionResolver = Base.defineClass(
             
             if (typeof hashPartitionResolver.partitionKeyExtractor !== "string" && typeof hashPartitionResolver.partitionKeyExtractor !== "function") {
                 throw new Error("partitionKeyExtractor has to have 'string' or 'function' type.");
-            }
-            
-            if (!Array.isArray(hashPartitionResolver.collectionLinks)) {
-                throw new Error("collectionLinks has to be an array.");
-            }
-            
-            if (typeof hashPartitionResolver.numberOfVirtualNodesPerCollection !== "number") {
-                throw new Error("options.numberOfVirtualNodesPerCollection has to be a number.");
-            }
-            
-            if (typeof hashPartitionResolver.numberOfVirtualNodesPerCollection !== "number") {
-                throw new Error("numberOfVirtualNodesPerCollection has to be a number.");
             }
         }
     }

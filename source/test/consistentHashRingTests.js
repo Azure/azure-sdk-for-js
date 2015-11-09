@@ -8,19 +8,17 @@ var ConsistentHashRing = require("../lib/Hash/consistentHashRing").ConsistentHas
 var assert = require("assert");
 
 describe("ConsistentHashRing._constructPartitions tests", function () {
-	var test = function (options, expected) {
-		var partitions = ConsistentHashRing._constructPartitions(options);
+	var test = function (nodes, options, expected) {
+		var partitions = ConsistentHashRing._constructPartitions(nodes, options);
 		assert.equal(JSON.stringify(partitions), JSON.stringify(expected));
 	};
 	
 	it("_constructPartitions()", function () {
+		var nodes = ["A", "AB"];
 		var options = {
-			nodes: ["A", "AB"],
-			totalPartitions: 2,
-			hashGenerator: {
-				computeHash: function (preImage) {
-					return [1];
-				}
+			numberOfVirtualNodesPerCollection: 1,
+			computeHash: function (preImage) {
+				return [1];
 			}
 		};
 		var expected = [
@@ -28,7 +26,7 @@ describe("ConsistentHashRing._constructPartitions tests", function () {
 			{ "hashValue": [1], "node": "AB" }
 		];
 		
-		test(options, expected);
+		test(nodes, options, expected);
 	});
 });
 
@@ -44,18 +42,17 @@ describe("ConsistentHashRing._areEqual tests", function () {
 
 describe("ConsistentHashRing._findPartition tests", function () {
 	var test = function (node, expected) {
+		var nodes = ["A", "AB"];
 		var options = {
-			nodes: ["A", "AB"],
-			totalPartitions: 100,
-			hashGenerator: {
-				computeHash: function (preImage) {
-					return [preImage.length % 256];
-				}
+			numberOfVirtualNodesPerCollection: 50,
+			computeHash: function (preImage) {
+				return [preImage.length % 256];
 			}
 		};
-		var ring = new ConsistentHashRing(options);
-		var partition = ring._findPartition(node);
-		var found = partition < ring.totalPartitions;
+		var ring = new ConsistentHashRing(nodes, options);
+		var hash = options.computeHash(node);
+		var partition = ring._findPartition(hash);
+		var found = partition < options.numberOfVirtualNodesPerCollection * nodes.length;
 		assert.strictEqual(found, expected, "partition:" + partition);
 	};
 	
@@ -66,16 +63,14 @@ describe("ConsistentHashRing._findPartition tests", function () {
 
 describe("ConsistentHashRing.getNode tests", function () {
 	var test = function (node, expected) {
+		var nodes= ["A", "AB"];
 		var options = {
-			nodes: ["A", "AB"],
-			totalPartitions: 100,
-			hashGenerator: {
-				computeHash: function (preImage) {
-					return [preImage.length % 256];
-				}
+			numberOfVirtualNodesPerCollection: 50,
+			computeHash: function (preImage) {
+				return [preImage.length % 256];
 			}
 		};
-		var ring = new ConsistentHashRing(options);
+		var ring = new ConsistentHashRing(nodes, options);
 		var node = ring.getNode(node);
 		assert.strictEqual(node, expected);
 	};

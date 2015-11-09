@@ -29,40 +29,47 @@ var MurmurHash = Base.defineClass(
 	undefined, 
     undefined,
     {
-		computeHash: function (key, seed) {
+		hash: function (key, seed) {
 			key = key || '';
 			seed = seed || 0;
 			
+			this._throwIfInvalidKey(key);
+			this._throwIfInvalidSeed(seed);
+			
+			return (typeof key === "string") ? this._hashString(key, seed) : this._hashBytes(key, seed);
+		},
+		/** @ignore */
+		_throwIfInvalidKey: function (key) {
 			if (typeof key === "string") {
-				return this._hashString(key, seed);
+				return;
 			}
 			
-			return this._hashBytes(key, seed);
+			if (key instanceof Buffer) {
+				return;
+			}
+			
+			throw new Error("Invalid argument: 'key' has to be a string or a Buffer.");
 		},
-		_rotateLeft: function (n, numBits) {
-			return (n << numBits) | (n >>> (32 - numBits));
+		/** @ignore */
+		_throwIfInvalidSeed: function (seed) {
+			if (isNaN(seed)) {
+				throw new Error("Invalid argument: 'seed' is not and cannot be converted to a number.");
+			}
 		},
-		_readUInt32: function (uint32Array, i) {
-			return (uint32Array[i]) | (uint32Array[i + 1] << 8) | (uint32Array[i + 2] << 16) | (uint32Array[i + 3] << 24);
-		},
-		_multiply: function (m, n) {
-			return ((m & 0xffff) * n) + ((((m >>> 16) * n) & 0xffff) << 16);
-		},
+		/** @ignore */
 		_hashString: function (key, seed) {
 			return this._hashBytes(new Buffer(key), seed);
 		},
+		/** @ignore */
 		_hashBytes: function (bytes, seed) {
-			var h1 = seed;
-			
-			var k1 = 0;
-			
 			var c1 = 0xcc9e2d51;
 			var c2 = 0x1b873593;
 			
+			var h1 = seed;
 			var reader = new Uint32Array(bytes);
 			{
 				for (var i = 0; i < bytes.length - 3; i += 4) {
-					k1 = this._readUInt32(reader, i);
+					var k1 = this._readUInt32(reader, i);
 					
 					k1 = this._multiply(k1, c1);
 					k1 = this._rotateLeft(k1, 15);
@@ -74,23 +81,29 @@ var MurmurHash = Base.defineClass(
 				}
 			}
 			
-			k1 = 0;
-			
+			var k = 0;
 			switch (bytes.length & 3) {
 				case 3:
-					k1 ^= reader[i + 2] << 16;
+					k ^= reader[i + 2] << 16;
+					k ^= reader[i + 1] << 8;
+					k ^= reader[i];
+					break;
 
 				case 2:
-					k1 ^= reader[i + 1] << 8;
+					k ^= reader[i + 1] << 8;
+					k ^= reader[i];
+					break;
 
 				case 1:
-					k1 ^= reader[i];
-					k1 = this._multiply(k1, c1);
-					k1 = this._rotateLeft(k1, 15);
-					k1 = this._multiply(k1, c2);
-					h1 ^= k1;
+					k ^= reader[i];
+					break;
 			}
 			
+			k = this._multiply(k, c1);
+			k = this._rotateLeft(k, 15);
+			k = this._multiply(k, c2);
+			
+			h1 ^= k;
 			h1 ^= bytes.length;
 			h1 ^= h1 >>> 16;
 			h1 = this._multiply(h1, 0x85ebca6b);
@@ -99,6 +112,18 @@ var MurmurHash = Base.defineClass(
 			h1 ^= h1 >>> 16;
 			
 			return h1 >>> 0;
+		},
+		/** @ignore */
+		_rotateLeft: function (n, numBits) {
+			return (n << numBits) | (n >>> (32 - numBits));
+		},
+		/** @ignore */
+		_multiply: function (m, n) {
+			return ((m & 0xffff) * n) + ((((m >>> 16) * n) & 0xffff) << 16);
+		},
+		/** @ignore */
+		_readUInt32: function (uintArray, i) {
+			return (uintArray[i]) | (uintArray[i + 1] << 8) | (uintArray[i + 2] << 16) | (uintArray[i + 3] << 24) >>> 0;
 		}
 	});
 

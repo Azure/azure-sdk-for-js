@@ -32,24 +32,20 @@ var ConsistentHashRing = Base.defineClass(
      * @param {string or function} partitionKeyExtractor  - If partitionKeyExtractor is a string, it should be the name of the property in the document to execute the hashing on.
      *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from any object.
      **/
-	function (options) {
+	function (nodes, options) {
 		options = options || {};
 		
-		ConsistentHashRing._throwIfInvalidConsistentHashRing(options);
-		
-		this.hashGenerator = options.hashGenerator;
-        this.nodes = options.nodes;
-        this.totalPartitions = options.totalPartitions;
-        this.partitions = ConsistentHashRing._constructPartitions(options);
+		this.computeHash = options.computeHash || MurmurHash.hash;
+        this.partitions = ConsistentHashRing._constructPartitions(nodes, options);
     }, {
 		getNode: function (key) {
-			var partition = this._findPartition(key);
+			var hash = this.computeHash(key);
+			var partition = this._findPartition(hash);
 			return (partition < this.partitions.length) ? this.partitions[partition].node : null;
 		},
 		/** @ignore */
-		_findPartition: function (key) {
-			//TODO: binary search
-			var hash = this.hashGenerator.computeHash(key);
+		_findPartition: function (hash) {
+			//TODO: use binary search
 			for (var i = 0; i < this.partitions.length; i++) {
 				if (ConsistentHashRing._areEqual(this.partitions[i].hashValue, hash)) break;
 			}
@@ -58,34 +54,25 @@ var ConsistentHashRing = Base.defineClass(
 		}
 	}, {
 		/** @ignore */
-        _constructPartitions: function (options) {
-            var nodeCount = options.nodes.length;
-            var partitions = new Array();
-            var partitionsPerNode = options.totalPartitions / nodeCount;
-            var extraPartitions = options.totalPartitions - partitionsPerNode * nodeCount;
+		_constructPartitions: function (nodes, options) {
+ 			var partitionsPerNode = options.numberOfVirtualNodesPerCollection || 128
+			var partitions = new Array();
 
-            options.nodes.forEach(function (node) {
-                var hashValue = options.hashGenerator.computeHash(node);
-                for (var j = 0; j < partitionsPerNode + (extraPartitions > 0 ? 1 : 0); j++) {
+            nodes.forEach(function (node) {
+                var hashValue = options.computeHash(node);
+                for (var j = 0; j < partitionsPerNode; j++) {
                     partitions.push({
                         hashValue: hashValue, 
                         node: node
                     });
                     
-                    hashValue = options.hashGenerator.computeHash(hashValue);
+                    hashValue = options.computeHash(hashValue);
                 }
-                extraPartitions--;
             });
 
             partitions.sort();
             return partitions;
         },
-        /** @ignore */
-        _throwIfInvalidConsistentHashRing: function (options) {
-            if (!Array.isArray(options.nodes)) {
-                throw new Error("nodes has to be an array.");
-            }
-		},
 		/** @ignore */
 		_areEqual: function (byteArray1, byteArray2) {
 			if (!Array.isArray(byteArray1)) return false;
