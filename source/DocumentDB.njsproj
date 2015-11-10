@@ -37,6 +37,7 @@
     <Compile Include="lib\Hash\murmurHash.js" />
     <Compile Include="lib\index.js" />
     <Compile Include="lib\queryIterator.js" />
+    <Compile Include="lib\range.js" />
     <Compile Include="lib\request.js" />
     <Content Include="test\readme.md" />
     <Compile Include="test\hashPartitionResolverTests.js">
