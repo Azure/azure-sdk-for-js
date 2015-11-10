@@ -24,6 +24,7 @@ SOFTWARE.
 "use strict";
 
 var Base = require("../base");
+var MurmurHash = require('./murmurHash.js').MurmurHash;
 
 var ConsistentHashRing = Base.defineClass(
     /**
@@ -33,10 +34,13 @@ var ConsistentHashRing = Base.defineClass(
      *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from any object.
      **/
 	function (nodes, options) {
-		options = options || {};
+		ConsistentHashRing._throwIfInvalidNodes(nodes);
 		
-		this.computeHash = options.computeHash || MurmurHash.hash;
-        this.partitions = ConsistentHashRing._constructPartitions(nodes, options);
+		options = options || {};
+		options.computeHash = options.computeHash || MurmurHash.hash;
+		this.computeHash = options.computeHash
+		
+		this.partitions = ConsistentHashRing._constructPartitions(nodes, options);
     }, {
 		getNode: function (key) {
 			var hash = this.computeHash(key);
@@ -47,45 +51,51 @@ var ConsistentHashRing = Base.defineClass(
 		_findPartition: function (hash) {
 			//TODO: use binary search
 			for (var i = 0; i < this.partitions.length; i++) {
-				if (ConsistentHashRing._areEqual(this.partitions[i].hashValue, hash)) break;
+				if (ConsistentHashRing._compareHashes(this.partitions[i].hashValue, hash) === 0) {
+					break;
+				}
 			}
-			
 			return i;
 		}
 	}, {
 		/** @ignore */
 		_constructPartitions: function (nodes, options) {
- 			var partitionsPerNode = options.numberOfVirtualNodesPerCollection || 128
+			var partitionsPerNode = options.numberOfVirtualNodesPerCollection || 128
 			var partitions = new Array();
-
-            nodes.forEach(function (node) {
-                var hashValue = options.computeHash(node);
-                for (var j = 0; j < partitionsPerNode; j++) {
-                    partitions.push({
-                        hashValue: hashValue, 
-                        node: node
-                    });
-                    
-                    hashValue = options.computeHash(hashValue);
-                }
-            });
-
-            partitions.sort();
-            return partitions;
-        },
+			
+			nodes.forEach(function (node) {
+				var hashValue = options.computeHash(node);
+				for (var j = 0; j < partitionsPerNode; j++) {
+					partitions.push({
+						hashValue: hashValue, 
+						node: node
+					});
+					
+					hashValue = options.computeHash(hashValue);
+				}
+			});
+	
+			partitions.sort(function (x, y) {
+				return ConsistentHashRing._compareHashes(x.hashValue, y.hashValue);
+			});
+			return partitions;
+		},
 		/** @ignore */
-		_areEqual: function (byteArray1, byteArray2) {
-			if (!Array.isArray(byteArray1)) return false;
-			if (!Array.isArray(byteArray2)) return false;
-			if (byteArray1.length !== byteArray2.length) return false;
-
-			for (var i = 0; i < byteArray1.length; i++) { 
-				if (byteArray1[i] !== byteArray2[i]) return false;
+		_compareHashes: function (x, y) {
+			if (x < y) return -1;
+			if (x > y) return 1;
+			return 0;
+		},
+		/** @ignore */
+		_throwIfInvalidNodes: function (nodes) {
+			if (Array.isArray(nodes)) {
+				return;
 			}
-
-			return true;
-		}
-    }
+			
+			throw new Error("Invalid argument: 'nodes' has to be an array.");
+		},
+	}
+		
 );
 
 //SCRIPT END

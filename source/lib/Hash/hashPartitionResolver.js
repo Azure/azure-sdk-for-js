@@ -23,9 +23,8 @@ SOFTWARE.
 
 "use strict";
 
-var Base = require('./base');
-var ConsitentHashRing = require('./consistentHashRing.js');
-var MurmurHash = require('./murmurHash.js');
+var Base = require('../base');
+var ConsistentHashRing = require('./consistentHashRing.js').ConsistentHashRing;
 
 var HashPartitionResolver = Base.defineClass(
     /**
@@ -35,11 +34,12 @@ var HashPartitionResolver = Base.defineClass(
      *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from any object.
      **/
 	function (partitionKeyExtractor, collectionLinks, options) {
+		HashPartitionResolver._throwIfInvalidPartitionKeyExtractor(partitionKeyExtractor);
+		HashPartitionResolver._throwIfInvalidCollectionLinks(collectionLinks);
 		this.partitionKeyExtractor = partitionKeyExtractor;
-		HashPartitionResolver._throwIfInvalidHashPartitionResolver(this);
 		
 		options = options || {};
-		this.consistentHashRing = new ConsitentHashRing(collectionLinks, options);
+		this.consistentHashRing = new ConsistentHashRing(collectionLinks, options);
     }, {
         /**
          * Extracts the partition key from the specified document using the partitionKeyExtractor
@@ -51,7 +51,6 @@ var HashPartitionResolver = Base.defineClass(
                 ? document[this.partitionKeyExtractor]
 				: this.partitionKeyExtractor(document);
         },
-        
         /**
          * Given a partition key, returns a list of collection links to read from.
          * @param {any} partitionKey - The partition key used to determine the target collection for query
@@ -70,28 +69,34 @@ var HashPartitionResolver = Base.defineClass(
 		/** @ignore */
 		_resolve: function (partitionKey) {
 			HashPartitionResolver._throwIfInvalidPartitionKey(partitionKey);
-			return this.consistentHashRing.GetNode(partitionKey);
+			return this.consistentHashRing.getNode(partitionKey);
 		}
-       
     }, {
-        /** @ignore */
-        _throwIfInvalidPartitionKey: function (partitionKey) {
-            var partitionKeyType = typeof partitionKey;
-            if (partitionKeyType !== "string") {
-                throw new Error("Unsupported type for partitionKey: '" + partitionKeyType + "'");
-            }
-        },
-        
-        /** @ignore */
-        _throwIfInvalidHashPartitionResolver: function (hashPartitionResolver) {
-            if (hashPartitionResolver.partitionKeyExtractor === undefined || hashPartitionResolver.partitionKeyExtractor === null) {
-                throw new Error("partitionKeyExtractor cannot be null or undefined");
-            }
-            
-            if (typeof hashPartitionResolver.partitionKeyExtractor !== "string" && typeof hashPartitionResolver.partitionKeyExtractor !== "function") {
-                throw new Error("partitionKeyExtractor has to have 'string' or 'function' type.");
-            }
-        }
+		/** @ignore */
+		_throwIfInvalidCollectionLinks: function (collectionLinks) {
+			if (Array.isArray(collectionLinks)) {
+				return;
+			}
+
+			throw new Error("Invalid argument: 'collectionLinks' has to be an array.");
+		},
+		/** @ignore */
+		_throwIfInvalidPartitionKeyExtractor: function (partitionKeyExtractor) {
+			if (partitionKeyExtractor === undefined || partitionKeyExtractor === null) {
+				throw new Error("partitionKeyExtractor cannot be null or undefined");
+			}
+			
+			if (typeof partitionKeyExtractor !== "string" && typeof partitionKeyExtractor !== "function") {
+				throw new Error("partitionKeyExtractor has to have 'string' or 'function' type.");
+			}
+		},
+		/** @ignore */
+		_throwIfInvalidPartitionKey: function (partitionKey) {
+			var partitionKeyType = typeof partitionKey;
+			if (partitionKeyType !== "string") {
+				throw new Error("Unsupported type for partitionKey: '" + partitionKeyType + "'");
+			}
+		}
     }
 );
 
