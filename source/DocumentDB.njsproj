@@ -21,6 +21,7 @@
     <Content Include="package.json" />
     <Content Include="changelog.md" />
     <Content Include="readme.md" />
+    <Content Include="test\readme.md" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gruntfile.js" />
@@ -39,7 +40,6 @@
     <Compile Include="lib\queryIterator.js" />
     <Compile Include="lib\range.js" />
     <Compile Include="lib\request.js" />
-    <Content Include="test\readme.md" />
     <Compile Include="test\hashPartitionResolverTests.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>
