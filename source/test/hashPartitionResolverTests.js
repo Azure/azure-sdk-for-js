@@ -78,7 +78,7 @@ describe("HashPartitionResolver.resolveForRead", function () {
 	it("not found", function () {
 		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
 		var links = resolver.resolveForRead("a");
-		assert.deepEqual([null], links);
+		assert.deepEqual(["B"], links);
 	});
 });
 
@@ -90,9 +90,9 @@ describe("HashPartitionResolver.resolveForCreate", function () {
 	});
 	
 	it("not found", function () {
-		var resolver = new HashPartitionResolver("foo", ["A", "B", "C"]);
+		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
 		var links = resolver.resolveForCreate("a");
-		assert.deepEqual(null, links);
+		assert.deepEqual("B", links);
 	});
 });
 
@@ -109,16 +109,9 @@ describe("HashPartitionResolver._resolve", function () {
 
 	it("found", function () {
 		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
-		var link = resolver._resolve("A");
+		var link = resolver._resolve("x");
 		assert.notStrictEqual(null, link);
 	});
-
-	it("not found", function () {
-		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
-		var link = resolver._resolve("a");
-		assert.strictEqual(null, link);
-	});
-
 });
 
 describe("HashPartitionResolver._throwIfInvalidCollectionLinks", function () {

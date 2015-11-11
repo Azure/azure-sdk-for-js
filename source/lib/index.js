@@ -24,6 +24,7 @@ SOFTWARE.
 "use strict";
 
 var Client = require("./documentclient")
+  , Hash = require("./hash/hashPartitionResolver")
   , Range = require("./range");
 
 if (typeof exports !== "undefined") {
@@ -32,5 +33,6 @@ if (typeof exports !== "undefined") {
     exports.Base = Client.Base;
     exports.Constants = Client.Constants;
     exports.Range = Range.Range;
-    exports.RangePartitionResolver = Range.RangePartitionResolver;
+    exports.RangePartitionResolver = Range.RangePartitionResolver,
+    exports.HashPartitionResolver = Hash.HashPartitionResolver;
 }

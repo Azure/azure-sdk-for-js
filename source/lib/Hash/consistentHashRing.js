@@ -45,13 +45,13 @@ var ConsistentHashRing = Base.defineClass(
 		getNode: function (key) {
 			var hash = this.computeHash(key);
 			var partition = this._findPartition(hash);
-			return (partition < this.partitions.length) ? this.partitions[partition].node : null;
+			return this.partitions[partition].node;
 		},
 		/** @ignore */
 		_findPartition: function (hash) {
 			//TODO: use binary search
-			for (var i = 0; i < this.partitions.length; i++) {
-				if (ConsistentHashRing._compareHashes(this.partitions[i].hashValue, hash) === 0) {
+			for (var i = 0; i < this.partitions.length - 1; i++) {
+				if (ConsistentHashRing._compareHashes(this.partitions[i].hashValue, hash) >= 0) {
 					break;
 				}
 			}
