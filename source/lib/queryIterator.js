@@ -31,15 +31,18 @@ var QueryIterator = Base.defineClass(
     /**
     * Represents a QueryIterator Object, an implmenetation of feed or query response that enables traversal and iterating over the response.
     * @constructor QueryIterator
-    * @param {object} documentclient - The documentclient object.
-    * @param {object} body           - the JSON body.
+    * @param {object} documentclient                - The documentclient object.
+    * @param {SqlQuerySpec | string} query          - A SQL query.
+    * @param {FeedOptions} options                  - Represents the feed options.
+    * @param {callback | callback[]} fetchFunctions - A function to retrieve each page of data. An array of functions may be used to query more than one partition.
     */
-    function(documentclient, query, options, fetchFunction){
+    function(documentclient, query, options, fetchFunctions){
         this.documentclient = documentclient;
         this.query = query;
         this.resources = [];
         this.currentIndex = 0;
-        this.fetchFunction = fetchFunction;
+        this._currentPartitionIndex = 0;
+        this.fetchFunctions = (Array.isArray(fetchFunctions)) ? fetchFunctions : [fetchFunctions];
         this.continuation = null;
         this.options = options || {};
         this._states = Object.freeze({start: "start", inProgress: "inProgress", ended: "ended" });
@@ -80,7 +83,7 @@ var QueryIterator = Base.defineClass(
          * Retrieve the current element on the QueryIterator.
          * @memberof QueryIterator
          * @instance
-         * @param {callback} callback - Function to execute for each element. the function takes two parameters error, element.
+         * @param {callback} callback - Function to execute for the current element. the function takes two parameters error, element.
          */
         current: function(callback) {
             var that = this;
@@ -88,7 +91,7 @@ var QueryIterator = Base.defineClass(
                 return callback(undefined, this.resources[this.currentIndex], undefined);
             }
 
-            if (this._state === this._states.start || (this.continuation && this._state === this._states.inProgress)) {
+            if (this._canFetchMore()) {
                 this._fetchMore(function (err, resources, headers) {
                     if (err) {
                         return callback(err, undefined, headers);
@@ -96,7 +99,7 @@ var QueryIterator = Base.defineClass(
 
                     that.resources = resources;
                     if (that.resources.length === 0) {
-                        if (!that.continuation) {
+                        if (!that.continuation && that._currentPartitionIndex >= that.fetchFunctions.length) {
                             that._state = that._states.ended;
                             callback(undefined, undefined, headers);
                         } else {
@@ -120,7 +123,7 @@ var QueryIterator = Base.defineClass(
          * @returns {Boolean} true if there is other elements to process in the QueryIterator.
          */
         hasMoreResults: function() {
-            return this._state === this._states.start || this.continuation !== undefined || this.currentIndex < this.resources.length;
+            return this._state === this._states.start || this.continuation !== undefined || this.currentIndex < this.resources.length || this._currentPartitionIndex < this.fetchFunctions.length;
         },
 
         /**
@@ -160,6 +163,7 @@ var QueryIterator = Base.defineClass(
          */
         reset: function() {
             this.currentIndex = 0;
+            this._currentPartitionIndex = 0;
             this.continuation = null;
             this.resources = [];
             this._state = this._states.start;
@@ -168,7 +172,7 @@ var QueryIterator = Base.defineClass(
          /** @ignore */
         _toArrayImplementation: function(callback){
             var that = this;
-            if (this._state === this._states.start || (this.continuation && this._state === this._states.inProgress)) {
+            if (this._canFetchMore()) {
                 this._fetchMore(function(err, resources, headers){
                     if(err) {
                         return callback(err, undefined, headers);
@@ -187,7 +191,7 @@ var QueryIterator = Base.defineClass(
          /** @ignore */
         _forEachImplementation: function(callback){
             var that = this;
-            if (this._state === this._states.start || (this.continuation && this._state === this._states.inProgress)) {
+            if (this._canFetchMore()) {
                 this._fetchMore(function(err, resources, headers){
                     if(err) {
                         return callback(err, undefined, headers);
@@ -213,17 +217,26 @@ var QueryIterator = Base.defineClass(
         _fetchMore: function(callback){
             var that = this;
             this.options.continuation = this.continuation;
-            this.fetchFunction(this.options, function(err, resources, responseHeaders){
+            var fetchFunction = this.fetchFunctions[this._currentPartitionIndex];
+            fetchFunction(this.options, function(err, resources, responseHeaders){
                 if(err) {
                     that._state = that._states.ended;
                     return callback(err, undefined, responseHeaders);
                 }
 
                 that.continuation = responseHeaders[Constants.HttpHeaders.Continuation];
+                if (!that.continuation) {
+                    ++that._currentPartitionIndex;
+                }
+
                 that._state = that._states.inProgress;
                 that.currentIndex = 0;
                 callback(undefined, resources, responseHeaders);
             });
+        },
+
+        _canFetchMore: function() {
+            return (this._state === this._states.start || (this.continuation && this._state === this._states.inProgress) || (this._currentPartitionIndex < this.fetchFunctions.length && this._state === this._states.inProgress));
         }
     }
 );

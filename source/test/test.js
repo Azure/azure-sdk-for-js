@@ -31,7 +31,8 @@ var Base = require("documentdb").Base
   , testConfig = require("./_testConfig")
   , Stream = require("stream")
   , Range = require("documentdb").Range
-  , RangePartitionResolver = require("documentdb").RangePartitionResolver;
+  , RangePartitionResolver = require("documentdb").RangePartitionResolver
+  , HashPartitionResolver = require("documentdb").HashPartitionResolver;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -3245,25 +3246,27 @@ describe("NodeJS CRUD Tests", function() {
 			var querySpec = {
 				query: "SELECT * FROM root"
 			};
-			
-			createParentResourcesAsync(client, { db: true }).then(function (createdResources) {
-				var db = createdResources.createdDb;
-				client.createCollectionAsync(db._self, { id: "sample coll 1" }).then(function (response) {
-					var collection1 = response.resource;
-					client.createCollectionAsync(db._self, { id: "sample coll 2" }).then(function (response) {
-						var collection2 = response.resource;
-						
-						client.partitionResolvers["foo"] = getPartitionResolver(collection1._self, collection2._self);
-						
-						client.createDocumentAsync("foo", { id: "sample doc 1" }).then(function (response) {
-							client.createDocumentAsync("foo", { id: "sample doc 2" }).then(function (response) {
-								client.createDocumentAsync("foo", { id: "sample doc 11" }).then(function (response) {
-									client.queryDocuments("foo", querySpec, { partitionKey: "1" }).toArrayAsync().then(function (response) {
-										assert(response.feed.length === 2, "number of documents in collection 1");
-										client.queryDocuments("foo", querySpec, { partitionKey: "2" }).toArrayAsync().then(function (response) {
-											assert(response.feed.length === 1, "number of documents in collection 2");
-										}).then(function () {
-											done();
+                            
+            client.createDatabase({id: "database" }, function (err, db) {
+                client.createCollection(db._self, { id: "sample coll 1" }, function (err, collection1) { 
+                    client.createCollection(db._self, { id: "sample coll 2" }, function (err, collection2) {
+                        var resolver =  getPartitionResolver(collection1._self, collection2._self);
+						client.partitionResolvers["foo"] = resolver;
+
+						client.createDocument("foo", { id: "sample doc 1" }, function (err, doc1) {
+							client.createDocument("foo", { id: "sample doc 2" }, function (err, doc2) {
+								client.createDocument("foo", { id: "sample doc 11" }, function (err, doc3) {
+									client.queryDocuments("foo", querySpec, { partitionKey: resolver.getPartitionKey(doc1) }).toArray(function(err, docs1) {
+                                        var d1 = docs1.find(function(d) { return (d.id === doc1.id);});
+                                        assert(d1, "doc1 not found");
+                                        client.queryDocuments("foo", querySpec, { partitionKey: resolver.getPartitionKey(doc2) }).toArray(function(err, docs2) {
+                                            var d2 = docs2.find(function(d) { return (d.id === doc2.id);});
+                                            assert(d2, "doc2 not found");
+                                            client.queryDocuments("foo", querySpec, { partitionKey: resolver.getPartitionKey(doc3) }).toArray(function(err, docs3) {
+                                                var d3 = docs3.find(function(d) { return (d.id === doc3.id);});
+                                                assert(d3, "doc3 not found");
+                                                done();
+			     							});
 										});
 									});
 								});
@@ -3274,8 +3277,8 @@ describe("NodeJS CRUD Tests", function() {
 			});
 		};
 		
-		it("[promiseApi] Should do document CRUD operations with a partition resolver successfully", function (done) { validateDocumentCrudWithPartitionResolverTest(false, done) });
-		it("[promiseApi] Should do document CRUD operations with a partition resolver successfully with upsert", function (done) { validateDocumentCrudWithPartitionResolverTest(true, done) });
+		it("[promiseApi] Should do document CRUD operations with a partition resolver successfully", function (done) { test(false, done) });
+		it("[promiseApi] Should do document CRUD operations with a partition resolver successfully with upsert", function (done) { test(true, done) });
 
 	});
 });
