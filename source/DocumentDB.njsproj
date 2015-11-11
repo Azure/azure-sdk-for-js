@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{70b75d8a-07cd-4c4f-bb2e-052b3b5f1436}</ProjectGuid>
+    <ProjectGuid>{21b5837f-38c5-4c27-9cce-7dcb27eeda3f}</ProjectGuid>
     <StartupFile>test\test.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
