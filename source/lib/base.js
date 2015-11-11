@@ -297,11 +297,13 @@ var Base = {
 
      /** @ignore */
     getAttachmentIdFromMediaId: function(mediaId) {
-        var buffer = new Buffer(mediaId, "base64");
+        // Replace - with / on the incoming mediaId.  This will preserve the / so that we can revert it later.
+        var buffer = new Buffer(mediaId.replace("-", "/"), "base64");
         var ResoureIdLength = 20;
         var attachmentId = "";
         if (buffer.length > ResoureIdLength) {
-            attachmentId = buffer.toString("base64", 0, ResoureIdLength);
+            // After the base64 conversion, change the / back to a - to get the proper attachmentId
+            attachmentId = buffer.toString("base64", 0, ResoureIdLength).replace("/", "-");
         } else {
             attachmentId = mediaId;
         }
