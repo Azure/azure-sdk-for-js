@@ -29,6 +29,12 @@ var MurmurHash = Base.defineClass(
 	undefined, 
     undefined,
     {
+        /**
+         * Hashes a string, a unsigned 32-bit integer, or a Buffer into a new unsigned 32-bit integer that represents the output hash.
+         * @param {string, number of Buffer} key  - The preimage of the hash
+         * @param {number} seed                   - Optional value used to initialize the hash generator
+         * @returns {} 
+         */
 		hash: function (key, seed) {
 			key = key || '';
 			seed = seed || 0;
