@@ -71,7 +71,7 @@ describe("HashPartitionResolver.getPartitionKey", function () {
 describe("HashPartitionResolver.resolveForRead", function () {
 	it("valid key", function () {
 		var resolver = new HashPartitionResolver("ignored", ["dbs/foo/colls/A", "dbs/foo/colls/B", "dbs/foo/colls/C"]);
-		var links = resolver.resolveForRead("key");
+		var links = resolver.resolveForRead("a");
 		assert.deepEqual(["dbs/foo/colls/A"], links);
 	});
 
@@ -88,7 +88,7 @@ describe("HashPartitionResolver.resolveForRead", function () {
 describe("HashPartitionResolver.resolveForCreate", function () {
 	it("valid key", function () {
 		var resolver = new HashPartitionResolver("ignored", ["dbs/foo/colls/A", "dbs/foo/colls/B", "dbs/foo/colls/C"]);
-		var links = resolver.resolveForCreate("key");
+		var links = resolver.resolveForCreate("a");
 		assert.deepEqual("dbs/foo/colls/A", links);
 	});
 
