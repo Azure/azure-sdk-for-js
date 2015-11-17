@@ -1,0 +1,37 @@
+{
+  "name": "azure-eventhubs",
+  "version": "0.0.1",
+  "description": "Azure Event Hubs SDK for Node.js",
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "amqp10": "^2.1.1",
+    "bluebird": "^3.0.5"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "jshint": "^2.9.1-rc1",
+    "mocha": "^2.3.4"
+  },
+  "engines": {
+    "node": "^4.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-event-hubs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-event-hubs/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-event-hubs#readme",
+  "scripts": {
+    "lint": "jshint --show-non-errors .",
+    "unittest-min": "mocha --reporter dot tests/*.js",
+    "alltest-min": "mocha --reporter dot tests/**/*.js",
+    "unittest": "mocha --reporter spec tests/*.js",
+    "alltest": "mocha --reporter spec tests/**/*.js",
+    "ci": "npm -s run lint && npm -s run alltest-min",
+    "test": "npm -s run lint && npm -s run unittest"
+  }
+}
