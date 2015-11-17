@@ -28,73 +28,74 @@ var MurmurHash = require('./murmurHash.js').MurmurHash;
 
 var ConsistentHashRing = Base.defineClass(
     /**
-     * HashPartitionResolver implements partitioning based on the value of a hash function, 
-     * allowing you to evenly distribute requests and data across a number of partitions.
-     * @param {string or function} partitionKeyExtractor  - If partitionKeyExtractor is a string, it should be the name of the property in the document to execute the hashing on.
-     *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from any object.
-     **/
-	function (nodes, options) {
-		ConsistentHashRing._throwIfInvalidNodes(nodes);
-		
-		options = options || {};
-		options.numberOfVirtualNodesPerCollection = options.numberOfVirtualNodesPerCollection || 128;
-		options.computeHash = options.computeHash || MurmurHash.hash;
-		
-		this._computeHash = options.computeHash;
-		this._partitions = ConsistentHashRing._constructPartitions(nodes, options.numberOfVirtualNodesPerCollection, options.computeHash);
-	}, {
-		getNode: function (key) {
-			var hash = this._computeHash(key);
-			var partition = ConsistentHashRing._search(this._partitions, hash);			
-			return this._partitions[partition].node;
-		}
-	},{
-		/** @ignore */
-		_constructPartitions: function (nodes, partitionsPerNode, computeHashFunction) {
-			var partitions = new Array();
-			nodes.forEach(function (node) {
-				var hashValue = computeHashFunction(node);
-				for (var j = 0; j < partitionsPerNode; j++) {
-					partitions.push({
-						hashValue: hashValue, 
-						node: node
-					});
-					
-					hashValue = computeHashFunction(hashValue);
-				}
-			});
-			
-			partitions.sort(function (x, y) {
-				return ConsistentHashRing._compareHashes(x.hashValue, y.hashValue);
-			});
-			return partitions;
-		},
-		/** @ignore */
-		_compareHashes: function (x, y) {
-			if (x < y) return -1;
-			if (x > y) return 1;
-			return 0;
-		},
-		/** @ignore */
-		_search: function (partitions, hashValue) {
-			for (var i = 0; i < partitions.length - 1; i++) {
-				if (hashValue >= partitions[i].hashValue && hashValue < partitions[i + 1].hashValue) {
-					return i;
-				}
-			}
-			
-			return partitions.length - 1;
-		},
-		/** @ignore */
-		_throwIfInvalidNodes: function (nodes) {
-			if (Array.isArray(nodes)) {
-				return;
-			}
-			
-			throw new Error("Invalid argument: 'nodes' has to be an array.");
-		}
-	}
-		
+     * Initializes a new instance of the ConsistentHashRing
+     * @param {string[]} nodes - Array of collection links
+     * @param {object} options - Options to initialize the ConsistentHashRing
+     * @param {function} options.computeHash - Function to compute the hash for a given link or partition key
+     * @param {function} options.numberOfVirtualNodesPerCollection - Number of points in the ring to assign to each collection link
+     */
+    function (nodes, options) {
+        ConsistentHashRing._throwIfInvalidNodes(nodes);
+        
+        options = options || {};
+        options.numberOfVirtualNodesPerCollection = options.numberOfVirtualNodesPerCollection || 128;
+        options.computeHash = options.computeHash || MurmurHash.hash;
+        
+        this._computeHash = options.computeHash;
+        this._partitions = ConsistentHashRing._constructPartitions(nodes, options.numberOfVirtualNodesPerCollection, options.computeHash);
+    }, {
+        getNode: function (key) {
+            var hash = this._computeHash(key);
+            var partition = ConsistentHashRing._search(this._partitions, hash);            
+            return this._partitions[partition].node;
+        }
+    },{
+        /** @ignore */
+        _constructPartitions: function (nodes, partitionsPerNode, computeHashFunction) {
+            var partitions = new Array();
+            nodes.forEach(function (node) {
+                var hashValue = computeHashFunction(node);
+                for (var j = 0; j < partitionsPerNode; j++) {
+                    partitions.push({
+                        hashValue: hashValue, 
+                        node: node
+                    });
+                    
+                    hashValue = computeHashFunction(hashValue);
+                }
+            });
+            
+            partitions.sort(function (x, y) {
+                return ConsistentHashRing._compareHashes(x.hashValue, y.hashValue);
+            });
+            return partitions;
+        },
+        /** @ignore */
+        _compareHashes: function (x, y) {
+            if (x < y) return -1;
+            if (x > y) return 1;
+            return 0;
+        },
+        /** @ignore */
+        _search: function (partitions, hashValue) {
+            for (var i = 0; i < partitions.length - 1; i++) {
+                if (hashValue >= partitions[i].hashValue && hashValue < partitions[i + 1].hashValue) {
+                    return i;
+                }
+            }
+            
+            return partitions.length - 1;
+        },
+        /** @ignore */
+        _throwIfInvalidNodes: function (nodes) {
+            if (Array.isArray(nodes)) {
+                return;
+            }
+            
+            throw new Error("Invalid argument: 'nodes' has to be an array.");
+        }
+    }
+        
 );
 
 //SCRIPT END

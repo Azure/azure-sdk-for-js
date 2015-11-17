@@ -3236,27 +3236,27 @@ describe("NodeJS CRUD Tests", function() {
         });
     });
 
-	describe("HashPartitionResolver Tests", function () {
-		
-		var test = function (useUpsert, done) {
-			var client = new DocumentDBClient(host, { masterKey: masterKey });
-			var getPartitionResolver = function (collectionLink1, collectionLink2) {
-				return new HashPartitionResolver("id", [collectionLink1, collectionLink2]);
-			}
-			var querySpec = {
-				query: "SELECT * FROM root"
-			};
+    describe("HashPartitionResolver Tests", function () {
+        
+        var test = function (useUpsert, done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            var getPartitionResolver = function (collectionLink1, collectionLink2) {
+                return new HashPartitionResolver("id", [collectionLink1, collectionLink2]);
+            }
+            var querySpec = {
+                query: "SELECT * FROM root"
+            };
                             
             client.createDatabase({id: "database" }, function (err, db) {
                 client.createCollection(db._self, { id: "sample coll 1" }, function (err, collection1) { 
                     client.createCollection(db._self, { id: "sample coll 2" }, function (err, collection2) {
                         var resolver =  getPartitionResolver(collection1._self, collection2._self);
-						client.partitionResolvers["foo"] = resolver;
+                        client.partitionResolvers["foo"] = resolver;
 
-						client.createDocument("foo", { id: "sample doc 1" }, function (err, doc1) {
-							client.createDocument("foo", { id: "sample doc 2" }, function (err, doc2) {
-								client.createDocument("foo", { id: "sample doc 11" }, function (err, doc3) {
-									client.queryDocuments("foo", querySpec, { partitionKey: resolver.getPartitionKey(doc1) }).toArray(function(err, docs1) {
+                        client.createDocument("foo", { id: "sample doc 1" }, function (err, doc1) {
+                            client.createDocument("foo", { id: "sample doc 2" }, function (err, doc2) {
+                                client.createDocument("foo", { id: "sample doc 11" }, function (err, doc3) {
+                                    client.queryDocuments("foo", querySpec, { partitionKey: resolver.getPartitionKey(doc1) }).toArray(function(err, docs1) {
                                         var d1 = docs1.find(function(d) { return (d.id === doc1.id);});
                                         assert(d1, "doc1 not found");
                                         client.queryDocuments("foo", querySpec, { partitionKey: resolver.getPartitionKey(doc2) }).toArray(function(err, docs2) {
@@ -3266,19 +3266,19 @@ describe("NodeJS CRUD Tests", function() {
                                                 var d3 = docs3.find(function(d) { return (d.id === doc3.id);});
                                                 assert(d3, "doc3 not found");
                                                 done();
-			     							});
-										});
-									});
-								});
-							});
-						});
-					});
-				});
-			});
-		};
-		
-		it("[promiseApi] Should do document CRUD operations with a partition resolver successfully", function (done) { test(false, done) });
-		it("[promiseApi] Should do document CRUD operations with a partition resolver successfully with upsert", function (done) { test(true, done) });
+                                             });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        };
+        
+        it("[promiseApi] Should do document CRUD operations with a partition resolver successfully", function (done) { test(false, done) });
+        it("[promiseApi] Should do document CRUD operations with a partition resolver successfully with upsert", function (done) { test(true, done) });
 
-	});
+    });
 });

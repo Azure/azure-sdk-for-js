@@ -9,7 +9,7 @@
             transactional execution of JavaScript based application logic. DocumentDB is built with a deep commitment to the JSON data model enabling it to offer differentiated query and data <br>
             processing capabilities that scale to meet the needs of the most demanding modern applications.
         </p>
-	<p>
+        <p>
             The Nodejs sdk uses callbacks model for responses and this is exposed in DocumentClient <br>
         </p>
         <h4>Installing the library using npm</h4>
@@ -33,12 +33,12 @@ client.createDatabase(databaseDefinition, function(err, database) {
 
     client.createCollection(database._self, collectionDefinition, function(err, collection) {
         if(err) return console.log(err);
-		
+        
         console.log('created collection');
         
         client.createDocument(collection._self, documentDefinition, function(err, document) {
             if(err) return console.log(err);
-		
+            
             console.log('Created Document with content: ', document.content);
             cleanup(client, database);
         });
