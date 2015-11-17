@@ -34,29 +34,23 @@ var ConsistentHashRing = Base.defineClass(
      *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from any object.
      **/
 	function (nodes, options) {
+		ConsistentHashRing._throwIfInvalidNodes(nodes);
+		
 		options = options || {};
 		options.numberOfVirtualNodesPerCollection = options.numberOfVirtualNodesPerCollection || 128;
 		options.computeHash = options.computeHash || MurmurHash.hash;
 		
-		this.computeHash = options.computeHash
-		this.partitions = ConsistentHashRing._constructPartitions(nodes, options.numberOfVirtualNodesPerCollection, options.computeHash);
+		this._computeHash = options.computeHash;
+		this._partitions = ConsistentHashRing._constructPartitions(nodes, options.numberOfVirtualNodesPerCollection, options.computeHash);
 	}, {
 		getNode: function (key) {
-			var hash = this.computeHash(key);
-			var partition = this._findPartition(hash);
-			return this.partitions[partition].node;
-		},
-		/** @ignore */
-		_findPartition: function (hash) {
-			var start = 0;
-			var stop = this.partitions.length - 1;
-			return ConsistentHashRing._binarySearch(this.partitions, key, start, stop);
+			var hash = this._computeHash(key);
+			var partition = ConsistentHashRing._search(this._partitions, hash);			
+			return this._partitions[partition].node;
 		}
 	},{
 		/** @ignore */
 		_constructPartitions: function (nodes, partitionsPerNode, computeHashFunction) {
-			ConsistentHashRing._throwIfInvalidNodes(nodes);
-			
 			var partitions = new Array();
 			nodes.forEach(function (node) {
 				var hashValue = computeHashFunction(node);
@@ -82,33 +76,22 @@ var ConsistentHashRing = Base.defineClass(
 			return 0;
 		},
 		/** @ignore */
+		_search: function (partitions, hashValue) {
+			for (var i = 0; i < partitions.length - 1; i++) {
+				if (hashValue >= partitions[i].hashValue && hashValue < partitions[i + 1].hashValue) {
+					return i;
+				}
+			}
+			
+			return partitions.length - 1;
+		},
+		/** @ignore */
 		_throwIfInvalidNodes: function (nodes) {
 			if (Array.isArray(nodes)) {
 				return;
 			}
 			
 			throw new Error("Invalid argument: 'nodes' has to be an array.");
-		},
-		/** @ignore */
-		_binarySearch: function (partitions, hashValue) {
-			var first = 0;
-			var last = partitions.Length;
-			var count = last - first;
-			
-			while (count > 0) {
-				var count2 = Math.round(count / 2);
-				var mid = first + count2;
-				
-				if (partitions[mid].CompareTo(hashValue) < 0) {
-					first = ++mid;
-					count -= count2 + 1;
-				}
-				else {
-					count = count2;
-				}
-			}
-			
-			return first;
 		}
 	}
 		
