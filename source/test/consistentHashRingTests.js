@@ -24,210 +24,136 @@ SOFTWARE.
 "use strict";
 
 var assert = require("assert");
-var HashPartitionResolver = require("../lib/Hash/hashPartitionResolver").HashPartitionResolver;
+var ConsistentHashRing = require("../lib/Hash/consistentHashRing").ConsistentHashRing;
 
-describe("new HashPartitionResolver()", function () {
-	it("not throws", function () {
+describe("ConsistentHashRing new()", function () {
+	it("valid arguments does not throw", function () {
 		assert.doesNotThrow(
 			function () {
-				var resolver = new HashPartitionResolver("foo", ["A"]);
+				var resolver = new ConsistentHashRing(["bar"]);
 			}
 		);
 	});
 	
-	it("invalid partitionKeyResolver", function () {
-		assert.throws(
-			function () {
-				var resolver = new HashPartitionResolver()
-			},
-			/partitionKeyExtractor cannot be null or undefined/
-		);
-	});
-
-	it("invalid collectionLinks", function () {
-		assert.throws(
-			function () {
-				var resolver = new HashPartitionResolver("foo")
-			},
-			/Invalid argument: 'collectionLinks' has to be an array./
-		);
-	});
-});
-
-describe("HashPartitionResolver.getPartitionKey", function () {
-	it("string", function () {
-		var resolver = new HashPartitionResolver("foo", ["A"]);
-		var partitionKey = resolver.getPartitionKey({ foo: "bar" });
-		assert.strictEqual("bar", partitionKey);
-	});
-
-	it("function", function () {
-		var resolver = new HashPartitionResolver(function (document) { return document.foo; }, ["A"]);
-		var partitionKey = resolver.getPartitionKey({ foo: "bar" });
-		assert.strictEqual("bar", partitionKey);
-	});
-});
-
-describe("HashPartitionResolver.resolveForRead", function () {
-	it("found", function () {
-		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
-		var links = resolver.resolveForRead("A");
-		assert.deepEqual(["A"], links);
-	});
-
-	it("not found", function () {
-		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
-		var links = resolver.resolveForRead("a");
-		assert.deepEqual(["B"], links);
-	});
-});
-
-describe("HashPartitionResolver.resolveForCreate", function () {
-	it("found", function () {
-		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
-		var links = resolver.resolveForCreate("A");
-		assert.deepEqual("A", links);
-	});
-	
-	it("not found", function () {
-		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
-		var links = resolver.resolveForCreate("a");
-		assert.deepEqual("B", links);
-	});
-});
-
-describe("HashPartitionResolver._resolve", function () {
-	it("throws", function () {
-		assert.throws(
-			function () {
-				var resolver = new HashPartitionResolver(function (document) { return document.foo; }, ["A"]);
-				resolver._resolve(1);
-			},
-			/Unsupported type for partitionKey: 'number'/
-		);
-	});
-
-	it("found", function () {
-		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
-		var link = resolver._resolve("x");
-		assert.notStrictEqual(null, link);
-	});
-});
-
-describe("HashPartitionResolver._throwIfInvalidCollectionLinks", function () {
-	it("not throws", function () {
-		assert.doesNotThrow(
-			function () {
-				HashPartitionResolver._throwIfInvalidCollectionLinks(["foo"]);
-			}
-		);
-	});
-	
-	it("throws", function () {
-		var links = [
+	it("invalid nodes throws", function () {
+		var test = function (nodes) {
+			assert.throws(
+				function () {
+					var resolver = new ConsistentHashRing(nodes)
+				},
+			/Invalid argument: 'nodes' has to be an array./
+			);
+		};
+		
+		var values = [
 			undefined,
 			null,
-			1,
-			"foo",
-			{},
-			NaN,
-			function () { }
+			"string",
+			0,
+			true
 		];
 		
-		links.forEach(
-			function (link) {
-				assert.throws(
-					function () {
-						HashPartitionResolver._throwIfInvalidCollectionLinks(link);
-					},
-				/Invalid argument: 'collectionLinks' has to be an array./
-				);
-			});
+		values.forEach(function (nodes) {
+			test(nodes);
+		});
 	});
 });
 
-describe("HashPartitionResolver._throwIfInvalidPartitionKeyExtractor", function () {
-	it("not throws", function () {
-		var partitionKeyExtractors = [
-			"foo",
-			function () { }
-		];
+describe("ConsistentHashRing._constructPartitions", function () {
+	it("construct ring", function () {
+		var fixedHashValue = 123;
+		var partitionsPerNode = 2;
+		var nodes = ["A", "B", "C"];
+		var timesComputeHashCalled = 0;
+		var computeHash = function () {
+				timesComputeHashCalled++;
+				return fixedHashValue;
+		};
+		var totalPartitions = partitionsPerNode * nodes.length;
+		var totalCalls = (partitionsPerNode + 1) * nodes.length;
 		
-		partitionKeyExtractors.forEach(
-			function (partitionKeyExtractor) {
-				assert.doesNotThrow(
-					function () {
-						HashPartitionResolver._throwIfInvalidPartitionKeyExtractor(partitionKeyExtractor);
-					}
-				);
-			});
-	});
-	
-	it("null or undefined throws", function () {
-		var partitionKeyExtractors = [
-			undefined,
-			null
-		];
+		var partitions = ConsistentHashRing._constructPartitions(nodes, partitionsPerNode, computeHash);
 		
-		partitionKeyExtractors.forEach(
-			function (partitionKeyExtractor) {
-				assert.throws(
-					function () {
-						HashPartitionResolver._throwIfInvalidPartitionKeyExtractor(partitionKeyExtractor);
-					},
-				/partitionKeyExtractor cannot be null or undefined/
-				);
-			});
-	});
-
-	it("throws", function () {
-		var partitionKeyExtractors = [
-			1,
-			{},
-			[],
-			NaN
-		];
+		assert.strictEqual(totalPartitions, partitions.length);
+		assert.strictEqual(totalCalls, timesComputeHashCalled);
 		
-		partitionKeyExtractors.forEach(
-			function (partitionKeyExtractor) {
-				assert.throws(
-					function () {
-						HashPartitionResolver._throwIfInvalidPartitionKeyExtractor(partitionKeyExtractor);
-					},
-				/partitionKeyExtractor has to have 'string' or 'function' type./
-				);
-			});
+		partitions.forEach(function (partition) {
+			assert(partition.node);
+			assert.strictEqual(fixedHashValue, partition.hashValue);
+		});
 	});
 });
 
-describe("HashPartitionResolver._throwIfInvalidPartitionKey", function () {
-	it("not throws", function () {
-		assert.doesNotThrow(
-			function () {
-				HashPartitionResolver._throwIfInvalidPartitionKey("foo");
-			}
-		);
+describe("ConsistentHashRing._compareHashes", function () {
+	var test = function (a, b, result) {
+		var actual = ConsistentHashRing._compareHashes(a, b);
+		assert.strictEqual(result, actual);
+	}
+	
+	it("a=b", function () {
+		test(0, 0, 0);
 	});
 	
-	it("throws", function () {
-		var keys = [
-			undefined,
-			null,
-			1,
-			{},
-			[],
-			NaN,
-			function () { }
-		];
+	it("a>b", function () {
+		test(1, 0, 1);
+	});
+	
+	it("a<b", function () {
+		test(0, 1, -1);
+	});
+});
+
+describe("ConsistentHashRing._binarySearch", function () {
+	describe("1 node", function () {
+		var test = function (key, expected) {
+			var nodes = [10];
+			var actual = ConsistentHashRing._binarySearch(nodes, key);
+			assert.strictEqual(expected, nodes[actual]);
+		}
 		
-		keys.forEach(
-			function (key) {
-				assert.throws(
-					function () {
-						HashPartitionResolver._throwIfInvalidPartitionKey(key);
-					},
-				/Unsupported type for partitionKey: '.*'/
-				);
-			});
+		it("NEGATIVE_INFINITY", test(Number.NEGATIVE_INFINITY, 10));
+		it("9", test(9, 10));
+		it("10", test(10, 10));
+		it("11", test(11, 10));
+		it("POSITIVE_INFINITY", test(Number.POSITIVE_INFINITY, 10));
+	});
+
+	it("2 nodes", function () {
+		var test = function (key, expected) {
+			var nodes = [10, 20];
+			var actual = ConsistentHashRing._binarySearch(nodes, key);
+			assert.strictEqual(expected, nodes[actual]);
+		}
+		
+		test(Number.NEGATIVE_INFINITY, 10);
+		
+//		test(10, 10);
+		
+//		test(11, 20);
+//		test(19, 20);
+		
+//		test(20, 20);
+		
+//		test(Number.POSITIVE_INFINITY, 20);
+	});
+
+	it("3 nodes", function () {
+		var test = function (key, expected) {
+			var nodes = [10, 20, 30];
+			var actual = ConsistentHashRing._binarySearch(nodes, key);
+			assert.strictEqual(expected, nodes[actual]);
+		}
+		
+//		test(Number.NEGATIVE_INFINITY, 10);
+		//test(10, 10);
+		
+		//test(11, 20);
+		//test(19, 20);
+		//test(20, 20);
+		
+		//test(21, 30);
+		//test(29, 30);
+		//test(30, 30);
+		//test(Number.POSITIVE_INFINITY, 10);
 	});
 });

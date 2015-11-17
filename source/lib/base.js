@@ -392,7 +392,35 @@ var Base = {
         var buffer = new Buffer(firstId, "base64");
         if (buffer.length !== 4) return true;
         return false;
-    }
+    },
+	/** @ignore */
+	_trimSlashes: function (source) {
+		return source.replace(Constants.RegularExpressions.TrimLeftSlashes, "")
+                     .replace(Constants.RegularExpressions.TrimRightSlashes, "");
+	},
+	
+	/** @ignore */
+	_isValidCollectionLink: function (link) {
+		if (typeof link !== "string") {
+			return false;
+		}
+		
+		var parts = Base._trimSlashes(link).split("/");
+		
+		if (parts && parts.length !== 4) {
+			return false;
+		}
+		
+		if (parts[0] !== "dbs") {
+			return false;
+		}
+		
+		if (parts[2] !== "colls") {
+			return false;
+		}
+		
+		return true;
+	}
 };
 //SCRIPT END
 

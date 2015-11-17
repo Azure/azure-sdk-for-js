@@ -26,11 +26,11 @@ SOFTWARE.
 var assert = require("assert");
 var HashPartitionResolver = require("../lib/Hash/hashPartitionResolver").HashPartitionResolver;
 
-describe("new HashPartitionResolver()", function () {
-	it("not throws", function () {
+describe("HashPartitionResolver new()", function () {
+	it(" does not throw", function () {
 		assert.doesNotThrow(
 			function () {
-				var resolver = new HashPartitionResolver("foo", ["A"]);
+				var resolver = new HashPartitionResolver("foo", ["dbs/foo/colls/A"]);
 			}
 		);
 	});
@@ -56,74 +56,70 @@ describe("new HashPartitionResolver()", function () {
 
 describe("HashPartitionResolver.getPartitionKey", function () {
 	it("string", function () {
-		var resolver = new HashPartitionResolver("foo", ["A"]);
+		var resolver = new HashPartitionResolver("foo", ["dbs/foo/colls/A"]);
 		var partitionKey = resolver.getPartitionKey({ foo: "bar" });
 		assert.strictEqual("bar", partitionKey);
 	});
 
 	it("function", function () {
-		var resolver = new HashPartitionResolver(function (document) { return document.foo; }, ["A"]);
+		var resolver = new HashPartitionResolver(function (document) { return document.foo; }, ["dbs/foo/colls/A"]);
 		var partitionKey = resolver.getPartitionKey({ foo: "bar" });
 		assert.strictEqual("bar", partitionKey);
 	});
 });
 
 describe("HashPartitionResolver.resolveForRead", function () {
-	it("found", function () {
-		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
-		var links = resolver.resolveForRead("A");
-		assert.deepEqual(["A"], links);
+	it("valid key", function () {
+		var resolver = new HashPartitionResolver("ignored", ["dbs/foo/colls/A", "dbs/foo/colls/B", "dbs/foo/colls/C"]);
+		var links = resolver.resolveForRead("key");
+		assert.deepEqual(["dbs/foo/colls/A"], links);
 	});
 
-	it("not found", function () {
-		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
-		var links = resolver.resolveForRead("a");
-		assert.deepEqual(["B"], links);
+	it("invalid key", function () {
+		var resolver = new HashPartitionResolver("ignored", ["dbs/foo/colls/A", "dbs/foo/colls/B", "dbs/foo/colls/C"]);
+		assert.throws(
+			function () {
+				resolver.resolveForRead(null);
+			},
+			/partitionKey must be a 'string'/);
 	});
 });
 
 describe("HashPartitionResolver.resolveForCreate", function () {
-	it("found", function () {
-		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
-		var links = resolver.resolveForCreate("A");
-		assert.deepEqual("A", links);
+	it("valid key", function () {
+		var resolver = new HashPartitionResolver("ignored", ["dbs/foo/colls/A", "dbs/foo/colls/B", "dbs/foo/colls/C"]);
+		var links = resolver.resolveForCreate("key");
+		assert.deepEqual("dbs/foo/colls/A", links);
 	});
-	
-	it("not found", function () {
-		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
-		var links = resolver.resolveForCreate("a");
-		assert.deepEqual("B", links);
+
+	it("invalid key", function () {
+		var resolver = new HashPartitionResolver("ignored", ["dbs/foo/colls/A", "dbs/foo/colls/B", "dbs/foo/colls/C"]);
+		assert.throws(
+			function () {
+				resolver.resolveForCreate(0);
+			},
+			/partitionKey must be a 'string'/);
 	});
 });
 
 describe("HashPartitionResolver._resolve", function () {
 	it("throws", function () {
+		var resolver = new HashPartitionResolver(function (document) { return document.foo; }, ["dbs/foo/colls/A"]);
 		assert.throws(
-			function () {
-				var resolver = new HashPartitionResolver(function (document) { return document.foo; }, ["A"]);
-				resolver._resolve(1);
-			},
-			/Unsupported type for partitionKey: 'number'/
+			function () { resolver._resolve(1); },
+			/partitionKey must be a 'string'/
 		);
 	});
 
-	it("found", function () {
-		var resolver = new HashPartitionResolver("ignored", ["A", "B", "C"]);
+	it("resolves to non-null", function () {
+		var resolver = new HashPartitionResolver("ignoredPartitionKeyExtractor", ["dbs/foo/colls/A", "dbs/foo/colls/B", "dbs/foo/colls/C"]);
 		var link = resolver._resolve("x");
 		assert.notStrictEqual(null, link);
 	});
 });
 
 describe("HashPartitionResolver._throwIfInvalidCollectionLinks", function () {
-	it("not throws", function () {
-		assert.doesNotThrow(
-			function () {
-				HashPartitionResolver._throwIfInvalidCollectionLinks(["foo"]);
-			}
-		);
-	});
-	
-	it("throws", function () {
+	it("non-array throws", function () {
 		var links = [
 			undefined,
 			null,
@@ -144,10 +140,28 @@ describe("HashPartitionResolver._throwIfInvalidCollectionLinks", function () {
 				);
 			});
 	});
+
+	it("invalid links throws", function () {
+		assert.throws(
+			function () {
+				HashPartitionResolver._throwIfInvalidCollectionLinks(["foo"]);
+			},
+			/Invalid argument: All elements of 'collectionLinks' have to be collection links./
+		);
+	});
+
+	it("does not throw", function () {
+		assert.doesNotThrow(
+			function () {
+				HashPartitionResolver._throwIfInvalidCollectionLinks(["dbs/a/colls/b"]);
+			}
+		);
+	});
+	
 });
 
 describe("HashPartitionResolver._throwIfInvalidPartitionKeyExtractor", function () {
-	it("not throws", function () {
+	it(" does not throw", function () {
 		var partitionKeyExtractors = [
 			"foo",
 			function () { }
@@ -194,14 +208,14 @@ describe("HashPartitionResolver._throwIfInvalidPartitionKeyExtractor", function 
 					function () {
 						HashPartitionResolver._throwIfInvalidPartitionKeyExtractor(partitionKeyExtractor);
 					},
-				/partitionKeyExtractor has to have 'string' or 'function' type./
+				/partitionKeyExtractor must be either a 'string' or a 'function/
 				);
 			});
 	});
 });
 
 describe("HashPartitionResolver._throwIfInvalidPartitionKey", function () {
-	it("not throws", function () {
+	it(" does not throw", function () {
 		assert.doesNotThrow(
 			function () {
 				HashPartitionResolver._throwIfInvalidPartitionKey("foo");
@@ -226,7 +240,7 @@ describe("HashPartitionResolver._throwIfInvalidPartitionKey", function () {
 					function () {
 						HashPartitionResolver._throwIfInvalidPartitionKey(key);
 					},
-				/Unsupported type for partitionKey: '.*'/
+					/partitionKey must be a 'string'/
 				);
 			});
 	});

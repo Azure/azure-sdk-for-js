@@ -203,7 +203,7 @@ var RangePartitionResolver = Base.defineClass(
             throw new Error("partitionKeyExtractor cannot be null or undefined");
         }
         if (typeof partitionKeyExtractor !== "string" && typeof partitionKeyExtractor !== "function") {
-            throw new Error("partitionKeyExtractor has to have 'string' or 'function' type.");
+            throw new Error("partitionKeyExtractor must be either a 'string' or a 'function");
         }
         if (partitionKeyMap === undefined || partitionKeyMap === null) {
             throw new Error("partitionKeyMap cannot be null or undefined");

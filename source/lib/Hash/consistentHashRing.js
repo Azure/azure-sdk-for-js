@@ -34,14 +34,13 @@ var ConsistentHashRing = Base.defineClass(
      *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from any object.
      **/
 	function (nodes, options) {
-		ConsistentHashRing._throwIfInvalidNodes(nodes);
-		
 		options = options || {};
+		options.numberOfVirtualNodesPerCollection = options.numberOfVirtualNodesPerCollection || 128;
 		options.computeHash = options.computeHash || MurmurHash.hash;
-		this.computeHash = options.computeHash
 		
-		this.partitions = ConsistentHashRing._constructPartitions(nodes, options);
-    }, {
+		this.computeHash = options.computeHash
+		this.partitions = ConsistentHashRing._constructPartitions(nodes, options.numberOfVirtualNodesPerCollection, options.computeHash);
+	}, {
 		getNode: function (key) {
 			var hash = this.computeHash(key);
 			var partition = this._findPartition(hash);
@@ -49,32 +48,28 @@ var ConsistentHashRing = Base.defineClass(
 		},
 		/** @ignore */
 		_findPartition: function (hash) {
-			//TODO: use binary search
-			for (var i = 0; i < this.partitions.length - 1; i++) {
-				if (ConsistentHashRing._compareHashes(this.partitions[i].hashValue, hash) >= 0) {
-					break;
-				}
-			}
-			return i;
+			var start = 0;
+			var stop = this.partitions.length - 1;
+			return ConsistentHashRing._binarySearch(this.partitions, key, start, stop);
 		}
-	}, {
+	},{
 		/** @ignore */
-		_constructPartitions: function (nodes, options) {
-			var partitionsPerNode = options.numberOfVirtualNodesPerCollection || 128
-			var partitions = new Array();
+		_constructPartitions: function (nodes, partitionsPerNode, computeHashFunction) {
+			ConsistentHashRing._throwIfInvalidNodes(nodes);
 			
+			var partitions = new Array();
 			nodes.forEach(function (node) {
-				var hashValue = options.computeHash(node);
+				var hashValue = computeHashFunction(node);
 				for (var j = 0; j < partitionsPerNode; j++) {
 					partitions.push({
 						hashValue: hashValue, 
 						node: node
 					});
 					
-					hashValue = options.computeHash(hashValue);
+					hashValue = computeHashFunction(hashValue);
 				}
 			});
-	
+			
 			partitions.sort(function (x, y) {
 				return ConsistentHashRing._compareHashes(x.hashValue, y.hashValue);
 			});
@@ -94,6 +89,27 @@ var ConsistentHashRing = Base.defineClass(
 			
 			throw new Error("Invalid argument: 'nodes' has to be an array.");
 		},
+		/** @ignore */
+		_binarySearch: function (partitions, hashValue) {
+			var first = 0;
+			var last = partitions.Length;
+			var count = last - first;
+			
+			while (count > 0) {
+				var count2 = Math.round(count / 2);
+				var mid = first + count2;
+				
+				if (partitions[mid].CompareTo(hashValue) < 0) {
+					first = ++mid;
+					count -= count2 + 1;
+				}
+				else {
+					count = count2;
+				}
+			}
+			
+			return first;
+		}
 	}
 		
 );

@@ -27,9 +27,14 @@
     <Compile Include="Gruntfile.js" />
     <Compile Include="index.js" />
     <Compile Include="lib\range.js" />
+    <Compile Include="test\baseTests.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
     <Compile Include="test\_testConfig.js" />
     <Compile Include="lib\auth.js" />
-    <Compile Include="lib\base.js" />
+    <Compile Include="lib\base.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
     <Compile Include="lib\constants.js" />
     <Compile Include="lib\documentclient.js" />
     <Compile Include="lib\documents.js" />
