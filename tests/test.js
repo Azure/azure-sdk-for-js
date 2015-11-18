@@ -4,10 +4,10 @@
 'use strict';
 
 var chai = require('chai');
-var expect = chai.expect;
 // var Promise = require('bluebird');
 var chaiAsPromised = require('chai-as-promised');
 
+chai.should();
 chai.use(chaiAsPromised);
 
 function EventHubClient() {}
@@ -19,7 +19,7 @@ describe('EventHubClient', function () {
   describe('#fromConnectionString', function () {
 	it('creates an EventHubClient', function () {
 		var client = EventHubClient.fromConnectionString();
-		expect(client).to.be.an.instanceof(EventHubClient);
+		client.should.be.an.instanceof(EventHubClient);
 	});
   });
 });
