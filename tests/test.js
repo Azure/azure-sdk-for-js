@@ -5,13 +5,21 @@
 
 var chai = require('chai');
 var expect = chai.expect;
-var Promise = require('bluebird');
+// var Promise = require('bluebird');
 var chaiAsPromised = require('chai-as-promised');
 
 chai.use(chaiAsPromised);
 
-describe('#something', function () {
-  it('does something', function () {
-	expect(Promise.resolve('hello')).to.eventually.not.equal('world');
+function EventHubClient() {}
+EventHubClient.fromConnectionString = function () {
+	return new EventHubClient();
+};
+
+describe('EventHubClient', function () {
+  describe('#fromConnectionString', function () {
+	it('creates an EventHubClient', function () {
+		var client = EventHubClient.fromConnectionString();
+		expect(client).to.be.an.instanceof(EventHubClient);
+	});
   });
 });
