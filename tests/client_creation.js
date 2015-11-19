@@ -50,12 +50,16 @@ describe('makeConfig', function () {
 
 describe('EventHubClient', function () {
   describe('#constructor', function () {
-    it('throws if config.host is falsy', function () {
-      testFalsyValues(function (host) {
-        var test = function () {
-          return new EventHubClient({ host: host });
-        };
-        test.should.throw(ArgumentError, 'Argument config is missing property host');
+    ['host', 'path', 'keyName', 'key'].forEach(function (prop) {
+      it('throws if config.' + prop + ' is falsy', function () {
+        testFalsyValues(function (falsyVal) {
+          var test = function () {
+            var config = { host: 'a', path: 'b', key: 'c', keyName: 'd'};
+            config[prop] = falsyVal;
+            return new EventHubClient(config);
+          };
+          test.should.throw(ArgumentError, 'config is missing property ' + prop);
+        });
       });
     });
   });
@@ -78,12 +82,12 @@ describe('EventHubClient', function () {
     });
     
     it('creates an EventHubClient from a connection string', function () {
-      var client = EventHubClient.fromConnectionString('Endpoint=sb://abc;EntityPath=xyz');
+      var client = EventHubClient.fromConnectionString('Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d');
       client.should.be.an.instanceof(EventHubClient);
     });
 
     it('creates an EventHubClient from a connection string and an Event Hub path', function () {
-      var client = EventHubClient.fromConnectionString('Endpoint=sb://abc', 'path');
+      var client = EventHubClient.fromConnectionString('Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c', 'path');
       client.should.be.an.instanceof(EventHubClient);
     });
   });
