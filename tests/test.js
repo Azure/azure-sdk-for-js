@@ -4,19 +4,25 @@
 'use strict';
 
 var chai = require('chai');
-// var Promise = require('bluebird');
 var chaiAsPromised = require('chai-as-promised');
 
 chai.should();
 chai.use(chaiAsPromised);
 
+var ArgumentError = require('azure-iot-common').errors.ArgumentError;
 var ConnectionString = require('azure-iot-common').ConnectionString;
 
 function EventHubClient() {}
 EventHubClient.fromConnectionString = function (connectionString, path) {
-  if (!connectionString) throw Error();
+  if (!connectionString) {
+    throw new ArgumentError('Missing argument connectionString');
+  }
+
   var cn = ConnectionString.parse(connectionString);
-  if (!cn.EntityPath && !path) throw Error();
+  if (!cn.EntityPath && !path) {
+    throw new ArgumentError('Connection string doesn\'t have EntityPath, or missing argument path');
+  }
+
   return new EventHubClient();
 };
 
@@ -33,7 +39,7 @@ describe('EventHubClient', function () {
         var test = function () {
           return EventHubClient.fromConnectionString(value);
         };
-        test.should.throw(Error);
+        test.should.throw(ArgumentError, 'Missing argument connectionString');
       });
     });
 
@@ -41,7 +47,7 @@ describe('EventHubClient', function () {
       var test = function () {
         return EventHubClient.fromConnectionString('abc');
       };
-      test.should.throw(Error);
+      test.should.throw(ArgumentError, 'Connection string doesn\'t have EntityPath, or missing argument path');
     });
 
     it('creates an EventHubClient from a connection string', function () {

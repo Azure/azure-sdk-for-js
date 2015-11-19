@@ -1,2 +1,1 @@
-* Error should be ArgumentError
 * move EventHubClient into its own file
