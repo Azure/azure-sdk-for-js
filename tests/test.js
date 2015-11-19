@@ -28,11 +28,6 @@ function testFalsyValues(testFn) {
 
 describe('EventHubClient', function () {
   describe('#fromConnectionString', function () {
-    it('creates an EventHubClient from a connection string', function () {
-      var client = EventHubClient.fromConnectionString('EntityPath=abc');
-      client.should.be.an.instanceof(EventHubClient);
-    });
-	
     it('throws when there\'s no connection string', function () {
       testFalsyValues(function (value) {
         var test = function () {
@@ -41,14 +36,19 @@ describe('EventHubClient', function () {
         test.should.throw(Error);
       });
     });
-    
+
     it('throws when it can\'t find the Event Hub path', function () {
       var test = function () {
         return EventHubClient.fromConnectionString('abc');
       };
       test.should.throw(Error);
     });
-    
+
+    it('creates an EventHubClient from a connection string', function () {
+      var client = EventHubClient.fromConnectionString('EntityPath=abc');
+      client.should.be.an.instanceof(EventHubClient);
+    });
+
     it('creates an EventHubClient from a connection string and an Event Hub path', function () {
       var client = EventHubClient.fromConnectionString('abc', 'path');
       client.should.be.an.instanceof(EventHubClient);
