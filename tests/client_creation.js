@@ -22,6 +22,12 @@ describe('makeConfig', function () {
     config.should.have.property('host')
       .that.equals('abc');
   });
+  
+  it('populates config.keyName from the connection string\'s SharedAccessKeyName', function () {
+    var config = makeConfig('SharedAccessKeyName=abc');
+    config.should.have.property('keyName')
+      .that.equals('abc');
+  });
 });
 
 describe('EventHubClient', function () {
