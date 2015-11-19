@@ -28,6 +28,12 @@ describe('makeConfig', function () {
     config.should.have.property('keyName')
       .that.equals('abc');
   });
+  
+  it('populates config.key from the connection string\'s SharedAccessKey', function () {
+    var config = makeConfig('SharedAccessKey=abc');
+    config.should.have.property('key')
+      .that.equals('abc');
+  });
 });
 
 describe('EventHubClient', function () {
