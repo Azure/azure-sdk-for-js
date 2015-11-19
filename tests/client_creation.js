@@ -4,10 +4,7 @@
 'use strict';
 
 var chai = require('chai');
-var chaiAsPromised = require('chai-as-promised');
-
 chai.should();
-chai.use(chaiAsPromised);
 
 var EventHubClient = require('../lib/event_hub_client.js');
 var ArgumentError = require('azure-iot-common').errors.ArgumentError;
