@@ -43,9 +43,16 @@ describe('EventHubClient', function () {
       };
       test.should.throw(ArgumentError, 'Connection string doesn\'t have EntityPath, or missing argument path');
     });
+    
+    it('populates config.host from the connection string\'s Endpoint', function () {
+      function TestClient(config) { this.config = config; }
+      var client = EventHubClient.fromConnectionString('Endpoint=sb://abc;EntityPath=xyz', null, TestClient);
+      client.config.should.have.property('host')
+        .that.equals('abc');
+    });
 
     it('creates an EventHubClient from a connection string', function () {
-      var client = EventHubClient.fromConnectionString('Endpoint=sb://abc;EntityPath=abc');
+      var client = EventHubClient.fromConnectionString('Endpoint=sb://abc;EntityPath=xyz');
       client.should.be.an.instanceof(EventHubClient);
     });
 
