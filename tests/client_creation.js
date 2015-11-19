@@ -9,22 +9,8 @@ var chaiAsPromised = require('chai-as-promised');
 chai.should();
 chai.use(chaiAsPromised);
 
+var EventHubClient = require('../lib/event_hub_client.js');
 var ArgumentError = require('azure-iot-common').errors.ArgumentError;
-var ConnectionString = require('azure-iot-common').ConnectionString;
-
-function EventHubClient() {}
-EventHubClient.fromConnectionString = function (connectionString, path) {
-  if (!connectionString) {
-    throw new ArgumentError('Missing argument connectionString');
-  }
-
-  var cn = ConnectionString.parse(connectionString);
-  if (!cn.EntityPath && !path) {
-    throw new ArgumentError('Connection string doesn\'t have EntityPath, or missing argument path');
-  }
-
-  return new EventHubClient();
-};
 
 function testFalsyValues(testFn) {
   [null, undefined, '', 0].forEach(function (value) {
