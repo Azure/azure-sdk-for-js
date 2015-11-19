@@ -16,6 +16,17 @@ function testFalsyValues(testFn) {
 }
 
 describe('EventHubClient', function () {
+  describe('#constructor', function () {
+    it('throws if config.host is falsy', function () {
+      testFalsyValues(function (host) {
+        var test = function () {
+          return new EventHubClient({ host: host });
+        };
+        test.should.throw(ArgumentError, 'Argument config is missing property host');
+      });
+    });
+  });
+
   describe('#fromConnectionString', function () {
     it('throws when there\'s no connection string', function () {
       testFalsyValues(function (value) {
@@ -34,12 +45,12 @@ describe('EventHubClient', function () {
     });
 
     it('creates an EventHubClient from a connection string', function () {
-      var client = EventHubClient.fromConnectionString('EntityPath=abc');
+      var client = EventHubClient.fromConnectionString('Endpoint=sb://abc;EntityPath=abc');
       client.should.be.an.instanceof(EventHubClient);
     });
 
     it('creates an EventHubClient from a connection string and an Event Hub path', function () {
-      var client = EventHubClient.fromConnectionString('abc', 'path');
+      var client = EventHubClient.fromConnectionString('Endpoint=sb://abc', 'path');
       client.should.be.an.instanceof(EventHubClient);
     });
   });

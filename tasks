@@ -1,0 +1,13 @@
+azure-eventhubs
+  Client
++   .fromConnectionString
+    #open/close
+    #getPartitionIds
+    #createReceiver
+
+  Receiver
+    emits: errorReceived
+    emits: message
+
+* put chai setup in a common fixture instead of dupicating it in every test file
+* expose EventHubClient as azure-eventhubs.Client
