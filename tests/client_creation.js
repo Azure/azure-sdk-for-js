@@ -6,7 +6,7 @@
 var chai = require('chai');
 chai.should();
 
-var EventHubClient = require('../lib/event_hub_client.js');
+var EventHubClient = require('../lib/client.js');
 var ArgumentError = require('azure-iot-common').errors.ArgumentError;
 
 function testFalsyValues(testFn) {

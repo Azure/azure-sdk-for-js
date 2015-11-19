@@ -9,7 +9,7 @@ var chaiAsPromised = require('chai-as-promised');
 chai.should();
 chai.use(chaiAsPromised);
 
-var EventHubClient = require('../lib/event_hub_client.js');
+var EventHubClient = require('../lib/client.js');
 
 describe('EventHubClient', function () {
   describe('#open', function () {
