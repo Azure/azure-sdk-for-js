@@ -298,12 +298,12 @@ var Base = {
      /** @ignore */
     getAttachmentIdFromMediaId: function(mediaId) {
         // Replace - with / on the incoming mediaId.  This will preserve the / so that we can revert it later.
-        var buffer = new Buffer(mediaId.replace("-", "/"), "base64");
+        var buffer = new Buffer(mediaId.replace(/-/g, "/"), "base64");
         var ResoureIdLength = 20;
         var attachmentId = "";
         if (buffer.length > ResoureIdLength) {
             // After the base64 conversion, change the / back to a - to get the proper attachmentId
-            attachmentId = buffer.toString("base64", 0, ResoureIdLength).replace("/", "-");
+            attachmentId = buffer.toString("base64", 0, ResoureIdLength).replace(/\//g, "-");
         } else {
             attachmentId = mediaId;
         }
