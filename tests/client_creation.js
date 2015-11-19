@@ -34,6 +34,18 @@ describe('makeConfig', function () {
     config.should.have.property('key')
       .that.equals('abc');
   });
+  
+  it('populates config.path from the connection string\'s EntityPath', function () {
+    var config = makeConfig('EntityPath=abc');
+    config.should.have.property('path')
+      .that.equals('abc');
+  });
+
+  it('populates config.path from the path argument if connection string doesn\'t have EntityPath', function () {
+    var config = makeConfig('', 'abc');
+    config.should.have.property('path')
+      .that.equals('abc');
+  });
 });
 
 describe('EventHubClient', function () {
