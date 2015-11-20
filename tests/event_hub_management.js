@@ -18,7 +18,12 @@ describe('EventHubClient', function () {
     it('returns an array of partition IDs', function () {
       var client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
       var partitionIds = client.getPartitionIds();
-      return partitionIds.should.eventually.not.be.empty;
+      return partitionIds.then(function (ids) {
+        ids.length.should.not.equal(0);
+
+        var expected = Array.apply(null, Array(ids.length)).map(function (x, i) { return String(i); });
+        ids.should.have.members(expected);
+      });
     });
   });
 });
