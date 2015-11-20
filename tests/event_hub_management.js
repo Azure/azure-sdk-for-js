@@ -13,8 +13,9 @@ var EventHubClient = require('../lib/client.js');
 
 describe('EventHubClient', function () {
   describe('#getPartitionIds', function () {
+    this.timeout(15000);
+
     it('returns an array of partition IDs', function () {
-      this.timeout(15000);
       var client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
       var partitionIds = client.getPartitionIds();
       return partitionIds.should.eventually.not.be.empty;
