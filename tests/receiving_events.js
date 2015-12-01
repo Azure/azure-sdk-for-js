@@ -7,14 +7,14 @@ var chai = require('chai');
 chai.should();
 
 var EventHubClient = require('../lib/client.js');
-var MessagingEntityNotFoundError = require('../lib/errors.js').MessagingEntityNotFoundError;
+var Receiver = require('../lib/receiver.js');
 
 describe('EventHubClient', function () {
   describe('#createReceiver', function () {
-    it('returns MessagingEntityNotFoundError when the consumer group doesn\'t exist', function () {
+    it('returns a Receiver', function () {
       var client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
-      var receiver = client.createReceiver('bad', "1");
-      return receiver.should.be.rejectedWith(MessagingEntityNotFoundError);
+      var receiver = client.createReceiver('$Default', '0');
+      return receiver.should.be.eventually.be.instanceOf(Receiver);
     });
   });
 });
