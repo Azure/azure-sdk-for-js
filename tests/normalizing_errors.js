@@ -35,5 +35,12 @@ describe('errors', function () {
       var errorClass = errors.translate(err).constructor.name; 
       errorClass.should.equal('Error');
     });
+    
+    it('attaches the original AMQPError as the \'transport\' property', function () {
+      var err = new AMQPError('amqp:not-found');
+      var result = errors.translate(err);
+      result.should.have.property('transport')
+        .that.equals(err);
+    });
   });
 });
