@@ -12,12 +12,19 @@ chai.use(chaiAsPromised);
 var EventHubClient = require('../lib/client.js');
 
 describe('EventHubClient', function () {
-  describe('#open', function () {
-    this.timeout(15000);
+  this.timeout(15000);
 
+  describe('#open', function () {
     it('opens a connection to the Event Hub', function () {
       var client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
       return client.open().should.be.fulfilled;
+    });
+  });
+  
+  describe('#close', function () {
+    it('is a no-op when the connection is already closed', function () {
+      var client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
+      return client.close().should.be.fulfilled;
     });
   });
 });

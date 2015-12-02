@@ -12,6 +12,8 @@ var MessagingEntityNotFoundError = require('../lib/errors.js').MessagingEntityNo
 var ArgumentOutOfRangeError = require('../lib/errors.js').ArgumentOutOfRangeError;
 
 describe('EventHubClient', function () {
+  this.timeout(15000);
+
   describe('#createReceiver', function () {
     it('returns a Receiver', function () {
       var client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
