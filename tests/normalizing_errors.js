@@ -20,27 +20,24 @@ describe('errors', function () {
       errors.translate(err).should.equal(err);
     });
     
-    it('translates \'amqp:not-found\' into MessagingEntityNotFoundError', function () {
-      var err = new AMQPError('amqp:not-found');
-      errors.translate(err).should.be.an.instanceof(errors.MessagingEntityNotFoundError);
-    });
-    
-    it('translates \'com.microsoft:argument-out-of-range\' into ArgumentOutOfRangeError', function () {
-      var err = new AMQPError('com.microsoft:argument-out-of-range');
-      errors.translate(err).should.be.an.instanceof(errors.ArgumentOutOfRangeError);
-    });
-    
-    it('translates unknown AMQPErrors into Error', function () {
-      var err = new AMQPError('abc');
-      var errorClass = errors.translate(err).constructor.name; 
-      errorClass.should.equal('Error');
-    });
-    
-    it('attaches the original AMQPError as the \'transport\' property', function () {
-      var err = new AMQPError('amqp:not-found');
-      var result = errors.translate(err);
-      result.should.have.property('transport')
-        .that.equals(err);
+    [
+      { from: 'amqp:not-found', to: 'MessagingEntityNotFoundError' },
+      { from: 'com.microsoft:argument-out-of-range', to: 'ArgumentOutOfRangeError' },
+      { from: '<unknown>', to: 'Error' }
+    ]
+    .forEach(function (mapping) {
+      it('translates ' + mapping.from + ' into ' + mapping.to, function () {
+        var err = new AMQPError(mapping.from);
+        var errorClass = errors.translate(err).constructor.name;
+        errorClass.should.equal(mapping.to);
+      });
+      
+      it('attaches the original ' + mapping.from + ' error as the \'transport\' property', function () {
+        var err = new AMQPError(mapping.from);
+        var result = errors.translate(err);
+        result.should.have.property('transport')
+          .that.equals(err);
+      });
     });
   });
 });
