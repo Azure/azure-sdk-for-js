@@ -24,27 +24,35 @@ describe('EventHubClient', function () {
 });
 
 describe('EventHubReceiver', function () {
+  var client;
+
   this.timeout(15000);
+  
+  beforeEach('create the client', function () {
+    client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
+  });
+
+  afterEach('close the connection', function () {
+    return client.close();
+  });
 
   it('emits MessagingEntityNotFoundError when the consumer group doesn\'t exist', function (done) {
-    var client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
-    var promise = client.createReceiver('bad', '0');
-    promise.then(function (receiver) {
-      receiver.once('errorReceived', function (err) {
-        err.should.be.instanceOf(MessagingEntityNotFoundError);
-        done();
+    client.createReceiver('bad', '0')
+      .then(function (receiver) {
+        receiver.on('errorReceived', function (err) {
+          err.should.be.instanceOf(MessagingEntityNotFoundError);
+          done();
+        });
       });
-    });
   });
 
   it('emits ArgumentOutOfRangeError when the partition ID doesn\'t exist', function (done) {
-    var client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
-    var promise = client.createReceiver('$Default', 'bad');
-    promise.then(function (receiver) {
-      receiver.once('errorReceived', function (err) {
-        err.should.be.instanceOf(ArgumentOutOfRangeError);
-        done();
+    client.createReceiver('$Default', 'bad')
+      .then(function (receiver) {
+        receiver.on('errorReceived', function (err) {
+          err.should.be.instanceOf(ArgumentOutOfRangeError);
+          done();
+        });
       });
-    });
   });
 });

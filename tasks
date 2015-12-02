@@ -13,7 +13,6 @@ azure-eventhubs
 * expose EventHubClient as azure-eventhubs.Client
 * test that onErrorReceived function in EventHubReceiver constructor is only called once in response to an 'errorReceived' event
 * all integration tests should have a larger timeout (say, 15s?)--can I add a command line arg to 'npm run' scripts?
-* implement/test close (amqp disconnect on close--change .once() to .on() in "receiving events" tests, make sure done() not called twice for any test)
 * grouping tests (and naming files) by scenario, doesn't help if tests themselves are still organized by class and method. Evaluate whether I should rename tests/suites, or rename files.
 * in tests, should it be describe('.method', ...) instead of '#method' for static methods of a class? If so, be consistent...
 * file an issue in amqp10: AMQPError (and AMQPSymbol) should be promoted to the public interface since they are returned from public functions (like the 'errorReceived' event)
