@@ -26,5 +26,13 @@ describe('EventHubClient', function () {
       var client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
       return client.close().should.be.fulfilled;
     });
+    
+    it('closes an open connection', function () {
+      var client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
+      return client.open()
+        .then(function () {
+          return client.close().should.be.fulfilled;
+        });
+    });
   });
 });
