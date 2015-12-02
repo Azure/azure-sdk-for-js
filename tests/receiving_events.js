@@ -26,8 +26,6 @@ describe('EventHubClient', function () {
 describe('EventHubReceiver', function () {
   var client;
 
-  this.timeout(15000);
-  
   beforeEach('create the client', function () {
     client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
   });
@@ -35,6 +33,8 @@ describe('EventHubReceiver', function () {
   afterEach('close the connection', function () {
     return client.close();
   });
+
+  this.timeout(15000);
 
   it('emits MessagingEntityNotFoundError when the consumer group doesn\'t exist', function (done) {
     client.createReceiver('bad', '0')
