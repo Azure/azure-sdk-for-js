@@ -14,6 +14,10 @@ chai.use(chaiAsPromised);
 var EventHubClient = require('../lib/client.js');
 var MessagingEntityNotFoundError = require('../lib/errors.js').MessagingEntityNotFoundError;
 
+function arrayOfIncreasingNumbersFromZero(length) {
+  return Array.apply(null, Array(length)).map(function (x, i) { return String(i); });
+}
+
 describe('EventHubClient', function () {
   describe('#getPartitionIds', function () {
     this.timeout(15000);
@@ -24,8 +28,7 @@ describe('EventHubClient', function () {
       return partitionIds.then(function (ids) {
         ids.should.not.be.empty;
 
-        var expected = Array.apply(null, Array(ids.length)).map(function (x, i) { return String(i); });
-        ids.should.have.members(expected);
+        ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
       });
     });
     
