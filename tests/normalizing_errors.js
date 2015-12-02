@@ -24,5 +24,10 @@ describe('errors', function () {
       var err = new AMQPError('amqp:not-found');
       errors.translate(err).should.be.an.instanceof(errors.MessagingEntityNotFoundError);
     });
+    
+    it('translates \'com.microsoft:argument-out-of-range\' into ArgumentOutOfRangeError', function () {
+      var err = new AMQPError('com.microsoft:argument-out-of-range');
+      errors.translate(err).should.be.an.instanceof(errors.ArgumentOutOfRangeError);
+    });
   });
 });
