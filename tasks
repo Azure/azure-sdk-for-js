@@ -14,3 +14,4 @@ azure-eventhubs
 * test translateError function in errors.js
 * test that onErrorReceived function in EventHubReceiver constructor is only called once in response to an 'errorReceived' event
 * all integration tests should have a larger timeout (say, 15s?)--can I add a command line arg to 'npm run' scripts?
+* implement/test close (amqp disconnect on close--change .once() to .on() in "receiving events" tests, make sure done() not called twice for any test)
