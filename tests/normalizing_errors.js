@@ -29,5 +29,11 @@ describe('errors', function () {
       var err = new AMQPError('com.microsoft:argument-out-of-range');
       errors.translate(err).should.be.an.instanceof(errors.ArgumentOutOfRangeError);
     });
+    
+    it('translates unknown AMQPErrors into Error', function () {
+      var err = new AMQPError('abc');
+      var errorClass = errors.translate(err).constructor.name; 
+      errorClass.should.equal('Error');
+    });
   });
 });
