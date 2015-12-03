@@ -6,6 +6,10 @@
 var chai = require('chai');
 chai.should();
 
+var uuid = require('uuid');
+var amqp10 = require('amqp10');
+var ConnectionConfig = require('../lib/config.js');
+
 var Receiver = require('../lib/receiver.js');
 var EventHubClient = require('../lib/client.js');
 var MessagingEntityNotFoundError = require('../lib/errors.js').MessagingEntityNotFoundError;
@@ -53,6 +57,30 @@ describe('EventHubReceiver', function () {
           err.should.be.instanceOf(ArgumentOutOfRangeError);
           done();
         });
+      });
+  });
+  
+  it('emits an event when it receives a message', function (done) {
+    var id = uuid.v4();
+
+    client.createReceiver('$Default', '0')
+      .then(function (receiver) {
+        receiver.on('errorReceived', done);
+        receiver.on('message', function (message) {
+          if (message.body && message.body.testId === id) done();
+        });
+      });
+
+    var config = new ConnectionConfig(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
+    var amqpClient = new amqp10.Client(amqp10.Policy.EventHub);
+    amqpClient.connect(config.saslPlainUri())
+      .then(function () {
+        return amqpClient.createSender(config.path + '/Partitions/0');
+      })
+      .then(function (sender) {
+        var message = { testId: id };
+        sender.on('errorReceived', done);
+        return sender.send(message);
       });
   });
 });
