@@ -6,7 +6,7 @@
 var chai = require('chai');
 chai.should();
 
-var makeConfig = require('../lib/config.js');
+var ConnectionConfig = require('../lib/config.js');
 var EventHubClient = require('../lib/client.js');
 var ArgumentError = require('azure-iot-common').errors.ArgumentError;
 
@@ -16,33 +16,33 @@ function testFalsyValues(testFn) {
   });
 }
 
-describe('makeConfig', function () {
-  it('populates config.host from the connection string\'s Endpoint', function () {
-    var config = makeConfig('Endpoint=sb://abc');
+describe('ConnectionConfig', function () {
+  it('populates host from the connection string\'s Endpoint', function () {
+    var config = new ConnectionConfig('Endpoint=sb://abc');
     config.should.have.property('host')
       .that.equals('abc');
   });
   
-  it('populates config.keyName from the connection string\'s SharedAccessKeyName', function () {
-    var config = makeConfig('SharedAccessKeyName=abc');
+  it('populates keyName from the connection string\'s SharedAccessKeyName', function () {
+    var config = new ConnectionConfig('SharedAccessKeyName=abc');
     config.should.have.property('keyName')
       .that.equals('abc');
   });
   
-  it('populates config.key from the connection string\'s SharedAccessKey', function () {
-    var config = makeConfig('SharedAccessKey=abc');
+  it('populates key from the connection string\'s SharedAccessKey', function () {
+    var config = new ConnectionConfig('SharedAccessKey=abc');
     config.should.have.property('key')
       .that.equals('abc');
   });
   
-  it('populates config.path from the connection string\'s EntityPath', function () {
-    var config = makeConfig('EntityPath=abc');
+  it('populates path from the connection string\'s EntityPath', function () {
+    var config = new ConnectionConfig('EntityPath=abc');
     config.should.have.property('path')
       .that.equals('abc');
   });
 
-  it('populates config.path from the path argument if connection string doesn\'t have EntityPath', function () {
-    var config = makeConfig('', 'abc');
+  it('populates path from the path argument if connection string doesn\'t have EntityPath', function () {
+    var config = new ConnectionConfig('', 'abc');
     config.should.have.property('path')
       .that.equals('abc');
   });
