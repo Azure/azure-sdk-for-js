@@ -15,7 +15,7 @@ describe('EventHubClient', function () {
   var client;
 
   beforeEach('create the client', function () {
-    client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
+    client = EventHubClient.fromConnectionString(process.env.EVENTHUB_CONNECTION_STRING, process.env.EVENTHUB_PATH);
   });
 
   afterEach('close the connection', function () {

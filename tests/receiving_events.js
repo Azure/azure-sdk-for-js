@@ -16,7 +16,7 @@ var MessagingEntityNotFoundError = require('../lib/errors.js').MessagingEntityNo
 var ArgumentOutOfRangeError = require('../lib/errors.js').ArgumentOutOfRangeError;
 
 function sendAnEvent(partitionId, msgId, cbErr) {
-  var config = new ConnectionConfig(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
+  var config = new ConnectionConfig(process.env.EVENTHUB_CONNECTION_STRING, process.env.EVENTHUB_PATH);
   var amqpClient = new amqp10.Client(amqp10.Policy.EventHub);
   return amqpClient.connect(config.saslPlainUri())
     .then(function () {
@@ -34,7 +34,7 @@ describe('EventHubClient', function () {
 
   describe('#createReceiver', function () {
     it('returns a Receiver', function () {
-      var client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
+      var client = EventHubClient.fromConnectionString(process.env.EVENTHUB_CONNECTION_STRING, process.env.EVENTHUB_PATH);
       var receiver = client.createReceiver('$Default', '0');
       return receiver.should.eventually.be.instanceOf(Receiver);
     });
@@ -45,7 +45,7 @@ describe('EventHubReceiver', function () {
   var client;
 
   beforeEach('create the client', function () {
-    client = EventHubClient.fromConnectionString(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
+    client = EventHubClient.fromConnectionString(process.env.EVENTHUB_CONNECTION_STRING, process.env.EVENTHUB_PATH);
   });
 
   afterEach('close the connection', function () {

@@ -19,8 +19,8 @@ function arrayOfIncreasingNumbersFromZero(length) {
 }
 
 function createClient(connectionString, eventHubPath) {
-  connectionString = connectionString || process.env.EVENT_HUB_CONNECTION_STRING;
-  eventHubPath = eventHubPath || process.env.EVENT_HUB_PATH;
+  connectionString = connectionString || process.env.EVENTHUB_CONNECTION_STRING;
+  eventHubPath = eventHubPath || process.env.EVENTHUB_PATH;
   return EventHubClient.fromConnectionString(connectionString, eventHubPath);
 }
 
