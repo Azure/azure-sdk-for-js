@@ -15,6 +15,20 @@ var EventHubClient = require('../lib/client.js');
 var MessagingEntityNotFoundError = require('../lib/errors.js').MessagingEntityNotFoundError;
 var ArgumentOutOfRangeError = require('../lib/errors.js').ArgumentOutOfRangeError;
 
+function sendAnEvent(partitionId, msgId, cbErr) {
+  var config = new ConnectionConfig(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
+  var amqpClient = new amqp10.Client(amqp10.Policy.EventHub);
+  return amqpClient.connect(config.saslPlainUri())
+    .then(function () {
+      return amqpClient.createSender(config.path + '/Partitions/' + partitionId);
+    })
+    .then(function (sender) {
+      var msg = { testId: msgId };
+      sender.on('errorReceived', cbErr);
+      return sender.send(msg);
+    });
+}
+
 describe('EventHubClient', function () {
   this.timeout(15000);
 
@@ -60,27 +74,15 @@ describe('EventHubReceiver', function () {
       });
   });
   
-  it('emits an event when it receives a message', function (done) {
-    var id = uuid.v4();
-
+  it('receives an event', function (done) {
     client.createReceiver('$Default', '0')
       .then(function (receiver) {
+        var id = uuid.v4();
         receiver.on('errorReceived', done);
         receiver.on('message', function (message) {
           if (message.body && message.body.testId === id) done();
         });
-      });
-
-    var config = new ConnectionConfig(process.env.EVENT_HUB_CONNECTION_STRING, process.env.EVENT_HUB_PATH);
-    var amqpClient = new amqp10.Client(amqp10.Policy.EventHub);
-    amqpClient.connect(config.saslPlainUri())
-      .then(function () {
-        return amqpClient.createSender(config.path + '/Partitions/0');
-      })
-      .then(function (sender) {
-        var message = { testId: id };
-        sender.on('errorReceived', done);
-        return sender.send(message);
+        sendAnEvent('0', id, done);
       });
   });
 });
