@@ -10,7 +10,6 @@ var uuid = require('uuid');
 var amqp10 = require('amqp10');
 var ConnectionConfig = require('../lib/config.js');
 
-var Receiver = require('../lib/receiver.js');
 var EventHubClient = require('../lib/client.js');
 var MessagingEntityNotFoundError = require('../lib/errors.js').MessagingEntityNotFoundError;
 var ArgumentOutOfRangeError = require('../lib/errors.js').ArgumentOutOfRangeError;
@@ -28,18 +27,6 @@ function sendAnEvent(partitionId, msgId, cbErr) {
       return sender.send(msg);
     });
 }
-
-describe('EventHubClient', function () {
-  this.timeout(15000);
-
-  describe('#createReceiver', function () {
-    it('returns a Receiver', function () {
-      var client = EventHubClient.fromConnectionString(process.env.EVENTHUB_CONNECTION_STRING, process.env.EVENTHUB_PATH);
-      var receiver = client.createReceiver('$Default', '0');
-      return receiver.should.eventually.be.instanceOf(Receiver);
-    });
-  });
-});
 
 describe('EventHubReceiver', function () {
   var client;

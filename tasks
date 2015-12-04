@@ -1,14 +1,3 @@
-azure-eventhubs
-  Client
-+   .fromConnectionString
-+   #open/close
-+   #getPartitionIds
-+   #createReceiver
-
-  Receiver
-+   emits: errorReceived
-+   emits: message
-
 * put chai setup in a common fixture instead of duplicating it in every test file
 * expose EventHubClient as azure-eventhubs.Client
 * test that onErrorReceived function in EventHubReceiver constructor is only called once in response to an 'errorReceived' event
@@ -18,4 +7,5 @@ azure-eventhubs
 * file an issue in amqp10: AMQPError (and AMQPSymbol) should be promoted to the public interface since they are returned from public functions (like the 'errorReceived' event)
   --DONE: https://github.com/noodlefrenzy/node-amqp10/issues/192
 * client#open/close tests don't really confirm that the connection is opened or closed...
-* we're azure-iot-common for ArgumentError and ConnectionString. Verify that we really want to do this... 
+* we're azure-iot-common for ArgumentError and ConnectionString. Verify that we really want to do this...
+* receive test needs to filter events sent after Date.now(), rather than looking at *all* events in the hub
