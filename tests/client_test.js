@@ -36,7 +36,7 @@ describe('EventHubClient', function () {
     });
   });
 
-  describe('#fromConnectionString', function () {
+  describe('.fromConnectionString', function () {
     it('throws when there\'s no connection string', function () {
       testFalsyValues(function (value) {
         var test = function () {

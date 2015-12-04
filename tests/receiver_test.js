@@ -41,35 +41,39 @@ describe('EventHubReceiver', function () {
 
   this.timeout(15000);
 
-  it('emits MessagingEntityNotFoundError when the consumer group doesn\'t exist', function (done) {
-    client.createReceiver('bad', '0')
-      .then(function (receiver) {
-        receiver.on('errorReceived', function (err) {
-          err.should.be.instanceOf(MessagingEntityNotFoundError);
-          done();
+  describe('.event:errorReceived', function () {
+    it('fires with MessagingEntityNotFoundError when the consumer group doesn\'t exist', function (done) {
+      client.createReceiver('bad', '0')
+        .then(function (receiver) {
+          receiver.on('errorReceived', function (err) {
+            err.should.be.instanceOf(MessagingEntityNotFoundError);
+            done();
+          });
         });
-      });
+    });
+  
+    it('fires with ArgumentOutOfRangeError when the partition ID doesn\'t exist', function (done) {
+      client.createReceiver('$Default', 'bad')
+        .then(function (receiver) {
+          receiver.on('errorReceived', function (err) {
+            err.should.be.instanceOf(ArgumentOutOfRangeError);
+            done();
+          });
+        });
+    });
   });
 
-  it('emits ArgumentOutOfRangeError when the partition ID doesn\'t exist', function (done) {
-    client.createReceiver('$Default', 'bad')
-      .then(function (receiver) {
-        receiver.on('errorReceived', function (err) {
-          err.should.be.instanceOf(ArgumentOutOfRangeError);
-          done();
+  describe('.event:message', function () {
+    it('fires when an event is received', function (done) {
+      client.createReceiver('$Default', '0')
+        .then(function (receiver) {
+          var id = uuid.v4();
+          receiver.on('errorReceived', done);
+          receiver.on('message', function (message) {
+            if (message.body && message.body.testId === id) done();
+          });
+          sendAnEvent('0', id, done);
         });
-      });
-  });
-  
-  it('receives an event', function (done) {
-    client.createReceiver('$Default', '0')
-      .then(function (receiver) {
-        var id = uuid.v4();
-        receiver.on('errorReceived', done);
-        receiver.on('message', function (message) {
-          if (message.body && message.body.testId === id) done();
-        });
-        sendAnEvent('0', id, done);
-      });
+    });
   });
 });
