@@ -6,7 +6,7 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 
-chai.should();
+var should = chai.should();
 chai.use(chaiAsPromised);
 
 var Receiver = require('../lib/receiver.js');
@@ -78,6 +78,13 @@ function createClient(connectionString, eventHubPath) {
 function createClientWithPath(eventHubPath) {
   return createClient(null, eventHubPath);
 }
+
+before('validate environment', function () {
+  should.exist(process.env.EVENTHUB_CONNECTION_STRING,
+    'define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.');
+  should.exist(process.env.EVENTHUB_PATH,
+    'define EVENTHUB_PATH in your environment before running integration tests.');
+});
 
 describe('EventHubClient', function () {
   var client;
