@@ -7,3 +7,5 @@
 * we're using azure-iot-common for ArgumentError and ConnectionString. Verify that we really want to take this dependency...
 * receive test needs to filter events sent after Date.now(), rather than looking at *all* events in the hub, otherwise test will take longer over time
 * split out integration tests from unit tests
+* write a sample
+* variants of getReceiver for starting from a particular time, particular offset, etc.
