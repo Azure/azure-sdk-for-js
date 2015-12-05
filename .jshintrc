@@ -14,6 +14,6 @@
   "regexp": true,
   "undef": true,
   "unused": true,
-  "strict": true,
+  "strict": "global",
   "trailing": true
 }
