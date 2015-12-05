@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "index.js",
   "dependencies": {
-    "amqp10": "^2.1.2",
+    "amqp10": "2.1.2",
     "azure-iot-common": "^1.0.0-preview.7",
     "bluebird": "^3.0.6",
     "uuid": "^2.0.1"
