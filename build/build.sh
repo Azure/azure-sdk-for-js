@@ -60,6 +60,5 @@ else
 fi
 echo ""
 
-lint_and_test $node_root
+lint_and_test $node_root/send_receive
 [ $? -eq 0 ] || exit $?
-

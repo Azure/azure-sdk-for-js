@@ -8,5 +8,5 @@ set node-root=%~dp0..
 REM // resolve to fully qualified path
 for %%i in ("%node-root%") do set node-root=%%~fi
 
-cd %node-root%
+cd %node-root%\send_receive
 call npm install
