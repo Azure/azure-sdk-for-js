@@ -4,7 +4,8 @@
 'use strict';
 
 module.exports = {
-  errors: require('./lib/error.js'),
-  Client: require('./lib/client.js'),
-  Receiver: require('./lib/receiver.js')
+  errors: require('./errors.js'),
+  Client: require('./client.js'),
+  Receiver: require('./receiver.js'),
+  Sender: require('./sender.js')
 };

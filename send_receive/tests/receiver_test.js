@@ -65,7 +65,8 @@ describe('EventHubReceiver', function () {
 
   describe('.event:message', function () {
     it('fires when an event is received', function (done) {
-      client.createReceiver('$Default', '0')
+      var justBeforeNow = Date.now() - (1000 * 5); // 5 seconds ago
+      client.createReceiver('$Default', '0', { startAfterTime: justBeforeNow })
         .then(function (receiver) {
           var id = uuid.v4();
           receiver.on('errorReceived', done);

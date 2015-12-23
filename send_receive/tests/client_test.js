@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 var Receiver = require('../lib/receiver.js');
 var EventHubClient = require('../lib/client.js');
 var ArgumentError = require('azure-iot-common').errors.ArgumentError;
-var MessagingEntityNotFoundError = require('../lib/errors.js').MessagingEntityNotFoundError;
+var MessagingEntityNotFoundError = require('../lib/errors').MessagingEntityNotFoundError;
 
 function testFalsyValues(testFn) {
   [null, undefined, '', 0].forEach(function (value) {
@@ -66,7 +66,7 @@ describe('EventHubClient', function () {
 });
 
 function arrayOfIncreasingNumbersFromZero(length) {
-  return Array.apply(null, Array(length)).map(function (x, i) { return String(i); });
+  return Array.apply(null, new Array(length)).map(function (x, i) { return String(i); });
 }
 
 function createClient(connectionString, eventHubPath) {
