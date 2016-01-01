@@ -79,7 +79,7 @@ var HashPartitionResolver = Base.defineClass(
             }
             
             if (typeof partitionKeyExtractor !== "string" && typeof partitionKeyExtractor !== "function") {
-                throw new Error("partitionKeyExtractor must be either a 'string' or a 'function");
+                throw new Error("partitionKeyExtractor must be either a 'string' or a 'function'");
             }
         },
         /** @ignore */

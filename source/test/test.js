@@ -2629,7 +2629,7 @@ describe("NodeJS CRUD Tests", function() {
                     function () {
                         r.compareFunction = 1;
                     },
-                    /Cannot assign to read only property 'compareFunction' of \[object Object\]/
+                    /Cannot assign to read only property 'compareFunction' of /
                 );
                 
                 done();
@@ -3040,7 +3040,7 @@ describe("NodeJS CRUD Tests", function() {
             });
             
             it("[nativeApi] invalid partitionKeyExtractor throws", function (done) {
-                var expetcedError = /Error: partitionKeyExtractor has to have 'string' or 'function' type/;
+                var expetcedError = /partitionKeyExtractor must be either a 'string' or a 'function'/;
                 
                 assert.throws(
                     function () {
@@ -3257,14 +3257,17 @@ describe("NodeJS CRUD Tests", function() {
                             client.createDocument("foo", { id: "sample doc 2" }, function (err, doc2) {
                                 client.createDocument("foo", { id: "sample doc 11" }, function (err, doc3) {
                                     client.queryDocuments("foo", querySpec, { partitionKey: resolver.getPartitionKey(doc1) }).toArray(function(err, docs1) {
-                                        var d1 = docs1.find(function(d) { return (d.id === doc1.id);});
+                                        var d1 = docs1.filter(function(d) { return (d.id === doc1.id);});
                                         assert(d1, "doc1 not found");
+                                        assert.strictEqual(d1.length, 1);
                                         client.queryDocuments("foo", querySpec, { partitionKey: resolver.getPartitionKey(doc2) }).toArray(function(err, docs2) {
-                                            var d2 = docs2.find(function(d) { return (d.id === doc2.id);});
+                                            var d2 = docs2.filter(function(d) { return (d.id === doc2.id);});
                                             assert(d2, "doc2 not found");
+                                            assert.strictEqual(d2.length, 1);
                                             client.queryDocuments("foo", querySpec, { partitionKey: resolver.getPartitionKey(doc3) }).toArray(function(err, docs3) {
-                                                var d3 = docs3.find(function(d) { return (d.id === doc3.id);});
+                                                var d3 = docs3.filter(function(d) { return (d.id === doc3.id);});
                                                 assert(d3, "doc3 not found");
+                                                assert.strictEqual(d3.length, 1);
                                                 done();
                                              });
                                         });
@@ -3279,6 +3282,5 @@ describe("NodeJS CRUD Tests", function() {
         
         it("[promiseApi] Should do document CRUD operations with a partition resolver successfully", function (done) { test(false, done) });
         it("[promiseApi] Should do document CRUD operations with a partition resolver successfully with upsert", function (done) { test(true, done) });
-
     });
 });
