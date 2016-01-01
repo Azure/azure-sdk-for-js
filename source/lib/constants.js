@@ -1,6 +1,26 @@
-//----------------------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//----------------------------------------------------------------------------
+/*
+The MIT License (MIT)
+Copyright (c) 2014 Microsoft Corporation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 
 //SCRIPT START
 
@@ -18,7 +38,7 @@ var Constants = {
         TextPlain: "text/plain",
         Xml: "application/xml"
     },
-
+    
     HttpMethods: {
         Get: "GET",
         Post: "POST",
@@ -27,7 +47,7 @@ var Constants = {
         Head: "HEAD",
         Options: "OPTIONS"
     },
-
+    
     HttpHeaders: {
         Authorization: "authorization",
         ETag: "etag",
@@ -75,15 +95,15 @@ var Constants = {
         Prefer: "Prefer",
         Location: "Location",
         Referer: "referer",
-
+        
         // Query
         Query: "x-ms-documentdb-query",
         IsQuery: "x-ms-documentdb-isquery",
-
+        
         // Our custom DocumentDB headers
         Continuation: "x-ms-continuation",
         PageSize: "x-ms-max-item-count",
-
+        
         // Request sender generated. Simply echoed by backend.
         ActivityId: "x-ms-activity-id",
         PreTriggerInclude: "x-ms-documentdb-pre-trigger-include",
@@ -103,7 +123,7 @@ var Constants = {
         EmitVerboseTracesInQuery: "x-ms-documentdb-query-emit-traces",
         // Version headers and values
         Version: "x-ms-version",
-
+        
         //Quota Info
         MaxEntityCount: "x-ms-root-entity-max-count",
         CurrentEntityCount: "x-ms-root-entity-current-count",
@@ -112,27 +132,36 @@ var Constants = {
         MaxMediaStorageUsageInMB: "x-ms-max-media-storage-usage-mb",
         CurrentMediaStorageUsageInMB: "x-ms-media-storage-usage-mb",
         RequestCharge: "x-ms-request-charge",
-
+        
         // Offer header
         OfferType: "x-ms-offer-type",
-
+        
         // Index progress headers
         IndexTransformationProgress: "x-ms-documentdb-collection-index-transformation-progress",
         LazyIndexingProgress: "x-ms-documentdb-collection-lazy-indexing-progress",
-
+        
         // Upsert header
         IsUpsert: "x-ms-documentdb-is-upsert"
     },
-
+    
     CurrentVersion: "2015-08-06",
-
-    UserAgent: "documentdb-nodejs-sdk-1.4.0",
-
+    
+    UserAgent: "documentdb-nodejs-sdk-1.5.0",
+    
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,
         DefaultNumberRangePrecision: -1,
         DefaultStringHashPrecision: 3,
         DefaultStringRangePrecision: -1
+    },
+    
+    ConsistentHashRing: {
+        DefaultVirtualNodesPerCollection: 128
+    },
+    
+    RegularExpressions: {
+        TrimLeftSlashes: new RegExp("^[/]+"),
+        TrimRightSlashes: new RegExp("[/]+$")
     }
 };
 
