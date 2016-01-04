@@ -1,3 +1,7 @@
+## Changes in 1.5.1 : ##
+
+- Renamed "Hash" directory to "hash".
+
 ## Changes in 1.5.0 : ##
 
 - Added client-side sharding support.
