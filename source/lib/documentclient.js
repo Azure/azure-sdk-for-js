@@ -1,6 +1,25 @@
-//----------------------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//----------------------------------------------------------------------------
+/*
+The MIT License (MIT)
+Copyright (c) 2014 Microsoft Corporation
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 
 "use strict";
 
@@ -57,6 +76,7 @@ var DocumentClient = Base.defineClass(
         // Allows to specify compatibility mode used by client when making query requests. Should be removed when
         // application/sql is no longer supported.
         this.queryCompatibilityMode = AzureDocuments.QueryCompatibilityMode.Default;
+        this.partitionResolvers = {};
     },
     {
         /** Send a request for creating a database.
@@ -130,34 +150,24 @@ var DocumentClient = Base.defineClass(
          * </p>
          * @memberof DocumentClient
          * @instance
-         * @param {string} collectionLink                            - The self-link of the collection.
+         * @param {string} documentsFeedOrDatabaseLink               - The collection link or database link if using a partition resolver
          * @param {object} body                                      - Represents the body of the document. Can contain any number of user defined properties.
          * @param {string} [body.id]                                 - The id of the document, MUST be unique for each document.
          * @param {RequestOptions} [options]                         - The request options.
          * @param {boolean} [options.disableAutomaticIdGeneration]   - Disables the automatic id generation. If id is missing in the body and this option is true, an error will be returned.
          * @param {RequestCallback} callback                         - The callback for the request.
          */
-        createDocument: function (collectionLink, body, options, callback) {
-            var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
-            options = optionsCallbackTuple.options;
-            callback = optionsCallbackTuple.callback;
+        createDocument: function (documentsFeedOrDatabaseLink, body, options, callback) {
+            var partitionResolver = this.partitionResolvers[documentsFeedOrDatabaseLink];
 
-            // Generate random document id if the id is missing in the payload and options.disableAutomaticIdGeneration != true
-            if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-                body.id = Base.generateGuidId();
+            var collectionLink;
+            if (partitionResolver === undefined || partitionResolver === null) {
+                collectionLink = documentsFeedOrDatabaseLink;
+            } else {
+                collectionLink = this.resolveCollectionLinkForCreate(partitionResolver, body);
             }
 
-            var err = {};
-            if (!this.isResourceValid(body, err)) {
-                callback(err);
-                return;
-            }
-
-            var isNameBased = Base.isLinkNameBased(collectionLink);
-            var path = this.getPathFromLink(collectionLink, "docs", isNameBased);
-            var id = this.getIdFromLink(collectionLink, isNameBased);
-
-            this.create(body, path, "docs", id, undefined, options, callback);
+            this.createDocumentPrivate(collectionLink, body, options, callback);
         },
 
         /**
@@ -783,30 +793,22 @@ var DocumentClient = Base.defineClass(
          * Query the documents for the collection.
          * @memberof DocumentClient
          * @instance
-         * @param {string} collectionLink         - The self-link of the collection.
-         * @param {SqlQuerySpec | string} query   - A SQL query.
-         * @param {FeedOptions} [options]         - Represents the feed options.
-         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
+         * @param {string} documentsFeedOrDatabaseLink  - The collection link or database link if using a partition resolver
+         * @param {SqlQuerySpec | string} query         - A SQL query.
+         * @param {FeedOptions} [options]               - Represents the feed options.
+         * @param {object} [options.partitionKey]       - Optional partition key to be used with the partiotion resolver
+         * @returns {QueryIterator}                     - An instance of queryIterator to handle reading feed.
          */
-        queryDocuments: function (collectionLink, query, options) {
-            var that = this;
+        queryDocuments: function (documentsFeedOrDatabaseLink, query, options) {
+            var partitionResolver = this.partitionResolvers[documentsFeedOrDatabaseLink];
+            var collectionLinks;
+            if (partitionResolver === undefined || partitionResolver === null) {
+                collectionLinks = [documentsFeedOrDatabaseLink];
+            } else {
+                collectionLinks = partitionResolver.resolveForRead(options && options.partitionKey);
+            }
 
-            var isNameBased = Base.isLinkNameBased(collectionLink);
-            var path = this.getPathFromLink(collectionLink, "docs", isNameBased);
-            var id = this.getIdFromLink(collectionLink, isNameBased);
-
-            return new QueryIterator(this, query, options, function (options, callback) {
-                that.queryFeed.call(that,
-                    that,
-                    path,
-                    "docs",
-                    id,
-                    function (result) { return result.Documents; },
-                    function (parent, body) { return body; },
-                    query,
-                    options,
-                    callback);
-            });
+            return this.queryDocumentsPrivate(collectionLinks, query, options);
         },
 
         /**
@@ -1460,34 +1462,24 @@ var DocumentClient = Base.defineClass(
          * </p>
          * @memberof DocumentClient
          * @instance
-         * @param {string} collectionLink                            - The self-link of the collection.
+         * @param {string} documentsFeedOrDatabaseLink               - The collection link or database link if using a partition resolver
          * @param {object} body                                      - Represents the body of the document. Can contain any number of user defined properties.
          * @param {string} [body.id]                                 - The id of the document, MUST be unique for each document.
          * @param {RequestOptions} [options]                         - The request options.
          * @param {boolean} [options.disableAutomaticIdGeneration]   - Disables the automatic id generation. If id is missing in the body and this option is true, an error will be returned.
          * @param {RequestCallback} callback                         - The callback for the request.
          */
-        upsertDocument: function (collectionLink, body, options, callback) {
-            var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
-            options = optionsCallbackTuple.options;
-            callback = optionsCallbackTuple.callback;
+        upsertDocument: function (documentsFeedOrDatabaseLink, body, options, callback) {
+            var partitionResolver = this.partitionResolvers[documentsFeedOrDatabaseLink];
 
-            // Generate random document id if the id is missing in the payload and options.disableAutomaticIdGeneration != true
-            if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-                body.id = Base.generateGuidId();
+            var collectionLink;
+            if (partitionResolver === undefined || partitionResolver === null) {
+                collectionLink = documentsFeedOrDatabaseLink;
+            } else {
+                collectionLink = this.resolveCollectionLinkForCreate(partitionResolver, body);
             }
 
-            var err = {};
-            if (!this.isResourceValid(body, err)) {
-                callback(err);
-                return;
-            }
-
-            var isNameBased = Base.isLinkNameBased(collectionLink);
-            var path = this.getPathFromLink(collectionLink, "docs", isNameBased);
-            var id = this.getIdFromLink(collectionLink, isNameBased);
-
-            this.upsert(body, path, "docs", id, undefined, options, callback);
+            this.upsertDocumentPrivate(collectionLink, body, options, callback);
         },
 
         /**
@@ -1916,6 +1908,80 @@ var DocumentClient = Base.defineClass(
         },
 
         /** @ignore */
+        createDocumentPrivate: function (collectionLink, body, options, callback) {
+            var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
+            options = optionsCallbackTuple.options;
+            callback = optionsCallbackTuple.callback;
+
+            // Generate random document id if the id is missing in the payload and options.disableAutomaticIdGeneration != true
+            if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
+                body.id = Base.generateGuidId();
+            }
+
+            var err = {};
+            if (!this.isResourceValid(body, err)) {
+                callback(err);
+                return;
+            }
+
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "docs", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
+            this.create(body, path, "docs", id, undefined, options, callback);
+        },
+
+        /** @ignore */
+        upsertDocumentPrivate: function (collectionLink, body, options, callback) {
+            var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
+            options = optionsCallbackTuple.options;
+            callback = optionsCallbackTuple.callback;
+
+            // Generate random document id if the id is missing in the payload and options.disableAutomaticIdGeneration != true
+            if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
+                body.id = Base.generateGuidId();
+            }
+
+            var err = {};
+            if (!this.isResourceValid(body, err)) {
+                callback(err);
+                return;
+            }
+
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "docs", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
+            this.upsert(body, path, "docs", id, undefined, options, callback);
+        },
+
+        /** @ignore */
+        queryDocumentsPrivate: function (collectionLinks, query, options) {
+            var that = this;
+
+            var fetchFunctions = Base.map(collectionLinks, function (collectionLink) {
+                var isNameBased = Base.isLinkNameBased(collectionLink);
+                var path = that.getPathFromLink(collectionLink, "docs", isNameBased);
+                var id = that.getIdFromLink(collectionLink, isNameBased);
+                
+                return function (options, callback) {
+                    that.queryFeed.call(that,
+                    that,
+                    path,
+                    "docs",
+                    id,
+                    function (result) { return result.Documents; },
+                    function (parent, body) { return body; },
+                    query,
+                    options,
+                    callback);
+                };
+            });
+            
+            return new QueryIterator(this, query, options, fetchFunctions);
+        },
+        
+        /** @ignore */
         create: function (body, path, type, id, initialHeaders, options, callback) {
             var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
@@ -2043,6 +2109,58 @@ var DocumentClient = Base.defineClass(
             }
             return true;
         },
+        
+        /** @ignore */
+        resolveCollectionLinkForCreate: function (partitionResolver, document) {
+            var validation = this.isPartitionResolverValid(partitionResolver);
+            if (!validation.valid) {
+                throw validation.error;
+            }
+            
+            var partitionKey = partitionResolver.getPartitionKey(document);
+            return partitionResolver.resolveForCreate(partitionKey);
+        },
+        
+        /** @ignore */
+        isPartitionResolverValid: function (partionResolver) {
+            if (partionResolver === null || partionResolver === undefined) {
+                return {
+                    valid: false,
+                    error: new Error("The partition resolver is null or undefined")
+                };
+            }
+
+            var validation = this.isPartitionResolveFunctionDefined(partionResolver, "getPartitionKey");
+            if (!validation.valid) {
+                return validation;
+            }
+            validation = this.isPartitionResolveFunctionDefined(partionResolver, "resolveForCreate");
+            if (!validation.valid) {
+                return validation;
+            }
+            validation = this.isPartitionResolveFunctionDefined(partionResolver, "resolveForRead");
+            return validation;
+        },
+        
+        isPartitionResolveFunctionDefined: function (partionResolver, functionName) {
+            if (partionResolver === null || partionResolver === undefined) {
+                return {
+                    valid: false,
+                    error: new Error("The partition resolver is null or undefined")
+                };
+            }
+            
+            if (typeof partionResolver[functionName] === "function") {
+                return {
+                    valid: true
+                };
+            } else {
+                return {
+                    valid: false,
+                    error: new Error(this.sprintf("The partition resolver does not implement method %s. The type of %s is \"%s\"", functionName, functionName, typeof partionResolver[functionName]))
+                };
+            }
+        },
 
         /** @ignore */
         getIdFromLink: function (resourceLink, isNameBased) {
@@ -2129,8 +2247,8 @@ var DocumentClient = Base.defineClass(
  * @property {string} [preTriggerInclude]         -         Indicates what is the pre trigger to be invoked before the operation.
  * @property {string} [postTriggerInclude]        -         Indicates what is the post trigger to be invoked after the operation.
  * @property {object} [accessCondition]           -         Conditions Associated with the request.
- * @property {string} accessCondition.type        -         Conditional HTTP method header type.
- * @property {string} accessCondition.condition   -         Conditional HTTP method header value.
+ * @property {string} accessCondition.type        -         Conditional HTTP method header type (IfMatch or IfNoneMatch).
+ * @property {string} accessCondition.condition   -         Conditional HTTP method header value (the _etag field from the last version you read).
  * @property {string} [indexingDirective]         -         Specifies indexing directives (index, do not index .. etc).
  * @property {string} [consistencyLevel]          -         Consistency level required by the client.
  * @property {string} [sessionToken]              -         Token for use with Session consistency.

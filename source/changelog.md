@@ -1,3 +1,13 @@
+## Changes in 1.5.1 : ##
+
+- Renamed "Hash" directory to "hash".
+
+## Changes in 1.5.0 : ##
+
+- Added client-side sharding support.
+- Added hash partition resolver implementation.
+- Added range partitoin resolver implementation.
+
 ## Changes in 1.4.0 : ##
 
 - Implement Upsert. New upsertXXX methods on documentClient. 
