@@ -4,7 +4,7 @@
   "description": "Azure Event Hubs SDK for Node.js",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "main": "index.js",
+  "main": "./lib",
   "dependencies": {
     "amqp10": "2.1.2",
     "azure-iot-common": "^1.0.0-preview.7",
