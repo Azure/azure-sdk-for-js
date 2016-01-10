@@ -68,9 +68,11 @@ describe('EventHubSender', function () {
       client.createSender('0')
         .then(function (sender) {
           var id = uuid.v4();
-          receiveAnEvent('0', id, done, done);
-          sender.on('errorReceived', done);
-          sender.send({ testId: id });
+          receiveAnEvent('0', id, done, done)
+            .then(function() {
+              sender.on('errorReceived', done);
+              sender.send({ testId: id });
+            });
         });
     });
   });
