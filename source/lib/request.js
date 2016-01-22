@@ -50,6 +50,10 @@ function bodyFromData(data) {
 function parse(urlString) { return url.parse(urlString); }
 
 function createRequestObject(connectionPolicy, requestOptions, callback){
+    function onTimeout() {
+        httpsRequest.abort();
+    }
+
     var isMedia = ( requestOptions.path.indexOf("media") > -1 );
 
     var httpsRequest = https.request(requestOptions, function(response) {
@@ -85,19 +89,21 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
         });
     });
 
-    httpsRequest.on("socket", function(socket) {
+    httpsRequest.once("socket", function(socket) {
         if (isMedia) {
             socket.setTimeout(connectionPolicy.MediaRequestTimeout);
         } else {
             socket.setTimeout(connectionPolicy.RequestTimeout);
         }
 
-        socket.on("timeout", function() {
-            httpsRequest.abort();
+        socket.once("timeout", onTimeout);
+
+        httpsRequest.once("response", function () {
+          socket.removeListener("timeout", onTimeout);
         });
     });
 
-    httpsRequest.on("error", callback);
+    httpsRequest.once("error", callback);
     return httpsRequest;
 }
 
