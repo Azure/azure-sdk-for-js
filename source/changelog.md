@@ -1,3 +1,7 @@
+## Changes in 1.5.2 : ##
+
+- Fix memory leak.
+
 ## Changes in 1.5.1 : ##
 
 - Renamed "Hash" directory to "hash".
