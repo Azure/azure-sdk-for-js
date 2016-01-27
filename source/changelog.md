@@ -1,3 +1,7 @@
+## Changes in 1.5.3 : ##
+
+- Properly handle dashes in the mediaIds
+
 ## Changes in 1.5.2 : ##
 
 - Fix memory leak.
