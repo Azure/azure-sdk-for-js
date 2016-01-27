@@ -129,3 +129,34 @@ describe("Base._isValidCollectionLink", function () {
         });
     });
 });
+
+describe("Base.getAttachmentIdFromMediaId", function () {
+    var test = function (input, expected) {
+        assert.strictEqual(Base.getAttachmentIdFromMediaId(input), expected);
+    };
+
+    it("> 20 characters, Alpha-numeric only:  6hl2ALdWbQCxAgAAAAAAAC4b1VoB => 6hl2ALdWbQCxAgAAAAAAAC4b1Vo=", function () {
+        test("6hl2ALdWbQCxAgAAAAAAAC4-1VoB", "6hl2ALdWbQCxAgAAAAAAAC4-1Vo=");
+    });
+
+    it("> 20 characters, Single hyphen (-):  6hl2ALdWbQCxAgAAAAAAAC4-1VoB => 6hl2ALdWbQCxAgAAAAAAAC4-1Vo=", function () {
+        test("6hl2ALdWbQCxAgAAAAAAAC4-1VoB", "6hl2ALdWbQCxAgAAAAAAAC4-1Vo=");
+    });
+
+    it("> 20 characters, Multiple hyphens (-):  6hl2ALdWb-CxAgAAAAAAAC4-1VoB => 6hl2ALdWb-CxAgAAAAAAAC4-1Vo=", function () {
+        test("6hl2ALdWb-CxAgAAAAAAAC4-1VoB", "6hl2ALdWb-CxAgAAAAAAAC4-1Vo=");
+    });
+
+    it("> 20 characters, Plus sign (+):  6hl2ALdWb+CxAgAAAAAAAC4Q1VoB => 6hl2ALdWb+CxAgAAAAAAAC4Q1Vo=", function () {
+        test("6hl2ALdWb-CxAgAAAAAAAC4-1VoB", "6hl2ALdWb-CxAgAAAAAAAC4-1Vo=");
+    });
+
+    it("> 20 characters, Plus sign (+), Hyphen (-):  6hl2ALdWb+CxAgAAAAAAAC4-1VoB => 6hl2ALdWb+CxAgAAAAAAAC4-1Vo=", function () {
+        test("6hl2ALdWb-CxAgAAAAAAAC4-1VoB", "6hl2ALdWb-CxAgAAAAAAAC4-1Vo=");
+    });
+
+    it("< 20 characters, Plus sign (+), Hyphen (-):  6hl2A-dWb+CxAgAAAA => 6hl2A-dWb+CxAgAAAA", function () {
+        test("6hl2A-dWb+CxAgAAAA", "6hl2A-dWb+CxAgAAAA");
+    });
+
+});
