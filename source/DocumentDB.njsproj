@@ -58,14 +58,10 @@
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include=".eslintrc" />
-    <None Include=".gitignore" />
-    <None Include="generateDocs.cmd" />
     <None Include="package.json" />
     <None Include="readme.md" />
     <None Include="changelog.md" />
     <None Include="test\readme.md" />
-    <None Include="test\RunFunctionalTests.cmd" />
-    <None Include="test\runtests.cmd" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
