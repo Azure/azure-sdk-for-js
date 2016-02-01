@@ -27,14 +27,10 @@ var Documents = require("./documents")
   , Constants = require("./constants")
   , https = require("https")
   , url = require("url")
-  , querystring = require("querystring");
+  , querystring = require("querystring")
+  // Dedicated Agent for socket pooling
+  , keepAliveAgent = new https.Agent({ keepAlive: true, maxSockets: Infinity });
 
-// We don't turn off agent because we want the pooling benefits.
-https.globalAgent.maxSockets = 10000;
-// setting security protocol for the global agent.
-https.globalAgent.options.secureProtocol = "TLSv1_client_method";
-// Keeping the connection alive to reuse the sockets.
-https.globalAgent.keepAlive = true;
 //----------------------------------------------------------------------------
 // Utility methods
 //
@@ -146,6 +142,8 @@ var RequestHandler = {
         requestOptions.method = method;
         requestOptions.path = path;
         requestOptions.headers = headers;
+        requestOptions.agent = keepAliveAgent;
+        requestOptions.secureProtocol = "TLSv1_client_method";
 
         if (queryParams) {
             requestOptions.path += "?" + querystring.stringify(queryParams);
