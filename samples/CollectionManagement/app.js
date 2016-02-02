@@ -7,7 +7,7 @@ console.log('=====================');
 console.log();
 
 var DocumentDBClient = require('documentdb').DocumentClient
-  , config = require('../config')
+  , config = require('../Shared/config')
   , databaseId = config.names.database
   , collectionId = config.names.collection
 
@@ -16,10 +16,6 @@ var masterKey = config.connection.authKey;
 
 // Establish a new instance of the DocumentDBClient to be used throughout this demo
 var client = new DocumentDBClient(host, { masterKey: masterKey });
-
-//NOTE: 
-//when using the new IDBased Routing URIs, instead of the _self, as we 're doing in this sample
-//ensure that the URI does not end with a trailing '/' character
 var dbLink;
 
 //---------------------------------------------------------------------------------

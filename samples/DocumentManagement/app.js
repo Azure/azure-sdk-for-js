@@ -7,7 +7,7 @@ console.log('===================');
 console.log();
 
 var DocumentDBClient = require('documentdb').DocumentClient
-  , config = require('../config')
+  , config = require('../Shared/config')
   , fs = require('fs')
   , async = require('async')
   , databaseId = config.names.database
@@ -19,7 +19,7 @@ var host = config.connection.endpoint;
 var masterKey = config.connection.authKey;
 
 var documentDefinitions = function () {
-    var data = fs.readFileSync('../Data/Families.json');   
+    var data = fs.readFileSync('../Shared/Data/Families.json');   
     return JSON.parse(data).Families;
 };
 

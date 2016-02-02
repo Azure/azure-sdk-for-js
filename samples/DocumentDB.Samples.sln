@@ -1,26 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DocumentDB.Samples.DatabaseManagement", "DocumentDB.Samples.DatabaseManagement\DocumentDB.Samples.DatabaseManagement.njsproj", "{3D5CDD77-B402-4EC3-B4FC-D4DB14E309F3}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73AD5D45-8723-49D0-BBD0-733375826AA1}"
-	ProjectSection(SolutionItems) = preProject
-		config.js = config.js
-		utils.js = utils.js
-	EndProjectSection
-EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DocumentDB.Samples.CollectionManagement", "DocumentDB.Samples.CollectionManagement\DocumentDB.Samples.CollectionManagement.njsproj", "{6FEAE190-7F5C-4A1C-BB11-843B66A7E772}"
-EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DocumentDB.Samples.DocumentManagement", "DocumentDB.Samples.DocumentManagement\DocumentDB.Samples.DocumentManagement.njsproj", "{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}"
-EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DocumentDB.Samples.IndexManagement", "DocumentDB.Samples.IndexManagement\DocumentDB.Samples.IndexManagement.njsproj", "{7533D2EB-61BE-4C98-830E-14696E00C35B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{52B0D185-3B67-4804-923E-A0B7948C006D}"
 	ProjectSection(SolutionItems) = preProject
 		Data\Families.json = Data\Families.json
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{31234210-D784-4E2C-8D32-6379647281B1}"
+	ProjectSection(SolutionItems) = preProject
+		Shared\config.js = Shared\config.js
+		Shared\utils.js = Shared\utils.js
+	EndProjectSection
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "CollectionManagement", "CollectionManagement\CollectionManagement.njsproj", "{6FEAE190-7F5C-4A1C-BB11-843B66A7E772}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DatabaseManagement", "DatabaseManagement\DatabaseManagement.njsproj", "{3D5CDD77-B402-4EC3-B4FC-D4DB14E309F3}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "DocumentManagement", "DocumentManagement\DocumentManagement.njsproj", "{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "IndexManagement", "IndexManagement\IndexManagement.njsproj", "{7533D2EB-61BE-4C98-830E-14696E00C35B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,14 +28,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3D5CDD77-B402-4EC3-B4FC-D4DB14E309F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D5CDD77-B402-4EC3-B4FC-D4DB14E309F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D5CDD77-B402-4EC3-B4FC-D4DB14E309F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D5CDD77-B402-4EC3-B4FC-D4DB14E309F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6FEAE190-7F5C-4A1C-BB11-843B66A7E772}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6FEAE190-7F5C-4A1C-BB11-843B66A7E772}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FEAE190-7F5C-4A1C-BB11-843B66A7E772}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FEAE190-7F5C-4A1C-BB11-843B66A7E772}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D5CDD77-B402-4EC3-B4FC-D4DB14E309F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D5CDD77-B402-4EC3-B4FC-D4DB14E309F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D5CDD77-B402-4EC3-B4FC-D4DB14E309F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D5CDD77-B402-4EC3-B4FC-D4DB14E309F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B136DF45-8A6B-4F3B-92F1-F4F9C40B0FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,6 +49,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{52B0D185-3B67-4804-923E-A0B7948C006D} = {73AD5D45-8723-49D0-BBD0-733375826AA1}
+		{52B0D185-3B67-4804-923E-A0B7948C006D} = {31234210-D784-4E2C-8D32-6379647281B1}
 	EndGlobalSection
 EndGlobal
