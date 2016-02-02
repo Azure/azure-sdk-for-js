@@ -1,3 +1,7 @@
+## Changes in 1.5.4 : ##
+
+- Dedicated HTTPS Agent: Avoid modifying the global agent for DocumentDB purposes. Use a dedicated agent for all of the lib’s requests.
+
 ## Changes in 1.5.3 : ##
 
 - Properly handle dashes in the mediaIds
