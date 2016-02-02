@@ -65,6 +65,7 @@ var utils = {
                 }
             ]
         };
+
         client.queryCollections(databaseLink, querySpec).toArray(function (err, results) {
             if (err) {
                 handleError(err);

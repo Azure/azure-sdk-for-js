@@ -1,17 +1,30 @@
+console.log();
+console.log('Azure DocumentDB Node.js Samples');
+console.log('================================');
+console.log();
+console.log('SERVER SIDE SCRIPTS');
+console.log('===================');
+console.log();
+
 /*jshint node:true */
 "use strict";
 
-var DocumentDBClient = require('documentdb').DocumentClient;
-var DocumentDBUtils = require('../utils');
-var config = require('../config');
+var DocumentDBClient = require('documentdb').DocumentClient
+  , config = require('../Shared/config')
+  , utils = require('../Shared/utils')
+  , databaseId = config.names.database
+  , collectionId = config.names.collection
+  , dbLink
+  , collLink;
 
+var host = config.connection.endpoint
+  , masterKey = config.connection.authKey;
+  
 // Cache Database and Collection self-links.
 var databaseLink, collectionLink, sprocLink;
 
-// Initialize DocumentDB Client.
-var docDbClient = new DocumentDBClient(config.connection.endpoint, {
-  masterKey: config.connection.authKey
-});
+// Establish a new instance of the DocumentDBClient to be used throughout this demo
+var client = new DocumentDBClient(host, { masterKey: masterKey });
 
 // Path to stored procedure definition
 var sprocDefinition = require('./JS/upsert');
@@ -23,68 +36,70 @@ var sprocParams = [{
 }];
 
 // Get or Create the Database
-DocumentDBUtils.getOrCreateDatabase(docDbClient, config.names.database, function(db) {
-  databaseLink = db._self;
+utils.getOrCreateDatabase(client, config.names.database, function(db) {
+    databaseLink = "dbs/" + databaseId;
 
-  // Get or Create the Collection
-  DocumentDBUtils.getOrCreateCollection(docDbClient, databaseLink, config.names.collection, function(coll) {
-    collectionLink = coll._self;
+    // Get or Create the Collection
+    utils.getOrCreateCollection(client, databaseLink, config.names.collection, function(coll) {
+        collectionLink = databaseLink + "/colls/" + collectionId;
 
-    console.log("Upserting the sproc: '" + sprocDefinition.id + "'");
-    upsertSproc(docDbClient, collectionLink, sprocDefinition, function(err, sproc) {
-      if (err) throw err;
+        console.log("Upserting the sproc: '" + sprocDefinition.id + "'");
+        upsertSproc(collectionLink, sprocDefinition, function(err, sproc) {
+            if (err) throw err;
+            
+            var sprocLink = collectionLink + "/sprocs/" + sproc.id;
 
-      console.log("Executing the sproc: '" + sproc.id + "'");
-      console.log('Sproc parameters: ' + JSON.stringify(sprocParams));
-      executeSproc(docDbClient, sproc._self, sprocParams);
+            console.log("Executing the sproc: '" + sproc.id + "'");
+            console.log('Sproc parameters: ' + JSON.stringify(sprocParams));
+            executeSproc(sprocLink, sprocParams);
+        });
     });
-  });
 });
 
-function upsertSproc(client, collectionLink, sprocDefinition, callback) {
-  var query = {
-    query: 'SELECT * FROM sprocs s WHERE s.id = @id',
-    parameters: [{
-      name: '@id',
-      value: sprocDefinition.id
-    }]
-  };
+function upsertSproc(collectionLink, sprocDefinition, callback) {
+    var query = {
+        query: 'SELECT * FROM sprocs s WHERE s.id = @id',
+        parameters: [{
+            name: '@id',
+            value: sprocDefinition.id
+        }]
+    };
 
-  // Query for the stored procedure.
-  client.queryStoredProcedures(collectionLink, query, null).toArray(function(err, results) {
-    if (err) throw err;
+    // Query for the stored procedure.
+    client.queryStoredProcedures(collectionLink, query, null).toArray(function(err, results) {
+        if (err) throw err;
 
-    if (results.length > 0) {
-      // Delete it if it exists and re-create it.
-      client.deleteStoredProcedure(results[0]._self, null, function(err) {
-        client.createStoredProcedure(collectionLink, sprocDefinition, null, function(err, sproc) {
-          callback(null, sproc);
-        });
-      });
-    } else {
-      // Otherwise just create the sproc.
-      client.createStoredProcedure(collectionLink, sprocDefinition, null, function(err, sproc) {
-        callback(null, sproc);
-      });
-    }
-  });
+        if (results.length > 0) {
+            // Delete it if it exists and re-create it.
+            client.deleteStoredProcedure(results[0]._self, null, function(err) {
+                client.createStoredProcedure(collectionLink, sprocDefinition, null, function(err, sproc) {
+                    callback(null, sproc);
+                });
+            });
+        } else {
+            // Otherwise just create the sproc.
+            client.createStoredProcedure(collectionLink, sprocDefinition, null, function(err, sproc) {
+                callback(null, sproc);
+            });
+        }
+    });
 }
 
-function executeSproc(client, sprocLink, sprocParams) {
-  client.executeStoredProcedure(sprocLink, sprocParams, function(err, results, responseHeaders) {
-    console.log('//////////////////////////////////');
-    if (err) {
-      console.log('// err');
-      console.log(err);
-    }
-    if (responseHeaders) {
-      console.log('// responseHeaders');
-      console.log(responseHeaders);
-    }
-    if (results) {
-      console.log('// results');
-      console.log(results);
-    }
-    console.log('//////////////////////////////////');
-  });
+function executeSproc(sprocLink, sprocParams) {
+    client.executeStoredProcedure(sprocLink, sprocParams, function(err, results, responseHeaders) {
+        console.log('//////////////////////////////////');
+        if (err) {
+            console.log('// err');
+            console.log(err);
+        }
+        if (responseHeaders) {
+            console.log('// responseHeaders');
+            console.log(responseHeaders);
+        }
+        if (results) {
+            console.log('// results');
+            console.log(results);
+        }
+        console.log('//////////////////////////////////');
+    });
 }
