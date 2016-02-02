@@ -36,11 +36,11 @@ var sprocParams = [{
 }];
 
 // Get or Create the Database
-utils.getOrCreateDatabase(client, config.names.database, function(db) {
+utils.getOrCreateDatabase(client, databaseId, function(db) {
     databaseLink = "dbs/" + databaseId;
 
     // Get or Create the Collection
-    utils.getOrCreateCollection(client, databaseLink, config.names.collection, function(coll) {
+    utils.getOrCreateCollection(client, databaseLink, collectionId, function(coll) {
         collectionLink = databaseLink + "/colls/" + collectionId;
 
         console.log("Upserting the sproc: '" + sprocDefinition.id + "'");
