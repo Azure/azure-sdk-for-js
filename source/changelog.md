@@ -1,3 +1,7 @@
+## Changes in 1.5.5 : ##
+
+- Fixed hashParitionResolver resolveForRead(): When no partition key supplied was throwing exception, instead of returning a list of all registered links.
+
 ## Changes in 1.5.4 : ##
 
 - Dedicated HTTPS Agent: Avoid modifying the global agent for DocumentDB purposes. Use a dedicated agent for all of the lib’s requests.
