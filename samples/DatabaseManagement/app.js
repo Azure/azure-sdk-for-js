@@ -8,7 +8,7 @@ console.log();
 
 
 var DocumentDBClient = require('documentdb').DocumentClient
-  , config = require('../config')
+  , config = require('../Shared/config')
   , databaseId = config.names.database
   
 var host = config.connection.endpoint;
@@ -28,8 +28,6 @@ var client = new DocumentDBClient(host, { masterKey: masterKey });
 // 6. deleteDatabase    - Delete a database given its id
 //
 //---------------------------------------------------------------------------------------------------
-
-
 
 // 1.
 console.log('1. findDatabaseById \'' + databaseId + '\'');
@@ -87,8 +85,6 @@ findDatabaseById(databaseId, function (err, db) {
 });
 
 function readDatabaseById(databaseId, callback) {
-    //when using the new ID Based Routing URIs, the URI must NOT have a trailing / character
-    //i.e. instead of dbs/db/ (which is the format of a db._self) the URI should be dbs/db
     client.readDatabase('dbs/' + databaseId, function (err, db) {
         if (err) {
             handleError(err);
@@ -153,6 +149,7 @@ function findDatabaseById(databaseId, callback) {
             }
         ]
     };
+
     client.queryDatabases(querySpec).toArray(function (err, results) {
         if (err) {
             handleError(err);

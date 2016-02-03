@@ -75,13 +75,16 @@ describe("HashPartitionResolver.resolveForRead", function () {
         assert.deepEqual(["dbs/foo/colls/A"], links);
     });
 
-    it("invalid key", function () {
+    it("null key", function () {
         var resolver = new HashPartitionResolver("ignored", ["dbs/foo/colls/A", "dbs/foo/colls/B", "dbs/foo/colls/C"]);
-        assert.throws(
-            function () {
-                resolver.resolveForRead(null);
-            },
-            /partitionKey must be a 'string'/);
+        var links = resolver.resolveForRead(null);
+        assert.deepEqual(links, ["dbs/foo/colls/A", "dbs/foo/colls/B", "dbs/foo/colls/C"]);
+    });
+
+    it("undefined key", function () {
+        var resolver = new HashPartitionResolver("ignored", ["dbs/foo/colls/A", "dbs/foo/colls/B", "dbs/foo/colls/C"]);
+        var links = resolver.resolveForRead();
+        assert.deepEqual(links, ["dbs/foo/colls/A", "dbs/foo/colls/B", "dbs/foo/colls/C"]);
     });
 });
 

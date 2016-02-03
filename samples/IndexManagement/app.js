@@ -9,7 +9,7 @@ console.log();
 var DocumentDBClient = require('documentdb').DocumentClient
   , DocumentBase = require('documentdb').DocumentBase
   , async = require('async')
-  , config = require('../config')
+  , config = require('../Shared/config')
   , fs = require('fs')
   , databaseId = config.names.database
   , dbLink

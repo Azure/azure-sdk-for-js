@@ -4,6 +4,6 @@
     "description": "DocumentDB.Samples.DatabaseManagement",
     "main": "app.js",
     "dependencies": {
-        "documentdb": "^1.2.1"
+        "documentdb": "^1.5.4"
     }
 }

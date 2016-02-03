@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "async": "^1.4.2",
-    "documentdb": "^1.2.1"
+    "documentdb": "^1.5.4"
   }
 }
