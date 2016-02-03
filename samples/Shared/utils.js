@@ -2,20 +2,20 @@ var utils = {
     deleteDatabase: function (client, databaseLink, callback) {
         client.deleteDatabase(databaseLink, function (err) {
             if (err) {
-                handleError(err);
+                callback(err);
             } else {
-                console.log('Database \'' + database.id + '\'deleted');
+                console.log('Database \'' + databaseLink + '\'deleted');
                 callback();
             }
         });
     },
         
-    deleteCollection: function (client, collection, callback) {
-        client.deleteCollection(collection._self, function (err) {
+    deleteCollection: function (client, collectionLink, callback) {
+        client.deleteCollection(collectionLink, function (err) {
             if (err) {
-                handleError(err);
+                callback(err);
             } else {
-                console.log('Collection \'' + collection.id + '\'deleted');
+                console.log('Collection \'' + collectionLink + '\'deleted');
                 callback();
             }
         });
@@ -33,7 +33,7 @@ var utils = {
         };
         client.queryDatabases(querySpec).toArray(function (err, results) {
             if (err) {
-                handleError(err);
+                callback(err);
             }
         
             if (results.length === 0) {
@@ -46,11 +46,11 @@ var utils = {
                     }
                 
                     console.log('Database \'' + databaseId + '\'created');
-                    callback(created);
+                    callback(null, created);
                 });
             } else {
                 console.log('Database \'' + databaseId + '\'found');
-                callback(results[0]);
+                callback(null, results[0]);
             }
         });
     },
@@ -68,7 +68,7 @@ var utils = {
 
         client.queryCollections(databaseLink, querySpec).toArray(function (err, results) {
             if (err) {
-                handleError(err);
+                callback(err);
             }
 
             if (results.length === 0) {
@@ -77,15 +77,15 @@ var utils = {
 
                 client.createCollection(databaseLink, collectionDef, function (err, created) {
                     if (err) {
-                        handleError(err);
+                        callback(err);
                     }
 
                     console.log('Collection \'' + collectionId + '\'created');
-                    callback(created);
+                    callback(null, created);
                 });
             } else {
                 console.log('Collection \'' + collectionId + '\'found');
-                callback(results[0]);
+                callback(null, results[0]);
             }
         });
     }
