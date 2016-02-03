@@ -92,7 +92,7 @@ function useHashPartitionResolver(databaseLink, callback) {
                     //want to control this then use the executeNext method of the query iterator
                     //TODO: include sample of queryIterator.executeNext();
                     client.queryDocuments(databaseLink, querySpec).toArray(function (err, results) {
-                        console.log('Results when specifying a partition key: ' + results.length);
+                        console.log('Results when NOT specifying a partition key: ' + results.length);
                         
                         callback();
                     }); 
