@@ -4,6 +4,6 @@
   "description": "DocumentDB.Samples.ServerSideScripts",
   "main": "app.js",
   "dependencies": {
-    "documentdb": "^1.5.4"
+    "documentdb": "^1.5.5"
   }
 }
