@@ -40,6 +40,7 @@ var HashPartitionResolver = Base.defineClass(
         
         options = options || {};
         this.consistentHashRing = new ConsistentHashRing(collectionLinks, options);
+        this.collectionLinks = collectionLinks;
     }, {
         /**
          * Extracts the partition key from the specified document using the partitionKeyExtractor
@@ -56,7 +57,11 @@ var HashPartitionResolver = Base.defineClass(
          * @param {any} partitionKey - The partition key used to determine the target collection for query
          **/
         resolveForRead: function (partitionKey) {
-            return [this._resolve(partitionKey)];
+            if (partitionKey === undefined || partitionKey === null) {
+                return this.collectionLinks;
+            }
+
+            return [this._resolve(partitionKey)];            
         },
         /**
          * Given a partition key, returns the correct collection link for creating a document.
