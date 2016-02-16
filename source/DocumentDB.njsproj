@@ -36,9 +36,9 @@
     <Compile Include="lib\constants.js" />
     <Compile Include="lib\documentclient.js" />
     <Compile Include="lib\documents.js" />
-    <Compile Include="lib\Hash\consistentHashRing.js" />
-    <Compile Include="lib\Hash\hashPartitionResolver.js" />
-    <Compile Include="lib\Hash\murmurHash.js" />
+    <Compile Include="lib\hash\consistentHashRing.js" />
+    <Compile Include="lib\hash\hashPartitionResolver.js" />
+    <Compile Include="lib\hash\murmurHash.js" />
     <Compile Include="lib\index.js" />
     <Compile Include="lib\queryIterator.js" />
     <Compile Include="lib\range.js" />
@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
-    <Folder Include="lib\Hash\" />
+    <Folder Include="lib\hash\" />
     <Folder Include="test" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />

@@ -1480,7 +1480,7 @@ describe("NodeJS CRUD Tests", function() {
                                             assert.equal(err, undefined, "error creating collection");
 
                                             // Two included paths.
-                                            assert.equal(2, collectionWithIndexingPolicy.indexingPolicy.includedPaths.length, "Unexpected includedPaths length");
+                                            assert.equal(1, collectionWithIndexingPolicy.indexingPolicy.includedPaths.length, "Unexpected includedPaths length");
                                             // The first included path is what we created.
                                             assert.equal("/", collectionWithIndexingPolicy.indexingPolicy.includedPaths[0].path);
                                             assert(collectionWithIndexingPolicy.indexingPolicy.includedPaths[0].indexes.length > 1);  // Backend adds a default index
@@ -1513,22 +1513,15 @@ describe("NodeJS CRUD Tests", function() {
         var checkDefaultIndexingPolicyPaths = function (indexingPolicy) {
             // no excluded paths.
             assert.equal(0, indexingPolicy["excludedPaths"].length);
-            // included paths should be 2 "_ts" and "/".
-            assert.equal(2, indexingPolicy["includedPaths"].length);
+            // included paths should be 1 "/".
+            assert.equal(1, indexingPolicy["includedPaths"].length);
 
             var rootIncludedPath = null;
-            var tsIncludedPath = null;
-
-            for (var i = 0; i < 2; ++i) {
-                if (indexingPolicy["includedPaths"][i]["path"] == "/*") {
-                    rootIncludedPath = indexingPolicy["includedPaths"][i];
-                } else if (indexingPolicy["includedPaths"][i]["path"] == "/\"_ts\"/?") {
-                    tsIncludedPath = indexingPolicy["includedPaths"][i];
-                }
-            }
+			if (indexingPolicy["includedPaths"][0]["path"] == "/*") {
+				rootIncludedPath = indexingPolicy["includedPaths"][0];
+			}
 
             assert(rootIncludedPath);  // root path should exist.
-            assert(tsIncludedPath);  // ts path should exist.
 
             // In the root path, there should be one HashIndex for Strings, and one RangeIndex for Numbers.
             assert.equal(2, rootIncludedPath["indexes"].length);

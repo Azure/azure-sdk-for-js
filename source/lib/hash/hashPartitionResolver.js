@@ -30,8 +30,9 @@ var HashPartitionResolver = Base.defineClass(
     /**
      * HashPartitionResolver implements partitioning based on the value of a hash function, 
      * allowing you to evenly distribute requests and data across a number of partitions.
-     * @param {string or function} partitionKeyExtractor  - If partitionKeyExtractor is a string, it should be the name of the property in the document to execute the hashing on.
-     *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from any object.
+     * @class HashPartitionResolver
+     * @param {string | function} partitionKeyExtractor   - If partitionKeyExtractor is a string, it should be the name of the property in the document to execute the hashing on.
+     *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from an object.
      **/
     function (partitionKeyExtractor, collectionLinks, options) {
         HashPartitionResolver._throwIfInvalidPartitionKeyExtractor(partitionKeyExtractor);
@@ -44,8 +45,10 @@ var HashPartitionResolver = Base.defineClass(
     }, {
         /**
          * Extracts the partition key from the specified document using the partitionKeyExtractor
+         * @memberof HashPartitionResolver
+         * @instance
          * @param {object} document - The document from which to extract the partition key.
-         * @returns {} 
+         * @returns {object} 
          **/
         getPartitionKey: function (document) {
             return (typeof this.partitionKeyExtractor === "string")
@@ -54,6 +57,8 @@ var HashPartitionResolver = Base.defineClass(
         },
         /**
          * Given a partition key, returns a list of collection links to read from.
+         * @memberof HashPartitionResolver
+         * @instance
          * @param {any} partitionKey - The partition key used to determine the target collection for query
          **/
         resolveForRead: function (partitionKey) {
@@ -65,6 +70,8 @@ var HashPartitionResolver = Base.defineClass(
         },
         /**
          * Given a partition key, returns the correct collection link for creating a document.
+         * @memberof HashPartitionResolver
+         * @instance
          * @param {any} partitionKey - The partition key used to determine the target collection for create
          * @returns {string}         - The target collection link that will be used for document creation.
          **/
@@ -94,6 +101,7 @@ var HashPartitionResolver = Base.defineClass(
                 throw new Error("partitionKey must be a 'string'");
             }
         },
+        /** @ignore */
         _throwIfInvalidCollectionLinks: function (collectionLinks) {
             if (!Array.isArray(collectionLinks)) {
                 throw new Error("collectionLinks must be an array.");
