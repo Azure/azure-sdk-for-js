@@ -29,7 +29,7 @@ var Base = require("./base");
 var Range = Base.defineClass(
     /**
      * Represents a range object used by the RangePartitionResolver
-     * @constructor Range
+     * @class Range
      * @param {object} options                   - The Range constructor options.
      * @param {any} options.low                  - The low value in the range.
      * @param {any} options.high                 - The high value in the range.
@@ -60,8 +60,10 @@ var Range = Base.defineClass(
         Object.freeze(this);
     },
     {
-        /**
+        /** 
          * Compares two ranges
+         * @memberof Range
+         * @instance
          * @param {object} other - The input range to be compared with this range.
          * @returns {number}     - A negative value if this < other zero if this = other, or a positive value if this > other.
          **/
@@ -77,6 +79,8 @@ var Range = Base.defineClass(
 
         /**
          * Check for containment of the other range in this range
+         * @memberof Range
+         * @instance
          * @param {object} other - The key or range to be checked if in this range.
          * @returns {boolean}    - Returns true if the input is contained in this range; false otherwise.
          **/
@@ -91,6 +95,8 @@ var Range = Base.defineClass(
 
         /**
          * Checks if the other range intersects with this range.
+         * @memberof Range
+         * @instance
          * @param {object} other - The input range to be checked for intersection with this range.
          * @returns {boolean}    - Returns true if the two ranges intersect with each other; false otherwise.
          **/
@@ -108,6 +114,8 @@ var Range = Base.defineClass(
 
         /**
          * Converts the range to a string in the form of "low,high"
+         * @memberof Range
+         * @instance
          * @returns {string}    - Returns a string representation of the range.
          **/
         toString: function () {
@@ -194,9 +202,10 @@ var Range = Base.defineClass(
 var RangePartitionResolver = Base.defineClass(
     /**
      * RangePartitionResolver implements partitioning using a partition map of ranges of values to a collection link.
-     * @param {string or function} partitionKeyExtractor  - If partitionKeyExtractor is a string, it should be the name of the property in the document to execute the hashing on.
-     *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from any object.
-     * @param {Array} partitionKeyMap                     - The map from range to collection-link that is used for partitioning requests.
+     * @class RangePartitionResolver
+     * @param {string | function} partitionKeyExtractor   - If partitionKeyExtractor is a string, it should be the name of the property in the document to execute the hashing on.
+     *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from an object.
+     * @param {Array} partitionKeyMap                     - The map from Range to collection link that is used for partitioning requests.
      **/
     function(partitionKeyExtractor, partitionKeyMap) {
         if (partitionKeyExtractor === undefined || partitionKeyExtractor === null) {
@@ -237,6 +246,8 @@ var RangePartitionResolver = Base.defineClass(
     }, {
         /**
          * Extracts the partition key from the specified document using the partitionKeyExtractor
+         * @memberof RangePartitionResolver
+         * @instance
          * @param {object} document - The document from which to extract the partition key.
          * @returns {} 
          **/
@@ -252,6 +263,8 @@ var RangePartitionResolver = Base.defineClass(
         
         /**
          * Given a partition key, returns the correct collection link for creating a document using the range partition map.
+         * @memberof RangePartitionResolver
+         * @instance
          * @param {any} partitionKey - The partition key used to determine the target collection for create
          * @returns {string}         - The target collection link that will be used for document creation.
          **/
@@ -266,6 +279,8 @@ var RangePartitionResolver = Base.defineClass(
         
         /**
          * Given a partition key, returns a list of collection links to read from using the range partition map.
+         * @memberof RangePartitionResolver
+         * @instance
          * @param {any} partitionKey - The partition key used to determine the target collection for query
          * @returns {string[]}         - The list of target collection links.
          **/

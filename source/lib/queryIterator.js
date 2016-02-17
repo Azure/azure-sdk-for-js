@@ -30,7 +30,7 @@ var Base = require("./base")
 var QueryIterator = Base.defineClass(
     /**
     * Represents a QueryIterator Object, an implmenetation of feed or query response that enables traversal and iterating over the response.
-    * @constructor QueryIterator
+    * @class QueryIterator
     * @param {object} documentclient                - The documentclient object.
     * @param {SqlQuerySpec | string} query          - A SQL query.
     * @param {FeedOptions} options                  - Represents the feed options.
