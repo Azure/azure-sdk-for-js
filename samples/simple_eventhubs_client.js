@@ -10,7 +10,8 @@ var eventHubPath = '[Event Hub Path]';
 
 var sendEvent = function (eventBody) {
   return function (sender) {
-    sender.send(eventBody);
+    console.log('Sending Event: ' + eventBody);
+    return sender.send(eventBody);
   };
 };
 
@@ -29,13 +30,12 @@ var client = EventHubClient.fromConnectionString(connectionString, eventHubPath)
 client.open()
       .then(client.getPartitionIds.bind(client))
       .then(function (partitionIds) {
-        partitionIds.forEach(function (partitionId) {
-          client.createReceiver('$Default', partitionId).then(function(receiver) {
+        return partitionIds.map(function (partitionId) {
+          return client.createReceiver('$Default', partitionId).then(function(receiver) {
             receiver.on('errorReceived', printError);
             receiver.on('message', printEvent);
           });
         });
-        return Promise.resolve(partitionIds[0]);
       })
       .then(client.createSender.bind(client))
       .then(sendEvent('foo'))
