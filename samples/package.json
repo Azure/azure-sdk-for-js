@@ -1,0 +1,18 @@
+{
+  "name": "azure-eventhubs-samples",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Azure Event Hubs Node.js SDK Samples",
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "scripts": {
+    "lint": "jshint --show-non-errors .",
+    "test": "npm -s run lint"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.1"
+  },
+  "dependencies": {
+    "bluebird": "^3.3.1"
+  }
+}

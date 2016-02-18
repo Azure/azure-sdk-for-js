@@ -7,7 +7,7 @@
   "main": "./lib",
   "dependencies": {
     "amqp10": "2.1.2",
-    "azure-iot-common": "^1.0.0-preview.7",
+    "azure-iot-common": "^1.0.1",
     "bluebird": "^3.0.6",
     "uuid": "^2.0.1"
   },
@@ -18,7 +18,7 @@
     "mocha": "^2.3.4"
   },
   "engines": {
-    "node": "^4.2.2"
+    "node": "4.x.x || 5.x.x"
   },
   "repository": {
     "type": "git",
