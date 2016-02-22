@@ -1,4 +1,5 @@
 *.csproj
+*.njsproj
 generateDocs.cmd
 RunFunctionalTests.cmd
 runtests.cmd
