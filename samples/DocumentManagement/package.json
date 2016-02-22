@@ -4,7 +4,7 @@
   "description": "DocumentDB.Samples.DocumentManagement",
   "main": "app.js",
   "dependencies": {
-    "async": "^1.4.2",
-    "documentdb": "^1.5.4"
+    "async": "^1.5.2",
+    "documentdb": "^1.5.5"
   }
 }
