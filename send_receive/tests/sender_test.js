@@ -16,7 +16,7 @@ var ArgumentOutOfRangeError = require('../lib/errors.js').ArgumentOutOfRangeErro
 function receiveAnEvent(partitionId, msgId, done, cbErr) {
   var config = new ConnectionConfig(process.env.EVENTHUB_CONNECTION_STRING, process.env.EVENTHUB_PATH);
   var amqpClient = new amqp10.Client(amqp10.Policy.EventHub);
-  return amqpClient.connect(config.saslPlainUri())
+  return amqpClient.connect(config.saslPlainUri)
     .then(function () {
       var justBeforeNow = Date.now() - (1000 * 5); // 5 seconds ago
       var filterOptions = {

@@ -26,9 +26,8 @@ function EventHubClient(config) {
   ['host', 'path', 'keyName', 'key'].forEach(function (prop) {
     if (!config[prop]) throw makeError(prop);
   });
-  
-  this._uri = config.saslPlainUri();
-  this._eventHubPath = config.path;
+
+  this._config = config;
   this._amqp = new amqp10.Client(amqp10.Policy.EventHub);
   this._connectPromise = null;
 }
@@ -45,7 +44,7 @@ EventHubClient.fromConnectionString = function (connectionString, path) {
   if (!connectionString) {
     throw new ArgumentError('Missing argument connectionString');
   }
-  
+
   var config = new ConnectionConfig(connectionString, path);
   if (!config.path) {
     throw new ArgumentError('Connection string doesn\'t have EntityPath, or missing argument path');
@@ -62,10 +61,45 @@ EventHubClient.fromConnectionString = function (connectionString, path) {
  * @returns {Promise}
  */
 EventHubClient.prototype.open = function () {
+  var self = this;
   if (!this._connectPromise) {
-    this._connectPromise = this._amqp.connect(this._uri);
+    if (!this._config.isIotHub) {
+      this._connectPromise = this._amqp.connect(this._config.saslPlainUri);
+    } else {
+      this._connectPromise = new Promise(function (resolve, reject) {
+        self._amqp.connect(self._config.saslPlainUri)
+          .then(function () {
+            var rxOptions = { attach: { target: { address: 'rx-name' } } };
+            return self._amqp.createReceiver(self._config.path, rxOptions);
+          })
+          .then(function (receiver) {
+            receiver.on('errorReceived', function (rx_err) {
+              if (rx_err.condition.contents === 'amqp:link:redirect') {
+                var res = rx_err.errorInfo.address.match('amqps://([^/]*)/([^/]*)');
+                self._config.path = res[2];
+                self._config.saslPlainUri = 'amqps://' +
+                            encodeURIComponent(self._config.keyName) + ':' +
+                            encodeURIComponent(self._config.key) + '@' +
+                            rx_err.errorInfo.hostname;
+                self._amqp.disconnect()
+                  .then(function () {
+                    self._amqp = new amqp10.Client(amqp10.Policy.EventHub);
+                    return self._amqp.connect(self._config.saslPlainUri);
+                  })
+                  .then(function () {
+                    resolve();
+                  });
+              }
+              else {
+                reject(new Error('error receiving reply from Event Hub management endpoint: ' + rx_err.description));
+              }
+            });
+            receiver.on('attach', resolve);
+          });
+      });
+    }
   }
-  
+
   return this._connectPromise;
 };
 
@@ -101,7 +135,7 @@ EventHubClient.prototype.getPartitionIds = function () {
       },
       applicationProperties: {
         operation: "READ",
-        name: this._eventHubPath,
+        name: this._config.path,
         type: "com.microsoft:eventhub"
       }
     };
@@ -109,7 +143,7 @@ EventHubClient.prototype.getPartitionIds = function () {
     var rxopt = { attach: { target: { address: replyTo } } };
 
     this.open()
-      .then(function () {    
+      .then(function () {
         return Promise.all([
           this._amqp.createReceiver(endpoint, rxopt),
           this._amqp.createSender(endpoint)
@@ -154,7 +188,7 @@ EventHubClient.prototype.createReceiver = function createReceiver(consumerGroup,
   var self = this;
   return this.open()
     .then(function () {
-      var endpoint = '/' + self._eventHubPath +
+      var endpoint = '/' + self._config.path +
         '/ConsumerGroups/' + consumerGroup +
         '/Partitions/' + partitionId;
       var filter = null;
@@ -199,7 +233,7 @@ EventHubClient.prototype.createSender = function createSender(partitionId) {
   var self = this;
   return this.open()
     .then(function () {
-      var endpoint = '/' + self._eventHubPath;
+      var endpoint = '/' + self._config.path;
       if (partitionId) {
         endpoint += '/Partitions/' + partitionId;
       }

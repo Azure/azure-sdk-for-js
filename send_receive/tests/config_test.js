@@ -9,33 +9,27 @@ chai.should();
 var ConnectionConfig = require('../lib/config.js');
 
 describe('ConnectionConfig', function () {
-  it('populates host from the connection string\'s Endpoint', function () {
-    var config = new ConnectionConfig('Endpoint=sb://abc');
-    config.should.have.property('host')
-      .that.equals('abc');
+  it('populates config properties from an Event Hubs connection string', function () {
+    var config = new ConnectionConfig('Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep');
+    config.should.have.property('host').that.equals('hostname.servicebus.windows.net');
+    config.should.have.property('keyName').that.equals('sakName');
+    config.should.have.property('key').that.equals('sak');
+    config.should.have.property('path').that.equals('ep');
+    config.should.have.property('saslPlainUri');
   });
-  
-  it('populates keyName from the connection string\'s SharedAccessKeyName', function () {
-    var config = new ConnectionConfig('SharedAccessKeyName=abc');
-    config.should.have.property('keyName')
-      .that.equals('abc');
-  });
-  
-  it('populates key from the connection string\'s SharedAccessKey', function () {
-    var config = new ConnectionConfig('SharedAccessKey=abc');
-    config.should.have.property('key')
-      .that.equals('abc');
-  });
-  
-  it('populates path from the connection string\'s EntityPath', function () {
-    var config = new ConnectionConfig('EntityPath=abc');
-    config.should.have.property('path')
-      .that.equals('abc');
+
+  it('populates config properties from an IoT Hub connection string', function () {
+    var config = new ConnectionConfig('HostName=hostname.azure-devices.net;SharedAccessKeyName=sakName;SharedAccessKey=sak');
+    config.should.have.property('host').that.equals('hostname.azure-devices.net');
+    config.should.have.property('keyName').that.equals('sakName');
+    config.should.have.property('key').that.equals('sak');
+    config.should.have.property('path').that.equals('messages/events/');
+    config.should.have.property('sharedAccessSignature');
+    config.should.have.property('saslPlainUri');
   });
 
   it('populates path from the path argument if connection string doesn\'t have EntityPath', function () {
     var config = new ConnectionConfig('', 'abc');
-    config.should.have.property('path')
-      .that.equals('abc');
+    config.should.have.property('path').that.equals('abc');
   });
 });

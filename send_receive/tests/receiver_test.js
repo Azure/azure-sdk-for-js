@@ -17,7 +17,7 @@ var ArgumentOutOfRangeError = require('../lib/errors.js').ArgumentOutOfRangeErro
 function sendAnEvent(partitionId, msgId, cbErr) {
   var config = new ConnectionConfig(process.env.EVENTHUB_CONNECTION_STRING, process.env.EVENTHUB_PATH);
   var amqpClient = new amqp10.Client(amqp10.Policy.EventHub);
-  return amqpClient.connect(config.saslPlainUri())
+  return amqpClient.connect(config.saslPlainUri)
     .then(function () {
       return amqpClient.createSender(config.path + '/Partitions/' + partitionId);
     })
@@ -51,7 +51,7 @@ describe('EventHubReceiver', function () {
           });
         });
     });
-  
+
     it('fires with ArgumentOutOfRangeError when the partition ID doesn\'t exist', function (done) {
       client.createReceiver('$Default', 'bad')
         .then(function (receiver) {
