@@ -15,8 +15,7 @@ var DocumentDBClient = require('documentdb').DocumentClient
   , utils = require('../Shared/utils')
   , databaseId = config.names.database
   , collectionId = config.names.collection
-  , dbLink
-  , collLink;
+  , databaseLink;
 
 var host = config.connection.endpoint;
 var masterKey = config.connection.authKey;
@@ -39,13 +38,18 @@ var client = new DocumentDBClient(host, { masterKey: masterKey });
 //ensuring a database & collection exists for us to work with
 init(function (err) {
     if (!err) {
-        useHashPartitionResolver(databaseLink, function () {
-            useRangePartitionResolver(databaseLink, function () {
-                useCustomPartitionResolver(databaseLink, function () {
+        useHashPartitionResolver(databaseLink, function (err) {
+
+            useRangePartitionResolver(databaseLink, function (err) {
+
+                useCustomPartitionResolver(databaseLink, function (err) {
                     finish();
                 });
             });
-        });        
+        });
+          
+    } else {
+        handleError(err);
     }
 });
 
@@ -80,22 +84,25 @@ function useHashPartitionResolver(databaseLink, callback) {
                     query: 'SELECT * FROM c WHERE NOT IS_DEFINED(c.children)'
                 }
                 
-                //there will be only 1 document returned here, this is because only 1 family in the WA partition has no children
+                //there will be only 1 document (KinDocument) returned here, this is because only 1 family (the Kin family) in the WA partition has no children defined
+                //we took the query supplied, and executed it against a single collection (or partition)
                 client.queryDocuments(databaseLink, querySpec, { partitionKey: 'WA' }).toArray(function (err, results) {
-                    console.log('Results when specifying a partition key: ' + results.length);
-                    
+                    console.log("\nQuerying with partition key: WA produces " + results.length + " result(s)");
+                    console.log("Found " + results[0].id);
+
                     //here we are doing the same query but this time we're not supplying the partitionkey
                     //this will effectively do a fan-out query. we will hit the first collection, drain it of results
-                    //and then hit each collection defined in the resolver until we've touched them all.
-                    //the .toArray() is doing this implictly internally. 
+                    //and then, in-turn, hit each collection defined in the resolver until we've touched them all.
+                    //the .toArray() method will do this implictly internally. 
                     //if you would like to not have the driver implicitly walk each collection and you 
                     //want to control this then use the executeNext method of the query iterator
-                    //TODO: include sample of queryIterator.executeNext();
-                    client.queryDocuments(databaseLink, querySpec).toArray(function (err, results) {
-                        console.log('Results when NOT specifying a partition key: ' + results.length);
-                        
-                        callback();
-                    }); 
+                    console.log('\nQuerying without a partition key');
+                    
+                    var iterator = client.queryDocuments(databaseLink, querySpec );
+                    executeNext(iterator, function () {
+                        console.log('\nuseHashPartitionResolver done');
+                        callback(null);                        
+                    });
                 });                
             });                     
         });       
@@ -103,16 +110,40 @@ function useHashPartitionResolver(databaseLink, callback) {
 }    
 
 function useRangePartitionResolver(databaseLink, callback) {
+    console.log('\nuseRangePartitionResolver done');
     callback();
 }
 
 function useCustomPartitionResolver(databaseLink, callback) {
+    console.log('\nuseCustomPartitionResolver done');
     callback();
+}
+
+function executeNext(iterator, callback) {
+    iterator.executeNext(function (err, results, responseHeaders) {
+        async.each(
+            results, 
+            
+            function i(result, cb) {
+                console.log("Found " + result.id);
+                cb();
+            }
+        );
+        
+        if (iterator.hasMoreResults()) {
+            executeNext(iterator, callback)
+        }
+        else {
+            callback(null);
+        }
+    });
 }
 
 function insertDocuments(databaseLink, callback) {
     var createdList = [];
     
+    console.log('\nCreating documents');
+
     async.each(
         documentDefinitions(), 
         
@@ -130,7 +161,7 @@ function insertDocuments(databaseLink, callback) {
         },
 
         function (err) {
-            console.log('iterating done ' + createdList.length);
+            console.log('Creating done ' + createdList.length);
             callback(createdList);
         }
     );
@@ -138,18 +169,19 @@ function insertDocuments(databaseLink, callback) {
 
 function init(callback){
     utils.getOrCreateDatabase(client, databaseId, function (err, db) {
-        if (!err) {
+        if (err) {
+            return callback(err);
+
+        } else {
             databaseLink = 'dbs/' + databaseId;
-            callback();
+            callback();            
         }
     });
 }
 
 function handleError(error){
     console.log('\nAn error with code \'' + error.code + '\' has occurred:');
-    console.log('\t' + JSON.parse(error.body).message);
-    
-    finish();
+    console.log('\t' + error.message);
 }
 
 function finish() {
