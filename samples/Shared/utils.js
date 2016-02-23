@@ -4,7 +4,7 @@ var utils = {
             if (err) {
                 callback(err);
             } else {
-                console.log('Database \'' + databaseLink + '\'deleted');
+                console.log('\nDatabase \'' + databaseLink + '\'deleted');
                 callback();
             }
         });
@@ -15,7 +15,7 @@ var utils = {
             if (err) {
                 callback(err);
             } else {
-                console.log('Collection \'' + collectionLink + '\'deleted');
+                console.log('\nCollection \'' + collectionLink + '\'deleted');
                 callback();
             }
         });
@@ -33,23 +33,23 @@ var utils = {
         };
         client.queryDatabases(querySpec).toArray(function (err, results) {
             if (err) {
-                callback(err);
+                return callback(err);
             }
-        
+                
             if (results.length === 0) {
-                console.log('Database \'' + databaseId + '\'not found');
+                console.log('\nDatabase \'' + databaseId + '\'not found');
                 var databaseDef = { id: databaseId };
 
                 client.createDatabase(databaseDef, function (err, created) {
                     if (err) {
-                        handleError(err);
+                        return callback(err);
                     }
-                
+                    
                     console.log('Database \'' + databaseId + '\'created');
                     callback(null, created);
                 });
             } else {
-                console.log('Database \'' + databaseId + '\'found');
+                console.log('\nDatabase \'' + databaseId + '\'found');
                 callback(null, results[0]);
             }
         });
@@ -72,7 +72,7 @@ var utils = {
             }
 
             if (results.length === 0) {
-                console.log('Collection \'' + collectionId + '\'not found');
+                console.log('\nCollection \'' + collectionId + '\'not found');
                 var collectionDef = { id: collectionId };
 
                 client.createCollection(databaseLink, collectionDef, function (err, created) {
@@ -84,7 +84,7 @@ var utils = {
                     callback(null, created);
                 });
             } else {
-                console.log('Collection \'' + collectionId + '\'found');
+                console.log('\nCollection \'' + collectionId + '\'found');
                 callback(null, results[0]);
             }
         });
