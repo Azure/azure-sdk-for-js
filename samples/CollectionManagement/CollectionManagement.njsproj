@@ -31,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
-    <Compile Include="utils.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>
