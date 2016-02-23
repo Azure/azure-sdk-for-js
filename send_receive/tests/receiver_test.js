@@ -10,6 +10,7 @@ var uuid = require('uuid');
 var amqp10 = require('amqp10');
 var ConnectionConfig = require('../lib/config.js');
 
+var EventData = require('../lib/eventdata.js');
 var EventHubClient = require('../lib/client.js');
 var MessagingEntityNotFoundError = require('../lib/errors.js').MessagingEntityNotFoundError;
 var ArgumentOutOfRangeError = require('../lib/errors.js').ArgumentOutOfRangeError;
@@ -71,6 +72,7 @@ describe('EventHubReceiver', function () {
           var id = uuid.v4();
           receiver.on('errorReceived', done);
           receiver.on('message', function (message) {
+            message.should.be.instanceOf(EventData);
             if (message.body && message.body.testId === id) done();
           });
           sendAnEvent('0', id, done);
