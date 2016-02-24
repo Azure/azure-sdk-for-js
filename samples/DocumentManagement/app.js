@@ -31,15 +31,20 @@ var client = new DocumentDBClient( host, { masterKey: masterKey });
 //ensure that the URI does not end with a trailing '/' character
 //so dbs/databaseId instead of dbs/databaseId/
 
-//-----------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
 // This demo performs a few steps
 // 1. createDocuments   - Insert some documents in to collection
 // 2. listDocuments     - Read the document feed for a collection
-// 3. readDocument      - Read a single document by its id
-// 4. queryDocuments     - Query for documents by some property
-// 5. replaceDocument   - Update some properties and replace the document
-// 6. deleteDocument    - Given a document id, delete it
-//------------------------------------------------------------------------------------------
+// 3. readDocument      
+// 3.1                  - Read a single document by its id
+// 3.2                  - Use ETag and AccessCondition to only return a document if ETag does not match
+// 4. queryDocuments    - Query for documents by some property
+// 5. replaceDocument   
+// 5.1                  - Update some properties and replace the document
+// 5.2                  - Use ETag and AccessCondition to only replace document if it has not changed
+// 6. upsertDocument    - Update a document if it exists, else create new document
+// 7. deleteDocument    - Given a document id, delete it
+//-------------------------------------------------------------------------------------------------------
 
 //ensuring a database & collection exists for us to work with
 init(function (err) {
@@ -62,78 +67,123 @@ init(function (err) {
                     console.log(docs[i].id);
                 }
                 
-                //3.
+                //3.1
                 var docId = docs[0].id;
                 var docLink = collLink + '/docs/' + docId;
-                console.log('\n3. readDocument \'' + docLink + '\'');
+
+                console.log('\n3.1 readDocument \'' + docLink + '\'');
                 readDocument(docLink, function (doc) {
+                    var readDoc = doc;
                     console.log('Document with id \'' + docId + '\' returned a doc with _self of \'' + doc._self + '\'');
                     
-                    var querySpec = {
-                        query: 'SELECT * FROM Families f WHERE  f.lastName = @lastName',
-                        parameters: [
-                            {
-                                name: '@lastName',
-                                value: 'Andersen'
-                            }
-                        ]
-                    };
-                    
-                    //4.
-                    console.log('\n4. queryDocuments in collection \'' + collLink + '\'');
-                    client.queryDocuments(collLink, querySpec).toArray(function (err, results) {
-                        if (err) {
-                            handleError(err);
-
-                        } else if (results.length == 0) {
-                            throw ("No documents found matching");
-
-                        } else if (results.length > 1) {
-                            throw ("More than 1 document found matching");
-
-                        } else {
-                            var doc = results[0];
-                            console.log('The \'' + doc.id + '\' family has lastName \'' + doc.lastName + '\'');
-                            console.log('The \'' + doc.id + '\' family has ' + doc.children.length + ' children \'');
-                            
-                            docLink = 'dbs/' + databaseId + '/colls/' + collectionId + '/docs/' + doc.id;
-                            
-                            //add a new child to this family, and change the family's lastName
-                            var childDef = {
-                                "firstName": "Newborn",
-                                "gender": "unknown",
-                                "fingers": 10,
-                                "toes": 10
-                            };
-                            
-                            doc.children.push(childDef);
-                            doc.lastName = "Updated Family";
-                            
-                            //5.
-                            console.log('\n5. replaceDocument with id \'' + docLink + '\'');
-                            client.replaceDocument(docLink, doc, function (err, updated) {
-                                if (err) {
-                                    handleError(err);
-                                } else {
-                                    console.log('The \'' + doc.id + '\' family has lastName \'' + doc.lastName + '\'');
-                                    console.log('The \'' + doc.id + '\' family has ' + doc.children.length + ' children \'');
-                                    
-                                    //6.
-                                    console.log('\n6. deleteDocument \'' + docLink + '\'');
-                                    client.deleteDocument(docLink, function (err) {
-                                        if (err) {
-                                            handleError(err);
-                                        } else {
-                                            console.log('Document deleted');
-                                            
-                                            //cleanup & end
-                                            console.log('\nCleaning up ...');
-                                            finish();
-                                        }
-                                    });
-                                }
-                            });
+                    //3.2                    
+                    var docLink = collLink + '/docs/' + doc.id;                    
+                    console.log('\n3.2 readDocument with AccessCondition and no change to _etag');
+                    client.readDocument(docLink, { accessCondition : { type: 'IfNoneMatch', condition: doc._etag } }, function (err, doc, headers) {                        
+                        if (!doc && headers["content-length"] == 0) {
+                            console.log('As expected, no document returned. This is because the etag sent matched the etag on the server. i.e. you have the latest version of the doc already');
                         }
+                        
+                        //if we someone else updates this doc, its etag on the server would change.
+                        //repeating the above read with the old etag would then get a document in the response                        
+                        readDoc.foo = 'bar';
+                        client.replaceDocument(docLink, readDoc, function (err, updated, headers) {
+                            client.readDocument(docLink, { accessCondition : { type: 'IfNoneMatch', condition: readDoc._etag } }, function (err, doc, headers) { 
+                                if (!doc && headers["content-length"] == 0) {
+                                    throw ('Expected document this time. Something is wrong!');
+                                } else {
+                                    console.log('This time the read request returned the document because the etag values did not match');
+                                }
+                                                                
+                                //4.
+                                var querySpec = {
+                                    query: 'SELECT * FROM Families f WHERE  f.lastName = @lastName',
+                                    parameters: [
+                                        {
+                                            name: '@lastName',
+                                            value: 'Andersen'
+                                        }
+                                    ]
+                                };
+                                
+                                console.log('\n4. queryDocuments in collection \'' + collLink + '\'');
+                                client.queryDocuments(collLink, querySpec).toArray(function (err, results) {
+                                    if (err) {
+                                        handleError(err);
+
+                                    } else if (results.length == 0) {
+                                        throw ("No documents found matching");
+
+                                    } else if (results.length > 1) {
+                                        throw ("More than 1 document found matching");
+
+                                    } else {
+                                        var doc = results[0];
+                                        console.log('The \'' + doc.id + '\' family has lastName \'' + doc.lastName + '\'');
+                                        console.log('The \'' + doc.id + '\' family has ' + doc.children.length + ' children \'');
+                                        
+                                        docLink = 'dbs/' + databaseId + '/colls/' + collectionId + '/docs/' + doc.id;
+                                        
+                                        //add a new child to this family, and change the family's lastName
+                                        var childDef = {
+                                            "firstName": "Newborn",
+                                            "gender": "unknown",
+                                            "fingers": 10,
+                                            "toes": 10
+                                        };
+                                        
+                                        doc.children.push(childDef);
+                                        doc.lastName = "Updated Family";
+                                        
+                                        //5.1
+                                        console.log('\n5.1 replaceDocument with id \'' + docLink + '\'');
+                                        client.replaceDocument(docLink, doc, function (err, updated) {
+                                            if (err) {
+                                                handleError(err);
+                                            } else {
+                                                console.log('The \'' + doc.id + '\' family has lastName \'' + doc.lastName + '\'');
+                                                console.log('The \'' + doc.id + '\' family has ' + doc.children.length + ' children \'');
+                                                
+                                                //5.2
+                                                console.log('\n5.2 trying to replaceDocument when document has changed in the database');
+                                                //The replaceDocument above will work even if there's a new version of doc on the server from what you originally read
+                                                //If you want to prevent this from happening you can opt-in to a conditional update
+                                                //Using accessCondition and etag you can specify that the replace only occurs if the etag you are sending matches the etag on the server
+                                                //i.e. Only replace if the document hasn't changed
+                                                
+                                                //let's go update doc
+                                                doc.foo = 'bar';
+                                                client.replaceDocument(docLink, doc, function (err, updated) {
+                                                    //now let's try another update to doc with accessCondition and etag set
+                                                    doc.foo = 'should never get set';
+                                                    client.replaceDocument(docLink, doc, { accessCondition : { type: 'IfMatch', condition: doc._etag } }, function (err, updated) {
+                                                        if (!err) {
+                                                            throw ('That was not meant to succeed. Something went wrong.');
+                                                        } else if (err.code == 412) {
+                                                            console.log('As expected, the replace document failed with a pre-condition failure');
+                                                        }
+
+                                                        //6.
+                                                        console.log('\n6. deleteDocument \'' + docLink + '\'');
+                                                        client.deleteDocument(docLink, function (err) {
+                                                            if (err) {
+                                                                handleError(err);
+                                                            } else {
+                                                                console.log('Document deleted');
+                                                                
+                                                                //cleanup & end
+                                                                console.log('\nCleaning up ...');
+                                                                finish();
+                                                            }
+                                                        });
+                                                    });
+                                                });
+                                            }
+                                        });
+                                    }
+                                })                                                                                                 
+                            });
+                        });
                     });
                 });
             });
@@ -189,7 +239,7 @@ function listDocuments(collLink, callback) {
 }
 
 function readDocument(docLink, callback) {
-    client.readDocument(docLink, function (err, doc) {
+    client.readDocument(docLink, function (err, doc, headers) {
         if (err) {
             handleError(err);
         
