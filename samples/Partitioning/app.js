@@ -9,6 +9,7 @@ console.log();
 var DocumentDBClient = require('documentdb').DocumentClient
   , HashPartitionResolver = require('documentdb').HashPartitionResolver
   , RangePartitionResolver = require('documentdb').RangePartitionResolver
+  , Range = require("documentdb").Range
   , fs = require('fs')
   , async = require('async')
   , config = require('../Shared/config')
@@ -37,12 +38,12 @@ var client = new DocumentDBClient(host, { masterKey: masterKey });
 // please take note of this before running this sample
 //*****************************************************************************************************
 
-//-------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------
 // This demo performs a few steps
 // 1. HashPartitionResolver     - distribute writes across two collections using partition key
 // 2  RangePartitionResolver    - uses a range map object to control which partition is used
 // 3. CustomResolver            - shows how to use custom functions instead of using the provided resolvers
-//-------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
 
 init(function (err) {
     if (!err) {
@@ -73,7 +74,7 @@ init(function (err) {
 function useHashPartitionResolver(databaseLink, callback) {        
     //create two collections to partition data across
     var collectionIds = ["HashBucket0", "HashBucket1"];
-    createCollections(collectionIds, function (colls) {
+    getOrCreateCollections(collectionIds, function (colls) {
         var coll1Link = databaseLink + '/colls/' + colls[0];
         var coll2Link = databaseLink + '/colls/' + colls[1];
         
@@ -123,7 +124,127 @@ function useHashPartitionResolver(databaseLink, callback) {
 }
 
 function useRangePartitionResolver(databaseLink, callback) {
-    callback();
+    //This method shows how to use the RangePartitionResolver that has been provided
+    //We will create two collections,
+    //And use a Range to define that users A-M go to collection 1 and N-Z go to collection 2
+    
+    //create two collections to partition data across
+    var collectionIds = ["Range1", "Range2"];
+    getOrCreateCollections(collectionIds, function (colls) {
+        var coll1Link = databaseLink + '/colls/' + collectionIds[0];
+        var coll2Link = databaseLink + '/colls/' + collectionIds[1];
+        
+        //set-up a map of ranges where,
+        //A-M goes to first collection and
+        //N-Z goes to the second collection
+        // Note: \u041f is the largest UTF8 value, so Z\u041f includes all strings that start with Z.
+        var resolver = new RangePartitionResolver( 
+            function (doc) { return doc.name; }, 
+            [ 
+                { range: new Range({ low: 'A', high: 'M' + '\u041f' }), link: coll1Link }, 
+                { range: new Range({ low: 'N', high: 'Z' + '\u041f' }), link: coll2Link }
+            ]
+        );
+        
+        var documents = [
+            { "name": "Ryan" },
+            { "name": "Mary" },
+            { "name": "Nevil" },
+            { "name": "Bruce" },
+            { "name": "Joe" }
+        ];
+        
+        for (i = 0; i < documents.length; i++){
+            collection_link = resolver.resolveForCreate(resolver.getPartitionKey(documents[i]));
+            console.log(collection_link);
+        }
+
+        var collection_link = resolver.resolveForCreate("Adams");
+        console.log(collection_link);
+        
+        var collection_link = resolver.resolveForCreate("Zoolander");
+        console.log(collection_link);
+                
+        var read_collection_links = resolver.resolveForRead(new Range({ low: "Douglas", high: "Quinton" }));
+        console.log(read_collection_links);
+        
+        //register this resolver on our DocumentClient
+        client.partitionResolvers[databaseLink] = resolver;
+        
+        //now go create some documents
+        insertDocuments(documents, function (docs, err) {
+            var querySpec = {
+                query: 'SELECT * FROM root'
+            }
+            
+            //there will be a number of documents returned here, all should have a key field between A & M because that's the value i passed in for partitionKey in the query
+            //and we know that anything with A-M went to the same partition
+            //there should be nothing with a key of N-Z though
+            var options = { partitionKey: 'A' };
+            client.queryDocuments(databaseLink, querySpec, options).toArray(function (err, results) {
+                console.log("\nQuerying with partition key: A produces " + results.length + " result(s)");
+                
+                for (var i = 0; i < results.length; i++) {
+                    console.log("Found " + results[i].name);    
+                };
+                
+                //you can also use Numbers in the range
+                //when you do this you need to provide a compare function as the 3rd parameter to RangePartitionResolver
+                var resolver = new RangePartitionResolver(
+                    function (doc) { return doc.val; }, 
+                    [ 
+                        { range: new Range({ low: 0, high: 500 }), link: coll1Link }, 
+                        { range: new Range({ low: 501, high: 1000}), link: coll2Link }
+                    ], 
+                    function (a, b) { return a - b; }
+                );
+                
+                var collection_link = resolver.resolveForCreate(500);
+                console.log(collection_link);
+                
+                //resolve for read on a single point, should resolve to just one range on the resolver
+                var read_collection_links = resolver.resolveForRead(500);
+                console.log(read_collection_links);
+
+                //here we define a range to read, this range happens to include both of the ranges we defined on the resolver, so both collections should get read.
+                var read_collection_links = resolver.resolveForRead(new Range({ low: 400, high: 600 }));
+                console.log(read_collection_links);   
+                
+                //register this new resolver
+                client.partitionResolvers[databaseLink] = resolver;
+
+                //let's go insert some documents
+                var count = 0;
+                var documents = [];
+                
+                do {
+                    var rand = Math.floor(Math.random() * 1000);
+                    documents.push({ val: rand });
+                    count++;
+                } while(count < 25);
+                
+                insertDocuments(documents, function (docs, err) {
+                    var querySpec = {
+                        query: 'SELECT * FROM root r WHERE IS_DEFINED(r.val)'
+                    }
+                    
+                    //there will be a number of documents returned here, all should have a val field between 0 & 500 because that's the value i passed in for partitionKey in the query
+                    //and we know that anything with 0-500 went to the same partition
+                    //there should be nothing with a val > 500 returned because those are all in the other partition!
+                    //if we don't know the partition key at query time, leave it out, but then the query will be executed on all collections
+                    var options = { partitionKey: 500 };
+                    client.queryDocuments(databaseLink, querySpec, { partitionKey: 100 }).toArray(function (err, results) {
+                        console.log("\nQuerying with partition key: 500 produces " + results.length + " result(s)");
+                        for (var i = 0; i < results.length; i++) {
+                            console.log("Found " + results[i].val);    
+                        };
+                        
+                        callback();
+                    });
+                });
+            });
+        });
+    });
 }
 
 function useCustomPartitionResolver(databaseLink, callback) {
@@ -136,8 +257,7 @@ function useCustomPartitionResolver(databaseLink, callback) {
     
     //Create collections, one per day of the week in this case
     var collectionIds = ["mon", "tues", "wed", "thurs", "fri", "sat", "sun"];
-    createCollections(collectionIds, function (colls, err) {
-        
+    getOrCreateCollections(collectionIds, function (colls, err) {        
         //Define a custom object that provides implementations for getPartitionKey(), resolveForCreate() and resolveForRead()
         var resolver = {
             getPartitionKey: function (document) {
@@ -235,7 +355,7 @@ function executeNext(iterator, callback) {
     });
 }
 
-function createCollections(collectionIds, callback){
+function getOrCreateCollections(collectionIds, callback){
     var createdList = [];
     
     console.log('\nCreating collections');
@@ -243,13 +363,13 @@ function createCollections(collectionIds, callback){
     async.each(
         collectionIds, 
         
-        function iterator(collectionId, cb) {            
-            client.createCollection(databaseLink, { id: collectionId }, function (err, created, headers) {
+        function iterator(collectionId, cb) {
+            client.createCollection(databaseLink, {id: collectionId}, function (err, document, headers) {
                 if (err) {
                     if (err.code == 429) {
                         var wait = headers["x-ms-retry-after-ms"] || 1000;
                         
-                        setTimeout(function () { iterator(collectionId, cb)}, wait);
+                        setTimeout(function () { iterator(collectionId, cb) }, wait);
                     } else {
                         console.log(err);
                     }
@@ -277,12 +397,12 @@ function insertDocuments(documentDefinitions, callback) {
         documentDefinitions, 
         
         function iterator(documentDefinition, cb) {
-            client.createDocument(databaseLink, documentDefinition, function (err, document) {
+            client.createDocument(databaseLink, documentDefinition, function (err, document, headers) {
                 if (err) {
                     if (err.code == 429) {
                         var wait = headers["x-ms-retry-after-ms"] || 1000;
                                                 
-                        setTimeout(function () { iterator(collectionId, cb) }, wait);
+                        setTimeout(function () { iterator(documentDefinition, cb) }, wait);
                     } else {
                         console.log(err);
                     }
