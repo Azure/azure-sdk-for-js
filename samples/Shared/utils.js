@@ -75,13 +75,13 @@ var utils = {
                 console.log('\nCollection \'' + collectionId + '\'not found');
                 var collectionDef = { id: collectionId };
 
-                client.createCollection(databaseLink, collectionDef, function (err, created) {
+                client.createCollection(databaseLink, collectionDef, function (err, created, headers) {
                     if (err) {
                         callback(err);
+                    } else {
+                        console.log('Collection \'' + collectionId + '\'created');
+                        callback(null, created);
                     }
-
-                    console.log('Collection \'' + collectionId + '\'created');
-                    callback(null, created);
                 });
             } else {
                 console.log('\nCollection \'' + collectionId + '\'found');
