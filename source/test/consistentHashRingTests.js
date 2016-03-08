@@ -24,7 +24,7 @@ SOFTWARE.
 "use strict";
 
 var assert = require("assert");
-var ConsistentHashRing = require("../lib/Hash/consistentHashRing").ConsistentHashRing;
+var ConsistentHashRing = require("../lib/hash/consistentHashRing").ConsistentHashRing;
 
 describe("ConsistentHashRing new()", function () {
     it("valid arguments does not throw", function () {

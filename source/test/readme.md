@@ -1,6 +1,6 @@
 Follow these instructions to run the tests locally.
 
-##Prerequisites
+## Prerequisites
 
 1. Clone Azure/azure-documentdb-node repository
 Please clone the source and tests from [https://github.com/Azure/azure-documentdb-node](https://github.com/Azure/azure-documentdb-node)
@@ -11,7 +11,7 @@ Please clone the source and tests from [https://github.com/Azure/azure-documentd
 3. Install mocha package globally
 > npm install -g mocha
 
-##Running the tests
+## Running the tests
 Using your command-line tool, from the root of your local copy of azure-documentdb-node repository: 
 If you are contributing changes and submitting PR then you need to ensure that you run the tests against your local copy of the source, and not the published npm package. 
 

@@ -33,7 +33,6 @@ var Range = Base.defineClass(
      * @param {object} options                   - The Range constructor options.
      * @param {any} options.low                  - The low value in the range.
      * @param {any} options.high                 - The high value in the range.
-     * @param {function} options.compareFunction - Optional function that accepts two arguments x and y and returns a negative value if x < y, zero if x = y, or a positive value if x > y.
      **/
     function(options) {
         if (options === undefined) {
@@ -50,80 +49,11 @@ var Range = Base.defineClass(
         }
         this.low = options.low;
         this.high = options.high;
-        this.compareFunction = options.compareFunction;
-        if (this.compareFunction !== undefined && typeof this.compareFunction !== "function") {
-            throw new Error("Invalid argument: 'options.compareFunction' is not a function");
-        }
-        if (this._compare(this.low, this.high) > 0) {
-            throw new Error("Invalid argument: 'options.low' must be less than or equal than 'options.high'");
-        }
         Object.freeze(this);
     },
     {
-        /** 
-         * Compares two ranges
-         * @memberof Range
-         * @instance
-         * @param {object} other - The input range to be compared with this range.
-         * @returns {number}     - A negative value if this < other zero if this = other, or a positive value if this > other.
-         **/
-        compareTo: function(other) {
-            if (this._compare(this.low, other.low) === 0 && this._compare(this.high, other.high) === 0) {
-                return 0;
-            }
-            if (this._compare(this.low, other.low) < 0 || this._compare(this.high, other.high) < 0) {
-                return -1;
-            }
-            return 1;
-        },
-
-        /**
-         * Check for containment of the other range in this range
-         * @memberof Range
-         * @instance
-         * @param {object} other - The key or range to be checked if in this range.
-         * @returns {boolean}    - Returns true if the input is contained in this range; false otherwise.
-         **/
-        contains: function (other) {
-            if (Range._isRange(other)) {
-                return this._containsRange(other);
-            }
-            else {
-                return this._containsPoint(other);
-            }
-        },
-
-        /**
-         * Checks if the other range intersects with this range.
-         * @memberof Range
-         * @instance
-         * @param {object} other - The input range to be checked for intersection with this range.
-         * @returns {boolean}    - Returns true if the two ranges intersect with each other; false otherwise.
-         **/
-        intersect: function (other) {
-            if (other === undefined || other === null) {
-                throw new Error("Invalid Argument: 'other' is undefined or null");
-            }
-            var maxLow = this._compare(this.low, other.low) >= 0 ? this.low : other.low;
-            var minHigh = this._compare(this.high, other.high) <= 0 ? this.high : other.high;
-            if (this._compare(maxLow, minHigh) <= 0) {
-                return true;
-            }
-            return false;
-        },
-
-        /**
-         * Converts the range to a string in the form of "low,high"
-         * @memberof Range
-         * @instance
-         * @returns {string}    - Returns a string representation of the range.
-         **/
-        toString: function () {
-            return String(this.low) + "," + String(this.high);
-        },
-
         /** @ignore */
-        _compare: function (x, y) {
+        _compare: function (x, y, compareFunction) {
             // Same semantics as Array.sort
             // http://www.ecma-international.org/ecma-262/6.0/#sec-sortcompare
             if (x === undefined && y === undefined)
@@ -132,8 +62,8 @@ var Range = Base.defineClass(
                 return 1;
             if (y === undefined)
                 return -1;
-            if (this.compareFunction !== undefined) {
-                var v = Number(this.compareFunction(x, y));
+            if (compareFunction !== undefined) {
+                var v = Number(compareFunction(x, y));
                 if (v === NaN)
                     return 0;
                 return v;
@@ -148,16 +78,39 @@ var Range = Base.defineClass(
         },
 
         /** @ignore */
-        _containsPoint: function (point) {
-            if (this._compare(point, this.low) >= 0 && this._compare(point, this.high) <= 0) {
+        _contains: function (other, compareFunction) {
+            if (Range._isRange(other)) {
+                return this._containsRange(other, compareFunction);
+            }
+            else {
+                return this._containsPoint(other, compareFunction);
+            }
+        },
+
+        /** @ignore */
+        _containsPoint: function (point, compareFunction) {
+            if (this._compare(point, this.low, compareFunction) >= 0 && this._compare(point, this.high, compareFunction) <= 0) {
                 return true;
             }
             return false;
         },
 
         /** @ignore */
-        _containsRange: function (other) {
-            if (this._compare(other.low, this.low) >= 0 && this._compare(other.high, this.high) <= 0) {
+        _containsRange: function (other, compareFunction) {
+            if (this._compare(other.low, this.low, compareFunction) >= 0 && this._compare(other.high, this.high, compareFunction) <= 0) {
+                return true;
+            }
+            return false;
+        },
+
+        /** @ignore */
+        _intersect: function (other, compareFunction) {
+            if (other === undefined || other === null) {
+                throw new Error("Invalid Argument: 'other' is undefined or null");
+            }
+            var maxLow = this._compare(this.low, other.low, compareFunction) >= 0 ? this.low : other.low;
+            var minHigh = this._compare(this.high, other.high, compareFunction) <= 0 ? this.high : other.high;
+            if (this._compare(maxLow, minHigh, compareFunction) <= 0) {
                 return true;
             }
             return false;
@@ -180,6 +133,11 @@ var Range = Base.defineClass(
                 this._state = this._states.ended;
                 callback(undefined, this.resources, this.resHeaders);
             }
+        },
+
+        /** @ignore */
+        _toString: function () {
+            return String(this.low) + "," + String(this.high);
         }
     },
     {
@@ -206,8 +164,9 @@ var RangePartitionResolver = Base.defineClass(
      * @param {string | function} partitionKeyExtractor   - If partitionKeyExtractor is a string, it should be the name of the property in the document to execute the hashing on.
      *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from an object.
      * @param {Array} partitionKeyMap                     - The map from Range to collection link that is used for partitioning requests.
+     * @param {function} compareFunction                  - Optional function that accepts two arguments x and y and returns a negative value if x < y, zero if x = y, or a positive value if x > y.
      **/
-    function(partitionKeyExtractor, partitionKeyMap) {
+    function(partitionKeyExtractor, partitionKeyMap, compareFunction) {
         if (partitionKeyExtractor === undefined || partitionKeyExtractor === null) {
             throw new Error("partitionKeyExtractor cannot be null or undefined");
         }
@@ -241,15 +200,20 @@ var RangePartitionResolver = Base.defineClass(
         if (!allMapEntriesAreValid) {
             throw new Error("All partitionKeyMap entries have to be a tuple {range: Range, link: string }");
         }
+        if (compareFunction !== undefined && typeof compareFunction !== "function") {
+            throw new Error("Invalid argument: 'compareFunction' is not a function");
+        }
+
         this.partitionKeyExtractor = partitionKeyExtractor;
         this.partitionKeyMap = partitionKeyMap;
+        this.compareFunction = compareFunction;
     }, {
         /**
          * Extracts the partition key from the specified document using the partitionKeyExtractor
          * @memberof RangePartitionResolver
          * @instance
          * @param {object} document - The document from which to extract the partition key.
-         * @returns {} 
+         * @returns {}
          **/
         getPartitionKey: function (document) {
             if (typeof this.partitionKeyExtractor === "string") {
@@ -260,7 +224,7 @@ var RangePartitionResolver = Base.defineClass(
             }
             throw new Error("Unable to extract partition key from document. Ensure PartitionKeyExtractor is a valid function or property name.");
         },
-        
+
         /**
          * Given a partition key, returns the correct collection link for creating a document using the range partition map.
          * @memberof RangePartitionResolver
@@ -274,9 +238,9 @@ var RangePartitionResolver = Base.defineClass(
             if (mapEntry !== undefined && mapEntry !== null) {
                 return mapEntry.link;
             }
-            throw new Error("Invalid operation: A containing range for '" + range.toString() + "' doesn't exist in the partition map.");
+            throw new Error("Invalid operation: A containing range for '" + range._toString() + "' doesn't exist in the partition map.");
         },
-        
+
         /**
          * Given a partition key, returns a list of collection links to read from using the range partition map.
          * @memberof RangePartitionResolver
@@ -295,7 +259,8 @@ var RangePartitionResolver = Base.defineClass(
 
         /** @ignore */
         _getFirstContainingMapEntryOrNull: function (point) {
-            var containingMapEntries = this.partitionKeyMap.filter(function (p) { return p.range !== undefined && p.range.contains(point); });
+            var _this = this;
+            var containingMapEntries = this.partitionKeyMap.filter(function (p) { return p.range !== undefined && p.range._contains(point, _this.compareFunction); });
             if (containingMapEntries && containingMapEntries.length > 0) {
                 return containingMapEntries[0];
             }
@@ -306,10 +271,12 @@ var RangePartitionResolver = Base.defineClass(
         _getIntersectingMapEntries: function (partitionKey) {
             var _this = this;
             var partitionKeys = (partitionKey instanceof Array) ? partitionKey : [partitionKey];
-            var ranges = partitionKeys.map(function (p) { return Range._isRange(p) ? p : new Range(p); });
+            var ranges = partitionKeys.map(function (p) { return Range._isRange(p) ? p : new Range({ low: p }); });
             var result = new Array();
             ranges.forEach(function (range) {
-                result.concat(_this.partitionKeyMap.filter(function (entry) { return entry.range.intersect(range); }));
+                result = result.concat(_this.partitionKeyMap.filter(function (entry) {
+                    return entry.range._intersect(range, _this.compareFunction);
+                }));
             });
             return result;
         }

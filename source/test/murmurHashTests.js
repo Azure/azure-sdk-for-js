@@ -23,7 +23,7 @@ SOFTWARE.
 
 "use strict";
 
-var MurmurHash = require("../lib/Hash/murmurHash").MurmurHash;
+var MurmurHash = require("../lib/hash/murmurHash").MurmurHash;
 var assert = require("assert")
 
 describe("MurmurHash.hash", function () {

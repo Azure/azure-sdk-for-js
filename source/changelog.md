@@ -1,3 +1,8 @@
+## Changes in 1.5.6 : ##
+
+- Fixed RangePartitionResolver.resolveForRead bug where it was not returning links due to a bad concat of results
+- Move compareFunction from Range class to RangePartitionResolver class
+
 ## Changes in 1.5.5 : ##
 
 - Fixed hashParitionResolver resolveForRead(): When no partition key supplied was throwing exception, instead of returning a list of all registered links.
