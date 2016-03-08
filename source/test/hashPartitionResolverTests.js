@@ -24,7 +24,7 @@ SOFTWARE.
 "use strict";
 
 var assert = require("assert");
-var HashPartitionResolver = require("../lib/Hash/hashPartitionResolver").HashPartitionResolver;
+var HashPartitionResolver = require("../lib/hash/hashPartitionResolver").HashPartitionResolver;
 
 describe("HashPartitionResolver new()", function () {
     it(" does not throw", function () {

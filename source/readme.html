@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>Windows Azure DocumentDB SDK: node.js</title>
+    </head>
+<body>
+    <h1>Windows Azure DocumentDB Node.js SDK</h1>
+    <p>
+        This project provides a node module that makes it easy to interact with Azure DocumentDB. For documentation please see the <a href="https://azure.microsoft.com/en-us/documentation/articles/documentdb-sdk-node/" target="_blank">Microsoft Azure DocumentDB Node.js SDK Documentation</a>.
+    </p>
+    <h2>Installation</h2><h4>Core Module</h4><p>The core module uses the callbacks model for responses, exposed through the DocumentClient </p>
+<pre class="prettyprint source"><code>npm install documentdb</code></pre>
+    <h2>Usage</h2>
+    <p>To use this SDK to call Azure DocumentDB, you need to first <a href="http://azure.microsoft.com/en-us/documentation/articles/documentdb-create-account/" target="_blank">create an account</a>.</p>
+    <p>You can follow this <a href="http://azure.microsoft.com/en-us/documentation/articles/documentdb-nodejs-application/" target="_blank">tutorial</a> to help you get started.</p>
+    <h2>Examples</h2><h4>Hello World using Callbacks via the Core Module</h4><pre class="prettyprint source lang-js"><code>var DocumentClient = require('documentdb').DocumentClient;
+var host = &quot;[hostendpoint]&quot;;                     // Add your endpoint
+var masterKey = &quot;[database account masterkey]&quot;;  // Add the massterkey of the endpoint
+var client = new DocumentClient(host, {masterKey: masterKey});
+var databaseDefinition = { id: &quot;sample database&quot; };
+var collectionDefinition = { id: &quot;sample collection&quot; };
+var documentDefinition = { id: &quot;hello world doc&quot;, content: &quot;Hello World!&quot; };
+client.createDatabase(databaseDefinition, function(err, database) {
+    if(err) return console.log(err);
+    console.log('created db');
+    client.createCollection(database._self, collectionDefinition, function(err, collection) {
+        if(err) return console.log(err);
+        console.log('created collection');
+        client.createDocument(collection._self, documentDefinition, function(err, document) {
+            if(err) return console.log(err);
+            console.log('Created Document with content: ', document.content);
+            cleanup(client, database);
+        });
+    });
+});
+function cleanup(client, database) {
+    client.deleteDatabase(database._self, function(err) {
+        if(err) console.log(err);
+    })
+}</code></pre>
+</body>
+</html>
+        
