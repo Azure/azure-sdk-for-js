@@ -56,7 +56,7 @@ var DocumentClient = Base.defineClass(
                 }
             }
         }
-
+        
         this.connectionPolicy = connectionPolicy || new AzureDocuments.ConnectionPolicy();
         this.defaultHeaders = {};
         this.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
@@ -64,19 +64,21 @@ var DocumentClient = Base.defineClass(
         if (consistencyLevel !== undefined) {
             this.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] = consistencyLevel;
         }
-
+        
         if (Constants.UserAgent) {
             this.defaultHeaders[Constants.HttpHeaders.UserAgent] = Constants.UserAgent;
         }
-
+        
         // overide this for default query params to be added to the url.
         this.defaultUrlParams = "";
-
+        
         // Query compatibility mode.
         // Allows to specify compatibility mode used by client when making query requests. Should be removed when
         // application/sql is no longer supported.
         this.queryCompatibilityMode = AzureDocuments.QueryCompatibilityMode.Default;
         this.partitionResolvers = {};
+        
+        this.partitionKeyDefinitionCache = {};
     },
     {
         /** Send a request for creating a database.
@@ -96,17 +98,17 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(body, err)) {
                 callback(err);
                 return;
             }
-
+            
             var path = "/dbs";
             this.create(body, path, "dbs", undefined, undefined, options, callback);
         },
-
+        
         /**
          * Creates a collection.
          * <p>
@@ -128,20 +130,20 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(body, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(databaseLink);
             var path = this.getPathFromLink(databaseLink, "colls", isNameBased);
             var id = this.getIdFromLink(databaseLink, isNameBased);
-
+            
             this.create(body, path, "colls", id, undefined, options, callback);
         },
-
+        
         /**
          * Create a document.
          * <p>
@@ -159,17 +161,17 @@ var DocumentClient = Base.defineClass(
          */
         createDocument: function (documentsFeedOrDatabaseLink, body, options, callback) {
             var partitionResolver = this.partitionResolvers[documentsFeedOrDatabaseLink];
-
+            
             var collectionLink;
             if (partitionResolver === undefined || partitionResolver === null) {
                 collectionLink = documentsFeedOrDatabaseLink;
             } else {
                 collectionLink = this.resolveCollectionLinkForCreate(partitionResolver, body);
             }
-
+            
             this.createDocumentPrivate(collectionLink, body, options, callback);
         },
-
+        
         /**
          * Create an attachment for the document object.
          * <p>
@@ -189,20 +191,20 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(body, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(documentLink);
             var path = this.getPathFromLink(documentLink, "attachments", isNameBased);
             var id = this.getIdFromLink(documentLink, isNameBased);
-
+            
             this.create(body, path, "attachments", id, undefined, options, callback);
         },
-
+        
         /**
          * Create a database user.
          * @memberof DocumentClient
@@ -217,20 +219,20 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(body, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(databaseLink);
             var path = this.getPathFromLink(databaseLink, "users", isNameBased);
             var id = this.getIdFromLink(databaseLink, isNameBased);
-
+            
             this.create(body, path, "users", id, undefined, options, callback);
         },
-
+        
         /**
          * Create a permission.
          * <p> A permission represents a per-User Permission to access a specific resource e.g. Document or Collection.  </p>
@@ -248,20 +250,20 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(body, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(userLink);
             var path = this.getPathFromLink(userLink, "permissions", isNameBased);
             var id = this.getIdFromLink(userLink, isNameBased);
-
+            
             this.create(body, path, "permissions", id, undefined, options, callback);
         },
-
+        
         /**
         * Create a trigger.
         * <p>
@@ -283,26 +285,26 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             if (trigger.serverScript) {
                 trigger.body = trigger.serverScript.toString();
             } else if (trigger.body) {
                 trigger.body = trigger.body.toString();
             }
-
+            
             var err = {};
             if (!this.isResourceValid(trigger, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "triggers", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             this.create(trigger, path, "triggers", id, undefined, options, callback);
         },
-
+        
         /**
          * Create a UserDefinedFunction.
          * <p>
@@ -323,26 +325,26 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             if (udf.serverScript) {
                 udf.body = udf.serverScript.toString();
             } else if (udf.body) {
                 udf.body = udf.body.toString();
             }
-
+            
             var err = {};
             if (!this.isResourceValid(udf, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "udfs", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             this.create(udf, path, "udfs", id, undefined, options, callback);
         },
-
+        
         /**
          * Create a StoredProcedure.
          * <p>
@@ -363,26 +365,26 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             if (sproc.serverScript) {
                 sproc.body = sproc.serverScript.toString();
             } else if (sproc.body) {
                 sproc.body = sproc.body.toString();
             }
-
+            
             var err = {};
             if (!this.isResourceValid(sproc, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "sprocs", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             this.create(sproc, path, "sprocs", id, undefined, options, callback);
         },
-
+        
         /**
          * Create an attachment for the document object.
          * @memberof DocumentClient
@@ -396,27 +398,27 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var initialHeaders = Base.extend({}, this.defaultHeaders);
-
+            
             // Add required headers slug and content-type.
             if (options.slug) {
                 initialHeaders[Constants.HttpHeaders.Slug] = options.slug;
             }
-
+            
             if (options.contentType) {
                 initialHeaders[Constants.HttpHeaders.ContentType] = options.contentType;
             } else {
                 initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.OctetStream;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(documentLink);
             var path = this.getPathFromLink(documentLink, "attachments", isNameBased);
             var id = this.getIdFromLink(documentLink, isNameBased);
-
+            
             this.create(readableStream, path, "attachments", id, initialHeaders, options, callback);
         },
-
+        
         /** Reads a database.
          * @memberof DocumentClient
          * @instance
@@ -428,14 +430,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(databaseLink);
             var path = this.getPathFromLink(databaseLink, "", isNameBased);
             var id = this.getIdFromLink(databaseLink, isNameBased);
-
+            
             this.read(path, "dbs", id, undefined, options, callback);
         },
-
+        
         /**
          * Reads a collection.
          * @memberof DocumentClient
@@ -448,14 +450,19 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
-            this.read(path, "colls", id, undefined, options, callback);
+            
+            var that = this;
+            this.read(path, "colls", id, undefined, options, function (err, collection, headers) {
+                if (err) return callback(err, collection, headers);
+                that.partitionKeyDefinitionCache[collectionLink] = collection.partitionKey;
+                callback(err, collection, headers);
+            });
         },
-
+        
         /**
          * Reads a document.
          * @memberof DocumentClient
@@ -468,14 +475,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(documentLink);
             var path = this.getPathFromLink(documentLink, "", isNameBased);
             var id = this.getIdFromLink(documentLink, isNameBased);
-
+            
             this.read(path, "docs", id, undefined, options, callback);
         },
-
+        
         /**
          * Reads an Attachment object.
          * @memberof DocumentClient
@@ -488,14 +495,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(attachmentLink);
             var path = this.getPathFromLink(attachmentLink, "", isNameBased);
             var id = this.getIdFromLink(attachmentLink, isNameBased);
-
+            
             this.read(path, "attachments", id, undefined, options, callback);
         },
-
+        
         /**
          * Reads a user.
          * @memberof DocumentClient
@@ -508,14 +515,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(userLink);
             var path = this.getPathFromLink(userLink, "", isNameBased);
             var id = this.getIdFromLink(userLink, isNameBased);
-
+            
             this.read(path, "users", id, undefined, options, callback);
         },
-
+        
         /**
          * Reads a permission.
          * @memberof DocumentClient
@@ -528,14 +535,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(permissionLink);
             var path = this.getPathFromLink(permissionLink, "", isNameBased);
             var id = this.getIdFromLink(permissionLink, isNameBased);
-
+            
             this.read(path, "permissions", id, undefined, options, callback);
         },
-
+        
         /**
          * Reads a trigger object.
          * @memberof DocumentClient
@@ -548,16 +555,16 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
-            var resourceInfo = Base.parsePath(triggerLink);
-
+            
+            var resourceInfo = Base.parseLink(triggerLink);
+            
             var isNameBased = Base.isLinkNameBased(triggerLink);
             var path = this.getPathFromLink(triggerLink, "", isNameBased);
             var id = this.getIdFromLink(triggerLink, isNameBased);
-
+            
             this.read(path, "triggers", id, undefined, options, callback);
         },
-
+        
         /**
          * Reads a udf object.
          * @memberof DocumentClient
@@ -570,14 +577,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(udfLink);
             var path = this.getPathFromLink(udfLink, "", isNameBased);
             var id = this.getIdFromLink(udfLink, isNameBased);
-
+            
             this.read(path, "udfs", id, undefined, options, callback);
         },
-
+        
         /**
          * Reads a StoredProcedure object.
          * @memberof DocumentClient
@@ -590,14 +597,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(sprocLink);
             var path = this.getPathFromLink(sprocLink, "", isNameBased);
             var id = this.getIdFromLink(sprocLink, isNameBased);
-
+            
             this.read(path, "sprocs", id, undefined, options, callback);
         },
-
+        
         /**
          * Reads a conflict.
          * @memberof DocumentClient
@@ -610,14 +617,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(conflictLink);
             var path = this.getPathFromLink(conflictLink, "", isNameBased);
             var id = this.getIdFromLink(conflictLink, isNameBased);
-
+            
             this.read(path, "conflicts", id, undefined, options, callback);
         },
-
+        
         /** Lists all databases.
          * @memberof DocumentClient
          * @instance
@@ -627,7 +634,7 @@ var DocumentClient = Base.defineClass(
         readDatabases: function (options) {
             return this.queryDatabases(undefined, options);
         },
-
+        
         /**
          * Get all collections in this database.
          * @memberof DocumentClient
@@ -639,7 +646,7 @@ var DocumentClient = Base.defineClass(
         readCollections: function (databaseLink, options) {
             return this.queryCollections(databaseLink, undefined, options);
         },
-
+        
         /**
          * Get all documents in this collection.
          * @memberof DocumentClient
@@ -651,7 +658,7 @@ var DocumentClient = Base.defineClass(
         readDocuments: function (collectionLink, options) {
             return this.queryDocuments(collectionLink, undefined, options);
         },
-
+        
         /**
         * Get all attachments for this document.
         * @memberof DocumentClient
@@ -663,7 +670,7 @@ var DocumentClient = Base.defineClass(
         readAttachments: function (documentLink, options) {
             return this.queryAttachments(documentLink, undefined, options);
         },
-
+        
         /**
          * Get all users in this database.
          * @memberof DocumentClient
@@ -675,7 +682,7 @@ var DocumentClient = Base.defineClass(
         readUsers: function (databaseLink, options) {
             return this.queryUsers(databaseLink, undefined, options);
         },
-
+        
         /**
          * Get all permissions for this user.
          * @memberof DocumentClient
@@ -687,7 +694,7 @@ var DocumentClient = Base.defineClass(
         readPermissions: function (userLink, options) {
             return this.queryPermissions(userLink, undefined, options);
         },
-
+        
         /**
          * Get all triggers in this collection.
          * @memberof DocumentClient
@@ -699,7 +706,7 @@ var DocumentClient = Base.defineClass(
         readTriggers: function (collectionLink, options) {
             return this.queryTriggers(collectionLink, undefined, options);
         },
-
+        
         /**
          * Get all UserDefinedFunctions in this collection.
          * @memberof DocumentClient
@@ -711,7 +718,7 @@ var DocumentClient = Base.defineClass(
         readUserDefinedFunctions: function (collectionLink, options) {
             return this.queryUserDefinedFunctions(collectionLink, undefined, options);
         },
-
+        
         /**
          * Get all StoredProcedures in this collection.
          * @memberof DocumentClient
@@ -723,7 +730,7 @@ var DocumentClient = Base.defineClass(
         readStoredProcedures: function (collectionLink, options) {
             return this.queryStoredProcedures(collectionLink, undefined, options);
         },
-
+        
         /**
          * Get all conflicts in this collection.
          * @memberof DocumentClient
@@ -735,7 +742,7 @@ var DocumentClient = Base.defineClass(
         readConflicts: function (collectionLink, options) {
             return this.queryConflicts(collectionLink, undefined, options);
         },
-
+        
         /** Lists all databases that satisfy a query.
          * @memberof DocumentClient
          * @instance
@@ -758,7 +765,7 @@ var DocumentClient = Base.defineClass(
                         callback);
             });
         },
-
+        
         /**
          * Query the collections for the database.
          * @memberof DocumentClient
@@ -770,11 +777,11 @@ var DocumentClient = Base.defineClass(
          */
         queryCollections: function (databaseLink, query, options) {
             var that = this;
-
+            
             var isNameBased = Base.isLinkNameBased(databaseLink);
             var path = this.getPathFromLink(databaseLink, "colls", isNameBased);
             var id = this.getIdFromLink(databaseLink, isNameBased);
-
+            
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
@@ -788,16 +795,16 @@ var DocumentClient = Base.defineClass(
                     callback);
             });
         },
-
+        
         /**
          * Query the documents for the collection.
          * @memberof DocumentClient
          * @instance
-         * @param {string} documentsFeedOrDatabaseLink  - The collection link or database link if using a partition resolver
-         * @param {SqlQuerySpec | string} query         - A SQL query.
-         * @param {FeedOptions} [options]               - Represents the feed options.
-         * @param {object} [options.partitionKey]       - Optional partition key to be used with the partiotion resolver
-         * @returns {QueryIterator}                     - An instance of queryIterator to handle reading feed.
+         * @param {string} documentsFeedOrDatabaseLink          - The collection link or database link if using a partition resolver
+         * @param {SqlQuerySpec | string} query                 - A SQL query.
+         * @param {FeedOptions} [options]                       - Represents the feed options.
+         * @param {object} [options.partitionKey]               - Optional partition key to be used with the partition resolver
+         * @returns {QueryIterator}                             - An instance of queryIterator to handle reading feed.
          */
         queryDocuments: function (documentsFeedOrDatabaseLink, query, options) {
             var partitionResolver = this.partitionResolvers[documentsFeedOrDatabaseLink];
@@ -807,10 +814,10 @@ var DocumentClient = Base.defineClass(
             } else {
                 collectionLinks = partitionResolver.resolveForRead(options && options.partitionKey);
             }
-
+            
             return this.queryDocumentsPrivate(collectionLinks, query, options);
         },
-
+        
         /**
          * Query the attachments for the document.
          * @memberof DocumentClient
@@ -822,11 +829,11 @@ var DocumentClient = Base.defineClass(
         */
         queryAttachments: function (documentLink, query, options) {
             var that = this;
-
+            
             var isNameBased = Base.isLinkNameBased(documentLink);
             var path = this.getPathFromLink(documentLink, "attachments", isNameBased);
             var id = this.getIdFromLink(documentLink, isNameBased);
-
+            
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                         that,
@@ -840,7 +847,7 @@ var DocumentClient = Base.defineClass(
                         callback);
             });
         },
-
+        
         /**
          * Query the users for the database.
          * @memberof DocumentClient
@@ -852,11 +859,11 @@ var DocumentClient = Base.defineClass(
          */
         queryUsers: function (databaseLink, query, options) {
             var that = this;
-
+            
             var isNameBased = Base.isLinkNameBased(databaseLink);
             var path = this.getPathFromLink(databaseLink, "users", isNameBased);
             var id = this.getIdFromLink(databaseLink, isNameBased);
-
+            
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
@@ -870,7 +877,7 @@ var DocumentClient = Base.defineClass(
                     callback);
             });
         },
-
+        
         /**
          * Query the permission for the user.
          * @memberof DocumentClient
@@ -882,11 +889,11 @@ var DocumentClient = Base.defineClass(
          */
         queryPermissions: function (userLink, query, options) {
             var that = this;
-
+            
             var isNameBased = Base.isLinkNameBased(userLink);
             var path = this.getPathFromLink(userLink, "permissions", isNameBased);
             var id = this.getIdFromLink(userLink, isNameBased);
-
+            
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
@@ -900,7 +907,7 @@ var DocumentClient = Base.defineClass(
                     callback);
             });
         },
-
+        
         /**
          * Query the triggers for the collection.
          * @memberof DocumentClient
@@ -912,11 +919,11 @@ var DocumentClient = Base.defineClass(
          */
         queryTriggers: function (collectionLink, query, options) {
             var that = this;
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "triggers", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
@@ -930,7 +937,7 @@ var DocumentClient = Base.defineClass(
                     callback);
             });
         },
-
+        
         /**
          * Query the user defined functions for the collection.
          * @memberof DocumentClient
@@ -942,11 +949,11 @@ var DocumentClient = Base.defineClass(
          */
         queryUserDefinedFunctions: function (collectionLink, query, options) {
             var that = this;
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "udfs", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
@@ -960,7 +967,7 @@ var DocumentClient = Base.defineClass(
                     callback);
             });
         },
-
+        
         /**
          * Query the storedProcedures for the collection.
          * @memberof DocumentClient
@@ -972,11 +979,11 @@ var DocumentClient = Base.defineClass(
          */
         queryStoredProcedures: function (collectionLink, query, options) {
             var that = this;
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "sprocs", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
@@ -990,7 +997,7 @@ var DocumentClient = Base.defineClass(
                     callback);
             });
         },
-
+        
         /**
          * Query the conflicts for the collection.
          * @memberof DocumentClient
@@ -1002,11 +1009,11 @@ var DocumentClient = Base.defineClass(
          */
         queryConflicts: function (collectionLink, query, options) {
             var that = this;
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "conflicts", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             return new QueryIterator(this, query, options, function (options, callback) {
                 that.queryFeed.call(that,
                     that,
@@ -1020,7 +1027,7 @@ var DocumentClient = Base.defineClass(
                     callback);
             });
         },
-
+        
         /**
          * Delete the database object.
          * @memberof DocumentClient
@@ -1033,13 +1040,13 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(databaseLink);
             var path = this.getPathFromLink(databaseLink, "", isNameBased);
             var id = this.getIdFromLink(databaseLink, isNameBased);
             this.deleteResource(path, "dbs", id, undefined, options, callback);
         },
-
+        
         /**
          * Delete the collection object.
          * @memberof DocumentClient
@@ -1052,14 +1059,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             this.deleteResource(path, "colls", id, undefined, options, callback);
         },
-
+        
         /**
          * Delete the document object.
          * @memberof DocumentClient
@@ -1072,14 +1079,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(documentLink);
             var path = this.getPathFromLink(documentLink, "", isNameBased);
             var id = this.getIdFromLink(documentLink, isNameBased);
-
+            
             this.deleteResource(path, "docs", id, undefined, options, callback);
         },
-
+        
         /**
          * Delete the attachment object.
          * @memberof DocumentClient
@@ -1092,14 +1099,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(attachmentLink);
             var path = this.getPathFromLink(attachmentLink, "", isNameBased);
             var id = this.getIdFromLink(attachmentLink, isNameBased);
-
+            
             this.deleteResource(path, "attachments", id, undefined, options, callback);
         },
-
+        
         /**
          * Delete the user object.
          * @memberof DocumentClient
@@ -1112,14 +1119,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(userLink);
             var path = this.getPathFromLink(userLink, "", isNameBased);
             var id = this.getIdFromLink(userLink, isNameBased);
-
+            
             this.deleteResource(path, "users", id, undefined, options, callback);
         },
-
+        
         /**
          * Delete the permission object.
          * @memberof DocumentClient
@@ -1132,14 +1139,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(permissionLink);
             var path = this.getPathFromLink(permissionLink, "", isNameBased);
             var id = this.getIdFromLink(permissionLink, isNameBased);
-
+            
             this.deleteResource(path, "permissions", id, undefined, options, callback);
         },
-
+        
         /**
          * Delete the trigger object.
          * @memberof DocumentClient
@@ -1152,14 +1159,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(triggerLink);
             var path = this.getPathFromLink(triggerLink, "", isNameBased);
             var id = this.getIdFromLink(triggerLink, isNameBased);
-
+            
             this.deleteResource(path, "triggers", id, undefined, options, callback);
         },
-
+        
         /**
          * Delete the UserDefinedFunction object.
          * @memberof DocumentClient
@@ -1172,14 +1179,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(udfLink);
             var path = this.getPathFromLink(udfLink, "", isNameBased);
             var id = this.getIdFromLink(udfLink, isNameBased);
-
+            
             this.deleteResource(path, "udfs", id, undefined, options, callback);
         },
-
+        
         /**
          * Delete the StoredProcedure object.
          * @memberof DocumentClient
@@ -1192,14 +1199,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(sprocLink);
             var path = this.getPathFromLink(sprocLink, "", isNameBased);
             var id = this.getIdFromLink(sprocLink, isNameBased);
-
+            
             this.deleteResource(path, "sprocs", id, undefined, options, callback);
         },
-
+        
         /**
          * Delete the conflict object.
          * @memberof DocumentClient
@@ -1212,14 +1219,14 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var isNameBased = Base.isLinkNameBased(conflictLink);
             var path = this.getPathFromLink(conflictLink, "", isNameBased);
             var id = this.getIdFromLink(conflictLink, isNameBased);
-
+            
             this.deleteResource(path, "conflicts", id, undefined, options, callback);
         },
-
+        
         /**
          * Replace the document collection.
          * @memberof DocumentClient
@@ -1233,20 +1240,20 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(collection, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             this.replace(collection, path, "colls", id, undefined, options, callback);
         },
-
+        
         /**
          * Replace the document object.
          * @memberof DocumentClient
@@ -1260,20 +1267,36 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
-            var err = {};
-            if (!this.isResourceValid(newDocument, err)) {
-                callback(err);
-                return;
+            
+            var that = this;
+            
+            var task = function () {
+                var err = {};
+                if (!that.isResourceValid(newDocument, err)) {
+                    callback(err);
+                    return;
+                }
+                
+                var isNameBased = Base.isLinkNameBased(documentLink);
+                var path = that.getPathFromLink(documentLink, "", isNameBased);
+                var id = that.getIdFromLink(documentLink, isNameBased);
+                
+                that.replace(newDocument, path, "docs", id, undefined, options, callback);
+            };
+            
+            if (options.partitionKey === undefined) {
+                this.getPartitionKeyDefinition(Base.getCollectionLink(documentLink), function (err, partitionKeyDefinition) {
+                    if (err) callback(err);
+                    options.partitionKey = that.extractPartitionKey(newDocument, partitionKeyDefinition);
+                    
+                    task();
+                });
             }
-
-            var isNameBased = Base.isLinkNameBased(documentLink);
-            var path = this.getPathFromLink(documentLink, "", isNameBased);
-            var id = this.getIdFromLink(documentLink, isNameBased);
-
-            this.replace(newDocument, path, "docs", id, undefined, options, callback);
+            else {
+                task();
+            }
         },
-
+        
         /**
          * Replace the attachment object.
          * @memberof DocumentClient
@@ -1287,20 +1310,20 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(attachment, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(attachmentLink);
             var path = this.getPathFromLink(attachmentLink, "", isNameBased);
             var id = this.getIdFromLink(attachmentLink, isNameBased);
-
+            
             this.replace(attachment, path, "attachments", id, undefined, options, callback);
         },
-
+        
         /**
          * Replace the user object.
          * @memberof DocumentClient
@@ -1314,20 +1337,20 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(user, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(userLink);
             var path = this.getPathFromLink(userLink, "", isNameBased);
             var id = this.getIdFromLink(userLink, isNameBased);
-
+            
             this.replace(user, path, "users", id, undefined, options, callback);
         },
-
+        
         /**
          * Replace the permission object.
          * @memberof DocumentClient
@@ -1341,20 +1364,20 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(permission, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(permissionLink);
             var path = this.getPathFromLink(permissionLink, "", isNameBased);
             var id = this.getIdFromLink(permissionLink, isNameBased);
-
+            
             this.replace(permission, path, "permissions", id, undefined, options, callback);
         },
-
+        
         /**
          * Replace the trigger object.
          * @memberof DocumentClient
@@ -1368,26 +1391,26 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             if (trigger.serverScript) {
                 trigger.body = trigger.serverScript.toString();
             } else if (trigger.body) {
                 trigger.body = trigger.body.toString();
             }
-
+            
             var err = {};
             if (!this.isResourceValid(trigger, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(triggerLink);
             var path = this.getPathFromLink(triggerLink, "", isNameBased);
             var id = this.getIdFromLink(triggerLink, isNameBased);
-
+            
             this.replace(trigger, path, "triggers", id, undefined, options, callback);
         },
-
+        
         /**
          * Replace the UserDefinedFunction object.
          * @memberof DocumentClient
@@ -1401,26 +1424,26 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             if (udf.serverScript) {
                 udf.body = udf.serverScript.toString();
             } else if (udf.body) {
                 udf.body = udf.body.toString();
             }
-
+            
             var err = {};
             if (!this.isResourceValid(udf, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(udfLink);
             var path = this.getPathFromLink(udfLink, "", isNameBased);
             var id = this.getIdFromLink(udfLink, isNameBased);
-
+            
             this.replace(udf, path, "udfs", id, undefined, options, callback);
         },
-
+        
         /**
          * Replace the StoredProcedure object.
          * @memberof DocumentClient
@@ -1434,26 +1457,26 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             if (sproc.serverScript) {
                 sproc.body = sproc.serverScript.toString();
             } else if (sproc.body) {
                 sproc.body = sproc.body.toString();
             }
-
+            
             var err = {};
             if (!this.isResourceValid(sproc, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(sprocLink);
             var path = this.getPathFromLink(sprocLink, "", isNameBased);
             var id = this.getIdFromLink(sprocLink, isNameBased);
-
+            
             this.replace(sproc, path, "sprocs", id, undefined, options, callback);
         },
-
+        
         /**
          * Upsert a document.
          * <p>
@@ -1471,17 +1494,17 @@ var DocumentClient = Base.defineClass(
          */
         upsertDocument: function (documentsFeedOrDatabaseLink, body, options, callback) {
             var partitionResolver = this.partitionResolvers[documentsFeedOrDatabaseLink];
-
+            
             var collectionLink;
             if (partitionResolver === undefined || partitionResolver === null) {
                 collectionLink = documentsFeedOrDatabaseLink;
             } else {
                 collectionLink = this.resolveCollectionLinkForCreate(partitionResolver, body);
             }
-
+            
             this.upsertDocumentPrivate(collectionLink, body, options, callback);
         },
-
+        
         /**
          * Upsert an attachment for the document object.
          * <p>
@@ -1501,20 +1524,20 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(body, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(documentLink);
             var path = this.getPathFromLink(documentLink, "attachments", isNameBased);
             var id = this.getIdFromLink(documentLink, isNameBased);
-
+            
             this.upsert(body, path, "attachments", id, undefined, options, callback);
         },
-
+        
         /**
          * Upsert a database user.
          * @memberof DocumentClient
@@ -1529,20 +1552,20 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(body, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(databaseLink);
             var path = this.getPathFromLink(databaseLink, "users", isNameBased);
             var id = this.getIdFromLink(databaseLink, isNameBased);
-
+            
             this.upsert(body, path, "users", id, undefined, options, callback);
         },
-
+        
         /**
          * Upsert a permission.
          * <p> A permission represents a per-User Permission to access a specific resource e.g. Document or Collection.  </p>
@@ -1560,20 +1583,20 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var err = {};
             if (!this.isResourceValid(body, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(userLink);
             var path = this.getPathFromLink(userLink, "permissions", isNameBased);
             var id = this.getIdFromLink(userLink, isNameBased);
-
+            
             this.upsert(body, path, "permissions", id, undefined, options, callback);
         },
-
+        
         /**
         * Upsert a trigger.
         * <p>
@@ -1595,26 +1618,26 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             if (trigger.serverScript) {
                 trigger.body = trigger.serverScript.toString();
             } else if (trigger.body) {
                 trigger.body = trigger.body.toString();
             }
-
+            
             var err = {};
             if (!this.isResourceValid(trigger, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "triggers", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             this.upsert(trigger, path, "triggers", id, undefined, options, callback);
         },
-
+        
         /**
          * Upsert a UserDefinedFunction.
          * <p>
@@ -1635,26 +1658,26 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             if (udf.serverScript) {
                 udf.body = udf.serverScript.toString();
             } else if (udf.body) {
                 udf.body = udf.body.toString();
             }
-
+            
             var err = {};
             if (!this.isResourceValid(udf, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "udfs", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             this.upsert(udf, path, "udfs", id, undefined, options, callback);
         },
-
+        
         /**
          * Upsert a StoredProcedure.
          * <p>
@@ -1675,26 +1698,26 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             if (sproc.serverScript) {
                 sproc.body = sproc.serverScript.toString();
             } else if (sproc.body) {
                 sproc.body = sproc.body.toString();
             }
-
+            
             var err = {};
             if (!this.isResourceValid(sproc, err)) {
                 callback(err);
                 return;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(collectionLink);
             var path = this.getPathFromLink(collectionLink, "sprocs", isNameBased);
             var id = this.getIdFromLink(collectionLink, isNameBased);
-
+            
             this.upsert(sproc, path, "sprocs", id, undefined, options, callback);
         },
-
+        
         /**
          * Upsert an attachment for the document object.
          * @memberof DocumentClient
@@ -1708,27 +1731,27 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var initialHeaders = Base.extend({}, this.defaultHeaders);
-
+            
             // Add required headers slug and content-type.
             if (options.slug) {
                 initialHeaders[Constants.HttpHeaders.Slug] = options.slug;
             }
-
+            
             if (options.contentType) {
                 initialHeaders[Constants.HttpHeaders.ContentType] = options.contentType;
             } else {
                 initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.OctetStream;
             }
-
+            
             var isNameBased = Base.isLinkNameBased(documentLink);
             var path = this.getPathFromLink(documentLink, "attachments", isNameBased);
             var id = this.getIdFromLink(documentLink, isNameBased);
-
+            
             this.upsert(readableStream, path, "attachments", id, initialHeaders, options, callback);
         },
-
+        
         /**
           * Read the media for the attachment object.
           * @memberof DocumentClient
@@ -1738,16 +1761,16 @@ var DocumentClient = Base.defineClass(
           *                                     depending on the value of {@link MediaReadMode}.
           */
         readMedia: function (mediaLink, callback) {
-            var resourceInfo = Base.parsePath(mediaLink);
+            var resourceInfo = Base.parseLink(mediaLink);
             var path = "/" + mediaLink;
             var initialHeaders = Base.extend({}, this.defaultHeaders);
             initialHeaders[Constants.HttpHeaders.Accept] = Constants.MediaTypes.Any;
             var attachmentId = Base.getAttachmentIdFromMediaId(resourceInfo.objectBody.id).toLowerCase();
-
+            
             var headers = Base.getHeaders(this, initialHeaders, "get", path, attachmentId, "media", {});
             this.get(this.urlConnection, path, headers, callback);
         },
-
+        
         /**
          * Update media for the attachment
          * @memberof DocumentClient
@@ -1761,66 +1784,72 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var defaultHeaders = this.defaultHeaders;
             var initialHeaders = Base.extend({}, defaultHeaders);
-
+            
             // Add required headers slug and content-type in case the body is a stream
             if (options.slug) {
                 initialHeaders[Constants.HttpHeaders.Slug] = options.slug;
             }
-
+            
             if (options.contentType) {
                 initialHeaders[Constants.HttpHeaders.ContentType] = options.contentType;
             } else {
                 initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.OctetStream;
             }
-
+            
             initialHeaders[Constants.HttpHeaders.Accept] = Constants.MediaTypes.Any;
-
+            
             var urlConnection = this.urlConnection;
-            var resourceInfo = Base.parsePath(mediaLink);
+            var resourceInfo = Base.parseLink(mediaLink);
             var path = "/" + mediaLink;
             var attachmentId = Base.getAttachmentIdFromMediaId(resourceInfo.objectBody.id).toLowerCase();
             var headers = Base.getHeaders(this, initialHeaders, "put", path, attachmentId, "media", options);
-
+            
             this.put(urlConnection, path, readableStream, headers, callback);
         },
-
+        
         /**
-         * Execute the StoredProcedure represented by the object.
+         * Execute the StoredProcedure represented by the object with partition key.
          * @memberof DocumentClient
          * @instance
          * @param {string} sprocLink            - The self-link of the stored procedure.
          * @param {Array} [params]              - represent the parameters of the stored procedure.
+         * @param {Object} [options]            - partition key
          * @param {RequestCallback} callback    - The callback for the request.
         */
-        executeStoredProcedure: function (sprocLink, params, callback) {
-            if (!callback) {
+        executeStoredProcedure: function (sprocLink, params, options, callback) {
+            if (!callback && !options) {
                 callback = params;
                 params = null;
+                options = {}
             }
-
+            else if(!callback) {
+                callback = options;
+                options = {};
+            }
+            
             var defaultHeaders = this.defaultHeaders;
             var initialHeaders = {};
             initialHeaders = Base.extend(initialHeaders, defaultHeaders);
-
+            
             // Accept a single parameter or an array of parameters.
             if (params && params.constructor !== Array) {
                 params = [params];
             }
-
+            
             var urlConnection = this.urlConnection;
-
+            
             var isNameBased = Base.isLinkNameBased(sprocLink);
             var path = this.getPathFromLink(sprocLink, "", isNameBased);
             var id = this.getIdFromLink(sprocLink, isNameBased);
-
-            var headers = Base.getHeaders(this, initialHeaders, "post", path, id, "sprocs", {});
-
+            
+            var headers = Base.getHeaders(this, initialHeaders, "post", path, id, "sprocs", options);
+            
             this.post(urlConnection, path, params, headers, callback);
         },
-
+        
         /**
          * Replace the offer object.
          * @memberof DocumentClient
@@ -1835,12 +1864,12 @@ var DocumentClient = Base.defineClass(
                 callback(err);
                 return;
             }
-
+            
             var path = "/" + offerLink;
-            var id = Base.parsePath(offerLink).objectBody.id.toLowerCase();
+            var id = Base.parseLink(offerLink).objectBody.id.toLowerCase();
             this.replace(offer, path, "offers", id, undefined, {}, callback);
         },
-
+        
         /** Reads an offer.
          * @memberof DocumentClient
          * @instance
@@ -1849,10 +1878,10 @@ var DocumentClient = Base.defineClass(
         */
         readOffer: function (offerLink, callback) {
             var path = "/" + offerLink;
-            var id = Base.parsePath(offerLink).objectBody.id.toLowerCase();
+            var id = Base.parseLink(offerLink).objectBody.id.toLowerCase();
             this.read(path, "offers", id, undefined, {}, callback);
         },
-
+        
         /** Lists all offers.
          * @memberof DocumentClient
          * @instance
@@ -1862,7 +1891,7 @@ var DocumentClient = Base.defineClass(
         readOffers: function (options) {
             return this.queryOffers(undefined, options);
         },
-
+        
         /** Lists all offers that satisfy a query.
          * @memberof DocumentClient
          * @instance
@@ -1885,7 +1914,7 @@ var DocumentClient = Base.defineClass(
                         callback);
             });
         },
-
+        
         /** Gets the Database account information.
        * @memberof DocumentClient
        * @instance
@@ -1895,70 +1924,102 @@ var DocumentClient = Base.defineClass(
             var headers = Base.getHeaders(this, this.defaultHeaders, "get", "", "", "", {});
             this.get(this.urlConnection, "", headers, function (err, result, headers) {
                 if (err) return callback(err);
-
+                
                 var databaseAccount = new AzureDocuments.DatabaseAccount();
                 databaseAccount.DatabasesLink = "/dbs/";
                 databaseAccount.MediaLink = "/media/";
                 databaseAccount.MaxMediaStorageUsageInMB = headers[Constants.HttpHeaders.MaxMediaStorageUsageInMB];
                 databaseAccount.CurrentMediaStorageUsageInMB = headers[Constants.HttpHeaders.CurrentMediaStorageUsageInMB];
                 databaseAccount.ConsistencyPolicy = result.userConsistencyPolicy;
-
+                
                 callback(undefined, databaseAccount, headers);
             });
         },
-
+        
         /** @ignore */
         createDocumentPrivate: function (collectionLink, body, options, callback) {
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
-            // Generate random document id if the id is missing in the payload and options.disableAutomaticIdGeneration != true
-            if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-                body.id = Base.generateGuidId();
+            
+            var that = this;
+            
+            var task = function () {
+                // Generate random document id if the id is missing in the payload and options.disableAutomaticIdGeneration != true
+                if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
+                    body.id = Base.generateGuidId();
+                }
+                
+                var err = {};
+                if (!that.isResourceValid(body, err)) {
+                    callback(err);
+                    return;
+                }
+                
+                var isNameBased = Base.isLinkNameBased(collectionLink);
+                var path = that.getPathFromLink(collectionLink, "docs", isNameBased);
+                var id = that.getIdFromLink(collectionLink, isNameBased);
+                
+                that.create(body, path, "docs", id, undefined, options, callback);
+            };
+            
+            if (options.partitionKey === undefined) {
+                this.getPartitionKeyDefinition(collectionLink, function (err, partitionKeyDefinition) {
+                    if (err) callback(err);
+                    options.partitionKey = that.extractPartitionKey(body, partitionKeyDefinition);
+                    
+                    task();
+                });
             }
-
-            var err = {};
-            if (!this.isResourceValid(body, err)) {
-                callback(err);
-                return;
+            else {
+                task();
             }
-
-            var isNameBased = Base.isLinkNameBased(collectionLink);
-            var path = this.getPathFromLink(collectionLink, "docs", isNameBased);
-            var id = this.getIdFromLink(collectionLink, isNameBased);
-
-            this.create(body, path, "docs", id, undefined, options, callback);
         },
-
+        
         /** @ignore */
         upsertDocumentPrivate: function (collectionLink, body, options, callback) {
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
-            // Generate random document id if the id is missing in the payload and options.disableAutomaticIdGeneration != true
-            if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
-                body.id = Base.generateGuidId();
+            
+            var that = this;
+            
+            var task = function () {
+                // Generate random document id if the id is missing in the payload and options.disableAutomaticIdGeneration != true
+                if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
+                    body.id = Base.generateGuidId();
+                }
+                
+                var err = {};
+                if (!that.isResourceValid(body, err)) {
+                    callback(err);
+                    return;
+                }
+                
+                var isNameBased = Base.isLinkNameBased(collectionLink);
+                var path = that.getPathFromLink(collectionLink, "docs", isNameBased);
+                var id = that.getIdFromLink(collectionLink, isNameBased);
+                
+                that.upsert(body, path, "docs", id, undefined, options, callback);
+            };
+            
+            if (options.partitionKey === undefined) {
+                this.getPartitionKeyDefinition(collectionLink, function (err, partitionKeyDefinition) {
+                    if (err) callback(err);
+                    options.partitionKey = that.extractPartitionKey(body, partitionKeyDefinition);
+                    
+                    task();
+                });
             }
-
-            var err = {};
-            if (!this.isResourceValid(body, err)) {
-                callback(err);
-                return;
+            else {
+                task();
             }
-
-            var isNameBased = Base.isLinkNameBased(collectionLink);
-            var path = this.getPathFromLink(collectionLink, "docs", isNameBased);
-            var id = this.getIdFromLink(collectionLink, isNameBased);
-
-            this.upsert(body, path, "docs", id, undefined, options, callback);
         },
-
+        
         /** @ignore */
         queryDocumentsPrivate: function (collectionLinks, query, options) {
             var that = this;
-
+            
             var fetchFunctions = Base.map(collectionLinks, function (collectionLink) {
                 var isNameBased = Base.isLinkNameBased(collectionLink);
                 var path = that.getPathFromLink(collectionLink, "docs", isNameBased);
@@ -1988,7 +2049,7 @@ var DocumentClient = Base.defineClass(
             var headers = Base.getHeaders(this, initialHeaders, "post", path, id, type, options);
             this.post(urlConnection, path, body, headers, callback);
         },
-
+        
         /** @ignore */
         upsert: function (body, path, type, id, initialHeaders, options, callback) {
             var urlConnection = this.urlConnection;
@@ -1997,7 +2058,7 @@ var DocumentClient = Base.defineClass(
             this.setIsUpsertHeader(headers);
             this.post(urlConnection, path, body, headers, callback);
         },
-
+        
         /** @ignore */
         replace: function (resource, path, type, id, initialHeaders, options, callback) {
             var urlConnection = this.urlConnection;
@@ -2005,14 +2066,14 @@ var DocumentClient = Base.defineClass(
             var headers = Base.getHeaders(this, initialHeaders, "put", path, id, type, options);
             this.put(urlConnection, path, resource, headers, callback);
         },
-
+        
         /** @ignore */
         read: function (path, type, id, initialHeaders, options, callback) {
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "get", path, id, type, options);
             this.get(this.urlConnection, path, headers, callback);
         },
-
+        
         /** @ignore */
         deleteResource: function (path, type, id, initialHeaders, options, callback) {
             var urlConnection = this.urlConnection;
@@ -2020,40 +2081,81 @@ var DocumentClient = Base.defineClass(
             var headers = Base.getHeaders(this, initialHeaders, "delete", path, id, type, options);
             this.delete(urlConnection, path, headers, callback);
         },
-
+        
         /** @ignore */
         get: function (url, path, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "GET", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
-
+        
         /** @ignore */
         post: function (url, path, body, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "POST", url, path, body, this.defaultUrlParams, headers, callback);
         },
-
+        
         /** @ignore */
         put: function (url, path, body, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "PUT", url, path, body, this.defaultUrlParams, headers, callback);
         },
-
+        
         /** @ignore */
         head: function (url, path, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "HEAD", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
-
+        
         /** @ignore */
         delete: function (url, path, headers, callback) {
             return RequestHandler.request(this.connectionPolicy, "DELETE", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
-
+        
+        /** @ignore */
+        getPartitionKeyDefinition: function (collectionLink, callback) {
+            // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
+            // $ISSUE-felixfan-2016-03-17: Refresh partitionKeyDefinitionCache when necessary
+            if (collectionLink in this.partitionKeyDefinitionCache) {
+                return callback(undefined, this.partitionKeyDefinitionCache[collectionLink]);
+            }
+            
+            var that = this;
+            
+            this.readCollection(collectionLink, function (err, collection) {
+                if (err) return callback(err);
+                callback(err, that.partitionKeyDefinitionCache[collectionLink]);
+            });
+        },
+        
+        extractPartitionKey: function (document, partitionKeyDefinition) {
+            if (partitionKeyDefinition && partitionKeyDefinition.paths && partitionKeyDefinition.paths.length > 0) {
+                var partitionKey = [];
+                partitionKeyDefinition.paths.forEach(function (path) {
+                    var pathParts = Base.parsePath(path);
+                    
+                    var obj = document;
+                    for (var i = 0; i < pathParts.length; ++i) {
+                        if (!(pathParts[i] in obj)) {
+                            obj = {};
+                            break;
+                        }
+                        
+                        obj = obj[pathParts[i]];
+                    }
+                    
+                    partitionKey.push(obj);
+                });
+                
+                return partitionKey;
+            }
+            
+            return undefined;
+        },
+        
         /** @ignore */
         queryFeed: function (documentclient, path, type, id, resultFn, createFn, query, options, callback) {
             var that = this;
-
+            
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-
+            
             var successCallback = function (err, result, responseHeaders) {
                 if (err) return callback(err, undefined, responseHeaders);
                 var bodies;
@@ -2065,10 +2167,10 @@ var DocumentClient = Base.defineClass(
                         return createFn(that, body);
                     });
                 }
-
+                
                 callback(undefined, bodies, responseHeaders);
             };
-
+            
             var urlConnection = documentclient.urlConnection;
             var initialHeaders = Base.extend({}, documentclient.defaultHeaders);
             if (query === undefined) {
@@ -2089,12 +2191,12 @@ var DocumentClient = Base.defineClass(
                         initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.QueryJson;
                         break;
                 }
-
+                
                 var headers = Base.getHeaders(documentclient, initialHeaders, "post", path, id, type, options);
                 documentclient.post(urlConnection, path, query, headers, successCallback);
             }
         },
-
+        
         /** @ignore */
         isResourceValid: function (resource, err) {
             if (resource.id) {
@@ -2129,7 +2231,7 @@ var DocumentClient = Base.defineClass(
                     error: new Error("The partition resolver is null or undefined")
                 };
             }
-
+            
             var validation = this.isPartitionResolveFunctionDefined(partionResolver, "getPartitionKey");
             if (!validation.valid) {
                 return validation;
@@ -2142,6 +2244,7 @@ var DocumentClient = Base.defineClass(
             return validation;
         },
         
+        /** @ignore */
         isPartitionResolveFunctionDefined: function (partionResolver, functionName) {
             if (partionResolver === null || partionResolver === undefined) {
                 return {
@@ -2161,16 +2264,16 @@ var DocumentClient = Base.defineClass(
                 };
             }
         },
-
+        
         /** @ignore */
         getIdFromLink: function (resourceLink, isNameBased) {
             if (isNameBased) {
                 return resourceLink;
             } else {
-                return Base.parsePath(resourceLink).objectBody.id.toLowerCase();
+                return Base.parseLink(resourceLink).objectBody.id.toLowerCase();
             }
         },
-
+        
         /** @ignore */
         getPathFromLink: function (resourceLink, resourceType, isNameBased) {
             if (isNameBased) {
@@ -2202,9 +2305,9 @@ var DocumentClient = Base.defineClass(
         },
         
         /** @ignore */
-        validateOptionsAndCallback: function(optionsIn, callbackIn) {
+        validateOptionsAndCallback: function (optionsIn, callbackIn) {
             var options, callback;
-
+            
             // options
             if (optionsIn === undefined) {
                 options = new Object();
@@ -2216,17 +2319,17 @@ var DocumentClient = Base.defineClass(
             } else {
                 options = optionsIn;
             }
-
+            
             // callback
             if (callbackIn !== undefined && typeof callbackIn !== 'function') {
                 throw new Error(this.sprintf('The "callback" parameter must be of type "function". Actual type is: "%s".', typeof callbackIn));
             } else if (typeof callbackIn === 'function') {
                 callback = callbackIn
             }
-
+            
             return { options: options, callback: callback };
         },
-
+        
         /** @ignore */
         // Like C sprintf, currently only works for %s and %%.
         sprintf: function (format) {

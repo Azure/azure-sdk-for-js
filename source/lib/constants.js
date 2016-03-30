@@ -38,7 +38,7 @@ var Constants = {
         TextPlain: "text/plain",
         Xml: "application/xml"
     },
-
+    
     HttpMethods: {
         Get: "GET",
         Post: "POST",
@@ -47,7 +47,7 @@ var Constants = {
         Head: "HEAD",
         Options: "OPTIONS"
     },
-
+    
     HttpHeaders: {
         Authorization: "authorization",
         ETag: "etag",
@@ -95,15 +95,15 @@ var Constants = {
         Prefer: "Prefer",
         Location: "Location",
         Referer: "referer",
-
+        
         // Query
         Query: "x-ms-documentdb-query",
         IsQuery: "x-ms-documentdb-isquery",
-
+        
         // Our custom DocumentDB headers
         Continuation: "x-ms-continuation",
         PageSize: "x-ms-max-item-count",
-
+        
         // Request sender generated. Simply echoed by backend.
         ActivityId: "x-ms-activity-id",
         PreTriggerInclude: "x-ms-documentdb-pre-trigger-include",
@@ -121,8 +121,12 @@ var Constants = {
         ResourceTokenExpiry: "x-ms-documentdb-expiry-seconds",
         EnableScanInQuery: "x-ms-documentdb-query-enable-scan",
         EmitVerboseTracesInQuery: "x-ms-documentdb-query-emit-traces",
+        EnableCrossPartitionQuery: "x-ms-documentdb-query-enablecrosspartition",
         // Version headers and values
         Version: "x-ms-version",
+        
+        // Partition Key
+        PartitionKey: "x-ms-documentdb-partitionkey",
 
         //Quota Info
         MaxEntityCount: "x-ms-root-entity-max-count",
@@ -132,33 +136,34 @@ var Constants = {
         MaxMediaStorageUsageInMB: "x-ms-max-media-storage-usage-mb",
         CurrentMediaStorageUsageInMB: "x-ms-media-storage-usage-mb",
         RequestCharge: "x-ms-request-charge",
-
+        
         // Offer header
         OfferType: "x-ms-offer-type",
-
+        OfferThroughput: "x-ms-offer-throughput",
+        
         // Index progress headers
         IndexTransformationProgress: "x-ms-documentdb-collection-index-transformation-progress",
         LazyIndexingProgress: "x-ms-documentdb-collection-lazy-indexing-progress",
-
+        
         // Upsert header
         IsUpsert: "x-ms-documentdb-is-upsert"
     },
-
-    CurrentVersion: "2015-08-06",
-
-    UserAgent: "documentdb-nodejs-sdk-1.5.6",
-
+    
+    CurrentVersion: "2015-12-16",
+    
+    UserAgent: "documentdb-nodejs-sdk-1.6.0",
+    
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,
         DefaultNumberRangePrecision: -1,
         DefaultStringHashPrecision: 3,
         DefaultStringRangePrecision: -1
     },
-
+    
     ConsistentHashRing: {
         DefaultVirtualNodesPerCollection: 128
     },
-
+    
     RegularExpressions: {
         TrimLeftSlashes: new RegExp("^[/]+"),
         TrimRightSlashes: new RegExp("[/]+$")

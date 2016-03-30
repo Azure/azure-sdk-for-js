@@ -34,7 +34,7 @@ describe("Base._trimSlashes", function () {
     it("/a/ => a", function () {
         test("/a/", "a");
     });
-
+    
     it("/a/b => a/b", function () {
         test("/a/b", "a/b");
     });
@@ -50,23 +50,23 @@ describe("Base._trimSlashes", function () {
     it("/a => a", function () {
         test("/a", "a");
     });
-
+    
     it("a/ => a", function () {
         test("a/", "a");
     });
-
+    
     it("//a// => a", function () {
         test("//a//", "a");
     });
-
+    
     it("/ => ", function () {
         test("/", "");
     });
-
+    
     it("// => ", function () {
         test("//", "");
     });
-
+    
     it("/// => ", function () {
         test("///", "");
     });
@@ -106,7 +106,7 @@ describe("Base._isValidCollectionLink", function () {
             test(value, false);
         });
     });
-
+    
     it("not dbs/x/colls/y => false", function () {
         var testValues = [
             "a/b/c/d",
@@ -118,7 +118,7 @@ describe("Base._isValidCollectionLink", function () {
             test(value, false);
         });
     });
-
+    
     it("dbs/x/colls/y => true", function () {
         var testValues = [
             "dbs/b/colls/d",
@@ -134,29 +134,52 @@ describe("Base.getAttachmentIdFromMediaId", function () {
     var test = function (input, expected) {
         assert.strictEqual(Base.getAttachmentIdFromMediaId(input), expected);
     };
-
+    
     it("> 20 characters, Alpha-numeric only:  6hl2ALdWbQCxAgAAAAAAAC4b1VoB => 6hl2ALdWbQCxAgAAAAAAAC4b1Vo=", function () {
         test("6hl2ALdWbQCxAgAAAAAAAC4-1VoB", "6hl2ALdWbQCxAgAAAAAAAC4-1Vo=");
     });
-
+    
     it("> 20 characters, Single hyphen (-):  6hl2ALdWbQCxAgAAAAAAAC4-1VoB => 6hl2ALdWbQCxAgAAAAAAAC4-1Vo=", function () {
         test("6hl2ALdWbQCxAgAAAAAAAC4-1VoB", "6hl2ALdWbQCxAgAAAAAAAC4-1Vo=");
     });
-
+    
     it("> 20 characters, Multiple hyphens (-):  6hl2ALdWb-CxAgAAAAAAAC4-1VoB => 6hl2ALdWb-CxAgAAAAAAAC4-1Vo=", function () {
         test("6hl2ALdWb-CxAgAAAAAAAC4-1VoB", "6hl2ALdWb-CxAgAAAAAAAC4-1Vo=");
     });
-
+    
     it("> 20 characters, Plus sign (+):  6hl2ALdWb+CxAgAAAAAAAC4Q1VoB => 6hl2ALdWb+CxAgAAAAAAAC4Q1Vo=", function () {
         test("6hl2ALdWb-CxAgAAAAAAAC4-1VoB", "6hl2ALdWb-CxAgAAAAAAAC4-1Vo=");
     });
-
+    
     it("> 20 characters, Plus sign (+), Hyphen (-):  6hl2ALdWb+CxAgAAAAAAAC4-1VoB => 6hl2ALdWb+CxAgAAAAAAAC4-1Vo=", function () {
         test("6hl2ALdWb-CxAgAAAAAAAC4-1VoB", "6hl2ALdWb-CxAgAAAAAAAC4-1Vo=");
     });
-
+    
     it("< 20 characters, Plus sign (+), Hyphen (-):  6hl2A-dWb+CxAgAAAA => 6hl2A-dWb+CxAgAAAA", function () {
         test("6hl2A-dWb+CxAgAAAA", "6hl2A-dWb+CxAgAAAA");
     });
 
+});
+
+describe("Base.parsePath", function () {
+    var test = function (input, expected) {
+        assert.strictEqual(JSON.stringify(Base.parsePath(input)), JSON.stringify(expected));
+    };
+    
+    it("/\"Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1\"/*", function () {
+        test("/\"Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1\"/*", [ "Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1", "*" ]);
+    });
+
+    it("/'Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1'/*", function () {
+        test("/'Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1'/*", [ "Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1", "*" ]);
+    });
+
+    it("test paths", function () {
+        var fs = require('fs');
+        var content = fs.readFileSync('../../.net/Microsoft.Azure.Documents.Client.Test/Routing/resources/BaselineTest.PathParser.json');
+        var obj = JSON.parse(content);
+        obj.forEach(function (entry) {
+            test(entry.path, entry.parts);
+        });
+    });
 });

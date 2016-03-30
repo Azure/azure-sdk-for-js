@@ -1,3 +1,8 @@
+## Changes in 1.6.0 : ##
+
+- Added support for Partitioned Collections
+- Added support for new offer types
+
 ## Changes in 1.5.6 : ##
 
 - Fixed RangePartitionResolver.resolveForRead bug where it was not returning links due to a bad concat of results

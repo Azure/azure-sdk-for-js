@@ -141,19 +141,25 @@ var AzureDocuments = Base.defineClass(null, null,
          * @readonly
          * @enum {string}
          * @property Hash     This is supplied for a path which has no sorting requirement.
-         *                     This kind of an index has better precision than corresponding range index.
-         *
-         * @property Range  This is supplied for a path which requires sorting.
+         *                    This kind of an index has better precision than corresponding range index.
+         * @property Range    This is supplied for a path which requires sorting.
+         * @property Spatial  This is supplied for a path which requires geospatial indexing.
          */
 
         IndexKind: Object.freeze({
             Hash: "Hash",
-            Range: "Range"
+            Range: "Range",
+            Spatial: "Spatial"
         }),
 
         DataType: Object.freeze({
             Number: "Number",
-            String: "String"
+            String: "String",
+            Point: "Point"
+        }),
+
+        PartitionKind: Object.freeze({
+            Hash: "Hash"
         }),
 
         ConnectionMode: Object.freeze({
