@@ -33,7 +33,7 @@ function initializeProperties(target, members, prefix) {
     var i, len;
     for (i = 0, len = keys.length; i < len; i++) {
         var key = keys[i];
-        var enumerable = key.charCodeAt(0) !== /*_*/95;
+        var enumerable = key.charCodeAt(0) !== /*_*/ 95;
         var member = members[key];
         if (member && typeof member === "object") {
             if (member.value !== undefined || typeof member.get === "function" || typeof member.set === "function") {
@@ -69,7 +69,7 @@ function initializeProperties(target, members, prefix) {
 */
 function defineWithParent(parentNamespace, name, members) {
     var currentNamespace = parentNamespace || {};
-
+    
     if (name) {
         var namespaceFragments = name.split(".");
         for (var i = 0, len = namespaceFragments.length; i < len; i++) {
@@ -82,11 +82,11 @@ function defineWithParent(parentNamespace, name, members) {
             currentNamespace = currentNamespace[namespaceName];
         }
     }
-
+    
     if (members) {
         initializeProperties(currentNamespace, members, name || "<ANONYMOUS>");
     }
-
+    
     return currentNamespace;
 }
 
@@ -161,18 +161,18 @@ function mix(constructor) {
 
 var Base = {
     NotImplementedException: "NotImplementedException",
-
+    
     defineWithParent: defineWithParent,
-
+    
     define: define,
-
+    
     defineClass: defineClass,
-
+    
     derive: derive,
-
+    
     mix: mix,
-
-    extend: function(obj, extent) {
+    
+    extend: function (obj, extent) {
         for (var property in extent) {
             if (typeof extent[property] !== "function") {
                 obj[property] = extent[property];
@@ -180,41 +180,45 @@ var Base = {
         }
         return obj;
     },
-
-    map: function(list, fn) {
+    
+    map: function (list, fn) {
         var result = [];
-        for (var i = 0, n = list.length; i < n; i++){
+        for (var i = 0, n = list.length; i < n; i++) {
             result.push(fn(list[i]));
         }
-
+        
         return result;
     },
-
-    getHeaders: function(documentClient, defaultHeaders, verb, path, resourceId, resourceType, options) {
-
+    
+    getHeaders: function (documentClient, defaultHeaders, verb, path, resourceId, resourceType, options) {
+        
         var headers = Base.extend({}, defaultHeaders);
         options = options || {};
-
+        
         if (options.continuation) {
             headers[Constants.HttpHeaders.Continuation] = options.continuation;
         }
-
+        
         if (options.preTriggerInclude) {
             headers[Constants.HttpHeaders.PreTriggerInclude] = options.preTriggerInclude.constructor === Array ? options.preTriggerInclude.join(",") : options.preTriggerInclude;
         }
-
+        
         if (options.postTriggerInclude) {
             headers[Constants.HttpHeaders.PostTriggerInclude] = options.postTriggerInclude.constructor === Array ? options.postTriggerInclude.join(",") : options.postTriggerInclude;
         }
-
-        if (options.offerType != null) {
+        
+        if (options.offerType) {
             headers[Constants.HttpHeaders.OfferType] = options.offerType;
         }
-
+        
+        if (options.offerThroughput) {
+            headers[Constants.HttpHeaders.OfferThroughput] = options.offerThroughput;
+        }
+        
         if (options.maxItemCount) {
             headers[Constants.HttpHeaders.PageSize] = options.maxItemCount;
         }
-
+        
         if (options.accessCondition) {
             if (options.accessCondition.type === "IfMatch") {
                 headers[Constants.HttpHeaders.IfMatch] = options.accessCondition.condition;
@@ -222,52 +226,68 @@ var Base = {
                 headers[Constants.HttpHeaders.IfNoneMatch] = options.accessCondition.condition;
             }
         }
-
+        
         if (options.indexingDirective) {
             headers[Constants.HttpHeaders.IndexingDirective] = options.indexingDirective;
         }
-
+        
         // TODO: add consistency level validation.
         if (options.consistencyLevel) {
             headers[Constants.HttpHeaders.ConsistencyLevel] = options.consistencyLevel;
         }
-
+        
         if (options.resourceTokenExpirySeconds) {
             headers[Constants.HttpHeaders.ResourceTokenExpiry] = options.resourceTokenExpirySeconds;
         }
-
+        
         // TODO: add session token automatic handling in case of session consistency.
         if (options.sessionToken) {
             headers[Constants.HttpHeaders.SessionToken] = options.sessionToken;
         }
-
+        
         if (options.enableScanInQuery) {
             headers[Constants.HttpHeaders.EnableScanInQuery] = options.enableScanInQuery;
         }
-
+        
+        if (options.enableCrossPartitionQuery) {
+            headers[Constants.HttpHeaders.EnableCrossPartitionQuery] = options.enableCrossPartitionQuery;
+        }
+        
+        // If the user is not using partition resolver, we add options.partitonKey to the header for elastic collections
+        if (documentClient.partitionResolver === undefined || documentClient.partitionResolver === null) {
+            if (options.partitionKey !== undefined) {
+                var partitionKey = options.partitionKey;
+                if (partitionKey === null || partitionKey.constructor !== Array) {
+                    partitionKey = [partitionKey];
+                }
+                
+                headers[Constants.HttpHeaders.PartitionKey] = JSON.stringify(partitionKey);
+            }
+        }
+        
         if (documentClient.masterKey) {
             headers[Constants.HttpHeaders.XDate] = new Date().toUTCString();
         }
-
+        
         if (documentClient.masterKey || documentClient.resourceTokens) {
             headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(AuthHandler.getAuthorizationHeader(documentClient, verb, path, resourceId, resourceType, headers));
         }
-
+        
         if (verb === "post" || verb === "put") {
             if (!headers[Constants.HttpHeaders.ContentType]) {
                 headers[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.Json;
             }
         }
-
+        
         if (!headers[Constants.HttpHeaders.Accept]) {
             headers[Constants.HttpHeaders.Accept] = Constants.MediaTypes.Json;
         }
-
+        
         return headers;
     },
-
-     /** @ignore */
-    parsePath: function(resourcePath) {
+    
+    /** @ignore */
+    parseLink: function (resourcePath) {
         if (resourcePath.length === 0) {
             /* for DatabaseAccount case, both type and objectBody will be undefined. */
             return {
@@ -275,15 +295,15 @@ var Base = {
                 objectBody: undefined
             };
         }
-
+        
         if (resourcePath[resourcePath.length - 1] !== "/") {
             resourcePath = resourcePath + "/";
         }
-
+        
         if (resourcePath[0] !== "/") {
             resourcePath = "/" + resourcePath;
         }
-
+        
         /*
         / The path will be in the form of /[resourceType]/[resourceId]/ .... /[resourceType]//[resourceType]/[resourceId]/ .... /[resourceType]/[resourceId]/
         / or /[resourceType]/[resourceId]/ .... /[resourceType]/[resourceId]/[resourceType]/[resourceId]/ .... /[resourceType]/[resourceId]/
@@ -302,7 +322,7 @@ var Base = {
             id = pathParts[pathParts.length - 3];
             type = pathParts[pathParts.length - 2];
         }
-
+        
         var result = {
             type: type,
             objectBody: {
@@ -310,12 +330,85 @@ var Base = {
                 self: resourcePath
             }
         };
-
+        
         return result;
     },
-
-     /** @ignore */
-    getAttachmentIdFromMediaId: function(mediaId) {
+    
+    /** @ignore */
+    parsePath: function (path) {
+        var pathParts = [];
+        var currentIndex = 0;
+        
+        var throwError = function () {
+            throw new Error("Path " + path + " is invalid at index " + currentIndex);
+        };
+        
+        var getEscapedToken = function () {
+            var quote = path[currentIndex];
+            var newIndex = ++currentIndex;
+            
+            while (true) {
+                newIndex = path.indexOf(quote, newIndex);
+                if (newIndex == -1) {
+                    throwError();
+                }
+                
+                if (path[newIndex - 1] !== '\\') break;
+                
+                ++newIndex;
+            }
+            
+            var token = path.substr(currentIndex, newIndex - currentIndex);
+            currentIndex = newIndex + 1;
+            return token;
+        };
+        
+        var getToken = function () {
+            var newIndex = path.indexOf('/', currentIndex);
+            var token = null;
+            if (newIndex == -1) {
+                token = path.substr(currentIndex);
+                currentIndex = path.length;
+            }
+            else {
+                token = path.substr(currentIndex, newIndex - currentIndex);
+                currentIndex = newIndex;
+            }
+            
+            token = token.trim();
+            return token;
+        };
+        
+        while (currentIndex < path.length) {
+            if (path[currentIndex] !== '/') {
+                throwError();
+            }
+            
+            if (++currentIndex == path.length) break;
+            
+            if (path[currentIndex] === '\"' || path[currentIndex] === '\'') {
+                pathParts.push(getEscapedToken());
+            }
+            else {
+                pathParts.push(getToken());
+            }
+        }
+        
+        return pathParts;
+    },
+    
+    /** @ignore */
+    getDatabaseLink: function (link) {
+        return link.split('/').slice(0, 2).join('/');
+    },
+    
+    /** @ignore */
+    getCollectionLink: function (link) {
+        return link.split('/').slice(0, 4).join('/');
+    },
+    
+    /** @ignore */
+    getAttachmentIdFromMediaId: function (mediaId) {
         // Replace - with / on the incoming mediaId.  This will preserve the / so that we can revert it later.
         var buffer = new Buffer(mediaId.replace(/-/g, "/"), "base64");
         var ResoureIdLength = 20;
@@ -326,50 +419,50 @@ var Base = {
         } else {
             attachmentId = mediaId;
         }
-
+        
         return attachmentId;
     },
-
+    
     /** @ignore */
-    getHexaDigit: function() {
+    getHexaDigit: function () {
         return Math.floor(Math.random() * 16).toString(16);
     },
-
+    
     /** @ignore */
-    generateGuidId: function() {
+    generateGuidId: function () {
         var id = "";
-
+        
         for (var i = 0; i < 8; i++) {
             id += Base.getHexaDigit();
         }
-
+        
         id += "-";
-
+        
         for (var i = 0; i < 4; i++) {
             id += Base.getHexaDigit();
         }
-
+        
         id += "-";
-
+        
         for (var i = 0; i < 4; i++) {
             id += Base.getHexaDigit();
         }
-
+        
         id += "-";
-
+        
         for (var i = 0; i < 4; i++) {
             id += Base.getHexaDigit();
         }
-
+        
         id += "-";
-
+        
         for (var i = 0; i < 12; i++) {
             id += Base.getHexaDigit();
         }
-
+        
         return id;
     },
-
+    
     isLinkNameBased: function (link) {
         var parts = link.split("/");
         var firstId = "";
