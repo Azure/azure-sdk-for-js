@@ -1,7 +1,5 @@
 #Microsoft Azure DocumentDB Node.js SDK
 
-[![Join the chat at https://gitter.im/Azure/azure-documentdb-node](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Azure/azure-documentdb-node?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 ![](https://img.shields.io/npm/v/documentdb.svg)
 ![](https://img.shields.io/npm/dm/documentdb.svg)
 ![](https://img.shields.io/github/issues/azure/azure-documentdb-node.svg)
