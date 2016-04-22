@@ -8,7 +8,7 @@
  * @classdesc Constructs a {@linkcode EventData} object.
  * @param {String}  body   The event payload as a byte array.
  */
-function EventData(body, systemProperties) {
+function EventData(body, systemProperties, properties) {
   Object.defineProperties(this, {
     'partitionKey': {
       get: function () {
@@ -42,7 +42,7 @@ function EventData(body, systemProperties) {
       }
     },
     'properties': {
-      value: null,
+      value: properties,
       writable: true
     },
     'sequenceNumber': {
@@ -62,7 +62,7 @@ function EventData(body, systemProperties) {
 }
 
 EventData.fromAmqpMessage = function (msg) {
-  return new EventData(msg.body, msg.annotations.value);
+  return new EventData(msg.body, msg.annotations.value, msg.properties);
 };
 
 module.exports = EventData;
