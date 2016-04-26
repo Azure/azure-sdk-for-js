@@ -21,6 +21,7 @@
     <Content Include="package.json" />
     <Content Include="changelog.md" />
     <Content Include="readme.html" />
+    <Content Include="test\mocha.json" />
     <Content Include="test\readme.md" />
   </ItemGroup>
   <ItemGroup>

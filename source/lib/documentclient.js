@@ -123,6 +123,7 @@ var DocumentClient = Base.defineClass(
          * @param {object} body                          - Represents the body of the collection.
          * @param {string} body.id                       - The id of the collection.
          * @param {IndexingPolicy} body.indexingPolicy   - The indexing policy associated with the collection.
+         * @param {number} body.defaultTtl               - The default time to live in seconds for documents in a collection.
          * @param {RequestOptions} [options]             - The request options.
          * @param {RequestCallback} callback             - The callback for the request.
          */
@@ -155,6 +156,7 @@ var DocumentClient = Base.defineClass(
          * @param {string} documentsFeedOrDatabaseLink               - The collection link or database link if using a partition resolver
          * @param {object} body                                      - Represents the body of the document. Can contain any number of user defined properties.
          * @param {string} [body.id]                                 - The id of the document, MUST be unique for each document.
+         * @param {number} body.ttl                                  - The time to live in seconds of the document.
          * @param {RequestOptions} [options]                         - The request options.
          * @param {boolean} [options.disableAutomaticIdGeneration]   - Disables the automatic id generation. If id is missing in the body and this option is true, an error will be returned.
          * @param {RequestCallback} callback                         - The callback for the request.
@@ -1488,6 +1490,7 @@ var DocumentClient = Base.defineClass(
          * @param {string} documentsFeedOrDatabaseLink               - The collection link or database link if using a partition resolver
          * @param {object} body                                      - Represents the body of the document. Can contain any number of user defined properties.
          * @param {string} [body.id]                                 - The id of the document, MUST be unique for each document.
+         * @param {number} body.ttl                                  - The time to live in seconds of the document.
          * @param {RequestOptions} [options]                         - The request options.
          * @param {boolean} [options.disableAutomaticIdGeneration]   - Disables the automatic id generation. If id is missing in the body and this option is true, an error will be returned.
          * @param {RequestCallback} callback                         - The callback for the request.

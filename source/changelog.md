@@ -1,12 +1,16 @@
+## Changes in 1.7.0 : ##
+
+- Added the support for TimeToLive(TTL) feature for documents.
+
 ## Changes in 1.6.0 : ##
 
-- Added support for Partitioned Collections
-- Added support for new offer types
+- Added support for Partitioned Collections.
+- Added support for new offer types.
 
 ## Changes in 1.5.6 : ##
 
-- Fixed RangePartitionResolver.resolveForRead bug where it was not returning links due to a bad concat of results
-- Move compareFunction from Range class to RangePartitionResolver class
+- Fixed RangePartitionResolver.resolveForRead bug where it was not returning links due to a bad concat of results.
+- Move compareFunction from Range class to RangePartitionResolver class.
 
 ## Changes in 1.5.5 : ##
 
@@ -18,7 +22,7 @@
 
 ## Changes in 1.5.3 : ##
 
-- Properly handle dashes in the mediaIds
+- Properly handle dashes in the mediaIds.
 
 ## Changes in 1.5.2 : ##
 
@@ -40,17 +44,17 @@
 
 ## Changes in 1.3.0 : ##
 
-- Skipped to bring version numbers in alignment with other SDKs
+- Skipped to bring version numbers in alignment with other SDKs.
 
 ## Changes in 1.2.2 : ##
 
-- Split Q promises wrapper to new repository
-- Update to package file for npm registry
+- Split Q promises wrapper to new repository.
+- Update to package file for npm registry.
 
 ## Changes in 1.2.1 : ##
 
-- Implements ID Based Routing
-- Fixes Issue [#49](https://github.com/Azure/azure-documentdb-node/issues/49) - current property conflicts with method current()
+- Implements ID Based Routing.
+- Fixes Issue [#49](https://github.com/Azure/azure-documentdb-node/issues/49) - current property conflicts with method current().
 
 ## Changes in 1.2.0 : ##
 
@@ -60,11 +64,11 @@
 
 ## Changes in 1.1.0 : ##
 
-- Implements V2 indexing policy
+- Implements V2 indexing policy.
 
 ## Changes in 1.0.3 : ##
 
-- Issue [#40] (https://github.com/Azure/azure-documentdb-node/issues/40) - Implemented eslint and grunt configurations in the core and promise SDK
+- Issue [#40] (https://github.com/Azure/azure-documentdb-node/issues/40) - Implemented eslint and grunt configurations in the core and promise SDK.
 
 ## Changes in 1.0.2 : ##
 
@@ -72,6 +76,6 @@
 
 ## Changes in 1.0.1 : ##
 
-- Implemented ability to query for conflicts by adding readConflicts, readConflictAsync, queryConflicts;
-- Updated API documentation
-- Issue [#41](https://github.com/Azure/azure-documentdb-node/issues/41) - client.createDocumentAsync error  
+- Implemented ability to query for conflicts by adding readConflicts, readConflictAsync, queryConflicts.
+- Updated API documentation.
+- Issue [#41](https://github.com/Azure/azure-documentdb-node/issues/41) - client.createDocumentAsync error.

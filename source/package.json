@@ -9,7 +9,7 @@
     "database",
     "cloud"
   ],
-  "version": "1.6.0",
+  "version": "1.7.0",
   "author": "Microsoft Corporation",
   "main": "./index.js",
   "engine": {
@@ -28,10 +28,5 @@
     "type": "git",
     "url": "https://github.com/Azure/azure-documentdb-node"
   },
-  "licenses": [
-    {
-      "type": "Apache License, Version 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0"
-    }
-  ]
+  "license": "Apache-2.0"
 }

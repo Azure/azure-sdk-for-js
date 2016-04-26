@@ -1,1 +1,1 @@
-Please read the contributing guidelines from the [Azure Team](http://azure.github.io/guidelines/)
+Please read the contributing guidelines from the [Azure Team](https://azure.microsoft.com/en-us/blog/simple-contribution-to-azure-documentation-and-sdk/)
