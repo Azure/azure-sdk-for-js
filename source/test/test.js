@@ -2932,6 +2932,348 @@ describe("NodeJS CRUD Tests", function () {
         });
     });
     
+    describe("TTL tests", function () {
+        this.timeout(60000);
+        var dummyDocumentDefinition = { id: "dummy doc" }
+        
+        function createCollectionWithInvalidDefaultTtl(client, db, collectionDefinition, collId, defaultTtl, callback) {
+            collectionDefinition.id = collId;
+            collectionDefinition.defaultTtl = defaultTtl;
+            
+            client.createCollection(db._self, collectionDefinition, function (err) {
+                var badRequestErrorCode = 400;
+                assert.equal(err.code, badRequestErrorCode, "response should return error code " + badRequestErrorCode);
+                callback();
+            });
+        }
+        
+        function createDocumentWithInvalidTtl(client, collection, documentDefinition, docId, ttl, callback) {
+            documentDefinition.id = docId;
+            documentDefinition.ttl = ttl;
+            
+            client.createDocument(collection._self, documentDefinition, function (err) {
+                var badRequestErrorCode = 400;
+                assert.equal(err.code, badRequestErrorCode, "response should return error code " + badRequestErrorCode);
+                callback();
+            });
+        }
+
+        it("[nativeApi] Validate Collection and Document TTL values.", function(done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+
+            client.createDatabase({ "id": "sample database" }, function(err, db) {
+                assert.equal(err, undefined, "error creating database");
+
+                var collectionDefinition = {
+                    id: "sample collection1",
+                    defaultTtl: 5
+                };
+
+                client.createCollection(db._self, collectionDefinition, function(err, collection) {
+                    assert.equal(err, undefined, "error creating collection");
+                    assert.equal(collectionDefinition.defaultTtl, collection.defaultTtl);
+
+                    createCollectionWithInvalidDefaultTtl(client, db, collectionDefinition, "sample collection2", null, function() {
+                        createCollectionWithInvalidDefaultTtl(client, db, collectionDefinition, "sample collection3", 0, function() {
+                            createCollectionWithInvalidDefaultTtl(client, db, collectionDefinition, "sample collection4", -10, function() {
+
+                                var documentDefinition = {
+                                    id: "doc",
+                                    name: "sample document",
+                                    key: "value",
+                                    ttl: 2
+                                };
+
+                                createDocumentWithInvalidTtl(client, collection, documentDefinition, "doc1", 0, function() {
+                                    createDocumentWithInvalidTtl(client, collection, documentDefinition, "doc2", null, function() {
+                                        createDocumentWithInvalidTtl(client, collection, documentDefinition, "doc3", -10, function() {
+                                            done();
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+        
+        function checkDocumentGone(client, collection, createdDocument, callback) {
+            client.upsertDocument(collection._self, dummyDocumentDefinition, function (err) {
+                assert.equal(err, undefined, "error upserting document");
+                
+                client.readDocument(createdDocument._self, function (err) {
+                    var badRequestErrorCode = 404;
+                    assert.equal(err.code, badRequestErrorCode, "response should return error code " + badRequestErrorCode);
+                    callback();
+                });
+            });
+        }
+        
+        function checkDocumentExists(client, collection, createdDocument, callback) {
+            client.upsertDocument(collection._self, dummyDocumentDefinition, function (err) {
+                assert.equal(err, undefined, "error upserting document");
+                
+                client.readDocument(createdDocument._self, function (err, readDocument) {
+                    assert.equal(err, undefined, "error reading document");
+                    assert.equal(readDocument.ttl, createdDocument.ttl);
+                    callback();
+                });
+            });
+        }
+        
+        function positiveDefaultTtlStep4(client, collection, createdDocument, callback) {
+            checkDocumentExists(client, collection, createdDocument, function () {
+                setTimeout(function() {
+                    checkDocumentGone(client, collection, createdDocument, function() {
+                        callback();
+                    });
+                }, 3000);
+            });
+        }
+        
+        function positiveDefaultTtlStep3(client, collection, createdDocument, documentDefinition, callback) {
+            checkDocumentGone(client, collection, createdDocument, function () {
+                documentDefinition.id = "doc4";
+                documentDefinition.ttl = 8;
+                
+                client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
+                    assert.equal(err, undefined, "error creating document");
+                    
+                    setTimeout(positiveDefaultTtlStep4, 6000, client, collection, createdDocument, callback);
+                });
+            });
+        }
+        
+        function positiveDefaultTtlStep2(client, collection, createdDocument, documentDefinition, callback) {
+            checkDocumentExists(client, collection, createdDocument, function () {
+                documentDefinition.id = "doc3";
+                documentDefinition.ttl = 2;
+                
+                client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
+                    assert.equal(err, undefined, "error creating document");
+                    
+                    setTimeout(positiveDefaultTtlStep3, 3000, client, collection, createdDocument, documentDefinition, callback);
+                });
+            });
+        }
+        
+        function positiveDefaultTtlStep1(client, collection, createdDocument, documentDefinition, callback) {
+            checkDocumentGone(client, collection, createdDocument, function () {
+                documentDefinition.id = "doc2";
+                documentDefinition.ttl = -1;
+                
+                client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
+                    assert.equal(err, undefined, "error creating document");
+                    
+                    setTimeout(positiveDefaultTtlStep2, 6000, client, collection, createdDocument, documentDefinition, callback);
+                });
+            });
+        }
+
+        it("[nativeApi] Validate Document TTL with positive defaultTtl.", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            
+            client.createDatabase({ "id": "sample database" }, function (err, db) {
+                assert.equal(err, undefined, "error creating database");
+                
+                var collectionDefinition = {
+                    id: "sample collection",
+                    defaultTtl: 5
+                };
+
+                client.createCollection(db._self, collectionDefinition, function(err, collection) {
+                    assert.equal(err, undefined, "error creating collection");
+
+                    var documentDefinition = {
+                        id: "doc1",
+                        name: "sample document",
+                        key: "value"
+                    };
+
+                    client.createDocument(collection._self, documentDefinition, function(err, createdDocument) {
+                        assert.equal(err, undefined, "error creating document");
+                        
+                        setTimeout(positiveDefaultTtlStep1, 6000, client, collection, createdDocument, documentDefinition, function() {
+                             done();
+                        });
+                    });
+                });
+            });
+        });
+        
+        function minusOneDefaultTtlStep1(client, collection, createdDocument1, createdDocument2, createdDocument3, callback) {
+            checkDocumentGone(client, collection, createdDocument3, function () {
+                client.readDocument(createdDocument1._self, function (err, readDocument) {
+                    assert.equal(err, undefined, "error reading document");
+                    assert.equal(readDocument.id, createdDocument1.id);
+                    
+                    client.readDocument(createdDocument2._self, function (err, readDocument) {
+                        assert.equal(err, undefined, "error reading document");
+                        assert.equal(readDocument.id, createdDocument2.id);
+                        callback();
+                    });
+                });
+            });
+        }
+        
+        it("[nativeApi] Validate Document TTL with -1 defaultTtl.", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            
+            client.createDatabase({ "id": "sample database" }, function (err, db) {
+                assert.equal(err, undefined, "error creating database");
+                
+                var collectionDefinition = {
+                    id: "sample collection",
+                    defaultTtl: -1
+                };
+                
+                client.createCollection(db._self, collectionDefinition, function (err, collection) {
+                    assert.equal(err, undefined, "error creating collection");
+                    
+                    var documentDefinition = {
+                        id: "doc1",
+                        name: "sample document",
+                        key: "value"
+                    };
+                    
+                    client.createDocument(collection._self, documentDefinition, function (err, createdDocument1) {
+                        assert.equal(err, undefined, "error creating document");
+                                    
+                        documentDefinition.id = "doc2";
+                        documentDefinition.ttl = -1;
+
+                        client.createDocument(collection._self, documentDefinition, function(err, createdDocument2) {
+                            assert.equal(err, undefined, "error creating document");
+
+                            documentDefinition.id = "doc3";
+                            documentDefinition.ttl = 2;
+
+                            client.createDocument(collection._self, documentDefinition, function(err, createdDocument3) {
+                                assert.equal(err, undefined, "error creating document");
+
+                                setTimeout(minusOneDefaultTtlStep1, 3000, client, collection, createdDocument1, createdDocument2, createdDocument3, function() {
+                                    done();
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+        
+        it("[nativeApi] Validate Document TTL with no defaultTtl.", function (done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+            
+            client.createDatabase({ "id": "sample database" }, function (err, db) {
+                assert.equal(err, undefined, "error creating database");
+                
+                var collectionDefinition = { id: "sample collection" }
+                
+                client.createCollection(db._self, collectionDefinition, function (err, collection) {
+                    assert.equal(err, undefined, "error creating collection");
+                    
+                    var documentDefinition = {
+                        id: "doc1",
+                        name: "sample document",
+                        key: "value",
+                        ttl: 5
+                    };
+                    
+                    client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
+                        assert.equal(err, undefined, "error creating document");
+
+                        setTimeout(checkDocumentExists, 3000, client, collection, createdDocument, function() {
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+        
+        function miscCasesStep4(client, collection, createdDocument, documentDefinition, callback) {
+            checkDocumentExists(client, collection, createdDocument, function () {
+                callback();
+            });
+        }
+        
+        function miscCasesStep3(client, collection, upsertedDocument, documentDefinition, callback) {
+            checkDocumentGone(client, collection, upsertedDocument, function () {
+                client.deleteDocument(upsertedDocument._self, function() {
+                    var collectionDefinition = { id: collection.id };
+
+                    client.replaceCollection(collection._self, collectionDefinition, function(err, replacedCollection) {
+                        assert.equal(err, undefined, "error replacing collection");
+
+                        documentDefinition.id = "doc2";
+
+                        client.createDocument(replacedCollection._self, documentDefinition, function(err, createdDocument) {
+                            assert.equal(err, undefined, "error creating document");
+
+                            setTimeout(miscCasesStep4, 6000, client, replacedCollection, createdDocument, documentDefinition, callback);
+                        });
+                    });
+                });
+            });
+        }
+
+        function miscCasesStep2(client, collection, documentDefinition, callback) {
+            client.upsertDocument(collection._self, dummyDocumentDefinition, function(err) {
+                assert.equal(err, undefined, "error upserting document");
+
+                documentDefinition.key = "value2";
+                client.upsertDocument(collection._self, documentDefinition, function(err, upsertedDocument) {
+                    setTimeout(function() {
+                        checkDocumentExists(client, collection, upsertedDocument, function() {
+                            setTimeout(miscCasesStep3, 3000, client, collection, upsertedDocument, documentDefinition, callback);
+                        });
+                    }, 6000);
+                });
+            });
+        }
+        
+        function miscCasesStep1(client, collection, createdDocument, documentDefinition, callback) {
+            checkDocumentGone(client, collection, createdDocument, function () {
+                client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
+                    assert.equal(err, undefined, "error creating document");
+                    assert.equal(documentDefinition.id, createdDocument.id);
+                    setTimeout(miscCasesStep2, 3000, client, collection, documentDefinition, callback);
+                });
+            });
+        }
+
+        it("[nativeApi] Validate Document TTL Misc cases.", function(done) {
+            var client = new DocumentDBClient(host, { masterKey: masterKey });
+
+            client.createDatabase({ "id": "sample database" }, function(err, db) {
+                assert.equal(err, undefined, "error creating database");
+
+                var collectionDefinition = {
+                    id: "sample collection",
+                    defaultTtl: 8
+                };
+
+                client.createCollection(db._self, collectionDefinition, function(err, collection) {
+                    assert.equal(err, undefined, "error creating collection");
+
+                    var documentDefinition = {
+                        id: "doc1",
+                        name: "sample document",
+                        key: "value"
+                    };
+
+                    client.createDocument(collection._self, documentDefinition, function(err, createdDocument) {
+                        assert.equal(err, undefined, "error creating document");
+
+                        setTimeout(miscCasesStep1, 9000, client, collection, createdDocument, documentDefinition, function() {
+                            done();
+                        });
+                    });
+                });
+            });
+        });                                                                             
+    });
+    
     describe("HashPartitionResolver", function () {
         
         var test = function (useUpsert, done) {

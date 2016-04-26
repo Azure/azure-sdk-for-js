@@ -151,7 +151,7 @@ var Constants = {
     
     CurrentVersion: "2015-12-16",
     
-    UserAgent: "documentdb-nodejs-sdk-1.6.0",
+    UserAgent: "documentdb-nodejs-sdk-1.7.0",
     
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,
