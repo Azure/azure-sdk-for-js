@@ -29,7 +29,7 @@ You can follow this [tutorial](http://azure.microsoft.com/en-us/documentation/ar
 var DocumentClient = require('documentdb').DocumentClient;
 
 var host = "[hostendpoint]";                     // Add your endpoint
-var masterKey = "[database account masterkey]";  // Add the massterkey of the endpoint
+var masterKey = "[database account masterkey]";  // Add the masterkey of the endpoint
 var client = new DocumentClient(host, {masterKey: masterKey});
 
 var databaseDefinition = { id: "sample database" };
