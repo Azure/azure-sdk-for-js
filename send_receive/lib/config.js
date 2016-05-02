@@ -16,7 +16,7 @@ function ConnectionConfig(connectionString, path) {
     this.host = cn.HostName;
     var hubName = this.host.split('.')[0];
     this.sharedAccessSignature = aziot.SharedAccessSignature.create(this.host, this.keyName, this.key, aziot.anHourFromNow());
-    this.path = 'messages/events/';
+    this.path = path || 'messages/events/';
     this.saslPlainUri  = 'amqps://' +
                         encodeURIComponent(this.keyName) +
                         '%40sas.root.' +

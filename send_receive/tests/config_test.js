@@ -32,4 +32,9 @@ describe('ConnectionConfig', function () {
     var config = new ConnectionConfig('', 'abc');
     config.should.have.property('path').that.equals('abc');
   });
+
+  it('populates path from the path argument if provided when using an Iot Hub connection string', function () {
+    var config = new ConnectionConfig('HostName=hostname.azure-devices.net;SharedAccessKeyName=sakName;SharedAccessKey=sak', 'custom_path');
+    config.should.have.property('path').that.equals('custom_path');
+  });
 });
