@@ -19,9 +19,14 @@ var testAnnotations = {
 
 var testBody = '{ "foo": "bar" }';
 
+var testProperties = {
+  propKey: 'propValue'
+};
+
 var testMessage = {
   body: testBody,
-  annotations: testAnnotations
+  annotations: testAnnotations,
+  properties: testProperties
 };
 
 describe('EventData', function(){
@@ -31,7 +36,7 @@ describe('EventData', function(){
       testEventData.should.be.instanceOf(EventData);
     });
 
-    it('populates systemProperties with the message properties', function () {
+    it('populates systemProperties with the message annotations', function () {
       var testEventData = EventData.fromAmqpMessage(testMessage);
       testEventData.systemProperties.should.equal(testAnnotations.value);
     });
@@ -39,11 +44,16 @@ describe('EventData', function(){
     it('populates body with the message body', function () {
       var testEventData = EventData.fromAmqpMessage(testMessage);
       testEventData.body.should.equal(testBody);
+    });
+    
+    it('populates the properties with the message properties', function() {
+      var testEventData = EventData.fromAmqpMessage(testMessage);
+      testEventData.properties.should.equal(testProperties);
     });
   });
 
   describe('#constructor', function () {
-    it('populates systemProperties with the message properties', function () {
+    it('populates systemProperties with the message annotations', function () {
       var testEventData = new EventData(testBody, testAnnotations.value);
       testEventData.systemProperties.should.equal(testAnnotations.value);
     });
@@ -51,6 +61,11 @@ describe('EventData', function(){
     it('populates body with the message body', function () {
       var testEventData = new EventData(testBody, testAnnotations.value);
       testEventData.body.should.equal(testBody);
+    });
+    
+    it('populates properties with the message properties', function () {
+      var testEventData = new EventData(testBody, testAnnotations.value, testProperties);
+      testEventData.properties.should.equal(testProperties);
     });
   });
 
