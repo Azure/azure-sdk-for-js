@@ -34,7 +34,7 @@ client.createReceiver('$Default', '10', { startAfterTime: Date.now() })
         rx.on('message', function (message) {
             var body = message.body;
             // See https://github.com/Azure/amqpnetlite/wiki/Azure-Service-Bus-Event-Hubs for details on message annotation properties from EH.
-            var enqueuedTime = Date.parse(message.annotations.value['x-opt-enqueued-time']);
+            var enqueuedTime = Date.parse(message.systemProperties['x-opt-enqueued-time']);
         });
     });
 
