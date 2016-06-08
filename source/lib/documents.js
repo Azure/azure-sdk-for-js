@@ -32,7 +32,7 @@ var AzureDocuments = Base.defineClass(null, null,
          * Represents a DatabaseAccount. A DatabaseAccount is the container for databases.
          * @global
          * @property {string} DatabasesLink                                     -  The self-link for Databases in the databaseAccount.
-         * @property {string} MediaLink                                          -  The self-link for Media in the databaseAccount.
+         * @property {string} MediaLink                                         -  The self-link for Media in the databaseAccount.
          * @property {number} MaxMediaStorageUsageInMB                          -  Attachment content (media) storage quota in MBs ( Retrieved from gateway ).
          * @property {number} CurrentMediaStorageUsageInMB                      -  <p> Current attachment content (media) usage in MBs (Retrieved from gateway )<br>
                                                                                     Value is returned from cached information updated periodically and is not guaranteed to be real time. </p>
@@ -40,8 +40,14 @@ var AzureDocuments = Base.defineClass(null, null,
          * @property {string} ConsistencyPolicy.defaultConsistencyLevel         -  The default consistency level and it's of type {@link ConsistencyLevel}.
          * @property {number} ConsistencyPolicy.maxStalenessPrefix              -  In bounded staleness consistency, the maximum allowed staleness in terms difference in sequence numbers (aka version).
          * @property {number} ConsistencyPolicy.maxStalenessIntervalInSeconds   -  In bounded staleness consistency, the maximum allowed staleness in terms time interval.
+         
+         * @property {Array}  WritableLocations                                 -  The list of writable locations for a geo-replicated database account.
+         * @property {Array}  ReadableLocations                                 -  The list of readable locations for a geo-replicated database account.
          */
-        DatabaseAccount: Base.defineClass(function() {
+        DatabaseAccount: Base.defineClass(function () {
+            this._writableLocations = [];
+            this._readableLocations = [];
+
             Object.defineProperty(this, "DatabasesLink", {
                 value: "",
                 writable: true,
@@ -95,6 +101,20 @@ var AzureDocuments = Base.defineClass(null, null,
                 value: "",
                 writable: true,
                 configurable: true,
+                enumerable: true
+            });
+        
+            Object.defineProperty(this, "WritableLocations", {
+                get: function () {
+                    return this._writableLocations;
+                },
+                enumerable: true
+            });
+
+            Object.defineProperty(this, "ReadableLocations", {
+                get: function () {
+                    return this._readableLocations;
+                },
                 enumerable: true
             });
         }),
@@ -270,6 +290,8 @@ var AzureDocuments = Base.defineClass(null, null,
             this.MediaReadMode = AzureDocuments.MediaReadMode.Buffered;
             this.MediaRequestTimeout = this._defaultMediaRequestTimeout;
             this.RequestTimeout = this._defaultRequestTimeout;
+            this.EnableEndpointDiscovery = true;
+            this.PreferredLocations = [];
         })
     }
 );

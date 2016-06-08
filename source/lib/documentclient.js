@@ -27,6 +27,7 @@ var Base = require("./base")
   , AzureDocuments = require("./documents")
   , QueryIterator = require("./queryIterator")
   , RequestHandler = require("./request")
+  , GlobalEndpointManager = require("./globalEndpointManager")
   , Constants = require("./constants");
 
 //SCRIPT START
@@ -79,8 +80,32 @@ var DocumentClient = Base.defineClass(
         this.partitionResolvers = {};
         
         this.partitionKeyDefinitionCache = {};
-    },
+
+        this._globalEndpointManager = new GlobalEndpointManager(this);
+    }, 
     {
+        /** Gets the curent write endpoint for a geo-replicated database account.
+         * @memberof DocumentClient
+         * @instance
+         * @param {function} callback        - The callback function which takes endpoint(string) as an argument.
+        */
+        getWriteEndpoint: function (callback) {
+            this._globalEndpointManager.getWriteEndpoint(function (writeEndpoint) {
+                callback(writeEndpoint);
+            });
+        },
+
+        /** Gets the curent read endpoint for a geo-replicated database account.
+         * @memberof DocumentClient
+         * @instance
+         * @param {function} callback        - The callback function which takes endpoint(string) as an argument.
+        */
+        getReadEndpoint: function (callback) {
+            this._globalEndpointManager.getReadEndpoint(function (readEndpoint) {
+                callback(readEndpoint);
+            });
+        },
+
         /** Send a request for creating a database.
          * <p>
          *  A database manages users, permissions and a set of collections.  <br>
@@ -1288,7 +1313,7 @@ var DocumentClient = Base.defineClass(
             
             if (options.partitionKey === undefined) {
                 this.getPartitionKeyDefinition(Base.getCollectionLink(documentLink), function (err, partitionKeyDefinition) {
-                    if (err) callback(err);
+                    if (err) return callback(err);
                     options.partitionKey = that.extractPartitionKey(newDocument, partitionKeyDefinition);
                     
                     task();
@@ -1769,9 +1794,14 @@ var DocumentClient = Base.defineClass(
             var initialHeaders = Base.extend({}, this.defaultHeaders);
             initialHeaders[Constants.HttpHeaders.Accept] = Constants.MediaTypes.Any;
             var attachmentId = Base.getAttachmentIdFromMediaId(resourceInfo.objectBody.id).toLowerCase();
-            
+
             var headers = Base.getHeaders(this, initialHeaders, "get", path, attachmentId, "media", {});
-            this.get(this.urlConnection, path, headers, callback);
+            
+            var that = this;
+            // readMedia will always use WriteEndpoint since it's not replicated in readable Geo regions
+            this._globalEndpointManager.getWriteEndpoint(function (writeEndpoint) {
+                that.get(writeEndpoint, path, headers, callback);
+            });
         },
         
         /**
@@ -1804,13 +1834,16 @@ var DocumentClient = Base.defineClass(
             
             initialHeaders[Constants.HttpHeaders.Accept] = Constants.MediaTypes.Any;
             
-            var urlConnection = this.urlConnection;
             var resourceInfo = Base.parseLink(mediaLink);
             var path = "/" + mediaLink;
             var attachmentId = Base.getAttachmentIdFromMediaId(resourceInfo.objectBody.id).toLowerCase();
             var headers = Base.getHeaders(this, initialHeaders, "put", path, attachmentId, "media", options);
-            
-            this.put(urlConnection, path, readableStream, headers, callback);
+
+            // updateMedia will use WriteEndpoint since it uses PUT operation
+            var that = this;
+            this._globalEndpointManager.getWriteEndpoint(function (writeEndpoint) {
+                that.put(writeEndpoint, path, readableStream, headers, callback);
+            });
         },
         
         /**
@@ -1842,15 +1875,17 @@ var DocumentClient = Base.defineClass(
                 params = [params];
             }
             
-            var urlConnection = this.urlConnection;
-            
             var isNameBased = Base.isLinkNameBased(sprocLink);
             var path = this.getPathFromLink(sprocLink, "", isNameBased);
             var id = this.getIdFromLink(sprocLink, isNameBased);
             
             var headers = Base.getHeaders(this, initialHeaders, "post", path, id, "sprocs", options);
             
-            this.post(urlConnection, path, params, headers, callback);
+            // executeStoredProcedure will use WriteEndpoint since it uses POST operation
+            var that = this;
+            this._globalEndpointManager.getWriteEndpoint(function (writeEndpoint) {
+                that.post(writeEndpoint, path, params, headers, callback);
+            });
         },
         
         /**
@@ -1921,11 +1956,18 @@ var DocumentClient = Base.defineClass(
         /** Gets the Database account information.
        * @memberof DocumentClient
        * @instance
-       * @param {RequestCallback} callback - The callback for the request. The second parameter of the callback will be of type {@link DatabaseAccount}.
+       * @param {string} [options.urlConnection]   - The endpoint url whose database account needs to be retrieved. If not present, current client's url will be used.
+       * @param {RequestCallback} callback         - The callback for the request. The second parameter of the callback will be of type {@link DatabaseAccount}.
        */
-        getDatabaseAccount: function (callback) {
+        getDatabaseAccount: function (options, callback) {
+            var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
+            options = optionsCallbackTuple.options;
+            callback = optionsCallbackTuple.callback;
+
+            var urlConnection = options.urlConnection || this.urlConnection;
+
             var headers = Base.getHeaders(this, this.defaultHeaders, "get", "", "", "", {});
-            this.get(this.urlConnection, "", headers, function (err, result, headers) {
+            this.get(urlConnection, "", headers, function (err, result, headers) {
                 if (err) return callback(err);
                 
                 var databaseAccount = new AzureDocuments.DatabaseAccount();
@@ -1934,6 +1976,14 @@ var DocumentClient = Base.defineClass(
                 databaseAccount.MaxMediaStorageUsageInMB = headers[Constants.HttpHeaders.MaxMediaStorageUsageInMB];
                 databaseAccount.CurrentMediaStorageUsageInMB = headers[Constants.HttpHeaders.CurrentMediaStorageUsageInMB];
                 databaseAccount.ConsistencyPolicy = result.userConsistencyPolicy;
+                
+                // WritableLocations and ReadableLocations properties will be available only for geo-replicated database accounts
+                if (Constants.WritableLocations in result) {
+                    databaseAccount._writableLocations = result[Constants.WritableLocations];
+                }
+                if (Constants.ReadableLocations in result) {
+                    databaseAccount._readableLocations = result[Constants.ReadableLocations];
+                }
                 
                 callback(undefined, databaseAccount, headers);
             });
@@ -1968,7 +2018,7 @@ var DocumentClient = Base.defineClass(
             
             if (options.partitionKey === undefined) {
                 this.getPartitionKeyDefinition(collectionLink, function (err, partitionKeyDefinition) {
-                    if (err) callback(err);
+                    if (err) return callback(err);
                     options.partitionKey = that.extractPartitionKey(body, partitionKeyDefinition);
                     
                     task();
@@ -2008,7 +2058,7 @@ var DocumentClient = Base.defineClass(
             
             if (options.partitionKey === undefined) {
                 this.getPartitionKeyDefinition(collectionLink, function (err, partitionKeyDefinition) {
-                    if (err) callback(err);
+                    if (err) return callback(err);
                     options.partitionKey = that.extractPartitionKey(body, partitionKeyDefinition);
                     
                     task();
@@ -2047,67 +2097,88 @@ var DocumentClient = Base.defineClass(
         
         /** @ignore */
         create: function (body, path, type, id, initialHeaders, options, callback) {
-            var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "post", path, id, type, options);
-            this.post(urlConnection, path, body, headers, callback);
+
+            var that = this;
+            // create will use WriteEndpoint since it uses POST operation
+            this._globalEndpointManager.getWriteEndpoint(function (writeEndpoint) {
+                that.post(writeEndpoint, path, body, headers, callback);
+            });
         },
         
         /** @ignore */
         upsert: function (body, path, type, id, initialHeaders, options, callback) {
-            var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "post", path, id, type, options);
             this.setIsUpsertHeader(headers);
-            this.post(urlConnection, path, body, headers, callback);
+
+            var that = this;
+            // upsert will use WriteEndpoint since it uses POST operation
+            this._globalEndpointManager.getWriteEndpoint(function (writeEndpoint) {
+                that.post(writeEndpoint, path, body, headers, callback);
+            });
         },
         
         /** @ignore */
         replace: function (resource, path, type, id, initialHeaders, options, callback) {
-            var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "put", path, id, type, options);
-            this.put(urlConnection, path, resource, headers, callback);
+            
+            var that = this;
+            // replace will use WriteEndpoint since it uses PUT operation
+            this._globalEndpointManager.getWriteEndpoint(function (writeEndpoint) {
+                that.put(writeEndpoint, path, resource, headers, callback);
+            });
         },
         
         /** @ignore */
         read: function (path, type, id, initialHeaders, options, callback) {
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "get", path, id, type, options);
-            this.get(this.urlConnection, path, headers, callback);
+
+            var that = this;
+            // read will use ReadEndpoint since it uses GET operation
+            this._globalEndpointManager.getReadEndpoint(function (readEndpoint) {
+                that.get(readEndpoint, path, headers, callback);
+            });
         },
         
         /** @ignore */
         deleteResource: function (path, type, id, initialHeaders, options, callback) {
-            var urlConnection = this.urlConnection;
             initialHeaders = initialHeaders || this.defaultHeaders;
             var headers = Base.getHeaders(this, initialHeaders, "delete", path, id, type, options);
-            this.delete(urlConnection, path, headers, callback);
+
+            var that = this;
+            // deleteResource will use WriteEndpoint since it uses DELETE operation
+            this._globalEndpointManager.getWriteEndpoint(function (writeEndpoint) {
+                that.delete(writeEndpoint, path, headers, callback);
+            });
         },
         
         /** @ignore */
         get: function (url, path, headers, callback) {
-            return RequestHandler.request(this.connectionPolicy, "GET", url, path, undefined, this.defaultUrlParams, headers, callback);
+            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, "GET", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
         
         /** @ignore */
         post: function (url, path, body, headers, callback) {
-            return RequestHandler.request(this.connectionPolicy, "POST", url, path, body, this.defaultUrlParams, headers, callback);
+            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, "POST", url, path, body, this.defaultUrlParams, headers, callback);
         },
         
         /** @ignore */
         put: function (url, path, body, headers, callback) {
-            return RequestHandler.request(this.connectionPolicy, "PUT", url, path, body, this.defaultUrlParams, headers, callback);
+            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, "PUT", url, path, body, this.defaultUrlParams, headers, callback);
         },
         
         /** @ignore */
         head: function (url, path, headers, callback) {
-            return RequestHandler.request(this.connectionPolicy, "HEAD", url, path, undefined, this.defaultUrlParams, headers, callback);
+            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, "HEAD", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
         
         /** @ignore */
         delete: function (url, path, headers, callback) {
-            return RequestHandler.request(this.connectionPolicy, "DELETE", url, path, undefined, this.defaultUrlParams, headers, callback);
+            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, "DELETE", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
         
         /** @ignore */
@@ -2174,30 +2245,32 @@ var DocumentClient = Base.defineClass(
                 callback(undefined, bodies, responseHeaders);
             };
             
-            var urlConnection = documentclient.urlConnection;
-            var initialHeaders = Base.extend({}, documentclient.defaultHeaders);
-            if (query === undefined) {
-                var headers = Base.getHeaders(documentclient, initialHeaders, "get", path, id, type, options);
-                documentclient.get(urlConnection, path, headers, successCallback);
-            } else {
-                initialHeaders[Constants.HttpHeaders.IsQuery] = "true";
-                switch (this.queryCompatibilityMode) {
-                    case AzureDocuments.QueryCompatibilityMode.SqlQuery:
-                        initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.SQL;
-                        break;
-                    case AzureDocuments.QueryCompatibilityMode.Query:
-                    case AzureDocuments.QueryCompatibilityMode.Default:
-                    default:
-                        if (typeof query === "string") {
-                            query = { query: query };  // Converts query text to query object.
-                        }
-                        initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.QueryJson;
-                        break;
+            // Query operations will use ReadEndpoint even though it uses GET(for queryFeed) and POST(for regular query operations)
+            this._globalEndpointManager.getReadEndpoint(function (readEndpoint) {
+                var initialHeaders = Base.extend({}, documentclient.defaultHeaders);
+                if (query === undefined) {
+                    var headers = Base.getHeaders(documentclient, initialHeaders, "get", path, id, type, options);
+                    documentclient.get(readEndpoint, path, headers, successCallback);
+                } else {
+                    initialHeaders[Constants.HttpHeaders.IsQuery] = "true";
+                    switch (that.queryCompatibilityMode) {
+                        case AzureDocuments.QueryCompatibilityMode.SqlQuery:
+                            initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.SQL;
+                            break;
+                        case AzureDocuments.QueryCompatibilityMode.Query:
+                        case AzureDocuments.QueryCompatibilityMode.Default:
+                        default:
+                            if (typeof query === "string") {
+                                query = { query: query };  // Converts query text to query object.
+                            }
+                            initialHeaders[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.QueryJson;
+                            break;
+                    }
+                    
+                    var headers = Base.getHeaders(documentclient, initialHeaders, "post", path, id, type, options);
+                    documentclient.post(readEndpoint, path, query, headers, successCallback);
                 }
-                
-                var headers = Base.getHeaders(documentclient, initialHeaders, "post", path, id, type, options);
-                documentclient.post(urlConnection, path, query, headers, successCallback);
-            }
+            });
         },
         
         /** @ignore */

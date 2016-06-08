@@ -28,6 +28,7 @@ var Documents = require("./documents")
   , https = require("https")
   , url = require("url")
   , querystring = require("querystring")
+  , RetryUtility = require("./retryUtility")
   // Dedicated Agent for socket pooling
   , keepAliveAgent = new https.Agent({ keepAlive: true, maxSockets: Infinity });
 
@@ -65,7 +66,12 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
         });
         response.on("end", function() {
             if (response.statusCode >= 400) {
-                callback({code: response.statusCode, body: data}, undefined, response.headers);
+                if (Constants.HttpHeaders.SubStatus in response.headers) {
+                    var subStatus = parseInt(response.headers[Constants.HttpHeaders.SubStatus]);
+                    callback({ code: response.statusCode, substatus: subStatus, body: data }, undefined, response.headers);
+                } else {
+                    callback({ code: response.statusCode, body: data }, undefined, response.headers);
+                }
                 return;
             }
 
@@ -104,9 +110,14 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
 }
 
 var RequestHandler = {
+    _createRequestObjectStub: function (connectionPolicy, requestOptions, callback) {
+        return createRequestObject(connectionPolicy, requestOptions, callback);
+    },
+
     /**
      *  Creates the request object, call the passed callback when the response is retrieved.
-     * @param {object} connectionPolicy - an instance of ConectionPolicy that has the connection configs.
+     * @param {object} globalEndpointManager - an instance of GlobalEndpointManager class.
+     * @param {object} connectionPolicy - an instance of ConnectionPolicy that has the connection configs.
      * @param {string} method - the http request method ( 'get', 'post', 'put', .. etc ).
      * @param {String} url - The base url for the endpoint.
      * @param {string} path - the path of the requesed resource.
@@ -115,14 +126,14 @@ var RequestHandler = {
      * @param {Object} headers - specific headers for the request.
      * @param {function} callback - the callback that will be called when the response is retrieved and processed.
     */
-    request: function (connectionPolicy, method, url, path, data, queryParams, headers, callback) {
+    request: function (globalEndpointManager, connectionPolicy, method, url, path, data, queryParams, headers, callback) {
         var body;
-
+        
         if (data) {
             body = bodyFromData(data);
             if (!body) return callback({ message: "parameter data must be a javascript object, string, Buffer, or stream" });
         }
-
+        
         var buffer;
         var stream;
         if (body) {
@@ -137,32 +148,28 @@ var RequestHandler = {
                 callback({ message: "body must be string, Buffer, or stream" });
             }
         }
-
+        
         var requestOptions = parse(url);
         requestOptions.method = method;
         requestOptions.path = path;
         requestOptions.headers = headers;
         requestOptions.agent = keepAliveAgent;
         requestOptions.secureProtocol = "TLSv1_client_method";
-
+        
         if (queryParams) {
             requestOptions.path += "?" + querystring.stringify(queryParams);
         }
-
+        
         if (buffer) {
             requestOptions.headers[Constants.HttpHeaders.ContentLength] = buffer.length;
-            var httpsRequest = createRequestObject(connectionPolicy, requestOptions, callback);
-            httpsRequest.write(buffer);
-            httpsRequest.end();
+            RetryUtility.execute(globalEndpointManager, { buffer: buffer, stream: null }, this._createRequestObjectStub, connectionPolicy, requestOptions, callback);
         } else if (stream) {
-            var httpsRequest = createRequestObject(connectionPolicy, requestOptions, callback);
-            stream.pipe(httpsRequest);
+            RetryUtility.execute(globalEndpointManager, { buffer: null, stream: stream }, this._createRequestObjectStub, connectionPolicy, requestOptions, callback);
         } else {
-            var httpsRequest = createRequestObject(connectionPolicy, requestOptions, callback);
-            httpsRequest.end();
+            RetryUtility.execute(globalEndpointManager, { buffer: null, stream: null }, this._createRequestObjectStub, connectionPolicy, requestOptions, callback);
         }
     }
-};
+}
 
 if (typeof exports !== "undefined") {
     module.exports = RequestHandler;
