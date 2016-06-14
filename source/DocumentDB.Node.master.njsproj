@@ -21,13 +21,17 @@
     <Content Include="package.json" />
     <Content Include="changelog.md" />
     <Content Include="readme.html" />
+    <Content Include="test\BaselineTest.PathParser.json" />
     <Content Include="test\mocha.json" />
     <Content Include="test\readme.md" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gruntfile.js" />
     <Compile Include="index.js" />
+    <Compile Include="lib\endpointDiscoveryRetryPolicy.js" />
+    <Compile Include="lib\globalEndpointManager.js" />
     <Compile Include="lib\range.js" />
+    <Compile Include="lib\retryUtility.js" />
     <Compile Include="test\baseTests.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>

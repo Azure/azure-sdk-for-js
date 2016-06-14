@@ -146,12 +146,21 @@ var Constants = {
         LazyIndexingProgress: "x-ms-documentdb-collection-lazy-indexing-progress",
         
         // Upsert header
-        IsUpsert: "x-ms-documentdb-is-upsert"
+        IsUpsert: "x-ms-documentdb-is-upsert",
+
+        // Sub status of the error
+        SubStatus: "x-ms-substatus"
     },
     
-    CurrentVersion: "2015-12-16",
+    // GlobalDB related constants
+    WritableLocations: 'writableLocations',
+    ReadableLocations: 'readableLocations',
+    Name: 'name',
+    DatabaseAccountEndpoint: 'databaseAccountEndpoint',
     
-    UserAgent: "documentdb-nodejs-sdk-1.7.0",
+    CurrentVersion: "2016-05-30",
+    
+    UserAgent: "documentdb-nodejs-sdk-1.8.0",
     
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,

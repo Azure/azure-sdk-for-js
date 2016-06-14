@@ -21,8 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-var masterKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
-var host = "https://localhost:443";
+var masterKey = "[YOUR_KEY_HERE]";
+var host = "[YOUR_ENDPOINT_HERE]";
 
 exports.host = host;
 exports.masterKey = masterKey;

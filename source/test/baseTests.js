@@ -176,7 +176,7 @@ describe("Base.parsePath", function () {
 
     it("test paths", function () {
         var fs = require('fs');
-        var content = fs.readFileSync('../../.net/Microsoft.Azure.Documents.Client.Test/Routing/resources/BaselineTest.PathParser.json');
+        var content = fs.readFileSync('BaselineTest.PathParser.json');
         var obj = JSON.parse(content);
         obj.forEach(function (entry) {
             test(entry.path, entry.parts);
