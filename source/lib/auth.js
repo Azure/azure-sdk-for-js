@@ -55,19 +55,28 @@ var AuthHandler = {
     },
 
     getAuthorizationTokenUsingResourceTokens: function (resourceTokens, path, resourceId) {
-        if (resourceTokens[resourceId]) {
-            return resourceTokens[resourceId];
-        } else {
-            var pathParts = path.split("/");
-            var resourceTypes = ["dbs", "colls", "docs", "sprocs", "udfs", "triggers", "users", "permissions", "attachments", "media", "conflicts", "offers"];
-            for (var i = pathParts.length - 1; i >= 0; i--) {
-                if (resourceTypes.indexOf(pathParts[i]) === -1) {
-                    if (resourceTokens[pathParts[i]]) {
-                        return resourceTokens[pathParts[i]];
+        if (resourceTokens && Object.keys(resourceTokens).length > 0) {
+            // For database account access(through getDatabaseAccount API), path and resourceId are "", 
+            // so in this case we return the first token to be used for creating the auth header as the service will accept any token in this case
+            if (!path && !resourceId) {
+                return resourceTokens[Object.keys(resourceTokens)[0]];
+            }
+            if (resourceTokens[resourceId]) {
+                return resourceTokens[resourceId];
+            } else {
+                var pathParts = path.split("/");
+                var resourceTypes = ["dbs", "colls", "docs", "sprocs", "udfs", "triggers", "users", "permissions", "attachments", "media", "conflicts", "offers"];
+                // Get the last resource id from the path and get it's token from resourceTokens
+                for (var i = pathParts.length - 1; i >= 0; i--) {
+                    if (resourceTypes.indexOf(pathParts[i]) === -1) {
+                        if (resourceTokens[pathParts[i]]) {
+                            return resourceTokens[pathParts[i]];
+                        }
                     }
                 }
             }
         }
+        return null;
     }
 };
 
