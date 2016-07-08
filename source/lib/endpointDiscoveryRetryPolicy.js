@@ -29,7 +29,9 @@ var Base = require("./base");
 /**
      * This class implements the retry policy for endpoint discovery.
      * @property {int} _maxRetryAttemptCount                           - Max number of retry attempts to perform.
-     * @property {int} _currentRetryAttemptCount                       - Current retry attempt count.
+     * @property {int} currentRetryAttemptCount                        - Current retry attempt count.
+     * @property {object} globalEndpointManager                        - The GlobalEndpointManager instance.
+     * @property {int} retryAfterInMilliseconds                        - Retry interval in milliseconds.
 */
 var EndpointDiscoveryRetryPolicy = Base.defineClass(
     /**
@@ -38,19 +40,38 @@ var EndpointDiscoveryRetryPolicy = Base.defineClass(
     */
     function (globalEndpointManager) {
         this._maxRetryAttemptCount = EndpointDiscoveryRetryPolicy.maxRetryAttemptCount;
-        this._currentRetryAttemptCount = 0;
+        this.currentRetryAttemptCount = 0;
+        this.globalEndpointManager = globalEndpointManager;
+        this.retryAfterInMilliseconds = EndpointDiscoveryRetryPolicy.retryAfterInMilliseconds;
     }, 
     {
         /**
+         * Determines whether the request should be retried or not.
+         * @param {object} err - Error returned by the request.
+         * @param {function} callback - The callback function which takes bool argument which specifies whether the request will be retried or not.
         */
+        shouldRetry: function (err, callback) {
+            if (err) {
+                if (this.currentRetryAttemptCount < this._maxRetryAttemptCount && this.globalEndpointManager.enableEndpointDiscovery) {
+                    this.currentRetryAttemptCount++;
+                    console.log("Write region was changed, refreshing the regions list from database account and will retry the request.");
+                    var that = this;
+                    this.globalEndpointManager.refreshEndpointList(function (writeEndpoint, readEndpoint) {
+                        that.globalEndpointManager.setWriteEndpoint(writeEndpoint);
+                        that.globalEndpointManager.setReadEndpoint(readEndpoint);
+                        callback(true);
+                    });
                     return;
                 }
             }
+            return callback(false);
         }
     },
     {
         maxRetryAttemptCount : 120,
         retryAfterInMilliseconds : 1000,
+        FORBIDDEN_STATUS_CODE : 403,
+        WRITE_FORBIDDEN_SUB_STATUS_CODE : 3
     }
 );
 //SCRIPT END
