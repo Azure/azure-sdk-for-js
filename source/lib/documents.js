@@ -23,7 +23,8 @@ SOFTWARE.
 
 "use strict";
 
-var Base = require("./base");
+var Base = require("./base"),
+    RetryOptions = require("./retryOptions");
 //SCRIPT START
 
 var AzureDocuments = Base.defineClass(null, null,
@@ -265,10 +266,13 @@ var AzureDocuments = Base.defineClass(null, null,
 
         /**
          * @global
-         * Represents the Connection policy assocated with a DocumentClient.
-         * @property {string} MediaReadMode         -  Attachment content (aka media) download mode. Should be one of the values of {@link MediaReadMode}
-         * @property {number} MediaRequestTimeout    - Time to wait for response from network peer for attachment content (aka media) operations. Represented in milliseconds.
-         * @property {number} RequestTimeout         - Request timeout (time to wait for response from network peer). Represented in milliseconds.
+         * Represents the Connection policy associated with a DocumentClient.
+         * @property {string} MediaReadMode                - Attachment content (aka media) download mode. Should be one of the values of {@link MediaReadMode}
+         * @property {number} MediaRequestTimeout          - Time to wait for response from network peer for attachment content (aka media) operations. Represented in milliseconds.
+         * @property {number} RequestTimeout               - Request timeout (time to wait for response from network peer). Represented in milliseconds.
+         * @property {bool} EnableEndpointDiscovery        - Flag to enable/disable automatic redirecting of requests based on read/write operations.
+         * @property {Array} PreferredLocations            - List of azure regions to be used as preferred locations for read requests.
+         * @property {RetryOptions} RetryOptions           - RetryOptions instance which defines several configurable properties used during retry.
         */
         ConnectionPolicy: Base.defineClass(function() {
             Object.defineProperty(this, "_defaultRequestTimeout", {
@@ -292,6 +296,7 @@ var AzureDocuments = Base.defineClass(null, null,
             this.RequestTimeout = this._defaultRequestTimeout;
             this.EnableEndpointDiscovery = true;
             this.PreferredLocations = [];
+            this.RetryOptions = new RetryOptions();
         })
     }
 );

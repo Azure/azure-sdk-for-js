@@ -27,6 +27,7 @@ var Base = require("./base")
   , AzureDocuments = require("./documents")
   , QueryIterator = require("./queryIterator")
   , RequestHandler = require("./request")
+  , RetryOptions = require("./retryOptions")
   , GlobalEndpointManager = require("./globalEndpointManager")
   , Constants = require("./constants");
 
@@ -1312,8 +1313,8 @@ var DocumentClient = Base.defineClass(
             };
             
             if (options.partitionKey === undefined) {
-                this.getPartitionKeyDefinition(Base.getCollectionLink(documentLink), function (err, partitionKeyDefinition) {
-                    if (err) return callback(err);
+                this.getPartitionKeyDefinition(Base.getCollectionLink(documentLink), function (err, partitionKeyDefinition, response, headers) {
+                    if (err) return callback(err, response, headers);
                     options.partitionKey = that.extractPartitionKey(newDocument, partitionKeyDefinition);
                     
                     task();
@@ -2017,8 +2018,8 @@ var DocumentClient = Base.defineClass(
             };
             
             if (options.partitionKey === undefined) {
-                this.getPartitionKeyDefinition(collectionLink, function (err, partitionKeyDefinition) {
-                    if (err) return callback(err);
+                this.getPartitionKeyDefinition(collectionLink, function (err, partitionKeyDefinition, response, headers) {
+                    if (err) return callback(err, response, headers);
                     options.partitionKey = that.extractPartitionKey(body, partitionKeyDefinition);
                     
                     task();
@@ -2057,8 +2058,8 @@ var DocumentClient = Base.defineClass(
             };
             
             if (options.partitionKey === undefined) {
-                this.getPartitionKeyDefinition(collectionLink, function (err, partitionKeyDefinition) {
-                    if (err) return callback(err);
+                this.getPartitionKeyDefinition(collectionLink, function (err, partitionKeyDefinition, response, headers) {
+                    if (err) return callback(err, response, headers);
                     options.partitionKey = that.extractPartitionKey(body, partitionKeyDefinition);
                     
                     task();
@@ -2182,6 +2183,10 @@ var DocumentClient = Base.defineClass(
         },
         
         /** @ignore */
+        /** Gets the partition key definition first by looking into the cache otherwise by reading the collection.
+        * @param {string} collectionLink   - Link to the collection whose partition key needs to be extracted.
+        * @param {function} callback       - The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers
+        */
         getPartitionKeyDefinition: function (collectionLink, callback) {
             // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
             // $ISSUE-felixfan-2016-03-17: Refresh partitionKeyDefinitionCache when necessary
@@ -2191,9 +2196,9 @@ var DocumentClient = Base.defineClass(
             
             var that = this;
             
-            this.readCollection(collectionLink, function (err, collection) {
-                if (err) return callback(err);
-                callback(err, that.partitionKeyDefinitionCache[collectionLink]);
+            this.readCollection(collectionLink, function (err, collection, headers) {
+                if (err) return callback(err, undefined, collection, headers);
+                callback(err, that.partitionKeyDefinitionCache[collectionLink], collection, headers);
             });
         },
         
@@ -2519,6 +2524,7 @@ var DocumentClient = Base.defineClass(
 if (typeof exports !== "undefined") {
     exports.DocumentClient = DocumentClient;
     exports.DocumentBase = AzureDocuments;
+    exports.RetryOptions = RetryOptions;
     exports.Base = Base;
     exports.Constants = Constants;
 }

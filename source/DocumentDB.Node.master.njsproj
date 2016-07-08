@@ -31,7 +31,9 @@
     <Compile Include="lib\endpointDiscoveryRetryPolicy.js" />
     <Compile Include="lib\globalEndpointManager.js" />
     <Compile Include="lib\range.js" />
+    <Compile Include="lib\retryOptions.js" />
     <Compile Include="lib\retryUtility.js" />
+    <Compile Include="lib\resourceThrottleRetryPolicy.js" />
     <Compile Include="test\baseTests.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>
