@@ -56,8 +56,7 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
     var httpsRequest = https.request(requestOptions, function(response) {
         // In case of media response, return the stream to the user and the user will need to handle reading the stream.
         if (isMedia && connectionPolicy.MediaReadMode === Documents.MediaReadMode.Streamed) {
-            callback(undefined, response, response.headers);
-            return;
+            return callback(undefined, response, response.headers);
         }
 
         var data = "";
@@ -66,14 +65,8 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
         });
         response.on("end", function() {
             if (response.statusCode >= 400) {
-                if (Constants.HttpHeaders.SubStatus in response.headers) {
-                    var subStatus = parseInt(response.headers[Constants.HttpHeaders.SubStatus]);
-                    callback({ code: response.statusCode, substatus: subStatus, body: data }, undefined, response.headers);
-                } else {
-                    callback({ code: response.statusCode, body: data }, undefined, response.headers);
+                return callback(getErrorBody(response, data), undefined, response.headers);
                 }
-                return;
-            }
 
             var result;
             try {
@@ -83,8 +76,7 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
                     result = data.length > 0 ? JSON.parse(data) : undefined;
                 }
             } catch (exception) {
-                callback(exception);
-                return;
+                return callback(exception);
             }
 
             callback(undefined, result, response.headers);
@@ -101,12 +93,31 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
         socket.once("timeout", onTimeout);
 
         httpsRequest.once("response", function () {
-          socket.removeListener("timeout", onTimeout);
+            socket.removeListener("timeout", onTimeout);
         });
     });
 
     httpsRequest.once("error", callback);
     return httpsRequest;
+}
+
+/**
+*  Constructs the error body from the response and the data returned from the request.
+* @param {object} response - response object returned from the executon of a request.
+* @param {object} data - the data body returned from the executon of a request.
+*/
+function getErrorBody(response, data) {
+    var errorBody = { code: response.statusCode, body: data };
+    
+    if (Constants.HttpHeaders.SubStatus in response.headers) {
+        errorBody.substatus = parseInt(response.headers[Constants.HttpHeaders.SubStatus]);
+    }
+    
+    if (Constants.HttpHeaders.RetryAfterInMilliseconds in response.headers) {
+        errorBody.retryAfterInMilliseconds = parseInt(response.headers[Constants.HttpHeaders.RetryAfterInMilliseconds]);
+    }
+
+    return errorBody;
 }
 
 var RequestHandler = {

@@ -64,7 +64,7 @@ var AuthHandler = {
             if (resourceTokens[resourceId]) {
                 return resourceTokens[resourceId];
             } else {
-                var pathParts = path.split("/");
+				var pathParts = path && path.split("/") || [];
                 var resourceTypes = ["dbs", "colls", "docs", "sprocs", "udfs", "triggers", "users", "permissions", "attachments", "media", "conflicts", "offers"];
                 // Get the last resource id from the path and get it's token from resourceTokens
                 for (var i = pathParts.length - 1; i >= 0; i--) {

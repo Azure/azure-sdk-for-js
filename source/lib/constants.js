@@ -158,9 +158,13 @@ var Constants = {
     Name: 'name',
     DatabaseAccountEndpoint: 'databaseAccountEndpoint',
     
+    // Client generated retry count response header
+    ThrottleRetryCount: "x-ms-throttle-retry-count",
+    ThrottleRetryWaitTimeInMs: "x-ms-throttle-retry-wait-time-ms",
+    
     CurrentVersion: "2016-05-30",
     
-    UserAgent: "documentdb-nodejs-sdk-1.8.0",
+    UserAgent: "documentdb-nodejs-sdk-1.9.0",
     
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,

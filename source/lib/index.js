@@ -32,6 +32,7 @@ if (typeof exports !== "undefined") {
     exports.DocumentBase = Client.DocumentBase;
     exports.Base = Client.Base;
     exports.Constants = Client.Constants;
+    exports.RetryOptions = Client.RetryOptions;
     exports.Range = Range.Range;
     exports.RangePartitionResolver = Range.RangePartitionResolver;
     exports.HashPartitionResolver = Hash.HashPartitionResolver;

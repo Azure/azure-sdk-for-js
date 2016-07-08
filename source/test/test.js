@@ -34,7 +34,9 @@ var Base = lib.Base,
     Constants = lib.Constants,
     Range = lib.Range,
     RangePartitionResolver = lib.RangePartitionResolver,
-    HashPartitionResolver = lib.HashPartitionResolver;
+    HashPartitionResolver = lib.HashPartitionResolver,
+    AzureDocuments = lib.AzureDocuments,
+    RetryOptions = lib.RetryOptions;
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -2202,24 +2204,16 @@ describe("NodeJS CRUD Tests", function () {
     });
     
     describe("Validate client request timeout", function () {
-        var timeoutTest = function (isNameBased, done) {
+        it("[nativeApi] Client Should throw exception", function (done) {
             var connectionPolicy = new DocumentBase.ConnectionPolicy();
-            // making timeout 1 ms to make sure it will throw
-            connectionPolicy.RequestTimeout = 1;
+            // making timeout 5 ms to make sure it will throw(create database request takes 10ms-15ms to finish on emulator)
+            connectionPolicy.RequestTimeout = 5;
             var client = new DocumentDBClient(host, { masterKey: masterKey }, connectionPolicy);
             // create database
             client.createDatabase({ id: "sample database" }, function (err, db) {
                 assert.equal(err.code, "ECONNRESET", "client should throw exception");
                 done();
             });
-        };
-        
-        it("[nativeApi] Client Should throw exception [name based]", function (done) {
-            timeoutTest(true, done);
-        });
-        
-        it("[nativeApi] Client Should throw exception [rid based]", function (done) {
-            timeoutTest(false, done);
         });
     });
     
@@ -3351,12 +3345,137 @@ describe("NodeJS CRUD Tests", function () {
         it("CRUD operations", function (done) { test(false, done) });
         it("CRUD operations with upsert", function (done) { test(true, done) });
     });
+
+    describe("retry policy tests", function () {
+        var request = require("../lib/request");
+        var AzureDocuments = require("../lib/documents");
+        var ResourceThrottleRetryPolicy = require("../lib/resourceThrottleRetryPolicy");
+        
+        this.timeout(300000);
+
+        var collectionDefinition = {
+            id: "sample collection"
+        };
+        
+        var documentDefinition = {
+            id: "doc",
+            name: "sample document",
+            key: "value"
+        };
+        
+        var connectionPolicy = new AzureDocuments.ConnectionPolicy();
+        
+        // mocked database account to return the WritableLocations and ReadableLocations
+        // set with the default endpoint
+        var mockGetDatabaseAccount = function (options, callback) {
+            var databaseAccount = new AzureDocuments.DatabaseAccount();
+            callback(undefined, databaseAccount);
+        }
+        
+        var retryAfterInMilliseconds = 1000;
+        // mocked request object stub that calls the callback with 429 throttling error
+        var mockCreateRequestObjectStub = function (connectionPolicy, requestOptions, callback) {
+            callback({ code: 429, body: "Request rate is too large", retryAfterInMilliseconds: retryAfterInMilliseconds });
+        }
+        
+        it("throttle retry policy test default retryAfter", function (done) {
+            connectionPolicy.RetryOptions = new RetryOptions(5);
+
+            var client = new DocumentDBClient(host, { masterKey: masterKey }, connectionPolicy);
+        
+            client.createDatabase({ "id": "sample database" }, function (err, db) {
+                assert.equal(err, undefined, "error creating database");
+                
+                client.createCollection(db._self, collectionDefinition, function (err, collection) {
+                    assert.equal(err, undefined, "error creating collection");
+                    
+                    var originalGetDatabaseAccount = client.getDatabaseAccount;
+                    client.getDatabaseAccount = mockGetDatabaseAccount;
+                    
+                    var originalCreateRequestObjectStub = request._createRequestObjectStub;
+                    request._createRequestObjectStub = mockCreateRequestObjectStub;
+                    
+                    client.createDocument(collection._self, documentDefinition, function (err, createdDocument, responseHeaders) {
+                        assert.equal(err.code, 429, "invalid error code");
+                        assert.equal(responseHeaders[Constants.ThrottleRetryCount], connectionPolicy.RetryOptions.MaxRetryAttemptCount, "Current retry attempts not maxed out");
+                        assert.ok(responseHeaders[Constants.ThrottleRetryWaitTimeInMs] >= connectionPolicy.RetryOptions.MaxRetryAttemptCount * retryAfterInMilliseconds);
+                        
+                        request._createRequestObjectStub = originalCreateRequestObjectStub;
+                        client.getDatabaseAccount = originalGetDatabaseAccount;
+
+                        done();
+                    });
+                });
+            });
+        });
+
+        it("throttle retry policy test fixed retryAfter", function (done) {
+            connectionPolicy.RetryOptions = new RetryOptions(5, 2000);
+            
+            var client = new DocumentDBClient(host, { masterKey: masterKey }, connectionPolicy);
+
+            client.createDatabase({ "id": "sample database" }, function (err, db) {
+                assert.equal(err, undefined, "error creating database");
+                
+                client.createCollection(db._self, collectionDefinition, function (err, collection) {
+                    assert.equal(err, undefined, "error creating collection");
+                    
+                    var originalGetDatabaseAccount = client.getDatabaseAccount;
+                    client.getDatabaseAccount = mockGetDatabaseAccount;
+                    
+                    var originalCreateRequestObjectStub = request._createRequestObjectStub;
+                    request._createRequestObjectStub = mockCreateRequestObjectStub;
+                    
+                    client.createDocument(collection._self, documentDefinition, function (err, createdDocument, responseHeaders) {
+                        assert.equal(err.code, 429, "invalid error code");
+                        assert.equal(responseHeaders[Constants.ThrottleRetryCount], connectionPolicy.RetryOptions.MaxRetryAttemptCount, "Current retry attempts not maxed out");
+                        assert.ok(responseHeaders[Constants.ThrottleRetryWaitTimeInMs] >= connectionPolicy.RetryOptions.MaxRetryAttemptCount * connectionPolicy.RetryOptions.FixedRetryIntervalInMilliseconds);
+                        
+                        request._createRequestObjectStub = originalCreateRequestObjectStub;
+                        client.getDatabaseAccount = originalGetDatabaseAccount;
+                        
+                        done();
+                    });
+                });
+            });
+        });
+
+        it("throttle retry policy test max wait time", function (done) {
+            connectionPolicy.RetryOptions = new RetryOptions(5, 2000, 3);
+
+            var client = new DocumentDBClient(host, { masterKey: masterKey }, connectionPolicy);
+            
+            client.createDatabase({ "id": "sample database" }, function (err, db) {
+                assert.equal(err, undefined, "error creating database");
+                
+                client.createCollection(db._self, collectionDefinition, function (err, collection) {
+                    assert.equal(err, undefined, "error creating collection");
+                    
+                    var originalGetDatabaseAccount = client.getDatabaseAccount;
+                    client.getDatabaseAccount = mockGetDatabaseAccount;
+                    
+                    var originalCreateRequestObjectStub = request._createRequestObjectStub;
+                    request._createRequestObjectStub = mockCreateRequestObjectStub;
+                    
+                    client.createDocument(collection._self, documentDefinition, function (err, createdDocument, responseHeaders) {
+                        assert.equal(err.code, 429, "invalid error code");
+                        assert.ok(responseHeaders[Constants.ThrottleRetryWaitTimeInMs] >= connectionPolicy.RetryOptions.MaxWaitTimeInSeconds * 1000);
+                        
+                        request._createRequestObjectStub = originalCreateRequestObjectStub;
+                        client.getDatabaseAccount = originalGetDatabaseAccount;
+                        
+                        done();
+                    });
+                });
+            });
+        });
+    });
 });
 
 describe("GlobalDBTests", function () {
     var RetryUtility = require("../lib/retryUtility");
-    var AzureDocuments = require("../lib/documents");
     var request = require("../lib/request");
+    var AzureDocuments = require("../lib/documents");
     var EndpointDiscoveryRetryPolicy = require("../lib/endpointDiscoveryRetryPolicy");
 
     var host = "[YOUR_GLOBAL_ENDPOINT_HERE]";
@@ -3464,12 +3583,12 @@ describe("GlobalDBTests", function () {
                                                     done();
                                                 });
                                             });
-                                        }, 5000);
+                                        }, 20000);
                                     });
                                 });
                             });
                         });
-                    }, 5000);
+                    }, 20000);
                 });
             });
         });
@@ -3564,11 +3683,11 @@ describe("GlobalDBTests", function () {
                                             done();
                                         });
                                     });
-                                }, 5000);
+                                }, 20000);
                             });
                         });
                     });
-                }, 5000);
+                }, 20000);
             });
         });
             
@@ -3763,6 +3882,7 @@ describe("GlobalDBTests", function () {
                 assert.ok(endDate.valueOf() - startDate.valueOf() > maxRetryAttemptCount * retryAfterInMilliseconds);
                     
                 request._createRequestObjectStub = originalCreateRequestObjectStub;
+                client.getDatabaseAccount = originalGetDatabaseAccount;
                 done();
             });
         });

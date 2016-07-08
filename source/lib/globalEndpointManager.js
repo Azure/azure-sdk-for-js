@@ -34,7 +34,7 @@ var Base = require("./base")
      * @property {object} client                       - The document client instance.
      * @property {string} defaultEndpoint              - The endpoint used to create the client instance.
      * @property {bool} enableEndpointDiscovery        - Flag to enable/disable automatic redirecting of requests based on read/write operations.
-     * @property {Array} preferredLocations            - List of azure regions to be used as preferred locations for any requests.
+     * @property {Array} preferredLocations            - List of azure regions to be used as preferred locations for read requests.
      * @property {bool} isEndpointCacheInitialized     - Flag to determine whether the endpoint cache is initialized or not.
 */
 var GlobalEndpointManager = Base.defineClass(
