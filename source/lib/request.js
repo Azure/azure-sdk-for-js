@@ -107,7 +107,11 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
 * @param {object} data - the data body returned from the executon of a request.
 */
 function getErrorBody(response, data) {
-    var errorBody = { code: response.statusCode, body: data };
+	var errorBody = { code: response.statusCode, body: data };
+	
+	if (Constants.HttpHeaders.ActivityId in response.headers) {
+		errorBody.activityId = response.headers[Constants.HttpHeaders.ActivityId];
+	}
     
     if (Constants.HttpHeaders.SubStatus in response.headers) {
         errorBody.substatus = parseInt(response.headers[Constants.HttpHeaders.SubStatus]);

@@ -2749,7 +2749,9 @@ describe("NodeJS CRUD Tests", function () {
                         validateOfferResponseBody(expectedOffer, collection._self, undefined);
                         // Replace the offer.
                         var offerToReplace = Base.extend({}, expectedOffer);
-                        offerToReplace.offerType = "S2";
+						offerToReplace.offerType = "S2";
+						// Now, by default the offerVersion is V2, so if we are replacing an offer if one of the legacy values, we need to update the offerVersion as well
+						offerToReplace.offerVersion = "V1";
                         client.replaceOffer(offerToReplace._self, offerToReplace, function (err, replacedOffer) {
                             assert.equal(err, undefined, "error replacing offer");
                             validateOfferResponseBody(replacedOffer, collection._self, "S2");
@@ -3483,11 +3485,11 @@ describe("GlobalDBTests", function () {
     var readLocationHost = "[YOUR_READ_ENDPOINT_HERE]";
     var readLocation2Host = "[YOUR_READ_ENDPOINT2_HERE]";
     var masterKey = "[YOUR_KEY_HERE]";
-    
+
     var writeLocation = "[YOUR_WRITE_LOCATION_HERE]";
     var readLocation = "[YOUR_READ_LOCATION_HERE]";
     var readLocation2 = "[YOUR_READ_LOCATION2_HERE]";
-
+        
     var testDatabase = "testdb";
     var testCollection = "testcoll";
     var testdb, testcoll;
