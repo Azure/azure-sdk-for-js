@@ -3,7 +3,7 @@
 
 'use strict';
 
-var EventEmitter = require('events');
+var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 
 var errors = require('./errors.js');
