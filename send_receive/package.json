@@ -1,10 +1,11 @@
 {
   "name": "azure-event-hubs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Azure Event Hubs SDK for Node.js",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "main": "./lib",
+  "typings": "./lib/index.d.ts",
   "dependencies": {
     "amqp10": "2.1.2",
     "azure-iot-common": "^1.0.6",
@@ -15,7 +16,9 @@
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
     "jshint": "^2.9.1-rc1",
-    "mocha": "^2.3.4"
+    "mocha": "^2.3.4",
+    "tslint": "^3.14.0",
+    "typescript": "^1.8.10"
   },
   "engines": {
     "node": "4.x.x || 5.x.x || 6.x.x"
@@ -29,7 +32,7 @@
   },
   "homepage": "https://github.com/Azure/azure-event-hubs#readme",
   "scripts": {
-    "lint": "jshint --show-non-errors .",
+    "lint": "jshint --show-non-errors . && tslint -c ./tslint.json \\\"./lib/**/*.ts\\\"",
     "unittest-min": "mocha --reporter dot tests/*.js",
     "alltest-min": "mocha --reporter dot tests/**/*.js",
     "unittest": "mocha --reporter spec tests/*.js",

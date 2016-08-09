@@ -1,8 +1,8 @@
 {
-  "name": "azure-eventhubs-samples",
+  "name": "javascript-eventhubs-client",
   "version": "0.0.1",
   "private": true,
-  "description": "Azure Event Hubs Node.js SDK Samples",
+  "description": "Azure Event Hubs Node.js SDK javascript sample",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "scripts": {
@@ -13,6 +13,6 @@
     "jshint": "^2.9.1"
   },
   "dependencies": {
-    "bluebird": "^3.3.1"
+    "azure-event-hubs": ">=0.0.2"
   }
 }

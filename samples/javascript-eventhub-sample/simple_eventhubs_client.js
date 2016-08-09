@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 'use strict';
-var Promise = require('bluebird');
 var EventHubClient = require('azure-event-hubs').Client;
 
 // The Event Hubs SDK can also be used with an Azure IoT Hub connection string.

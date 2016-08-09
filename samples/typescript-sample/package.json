@@ -1,0 +1,23 @@
+{
+  "name": "typescript-eventhubs-client",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Azure Event Hubs Node.js SDK typescript sample",
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p .",
+    "lint": "tslint -c ../../send_receive/tslint.json --type-check --project tsconfig.json",
+    "test": "npm -s run lint",
+    "postinstall": "typings install"
+  },
+  "devDependencies": {
+    "tslint": "^3.14.0",
+    "typescript": "^1.8.10",
+    "typings": "^1.0.4"
+  },
+  "dependencies": {
+    "azure-event-hubs": ">=0.0.3",
+    "bluebird": "^3.4.1"
+  }
+}
