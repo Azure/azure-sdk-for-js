@@ -44,7 +44,6 @@
         "no-unused-variable": true,
         "no-use-before-declare": true,
         "no-var-keyword": true,
-        "restrict-plus-operands": true,
         "triple-equals": [true, "allow-null-check", "allow-undefined-check"],
         "use-isnan": true,
         "eofline": true,

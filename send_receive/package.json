@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/Azure/azure-event-hubs#readme",
   "scripts": {
-    "lint": "jshint --show-non-errors . && tslint -c ./tslint.json \\\"./lib/**/*.ts\\\"",
+    "lint": "jshint --show-non-errors . && tslint -c ./tslint.json \"lib/*.ts\"",
     "unittest-min": "mocha --reporter dot tests/*.js",
     "alltest-min": "mocha --reporter dot tests/**/*.js",
     "unittest": "mocha --reporter spec tests/*.js",

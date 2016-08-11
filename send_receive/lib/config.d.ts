@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 // TODO: Create typings for azure-iot-common
-//import { SharedAccessSignature } from 'azure-iot-common';
+// import { SharedAccessSignature } from 'azure-iot-common';
 
 interface ConnectionConfig {
     (connectionString: string, path: string): ConnectionConfig;
@@ -19,4 +19,4 @@ interface ConnectionConfig {
     sharedAccessSignature?: any;
 }
 
-export = ConnectionConfig
+export = ConnectionConfig;

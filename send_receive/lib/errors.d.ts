@@ -9,6 +9,7 @@ export declare class ArgumentOutOfRangeError extends Error {
     constructor(message: string);
 }
 
+// tslint:disable-next-line: class-name
 export declare class translate extends Error {
     constructor(err: Error);
 }
