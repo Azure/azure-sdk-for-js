@@ -26,11 +26,11 @@ ArgumentOutOfRangeError.prototype.name = 'ArgumentOutOfRangeError';
 function translateError(err) {
   var error = err;
 
-  if (err.constructor.name === 'AMQPError') {
-    if (err.condition.contents === 'amqp:not-found') {
+  if (err.name === 'AmqpProtocolError') {
+    if (err.condition === 'amqp:not-found') {
       error = new MessagingEntityNotFoundError(err.description);
     }
-    else if (err.condition.contents === 'com.microsoft:argument-out-of-range') {
+    else if (err.condition === 'com.microsoft:argument-out-of-range') {
       error = new ArgumentOutOfRangeError(err.description);
     }
     else {

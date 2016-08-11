@@ -9,12 +9,13 @@ chai.should();
 var errors = require('../lib/errors.js');
 
 function AMQPError(conditionStr) {
-  this.condition = { contents: conditionStr };
+  this.name = 'AmqpProtocolError';
+  this.condition = conditionStr;
 }
 
 describe('errors', function () {
   describe('.translate', function () {
-    it('acts as a passthrough if the input is not an AMQPError', function () {
+    it('acts as a passthrough if the input is not an AmqpProtocolError', function () {
       var MyError = function () {};
       var err = new MyError();
       errors.translate(err).should.equal(err);

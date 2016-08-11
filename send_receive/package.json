@@ -7,21 +7,21 @@
   "main": "./lib",
   "typings": "./lib/index.d.ts",
   "dependencies": {
-    "amqp10": "2.1.2",
-    "azure-iot-common": "^1.0.6",
-    "bluebird": "^3.0.6",
-    "uuid": "^2.0.1"
+    "amqp10": "3.2.2",
+    "azure-iot-common": "^1.0.11",
+    "bluebird": "^3.4.1",
+    "uuid": "^2.0.2"
   },
   "devDependencies": {
-    "chai": "^3.4.1",
-    "chai-as-promised": "^5.1.0",
-    "jshint": "^2.9.1-rc1",
-    "mocha": "^2.3.4",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "jshint": "^2.9.2",
+    "mocha": "^3.0.2",
     "tslint": "^3.14.0",
     "typescript": "^1.8.10"
   },
   "engines": {
-    "node": "4.x.x || 5.x.x || 6.x.x"
+    "node": ">=0.10"
   },
   "repository": {
     "type": "git",

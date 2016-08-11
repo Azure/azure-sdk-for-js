@@ -13,6 +13,7 @@
     "jshint": "^2.9.1"
   },
   "dependencies": {
-    "azure-event-hubs": ">=0.0.2"
+    "azure-event-hubs": ">=0.0.3",
+    "bluebird": "^3.4.1"
   }
 }

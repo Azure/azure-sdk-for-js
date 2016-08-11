@@ -9,12 +9,10 @@ chai.should();
 
 var testAnnotations = {
   descriptor: null,
-  value: {
-    "x-opt-enqueued-time": Date.now(),
-    "x-opt-offset": "42",
-    "x-opt-sequence-number": 1337,
-    "x-opt-partition-key": 'key'
-  }
+  "x-opt-enqueued-time": Date.now(),
+  "x-opt-offset": "42",
+  "x-opt-sequence-number": 1337,
+  "x-opt-partition-key": 'key'
 };
 
 var testBody = '{ "foo": "bar" }';
@@ -25,7 +23,7 @@ var testProperties = {
 
 var testMessage = {
   body: testBody,
-  annotations: testAnnotations,
+  messageAnnotations: testAnnotations,
   properties: testProperties
 };
 
@@ -38,7 +36,7 @@ describe('EventData', function(){
 
     it('populates systemProperties with the message annotations', function () {
       var testEventData = EventData.fromAmqpMessage(testMessage);
-      testEventData.systemProperties.should.equal(testAnnotations.value);
+      testEventData.systemProperties.should.equal(testAnnotations);
     });
 
     it('populates body with the message body', function () {
@@ -54,17 +52,17 @@ describe('EventData', function(){
 
   describe('#constructor', function () {
     it('populates systemProperties with the message annotations', function () {
-      var testEventData = new EventData(testBody, testAnnotations.value);
-      testEventData.systemProperties.should.equal(testAnnotations.value);
+      var testEventData = new EventData(testBody, testAnnotations);
+      testEventData.systemProperties.should.equal(testAnnotations);
     });
 
     it('populates body with the message body', function () {
-      var testEventData = new EventData(testBody, testAnnotations.value);
+      var testEventData = new EventData(testBody, testAnnotations);
       testEventData.body.should.equal(testBody);
     });
     
     it('populates properties with the message properties', function () {
-      var testEventData = new EventData(testBody, testAnnotations.value, testProperties);
+      var testEventData = new EventData(testBody, testAnnotations, testProperties);
       testEventData.properties.should.equal(testProperties);
     });
   });
@@ -72,22 +70,22 @@ describe('EventData', function(){
   describe('#properties', function() {
     it('enqueuedTimeUtc gets the enqueued time from system properties', function(){
       var testEventData = EventData.fromAmqpMessage(testMessage);
-      testEventData.enqueuedTimeUtc.should.equal(testAnnotations.value['x-opt-enqueued-time']);
+      testEventData.enqueuedTimeUtc.should.equal(testAnnotations['x-opt-enqueued-time']);
     });
 
     it('offset gets the offset from system properties', function(){
       var testEventData = EventData.fromAmqpMessage(testMessage);
-      testEventData.offset.should.equal(testAnnotations.value['x-opt-offset']);
+      testEventData.offset.should.equal(testAnnotations['x-opt-offset']);
     });
 
     it('sequenceNumber gets the sequence number from system properties', function(){
       var testEventData = EventData.fromAmqpMessage(testMessage);
-      testEventData.sequenceNumber.should.equal(testAnnotations.value['x-opt-sequence-number']);
+      testEventData.sequenceNumber.should.equal(testAnnotations['x-opt-sequence-number']);
     });
 
     it('partitionKey gets the sequence number from system properties', function(){
       var testEventData = EventData.fromAmqpMessage(testMessage);
-      testEventData.partitionKey.should.equal(testAnnotations.value['x-opt-partition-key']);
+      testEventData.partitionKey.should.equal(testAnnotations['x-opt-partition-key']);
     });
 
     [null, undefined].forEach(function(systemProp) {

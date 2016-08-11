@@ -74,7 +74,7 @@ EventHubClient.prototype.open = function () {
           })
           .then(function (receiver) {
             receiver.on('errorReceived', function (rx_err) {
-              if (rx_err.condition.contents === 'amqp:link:redirect') {
+              if (rx_err.condition === 'amqp:link:redirect') {
                 var res = rx_err.errorInfo.address.match('amqps://([^/]*)/([^/]*)');
                 self._config.path = res[2];
                 self._config.saslPlainUri = 'amqps://' +
@@ -154,8 +154,8 @@ EventHubClient.prototype.getPartitionIds = function () {
         sender.on('errorReceived', reject);
 
         receiver.on('message', function (msg) {
-          var code = msg.applicationProperties.value['status-code'];
-          var desc = msg.applicationProperties.value['status-description'];
+          var code = msg.applicationProperties['status-code'];
+          var desc = msg.applicationProperties['status-description'];
           if (code === 200) {
             resolve(msg.body.partition_ids);
           }

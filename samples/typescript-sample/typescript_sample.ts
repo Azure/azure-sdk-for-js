@@ -5,7 +5,7 @@
 
 import Promise = require('bluebird');
 
-import { Client as EventHubClient, Sender as EventHubSender, Message } from 'azure-event-hubs';
+import { Client as EventHubClient, Sender as EventHubSender, Receiver as EventHubReceiver, Message } from 'azure-event-hubs';
 
 // The Event Hubs SDK can also be used with an Azure IoT Hub connection string.
 // In that case, the eventHubPath variable is not used and can be left undefined.
@@ -36,12 +36,12 @@ client.open()
       .then(client.getPartitionIds.bind(client))
       .then(
         (partitionIds: EventHubClient.PartitionId[]) =>
-            partitionIds.map((partitionId) =>
-                client.createReceiver('$Default', partitionId, { 'startAfterTime' : receiveAfterTime})
-                      .then((receiver) => {
+            Promise.map(partitionIds, (partitionId) =>
+                client.createReceiver('$Default', partitionId, { startAfterTime : receiveAfterTime})
+                      .then((receiver: EventHubReceiver) => {
                           receiver.on('errorReceived', printError);
                           receiver.on('message', printEvent);
                       })))
-      .then(client.createSender.bind(client))
+      .then(() => client.createSender())
       .then(sendEvent('foo'))
       .catch(printError);

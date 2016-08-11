@@ -21,8 +21,9 @@ declare class EventHubClient {
     open(): Promise<void>;
     close(): Promise<void>;
     getPartitionIds(): Promise<EventHubClient.PartitionId[]>;
-    createReceiver(consumerGroup: string, partitionId: EventHubClient.PartitionId, options: EventHubClient.ReceiverOptions): Promise<Receiver>;
-    createSender(partitionId: EventHubClient.PartitionId): Promise<Sender>;
+
+    createReceiver(consumerGroup: string, partitionId: EventHubClient.PartitionId, options?: EventHubClient.ReceiverOptions): Promise<Receiver>;
+    createSender(partitionId?: EventHubClient.PartitionId): Promise<Sender>;
 
     static fromConnectionString(connectionString: string, path: string): EventHubClient;
 }
