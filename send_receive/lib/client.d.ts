@@ -25,7 +25,7 @@ declare class EventHubClient {
     createReceiver(consumerGroup: string, partitionId: EventHubClient.PartitionId, options?: EventHubClient.ReceiverOptions): Promise<Receiver>;
     createSender(partitionId?: EventHubClient.PartitionId): Promise<Sender>;
 
-    static fromConnectionString(connectionString: string, path: string): EventHubClient;
+    static fromConnectionString(connectionString: string, path?: string): EventHubClient;
 }
 
 export = EventHubClient;

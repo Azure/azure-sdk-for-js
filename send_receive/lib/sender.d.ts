@@ -10,6 +10,11 @@ declare class EventHubSender extends EventEmitter {
     constructor(amqpSenderLink: any);
     send(message: any, partitionKey?: string): Promise<void>;
     close(): Promise<void>;
+
+    // List of all the events that the receiver can emmit
+    on(type: 'errorReceived', func: (err: Error) => void): this;
+    // Required last overload, though which shouldn't be called during normal operation
+    on(type: string, func: Function): this;
 }
 
 export = EventHubSender;
