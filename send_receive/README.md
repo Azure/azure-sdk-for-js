@@ -15,9 +15,13 @@ The simplest usage is to instantiate the main `EventHubClient` class with a `Con
 var EventHubClient = require('azure-event-hubs').Client;
 
 var client = EventHubClient.fromConnectionString('Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key', 'myeventhub')
-client.getPartitionIds().then(function(ids) {
-    ids.forEach(function(id) { console.log(id); });
-});
+client.open()
+    .then(function() {
+        return client.getPartitionIds()
+    })
+    .then(function(ids) {
+        ids.forEach(function(id) { console.log(id); });
+    });
 ```
 
 ## Example 2 - Create a receiver ##
@@ -28,7 +32,10 @@ Creates a receiver on partition ID 10, for messages that come in after "now".
 var EventHubClient = require('azure-event-hubs').Client;
 
 var client = EventHubClient.fromConnectionString('Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key', 'myeventhub')
-client.createReceiver('$Default', '10', { startAfterTime: Date.now() })
+client.open()
+    .then(function() {
+        return client.createReceiver('$Default', '10', { startAfterTime: Date.now() })
+    })
     .then(function (rx) {
         rx.on('errorReceived', function (err) { console.log(err); }); 
         rx.on('message', function (message) {
@@ -37,7 +44,6 @@ client.createReceiver('$Default', '10', { startAfterTime: Date.now() })
             var enqueuedTime = Date.parse(message.systemProperties['x-opt-enqueued-time']);
         });
     });
-
 ```
 
 ## Example 3 - Create a sender v1 ##
@@ -48,7 +54,8 @@ Creates a sender, sends to a given partition "key" which is then hashed to a par
 var EventHubClient = require('azure-event-hubs').Client;
 
 var client = EventHubClient.fromConnectionString('Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key', 'myeventhub')
-client.createSender()
+client.open()
+    .bind(client.createSender.bind(client))
     .then(function (tx) {
         tx.on('errorReceived', function (err) { console.log(err); });
         tx.send({ contents: 'Here is some text sent to partition key my-pk.' }, 'my-pk'); 
@@ -63,7 +70,10 @@ Creates a sender against a given partition ID (10). You _should_ use send to a g
 var EventHubClient = require('azure-event-hubs').Client;
 
 var client = EventHubClient.fromConnectionString('Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key', 'myeventhub')
-client.createSender('10')
+client.open()
+    .then(function() {
+        return client.createSender('10')
+    })
     .then(function (tx) {
         tx.on('errorReceived', function (err) { console.log(err); });
         tx.send({ contents: 'Here is some text sent to partition 10.' }); 
