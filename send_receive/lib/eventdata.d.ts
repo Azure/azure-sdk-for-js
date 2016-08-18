@@ -3,7 +3,8 @@
 
 declare interface EventData {
     partitionKey?: string;
-    body: string;
+    // string or decoded json of that string
+    body: any;
     enqueuedTimeUtc?: Date;
     offset: string;
     properties?: EventData.Dictionary<any>;
