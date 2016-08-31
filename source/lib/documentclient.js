@@ -38,7 +38,7 @@ var DocumentClient = Base.defineClass(
      * @constructor DocumentClient
      * @param {string} urlConnection           - The service endpoint to use to create the client.
      * @param {object} auth                    - An object that is used for authenticating requests and must contains one of the options
-     * @param {string} [auth.masterkey]        - The authorization master key to use to create the client.
+     * @param {string} [auth.masterKey]        - The authorization master key to use to create the client.
      * @param {Object} [auth.resourceTokens]   - An object that contains resources tokens. Keys for the object are resource Ids and values are the resource tokens.
      * @param {Array}  [auth.permissionFeed]   - An array of {@link Permission} objects.
      * @param {object} [connectionPolicy]      - An instance of {@link ConnectionPolicy} class. This parameter is optional and the default connectionPolicy will be used if omitted.
