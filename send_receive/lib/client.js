@@ -28,7 +28,35 @@ function EventHubClient(config) {
   });
 
   this._config = config;
-  this._amqp = new amqp10.Client(amqp10.Policy.EventHub);
+  this._amqp = new amqp10.Client(amqp10.Policy.merge({
+    senderLink: {
+      attach: {
+        maxMessageSize: 262144
+      }
+    },
+    receiverLink: {
+      attach: {
+        maxMessageSize: 0 // means infinity
+      },
+      decoder: function(body) {
+        var bodyStr = null;
+
+        if (body instanceof Buffer) {
+          bodyStr = body.toString();
+        } else if (typeof body === 'string') {
+          bodyStr = body;
+        } else {
+          return body;
+        }
+
+        try {
+          return JSON.parse(bodyStr);
+        } catch (e) {
+          return body;
+        }
+      }
+    }
+  }, amqp10.Policy.EventHub));
   this._connectPromise = null;
 }
 

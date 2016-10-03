@@ -15,7 +15,7 @@ var EventHubClient = require('../lib/client.js');
 var MessagingEntityNotFoundError = require('../lib/errors.js').MessagingEntityNotFoundError;
 var ArgumentOutOfRangeError = require('../lib/errors.js').ArgumentOutOfRangeError;
 
-function sendAnEvent(partitionId, msgId, cbErr) {
+function sendAnEvent(partitionId, msg, cbErr) {
   var config = new ConnectionConfig(process.env.EVENTHUB_CONNECTION_STRING, process.env.EVENTHUB_PATH);
   var amqpClient = new amqp10.Client(amqp10.Policy.EventHub);
   return amqpClient.connect(config.saslPlainUri)
@@ -23,7 +23,6 @@ function sendAnEvent(partitionId, msgId, cbErr) {
       return amqpClient.createSender(config.path + '/Partitions/' + partitionId);
     })
     .then(function (sender) {
-      var msg = { testId: msgId };
       sender.on('errorReceived', cbErr);
       return sender.send(msg);
     });
@@ -75,7 +74,21 @@ describe('EventHubReceiver', function () {
             message.should.be.instanceOf(EventData);
             if (message.body && message.body.testId === id) done();
           });
-          sendAnEvent('0', id, done);
+          sendAnEvent('0', { testId: id }, done);
+        });
+    });
+
+    it('fires when an event is received and the body a buffer if is binary', function (done) {
+      var justBeforeNow = Date.now() - (1000 * 5); // 5 seconds ago
+      var binaryBody = new Buffer([0x1B, 0x81]);
+      client.createReceiver('$Default', '0', { startAfterTime: justBeforeNow })
+        .then(function (receiver) {
+          receiver.on('errorReceived', done);
+          receiver.on('message', function (message) {
+            message.should.be.instanceOf(EventData);
+            if (message.body && message.body.type === 'Buffer') done();
+          });
+          sendAnEvent('0', binaryBody, done);
         });
     });
   });
