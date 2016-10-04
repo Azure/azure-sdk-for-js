@@ -127,6 +127,7 @@ var Constants = {
         
         // Partition Key
         PartitionKey: "x-ms-documentdb-partitionkey",
+        PartitionKeyRangeID: 'x-ms-documentdb-partitionkeyrangeid',
 
         //Quota Info
         MaxEntityCount: "x-ms-root-entity-max-count",
@@ -162,10 +163,11 @@ var Constants = {
     ThrottleRetryCount: "x-ms-throttle-retry-count",
     ThrottleRetryWaitTimeInMs: "x-ms-throttle-retry-wait-time-ms",
     
-    CurrentVersion: "2016-05-30",
+    CurrentVersion: "2016-07-11",
     
-    UserAgent: "documentdb-nodejs-sdk-1.9.0",
-    
+    SDKName: "documentdb-nodejs-sdk",
+    SDKVersion: "1.10.0",
+
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,
         DefaultNumberRangePrecision: -1,
