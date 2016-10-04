@@ -3571,15 +3571,15 @@ describe.skip("GlobalDBTests", function () {
     var AzureDocuments = require("../lib/documents");
     var EndpointDiscoveryRetryPolicy = require("../lib/endpointDiscoveryRetryPolicy");
 
-	var host = "https://localhost:443/";
-	var writeLocationHost = "https://localhost:443/";
-	var readLocationHost = "https://localhost:1045/";
-	var readLocation2Host = "https://localhost:1050/";
-	var masterKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
-        
-	var writeLocation = "South Central US";
-	var readLocation = "West US";
-	var readLocation2 = "East US";
+    var host = "[YOUR_GLOBAL_ENDPOINT_HERE]";
+    var writeLocationHost = "[YOUR_WRITE_ENDPOINT_HERE]";
+    var readLocationHost = "[YOUR_READ_ENDPOINT_HERE]";
+    var readLocation2Host = "[YOUR_READ_ENDPOINT2_HERE]";
+    var masterKey = "[YOUR_KEY_HERE]";
+
+    var writeLocation = "[YOUR_WRITE_LOCATION_HERE]";
+    var readLocation = "[YOUR_READ_LOCATION_HERE]";
+    var readLocation2 = "[YOUR_READ_LOCATION2_HERE]";
         
     var testDatabase = "testdb";
     var testCollection = "testcoll";
