@@ -25,6 +25,7 @@ SOFTWARE.
 
 var AuthHandler = require("./auth");
 var Constants = require("./constants");
+var Platform = require("./platform");
 
 //SCRIPT START
 function initializeProperties(target, members, prefix) {
@@ -190,7 +191,7 @@ var Base = {
         return result;
     },
     
-    getHeaders: function (documentClient, defaultHeaders, verb, path, resourceId, resourceType, options) {
+    getHeaders: function (documentClient, defaultHeaders, verb, path, resourceId, resourceType, options, partitionKeyRangeId) {
         
         var headers = Base.extend({}, defaultHeaders);
         options = options || {};
@@ -283,6 +284,10 @@ var Base = {
             headers[Constants.HttpHeaders.Accept] = Constants.MediaTypes.Json;
         }
         
+        if (partitionKeyRangeId !== undefined) {
+            headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
+        }
+
         return headers;
     },
     
@@ -515,6 +520,10 @@ var Base = {
         }
         
         return true;
+    },
+    /** @ignore */
+    _getUserAgent: function () {
+        return Platform.getUserAgent();
     }
 };
 //SCRIPT END

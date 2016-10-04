@@ -9,7 +9,7 @@
     "database",
     "cloud"
   ],
-  "version": "1.9.0",
+  "version": "1.10.0",
   "author": "Microsoft Corporation",
   "main": "./index.js",
   "engine": {
@@ -23,6 +23,12 @@
     "load-grunt-tasks": "^3.1.0",
     "mocha": "*",
     "time-grunt": "^1.2.0"
+  },
+  "dependencies": {
+    "priorityqueuejs": "1.0.0",
+    "underscore": "1.8.3",
+    "binary-search-bounds": "2.0.3",
+    "semaphore": "1.0.5"
   },
   "repository": {
     "type": "git",

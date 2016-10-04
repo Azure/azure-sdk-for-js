@@ -1,3 +1,7 @@
+## Changes in 1.10.0 : ##
+
+- Added support for TOP/ORDERBY queries for partitioned collections.
+
 ## Changes in 1.9.0 : ##
 
 - Added retry policy support for throttled requests. (Throttled requests receive a request rate too large exception, error code 429.) 

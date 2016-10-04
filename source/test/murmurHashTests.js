@@ -111,7 +111,10 @@ describe("MurmurHash.hash", function () {
 describe("MurmurHash._getBufferFromNumber", function () {
     var test = function (input, expected) {
         var actual = MurmurHash._getBufferFromNumber(input);
-        assert.deepEqual(actual, expected);
+        assert.equal(actual.length, expected.length);
+        for (var i; i < actual.length; i++) {
+            assert.equal(actual.buffer[i], expected[i]);
+        }
     };
     
     it("374", function () {

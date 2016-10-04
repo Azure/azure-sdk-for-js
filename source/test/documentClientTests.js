@@ -235,4 +235,15 @@ describe("DocumentClient Tests", function () {
             done();
         });
     });
+
+    describe("isResourceValid Unit Tests", function () {
+        it("id is not string", function (done) {
+            var err = {};
+            var result = client.isResourceValid({id: 1}, err);
+
+            assert.equal(result, false);
+            assert.deepEqual(err, {"message": "Id must be a string."});
+            done();
+        });
+    });
 });
