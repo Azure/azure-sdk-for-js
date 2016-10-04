@@ -1,6 +1,7 @@
 ## Changes in 1.10.0 : ##
 
-- Added support for TOP/ORDERBY queries for partitioned collections.
+- Added support for cross partition parallel queries.
+- Added support for TOP/ORDER BY queries for partitioned collections.
 
 ## Changes in 1.9.0 : ##
 
@@ -38,7 +39,7 @@
 
 ## Changes in 1.5.4 : ##
 
-- Dedicated HTTPS Agent: Avoid modifying the global agent for DocumentDB purposes. Use a dedicated agent for all of the lib’s requests.
+- Dedicated HTTPS Agent: Avoid modifying the global agent for DocumentDB purposes. Use a dedicated agent for all of the libâ€™s requests.
 
 ## Changes in 1.5.3 : ##
 
