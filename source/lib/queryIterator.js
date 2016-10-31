@@ -30,7 +30,8 @@ var Base = require("./base"),
 //SCRIPT START
 var QueryIterator = Base.defineClass(
     /**
-    * Represents a QueryIterator Object, an implmenetation of feed or query response that enables traversal and iterating over the response.
+    * Represents a QueryIterator Object, an implmenetation of feed or query response that enables traversal and iterating over the response
+    * in the Azure DocumentDB database service.
     * @class QueryIterator
     * @param {object} documentclient                - The documentclient object.
     * @param {SqlQuerySpec | string} query          - A SQL query.

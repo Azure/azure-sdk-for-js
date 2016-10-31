@@ -34,7 +34,8 @@ var Base = require("./base")
 //SCRIPT START
 var DocumentClient = Base.defineClass(
     /**
-     * Provides a client-side logical representation of the Azure DocumentDB database account. This client is used to configure and execute requests against the service.
+     * Provides a client-side logical representation of the Azure DocumentDB database account.
+     * This client is used to configure and execute requests in the Azure DocumentDB database service.
      * @constructor DocumentClient
      * @param {string} urlConnection           - The service endpoint to use to create the client.
      * @param {object} auth                    - An object that is used for authenticating requests and must contains one of the options
@@ -2327,10 +2328,10 @@ var DocumentClient = Base.defineClass(
         /** @ignore */
         isResourceValid: function (resource, err) {
             if (resource.id) {
-				if (typeof resource.id !== "string") {
-					err.message = "Id must be a string.";
-					return false;
-				}
+                if (typeof resource.id !== "string") {
+                    err.message = "Id must be a string.";
+                    return false;
+                }
 
                 if (resource.id.indexOf("/") !== -1 || resource.id.indexOf("\\") !== -1 || resource.id.indexOf("?") !== -1 || resource.id.indexOf("#") !== -1) {
                     err.message = "Id contains illegal chars.";
