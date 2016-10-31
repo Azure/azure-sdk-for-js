@@ -23,8 +23,9 @@ SOFTWARE.
 
 "use strict";
 
-var Base = require("./base")
-  , Constants = require("./constants");
+var Base = require("./base"),
+    Constants = require("./constants"),
+    QueryExecutionContext = require("./queryExecutionContext/proxyQueryExecutionContext");
 
 //SCRIPT START
 var QueryIterator = Base.defineClass(
@@ -35,18 +36,17 @@ var QueryIterator = Base.defineClass(
     * @param {SqlQuerySpec | string} query          - A SQL query.
     * @param {FeedOptions} options                  - Represents the feed options.
     * @param {callback | callback[]} fetchFunctions - A function to retrieve each page of data. An array of functions may be used to query more than one partition.
+    * @param {string} [resourceLink]                - An optional parameter that represents the resourceLink (will be used in orderby/top/parallel query)
     */
-    function(documentclient, query, options, fetchFunctions){
+    function (documentclient, query, options, fetchFunctions, resourceLink) {
+
         this.documentclient = documentclient;
         this.query = query;
-        this.resources = [];
-        this.currentIndex = 0;
-        this._currentPartitionIndex = 0;
-        this.fetchFunctions = (Array.isArray(fetchFunctions)) ? fetchFunctions : [fetchFunctions];
-        this.continuation = null;
-        this.options = options || {};
-        this._states = Object.freeze({start: "start", inProgress: "inProgress", ended: "ended" });
-        this._state = this._states.start;
+        this.fetchFunctions = fetchFunctions;
+        this.options = options;
+        this.resourceLink = resourceLink;
+        this.queryExecutionContext = this._createQueryExecutionContext();
+
     },
     {
         /**
@@ -58,10 +58,7 @@ var QueryIterator = Base.defineClass(
          * If the callback explicitly returned false, the loop gets stopped.
          */
         forEach: function(callback) {
-            if (this._state !== this._states.start) {
-                this.reset();
-            }
-
+            this.reset();
             this._forEachImplementation(callback);
         },
 
@@ -72,11 +69,7 @@ var QueryIterator = Base.defineClass(
          * @param {callback} callback - Function to execute for each element. the function takes two parameters error, element.
          */
         nextItem: function (callback) {
-            var that = this;
-            this.current(function (err, resources, headers) {
-                ++that.currentIndex;
-                callback(err, resources, headers);
-            });
+            this.queryExecutionContext.nextItem(callback);
         },
 
         /**
@@ -86,44 +79,19 @@ var QueryIterator = Base.defineClass(
          * @param {callback} callback - Function to execute for the current element. the function takes two parameters error, element.
          */
         current: function(callback) {
-            var that = this;
-            if (this.currentIndex < this.resources.length) {
-                return callback(undefined, this.resources[this.currentIndex], undefined);
-            }
-
-            if (this._canFetchMore()) {
-                this._fetchMore(function (err, resources, headers) {
-                    if (err) {
-                        return callback(err, undefined, headers);
-                    }
-
-                    that.resources = resources;
-                    if (that.resources.length === 0) {
-                        if (!that.continuation && that._currentPartitionIndex >= that.fetchFunctions.length) {
-                            that._state = that._states.ended;
-                            callback(undefined, undefined, headers);
-                        } else {
-                            that.nextItem(callback);
-                        }
-                        return undefined;
-                    }
-
-                    callback(undefined, that.resources[that.currentIndex], headers);
-                });
-            } else {
-                this._state = this._states.ended;
-                callback(undefined, undefined, undefined);
-            }
+            this.queryExecutionContext.current(callback);
         },
 
         /**
+         * @deprecated Instead check if callback(undefined, undefined) is invoked by nextItem(callback) or current(callback)
+         *
          * Determine if there are still remaining resources to processs based on the value of the continuation token or the elements remaining on the current batch in the QueryIterator.
          * @memberof QueryIterator
          * @instance
          * @returns {Boolean} true if there is other elements to process in the QueryIterator.
          */
-        hasMoreResults: function() {
-            return this._state === this._states.start || this.continuation !== undefined || this.currentIndex < this.resources.length || this._currentPartitionIndex < this.fetchFunctions.length;
+        hasMoreResults: function () {
+            return this.queryExecutionContext.hasMoreResults();
         },
 
         /**
@@ -132,11 +100,9 @@ var QueryIterator = Base.defineClass(
          * @instance
          * @param {callback} callback - Function execute on the feed response, takes two parameters error, resourcesList
          */
-        toArray: function(callback){
-            if (this._state !== this._states.start) {
-                this.reset();
-            }
-
+        toArray: function (callback) {
+            this.reset();
+            this.toArrayTempResources = [];
             this._toArrayImplementation(callback);
         },
 
@@ -147,7 +113,7 @@ var QueryIterator = Base.defineClass(
          * @param {callback} callback - Function execute on the feed response, takes two parameters error, resourcesList
          */
         executeNext: function(callback) {
-            this._fetchMore(function(err, resources, responseHeaders) {
+            this.queryExecutionContext.fetchMore(function(err, resources, responseHeaders) {
                 if(err) {
                     return callback(err, undefined, responseHeaders);
                 }
@@ -162,81 +128,58 @@ var QueryIterator = Base.defineClass(
          * @instance
          */
         reset: function() {
-            this.currentIndex = 0;
-            this._currentPartitionIndex = 0;
-            this.continuation = null;
-            this.resources = [];
-            this._state = this._states.start;
+            this.queryExecutionContext = this._createQueryExecutionContext();
         },
 
-         /** @ignore */
+        /** @ignore */
         _toArrayImplementation: function(callback){
             var that = this;
-            if (this._canFetchMore()) {
-                this._fetchMore(function(err, resources, headers){
-                    if(err) {
-                        return callback(err, undefined, headers);
-                    }
 
-                    that.resHeaders = headers;
-                    that.resources = that.resources.concat(resources);
-                    that._toArrayImplementation(callback);
-                });
-            } else {
-                this._state = this._states.ended;
-                callback(undefined, this.resources, this.resHeaders);
-            }
-        },
+            this.queryExecutionContext.nextItem(function (err, resource, headers) {
 
-         /** @ignore */
-        _forEachImplementation: function(callback){
-            var that = this;
-            if (this._canFetchMore()) {
-                this._fetchMore(function(err, resources, headers){
-                    if(err) {
-                        return callback(err, undefined, headers);
-                    }
-
-                    that.resources = resources;
-                    while (that.currentIndex < that.resources.length) {
-                        // if the callback explicitly returned false, the loop gets stopped.
-                        if (callback(undefined, that.resources[that.currentIndex++], headers) === false) {
-                            return undefined;
-                        }
-                    }
-
-                    that._forEachImplementation(callback);
-                });
-            } else {
-                that._state = that._states.ended;
-                callback(undefined, undefined);
-            }
-        },
-
-         /** @ignore */
-        _fetchMore: function(callback){
-            var that = this;
-            this.options.continuation = this.continuation;
-            var fetchFunction = this.fetchFunctions[this._currentPartitionIndex];
-            fetchFunction(this.options, function(err, resources, responseHeaders){
-                if(err) {
-                    that._state = that._states.ended;
-                    return callback(err, undefined, responseHeaders);
+                if (err) {
+                    return callback(err, undefined, headers);
                 }
+                // concatinate the results and fetch more
+                that.toArrayLastResHeaders = headers;
 
-                that.continuation = responseHeaders[Constants.HttpHeaders.Continuation];
-                if (!that.continuation) {
-                    ++that._currentPartitionIndex;
-                }
+                if (resource === undefined) {
+                
+                    // no more results
+                    return callback(undefined, that.toArrayTempResources, that.toArrayLastResHeaders);
+                } 
 
-                that._state = that._states.inProgress;
-                that.currentIndex = 0;
-                callback(undefined, resources, responseHeaders);
+                that.toArrayTempResources = that.toArrayTempResources.concat(resource);
+                that._toArrayImplementation(callback);
             });
         },
 
-        _canFetchMore: function() {
-            return (this._state === this._states.start || (this.continuation && this._state === this._states.inProgress) || (this._currentPartitionIndex < this.fetchFunctions.length && this._state === this._states.inProgress));
+        /** @ignore */
+        _forEachImplementation: function (callback) {
+            var that = this;
+            this.queryExecutionContext.nextItem(function (err, resource, headers) {
+                if (err) {
+                    return callback(err, undefined, headers);
+                }
+
+                if (resource === undefined) {
+                    // no more results. This is last iteration
+                    return callback(undefined, undefined, headers);
+                }
+
+                if (callback(undefined, resource, headers) === false) {
+                    // callback instructed to stop further iteration
+                    return;
+                }
+
+                // recursively call itself to iterate to the remaining elements
+                that._forEachImplementation(callback);
+            });
+        },
+
+        /** @ignore */
+        _createQueryExecutionContext: function () {
+            return new QueryExecutionContext(this.documentclient, this.query, this.options, this.fetchFunctions, this.resourceLink);
         }
     }
 );

@@ -176,7 +176,9 @@ var AzureDocuments = Base.defineClass(null, null,
         DataType: Object.freeze({
             Number: "Number",
             String: "String",
-            Point: "Point"
+            Point: "Point",
+            LineString: "LineString",
+            Polygon: "Polygon"
         }),
 
         PartitionKind: Object.freeze({

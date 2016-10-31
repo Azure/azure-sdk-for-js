@@ -30,7 +30,12 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         eslint: {
-            src: ["lib/*.js", "test/*.js"],
+            src: [
+                "lib/*.js",
+                "lib/hash/*.js",
+                "lib/queryExecutionContext/*.js",
+                "lib/routing/*.js",
+                "test/*.js"],
             options: {
                 configFile: ".eslintrc"
             }

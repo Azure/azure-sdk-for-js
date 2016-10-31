@@ -175,11 +175,48 @@ describe("Base.parsePath", function () {
     });
 
     it("test paths", function () {
-        var fs = require('fs');
-        var content = fs.readFileSync('BaselineTest.PathParser.json');
+        var fs = require("fs");
+        var path = require("path");
+
+        var content = fs.readFileSync(path.resolve(__dirname, 'BaselineTest.PathParser.json'));
         var obj = JSON.parse(content);
         obj.forEach(function (entry) {
             test(entry.path, entry.parts);
+        });
+    });
+});
+
+describe("Base._getUserAgent", function () {
+    var Contants = require("../lib/constants");
+    var os = require("os");
+    var util = require("util");
+    var Platform = require("../lib/platform");
+
+    it("_getUserAgent()", function () {
+        var userAgent = Base._getUserAgent();
+        var expectedUserAgent = util.format("%s/%s Nodejs/%s documentdb-nodejs-sdk/%s",
+            os.platform(), os.release(), process.version,
+            Contants.SDKVersion
+        );
+        assert.strictEqual(userAgent, expectedUserAgent, "invalid UserAgent format");
+    });
+
+    describe("Platform._getSafeUserAgentSegmentInfo()", function () {
+        it("Removing spaces", function () {
+            var safeString = Platform._getSafeUserAgentSegmentInfo('a b    c');
+            assert.strictEqual(safeString, 'abc');
+        });
+        it("empty string handling", function () {
+            var safeString = Platform._getSafeUserAgentSegmentInfo('');
+            assert.strictEqual(safeString, 'unknown');
+        });
+        it("undefined", function () {
+            var safeString = Platform._getSafeUserAgentSegmentInfo(undefined);
+            assert.strictEqual(safeString, 'unknown');
+        });
+        it("null", function () {
+            var safeString = Platform._getSafeUserAgentSegmentInfo(null);
+            assert.strictEqual(safeString, 'unknown');
         });
     });
 });

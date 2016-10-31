@@ -264,7 +264,7 @@ var GlobalEndpointManager = Base.defineClass(
             }
         }
     });
-    //SCRIPT END
+//SCRIPT END
 
     if (typeof exports !== "undefined") {
         module.exports = GlobalEndpointManager;

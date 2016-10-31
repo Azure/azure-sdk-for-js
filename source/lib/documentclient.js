@@ -38,7 +38,7 @@ var DocumentClient = Base.defineClass(
      * @constructor DocumentClient
      * @param {string} urlConnection           - The service endpoint to use to create the client.
      * @param {object} auth                    - An object that is used for authenticating requests and must contains one of the options
-     * @param {string} [auth.masterkey]        - The authorization master key to use to create the client.
+     * @param {string} [auth.masterKey]        - The authorization master key to use to create the client.
      * @param {Object} [auth.resourceTokens]   - An object that contains resources tokens. Keys for the object are resource Ids and values are the resource tokens.
      * @param {Array}  [auth.permissionFeed]   - An array of {@link Permission} objects.
      * @param {object} [connectionPolicy]      - An instance of {@link ConnectionPolicy} class. This parameter is optional and the default connectionPolicy will be used if omitted.
@@ -686,6 +686,19 @@ var DocumentClient = Base.defineClass(
         readDocuments: function (collectionLink, options) {
             return this.queryDocuments(collectionLink, undefined, options);
         },
+
+        /**
+         * Get all Partition key Ranges in this collection.
+         * @memberof DocumentClient
+         * @instance
+         * @param {string} collectionLink - The self-link of the collection.
+         * @param {FeedOptions} [options] - The feed options.
+         * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
+         * @ignore
+         */
+        readPartitionKeyRanges: function (collectionLink, options) {
+            return this.queryPartitionKeyRanges(collectionLink, undefined, options);
+        },
         
         /**
         * Get all attachments for this document.
@@ -845,7 +858,39 @@ var DocumentClient = Base.defineClass(
             
             return this.queryDocumentsPrivate(collectionLinks, query, options);
         },
-        
+
+        /**
+         * Query the partition key ranges
+         * @memberof DocumentClient
+         * @instance
+         * @param {string} databaseLink           - The self-link of the database.
+         * @param {SqlQuerySpec | string} query   - A SQL query.
+         * @param {FeedOptions} [options]         - Represents the feed options.
+         * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
+         * @ignore
+         */
+        queryPartitionKeyRanges: function (collectionLink, query, options) {
+            var that = this;
+
+            var isNameBased = Base.isLinkNameBased(collectionLink);
+            var path = this.getPathFromLink(collectionLink, "pkranges", isNameBased);
+            var id = this.getIdFromLink(collectionLink, isNameBased);
+
+            return new QueryIterator(this, query, options, function (options, callback) {
+                that.queryFeed.call(that,
+                    that,
+                    path,
+                    "pkranges",
+                    id,
+                    function (result) { return result.PartitionKeyRanges; },
+                    function (parent, body) { return body; },
+                    query,
+                    options,
+                    callback);
+            });
+        },
+
+
         /**
          * Query the attachments for the document.
          * @memberof DocumentClient
@@ -2093,7 +2138,7 @@ var DocumentClient = Base.defineClass(
                 };
             });
             
-            return new QueryIterator(this, query, options, fetchFunctions);
+            return new QueryIterator(this, query, options, fetchFunctions, collectionLinks);
         },
         
         /** @ignore */
@@ -2228,7 +2273,7 @@ var DocumentClient = Base.defineClass(
         },
         
         /** @ignore */
-        queryFeed: function (documentclient, path, type, id, resultFn, createFn, query, options, callback) {
+        queryFeed: function (documentclient, path, type, id, resultFn, createFn, query, options, callback, partitionKeyRangeId) {
             var that = this;
             
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
@@ -2254,7 +2299,8 @@ var DocumentClient = Base.defineClass(
             this._globalEndpointManager.getReadEndpoint(function (readEndpoint) {
                 var initialHeaders = Base.extend({}, documentclient.defaultHeaders);
                 if (query === undefined) {
-                    var headers = Base.getHeaders(documentclient, initialHeaders, "get", path, id, type, options);
+                    var headers = Base.getHeaders(documentclient, initialHeaders, "get", path, id, type, options, partitionKeyRangeId);
+
                     documentclient.get(readEndpoint, path, headers, successCallback);
                 } else {
                     initialHeaders[Constants.HttpHeaders.IsQuery] = "true";
@@ -2272,7 +2318,7 @@ var DocumentClient = Base.defineClass(
                             break;
                     }
                     
-                    var headers = Base.getHeaders(documentclient, initialHeaders, "post", path, id, type, options);
+                    var headers = Base.getHeaders(documentclient, initialHeaders, "post", path, id, type, options, partitionKeyRangeId);
                     documentclient.post(readEndpoint, path, query, headers, successCallback);
                 }
             });
@@ -2281,6 +2327,11 @@ var DocumentClient = Base.defineClass(
         /** @ignore */
         isResourceValid: function (resource, err) {
             if (resource.id) {
+				if (typeof resource.id !== "string") {
+					err.message = "Id must be a string.";
+					return false;
+				}
+
                 if (resource.id.indexOf("/") !== -1 || resource.id.indexOf("\\") !== -1 || resource.id.indexOf("?") !== -1 || resource.id.indexOf("#") !== -1) {
                     err.message = "Id contains illegal chars.";
                     return false;
