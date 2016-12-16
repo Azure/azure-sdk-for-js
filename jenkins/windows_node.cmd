@@ -8,7 +8,7 @@ set build-root=%~dp0..
 REM Resolve to fully qualified path
 for %%i in ("%build-root%") do set build-root=%%~fi
 
-cd %build-root%\node
+cd %build-root%
 
 REM Set up links in the npm cache to ensure we're exercising all the code in
 REM the repo, rather than downloading released versions of our packages from
