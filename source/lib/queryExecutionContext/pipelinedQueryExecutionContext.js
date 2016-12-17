@@ -32,8 +32,8 @@ var Base = require("../base")
 //SCRIPT START
 var PipelinedQueryExecutionContext = Base.defineClass(
     /**
-     * Provides the PipelinedExecutionContext. It piplelines top and orderby execution context if necessary
-     * @constructor PipelinedExecutionContext
+     * Provides the PipelinedQueryExecutionContext. It piplelines top and orderby execution context if necessary
+     * @constructor PipelinedQueryExecutionContext
      * @param {DocumentClient} documentclient        - The service endpoint to use to create the client.
      * @param {FeedOptions} [options]                - Represents the feed options.
      * @param {object} partitionedQueryExecutionInfo  - PartitionedQueryExecutionInfo
@@ -46,7 +46,7 @@ var PipelinedQueryExecutionContext = Base.defineClass(
         this.endpoint = executionContext;
         this.pageSize = options["maxItemCount"];
         if (this.pageSize === undefined) {
-            this.pageSize = PipelinedExecutionContext.DEFAULT_PAGE_SIZE;
+            this.pageSize = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
         }
         var orderBy = QueryExecutionInfoParser.parseOrderBy(partitionedQueryExecutionInfo);
         if (Array.isArray(orderBy) && orderBy.length > 0) {
