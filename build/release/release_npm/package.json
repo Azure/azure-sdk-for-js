@@ -1,0 +1,20 @@
+{
+  "name": "prepare-azeventhubs-release",
+  "version": "0.0.1",
+  "main": "app.js",
+  "bin": "app.js",
+  "description": "Push each of our npm packages to their own orphaned branch on a fork, and print their tarball URIs.",
+  "private": true,
+  "author": "Microsoft Corp.",
+  "license": "MIT",
+  "scripts": {
+    "test": "jshint --show-non-errors ."
+  },
+  "dependencies": {
+    "bluebird": "^3.0.2",
+    "fs-extra": "^0.26.2"
+  },
+  "devDependencies": {
+    "jshint": "^2.8.0"
+  }
+}
