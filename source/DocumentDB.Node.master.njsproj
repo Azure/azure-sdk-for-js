@@ -19,7 +19,6 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="package.json" />
-    <Content Include="changelog.md" />
     <Content Include="readme.html" />
     <Content Include="test\BaselineTest.PathParser.json" />
     <Content Include="test\mocha.json" />
@@ -82,7 +81,9 @@
     <Compile Include="test\murmurHashTests.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>
-    <Compile Include="test\test.js" />
+    <Compile Include="test\test.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
     <Compile Include="test\_testConfig.js" />
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +101,19 @@
     <Folder Include="lib\queryExecutionContext\" />
     <Folder Include="test" />
     <Folder Include="test\routing\" />
+    <Folder Include="typings\" />
+    <Folder Include="typings\globals\" />
+    <Folder Include="typings\globals\grunt\" />
+    <Folder Include="typings\globals\mocha\" />
+    <Folder Include="typings\globals\node\" />
+    <Folder Include="typings\globals\underscore\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="typings\globals\grunt\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\mocha\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\underscore\index.d.ts" />
+    <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->

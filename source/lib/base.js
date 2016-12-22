@@ -288,6 +288,10 @@ var Base = {
             headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
         }
 
+        if (options.enableScriptLogging ) {
+            headers[Constants.HttpHeaders.EnableScriptLogging] = options.enableScriptLogging;
+        }
+
         return headers;
     },
     
