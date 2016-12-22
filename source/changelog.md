@@ -1,3 +1,8 @@
+## Changes in 1.10.1 : ##
+
+- Disabling SSL verification when using the SDK to target the emulator(hostname=localhost).
+- Added support for enabling script logging during stored procedure execution.
+
 ## Changes in 1.10.0 : ##
 
 - Added support for cross partition parallel queries.
