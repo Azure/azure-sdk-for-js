@@ -150,7 +150,11 @@ var Constants = {
         IsUpsert: "x-ms-documentdb-is-upsert",
 
         // Sub status of the error
-        SubStatus: "x-ms-substatus"
+        SubStatus: "x-ms-substatus",
+
+        // StoredProcedure related headers
+        EnableScriptLogging: "x-ms-documentdb-script-enable-logging",
+        ScriptLogResults: "x-ms-documentdb-script-log-results"
     },
     
     // GlobalDB related constants
@@ -166,7 +170,7 @@ var Constants = {
     CurrentVersion: "2016-07-11",
     
     SDKName: "documentdb-nodejs-sdk",
-    SDKVersion: "1.10.0",
+    SDKVersion: "1.10.1",
 
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,

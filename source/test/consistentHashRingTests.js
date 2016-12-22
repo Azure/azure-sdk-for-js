@@ -101,7 +101,7 @@ describe("ConsistentHashRing._search", function () {
         assert.strictEqual(expected, actual, JSON.stringify(message));
     }
 
-    it("[10]", function () {
+    it("10", function () {
         var test1 = function (key, expected) {
             var nodes = [
                 { hashValue: 10 }
@@ -117,7 +117,7 @@ describe("ConsistentHashRing._search", function () {
         test1(Number.POSITIVE_INFINITY, 10);
     });
 
-    it("[10, 20]", function () {
+    it("10, 20", function () {
         var test2 = function (key, expected) {
             var nodes = [
                 { hashValue: 10 }, 
@@ -135,7 +135,7 @@ describe("ConsistentHashRing._search", function () {
         test2(Number.POSITIVE_INFINITY, 20);
     });
 
-    it("[10, 20, 30]", function () {
+    it("10, 20, 30", function () {
         var test3 = function (key, expected) {
             var nodes = [
                 { hashValue: 10 }, 
@@ -160,7 +160,7 @@ describe("ConsistentHashRing._search", function () {
 });
 
 describe("ConsistentHashRing.getNode", function () {
-    it("[A(10), B(20), C(30)]", function () {
+    it("A(10), B(20), C(30)", function () {
         var test = function (key, expected) {
             var nodes = ["A", "B", "C"];
             var options = {

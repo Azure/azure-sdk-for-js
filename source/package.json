@@ -9,7 +9,7 @@
     "database",
     "cloud"
   ],
-  "version": "1.10.0",
+  "version": "1.10.1",
   "author": "Microsoft Corporation",
   "main": "./index.js",
   "engine": {
@@ -25,14 +25,14 @@
     "time-grunt": "^1.2.0"
   },
   "dependencies": {
-    "priorityqueuejs": "1.0.0",
-    "underscore": "1.8.3",
     "binary-search-bounds": "2.0.3",
-    "semaphore": "1.0.5"
+    "priorityqueuejs": "1.0.0",
+    "semaphore": "1.0.5",
+    "underscore": "1.8.3"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-documentdb-node"
   },
-  "license": "Apache-2.0"
+  "license": "MIT"
 }

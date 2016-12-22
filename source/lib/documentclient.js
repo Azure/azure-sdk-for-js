@@ -2228,8 +2228,8 @@ var DocumentClient = Base.defineClass(
             return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, "DELETE", url, path, undefined, this.defaultUrlParams, headers, callback);
         },
         
-        /** @ignore */
         /** Gets the partition key definition first by looking into the cache otherwise by reading the collection.
+        * @ignore
         * @param {string} collectionLink   - Link to the collection whose partition key needs to be extracted.
         * @param {function} callback       - The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers
         */
