@@ -1,5 +1,5 @@
-*.csproj
-*.cmd
+RunFunctionalTests.cmd
+runtests.cmd
 
 config.js
 .vs/
