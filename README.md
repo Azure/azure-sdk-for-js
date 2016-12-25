@@ -22,6 +22,9 @@ To use this SDK to call Azure DocumentDB, you need to first [create an account](
 
 You can follow this [tutorial](http://azure.microsoft.com/en-us/documentation/articles/documentdb-nodejs-application/) to help you get started.
 
+####Note:
+When connecting to the [emulator](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-nosql-local-emulator) from the SDK, SSL verification is disabled. 
+
 ##Examples
 ###Hello World using Callbacks via the Core Module
 
