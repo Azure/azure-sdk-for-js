@@ -6,14 +6,17 @@
 /**
  * @class EventData
  * @classdesc Constructs a {@linkcode EventData} object.
- * @param {String}  body   The event payload as a byte array.
+ * @param {String}  body                    The event payload as a byte array.
+ * @param {String}  annotations             The message annotations associated with event.
+ * @param {String}  properties              The properties associated with event.
+ * @param {String}  applicationProperties   The application properties associated with event.
  */
-function EventData(body, systemProperties, properties) {
+function EventData(body, annotations, properties, applicationProperties) {
   Object.defineProperties(this, {
     'partitionKey': {
       get: function () {
-        if (this.systemProperties) {
-          return this.systemProperties["x-opt-partition-key"];
+        if (this.annotations) {
+          return this.annotations["x-opt-partition-key"];
         } else {
           return null;
         }
@@ -25,8 +28,8 @@ function EventData(body, systemProperties, properties) {
     },
     'enqueuedTimeUtc': {
       get: function () {
-        if (this.systemProperties) {
-          return this.systemProperties["x-opt-enqueued-time"];
+        if (this.annotations) {
+          return this.annotations["x-opt-enqueued-time"];
         } else {
           return null;
         }
@@ -34,8 +37,8 @@ function EventData(body, systemProperties, properties) {
     },
     'offset': {
       get: function () {
-        if (this.systemProperties) {
-          return this.systemProperties["x-opt-offset"];
+        if (this.annotations) {
+          return this.annotations["x-opt-offset"];
         } else {
           return "";
         }
@@ -45,24 +48,32 @@ function EventData(body, systemProperties, properties) {
       value: properties,
       writable: true
     },
+    'applicationProperties': {
+      value: applicationProperties,
+      writable: true
+    },
     'sequenceNumber': {
       get: function () {
-        if (this.systemProperties) {
-          return this.systemProperties["x-opt-sequence-number"];
+        if (this.annotations) {
+          return this.annotations["x-opt-sequence-number"];
         } else {
           return 0;
         }
       }
     },
+    'annotations': {
+      value: annotations,
+      writable: false
+    },
     'systemProperties': {
-      value: systemProperties,
+      value: properties,
       writable: false
     }
   });
 }
 
 EventData.fromAmqpMessage = function (msg) {
-  return new EventData(msg.body, msg.messageAnnotations, msg.properties);
+  return new EventData(msg.body, msg.messageAnnotations, msg.properties, msg.applicationProperties);
 };
 
 module.exports = EventData;

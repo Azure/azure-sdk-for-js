@@ -17,14 +17,19 @@ var testAnnotations = {
 
 var testBody = '{ "foo": "bar" }';
 
-var testProperties = {
+var messageProperties = {
+  messageId: 'test_id'
+};
+
+var applicationProperties = {
   propKey: 'propValue'
 };
 
 var testMessage = {
   body: testBody,
   messageAnnotations: testAnnotations,
-  properties: testProperties
+  properties: messageProperties,
+  applicationProperties: applicationProperties
 };
 
 describe('EventData', function(){
@@ -34,9 +39,9 @@ describe('EventData', function(){
       testEventData.should.be.instanceOf(EventData);
     });
 
-    it('populates systemProperties with the message annotations', function () {
+    it('populates annotations with the message annotations', function () {
       var testEventData = EventData.fromAmqpMessage(testMessage);
-      testEventData.systemProperties.should.equal(testAnnotations);
+      testEventData.annotations.should.equal(testAnnotations);
     });
 
     it('populates body with the message body', function () {
@@ -46,14 +51,19 @@ describe('EventData', function(){
     
     it('populates the properties with the message properties', function() {
       var testEventData = EventData.fromAmqpMessage(testMessage);
-      testEventData.properties.should.equal(testProperties);
+      testEventData.properties.should.equal(messageProperties);
+    });
+    
+    it('populates the application properties with the message application properties', function() {
+      var testEventData = EventData.fromAmqpMessage(testMessage);
+      testEventData.applicationProperties.should.equal(applicationProperties);
     });
   });
 
   describe('#constructor', function () {
-    it('populates systemProperties with the message annotations', function () {
+    it('populates annotations with the message annotations', function () {
       var testEventData = new EventData(testBody, testAnnotations);
-      testEventData.systemProperties.should.equal(testAnnotations);
+      testEventData.annotations.should.equal(testAnnotations);
     });
 
     it('populates body with the message body', function () {
@@ -62,8 +72,13 @@ describe('EventData', function(){
     });
     
     it('populates properties with the message properties', function () {
-      var testEventData = new EventData(testBody, testAnnotations, testProperties);
-      testEventData.properties.should.equal(testProperties);
+      var testEventData = new EventData(testBody, testAnnotations, messageProperties);
+      testEventData.properties.should.equal(messageProperties);
+    });
+
+    it('populates properties with the message properties', function () {
+      var testEventData = new EventData(testBody, testAnnotations, messageProperties, applicationProperties);
+      testEventData.applicationProperties.should.equal(applicationProperties);
     });
   });
 
