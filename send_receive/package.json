@@ -1,6 +1,6 @@
 {
   "name": "azure-event-hubs",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Azure Event Hubs SDK for Node.js",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "typings": "./lib/index.d.ts",
   "dependencies": {
     "amqp10": "3.2.2",
-    "azure-iot-common": "^1.0.11",
+    "azure-iot-common": "1.1.3",
     "bluebird": "^3.4.1",
     "uuid": "^2.0.2"
   },
