@@ -28,6 +28,8 @@ var DefaultQueryExecutionContext = require("../../lib/queryExecutionContext/defa
 var assert = require("assert");
 
 describe("defaultQueryExecutionContext Tests", function () {
+    var continuation = "next please";
+    
     describe("When passing no continuation to the constructor", function () {
         var documentClient = null;
         var query = null;
@@ -44,6 +46,8 @@ describe("defaultQueryExecutionContext Tests", function () {
 
             var sut = new DefaultQueryExecutionContext(documentClient, query, options, fetchFunction);
             var currentPartitionIndex = sut.currentPartitionIndex;
+
+            assert.equal(sut.continuation, null, "passed continuation does not match");
 
             sut.fetchMore(function (err, res, responseHeaders) {
                 it("should pass no error to the callback", function () {
@@ -69,7 +73,6 @@ describe("defaultQueryExecutionContext Tests", function () {
         });
 
         describe("and a continuation is returned", function () {
-            var continuation = "next please";
             var expectedResponseHeaders = {};
             expectedResponseHeaders[Constants.HttpHeaders.Continuation] = continuation;
 
@@ -82,6 +85,8 @@ describe("defaultQueryExecutionContext Tests", function () {
 
             var sut = new DefaultQueryExecutionContext(documentClient, query, options, fetchFunction);
             var currentPartitionIndex = sut.currentPartitionIndex;
+
+            assert.equal(sut.continuation, null, "passed continuation does not match");
 
             sut.fetchMore(function (err, res, responseHeaders) {
                 it("should pass no error to the callback", function () {
@@ -102,6 +107,88 @@ describe("defaultQueryExecutionContext Tests", function () {
 
                 it("should set the continuation to the response header value", function () {
                     assert.equal(sut.continuation, continuation, "continuation does not match");
+                });
+            });
+        });
+    });
+
+    describe("When passing a continuation to the constructor", function () {
+        var documentClient = null;
+        var query = null;
+        var options = { continuation: continuation };
+        
+        describe("and no continuation is returned", function () {
+            var fetchFunction = function (opts, cb) {
+                assert.ok(cb, "callback is null or undefined");
+                assert.deepEqual(opts, options, "options object does not match");
+
+                cb(null, null, {});
+            };
+
+            var sut = new DefaultQueryExecutionContext(documentClient, query, options, fetchFunction);
+            var currentPartitionIndex = sut.currentPartitionIndex;
+
+            assert.equal(sut.continuation, continuation, "passed continuation does not match");
+
+            sut.fetchMore(function (err, res, responseHeaders) {
+                it("should pass no error to the callback", function () {
+                    assert.equal(err, null, "Unexpected error received");
+                });
+
+                it("should pass no result to the callback", function () {
+                    assert.equal(res, null, "Unexpected result received");
+                });
+
+                it("should pass an empty responseHeaders object to the callback", function () {
+                    assert.deepEqual(responseHeaders, {}, "responseHeaders object is not empty");
+                });
+
+                it("should increment the currentPartitionIndex", function () {
+                    assert.equal(sut.currentPartitionIndex, currentPartitionIndex + 1, "currentPartitionIndex does not match");
+                });
+
+                it("should set the continuation to undefined", function () {
+                    assert.equal(sut.continuation, undefined, "continuation is not undefined");
+                });
+            });
+        });
+
+        describe("and a continuation is returned", function () {
+            var nextContinuation = "last one";
+            var expectedResponseHeaders = {};
+            expectedResponseHeaders[Constants.HttpHeaders.Continuation] = nextContinuation;
+
+            var fetchFunction = function (opts, cb) {
+                assert.ok(cb, "callback is null or undefined");
+                assert.deepEqual(opts, options, "options object does not match");
+
+                cb(null, null, expectedResponseHeaders);
+            };
+
+            var sut = new DefaultQueryExecutionContext(documentClient, query, options, fetchFunction);
+            var currentPartitionIndex = sut.currentPartitionIndex;
+
+            assert.equal(sut.continuation, continuation, "passed continuation does not match");
+
+            sut.fetchMore(function (err, res, responseHeaders) {
+                it("should pass no error to the callback", function () {
+                    assert.equal(err, null, "Unexpected error received");
+                });
+
+                it("should pass no result to the callback", function () {
+                    assert.equal(res, null, "Unexpected result received");
+                });
+
+                it("should pass the expected responseHeaders object to the callback", function () {
+                    assert.deepEqual(responseHeaders, expectedResponseHeaders, "responseHeaders do not match");
+                });
+
+                it("should not increment the currentPartitionIndex", function () {
+                    assert.equal(sut.currentPartitionIndex, currentPartitionIndex, "currentPartitionIndex does not match");
+                });
+
+                it("should set the continuation to the response header value", function () {
+                    assert.equal(sut.continuation, nextContinuation, "continuation does not match");
                 });
             });
         });
