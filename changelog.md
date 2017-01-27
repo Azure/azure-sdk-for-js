@@ -1,3 +1,7 @@
+## Changes in 1.10.2 : ##
+
+- Fixed UserAgent Header
+
 ## Changes in 1.10.1 : ##
 
 - Disabling SSL verification when using the SDK to target the emulator(hostname=localhost).
