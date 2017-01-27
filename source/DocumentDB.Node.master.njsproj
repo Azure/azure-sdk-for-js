@@ -19,7 +19,6 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="package.json" />
-    <Content Include="readme.html" />
     <Content Include="test\BaselineTest.PathParser.json" />
     <Content Include="test\mocha.json" />
     <Content Include="test\readme.md" />
@@ -87,11 +86,8 @@
     <Compile Include="test\_testConfig.js" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".editorconfig" />
     <None Include=".eslintrc" />
     <None Include="package.json" />
-    <None Include="readme.html" />
-    <None Include="changelog.md" />
     <None Include="test\readme.md" />
   </ItemGroup>
   <ItemGroup>

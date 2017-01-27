@@ -23,8 +23,8 @@ If you just want to run the tests against the published npm package then skip st
 2. Install documentdb
 > npm install source
 
-3. Change to `source` directory 
-> cd source
+3. Change to `test` directory 
+> cd test
 
 3. Run the tests
 > mocha -t 0 -R spec

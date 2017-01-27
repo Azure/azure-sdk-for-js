@@ -67,10 +67,8 @@ var DocumentClient = Base.defineClass(
         if (consistencyLevel !== undefined) {
             this.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] = consistencyLevel;
         }
-        
-        if (Constants.UserAgent) {
-            this.defaultHeaders[Constants.HttpHeaders.UserAgent] = Constants.UserAgent;
-        }
+
+        this.defaultHeaders[Constants.HttpHeaders.UserAgent] = Base._getUserAgent();
         
         // overide this for default query params to be added to the url.
         this.defaultUrlParams = "";

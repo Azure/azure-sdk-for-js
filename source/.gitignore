@@ -1,5 +1,4 @@
-RunFunctionalTests.cmd
-runtests.cmd
+*.cmd
 
 config.js
 .vs/
