@@ -3,6 +3,11 @@ azure-event-hubs
 
 [![npm version](https://badge.fury.io/js/azure-event-hubs.svg)](http://badge.fury.io/js/azure-event-hubs)
 
+_This SDK is currently in preview, and is maintained by Microsoft employees and external contributors in their free time. For offical SDKs please see:_
+
+- [Event Hubs .NET SDK](https://github.com/Azure/azure-event-hubs-dotnet)
+- [Event Hubs Java SDK](https://github.com/Azure/azure-event-hubs-java)
+
 ## Usage ##
 
 This library is primarily promise-based (for now, using [Bluebird](http://bluebirdjs.com/docs/getting-started.html)). See `tests/sender_test.js` or `tests/receiver_test.js` for some basic examples. 
