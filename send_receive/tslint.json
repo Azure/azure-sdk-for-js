@@ -29,16 +29,13 @@
                 "variable-declaration": "onespace"
             }
         ],
-        "label-undefined": true,
         "no-construct": true,
-        "no-duplicate-key": true,
         "no-duplicate-variable": true,
         "no-empty": true,
         "no-invalid-this": true,
         "no-null-keyword": true,
         "no-string-literal": true,
         "no-switch-case-fall-through": true,
-        "no-unreachable": true,
         "no-unsafe-finally": true,
         "no-unused-expression": true,
         "no-unused-variable": true,

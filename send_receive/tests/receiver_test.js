@@ -39,7 +39,7 @@ describe('EventHubReceiver', function () {
     return client.close();
   });
 
-  this.timeout(15000);
+  this.timeout(30000);
 
   describe('.event:errorReceived', function () {
     it('fires with MessagingEntityNotFoundError when the consumer group doesn\'t exist', function (done) {
@@ -86,7 +86,9 @@ describe('EventHubReceiver', function () {
           receiver.on('errorReceived', done);
           receiver.on('message', function (message) {
             message.should.be.instanceOf(EventData);
-            if (message.body && message.body.type === 'Buffer') done();
+            if (message.body && message.body instanceof Buffer) {
+              done();
+            }
           });
           sendAnEvent('0', binaryBody, done);
         });
