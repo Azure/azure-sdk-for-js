@@ -1916,7 +1916,7 @@ var DocumentClient = Base.defineClass(
             initialHeaders = Base.extend(initialHeaders, defaultHeaders);
             
             // Accept a single parameter or an array of parameters.
-            if (params && params.constructor !== Array) {
+            if (params !== null && params !== undefined && params.constructor !== Array) {
                 params = [params];
             }
             
