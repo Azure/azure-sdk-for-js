@@ -44,8 +44,8 @@ var DefaultQueryExecutionContext = Base.defineClass(
         this.currentIndex = 0;
         this.currentPartitionIndex = 0;
         this.fetchFunctions = (Array.isArray(fetchFunctions)) ? fetchFunctions : [fetchFunctions];
-        this.continuation = null;
         this.options = options || {};
+        this.continuation = this.options.continuation || null;
         this.state = DefaultQueryExecutionContext.STATES.start;
     },
     {

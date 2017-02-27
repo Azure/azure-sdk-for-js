@@ -2362,12 +2362,16 @@ describe("NodeJS CRUD Tests", function () {
 			createResources(isNameBased, client, function (resources) {
 				var queryIterator = client.readDocuments(getCollectionLink(isNameBased, resources.db, resources.coll), { maxItemCount: 2 });
 				var counter = 0;
+
+				var continuationTokenDoc2;
+
 				// test queryIterator.forEach
-				queryIterator.forEach(function (err, doc) {
+				queryIterator.forEach(function (err, doc, headers) {
 					assert.equal(err, undefined, "error reading documents");
 					counter++;
 					if (counter === 1) {
 						assert.equal(doc.id, resources.doc1.id, "first document should be doc1");
+						continuationTokenDoc2 = headers[Constants.HttpHeaders.Continuation];
 					} else if (counter === 2) {
 						assert.equal(doc.id, resources.doc2.id, "second document should be doc2");
 					} else if (counter === 3) {
@@ -2376,9 +2380,28 @@ describe("NodeJS CRUD Tests", function () {
 					
 					if (doc === undefined) {
 						assert(counter < 5, "iterator should have stopped");
-						done();
+
+						validateContinuationToken(continuationTokenDoc2)
 					}
 				});
+
+				// test Iterator.forEach with continuation token
+				var validateContinuationToken = function (continuationToken) {
+					var queryIterator = client.readDocuments(
+						getCollectionLink(isNameBased, resources.db, resources.coll),
+						{maxItemCount: 2, continuation: continuationToken});
+					counter = 0;
+					queryIterator.forEach(function (err, doc) {
+						assert.equal(err, undefined, "error reading documents: " + JSON.stringify(err));
+						counter++;
+						if (counter == 1) {
+							assert.equal(doc.id, resources.doc3.id, "third document should be doc3");
+						} else {
+							assert(counter == 2, "iterator should have stopped");
+							done();
+						}
+					});
+				}
 			});
 		};
 		
@@ -2395,9 +2418,14 @@ describe("NodeJS CRUD Tests", function () {
 			createResources(isNameBased, client, function (resources) {
 				var queryIterator = client.readDocuments(getCollectionLink(isNameBased, resources.db, resources.coll), { maxItemCount: 2 });
 				assert.equal(queryIterator.hasMoreResults(), true);
-				queryIterator.current(function (err, doc) {
+
+				var continuationTokenDoc2;
+
+				queryIterator.current(function (err, doc, headers) {
 					assert.equal(err, undefined, "error querying documents");
 					assert.equal(doc.id, resources.doc1.id, "call queryIterator.current after reset should return first document");
+					continuationTokenDoc2 = headers[Constants.HttpHeaders.Continuation];
+
 					queryIterator.nextItem(function (err, doc) {
 						assert.equal(err, undefined, "error querying documents");
 						assert.equal(doc.id, resources.doc1.id, "call queryIterator.nextItem after reset should return first document");
@@ -2418,7 +2446,8 @@ describe("NodeJS CRUD Tests", function () {
 										queryIterator.nextItem(function (err, doc) {
 											assert.equal(err, undefined, "error querying documents");
 											assert.equal(doc, undefined, "queryIterator should return undefined if there is no elements");
-											done();
+
+											validateContinuationToken(continuationTokenDoc2)
 										});
 									});
 								});
@@ -2426,6 +2455,26 @@ describe("NodeJS CRUD Tests", function () {
 						});
 					});
 				});
+
+				var validateContinuationToken = function (continuationToken) {
+					var queryIterator = client.readDocuments(
+						getCollectionLink(isNameBased, resources.db, resources.coll),
+						{ maxItemCount: 2, continuation: continuationToken });
+
+					queryIterator.current(function (err, doc) {
+						assert.equal(err, undefined, "error querying documents");
+						assert.equal(doc.id, resources.doc3.id, "call queryIterator.current should return third document");
+						queryIterator.nextItem(function (err, doc) {
+							assert.equal(err, undefined, "error querying documents");
+							assert.equal(doc.id, resources.doc3.id, "call queryIterator.nextItem again should return third document");
+							queryIterator.nextItem(function (err, doc) {
+								assert.equal(err, undefined, "error querying documents");
+								assert.equal(doc, undefined, "queryIterator should return undefined if there is no elements");
+								done();
+							});
+						});
+					});
+				};
 			});
 		};
 		
@@ -2449,7 +2498,17 @@ describe("NodeJS CRUD Tests", function () {
 					assert.equal(docs[1].id, resources.doc2.id, "batch first second document should be doc2");
 					queryIterator.executeNext(function (err, docs) {
 						assert.equal(err, undefined, "error reading documents");
-						assert.equal(docs.length, 1, "second batch size should be 2");
+						assert.equal(docs.length, 1, "second batch size is unexpected");
+						assert.equal(docs[0].id, resources.doc3.id, "second batch element should be doc3");
+					});
+
+					// validate Iterator.executeNext with continuation token
+					queryIterator = client.readDocuments(
+						getCollectionLink(isNameBased, resources.db, resources.coll),
+						{ maxItemCount: 2, continuation: headers[Constants.HttpHeaders.Continuation] });
+					queryIterator.executeNext(function (err, docs) {
+						assert.equal(err, undefined, "error reading documents");
+						assert.equal(docs.length, 1, "second batch size with continuation token is unexpected");
 						assert.equal(docs[0].id, resources.doc3.id, "second batch element should be doc3");
 						done();
 					});
