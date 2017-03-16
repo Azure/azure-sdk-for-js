@@ -1,6 +1,15 @@
+## Changes in 1.11.0 : ##
+- Added the support for aggregation queries (COUNT, MIN, MAX, SUM, and AVG).
+- Added the option for controlling degree of parallelism for cross partition queries.
+- Added the option for disabling SSL verification when running against DocumentDB Emulator.
+- Lowered minimum throughput on partitioned collections from 10,100 RU/s to 2500 RU/s.
+- Fixed the continuation token bug for single partition collection (github #107).
+- Fixed the executeStoredProcedure bug in handling 0 as single param (github #155).
+
 ## Changes in 1.10.2 : ##
 
-- Fixed UserAgent Header
+- Fixed user-agent header to include the SDK version.
+- Minor code cleanup.
 
 ## Changes in 1.10.1 : ##
 
