@@ -114,9 +114,20 @@ var DefaultQueryExecutionContext = Base.defineClass(
          * @instance
          * @param {callback} callback - Function execute on the feed response, takes two parameters error, resourcesList
          */
-        fetchMore: function(callback){
+        fetchMore: function (callback) {
+            if (this.currentPartitionIndex >= this.fetchFunctions.length) {
+                return callback(undefined, undefined, undefined);
+            }
             var that = this;
+            // Keep to the original continuation and to restore the value after fetchFunction call
+            var originalContinuation = this.options.continuation;
             this.options.continuation = this.continuation;
+
+            // Return undefined if there is no more results
+            if (this.currentPartitionIndex >= that.fetchFunctions.length) {
+                return callback(undefined, undefined, undefined);
+            }
+
             var fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
             fetchFunction(this.options, function(err, resources, responseHeaders){
                 if(err) {
@@ -131,12 +142,16 @@ var DefaultQueryExecutionContext = Base.defineClass(
 
                 that.state = DefaultQueryExecutionContext.STATES.inProgress;
                 that.currentIndex = 0;
+                that.options.continuation = originalContinuation;
                 callback(undefined, resources, responseHeaders);
             });
         },
         
         _canFetchMore: function () {
-            var res = (this.state === DefaultQueryExecutionContext.STATES.start || (this.continuation && this.state === DefaultQueryExecutionContext.STATES.inProgress) || (this.currentPartitionIndex < this.fetchFunctions.length && this.state === DefaultQueryExecutionContext.STATES.inProgress));
+            var res = (this.state === DefaultQueryExecutionContext.STATES.start
+                || (this.continuation && this.state === DefaultQueryExecutionContext.STATES.inProgress)
+                || (this.currentPartitionIndex < this.fetchFunctions.length
+                    && this.state === DefaultQueryExecutionContext.STATES.inProgress));
             return res;
         }
     }, {

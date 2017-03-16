@@ -253,6 +253,14 @@ var Base = {
         if (options.enableCrossPartitionQuery) {
             headers[Constants.HttpHeaders.EnableCrossPartitionQuery] = options.enableCrossPartitionQuery;
         }
+
+        if (options.maxDegreeOfParallelism) {
+            headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] = true;
+        }
+
+        if (options.populateQuotaInfo) {
+            headers[Constants.HttpHeaders.PopulateQuotaInfo] = true;
+        }
         
         // If the user is not using partition resolver, we add options.partitonKey to the header for elastic collections
         if (documentClient.partitionResolver === undefined || documentClient.partitionResolver === null) {

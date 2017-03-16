@@ -34,6 +34,7 @@ var Base = require("../base")
 
 var QueryRange = CollectionRoutingMap.QueryRange;
 
+var FormatPlaceHolder = "{documentdb-formattableorderbyquery-filter}"; 
 
 //SCRIPT START
 var ParallelQueryExecutionContext = Base.defineClass(
@@ -84,6 +85,15 @@ var ParallelQueryExecutionContext = Base.defineClass(
                     that.sem.leave();
                     return;
                 }
+                var maxDegreeOfParallelism = options.maxDegreeOfParallelism || 1;
+
+                if (maxDegreeOfParallelism > 0) {
+                    maxDegreeOfParallelism = Math.min(maxDegreeOfParallelism, targetPartitionRanges.length);
+                } else {
+                    maxDegreeOfParallelism = targetPartitionRanges.length;
+                }
+                var parallelismSem = require('semaphore')(Math.max(maxDegreeOfParallelism, 1));
+                
                 var targetPartitionQueryExecutionContextList = [];
 
                 targetPartitionRanges.forEach(
@@ -96,30 +106,33 @@ var ParallelQueryExecutionContext = Base.defineClass(
 
                 targetPartitionQueryExecutionContextList.forEach(
                     function (targetQueryExContext) {
+
                         // has async callback
-                        targetQueryExContext.current(function (err, document) {
-                            // TODO: error handling
-                            if (err) {
-                                that.err = err;
-                                that._decrementInitiationLock();
-                                return;
-                            }
+                        var throttledFunc = function () {
+                            targetQueryExContext.current(function (err, document) {
+                                try {
+                                    if (err) {
+                                        that.err = err;
+                                        return;
+                                    }
 
-                            if (document == undefined) {
-                                that._decrementInitiationLock();
-                                // no results on this one
-                                return;
-                            }
-                            // if there are matching results in the target ex range add it to the priority queue
-
-                            try {
-                                that.orderByPQ.enq(targetQueryExContext);
-                            } catch (e) {
-                                that.err = e;
-                            }
-                            that._decrementInitiationLock();
-                            return;
-                        });
+                                    if (document == undefined) {
+                                        // no results on this one
+                                        return;
+                                    }
+                                    // if there are matching results in the target ex range add it to the priority queue
+                                    try {
+                                        that.orderByPQ.enq(targetQueryExContext);
+                                    } catch (e) {
+                                        that.err = e;
+                                    }
+                                } finally {
+                                    parallelismSem.leave();
+                                    that._decrementInitiationLock();
+                                }
+                            });
+                        }
+                        parallelismSem.take(throttledFunc);
                     });
             });
         };
@@ -250,10 +263,11 @@ var ParallelQueryExecutionContext = Base.defineClass(
             }
             var that = this;
             this.sem.take(function () {
-                if (that.err) {
-                    return callback(that.err, undefined);
-                }
                 try {
+                    if (that.err) {
+                        return callback(that.err, undefined);
+                    }
+
                     if (that.orderByPQ.size() === 0) {
                         return callback(undefined, undefined);
                     }
@@ -284,6 +298,8 @@ var ParallelQueryExecutionContext = Base.defineClass(
             }
             if (rewrittenQuery) {
                 query = JSON.parse(JSON.stringify(query));
+                // We hardcode the formattable filter to true for now
+                rewrittenQuery = rewrittenQuery.replace(FormatPlaceHolder, "true");
                 query['query'] = rewrittenQuery;
             }
             return new DocumentProducer(this.documentclient, this.collectionLink, query, partitionKeyTargetRange);

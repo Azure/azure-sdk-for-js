@@ -53,6 +53,11 @@ var PipelinedQueryExecutionContext = Base.defineClass(
             this.endpoint = new endpointComponent.OrderByEndpointComponent(this.endpoint);
         }
 
+        var aggregates = QueryExecutionInfoParser.parseAggregates(partitionedQueryExecutionInfo);
+        if (Array.isArray(aggregates) && aggregates.length > 0) {
+            this.endpoint = new endpointComponent.AggregateEndpointComponent(this.endpoint, aggregates);
+        }
+
         var top = QueryExecutionInfoParser.parseTop(partitionedQueryExecutionInfo);
         if (typeof (top) === 'number') {
             this.endpoint = new endpointComponent.TopEndpointComponent(this.endpoint, top);

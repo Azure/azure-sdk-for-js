@@ -10,10 +10,6 @@
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -29,6 +25,7 @@
     <Compile Include="lib\endpointDiscoveryRetryPolicy.js" />
     <Compile Include="lib\globalEndpointManager.js" />
     <Compile Include="lib\platform.js" />
+    <Compile Include="lib\queryExecutionContext\aggregators.js" />
     <Compile Include="lib\queryExecutionContext\documentProducer.js" />
     <Compile Include="lib\queryExecutionContext\parallelQueryExecutionContext.js" />
     <Compile Include="lib\queryExecutionContext\endpointComponent.js" />
@@ -43,12 +40,22 @@
     <Compile Include="lib\routing\smartRoutingMapProvider.js" />
     <Compile Include="lib\routing\partitionKeyRangeCache.js" />
     <Compile Include="lib\routing\inMemoryCollectionRoutingMap.js" />
+    <Compile Include="test\aggregateQueryTests.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
     <Compile Include="test\baseTests.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>
     <Compile Include="test\smartRoutingMapProviderTests.js" />
-    <Compile Include="test\orderbyTests.js" />
-    <Compile Include="test\inMemoryCollectionRoutingMapTests.js" />
+    <Compile Include="test\crossPartitionTests.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
+    <Compile Include="test\inMemoryCollectionRoutingMapTests.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
+    <Compile Include="test\sslVerificationTests.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
     <Compile Include="test\_testConfig.js" />
     <Compile Include="lib\auth.js" />
     <Compile Include="lib\base.js" />
@@ -83,6 +90,9 @@
     <Compile Include="test\test.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>
+    <Compile Include="test\queryExecutionContext\defaultQueryExecutionContextTests.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
     <Compile Include="test\_testConfig.js" />
   </ItemGroup>
   <ItemGroup>
@@ -96,18 +106,21 @@
     <Folder Include="lib\routing\" />
     <Folder Include="lib\queryExecutionContext\" />
     <Folder Include="test" />
+    <Folder Include="test\queryExecutionContext\" />
     <Folder Include="test\routing\" />
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\grunt\" />
     <Folder Include="typings\globals\mocha\" />
     <Folder Include="typings\globals\node\" />
+    <Folder Include="typings\globals\semaphore\" />
     <Folder Include="typings\globals\underscore\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="typings\globals\grunt\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\mocha\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\semaphore\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\underscore\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>

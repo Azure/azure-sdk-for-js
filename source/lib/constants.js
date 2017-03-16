@@ -122,6 +122,8 @@ var Constants = {
         EnableScanInQuery: "x-ms-documentdb-query-enable-scan",
         EmitVerboseTracesInQuery: "x-ms-documentdb-query-emit-traces",
         EnableCrossPartitionQuery: "x-ms-documentdb-query-enablecrosspartition",
+        ParallelizeCrossPartitionQuery: "x-ms-documentdb-query-parallelizecrosspartitionquery",
+
         // Version headers and values
         Version: "x-ms-version",
         
@@ -137,6 +139,8 @@ var Constants = {
         MaxMediaStorageUsageInMB: "x-ms-max-media-storage-usage-mb",
         CurrentMediaStorageUsageInMB: "x-ms-media-storage-usage-mb",
         RequestCharge: "x-ms-request-charge",
+        PopulateQuotaInfo: "x-ms-documentdb-populatequotainfo",
+        MaxResourceQuota: "x-ms-resource-quota",
         
         // Offer header
         OfferType: "x-ms-offer-type",
@@ -167,10 +171,9 @@ var Constants = {
     ThrottleRetryCount: "x-ms-throttle-retry-count",
     ThrottleRetryWaitTimeInMs: "x-ms-throttle-retry-wait-time-ms",
     
-    CurrentVersion: "2016-07-11",
+    CurrentVersion: "2017-01-19",
     
     SDKName: "documentdb-nodejs-sdk",
-    SDKVersion: "1.10.2",
 
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,
@@ -186,6 +189,10 @@ var Constants = {
     RegularExpressions: {
         TrimLeftSlashes: new RegExp("^[/]+"),
         TrimRightSlashes: new RegExp("[/]+$")
+    },
+
+    Quota: {
+        CollectionSize: "collectionSize"
     }
 };
 

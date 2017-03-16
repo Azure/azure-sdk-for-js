@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/9dad6b2b06440e2dbe7a498931e7f5e70f858c2b/grunt/index.d.ts",
+    "raw": "registry:dt/grunt#0.4.0+20170118033846",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/9dad6b2b06440e2dbe7a498931e7f5e70f858c2b/grunt/index.d.ts"
+  }
+}

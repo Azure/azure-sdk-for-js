@@ -171,10 +171,7 @@ var RequestHandler = {
         requestOptions.agent = keepAliveAgent;
         requestOptions.secureProtocol = "TLSv1_client_method";
 
-        // Disabling the SSL verification for local emulator(localhost) only, otherwise
-        // Node.js apps running against local emulator will fail with error code DEPTH_ZERO_SELF_SIGNED_CERT
-        // unless they have set process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"; explicitly.
-        if (requestOptions.hostname === "localhost") {
+        if (connectionPolicy.DisableSSLVerification === true) {
             requestOptions.rejectUnauthorized = false;
         }
 
