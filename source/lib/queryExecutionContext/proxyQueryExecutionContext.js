@@ -136,7 +136,7 @@ var ProxyQueryExecutionContext = Base.defineClass(
 
         fetchMore: function (callback) {
             var that = this;
-            //return this.queryExecutionContext.nextItem(callback);
+
             this.queryExecutionContext.fetchMore(function (err, resources, headers) {
                 if (err) {
                     if (that._hasPartitionedExecutionInfo(err)) {

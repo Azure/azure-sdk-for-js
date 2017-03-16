@@ -202,15 +202,12 @@ var OrderByDocumentProducerComparator = Base.defineClass(
 
             return this.targetPartitionKeyRangeDocProdComparator(docProd1, docProd2);
         },
-        
-        compareOrderByItem: function (orderByItem1, orderByItem2) {
-            var type1 = this.getType(orderByItem1);
-            var type2 = this.getType(orderByItem2);
 
+        compareValue: function (item1, type1, item2, type2) {
             var type1Ord = this._typeOrdComparator[type1].ord;
             var type2Ord = this._typeOrdComparator[type2].ord;
             var typeCmp = type1Ord - type2Ord;
-            
+
             if (typeCmp !== 0) {
                 // if the types are different, use type ordinal
                 return typeCmp;
@@ -221,11 +218,17 @@ var OrderByDocumentProducerComparator = Base.defineClass(
                 // if both types are undefined or Null they are equal
                 return 0;
             }
-  
+
             var compFunc = this._typeOrdComparator[type1].compFunc;
             assert.notEqual(compFunc, undefined, "cannot find the comparison function");
             // same type and type is defined compare the items
-            return compFunc(orderByItem1['item'], orderByItem2['item']);
+            return compFunc(item1, item2);
+        },
+
+        compareOrderByItem: function (orderByItem1, orderByItem2) {
+            var type1 = this.getType(orderByItem1);
+            var type2 = this.getType(orderByItem2);
+            return this.compareValue(orderByItem1['item'], type1, orderByItem2['item'], type2);
         },
 
         validateOrderByItems: function (res1, res2) {
@@ -263,4 +266,5 @@ var OrderByDocumentProducerComparator = Base.defineClass(
 
 if (typeof exports !== "undefined") {
     module.exports = DocumentProducer;
+    module.exports.OrderByDocumentProducerComparator = OrderByDocumentProducerComparator;
 }

@@ -23,7 +23,8 @@ SOFTWARE.
 
 "use strict";
 
-var Base = require("../base");
+var Base = require("../base")
+    , aggregators = require('./aggregators');
 
 //SCRIPT START
 var OrderByEndpointComponent = Base.defineClass(
@@ -141,9 +142,161 @@ var TopEndpointComponent = Base.defineClass(
         },
     }
 );
+
+var AggregateEndpointComponent = Base.defineClass(
+    /**
+     * Represents an endpoint in handling aggregate queries.
+     * @constructor AggregateEndpointComponent
+     * @param { object } executionContext - Underlying Execution Context
+     * @ignore
+     */
+    function (executionContext, aggregateOperators) {
+        this.executionContext = executionContext;
+        this.localAggregators = [];
+        var that = this;
+        aggregateOperators.forEach(function (aggregateOperator) {
+            switch (aggregateOperator) {
+                case 'Average':
+                    that.localAggregators.push(new aggregators.AverageAggregator());
+                    break;
+                case 'Count':
+                    that.localAggregators.push(new aggregators.CountAggregator());
+                    break;
+                case 'Max':
+                    that.localAggregators.push(new aggregators.MaxAggregator());
+                    break;
+                case 'Min':
+                    that.localAggregators.push(new aggregators.MinAggregator());
+                    break;
+                case 'Sum':
+                    that.localAggregators.push(new aggregators.SumAggregator());
+                    break;
+            }
+        });
+    },
+    {
+        /**
+        * Populate the aggregated values
+        * @ignore 
+        */
+        _getAggregateResult: function (callback) {
+            this.toArrayTempResources = [];
+            this.aggregateValues = [];
+            this.aggregateValuesIndex = -1;
+            var that = this;
+
+            this._getQueryResults(function (err, resources) {
+                if (err) {
+                    return callback(err, undefined);
+                }
+
+                resources.forEach(function (resource) {
+                    that.localAggregators.forEach(function (aggregator) {
+                        var itemValue = undefined;
+                        // Get the value of the first property if it exists
+                        if (resource && Object.keys(resource).length > 0) {
+                            var key = Object.keys(resource)[0];
+                            itemValue = resource[key];
+                        }
+                        aggregator.aggregate(itemValue);
+                    });
+                });
+
+                // Get the aggregated results
+                that.localAggregators.forEach(function (aggregator) {
+                    that.aggregateValues.push(aggregator.getResult());
+                });
+
+                return callback(undefined, that.aggregateValues);
+            });
+        },
+
+        /**
+        * Get the results of queries from all partitions
+        * @ignore 
+        */
+        _getQueryResults: function (callback) {
+            var that = this;
+
+            this.executionContext.nextItem(function (err, item) {
+                if (err) {
+                    return callback(err, undefined);
+                }
+                
+                if (item === undefined) {
+                    // no more results
+                    return callback(undefined, that.toArrayTempResources);
+                }
+
+                that.toArrayTempResources = that.toArrayTempResources.concat(item);
+                return that._getQueryResults(callback);
+            });
+
+        },
+
+        /**
+        * Execute a provided function on the next element in the AggregateEndpointComponent.
+        * @memberof AggregateEndpointComponent
+        * @instance
+        * @param {callback} callback - Function to execute for each element. the function takes two parameters error, element.
+        */
+        nextItem: function (callback) {
+            var that = this;
+            var _nextItem = function (err, resources) {
+                if (err || that.aggregateValues.length <= 0) {
+                    return callback(undefined, undefined);
+                }
+
+                var resource = that.aggregateValuesIndex < that.aggregateValues.length
+                    ? that.aggregateValues[++that.aggregateValuesIndex]
+                    : undefined;
+
+                return callback(undefined, resource);
+            };
+
+            if (that.aggregateValues == undefined) {
+                that._getAggregateResult(function (err, resources) {
+                    return _nextItem(err, resources);
+                });
+            }
+            else {
+                return _nextItem(undefined, that.aggregateValues);
+            }
+        },
+
+        /**
+         * Retrieve the current element on the AggregateEndpointComponent.
+         * @memberof AggregateEndpointComponent
+         * @instance
+         * @param {callback} callback - Function to execute for the current element. the function takes two parameters error, element.
+         */
+        current: function (callback) {
+            var that = this;
+            if (that.aggregateValues == undefined) {
+                that._getAggregateResult(function (err, resources) {
+                    return callback(undefined, that.aggregateValues[that.aggregateValuesIndex]);
+                });
+            }
+            else {
+                return callback(undefined, that.aggregateValues[that.aggregateValuesIndex]);
+            }
+        },
+
+        /**
+         * Determine if there are still remaining resources to processs.
+         * @memberof AggregateEndpointComponent
+         * @instance
+         * @returns {Boolean} true if there is other elements to process in the AggregateEndpointComponent.
+         */
+        hasMoreResults: function () {
+            return this.aggregateValues != null && this.aggregateValuesIndex < this.aggregateValues.length - 1;
+        }
+    }
+);
 //SCRIPT END
 
 if (typeof exports !== "undefined") {
     exports.OrderByEndpointComponent = OrderByEndpointComponent;
     exports.TopEndpointComponent = TopEndpointComponent;
+    exports.AggregateEndpointComponent = AggregateEndpointComponent;
 }

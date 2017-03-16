@@ -32,6 +32,7 @@ var PartitionedQueryContants = {
     QueryInfoPath : 'queryInfo',
     TopPath: ['queryInfo', 'top'],
     OrderByPath: ['queryInfo', 'orderBy'],
+    AggregatePath: ['queryInfo', 'aggregates'],
     QueryRangesPath : 'queryRanges',
     RewrittenQueryPath: ['queryInfo', 'rewrittenQuery']
 };
@@ -47,6 +48,9 @@ var PartitionedQueryExecutionContextInfoParser = Base.defineClass(
         },
         parseOrderBy: function (partitionedQueryExecutionInfo) {
             return this._extract(partitionedQueryExecutionInfo, PartitionedQueryContants.OrderByPath);
+        },
+        parseAggregates: function (partitionedQueryExecutionInfo) {
+            return this._extract(partitionedQueryExecutionInfo, PartitionedQueryContants.AggregatePath);
         },
         parseTop: function (partitionedQueryExecutionInfo) {
             return this._extract(partitionedQueryExecutionInfo, PartitionedQueryContants.TopPath);
