@@ -67,10 +67,8 @@ var DocumentClient = Base.defineClass(
         if (consistencyLevel !== undefined) {
             this.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] = consistencyLevel;
         }
-        
-        if (Constants.UserAgent) {
-            this.defaultHeaders[Constants.HttpHeaders.UserAgent] = Constants.UserAgent;
-        }
+
+        this.defaultHeaders[Constants.HttpHeaders.UserAgent] = Base._getUserAgent();
         
         // overide this for default query params to be added to the url.
         this.defaultUrlParams = "";
@@ -1918,7 +1916,7 @@ var DocumentClient = Base.defineClass(
             initialHeaders = Base.extend(initialHeaders, defaultHeaders);
             
             // Accept a single parameter or an array of parameters.
-            if (params && params.constructor !== Array) {
+            if (params !== null && params !== undefined && params.constructor !== Array) {
                 params = [params];
             }
             
