@@ -10,6 +10,7 @@ var should = chai.should();
 chai.use(chaiAsPromised);
 
 var Receiver = require('../lib/receiver.js');
+var Sender = require('../lib/sender.js');
 var EventHubClient = require('../lib/client.js');
 var ArgumentError = require('azure-iot-common').errors.ArgumentError;
 var MessagingEntityNotFoundError = require('../lib/errors').MessagingEntityNotFoundError;
@@ -136,6 +137,16 @@ services.forEach(function (service) {
             return client.getPartitionIds();
           })
           .should.be.rejectedWith(MessagingEntityNotFoundError);
+      });
+    });
+
+    describe('#createSender', function() {
+      [0, 1, '0', '1'].forEach(function(partitionId) {
+        it('returns a Sender when partitionId is ' + partitionId, function() {
+          client = EventHubClient.fromConnectionString(service.connectionString, service.path);
+          var sender = client.createSender(partitionId);
+          return sender.should.eventually.be.instanceOf(Sender);
+        });
       });
     });
 

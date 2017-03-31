@@ -262,7 +262,7 @@ EventHubClient.prototype.createSender = function createSender(partitionId) {
   return this.open()
     .then(function () {
       var endpoint = '/' + self._config.path;
-      if (partitionId !== undefined) {
+      if (partitionId !== undefined && partitionId !== null && !(typeof partitionId === 'number' && partitionId < 0)) {
         endpoint += '/Partitions/' + partitionId;
       }
       return self._amqp.createSender(endpoint);

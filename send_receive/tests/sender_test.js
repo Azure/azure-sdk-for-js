@@ -5,6 +5,7 @@
 
 var chai = require('chai');
 chai.should();
+var sinon = require('sinon');
 
 var uuid = require('uuid');
 var amqp10 = require('amqp10');
@@ -73,6 +74,23 @@ describe('EventHubSender', function () {
               sender.on('errorReceived', done);
               sender.send({ testId: id });
             });
+        });
+    });
+
+    it('should set the partition key if it is passed', function(done) {
+      client.createSender('0')
+        .then(function (sender) {
+          var id = uuid.v4();
+          var testMessage = { testId: id };
+          var partitionKey = 'partitionKey';
+          sinon.spy(sender._senderLink, 'send');
+          sender.on('errorReceived', done);
+          sender.send(testMessage, partitionKey)
+          .then(function() {
+            var options = sender._senderLink.send.args[0][1];
+            options.messageAnnotations['x-opt-partition-key'].should.equal(partitionKey);
+            done();
+          });
         });
     });
   });

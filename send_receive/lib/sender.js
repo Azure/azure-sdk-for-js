@@ -54,7 +54,7 @@ util.inherits(EventHubSender, EventEmitter);
 EventHubSender.prototype.send = function (message, partitionKey) {
   var options = null;
   if (partitionKey) {
-    options = {messageAnnotations: {'x-opt-partition-key': partitionKey}};
+    options = { messageAnnotations: { 'x-opt-partition-key': partitionKey } };
   }
   return this._senderLink.send(message, options);
 };
