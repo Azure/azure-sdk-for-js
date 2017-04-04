@@ -60,11 +60,13 @@ var EventHubClient = require('azure-event-hubs').Client;
 
 var client = EventHubClient.fromConnectionString('Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key', 'myeventhub')
 client.open()
-    .bind(client.createSender.bind(client))
-    .then(function (tx) {
+      .then(function() {
+        client.createSender();
+      })
+      .then(function (tx) {
         tx.on('errorReceived', function (err) { console.log(err); });
         tx.send({ contents: 'Here is some text sent to partition key my-pk.' }, 'my-pk'); 
-    });
+      });
 ```
 
 ## Example 4 - Create a sender v2 ##
