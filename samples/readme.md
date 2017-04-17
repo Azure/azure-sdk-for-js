@@ -1,7 +1,7 @@
-##Introduction ##
+## Introduction  ##
 These samples demonstrate how to use the Node.js SDK to interact with the [Azure DocumentDB](http://azure.microsoft.com/services/documentdb)  service
 
-##Building the sample ##
+## Building the sample  ##
 
 These samples were built using the [Node.js Tools for Visual Studio](https://github.com/Microsoft/nodejstools) and include *njsproj files accordingly. However, you do not *need* Visual Studio to run these samples. Just ignore the nsjprof files if you wish, and open the app.js in your choice of editor such as [Visual Studio Code](https://code.visualstudio.com/), or even a text editor such [Sublime](http://www.sublimetext.com/). The choice is yours!
 
@@ -10,7 +10,7 @@ So head over to [How to create a DocumentDB database account](https://azure.micr
 
 Once you have your DocumentDB account setup, you can run these files using Visual Studio if you are using it, or by simply running **node app.js**
 
-##Description ##
+## Description  ##
 
 Azure DocumentDB is a fully managed, scalable, query-able, schema free JSON document database service built for modern applications and delivered to you by Microsoft.
 
@@ -32,6 +32,6 @@ After walking through these samples you should have a good idea of how to get go
 
 There are step-by-step tutorials and more documentation on the [DocumentDB documentation](http://azure.microsoft.com/en-us/documentation/services/documentdb/) page so head over about this NoSQL document database.
  
-##More information ##
+## More information  ##
 
 For more information on this database service, please refer to the [Azure DocumentDB](http://azure.microsoft.com/services/documentdb) service page.
