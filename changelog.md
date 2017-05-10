@@ -1,3 +1,9 @@
+## Changes in 1.12.0 : ##
+- Added support for Request Unit per Minute (RU/m) feature.
+- Added support for a new consistency level called ConsistentPrefix.
+- Added support for UriFactory.
+- Fixed the unicode support bug (github #171)
+
 ## Changes in 1.11.0 : ##
 - Added the support for aggregation queries (COUNT, MIN, MAX, SUM, and AVG).
 - Added the option for controlling degree of parallelism for cross partition queries.
