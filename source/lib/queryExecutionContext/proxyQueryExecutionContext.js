@@ -1,6 +1,6 @@
 /*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,7 +47,8 @@ var ProxyQueryExecutionContext = Base.defineClass(
         this.documentclient = documentclient;
         this.query = query;
         this.fetchFunctions = fetchFunctions;
-        this.options = options;
+        // clone options
+        this.options = JSON.parse(JSON.stringify(options || {}));
         this.resourceLink = resourceLink;
         this.queryExecutionContext = new DefaultQueryExecutionContext(this.documentclient, this.query, this.options, this.fetchFunctions);
     },

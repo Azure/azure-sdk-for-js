@@ -1,6 +1,6 @@
 /*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,8 @@ SOFTWARE.
 
 var Base = require("../base")
     , DefaultQueryExecutionContext = require("./defaultQueryExecutionContext")
+    , HttpHeaders = require("../constants").HttpHeaders
+    , HeaderUtils = require("./headerUtils")
     , assert = require("assert")
     , util = require("util");
 
@@ -39,42 +41,109 @@ var DocumentProducer = Base.defineClass(
      * @param {object} targetPartitionKeyRange       - Query Target Partition key Range
      * @ignore
      */
-    function (documentclient, collectionLink, query, targetPartitionKeyRange) {
+    function (documentclient, collectionLink, query, targetPartitionKeyRange, options) {
         this.documentclient = documentclient;
         this.collectionLink = collectionLink;
         this.query = query;
         this.targetPartitionKeyRange = targetPartitionKeyRange;
-        this.bufferedCurrentItem = undefined;
+        this.itemsBuffer = [];
+ 
+        this.allFetched = false;
+        this.err = undefined;
+
+        this.previousContinuationToken = undefined;
+        this.continuationToken = undefined;
+        this._respHeaders = HeaderUtils.getInitialHeader();
 
         var isNameBased = Base.isLinkNameBased(collectionLink);
         var path = this.documentclient.getPathFromLink(collectionLink, "docs", isNameBased);
         var id = this.documentclient.getIdFromLink(collectionLink, isNameBased);
-        var options = {};
 
         var that = this;
-        var fetchFunction =  function (options, callback) {
+        var fetchFunction = function (options, callback) {
             that.documentclient.queryFeed.call(documentclient,
                 documentclient,
-                    path,
-                    "docs",
-                    id,
-                    function (result) { return result.Documents; },
-                    function (parent, body) { return body; },
-                    query,
-                    options,
-                    callback,
-                    that.targetPartitionKeyRange["id"]);
+                path,
+                "docs",
+                id,
+                function (result) { return result.Documents; },
+                function (parent, body) { return body; },
+                query,
+                options,
+                callback,
+                that.targetPartitionKeyRange["id"]);
         };
         this.internalExecutionContext = new DefaultQueryExecutionContext(documentclient, query, options, fetchFunction);
     },
     {
         /**
-         * Synchronously gives the bufferend current item if any
-         * @returns {Object}       - buffered current item if any
+         * Synchronously gives the buffered items if any
+         * @returns {Object}       - buffered current items if any
          * @ignore
          */
-        peek: function () {
-            return this.bufferedCurrentItem;
+        peekBufferedItems: function () {
+            return this.itemsBuffer;
+        },
+
+        /**
+         * Synchronously gives the buffered items if any and moves inner indices.
+         * @returns {Object}       - buffered current items if any
+         * @ignore
+         */
+        consumeBufferedItems: function () {
+            var res = this.itemsBuffer;
+            this.itemsBuffer = [];
+            this._updateStates(undefined, this.continuationToken === null || this.continuationToken === undefined);
+            return res;
+        },
+
+        _getAndResetActiveResponseHeaders: function () {
+            var ret = this._respHeaders;
+            this._respHeaders = HeaderUtils.getInitialHeader();
+            return ret;
+        },
+
+        _updateStates: function (err, allFetched) {
+            if (err) {
+                this.err = err
+                return;
+            }
+            if (allFetched) {
+                this.allFetched = true;
+            }
+            if (this.internalExecutionContext.continuation === this.continuationToken) {
+                // nothing changed
+                return;
+            }
+            this.previousContinuationToken = this.continuationToken;
+            this.continuationToken = this.internalExecutionContext.continuation;
+        },
+
+        /**
+         * Fetches and bufferes the next page of results and executes the given callback
+         * @memberof DocumentProducer
+         * @instance
+         * @param {callback} callback - Function to execute for next page of result.
+         *                              the function takes three parameters error, resources, headerResponse.
+        */
+        bufferMore: function (callback) {
+            var that = this;
+            if (that.err) {
+                return callback(that.err);
+            }
+
+            this.internalExecutionContext.fetchMore(function (err, resources, headerResponse) {
+                that._updateStates(err, resources === undefined);
+                if (err) {
+                    return callback(err, undefined, headerResponse);
+                }
+                
+                if (resources != undefined) {
+                    // some more results
+                    that.itemsBuffer = that.itemsBuffer.concat(resources);
+                } 
+                return callback(undefined, resources, headerResponse);
+            });
         },
 
         /**
@@ -94,9 +163,17 @@ var DocumentProducer = Base.defineClass(
         */
         nextItem: function (callback) {
             var that = this;
-            this.internalExecutionContext.nextItem(function (err, item) {
-                that.bufferedCurrentItem = undefined;
-                callback(err, item);
+            if (that.err) {
+                return callback(that.err);
+            }
+            this.current(function (err, item, headers) {
+                if (err) {
+                    return callback(err, undefined, headers);
+                }
+
+                var extracted = that.itemsBuffer.shift();
+                assert.equal(extracted, item);
+                callback(undefined, item, headers);
             });
         },
 
@@ -107,11 +184,26 @@ var DocumentProducer = Base.defineClass(
          * @param {callback} callback - Function to execute for the current element. the function takes two parameters error, element.
          */
         current: function (callback) {
+            if (this.itemsBuffer.length > 0) {
+                return callback(undefined, this.itemsBuffer[0], this._getAndResetActiveResponseHeaders());
+            }
+
+            if (this.allFetched) {
+                return callback(undefined, undefined, this._getAndResetActiveResponseHeaders());
+            }
+
             var that = this;
-            this.internalExecutionContext.current(function (err, item) {
-                // sets the buffered current item for non async access
-                that.bufferedCurrentItem = item;
-                callback(err, item);
+            this.bufferMore(function (err, items, headers) {
+                if (err) {
+                    return callback(err, undefined, headers);
+                }
+
+                if (items === undefined) {
+                    return callback(undefined, undefined, headers);
+                }
+                HeaderUtils.mergeHeaders(that._respHeaders, headers);
+
+                that.current(callback);
             });
         },
     },
@@ -180,8 +272,8 @@ var OrderByDocumentProducerComparator = Base.defineClass(
     },
     {
         compare: function (docProd1, docProd2) {
-            var orderByItemsRes1 = this.getOrderByItems(docProd1.peek());
-            var orderByItemsRes2 = this.getOrderByItems(docProd2.peek());
+            var orderByItemsRes1 = this.getOrderByItems(docProd1.peekBufferedItems()[0]);
+            var orderByItemsRes2 = this.getOrderByItems(docProd2.peekBufferedItems()[0]);
 
             // validate order by items and types
             // TODO: once V1 order by on different types is fixed this need to change
@@ -247,7 +339,7 @@ var OrderByDocumentProducerComparator = Base.defineClass(
                 return 'NoValue';
             }
             var type = typeof (orderByItem['item']);
-            this._throwIf(! type in this._typeOrdComparator, util.format("unrecognizable type %s", type));
+            this._throwIf(!type in this._typeOrdComparator, util.format("unrecognizable type %s", type));
             return type;
         },
 
@@ -255,7 +347,7 @@ var OrderByDocumentProducerComparator = Base.defineClass(
             return res['orderByItems'];
         },
 
-        _throwIf: function(condition, msg) {
+        _throwIf: function (condition, msg) {
             if (condition) {
                 throw Error(msg);
             }

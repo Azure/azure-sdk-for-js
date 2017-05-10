@@ -1,6 +1,6 @@
 /*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -2477,17 +2477,20 @@ var DocumentClient = Base.defineClass(
 
 /**
  * The request options
- * @typedef {Object} RequestOptions               -         Options that can be specified for a requested issued to the DocumentDB servers.
- * @property {string} [preTriggerInclude]         -         Indicates what is the pre trigger to be invoked before the operation.
- * @property {string} [postTriggerInclude]        -         Indicates what is the post trigger to be invoked after the operation.
- * @property {object} [accessCondition]           -         Conditions Associated with the request.
- * @property {string} accessCondition.type        -         Conditional HTTP method header type (IfMatch or IfNoneMatch).
- * @property {string} accessCondition.condition   -         Conditional HTTP method header value (the _etag field from the last version you read).
- * @property {string} [indexingDirective]         -         Specifies indexing directives (index, do not index .. etc).
- * @property {string} [consistencyLevel]          -         Consistency level required by the client.
- * @property {string} [sessionToken]              -         Token for use with Session consistency.
- * @property {number} [resourceTokenExpirySeconds]-         Expiry time (in seconds) for resource token associated with permission (applicable only for requests on permissions).
- * @property {string} [offerType]                 -         Offer type when creating document collections.
+ * @typedef {Object} RequestOptions                          -         Options that can be specified for a requested issued to the DocumentDB servers.
+ * @property {string} [preTriggerInclude]                    -         Indicates what is the pre trigger to be invoked before the operation.
+ * @property {string} [postTriggerInclude]                   -         Indicates what is the post trigger to be invoked after the operation.
+ * @property {object} [accessCondition]                      -         Conditions Associated with the request.
+ * @property {string} accessCondition.type                   -         Conditional HTTP method header type (IfMatch or IfNoneMatch).
+ * @property {string} accessCondition.condition              -         Conditional HTTP method header value (the _etag field from the last version you read).
+ * @property {string} [indexingDirective]                    -         Specifies indexing directives (index, do not index .. etc).
+ * @property {string} [consistencyLevel]                     -         Consistency level required by the client.
+ * @property {string} [sessionToken]                         -         Token for use with Session consistency.
+ * @property {number} [resourceTokenExpirySeconds]           -         Expiry time (in seconds) for resource token associated with permission (applicable only for requests on permissions).
+ * @property {string} [offerType]                            -         Offer type when creating document collections.
+ * @property {boolean} [offerEnableRUPerMinuteThroughput]    -         Represents Request Units(RU)/Minute throughput is enabled/disabled for a collection in the Azure DocumentDB database service. 
+ *                                                                     <p>This option is only valid when creating a document collection.</p>
+ * @property {boolean} [disableRUPerMinuteUsage]             -         DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity to serve the request if regular provisioned RUs/second is exhausted.
  */
 
 /**
@@ -2497,7 +2500,7 @@ var DocumentClient = Base.defineClass(
  * @property {string} [continuation]              -         Opaque token for continuing the enumeration.
  * @property {string} [sessionToken]              -         Token for use with Session consistency.
  * @property {boolean} [EnableScanInQuery]        -         Allow scan on the queries which couldn't be served as indexing was opted out on the requested paths.
- *
+ * @property {boolean} [disableRUPerMinuteUsage]  -         DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity to serve the request if regular provisioned RUs/second is exhausted.
  */
 
 /**

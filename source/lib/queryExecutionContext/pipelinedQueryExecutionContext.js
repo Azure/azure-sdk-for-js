@@ -1,6 +1,6 @@
 /*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,8 @@ var Base = require("../base")
     , DefaultQueryExecutionContext = require("./defaultQueryExecutionContext")
     , endpointComponent = require('./endpointComponent')
     , assert = require("assert")
-    , QueryExecutionInfoParser = require("./partitionedQueryExecutionContextInfoParser");
+    , QueryExecutionInfoParser = require("./partitionedQueryExecutionContextInfoParser")
+    , HeaderUtils = require("./headerUtils");
 
 //SCRIPT START
 var PipelinedQueryExecutionContext = Base.defineClass(
@@ -77,30 +78,39 @@ var PipelinedQueryExecutionContext = Base.defineClass(
         },
 
         fetchMore: function (callback) {
-            this._fetchMoreTempBufferedResults = [];
-            this._fetchMoreLastResHeaders = undefined;
-            this._fetchMoreImplementation(callback);
+
+            // if the wrapped endpoint has different implementation for fetchMore use that
+            // otherwise use the default implementation
+            if (typeof this.endpoint.fetchMore === 'function') {
+                this.endpoint.fetchMore(callback);
+            } else {
+                this._fetchMoreTempBufferedResults = [];
+                this._fetchMoreRespHeaders = HeaderUtils.getInitialHeader();
+                this._fetchMoreImplementation(callback);
+            }
         },
 
         _fetchMoreImplementation: function (callback) {
             var that = this;
-            var counter = 0;
 
             this.endpoint.nextItem(function (err, resources, headers) {
+
+                HeaderUtils.mergeHeaders(that._fetchMoreRespHeaders, headers);
+
                 if (err) {
-                    return callback(err, undefined, headers);
+                    return callback(err, undefined, that._fetchMoreRespHeaders);
                 }
                 // concatinate the results and fetch more
                 that._fetchMoreLastResHeaders = headers;
                 if (resources === undefined) {
                     // no more results
                     if (that._fetchMoreTempBufferedResults.length === 0) {
-                        return callback(undefined, undefined, that._fetchMoreLastResHeaders);
+                        return callback(undefined, undefined, that._fetchMoreRespHeaders);
                     }
 
                     var temp = that._fetchMoreTempBufferedResults;
                     that._fetchMoreTempBufferedResults = [];
-                    return callback(undefined, temp, that._fetchMoreLastResHeaders);
+                    return callback(undefined, temp, that._fetchMoreRespHeaders);
                 }
 
                 that._fetchMoreTempBufferedResults = that._fetchMoreTempBufferedResults.concat(resources);
@@ -110,7 +120,7 @@ var PipelinedQueryExecutionContext = Base.defineClass(
                     var temp = that._fetchMoreTempBufferedResults;
                     that._fetchMoreTempBufferedResults = [];
 
-                    return callback(undefined, temp, that._fetchMoreLastResHeaders);
+                    return callback(undefined, temp, that._fetchMoreRespHeaders);
                 }
 
                 that._fetchMoreImplementation(callback);
@@ -118,7 +128,7 @@ var PipelinedQueryExecutionContext = Base.defineClass(
         },
     },
     {
-        DEFAULT_PAGE_SIZE: 1000
+        DEFAULT_PAGE_SIZE: 10
     }
 );
 //SCRIPT END

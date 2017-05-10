@@ -1,6 +1,6 @@
 /*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,8 @@ SOFTWARE.
 
 var Client = require("./documentclient")
   , Hash = require("./hash/hashPartitionResolver")
-  , Range = require("./range");
+  , Range = require("./range")
+  , UriFactory = require("./uriFactory");
 
 if (typeof exports !== "undefined") {
     exports.DocumentClient = Client.DocumentClient;
@@ -36,4 +37,5 @@ if (typeof exports !== "undefined") {
     exports.Range = Range.Range;
     exports.RangePartitionResolver = Range.RangePartitionResolver;
     exports.HashPartitionResolver = Hash.HashPartitionResolver;
+    exports.UriFactory = UriFactory.UriFactory;
 }
