@@ -26,6 +26,7 @@ SOFTWARE.
 var lib = require("../lib/"),
     assert = require("assert"),
     testConfig = require("./_testConfig"),
+    UriFactory = require("../lib/uriFactory").UriFactory,
     DocumentDBClient = lib.DocumentClient;
 
 var host = testConfig.host;
