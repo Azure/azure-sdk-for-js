@@ -1,6 +1,6 @@
 /*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
     }
 
     var isMedia = ( requestOptions.path.indexOf("media") > -1 );
-
+    
     var httpsRequest = https.request(requestOptions, function(response) {
         // In case of media response, return the stream to the user and the user will need to handle reading the stream.
         if (isMedia && connectionPolicy.MediaReadMode === Documents.MediaReadMode.Streamed) {
@@ -60,6 +60,12 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
         }
 
         var data = "";
+
+        //if the requested data is text (not attachment/media) set the encoding to UTF-8
+        if (!isMedia) {
+            response.setEncoding("utf8");
+        }
+
         response.on("data", function(chunk) {
             data += chunk;
         });

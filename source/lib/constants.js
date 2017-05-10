@@ -1,6 +1,6 @@
 /*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -145,7 +145,12 @@ var Constants = {
         // Offer header
         OfferType: "x-ms-offer-type",
         OfferThroughput: "x-ms-offer-throughput",
-        
+
+        // Custom RUs/minute headers
+        DisableRUPerMinuteUsage: "x-ms-documentdb-disable-ru-per-minute-usage",
+        IsRUPerMinuteUsed: "x-ms-documentdb-is-ru-per-minute-used",
+        OfferIsRUPerMinuteThroughputEnabled: "x-ms-offer-is-ru-per-minute-throughput-enabled",
+
         // Index progress headers
         IndexTransformationProgress: "x-ms-documentdb-collection-index-transformation-progress",
         LazyIndexingProgress: "x-ms-documentdb-collection-lazy-indexing-progress",
@@ -174,7 +179,7 @@ var Constants = {
     CurrentVersion: "2017-01-19",
     
     SDKName: "documentdb-nodejs-sdk",
-    SDKVersion: "1.11.0",
+    SDKVersion: "1.12.0",
 
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,
@@ -189,11 +194,27 @@ var Constants = {
     
     RegularExpressions: {
         TrimLeftSlashes: new RegExp("^[/]+"),
-        TrimRightSlashes: new RegExp("[/]+$")
+        TrimRightSlashes: new RegExp("[/]+$"),
+        IllegalResourceIdCharacters: new RegExp("[/\\\\?#]")
     },
 
     Quota: {
         CollectionSize: "collectionSize"
+    },
+
+    Path: {
+        DatabasesPathSegment: "dbs",
+        CollectionsPathSegment: "colls",
+        UsersPathSegment: "users",
+        DocumentsPathSegment: "docs",
+        PermissionsPathSegment: "permissions",
+        StoredProceduresPathSegment: "sprocs",
+        TriggersPathSegment: "triggers",
+        UserDefinedFunctionsPathSegment: "udfs",
+        ConflictsPathSegment: "conflicts",
+        AttachmentsPathSegment: "attachments",
+        PartitionKeyRangesPathSegment: "pkranges",
+        SchemasPathSegment: "schemas"
     }
 };
 

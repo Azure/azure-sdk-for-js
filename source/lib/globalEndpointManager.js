@@ -1,6 +1,6 @@
 ﻿/*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -147,6 +147,7 @@ var GlobalEndpointManager = Base.defineClass(
                 // If for any reason(non - globaldb related), we are not able to get the database account from the above call to getDatabaseAccount,
                 // we would try to get this information from any of the preferred locations that the user might have specified(by creating a locational endpoint)
                 // and keeping eating the exception until we get the database account and return None at the end, if we are not able to get that info from any endpoints
+
                 if (err) {
                     var func = function (defaultEndpoint, preferredLocations, index) {
                         if (index < preferredLocations.length) {

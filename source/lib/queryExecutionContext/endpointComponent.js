@@ -1,6 +1,6 @@
 /*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -46,14 +46,14 @@ var OrderByEndpointComponent = Base.defineClass(
          * @param {callback} callback - Function to execute for each element. the function takes two parameters error, element.
          */
         nextItem: function (callback) {
-            this.executionContext.nextItem(function (err, item) {
+            this.executionContext.nextItem(function (err, item, headers) {
                 if (err) {
-                    return callback(err, undefined);
+                    return callback(err, undefined, headers);
                 }
                 if (item === undefined) {
-                    return callback(undefined, undefined);
+                    return callback(undefined, undefined, headers);
                 }
-                callback(undefined, item["payload"]);
+                callback(undefined, item["payload"], headers);
             });
         },
 
@@ -64,14 +64,14 @@ var OrderByEndpointComponent = Base.defineClass(
          * @param {callback} callback - Function to execute for the current element. the function takes two parameters error, element.
          */
         current: function(callback) {
-            this.executionContext.current(function (err, item) {
+            this.executionContext.current(function (err, item, headers) {
                 if (err) {
-                    return callback(err, undefined);
+                    return callback(err, undefined, headers);
                 }
                 if (item === undefined) {
-                    return callback(undefined, undefined);
+                    return callback(undefined, undefined, headers);
                 }
-                callback(undefined, item["payload"]);
+                callback(undefined, item["payload"], headers);
             });
         },
 
@@ -108,11 +108,11 @@ var TopEndpointComponent = Base.defineClass(
         */
         nextItem: function (callback) {
             if (this.topCount <= 0) {
-                return callback(undefined, undefined);
+                return callback(undefined, undefined, undefined);
             }
             this.topCount--;
-            this.executionContext.nextItem(function (err, item) {
-                callback(err, item);
+            this.executionContext.nextItem(function (err, item, headers) {
+                callback(err, item, headers);
             });
         },
 
@@ -126,8 +126,8 @@ var TopEndpointComponent = Base.defineClass(
             if (this.topCount <= 0) {
                 return callback(undefined, undefined);
             }
-            this.executionContext.current(function (err, item) {
-                return callback(err, item);
+            this.executionContext.current(function (err, item, headers) {
+                return callback(err, item, headers);
             });
         },
 

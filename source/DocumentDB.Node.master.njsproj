@@ -24,6 +24,7 @@
     <Compile Include="index.js" />
     <Compile Include="lib\endpointDiscoveryRetryPolicy.js" />
     <Compile Include="lib\globalEndpointManager.js" />
+    <Compile Include="lib\helper.js" />
     <Compile Include="lib\platform.js" />
     <Compile Include="lib\queryExecutionContext\aggregators.js" />
     <Compile Include="lib\queryExecutionContext\documentProducer.js" />
@@ -33,6 +34,7 @@
     <Compile Include="lib\queryExecutionContext\pipelinedQueryExecutionContext.js" />
     <Compile Include="lib\queryExecutionContext\proxyQueryExecutionContext.js" />
     <Compile Include="lib\queryExecutionContext\defaultQueryExecutionContext.js" />
+    <Compile Include="lib\queryExecutionContext\headerUtils.js" />
     <Compile Include="lib\range.js" />
     <Compile Include="lib\retryOptions.js" />
     <Compile Include="lib\retryUtility.js" />
@@ -40,10 +42,17 @@
     <Compile Include="lib\routing\smartRoutingMapProvider.js" />
     <Compile Include="lib\routing\partitionKeyRangeCache.js" />
     <Compile Include="lib\routing\inMemoryCollectionRoutingMap.js" />
+    <Compile Include="lib\uriFactory.js" />
     <Compile Include="test\aggregateQueryTests.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>
     <Compile Include="test\baseTests.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
+    <Compile Include="test\encodingTests.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
+    <Compile Include="test\ruPerMinTests.js" >
       <TestFramework>Mocha</TestFramework>
     </Compile>
     <Compile Include="test\smartRoutingMapProviderTests.js" />
@@ -54,6 +63,9 @@
       <TestFramework>Mocha</TestFramework>
     </Compile>
     <Compile Include="test\sslVerificationTests.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
+    <Compile Include="test\uriFactoryTests.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>
     <Compile Include="test\_testConfig.js" />

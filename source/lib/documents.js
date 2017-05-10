@@ -1,6 +1,6 @@
 /*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -132,12 +132,15 @@ var AzureDocuments = Base.defineClass(null, null,
                                       and read your writes (your writes are immediately visible to your reads) within any single session.
          * @property Eventual         Eventual Consistency guarantees that reads will return a subset of writes. All writes
                                       will be eventually be available for reads.
+         * @property ConsistentPrefix ConsistentPrefix Consistency guarantees that reads will return some prefix of all writes with no gaps.
+                                      All writes will be eventually be available for reads.                          
          */
         ConsistencyLevel: Object.freeze({
             Strong: "Strong",
             BoundedStaleness: "BoundedStaleness",
             Session: "Session",
-            Eventual: "Eventual"
+            Eventual: "Eventual",
+            ConsistentPrefix: "ConsistentPrefix"
         }),
 
 

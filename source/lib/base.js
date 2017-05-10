@@ -1,6 +1,6 @@
 /*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -296,8 +296,16 @@ var Base = {
             headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
         }
 
-        if (options.enableScriptLogging ) {
+        if (options.enableScriptLogging) {
             headers[Constants.HttpHeaders.EnableScriptLogging] = options.enableScriptLogging;
+        }
+
+        if (options.offerEnableRUPerMinuteThroughput) {
+            headers[Constants.HttpHeaders.OfferIsRUPerMinuteThroughputEnabled] = true; 
+        }
+
+        if (options.disableRUPerMinuteUsage) {
+            headers[Constants.HttpHeaders.DisableRUPerMinuteUsage] = true; 
         }
 
         return headers;

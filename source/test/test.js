@@ -1,6 +1,6 @@
 ﻿/*
 The MIT License (MIT)
-Copyright (c) 2014 Microsoft Corporation
+Copyright (c) 2017 Microsoft Corporation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -2444,6 +2444,7 @@ describe("NodeJS CRUD Tests", function () {
                 queryIterator.executeNext(function (err, docs, headers) {
                     assert.equal(err, undefined, "error reading documents");
                     assert(headers !== undefined, "executeNext should pass headers as the third parameter to the callback");
+                    assert(headers[Constants.HttpHeaders.RequestCharge] > 0, "RequestCharge has to be non-zero");
                     assert.equal(docs.length, 2, "first batch size should be 2");
                     assert.equal(docs[0].id, resources.doc1.id, "first batch first document should be doc1");
                     assert.equal(docs[1].id, resources.doc2.id, "batch first second document should be doc2");
@@ -2459,6 +2460,8 @@ describe("NodeJS CRUD Tests", function () {
                         { maxItemCount: 2, continuation: headers[Constants.HttpHeaders.Continuation] });
                     queryIterator.executeNext(function (err, docs) {
                         assert.equal(err, undefined, "error reading documents");
+                        assert(headers !== undefined, "executeNext should pass headers as the third parameter to the callback");
+                        assert(headers[Constants.HttpHeaders.RequestCharge] > 0, "RequestCharge has to be non-zero");
                         assert.equal(docs.length, 1, "second batch size with continuation token is unexpected");
                         assert.equal(docs[0].id, resources.doc3.id, "second batch element should be doc3");
                         done();
@@ -3315,7 +3318,7 @@ describe("NodeJS CRUD Tests", function () {
                     client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
                         assert.equal(err, undefined, "error creating document");
                         
-                        setTimeout(positiveDefaultTtlStep1, 6000, client, collection, createdDocument, documentDefinition, function () {
+                        setTimeout(positiveDefaultTtlStep1, 10000, client, collection, createdDocument, documentDefinition, function () {
                             done();
                         });
                     });
@@ -3508,7 +3511,7 @@ describe("NodeJS CRUD Tests", function () {
                     client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
                         assert.equal(err, undefined, "error creating document");
                         
-                        setTimeout(miscCasesStep1, 9000, client, collection, createdDocument, documentDefinition, function () {
+                        setTimeout(miscCasesStep1, (8 + 5) * 1000, client, collection, createdDocument, documentDefinition, function () {
                             done();
                         });
                     });
