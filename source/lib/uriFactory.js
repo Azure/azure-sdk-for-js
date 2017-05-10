@@ -171,7 +171,7 @@ var UriFactory = Base.defineClass(
         },
 
         /**
-        * @summary
+        * @summary Given a database, collection and conflict id, this creates a conflict link.
         * @param {string} databaseId        -The database Id
         * @param {string} collectionId      -The collection Id
         * @param {string} conflictId        -The conflict Id
