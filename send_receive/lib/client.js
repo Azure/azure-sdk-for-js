@@ -32,6 +32,10 @@ function EventHubClient(config) {
     senderLink: {
       attach: {
         maxMessageSize: 262144
+      },
+      reattach: {
+        retries: 0,
+        forever: false
       }
     },
     receiverLink: {
@@ -54,7 +58,17 @@ function EventHubClient(config) {
         } catch (e) {
           return body;
         }
+      },
+      reattach: {
+        retries: 0,
+        forever: false
       }
+    },
+    // reconnections will be handled at the client level, not the transport level.
+    reconnect: {
+      retries: 0,
+      strategy: 'fibonacci',
+      forever: false
     }
   }, amqp10.Policy.EventHub));
   this._connectPromise = null;
@@ -95,33 +109,33 @@ EventHubClient.prototype.open = function () {
       this._connectPromise = this._amqp.connect(this._config.saslPlainUri);
     } else {
       this._connectPromise = new Promise(function (resolve, reject) {
+        self._amqp.on('client:errorReceived', function (rx_err) {
+          if (rx_err.condition === 'amqp:link:redirect') {
+            var res = rx_err.errorInfo.address.match('amqps://([^/]*)/([^/]*)');
+            self._config.path = res[2];
+            self._config.saslPlainUri = 'amqps://' +
+                        encodeURIComponent(self._config.keyName) + ':' +
+                        encodeURIComponent(self._config.key) + '@' +
+                        rx_err.errorInfo.hostname;
+            self._amqp.disconnect()
+              .then(function () {
+                self._amqp = new amqp10.Client(amqp10.Policy.EventHub);
+                return self._amqp.connect(self._config.saslPlainUri);
+              })
+              .then(function () {
+                resolve();
+              });
+          }
+          else {
+            reject(new Error('error receiving reply from Event Hub management endpoint: ' + rx_err.description));
+          }
+        });
         self._amqp.connect(self._config.saslPlainUri)
           .then(function () {
             var rxOptions = { attach: { target: { address: 'rx-name' } } };
             return self._amqp.createReceiver(self._config.path, rxOptions);
           })
           .then(function (receiver) {
-            receiver.on('errorReceived', function (rx_err) {
-              if (rx_err.condition === 'amqp:link:redirect') {
-                var res = rx_err.errorInfo.address.match('amqps://([^/]*)/([^/]*)');
-                self._config.path = res[2];
-                self._config.saslPlainUri = 'amqps://' +
-                            encodeURIComponent(self._config.keyName) + ':' +
-                            encodeURIComponent(self._config.key) + '@' +
-                            rx_err.errorInfo.hostname;
-                self._amqp.disconnect()
-                  .then(function () {
-                    self._amqp = new amqp10.Client(amqp10.Policy.EventHub);
-                    return self._amqp.connect(self._config.saslPlainUri);
-                  })
-                  .then(function () {
-                    resolve();
-                  });
-              }
-              else {
-                reject(new Error('error receiving reply from Event Hub management endpoint: ' + rx_err.description));
-              }
-            });
             receiver.on('attach', resolve);
           });
       });
