@@ -95,6 +95,7 @@ var Constants = {
         Prefer: "Prefer",
         Location: "Location",
         Referer: "referer",
+        A_IM: "A-IM",
         
         // Query
         Query: "x-ms-documentdb-query",

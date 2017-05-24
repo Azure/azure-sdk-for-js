@@ -2129,7 +2129,7 @@ var DocumentClient = Base.defineClass(
                     path,
                     "docs",
                     id,
-                    function (result) { return result.Documents; },
+                    function (result) { return result ? result.Documents : []; },
                     function (parent, body) { return body; },
                     query,
                     options,
