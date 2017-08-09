@@ -241,7 +241,7 @@ var OrderByDocumentProducerComparator = Base.defineClass(
 
     function (sortOrder) {
         this.sortOrder = sortOrder;
-        this.targetPartitionKeyRangeDocProdComparator = new DocumentProducer.createTargetPartitionKeyRangeComparator();
+        this.targetPartitionKeyRangeDocProdComparator = DocumentProducer.createTargetPartitionKeyRangeComparator();
 
         this._typeOrdComparator = Object.freeze({
             NoValue: {

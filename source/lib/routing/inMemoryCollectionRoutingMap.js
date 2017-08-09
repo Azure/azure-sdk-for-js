@@ -146,7 +146,7 @@ var InMemoryCollectionRoutingMap = Base.defineClass(
 
             var index = bs.le(sortedLow, { v: effectivePartitionKeyValue, b: true }, this._vbCompareFunction);
             // that's an error
-            assert(index >=0, "error in collection routing map, queried partition key is less than the start range.");
+            assert.ok(index >= 0, "error in collection routing map, queried partition key is less than the start range.");
            
             return this._orderedPartitionKeyRanges[index];
         },
@@ -192,10 +192,10 @@ var InMemoryCollectionRoutingMap = Base.defineClass(
                     continue;
                 }
                 var minIndex = bs.le(sortedLow, { v: queryRange.min, b: !queryRange.isMinInclusive }, this._vbCompareFunction);
-                assert(minIndex >= 0, "error in collection routing map, queried value is less than the start range.");
+                assert.ok(minIndex >= 0, "error in collection routing map, queried value is less than the start range.");
 
                 var maxIndex = bs.ge(sortedHigh, { v: queryRange.max, b: queryRange.isMaxInclusive }, this._vbCompareFunction);
-                assert(maxIndex < sortedHigh.length, "error in collection routing map, queried value is greater than the end range.");
+                assert.ok(maxIndex < sortedHigh.length, "error in collection routing map, queried value is greater than the end range.");
 
                 // the for loop doesn't invoke any async callback
                 for (var j = minIndex; j < maxIndex + 1; j++) {

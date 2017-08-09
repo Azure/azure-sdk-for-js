@@ -25,13 +25,13 @@ SOFTWARE.
 
 var Base = require("../base")
     , assert = require("assert")
-    , CollectionRoutingMap = require("./inMemoryCollectionRoutingMap")
+    , InMemoryCollectionRoutingMap = require("./inMemoryCollectionRoutingMap")
     , PartitionKeyRangeCache = require("./partitionKeyRangeCache")
     , util = require("util");
 
-var CollectionRoutingMapFactory = CollectionRoutingMap.CollectionRoutingMapFactory;
-var QueryRange = CollectionRoutingMap.QueryRange;
-var _PartitionKeyRange = CollectionRoutingMap._PartitionKeyRange;
+var CollectionRoutingMapFactory = InMemoryCollectionRoutingMap.CollectionRoutingMapFactory;
+var QueryRange = InMemoryCollectionRoutingMap.QueryRange;
+var _PartitionKeyRange = InMemoryCollectionRoutingMap._PartitionKeyRange;
 
 //SCRIPT START
 var SmartRoutingMapProvider = Base.defineClass(
@@ -141,13 +141,13 @@ var SmartRoutingMapProvider = Base.defineClass(
                     }
 
                     var overlappingRanges = collectionRoutingMap.getOverlappingRanges(queryRange);
-                    assert(overlappingRanges.length > 0, util.format("error: returned overlapping ranges for queryRange %s is empty", queryRange));
+                    assert.ok(overlappingRanges.length > 0, util.format("error: returned overlapping ranges for queryRange %s is empty", queryRange));
                     partitionKeyRanges = partitionKeyRanges.concat(overlappingRanges);
 
                     var lastKnownTargetRange = QueryRange.parsePartitionKeyRange(partitionKeyRanges[partitionKeyRanges.length - 1]);
                     assert.notEqual(lastKnownTargetRange, undefined);
                     // the overlapping ranges must contain the requested range
-                    assert(that._stringCompare(currentProvidedRange.max, lastKnownTargetRange.max) <= 0,
+                    assert.ok(that._stringCompare(currentProvidedRange.max, lastKnownTargetRange.max) <= 0,
                         util.format("error: returned overlapping ranges %s does not contain the requested range %s", overlappingRanges, queryRange));
 
                     // the current range is contained in partitionKeyRanges just move forward

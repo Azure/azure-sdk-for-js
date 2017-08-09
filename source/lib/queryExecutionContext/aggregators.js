@@ -25,8 +25,10 @@ SOFTWARE.
 
 var Base = require("../base")
     , DocumentProducer = require("./documentProducer")
+    , OrderByDocumentProducerComparator = DocumentProducer.OrderByDocumentProducerComparator;
 
 //SCRIPT START
+
 var AverageAggregator = Base.defineClass(
 
     /**
@@ -112,7 +114,7 @@ var MinAggregator = Base.defineClass(
      */
     function () {
         this.value = undefined;
-        this.comparer = new DocumentProducer.OrderByDocumentProducerComparator("Ascending");
+        this.comparer = new OrderByDocumentProducerComparator("Ascending");
     },
     {
         /**
@@ -154,7 +156,7 @@ var MaxAggregator = Base.defineClass(
      */
     function () {
         this.value = undefined;
-        this.comparer = new DocumentProducer.OrderByDocumentProducerComparator("Ascending");
+        this.comparer = new OrderByDocumentProducerComparator("Ascending");
     },
     {
         /**
@@ -223,7 +225,7 @@ var SumAggregator = Base.defineClass(
 
     }
 );
- //SCRIPT END
+//SCRIPT END
 
 if (typeof exports !== "undefined") {
     exports.AverageAggregator = AverageAggregator;

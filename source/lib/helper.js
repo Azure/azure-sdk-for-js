@@ -24,7 +24,10 @@ SOFTWARE.
 "use strict"
 
 var Base = require("./base"),
-    Regexes = require("./constants").RegularExpressions;
+    Constants = require("./constants");
+
+var Regexes = Constants.RegularExpressions,
+    ResourceTypes = Constants.ResourceTypes;
 
 
 //SCRIPT START
@@ -69,6 +72,22 @@ var Helper = Base.defineClass(
 
             return true;
 
+        },
+
+        getResourceIdFromPath: function(resourcePath) {
+            if (!resourcePath || typeof resourcePath !== "string") {
+                return null;
+            }
+
+            var trimmedPath = this.trimSlashFromLeftAndRight(resourcePath);
+            var pathSegments = trimmedPath.split('/');
+
+            //number of segments of a path must always be even
+            if (pathSegments.length % 2 !== 0) {
+                return null;
+            }
+
+            return pathSegments[pathSegments.length - 1];
         }
     }
 

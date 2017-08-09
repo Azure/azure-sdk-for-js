@@ -26,9 +26,19 @@ SOFTWARE.
 var Constants = require("./constants");
 var os = require("os");
 var util = require("util");
-
+var semaphore = require("semaphore");
 var Platform = {
-
+    /** @ignore */
+    getPlatformDefaultHeaders: function () {
+        var defaultHeaders = {};
+        defaultHeaders[Constants.HttpHeaders.UserAgent] = Platform.getUserAgent();
+        return defaultHeaders;
+    },
+    /** @ignore */
+    getDecodedDataLength: function (encodedData) {
+        var buffer = new Buffer(encodedData, "base64");
+        return buffer.length;
+    },
     /** @ignore */
     getUserAgent: function () {
         // gets the user agent in the following format

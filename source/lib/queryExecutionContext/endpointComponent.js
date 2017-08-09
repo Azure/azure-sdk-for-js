@@ -26,6 +26,12 @@ SOFTWARE.
 var Base = require("../base")
     , aggregators = require('./aggregators');
 
+var AverageAggregator = aggregators.AverageAggregator
+    , CountAggregator = aggregators.CountAggregator
+    , MaxAggregator = aggregators.MaxAggregator
+    , MinAggregator = aggregators.MinAggregator
+    , SumAggregator = aggregators.SumAggregator;
+
 //SCRIPT START
 var OrderByEndpointComponent = Base.defineClass(
 

@@ -83,7 +83,7 @@ var ProxyQueryExecutionContext = Base.defineClass(
 
             assert.notStrictEqual(this.resourceLink, undefined, "for top/orderby resourceLink is required.");
 
-            assert(!Array.isArray(this.resourceLink) || this.resourceLink.length === 1,
+            assert.ok(!Array.isArray(this.resourceLink) || this.resourceLink.length === 1,
                 "for top/orderby exactly one collectionLink is required");
 
             var collectionLink = undefined;

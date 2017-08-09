@@ -27,8 +27,13 @@ var Base = require("../base")
     , DefaultQueryExecutionContext = require("./defaultQueryExecutionContext")
     , endpointComponent = require('./endpointComponent')
     , assert = require("assert")
-    , QueryExecutionInfoParser = require("./partitionedQueryExecutionContextInfoParser")
+    , PartitionedQueryExecutionContextInfoParser = require("./partitionedQueryExecutionContextInfoParser")
     , HeaderUtils = require("./headerUtils");
+
+var AggregateEndpointComponent = endpointComponent.AggregateEndpointComponent
+    , OrderByEndpointComponent = endpointComponent.OrderByEndpointComponent
+    , TopEndpointComponent = endpointComponent.TopEndpointComponent;
+
 
 //SCRIPT START
 var PipelinedQueryExecutionContext = Base.defineClass(
@@ -49,19 +54,19 @@ var PipelinedQueryExecutionContext = Base.defineClass(
         if (this.pageSize === undefined) {
             this.pageSize = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
         }
-        var orderBy = QueryExecutionInfoParser.parseOrderBy(partitionedQueryExecutionInfo);
+        var orderBy = PartitionedQueryExecutionContextInfoParser.parseOrderBy(partitionedQueryExecutionInfo);
         if (Array.isArray(orderBy) && orderBy.length > 0) {
-            this.endpoint = new endpointComponent.OrderByEndpointComponent(this.endpoint);
+            this.endpoint = new OrderByEndpointComponent(this.endpoint);
         }
 
-        var aggregates = QueryExecutionInfoParser.parseAggregates(partitionedQueryExecutionInfo);
+        var aggregates = PartitionedQueryExecutionContextInfoParser.parseAggregates(partitionedQueryExecutionInfo);
         if (Array.isArray(aggregates) && aggregates.length > 0) {
-            this.endpoint = new endpointComponent.AggregateEndpointComponent(this.endpoint, aggregates);
+            this.endpoint = new AggregateEndpointComponent(this.endpoint, aggregates);
         }
 
-        var top = QueryExecutionInfoParser.parseTop(partitionedQueryExecutionInfo);
+        var top = PartitionedQueryExecutionContextInfoParser.parseTop(partitionedQueryExecutionInfo);
         if (typeof (top) === 'number') {
-            this.endpoint = new endpointComponent.TopEndpointComponent(this.endpoint, top);
+            this.endpoint = new TopEndpointComponent(this.endpoint, top);
         }
     },
     {

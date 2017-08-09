@@ -1521,30 +1521,39 @@ describe("NodeJS CRUD Tests", function () {
                 // setup entities
                 setupEntities(isNameBased, client, function (entities) {
                     var resourceTokens = {};
+                    if (isNameBased) {
+                        resourceTokens[entities.coll1.id] = entities.permissionOnColl1._token;
+                        resourceTokens[entities.doc1.id] = entities.permissionOnColl1._token;
+                    }
+                    else {
                     resourceTokens[entities.coll1._rid] = entities.permissionOnColl1._token;
                     resourceTokens[entities.doc1._rid] = entities.permissionOnColl1._token;
+                    }
+
                     var col1Client = new DocumentDBClient(host, { resourceTokens: resourceTokens });
+                    var coll1Link = getCollectionLink(isNameBased, entities.db, entities.coll1);
                     // 1. Success-- Use Col1 Permission to Read
-                    col1Client.readCollection(entities.coll1._self, function (err, successColl1) {
+                    col1Client.readCollection(coll1Link, function (err, successColl1) {
                         assert.equal(err, undefined, "error reading collections");
                         assert(successColl1 !== undefined, "error reading collection");
                         // 2. Failure-- Use Col1 Permission to delete
-                        col1Client.deleteCollection(getCollectionLink(isNameBased, entities.db, successColl1), function (err, result) {
+                        col1Client.deleteCollection(coll1Link, function (err, result) {
                             assert(err !== undefined, "expected to fail, no permission to delete");
                             // 3. Success-- Use Col1 Permission to Read All Docs
-                            col1Client.readDocuments(successColl1._self).toArray(function (err, successDocuments) {
+                            col1Client.readDocuments(coll1Link).toArray(function (err, successDocuments) {
                                 assert.equal(err, undefined, "error reading documents");
                                 assert(successDocuments !== undefined, "error reading documents");
                                 assert.equal(successDocuments.length, 2, "Expected 2 Documents to be succesfully read");
                                 // 4. Success-- Use Col1 Permission to Read Col1Doc1
-                                col1Client.readDocument(entities.doc1._self, function (err, successDoc) {
+                                var doc1Link = getDocumentLink(isNameBased, entities.db, entities.coll1, entities.doc1);
+                                col1Client.readDocument(doc1Link, function (err, successDoc) {
                                     assert.equal(err, undefined, "error reading document");
                                     assert(successDoc !== undefined, "error reading document");
                                     assert.equal(successDoc.id, entities.doc1.id, "Expected to read children using parent permissions");
                                     var col2Client = new DocumentDBClient(host, { permissionFeed: [entities.permissionOnColl2] });
                                     addUpsertWrapperMethods(col2Client, isUpsertTest);
                                     var doc = { id: "new doc", CustomProperty1: "BBBBBB", customProperty2: 1000 };
-                                    col2Client.createOrUpsertDocument(getCollectionLink(isNameBased, entities.db, entities.coll2), doc, function (err, successDoc) {
+                                    col2Client.createOrUpsertDocument(entities.coll2._self, doc, function (err, successDoc) {
                                         assert.equal(err, undefined, "error creating document");
                                         assert(successDoc !== undefined, "error creating document");
                                         assert.equal(successDoc.CustomProperty1, doc.CustomProperty1, "document should have been created successfully");
@@ -2856,7 +2865,7 @@ describe("NodeJS CRUD Tests", function () {
                 client.createCollection(getDatabaseLink(isNameBased, db), collectionDefinition, collectionRequestOptions, function (err, collection) {
                     assert.equal(err, undefined, "error creating collection: " + JSON.stringify(err));
 
-                    client.readCollection(getCollectionLink(isNameBased, db, collection), { populateQuotaInfo: true }, function (err, collection, headers) {
+                    client.readCollection(getCollectionLink(isNameBased, db, collection), { populateQuotaInfo : true}, function (err, collection, headers) {
                         assert.equal(err, undefined, "error reading collection: " + JSON.stringify(err));
 
                         // Validate the collection size quota
@@ -2930,27 +2939,27 @@ describe("NodeJS CRUD Tests", function () {
         var minOfferThroughputPCollectionWithMultiPartitions = 2000;
         var maxOfferThroughputPCollectionWithSinglePartition = minOfferThroughputPCollectionWithMultiPartitions - 100;
 
-        it("nativeApi Should do offer read and query operations successfully name based single partition collection", function (done) {
+        it.skip("nativeApi Should do offer read and query operations successfully name based single partition collection", function (done) {
             offerReadAndQueryTest(true, false, offerThroughputSinglePartitionCollection, mbInBytes, done);
         });
 
-        it("nativeApi Should do offer read and query operations successfully rid based single partition collection", function (done) {
+        it.skip("nativeApi Should do offer read and query operations successfully rid based single partition collection", function (done) {
             offerReadAndQueryTest(false, false, offerThroughputSinglePartitionCollection, mbInBytes, done);
         });
 
-        it("nativeApi Should do offer read and query operations successfully w/ name based p-Collection w/ 1 partition", function (done) {
+        it.skip("nativeApi Should do offer read and query operations successfully w/ name based p-Collection w/ 1 partition", function (done) {
             offerReadAndQueryTest(true, true, maxOfferThroughputPCollectionWithSinglePartition, mbInBytes, done);
         });
 
-        it("nativeApi Should do offer read and query operations successfully w/ rid based p-Collection w/ 1 partition", function (done) {
+        it.skip("nativeApi Should do offer read and query operations successfully w/ rid based p-Collection w/ 1 partition", function (done) {
             offerReadAndQueryTest(false, true, maxOfferThroughputPCollectionWithSinglePartition, mbInBytes, done);
         });
 
-        it("nativeApi Should do offer read and query operations successfully w/ name based p-Collection w/ multi partitions", function (done) {
+        it.skip("nativeApi Should do offer read and query operations successfully w/ name based p-Collection w/ multi partitions", function (done) {
             offerReadAndQueryTest(true, true, minOfferThroughputPCollectionWithMultiPartitions, 5 * mbInBytes, done);
         });
         
-        it("nativeApi Should do offer read and query operations successfully w/ rid based p-Collection w/ multi partitions", function (done) {
+        it.skip("nativeApi Should do offer read and query operations successfully w/ rid based p-Collection w/ multi partitions", function (done) {
             offerReadAndQueryTest(false, true, minOfferThroughputPCollectionWithMultiPartitions, 5 * mbInBytes, done);
         });
         
@@ -3149,7 +3158,6 @@ describe("NodeJS CRUD Tests", function () {
     
     describe("TTL tests", function () {
         this.timeout(60000);
-        var dummyDocumentDefinition = { id: "dummy doc" }
         
         function createCollectionWithInvalidDefaultTtl(client, db, collectionDefinition, collId, defaultTtl, callback) {
             collectionDefinition.id = collId;
@@ -3216,40 +3224,30 @@ describe("NodeJS CRUD Tests", function () {
         });
         
         function checkDocumentGone(client, collection, createdDocument, callback) {
-            // Call to Upsert a dummy document here is a way to update the logical timestamp of the created document
-            client.upsertDocument(collection._self, dummyDocumentDefinition, function (err) {
-                assert.equal(err, undefined, "error upserting document");
-                
                 client.readDocument(createdDocument._self, function (err) {
                     var badRequestErrorCode = 404;
                     assert.equal(err.code, badRequestErrorCode, "response should return error code " + badRequestErrorCode);
                     callback();
                 });
-            });
         }
         
         function checkDocumentExists(client, collection, createdDocument, callback) {
-            // Call to Upsert a dummy document here is a way to update the logical timestamp of the created document
-            client.upsertDocument(collection._self, dummyDocumentDefinition, function (err) {
-                assert.equal(err, undefined, "error upserting document");
-                
                 client.readDocument(createdDocument._self, function (err, readDocument) {
                     assert.equal(err, undefined, "error reading document");
                     assert.equal(readDocument.ttl, createdDocument.ttl);
                     callback();
                 });
-            });
         }
         
         function positiveDefaultTtlStep4(client, collection, createdDocument, callback) {
             // the created document should NOT be gone as it 's ttl value is set to 8 which overrides the collections' s defaultTtl value(5)
             checkDocumentExists(client, collection, createdDocument, function () {
                 setTimeout(function () {
-                    // the created document should be gone now as we have waited for (6 + 3) secs which is greater than documents 's ttl value of 8
+                    // the created document should be gone now as we have waited for (6 + 4) secs which is greater than documents 's ttl value of 8
                     checkDocumentGone(client, collection, createdDocument, function () {
                         callback();
                     });
-                }, 3000);
+                }, 4000);
             });
         }
         
@@ -3276,7 +3274,7 @@ describe("NodeJS CRUD Tests", function () {
                 client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
                     assert.equal(err, undefined, "error creating document");
                     
-                    setTimeout(positiveDefaultTtlStep3, 3000, client, collection, createdDocument, documentDefinition, callback);
+                    setTimeout(positiveDefaultTtlStep3, 4000, client, collection, createdDocument, documentDefinition, callback);
                 });
             });
         }
@@ -3290,7 +3288,7 @@ describe("NodeJS CRUD Tests", function () {
                 client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
                     assert.equal(err, undefined, "error creating document");
                     
-                    setTimeout(positiveDefaultTtlStep2, 6000, client, collection, createdDocument, documentDefinition, callback);
+                    setTimeout(positiveDefaultTtlStep2, 5000, client, collection, createdDocument, documentDefinition, callback);
                 });
             });
         }
@@ -3318,7 +3316,7 @@ describe("NodeJS CRUD Tests", function () {
                     client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
                         assert.equal(err, undefined, "error creating document");
                         
-                        setTimeout(positiveDefaultTtlStep1, 10000, client, collection, createdDocument, documentDefinition, function () {
+                        setTimeout(positiveDefaultTtlStep1, 7000, client, collection, createdDocument, documentDefinition, function () {
                             done();
                         });
                     });
@@ -3381,7 +3379,7 @@ describe("NodeJS CRUD Tests", function () {
                             client.createDocument(collection._self, documentDefinition, function (err, createdDocument3) {
                                 assert.equal(err, undefined, "error creating document");
                                 
-                                setTimeout(minusOneDefaultTtlStep1, 3000, client, collection, createdDocument1, createdDocument2, createdDocument3, function () {
+                                setTimeout(minusOneDefaultTtlStep1, 4000, client, collection, createdDocument1, createdDocument2, createdDocument3, function () {
                                     done();
                                 });
                             });
@@ -3413,7 +3411,7 @@ describe("NodeJS CRUD Tests", function () {
                         assert.equal(err, undefined, "error creating document");
                         
                         // Created document still exists even after ttl time has passed since the TTL is disabled at collection level(no defaultTtl property defined)
-                        setTimeout(checkDocumentExists, 6000, client, collection, createdDocument, function () {
+                        setTimeout(checkDocumentExists, 7000, client, collection, createdDocument, function () {
                             done();
                         });
                     });
@@ -3428,12 +3426,9 @@ describe("NodeJS CRUD Tests", function () {
             });
         }
         
-        function miscCasesStep3(client, collection, upsertedDocument, documentDefinition, dummyDocument, callback) {
-            // the upserted document should be gone now after 9 secs from the last write(upsert) of the document
+        function miscCasesStep3(client, collection, upsertedDocument, documentDefinition, callback) {
+            // the upserted document should be gone now after 10 secs from the last write(upsert) of the document
             checkDocumentGone(client, collection, upsertedDocument, function () {
-                client.deleteDocument(dummyDocument._self, function (err) {
-                    assert.equal(err, undefined, "error deleting document");
-                    
                     var query = "SELECT * FROM root r";
                     client.queryDocuments(collection._self, query).toArray(function (err, results) {
                         assert.equal(err, undefined, "error querying databases");
@@ -3450,8 +3445,7 @@ describe("NodeJS CRUD Tests", function () {
                             client.createDocument(replacedCollection._self, documentDefinition, function (err, createdDocument) {
                                 assert.equal(err, undefined, "error creating document");
                                 
-                                setTimeout(miscCasesStep4, 6000, client, replacedCollection, createdDocument, documentDefinition, callback);
-                            });
+                            setTimeout(miscCasesStep4, 5000, client, replacedCollection, createdDocument, documentDefinition, callback);
                         });
                     });
                 });
@@ -3459,25 +3453,20 @@ describe("NodeJS CRUD Tests", function () {
         }
         
         function miscCasesStep2(client, collection, documentDefinition, callback) {
-            // Call to Upsert a dummy document here is a way to update the logical timestamp of the created document
-            client.upsertDocument(collection._self, dummyDocumentDefinition, function (err, dummyDocument) {
-                assert.equal(err, undefined, "error upserting document");
-                
                 // Upsert the document after 3 secs to reset the document 's ttl
                 documentDefinition.key = "value2";
                 client.upsertDocument(collection._self, documentDefinition, function (err, upsertedDocument) {
                     setTimeout(function () {
-                        // Upserted document still exists after (3+6)9 secs from document creation time( with collection 's defaultTtl set to 8) since it' s ttl was reset after 3 secs by upserting it
+                    // Upserted document still exists after (3+7)10 secs from document creation time( with collection 's defaultTtl set to 8) since it' s ttl was reset after 3 secs by upserting it
                         checkDocumentExists(client, collection, upsertedDocument, function () {
-                            setTimeout(miscCasesStep3, 3000, client, collection, upsertedDocument, documentDefinition, dummyDocument, callback);
-                        });
-                    }, 6000);
+                        setTimeout(miscCasesStep3, 3000, client, collection, upsertedDocument, documentDefinition, callback);
                 });
+                }, 7000);
             });
         }
         
         function miscCasesStep1(client, collection, createdDocument, documentDefinition, callback) {
-            // the created document cannot be deleted since it should already be gone now
+            // the created document should be gone now as the ttl time expired
             checkDocumentGone(client, collection, createdDocument, function () {
                 // We can create a document with the same id after the ttl time has expired
                 client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
@@ -3511,7 +3500,7 @@ describe("NodeJS CRUD Tests", function () {
                     client.createDocument(collection._self, documentDefinition, function (err, createdDocument) {
                         assert.equal(err, undefined, "error creating document");
                         
-                        setTimeout(miscCasesStep1, (8 + 5) * 1000, client, collection, createdDocument, documentDefinition, function () {
+                        setTimeout(miscCasesStep1, 10000, client, collection, createdDocument, documentDefinition, function () {
                             done();
                         });
                     });
@@ -3958,8 +3947,8 @@ describe.skip("GlobalDBTests", function () {
         it("Test locations cache", function (done) {
             var client = new DocumentDBClient(host, { masterKey: masterKey });
                 
-            var writableLocations = [{ name : writeLocation, databaseAccountEndpoint : writeLocationHost }];
-            var readableLocations = [{ name : readLocation, databaseAccountEndpoint : readLocationHost }, { name : readLocation2, databaseAccountEndpoint : readLocation2Host }];
+            var writableLocations = [{ name: writeLocation, databaseAccountEndpoint: writeLocationHost }];
+            var readableLocations = [{ name: readLocation, databaseAccountEndpoint: readLocationHost }, { name: readLocation2, databaseAccountEndpoint: readLocation2Host }];
                 
             client._globalEndpointManager._updateLocationsCache(writableLocations, readableLocations, function (endpoints) {
                 // If no preferred locations is set, we return the write endpoint as ReadEndpoint for better latency performance, write endpoint is set as expected
@@ -3974,7 +3963,7 @@ describe.skip("GlobalDBTests", function () {
                     assert.equal(endpoints[0], host);
                     assert.equal(endpoints[1], host);
                         
-                    writableLocations = [{ name : writeLocation, databaseAccountEndpoint : writeLocationHost }];
+                    writableLocations = [{ name: writeLocation, databaseAccountEndpoint: writeLocationHost }];
                     readableLocations = [];
                         
                     client._globalEndpointManager._updateLocationsCache(writableLocations, readableLocations, function (endpoints) {
@@ -3983,15 +3972,15 @@ describe.skip("GlobalDBTests", function () {
                         assert.equal(endpoints[1], writeLocationHost);
                             
                         writableLocations = [];
-                        readableLocations = [{ name : readLocation, databaseAccountEndpoint : readLocationHost }];
+                        readableLocations = [{ name: readLocation, databaseAccountEndpoint: readLocationHost }];
                             
                         client._globalEndpointManager._updateLocationsCache(writableLocations, readableLocations, function (endpoints) {
                             // If there are no writableLocations, both Read and Write Endpoints point to endpoint passed while creating the client instance
                             assert.equal(endpoints[0], host);
                             assert.equal(endpoints[1], host);
                                 
-                            writableLocations = [{ name : writeLocation, databaseAccountEndpoint : writeLocationHost }];
-                            readableLocations = [{ name : readLocation, databaseAccountEndpoint : readLocationHost }, { name : readLocation2, databaseAccountEndpoint : readLocation2Host }];
+                            writableLocations = [{ name: writeLocation, databaseAccountEndpoint: writeLocationHost }];
+                            readableLocations = [{ name: readLocation, databaseAccountEndpoint: readLocationHost }, { name: readLocation2, databaseAccountEndpoint: readLocation2Host }];
                                 
                             var connectionPolicy = new DocumentBase.ConnectionPolicy();
                             connectionPolicy.PreferredLocations = [readLocation2];
@@ -4003,8 +3992,8 @@ describe.skip("GlobalDBTests", function () {
                                 assert.equal(endpoints[0], writeLocationHost);
                                 assert.equal(endpoints[1], readLocation2Host);
                                     
-                                writableLocations = [{ name : writeLocation, databaseAccountEndpoint : writeLocationHost }, { name : readLocation2, databaseAccountEndpoint : readLocation2Host }];
-                                readableLocations = [{ name : readLocation, databaseAccountEndpoint : readLocationHost }];
+                                writableLocations = [{ name: writeLocation, databaseAccountEndpoint: writeLocationHost }, { name: readLocation2, databaseAccountEndpoint: readLocation2Host }];
+                                readableLocations = [{ name: readLocation, databaseAccountEndpoint: readLocationHost }];
                                     
                                 connectionPolicy = new DocumentBase.ConnectionPolicy();
                                 connectionPolicy.PreferredLocations = [readLocation2];
@@ -4016,8 +4005,8 @@ describe.skip("GlobalDBTests", function () {
                                     assert.equal(endpoints[0], writeLocationHost);
                                     assert.equal(endpoints[1], readLocation2Host);
                                         
-                                    writableLocations = [{ name : writeLocation, databaseAccountEndpoint : writeLocationHost }];
-                                    readableLocations = [{ name : readLocation, databaseAccountEndpoint : readLocationHost }, { name : readLocation2, databaseAccountEndpoint : readLocation2Host }];
+                                    writableLocations = [{ name: writeLocation, databaseAccountEndpoint: writeLocationHost }];
+                                    readableLocations = [{ name: readLocation, databaseAccountEndpoint: readLocationHost }, { name: readLocation2, databaseAccountEndpoint: readLocation2Host }];
                                         
                                     connectionPolicy.EnableEndpointDiscovery = false;
                                     client = new DocumentDBClient(host, { masterKey: masterKey }, connectionPolicy);
