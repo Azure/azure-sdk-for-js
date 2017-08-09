@@ -1,4 +1,8 @@
 ## Changes in 1.12.1 : ##
+- Fixed bug in executeStoredProcedure where documents involved had special unicode characters (LS, PS).
+- Fixed bug in handling documents with unicode characters in partition key.
+- Fixed support for creating collection with name media (github #114).
+- Fixed support for permission authorization token (github #178).
 
 ## Changes in 1.12.0 : ##
 - Added support for Request Unit per Minute (RU/m) feature.
