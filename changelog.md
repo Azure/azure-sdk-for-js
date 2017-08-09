@@ -1,3 +1,5 @@
+## Changes in 1.12.1 : ##
+
 ## Changes in 1.12.0 : ##
 - Added support for Request Unit per Minute (RU/m) feature.
 - Added support for a new consistency level called ConsistentPrefix.

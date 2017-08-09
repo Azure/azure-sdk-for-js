@@ -24,23 +24,31 @@ SOFTWARE.
 "use strict";
 
 var Documents = require("./documents")
-  , Constants = require("./constants")
-  , https = require("https")
-  , url = require("url")
-  , querystring = require("querystring")
-  , RetryUtility = require("./retryUtility")
-  // Dedicated Agent for socket pooling
-  , keepAliveAgent = new https.Agent({ keepAlive: true, maxSockets: Infinity });
+    , Constants = require("./constants")
+    , https = require("https")
+    , url = require("url")
+    , querystring = require("querystring")
+    , RetryUtility = require("./retryUtility")
+    // Dedicated Agent for socket pooling
+    , keepAliveAgent = new https.Agent({ keepAlive: true, maxSockets: Infinity });
 
 //----------------------------------------------------------------------------
 // Utility methods
 //
 
+function javaScriptFriendlyJSONStringify(s) {
+    // two line terminators (Line separator and Paragraph separator) are not needed to be escaped in JSON
+    // but are needed to be escaped in JavaScript.
+    return JSON.stringify(s).
+        replace(/\u2028/g, '\\u2028').
+        replace(/\u2029/g, '\\u2029');
+}
+
 function bodyFromData(data) {
     if (data.pipe) return data;
     if (Buffer.isBuffer(data)) return data;
     if (typeof data === "string") return data;
-    if (typeof data === "object") return JSON.stringify(data);
+    if (typeof data === "object") return javaScriptFriendlyJSONStringify(data);
     return undefined;
 }
 
@@ -51,7 +59,7 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
         httpsRequest.abort();
     }
 
-    var isMedia = ( requestOptions.path.indexOf("media") > -1 );
+    var isMedia = (requestOptions.path.indexOf("//media") === 0);
     
     var httpsRequest = https.request(requestOptions, function(response) {
         // In case of media response, return the stream to the user and the user will need to handle reading the stream.

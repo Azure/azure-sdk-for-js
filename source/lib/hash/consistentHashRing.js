@@ -26,6 +26,7 @@ SOFTWARE.
 var Base = require("../base");
 var MurmurHash = require('./murmurHash.js').MurmurHash;
 
+//SCRIPT START
 var ConsistentHashRing = Base.defineClass(
     /**
      * Initializes a new instance of the ConsistentHashRing

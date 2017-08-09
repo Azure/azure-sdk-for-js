@@ -9,13 +9,14 @@
     "database",
     "cloud"
   ],
-  "version": "1.12.0",
+  "version": "1.12.1",
   "author": "Microsoft Corporation",
   "main": "./index.js",
   "engine": {
     "node": ">=0.8"
   },
   "devDependencies": {
+    "@types/node": "^8.0.7",
     "eslint": "*",
     "grunt": "^0.4.5",
     "grunt-eslint": "^13.0.0",

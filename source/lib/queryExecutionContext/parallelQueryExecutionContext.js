@@ -28,19 +28,19 @@ var Base = require("../base")
     , DefaultQueryExecutionContext = require("./defaultQueryExecutionContext")
     , PriorityQueue = require("priorityqueuejs")
     , SmartRoutingMapProvider = require("../routing/smartRoutingMapProvider")
-    , CollectionRoutingMap = require("../routing/inMemoryCollectionRoutingMap")
+    , InMemoryCollectionRoutingMap = require("../routing/inMemoryCollectionRoutingMap")
     , DocumentProducer = require("./documentProducer")
-    , QueryExecutionInfoParser = require("./partitionedQueryExecutionContextInfoParser")
+    , PartitionedQueryExecutionContextInfoParser = require("./partitionedQueryExecutionContextInfoParser")
     , bs = require("binary-search-bounds")
     , HeaderUtils = require("./headerUtils")
+    , semaphore = require("semaphore")
     , assert = require('assert');
 
-var QueryRange = CollectionRoutingMap.QueryRange;
-var FormatPlaceHolder = "{documentdb-formattableorderbyquery-filter}"; 
-
-var PartitionKeyRangeConstants = CollectionRoutingMap._PartitionKeyRange;
+var QueryRange = InMemoryCollectionRoutingMap.QueryRange;
+var _PartitionKeyRange = InMemoryCollectionRoutingMap._PartitionKeyRange;
 
 //SCRIPT START
+
 var ParallelQueryExecutionContext = Base.defineClass(
     /**
      * Provides the ParallelQueryExecutionContext.
@@ -56,7 +56,7 @@ var ParallelQueryExecutionContext = Base.defineClass(
      * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
      * @ignore
      */
-    function (documentclient, collectionLink, query, options, partitionedQueryExecutionInfo) {
+     function (documentclient, collectionLink, query, options, partitionedQueryExecutionInfo) {
         this.documentclient = documentclient;
         this.collectionLink = collectionLink;
         this.query = query;
@@ -65,7 +65,7 @@ var ParallelQueryExecutionContext = Base.defineClass(
         this.err = undefined;
         this.state = ParallelQueryExecutionContext.STATES.start;
         this.routingProvider = new SmartRoutingMapProvider(this.documentclient);
-        this.sortOrders = QueryExecutionInfoParser.parseOrderBy(this.paritionedQueryExecutionInfo);
+        this.sortOrders = PartitionedQueryExecutionContextInfoParser.parseOrderBy(this.paritionedQueryExecutionInfo);
 
         if (Array.isArray(this.sortOrders) && this.sortOrders.length > 0) {
             this.documentProducerComparator = DocumentProducer.createOrderByComparator(this.sortOrders);
@@ -83,7 +83,7 @@ var ParallelQueryExecutionContext = Base.defineClass(
         this.orderByPQ = new PriorityQueue(function (a, b) { return that.documentProducerComparator(b, a); });
 
         this.state = ParallelQueryExecutionContext.STATES.started;
-        this.sem = require('semaphore')(1);
+        this.sem = new semaphore(1);
 
         this.requestContinuation = options ? options.continuation : null;
 
@@ -93,13 +93,14 @@ var ParallelQueryExecutionContext = Base.defineClass(
         var createDocumentProducersAndFillUpPriorityQueueFunc = function () {
             // ensure the lock is released after finishing up
             that._onTargetPartitionRanges(function (err, targetPartitionRanges) {
-                that.waitingForInternalExcecutionContexts = targetPartitionRanges.length;
                 if (err) {
                     that.err = err;
                     // relase the lock
                     that.sem.leave();
                     return;
                 }
+                
+                that.waitingForInternalExcecutionContexts = targetPartitionRanges.length;
                 var maxDegreeOfParallelism = options.maxDegreeOfParallelism || 1;
 
                 if (maxDegreeOfParallelism > 0) {
@@ -107,7 +108,8 @@ var ParallelQueryExecutionContext = Base.defineClass(
                 } else {
                     maxDegreeOfParallelism = targetPartitionRanges.length;
                 }
-                var parallelismSem = require('semaphore')(Math.max(maxDegreeOfParallelism, 1));
+                
+                var parallelismSem = semaphore(Math.max(maxDegreeOfParallelism, 1));
 
                 var targetPartitionQueryExecutionContextList = [];
 
@@ -186,12 +188,12 @@ var ParallelQueryExecutionContext = Base.defineClass(
             partitionKeyRanges) {
 
             var startRange = {};
-            startRange[PartitionKeyRangeConstants.MinInclusive] = suppliedCompositeContinuationToken.range.min;
-            startRange[PartitionKeyRangeConstants.MaxExclusive] = suppliedCompositeContinuationToken.range.max;
+            startRange[_PartitionKeyRange.MinInclusive] = suppliedCompositeContinuationToken.range.min;
+            startRange[_PartitionKeyRange.MaxExclusive] = suppliedCompositeContinuationToken.range.max;
 
             var vbCompareFunction = function (x, y) {
-                if (x[PartitionKeyRangeConstants.MinInclusive] > y[PartitionKeyRangeConstants.MinInclusive]) return 1;
-                if (x[PartitionKeyRangeConstants.MinInclusive] < y[PartitionKeyRangeConstants.MinInclusive]) return -1;
+                if (x[_PartitionKeyRange.MinInclusive] > y[_PartitionKeyRange.MinInclusive]) return 1;
+                if (x[_PartitionKeyRange.MinInclusive] < y[_PartitionKeyRange.MinInclusive]) return -1;
 
                 return 0;
             }
@@ -338,7 +340,7 @@ var ParallelQueryExecutionContext = Base.defineClass(
          * @instance
          * @param {callback} callback - Function to execute for the current element. the function takes two parameters error, element.
          */
-        current: function (callback) {
+         current: function (callback) {
             if (this.err) {
                 return callback(this.err, undefined, that._getAndResetActiveResponseHeaders());
             }
@@ -366,7 +368,7 @@ var ParallelQueryExecutionContext = Base.defineClass(
          * @instance
          * @returns {Boolean} true if there is other elements to process in the ParallelQueryExecutionContext.
          */
-        hasMoreResults: function () {
+         hasMoreResults: function () {
             return !(this.state === ParallelQueryExecutionContext.STATES.ended || this.err !== undefined);
         },
 
@@ -451,8 +453,8 @@ var ParallelQueryExecutionContext = Base.defineClass(
             }
 
 
-            var min = documentProducer.targetPartitionKeyRange[PartitionKeyRangeConstants.MinInclusive];
-            var max = documentProducer.targetPartitionKeyRange[PartitionKeyRangeConstants.MaxExclusive];
+            var min = documentProducer.targetPartitionKeyRange[_PartitionKeyRange.MinInclusive];
+            var max = documentProducer.targetPartitionKeyRange[_PartitionKeyRange.MaxExclusive];
             var range = {
                 'min': min,
                 'max': max,
@@ -555,11 +557,13 @@ var ParallelQueryExecutionContext = Base.defineClass(
 
         _createTargetPartitionQueryExecutionContext: function (partitionKeyTargetRange, continuationToken) {
             // creates target partition range Query Execution Context
-            var rewrittenQuery = QueryExecutionInfoParser.parseRewrittenQuery(this.paritionedQueryExecutionInfo);
+            var rewrittenQuery = PartitionedQueryExecutionContextInfoParser.parseRewrittenQuery(this.paritionedQueryExecutionInfo);
             var query = this.query;
             if (typeof (query) === 'string') {
                 query = { 'query': query };
             }
+
+            var FormatPlaceHolder = "{documentdb-formattableorderbyquery-filter}"; 
             if (rewrittenQuery) {
                 query = JSON.parse(JSON.stringify(query));
                 // We hardcode the formattable filter to true for now
@@ -579,7 +583,7 @@ var ParallelQueryExecutionContext = Base.defineClass(
 
         _onTargetPartitionRanges: function (callback) {
             // invokes the callback when the target partition ranges are ready
-            var parsedRanges = QueryExecutionInfoParser.parseQueryRanges(this.paritionedQueryExecutionInfo);
+            var parsedRanges = PartitionedQueryExecutionContextInfoParser.parseQueryRanges(this.paritionedQueryExecutionInfo);
             var queryRanges = parsedRanges.map(function (item) { return QueryRange.parseFromDict(item); });
             return this.routingProvider.getOverlappingRanges(callback, this.collectionLink, queryRanges);
         },
@@ -590,6 +594,7 @@ var ParallelQueryExecutionContext = Base.defineClass(
 
     }
 );
+
 //SCRIPT END
 
 if (typeof exports !== "undefined") {

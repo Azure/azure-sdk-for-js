@@ -94,7 +94,8 @@ describe("DocumentClient Tests", function () {
         });
     });
 
-    describe("sprintf", function () {
+    //we are using util.format function instead.
+    describe.skip("sprintf", function () {
         it("0 strings", function (done) {
             assert.equal("foo", client.sprintf("foo"));
             done();

@@ -26,6 +26,7 @@ SOFTWARE.
 var Base = require('../base');
 var ConsistentHashRing = require('./consistentHashRing.js').ConsistentHashRing;
 
+//SCRIPT START
 var HashPartitionResolver = Base.defineClass(
     /**
      * HashPartitionResolver implements partitioning based on the value of a hash function, 

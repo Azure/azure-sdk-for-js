@@ -24,12 +24,15 @@ SOFTWARE.
 "use strict";
 
 var Base = require("./base")
-  , AzureDocuments = require("./documents")
-  , QueryIterator = require("./queryIterator")
-  , RequestHandler = require("./request")
-  , RetryOptions = require("./retryOptions")
-  , GlobalEndpointManager = require("./globalEndpointManager")
-  , Constants = require("./constants");
+    , AzureDocuments = require("./documents")
+    , QueryIterator = require("./queryIterator")
+    , RequestHandler = require("./request")
+    , RetryOptions = require("./retryOptions")
+    , GlobalEndpointManager = require("./globalEndpointManager")
+    , Constants = require("./constants")
+    , Helper = require("./helper").Helper
+    , util = require("util")
+    , Platform = require("./platform");
 
 //SCRIPT START
 var DocumentClient = Base.defineClass(
@@ -53,9 +56,12 @@ var DocumentClient = Base.defineClass(
             if (auth.permissionFeed) {
                 this.resourceTokens = {};
                 for (var i = 0; i < auth.permissionFeed.length; i++) {
-                    var resourceParts = auth.permissionFeed[i].resource.split("/");
-                    var rid = resourceParts[resourceParts.length - 1];
-                    this.resourceTokens[rid] = auth.permissionFeed[i]._token;
+                    var resourceId = Helper.getResourceIdFromPath(auth.permissionFeed[i].resource);
+                    if (!resourceId) {
+                        throw new Error("authorization error: " + resourceId + "is an invalid resourceId in permissionFeed");
+                    }
+
+                    this.resourceTokens[resourceId] = auth.permissionFeed[i]._token;
                 }
             }
         }
@@ -68,7 +74,12 @@ var DocumentClient = Base.defineClass(
             this.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] = consistencyLevel;
         }
 
-        this.defaultHeaders[Constants.HttpHeaders.UserAgent] = Base._getUserAgent();
+        var platformDefaultHeaders = Platform.getPlatformDefaultHeaders() || {};
+        for (var platformDefaultHeader in platformDefaultHeaders){
+            this.defaultHeaders[platformDefaultHeader] = platformDefaultHeaders[platformDefaultHeader];
+        }
+
+        this.defaultHeaders[Constants.HttpHeaders.UserAgent] = Platform.getUserAgent();
         
         // overide this for default query params to be added to the url.
         this.defaultUrlParams = "";
@@ -427,6 +438,7 @@ var DocumentClient = Base.defineClass(
             callback = optionsCallbackTuple.callback;
             
             var initialHeaders = Base.extend({}, this.defaultHeaders);
+            initialHeaders = Base.extend(initialHeaders, options && options.initialHeaders);
             
             // Add required headers slug and content-type.
             if (options.slug) {
@@ -1356,7 +1368,7 @@ var DocumentClient = Base.defineClass(
                 that.replace(newDocument, path, "docs", id, undefined, options, callback);
             };
             
-            if (options.partitionKey === undefined) {
+            if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
                 this.getPartitionKeyDefinition(Base.getCollectionLink(documentLink), function (err, partitionKeyDefinition, response, headers) {
                     if (err) return callback(err, response, headers);
                     options.partitionKey = that.extractPartitionKey(newDocument, partitionKeyDefinition);
@@ -1806,6 +1818,7 @@ var DocumentClient = Base.defineClass(
             callback = optionsCallbackTuple.callback;
             
             var initialHeaders = Base.extend({}, this.defaultHeaders);
+            initialHeaders = Base.extend(initialHeaders, options && options.initialHeaders);
             
             // Add required headers slug and content-type.
             if (options.slug) {
@@ -1865,6 +1878,7 @@ var DocumentClient = Base.defineClass(
             
             var defaultHeaders = this.defaultHeaders;
             var initialHeaders = Base.extend({}, defaultHeaders);
+            initialHeaders = Base.extend(initialHeaders, options && options.initialHeaders);
             
             // Add required headers slug and content-type in case the body is a stream
             if (options.slug) {
@@ -1914,6 +1928,7 @@ var DocumentClient = Base.defineClass(
             var defaultHeaders = this.defaultHeaders;
             var initialHeaders = {};
             initialHeaders = Base.extend(initialHeaders, defaultHeaders);
+            initialHeaders = Base.extend(initialHeaders, options && options.initialHeaders);
             
             // Accept a single parameter or an array of parameters.
             if (params !== null && params !== undefined && params.constructor !== Array) {
@@ -2061,7 +2076,7 @@ var DocumentClient = Base.defineClass(
                 that.create(body, path, "docs", id, undefined, options, callback);
             };
             
-            if (options.partitionKey === undefined) {
+            if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
                 this.getPartitionKeyDefinition(collectionLink, function (err, partitionKeyDefinition, response, headers) {
                     if (err) return callback(err, response, headers);
                     options.partitionKey = that.extractPartitionKey(body, partitionKeyDefinition);
@@ -2101,7 +2116,7 @@ var DocumentClient = Base.defineClass(
                 that.upsert(body, path, "docs", id, undefined, options, callback);
             };
             
-            if (options.partitionKey === undefined) {
+            if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
                 this.getPartitionKeyDefinition(collectionLink, function (err, partitionKeyDefinition, response, headers) {
                     if (err) return callback(err, response, headers);
                     options.partitionKey = that.extractPartitionKey(body, partitionKeyDefinition);
@@ -2142,7 +2157,8 @@ var DocumentClient = Base.defineClass(
         
         /** @ignore */
         create: function (body, path, type, id, initialHeaders, options, callback) {
-            initialHeaders = initialHeaders || this.defaultHeaders;
+            initialHeaders = initialHeaders || Base.extend({}, this.defaultHeaders);
+            initialHeaders = Base.extend(initialHeaders, options && options.initialHeaders);
             var headers = Base.getHeaders(this, initialHeaders, "post", path, id, type, options);
 
             var that = this;
@@ -2154,7 +2170,8 @@ var DocumentClient = Base.defineClass(
         
         /** @ignore */
         upsert: function (body, path, type, id, initialHeaders, options, callback) {
-            initialHeaders = initialHeaders || this.defaultHeaders;
+            initialHeaders = initialHeaders || Base.extend({}, this.defaultHeaders);
+            initialHeaders = Base.extend(initialHeaders, options && options.initialHeaders);
             var headers = Base.getHeaders(this, initialHeaders, "post", path, id, type, options);
             this.setIsUpsertHeader(headers);
 
@@ -2167,7 +2184,8 @@ var DocumentClient = Base.defineClass(
         
         /** @ignore */
         replace: function (resource, path, type, id, initialHeaders, options, callback) {
-            initialHeaders = initialHeaders || this.defaultHeaders;
+            initialHeaders = initialHeaders || Base.extend({}, this.defaultHeaders);
+            initialHeaders = Base.extend(initialHeaders, options && options.initialHeaders);
             var headers = Base.getHeaders(this, initialHeaders, "put", path, id, type, options);
             
             var that = this;
@@ -2179,7 +2197,8 @@ var DocumentClient = Base.defineClass(
         
         /** @ignore */
         read: function (path, type, id, initialHeaders, options, callback) {
-            initialHeaders = initialHeaders || this.defaultHeaders;
+            initialHeaders = initialHeaders || Base.extend({}, this.defaultHeaders);
+            initialHeaders = Base.extend(initialHeaders, options && options.initialHeaders);
             var headers = Base.getHeaders(this, initialHeaders, "get", path, id, type, options);
 
             var that = this;
@@ -2191,7 +2210,8 @@ var DocumentClient = Base.defineClass(
         
         /** @ignore */
         deleteResource: function (path, type, id, initialHeaders, options, callback) {
-            initialHeaders = initialHeaders || this.defaultHeaders;
+            initialHeaders = initialHeaders || Base.extend({}, this.defaultHeaders);
+            initialHeaders = Base.extend(initialHeaders, options && options.initialHeaders);
             var headers = Base.getHeaders(this, initialHeaders, "delete", path, id, type, options);
 
             var that = this;
@@ -2297,6 +2317,7 @@ var DocumentClient = Base.defineClass(
             // Query operations will use ReadEndpoint even though it uses GET(for queryFeed) and POST(for regular query operations)
             this._globalEndpointManager.getReadEndpoint(function (readEndpoint) {
                 var initialHeaders = Base.extend({}, documentclient.defaultHeaders);
+                initialHeaders = Base.extend(initialHeaders, options && options.initialHeaders);
                 if (query === undefined) {
                     var headers = Base.getHeaders(documentclient, initialHeaders, "get", path, id, type, options, partitionKeyRangeId);
 
@@ -2391,7 +2412,7 @@ var DocumentClient = Base.defineClass(
             } else {
                 return {
                     valid: false,
-                    error: new Error(this.sprintf("The partition resolver does not implement method %s. The type of %s is \"%s\"", functionName, functionName, typeof partionResolver[functionName]))
+                    error: new Error(util.format("The partition resolver does not implement method %s. The type of %s is \"%s\"", functionName, functionName, typeof partionResolver[functionName]))
                 };
             }
         },
@@ -2429,7 +2450,7 @@ var DocumentClient = Base.defineClass(
             }
             
             if (!(headers instanceof Object)) {
-                throw new Error(this.sprintf('The "headers" parameter must be an instance of "Object". Actual type is: "%s".', typeof headers));
+                throw new Error(util.format('The "headers" parameter must be an instance of "Object". Actual type is: "%s".', typeof headers));
             }
             
             headers[Constants.HttpHeaders.IsUpsert] = true;
@@ -2446,30 +2467,19 @@ var DocumentClient = Base.defineClass(
                 callback = optionsIn;
                 options = new Object();
             } else if (typeof optionsIn !== 'object') {
-                throw new Error(this.sprintf('The "options" parameter must be of type "object". Actual type is: "%s".', typeof optionsIn));
+                throw new Error(util.format('The "options" parameter must be of type "object". Actual type is: "%s".', typeof optionsIn));
             } else {
                 options = optionsIn;
             }
             
             // callback
             if (callbackIn !== undefined && typeof callbackIn !== 'function') {
-                throw new Error(this.sprintf('The "callback" parameter must be of type "function". Actual type is: "%s".', typeof callbackIn));
+                throw new Error(util.format('The "callback" parameter must be of type "function". Actual type is: "%s".', typeof callbackIn));
             } else if (typeof callbackIn === 'function') {
                 callback = callbackIn
             }
             
             return { options: options, callback: callback };
-        },
-        
-        /** @ignore */
-        // Like C sprintf, currently only works for %s and %%.
-        sprintf: function (format) {
-            var args = arguments;
-            var i = 1;
-            return format.replace(/%((%)|s)/g, function (matchStr, subMatch1, subMatch2) {
-                // In case of %% subMatch2 would be '%'.
-                return subMatch2 || args[i++];
-            });
         }
     }
 );
@@ -2478,29 +2488,37 @@ var DocumentClient = Base.defineClass(
 /**
  * The request options
  * @typedef {Object} RequestOptions                          -         Options that can be specified for a requested issued to the DocumentDB servers.
- * @property {string} [preTriggerInclude]                    -         Indicates what is the pre trigger to be invoked before the operation.
- * @property {string} [postTriggerInclude]                   -         Indicates what is the post trigger to be invoked after the operation.
  * @property {object} [accessCondition]                      -         Conditions Associated with the request.
  * @property {string} accessCondition.type                   -         Conditional HTTP method header type (IfMatch or IfNoneMatch).
  * @property {string} accessCondition.condition              -         Conditional HTTP method header value (the _etag field from the last version you read).
- * @property {string} [indexingDirective]                    -         Specifies indexing directives (index, do not index .. etc).
  * @property {string} [consistencyLevel]                     -         Consistency level required by the client.
- * @property {string} [sessionToken]                         -         Token for use with Session consistency.
- * @property {number} [resourceTokenExpirySeconds]           -         Expiry time (in seconds) for resource token associated with permission (applicable only for requests on permissions).
- * @property {string} [offerType]                            -         Offer type when creating document collections.
- * @property {boolean} [offerEnableRUPerMinuteThroughput]    -         Represents Request Units(RU)/Minute throughput is enabled/disabled for a collection in the Azure DocumentDB database service. 
- *                                                                     <p>This option is only valid when creating a document collection.</p>
  * @property {boolean} [disableRUPerMinuteUsage]             -         DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity to serve the request if regular provisioned RUs/second is exhausted.
+ * @property {boolean} [enableScriptLogging]                 -         Enables or disables logging in JavaScript stored procedures.
+ * @property {string} [indexingDirective]                    -         Specifies indexing directives (index, do not index .. etc).
+ * @property {boolean} [offerEnableRUPerMinuteThroughput]    -         Represents Request Units(RU)/Minute throughput is enabled/disabled for a collection in the Azure DocumentDB database service.
+ * @property {number} [offerThroughput]                      -         The offer throughput provisioned for a collection in measurement of Requests-per-Unit in the Azure DocumentDB database service.
+ * @property {string} [offerType]                            -         Offer type when creating document collections.
+ *                                                                     <p>This option is only valid when creating a document collection.</p>
+ * @property {string} [partitionKey]                         -         Specifies a partition key definition for a particular path in the Azure DocumentDB database service.
+ * @property {boolean} [populateQuotaInfo]                   -         Enables/disables getting document collection quota related stats for document collection read requests.
+ * @property {string} [postTriggerInclude]                   -         Indicates what is the post trigger to be invoked after the operation.
+ * @property {string} [preTriggerInclude]                    -         Indicates what is the pre trigger to be invoked before the operation.
+ * @property {number} [resourceTokenExpirySeconds]           -         Expiry time (in seconds) for resource token associated with permission (applicable only for requests on permissions).
+ * @property {string} [sessionToken]                         -         Token for use with Session consistency.
  */
 
 /**
  * The feed options
- * @typedef {Object} FeedOptions                  -         The feed options and query methods.
- * @property {number} [maxItemCount]              -         Max number of items to be returned in the enumeration operation.
- * @property {string} [continuation]              -         Opaque token for continuing the enumeration.
- * @property {string} [sessionToken]              -         Token for use with Session consistency.
- * @property {boolean} [EnableScanInQuery]        -         Allow scan on the queries which couldn't be served as indexing was opted out on the requested paths.
- * @property {boolean} [disableRUPerMinuteUsage]  -         DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity to serve the request if regular provisioned RUs/second is exhausted.
+ * @typedef {Object} FeedOptions                    -       The feed options and query methods.
+ * @property {string} [continuation]                -       Opaque token for continuing the enumeration.
+ * @property {boolean} [disableRUPerMinuteUsage]    -       DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity to serve the request if regular provisioned RUs/second is exhausted.
+ * @property {boolean} [enableCrossPartitionQuery]  -       A value indicating whether users are enabled to send more than one request to execute the query in the Azure DocumentDB database service.
+                                                            <p>More than one request is necessary if the query is not scoped to single partition key value.</p>
+ * @property {boolean} [enableScanInQuery]          -       Allow scan on the queries which couldn't be served as indexing was opted out on the requested paths.
+ * @property {number} [maxDegreeOfParallelism]      -       The maximum number of concurrent operations that run client side during parallel query execution in the Azure DocumentDB database service. Negative values make the system automatically decides the number of concurrent operations to run.
+ * @property {number} [maxItemCount]                -       Max number of items to be returned in the enumeration operation.
+ * @property {string} [partitionKey]                -       Specifies a partition key definition for a particular path in the Azure DocumentDB database service.
+ * @property {string} [sessionToken]                -       Token for use with Session consistency.
  */
 
 /**
