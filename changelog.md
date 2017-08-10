@@ -1,3 +1,6 @@
+## Changes in 1.12.2 : ##
+- Bumped version to allow for publishing the README file
+
 ## Changes in 1.12.1 : ##
 - Fixed bug in executeStoredProcedure where documents involved had special unicode characters (LS, PS).
 - Fixed bug in handling documents with unicode characters in partition key.
