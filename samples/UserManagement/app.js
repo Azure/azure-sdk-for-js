@@ -25,7 +25,15 @@ var client = new DocumentDBClient(host, { masterKey: masterKey });
 init(function (data) {
 
     //Callback called when all the required data is ready.
-    attemptAdminOperations(data.col1, data.user1Col1ReadPermission)
+
+    //attempt admin operation. It should fail as the user does have only read access
+    attemptAdminOperations(data.col1, data.user1, data.user1Col1ReadPermission)
+
+    //attempts to write a document on a collection where user has access to read only
+    attemptWriteWithReadPermissionAsync(data.col1, data.user1, data.user1Col1ReadPermission);
+
+    //attempts to read from 2 collections.
+    attemptReadFromTwoCollections(data.col1, data.col2, data.user1, data.user1Col1ReadPermission, data.user1ReadCol2Permission)
    
 });
 
@@ -50,8 +58,6 @@ function init(callback)
             var doc1Name = "doc1";
             var doc2Name = "doc2";
             var doc3Name = "doc3";
-
-
             
             utils.getOrCreateCollection(client, databaseLink, col1Name, function (err, col1)
             {
@@ -215,6 +221,7 @@ function init(callback)
     });
 };
 
+//handle error
 function handleError(error) {
     console.log();
     console.log('An error with code \'' + error.code + '\' has occurred:');
@@ -230,18 +237,101 @@ function finish() {
 }
 
 //Attempt to do admin operations when user only has Read on a collection
-function attemptAdminOperations(collection1Link,user1Col1ReadPermission) {
+function attemptAdminOperations(collection1Link,user1,user1Col1ReadPermission) {
+    
+    var resourceTokens = {};
+    resourceTokens[(collection1Link._rid)] = (user1Col1ReadPermission._token); 
 
-    var permissionFeedValue = [user1Col1ReadPermission];
+    var client = new DocumentDBClient(host, {
+        resourceTokens: resourceTokens
+    });
+    
+    client.readDocuments(collection1Link._self).toArray(function (err, documents) {
 
-    var client = new DocumentDBClient(host, { permissionFeed: permissionFeedValue });
+        if (err) {
+            handleError(err);
+        } else {
+            console.log(user1.id + ' able to perform read operation on collection 1');
+        }
+    });
+
+    client.readDatabases().toArray(function (err, databases) {
+        if (err) {
+            console.log('Expected error occurred as ' + user1.id + ' does not have access to get the list of databases. Error code : ' + err.code);
+        } else {
+            console.log('It should never come here as ' + user1.id + ' has read only permission on COL1');
+        }
+    });
+
+
+}
+
+//attempts to write in collection 1 with user 1 permission. It fails as the user1 has read only permission on col1
+function attemptWriteWithReadPermissionAsync(collection1Link, user1, user1Col1ReadPermission)
+{
+    var resourceTokens = {};
+    resourceTokens[(collection1Link._rid)] = (user1Col1ReadPermission._token);
+
+    var client = new DocumentDBClient(host, {
+        resourceTokens: resourceTokens
+    });
+
+    var docDef = { id: 'not allowed' };
+
+    client.upsertDocument(collection1Link._self, docDef, function (err, doc2) {
+        if (err) {
+            console.log('Expected error occurred as ' + user1.id + ' does not have access to insert a document in COL1. Error code : ' + err.code);
+        } else {
+            console.log('It should never come here as ' + user1.id + ' has read only permission on COL1');
+        }
+    });
+    
+   
+}
+
+//attempts to read from both the collections as the user has read permission
+function attemptReadFromTwoCollections(collection1Link, collection2Link, user1, user1Col1ReadPermission, user1ReadCol2Permission)
+{
+    var resourceTokens = {};
+    resourceTokens[(collection1Link._rid)] = (user1Col1ReadPermission._token);
+    resourceTokens[(collection2Link._rid)] = (user1ReadCol2Permission._token);
+
+
+    var client = new DocumentDBClient(host, {
+        resourceTokens: resourceTokens
+    });
+
 
     client.readDocuments(collection1Link._self).toArray(function (err, documents) {
 
         if (err) {
             handleError(err);
         } else {
-            console.log('user1 able to perform read operation on collection 1');
+            console.log(user1.id + ' able to read documents from COL1. Document count is ' + documents.length);
+        }
+
+    });
+
+    client.readDocuments(collection2Link._self).toArray(function (err, documents) {
+
+        if (err) {
+            handleError(err);
+        } else {
+            console.log(user1.id + ' able to read documents from COL2. Document count is ' + documents.length);
+        }
+
+    });
+
+
+    var docDef = { id: 'not allowed' };
+
+    client.upsertDocument(collection2Link._self, docDef, function (err, doc2) {
+        if (err) {
+            console.log('Expected error occurred as ' + user1.id + ' does not have access to insert a document in COL2. Error code : ' + err.code);
+        } else {
+            console.log('It should never come here as ' + user1.id + ' has read only permission on COL2');
         }
     });
+
+
 }
