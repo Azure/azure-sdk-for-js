@@ -1,6 +1,6 @@
 ﻿exports.connection = {  
-    endpoint: 'https://cosmohemantk.documents.azure.com',  
-    authKey: 'gSKzFBG5QeCfhwf5anZvrQJ1gWetULf6GEE5IPy4GClvjFCtkXZfCCtQSFadIQTgR8l32D2lBTG90XEfTwgv4w=='  
+    endpoint: 'YOUR_ENDPOINT_GOES_HERE',  
+    authKey: 'YOUR_AUTH_KEY_GOES_HERE'  
  };  
  
  exports.names = {  
