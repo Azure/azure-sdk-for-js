@@ -1,3 +1,23 @@
+# ms-rest-azure-js
+
+Azure Runtime for isomorphic javascript libraries (that work in the browser and node.js environemnt) generated via [Autorest](https://github.com/Azure/Autorest).
+
+## Requirements
+- node.js version > 6.x
+- npm install -g typescript
+
+## Installation
+- After cloning the repo, execute `npm install`
+
+## Execution
+
+### node.js
+- Set the subscriptionId and token
+- Run `node samples/node-sample.js`
+
+### In the browser
+- Set the subscriptionId and token and then run
+- Open index.html file in the browser. It should show the response from GET request on the storage account. From Chrome type Ctrl + Shift + I and you can see the logs in console.
 
 # Contributing
 

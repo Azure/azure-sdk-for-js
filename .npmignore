@@ -1,0 +1,7 @@
+.vscode/
+node_modules/
+samples/
+test/
+.travis.yml
+gulpfile.js
+.gitignore
