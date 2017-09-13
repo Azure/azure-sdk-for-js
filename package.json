@@ -1,0 +1,67 @@
+{
+  "name": "ms-rest-js",
+  "author": {
+    "name": "Microsoft Corporation",
+    "email": "azsdkteam@microsoft.com",
+    "url": "https://github.com/Azure/azure-sdk-for-node"
+  },
+  "version": "0.1.0",
+  "description": "Client Runtime for Node.js client libraries generated using AutoRest",
+  "tags": [
+    "node",
+    "microsoft",
+    "autorest",
+    "clientruntime"
+  ],
+  "keywords": [
+    "node",
+    "microsoft",
+    "autorest",
+    "clientruntime"
+  ],
+  "main": "./dist/lib/msRest.js",
+  "types": "./typings/lib/msRest.d.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@types/form-data": "^2.2.0",
+    "@types/node": "^8.0.28",
+    "@types/node-fetch": "^1.6.7",
+    "@types/uuid": "^3.4.1",
+    "@types/is-stream": "^1.1.0",
+    "fetch-cookie": "^0.6.0",
+    "form-data": "^2.3.1",
+    "is-stream": "^1.1.0",
+    "url-parse": "^1.1.9",
+    "moment": "^2.18.1",
+    "is-buffer": "^1.1.5",
+    "uuid": "^3.1.0",
+    "detect-node": "^2.0.3",
+    "fetch-ponyfill": "amarzavery/fetch-ponyfill#master"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.40",
+    "@types/should": "^8.1.30",
+    "mocha": "^3.2.0",
+    "should": "5.2.0",
+    "ts-loader": "^2.3.7",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.2",
+    "webpack": "^3.5.6",
+    "uglify-es": "^3.1.0"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-node/runtime/ms-rest",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Azure/azure-sdk-for-node.git"
+  },
+  "bugs": {
+    "url": "http://github.com/Azure/azure-sdk-for-node/issues"
+  },
+  "scripts": {
+    "tsc": "tsc -p tsconfig.json",
+    "test": "npm install && npm -s run-script unit",
+    "unit": "mocha -t 50000 dist/test",
+    "uglify": "node node_modules/uglify-es/bin/uglifyjs --source-map -c -m -o msRestBundle.min.js msRestBundle.js",
+    "build": "npm -s run-script tsc && webpack && npm -s run-script uglify"
+  }
+}
