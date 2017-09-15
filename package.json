@@ -26,7 +26,7 @@
     "@types/form-data": "^2.2.0",
     "@types/node": "^8.0.28",
     "@types/node-fetch": "^1.6.7",
-    "@types/uuid": "^3.4.1",
+    "@types/uuid": "^3.4.2",
     "@types/is-stream": "^1.1.0",
     "fetch-cookie": "^0.6.0",
     "form-data": "^2.3.1",
@@ -41,12 +41,12 @@
   "devDependencies": {
     "@types/mocha": "^2.2.40",
     "@types/should": "^8.1.30",
-    "mocha": "^3.2.0",
+    "mocha": "^3.5.3",
     "should": "5.2.0",
     "ts-loader": "^2.3.7",
     "tslint": "^5.7.0",
     "typescript": "^2.5.2",
-    "webpack": "^3.5.6",
+    "webpack": "^3.6.0",
     "uglify-es": "^3.1.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-node/runtime/ms-rest",
@@ -59,7 +59,7 @@
   },
   "scripts": {
     "tsc": "tsc -p tsconfig.json",
-    "test": "npm install && npm -s run-script unit",
+    "test": "npm -s run-script unit",
     "unit": "mocha -t 50000 dist/test",
     "uglify": "node node_modules/uglify-es/bin/uglifyjs --source-map -c -m -o msRestBundle.min.js msRestBundle.js",
     "build": "npm -s run-script tsc && webpack && npm -s run-script uglify"
