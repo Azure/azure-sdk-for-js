@@ -7,7 +7,7 @@ const moment = require("moment");
 const msRest = require("../lib/msRest");
 const should = require("should");
 const testClient_1 = require("./data/TestClient/lib/testClient");
-const mappers_1 = require("./data/Testclient/lib/models/mappers");
+const mappers_1 = require("./data/TestClient/lib/models/mappers");
 let Serializer = new msRest.Serializer({});
 let valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";
 describe("msrest", function () {

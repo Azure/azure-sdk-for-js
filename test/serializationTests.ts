@@ -7,7 +7,7 @@ import * as msRest from "../lib/msRest";
 const should = require("should");
 
 import { TestClient } from "./data/TestClient/lib/testClient";
-import { Mappers } from "./data/Testclient/lib/models/mappers";
+import { Mappers } from "./data/TestClient/lib/models/mappers";
 let Serializer = new msRest.Serializer({});
 let valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";
 

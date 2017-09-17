@@ -3,17 +3,23 @@
   "author": {
     "name": "Microsoft Corporation",
     "email": "azsdkteam@microsoft.com",
-    "url": "https://github.com/Azure/azure-sdk-for-node"
+    "url": "https://github.com/Azure/ms-rest-js"
   },
   "version": "0.1.0",
-  "description": "Client Runtime for Node.js client libraries generated using AutoRest",
+  "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
+    "isomorphic",
+    "browser",
+    "javascript",
     "node",
     "microsoft",
     "autorest",
     "clientruntime"
   ],
   "keywords": [
+    "isomorphic",
+    "browser",
+    "javascript",
     "node",
     "microsoft",
     "autorest",
@@ -49,19 +55,20 @@
     "webpack": "^3.6.0",
     "uglify-es": "^3.1.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-node/runtime/ms-rest",
+  "homepage": "https://github.com/Azure/ms-rest-js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:Azure/azure-sdk-for-node.git"
+    "url": "git@github.com:Azure/ms-rest-js.git"
   },
   "bugs": {
-    "url": "http://github.com/Azure/azure-sdk-for-node/issues"
+    "url": "http://github.com/Azure/ms-rest-js/issues"
   },
   "scripts": {
     "tsc": "tsc -p tsconfig.json",
     "test": "npm -s run-script unit",
-    "unit": "mocha -t 50000 dist/test",
+    "unit": "mocha -t 50000 ./dist/test",
     "uglify": "node node_modules/uglify-es/bin/uglifyjs --source-map -c -m -o msRestBundle.min.js msRestBundle.js",
-    "build": "npm -s run-script tsc && webpack && npm -s run-script uglify"
+    "build": "npm -s run-script tsc && webpack && npm -s run-script uglify",
+    "tslint": "tslint -p . -c tslint.json --exclude test/**/*.ts"
   }
 }
