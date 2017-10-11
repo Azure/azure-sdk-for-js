@@ -1,3 +1,6 @@
+### 0.1.1 - 2017-10-10
+- Reverting the change made in #2.
+
 ### 0.1.0 - 2017-09-16
 - Initial version of ms-rest-js
   - Provides support for basic credentials

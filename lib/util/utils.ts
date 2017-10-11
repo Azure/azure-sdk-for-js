@@ -313,23 +313,10 @@ export async function dispatchRequest(options: WebResource): Promise<HttpOperati
         operationResponse.bodyAsJson = JSON.parse(operationResponse.bodyAsText);
       }
     } catch (err) {
-      const textResponse = operationResponse.bodyAsText;
-      // As per, http://json-schema.org/latest/json-schema-validation.html#rfc.section.6.25 and
-      // https://spacetelescope.github.io/understanding-json-schema/reference/type.html JSON has
-      //  ("null", "boolean", "object", "array", "number", or "string"), or "integer" as basic types.
-      // For JSON.parse() to a parse a string, the input should have double quotes in it like "\"Some Text\"".
-      // Since this is not the case, we want to make sure that the response body was actually a string
-      // and not a malformed JSON object or JSON array. If the response body was null like "null" or
-      // a number like "10" or a boolean like "true" or "false", then JSON.parse() handles those
-      // scenarios correctly. If the input does not start with "{" or "[" then it is most probably a string.
-      if (!(textResponse.startsWith("{") || textResponse.startsWith("["))) {
-        operationResponse.bodyAsJson = textResponse;
-      } else {
-        const msg = `Error "${err}" occured while executing JSON.parse on the response body - ${textResponse}.`;
-        const errCode = err.code || "JSON_PARSE_ERROR";
-        const e = new RestError(msg, errCode, res.status, options, res, textResponse);
-        return Promise.reject(e);
-      }
+      const msg = `Error "${err}" occured while executing JSON.parse on the response body - ${operationResponse.bodyAsText}.`;
+      const errCode = err.code || "JSON_PARSE_ERROR";
+      const e = new RestError(msg, errCode, res.status, options, res, operationResponse.bodyAsText);
+      return Promise.reject(e);
     }
   }
   return Promise.resolve(operationResponse);
