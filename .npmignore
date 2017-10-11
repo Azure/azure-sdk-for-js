@@ -5,3 +5,4 @@ test/
 .travis.yml
 gulpfile.js
 .gitignore
+.git
