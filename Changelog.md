@@ -1,3 +1,5 @@
+### 0.2.1 - 2017-10-10
+- moment version 2.19.0 has lot of issues. Hence fixing the dependency strictly to 2.18.1.
 ### 0.2.0 - 2017-10-10
 - Reverting the change made in #2.
 
