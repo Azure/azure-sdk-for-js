@@ -9,7 +9,7 @@
     "database",
     "cloud"
   ],
-  "version": "1.12.2",
+  "version": "1.13.0",
   "author": "Microsoft Corporation",
   "main": "./index.js",
   "engine": {
@@ -23,7 +23,8 @@
     "jsdoc": "*",
     "load-grunt-tasks": "^3.1.0",
     "mocha": "*",
-    "time-grunt": "^1.2.0"
+    "time-grunt": "^1.2.0",
+    "child_process" : "*"
   },
   "dependencies": {
     "binary-search-bounds": "2.0.3",

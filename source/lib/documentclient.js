@@ -1303,7 +1303,7 @@ var DocumentClient = Base.defineClass(
             var optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
             options = optionsCallbackTuple.options;
             callback = optionsCallbackTuple.callback;
-            
+
             var isNameBased = Base.isLinkNameBased(conflictLink);
             var path = this.getPathFromLink(conflictLink, "", isNameBased);
             var id = this.getIdFromLink(conflictLink, isNameBased);
@@ -2274,7 +2274,7 @@ var DocumentClient = Base.defineClass(
                     
                     var obj = document;
                     for (var i = 0; i < pathParts.length; ++i) {
-                        if (!(pathParts[i] in obj)) {
+                        if (!((typeof obj === "object") && (pathParts[i] in obj))) {
                             obj = {};
                             break;
                         }
@@ -2420,6 +2420,7 @@ var DocumentClient = Base.defineClass(
         /** @ignore */
         getIdFromLink: function (resourceLink, isNameBased) {
             if (isNameBased) {
+                resourceLink = Base._trimSlashes(resourceLink);
                 return resourceLink;
             } else {
                 return Base.parseLink(resourceLink).objectBody.id.toLowerCase();
@@ -2429,6 +2430,7 @@ var DocumentClient = Base.defineClass(
         /** @ignore */
         getPathFromLink: function (resourceLink, resourceType, isNameBased) {
             if (isNameBased) {
+                resourceLink = Base._trimSlashes(resourceLink);
                 if (resourceType) {
                     return "/" + encodeURI(resourceLink) + "/" + resourceType;
                 } else {

@@ -1,4 +1,4 @@
-/*
+﻿/*
 The MIT License (MIT)
 Copyright (c) 2017 Microsoft Corporation
 
@@ -21,15 +21,51 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-// [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine")]
-var masterKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
-var host = "https://localhost:443";
-var adminUtilitiesPath = "../../../../../bin/x64/Debug/Product/AdminUtilities/Microsoft.Azure.Documents.Tools.AdminUtilities.exe"
+//SCRIPT START
 
-// This is needed to disable SSL verification for the tests running against emulator.
-// This needs to be commented if you are running tests against production endpoint specified as host above.
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+var StatusCodes = {
+    // Success
+    "Ok": 200,
+    "Created": 201,
+    "Accepted": 202,
+    "NoContent": 204,
+    "NotModified": 304,
 
-exports.host = host;
-exports.masterKey = masterKey;
-exports.adminUtilitiesPath = adminUtilitiesPath;
+    // Client error
+    "BadRequest": 400,
+    "Unauthorized": 401,
+    "Forbidden": 403,
+    "NotFound": 404,
+    "MethodNotAllowed": 405,
+    "RequestTimeout": 408,
+    "Conflict": 409,
+    "Gone": 410,
+    "PreconditionFailed": 412,
+    "RequestEntityTooLarge": 413, 
+    "TooManyRequests": 429,
+    "RetryWith": 449,
+        
+    "InternalServerError": 500,
+    "ServiceUnavailable": 503,
+
+    //Operation pause and cancel. These are FAKE status codes for QOS logging purpose only.
+    "OperationPaused": 1200,
+    "OperationCancelled": 1201
+};
+
+var SubStatusCodes = {
+    "Unknown": 0,
+
+    // 400: Bad Request Substatus 
+    "CrossPartitionQueryNotServable": 1004,
+
+    // 410: StatusCodeType_Gone: substatus 
+    "PartitionKeyRangeGone": 1002,
+}
+
+//SCRIPT END
+
+if (typeof exports !== "undefined") {
+    module.exports.StatusCodes = StatusCodes;
+    module.exports.SubStatusCodes = SubStatusCodes;
+}

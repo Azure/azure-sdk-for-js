@@ -27,8 +27,9 @@ var Base = require("../base")
     , DefaultQueryExecutionContext = require("./defaultQueryExecutionContext")
     , HttpHeaders = require("../constants").HttpHeaders
     , HeaderUtils = require("./headerUtils")
+    , StatusCodes = require("../statusCodes").StatusCodes
+    , SubStatusCodes = require("../statusCodes").SubStatusCodes
     , assert = require("assert")
-    , util = require("util");
 
 //SCRIPT START
 var DocumentProducer = Base.defineClass(
@@ -46,19 +47,20 @@ var DocumentProducer = Base.defineClass(
         this.collectionLink = collectionLink;
         this.query = query;
         this.targetPartitionKeyRange = targetPartitionKeyRange;
-        this.itemsBuffer = [];
- 
+        this.fetchResults = [];
+        
+        this.state = DocumentProducer.STATES.started;
         this.allFetched = false;
         this.err = undefined;
-
+        
         this.previousContinuationToken = undefined;
         this.continuationToken = undefined;
         this._respHeaders = HeaderUtils.getInitialHeader();
-
+        
         var isNameBased = Base.isLinkNameBased(collectionLink);
         var path = this.documentclient.getPathFromLink(collectionLink, "docs", isNameBased);
         var id = this.documentclient.getIdFromLink(collectionLink, isNameBased);
-
+        
         var that = this;
         var fetchFunction = function (options, callback) {
             that.documentclient.queryFeed.call(documentclient,
@@ -74,42 +76,77 @@ var DocumentProducer = Base.defineClass(
                 that.targetPartitionKeyRange["id"]);
         };
         this.internalExecutionContext = new DefaultQueryExecutionContext(documentclient, query, options, fetchFunction);
+        this.state = DocumentProducer.STATES.inProgress;
     },
-    {
+ {
         /**
-         * Synchronously gives the buffered items if any
+         * Synchronously gives the contiguous buffered results (stops at the first non result) if any
          * @returns {Object}       - buffered current items if any
          * @ignore
          */
         peekBufferedItems: function () {
-            return this.itemsBuffer;
+            var bufferedResults = [];
+            for (var i = 0, done = false; i < this.fetchResults.length && !done; i++) {
+                var fetchResult = this.fetchResults[i];
+                switch (fetchResult.fetchResultType) {
+                    case FetchResultType.Done:
+                        done = true;
+                        break;
+                    case FetchResultType.Exception:
+                        done = true;
+                        break;
+                    case FetchResultType.Result:
+                        bufferedResults.push(fetchResult.feedResponse);
+                        break;
+                }
+            }
+            return bufferedResults;
         },
+        
+        hasMoreResults: function () {
+            return this.internalExecutionContext.hasMoreResults() || this.fetchResults.length != 0;
+        },
+        
+        gotSplit: function () {
+            var fetchResult = this.fetchResults[0];
+            if (fetchResult.fetchResultType == FetchResultType.Exception) {
+                if (this._needPartitionKeyRangeCacheRefresh(fetchResult.error)) {
+                    return true;
+                }
+            }
 
+            return false;
+        },
+        
         /**
          * Synchronously gives the buffered items if any and moves inner indices.
          * @returns {Object}       - buffered current items if any
          * @ignore
          */
         consumeBufferedItems: function () {
-            var res = this.itemsBuffer;
-            this.itemsBuffer = [];
+            var res = this._getBufferedResults();
+            this.fetchResults = [];
             this._updateStates(undefined, this.continuationToken === null || this.continuationToken === undefined);
             return res;
         },
-
+        
         _getAndResetActiveResponseHeaders: function () {
             var ret = this._respHeaders;
             this._respHeaders = HeaderUtils.getInitialHeader();
             return ret;
         },
-
+        
         _updateStates: function (err, allFetched) {
             if (err) {
+                this.state = DocumentProducer.STATES.ended;
                 this.err = err
                 return;
             }
             if (allFetched) {
-                this.allFetched = true;
+                this.allFetched = true;   
+            }
+            if (this.allFetched && this.peekBufferedItems().length === 0) {
+                this.state = DocumentProducer.STATES.ended;
             }
             if (this.internalExecutionContext.continuation === this.continuationToken) {
                 // nothing changed
@@ -117,6 +154,10 @@ var DocumentProducer = Base.defineClass(
             }
             this.previousContinuationToken = this.continuationToken;
             this.continuationToken = this.internalExecutionContext.continuation;
+        },
+        
+        _needPartitionKeyRangeCacheRefresh: function (error) {
+            return (error.code === StatusCodes.Gone) && ('substatus' in error) && (error['substatus'] === SubStatusCodes.PartitionKeyRangeGone);
         },
 
         /**
@@ -131,21 +172,35 @@ var DocumentProducer = Base.defineClass(
             if (that.err) {
                 return callback(that.err);
             }
-
+            
             this.internalExecutionContext.fetchMore(function (err, resources, headerResponse) {
-                that._updateStates(err, resources === undefined);
                 if (err) {
-                    return callback(err, undefined, headerResponse);
+                    if (that._needPartitionKeyRangeCacheRefresh(err)) {
+                        // Split just happend
+                        // Buffer the error so the execution context can still get the feedResponses in the itemBuffer
+                        var bufferedError = new FetchResult(undefined, err);
+                        that.fetchResults.push(bufferedError);
+                        // Putting a dummy result so that the rest of code flows
+                        return callback(undefined, [bufferedError], headerResponse);
+                    }
+                    else {
+                        that._updateStates(err, resources === undefined);
+                        return callback(err, undefined, headerResponse);
+                    }
                 }
-                
+
+                that._updateStates(undefined, resources === undefined);
                 if (resources != undefined) {
                     // some more results
-                    that.itemsBuffer = that.itemsBuffer.concat(resources);
-                } 
+                    resources.forEach(function (element) {
+                        that.fetchResults.push(new FetchResult(element, undefined));
+                    });
+                }
+
                 return callback(undefined, resources, headerResponse);
             });
         },
-
+        
         /**
          * Synchronously gives the bufferend current item if any
          * @returns {Object}       - buffered current item if any
@@ -164,19 +219,30 @@ var DocumentProducer = Base.defineClass(
         nextItem: function (callback) {
             var that = this;
             if (that.err) {
+                that._updateStates(err, undefined);
                 return callback(that.err);
             }
+
             this.current(function (err, item, headers) {
                 if (err) {
+                    that._updateStates(err, item === undefined);
                     return callback(err, undefined, headers);
                 }
-
-                var extracted = that.itemsBuffer.shift();
-                assert.equal(extracted, item);
-                callback(undefined, item, headers);
+                 
+                var fetchResult = that.fetchResults.shift();
+                that._updateStates(undefined, item === undefined);
+                assert.equal(fetchResult.feedResponse, item);
+                switch (fetchResult.fetchResultType) {
+                    case FetchResultType.Done:
+                        return callback(undefined, undefined, headers);
+                    case FetchResultType.Exception:
+                        return callback(fetchResult.error, undefined, headers);
+                    case FetchResultType.Result:
+                        return callback(undefined, fetchResult.feedResponse, headers);
+                }
             });
         },
-
+        
         /**
          * Retrieve the current element on the DocumentProducer.
          * @memberof DocumentProducer
@@ -184,173 +250,77 @@ var DocumentProducer = Base.defineClass(
          * @param {callback} callback - Function to execute for the current element. the function takes two parameters error, element.
          */
         current: function (callback) {
-            if (this.itemsBuffer.length > 0) {
-                return callback(undefined, this.itemsBuffer[0], this._getAndResetActiveResponseHeaders());
+            // If something is buffered just give that
+            if (this.fetchResults.length > 0) {
+                var fetchResult = this.fetchResults[0];
+                 //Need to unwrap fetch results
+                switch (fetchResult.fetchResultType) {
+                    case FetchResultType.Done:
+                        return callback(undefined, undefined, this._getAndResetActiveResponseHeaders());
+                    case FetchResultType.Exception:
+                        return callback(fetchResult.error, undefined, this._getAndResetActiveResponseHeaders());
+                    case FetchResultType.Result:
+                        return callback(undefined, fetchResult.feedResponse, this._getAndResetActiveResponseHeaders());
+                }
             }
-
+            
+            // If there isn't anymore items left to fetch then let the user know.
             if (this.allFetched) {
                 return callback(undefined, undefined, this._getAndResetActiveResponseHeaders());
             }
-
+            
+            // If there are no more bufferd items and there are still items to be fetched then buffer more
             var that = this;
             this.bufferMore(function (err, items, headers) {
                 if (err) {
                     return callback(err, undefined, headers);
                 }
-
+                
                 if (items === undefined) {
                     return callback(undefined, undefined, headers);
                 }
                 HeaderUtils.mergeHeaders(that._respHeaders, headers);
-
+                
                 that.current(callback);
             });
         },
     },
 
     {
-
-        /**
-         * Provides a Comparator for document producers using the min value of the corresponding target partition.
-         * @returns {object}        - Comparator Function
-         * @ignore
-         */
-        createTargetPartitionKeyRangeComparator: function () {
-            return function (docProd1, docProd2) {
-                var a = docProd1.getTargetParitionKeyRange()['minInclusive'];
-                var b = docProd2.getTargetParitionKeyRange()['minInclusive'];
-                return (a == b ? 0 : (a > b ? 1 : -1));
-            };
-        },
-
-        /**
-         * Provides a Comparator for document producers which respects orderby sort order.
-         * @returns {object}        - Comparator Function
-         * @ignore
-         */
-        createOrderByComparator: function (sortOrder) {
-            var comparator = new OrderByDocumentProducerComparator(sortOrder);
-            return function (docProd1, docProd2) {
-                return comparator.compare(docProd1, docProd2);
-            };
-        }
+        // Static Members
+        STATES: Object.freeze({ started: "started", inProgress: "inProgress", ended: "ended" })
     }
 );
 
-var OrderByDocumentProducerComparator = Base.defineClass(
+var FetchResultType = {
+    "Done": 0,
+    "Exception": 1,
+    "Result": 2
+};
 
-    function (sortOrder) {
-        this.sortOrder = sortOrder;
-        this.targetPartitionKeyRangeDocProdComparator = DocumentProducer.createTargetPartitionKeyRangeComparator();
-
-        this._typeOrdComparator = Object.freeze({
-            NoValue: {
-                ord: 0
-            },
-            undefined: {
-                ord: 1
-            },
-            boolean: {
-                ord: 2,
-                compFunc: function (a, b) {
-                    return (a == b ? 0 : (a > b ? 1 : -1));
-                }
-            },
-            number: {
-                ord: 4,
-                compFunc: function (a, b) {
-                    return (a == b ? 0 : (a > b ? 1 : -1));
-                }
-            },
-            string: {
-                ord: 5,
-                compFunc: function (a, b) {
-                    return (a == b ? 0 : (a > b ? 1 : -1));
-                }
-            }
-        });
+var FetchResult = Base.defineClass(
+    /**
+     * Wraps fetch results for the document producer.
+     * This allows the document producer to buffer exceptions so that actual results don't get flushed during splits.
+     * @constructor DocumentProducer
+     * @param {object} feedReponse                  - The response the document producer got back on a successful fetch
+     * @param {object} error                        - The exception meant to be buffered on an unsuccessful fetch
+     * @ignore
+     */
+    function (feedResponse, error) {
+        if (feedResponse) {
+            this.feedResponse = feedResponse;
+            this.fetchResultType = FetchResultType.Result;
+        } else {
+            this.error = error;
+            this.fetchResultType = FetchResultType.Exception;
+        }
     },
     {
-        compare: function (docProd1, docProd2) {
-            var orderByItemsRes1 = this.getOrderByItems(docProd1.peekBufferedItems()[0]);
-            var orderByItemsRes2 = this.getOrderByItems(docProd2.peekBufferedItems()[0]);
-
-            // validate order by items and types
-            // TODO: once V1 order by on different types is fixed this need to change
-            this.validateOrderByItems(orderByItemsRes1, orderByItemsRes2);
-
-            // no async call in the for loop
-            for (var i = 0; i < orderByItemsRes1.length; i++) {
-                // compares the orderby items one by one
-                var compRes = this.compareOrderByItem(orderByItemsRes1[i], orderByItemsRes2[i]);
-                if (compRes !== 0) {
-                    if (this.sortOrder[i] === 'Ascending') {
-                        return compRes;
-                    } else if (this.sortOrder[i] === 'Descending') {
-                        return -compRes;
-                    }
-                }
-            }
-
-            return this.targetPartitionKeyRangeDocProdComparator(docProd1, docProd2);
-        },
-
-        compareValue: function (item1, type1, item2, type2) {
-            var type1Ord = this._typeOrdComparator[type1].ord;
-            var type2Ord = this._typeOrdComparator[type2].ord;
-            var typeCmp = type1Ord - type2Ord;
-
-            if (typeCmp !== 0) {
-                // if the types are different, use type ordinal
-                return typeCmp;
-            }
-
-            // both are of the same type 
-            if ((type1Ord === this._typeOrdComparator['undefined'].ord) || (type1Ord === this._typeOrdComparator['NoValue'].ord)) {
-                // if both types are undefined or Null they are equal
-                return 0;
-            }
-
-            var compFunc = this._typeOrdComparator[type1].compFunc;
-            assert.notEqual(compFunc, undefined, "cannot find the comparison function");
-            // same type and type is defined compare the items
-            return compFunc(item1, item2);
-        },
-
-        compareOrderByItem: function (orderByItem1, orderByItem2) {
-            var type1 = this.getType(orderByItem1);
-            var type2 = this.getType(orderByItem2);
-            return this.compareValue(orderByItem1['item'], type1, orderByItem2['item'], type2);
-        },
-
-        validateOrderByItems: function (res1, res2) {
-            this._throwIf(res1.length != res2.length, util.format("Expected %s, but got %s.", type1, type2));
-            this._throwIf(res1.length != this.sortOrder.length, 'orderByItems cannot have a different size than sort orders.');
-
-            for (var i = 0; i < this.sortOrder.length; i++) {
-                var type1 = this.getType(res1[i]);
-                var type2 = this.getType(res2[i]);
-                this._throwIf(type1 !== type2, util.format("Expected %s, but got %s.", type1, type2));
-            }
-        },
-
-        getType: function (orderByItem) {
-            if (!'item' in orderByItem) {
-                return 'NoValue';
-            }
-            var type = typeof (orderByItem['item']);
-            this._throwIf(!type in this._typeOrdComparator, util.format("unrecognizable type %s", type));
-            return type;
-        },
-
-        getOrderByItems: function (res) {
-            return res['orderByItems'];
-        },
-
-        _throwIf: function (condition, msg) {
-            if (condition) {
-                throw Error(msg);
-            }
+    },
+    {
+        DoneResult : {
+            fetchResultType: FetchResultType.Done
         }
     }
 );
@@ -358,5 +328,4 @@ var OrderByDocumentProducerComparator = Base.defineClass(
 
 if (typeof exports !== "undefined") {
     module.exports = DocumentProducer;
-    module.exports.OrderByDocumentProducerComparator = OrderByDocumentProducerComparator;
 }

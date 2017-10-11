@@ -25,11 +25,10 @@ SOFTWARE.
 
 var Base = require("../base")
     , DefaultQueryExecutionContext = require("./defaultQueryExecutionContext")
-    , ParallelQueryExecutionContext = require("./parallelQueryExecutionContext")
-    , endpointComponent = require('./endpointComponent')
+    , PipelinedQueryExecutionContext = require("./pipelinedQueryExecutionContext")
+    , StatusCodes = require("../statusCodes").StatusCodes
+    , SubStatusCodes = require("../statusCodes").SubStatusCodes
     , assert = require("assert")
-    , QueryExecutionInfoParser = require("./partitionedQueryExecutionContextInfoParser")
-    , PipelinedQueryExecutionContext = require("./pipelinedQueryExecutionContext");
 
 //SCRIPT START
 var ProxyQueryExecutionContext = Base.defineClass(
@@ -53,7 +52,6 @@ var ProxyQueryExecutionContext = Base.defineClass(
         this.queryExecutionContext = new DefaultQueryExecutionContext(this.documentclient, this.query, this.options, this.fetchFunctions);
     },
     {
-
         /**
          * Execute a provided function on the next element in the ProxyQueryExecutionContext.
          * @memberof ProxyQueryExecutionContext
@@ -63,7 +61,6 @@ var ProxyQueryExecutionContext = Base.defineClass(
         nextItem: function (callback) {
             var that = this;
             this.queryExecutionContext.nextItem(function (err, resources, headers) {
-
                 if (err) {
                     if (that._hasPartitionedExecutionInfo(err)) {
                         // if that's a partitioned execution info switches the execution context
@@ -80,9 +77,7 @@ var ProxyQueryExecutionContext = Base.defineClass(
         },
 
         _createPipelinedExecutionContext: function (partitionedExecutionInfo) {
-
             assert.notStrictEqual(this.resourceLink, undefined, "for top/orderby resourceLink is required.");
-
             assert.ok(!Array.isArray(this.resourceLink) || this.resourceLink.length === 1,
                 "for top/orderby exactly one collectionLink is required");
 
@@ -93,11 +88,12 @@ var ProxyQueryExecutionContext = Base.defineClass(
                 collectionLink = this.resourceLink;
             }
 
-            var parallelQueryExecutionContext = new ParallelQueryExecutionContext(this.documentclient,
-                Array.isArray(this.resourceLink) ? this.resourceLink[0] : this.resourceLink, this.query,
-                this.options, partitionedExecutionInfo);
-            return new PipelinedQueryExecutionContext(this.client, this.options,
-                parallelQueryExecutionContext, partitionedExecutionInfo);
+            return new PipelinedQueryExecutionContext(
+                this.documentclient,
+                collectionLink,
+                this.query,
+                this.options,
+                partitionedExecutionInfo);
         },
 
         /**
@@ -109,7 +105,6 @@ var ProxyQueryExecutionContext = Base.defineClass(
         current: function (callback) {
             var that = this;
             this.queryExecutionContext.current(function (err, resources, headers) {
-
                 if (err) {
                     if (that._hasPartitionedExecutionInfo(err)) {
                         // if that's a partitioned execution info switches the execution context
@@ -155,7 +150,7 @@ var ProxyQueryExecutionContext = Base.defineClass(
         },
 
         _hasPartitionedExecutionInfo: function (error) {
-            return (error.code === 400) && ('substatus' in error) && (error['substatus'] === 1004);
+            return (error.code === StatusCodes.BadRequest) && ('substatus' in error) && (error['substatus'] === SubStatusCodes.CrossPartitionQueryNotServable);
         },
 
         _getParitionedExecutionInfo: function (error) {
