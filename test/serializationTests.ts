@@ -204,7 +204,9 @@ describe("msrest", function () {
       let mapper: msRest.Mapper = { type: { name: "TimeSpan" }, required: false, serializedName: "TimeSpan" };
       let duration = moment.duration({ days: 123, hours: 22, minutes: 14, seconds: 12, milliseconds: 11 });
       let serializedDateString = Serializer.serialize(mapper, duration, "dateTimeObj");
-      serializedDateString.should.equal("P123DT22H14M12.010999999998603S");
+      if (serializedDateString !== "P123DT22H14M12.011S" && serializedDateString !== "P123DT22H14M12.010999999998603S") {
+        done(new Error(`serializedDateString: ${serializedDateString} from moment is invalid.`));
+      }
       done();
     });
 
