@@ -80,6 +80,7 @@ var DefaultQueryExecutionContext = Base.defineClass(
                     if (err) {
                         return callback(err, undefined, headers);
                     }
+                    
                     that.resources = resources;
                     if (that.resources.length === 0) {
                         if (!that.continuation && that.currentPartitionIndex >= that.fetchFunctions.length) {

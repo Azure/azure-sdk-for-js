@@ -262,7 +262,7 @@ var Base = {
             headers[Constants.HttpHeaders.EnableCrossPartitionQuery] = options.enableCrossPartitionQuery;
         }
 
-        if (options.maxDegreeOfParallelism) {
+        if (options.maxDegreeOfParallelism != undefined) {
             headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] = true;
         }
 

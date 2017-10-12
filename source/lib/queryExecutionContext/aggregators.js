@@ -25,7 +25,7 @@ SOFTWARE.
 
 var Base = require("../base")
     , DocumentProducer = require("./documentProducer")
-    , OrderByDocumentProducerComparator = DocumentProducer.OrderByDocumentProducerComparator;
+    , OrderByDocumentProducerComparator = require("./orderByDocumentProducerComparator");
 
 //SCRIPT START
 
