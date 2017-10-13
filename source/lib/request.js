@@ -80,7 +80,7 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
         response.on("end", function() {
             if (response.statusCode >= 400) {
                 return callback(getErrorBody(response, data), undefined, response.headers);
-                }
+            }
 
             var result;
             try {
@@ -174,7 +174,7 @@ var RequestHandler = {
             } else if (typeof body === "string") {
                 buffer = new Buffer(body, "utf8");
             } else {
-                callback({ message: "body must be string, Buffer, or stream" });
+                return callback({ message: "body must be string, Buffer, or stream" });
             }
         }
         
