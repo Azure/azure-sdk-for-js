@@ -4,9 +4,9 @@
 ![](https://img.shields.io/npm/dm/documentdb.svg)
 ![](https://img.shields.io/github/issues/azure/azure-documentdb-node.svg)
 
-Node.js SDK for DocumentDB APIs for Microsoft Azure Cosmos DB.
+Node.js SDK for DocumentDB APIs for Microsoft Azure Cosmos DB Service.
 
-This project provides a node module that makes it easy to interact with DocumentDB APIs of Azure Cosmos DB (cosmosdb).
+This project provides a node module that makes it easy to interact with DocumentDB APIs of Azure Cosmos DB (cosmosdb) Service.
 
 For documentation please see the Microsoft Azure [Node.js Developer Center](http://azure.microsoft.com/en-us/develop/nodejs/) and the [ Node.js SDK Documentation](http://azure.github.io/azure-documentdb-node/).
 
