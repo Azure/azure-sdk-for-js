@@ -1,12 +1,14 @@
-# Microsoft Azure DocumentDB Node.js SDK
+# Node.js SDK for DocumentDB APIs of Microsoft Azure Cosmos DB
 
 ![](https://img.shields.io/npm/v/documentdb.svg)
 ![](https://img.shields.io/npm/dm/documentdb.svg)
 ![](https://img.shields.io/github/issues/azure/azure-documentdb-node.svg)
 
-This project provides a node module that makes it easy to interact with Azure DocumentDB. 
+Node.js SDK for DocumentDB APIs for Azure Cosmos DB. 
 
-For documentation please see the Microsoft Azure [Node.js Developer Center](http://azure.microsoft.com/en-us/develop/nodejs/) and the [Microsoft Azure DocumentDB Node.js SDK Documentation](http://azure.github.io/azure-documentdb-node/).
+This project provides a node module that makes it easy to interact with DocumentDB APIs of Azure Cosmos DB (cosmosdb).
+
+For documentation please see the Microsoft Azure [Node.js Developer Center](http://azure.microsoft.com/en-us/develop/nodejs/) and the [ Node.js SDK Documentation](http://azure.github.io/azure-documentdb-node/).
 
 ## Installation
 ### Core Module
@@ -18,12 +20,12 @@ The core module uses the callbacks model for responses, exposed through the Docu
 
 ## Usage
 
-To use this SDK to call Azure DocumentDB, you need to first [create an account](http://azure.microsoft.com/en-us/documentation/articles/documentdb-create-account/).
+To use this SDK to call DocumentDB APIs of Azure Cosmos DB, you need to first [create an account](https://docs.microsoft.com/en-us/azure/cosmos-db/create-documentdb-nodejs).
 
-You can follow this [tutorial](http://azure.microsoft.com/en-us/documentation/articles/documentdb-nodejs-application/) to help you get started.
+You can follow this [tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-nodejs-application) to help you get started.
 
 #### Note:
-When connecting to the [emulator](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-nosql-local-emulator) from the SDK, SSL verification is disabled. 
+When connecting to the [emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator) from the SDK, SSL verification is disabled. 
 
 ## Examples
 ### Hello World using Callbacks via the Core Module
@@ -65,13 +67,13 @@ function cleanup(client, database) {
 
 ### Youtube Videos
 
-Getting started with Azure DocumentDB on Node.js:
+Getting started with DocumentDB Node.js SDK:
 
-[![Azure Demo: Getting started with Azure DocumentDB on Node.js](http://img.youtube.com/vi/UAE7h9PCZjA/0.jpg)](http://www.youtube.com/watch?v=UAE7h9PCZjA)
+[![Azure Demo: Getting started with DocumentDB Node.js SDK](http://img.youtube.com/vi/UAE7h9PCZjA/0.jpg)](http://www.youtube.com/watch?v=UAE7h9PCZjA)
 
 ## Need Help?
 
-Be sure to check out the Microsoft Azure [Developer Forums on MSDN](https://social.msdn.microsoft.com/forums/azure/en-US/home?forum=AzureDocumentDB) or the [Developer Forums on Stack Overflow](http://stackoverflow.com/questions/tagged/azure-documentdb) if you have trouble with the provided code.
+Be sure to check out the Microsoft Azure [Developer Forums on MSDN](https://social.msdn.microsoft.com/forums/azure/en-US/home?forum=AzureDocumentDB) or the [Developer Forums on Stack Overflow](https://stackoverflow.com/questions/tagged/azure-cosmosdb) if you have trouble with the provided code.
 
 ## Contribute Code or Provide Feedback
 
@@ -82,6 +84,6 @@ If you encounter any bugs with the library please file an issue in the [Issues](
 ## Learn More
 
 * [Azure Developer Center](http://azure.microsoft.com/en-us/develop/nodejs)
-* [Azure DocumentDB Node.js SDK Documentation](http://azure.github.io/azure-documentdb-node/)
-* [Azure DocumentDB Service](http://azure.microsoft.com/en-us/documentation/services/documentdb/)
-* [Azure DocumentDB Community Page](https://azure.microsoft.com/en-us/documentation/articles/documentdb-community/)
+* [Node.js SDK Documentation for using DocumentDB APIs of Azure Cosmos DB Service.](http://azure.github.io/azure-documentdb-node/)
+* [Azure Cosmos DB Service](https://azure.microsoft.com/en-us/blog/dear-documentdb-customers-welcome-to-azure-cosmos-db/)
+* [Azure Cosmos DB Community Page](https://docs.microsoft.com/en-us/azure/cosmos-db/community)
