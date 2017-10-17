@@ -1,3 +1,6 @@
+### 0.2.2 - 2017-10-17
+- replacing eval by traversing recursively in the object.
+
 ### 0.2.1 - 2017-10-10
 - moment version 2.19.0 has lot of issues. Hence fixing the dependency strictly to 2.18.1.
 ### 0.2.0 - 2017-10-10
