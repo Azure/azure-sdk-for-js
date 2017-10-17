@@ -15,7 +15,7 @@ export class Serializer {
 
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
     if (mapper.constraints && (value !== null || value !== undefined)) {
-      Object.keys(mapper.constraints).forEach((constraintType) => {
+      for (const constraintType of Object.keys(mapper.constraints)) {
         if (constraintType.match(/^ExclusiveMaximum$/ig) !== null) {
           if (value >= ((mapper.constraints as MapperConstraints).ExclusiveMaximum as number)) {
             throw new Error(`"${objectName}" with value "${value}" should satify the constraint "ExclusiveMaximum": ${((mapper.constraints as MapperConstraints).ExclusiveMaximum as number)}.`);
@@ -63,7 +63,7 @@ export class Serializer {
             }
           }
         }
-      });
+      }
     }
   }
 
@@ -106,7 +106,7 @@ export class Serializer {
     let partialclass = "";
     const subwords = prop.split(".");
 
-    subwords.forEach((item) => {
+    for (const item of subwords) {
       if (item.charAt(item.length - 1) === "\\") {
         partialclass += item.substr(0, item.length - 1) + ".";
       } else {
@@ -114,7 +114,7 @@ export class Serializer {
         classes.push(partialclass);
         partialclass = "";
       }
-    });
+    }
 
     return classes;
   }
@@ -316,13 +316,13 @@ export class Serializer {
           const propName = paths.pop();
 
           let parentObject: any = payload;
-          paths.forEach((pathName: string) => {
+          for (const pathName of paths) {
             const childObject = parentObject[pathName];
             if ((childObject === null || childObject === undefined) && (object[key] !== null && object[key] !== undefined)) {
               parentObject[pathName] = {};
             }
             parentObject = parentObject[pathName];
-          });
+          }
 
           // make sure required properties of the CompositeType are present
           if (modelProps[key].required && !modelProps[key].isConstant) {
@@ -440,10 +440,10 @@ export class Serializer {
           let propertyInstance;
           let res = responseBody;
           // traversing the object step by step.
-          paths.forEach((item) => {
-            if (!res) return;
+          for (const item of paths) {
+            if (!res) break;
             res = res[item];
-          });
+          }
           propertyInstance = res;
           let propertyObjectName = objectName;
           if (modelProps[key].serializedName !== "") propertyObjectName = objectName + "." + modelProps[key].serializedName;

@@ -1086,7 +1086,7 @@ class Serializer {
     }
     validateConstraints(mapper, value, objectName) {
         if (mapper.constraints && (value !== null || value !== undefined)) {
-            Object.keys(mapper.constraints).forEach((constraintType) => {
+            for (const constraintType of Object.keys(mapper.constraints)) {
                 if (constraintType.match(/^ExclusiveMaximum$/ig) !== null) {
                     if (value >= mapper.constraints.ExclusiveMaximum) {
                         throw new Error(`"${objectName}" with value "${value}" should satify the constraint "ExclusiveMaximum": ${mapper.constraints.ExclusiveMaximum}.`);
@@ -1146,7 +1146,7 @@ class Serializer {
                         }
                     }
                 }
-            });
+            }
         }
     }
     trimEnd(str, ch) {
@@ -1184,7 +1184,7 @@ class Serializer {
         const classes = [];
         let partialclass = "";
         const subwords = prop.split(".");
-        subwords.forEach((item) => {
+        for (const item of subwords) {
             if (item.charAt(item.length - 1) === "\\") {
                 partialclass += item.substr(0, item.length - 1) + ".";
             }
@@ -1193,7 +1193,7 @@ class Serializer {
                 classes.push(partialclass);
                 partialclass = "";
             }
-        });
+        }
         return classes;
     }
     dateToUnixTime(d) {
@@ -1387,13 +1387,13 @@ class Serializer {
                     const paths = this.splitSerializeName(modelProps[key].serializedName);
                     const propName = paths.pop();
                     let parentObject = payload;
-                    paths.forEach((pathName) => {
+                    for (const pathName of paths) {
                         const childObject = parentObject[pathName];
                         if ((childObject === null || childObject === undefined) && (object[key] !== null && object[key] !== undefined)) {
                             parentObject[pathName] = {};
                         }
                         parentObject = parentObject[pathName];
-                    });
+                    }
                     // make sure required properties of the CompositeType are present
                     if (modelProps[key].required && !modelProps[key].isConstant) {
                         if (object[key] === null || object[key] === undefined) {
@@ -1518,11 +1518,11 @@ class Serializer {
                     let propertyInstance;
                     let res = responseBody;
                     // traversing the object step by step.
-                    paths.forEach((item) => {
+                    for (const item of paths) {
                         if (!res)
-                            return;
+                            break;
                         res = res[item];
-                    });
+                    }
                     propertyInstance = res;
                     let propertyObjectName = objectName;
                     if (modelProps[key].serializedName !== "")
