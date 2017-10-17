@@ -435,20 +435,16 @@ export class Serializer {
 
       for (const key in modelProps) {
         if (modelProps.hasOwnProperty(key)) {
-
-          const jpath = ["responseBody"];
           const paths = this.splitSerializeName(modelProps[key].serializedName);
-          paths.forEach((item) => {
-            jpath.push(`["${item}"]`);
-          });
           // deserialize the property if it is present in the provided responseBody instance
           let propertyInstance;
-          try {
-            /*jslint evil: true */
-            propertyInstance = eval(jpath.join(""));
-          } catch (err) {
-            continue;
-          }
+          let res = responseBody;
+          // traversing the object step by step.
+          paths.forEach((item) => {
+            if (!res) return;
+            res = res[item];
+          });
+          propertyInstance = res;
           let propertyObjectName = objectName;
           if (modelProps[key].serializedName !== "") propertyObjectName = objectName + "." + modelProps[key].serializedName;
           const propertyMapper = modelProps[key];
