@@ -1,7 +1,7 @@
 import { WebResource } from "./webResource";
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
- * the `body` property.
+ * the `bodyAsJson` property when the response body is received in JSON.
  * @class
  * Initializes a new instance of the HttpOperationResponse class.
  * @constructor
@@ -12,13 +12,9 @@ export declare class HttpOperationResponse {
      */
     request: WebResource;
     /**
-     * The raw response
+     * The raw response. Please use the response directly when the response body is a ReadableStream.
      */
     response: Response;
-    /**
-     * The response body as a readable stream
-     */
-    bodyAsStream: ReadableStream | null;
     /**
      * The response body as text (string format)
      */
@@ -29,5 +25,5 @@ export declare class HttpOperationResponse {
     bodyAsJson: {
         [key: string]: any;
     } | Array<any> | string | number | boolean | null | void;
-    constructor(request: WebResource, response: Response, body: ReadableStream | null);
+    constructor(request: WebResource, response: Response);
 }

@@ -5,7 +5,9 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
 import * as utils from "../util/utils";
 
+/* tslint:disable:prefer-const */
 let retryTimeout = 30;
+/* tslint:enable:prefer-const */
 
 export class RPRegistrationFilter extends BaseFilter {
 

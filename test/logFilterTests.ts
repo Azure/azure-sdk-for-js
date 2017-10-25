@@ -29,7 +29,7 @@ describe("Log filter", () => {
     const lf = new LogFilter(logger);
     const req = new WebResource("https://foo.com", "PUT", { "a": 1 });
     const res = new Response();
-    const opRes = new HttpOperationResponse(req, res as any, res.body as any);
+    const opRes = new HttpOperationResponse(req, res as any);
     lf.after(opRes).then(() => {
       //console.dir(output, { depth: null });
       //console.log(">>>>>>>");

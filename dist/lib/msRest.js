@@ -43,6 +43,7 @@ exports.promiseToCallback = utils_1.promiseToCallback;
 exports.promiseToServiceCallback = utils_1.promiseToServiceCallback;
 exports.isValidUuid = utils_1.isValidUuid;
 exports.dispatchRequest = utils_1.dispatchRequest;
+exports.applyMixins = utils_1.applyMixins;
 // Credentials
 const tokenCredentials_1 = require("./credentials/tokenCredentials");
 exports.TokenCredentials = tokenCredentials_1.TokenCredentials;

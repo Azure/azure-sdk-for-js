@@ -4,13 +4,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
- * the `body` property.
+ * the `bodyAsJson` property when the response body is received in JSON.
  * @class
  * Initializes a new instance of the HttpOperationResponse class.
  * @constructor
  */
 class HttpOperationResponse {
-    constructor(request, response, body) {
+    constructor(request, response) {
         /**
          * Reference to the original request object.
          * [WebResource] object.
@@ -23,11 +23,7 @@ class HttpOperationResponse {
          * @type {object}
          */
         this.response = response;
-        /**
-         * The response object.
-         * @type {object}
-         */
-        this.bodyAsStream = body;
+        /* tslint:disable:no-null-keyword */
         this.bodyAsText = null;
         this.bodyAsJson = null;
     }

@@ -1,3 +1,7 @@
+### 0.2.3 - 2017-10-25
+- We will return the actual response when the return type of a method in the generated code is `stream`.
+Hence, removing `bodyAsStream` property from `HttpOperationResponse`.
+
 ### 0.2.2 - 2017-10-17
 - replacing eval by traversing recursively in the object.
 
