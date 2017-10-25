@@ -126,3 +126,9 @@ export declare function promiseToServiceCallback<T>(promise: Promise<HttpOperati
  * @returns {Promise<HttpOperationResponse} operationResponse - The response object.
  */
 export declare function dispatchRequest(options: WebResource): Promise<HttpOperationResponse>;
+/**
+ * Applies the properties on the prototype of sourceCtors to the prototype of targetCtor
+ * @param {object} targetCtor The target object on which the properties need to be applied.
+ * @param {Array<object>} sourceCtors An array of source objects from which the properties need to be taken.
+ */
+export declare function applyMixins(targetCtor: any, sourceCtors: any[]): void;

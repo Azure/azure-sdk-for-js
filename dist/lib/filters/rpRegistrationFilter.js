@@ -12,7 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Licensed under the MIT License. See License.txt in the project root for license information.
 const baseFilter_1 = require("./baseFilter");
 const utils = require("../util/utils");
+/* tslint:disable:prefer-const */
 let retryTimeout = 30;
+/* tslint:enable:prefer-const */
 class RPRegistrationFilter extends baseFilter_1.BaseFilter {
     constructor(retryTimeout = 30) {
         super();

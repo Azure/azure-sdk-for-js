@@ -209,10 +209,12 @@ exports.delay = delay;
  * Utility function to create a K:V from a list of strings
  */
 function strEnum(o) {
+    /* tslint:disable:no-null-keyword */
     return o.reduce((res, key) => {
         res[key] = key;
         return res;
     }, Object.create(null));
+    /* tslint:enable:no-null-keyword */
 }
 exports.strEnum = strEnum;
 /**
@@ -299,7 +301,7 @@ function dispatchRequest(options) {
         catch (err) {
             return Promise.reject(err);
         }
-        const operationResponse = new httpOperationResponse_1.HttpOperationResponse(options, res, res.body);
+        const operationResponse = new httpOperationResponse_1.HttpOperationResponse(options, res);
         if (!options.rawResponse) {
             try {
                 operationResponse.bodyAsText = yield res.text();
@@ -326,4 +328,17 @@ function dispatchRequest(options) {
     });
 }
 exports.dispatchRequest = dispatchRequest;
+/**
+ * Applies the properties on the prototype of sourceCtors to the prototype of targetCtor
+ * @param {object} targetCtor The target object on which the properties need to be applied.
+ * @param {Array<object>} sourceCtors An array of source objects from which the properties need to be taken.
+ */
+function applyMixins(targetCtor, sourceCtors) {
+    sourceCtors.forEach(sourceCtors => {
+        Object.getOwnPropertyNames(sourceCtors.prototype).forEach(name => {
+            targetCtor.prototype[name] = sourceCtors.prototype[name];
+        });
+    });
+}
+exports.applyMixins = applyMixins;
 //# sourceMappingURL=utils.js.map

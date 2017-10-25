@@ -280,10 +280,12 @@ exports.delay = delay;
  * Utility function to create a K:V from a list of strings
  */
 function strEnum(o) {
+    /* tslint:disable:no-null-keyword */
     return o.reduce((res, key) => {
         res[key] = key;
         return res;
     }, Object.create(null));
+    /* tslint:enable:no-null-keyword */
 }
 exports.strEnum = strEnum;
 /**
@@ -370,7 +372,7 @@ function dispatchRequest(options) {
         catch (err) {
             return Promise.reject(err);
         }
-        const operationResponse = new httpOperationResponse_1.HttpOperationResponse(options, res, res.body);
+        const operationResponse = new httpOperationResponse_1.HttpOperationResponse(options, res);
         if (!options.rawResponse) {
             try {
                 operationResponse.bodyAsText = yield res.text();
@@ -397,6 +399,19 @@ function dispatchRequest(options) {
     });
 }
 exports.dispatchRequest = dispatchRequest;
+/**
+ * Applies the properties on the prototype of sourceCtors to the prototype of targetCtor
+ * @param {object} targetCtor The target object on which the properties need to be applied.
+ * @param {Array<object>} sourceCtors An array of source objects from which the properties need to be taken.
+ */
+function applyMixins(targetCtor, sourceCtors) {
+    sourceCtors.forEach(sourceCtors => {
+        Object.getOwnPropertyNames(sourceCtors.prototype).forEach(name => {
+            targetCtor.prototype[name] = sourceCtors.prototype[name];
+        });
+    });
+}
+exports.applyMixins = applyMixins;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
@@ -1036,13 +1051,13 @@ exports.RestError = RestError;
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
- * the `body` property.
+ * the `bodyAsJson` property when the response body is received in JSON.
  * @class
  * Initializes a new instance of the HttpOperationResponse class.
  * @constructor
  */
 class HttpOperationResponse {
-    constructor(request, response, body) {
+    constructor(request, response) {
         /**
          * Reference to the original request object.
          * [WebResource] object.
@@ -1055,11 +1070,7 @@ class HttpOperationResponse {
          * @type {object}
          */
         this.response = response;
-        /**
-         * The response object.
-         * @type {object}
-         */
-        this.bodyAsStream = body;
+        /* tslint:disable:no-null-keyword */
         this.bodyAsText = null;
         this.bodyAsJson = null;
     }
@@ -2298,6 +2309,7 @@ exports.promiseToCallback = utils_1.promiseToCallback;
 exports.promiseToServiceCallback = utils_1.promiseToServiceCallback;
 exports.isValidUuid = utils_1.isValidUuid;
 exports.dispatchRequest = utils_1.dispatchRequest;
+exports.applyMixins = utils_1.applyMixins;
 // Credentials
 const tokenCredentials_1 = __webpack_require__(35);
 exports.TokenCredentials = tokenCredentials_1.TokenCredentials;
@@ -3718,7 +3730,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Licensed under the MIT License. See License.txt in the project root for license information.
 const baseFilter_1 = __webpack_require__(1);
 const utils = __webpack_require__(0);
+/* tslint:disable:prefer-const */
 let retryTimeout = 30;
+/* tslint:enable:prefer-const */
 class RPRegistrationFilter extends baseFilter_1.BaseFilter {
     constructor(retryTimeout = 30) {
         super();
