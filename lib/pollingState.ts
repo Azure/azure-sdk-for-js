@@ -142,7 +142,7 @@ export default class PollingState {
    * @returns {msRest.HttpOperationResponse} HttpOperationResponse
    */
   getOperationResponse(): msRest.HttpOperationResponse {
-    const result = new msRest.HttpOperationResponse(this.request, this.response, this.response.body);
+    const result = new msRest.HttpOperationResponse(this.request, this.response);
     if (this.resource && typeof this.resource.valueOf() === "string") {
       result.bodyAsText = this.resource;
       result.bodyAsJson = JSON.parse(this.resource);
