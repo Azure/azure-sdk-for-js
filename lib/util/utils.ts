@@ -200,10 +200,12 @@ export function delay<T>(t: number, value?: T): Promise<T> {
  * Utility function to create a K:V from a list of strings
  */
 export function strEnum<T extends string>(o: Array<T>): {[K in T]: K} {
+  /* tslint:disable:no-null-keyword */
   return o.reduce((res, key: string) => {
     res[key] = key;
     return res;
   }, Object.create(null));
+  /* tslint:enable:no-null-keyword */
 }
 
 /**
@@ -298,7 +300,8 @@ export async function dispatchRequest(options: WebResource): Promise<HttpOperati
   } catch (err) {
     return Promise.reject(err);
   }
-  const operationResponse = new HttpOperationResponse(options, res, res.body);
+
+  const operationResponse = new HttpOperationResponse(options, res);
   if (!options.rawResponse) {
     try {
       operationResponse.bodyAsText = await res.text();
@@ -320,4 +323,17 @@ export async function dispatchRequest(options: WebResource): Promise<HttpOperati
     }
   }
   return Promise.resolve(operationResponse);
+}
+
+/**
+ * Applies the properties on the prototype of sourceCtors to the prototype of targetCtor
+ * @param {object} targetCtor The target object on which the properties need to be applied.
+ * @param {Array<object>} sourceCtors An array of source objects from which the properties need to be taken.
+ */
+export function applyMixins(targetCtor: any, sourceCtors: any[]): void {
+  sourceCtors.forEach(sourceCtors => {
+      Object.getOwnPropertyNames(sourceCtors.prototype).forEach(name => {
+        targetCtor.prototype[name] = sourceCtors.prototype[name];
+      });
+  });
 }
