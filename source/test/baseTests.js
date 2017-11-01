@@ -166,11 +166,11 @@ describe("Base.parsePath", function () {
         assert.strictEqual(JSON.stringify(Base.parsePath(input)), JSON.stringify(expected));
     };
     
-    it("/\"Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1\"/*", function () {
+    it("escape control characters 1", function () {
         test("/\"Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1\"/*", [ "Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1", "*" ]);
     });
 
-    it("/'Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1'/*", function () {
+    it("escape control characters 2", function () {
         test("/'Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1'/*", [ "Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1", "*" ]);
     });
 
