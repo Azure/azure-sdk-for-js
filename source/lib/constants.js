@@ -182,7 +182,7 @@ var Constants = {
     ThrottleRetryCount: "x-ms-throttle-retry-count",
     ThrottleRetryWaitTimeInMs: "x-ms-throttle-retry-wait-time-ms",
 
-    CurrentVersion: "2017-01-19",
+    CurrentVersion: "2017-11-15",
 
     SDKName: "documentdb-nodejs-sdk",
     SDKVersion: "1.13.0",
