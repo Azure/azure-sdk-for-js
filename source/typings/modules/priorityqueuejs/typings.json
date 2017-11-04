@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/061f85a77d554ee815a4c54878666d18c8efb3b1/priorityqueuejs/index.d.ts",
+    "raw": "registry:dt/priorityqueuejs#1.0.0+20161004002130",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/061f85a77d554ee815a4c54878666d18c8efb3b1/priorityqueuejs/index.d.ts"
+  }
+}

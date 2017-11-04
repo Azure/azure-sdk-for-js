@@ -40,12 +40,15 @@
     <Compile Include="lib\queryExecutionContext\defaultQueryExecutionContext.js" />
     <Compile Include="lib\queryExecutionContext\headerUtils.js" />
     <Compile Include="lib\range.js" />
+    <Compile Include="lib\resourceId.js" />
     <Compile Include="lib\retryOptions.js" />
     <Compile Include="lib\retryUtility.js" />
     <Compile Include="lib\resourceThrottleRetryPolicy.js" />
     <Compile Include="lib\routing\smartRoutingMapProvider.js" />
     <Compile Include="lib\routing\partitionKeyRangeCache.js" />
     <Compile Include="lib\routing\inMemoryCollectionRoutingMap.js" />
+    <Compile Include="lib\sessionContainer.js" />
+    <Compile Include="lib\sessionReadRetryPolicy.js" />
     <Compile Include="lib\statusCodes.js" />
     <Compile Include="lib\uriFactory.js" />
     <Compile Include="test\aggregateQueryTests.js">
@@ -61,6 +64,12 @@
       <TestFramework>Mocha</TestFramework>
     </Compile>
     <Compile Include="test\ruPerMinTests.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
+    <Compile Include="test\sessionContainerTests.js">
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
+    <Compile Include="test\sessionTests.js">
       <TestFramework>Mocha</TestFramework>
     </Compile>
     <Compile Include="test\smartRoutingMapProviderTests.js">
@@ -140,6 +149,10 @@
     <Folder Include="typings\globals\node\" />
     <Folder Include="typings\globals\semaphore\" />
     <Folder Include="typings\globals\underscore\" />
+    <Folder Include="typings\modules\" />
+    <Folder Include="typings\modules\mocha\" />
+    <Folder Include="typings\modules\priorityqueuejs\" />
+    <Folder Include="typings\modules\semaphore\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="typings\globals\grunt\index.d.ts" />
@@ -148,6 +161,9 @@
     <TypeScriptCompile Include="typings\globals\semaphore\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\underscore\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
+    <TypeScriptCompile Include="typings\modules\mocha\index.d.ts" />
+    <TypeScriptCompile Include="typings\modules\priorityqueuejs\index.d.ts" />
+    <TypeScriptCompile Include="typings\modules\semaphore\index.d.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->

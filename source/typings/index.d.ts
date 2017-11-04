@@ -2,3 +2,6 @@
 /// <reference path="globals/mocha/index.d.ts" />
 /// <reference path="globals/node/index.d.ts" />
 /// <reference path="globals/underscore/index.d.ts" />
+/// <reference path="modules/mocha/index.d.ts" />
+/// <reference path="modules/priorityqueuejs/index.d.ts" />
+/// <reference path="modules/semaphore/index.d.ts" />
