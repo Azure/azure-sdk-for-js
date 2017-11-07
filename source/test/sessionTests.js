@@ -176,7 +176,7 @@ describe("Session Token", function () {
         });
     });
 
-    it("validate 'lsn not caught up' error for higher lsn", function (done) {
+    it("validate 'lsn not caught up' error for higher lsn and clearing session token", function (done) {
 
         client.createDatabase(databaseBody, function (err, database) {
             assert.equal(err, undefined, "error creating database");
@@ -204,7 +204,12 @@ describe("Session Token", function () {
                         assert.equal(callbackSpy.callCount, 1);
                         assert.equal(Base._trimSlashes(callbackSpy.lastCall.args[0]), collectionLink + "/docs/1");
                         applySessionTokenStub.restore();
-                        done();
+
+                        client.readDocument(collectionLink + "/docs/1", { 'partitionKey': '1' }, function (err, document1) {
+                            //console.log(document1);
+                            assert.equal(err, undefined, "error creating collection");
+                            done();
+                        });
                     });
                 });
             });
@@ -234,49 +239,6 @@ describe("Session Token", function () {
                                 assert.equal(client.getSessionToken(collection._self), "");
                                 assert.notEqual(client2.getSessionToken(collection._self), "");
                                 done();
-                            });
-                        });
-                    });
-                });
-            });
-        });
-    });
-
-    it("validate that token is cleared after 1 failed retry for name based requests", function (done) {
-        var client2 = new DocumentDBClient(host, { masterKey: masterKey }, null, 'Session');
-
-        var documentLink = collectionLink + "/docs/1";
-
-        client.createDatabase(databaseBody, function (err, database) {
-            assert.equal(err, undefined, "error creating database");
-
-            client.createCollection(database._self, collectionDefinition, collectionOptions, function (err, createdCollection) {
-                assert.equal(err, undefined, "error creating collection");
-
-                client.createDocument(collectionLink, { 'id': '1', 'field2': 'value' }, {}, function (err, document) {
-                    assert.equal(err, undefined, "error creating document");
-
-                    client.upsertDocument(collectionLink, { 'id': '1', 'field2': 'differentValue' }, {}, function (err, document) {
-                        assert.equal(err, undefined, "error creating document");
-
-                        client2.deleteCollection(collectionLink, function (err, collection) {
-                            assert.equal(err, undefined, "error deleting collection");
-
-                            client2.createCollection(database._self, collectionDefinition, collectionOptions, function (err, createdCollection) {
-                                assert.equal(err, undefined, "error creating collection");
-
-                                client2.createDocument(collectionLink, { 'id': '1', 'field2': 'value' }, {}, function (err, document) {
-                                    assert.equal(err, undefined, "error creating document");
-
-                                    client.readDocument(documentLink, { 'partitionKey': '1' }, function (err, document) {
-                                        assert.equal(err.substatus, 1002, "Substatus should indicate the LSN didn't catchup.");
-
-                                        client.readDocument(documentLink, { 'partitionKey': '1' }, function (err, readDocument) {
-                                            assert.equal(err, undefined, "error reading document");
-                                            done();
-                                        });
-                                    });
-                                });
                             });
                         });
                     });
