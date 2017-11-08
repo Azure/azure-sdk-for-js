@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const msRest = require("ms-rest-js");
-const msRestAzure = require("../lib/msRestAzure");
+const msRestAzure = require("../dist/lib/msRestAzure");
 const clientOptions = {
     filters: [new msRest.LogFilter()]
 };
