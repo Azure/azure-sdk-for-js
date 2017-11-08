@@ -2978,17 +2978,17 @@ describe("NodeJS CRUD Tests", function () {
                         validateOfferResponseBody(expectedOffer, collection._self, undefined);
                         // Replace the offer.
                         var offerToReplace = Base.extend({}, expectedOffer);
-                        offerToReplace.offerType = "S2";
-                        // Now, by default the offerVersion is V2, so if we are replacing an offer if one of the legacy values, we need to update the offerVersion as well
-                        offerToReplace.offerVersion = "V1";
+                        var oldThroughput = offerToReplace.content.offerThroughput;
+                        offerToReplace.content.offerThroughput = oldThroughput + 100;
                         client.replaceOffer(offerToReplace._self, offerToReplace, function (err, replacedOffer) {
                             assert.equal(err, undefined, "error replacing offer");
-                            validateOfferResponseBody(replacedOffer, collection._self, "S2");
+                            validateOfferResponseBody(replacedOffer, collection._self);
                             // Check if the replaced offer is what we expect.
                             assert.equal(replacedOffer.id, offerToReplace.id);
                             assert.equal(replacedOffer._rid, offerToReplace._rid);
                             assert.equal(replacedOffer._self, offerToReplace._self);
                             assert.equal(replacedOffer.resource, offerToReplace.resource);
+                            assert.equal(replacedOffer.content.offerThroughput, offerToReplace.content.offerThroughput);
                             // Replace an offer with a bad id.
                             var offerBadId = Base.extend({}, offerToReplace);
                             offerBadId._rid = "NotAllowed";
