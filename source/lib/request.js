@@ -54,14 +54,14 @@ function bodyFromData(data) {
 
 function parse(urlString) { return url.parse(urlString); }
 
-function createRequestObject(connectionPolicy, requestOptions, callback){
+function createRequestObject(connectionPolicy, requestOptions, callback) {
     function onTimeout() {
         httpsRequest.abort();
     }
 
     var isMedia = (requestOptions.path.indexOf("//media") === 0);
-    
-    var httpsRequest = https.request(requestOptions, function(response) {
+
+    var httpsRequest = https.request(requestOptions, function (response) {
         // In case of media response, return the stream to the user and the user will need to handle reading the stream.
         if (isMedia && connectionPolicy.MediaReadMode === Documents.MediaReadMode.Streamed) {
             return callback(undefined, response, response.headers);
@@ -74,10 +74,10 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
             response.setEncoding("utf8");
         }
 
-        response.on("data", function(chunk) {
+        response.on("data", function (chunk) {
             data += chunk;
         });
-        response.on("end", function() {
+        response.on("end", function () {
             if (response.statusCode >= 400) {
                 return callback(getErrorBody(response, data), undefined, response.headers);
             }
@@ -97,7 +97,7 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
         });
     });
 
-    httpsRequest.once("socket", function(socket) {
+    httpsRequest.once("socket", function (socket) {
         if (isMedia) {
             socket.setTimeout(connectionPolicy.MediaRequestTimeout);
         } else {
@@ -121,16 +121,16 @@ function createRequestObject(connectionPolicy, requestOptions, callback){
 * @param {object} data - the data body returned from the executon of a request.
 */
 function getErrorBody(response, data) {
-	var errorBody = { code: response.statusCode, body: data };
-	
-	if (Constants.HttpHeaders.ActivityId in response.headers) {
-		errorBody.activityId = response.headers[Constants.HttpHeaders.ActivityId];
-	}
-    
+    var errorBody = { code: response.statusCode, body: data };
+
+    if (Constants.HttpHeaders.ActivityId in response.headers) {
+        errorBody.activityId = response.headers[Constants.HttpHeaders.ActivityId];
+    }
+
     if (Constants.HttpHeaders.SubStatus in response.headers) {
         errorBody.substatus = parseInt(response.headers[Constants.HttpHeaders.SubStatus]);
     }
-    
+
     if (Constants.HttpHeaders.RetryAfterInMilliseconds in response.headers) {
         errorBody.retryAfterInMilliseconds = parseInt(response.headers[Constants.HttpHeaders.RetryAfterInMilliseconds]);
     }
@@ -155,14 +155,15 @@ var RequestHandler = {
      * @param {Object} headers - specific headers for the request.
      * @param {function} callback - the callback that will be called when the response is retrieved and processed.
     */
-    request: function (globalEndpointManager, connectionPolicy, method, url, path, data, queryParams, headers, callback) {
+    request: function (globalEndpointManager, connectionPolicy, method, url, request, data, queryParams, headers, callback) {
+        var path = request.path == undefined ? request : request.path;
         var body;
-        
+
         if (data) {
             body = bodyFromData(data);
             if (!body) return callback({ message: "parameter data must be a javascript object, string, Buffer, or stream" });
         }
-        
+
         var buffer;
         var stream;
         if (body) {
@@ -177,7 +178,7 @@ var RequestHandler = {
                 return callback({ message: "body must be string, Buffer, or stream" });
             }
         }
-        
+
         var requestOptions = parse(url);
         requestOptions.method = method;
         requestOptions.path = path;
@@ -192,14 +193,14 @@ var RequestHandler = {
         if (queryParams) {
             requestOptions.path += "?" + querystring.stringify(queryParams);
         }
-        
+
         if (buffer) {
             requestOptions.headers[Constants.HttpHeaders.ContentLength] = buffer.length;
-            RetryUtility.execute(globalEndpointManager, { buffer: buffer, stream: null }, this._createRequestObjectStub, connectionPolicy, requestOptions, callback);
+            RetryUtility.execute(globalEndpointManager, { buffer: buffer, stream: null }, this._createRequestObjectStub, connectionPolicy, requestOptions, request, callback);
         } else if (stream) {
-            RetryUtility.execute(globalEndpointManager, { buffer: null, stream: stream }, this._createRequestObjectStub, connectionPolicy, requestOptions, callback);
+            RetryUtility.execute(globalEndpointManager, { buffer: null, stream: stream }, this._createRequestObjectStub, connectionPolicy, requestOptions, request, callback);
         } else {
-            RetryUtility.execute(globalEndpointManager, { buffer: null, stream: null }, this._createRequestObjectStub, connectionPolicy, requestOptions, callback);
+            RetryUtility.execute(globalEndpointManager, { buffer: null, stream: null }, this._createRequestObjectStub, connectionPolicy, requestOptions, request, callback);
         }
     }
 }

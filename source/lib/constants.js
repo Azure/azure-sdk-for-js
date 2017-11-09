@@ -38,7 +38,7 @@ var Constants = {
         TextPlain: "text/plain",
         Xml: "application/xml"
     },
-    
+
     HttpMethods: {
         Get: "GET",
         Post: "POST",
@@ -47,7 +47,7 @@ var Constants = {
         Head: "HEAD",
         Options: "OPTIONS"
     },
-    
+
     HttpHeaders: {
         Authorization: "authorization",
         ETag: "etag",
@@ -95,15 +95,15 @@ var Constants = {
         Prefer: "Prefer",
         Location: "Location",
         Referer: "referer",
-        
+
         // Query
         Query: "x-ms-documentdb-query",
         IsQuery: "x-ms-documentdb-isquery",
-        
+
         // Our custom DocumentDB headers
         Continuation: "x-ms-continuation",
         PageSize: "x-ms-max-item-count",
-        
+
         // Request sender generated. Simply echoed by backend.
         ActivityId: "x-ms-activity-id",
         PreTriggerInclude: "x-ms-documentdb-pre-trigger-include",
@@ -126,7 +126,13 @@ var Constants = {
 
         // Version headers and values
         Version: "x-ms-version",
-        
+
+        //Owner name
+        OwnerFullName: "x-ms-alt-content-path",
+
+        // Owner ID used for name based request in session token.
+        OwnerId: "x-ms-content-path",
+
         // Partition Key
         PartitionKey: "x-ms-documentdb-partitionkey",
         PartitionKeyRangeID: 'x-ms-documentdb-partitionkeyrangeid',
@@ -141,7 +147,7 @@ var Constants = {
         RequestCharge: "x-ms-request-charge",
         PopulateQuotaInfo: "x-ms-documentdb-populatequotainfo",
         MaxResourceQuota: "x-ms-resource-quota",
-        
+
         // Offer header
         OfferType: "x-ms-offer-type",
         OfferThroughput: "x-ms-offer-throughput",
@@ -154,7 +160,7 @@ var Constants = {
         // Index progress headers
         IndexTransformationProgress: "x-ms-documentdb-collection-index-transformation-progress",
         LazyIndexingProgress: "x-ms-documentdb-collection-lazy-indexing-progress",
-        
+
         // Upsert header
         IsUpsert: "x-ms-documentdb-is-upsert",
 
@@ -165,19 +171,19 @@ var Constants = {
         EnableScriptLogging: "x-ms-documentdb-script-enable-logging",
         ScriptLogResults: "x-ms-documentdb-script-log-results"
     },
-    
+
     // GlobalDB related constants
     WritableLocations: 'writableLocations',
     ReadableLocations: 'readableLocations',
     Name: 'name',
     DatabaseAccountEndpoint: 'databaseAccountEndpoint',
-    
+
     // Client generated retry count response header
     ThrottleRetryCount: "x-ms-throttle-retry-count",
     ThrottleRetryWaitTimeInMs: "x-ms-throttle-retry-wait-time-ms",
-    
+
     CurrentVersion: "2017-11-15",
-    
+
     SDKName: "documentdb-nodejs-sdk",
     SDKVersion: "1.13.0",
 
@@ -187,11 +193,11 @@ var Constants = {
         DefaultStringHashPrecision: 3,
         DefaultStringRangePrecision: -1
     },
-    
+
     ConsistentHashRing: {
         DefaultVirtualNodesPerCollection: 128
     },
-    
+
     RegularExpressions: {
         TrimLeftSlashes: new RegExp("^[/]+"),
         TrimRightSlashes: new RegExp("[/]+$"),
@@ -215,7 +221,17 @@ var Constants = {
         AttachmentsPathSegment: "attachments",
         PartitionKeyRangesPathSegment: "pkranges",
         SchemasPathSegment: "schemas"
-    }
+    },
+
+    OperationTypes: {
+        Create: "create",
+        Replace: "replace",
+        Upsert: "upsert",
+        Delete: "delete",
+        Read: "read",
+        Query: "query",
+    },
+
 };
 
 //SCRIPT END
