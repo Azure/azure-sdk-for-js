@@ -1,3 +1,6 @@
+## Changes in 1.14.0 : ##
+- Adds support for Session Consistency.
+
 ## Changes in 1.13.0 : ##
 - Splitproofed cross partition queries.
 - Adds supports for resource link with leading and trailing slashes (and corresponding tests).
