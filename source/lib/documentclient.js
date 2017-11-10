@@ -33,7 +33,7 @@ var Base = require("./base")
     , Helper = require("./helper").Helper
     , util = require("util")
     , Platform = require("./platform")
-    , SessionContainer = require("./SessionContainer");
+    , SessionContainer = require("./sessionContainer");
 
 //SCRIPT START
 var DocumentClient = Base.defineClass(
