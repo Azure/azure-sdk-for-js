@@ -1,6 +1,6 @@
 {
   "name": "documentdb",
-  "description": "Azure DocumentDB Node.js client",
+  "description": "Node.js SDK for DocumentDB API of Azure Cosmos DB Service",
   "keywords": [
     "documentdb",
     "document database",
