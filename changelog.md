@@ -1,5 +1,6 @@
 ## Changes in 1.14.0 : ##
 - Adds support for Session Consistency.
+- This SDK version requires the latest version of Azure Cosmos DB Emulator available for download from https://aka.ms/cosmosdb-emulator.
 
 ## Changes in 1.13.0 : ##
 - Splitproofed cross partition queries.
