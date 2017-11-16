@@ -145,21 +145,6 @@ function derive(baseClass, constructor, instanceMembers, staticMembers) {
     }
 }
 
-/**
-*  Defines a class using the given constructor and the union of the set of instance members
-*   specified by all the mixin objects. The mixin parameter list is of variable length.
-* @param {object} constructor - A constructor function that is used to instantiate this class.
-* @returns {Function} - The newly-defined class.
-*/
-function mix(constructor) {
-    constructor = constructor || function () { };
-    var i, len;
-    for (i = 1, len = arguments.length; i < len; i++) {
-        initializeProperties(constructor.prototype, arguments[i]);
-    }
-    return constructor;
-}
-
 var Base = {
     NotImplementedException: "NotImplementedException",
     
@@ -170,8 +155,6 @@ var Base = {
     defineClass: defineClass,
     
     derive: derive,
-    
-    mix: mix,
     
     extend: function (obj, extent) {
         for (var property in extent) {

@@ -1,4 +1,5 @@
-﻿console.log();
+﻿'use strict';
+console.log();
 console.log('Azure DocumentDB Node.js Samples');
 console.log('================================');
 console.log();
