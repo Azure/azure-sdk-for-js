@@ -365,7 +365,7 @@ function getOrCreateCollections(collectionIds, callback){
         collectionIds, 
         
         function iterator(collectionId, cb) {
-            client.createCollection(databaseLink, { id: collectionId }, function (err, document, headers) {
+            client.createCollection(databaseLink, {id: collectionId}, function (err, document, headers) {
                 if (err) {
                     if (err.code == 429) {
                         var wait = headers["x-ms-retry-after-ms"] || 1000;
