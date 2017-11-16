@@ -1,4 +1,5 @@
-﻿console.log();
+﻿'use strict';
+console.log();
 console.log('Azure DocumentDB Node.js Samples');
 console.log('================================');
 console.log();
@@ -154,7 +155,7 @@ function useRangePartitionResolver(databaseLink, callback) {
             { "name": "Joe" }
         ];
         
-        for (i = 0; i < documents.length; i++){
+        for (var i = 0; i < documents.length; i++){
             collection_link = resolver.resolveForCreate(resolver.getPartitionKey(documents[i]));
             console.log(collection_link);
         }
@@ -364,7 +365,7 @@ function getOrCreateCollections(collectionIds, callback){
         collectionIds, 
         
         function iterator(collectionId, cb) {
-            client.createCollection(databaseLink, {id: collectionId}, function (err, document, headers) {
+            client.createCollection(databaseLink, { id: collectionId }, function (err, document, headers) {
                 if (err) {
                     if (err.code == 429) {
                         var wait = headers["x-ms-retry-after-ms"] || 1000;
