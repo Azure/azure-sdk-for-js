@@ -26,15 +26,45 @@ SOFTWARE.
 var Documents = require("./documents")
     , Constants = require("./constants")
     , https = require("https")
+    , tunnel = require("tunnel")
     , url = require("url")
     , querystring = require("querystring")
-    , RetryUtility = require("./retryUtility")
-    // Dedicated Agent for socket pooling
-    , keepAliveAgent = new https.Agent({ keepAlive: true, maxSockets: Infinity });
+    , RetryUtility = require("./retryUtility");
 
 //----------------------------------------------------------------------------
 // Utility methods
 //
+
+function getProxyURLFromEnv() {
+    var proxy = process.env.https_proxy ||
+        process.env.HTTPS_PROXY ||
+        process.env.http_proxy ||
+        process.env.HTTP_PROXY;
+
+    return !!proxy ? url.parse(proxy) : null;
+}
+
+function createRequestAgent() {
+    var options = { keepAlive: true, maxSockets: Infinity };
+
+    var proxyUrl = getProxyURLFromEnv();
+    if (!!proxyUrl && !!proxyUrl.hostname && !!proxyUrl.port) {
+        options.proxy = {
+            host: proxyUrl.hostname,
+            port: proxyUrl.port
+        };
+
+        if (!!proxyUrl.auth) {
+            options.proxy.proxyAuth = proxyUrl.auth;
+        }
+
+        return proxyUrl.protocol.toLowerCase() === "https:" ?
+            tunnel.httpsOverHttps(options) :
+            tunnel.httpsOverHttp(options);
+    } else {
+        return new https.Agent(options);
+    }
+};
 
 function javaScriptFriendlyJSONStringify(s) {
     // two line terminators (Line separator and Paragraph separator) are not needed to be escaped in JSON
@@ -183,7 +213,7 @@ var RequestHandler = {
         requestOptions.method = method;
         requestOptions.path = path;
         requestOptions.headers = headers;
-        requestOptions.agent = keepAliveAgent;
+        requestOptions.agent = createRequestAgent();
         requestOptions.secureProtocol = "TLSv1_client_method";
 
         if (connectionPolicy.DisableSSLVerification === true) {
