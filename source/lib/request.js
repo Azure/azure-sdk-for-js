@@ -29,7 +29,9 @@ var Documents = require("./documents")
     , tunnel = require("tunnel")
     , url = require("url")
     , querystring = require("querystring")
-    , RetryUtility = require("./retryUtility");
+    , RetryUtility = require("./retryUtility")
+    // Dedicated Agent for socket pooling
+    , keepAliveAgent = createRequestAgent();
 
 //----------------------------------------------------------------------------
 // Utility methods
@@ -213,7 +215,7 @@ var RequestHandler = {
         requestOptions.method = method;
         requestOptions.path = path;
         requestOptions.headers = headers;
-        requestOptions.agent = createRequestAgent();
+        requestOptions.agent = keepAliveAgent;
         requestOptions.secureProtocol = "TLSv1_client_method";
 
         if (connectionPolicy.DisableSSLVerification === true) {
