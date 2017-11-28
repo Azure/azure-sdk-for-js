@@ -37,7 +37,7 @@
     "priorityqueuejs": "1.0.0",
     "semaphore": "1.0.5",
     "underscore": "1.8.3",
-    "tunnel": "~0.0.5"
+    "tunnel": "0.0.5"
   },
   "repository": {
     "type": "git",
