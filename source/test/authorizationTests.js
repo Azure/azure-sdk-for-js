@@ -37,7 +37,7 @@ var masterKey = testConfig.masterKey;
 
 describe("Authorization bug fix Test", function () {
     /************** VARIABLES **************/
-    this.timeout(2500);
+    this.timeout(5000);
     var client = new DocumentDBClient(host, { masterKey: masterKey });
 
     var database = { id: "dbs" };
