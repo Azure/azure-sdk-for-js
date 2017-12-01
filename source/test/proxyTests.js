@@ -23,8 +23,6 @@
 
 "use strict";
 
-process.env.HTTP_PROXY = "http://127.0.0.1:8989";
-
 var http = require("http"),
     net = require("net"),
     url = require("url"),
@@ -32,7 +30,8 @@ var http = require("http"),
     testConfig = require("./_testConfig");
 
 var Base = lib.Base,
-    DocumentDBClient = lib.DocumentClient;
+    DocumentDBClient = lib.DocumentClient,
+    DocumentBase = lib.DocumentBase;
 
 var proxy = http.createServer((req, resp) => {
     resp.writeHead(200, { "Content-Type": "text/plain" });
@@ -52,11 +51,13 @@ proxy.on("connect", (req, clientSocket, head) => {
 });
 
 var proxyPort = 8989;
+var connectionPolicy = new DocumentBase.ConnectionPolicy();
+connectionPolicy.ProxyUrl = "http://127.0.0.1:8989";
 
 describe("Validate http proxy setting in environment variable", function () {
     it("nativeApi Client Should successfully execute request", function (done) {
         proxy.listen(proxyPort, "127.0.0.1", () => {
-            var client = new DocumentDBClient(testConfig.host, { masterKey: testConfig.masterKey });
+            var client = new DocumentDBClient(testConfig.host, { masterKey: testConfig.masterKey }, connectionPolicy);
             // create database
             client.createDatabase({ id: Base.generateGuidId() }, function (err, db) {
                 if (err) {
@@ -71,7 +72,7 @@ describe("Validate http proxy setting in environment variable", function () {
 
     it("nativeApi Client Should execute request in error while the proxy setting is not correct", function (done) {
         proxy.listen(proxyPort + 1, "127.0.0.1", () => {
-            var client = new DocumentDBClient(testConfig.host, { masterKey: testConfig.masterKey });
+            var client = new DocumentDBClient(testConfig.host, { masterKey: testConfig.masterKey }, connectionPolicy);
             // create database
             client.createDatabase({ id: Base.generateGuidId() }, function (err, db) {
                 if (!err) {

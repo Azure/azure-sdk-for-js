@@ -26,47 +26,13 @@ SOFTWARE.
 var Documents = require("./documents")
     , Constants = require("./constants")
     , https = require("https")
-    , tunnel = require("tunnel")
     , url = require("url")
     , querystring = require("querystring")
-    , RetryUtility = require("./retryUtility")
-    // Dedicated Agent for socket pooling
-    , keepAliveAgent = createRequestAgent();
+    , RetryUtility = require("./retryUtility");
 
 //----------------------------------------------------------------------------
 // Utility methods
 //
-
-function getProxyURLFromEnv() {
-    var proxy = process.env.https_proxy ||
-        process.env.HTTPS_PROXY ||
-        process.env.http_proxy ||
-        process.env.HTTP_PROXY;
-
-    return !!proxy ? url.parse(proxy) : null;
-}
-
-function createRequestAgent() {
-    var options = { keepAlive: true, maxSockets: Infinity };
-
-    var proxyUrl = getProxyURLFromEnv();
-    if (!!proxyUrl && !!proxyUrl.hostname && !!proxyUrl.port) {
-        options.proxy = {
-            host: proxyUrl.hostname,
-            port: proxyUrl.port
-        };
-
-        if (!!proxyUrl.auth) {
-            options.proxy.proxyAuth = proxyUrl.auth;
-        }
-
-        return proxyUrl.protocol.toLowerCase() === "https:" ?
-            tunnel.httpsOverHttps(options) :
-            tunnel.httpsOverHttp(options);
-    } else {
-        return new https.Agent(options);
-    }
-};
 
 function javaScriptFriendlyJSONStringify(s) {
     // two line terminators (Line separator and Paragraph separator) are not needed to be escaped in JSON
@@ -179,6 +145,7 @@ var RequestHandler = {
      *  Creates the request object, call the passed callback when the response is retrieved.
      * @param {object} globalEndpointManager - an instance of GlobalEndpointManager class.
      * @param {object} connectionPolicy - an instance of ConnectionPolicy that has the connection configs.
+     * @param {object} requestAgent - the https agent used for send request
      * @param {string} method - the http request method ( 'get', 'post', 'put', .. etc ).
      * @param {String} url - The base url for the endpoint.
      * @param {string} path - the path of the requesed resource.
@@ -187,7 +154,7 @@ var RequestHandler = {
      * @param {Object} headers - specific headers for the request.
      * @param {function} callback - the callback that will be called when the response is retrieved and processed.
     */
-    request: function (globalEndpointManager, connectionPolicy, method, url, request, data, queryParams, headers, callback) {
+    request: function (globalEndpointManager, connectionPolicy, requestAgent, method, url, request, data, queryParams, headers, callback) {
         var path = request.path == undefined ? request : request.path;
         var body;
 
@@ -215,7 +182,7 @@ var RequestHandler = {
         requestOptions.method = method;
         requestOptions.path = path;
         requestOptions.headers = headers;
-        requestOptions.agent = keepAliveAgent;
+        requestOptions.agent = requestAgent;
         requestOptions.secureProtocol = "TLSv1_client_method";
 
         if (connectionPolicy.DisableSSLVerification === true) {

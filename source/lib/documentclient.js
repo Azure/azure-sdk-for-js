@@ -24,6 +24,9 @@ SOFTWARE.
 "use strict";
 
 var Base = require("./base")
+    , https = require("https")
+    , url = require("url")
+    , tunnel = require("tunnel")
     , AzureDocuments = require("./documents")
     , QueryIterator = require("./queryIterator")
     , RequestHandler = require("./request")
@@ -97,6 +100,26 @@ var DocumentClient = Base.defineClass(
         this._globalEndpointManager = new GlobalEndpointManager(this);
 
         this.sessionContainer = new SessionContainer(this.urlConnection);
+
+        // Initialize request agent
+        var requestAgentOptions = { keepAlive: true, maxSockets: Infinity };
+        if (!!this.connectionPolicy.ProxyUrl) {
+            var proxyUrl = url.parse(connectionPolicy.ProxyUrl);
+            requestAgentOptions.proxy = {
+                host: proxyUrl.hostname,
+                port: proxyUrl.port
+            };
+
+            if (!!proxyUrl.auth) {
+                requestAgentOptions.proxy.proxyAuth = proxyUrl.auth;
+            }
+
+            this.requestAgent = proxyUrl.protocol.toLowerCase() === "https:" ?
+                tunnel.httpsOverHttps(requestAgentOptions) :
+                tunnel.httpsOverHttp(requestAgentOptions);
+        } else {
+            this.requestAgent = new https.Agent(requestAgentOptions);
+        }
     },
     {
         /** Gets the curent write endpoint for a geo-replicated database account.
@@ -2257,27 +2280,27 @@ var DocumentClient = Base.defineClass(
 
         /** @ignore */
         get: function (url, request, headers, callback) {
-            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, "GET", url, request, undefined, this.defaultUrlParams, headers, callback);
+            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, this.requestAgent, "GET", url, request, undefined, this.defaultUrlParams, headers, callback);
         },
 
         /** @ignore */
         post: function (url, request, body, headers, callback) {
-            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, "POST", url, request, body, this.defaultUrlParams, headers, callback);
+            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, this.requestAgent, "POST", url, request, body, this.defaultUrlParams, headers, callback);
         },
 
         /** @ignore */
         put: function (url, request, body, headers, callback) {
-            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, "PUT", url, request, body, this.defaultUrlParams, headers, callback);
+            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, this.requestAgent, "PUT", url, request, body, this.defaultUrlParams, headers, callback);
         },
 
         /** @ignore */
         head: function (url, request, headers, callback) {
-            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, "HEAD", url, request, undefined, this.defaultUrlParams, headers, callback);
+            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, this.requestAgent, "HEAD", url, request, undefined, this.defaultUrlParams, headers, callback);
         },
 
         /** @ignore */
         delete: function (url, request, headers, callback) {
-            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, "DELETE", url, request, undefined, this.defaultUrlParams, headers, callback);
+            return RequestHandler.request(this._globalEndpointManager, this.connectionPolicy, this.requestAgent, "DELETE", url, request, undefined, this.defaultUrlParams, headers, callback);
         },
 
         /** Gets the partition key definition first by looking into the cache otherwise by reading the collection.
