@@ -47,6 +47,7 @@ var host = testConfig.host;
 var masterKey = testConfig.masterKey;
 
 describe("NodeJS Cross Partition Tests", function () {
+    console.log("host is " + testConfig.host);
     var removeAllDatabases = function (done) {
         var client = new DocumentDBClient(host, { masterKey: masterKey });
         client.readDatabases().toArray(function (err, databases) {
@@ -216,7 +217,8 @@ describe("NodeJS Cross Partition Tests", function () {
 
             for (var i = 0; i < actualResults.length; i++) {
                 assert.equal(actualResults[i].id, expectedOrderIds[i],
-                    "actual result content doesn't match with expected result content.");
+                    "actual result content doesn't match with expected result content. " + actualResults[i].id + " != " + expectedOrderIds[i]
+                );
             }
         }
 
@@ -387,7 +389,6 @@ describe("NodeJS Cross Partition Tests", function () {
 
             var totalFetchedResults = [];
             var executeNextValidator = function (err, results, headers) {
-
                 listOfResultPages.push(results);
                 listOfHeaders.push(headers);
 
@@ -410,11 +411,11 @@ describe("NodeJS Cross Partition Tests", function () {
 
                 if (totalFetchedResults.length < expectedOrderIds.length) {
                     // there are more results
+                    assert(results.length <= pageSize, "executeNext: invalid fetch block size");
                     if (validateExecuteNextWithContinuationToken) {
                         assert(results.length <= pageSize, "executeNext: invalid fetch block size");
                     } else {
                         assert.equal(results.length, pageSize, "executeNext: invalid fetch block size");
-
                     }
                     assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
                     return queryIterator.executeNext(executeNextValidator);
@@ -479,10 +480,10 @@ describe("NodeJS Cross Partition Tests", function () {
             );
         };
 
-        it("Validate Parallel Query As String With no maxDegreeOfParallelism", function (done) {
+        it("Validate Parallel Query As String With maxDegreeOfParallelism = 0", function (done) {
             // simple order by query in string format
             var query = 'SELECT * FROM root r';
-            var options = { enableCrossPartitionQuery: true, maxItemCount: 2};
+            var options = { enableCrossPartitionQuery: true, maxItemCount: 2, maxDegreeOfParallelism: 0};
 
             // prepare expected results
             var getOrderByKey = function (r) {
@@ -491,7 +492,7 @@ describe("NodeJS Cross Partition Tests", function () {
             var expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
 
             // validates the results size and order
-            executeQueryAndValidateResults(getCollectionLink(isNameBased, db, collection), query, options, expectedOrderedIds, done, true, true);
+            executeQueryAndValidateResults(getCollectionLink(isNameBased, db, collection), query, options, expectedOrderedIds, done, false);
         });
 
         it("Validate Parallel Query As String With maxDegreeOfParallelism: -1", function (done) {
@@ -506,7 +507,7 @@ describe("NodeJS Cross Partition Tests", function () {
             var expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
 
             // validates the results size and order
-            executeQueryAndValidateResults(getCollectionLink(isNameBased, db, collection), query, options, expectedOrderedIds, done, true, true);
+            executeQueryAndValidateResults(getCollectionLink(isNameBased, db, collection), query, options, expectedOrderedIds, done, false);
         });
 
         it("Validate Parallel Query As String With maxDegreeOfParallelism: 1", function (done) {
@@ -521,7 +522,7 @@ describe("NodeJS Cross Partition Tests", function () {
             var expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
 
             // validates the results size and order
-            executeQueryAndValidateResults(getCollectionLink(isNameBased, db, collection), query, options, expectedOrderedIds, done, true, true);
+            executeQueryAndValidateResults(getCollectionLink(isNameBased, db, collection), query, options, expectedOrderedIds, done, false);
         });
 
         it("Validate Parallel Query As String With maxDegreeOfParallelism: 3", function (done) {
@@ -536,7 +537,7 @@ describe("NodeJS Cross Partition Tests", function () {
             var expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
 
             // validates the results size and order
-            executeQueryAndValidateResults(getCollectionLink(isNameBased, db, collection), query, options, expectedOrderedIds, done, true);
+            executeQueryAndValidateResults(getCollectionLink(isNameBased, db, collection), query, options, expectedOrderedIds, done, false);
         });
 
         var requestChargeValidator = function (queryIterator, done) {

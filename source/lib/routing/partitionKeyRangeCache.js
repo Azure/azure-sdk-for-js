@@ -24,9 +24,10 @@ SOFTWARE.
 "use strict";
 
 var Base = require("../base")
-    , CollectionRoutingMap = require("./inMemoryCollectionRoutingMap");
+    , InMemoryCollectionRoutingMap = require("./inMemoryCollectionRoutingMap")
+    , semaphore = require("semaphore");
 
-var CollectionRoutingMapFactory = CollectionRoutingMap.CollectionRoutingMapFactory;
+var CollectionRoutingMapFactory = InMemoryCollectionRoutingMap.CollectionRoutingMapFactory;
 
 //SCRIPT START
 var PartitionKeyRangeCache = Base.defineClass(
@@ -41,7 +42,7 @@ var PartitionKeyRangeCache = Base.defineClass(
     function (documentclient) {
         this.documentclient = documentclient;
         this.collectionRoutingMapByCollectionId = {};
-        this.sem = require("semaphore")(1);
+        this.sem = semaphore(1);
     },
     {
         /**

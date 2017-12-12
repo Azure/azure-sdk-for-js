@@ -28,9 +28,9 @@ var crypto = require("crypto");
 var AuthHandler = {
     getAuthorizationHeader: function (documentClient, verb, path, resourceId, resourceType, headers) {
         if (documentClient.masterKey) {
-            return this.getAuthorizationTokenUsingMasterKey(verb, resourceId, resourceType, headers, documentClient.masterKey);
+            return encodeURIComponent(this.getAuthorizationTokenUsingMasterKey(verb, resourceId, resourceType, headers, documentClient.masterKey));
         } else if (documentClient.resourceTokens) {
-            return this.getAuthorizationTokenUsingResourceTokens(documentClient.resourceTokens, path, resourceId);
+            return encodeURIComponent(this.getAuthorizationTokenUsingResourceTokens(documentClient.resourceTokens, path, resourceId));
         }
     },
 
@@ -38,10 +38,10 @@ var AuthHandler = {
         var key = new Buffer(masterKey, "base64");
 
         var text = (verb || "").toLowerCase() + "\n" +
-                   (resourceType || "").toLowerCase() + "\n" +
-                   (resourceId || "") + "\n" +
-                   (headers["x-ms-date"] || "").toLowerCase() + "\n" +
-                   (headers["date"] || "").toLowerCase() + "\n";
+            (resourceType || "").toLowerCase() + "\n" +
+            (resourceId || "") + "\n" +
+            (headers["x-ms-date"] || "").toLowerCase() + "\n" +
+            (headers["date"] || "").toLowerCase() + "\n";
 
         var body = new Buffer(text, "utf8");
 
@@ -61,23 +61,34 @@ var AuthHandler = {
             if (!path && !resourceId) {
                 return resourceTokens[Object.keys(resourceTokens)[0]];
             }
-            if (resourceTokens[resourceId]) {
+
+            if (resourceId && resourceTokens[resourceId]) {
                 return resourceTokens[resourceId];
-            } else {
-				var pathParts = path && path.split("/") || [];
-                var resourceTypes = ["dbs", "colls", "docs", "sprocs", "udfs", "triggers", "users", "permissions", "attachments", "media", "conflicts", "offers"];
-                // Get the last resource id from the path and get it's token from resourceTokens
-                for (var i = pathParts.length - 1; i >= 0; i--) {
-                    if (resourceTypes.indexOf(pathParts[i]) === -1) {
-                        if (resourceTokens[pathParts[i]]) {
-                            return resourceTokens[pathParts[i]];
-                        }
-                    }
+            }
+
+            //minimum valid path /dbs
+            if (!path || path.length < 4) {
+                return null;
+            }
+
+            //remove '/' from left and right of path
+            path = path[0] == '/' ? path.substring(1) : path;
+            path = path[path.length - 1] == '/' ? path.substring(0, path.length - 1) : path;
+
+            var pathSegments = (path && path.split("/")) || [];
+
+            //if it's an incomplete path like /dbs/db1/colls/, start from the paretn resource
+            var index = pathSegments.length % 2 === 0 ? pathSegments.length - 1 : pathSegments.length - 2;
+            for (; index > 0; index -= 2) {
+                var id = decodeURI(pathSegments[index]);
+                if (resourceTokens[id]) {
+                    return resourceTokens[id];
                 }
             }
         }
         return null;
     }
+
 };
 
 if (typeof exports !== "undefined") {

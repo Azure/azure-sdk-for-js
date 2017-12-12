@@ -25,7 +25,7 @@ SOFTWARE.
 
 var Base = require("./base"),
     Constants = require("./constants"),
-    QueryExecutionContext = require("./queryExecutionContext/proxyQueryExecutionContext");
+    ProxyQueryExecutionContext = require("./queryExecutionContext/proxyQueryExecutionContext");
 
 //SCRIPT START
 var QueryIterator = Base.defineClass(
@@ -47,7 +47,6 @@ var QueryIterator = Base.defineClass(
         this.options = options;
         this.resourceLink = resourceLink;
         this.queryExecutionContext = this._createQueryExecutionContext();
-
     },
     {
         /**
@@ -63,12 +62,12 @@ var QueryIterator = Base.defineClass(
             this._forEachImplementation(callback);
         },
 
-         /**
-         * Execute a provided function on the next element in the QueryIterator.
-         * @memberof QueryIterator
-         * @instance
-         * @param {callback} callback - Function to execute for each element. the function takes two parameters error, element.
-         */
+        /**
+        * Execute a provided function on the next element in the QueryIterator.
+        * @memberof QueryIterator
+        * @instance
+        * @param {callback} callback - Function to execute for each element. the function takes two parameters error, element.
+        */
         nextItem: function (callback) {
             this.queryExecutionContext.nextItem(callback);
         },
@@ -115,7 +114,7 @@ var QueryIterator = Base.defineClass(
          */
         executeNext: function(callback) {
             this.queryExecutionContext.fetchMore(function(err, resources, responseHeaders) {
-                if(err) {
+                if (err) {
                     return callback(err, undefined, responseHeaders);
                 }
 
@@ -133,7 +132,7 @@ var QueryIterator = Base.defineClass(
         },
 
         /** @ignore */
-        _toArrayImplementation: function(callback){
+        _toArrayImplementation: function(callback) {
             var that = this;
 
             this.queryExecutionContext.nextItem(function (err, resource, headers) {
@@ -145,13 +144,16 @@ var QueryIterator = Base.defineClass(
                 that.toArrayLastResHeaders = headers;
 
                 if (resource === undefined) {
-                
+
                     // no more results
                     return callback(undefined, that.toArrayTempResources, that.toArrayLastResHeaders);
-                } 
+                }
 
-                that.toArrayTempResources = that.toArrayTempResources.concat(resource);
-                that._toArrayImplementation(callback);
+                that.toArrayTempResources.push(resource);
+
+                setImmediate(function () {
+                    that._toArrayImplementation(callback);
+                });
             });
         },
 
@@ -174,13 +176,15 @@ var QueryIterator = Base.defineClass(
                 }
 
                 // recursively call itself to iterate to the remaining elements
-                that._forEachImplementation(callback);
+                setImmediate(function () {
+                    that._forEachImplementation(callback);
+                });
             });
         },
 
         /** @ignore */
         _createQueryExecutionContext: function () {
-            return new QueryExecutionContext(this.documentclient, this.query, this.options, this.fetchFunctions, this.resourceLink);
+            return new ProxyQueryExecutionContext(this.documentclient, this.query, this.options, this.fetchFunctions, this.resourceLink);
         }
     }
 );

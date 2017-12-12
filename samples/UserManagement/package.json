@@ -1,8 +1,11 @@
 {
-  "name": "DocumentDB.Samples.DocumentManagement",
+  "name": "user-management",
   "version": "0.0.0",
-  "description": "DocumentDB.Samples.DocumentManagement",
+  "description": "UserManagement",
   "main": "app.js",
+  "author": {
+    "name": "hemantk"
+  },
   "dependencies": {
     "async": "^1.5.2",
     "documentdb": "^1.12.2"

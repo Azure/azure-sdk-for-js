@@ -1,3 +1,20 @@
+## Changes in 1.14.0 : ##
+- Adds support for Session Consistency.
+- This SDK version requires the latest version of Azure Cosmos DB Emulator available for download from https://aka.ms/cosmosdb-emulator.
+
+## Changes in 1.13.0 : ##
+- Splitproofed cross partition queries.
+- Adds supports for resource link with leading and trailing slashes (and corresponding tests).
+
+## Changes in 1.12.2 : ##
+- npm documentation fixed.
+
+## Changes in 1.12.1 : ##
+- Fixed bug in executeStoredProcedure where documents involved had special unicode characters (LS, PS).
+- Fixed bug in handling documents with unicode characters in partition key.
+- Fixed support for creating collection with name media (github #114).
+- Fixed support for permission authorization token (github #178).
+
 ## Changes in 1.12.0 : ##
 - Added support for Request Unit per Minute (RU/m) feature.
 - Added support for a new consistency level called ConsistentPrefix.
@@ -29,10 +46,10 @@
 
 ## Changes in 1.9.0 : ##
 
-- Added retry policy support for throttled requests. (Throttled requests receive a request rate too large exception, error code 429.) 
-  By default, DocumentDB retries nine times for each request when error code 429 is encountered, honoring the retryAfter time in the response header. 
-  A fixed retry interval time can now be set as part of the RetryOptions property on the ConnectionPolicy object if you want to ignore the retryAfter time returned by server between the retries. 
-  DocumentDB now waits for a maximum of 30 seconds for each request that is being throttled (irrespective of retry count) and returns the response with error code 429. 
+- Added retry policy support for throttled requests. (Throttled requests receive a request rate too large exception, error code 429.)
+  By default, DocumentDB retries nine times for each request when error code 429 is encountered, honoring the retryAfter time in the response header.
+  A fixed retry interval time can now be set as part of the RetryOptions property on the ConnectionPolicy object if you want to ignore the retryAfter time returned by server between the retries.
+  DocumentDB now waits for a maximum of 30 seconds for each request that is being throttled (irrespective of retry count) and returns the response with error code 429.
   This time can also be overriden in the RetryOptions property on ConnectionPolicy object.
 
 - DocumentDB now returns x-ms-throttle-retry-count and x-ms-throttle-retry-wait-time-ms as the response headers in every request to denote the throttle retry count and the cummulative time the request waited between the retries.
@@ -85,7 +102,7 @@
 
 ## Changes in 1.4.0 : ##
 
-- Implement Upsert. New upsertXXX methods on documentClient. 
+- Implement Upsert. New upsertXXX methods on documentClient.
 
 ## Changes in 1.3.0 : ##
 
@@ -104,7 +121,7 @@
 ## Changes in 1.2.0 : ##
 
 - Added support for GeoSpatial index.
-- Validates id property for all resources. Ids for resources cannot contain ?, /, #, \\, characters or end with a space. 
+- Validates id property for all resources. Ids for resources cannot contain ?, /, #, \\, characters or end with a space.
 - Adds new header "index transformation progress" to ResourceResponse.
 
 ## Changes in 1.1.0 : ##

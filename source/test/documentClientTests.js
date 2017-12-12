@@ -94,7 +94,8 @@ describe("DocumentClient Tests", function () {
         });
     });
 
-    describe("sprintf", function () {
+    //we are using util.format function instead.
+    describe.skip("sprintf", function () {
         it("0 strings", function (done) {
             assert.equal("foo", client.sprintf("foo"));
             done();
@@ -246,4 +247,52 @@ describe("DocumentClient Tests", function () {
             done();
         });
     });
+
+    describe("extractPartitionKey", function() {
+        var document, partitionKeyDefinition;
+
+        beforeEach(function() {
+            document = undefined;
+            partitionKeyDefinition = undefined;
+        });
+
+        describe("With undefined partitionKeyDefinition", function() {
+            it("should return undefined", function() {
+                var document = {};
+                var result = client.extractPartitionKey(document, partitionKeyDefinition);
+                assert.equal(result, undefined);
+            });
+        });
+
+        describe("With a defined partitionKeyDefinition", function() {
+            beforeEach(function() {
+                partitionKeyDefinition = { paths: ["/a/b"] }
+            });
+
+            it("should return [{}] when document has no partition key value", function() {
+                var document = {};
+                var result = client.extractPartitionKey(document, partitionKeyDefinition);
+                assert.deepEqual(result, [{}]);
+            });
+
+            it("should return [null] when document has a null partition key value", function() {
+                var document = { a: { b: null } };
+                var result = client.extractPartitionKey(document, partitionKeyDefinition);
+                assert.deepEqual(result, [null]);
+            });
+
+            it("should return [{}] when document has a partially defined partition key value", function() {
+                var document = { a: "some value" };
+                var result = client.extractPartitionKey(document, partitionKeyDefinition);
+                assert.deepEqual(result, [{}]);
+            });
+
+            it("should return [value] when document has a valid partition key value", function() {
+                var document = { a: { b: "some value" } };
+                var result = client.extractPartitionKey(document, partitionKeyDefinition);
+                assert.deepEqual(result, ["some value"]);
+            });
+        });
+    });
+
 });

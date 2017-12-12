@@ -166,11 +166,11 @@ describe("Base.parsePath", function () {
         assert.strictEqual(JSON.stringify(Base.parsePath(input)), JSON.stringify(expected));
     };
     
-    it("/\"Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1\"/*", function () {
+    it("escape control characters 1", function () {
         test("/\"Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1\"/*", [ "Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1", "*" ]);
     });
 
-    it("/'Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1'/*", function () {
+    it("escape control characters 2", function () {
         test("/'Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1'/*", [ "Ke \\ \\\" \\\' \\? \\a \\\b \\\f \\\n \\\r \\\t \\v y1", "*" ]);
     });
 
@@ -182,41 +182,6 @@ describe("Base.parsePath", function () {
         var obj = JSON.parse(content);
         obj.forEach(function (entry) {
             test(entry.path, entry.parts);
-        });
-    });
-});
-
-describe("Base._getUserAgent", function () {
-    var Contants = require("../lib/constants");
-    var os = require("os");
-    var util = require("util");
-    var Platform = require("../lib/platform");
-
-    it("_getUserAgent()", function () {
-        var userAgent = Base._getUserAgent();
-        var expectedUserAgent = util.format("%s/%s Nodejs/%s documentdb-nodejs-sdk/%s",
-            os.platform(), os.release(), process.version,
-            Contants.SDKVersion
-        );
-        assert.strictEqual(userAgent, expectedUserAgent, "invalid UserAgent format");
-    });
-
-    describe("Platform._getSafeUserAgentSegmentInfo()", function () {
-        it("Removing spaces", function () {
-            var safeString = Platform._getSafeUserAgentSegmentInfo('a b    c');
-            assert.strictEqual(safeString, 'abc');
-        });
-        it("empty string handling", function () {
-            var safeString = Platform._getSafeUserAgentSegmentInfo('');
-            assert.strictEqual(safeString, 'unknown');
-        });
-        it("undefined", function () {
-            var safeString = Platform._getSafeUserAgentSegmentInfo(undefined);
-            assert.strictEqual(safeString, 'unknown');
-        });
-        it("null", function () {
-            var safeString = Platform._getSafeUserAgentSegmentInfo(null);
-            assert.strictEqual(safeString, 'unknown');
         });
     });
 });

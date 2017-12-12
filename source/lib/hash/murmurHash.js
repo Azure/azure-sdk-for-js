@@ -25,6 +25,7 @@ SOFTWARE.
 
 var Base = require("../base");
 
+//SCRIPT START
 var MurmurHash = Base.defineClass(
     undefined, 
     undefined,

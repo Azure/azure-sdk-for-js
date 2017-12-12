@@ -190,7 +190,15 @@ var Base = {
         
         return result;
     },
-    
+
+    /** @ignore */
+    jsonStringifyAndEscapeNonASCII: function (arg) {
+        // escapes non-ASCII characters as \uXXXX
+        return JSON.stringify(arg).replace(/[\u0080-\uFFFF]/g, function(m) {
+            return "\\u" + ("0000" + m.charCodeAt(0).toString(16)).slice(-4);
+        });
+    },
+
     getHeaders: function (documentClient, defaultHeaders, verb, path, resourceId, resourceType, options, partitionKeyRangeId) {
         
         var headers = Base.extend({}, defaultHeaders);
@@ -258,7 +266,7 @@ var Base = {
             headers[Constants.HttpHeaders.EnableCrossPartitionQuery] = options.enableCrossPartitionQuery;
         }
 
-        if (options.maxDegreeOfParallelism) {
+        if (options.maxDegreeOfParallelism != undefined) {
             headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] = true;
         }
 
@@ -273,8 +281,7 @@ var Base = {
                 if (partitionKey === null || partitionKey.constructor !== Array) {
                     partitionKey = [partitionKey];
                 }
-                
-                headers[Constants.HttpHeaders.PartitionKey] = JSON.stringify(partitionKey);
+                headers[Constants.HttpHeaders.PartitionKey] = this.jsonStringifyAndEscapeNonASCII(partitionKey);
             }
         }
         
@@ -283,7 +290,7 @@ var Base = {
         }
         
         if (documentClient.masterKey || documentClient.resourceTokens) {
-            headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(AuthHandler.getAuthorizationHeader(documentClient, verb, path, resourceId, resourceType, headers));
+            headers[Constants.HttpHeaders.Authorization] = AuthHandler.getAuthorizationHeader(documentClient, verb, path, resourceId, resourceType, headers);
         }
         
         if (verb === "post" || verb === "put") {
@@ -513,8 +520,8 @@ var Base = {
         }
         if (!firstId) return false;
         if (firstId.length !== 8) return true;
-        var buffer = new Buffer(firstId, "base64");
-        if (buffer.length !== 4) return true;
+        var decodedDataLength = Platform.getDecodedDataLength(firstId);
+        if (decodedDataLength !== 4) return true;
         return false;
     },
     /** @ignore */
@@ -545,10 +552,6 @@ var Base = {
         
         return true;
     },
-    /** @ignore */
-    _getUserAgent: function () {
-        return Platform.getUserAgent();
-    }
 };
 //SCRIPT END
 

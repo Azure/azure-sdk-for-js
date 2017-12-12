@@ -97,7 +97,7 @@ describe("RU Per Minute", function () {
         });
     });
 
-    it("Create Collection with RU Per Minute Offer", function(done) {
+    xit("Create Collection with RU Per Minute Offer", function(done) {
         var collectionDefinition = {
             id: "sample col"
         };
@@ -127,7 +127,7 @@ describe("RU Per Minute", function () {
         });
     });
 
-    it("Create Collection without RU Per Minute Offer", function (done) {
+    xit("Create Collection without RU Per Minute Offer", function (done) {
         var collectionDefinition = {
             id: "sample col"
         };
@@ -156,7 +156,7 @@ describe("RU Per Minute", function () {
         });
     });
 
-    it("Create Collection with RU Per Minute Offer and insert Document with disableRUPerMinuteUsage options", function (done) {
+    xit("Create Collection with RU Per Minute Offer and insert Document with disableRUPerMinuteUsage options", function (done) {
         var collectionDefinition = {
             id: "sample col"
         };

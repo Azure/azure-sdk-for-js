@@ -116,25 +116,6 @@ var Range = Base.defineClass(
             return false;
         },
 
-         /** @ignore */
-        _toArrayImplementation: function(callback){
-            var that = this;
-            if (this._canFetchMore()) {
-                this._fetchMore(function(err, resources, headers){
-                    if(err) {
-                        return callback(err, undefined, headers);
-                    }
-
-                    that.resHeaders = headers;
-                    that.resources = that.resources.concat(resources);
-                    that._toArrayImplementation(callback);
-                });
-            } else {
-                this._state = this._states.ended;
-                callback(undefined, this.resources, this.resHeaders);
-            }
-        },
-
         /** @ignore */
         _toString: function () {
             return String(this.low) + "," + String(this.high);

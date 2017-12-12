@@ -60,7 +60,7 @@ var PartitionedQueryExecutionContextInfoParser = Base.defineClass(
             if (typeof (path) === 'string') {
                 return item[path];
             }
-            assert(Array.isArray(path),
+            assert.ok(Array.isArray(path),
                 util.format("%s is expected to be an array", JSON.stringify(path)));
             for (var index = 0; index < path.length; index++) {
                 item = item[path[index]];

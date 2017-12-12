@@ -26,6 +26,12 @@ SOFTWARE.
 var Base = require("../base")
     , aggregators = require('./aggregators');
 
+var AverageAggregator = aggregators.AverageAggregator
+    , CountAggregator = aggregators.CountAggregator
+    , MaxAggregator = aggregators.MaxAggregator
+    , MinAggregator = aggregators.MinAggregator
+    , SumAggregator = aggregators.SumAggregator;
+
 //SCRIPT START
 var OrderByEndpointComponent = Base.defineClass(
 
@@ -157,19 +163,19 @@ var AggregateEndpointComponent = Base.defineClass(
         aggregateOperators.forEach(function (aggregateOperator) {
             switch (aggregateOperator) {
                 case 'Average':
-                    that.localAggregators.push(new aggregators.AverageAggregator());
+                    that.localAggregators.push(new AverageAggregator());
                     break;
                 case 'Count':
-                    that.localAggregators.push(new aggregators.CountAggregator());
+                    that.localAggregators.push(new CountAggregator());
                     break;
                 case 'Max':
-                    that.localAggregators.push(new aggregators.MaxAggregator());
+                    that.localAggregators.push(new MaxAggregator());
                     break;
                 case 'Min':
-                    that.localAggregators.push(new aggregators.MinAggregator());
+                    that.localAggregators.push(new MinAggregator());
                     break;
                 case 'Sum':
-                    that.localAggregators.push(new aggregators.SumAggregator());
+                    that.localAggregators.push(new SumAggregator());
                     break;
             }
         });
