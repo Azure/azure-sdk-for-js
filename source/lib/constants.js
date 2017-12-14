@@ -100,7 +100,7 @@ var Constants = {
         Query: "x-ms-documentdb-query",
         IsQuery: "x-ms-documentdb-isquery",
 
-        // Our custom DocumentDB headers
+        // Our custom Azure Cosmos DB headers
         Continuation: "x-ms-continuation",
         PageSize: "x-ms-max-item-count",
 

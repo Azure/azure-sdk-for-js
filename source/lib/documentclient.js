@@ -38,8 +38,8 @@ var Base = require("./base")
 //SCRIPT START
 var DocumentClient = Base.defineClass(
     /**
-     * Provides a client-side logical representation of the Azure DocumentDB database account.
-     * This client is used to configure and execute requests in the Azure DocumentDB database service.
+     * Provides a client-side logical representation of the Azure Cosmos DB database account.
+     * This client is used to configure and execute requests in the Azure Cosmos DB database service.
      * @constructor DocumentClient
      * @param {string} urlConnection           - The service endpoint to use to create the client.
      * @param {object} auth                    - An object that is used for authenticating requests and must contains one of the options
@@ -124,7 +124,7 @@ var DocumentClient = Base.defineClass(
         /** Send a request for creating a database.
          * <p>
          *  A database manages users, permissions and a set of collections.  <br>
-         *  Each Azure DocumentDB Database Account is able to support multiple independent named databases, with the database being the logical container for data. <br>
+         *  Each Azure Cosmos DB Database Account is able to support multiple independent named databases, with the database being the logical container for data. <br>
          *  Each Database consists of one or more collections, each of which in turn contain one or more documents. Since databases are an an administrative resource, the Service Master Key will be required in order to access and successfully complete any action using the User APIs. <br>
          * </p>
          * @memberof DocumentClient
@@ -309,7 +309,7 @@ var DocumentClient = Base.defineClass(
         /**
         * Create a trigger.
         * <p>
-        * DocumentDB supports pre and post triggers defined in JavaScript to be executed on creates, updates and deletes. <br>
+        * Azure Cosmos DB supports pre and post triggers defined in JavaScript to be executed on creates, updates and deletes. <br>
         * For additional details, refer to the server-side JavaScript API documentation.
         * </p>
         * @memberof DocumentClient
@@ -350,7 +350,7 @@ var DocumentClient = Base.defineClass(
         /**
          * Create a UserDefinedFunction.
          * <p>
-         * DocumentDB supports JavaScript UDFs which can be used inside queries, stored procedures and triggers. <br>
+         * Azure Cosmos DB supports JavaScript UDFs which can be used inside queries, stored procedures and triggers. <br>
          * For additional details, refer to the server-side JavaScript API documentation.
          * </p>
          * @memberof DocumentClient
@@ -390,7 +390,7 @@ var DocumentClient = Base.defineClass(
         /**
          * Create a StoredProcedure.
          * <p>
-         * DocumentDB allows stored procedures to be executed in the storage tier, directly against a document collection. The script <br>
+         * Azure Cosmos DB allows stored procedures to be executed in the storage tier, directly against a document collection. The script <br>
          * gets executed under ACID transactions on the primary storage partition of the specified collection. For additional details, <br>
          * refer to the server-side JavaScript API documentation.
          * </p>
@@ -1689,7 +1689,7 @@ var DocumentClient = Base.defineClass(
         /**
         * Upsert a trigger.
         * <p>
-        * DocumentDB supports pre and post triggers defined in JavaScript to be executed on creates, updates and deletes. <br>
+        * Azure Cosmos DB supports pre and post triggers defined in JavaScript to be executed on creates, updates and deletes. <br>
         * For additional details, refer to the server-side JavaScript API documentation.
         * </p>
         * @memberof DocumentClient
@@ -1730,7 +1730,7 @@ var DocumentClient = Base.defineClass(
         /**
          * Upsert a UserDefinedFunction.
          * <p>
-         * DocumentDB supports JavaScript UDFs which can be used inside queries, stored procedures and triggers. <br>
+         * Azure Cosmos DB supports JavaScript UDFs which can be used inside queries, stored procedures and triggers. <br>
          * For additional details, refer to the server-side JavaScript API documentation.
          * </p>
          * @memberof DocumentClient
@@ -1770,7 +1770,7 @@ var DocumentClient = Base.defineClass(
         /**
          * Upsert a StoredProcedure.
          * <p>
-         * DocumentDB allows stored procedures to be executed in the storage tier, directly against a document collection. The script <br>
+         * Azure Cosmos DB allows stored procedures to be executed in the storage tier, directly against a document collection. The script <br>
          * gets executed under ACID transactions on the primary storage partition of the specified collection. For additional details, <br>
          * refer to the server-side JavaScript API documentation.
          * </p>
@@ -2596,7 +2596,7 @@ var DocumentClient = Base.defineClass(
 
 /**
  * The request options
- * @typedef {Object} RequestOptions                          -         Options that can be specified for a requested issued to the DocumentDB servers.
+ * @typedef {Object} RequestOptions                          -         Options that can be specified for a requested issued to the Azure Cosmos DB servers.
  * @property {object} [accessCondition]                      -         Conditions Associated with the request.
  * @property {string} accessCondition.type                   -         Conditional HTTP method header type (IfMatch or IfNoneMatch).
  * @property {string} accessCondition.condition              -         Conditional HTTP method header value (the _etag field from the last version you read).
@@ -2604,11 +2604,11 @@ var DocumentClient = Base.defineClass(
  * @property {boolean} [disableRUPerMinuteUsage]             -         DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity to serve the request if regular provisioned RUs/second is exhausted.
  * @property {boolean} [enableScriptLogging]                 -         Enables or disables logging in JavaScript stored procedures.
  * @property {string} [indexingDirective]                    -         Specifies indexing directives (index, do not index .. etc).
- * @property {boolean} [offerEnableRUPerMinuteThroughput]    -         Represents Request Units(RU)/Minute throughput is enabled/disabled for a collection in the Azure DocumentDB database service.
- * @property {number} [offerThroughput]                      -         The offer throughput provisioned for a collection in measurement of Requests-per-Unit in the Azure DocumentDB database service.
+ * @property {boolean} [offerEnableRUPerMinuteThroughput]    -         Represents Request Units(RU)/Minute throughput is enabled/disabled for a collection in the Azure Cosmos DB database service.
+ * @property {number} [offerThroughput]                      -         The offer throughput provisioned for a collection in measurement of Requests-per-Unit in the Azure Cosmos DB database service.
  * @property {string} [offerType]                            -         Offer type when creating document collections.
  *                                                                     <p>This option is only valid when creating a document collection.</p>
- * @property {string} [partitionKey]                         -         Specifies a partition key definition for a particular path in the Azure DocumentDB database service.
+ * @property {string} [partitionKey]                         -         Specifies a partition key definition for a particular path in the Azure Cosmos DB database service.
  * @property {boolean} [populateQuotaInfo]                   -         Enables/disables getting document collection quota related stats for document collection read requests.
  * @property {string} [postTriggerInclude]                   -         Indicates what is the post trigger to be invoked after the operation.
  * @property {string} [preTriggerInclude]                    -         Indicates what is the pre trigger to be invoked before the operation.
@@ -2621,12 +2621,12 @@ var DocumentClient = Base.defineClass(
  * @typedef {Object} FeedOptions                    -       The feed options and query methods.
  * @property {string} [continuation]                -       Opaque token for continuing the enumeration.
  * @property {boolean} [disableRUPerMinuteUsage]    -       DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity to serve the request if regular provisioned RUs/second is exhausted.
- * @property {boolean} [enableCrossPartitionQuery]  -       A value indicating whether users are enabled to send more than one request to execute the query in the Azure DocumentDB database service.
+ * @property {boolean} [enableCrossPartitionQuery]  -       A value indicating whether users are enabled to send more than one request to execute the query in the Azure Cosmos DB database service.
                                                             <p>More than one request is necessary if the query is not scoped to single partition key value.</p>
  * @property {boolean} [enableScanInQuery]          -       Allow scan on the queries which couldn't be served as indexing was opted out on the requested paths.
- * @property {number} [maxDegreeOfParallelism]      -       The maximum number of concurrent operations that run client side during parallel query execution in the Azure DocumentDB database service. Negative values make the system automatically decides the number of concurrent operations to run.
+ * @property {number} [maxDegreeOfParallelism]      -       The maximum number of concurrent operations that run client side during parallel query execution in the Azure Cosmos DB database service. Negative values make the system automatically decides the number of concurrent operations to run.
  * @property {number} [maxItemCount]                -       Max number of items to be returned in the enumeration operation.
- * @property {string} [partitionKey]                -       Specifies a partition key definition for a particular path in the Azure DocumentDB database service.
+ * @property {string} [partitionKey]                -       Specifies a partition key definition for a particular path in the Azure Cosmos DB database service.
  * @property {string} [sessionToken]                -       Token for use with Session consistency.
  */
 

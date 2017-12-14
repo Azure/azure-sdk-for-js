@@ -1,6 +1,6 @@
 ﻿'use strict';
 console.log();
-console.log('Azure DocumentDB Node.js Samples');
+console.log('Azure Cosmos DB Node.js Samples');
 console.log('================================');
 console.log();
 console.log('DOCUMENT MANAGEMENT');
