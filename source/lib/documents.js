@@ -121,7 +121,7 @@ var AzureDocuments = Base.defineClass(null, null,
         }),
 
         /**
-         * <p>Represents the consistency levels supported for Cosmos DB client operations.<br>
+         * <p>Represents the consistency levels supported for Azure Cosmos DB client operations.<br>
          * The requested ConsistencyLevel must match or be weaker than that provisioned for the database account. Consistency levels.<br>
          * Consistency levels by order of strength are Strong, BoundedStaleness, Session and Eventual.</p>
          * @readonly

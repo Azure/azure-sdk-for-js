@@ -1,4 +1,4 @@
-Samples for performing basic CRUD operations on Azure Cosmos DB Database
+Samples for performing basic CRUD operations on an Azure Cosmos DB database
 
 - createCollection  - given an id, create a new Collectionwith thedefault indexingPolicy
 - listCollections   - example of using the QueryIterator to get a list of Collections in a Database
