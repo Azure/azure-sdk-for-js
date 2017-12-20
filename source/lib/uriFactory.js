@@ -43,7 +43,7 @@ var UriFactory = Base.defineClass(
         * Given a database id, this creates a database link.
         * @param {string} databaseId -The database id
         * @returns {string}          -A database link in the format of dbs/{0} with {0} being a Uri escaped version of the databaseId
-        * @description Would be used when creating or deleting a DocumentCollection or a User in Azure DocumentDB database service
+        * @description Would be used when creating or deleting a DocumentCollection or a User in Azure Cosmos DB database service
         */
         createDatabaseUri: function (databaseId) {
             databaseId = Helper.trimSlashFromLeftAndRight(databaseId);
@@ -58,7 +58,7 @@ var UriFactory = Base.defineClass(
         * @param {string} databaseId        -The database id
         * @param {string} collectionId      -The collection id
         * @returns {string}                 A collection link in the format of dbs/{0}/colls/{1} with {0} being a Uri escaped version of the databaseId and {1} being collectionId
-        * @description Would be used when updating or deleting a DocumentCollection, creating a Document, a StoredProcedure, a Trigger, a UserDefinedFunction, or when executing a query with CreateDocumentQuery in Azure DocumentDB database service.
+        * @description Would be used when updating or deleting a DocumentCollection, creating a Document, a StoredProcedure, a Trigger, a UserDefinedFunction, or when executing a query with CreateDocumentQuery in Azure Cosmos DB database service.
         */
         createDocumentCollectionUri: function (databaseId, collectionId) {
             collectionId = Helper.trimSlashFromLeftAndRight(collectionId);
@@ -74,7 +74,7 @@ var UriFactory = Base.defineClass(
         * @param {string} databaseId        -The database id
         * @param {string} userId            -The user id
         * @returns {string}                 A user link in the format of dbs/{0}/users/{1} with {0} being a Uri escaped version of the databaseId and {1} being userId
-        * @description Would be used when creating a Permission, or when replacing or deleting a User in Azure DocumentDB database service
+        * @description Would be used when creating a Permission, or when replacing or deleting a User in Azure Cosmos DB database service
         */
         createUserUri: function (databaseId, userId) {
             userId = Helper.trimSlashFromLeftAndRight(userId);
@@ -91,7 +91,7 @@ var UriFactory = Base.defineClass(
         * @param {string} collectionId      -The collection id
         * @param {string} documentId        -The document id
         * @returns {string}                 -A document link in the format of dbs/{0}/colls/{1}/docs/{2} with {0} being a Uri escaped version of the databaseId, {1} being collectionId and {2} being the documentId
-        * @description Would be used when creating an Attachment, or when replacing or deleting a Document in Azure DocumentDB database service
+        * @description Would be used when creating an Attachment, or when replacing or deleting a Document in Azure Cosmos DB database service
         */
         createDocumentUri: function (databaseId, collectionId, documentId) {
             documentId = Helper.trimSlashFromLeftAndRight(documentId);
@@ -108,7 +108,7 @@ var UriFactory = Base.defineClass(
         * @param {string} userId        -The user Id
         * @param {string} permissionId  - The permissionId
         * @returns {string} A permission link in the format of dbs/{0}/users/{1}/permissions/{2} with {0} being a Uri escaped version of the databaseId, {1} being userId and {2} being permissionId
-        * @description Would be used when replacing or deleting a Permission in Azure DocumentDB database service.
+        * @description Would be used when replacing or deleting a Permission in Azure Cosmos DB database service.
         */
         createPermissionUri: function (databaseId, userId, permissionId) {
             permissionId = Helper.trimSlashFromLeftAndRight(permissionId);
@@ -125,7 +125,7 @@ var UriFactory = Base.defineClass(
         * @param {string} collectionId      -The collection Id
         * @param {string} storedProcedureId -The stored procedure Id
         * @returns {string}                 -A stored procedure link in the format of dbs/{0}/colls/{1}/sprocs/{2} with {0} being a Uri escaped version of the databaseId, {1} being collectionId and {2} being the storedProcedureId
-        * @description Would be used when replacing, executing, or deleting a StoredProcedure in Azure DocumentDB database service.
+        * @description Would be used when replacing, executing, or deleting a StoredProcedure in Azure Cosmos DB database service.
         */
         createStoredProcedureUri: function (databaseId, collectionId, storedProcedureId) {
             storedProcedureId = Helper.trimSlashFromLeftAndRight(storedProcedureId);
@@ -142,7 +142,7 @@ var UriFactory = Base.defineClass(
         * @param {string} collectionId      -The collection Id
         * @param {string} triggerId         -The trigger Id
         * @returns {string}                 -A trigger link in the format of dbs/{0}/colls/{1}/triggers/{2} with {0} being a Uri escaped version of the databaseId, {1} being collectionId and {2} being the triggerId
-        * @description Would be used when replacing, executing, or deleting a Trigger in Azure DocumentDB database service
+        * @description Would be used when replacing, executing, or deleting a Trigger in Azure Cosmos DB database service
         */
         createTriggerUri: function (databaseId, collectionId, triggerId) {
             triggerId = Helper.trimSlashFromLeftAndRight(triggerId);
@@ -159,7 +159,7 @@ var UriFactory = Base.defineClass(
         * @param {string} collectionId      -The collection Id
         * @param {string} udfId             -The User Defined Function Id
         * @returns {string}                 -A udf link in the format of dbs/{0}/colls/{1}/udfs/{2} with {0} being a Uri escaped version of the databaseId, {1} being collectionId and {2} being the udfId
-        * @description Would be used when replacing, executing, or deleting a UserDefinedFunction in Azure DocumentDB database service
+        * @description Would be used when replacing, executing, or deleting a UserDefinedFunction in Azure Cosmos DB database service
         */
         createUserDefinedFunctionUri: function (databaseId, collectionId, udfId) {
             udfId = Helper.trimSlashFromLeftAndRight(udfId);
@@ -176,7 +176,7 @@ var UriFactory = Base.defineClass(
         * @param {string} collectionId      -The collection Id
         * @param {string} conflictId        -The conflict Id
         * @returns {string}                 -A conflict link in the format of dbs/{0}/colls/{1}/conflicts/{2} with {0} being a Uri escaped version of the databaseId, {1} being collectionId and {2} being the conflictId
-        * @description Would be used when creating a Conflict in Azure DocumentDB database service.
+        * @description Would be used when creating a Conflict in Azure Cosmos DB database service.
         */
         createConflictUri: function (databaseId, collectionId, conflictId) {
             conflictId = Helper.trimSlashFromLeftAndRight(conflictId);
@@ -194,7 +194,7 @@ var UriFactory = Base.defineClass(
          * @param {string} documentId        -The document Id\
          * @param {string} attachmentId      -The attachment Id
          * @returns {string}                 -A conflict link in the format of dbs/{0}/colls/{1}/conflicts/{2} with {0} being a Uri escaped version of the databaseId, {1} being collectionId and {2} being the conflictId
-         * @description Would be used when creating a Conflict in Azure DocumentDB database service.
+         * @description Would be used when creating a Conflict in Azure Cosmos DB database service.
         */
         createAttachmentUri: function (databaseId, collectionId, documentId, attachmentId) {
             attachmentId = Helper.trimSlashFromLeftAndRight(attachmentId);
@@ -206,7 +206,7 @@ var UriFactory = Base.defineClass(
         },
 
         /**
-         * @summary Given a database and collection, this creates a partition key ranges link in the Azure DocumentDB database service.
+         * @summary Given a database and collection, this creates a partition key ranges link in the Azure Cosmos DB database service.
          * @param {string} databaseId        -The database Id
          * @param {string} collectionId      -The collection Id
          * @returns {string}                 -A partition key ranges link in the format of dbs/{0}/colls/{1}/pkranges with {0} being a Uri escaped version of the databaseId and {1} being collectionId

@@ -28,7 +28,7 @@ var Base = require("./base");
 //SCRIPT START
 var Range = Base.defineClass(
     /**
-     * Represents a range object used by the RangePartitionResolver in the Azure DocumentDB database service.
+     * Represents a range object used by the RangePartitionResolver in the Azure Cosmos DB database service.
      * @class Range
      * @param {object} options                   - The Range constructor options.
      * @param {any} options.low                  - The low value in the range.
@@ -140,7 +140,7 @@ var Range = Base.defineClass(
 
 var RangePartitionResolver = Base.defineClass(
     /**
-     * RangePartitionResolver implements partitioning using a partition map of ranges of values to a collection link in the Azure DocumentDB database service.
+     * RangePartitionResolver implements partitioning using a partition map of ranges of values to a collection link in the Azure Cosmos DB database service.
      * @class RangePartitionResolver
      * @param {string | function} partitionKeyExtractor   - If partitionKeyExtractor is a string, it should be the name of the property in the document to execute the hashing on.
      *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from an object.

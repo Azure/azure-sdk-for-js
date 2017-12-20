@@ -1,7 +1,7 @@
-While DocumentDB automatically indexes all paths of all documents in a consistent manner, you have the ability to tweak and customize this
+While Azure Cosmos DB automatically indexes all paths of all documents in a consistent manner, you have the ability to tweak and customize this
 behavior should you need (or want) to. 
 
-Samples for working with DocumentDB IndexPolicy on a Collection
+Samples for working with Azure Cosmos DB IndexPolicy on a Collection
 
 1. explictlyExcludeFromIndex - how to manually exclude a document from being indexed 
 2. useManualIndexing         - switch auto indexing off, and then manually add individual docs 
