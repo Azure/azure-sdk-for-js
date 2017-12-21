@@ -280,6 +280,7 @@ var AzureDocuments = Base.defineClass(null, null,
          * @property {RetryOptions} RetryOptions           - RetryOptions instance which defines several configurable properties used during retry.
          * @property {bool} DisableSSLVerification         - Flag to disable SSL verification for the requests. SSL verification is enabled by default. Don't set this when targeting production endpoints.
          *                                                   This is intended to be used only when targeting emulator endpoint to avoid failing your requests with SSL related error.
+         * @property {string} ProxyUrl                     - Http/Https proxy url
         */
         ConnectionPolicy: Base.defineClass(function() {
             Object.defineProperty(this, "_defaultRequestTimeout", {
@@ -305,6 +306,7 @@ var AzureDocuments = Base.defineClass(null, null,
             this.PreferredLocations = [];
             this.RetryOptions = new RetryOptions();
             this.DisableSSLVerification = false;
+            this.ProxyUrl = "";
         })
     }
 );

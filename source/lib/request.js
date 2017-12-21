@@ -28,9 +28,7 @@ var Documents = require("./documents")
     , https = require("https")
     , url = require("url")
     , querystring = require("querystring")
-    , RetryUtility = require("./retryUtility")
-    // Dedicated Agent for socket pooling
-    , keepAliveAgent = new https.Agent({ keepAlive: true, maxSockets: Infinity });
+    , RetryUtility = require("./retryUtility");
 
 //----------------------------------------------------------------------------
 // Utility methods
@@ -147,6 +145,7 @@ var RequestHandler = {
      *  Creates the request object, call the passed callback when the response is retrieved.
      * @param {object} globalEndpointManager - an instance of GlobalEndpointManager class.
      * @param {object} connectionPolicy - an instance of ConnectionPolicy that has the connection configs.
+     * @param {object} requestAgent - the https agent used for send request
      * @param {string} method - the http request method ( 'get', 'post', 'put', .. etc ).
      * @param {String} url - The base url for the endpoint.
      * @param {string} path - the path of the requesed resource.
@@ -155,7 +154,7 @@ var RequestHandler = {
      * @param {Object} headers - specific headers for the request.
      * @param {function} callback - the callback that will be called when the response is retrieved and processed.
     */
-    request: function (globalEndpointManager, connectionPolicy, method, url, request, data, queryParams, headers, callback) {
+    request: function (globalEndpointManager, connectionPolicy, requestAgent, method, url, request, data, queryParams, headers, callback) {
         var path = request.path == undefined ? request : request.path;
         var body;
 
@@ -183,7 +182,7 @@ var RequestHandler = {
         requestOptions.method = method;
         requestOptions.path = path;
         requestOptions.headers = headers;
-        requestOptions.agent = keepAliveAgent;
+        requestOptions.agent = requestAgent;
         requestOptions.secureProtocol = "TLSv1_client_method";
 
         if (connectionPolicy.DisableSSLVerification === true) {
