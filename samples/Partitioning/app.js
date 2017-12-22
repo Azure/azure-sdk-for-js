@@ -1,5 +1,6 @@
-﻿console.log();
-console.log('Azure DocumentDB Node.js Samples');
+﻿'use strict';
+console.log();
+console.log('Azure Cosmos DB Node.js Samples');
 console.log('================================');
 console.log();
 console.log('PARTITIONING');
@@ -154,7 +155,7 @@ function useRangePartitionResolver(databaseLink, callback) {
             { "name": "Joe" }
         ];
         
-        for (i = 0; i < documents.length; i++){
+        for (var i = 0; i < documents.length; i++){
             collection_link = resolver.resolveForCreate(resolver.getPartitionKey(documents[i]));
             console.log(collection_link);
         }
@@ -248,7 +249,7 @@ function useRangePartitionResolver(databaseLink, callback) {
 }
 
 function useCustomPartitionResolver(databaseLink, callback) {
-    //While DocumentDB comes with hash & range partition resolvers
+    //While Azure Cosmos DB comes with hash & range partition resolvers
     //there are cases where you want to implement your own custom logic to control partitioning
     //this function, shows you how to implement custom logic.
     

@@ -2,6 +2,8 @@
   "name": "documentdb",
   "description": "Node.js SDK for DocumentDB API of Azure Cosmos DB Service",
   "keywords": [
+    "cosmosdb",
+    "cosmos db",
     "documentdb",
     "document database",
     "azure",
@@ -9,7 +11,7 @@
     "database",
     "cloud"
   ],
-  "version": "1.14.1",
+  "version": "1.14.2",
   "author": "Microsoft Corporation",
   "main": "./index.js",
   "engine": {

@@ -31,7 +31,7 @@ var HashPartitionResolver = Base.defineClass(
     /**
      * HashPartitionResolver implements partitioning based on the value of a hash function, 
      * allowing you to evenly distribute requests and data across a number of partitions for
-     * the Azure DocumentDB database service.
+     * the Azure Cosmos DB database service.
      * @class HashPartitionResolver
      * @param {string | function} partitionKeyExtractor   - If partitionKeyExtractor is a string, it should be the name of the property in the document to execute the hashing on.
      *                                                      If partitionKeyExtractor is a function, it should be a function to extract the partition key from an object.
