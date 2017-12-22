@@ -1,3 +1,10 @@
+## Changes in 1.14.2 : ##
+- Updated documentation to reference Azure Cosmos DB instead of Azure DocumentDB
+- Added Support for proxyUrl setting in ConnectionPolicy
+
+## Changes in 1.14.1 : ##
+- Minor fix for case sensitive file systems
+
 ## Changes in 1.14.0 : ##
 - Adds support for Session Consistency.
 - This SDK version requires the latest version of Azure Cosmos DB Emulator available for download from https://aka.ms/cosmosdb-emulator.
