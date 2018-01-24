@@ -4,8 +4,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const baseFilter_1 = require("./baseFilter");
 const constants_1 = require("../util/constants");
+const utils_1 = require("../util/utils");
 const os = require("os");
-const isNode = require("detect-node");
 const HeaderConstants = constants_1.Constants.HeaderConstants;
 class MsRestUserAgentFilter extends baseFilter_1.BaseFilter {
     constructor(userAgentInfo) {
@@ -13,7 +13,7 @@ class MsRestUserAgentFilter extends baseFilter_1.BaseFilter {
         this.userAgentInfo = userAgentInfo;
     }
     tagRequest(request) {
-        if (isNode) {
+        if (utils_1.isNode) {
             const osInfo = `(${os.arch()}-${os.type()}-${os.release()})`;
             if (this.userAgentInfo.indexOf(osInfo) === -1) {
                 this.userAgentInfo.unshift(osInfo);

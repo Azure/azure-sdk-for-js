@@ -36,6 +36,10 @@ exports.getFetch = getFetch;
  */
 exports.myFetch = getFetch();
 /**
+ * A constant that indicates whether the environment is node.js or browser based.
+ */
+exports.isNode = typeof navigator === 'undefined' && typeof process !== 'undefined';
+/**
  * Checks if a parsed URL is HTTPS
  *
  * @param {object} urlToCheck The url to check

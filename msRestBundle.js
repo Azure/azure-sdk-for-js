@@ -107,6 +107,10 @@ exports.getFetch = getFetch;
  */
 exports.myFetch = getFetch();
 /**
+ * A constant that indicates whether the environment is node.js or browser based.
+ */
+exports.isNode = typeof navigator === 'undefined' && typeof process !== 'undefined';
+/**
  * Checks if a parsed URL is HTTPS
  *
  * @param {object} urlToCheck The url to check
@@ -413,7 +417,7 @@ function applyMixins(targetCtor, sourceCtors) {
 }
 exports.applyMixins = applyMixins;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 /* 1 */
@@ -736,33 +740,6 @@ exports.WebResource = WebResource;
 /* 4 */
 /***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -950,7 +927,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {// Unique ID creation requires a high quality random # generator.  In the
@@ -987,7 +964,34 @@ if (!rng) {
 
 module.exports = rng;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
 
 /***/ }),
 /* 7 */
@@ -2211,8 +2215,8 @@ exports.SigningFilter = SigningFilter;
 Object.defineProperty(exports, "__esModule", { value: true });
 const baseFilter_1 = __webpack_require__(1);
 const constants_1 = __webpack_require__(2);
+const utils_1 = __webpack_require__(0);
 const os = __webpack_require__(32);
-const isNode = __webpack_require__(33);
 const HeaderConstants = constants_1.Constants.HeaderConstants;
 class MsRestUserAgentFilter extends baseFilter_1.BaseFilter {
     constructor(userAgentInfo) {
@@ -2220,7 +2224,7 @@ class MsRestUserAgentFilter extends baseFilter_1.BaseFilter {
         this.userAgentInfo = userAgentInfo;
     }
     tagRequest(request) {
-        if (isNode) {
+        if (utils_1.isNode) {
             const osInfo = `(${os.arch()}-${os.type()}-${os.release()})`;
             if (this.userAgentInfo.indexOf(osInfo) === -1) {
                 this.userAgentInfo.unshift(osInfo);
@@ -2257,7 +2261,7 @@ class MsRestUserAgentFilter extends baseFilter_1.BaseFilter {
 }
 exports.MsRestUserAgentFilter = MsRestUserAgentFilter;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 /* 18 */
@@ -2280,7 +2284,7 @@ const constants_1 = __webpack_require__(2);
 exports.Constants = constants_1.Constants;
 const requestPipeline_1 = __webpack_require__(12);
 exports.RequestPipeline = requestPipeline_1.RequestPipeline;
-const logFilter_1 = __webpack_require__(34);
+const logFilter_1 = __webpack_require__(33);
 exports.LogFilter = logFilter_1.LogFilter;
 const baseFilter_1 = __webpack_require__(1);
 exports.BaseFilter = baseFilter_1.BaseFilter;
@@ -2310,10 +2314,11 @@ exports.promiseToServiceCallback = utils_1.promiseToServiceCallback;
 exports.isValidUuid = utils_1.isValidUuid;
 exports.dispatchRequest = utils_1.dispatchRequest;
 exports.applyMixins = utils_1.applyMixins;
+exports.isNode = utils_1.isNode;
 // Credentials
-const tokenCredentials_1 = __webpack_require__(35);
+const tokenCredentials_1 = __webpack_require__(34);
 exports.TokenCredentials = tokenCredentials_1.TokenCredentials;
-const basicAuthenticationCredentials_1 = __webpack_require__(36);
+const basicAuthenticationCredentials_1 = __webpack_require__(35);
 exports.BasicAuthenticationCredentials = basicAuthenticationCredentials_1.BasicAuthenticationCredentials;
 const isStream = __webpack_require__(11);
 exports.isStream = isStream;
@@ -2337,7 +2342,7 @@ module.exports = uuid;
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(6);
+var rng = __webpack_require__(5);
 var bytesToUuid = __webpack_require__(7);
 
 // **`v1()` - Generate time-based UUID**
@@ -2443,7 +2448,7 @@ module.exports = v1;
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(6);
+var rng = __webpack_require__(5);
 var bytesToUuid = __webpack_require__(7);
 
 function v4(options, buf, offset) {
@@ -3585,7 +3590,7 @@ URL.qs = qs;
 
 module.exports = URL;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 29 */
@@ -3965,19 +3970,6 @@ exports.EOL = '\n';
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = false;
-
-// Only Node.JS has a process variable that is of [[Class]] process
-try {
- module.exports = Object.prototype.toString.call(global.process) === '[object process]' 
-} catch(e) {}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4002,7 +3994,7 @@ exports.LogFilter = LogFilter;
 
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4046,7 +4038,7 @@ exports.TokenCredentials = TokenCredentials;
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

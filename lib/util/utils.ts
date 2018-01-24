@@ -29,6 +29,11 @@ export function getFetch(): Function {
 export const myFetch = getFetch();
 
 /**
+ * A constant that indicates whether the environment is node.js or browser based.
+ */
+export const isNode = typeof navigator === 'undefined' && typeof process !== 'undefined'
+
+/**
  * Checks if a parsed URL is HTTPS
  *
  * @param {object} urlToCheck The url to check
@@ -332,8 +337,8 @@ export async function dispatchRequest(options: WebResource): Promise<HttpOperati
  */
 export function applyMixins(targetCtor: any, sourceCtors: any[]): void {
   sourceCtors.forEach(sourceCtors => {
-      Object.getOwnPropertyNames(sourceCtors.prototype).forEach(name => {
-        targetCtor.prototype[name] = sourceCtors.prototype[name];
-      });
+    Object.getOwnPropertyNames(sourceCtors.prototype).forEach(name => {
+      targetCtor.prototype[name] = sourceCtors.prototype[name];
+    });
   });
 }

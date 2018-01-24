@@ -41,7 +41,6 @@
     "moment": "~2.18.1",
     "is-buffer": "^1.1.5",
     "uuid": "^3.1.0",
-    "detect-node": "^2.0.3",
     "fetch-ponyfill": "amarzavery/fetch-ponyfill#master"
   },
   "devDependencies": {

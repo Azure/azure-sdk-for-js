@@ -4,9 +4,9 @@
 import { BaseFilter } from "./baseFilter";
 import { WebResource } from "../webResource";
 import { Constants } from "../util/constants";
+import { isNode } from "../util/utils";
 import * as os from "os";
 
-const isNode = require("detect-node");
 const HeaderConstants = Constants.HeaderConstants;
 
 export class MsRestUserAgentFilter extends BaseFilter {
