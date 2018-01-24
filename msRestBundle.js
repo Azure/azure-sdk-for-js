@@ -109,7 +109,7 @@ exports.myFetch = getFetch();
 /**
  * A constant that indicates whether the environment is node.js or browser based.
  */
-exports.isNode = typeof navigator === 'undefined' && typeof process !== 'undefined';
+exports.isNode = typeof navigator === "undefined" && typeof process !== "undefined";
 /**
  * Checks if a parsed URL is HTTPS
  *

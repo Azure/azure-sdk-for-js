@@ -31,7 +31,7 @@ export const myFetch = getFetch();
 /**
  * A constant that indicates whether the environment is node.js or browser based.
  */
-export const isNode = typeof navigator === 'undefined' && typeof process !== 'undefined'
+export const isNode = typeof navigator === "undefined" && typeof process !== "undefined";
 
 /**
  * Checks if a parsed URL is HTTPS
