@@ -11,6 +11,10 @@ export declare function getFetch(): Function;
  */
 export declare const myFetch: Function;
 /**
+ * A constant that indicates whether the environment is node.js or browser based.
+ */
+export declare const isNode: boolean;
+/**
  * Checks if a parsed URL is HTTPS
  *
  * @param {object} urlToCheck The url to check
