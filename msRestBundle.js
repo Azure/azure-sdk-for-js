@@ -80,13 +80,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const uuid = __webpack_require__(19);
-const FormData = __webpack_require__(22);
-const webResource_1 = __webpack_require__(3);
-const constants_1 = __webpack_require__(2);
-const restError_1 = __webpack_require__(8);
-const httpOperationResponse_1 = __webpack_require__(9);
+var uuid = __webpack_require__(19);
+var FormData = __webpack_require__(22);
+var webResource_1 = __webpack_require__(3);
+var constants_1 = __webpack_require__(2);
+var restError_1 = __webpack_require__(8);
+var httpOperationResponse_1 = __webpack_require__(9);
 /**
  * Provides the fetch() method based on the environment.
  * @returns {fetch} fetch - The fetch() method available in the environment to make requests
@@ -157,7 +184,7 @@ exports.encodeUri = encodeUri;
  * @return {object} strippedResponse - The stripped version of Http Response.
  */
 function stripResponse(response) {
-    const strippedResponse = {};
+    var strippedResponse = {};
     strippedResponse.body = response.body;
     strippedResponse.headers = response.headers;
     strippedResponse.status = response.status;
@@ -173,7 +200,7 @@ exports.stripResponse = stripResponse;
  * @return {object} strippedRequest - The stripped version of Http Request.
  */
 function stripRequest(request) {
-    let strippedRequest = new webResource_1.WebResource();
+    var strippedRequest = new webResource_1.WebResource();
     try {
         strippedRequest = JSON.parse(JSON.stringify(request));
         if (strippedRequest.headers && strippedRequest.headers.Authorization) {
@@ -184,8 +211,8 @@ function stripRequest(request) {
         }
     }
     catch (err) {
-        const errMsg = err.message;
-        err.message = `Error - "${errMsg}" occured while creating a stripped version of the request object - "${request}".`;
+        var errMsg = err.message;
+        err.message = "Error - \"" + errMsg + "\" occured while creating a stripped version of the request object - \"" + request + "\".";
         return err;
     }
     return strippedRequest;
@@ -199,7 +226,7 @@ exports.stripRequest = stripRequest;
  * @return {boolean} result - True if the uuid is valid; false otherwise.
  */
 function isValidUuid(uuid) {
-    const validUuidRegex = new RegExp("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", "ig");
+    var validUuidRegex = new RegExp("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", "ig");
     return validUuidRegex.test(uuid);
 }
 exports.isValidUuid = isValidUuid;
@@ -212,17 +239,17 @@ exports.isValidUuid = isValidUuid;
  * @return {array} result - An array of values of the given object.
  */
 function objectValues(obj) {
-    const result = [];
+    var result = [];
     if (obj && obj instanceof Object) {
-        for (const key in obj) {
+        for (var key in obj) {
             if (obj.hasOwnProperty(key)) {
                 result.push(obj[key]);
             }
         }
     }
     else {
-        throw new Error(`The provided object ${JSON.stringify(obj, undefined, 2)} is not a valid object that can be ` +
-            `enumerated to provide its values as an array.`);
+        throw new Error("The provided object " + JSON.stringify(obj, undefined, 2) + " is not a valid object that can be " +
+            "enumerated to provide its values as an array.");
     }
     return result;
 }
@@ -248,8 +275,8 @@ exports.generateUuid = generateUuid;
  * @return A chain of resolved or rejected promises
  */
 function executePromisesSequentially(promiseFactories, kickstart) {
-    let result = Promise.resolve(kickstart);
-    promiseFactories.forEach((promiseFactory) => {
+    var result = Promise.resolve(kickstart);
+    promiseFactories.forEach(function (promiseFactory) {
         result = result.then(promiseFactory);
     });
     return result;
@@ -264,7 +291,7 @@ exports.executePromisesSequentially = executePromisesSequentially;
  * @returns {object} target - Returns the merged target object.
  */
 function mergeObjects(source, target) {
-    Object.keys(source).forEach((key) => {
+    Object.keys(source).forEach(function (key) {
         target[key] = source[key];
     });
     return target;
@@ -277,7 +304,7 @@ exports.mergeObjects = mergeObjects;
  * @returns {Promise<T>} - Resolved promise
  */
 function delay(t, value) {
-    return new Promise((resolve) => setTimeout(() => resolve(value), t));
+    return new Promise(function (resolve) { return setTimeout(function () { return resolve(value); }, t); });
 }
 exports.delay = delay;
 /**
@@ -285,7 +312,7 @@ exports.delay = delay;
  */
 function strEnum(o) {
     /* tslint:disable:no-null-keyword */
-    return o.reduce((res, key) => {
+    return o.reduce(function (res, key) {
         res[key] = key;
         return res;
     }, Object.create(null));
@@ -301,10 +328,10 @@ function promiseToCallback(promise) {
     if (typeof promise.then !== "function") {
         throw new Error("The provided input is not a Promise.");
     }
-    return (cb) => {
-        promise.then((data) => {
+    return function (cb) {
+        promise.then(function (data) {
             process.nextTick(cb, undefined, data);
-        }, (err) => {
+        }, function (err) {
             process.nextTick(cb, err);
         });
     };
@@ -319,10 +346,10 @@ function promiseToServiceCallback(promise) {
     if (typeof promise.then !== "function") {
         throw new Error("The provided input is not a Promise.");
     }
-    return (cb) => {
-        promise.then((data) => {
+    return function (cb) {
+        promise.then(function (data) {
             process.nextTick(cb, undefined, data.bodyAsJson, data.request, data.response);
-        }, (err) => {
+        }, function (err) {
             process.nextTick(cb, err);
         });
     };
@@ -334,72 +361,88 @@ exports.promiseToServiceCallback = promiseToServiceCallback;
  * @returns {Promise<HttpOperationResponse} operationResponse - The response object.
  */
 function dispatchRequest(options) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (!options) {
-            return Promise.reject(new Error("options (WebResource) cannot be null or undefined and must be of type object."));
-        }
-        if (options.formData) {
-            const formData = options.formData;
-            const requestForm = new FormData();
-            const appendFormValue = (key, value) => {
-                if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
-                    requestForm.append(key, value.value, value.options);
-                }
-                else {
-                    requestForm.append(key, value);
-                }
-            };
-            for (const formKey in formData) {
-                if (formData.hasOwnProperty(formKey)) {
-                    const formValue = formData[formKey];
-                    if (formValue instanceof Array) {
-                        for (let j = 0; j < formValue.length; j++) {
-                            appendFormValue(formKey, formValue[j]);
+    return __awaiter(this, void 0, void 0, function () {
+        var formData, requestForm_1, appendFormValue, formKey, formValue, j, res, err_1, operationResponse, _a, err_2, msg, errCode, e, msg, errCode, e;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    if (!options) {
+                        return [2 /*return*/, Promise.reject(new Error("options (WebResource) cannot be null or undefined and must be of type object."))];
+                    }
+                    if (options.formData) {
+                        formData = options.formData;
+                        requestForm_1 = new FormData();
+                        appendFormValue = function (key, value) {
+                            if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
+                                requestForm_1.append(key, value.value, value.options);
+                            }
+                            else {
+                                requestForm_1.append(key, value);
+                            }
+                        };
+                        for (formKey in formData) {
+                            if (formData.hasOwnProperty(formKey)) {
+                                formValue = formData[formKey];
+                                if (formValue instanceof Array) {
+                                    for (j = 0; j < formValue.length; j++) {
+                                        appendFormValue(formKey, formValue[j]);
+                                    }
+                                }
+                                else {
+                                    appendFormValue(formKey, formValue);
+                                }
+                            }
+                        }
+                        options.body = requestForm_1;
+                        options.formData = undefined;
+                        if (options.headers && options.headers["Content-Type"] &&
+                            options.headers["Content-Type"].indexOf("multipart/form-data") > -1 && typeof requestForm_1.getBoundary === "function") {
+                            options.headers["Content-Type"] = "multipart/form-data; boundary=" + requestForm_1.getBoundary();
                         }
                     }
-                    else {
-                        appendFormValue(formKey, formValue);
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, exports.myFetch(options.url, options)];
+                case 2:
+                    res = _b.sent();
+                    return [3 /*break*/, 4];
+                case 3:
+                    err_1 = _b.sent();
+                    return [2 /*return*/, Promise.reject(err_1)];
+                case 4:
+                    operationResponse = new httpOperationResponse_1.HttpOperationResponse(options, res);
+                    if (!!options.rawResponse) return [3 /*break*/, 9];
+                    _b.label = 5;
+                case 5:
+                    _b.trys.push([5, 7, , 8]);
+                    _a = operationResponse;
+                    return [4 /*yield*/, res.text()];
+                case 6:
+                    _a.bodyAsText = _b.sent();
+                    return [3 /*break*/, 8];
+                case 7:
+                    err_2 = _b.sent();
+                    msg = "Error \"" + err_2 + "\" occured while converting the raw response body into string.";
+                    errCode = err_2.code || "RAWTEXT_CONVERSION_ERROR";
+                    e = new restError_1.RestError(msg, errCode, res.status, options, res, res.body);
+                    return [2 /*return*/, Promise.reject(e)];
+                case 8:
+                    try {
+                        if (operationResponse.bodyAsText) {
+                            operationResponse.bodyAsJson = JSON.parse(operationResponse.bodyAsText);
+                        }
                     }
-                }
+                    catch (err) {
+                        msg = "Error \"" + err + "\" occured while executing JSON.parse on the response body - " + operationResponse.bodyAsText + ".";
+                        errCode = err.code || "JSON_PARSE_ERROR";
+                        e = new restError_1.RestError(msg, errCode, res.status, options, res, operationResponse.bodyAsText);
+                        return [2 /*return*/, Promise.reject(e)];
+                    }
+                    _b.label = 9;
+                case 9: return [2 /*return*/, Promise.resolve(operationResponse)];
             }
-            options.body = requestForm;
-            options.formData = undefined;
-            if (options.headers && options.headers["Content-Type"] &&
-                options.headers["Content-Type"].indexOf("multipart/form-data") > -1 && typeof requestForm.getBoundary === "function") {
-                options.headers["Content-Type"] = `multipart/form-data; boundary=${requestForm.getBoundary()}`;
-            }
-        }
-        let res;
-        try {
-            res = yield exports.myFetch(options.url, options);
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
-        const operationResponse = new httpOperationResponse_1.HttpOperationResponse(options, res);
-        if (!options.rawResponse) {
-            try {
-                operationResponse.bodyAsText = yield res.text();
-            }
-            catch (err) {
-                const msg = `Error "${err}" occured while converting the raw response body into string.`;
-                const errCode = err.code || "RAWTEXT_CONVERSION_ERROR";
-                const e = new restError_1.RestError(msg, errCode, res.status, options, res, res.body);
-                return Promise.reject(e);
-            }
-            try {
-                if (operationResponse.bodyAsText) {
-                    operationResponse.bodyAsJson = JSON.parse(operationResponse.bodyAsText);
-                }
-            }
-            catch (err) {
-                const msg = `Error "${err}" occured while executing JSON.parse on the response body - ${operationResponse.bodyAsText}.`;
-                const errCode = err.code || "JSON_PARSE_ERROR";
-                const e = new restError_1.RestError(msg, errCode, res.status, options, res, operationResponse.bodyAsText);
-                return Promise.reject(e);
-            }
-        }
-        return Promise.resolve(operationResponse);
+        });
     });
 }
 exports.dispatchRequest = dispatchRequest;
@@ -409,8 +452,8 @@ exports.dispatchRequest = dispatchRequest;
  * @param {Array<object>} sourceCtors An array of source objects from which the properties need to be taken.
  */
 function applyMixins(targetCtor, sourceCtors) {
-    sourceCtors.forEach(sourceCtors => {
-        Object.getOwnPropertyNames(sourceCtors.prototype).forEach(name => {
+    sourceCtors.forEach(function (sourceCtors) {
+        Object.getOwnPropertyNames(sourceCtors.prototype).forEach(function (name) {
             targetCtor.prototype[name] = sourceCtors.prototype[name];
         });
     });
@@ -428,15 +471,17 @@ exports.applyMixins = applyMixins;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 Object.defineProperty(exports, "__esModule", { value: true });
-class BaseFilter {
-    constructor() { }
-    before(request) {
+var BaseFilter = /** @class */ (function () {
+    function BaseFilter() {
+    }
+    BaseFilter.prototype.before = function (request) {
         return Promise.resolve(request);
-    }
-    after(response) {
+    };
+    BaseFilter.prototype.after = function (response) {
         return Promise.resolve(response);
-    }
-}
+    };
+    return BaseFilter;
+}());
 exports.BaseFilter = BaseFilter;
 
 
@@ -533,8 +578,8 @@ exports.Constants = {
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils_1 = __webpack_require__(0);
-const serializer_1 = __webpack_require__(10);
+var utils_1 = __webpack_require__(0);
+var serializer_1 = __webpack_require__(10);
 /**
  * Creates a new WebResource object.
  *
@@ -543,8 +588,10 @@ const serializer_1 = __webpack_require__(10);
  *
  * @constructor
  */
-class WebResource {
-    constructor(url, method, body, query, headers = {}, rawResponse = false) {
+var WebResource = /** @class */ (function () {
+    function WebResource(url, method, body, query, headers, rawResponse) {
+        if (headers === void 0) { headers = {}; }
+        if (rawResponse === void 0) { rawResponse = false; }
         this.headers = {};
         this.rawResponse = rawResponse;
         this.url = url || "";
@@ -559,19 +606,19 @@ class WebResource {
      * headers["accept-language"] are defined. It will throw an error if one of the above
      * mentioned properties are not defined.
      */
-    validateRequestProperties() {
+    WebResource.prototype.validateRequestProperties = function () {
         if (!this.method || !this.url || !this.headers["Content-Type"] || !this.headers["accept-language"]) {
             throw new Error("method, url, headers[\"Content-Type\"], headers[\"accept-language\"] are " +
                 "required properties before making a request. Either provide them or use WebResource.prepare() method.");
         }
         return;
-    }
+    };
     /**
      * Prepares the request.
      * @param {RequestPrepareOptions} options - Options to provide for preparing the request.
      * @returns {object} WebResource Returns the prepared WebResource (HTTP Request) object that needs to be given to the request pipeline.
      */
-    prepare(options) {
+    WebResource.prototype.prepare = function (options) {
         if (options === null || options === undefined || typeof options !== "object") {
             throw new Error("options cannot be null or undefined and must be of type object");
         }
@@ -593,7 +640,7 @@ class WebResource {
         }
         // set the method
         if (options.method) {
-            const validMethods = ["GET", "PUT", "HEAD", "DELETE", "OPTIONS", "POST", "PATCH", "TRACE"];
+            var validMethods = ["GET", "PUT", "HEAD", "DELETE", "OPTIONS", "POST", "PATCH", "TRACE"];
             if (validMethods.indexOf(options.method.toUpperCase()) === -1) {
                 throw new Error("The provided method \"" + options.method + "\" is invalid. Supported HTTP methods are: " + JSON.stringify(validMethods));
             }
@@ -607,59 +654,59 @@ class WebResource {
             if (!options.baseUrl) {
                 options.baseUrl = "https://management.azure.com";
             }
-            const baseUrl = options.baseUrl;
-            let url = baseUrl + (baseUrl.endsWith("/") ? "" : "/") + (options.pathTemplate.startsWith("/") ? options.pathTemplate.slice(1) : options.pathTemplate);
-            const segments = url.match(/({\w*\s*\w*})/ig);
+            var baseUrl = options.baseUrl;
+            var url_1 = baseUrl + (baseUrl.endsWith("/") ? "" : "/") + (options.pathTemplate.startsWith("/") ? options.pathTemplate.slice(1) : options.pathTemplate);
+            var segments = url_1.match(/({\w*\s*\w*})/ig);
             if (segments && segments.length) {
                 if (options.pathParameters === null || options.pathParameters === undefined || typeof options.pathParameters !== "object") {
-                    throw new Error(`pathTemplate: ${options.pathTemplate} has been provided. Hence, options.pathParameters ` +
-                        `cannot be null or undefined and must be of type "object".`);
+                    throw new Error("pathTemplate: " + options.pathTemplate + " has been provided. Hence, options.pathParameters " +
+                        "cannot be null or undefined and must be of type \"object\".");
                 }
                 segments.forEach(function (item) {
-                    const pathParamName = item.slice(1, -1);
-                    const pathParam = options.pathParameters[pathParamName];
+                    var pathParamName = item.slice(1, -1);
+                    var pathParam = options.pathParameters[pathParamName];
                     if (pathParam === null || pathParam === undefined || !(typeof pathParam === "string" || typeof pathParam === "object")) {
-                        throw new Error(`pathTemplate: ${options.pathTemplate} contains the path parameter ${pathParamName}` +
-                            ` however, it is not present in ${options.pathParameters} - ${JSON.stringify(options.pathParameters, undefined, 2)}.` +
-                            `The value of the path parameter can either be a "string" of the form { ${pathParamName}: "some sample value" } or ` +
-                            `it can be an "object" of the form { "${pathParamName}": { value: "some sample value", skipUrlEncoding: true } }.`);
+                        throw new Error("pathTemplate: " + options.pathTemplate + " contains the path parameter " + pathParamName +
+                            (" however, it is not present in " + options.pathParameters + " - " + JSON.stringify(options.pathParameters, undefined, 2) + ".") +
+                            ("The value of the path parameter can either be a \"string\" of the form { " + pathParamName + ": \"some sample value\" } or ") +
+                            ("it can be an \"object\" of the form { \"" + pathParamName + "\": { value: \"some sample value\", skipUrlEncoding: true } }."));
                     }
                     if (typeof pathParam.valueOf() === "string") {
-                        url = url.replace(item, encodeURIComponent(pathParam));
+                        url_1 = url_1.replace(item, encodeURIComponent(pathParam));
                     }
                     if (typeof pathParam.valueOf() === "object") {
                         if (!pathParam.value) {
-                            throw new Error(`options.pathParameters[${pathParamName}] is of type "object" but it does not contain a "value" property.`);
+                            throw new Error("options.pathParameters[" + pathParamName + "] is of type \"object\" but it does not contain a \"value\" property.");
                         }
                         if (pathParam.skipUrlEncoding) {
-                            url = url.replace(item, pathParam.value);
+                            url_1 = url_1.replace(item, pathParam.value);
                         }
                         else {
-                            url = url.replace(item, encodeURIComponent(pathParam.value));
+                            url_1 = url_1.replace(item, encodeURIComponent(pathParam.value));
                         }
                     }
                 });
             }
-            this.url = url;
+            this.url = url_1;
         }
         // append query parameters to the url if they are provided. They can be provided with pathTemplate or url option.
         if (options.queryParameters) {
             if (typeof options.queryParameters !== "object") {
-                throw new Error(`options.queryParameters must be of type object. It should be a JSON object ` +
-                    `of "query-parameter-name" as the key and the "query-parameter-value" as the value. ` +
-                    `The "query-parameter-value" may be fo type "string" or an "object" of the form { value: "query-parameter-value", skipUrlEncoding: true }.`);
+                throw new Error("options.queryParameters must be of type object. It should be a JSON object " +
+                    "of \"query-parameter-name\" as the key and the \"query-parameter-value\" as the value. " +
+                    "The \"query-parameter-value\" may be fo type \"string\" or an \"object\" of the form { value: \"query-parameter-value\", skipUrlEncoding: true }.");
             }
             // append question mark if it is not present in the url
             if (this.url && this.url.indexOf("?") === -1) {
                 this.url += "?";
             }
             // construct queryString
-            const queryParams = [];
-            const queryParameters = options.queryParameters;
+            var queryParams = [];
+            var queryParameters = options.queryParameters;
             // We need to populate this.query as a dictionary if the request is being used for Sway's validateRequest().
             this.query = {};
-            for (const queryParamName in queryParameters) {
-                const queryParam = queryParameters[queryParamName];
+            for (var queryParamName in queryParameters) {
+                var queryParam = queryParameters[queryParamName];
                 if (queryParam) {
                     if (typeof queryParam === "string") {
                         queryParams.push(queryParamName + "=" + encodeURIComponent(queryParam));
@@ -667,7 +714,7 @@ class WebResource {
                     }
                     else if (typeof queryParam === "object") {
                         if (!queryParam.value) {
-                            throw new Error(`options.queryParameters[${queryParamName}] is of type "object" but it does not contain a "value" property.`);
+                            throw new Error("options.queryParameters[" + queryParamName + "] is of type \"object\" but it does not contain a \"value\" property.");
                         }
                         if (queryParam.skipUrlEncoding) {
                             queryParams.push(queryParamName + "=" + queryParam.value);
@@ -685,8 +732,8 @@ class WebResource {
         }
         // add headers to the request if they are provided
         if (options.headers) {
-            const headers = options.headers;
-            for (const headerName in headers) {
+            var headers = options.headers;
+            for (var headerName in headers) {
                 if (headers.hasOwnProperty(headerName)) {
                     this.headers[headerName] = headers[headerName];
                 }
@@ -718,7 +765,7 @@ class WebResource {
                 }
             }
             else {
-                let serializedBody = undefined;
+                var serializedBody = undefined;
                 if (options.serializationMapper) {
                     serializedBody = new serializer_1.Serializer(options.mappers).serialize(options.serializationMapper, options.body, "requestBody");
                 }
@@ -731,8 +778,9 @@ class WebResource {
             }
         }
         return this;
-    }
-}
+    };
+    return WebResource;
+}());
 exports.WebResource = WebResource;
 
 
@@ -1030,17 +1078,30 @@ module.exports = bytesToUuid;
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-class RestError extends Error {
-    constructor(message, code, statusCode, request, response, body) {
-        super(message);
-        this.code = code;
-        this.statusCode = statusCode;
-        this.request = request;
-        this.response = response;
-        this.body = body;
+var RestError = /** @class */ (function (_super) {
+    __extends(RestError, _super);
+    function RestError(message, code, statusCode, request, response, body) {
+        var _this = _super.call(this, message) || this;
+        _this.code = code;
+        _this.statusCode = statusCode;
+        _this.request = request;
+        _this.response = response;
+        _this.body = body;
+        return _this;
     }
-}
+    return RestError;
+}(Error));
 exports.RestError = RestError;
 
 
@@ -1060,8 +1121,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Initializes a new instance of the HttpOperationResponse class.
  * @constructor
  */
-class HttpOperationResponse {
-    constructor(request, response) {
+var HttpOperationResponse = /** @class */ (function () {
+    function HttpOperationResponse(request, response) {
         /**
          * Reference to the original request object.
          * [WebResource] object.
@@ -1078,7 +1139,8 @@ class HttpOperationResponse {
         this.bodyAsText = null;
         this.bodyAsJson = null;
     }
-}
+    return HttpOperationResponse;
+}());
 exports.HttpOperationResponse = HttpOperationResponse;
 
 
@@ -1091,99 +1153,100 @@ exports.HttpOperationResponse = HttpOperationResponse;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils = __webpack_require__(0);
-const moment_1 = __webpack_require__(24);
-const isBuffer = __webpack_require__(26);
-const isStream = __webpack_require__(11);
-class Serializer {
-    constructor(mappers) {
+var utils = __webpack_require__(0);
+var moment_1 = __webpack_require__(24);
+var isBuffer = __webpack_require__(26);
+var isStream = __webpack_require__(11);
+var Serializer = /** @class */ (function () {
+    function Serializer(mappers) {
         this.modelMappers = mappers;
     }
-    validateConstraints(mapper, value, objectName) {
+    Serializer.prototype.validateConstraints = function (mapper, value, objectName) {
         if (mapper.constraints && (value !== null || value !== undefined)) {
-            for (const constraintType of Object.keys(mapper.constraints)) {
+            for (var _i = 0, _a = Object.keys(mapper.constraints); _i < _a.length; _i++) {
+                var constraintType = _a[_i];
                 if (constraintType.match(/^ExclusiveMaximum$/ig) !== null) {
                     if (value >= mapper.constraints.ExclusiveMaximum) {
-                        throw new Error(`"${objectName}" with value "${value}" should satify the constraint "ExclusiveMaximum": ${mapper.constraints.ExclusiveMaximum}.`);
+                        throw new Error("\"" + objectName + "\" with value \"" + value + "\" should satify the constraint \"ExclusiveMaximum\": " + mapper.constraints.ExclusiveMaximum + ".");
                     }
                 }
                 else if (constraintType.match(/^ExclusiveMinimum$/ig) !== null) {
                     if (value <= mapper.constraints.ExclusiveMinimum) {
-                        throw new Error(`${objectName} " with value "${value} " should satify the constraint "ExclusiveMinimum": ${mapper.constraints.ExclusiveMinimum}.`);
+                        throw new Error(objectName + " \" with value \"" + value + " \" should satify the constraint \"ExclusiveMinimum\": " + mapper.constraints.ExclusiveMinimum + ".");
                     }
                 }
                 else if (constraintType.match(/^InclusiveMaximum$/ig) !== null) {
                     if (value > mapper.constraints.InclusiveMaximum) {
-                        throw new Error(`${objectName}" with value "${value}" should satify the constraint "InclusiveMaximum": ${mapper.constraints.InclusiveMaximum}.`);
+                        throw new Error(objectName + "\" with value \"" + value + "\" should satify the constraint \"InclusiveMaximum\": " + mapper.constraints.InclusiveMaximum + ".");
                     }
                 }
                 else if (constraintType.match(/^InclusiveMinimum$/ig) !== null) {
                     if (value < mapper.constraints.InclusiveMinimum) {
-                        throw new Error(`${objectName}" with value "${value}" should satify the constraint "InclusiveMinimum": ${mapper.constraints.InclusiveMinimum}.`);
+                        throw new Error(objectName + "\" with value \"" + value + "\" should satify the constraint \"InclusiveMinimum\": " + mapper.constraints.InclusiveMinimum + ".");
                     }
                 }
                 else if (constraintType.match(/^MaxItems$/ig) !== null) {
                     if (value.length > mapper.constraints.MaxItems) {
-                        throw new Error(`${objectName}" with value "${value}" should satify the constraint "MaxItems": ${mapper.constraints.MaxItems}.`);
+                        throw new Error(objectName + "\" with value \"" + value + "\" should satify the constraint \"MaxItems\": " + mapper.constraints.MaxItems + ".");
                     }
                 }
                 else if (constraintType.match(/^MaxLength$/ig) !== null) {
                     if (value.length > mapper.constraints.MaxLength) {
-                        throw new Error(`${objectName}" with value "${value}" should satify the constraint "MaxLength": ${mapper.constraints.MaxLength}.`);
+                        throw new Error(objectName + "\" with value \"" + value + "\" should satify the constraint \"MaxLength\": " + mapper.constraints.MaxLength + ".");
                     }
                 }
                 else if (constraintType.match(/^MinItems$/ig) !== null) {
                     if (value.length < mapper.constraints.MinItems) {
-                        throw new Error(`${objectName}" with value "${value}" should satify the constraint "MinItems": ${mapper.constraints.MinItems}.`);
+                        throw new Error(objectName + "\" with value \"" + value + "\" should satify the constraint \"MinItems\": " + mapper.constraints.MinItems + ".");
                     }
                 }
                 else if (constraintType.match(/^MinLength$/ig) !== null) {
                     if (value.length < mapper.constraints.MinLength) {
-                        throw new Error(`${objectName}" with value "${value}" should satify the constraint "MinLength": ${mapper.constraints.MinLength}.`);
+                        throw new Error(objectName + "\" with value \"" + value + "\" should satify the constraint \"MinLength\": " + mapper.constraints.MinLength + ".");
                     }
                 }
                 else if (constraintType.match(/^MultipleOf$/ig) !== null) {
                     if (value.length % mapper.constraints.MultipleOf !== 0) {
-                        throw new Error(`${objectName}" with value "${value}" should satify the constraint "MultipleOf": ${mapper.constraints.MultipleOf}.`);
+                        throw new Error(objectName + "\" with value \"" + value + "\" should satify the constraint \"MultipleOf\": " + mapper.constraints.MultipleOf + ".");
                     }
                 }
                 else if (constraintType.match(/^Pattern$/ig) !== null) {
                     if (value.match(mapper.constraints.Pattern.split("/").join("\/")) === null) {
-                        throw new Error(`${objectName}" with value "${value}" should satify the constraint "Pattern": ${mapper.constraints.Pattern}.`);
+                        throw new Error(objectName + "\" with value \"" + value + "\" should satify the constraint \"Pattern\": " + mapper.constraints.Pattern + ".");
                     }
                 }
                 else if (constraintType.match(/^UniqueItems/ig) !== null) {
                     if (mapper.constraints.UniqueItems) {
-                        if (value.length !== value.filter((item, i, ar) => { {
+                        if (value.length !== value.filter(function (item, i, ar) { {
                             return ar.indexOf(item) === i;
                         } }).length) {
-                            throw new Error(`${objectName}" with value "${value}" should satify the constraint "UniqueItems": ${mapper.constraints.UniqueItems}`);
+                            throw new Error(objectName + "\" with value \"" + value + "\" should satify the constraint \"UniqueItems\": " + mapper.constraints.UniqueItems);
                         }
                     }
                 }
             }
         }
-    }
-    trimEnd(str, ch) {
-        let len = str.length;
+    };
+    Serializer.prototype.trimEnd = function (str, ch) {
+        var len = str.length;
         while ((len - 1) >= 0 && str[len - 1] === ch) {
             --len;
         }
         return str.substr(0, len);
-    }
-    bufferToBase64Url(buffer) {
+    };
+    Serializer.prototype.bufferToBase64Url = function (buffer) {
         if (!buffer) {
             return undefined;
         }
         if (!isBuffer(buffer)) {
-            throw new Error(`Please provide an input of type Buffer for converting to Base64Url.`);
+            throw new Error("Please provide an input of type Buffer for converting to Base64Url.");
         }
         // Buffer to Base64.
-        const str = buffer.toString("base64");
+        var str = buffer.toString("base64");
         // Base64 to Base64Url.
         return this.trimEnd(str, "=").replace(/\+/g, "-").replace(/\//g, "_");
-    }
-    base64UrlToBuffer(str) {
+    };
+    Serializer.prototype.base64UrlToBuffer = function (str) {
         if (!str) {
             return undefined;
         }
@@ -1194,12 +1257,13 @@ class Serializer {
         str = str.replace(/\-/g, "+").replace(/\_/g, "/");
         // Base64 to Buffer.
         return Buffer.from(str, "base64");
-    }
-    splitSerializeName(prop) {
-        const classes = [];
-        let partialclass = "";
-        const subwords = prop.split(".");
-        for (const item of subwords) {
+    };
+    Serializer.prototype.splitSerializeName = function (prop) {
+        var classes = [];
+        var partialclass = "";
+        var subwords = prop.split(".");
+        for (var _i = 0, subwords_1 = subwords; _i < subwords_1.length; _i++) {
+            var item = subwords_1[_i];
             if (item.charAt(item.length - 1) === "\\") {
                 partialclass += item.substr(0, item.length - 1) + ".";
             }
@@ -1210,8 +1274,8 @@ class Serializer {
             }
         }
         return classes;
-    }
-    dateToUnixTime(d) {
+    };
+    Serializer.prototype.dateToUnixTime = function (d) {
         if (!d) {
             return undefined;
         }
@@ -1219,158 +1283,158 @@ class Serializer {
             d = new Date(d);
         }
         return Math.floor(d.getTime() / 1000);
-    }
-    unixTimeToDate(n) {
+    };
+    Serializer.prototype.unixTimeToDate = function (n) {
         if (!n) {
             return undefined;
         }
         return new Date(n * 1000);
-    }
-    serializeBasicTypes(typeName, objectName, value) {
+    };
+    Serializer.prototype.serializeBasicTypes = function (typeName, objectName, value) {
         if (value !== null && value !== undefined) {
             if (typeName.match(/^Number$/ig) !== null) {
                 if (typeof value !== "number") {
-                    throw new Error(`${objectName} with value ${value} must be of type number.`);
+                    throw new Error(objectName + " with value " + value + " must be of type number.");
                 }
             }
             else if (typeName.match(/^String$/ig) !== null) {
                 if (typeof value.valueOf() !== "string") {
-                    throw new Error(`${objectName} with value "${value}" must be of type string.`);
+                    throw new Error(objectName + " with value \"" + value + "\" must be of type string.");
                 }
             }
             else if (typeName.match(/^Uuid$/ig) !== null) {
                 if (!(typeof value.valueOf() === "string" && utils.isValidUuid(value))) {
-                    throw new Error(`${objectName} with value "${value}" must be of type string and a valid uuid.`);
+                    throw new Error(objectName + " with value \"" + value + "\" must be of type string and a valid uuid.");
                 }
             }
             else if (typeName.match(/^Boolean$/ig) !== null) {
                 if (typeof value !== "boolean") {
-                    throw new Error(`${objectName} with value ${value} must be of type boolean.`);
+                    throw new Error(objectName + " with value " + value + " must be of type boolean.");
                 }
             }
             else if (typeName.match(/^Object$/ig) !== null) {
                 if (typeof value !== "object") {
-                    throw new Error(`${objectName} must be of type object.`);
+                    throw new Error(objectName + " must be of type object.");
                 }
             }
             else if (typeName.match(/^Stream$/ig) !== null) {
                 if (!isStream(value)) {
-                    throw new Error(`${objectName} must be of type stream.`);
+                    throw new Error(objectName + " must be of type stream.");
                 }
             }
         }
         return value;
-    }
-    serializeEnumType(objectName, allowedValues, value) {
+    };
+    Serializer.prototype.serializeEnumType = function (objectName, allowedValues, value) {
         if (!allowedValues) {
-            throw new Error(`Please provide a set of allowedValues to validate ${objectName} as an Enum Type.`);
+            throw new Error("Please provide a set of allowedValues to validate " + objectName + " as an Enum Type.");
         }
-        const isPresent = allowedValues.some((item) => {
+        var isPresent = allowedValues.some(function (item) {
             if (typeof item.valueOf() === "string") {
                 return item.toLowerCase() === value.toLowerCase();
             }
             return item === value;
         });
         if (!isPresent) {
-            throw new Error(`${value} is not a valid value for ${objectName}. The valid values are: ${JSON.stringify(allowedValues)}.`);
+            throw new Error(value + " is not a valid value for " + objectName + ". The valid values are: " + JSON.stringify(allowedValues) + ".");
         }
         return value;
-    }
-    serializeBufferType(objectName, value) {
+    };
+    Serializer.prototype.serializeBufferType = function (objectName, value) {
         if (value !== null && value !== undefined) {
             if (!isBuffer(value)) {
-                throw new Error(`${objectName} must be of type Buffer.`);
+                throw new Error(objectName + " must be of type Buffer.");
             }
             value = value.toString("base64");
         }
         return value;
-    }
-    serializeBase64UrlType(objectName, value) {
+    };
+    Serializer.prototype.serializeBase64UrlType = function (objectName, value) {
         if (value !== null && value !== undefined) {
             if (!isBuffer(value)) {
-                throw new Error(`${objectName} must be of type Buffer.`);
+                throw new Error(objectName + " must be of type Buffer.");
             }
             value = this.bufferToBase64Url(value);
         }
         return value;
-    }
-    serializeDateTypes(typeName, value, objectName) {
+    };
+    Serializer.prototype.serializeDateTypes = function (typeName, value, objectName) {
         if (value !== null && value !== undefined) {
             if (typeName.match(/^Date$/ig) !== null) {
                 if (!(value instanceof Date ||
                     (typeof value.valueOf() === "string" && !isNaN(Date.parse(value))))) {
-                    throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
+                    throw new Error(objectName + " must be an instanceof Date or a string in ISO8601 format.");
                 }
                 value = (value instanceof Date) ? value.toISOString().substring(0, 10) : new Date(value).toISOString().substring(0, 10);
             }
             else if (typeName.match(/^DateTime$/ig) !== null) {
                 if (!(value instanceof Date ||
                     (typeof value.valueOf() === "string" && !isNaN(Date.parse(value))))) {
-                    throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
+                    throw new Error(objectName + " must be an instanceof Date or a string in ISO8601 format.");
                 }
                 value = (value instanceof Date) ? value.toISOString() : new Date(value).toISOString();
             }
             else if (typeName.match(/^DateTimeRfc1123$/ig) !== null) {
                 if (!(value instanceof Date ||
                     (typeof value.valueOf() === "string" && !isNaN(Date.parse(value))))) {
-                    throw new Error(`${objectName} must be an instanceof Date or a string in RFC-1123 format.`);
+                    throw new Error(objectName + " must be an instanceof Date or a string in RFC-1123 format.");
                 }
                 value = (value instanceof Date) ? value.toUTCString() : new Date(value).toUTCString();
             }
             else if (typeName.match(/^UnixTime$/ig) !== null) {
                 if (!(value instanceof Date ||
                     (typeof value.valueOf() === "string" && !isNaN(Date.parse(value))))) {
-                    throw new Error(`${objectName} must be an instanceof Date or a string in RFC-1123/ISO8601 format ` +
-                        `for it to be serialized in UnixTime/Epoch format.`);
+                    throw new Error(objectName + " must be an instanceof Date or a string in RFC-1123/ISO8601 format " +
+                        "for it to be serialized in UnixTime/Epoch format.");
                 }
                 value = this.dateToUnixTime(value);
             }
             else if (typeName.match(/^TimeSpan$/ig) !== null) {
                 if (!moment_1.isDuration(value)) {
-                    throw new Error(`${objectName} must be a TimeSpan/Duration.`);
+                    throw new Error(objectName + " must be a TimeSpan/Duration.");
                 }
                 value = value.toISOString();
             }
         }
         return value;
-    }
-    serializeSequenceType(mapper, object, objectName) {
+    };
+    Serializer.prototype.serializeSequenceType = function (mapper, object, objectName) {
         if (!Array.isArray(object)) {
-            throw new Error(`${objectName} must be of type Array.`);
+            throw new Error(objectName + " must be of type Array.");
         }
         if (!mapper.type.element || typeof mapper.type.element !== "object") {
-            throw new Error(`element" metadata for an Array must be defined in the ` +
-                `mapper and it must of type "object" in ${objectName}.`);
+            throw new Error("element\" metadata for an Array must be defined in the " +
+                ("mapper and it must of type \"object\" in " + objectName + "."));
         }
-        const tempArray = [];
-        for (let i = 0; i < object.length; i++) {
+        var tempArray = [];
+        for (var i = 0; i < object.length; i++) {
             tempArray[i] = this.serialize(mapper.type.element, object[i], objectName);
         }
         return tempArray;
-    }
-    serializeDictionaryType(mapper, object, objectName) {
+    };
+    Serializer.prototype.serializeDictionaryType = function (mapper, object, objectName) {
         if (typeof object !== "object") {
-            throw new Error(`${objectName} must be of type object.`);
+            throw new Error(objectName + " must be of type object.");
         }
         if (!mapper.type.value || typeof mapper.type.value !== "object") {
-            throw new Error(`"value" metadata for a Dictionary must be defined in the ` +
-                `mapper and it must of type "object" in ${objectName}.`);
+            throw new Error("\"value\" metadata for a Dictionary must be defined in the " +
+                ("mapper and it must of type \"object\" in " + objectName + "."));
         }
-        const tempDictionary = {};
-        for (const key in object) {
+        var tempDictionary = {};
+        for (var key in object) {
             if (object.hasOwnProperty(key)) {
                 tempDictionary[key] = this.serialize(mapper.type.value, object[key], objectName);
             }
         }
         return tempDictionary;
-    }
-    serializeCompositeType(mapper, object, objectName) {
+    };
+    Serializer.prototype.serializeCompositeType = function (mapper, object, objectName) {
         // check for polymorphic discriminator
         if (mapper.type.polymorphicDiscriminator) {
             mapper = this.getPolymorphicMapper(mapper, object, objectName, "serialize");
         }
-        const payload = {};
-        let modelMapper = {
+        var payload = {};
+        var modelMapper = {
             required: false,
             serializedName: "serializedName",
             type: {
@@ -1380,30 +1444,31 @@ class Serializer {
             }
         };
         if (object !== null && object !== undefined) {
-            let modelProps = mapper.type.modelProperties;
+            var modelProps = mapper.type.modelProperties;
             if (!modelProps) {
                 if (!mapper.type.className) {
-                    throw new Error(`Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(mapper, undefined, 2)}".`);
+                    throw new Error("Class name for model \"" + objectName + "\" is not provided in the mapper \"" + JSON.stringify(mapper, undefined, 2) + "\".");
                 }
                 // get the mapper if modelProperties of the CompositeType is not present and
                 // then get the modelProperties from it.
                 modelMapper = this.modelMappers[mapper.type.className];
                 if (!modelMapper) {
-                    throw new Error(`mapper() cannot be null or undefined for model "${mapper.type.className}".`);
+                    throw new Error("mapper() cannot be null or undefined for model \"" + mapper.type.className + "\".");
                 }
                 modelProps = modelMapper.type.modelProperties;
                 if (!modelProps) {
-                    throw new Error(`modelProperties cannot be null or undefined in the ` +
-                        `mapper "${JSON.stringify(modelMapper)}" of type "${mapper.type.className}" for object "${objectName}".`);
+                    throw new Error("modelProperties cannot be null or undefined in the " +
+                        ("mapper \"" + JSON.stringify(modelMapper) + "\" of type \"" + mapper.type.className + "\" for object \"" + objectName + "\"."));
                 }
             }
-            for (const key in modelProps) {
+            for (var key in modelProps) {
                 if (modelProps.hasOwnProperty(key)) {
-                    const paths = this.splitSerializeName(modelProps[key].serializedName);
-                    const propName = paths.pop();
-                    let parentObject = payload;
-                    for (const pathName of paths) {
-                        const childObject = parentObject[pathName];
+                    var paths = this.splitSerializeName(modelProps[key].serializedName);
+                    var propName = paths.pop();
+                    var parentObject = payload;
+                    for (var _i = 0, paths_1 = paths; _i < paths_1.length; _i++) {
+                        var pathName = paths_1[_i];
+                        var childObject = parentObject[pathName];
                         if ((childObject === null || childObject === undefined) && (object[key] !== null && object[key] !== undefined)) {
                             parentObject[pathName] = {};
                         }
@@ -1412,7 +1477,7 @@ class Serializer {
                     // make sure required properties of the CompositeType are present
                     if (modelProps[key].required && !modelProps[key].isConstant) {
                         if (object[key] === null || object[key] === undefined) {
-                            throw new Error(`${key}" cannot be null or undefined in "${objectName}".`);
+                            throw new Error(key + "\" cannot be null or undefined in \"" + objectName + "\".");
                         }
                     }
                     // make sure that readOnly properties are not sent on the wire
@@ -1422,11 +1487,11 @@ class Serializer {
                     // serialize the property if it is present in the provided object instance
                     if (((parentObject !== null && parentObject !== undefined) && (modelProps[key].defaultValue !== null && modelProps[key].defaultValue !== undefined)) ||
                         (object[key] !== null && object[key] !== undefined)) {
-                        let propertyObjectName = objectName;
+                        var propertyObjectName = objectName;
                         if (modelProps[key].serializedName !== "")
                             propertyObjectName = objectName + "." + modelProps[key].serializedName;
-                        const propertyMapper = modelProps[key];
-                        const serializedValue = this.serialize(propertyMapper, object[key], propertyObjectName);
+                        var propertyMapper = modelProps[key];
+                        var serializedValue = this.serialize(propertyMapper, object[key], propertyObjectName);
                         if (propName !== null && propName !== undefined)
                             parentObject[propName] = serializedValue;
                     }
@@ -1435,7 +1500,7 @@ class Serializer {
             return payload;
         }
         return object;
-    }
+    };
     /**
      * Serialize the given object based on its metadata defined in the mapper
      *
@@ -1447,16 +1512,16 @@ class Serializer {
      *
      * @returns {object|string|Array|number|boolean|Date|stream} A valid serialized Javascript object
      */
-    serialize(mapper, object, objectName) {
-        let payload = {};
-        const mapperType = mapper.type.name;
+    Serializer.prototype.serialize = function (mapper, object, objectName) {
+        var payload = {};
+        var mapperType = mapper.type.name;
         if (!objectName)
             objectName = mapper.serializedName;
         if (mapperType.match(/^Sequence$/ig) !== null)
             payload = [];
         // Throw if required and object is null or undefined
         if (mapper.required && (object === null || object === undefined) && !mapper.isConstant) {
-            throw new Error(`${objectName} cannot be null or undefined.`);
+            throw new Error(objectName + " cannot be null or undefined.");
         }
         // Set Defaults
         if ((mapper.defaultValue !== null && mapper.defaultValue !== undefined) &&
@@ -1471,7 +1536,7 @@ class Serializer {
             payload = this.serializeBasicTypes(mapperType, objectName, object);
         }
         else if (mapperType.match(/^Enum$/ig) !== null) {
-            const enumMapper = mapper;
+            var enumMapper = mapper;
             payload = this.serializeEnumType(objectName, enumMapper.type.allowedValues, object);
         }
         else if (mapperType.match(/^(Date|DateTime|TimeSpan|DateTimeRfc1123|UnixTime)$/ig) !== null) {
@@ -1493,15 +1558,15 @@ class Serializer {
             payload = this.serializeCompositeType(mapper, object, objectName);
         }
         return payload;
-    }
-    deserializeCompositeType(mapper, responseBody, objectName) {
+    };
+    Serializer.prototype.deserializeCompositeType = function (mapper, responseBody, objectName) {
         /*jshint validthis: true */
         // check for polymorphic discriminator
         if (mapper.type.polymorphicDiscriminator) {
             mapper = this.getPolymorphicMapper(mapper, responseBody, objectName, "deserialize");
         }
-        let instance = {};
-        let modelMapper = {
+        var instance = {};
+        var modelMapper = {
             required: false,
             serializedName: "serializedName",
             type: {
@@ -1509,41 +1574,42 @@ class Serializer {
             }
         };
         if (responseBody !== null && responseBody !== undefined) {
-            let modelProps = mapper.type.modelProperties;
+            var modelProps = mapper.type.modelProperties;
             if (!modelProps) {
                 if (!mapper.type.className) {
-                    throw new Error(`Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(mapper)}"`);
+                    throw new Error("Class name for model \"" + objectName + "\" is not provided in the mapper \"" + JSON.stringify(mapper) + "\"");
                 }
                 // get the mapper if modelProperties of the CompositeType is not present and
                 // then get the modelProperties from it.
                 modelMapper = this.modelMappers[mapper.type.className];
                 if (!modelMapper) {
-                    throw new Error(`mapper() cannot be null or undefined for model "${mapper.type.className}"`);
+                    throw new Error("mapper() cannot be null or undefined for model \"" + mapper.type.className + "\"");
                 }
                 modelProps = modelMapper.type.modelProperties;
                 if (!modelProps) {
-                    throw new Error(`modelProperties cannot be null or undefined in the ` +
-                        `mapper "${JSON.stringify(modelMapper)}" of type "${mapper.type.className}" for responseBody "${objectName}".`);
+                    throw new Error("modelProperties cannot be null or undefined in the " +
+                        ("mapper \"" + JSON.stringify(modelMapper) + "\" of type \"" + mapper.type.className + "\" for responseBody \"" + objectName + "\"."));
                 }
             }
-            for (const key in modelProps) {
+            for (var key in modelProps) {
                 if (modelProps.hasOwnProperty(key)) {
-                    const paths = this.splitSerializeName(modelProps[key].serializedName);
+                    var paths = this.splitSerializeName(modelProps[key].serializedName);
                     // deserialize the property if it is present in the provided responseBody instance
-                    let propertyInstance;
-                    let res = responseBody;
+                    var propertyInstance = void 0;
+                    var res = responseBody;
                     // traversing the object step by step.
-                    for (const item of paths) {
+                    for (var _i = 0, paths_2 = paths; _i < paths_2.length; _i++) {
+                        var item = paths_2[_i];
                         if (!res)
                             break;
                         res = res[item];
                     }
                     propertyInstance = res;
-                    let propertyObjectName = objectName;
+                    var propertyObjectName = objectName;
                     if (modelProps[key].serializedName !== "")
                         propertyObjectName = objectName + "." + modelProps[key].serializedName;
-                    const propertyMapper = modelProps[key];
-                    let serializedValue;
+                    var propertyMapper = modelProps[key];
+                    var serializedValue = void 0;
                     // paging
                     if (Array.isArray(responseBody[key]) && modelProps[key].serializedName === "") {
                         propertyInstance = responseBody[key];
@@ -1558,16 +1624,16 @@ class Serializer {
             return instance;
         }
         return responseBody;
-    }
-    deserializeDictionaryType(mapper, responseBody, objectName) {
+    };
+    Serializer.prototype.deserializeDictionaryType = function (mapper, responseBody, objectName) {
         /*jshint validthis: true */
         if (!mapper.type.value || typeof mapper.type.value !== "object") {
-            throw new Error(`"value" metadata for a Dictionary must be defined in the ` +
-                `mapper and it must of type "object" in ${objectName}`);
+            throw new Error("\"value\" metadata for a Dictionary must be defined in the " +
+                ("mapper and it must of type \"object\" in " + objectName));
         }
         if (responseBody) {
-            const tempDictionary = {};
-            for (const key in responseBody) {
+            var tempDictionary = {};
+            for (var key in responseBody) {
                 if (responseBody.hasOwnProperty(key)) {
                     tempDictionary[key] = this.deserialize(mapper.type.value, responseBody[key], objectName);
                 }
@@ -1575,22 +1641,22 @@ class Serializer {
             return tempDictionary;
         }
         return responseBody;
-    }
-    deserializeSequenceType(mapper, responseBody, objectName) {
+    };
+    Serializer.prototype.deserializeSequenceType = function (mapper, responseBody, objectName) {
         /*jshint validthis: true */
         if (!mapper.type.element || typeof mapper.type.element !== "object") {
-            throw new Error(`element" metadata for an Array must be defined in the ` +
-                `mapper and it must of type "object" in ${objectName}`);
+            throw new Error("element\" metadata for an Array must be defined in the " +
+                ("mapper and it must of type \"object\" in " + objectName));
         }
         if (responseBody) {
-            const tempArray = [];
-            for (let i = 0; i < responseBody.length; i++) {
+            var tempArray = [];
+            for (var i = 0; i < responseBody.length; i++) {
                 tempArray[i] = this.deserialize(mapper.type.element, responseBody[i], objectName);
             }
             return tempArray;
         }
         return responseBody;
-    }
+    };
     /**
      * Deserialize the given object based on its metadata defined in the mapper
      *
@@ -1602,11 +1668,11 @@ class Serializer {
      *
      * @returns {object|string|Array|number|boolean|Date|stream} A valid deserialized Javascript object
      */
-    deserialize(mapper, responseBody, objectName) {
+    Serializer.prototype.deserialize = function (mapper, responseBody, objectName) {
         if (responseBody === null || responseBody === undefined)
             return responseBody;
-        let payload;
-        const mapperType = mapper.type.name;
+        var payload;
+        var mapperType = mapper.type.name;
         if (!objectName)
             objectName = mapper.serializedName;
         if (mapperType.match(/^Sequence$/ig) !== null)
@@ -1641,8 +1707,8 @@ class Serializer {
         if (mapper.isConstant)
             payload = mapper.defaultValue;
         return payload;
-    }
-    getPolymorphicMapper(mapper, object, objectName, mode) {
+    };
+    Serializer.prototype.getPolymorphicMapper = function (mapper, object, objectName, mode) {
         // check for polymorphic discriminator
         // Until version 1.15.1, "polymorphicDiscriminator" in the mapper was a string. This method was not effective when the
         // polymorphicDiscriminator property had a dot in it"s name. So we have comeup with a desgin where polymorphicDiscriminator
@@ -1662,15 +1728,15 @@ class Serializer {
                 return this.getPolymorphicMapperObjectVersion(mapper, object, objectName, mode);
             }
             else {
-                throw new Error(`The polymorphicDiscriminator for "${objectName}" is neither a string nor an object.`);
+                throw new Error("The polymorphicDiscriminator for \"" + objectName + "\" is neither a string nor an object.");
             }
         }
         return mapper;
-    }
+    };
     // processes new version of the polymorphicDiscriminator in the mapper.
-    getPolymorphicMapperObjectVersion(mapper, object, objectName, mode) {
+    Serializer.prototype.getPolymorphicMapperObjectVersion = function (mapper, object, objectName, mode) {
         // check for polymorphic discriminator
-        let polymorphicPropertyName = "";
+        var polymorphicPropertyName = "";
         if (mode === "serialize") {
             polymorphicPropertyName = "clientName";
         }
@@ -1678,22 +1744,22 @@ class Serializer {
             polymorphicPropertyName = "serializedName";
         }
         else {
-            throw new Error(`The given mode "${mode}" for getting the polymorphic mapper for "${objectName}" is inavlid.`);
+            throw new Error("The given mode \"" + mode + "\" for getting the polymorphic mapper for \"" + objectName + "\" is inavlid.");
         }
-        const discriminatorAsObject = mapper.type.polymorphicDiscriminator;
+        var discriminatorAsObject = mapper.type.polymorphicDiscriminator;
         if (discriminatorAsObject &&
             discriminatorAsObject[polymorphicPropertyName] !== null &&
             discriminatorAsObject[polymorphicPropertyName] !== undefined) {
             if (object === null || object === undefined) {
-                throw new Error(`${objectName}" cannot be null or undefined. ` +
-                    `"${discriminatorAsObject[polymorphicPropertyName]}" is the ` +
-                    `polmorphicDiscriminator and is a required property.`);
+                throw new Error(objectName + "\" cannot be null or undefined. " +
+                    ("\"" + discriminatorAsObject[polymorphicPropertyName] + "\" is the ") +
+                    "polmorphicDiscriminator and is a required property.");
             }
             if (object[discriminatorAsObject[polymorphicPropertyName]] === null ||
                 object[discriminatorAsObject[polymorphicPropertyName]] === undefined) {
-                throw new Error(`No discriminator field "${discriminatorAsObject[polymorphicPropertyName]}" was found in "${objectName}".`);
+                throw new Error("No discriminator field \"" + discriminatorAsObject[polymorphicPropertyName] + "\" was found in \"" + objectName + "\".");
             }
-            let indexDiscriminator = undefined;
+            var indexDiscriminator = undefined;
             if (object[discriminatorAsObject[polymorphicPropertyName]] === mapper.type.uberParent) {
                 indexDiscriminator = object[discriminatorAsObject[polymorphicPropertyName]];
             }
@@ -1701,28 +1767,28 @@ class Serializer {
                 indexDiscriminator = mapper.type.uberParent + "." + object[discriminatorAsObject[polymorphicPropertyName]];
             }
             if (!this.modelMappers.discriminators[indexDiscriminator]) {
-                throw new Error(`${discriminatorAsObject[polymorphicPropertyName]}": ` +
-                    `"${object[discriminatorAsObject[polymorphicPropertyName]]}" in "${objectName}" is not a valid ` +
-                    `discriminator as a corresponding model class for the disciminator "${indexDiscriminator}" ` +
-                    `was not found in this.modelMappers.discriminators object.`);
+                throw new Error(discriminatorAsObject[polymorphicPropertyName] + "\": " +
+                    ("\"" + object[discriminatorAsObject[polymorphicPropertyName]] + "\" in \"" + objectName + "\" is not a valid ") +
+                    ("discriminator as a corresponding model class for the disciminator \"" + indexDiscriminator + "\" ") +
+                    "was not found in this.modelMappers.discriminators object.");
             }
             mapper = this.modelMappers.discriminators[indexDiscriminator];
         }
         return mapper;
-    }
+    };
     // processes old version of the polymorphicDiscriminator in the mapper.
-    getPolymorphicMapperStringVersion(mapper, object, objectName) {
+    Serializer.prototype.getPolymorphicMapperStringVersion = function (mapper, object, objectName) {
         // check for polymorphic discriminator
-        const discriminatorAsString = mapper.type.polymorphicDiscriminator;
+        var discriminatorAsString = mapper.type.polymorphicDiscriminator;
         if (discriminatorAsString !== null && discriminatorAsString !== undefined) {
             if (object === null || object === undefined) {
-                throw new Error(`${objectName}" cannot be null or undefined. "${discriminatorAsString}" is the ` +
-                    `polmorphicDiscriminator and is a required property.`);
+                throw new Error(objectName + "\" cannot be null or undefined. \"" + discriminatorAsString + "\" is the " +
+                    "polmorphicDiscriminator and is a required property.");
             }
             if (object[discriminatorAsString] === null || object[discriminatorAsString] === undefined) {
-                throw new Error(`No discriminator field "${discriminatorAsString}" was found in "${objectName}".`);
+                throw new Error("No discriminator field \"" + discriminatorAsString + "\" was found in \"" + objectName + "\".");
             }
-            let indexDiscriminator = undefined;
+            var indexDiscriminator = undefined;
             if (object[discriminatorAsString] === mapper.type.uberParent) {
                 indexDiscriminator = object[discriminatorAsString];
             }
@@ -1730,16 +1796,17 @@ class Serializer {
                 indexDiscriminator = mapper.type.uberParent + "." + object[discriminatorAsString];
             }
             if (!this.modelMappers.discriminators[indexDiscriminator]) {
-                throw new Error(`${discriminatorAsString}": ` +
-                    `"${object[discriminatorAsString]}"  in "${objectName}" is not a valid ` +
-                    `discriminator as a corresponding model class for the disciminator "${indexDiscriminator}" ` +
-                    `was not found in this.models.discriminators object.`);
+                throw new Error(discriminatorAsString + "\": " +
+                    ("\"" + object[discriminatorAsString] + "\"  in \"" + objectName + "\" is not a valid ") +
+                    ("discriminator as a corresponding model class for the disciminator \"" + indexDiscriminator + "\" ") +
+                    "was not found in this.models.discriminators object.");
             }
             mapper = this.modelMappers.discriminators[indexDiscriminator];
         }
         return mapper;
-    }
-}
+    };
+    return Serializer;
+}());
 exports.Serializer = Serializer;
 function serializeObject(toSerialize) {
     if (toSerialize === null || toSerialize === undefined)
@@ -1752,15 +1819,15 @@ function serializeObject(toSerialize) {
         return toSerialize.toISOString();
     }
     else if (Array.isArray(toSerialize)) {
-        const array = [];
-        for (let i = 0; i < toSerialize.length; i++) {
+        var array = [];
+        for (var i = 0; i < toSerialize.length; i++) {
             array.push(serializeObject(toSerialize[i]));
         }
         return array;
     }
     else if (typeof toSerialize === "object") {
-        const dictionary = {};
-        for (const property in toSerialize) {
+        var dictionary = {};
+        for (var property in toSerialize) {
             dictionary[property] = serializeObject(toSerialize[property]);
         }
         return dictionary;
@@ -1825,24 +1892,24 @@ isStream.transform = function (stream) {
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 Object.defineProperty(exports, "__esModule", { value: true });
-const utils = __webpack_require__(0);
-class RequestPipeline {
-    constructor(filters, requestOptions) {
+var utils = __webpack_require__(0);
+var RequestPipeline = /** @class */ (function () {
+    function RequestPipeline(filters, requestOptions) {
         this.filters = filters || [];
         this.requestOptions = requestOptions || {};
     }
-    addFilter(f) {
+    RequestPipeline.prototype.addFilter = function (f) {
         this.filters.push(f);
         return;
-    }
-    create() {
-        const self = this;
-        let pipeline = [];
+    };
+    RequestPipeline.prototype.create = function () {
+        var self = this;
+        var pipeline = [];
         if (self.filters && self.filters.length) {
-            const beforeFilters = [];
-            const afterFilters = [];
-            for (let i = 0; i < self.filters.length; i++) {
-                const filter = self.filters[i];
+            var beforeFilters = [];
+            var afterFilters = [];
+            for (var i = 0; i < self.filters.length; i++) {
+                var filter = self.filters[i];
                 if (filter.before && typeof filter.before === "function") {
                     beforeFilters.push(filter.before.bind(filter));
                 }
@@ -1857,19 +1924,20 @@ class RequestPipeline {
         else {
             pipeline.push(self.requestSink.bind(self));
         }
-        const requestFun = (request) => {
+        var requestFun = function (request) {
             if (!request.headers)
                 request.headers = {};
             return utils.executePromisesSequentially(pipeline, request);
         };
         return requestFun;
-    }
-    requestSink(options) {
+    };
+    RequestPipeline.prototype.requestSink = function (options) {
         if (this.requestOptions.method)
             delete this.requestOptions.method;
         return utils.dispatchRequest(options);
-    }
-}
+    };
+    return RequestPipeline;
+}());
 exports.RequestPipeline = RequestPipeline;
 
 
@@ -1881,6 +1949,16 @@ exports.RequestPipeline = RequestPipeline;
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1889,9 +1967,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const baseFilter_1 = __webpack_require__(1);
-const utils = __webpack_require__(0);
+var baseFilter_1 = __webpack_require__(1);
+var utils = __webpack_require__(0);
 /**
  * @class
  * Instantiates a new "ExponentialRetryPolicyFilter" instance.
@@ -1902,17 +2007,19 @@ const utils = __webpack_require__(0);
  * @param {number} minRetryInterval  The minimum retry interval, in milliseconds.
  * @param {number} maxRetryInterval  The maximum retry interval, in milliseconds.
  */
-class ExponentialRetryPolicyFilter extends baseFilter_1.BaseFilter {
-    constructor(retryCount, retryInterval, minRetryInterval, maxRetryInterval) {
-        super();
-        this.DEFAULT_CLIENT_RETRY_INTERVAL = 1000 * 30;
-        this.DEFAULT_CLIENT_RETRY_COUNT = 3;
-        this.DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
-        this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
-        this.retryCount = typeof retryCount === "number" ? retryCount : this.DEFAULT_CLIENT_RETRY_COUNT;
-        this.retryInterval = typeof retryInterval === "number" ? retryInterval : this.DEFAULT_CLIENT_RETRY_INTERVAL;
-        this.minRetryInterval = typeof minRetryInterval === "number" ? minRetryInterval : this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
-        this.maxRetryInterval = typeof maxRetryInterval === "number" ? maxRetryInterval : this.DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+var ExponentialRetryPolicyFilter = /** @class */ (function (_super) {
+    __extends(ExponentialRetryPolicyFilter, _super);
+    function ExponentialRetryPolicyFilter(retryCount, retryInterval, minRetryInterval, maxRetryInterval) {
+        var _this = _super.call(this) || this;
+        _this.DEFAULT_CLIENT_RETRY_INTERVAL = 1000 * 30;
+        _this.DEFAULT_CLIENT_RETRY_COUNT = 3;
+        _this.DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
+        _this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
+        _this.retryCount = typeof retryCount === "number" ? retryCount : _this.DEFAULT_CLIENT_RETRY_COUNT;
+        _this.retryInterval = typeof retryInterval === "number" ? retryInterval : _this.DEFAULT_CLIENT_RETRY_INTERVAL;
+        _this.minRetryInterval = typeof minRetryInterval === "number" ? minRetryInterval : _this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
+        _this.maxRetryInterval = typeof maxRetryInterval === "number" ? maxRetryInterval : _this.DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+        return _this;
     }
     /**
      * Determines if the operation should be retried and how long to wait until the next retry.
@@ -1921,11 +2028,11 @@ class ExponentialRetryPolicyFilter extends baseFilter_1.BaseFilter {
      * @param {RetryData} retryData  The retry data.
      * @return {boolean} True if the operation qualifies for a retry; false otherwise.
      */
-    shouldRetry(statusCode, retryData) {
+    ExponentialRetryPolicyFilter.prototype.shouldRetry = function (statusCode, retryData) {
         if ((statusCode < 500 && statusCode !== 408) || statusCode === 501 || statusCode === 505) {
             return false;
         }
-        let currentCount;
+        var currentCount;
         if (!retryData) {
             throw new Error("retryData for the ExponentialRetryPolicyFilter cannot be null.");
         }
@@ -1933,14 +2040,14 @@ class ExponentialRetryPolicyFilter extends baseFilter_1.BaseFilter {
             currentCount = (retryData && retryData.retryCount);
         }
         return (currentCount < this.retryCount);
-    }
+    };
     /**
      * Updates the retry data for the next attempt.
      *
      * @param {RetryData} retryData  The retry data.
      * @param {object} err        The operation"s error, if any.
      */
-    updateRetryData(retryData, err) {
+    ExponentialRetryPolicyFilter.prototype.updateRetryData = function (retryData, err) {
         if (!retryData) {
             retryData = {
                 retryCount: 0,
@@ -1956,42 +2063,54 @@ class ExponentialRetryPolicyFilter extends baseFilter_1.BaseFilter {
         // Adjust retry count
         retryData.retryCount++;
         // Adjust retry interval
-        let incrementDelta = Math.pow(2, retryData.retryCount) - 1;
-        const boundedRandDelta = this.retryInterval * 0.8 +
+        var incrementDelta = Math.pow(2, retryData.retryCount) - 1;
+        var boundedRandDelta = this.retryInterval * 0.8 +
             Math.floor(Math.random() * (this.retryInterval * 1.2 - this.retryInterval * 0.8));
         incrementDelta *= boundedRandDelta;
         retryData.retryInterval = Math.min(this.minRetryInterval + incrementDelta, this.maxRetryInterval);
         return retryData;
-    }
-    retry(operationResponse, retryData, err) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const self = this;
-            const response = operationResponse.response;
-            retryData = self.updateRetryData(retryData, err);
-            if (!utils.objectIsNull(response) && self.shouldRetry(response.status, retryData)) {
-                try {
-                    yield utils.delay(retryData.retryInterval);
-                    const res = yield utils.dispatchRequest(operationResponse.request);
-                    return self.retry(res, retryData, err);
+    };
+    ExponentialRetryPolicyFilter.prototype.retry = function (operationResponse, retryData, err) {
+        return __awaiter(this, void 0, void 0, function () {
+            var self, response, res, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        self = this;
+                        response = operationResponse.response;
+                        retryData = self.updateRetryData(retryData, err);
+                        if (!(!utils.objectIsNull(response) && self.shouldRetry(response.status, retryData))) return [3 /*break*/, 6];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 4, , 5]);
+                        return [4 /*yield*/, utils.delay(retryData.retryInterval)];
+                    case 2:
+                        _a.sent();
+                        return [4 /*yield*/, utils.dispatchRequest(operationResponse.request)];
+                    case 3:
+                        res = _a.sent();
+                        return [2 /*return*/, self.retry(res, retryData, err)];
+                    case 4:
+                        err_1 = _a.sent();
+                        return [2 /*return*/, self.retry(operationResponse, retryData, err_1)];
+                    case 5: return [3 /*break*/, 7];
+                    case 6:
+                        if (!utils.objectIsNull(err)) {
+                            // If the operation failed in the end, return all errors instead of just the last one
+                            err = retryData.error;
+                            return [2 /*return*/, Promise.reject(err)];
+                        }
+                        return [2 /*return*/, Promise.resolve(operationResponse)];
+                    case 7: return [2 /*return*/];
                 }
-                catch (err) {
-                    return self.retry(operationResponse, retryData, err);
-                }
-            }
-            else {
-                if (!utils.objectIsNull(err)) {
-                    // If the operation failed in the end, return all errors instead of just the last one
-                    err = retryData.error;
-                    return Promise.reject(err);
-                }
-                return Promise.resolve(operationResponse);
-            }
+            });
         });
-    }
-    after(operationResponse) {
+    };
+    ExponentialRetryPolicyFilter.prototype.after = function (operationResponse) {
         return this.retry(operationResponse);
-    }
-}
+    };
+    return ExponentialRetryPolicyFilter;
+}(baseFilter_1.BaseFilter));
 exports.ExponentialRetryPolicyFilter = ExponentialRetryPolicyFilter;
 
 
@@ -2003,6 +2122,16 @@ exports.ExponentialRetryPolicyFilter = ExponentialRetryPolicyFilter;
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2011,9 +2140,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const baseFilter_1 = __webpack_require__(1);
-const utils = __webpack_require__(0);
+var baseFilter_1 = __webpack_require__(1);
+var utils = __webpack_require__(0);
 /**
  * @class
  * Instantiates a new "ExponentialRetryPolicyFilter" instance.
@@ -2024,17 +2180,19 @@ const utils = __webpack_require__(0);
  * @param {number} minRetryInterval  The minimum retry interval, in milliseconds.
  * @param {number} maxRetryInterval  The maximum retry interval, in milliseconds.
  */
-class SystemErrorRetryPolicyFilter extends baseFilter_1.BaseFilter {
-    constructor(retryCount, retryInterval, minRetryInterval, maxRetryInterval) {
-        super();
-        this.DEFAULT_CLIENT_RETRY_INTERVAL = 1000 * 30;
-        this.DEFAULT_CLIENT_RETRY_COUNT = 3;
-        this.DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
-        this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
-        this.retryCount = typeof retryCount === "number" ? retryCount : this.DEFAULT_CLIENT_RETRY_COUNT;
-        this.retryInterval = typeof retryInterval === "number" ? retryInterval : this.DEFAULT_CLIENT_RETRY_INTERVAL;
-        this.minRetryInterval = typeof minRetryInterval === "number" ? minRetryInterval : this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
-        this.maxRetryInterval = typeof maxRetryInterval === "number" ? maxRetryInterval : this.DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+var SystemErrorRetryPolicyFilter = /** @class */ (function (_super) {
+    __extends(SystemErrorRetryPolicyFilter, _super);
+    function SystemErrorRetryPolicyFilter(retryCount, retryInterval, minRetryInterval, maxRetryInterval) {
+        var _this = _super.call(this) || this;
+        _this.DEFAULT_CLIENT_RETRY_INTERVAL = 1000 * 30;
+        _this.DEFAULT_CLIENT_RETRY_COUNT = 3;
+        _this.DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
+        _this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
+        _this.retryCount = typeof retryCount === "number" ? retryCount : _this.DEFAULT_CLIENT_RETRY_COUNT;
+        _this.retryInterval = typeof retryInterval === "number" ? retryInterval : _this.DEFAULT_CLIENT_RETRY_INTERVAL;
+        _this.minRetryInterval = typeof minRetryInterval === "number" ? minRetryInterval : _this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
+        _this.maxRetryInterval = typeof maxRetryInterval === "number" ? maxRetryInterval : _this.DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+        return _this;
     }
     /**
      * Determines if the operation should be retried and how long to wait until the next retry.
@@ -2043,8 +2201,8 @@ class SystemErrorRetryPolicyFilter extends baseFilter_1.BaseFilter {
      * @param {RetryData} retryData  The retry data.
      * @return {boolean} True if the operation qualifies for a retry; false otherwise.
      */
-    shouldRetry(retryData) {
-        let currentCount;
+    SystemErrorRetryPolicyFilter.prototype.shouldRetry = function (retryData) {
+        var currentCount;
         if (!retryData) {
             throw new Error("retryData for the SystemErrorRetryPolicyFilter cannot be null.");
         }
@@ -2052,14 +2210,14 @@ class SystemErrorRetryPolicyFilter extends baseFilter_1.BaseFilter {
             currentCount = (retryData && retryData.retryCount);
         }
         return (currentCount < this.retryCount);
-    }
+    };
     /**
      * Updates the retry data for the next attempt.
      *
      * @param {RetryData} retryData  The retry data.
      * @param {object} err        The operation"s error, if any.
      */
-    updateRetryData(retryData, err) {
+    SystemErrorRetryPolicyFilter.prototype.updateRetryData = function (retryData, err) {
         if (!retryData) {
             retryData = {
                 retryCount: 0,
@@ -2075,44 +2233,55 @@ class SystemErrorRetryPolicyFilter extends baseFilter_1.BaseFilter {
         // Adjust retry count
         retryData.retryCount++;
         // Adjust retry interval
-        let incrementDelta = Math.pow(2, retryData.retryCount) - 1;
-        const boundedRandDelta = this.retryInterval * 0.8 +
+        var incrementDelta = Math.pow(2, retryData.retryCount) - 1;
+        var boundedRandDelta = this.retryInterval * 0.8 +
             Math.floor(Math.random() * (this.retryInterval * 1.2 - this.retryInterval * 0.8));
         incrementDelta *= boundedRandDelta;
         retryData.retryInterval = Math.min(this.minRetryInterval + incrementDelta, this.maxRetryInterval);
         return retryData;
-    }
-    retry(operationResponse, retryData, err) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const self = this;
-            retryData = self.updateRetryData(retryData, err);
-            if (err && err.code && self.shouldRetry(retryData) &&
-                (err.code === "ETIMEDOUT" || err.code === "ESOCKETTIMEDOUT" || err.code === "ECONNREFUSED" ||
-                    err.code === "ECONNRESET" || err.code === "ENOENT")) {
-                // If previous operation ended with an error and the policy allows a retry, do that
-                try {
-                    yield utils.delay(retryData.retryInterval);
-                    const res = yield utils.dispatchRequest(operationResponse.request);
-                    return self.retry(res, retryData, err);
+    };
+    SystemErrorRetryPolicyFilter.prototype.retry = function (operationResponse, retryData, err) {
+        return __awaiter(this, void 0, void 0, function () {
+            var self, res, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        self = this;
+                        retryData = self.updateRetryData(retryData, err);
+                        if (!(err && err.code && self.shouldRetry(retryData) &&
+                            (err.code === "ETIMEDOUT" || err.code === "ESOCKETTIMEDOUT" || err.code === "ECONNREFUSED" ||
+                                err.code === "ECONNRESET" || err.code === "ENOENT"))) return [3 /*break*/, 6];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 4, , 5]);
+                        return [4 /*yield*/, utils.delay(retryData.retryInterval)];
+                    case 2:
+                        _a.sent();
+                        return [4 /*yield*/, utils.dispatchRequest(operationResponse.request)];
+                    case 3:
+                        res = _a.sent();
+                        return [2 /*return*/, self.retry(res, retryData, err)];
+                    case 4:
+                        err_1 = _a.sent();
+                        return [2 /*return*/, self.retry(operationResponse, retryData, err_1)];
+                    case 5: return [3 /*break*/, 7];
+                    case 6:
+                        if (!utils.objectIsNull(err)) {
+                            // If the operation failed in the end, return all errors instead of just the last one
+                            err = retryData.error;
+                            return [2 /*return*/, Promise.reject(err)];
+                        }
+                        return [2 /*return*/, Promise.resolve(operationResponse)];
+                    case 7: return [2 /*return*/];
                 }
-                catch (err) {
-                    return self.retry(operationResponse, retryData, err);
-                }
-            }
-            else {
-                if (!utils.objectIsNull(err)) {
-                    // If the operation failed in the end, return all errors instead of just the last one
-                    err = retryData.error;
-                    return Promise.reject(err);
-                }
-                return Promise.resolve(operationResponse);
-            }
+            });
         });
-    }
-    after(operationResponse) {
+    };
+    SystemErrorRetryPolicyFilter.prototype.after = function (operationResponse) {
         return this.retry(operationResponse); // See: https://github.com/Microsoft/TypeScript/issues/7426
-    }
-}
+    };
+    return SystemErrorRetryPolicyFilter;
+}(baseFilter_1.BaseFilter));
 exports.SystemErrorRetryPolicyFilter = SystemErrorRetryPolicyFilter;
 
 
@@ -2122,6 +2291,16 @@ exports.SystemErrorRetryPolicyFilter = SystemErrorRetryPolicyFilter;
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2130,54 +2309,94 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
-const baseFilter_1 = __webpack_require__(1);
-const utils = __webpack_require__(0);
-const parse = __webpack_require__(28);
-class RedirectFilter extends baseFilter_1.BaseFilter {
-    constructor(maximumRetries = 20) {
-        super();
-        this.maximumRetries = maximumRetries;
+var baseFilter_1 = __webpack_require__(1);
+var utils = __webpack_require__(0);
+var parse = __webpack_require__(28);
+var RedirectFilter = /** @class */ (function (_super) {
+    __extends(RedirectFilter, _super);
+    function RedirectFilter(maximumRetries) {
+        if (maximumRetries === void 0) { maximumRetries = 20; }
+        var _this = _super.call(this) || this;
+        _this.maximumRetries = maximumRetries;
+        return _this;
     }
-    handleRedirect(operationResponse, currentRetries) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const request = operationResponse.request;
-            const response = operationResponse.response;
-            if (response && response.headers && response.headers.get("location") &&
-                (response.status === 300 || response.status === 307 || (response.status === 303 && request.method === "POST")) &&
-                (!this.maximumRetries || currentRetries < this.maximumRetries)) {
-                if (parse(response.headers.get("location")).hostname) {
-                    request.url = response.headers.get("location");
+    RedirectFilter.prototype.handleRedirect = function (operationResponse, currentRetries) {
+        return __awaiter(this, void 0, void 0, function () {
+            var request, response, urlObject, res, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        request = operationResponse.request;
+                        response = operationResponse.response;
+                        if (!(response && response.headers && response.headers.get("location") &&
+                            (response.status === 300 || response.status === 307 || (response.status === 303 && request.method === "POST")) &&
+                            (!this.maximumRetries || currentRetries < this.maximumRetries))) return [3 /*break*/, 5];
+                        if (parse(response.headers.get("location")).hostname) {
+                            request.url = response.headers.get("location");
+                        }
+                        else {
+                            urlObject = parse(request.url);
+                            urlObject.set("pathname", response.headers.get("location"));
+                            request.url = urlObject.href;
+                        }
+                        // POST request with Status code 303 should be converted into a
+                        // redirected GET request if the redirect url is present in the location header
+                        if (response.status === 303) {
+                            request.method = "GET";
+                        }
+                        res = void 0;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, utils.dispatchRequest(request)];
+                    case 2:
+                        res = _a.sent();
+                        currentRetries++;
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_1 = _a.sent();
+                        return [2 /*return*/, Promise.reject(err_1)];
+                    case 4: return [2 /*return*/, this.handleRedirect(res, currentRetries)];
+                    case 5: return [2 /*return*/, Promise.resolve(operationResponse)];
                 }
-                else {
-                    const urlObject = parse(request.url);
-                    urlObject.set("pathname", response.headers.get("location"));
-                    request.url = urlObject.href;
-                }
-                // POST request with Status code 303 should be converted into a
-                // redirected GET request if the redirect url is present in the location header
-                if (response.status === 303) {
-                    request.method = "GET";
-                }
-                let res;
-                try {
-                    res = yield utils.dispatchRequest(request);
-                    currentRetries++;
-                }
-                catch (err) {
-                    return Promise.reject(err);
-                }
-                return this.handleRedirect(res, currentRetries);
-            }
-            return Promise.resolve(operationResponse);
+            });
         });
-    }
-    after(operationResponse) {
+    };
+    RedirectFilter.prototype.after = function (operationResponse) {
         return this.handleRedirect(operationResponse, 0);
-    }
-}
+    };
+    return RedirectFilter;
+}(baseFilter_1.BaseFilter));
 exports.RedirectFilter = RedirectFilter;
 
 
@@ -2189,18 +2408,31 @@ exports.RedirectFilter = RedirectFilter;
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-const baseFilter_1 = __webpack_require__(1);
-class SigningFilter extends baseFilter_1.BaseFilter {
-    constructor(authenticationProvider) {
-        super();
-        this.authenticationProvider = authenticationProvider;
+var baseFilter_1 = __webpack_require__(1);
+var SigningFilter = /** @class */ (function (_super) {
+    __extends(SigningFilter, _super);
+    function SigningFilter(authenticationProvider) {
+        var _this = _super.call(this) || this;
+        _this.authenticationProvider = authenticationProvider;
+        return _this;
     }
-    before(request) {
-        const self = this;
+    SigningFilter.prototype.before = function (request) {
+        var self = this;
         return self.authenticationProvider.signRequest(request);
-    }
-}
+    };
+    return SigningFilter;
+}(baseFilter_1.BaseFilter));
 exports.SigningFilter = SigningFilter;
 
 
@@ -2212,31 +2444,43 @@ exports.SigningFilter = SigningFilter;
 /* WEBPACK VAR INJECTION */(function(process) {
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-const baseFilter_1 = __webpack_require__(1);
-const constants_1 = __webpack_require__(2);
-const utils_1 = __webpack_require__(0);
-const os = __webpack_require__(32);
-const HeaderConstants = constants_1.Constants.HeaderConstants;
-class MsRestUserAgentFilter extends baseFilter_1.BaseFilter {
-    constructor(userAgentInfo) {
-        super();
-        this.userAgentInfo = userAgentInfo;
+var baseFilter_1 = __webpack_require__(1);
+var constants_1 = __webpack_require__(2);
+var utils_1 = __webpack_require__(0);
+var os = __webpack_require__(32);
+var HeaderConstants = constants_1.Constants.HeaderConstants;
+var MsRestUserAgentFilter = /** @class */ (function (_super) {
+    __extends(MsRestUserAgentFilter, _super);
+    function MsRestUserAgentFilter(userAgentInfo) {
+        var _this = _super.call(this) || this;
+        _this.userAgentInfo = userAgentInfo;
+        return _this;
     }
-    tagRequest(request) {
+    MsRestUserAgentFilter.prototype.tagRequest = function (request) {
         if (utils_1.isNode) {
-            const osInfo = `(${os.arch()}-${os.type()}-${os.release()})`;
+            var osInfo = "(" + os.arch() + "-" + os.type() + "-" + os.release() + ")";
             if (this.userAgentInfo.indexOf(osInfo) === -1) {
                 this.userAgentInfo.unshift(osInfo);
             }
-            const runtimeInfo = `Node/${process.version}`;
+            var runtimeInfo = "Node/" + process.version;
             if (this.userAgentInfo.indexOf(runtimeInfo) === -1) {
                 this.userAgentInfo.unshift(runtimeInfo);
             }
-            const nodeSDKSignature = `Azure-SDK-For-Node`;
+            var nodeSDKSignature = "Azure-SDK-For-Node";
             if (this.userAgentInfo.indexOf(nodeSDKSignature) === -1) {
-                const azureRuntime = `ms-rest-azure`;
-                let insertIndex = this.userAgentInfo.indexOf(azureRuntime);
+                var azureRuntime = "ms-rest-azure";
+                var insertIndex = this.userAgentInfo.indexOf(azureRuntime);
                 // insert after azureRuntime, otherwise, insert last.
                 insertIndex = insertIndex < 0 ? this.userAgentInfo.length : insertIndex + 1;
                 this.userAgentInfo.splice(insertIndex, 0, nodeSDKSignature);
@@ -2246,9 +2490,9 @@ class MsRestUserAgentFilter extends baseFilter_1.BaseFilter {
             request.headers[HeaderConstants.USER_AGENT] = this.userAgentInfo.join(" ");
         }
         return Promise.resolve(request);
-    }
-    before(request) {
-        const self = this;
+    };
+    MsRestUserAgentFilter.prototype.before = function (request) {
+        var self = this;
         if (!request.headers)
             request.headers = {};
         if (!request.headers[HeaderConstants.USER_AGENT]) {
@@ -2257,8 +2501,9 @@ class MsRestUserAgentFilter extends baseFilter_1.BaseFilter {
         else {
             return Promise.resolve(request);
         }
-    }
-}
+    };
+    return MsRestUserAgentFilter;
+}(baseFilter_1.BaseFilter));
 exports.MsRestUserAgentFilter = MsRestUserAgentFilter;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
@@ -2272,37 +2517,37 @@ exports.MsRestUserAgentFilter = MsRestUserAgentFilter;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 Object.defineProperty(exports, "__esModule", { value: true });
-const webResource_1 = __webpack_require__(3);
+var webResource_1 = __webpack_require__(3);
 exports.WebResource = webResource_1.WebResource;
-const httpOperationResponse_1 = __webpack_require__(9);
+var httpOperationResponse_1 = __webpack_require__(9);
 exports.HttpOperationResponse = httpOperationResponse_1.HttpOperationResponse;
-const restError_1 = __webpack_require__(8);
+var restError_1 = __webpack_require__(8);
 exports.RestError = restError_1.RestError;
-const serviceClient_1 = __webpack_require__(27);
+var serviceClient_1 = __webpack_require__(27);
 exports.ServiceClient = serviceClient_1.ServiceClient;
-const constants_1 = __webpack_require__(2);
+var constants_1 = __webpack_require__(2);
 exports.Constants = constants_1.Constants;
-const requestPipeline_1 = __webpack_require__(12);
+var requestPipeline_1 = __webpack_require__(12);
 exports.RequestPipeline = requestPipeline_1.RequestPipeline;
-const logFilter_1 = __webpack_require__(33);
+var logFilter_1 = __webpack_require__(33);
 exports.LogFilter = logFilter_1.LogFilter;
-const baseFilter_1 = __webpack_require__(1);
+var baseFilter_1 = __webpack_require__(1);
 exports.BaseFilter = baseFilter_1.BaseFilter;
-const exponentialRetryPolicyFilter_1 = __webpack_require__(13);
+var exponentialRetryPolicyFilter_1 = __webpack_require__(13);
 exports.ExponentialRetryPolicyFilter = exponentialRetryPolicyFilter_1.ExponentialRetryPolicyFilter;
-const systemErrorRetryPolicyFilter_1 = __webpack_require__(14);
+var systemErrorRetryPolicyFilter_1 = __webpack_require__(14);
 exports.SystemErrorRetryPolicyFilter = systemErrorRetryPolicyFilter_1.SystemErrorRetryPolicyFilter;
-const redirectFilter_1 = __webpack_require__(15);
+var redirectFilter_1 = __webpack_require__(15);
 exports.RedirectFilter = redirectFilter_1.RedirectFilter;
-const signingFilter_1 = __webpack_require__(16);
+var signingFilter_1 = __webpack_require__(16);
 exports.SigningFilter = signingFilter_1.SigningFilter;
-const msRestUserAgentFilter_1 = __webpack_require__(17);
+var msRestUserAgentFilter_1 = __webpack_require__(17);
 exports.MsRestUserAgentFilter = msRestUserAgentFilter_1.MsRestUserAgentFilter;
-const serializer_1 = __webpack_require__(10);
+var serializer_1 = __webpack_require__(10);
 exports.MapperType = serializer_1.MapperType;
 exports.Serializer = serializer_1.Serializer;
 exports.serializeObject = serializer_1.serializeObject;
-const utils_1 = __webpack_require__(0);
+var utils_1 = __webpack_require__(0);
 exports.stripRequest = utils_1.stripRequest;
 exports.stripResponse = utils_1.stripResponse;
 exports.delay = utils_1.delay;
@@ -2316,11 +2561,11 @@ exports.dispatchRequest = utils_1.dispatchRequest;
 exports.applyMixins = utils_1.applyMixins;
 exports.isNode = utils_1.isNode;
 // Credentials
-const tokenCredentials_1 = __webpack_require__(34);
+var tokenCredentials_1 = __webpack_require__(34);
 exports.TokenCredentials = tokenCredentials_1.TokenCredentials;
-const basicAuthenticationCredentials_1 = __webpack_require__(35);
+var basicAuthenticationCredentials_1 = __webpack_require__(35);
 exports.BasicAuthenticationCredentials = basicAuthenticationCredentials_1.BasicAuthenticationCredentials;
-const isStream = __webpack_require__(11);
+var isStream = __webpack_require__(11);
 exports.isStream = isStream;
 
 
@@ -3077,21 +3322,48 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const requestPipeline_1 = __webpack_require__(12);
-const exponentialRetryPolicyFilter_1 = __webpack_require__(13);
-const systemErrorRetryPolicyFilter_1 = __webpack_require__(14);
-const redirectFilter_1 = __webpack_require__(15);
-const signingFilter_1 = __webpack_require__(16);
-const rpRegistrationFilter_1 = __webpack_require__(31);
-const msRestUserAgentFilter_1 = __webpack_require__(17);
-const webResource_1 = __webpack_require__(3);
-const constants_1 = __webpack_require__(2);
+var requestPipeline_1 = __webpack_require__(12);
+var exponentialRetryPolicyFilter_1 = __webpack_require__(13);
+var systemErrorRetryPolicyFilter_1 = __webpack_require__(14);
+var redirectFilter_1 = __webpack_require__(15);
+var signingFilter_1 = __webpack_require__(16);
+var rpRegistrationFilter_1 = __webpack_require__(31);
+var msRestUserAgentFilter_1 = __webpack_require__(17);
+var webResource_1 = __webpack_require__(3);
+var constants_1 = __webpack_require__(2);
 /**
  * @class
  * Initializes a new instance of the ServiceClient.
  */
-class ServiceClient {
+var ServiceClient = /** @class */ (function () {
     /**
      * The ServiceClient constructor
      * @constructor
@@ -3099,7 +3371,7 @@ class ServiceClient {
      * TokenCredentials object used for authentication.
      * @param { ServiceClientOptions } [options] The service client options that govern the behavior of the client.
      */
-    constructor(credentials, options) {
+    function ServiceClient(credentials, options) {
         if (!options) {
             options = {};
         }
@@ -3114,9 +3386,9 @@ class ServiceClient {
             throw new Error("credentials argument needs to implement signRequest method");
         }
         try {
-            const moduleName = "ms-rest-js";
-            const moduleVersion = constants_1.Constants.msRestVersion;
-            this.addUserAgentInfo(`${moduleName}/${moduleVersion}`);
+            var moduleName = "ms-rest-js";
+            var moduleVersion = constants_1.Constants.msRestVersion;
+            this.addUserAgentInfo(moduleName + "/" + moduleVersion);
         }
         catch (err) {
             // do nothing
@@ -3137,43 +3409,51 @@ class ServiceClient {
      * Adds custom information to user agent header
      * @param {any} additionalUserAgentInfo - information to be added to user agent header, as string.
      */
-    addUserAgentInfo(additionalUserAgentInfo) {
+    ServiceClient.prototype.addUserAgentInfo = function (additionalUserAgentInfo) {
         if (this.userAgentInfo.value.indexOf(additionalUserAgentInfo) === -1) {
             this.userAgentInfo.value.push(additionalUserAgentInfo);
         }
         return;
-    }
-    sendRequest(options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (options === null || options === undefined || typeof options !== "object") {
-                throw new Error("options cannot be null or undefined and it must be of type object.");
-            }
-            let httpRequest;
-            try {
-                if (options instanceof webResource_1.WebResource) {
-                    options.validateRequestProperties();
-                    httpRequest = options;
+    };
+    ServiceClient.prototype.sendRequest = function (options) {
+        return __awaiter(this, void 0, void 0, function () {
+            var httpRequest, operationResponse, err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (options === null || options === undefined || typeof options !== "object") {
+                            throw new Error("options cannot be null or undefined and it must be of type object.");
+                        }
+                        try {
+                            if (options instanceof webResource_1.WebResource) {
+                                options.validateRequestProperties();
+                                httpRequest = options;
+                            }
+                            else {
+                                httpRequest = new webResource_1.WebResource();
+                                httpRequest = httpRequest.prepare(options);
+                            }
+                        }
+                        catch (error) {
+                            return [2 /*return*/, Promise.reject(error)];
+                        }
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.pipeline(httpRequest)];
+                    case 2:
+                        operationResponse = _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_1 = _a.sent();
+                        return [2 /*return*/, Promise.reject(err_1)];
+                    case 4: return [2 /*return*/, Promise.resolve(operationResponse)];
                 }
-                else {
-                    httpRequest = new webResource_1.WebResource();
-                    httpRequest = httpRequest.prepare(options);
-                }
-            }
-            catch (error) {
-                return Promise.reject(error);
-            }
-            // send request
-            let operationResponse;
-            try {
-                operationResponse = yield this.pipeline(httpRequest);
-            }
-            catch (err) {
-                return Promise.reject(err);
-            }
-            return Promise.resolve(operationResponse);
+            });
         });
-    }
-}
+    };
+    return ServiceClient;
+}());
 exports.ServiceClient = ServiceClient;
 
 
@@ -3722,6 +4002,16 @@ exports.parse = querystring;
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -3730,62 +4020,103 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
-const baseFilter_1 = __webpack_require__(1);
-const utils = __webpack_require__(0);
+var baseFilter_1 = __webpack_require__(1);
+var utils = __webpack_require__(0);
 /* tslint:disable:prefer-const */
-let retryTimeout = 30;
+var retryTimeout = 30;
 /* tslint:enable:prefer-const */
-class RPRegistrationFilter extends baseFilter_1.BaseFilter {
-    constructor(retryTimeout = 30) {
-        super();
+var RPRegistrationFilter = /** @class */ (function (_super) {
+    __extends(RPRegistrationFilter, _super);
+    function RPRegistrationFilter(retryTimeout) {
+        if (retryTimeout === void 0) { retryTimeout = 30; }
+        var _this = _super.call(this) || this;
         retryTimeout = retryTimeout;
+        return _this;
     }
-    after(operationResponse) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let rpName, urlPrefix;
-            const options = operationResponse.request;
-            if (operationResponse.response.status === 409) {
-                rpName = this.checkRPNotRegisteredError(operationResponse.bodyAsText);
-            }
-            if (rpName) {
-                urlPrefix = this.extractSubscriptionUrl(options.url);
-                let registrationStatus = false;
-                try {
-                    registrationStatus = yield this.registerRP(urlPrefix, rpName, options);
+    RPRegistrationFilter.prototype.after = function (operationResponse) {
+        return __awaiter(this, void 0, void 0, function () {
+            var rpName, urlPrefix, options, registrationStatus, err_1, finalRes, err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        options = operationResponse.request;
+                        if (operationResponse.response.status === 409) {
+                            rpName = this.checkRPNotRegisteredError(operationResponse.bodyAsText);
+                        }
+                        if (!rpName) return [3 /*break*/, 9];
+                        urlPrefix = this.extractSubscriptionUrl(options.url);
+                        registrationStatus = false;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.registerRP(urlPrefix, rpName, options)];
+                    case 2:
+                        registrationStatus = _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_1 = _a.sent();
+                        return [3 /*break*/, 4];
+                    case 4:
+                        if (!registrationStatus) return [3 /*break*/, 9];
+                        // Retry the original request. We have to change the x-ms-client-request-id
+                        // otherwise Azure endpoint will return the initial 409 (cached) response.
+                        options.headers["x-ms-client-request-id"] = utils.generateUuid();
+                        finalRes = void 0;
+                        _a.label = 5;
+                    case 5:
+                        _a.trys.push([5, 7, , 8]);
+                        return [4 /*yield*/, utils.dispatchRequest(options)];
+                    case 6:
+                        finalRes = _a.sent();
+                        return [3 /*break*/, 8];
+                    case 7:
+                        err_2 = _a.sent();
+                        return [2 /*return*/, Promise.reject(err_2)];
+                    case 8: return [2 /*return*/, Promise.resolve(finalRes)];
+                    case 9: return [2 /*return*/, Promise.resolve(operationResponse)];
                 }
-                catch (err) {
-                    // Autoregistration of ${provider} failed for some reason. We will not return this error
-                    // instead will return the initial response with 409 status code back to the user.
-                    // do nothing here as we are returning the original response at the end of this method.
-                }
-                if (registrationStatus) {
-                    // Retry the original request. We have to change the x-ms-client-request-id
-                    // otherwise Azure endpoint will return the initial 409 (cached) response.
-                    options.headers["x-ms-client-request-id"] = utils.generateUuid();
-                    let finalRes;
-                    try {
-                        finalRes = yield utils.dispatchRequest(options);
-                    }
-                    catch (err) {
-                        return Promise.reject(err);
-                    }
-                    return Promise.resolve(finalRes);
-                }
-            }
-            return Promise.resolve(operationResponse);
+            });
         });
-    }
+    };
     /**
      * Reuses the headers of the original request and url (if specified).
      * @param {WebResource} originalRequest The original request
      * @param {boolean} reuseUrlToo Should the url from the original request be reused as well. Default false.
      * @returns {object} reqOptions - A new request object with desired headers.
      */
-    getRequestEssentials(originalRequest, reuseUrlToo = false) {
-        const reqOptions = {
+    RPRegistrationFilter.prototype.getRequestEssentials = function (originalRequest, reuseUrlToo) {
+        if (reuseUrlToo === void 0) { reuseUrlToo = false; }
+        var reqOptions = {
             headers: {}
         };
         if (reuseUrlToo) {
@@ -3793,7 +4124,7 @@ class RPRegistrationFilter extends baseFilter_1.BaseFilter {
         }
         // Copy over the original request headers. This will get us the auth token and other useful stuff from
         // the original request header. Thus making it easier to make requests from this filter.
-        for (const h in originalRequest.headers) {
+        for (var h in originalRequest.headers) {
             reqOptions.headers[h] = originalRequest.headers[h];
         }
         // We have to change the x-ms-client-request-id otherwise Azure endpoint
@@ -3802,15 +4133,15 @@ class RPRegistrationFilter extends baseFilter_1.BaseFilter {
         // Set content-type to application/json
         reqOptions.headers["Content-Type"] = "application/json; charset=utf-8";
         return reqOptions;
-    }
+    };
     /**
      * Validates the error code and message associated with 409 response status code. If it matches to that of
      * RP not registered then it returns the name of the RP else returns undefined.
      * @param {string} body - The response body received after making the original request.
      * @returns {string} result The name of the RP if condition is satisfied else undefined.
      */
-    checkRPNotRegisteredError(body) {
-        let result, responseBody;
+    RPRegistrationFilter.prototype.checkRPNotRegisteredError = function (body) {
+        var result, responseBody;
         if (body) {
             try {
                 responseBody = JSON.parse(body);
@@ -3820,31 +4151,31 @@ class RPRegistrationFilter extends baseFilter_1.BaseFilter {
             }
             if (responseBody && responseBody.error && responseBody.error.message &&
                 responseBody.error.code && responseBody.error.code === "MissingSubscriptionRegistration") {
-                const matchRes = responseBody.error.message.match(/.*'(.*)'/i);
+                var matchRes = responseBody.error.message.match(/.*'(.*)'/i);
                 if (matchRes) {
                     result = matchRes.pop();
                 }
             }
         }
         return result;
-    }
+    };
     /**
      * Extracts the first part of the URL, just after subscription:
      * https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/
      * @param {string} url - The original request url
      * @returns {string} urlPrefix The url prefix as explained above.
      */
-    extractSubscriptionUrl(url) {
-        let result;
-        const matchRes = url.match(/.*\/subscriptions\/[a-f0-9-]+\//ig);
+    RPRegistrationFilter.prototype.extractSubscriptionUrl = function (url) {
+        var result;
+        var matchRes = url.match(/.*\/subscriptions\/[a-f0-9-]+\//ig);
         if (matchRes && matchRes[0]) {
             result = matchRes[0];
         }
         else {
-            throw new Error(`Unable to extract subscriptionId from the given url - ${url}.`);
+            throw new Error("Unable to extract subscriptionId from the given url - " + url + ".");
         }
         return result;
-    }
+    };
     /**
      * Registers the given provider.
      * @param {string} urlPrefix - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/
@@ -3853,33 +4184,47 @@ class RPRegistrationFilter extends baseFilter_1.BaseFilter {
      * with a message that the provider is not registered.
      * @param {registrationCallback} callback - The callback that handles the RP registration
      */
-    registerRP(urlPrefix, provider, originalRequest) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const postUrl = `${urlPrefix}providers/${provider}/register?api-version=2016-02-01`;
-            const getUrl = `${urlPrefix}providers/${provider}?api-version=2016-02-01`;
-            const reqOptions = this.getRequestEssentials(originalRequest);
-            reqOptions.method = "POST";
-            reqOptions.url = postUrl;
-            let res;
-            try {
-                res = yield utils.dispatchRequest(reqOptions);
-            }
-            catch (err) {
-                return Promise.reject(err);
-            }
-            if (res.response.status !== 200) {
-                return Promise.reject(new Error(`Autoregistration of ${provider} failed. Please try registering manually.`));
-            }
-            let statusRes = false;
-            try {
-                statusRes = yield this.getRegistrationStatus(getUrl, originalRequest);
-            }
-            catch (err) {
-                return Promise.reject(err);
-            }
-            return Promise.resolve(statusRes);
+    RPRegistrationFilter.prototype.registerRP = function (urlPrefix, provider, originalRequest) {
+        return __awaiter(this, void 0, void 0, function () {
+            var postUrl, getUrl, reqOptions, res, err_3, statusRes, err_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        postUrl = urlPrefix + "providers/" + provider + "/register?api-version=2016-02-01";
+                        getUrl = urlPrefix + "providers/" + provider + "?api-version=2016-02-01";
+                        reqOptions = this.getRequestEssentials(originalRequest);
+                        reqOptions.method = "POST";
+                        reqOptions.url = postUrl;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, utils.dispatchRequest(reqOptions)];
+                    case 2:
+                        res = _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_3 = _a.sent();
+                        return [2 /*return*/, Promise.reject(err_3)];
+                    case 4:
+                        if (res.response.status !== 200) {
+                            return [2 /*return*/, Promise.reject(new Error("Autoregistration of " + provider + " failed. Please try registering manually."))];
+                        }
+                        statusRes = false;
+                        _a.label = 5;
+                    case 5:
+                        _a.trys.push([5, 7, , 8]);
+                        return [4 /*yield*/, this.getRegistrationStatus(getUrl, originalRequest)];
+                    case 6:
+                        statusRes = _a.sent();
+                        return [3 /*break*/, 8];
+                    case 7:
+                        err_4 = _a.sent();
+                        return [2 /*return*/, Promise.reject(err_4)];
+                    case 8: return [2 /*return*/, Promise.resolve(statusRes)];
+                }
+            });
         });
-    }
+    };
     /**
      * Polls the registration status of the provider that was registered. Polling happens at an interval of 30 seconds.
      * Polling will happen till the registrationState property of the response body is "Registered".
@@ -3888,30 +4233,42 @@ class RPRegistrationFilter extends baseFilter_1.BaseFilter {
      * with a message that the provider is not registered.
      * @returns {Promise<boolean>} promise - True if RP Registration is successful.
      */
-    getRegistrationStatus(url, originalRequest) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const reqOptions = this.getRequestEssentials(originalRequest);
-            let res;
-            let result = false;
-            reqOptions.url = url;
-            reqOptions.method = "GET";
-            try {
-                res = yield utils.dispatchRequest(reqOptions);
-            }
-            catch (err) {
-                return Promise.reject(err);
-            }
-            const obj = res.bodyAsJson;
-            if (res.bodyAsJson && obj.registrationState && obj.registrationState === "Registered") {
-                result = true;
-            }
-            else {
-                setTimeout(() => { return this.getRegistrationStatus(url, originalRequest); }, retryTimeout * 1000);
-            }
-            return Promise.resolve(result);
+    RPRegistrationFilter.prototype.getRegistrationStatus = function (url, originalRequest) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var reqOptions, res, result, err_5, obj;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        reqOptions = this.getRequestEssentials(originalRequest);
+                        result = false;
+                        reqOptions.url = url;
+                        reqOptions.method = "GET";
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, utils.dispatchRequest(reqOptions)];
+                    case 2:
+                        res = _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_5 = _a.sent();
+                        return [2 /*return*/, Promise.reject(err_5)];
+                    case 4:
+                        obj = res.bodyAsJson;
+                        if (res.bodyAsJson && obj.registrationState && obj.registrationState === "Registered") {
+                            result = true;
+                        }
+                        else {
+                            setTimeout(function () { return _this.getRegistrationStatus(url, originalRequest); }, retryTimeout * 1000);
+                        }
+                        return [2 /*return*/, Promise.resolve(result)];
+                }
+            });
         });
-    }
-}
+    };
+    return RPRegistrationFilter;
+}(baseFilter_1.BaseFilter));
 exports.RPRegistrationFilter = RPRegistrationFilter;
 
 
@@ -3974,22 +4331,36 @@ exports.EOL = '\n';
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-const baseFilter_1 = __webpack_require__(1);
-class LogFilter extends baseFilter_1.BaseFilter {
-    constructor(logger = console.log) {
-        super();
-        this.logger = logger;
+var baseFilter_1 = __webpack_require__(1);
+var LogFilter = /** @class */ (function (_super) {
+    __extends(LogFilter, _super);
+    function LogFilter(logger) {
+        if (logger === void 0) { logger = console.log; }
+        var _this = _super.call(this) || this;
+        _this.logger = logger;
+        return _this;
     }
-    after(operationResponse) {
-        const self = this;
-        self.logger(`>> Request: ${JSON.stringify(operationResponse.request, undefined, 2)}`);
-        self.logger(`>> Response status code: ${operationResponse.response.status}`);
-        const responseBody = operationResponse.bodyAsText;
-        self.logger(`>> Body: ${responseBody}`);
+    LogFilter.prototype.after = function (operationResponse) {
+        var self = this;
+        self.logger(">> Request: " + JSON.stringify(operationResponse.request, undefined, 2));
+        self.logger(">> Response status code: " + operationResponse.response.status);
+        var responseBody = operationResponse.bodyAsText;
+        self.logger(">> Body: " + responseBody);
         return Promise.resolve(operationResponse);
-    }
-}
+    };
+    return LogFilter;
+}(baseFilter_1.BaseFilter));
 exports.LogFilter = LogFilter;
 
 
@@ -4002,9 +4373,9 @@ exports.LogFilter = LogFilter;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = __webpack_require__(2);
-const HeaderConstants = constants_1.Constants.HeaderConstants;
-const DEFAULT_AUTHORIZATION_SCHEME = "Bearer";
+var constants_1 = __webpack_require__(2);
+var HeaderConstants = constants_1.Constants.HeaderConstants;
+var DEFAULT_AUTHORIZATION_SCHEME = "Bearer";
 /**
  * Creates a new TokenCredentials object.
  *
@@ -4012,8 +4383,9 @@ const DEFAULT_AUTHORIZATION_SCHEME = "Bearer";
  * @param {string} token               The token.
  * @param {string} authorizationScheme The authorization scheme.
  */
-class TokenCredentials {
-    constructor(token, authorizationScheme = DEFAULT_AUTHORIZATION_SCHEME) {
+var TokenCredentials = /** @class */ (function () {
+    function TokenCredentials(token, authorizationScheme) {
+        if (authorizationScheme === void 0) { authorizationScheme = DEFAULT_AUTHORIZATION_SCHEME; }
         this.authorizationScheme = DEFAULT_AUTHORIZATION_SCHEME;
         if (!token) {
             throw new Error("token cannot be null or undefined.");
@@ -4027,13 +4399,14 @@ class TokenCredentials {
      * @param {WebResource} The WebResource to be signed.
      * @return {Promise<WebResource>} The signed request object.
      */
-    signRequest(webResource) {
+    TokenCredentials.prototype.signRequest = function (webResource) {
         if (!webResource.headers)
             webResource.headers = {};
-        webResource.headers[HeaderConstants.AUTHORIZATION] = `${this.authorizationScheme} ${this.token}`;
+        webResource.headers[HeaderConstants.AUTHORIZATION] = this.authorizationScheme + " " + this.token;
         return Promise.resolve(webResource);
-    }
-}
+    };
+    return TokenCredentials;
+}());
 exports.TokenCredentials = TokenCredentials;
 
 
@@ -4046,9 +4419,9 @@ exports.TokenCredentials = TokenCredentials;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = __webpack_require__(2);
-const HeaderConstants = constants_1.Constants.HeaderConstants;
-const DEFAULT_AUTHORIZATION_SCHEME = "Basic";
+var constants_1 = __webpack_require__(2);
+var HeaderConstants = constants_1.Constants.HeaderConstants;
+var DEFAULT_AUTHORIZATION_SCHEME = "Basic";
 /**
  * Creates a new BasicAuthenticationCredentials object.
  *
@@ -4057,8 +4430,9 @@ const DEFAULT_AUTHORIZATION_SCHEME = "Basic";
  * @param {string} password                 Password.
  * @param {string} [authorizationScheme]    The authorization scheme.
  */
-class BasicAuthenticationCredentials {
-    constructor(userName, password, authorizationScheme = DEFAULT_AUTHORIZATION_SCHEME) {
+var BasicAuthenticationCredentials = /** @class */ (function () {
+    function BasicAuthenticationCredentials(userName, password, authorizationScheme) {
+        if (authorizationScheme === void 0) { authorizationScheme = DEFAULT_AUTHORIZATION_SCHEME; }
         this.authorizationScheme = DEFAULT_AUTHORIZATION_SCHEME;
         if (userName === null || userName === undefined || typeof userName.valueOf() !== "string") {
             throw new Error("userName cannot be null or undefined and must be of type string.");
@@ -4076,15 +4450,16 @@ class BasicAuthenticationCredentials {
      * @param {WebResource} The WebResource to be signed.
      * @returns {Promise<WebResource>} - The signed request object.
      */
-    signRequest(webResource) {
-        const credentials = `${this.userName}:${this.password}`;
-        const encodedCredentials = `${this.authorizationScheme} ${Buffer.from(credentials).toString("base64")}`;
+    BasicAuthenticationCredentials.prototype.signRequest = function (webResource) {
+        var credentials = this.userName + ":" + this.password;
+        var encodedCredentials = this.authorizationScheme + " " + Buffer.from(credentials).toString("base64");
         if (!webResource.headers)
             webResource.headers = {};
         webResource.headers[HeaderConstants.AUTHORIZATION] = encodedCredentials;
         return Promise.resolve(webResource);
-    }
-}
+    };
+    return BasicAuthenticationCredentials;
+}());
 exports.BasicAuthenticationCredentials = BasicAuthenticationCredentials;
 
 

@@ -9,13 +9,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const uuid = require("uuid");
-const FormData = require("form-data");
-const webResource_1 = require("../webResource");
-const constants_1 = require("./constants");
-const restError_1 = require("../restError");
-const httpOperationResponse_1 = require("../httpOperationResponse");
+var uuid = require("uuid");
+var FormData = require("form-data");
+var webResource_1 = require("../webResource");
+var constants_1 = require("./constants");
+var restError_1 = require("../restError");
+var httpOperationResponse_1 = require("../httpOperationResponse");
 /**
  * Provides the fetch() method based on the environment.
  * @returns {fetch} fetch - The fetch() method available in the environment to make requests
@@ -86,7 +113,7 @@ exports.encodeUri = encodeUri;
  * @return {object} strippedResponse - The stripped version of Http Response.
  */
 function stripResponse(response) {
-    const strippedResponse = {};
+    var strippedResponse = {};
     strippedResponse.body = response.body;
     strippedResponse.headers = response.headers;
     strippedResponse.status = response.status;
@@ -102,7 +129,7 @@ exports.stripResponse = stripResponse;
  * @return {object} strippedRequest - The stripped version of Http Request.
  */
 function stripRequest(request) {
-    let strippedRequest = new webResource_1.WebResource();
+    var strippedRequest = new webResource_1.WebResource();
     try {
         strippedRequest = JSON.parse(JSON.stringify(request));
         if (strippedRequest.headers && strippedRequest.headers.Authorization) {
@@ -113,8 +140,8 @@ function stripRequest(request) {
         }
     }
     catch (err) {
-        const errMsg = err.message;
-        err.message = `Error - "${errMsg}" occured while creating a stripped version of the request object - "${request}".`;
+        var errMsg = err.message;
+        err.message = "Error - \"" + errMsg + "\" occured while creating a stripped version of the request object - \"" + request + "\".";
         return err;
     }
     return strippedRequest;
@@ -128,7 +155,7 @@ exports.stripRequest = stripRequest;
  * @return {boolean} result - True if the uuid is valid; false otherwise.
  */
 function isValidUuid(uuid) {
-    const validUuidRegex = new RegExp("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", "ig");
+    var validUuidRegex = new RegExp("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", "ig");
     return validUuidRegex.test(uuid);
 }
 exports.isValidUuid = isValidUuid;
@@ -141,17 +168,17 @@ exports.isValidUuid = isValidUuid;
  * @return {array} result - An array of values of the given object.
  */
 function objectValues(obj) {
-    const result = [];
+    var result = [];
     if (obj && obj instanceof Object) {
-        for (const key in obj) {
+        for (var key in obj) {
             if (obj.hasOwnProperty(key)) {
                 result.push(obj[key]);
             }
         }
     }
     else {
-        throw new Error(`The provided object ${JSON.stringify(obj, undefined, 2)} is not a valid object that can be ` +
-            `enumerated to provide its values as an array.`);
+        throw new Error("The provided object " + JSON.stringify(obj, undefined, 2) + " is not a valid object that can be " +
+            "enumerated to provide its values as an array.");
     }
     return result;
 }
@@ -177,8 +204,8 @@ exports.generateUuid = generateUuid;
  * @return A chain of resolved or rejected promises
  */
 function executePromisesSequentially(promiseFactories, kickstart) {
-    let result = Promise.resolve(kickstart);
-    promiseFactories.forEach((promiseFactory) => {
+    var result = Promise.resolve(kickstart);
+    promiseFactories.forEach(function (promiseFactory) {
         result = result.then(promiseFactory);
     });
     return result;
@@ -193,7 +220,7 @@ exports.executePromisesSequentially = executePromisesSequentially;
  * @returns {object} target - Returns the merged target object.
  */
 function mergeObjects(source, target) {
-    Object.keys(source).forEach((key) => {
+    Object.keys(source).forEach(function (key) {
         target[key] = source[key];
     });
     return target;
@@ -206,7 +233,7 @@ exports.mergeObjects = mergeObjects;
  * @returns {Promise<T>} - Resolved promise
  */
 function delay(t, value) {
-    return new Promise((resolve) => setTimeout(() => resolve(value), t));
+    return new Promise(function (resolve) { return setTimeout(function () { return resolve(value); }, t); });
 }
 exports.delay = delay;
 /**
@@ -214,7 +241,7 @@ exports.delay = delay;
  */
 function strEnum(o) {
     /* tslint:disable:no-null-keyword */
-    return o.reduce((res, key) => {
+    return o.reduce(function (res, key) {
         res[key] = key;
         return res;
     }, Object.create(null));
@@ -230,10 +257,10 @@ function promiseToCallback(promise) {
     if (typeof promise.then !== "function") {
         throw new Error("The provided input is not a Promise.");
     }
-    return (cb) => {
-        promise.then((data) => {
+    return function (cb) {
+        promise.then(function (data) {
             process.nextTick(cb, undefined, data);
-        }, (err) => {
+        }, function (err) {
             process.nextTick(cb, err);
         });
     };
@@ -248,10 +275,10 @@ function promiseToServiceCallback(promise) {
     if (typeof promise.then !== "function") {
         throw new Error("The provided input is not a Promise.");
     }
-    return (cb) => {
-        promise.then((data) => {
+    return function (cb) {
+        promise.then(function (data) {
             process.nextTick(cb, undefined, data.bodyAsJson, data.request, data.response);
-        }, (err) => {
+        }, function (err) {
             process.nextTick(cb, err);
         });
     };
@@ -263,72 +290,88 @@ exports.promiseToServiceCallback = promiseToServiceCallback;
  * @returns {Promise<HttpOperationResponse} operationResponse - The response object.
  */
 function dispatchRequest(options) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (!options) {
-            return Promise.reject(new Error("options (WebResource) cannot be null or undefined and must be of type object."));
-        }
-        if (options.formData) {
-            const formData = options.formData;
-            const requestForm = new FormData();
-            const appendFormValue = (key, value) => {
-                if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
-                    requestForm.append(key, value.value, value.options);
-                }
-                else {
-                    requestForm.append(key, value);
-                }
-            };
-            for (const formKey in formData) {
-                if (formData.hasOwnProperty(formKey)) {
-                    const formValue = formData[formKey];
-                    if (formValue instanceof Array) {
-                        for (let j = 0; j < formValue.length; j++) {
-                            appendFormValue(formKey, formValue[j]);
+    return __awaiter(this, void 0, void 0, function () {
+        var formData, requestForm_1, appendFormValue, formKey, formValue, j, res, err_1, operationResponse, _a, err_2, msg, errCode, e, msg, errCode, e;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    if (!options) {
+                        return [2 /*return*/, Promise.reject(new Error("options (WebResource) cannot be null or undefined and must be of type object."))];
+                    }
+                    if (options.formData) {
+                        formData = options.formData;
+                        requestForm_1 = new FormData();
+                        appendFormValue = function (key, value) {
+                            if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
+                                requestForm_1.append(key, value.value, value.options);
+                            }
+                            else {
+                                requestForm_1.append(key, value);
+                            }
+                        };
+                        for (formKey in formData) {
+                            if (formData.hasOwnProperty(formKey)) {
+                                formValue = formData[formKey];
+                                if (formValue instanceof Array) {
+                                    for (j = 0; j < formValue.length; j++) {
+                                        appendFormValue(formKey, formValue[j]);
+                                    }
+                                }
+                                else {
+                                    appendFormValue(formKey, formValue);
+                                }
+                            }
+                        }
+                        options.body = requestForm_1;
+                        options.formData = undefined;
+                        if (options.headers && options.headers["Content-Type"] &&
+                            options.headers["Content-Type"].indexOf("multipart/form-data") > -1 && typeof requestForm_1.getBoundary === "function") {
+                            options.headers["Content-Type"] = "multipart/form-data; boundary=" + requestForm_1.getBoundary();
                         }
                     }
-                    else {
-                        appendFormValue(formKey, formValue);
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, exports.myFetch(options.url, options)];
+                case 2:
+                    res = _b.sent();
+                    return [3 /*break*/, 4];
+                case 3:
+                    err_1 = _b.sent();
+                    return [2 /*return*/, Promise.reject(err_1)];
+                case 4:
+                    operationResponse = new httpOperationResponse_1.HttpOperationResponse(options, res);
+                    if (!!options.rawResponse) return [3 /*break*/, 9];
+                    _b.label = 5;
+                case 5:
+                    _b.trys.push([5, 7, , 8]);
+                    _a = operationResponse;
+                    return [4 /*yield*/, res.text()];
+                case 6:
+                    _a.bodyAsText = _b.sent();
+                    return [3 /*break*/, 8];
+                case 7:
+                    err_2 = _b.sent();
+                    msg = "Error \"" + err_2 + "\" occured while converting the raw response body into string.";
+                    errCode = err_2.code || "RAWTEXT_CONVERSION_ERROR";
+                    e = new restError_1.RestError(msg, errCode, res.status, options, res, res.body);
+                    return [2 /*return*/, Promise.reject(e)];
+                case 8:
+                    try {
+                        if (operationResponse.bodyAsText) {
+                            operationResponse.bodyAsJson = JSON.parse(operationResponse.bodyAsText);
+                        }
                     }
-                }
+                    catch (err) {
+                        msg = "Error \"" + err + "\" occured while executing JSON.parse on the response body - " + operationResponse.bodyAsText + ".";
+                        errCode = err.code || "JSON_PARSE_ERROR";
+                        e = new restError_1.RestError(msg, errCode, res.status, options, res, operationResponse.bodyAsText);
+                        return [2 /*return*/, Promise.reject(e)];
+                    }
+                    _b.label = 9;
+                case 9: return [2 /*return*/, Promise.resolve(operationResponse)];
             }
-            options.body = requestForm;
-            options.formData = undefined;
-            if (options.headers && options.headers["Content-Type"] &&
-                options.headers["Content-Type"].indexOf("multipart/form-data") > -1 && typeof requestForm.getBoundary === "function") {
-                options.headers["Content-Type"] = `multipart/form-data; boundary=${requestForm.getBoundary()}`;
-            }
-        }
-        let res;
-        try {
-            res = yield exports.myFetch(options.url, options);
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
-        const operationResponse = new httpOperationResponse_1.HttpOperationResponse(options, res);
-        if (!options.rawResponse) {
-            try {
-                operationResponse.bodyAsText = yield res.text();
-            }
-            catch (err) {
-                const msg = `Error "${err}" occured while converting the raw response body into string.`;
-                const errCode = err.code || "RAWTEXT_CONVERSION_ERROR";
-                const e = new restError_1.RestError(msg, errCode, res.status, options, res, res.body);
-                return Promise.reject(e);
-            }
-            try {
-                if (operationResponse.bodyAsText) {
-                    operationResponse.bodyAsJson = JSON.parse(operationResponse.bodyAsText);
-                }
-            }
-            catch (err) {
-                const msg = `Error "${err}" occured while executing JSON.parse on the response body - ${operationResponse.bodyAsText}.`;
-                const errCode = err.code || "JSON_PARSE_ERROR";
-                const e = new restError_1.RestError(msg, errCode, res.status, options, res, operationResponse.bodyAsText);
-                return Promise.reject(e);
-            }
-        }
-        return Promise.resolve(operationResponse);
+        });
     });
 }
 exports.dispatchRequest = dispatchRequest;
@@ -338,8 +381,8 @@ exports.dispatchRequest = dispatchRequest;
  * @param {Array<object>} sourceCtors An array of source objects from which the properties need to be taken.
  */
 function applyMixins(targetCtor, sourceCtors) {
-    sourceCtors.forEach(sourceCtors => {
-        Object.getOwnPropertyNames(sourceCtors.prototype).forEach(name => {
+    sourceCtors.forEach(function (sourceCtors) {
+        Object.getOwnPropertyNames(sourceCtors.prototype).forEach(function (name) {
             targetCtor.prototype[name] = sourceCtors.prototype[name];
         });
     });

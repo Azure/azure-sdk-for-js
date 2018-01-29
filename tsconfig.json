@@ -6,7 +6,7 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "newLine": "LF",
-    "target": "es6",
+    "target": "es5",
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "noImplicitThis": true,

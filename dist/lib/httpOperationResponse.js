@@ -9,8 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Initializes a new instance of the HttpOperationResponse class.
  * @constructor
  */
-class HttpOperationResponse {
-    constructor(request, response) {
+var HttpOperationResponse = /** @class */ (function () {
+    function HttpOperationResponse(request, response) {
         /**
          * Reference to the original request object.
          * [WebResource] object.
@@ -27,6 +27,7 @@ class HttpOperationResponse {
         this.bodyAsText = null;
         this.bodyAsJson = null;
     }
-}
+    return HttpOperationResponse;
+}());
 exports.HttpOperationResponse = HttpOperationResponse;
 //# sourceMappingURL=httpOperationResponse.js.map
