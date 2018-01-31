@@ -11,9 +11,19 @@
 /* jshint forin:false */
 /* jshint noempty:false */
 'use strict';
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-const msRest = require("../../../../lib/msRest");
-const mappers_1 = require("./models/mappers");
+var msRest = require("../../../../lib/msRest");
+var mappers_1 = require("./models/mappers");
 /**
  * @class
  * Initializes a new instance of the TestClient class.
@@ -30,20 +40,24 @@ const mappers_1 = require("./models/mappers");
  *
  * @param {bool} [options.noRetryPolicy] - If set to true, turn off default retry policy
  */
-class TestClient extends msRest.ServiceClient {
-    constructor(baseUri, options) {
+var TestClient = /** @class */ (function (_super) {
+    __extends(TestClient, _super);
+    function TestClient(baseUri, options) {
+        var _this = this;
         if (!options)
             options = {};
-        super(undefined, options);
-        this.baseUri = baseUri;
-        if (!this.baseUri) {
-            this.baseUri = 'https://management.azure.com';
+        _this = _super.call(this, undefined, options) || this;
+        _this.baseUri = baseUri;
+        if (!_this.baseUri) {
+            _this.baseUri = 'https://management.azure.com';
         }
-        if (!this.acceptLanguage) {
-            this.acceptLanguage = 'en-US';
+        if (!_this.acceptLanguage) {
+            _this.acceptLanguage = 'en-US';
         }
-        this.serializer = new msRest.Serializer(mappers_1.Mappers);
+        _this.serializer = new msRest.Serializer(mappers_1.Mappers);
+        return _this;
     }
-}
+    return TestClient;
+}(msRest.ServiceClient));
 exports.TestClient = TestClient;
 //# sourceMappingURL=testClient.js.map

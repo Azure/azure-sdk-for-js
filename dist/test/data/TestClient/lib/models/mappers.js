@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-let internalMappers = {};
+var internalMappers = {};
 internalMappers.Cat = {
     required: false,
     serializedName: "cat",
