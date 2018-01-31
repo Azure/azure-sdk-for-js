@@ -1,3 +1,6 @@
+### 0.2.5 - 2018-01-25
+- Compiled target to `ES5` for supporting IE11 #13.
+
 ### 0.2.4 - 2018-01-24
 - Removed dependency on detect-node and added a utility method to detect whether the app is being executed in a node.js environment. Fixes #10.
 
