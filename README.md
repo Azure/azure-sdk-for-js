@@ -1,16 +1,19 @@
-# Node.js SDK for DocumentDB APIs of Azure Cosmos DB
+# Microsoft Azure Cosmos DB Node.js SDK
 
 ![](https://img.shields.io/npm/v/documentdb.svg)
 ![](https://img.shields.io/npm/dm/documentdb.svg)
 ![](https://img.shields.io/github/issues/azure/azure-documentdb-node.svg)
 
-Node.js SDK for DocumentDB APIs for Microsoft Azure Cosmos DB Service.
-
-This project provides a node module that makes it easy to interact with DocumentDB APIs of Azure Cosmos DB (cosmosdb) Service.
-
+This project provides a node module that makes it easy to interact with SQL APIs of Azure Cosmos DB (cosmosdb) Service.
 For documentation please see the Microsoft Azure [Node.js Developer Center](http://azure.microsoft.com/en-us/develop/nodejs/) and the [ Node.js SDK Documentation](http://azure.github.io/azure-documentdb-node/).
 
+Getting started with DocumentDB Node.js SDK:
+[![Azure Demo: Getting started with DocumentDB Node.js SDK](http://img.youtube.com/vi/UAE7h9PCZjA/0.jpg)](http://www.youtube.com/watch?v=UAE7h9PCZjA)
+
 ## Installation
+### Pre-requisites
+Install Cosmos DB emulator Follow instruction at https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator
+
 ### Core Module
 
 The core module uses the callbacks model for responses, exposed through the DocumentClient 
@@ -64,12 +67,6 @@ function cleanup(client, database) {
     })
 }
 ```
-
-### Youtube Videos
-
-Getting started with DocumentDB Node.js SDK:
-
-[![Azure Demo: Getting started with DocumentDB Node.js SDK](http://img.youtube.com/vi/UAE7h9PCZjA/0.jpg)](http://www.youtube.com/watch?v=UAE7h9PCZjA)
 
 ## Need Help?
 
