@@ -7,7 +7,6 @@
 This project provides a node module that makes it easy to interact with SQL APIs of Azure Cosmos DB (cosmosdb) Service.
 For documentation please see the Microsoft Azure [Node.js Developer Center](http://azure.microsoft.com/en-us/develop/nodejs/) and the [ Node.js SDK Documentation](http://azure.github.io/azure-documentdb-node/).
 
-Getting started with DocumentDB Node.js SDK:
 [![Azure Demo: Getting started with DocumentDB Node.js SDK](http://img.youtube.com/vi/UAE7h9PCZjA/0.jpg)](http://www.youtube.com/watch?v=UAE7h9PCZjA)
 
 ## Installation
