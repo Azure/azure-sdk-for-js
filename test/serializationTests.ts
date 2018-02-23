@@ -116,6 +116,18 @@ describe("msrest", function () {
 
   describe("serialize", function () {
     let invalid_uuid = "abcd-efgd90-90890jkh";
+    it("should correctly serialize a string if the type is 'any'", function (done) {
+      let mapper: msRest.Mapper = { type: { name: "any" }, required: false, serializedName: "any" };
+      let serializedObject = Serializer.serialize(mapper, "foo", "anyBody");
+      serializedObject.should.equal("foo");
+      done();
+    });
+    it("should correctly serialize an array if the type is 'any'", function (done) {
+      let mapper: msRest.Mapper = { type: { name: "any" }, required: false, serializedName: "any" };
+      let serializedObject = Serializer.serialize(mapper, [1, 2], "anyBody");
+      assert.deepEqual(serializedObject, [1, 2]);
+      done();
+    });
     it("should correctly serialize a string", function (done) {
       let mapper: msRest.Mapper = { type: { name: "String" }, required: false, serializedName: "string" };
       let serializedObject = Serializer.serialize(mapper, "foo", "stringBody");
@@ -517,6 +529,20 @@ describe("msrest", function () {
   });
 
   describe("deserialize", function () {
+    it("should correctly deserialize a Date if the type is 'any'", function (done) {
+      let mapper: msRest.Mapper = { type: { name: "any" }, required: false, serializedName: "any" };
+      let d = new Date();
+      let deserializedObject = Serializer.deserialize(mapper, d, "anyResponseBody");
+      deserializedObject.should.equal(d);
+      done();
+    });
+    it("should correctly deserialize an array if the type is 'any'", function (done) {
+      let mapper: msRest.Mapper = { type: { name: "any" }, required: false, serializedName: "any" };
+      let buf = Buffer.from("HelloWorld!");
+      let deserializedObject = Serializer.deserialize(mapper, buf, "anyBody");
+      deserializedObject.should.equal(buf);
+      done();
+    });
     it("should correctly deserialize a uuid", function (done) {
       let mapper: msRest.Mapper = { type: { name: "Uuid" }, required: false, serializedName: "Uuid" };
       let serializedObject = Serializer.deserialize(mapper, valid_uuid, "uuidBody");

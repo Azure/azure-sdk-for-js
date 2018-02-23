@@ -381,7 +381,10 @@ var Serializer = /** @class */ (function () {
             object = mapper.defaultValue;
         // Validate Constraints if any
         this.validateConstraints(mapper, object, objectName);
-        if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/ig) !== null) {
+        if (mapperType.match(/^any$/ig) !== null) {
+            payload = object;
+        }
+        else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/ig) !== null) {
             payload = this.serializeBasicTypes(mapperType, objectName, object);
         }
         else if (mapperType.match(/^Enum$/ig) !== null) {
@@ -526,7 +529,7 @@ var Serializer = /** @class */ (function () {
             objectName = mapper.serializedName;
         if (mapperType.match(/^Sequence$/ig) !== null)
             payload = [];
-        if (mapperType.match(/^(Number|String|Boolean|Enum|Object|Stream|Uuid)$/ig) !== null) {
+        if (mapperType.match(/^(Number|String|Boolean|Enum|Object|Stream|Uuid|any)$/ig) !== null) {
             payload = responseBody;
         }
         else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/ig) !== null) {
