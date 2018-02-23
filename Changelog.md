@@ -1,3 +1,7 @@
+### 0.2.6 - 2018-02-22
+- Added support for [de]serializing an "any" type (case when type is not present for an entity in the open api spec.). Resolves https://github.com/Azure/autorest/issues/2855
+- Updated dependency versions 
+
 ### 0.2.5 - 2018-01-25
 - Compiled target to `ES5` for supporting IE11 #13.
 
