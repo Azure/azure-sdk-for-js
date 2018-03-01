@@ -58,7 +58,7 @@ Using your command-line tool, from the root of your local copy of azure-document
         
 3. Change to `test` directory
 
-        cd test
+        cd source\test
         
 4. Run the tests
 
