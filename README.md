@@ -18,12 +18,29 @@ Useful links:
 - [API Documentation](http://azure.microsoft.com/en-us/develop/nodejs/)
 
 ## Installation
-### Core Module
+
+### Prerequisites
+
+Install Node.js and npm
+[https://docs.npmjs.com/getting-started/installing-node](https://docs.npmjs.com/getting-started/installing-node)
+
+You can install the documentdb Node package in one of 2 ways.
+
+### Install Core Module Published to NPM
 
 The core module uses the callbacks model for responses, exposed through the DocumentClient 
 
     npm install documentdb
 
+### Install Core Module From Github
+
+1. Clone Azure/azure-documentdb-node repository
+Please clone the source and tests from [https://github.com/Azure/azure-documentdb-node](https://github.com/Azure/azure-documentdb-node)
+
+2. Install documentdb
+
+        npm install azure-documentdb-node\source
+        
 
 ## Prerequisites
 
