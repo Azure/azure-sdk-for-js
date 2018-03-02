@@ -4,7 +4,7 @@
 ![](https://img.shields.io/npm/dm/documentdb.svg)
 ![](https://img.shields.io/github/issues/azure/azure-documentdb-node.svg)
 
-This project provides Node.js SDK library for [Document/SQL API](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query) of [Azure Cosmos DB
+This project provides Node.js SDK library for [SQL API](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query) of [Azure Cosmos DB
 Database Service](https://azure.microsoft.com/en-us/services/cosmos-db/). This project also includes samples, tools, and utilities.
 
 Useful links:
@@ -24,7 +24,7 @@ Useful links:
 Install Node.js and npm
 [https://docs.npmjs.com/getting-started/installing-node](https://docs.npmjs.com/getting-started/installing-node)
 
-You can install the documentdb Node package in one of 2 ways.
+Node SDK can be consumed in two ways.
 
 ### Install Core Module Published to NPM
 
