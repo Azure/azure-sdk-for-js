@@ -30,7 +30,7 @@ var Base = require("./base"),
 var AzureDocuments = Base.defineClass(null, null,
     {
        /**
-         * Represents a DatabaseAccount in the Azure DocumentDB database service. A DatabaseAccount is the container for databases.
+         * Represents a DatabaseAccount in the Azure Cosmos DB database service. A DatabaseAccount is the container for databases.
          * @global
          * @property {string} DatabasesLink                                     -  The self-link for Databases in the databaseAccount.
          * @property {string} MediaLink                                         -  The self-link for Media in the databaseAccount.
@@ -121,7 +121,7 @@ var AzureDocuments = Base.defineClass(null, null,
         }),
 
         /**
-         * <p>Represents the consistency levels supported for DocumentDB client operations.<br>
+         * <p>Represents the consistency levels supported for Azure Cosmos DB client operations.<br>
          * The requested ConsistencyLevel must match or be weaker than that provisioned for the database account. Consistency levels.<br>
          * Consistency levels by order of strength are Strong, BoundedStaleness, Session and Eventual.</p>
          * @readonly
@@ -271,7 +271,7 @@ var AzureDocuments = Base.defineClass(null, null,
 
         /**
          * @global
-         * Represents the Connection policy associated with a DocumentClient in the Azure DocumentDB database service.
+         * Represents the Connection policy associated with a DocumentClient in the Azure Cosmos DB database service.
          * @property {string} MediaReadMode                - Attachment content (aka media) download mode. Should be one of the values of {@link MediaReadMode}
          * @property {number} MediaRequestTimeout          - Time to wait for response from network peer for attachment content (aka media) operations. Represented in milliseconds.
          * @property {number} RequestTimeout               - Request timeout (time to wait for response from network peer). Represented in milliseconds.
@@ -280,6 +280,7 @@ var AzureDocuments = Base.defineClass(null, null,
          * @property {RetryOptions} RetryOptions           - RetryOptions instance which defines several configurable properties used during retry.
          * @property {bool} DisableSSLVerification         - Flag to disable SSL verification for the requests. SSL verification is enabled by default. Don't set this when targeting production endpoints.
          *                                                   This is intended to be used only when targeting emulator endpoint to avoid failing your requests with SSL related error.
+         * @property {string} ProxyUrl                     - Http/Https proxy url
         */
         ConnectionPolicy: Base.defineClass(function() {
             Object.defineProperty(this, "_defaultRequestTimeout", {
@@ -305,6 +306,7 @@ var AzureDocuments = Base.defineClass(null, null,
             this.PreferredLocations = [];
             this.RetryOptions = new RetryOptions();
             this.DisableSSLVerification = false;
+            this.ProxyUrl = "";
         })
     }
 );

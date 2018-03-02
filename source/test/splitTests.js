@@ -58,7 +58,7 @@ var SplitMethod = {
     "Explicit": 2
 };
 
-describe("NodeJS Split Tests", function () {
+describe.skip("NodeJS Split Tests", function () {
     var removeAllDatabases = function (done) {
         var client = new DocumentDBClient(host, { masterKey: masterKey });
         client.readDatabases().toArray(function (err, databases) {

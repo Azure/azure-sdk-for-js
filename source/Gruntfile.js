@@ -24,24 +24,52 @@ SOFTWARE.
 "use strict";
 
 module.exports = function (grunt) {
+    grunt.loadNpmTasks('grunt-mocha-test');
     require("time-grunt")(grunt);
     // Load grunt tasks automatically
     require("load-grunt-tasks")(grunt);
 
     grunt.initConfig({
-        eslint: {
-            src: [
-                "lib/*.js",
-                "lib/hash/*.js",
-                "lib/queryExecutionContext/*.js",
-                "lib/routing/*.js",
-                "test/*.js"],
-            options: {
-                configFile: ".eslintrc"
-            }
+      eslint: {
+          src: [
+              "lib/*.js",
+              "lib/hash/*.js",
+              "lib/queryExecutionContext/*.js",
+              "lib/routing/*.js",
+              "test/*.js"],
+          options: {
+              configFile: ".eslintrc"
+          }
+      }, 
+      mochaTest: {
+        test: {
+          options: {
+            reporter: 'mocha-multi-reporters',
+            reporterOptions: {
+                "reporterEnabled": "mocha-junit-reporter, tap",
+                "mochaJunitReporterReporterOptions": {
+                    "mochaFile": "TEST-nodejs.xml"
+                }
+            },
+            // Require blanket wrapper here to instrument other required
+            // files on the fly. 
+            //
+            // NB. We cannot require blanket directly as it
+            // detects that we are not running mocha cli and loads differently.
+            //
+            // NNB. As mocha is 'clever' enough to only run the tests once for
+            // each file the following coverage task does not actually run any
+            // tests which is why the coverage instrumentation has to be done here
+   //         require: 'coverage/blanket'
+            timeout: 20000,
+          },
+          src: ['test/**/*.js']
         }
+      }
     });
-
+   
     grunt.registerTask("lint", ["eslint"]);
-    grunt.registerTask("default", "lint");
+   // TODO: we should have lint enabled
+   // grunt.registerTask("default", "lint");
+    grunt.registerTask('tests', 'mochaTest');
 };

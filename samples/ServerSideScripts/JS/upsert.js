@@ -1,5 +1,6 @@
-﻿/**
- * A DocumentDB stored procedure that upserts a given document (insert new or update if present) using its id property.<br/>
+﻿'use strict';
+/**
+ * An Azure Cosmos DB stored procedure that upserts a given document (insert new or update if present) using its id property.<br/>
  * This implementation tries to create, and if the create fails then query for the document with the specified document's id, then replace it. 
  * Use this sproc if creates are more common than replaces, otherwise use "upsertOptimizedForReplace" 
  *

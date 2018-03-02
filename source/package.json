@@ -1,7 +1,9 @@
 {
   "name": "documentdb",
-  "description": "Azure DocumentDB Node.js client",
+  "description": "Node.js SDK for DocumentDB API of Azure Cosmos DB Service",
   "keywords": [
+    "cosmosdb",
+    "cosmos db",
     "documentdb",
     "document database",
     "azure",
@@ -9,7 +11,7 @@
     "database",
     "cloud"
   ],
-  "version": "1.13.0",
+  "version": "1.14.2",
   "author": "Microsoft Corporation",
   "main": "./index.js",
   "engine": {
@@ -23,14 +25,21 @@
     "jsdoc": "*",
     "load-grunt-tasks": "^3.1.0",
     "mocha": "*",
+    "sinon": "^3.2.1",
     "time-grunt": "^1.2.0",
-    "child_process" : "*"
+    "grunt-mocha-test": "^0.13.3",
+    "mocha-multi-reporters": "^1.1.6",
+    "mocha-junit-reporter": "^1.15.0",
+    "child_process": "*"
   },
   "dependencies": {
+    "big-integer": "^1.6.25",
+    "int64-buffer": "^0.1.9",
     "binary-search-bounds": "2.0.3",
     "priorityqueuejs": "1.0.0",
     "semaphore": "1.0.5",
-    "underscore": "1.8.3"
+    "underscore": "1.8.3",
+    "tunnel": "0.0.5"
   },
   "repository": {
     "type": "git",

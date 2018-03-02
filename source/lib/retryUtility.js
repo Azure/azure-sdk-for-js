@@ -26,7 +26,8 @@ SOFTWARE.
 var Base = require("./base"),
     Constants = require("./constants"),
     EndpointDiscoveryRetryPolicy = require("./endpointDiscoveryRetryPolicy"),
-    ResourceThrottleRetryPolicy = require("./resourceThrottleRetryPolicy");
+    ResourceThrottleRetryPolicy = require("./resourceThrottleRetryPolicy"),
+    SessionReadRetryPolicy = require("./sessionReadRetryPolicy");
 
 //SCRIPT START
 var RetryUtility = {
@@ -39,15 +40,18 @@ var RetryUtility = {
     * @param {RequestOptions} requestOptions - The request options.
     * @param {function} callback - the callback that will be called when the request is finished executing.
     */
-    execute: function (globalEndpointManager, body, createRequestObjectFunc, connectionPolicy, requestOptions, callback) {
-        var endpointDiscoveryRetryPolicy = new EndpointDiscoveryRetryPolicy(globalEndpointManager);
-        var resourceThrottleRetryPolicy = new ResourceThrottleRetryPolicy(connectionPolicy.RetryOptions.MaxRetryAttemptCount, 
-                                                connectionPolicy.RetryOptions.FixedRetryIntervalInMilliseconds,
-                                                connectionPolicy.RetryOptions.MaxWaitTimeInSeconds);
+    execute: function (globalEndpointManager, body, createRequestObjectFunc, connectionPolicy, requestOptions, request, callback) {
+        var request = typeof request !== 'string' ? request : { "path": "", "operationType": "nonReadOps", "client": null };
 
-        this.apply(body, createRequestObjectFunc, connectionPolicy, requestOptions, endpointDiscoveryRetryPolicy, resourceThrottleRetryPolicy, callback);
+        var endpointDiscoveryRetryPolicy = new EndpointDiscoveryRetryPolicy(globalEndpointManager);
+        var resourceThrottleRetryPolicy = new ResourceThrottleRetryPolicy(connectionPolicy.RetryOptions.MaxRetryAttemptCount,
+            connectionPolicy.RetryOptions.FixedRetryIntervalInMilliseconds,
+            connectionPolicy.RetryOptions.MaxWaitTimeInSeconds);
+        var sessionReadRetryPolicy = new SessionReadRetryPolicy(globalEndpointManager, request)
+
+        this.apply(body, createRequestObjectFunc, connectionPolicy, requestOptions, endpointDiscoveryRetryPolicy, resourceThrottleRetryPolicy, sessionReadRetryPolicy, callback);
     },
-    
+
     /**
     * Applies the retry policy for the created request object.
     * @param {object} body - a dictionary containing 'buffer' and 'stream' keys to hold corresponding buffer or stream body, null otherwise.
@@ -58,7 +62,7 @@ var RetryUtility = {
     * @param {ResourceThrottleRetryPolicy} resourceThrottleRetryPolicy - The resource throttle retry policy instance.
     * @param {function} callback - the callback that will be called when the response is retrieved and processed.
     */
-    apply: function (body, createRequestObjectFunc, connectionPolicy, requestOptions, endpointDiscoveryRetryPolicy, resourceThrottleRetryPolicy, callback) {
+    apply: function (body, createRequestObjectFunc, connectionPolicy, requestOptions, endpointDiscoveryRetryPolicy, resourceThrottleRetryPolicy, sessionReadRetryPolicy, callback) {
         var that = this;
         var httpsRequest = createRequestObjectFunc(connectionPolicy, requestOptions, function (err, response, headers) {
             if (err) {
@@ -68,16 +72,20 @@ var RetryUtility = {
                     retryPolicy = endpointDiscoveryRetryPolicy;
                 } else if (err.code === ResourceThrottleRetryPolicy.THROTTLE_STATUS_CODE) {
                     retryPolicy = resourceThrottleRetryPolicy;
+                } else if (err.code === SessionReadRetryPolicy.NOT_FOUND_STATUS_CODE && err.substatus === SessionReadRetryPolicy.READ_SESSION_NOT_AVAILABLE_SUB_STATUS_CODE) {
+                    retryPolicy = sessionReadRetryPolicy;
                 }
                 if (retryPolicy) {
-                    retryPolicy.shouldRetry(err, function (shouldRetry) {
+                    retryPolicy.shouldRetry(err, function (shouldRetry, newUrl) {
                         if (!shouldRetry) {
                             headers[Constants.ThrottleRetryCount] = resourceThrottleRetryPolicy.currentRetryAttemptCount;
                             headers[Constants.ThrottleRetryWaitTimeInMs] = resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
                             return callback(err, response, headers);
                         } else {
                             setTimeout(function () {
-                                that.apply(body, createRequestObjectFunc, connectionPolicy, requestOptions, endpointDiscoveryRetryPolicy, resourceThrottleRetryPolicy, callback);
+                                if (typeof newUrl !== 'undefined')
+                                    requestOptions = that.modifyRequestOptions(requestOptions, newUrl);
+                                that.apply(body, createRequestObjectFunc, connectionPolicy, requestOptions, endpointDiscoveryRetryPolicy, resourceThrottleRetryPolicy, sessionReadRetryPolicy, callback);
                             }, retryPolicy.retryAfterInMilliseconds);
                             return;
                         }
@@ -89,7 +97,7 @@ var RetryUtility = {
             headers[Constants.ThrottleRetryWaitTimeInMs] = resourceThrottleRetryPolicy.cummulativeWaitTimeinMilliseconds;
             return callback(err, response, headers);
         });
-        
+
         if (httpsRequest) {
             if (body["stream"] !== null) {
                 body["stream"].pipe(httpsRequest);
@@ -100,6 +108,15 @@ var RetryUtility = {
                 httpsRequest.end();
             }
         }
+    },
+
+    modifyRequestOptions: function (oldRequestOptions, newUrl) {
+        var properties = Object.keys(newUrl);
+        for (var index in properties) {
+            if (properties[index] !== "path")
+                oldRequestOptions[properties[index]] = newUrl[properties[index]];
+        }
+        return oldRequestOptions;
     }
 }
 //SCRIPT END

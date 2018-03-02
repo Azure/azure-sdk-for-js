@@ -1,3 +1,4 @@
+'use strict';
 var utils = {
     deleteDatabase: function (client, databaseLink, callback) {
         client.deleteDatabase(databaseLink, function (err) {

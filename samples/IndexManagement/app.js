@@ -1,5 +1,6 @@
-﻿console.log();
-console.log('Azure DocumentDB Node.js Samples');
+﻿'use strict';
+console.log();
+console.log('Azure CosmosDB Node.js Samples');
 console.log('================================');
 console.log();
 console.log('INDEX MANAGEMENT');
@@ -239,7 +240,7 @@ function useManualIndexing(callback) {
 
 function useLazyIndexing(callback) {
     
-    // DocumentDB offers synchronous (consistent) and asynchronous (lazy) index updates. 
+    // Azure Cosmos DB offers synchronous (consistent) and asynchronous (lazy) index updates. 
     // By default, the index is updated synchronously on each insert, replace or delete of a document to the collection. 
     // There are times when you might want to configure certain collections to update their index asynchronously. 
     // Lazy indexing boosts the write performance and lowers RU charge of each insert 
@@ -269,7 +270,7 @@ function useLazyIndexing(callback) {
 }
 
 function forceScanOnHashIndexPath(callback) {
-    // DocumentDB index knows about 3 datatypes - numbers, strings and geojson
+    // Azure Cosmos DB index knows about 3 datatypes - numbers, strings and geojson
     // By default, the index on a collection does not put range indexes on to string paths
     // Therefore, if you try and do a range operation on a string path with a default index policy, you will get an error
     // You can override this by using an request option, that is what this demonstrates
@@ -347,7 +348,7 @@ function forceScanOnHashIndexPath(callback) {
 }
 
 function useRangeIndexOnStrings(callback) {
-    // DocumentDB index knows about 3 datatypes - numbers, strings and geojson
+    // Azure Cosmos DB index knows about 3 datatypes - numbers, strings and geojson
     // By default, the index on a collection does not put range indexes on to string paths
     // In this demo we are going to create a custom index policy which enables range index on a string path 
     

@@ -1,5 +1,6 @@
-﻿console.log();
-console.log('Azure DocumentDB Node.js Samples');
+﻿'use strict';
+console.log();
+console.log('Azure Cosmos DB Node.js Samples');
 console.log('================================');
 console.log();
 console.log('COLLECTION MANAGEMENT');
@@ -96,8 +97,8 @@ function createCollection(databaseLink, collectionId, callback) {
     
     //we're also setting the OfferType for this new collection to be an "S1"
     //"S1" is the default, so if a OfferType value is not supplied in the 4th parameter then OfferTyoe of "S1" will apply
-    //for more information on OfferTypes please consult the DocumentDB Documentation on 
-    //http://azure.microsoft.com/en-us/documentation/services/documentdb/
+    //for more information on OfferTypes please consult the Cosmos DB Documentation on 
+    //https://docs.microsoft.com/azure/cosmos-db/
     
     var collSpec = { id: collectionId };
     var options = { offerType: "S1" };

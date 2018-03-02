@@ -47,6 +47,7 @@ var host = testConfig.host;
 var masterKey = testConfig.masterKey;
 
 describe("NodeJS Cross Partition Tests", function () {
+    console.log("host is " + testConfig.host);
     var removeAllDatabases = function (done) {
         var client = new DocumentDBClient(host, { masterKey: masterKey });
         client.readDatabases().toArray(function (err, databases) {

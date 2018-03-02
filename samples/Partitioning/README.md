@@ -1,4 +1,4 @@
-﻿Samples for working with partitions in a DocumentDB application
+﻿Samples for working with partitions in an Azure Cosmos DB application
 
 1. using a hashPartitionResolver		- distribute writes across two collections using partition key
 2. using a rangePartitionResolver		- uses a range map object to control which partition is used
