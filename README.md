@@ -11,6 +11,7 @@ Useful links:
 - [Welcome to Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/community)
 - [Quick start](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-get-started)
 - [Tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-application)
+- [Samples](https://github.com/Azure/azure-documentdb-node/tree/master/samples)
 - [Introduction to Resource Model of Azure Cosmos DB Service]( https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-resources)
 - [Introduction to SQL API of Azure Cosmos DB Service](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query)
 - [Partitioning](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-partition-data)
