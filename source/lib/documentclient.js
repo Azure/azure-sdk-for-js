@@ -2167,15 +2167,15 @@ var DocumentClient = Base.defineClass(
 
                 return function (options, callback) {
                     that.queryFeed.call(that,
-                        that,
-                        path,
-                        "docs",
-                        id,
-                        function (result) { return result.Documents; },
-                        function (parent, body) { return body; },
-                        query,
-                        options,
-                        callback);
+                    that,
+                    path,
+                    "docs",
+                    id,
+                    function (result) { return result ? result.Documents : []; },
+                    function (parent, body) { return body; },
+                    query,
+                    options,
+                    callback);
                 };
             });
 

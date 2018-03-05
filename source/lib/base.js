@@ -218,6 +218,10 @@ var Base = {
                 headers[Constants.HttpHeaders.IfNoneMatch] = options.accessCondition.condition;
             }
         }
+
+        if (options.a_im) {
+            headers[Constants.HttpHeaders.A_IM] = options.a_im;
+        }
         
         if (options.indexingDirective) {
             headers[Constants.HttpHeaders.IndexingDirective] = options.indexingDirective;
