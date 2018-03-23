@@ -232,7 +232,7 @@ export class Serializer {
         }
         value = this.dateToUnixTime(value);
       } else if (typeName.match(/^TimeSpan$/ig) !== null) {
-        if (!isDuration(value)) {
+        if (!(isDuration(value) || (value.constructor && value.constructor.name === "Duration" && typeof value.isValid === "function" && value.isValid()))) {
           throw new Error(`${objectName} must be a TimeSpan/Duration.`);
         }
         value = value.toISOString();
