@@ -1361,7 +1361,7 @@ var Serializer = /** @class */ (function () {
                 value = this.dateToUnixTime(value);
             }
             else if (typeName.match(/^TimeSpan$/ig) !== null) {
-                if (!(moment_1.isDuration(value) || (value.constructor && value.constructor.name === "Duration" && value.isValid && value.isValid()))) {
+                if (!(moment_1.isDuration(value) || (value.constructor && value.constructor.name === "Duration" && typeof value.isValid === "function" && value.isValid()))) {
                     throw new Error(objectName + " must be a TimeSpan/Duration.");
                 }
                 value = value.toISOString();
