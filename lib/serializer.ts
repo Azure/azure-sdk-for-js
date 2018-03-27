@@ -313,7 +313,11 @@ export class Serializer {
         let propName: string | undefined;
         let parentObject: any = payload;
         if (this.isXML) {
-          propName = propertyMapper.xmlElementName || propertyMapper.xmlName;
+          if (propertyMapper.xmlIsWrapped) {
+            propName = propertyMapper.xmlName;
+          } else {
+            propName = propertyMapper.xmlElementName || propertyMapper.xmlName;
+          }
         } else {
           const paths = this.splitSerializeName(propertyMapper.serializedName);
           propName = paths.pop();
@@ -350,6 +354,9 @@ export class Serializer {
             if (propertyMapper.xmlIsAttribute) {
               parentObject.attributes = parentObject.attributes || {};
               parentObject.attributes[propName] = serializedValue;
+            } else if (propertyMapper.xmlIsWrapped) {
+              parentObject[propName] = {};
+              parentObject[propName][propertyMapper.xmlElementName!] = serializedValue;
             } else {
               parentObject[propName] = serializedValue;
             }
