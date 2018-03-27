@@ -7,6 +7,8 @@ import { WebResource } from "../webResource";
 import { Constants } from "./constants";
 import { RestError } from "../restError";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import * as xml2js from "xml2js";
+import { promisify } from "util";
 
 /**
  * Provides the fetch() method based on the environment.
@@ -316,9 +318,22 @@ export async function dispatchRequest(options: WebResource): Promise<HttpOperati
       const e = new RestError(msg, errCode, res.status, options, res, res.body);
       return Promise.reject(e);
     }
+
     try {
       if (operationResponse.bodyAsText) {
-        operationResponse.bodyAsJson = JSON.parse(operationResponse.bodyAsText);
+        const contentType = res.headers.get("Content-Type")!;
+        if (contentType === "application/xml" || "text/xml") {
+          const xmlParser = new xml2js.Parser({
+            attrkey: "attributes",
+            explicitArray: false,
+            explicitCharkey: false,
+            explicitRoot: false
+          });
+          const parseString = promisify(function (text: string, cb: Function) { xmlParser.parseString(text, cb); });
+          operationResponse.bodyAsJson = await parseString(operationResponse.bodyAsText);
+        } else {
+          operationResponse.bodyAsJson = JSON.parse(operationResponse.bodyAsText);
+        }
       }
     } catch (err) {
       const msg = `Error "${err}" occured while executing JSON.parse on the response body - ${operationResponse.bodyAsText}.`;

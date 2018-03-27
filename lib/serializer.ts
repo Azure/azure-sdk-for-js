@@ -5,11 +5,12 @@ import * as utils from "./util/utils";
 import { duration, isDuration } from "moment";
 const isBuffer = require("is-buffer");
 import * as isStream from "is-stream";
+import { isArray } from "util";
 
 export class Serializer {
   modelMappers?: { [key: string]: any };
 
-  constructor(mappers?: { [key: string]: any }) {
+  constructor(mappers?: { [key: string]: any }, private isXML?: boolean) {
     this.modelMappers = mappers;
   }
 
@@ -377,7 +378,7 @@ export class Serializer {
     if (mapperType.match(/^any$/ig) !== null) {
       payload = object;
     } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/ig) !== null) {
-      payload = this.serializeBasicTypes(mapperType, objectName, object);
+      payload = this.serializeBasicTypes(mapperType, objectName, isArray(object) ? object[0] : object);
     } else if (mapperType.match(/^Enum$/ig) !== null) {
       const enumMapper: EnumMapper = mapper as EnumMapper;
       payload = this.serializeEnumType(objectName, enumMapper.type.allowedValues, object);
@@ -431,8 +432,21 @@ export class Serializer {
         }
       }
 
-      for (const key in modelProps) {
-        if (modelProps.hasOwnProperty(key)) {
+      for (const key of Object.keys(modelProps)) {
+        const propertyMapper = modelProps[key];
+        let propertyObjectName = objectName;
+        if (propertyMapper.serializedName !== "") {
+          propertyObjectName = objectName + "." + modelProps[key].serializedName;
+        }
+
+        if (this.isXML) {
+          if (propertyMapper.xmlIsAttribute) {
+            instance[key] = this.deserialize(propertyMapper, responseBody.attributes[propertyMapper.xmlName!], propertyObjectName);
+          } else {
+            const propertyName = propertyMapper.xmlElementName || propertyMapper.xmlName;
+            instance[key] = this.deserialize(propertyMapper, responseBody[propertyName!], propertyObjectName);
+          }
+        } else {
           const paths = this.splitSerializeName(modelProps[key].serializedName);
           // deserialize the property if it is present in the provided responseBody instance
           let propertyInstance;
@@ -443,9 +457,6 @@ export class Serializer {
             res = res[item];
           }
           propertyInstance = res;
-          let propertyObjectName = objectName;
-          if (modelProps[key].serializedName !== "") propertyObjectName = objectName + "." + modelProps[key].serializedName;
-          const propertyMapper = modelProps[key];
           let serializedValue;
           // paging
           if (Array.isArray(responseBody[key]) && modelProps[key].serializedName === "") {
@@ -508,7 +519,10 @@ export class Serializer {
    * @returns {object|string|Array|number|boolean|Date|stream} A valid deserialized Javascript object
    */
   deserialize(mapper: Mapper, responseBody: any, objectName: string): any {
-    if (responseBody === null || responseBody === undefined) return responseBody;
+    if (responseBody === null || responseBody === undefined) {
+      return responseBody;
+    }
+
     let payload: any;
     const mapperType = mapper.type.name;
     if (!objectName) objectName = mapper.serializedName;
@@ -650,6 +664,9 @@ export interface BaseMapperType {
 }
 
 export interface Mapper {
+  xmlName?: string;
+  xmlIsAttribute?: boolean;
+  xmlElementName?: string;
   readOnly?: boolean;
   isConstant?: boolean;
   required: boolean;
