@@ -261,6 +261,24 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
   };
 }
 
+
+const XML2JS_PARSER_OPTS: xml2js.OptionsV2 = {
+  attrkey: "attributes",
+  explicitArray: false,
+  explicitCharkey: false,
+  explicitRoot: false
+};
+
+export function stringifyXML(obj: any, opts?: { rootName?: string }) {
+  const builder = new xml2js.Builder({
+    attrkey: "attributes",
+    explicitArray: false,
+    explicitCharkey: false,
+    rootName: (opts || {}).rootName
+  });
+  return builder.buildObject(obj);
+}
+
 /**
  * Sends the request and returns the received response.
  * @param {WebResource} options - The request to be sent.
@@ -323,12 +341,7 @@ export async function dispatchRequest(options: WebResource): Promise<HttpOperati
       if (operationResponse.bodyAsText) {
         const contentType = res.headers.get("Content-Type")!;
         if (contentType === "application/xml" || contentType === "text/xml") {
-          const xmlParser = new xml2js.Parser({
-            attrkey: "attributes",
-            explicitArray: false,
-            explicitCharkey: false,
-            explicitRoot: false
-          });
+          const xmlParser = new xml2js.Parser(XML2JS_PARSER_OPTS);
           const parseString = promisify(function (text: string, cb: Function) { xmlParser.parseString(text, cb); });
           operationResponse.bodyAsJson = await parseString(operationResponse.bodyAsText);
         } else {
