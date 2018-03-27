@@ -469,7 +469,10 @@ export class Serializer {
             let unwrappedProperty = responseBody[propertyName!];
             if (propertyMapper.xmlIsWrapped) {
               unwrappedProperty = responseBody[propertyMapper.xmlName!][propertyMapper.xmlElementName!];
-              if (!isArray(unwrappedProperty)) {
+              if (unwrappedProperty === undefined) {
+                // undefined means a wrapped list was empty
+                unwrappedProperty = [];
+              } else if (!isArray(unwrappedProperty)) {
                 // xml2js will turn a single element array into just the element, so force it to be an array
                 unwrappedProperty = [unwrappedProperty];
               }
