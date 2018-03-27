@@ -434,7 +434,8 @@ export class Serializer {
         name: "Composite"
       }
     };
-    if (responseBody !== null && responseBody !== undefined) {
+    responseBody = responseBody || {};
+    if (responseBody) {
       let modelProps = mapper.type.modelProperties;
       if (!modelProps) {
         if (!mapper.type.className) {
@@ -461,7 +462,7 @@ export class Serializer {
         }
 
         if (this.isXML) {
-          if (propertyMapper.xmlIsAttribute) {
+          if (propertyMapper.xmlIsAttribute && responseBody.attributes) {
             instance[key] = this.deserialize(propertyMapper, responseBody.attributes[propertyMapper.xmlName!], propertyObjectName);
           } else {
             const propertyName = propertyMapper.xmlElementName || propertyMapper.xmlName;
