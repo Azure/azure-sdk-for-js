@@ -322,7 +322,7 @@ export async function dispatchRequest(options: WebResource): Promise<HttpOperati
     try {
       if (operationResponse.bodyAsText) {
         const contentType = res.headers.get("Content-Type")!;
-        if (contentType === "application/xml" || "text/xml") {
+        if (contentType === "application/xml" || contentType === "text/xml") {
           const xmlParser = new xml2js.Parser({
             attrkey: "attributes",
             explicitArray: false,

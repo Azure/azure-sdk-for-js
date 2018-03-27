@@ -5,7 +5,6 @@ import * as utils from "./util/utils";
 import { duration, isDuration } from "moment";
 const isBuffer = require("is-buffer");
 import * as isStream from "is-stream";
-import { isArray } from "util";
 
 export class Serializer {
   modelMappers?: { [key: string]: any };
@@ -378,7 +377,7 @@ export class Serializer {
     if (mapperType.match(/^any$/ig) !== null) {
       payload = object;
     } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/ig) !== null) {
-      payload = this.serializeBasicTypes(mapperType, objectName, isArray(object) ? object[0] : object);
+      payload = this.serializeBasicTypes(mapperType, objectName, object);
     } else if (mapperType.match(/^Enum$/ig) !== null) {
       const enumMapper: EnumMapper = mapper as EnumMapper;
       payload = this.serializeEnumType(objectName, enumMapper.type.allowedValues, object);
