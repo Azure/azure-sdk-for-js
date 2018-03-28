@@ -471,9 +471,6 @@ export class Serializer {
               if (unwrappedProperty === undefined) {
                 // undefined means a wrapped list was empty
                 unwrappedProperty = [];
-              } else if (!isArray(unwrappedProperty)) {
-                // xml2js will turn a single element array into just the element, so force it to be an array
-                unwrappedProperty = [unwrappedProperty];
               }
             }
             instance[key] = this.deserialize(propertyMapper, unwrappedProperty, propertyObjectName);
@@ -530,6 +527,11 @@ export class Serializer {
         `mapper and it must of type "object" in ${objectName}`);
     }
     if (responseBody) {
+      if (!isArray(responseBody)) {
+        // xml2js will interpret a single element array as just the element, so force it to be an array
+        responseBody = [responseBody];
+      }
+
       const tempArray = [];
       for (let i = 0; i < responseBody.length; i++) {
         tempArray[i] = this.deserialize(mapper.type.element, responseBody[i], objectName);
