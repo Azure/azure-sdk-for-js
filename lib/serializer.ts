@@ -560,8 +560,9 @@ export class Serializer {
 
     let payload: any;
     const mapperType = mapper.type.name;
-    if (!objectName) objectName = mapper.serializedName;
-    if (mapperType.match(/^Sequence$/ig) !== null) payload = [];
+    if (!objectName) {
+      objectName = mapper.serializedName;
+    }
 
     if (mapperType.match(/^Number$/ig) !== null) {
       payload = parseFloat(responseBody);
@@ -596,7 +597,9 @@ export class Serializer {
       payload = this.deserializeCompositeType(mapper as CompositeMapper, responseBody, objectName);
     }
 
-    if (mapper.isConstant) payload = mapper.defaultValue;
+    if (mapper.isConstant) {
+      payload = mapper.defaultValue;
+    }
 
     return payload;
   }
