@@ -8,7 +8,7 @@ import { Constants } from "./constants";
 import { RestError } from "../restError";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as xml2js from "xml2js";
-import { promisify } from "util";
+import { promisify, isArray } from "util";
 
 /**
  * Provides the fetch() method based on the environment.
@@ -277,6 +277,13 @@ export function stringifyXML(obj: any, opts?: { rootName?: string }) {
     rootName: (opts || {}).rootName
   });
   return builder.buildObject(obj);
+}
+
+export function prepareXMLRootList(obj: any, elementName: string) {
+  if (!isArray(obj)) {
+    obj = [obj];
+  }
+  return { [elementName]: obj };
 }
 
 /**
