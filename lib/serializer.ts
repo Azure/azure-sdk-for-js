@@ -467,7 +467,8 @@ export class Serializer {
             const propertyName = propertyMapper.xmlElementName || propertyMapper.xmlName;
             let unwrappedProperty = responseBody[propertyName!];
             if (propertyMapper.xmlIsWrapped) {
-              unwrappedProperty = responseBody[propertyMapper.xmlName!][propertyMapper.xmlElementName!];
+              unwrappedProperty = responseBody[propertyMapper.xmlName!];
+              unwrappedProperty = unwrappedProperty && unwrappedProperty[propertyMapper.xmlElementName!];
               if (unwrappedProperty === undefined) {
                 // undefined means a wrapped list was empty
                 unwrappedProperty = [];
@@ -562,7 +563,20 @@ export class Serializer {
     if (!objectName) objectName = mapper.serializedName;
     if (mapperType.match(/^Sequence$/ig) !== null) payload = [];
 
-    if (mapperType.match(/^(Number|String|Boolean|Enum|Object|Stream|Uuid|any)$/ig) !== null) {
+    if (mapperType.match(/^Number$/ig) !== null) {
+      payload = parseFloat(responseBody);
+      if (isNaN(payload)) {
+        payload = responseBody;
+      }
+    } else if (mapperType.match(/^Boolean$/ig) !== null) {
+      if (responseBody === "true") {
+        payload = true;
+      } else if (responseBody === "false") {
+        payload = false;
+      } else {
+        payload = responseBody;
+      }
+    } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|any)$/ig) !== null) {
       payload = responseBody;
     } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/ig) !== null) {
       payload = new Date(responseBody);
