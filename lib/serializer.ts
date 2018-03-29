@@ -554,7 +554,15 @@ export class Serializer {
    * @returns {object|string|Array|number|boolean|Date|stream} A valid deserialized Javascript object
    */
   deserialize(mapper: Mapper, responseBody: any, objectName: string): any {
-    if (responseBody === null || responseBody === undefined) {
+    if (responseBody == undefined) {
+      if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
+        // Edge case for empty XML non-wrapped lists. xml2js can't distinguish
+        // between the list being empty versus being missing,
+        // so let's do the more user-friendly thing and return an empty list.
+        responseBody = [];
+      } else {
+        return responseBody;
+      }
       return responseBody;
     }
 
