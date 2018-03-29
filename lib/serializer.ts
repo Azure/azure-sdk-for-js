@@ -565,15 +565,23 @@ export class Serializer {
     }
 
     if (mapperType.match(/^Number$/ig) !== null) {
-      payload = parseFloat(responseBody);
-      if (isNaN(payload)) {
+      if (this.isXML) {
+        payload = parseFloat(responseBody);
+        if (isNaN(payload)) {
+          payload = responseBody;
+        }
+      } else {
         payload = responseBody;
       }
     } else if (mapperType.match(/^Boolean$/ig) !== null) {
-      if (responseBody === "true") {
-        payload = true;
-      } else if (responseBody === "false") {
-        payload = false;
+      if (this.isXML) {
+        if (responseBody === "true") {
+          payload = true;
+        } else if (responseBody === "false") {
+          payload = false;
+        } else {
+          payload = responseBody;
+        }
       } else {
         payload = responseBody;
       }
