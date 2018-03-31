@@ -8,7 +8,6 @@ import { Constants } from "./constants";
 import { RestError } from "../restError";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as xml2js from "xml2js";
-import { promisify, isArray } from "util";
 
 /**
  * Provides the fetch() method based on the environment.
@@ -263,7 +262,6 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
 
 
 const XML2JS_PARSER_OPTS: xml2js.OptionsV2 = {
-  attrkey: "attributes",
   explicitArray: false,
   explicitCharkey: false,
   explicitRoot: false
@@ -271,7 +269,6 @@ const XML2JS_PARSER_OPTS: xml2js.OptionsV2 = {
 
 export function stringifyXML(obj: any, opts?: { rootName?: string }) {
   const builder = new xml2js.Builder({
-    attrkey: "attributes",
     explicitArray: false,
     explicitCharkey: false,
     rootName: (opts || {}).rootName
@@ -280,7 +277,7 @@ export function stringifyXML(obj: any, opts?: { rootName?: string }) {
 }
 
 export function prepareXMLRootList(obj: any, elementName: string) {
-  if (!isArray(obj)) {
+  if (!Array.isArray(obj)) {
     obj = [obj];
   }
   return { [elementName]: obj };
@@ -349,8 +346,17 @@ export async function dispatchRequest(options: WebResource): Promise<HttpOperati
         const contentType = res.headers.get("Content-Type")!;
         if (contentType === "application/xml" || contentType === "text/xml") {
           const xmlParser = new xml2js.Parser(XML2JS_PARSER_OPTS);
-          const parseString = promisify(function (text: string, cb: Function) { xmlParser.parseString(text, cb); });
-          operationResponse.bodyAsJson = await parseString(operationResponse.bodyAsText);
+          const parseString = new Promise(function(resolve: (result: any) => void, reject: (err: any) => void) {
+            xmlParser.parseString(operationResponse.bodyAsText!, function(err: any, result: any) {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(result);
+              }
+            });
+          });
+
+          operationResponse.bodyAsJson = await parseString;
         } else {
           operationResponse.bodyAsJson = JSON.parse(operationResponse.bodyAsText);
         }

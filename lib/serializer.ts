@@ -3,9 +3,8 @@
 
 import * as utils from "./util/utils";
 import { duration, isDuration } from "moment";
-const isBuffer = require("is-buffer");
 import * as isStream from "is-stream";
-import { isArray } from "util";
+const isBuffer: (obj: any) => boolean = require("is-buffer");
 
 export class Serializer {
   modelMappers?: { [key: string]: any };
@@ -332,28 +331,31 @@ export class Serializer {
         }
 
         // make sure required properties of the CompositeType are present
-        if (modelProps[key].required && !modelProps[key].isConstant) {
-          if (object[key] === null || object[key] === undefined) {
+        if (propertyMapper.required && !propertyMapper.isConstant) {
+          if (object[key] == undefined) {
             throw new Error(`${key}" cannot be null or undefined in "${objectName}".`);
           }
         }
         // make sure that readOnly properties are not sent on the wire
-        if (modelProps[key].readOnly) {
+        if (propertyMapper.readOnly) {
           continue;
         }
         // serialize the property if it is present in the provided object instance
-        if (((parentObject !== null && parentObject !== undefined) && (modelProps[key].defaultValue !== null && modelProps[key].defaultValue !== undefined)) ||
+        if (((parentObject !== null && parentObject !== undefined) && (propertyMapper.defaultValue !== null && propertyMapper.defaultValue !== undefined)) ||
           (object[key] !== null && object[key] !== undefined)) {
-          const propertyObjectName = modelProps[key].serializedName !== ""
-            ? objectName + "." + modelProps[key].serializedName
+          const propertyObjectName = propertyMapper.serializedName !== ""
+            ? objectName + "." + propertyMapper.serializedName
             : objectName;
 
           const serializedValue = this.serialize(propertyMapper, object[key], propertyObjectName);
 
           if (propName !== null && propName !== undefined) {
             if (propertyMapper.xmlIsAttribute) {
-              parentObject.attributes = parentObject.attributes || {};
-              parentObject.attributes[propName] = serializedValue;
+              // $ is the key attributes are kept under in xml2js.
+              // This keeps things simple while preventing name collision
+              // with names in user documents.
+              parentObject.$ = parentObject.$ || {};
+              parentObject.$[propName] = serializedValue;
             } else if (propertyMapper.xmlIsWrapped) {
               parentObject[propName] = { [propertyMapper.xmlElementName!]: serializedValue };
             } else {
@@ -434,73 +436,70 @@ export class Serializer {
       }
     };
     responseBody = responseBody || {};
-    if (responseBody) {
-      let modelProps = mapper.type.modelProperties;
+    let modelProps = mapper.type.modelProperties;
+    if (!modelProps) {
+      if (!mapper.type.className) {
+        throw new Error(`Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(mapper)}"`);
+      }
+      // get the mapper if modelProperties of the CompositeType is not present and
+      // then get the modelProperties from it.
+      modelMapper = (this.modelMappers as { [key: string]: any })[mapper.type.className];
+      if (!modelMapper) {
+        throw new Error(`mapper() cannot be null or undefined for model "${mapper.type.className}"`);
+      }
+      modelProps = (modelMapper as CompositeMapper).type.modelProperties;
       if (!modelProps) {
-        if (!mapper.type.className) {
-          throw new Error(`Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(mapper)}"`);
-        }
-        // get the mapper if modelProperties of the CompositeType is not present and
-        // then get the modelProperties from it.
-        modelMapper = (this.modelMappers as { [key: string]: any })[mapper.type.className];
-        if (!modelMapper) {
-          throw new Error(`mapper() cannot be null or undefined for model "${mapper.type.className}"`);
-        }
-        modelProps = (modelMapper as CompositeMapper).type.modelProperties;
-        if (!modelProps) {
-          throw new Error(`modelProperties cannot be null or undefined in the ` +
-            `mapper "${JSON.stringify(modelMapper)}" of type "${mapper.type.className}" for responseBody "${objectName}".`);
-        }
+        throw new Error(`modelProperties cannot be null or undefined in the ` +
+          `mapper "${JSON.stringify(modelMapper)}" of type "${mapper.type.className}" for responseBody "${objectName}".`);
       }
-
-      for (const key of Object.keys(modelProps)) {
-        const propertyMapper = modelProps[key];
-        let propertyObjectName = objectName;
-        if (propertyMapper.serializedName !== "") {
-          propertyObjectName = objectName + "." + modelProps[key].serializedName;
-        }
-
-        if (this.isXML) {
-          if (propertyMapper.xmlIsAttribute && responseBody.attributes) {
-            instance[key] = this.deserialize(propertyMapper, responseBody.attributes[propertyMapper.xmlName!], propertyObjectName);
-          } else {
-            const propertyName = propertyMapper.xmlElementName || propertyMapper.xmlName;
-            let unwrappedProperty = responseBody[propertyName!];
-            if (propertyMapper.xmlIsWrapped) {
-              unwrappedProperty = responseBody[propertyMapper.xmlName!];
-              unwrappedProperty = unwrappedProperty && unwrappedProperty[propertyMapper.xmlElementName!];
-              if (unwrappedProperty === undefined) {
-                // undefined means a wrapped list was empty
-                unwrappedProperty = [];
-              }
-            }
-            instance[key] = this.deserialize(propertyMapper, unwrappedProperty, propertyObjectName);
-          }
-        } else {
-          const paths = this.splitSerializeName(modelProps[key].serializedName);
-          // deserialize the property if it is present in the provided responseBody instance
-          let propertyInstance;
-          let res = responseBody;
-          // traversing the object step by step.
-          for (const item of paths) {
-            if (!res) break;
-            res = res[item];
-          }
-          propertyInstance = res;
-          let serializedValue;
-          // paging
-          if (Array.isArray(responseBody[key]) && modelProps[key].serializedName === "") {
-            propertyInstance = responseBody[key];
-            instance = this.deserialize(propertyMapper, propertyInstance, propertyObjectName);
-          } else if (propertyInstance !== null && propertyInstance !== undefined) {
-            serializedValue = this.deserialize(propertyMapper, propertyInstance, propertyObjectName);
-            instance[key] = serializedValue;
-          }
-        }
-      }
-      return instance;
     }
-    return responseBody;
+
+    for (const key of Object.keys(modelProps)) {
+      const propertyMapper = modelProps[key];
+      let propertyObjectName = objectName;
+      if (propertyMapper.serializedName !== "") {
+        propertyObjectName = objectName + "." + propertyMapper.serializedName;
+      }
+
+      if (this.isXML) {
+        if (propertyMapper.xmlIsAttribute && responseBody.$) {
+          instance[key] = this.deserialize(propertyMapper, responseBody.$[propertyMapper.xmlName!], propertyObjectName);
+        } else {
+          const propertyName = propertyMapper.xmlElementName || propertyMapper.xmlName;
+          let unwrappedProperty = responseBody[propertyName!];
+          if (propertyMapper.xmlIsWrapped) {
+            unwrappedProperty = responseBody[propertyMapper.xmlName!];
+            unwrappedProperty = unwrappedProperty && unwrappedProperty[propertyMapper.xmlElementName!];
+            if (unwrappedProperty === undefined) {
+              // undefined means a wrapped list was empty
+              unwrappedProperty = [];
+            }
+          }
+          instance[key] = this.deserialize(propertyMapper, unwrappedProperty, propertyObjectName);
+        }
+      } else {
+        const paths = this.splitSerializeName(modelProps[key].serializedName);
+        // deserialize the property if it is present in the provided responseBody instance
+        let propertyInstance;
+        let res = responseBody;
+        // traversing the object step by step.
+        for (const item of paths) {
+          if (!res) break;
+          res = res[item];
+        }
+        propertyInstance = res;
+        let serializedValue;
+        // paging
+        if (Array.isArray(responseBody[key]) && modelProps[key].serializedName === "") {
+          propertyInstance = responseBody[key];
+          instance = this.deserialize(propertyMapper, propertyInstance, propertyObjectName);
+        } else if (propertyInstance !== null && propertyInstance !== undefined) {
+          serializedValue = this.deserialize(propertyMapper, propertyInstance, propertyObjectName);
+          instance[key] = serializedValue;
+        }
+      }
+    }
+    return instance;
   }
 
   private deserializeDictionaryType(mapper: DictionaryMapper, responseBody: any, objectName: string): any {
@@ -528,7 +527,7 @@ export class Serializer {
         `mapper and it must of type "object" in ${objectName}`);
     }
     if (responseBody) {
-      if (!isArray(responseBody)) {
+      if (!Array.isArray(responseBody)) {
         // xml2js will interpret a single element array as just the element, so force it to be an array
         responseBody = [responseBody];
       }
