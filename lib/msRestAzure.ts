@@ -5,4 +5,5 @@ import { AzureServiceClientOptions, AzureServiceClient } from "./azureServiceCli
 import Constants from "./util/constants";
 import { CloudError, CloudErrorMapper } from "./cloudError";
 import { BaseResource, BaseResourceMapper } from "./baseResource";
-export { AzureServiceClient, AzureServiceClientOptions, Constants, CloudError, CloudErrorMapper, BaseResource, BaseResourceMapper };
+import { CognitiveServicesCredentials } from "./credentials/cognitiveServicesCredentials";
+export { AzureServiceClient, AzureServiceClientOptions, Constants, CloudError, CloudErrorMapper, BaseResource, BaseResourceMapper, CognitiveServicesCredentials };
