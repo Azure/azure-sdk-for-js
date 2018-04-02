@@ -86,13 +86,16 @@ export interface RequestPrepareOptions {
     method: HttpMethods;
     url?: string;
     queryParameters?: {
-        [key: string]: any;
-    } | ParameterValue;
+        [key: string]: any | ParameterValue;
+    };
     pathTemplate?: string;
     baseUrl?: string;
     pathParameters?: {
+        [key: string]: any | ParameterValue;
+    };
+    formData?: {
         [key: string]: any;
-    } | ParameterValue;
+    };
     headers?: {
         [key: string]: any;
     };

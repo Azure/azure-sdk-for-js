@@ -161,11 +161,6 @@ var Serializer = /** @class */ (function () {
                     throw new Error(objectName + " with value " + value + " must be of type boolean.");
                 }
             }
-            else if (typeName.match(/^Object$/ig) !== null) {
-                if (typeof value !== "object") {
-                    throw new Error(objectName + " must be of type object.");
-                }
-            }
             else if (typeName.match(/^Stream$/ig) !== null) {
                 if (!isStream(value)) {
                     throw new Error(objectName + " must be of type stream.");
@@ -618,13 +613,9 @@ var Serializer = /** @class */ (function () {
             else {
                 indexDiscriminator = mapper.type.uberParent + "." + object[discriminatorAsObject[polymorphicPropertyName]];
             }
-            if (!this.modelMappers.discriminators[indexDiscriminator]) {
-                throw new Error(discriminatorAsObject[polymorphicPropertyName] + "\": " +
-                    ("\"" + object[discriminatorAsObject[polymorphicPropertyName]] + "\" in \"" + objectName + "\" is not a valid ") +
-                    ("discriminator as a corresponding model class for the disciminator \"" + indexDiscriminator + "\" ") +
-                    "was not found in this.modelMappers.discriminators object.");
+            if (this.modelMappers && this.modelMappers.discriminators[indexDiscriminator]) {
+                mapper = this.modelMappers.discriminators[indexDiscriminator];
             }
-            mapper = this.modelMappers.discriminators[indexDiscriminator];
         }
         return mapper;
     };
@@ -647,13 +638,9 @@ var Serializer = /** @class */ (function () {
             else {
                 indexDiscriminator = mapper.type.uberParent + "." + object[discriminatorAsString];
             }
-            if (!this.modelMappers.discriminators[indexDiscriminator]) {
-                throw new Error(discriminatorAsString + "\": " +
-                    ("\"" + object[discriminatorAsString] + "\"  in \"" + objectName + "\" is not a valid ") +
-                    ("discriminator as a corresponding model class for the disciminator \"" + indexDiscriminator + "\" ") +
-                    "was not found in this.models.discriminators object.");
+            if (this.modelMappers && this.modelMappers.discriminators[indexDiscriminator]) {
+                mapper = this.modelMappers.discriminators[indexDiscriminator];
             }
-            mapper = this.modelMappers.discriminators[indexDiscriminator];
         }
         return mapper;
     };

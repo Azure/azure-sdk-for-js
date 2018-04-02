@@ -399,6 +399,11 @@ internalMappers.SawShark = {
     serializedName: "sawshark",
     type: {
         name: "Composite",
+        polymorphicDiscriminator: {
+            serializedName: 'fish.type',
+            clientName: 'fishtype'
+        },
+        uberParent: 'Fish',
         className: "Sawshark",
         modelProperties: {
             species: {
@@ -471,6 +476,11 @@ internalMappers.Shark = {
     serializedName: "shark",
     type: {
         name: "Composite",
+        polymorphicDiscriminator: {
+            serializedName: 'fish.type',
+            clientName: 'fishtype'
+        },
+        uberParent: 'Fish',
         className: "Shark",
         modelProperties: {
             species: {
