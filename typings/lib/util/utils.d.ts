@@ -124,6 +124,12 @@ export declare function promiseToCallback(promise: Promise<any>): Function;
  * @returns {Function} fn - A function that takes the service callback (cb: ServiceCallback<T>): void
  */
 export declare function promiseToServiceCallback<T>(promise: Promise<HttpOperationResponse>): Function;
+export declare function stringifyXML(obj: any, opts?: {
+    rootName?: string;
+}): string;
+export declare function prepareXMLRootList(obj: any, elementName: string): {
+    [x: string]: any;
+};
 /**
  * Sends the request and returns the received response.
  * @param {WebResource} options - The request to be sent.

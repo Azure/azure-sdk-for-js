@@ -4,7 +4,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
- * the `bodyAsJson` property when the response body is received in JSON.
+ * the `parsedBody` property when the response body is received in JSON or XML.
  * @class
  * Initializes a new instance of the HttpOperationResponse class.
  * @constructor
@@ -25,7 +25,7 @@ var HttpOperationResponse = /** @class */ (function () {
         this.response = response;
         /* tslint:disable:no-null-keyword */
         this.bodyAsText = null;
-        this.bodyAsJson = null;
+        this.parsedBody = null;
     }
     return HttpOperationResponse;
 }());

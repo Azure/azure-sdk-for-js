@@ -43,6 +43,7 @@ var webResource_1 = require("../webResource");
 var constants_1 = require("./constants");
 var restError_1 = require("../restError");
 var httpOperationResponse_1 = require("../httpOperationResponse");
+var xml2js = require("xml2js");
 /**
  * Provides the fetch() method based on the environment.
  * @returns {fetch} fetch - The fetch() method available in the environment to make requests
@@ -277,13 +278,35 @@ function promiseToServiceCallback(promise) {
     }
     return function (cb) {
         promise.then(function (data) {
-            process.nextTick(cb, undefined, data.bodyAsJson, data.request, data.response);
+            process.nextTick(cb, undefined, data.parsedBody, data.request, data.response);
         }, function (err) {
             process.nextTick(cb, err);
         });
     };
 }
 exports.promiseToServiceCallback = promiseToServiceCallback;
+var XML2JS_PARSER_OPTS = {
+    explicitArray: false,
+    explicitCharkey: false,
+    explicitRoot: false
+};
+function stringifyXML(obj, opts) {
+    var builder = new xml2js.Builder({
+        explicitArray: false,
+        explicitCharkey: false,
+        rootName: (opts || {}).rootName
+    });
+    return builder.buildObject(obj);
+}
+exports.stringifyXML = stringifyXML;
+function prepareXMLRootList(obj, elementName) {
+    if (!Array.isArray(obj)) {
+        obj = [obj];
+    }
+    return _a = {}, _a[elementName] = obj, _a;
+    var _a;
+}
+exports.prepareXMLRootList = prepareXMLRootList;
 /**
  * Sends the request and returns the received response.
  * @param {WebResource} options - The request to be sent.
@@ -291,9 +314,9 @@ exports.promiseToServiceCallback = promiseToServiceCallback;
  */
 function dispatchRequest(options) {
     return __awaiter(this, void 0, void 0, function () {
-        var formData, requestForm_1, appendFormValue, formKey, formValue, j, res, err_1, operationResponse, _a, err_2, msg, errCode, e, msg, errCode, e;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var formData, requestForm_1, appendFormValue, formKey, formValue, j, res, err_1, operationResponse, _a, err_2, msg, errCode, e, contentType, xmlParser_1, parseString, _b, err_3, msg, errCode, e;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     if (!options) {
                         return [2 /*return*/, Promise.reject(new Error("options (WebResource) cannot be null or undefined and must be of type object."))];
@@ -329,47 +352,65 @@ function dispatchRequest(options) {
                             options.headers["Content-Type"] = "multipart/form-data; boundary=" + requestForm_1.getBoundary();
                         }
                     }
-                    _b.label = 1;
+                    _c.label = 1;
                 case 1:
-                    _b.trys.push([1, 3, , 4]);
+                    _c.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, exports.myFetch(options.url, options)];
                 case 2:
-                    res = _b.sent();
+                    res = _c.sent();
                     return [3 /*break*/, 4];
                 case 3:
-                    err_1 = _b.sent();
+                    err_1 = _c.sent();
                     return [2 /*return*/, Promise.reject(err_1)];
                 case 4:
                     operationResponse = new httpOperationResponse_1.HttpOperationResponse(options, res);
-                    if (!!options.rawResponse) return [3 /*break*/, 9];
-                    _b.label = 5;
+                    if (!!options.rawResponse) return [3 /*break*/, 13];
+                    _c.label = 5;
                 case 5:
-                    _b.trys.push([5, 7, , 8]);
+                    _c.trys.push([5, 7, , 8]);
                     _a = operationResponse;
                     return [4 /*yield*/, res.text()];
                 case 6:
-                    _a.bodyAsText = _b.sent();
+                    _a.bodyAsText = _c.sent();
                     return [3 /*break*/, 8];
                 case 7:
-                    err_2 = _b.sent();
+                    err_2 = _c.sent();
                     msg = "Error \"" + err_2 + "\" occured while converting the raw response body into string.";
                     errCode = err_2.code || "RAWTEXT_CONVERSION_ERROR";
                     e = new restError_1.RestError(msg, errCode, res.status, options, res, res.body);
                     return [2 /*return*/, Promise.reject(e)];
                 case 8:
-                    try {
-                        if (operationResponse.bodyAsText) {
-                            operationResponse.bodyAsJson = JSON.parse(operationResponse.bodyAsText);
-                        }
-                    }
-                    catch (err) {
-                        msg = "Error \"" + err + "\" occured while executing JSON.parse on the response body - " + operationResponse.bodyAsText + ".";
-                        errCode = err.code || "JSON_PARSE_ERROR";
-                        e = new restError_1.RestError(msg, errCode, res.status, options, res, operationResponse.bodyAsText);
-                        return [2 /*return*/, Promise.reject(e)];
-                    }
-                    _b.label = 9;
-                case 9: return [2 /*return*/, Promise.resolve(operationResponse)];
+                    _c.trys.push([8, 12, , 13]);
+                    if (!operationResponse.bodyAsText) return [3 /*break*/, 11];
+                    contentType = res.headers.get("Content-Type");
+                    if (!(contentType === "application/xml" || contentType === "text/xml")) return [3 /*break*/, 10];
+                    xmlParser_1 = new xml2js.Parser(XML2JS_PARSER_OPTS);
+                    parseString = new Promise(function (resolve, reject) {
+                        xmlParser_1.parseString(operationResponse.bodyAsText, function (err, result) {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                resolve(result);
+                            }
+                        });
+                    });
+                    _b = operationResponse;
+                    return [4 /*yield*/, parseString];
+                case 9:
+                    _b.parsedBody = _c.sent();
+                    return [3 /*break*/, 11];
+                case 10:
+                    operationResponse.parsedBody = JSON.parse(operationResponse.bodyAsText);
+                    _c.label = 11;
+                case 11: return [3 /*break*/, 13];
+                case 12:
+                    err_3 = _c.sent();
+                    msg = "Error \"" + err_3 + "\" occured while executing JSON.parse on the response body - " + operationResponse.bodyAsText + ".";
+                    errCode = err_3.code || "JSON_PARSE_ERROR";
+                    e = new restError_1.RestError(msg, errCode, res.status, options, res, operationResponse.bodyAsText);
+                    return [2 /*return*/, Promise.reject(e)];
+                case 13: return [2 /*return*/, Promise.resolve(operationResponse)];
             }
         });
     });

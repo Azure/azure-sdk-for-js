@@ -252,8 +252,8 @@ var RPRegistrationFilter = /** @class */ (function (_super) {
                         err_5 = _a.sent();
                         return [2 /*return*/, Promise.reject(err_5)];
                     case 4:
-                        obj = res.bodyAsJson;
-                        if (res.bodyAsJson && obj.registrationState && obj.registrationState === "Registered") {
+                        obj = res.parsedBody;
+                        if (res.parsedBody && obj.registrationState && obj.registrationState === "Registered") {
                             result = true;
                         }
                         else {
