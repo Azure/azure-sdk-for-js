@@ -46,7 +46,7 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
    * @param {WebResource} The WebResource to be signed.
    * @returns {Promise<WebResource>} - The signed request object.
    */
-  signRequest(webResource: WebResource) {
+  signRequest(webResource: WebResource): Promise<WebResource> {
     if (!webResource) {
       return Promise.reject(new Error(`webResource cannot be null or undefined and must be of type "object".`));
     }
