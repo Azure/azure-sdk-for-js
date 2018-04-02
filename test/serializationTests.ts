@@ -269,6 +269,59 @@ describe("msrest", function () {
       done();
     });
 
+    it('should correctly serialize an array of array of object types', function (done) {
+      const mapper = {
+        serializedName: 'arrayObj',
+        required: true,
+        type: {
+          name: 'Sequence',
+          element: {
+            type : {
+              name: 'Sequence',
+              element: {
+                type: {
+                  name: 'Object'
+                }
+              }
+            }
+          }
+        }
+      };
+      var array = [[1], ['2'], [1, '2', {}, true, []]];
+      var serializedArray = Serializer.serialize(mapper, array, mapper.serializedName);
+      assert.deepEqual(array, serializedArray);
+      done();
+    });
+
+    it('should fail while serializing an array of array of "object" types when a null value is provided', function (done) {
+      const mapper = {
+        serializedName: 'arrayObj',
+        required: true,
+        type: {
+          name: 'Sequence',
+          element: {
+            type : {
+              name: 'Sequence',
+              element: {
+                required: true,
+                type: {
+                  name: 'Object'
+                }
+              }
+            }
+          }
+        }
+      };
+      var array = [[1], ['2'], [null], [1, '2', {}, true, []]];
+      try {
+        Serializer.serialize(mapper, array, mapper.serializedName);
+      } catch (err) {
+        assert.equal(err.message, 'arrayObj cannot be null or undefined.');
+      }
+      done();
+    });
+
+
     it("should correctly serialize an array of dictionary of primitives", function (done) {
       let mapper: msRest.SequenceMapper = {
         required: false,
@@ -775,6 +828,30 @@ describe("msrest", function () {
       deserializedPetGallery.pets[1].id.should.equal(3);
       deserializedPetGallery.pets[1].name.should.equal("billa");
       deserializedPetGallery.pets[1].color.should.equal("red");
+      done();
+    });
+
+    it('should correctly deserialize an array of array of object types', function (done) {
+      const mapper = {
+        serializedName: 'arrayObj',
+        required: true,
+        type: {
+          name: 'Sequence',
+          element: {
+            type : {
+              name: 'Sequence',
+              element: {
+                type: {
+                  name: 'Object'
+                }
+              }
+            }
+          }
+        }
+      };
+      var array = [[1], ["2"], [1, "2", {}, true, []]];
+      var deserializedArray = Serializer.deserialize(mapper, array, mapper.serializedName);
+      assert.deepEqual(array, deserializedArray);
       done();
     });
   });
