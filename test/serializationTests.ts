@@ -269,6 +269,59 @@ describe("msrest", function () {
       done();
     });
 
+    it('should correctly serialize an array of array of object types', function (done) {
+      const mapper = {
+        serializedName: 'arrayObj',
+        required: true,
+        type: {
+          name: 'Sequence',
+          element: {
+            type : {
+              name: 'Sequence',
+              element: {
+                type: {
+                  name: 'Object'
+                }
+              }
+            }
+          }
+        }
+      };
+      var array = [[1], ['2'], [1, '2', {}, true, []]];
+      var serializedArray = Serializer.serialize(mapper, array, mapper.serializedName);
+      assert.deepEqual(array, serializedArray);
+      done();
+    });
+
+    it('should fail while serializing an array of array of "object" types when a null value is provided', function (done) {
+      const mapper = {
+        serializedName: 'arrayObj',
+        required: true,
+        type: {
+          name: 'Sequence',
+          element: {
+            type : {
+              name: 'Sequence',
+              element: {
+                required: true,
+                type: {
+                  name: 'Object'
+                }
+              }
+            }
+          }
+        }
+      };
+      var array = [[1], ['2'], [null], [1, '2', {}, true, []]];
+      try {
+        Serializer.serialize(mapper, array, mapper.serializedName);
+      } catch (err) {
+        assert.equal(err.message, 'arrayObj cannot be null or undefined.');
+      }
+      done();
+    });
+
+
     it("should correctly serialize an array of dictionary of primitives", function (done) {
       let mapper: msRest.SequenceMapper = {
         required: false,
@@ -775,6 +828,71 @@ describe("msrest", function () {
       deserializedPetGallery.pets[1].id.should.equal(3);
       deserializedPetGallery.pets[1].name.should.equal("billa");
       deserializedPetGallery.pets[1].color.should.equal("red");
+      done();
+    });
+
+    it('should correctly deserialize an array of array of object types', function (done) {
+      const mapper = {
+        serializedName: 'arrayObj',
+        required: true,
+        type: {
+          name: 'Sequence',
+          element: {
+            type : {
+              name: 'Sequence',
+              element: {
+                type: {
+                  name: 'Object'
+                }
+              }
+            }
+          }
+        }
+      };
+      var array = [[1], ["2"], [1, "2", {}, true, []]];
+      var deserializedArray = Serializer.deserialize(mapper, array, mapper.serializedName);
+      assert.deepEqual(array, deserializedArray);
+      done();
+    });
+
+    it('should correctly deserialize without failing when encountering unrecognized discriminator', function (done) {
+      const client = new TestClient('http://localhost:9090');
+      const mapper = Mappers.Fish;
+      const responseBody = {
+        'fish.type': 'sawshark',
+        'age': 22,
+        'birthday': new Date('2012-01-05T01:00:00Z').toISOString(),
+        'species': 'king',
+        'length': 1.0,
+        'picture': new Buffer([255, 255, 255, 255, 254]).toString(),
+        'siblings': [
+          {
+            'fish.type': 'mutatedshark',
+            'age': 105,
+            'birthday': new Date('1900-01-05T01:00:00Z').toISOString(),
+            'length': 10.0,
+            'picture': new Buffer([255, 255, 255, 255, 254]).toString(),
+            'species': 'dangerous',
+            'siblings': [
+              {
+                'fish.type': 'mutatedshark',
+                'age': 6,
+                'length': 20.0,
+                'species': 'predator'
+              }
+            ]
+          }
+        ]
+      };
+      const deserializedSawshark = client.serializer.deserialize(mapper, responseBody, 'responseBody');
+      deserializedSawshark.siblings.length.should.equal(1);
+      deserializedSawshark.siblings[0].fishtype.should.equal('mutatedshark');
+      deserializedSawshark.siblings[0].species.should.equal('dangerous');
+      deserializedSawshark.siblings[0].should.not.have.property('birthday');
+      deserializedSawshark.siblings[0].should.not.have.property('age');
+      deserializedSawshark.siblings[0].siblings[0].fishtype.should.equal('mutatedshark');
+      deserializedSawshark.siblings[0].siblings[0].species.should.equal('predator');
+      deserializedSawshark.siblings[0].siblings[0].should.not.have.property('age');
       done();
     });
   });

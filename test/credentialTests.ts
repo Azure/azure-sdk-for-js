@@ -5,6 +5,7 @@ import * as msRest from "../lib/msRest";
 const should = require("should");
 const TokenCredentials = msRest.TokenCredentials;
 const BasicAuthenticationCredentials = msRest.BasicAuthenticationCredentials;
+const ApiKeyCredentials = msRest.ApiKeyCredentials;
 const dummyToken = "A-dummy-access-token";
 const fakeScheme = "fake-auth-scheme";
 const dummyuserName = "dummy@mummy.com";
@@ -105,5 +106,69 @@ describe("Basic Authentication credentials", () => {
     //     new BasicAuthenticationCredentials(null, null, fakeScheme);
     //   }).should.throw();
     // });
+  });
+
+describe('ApiKey credentials', () => {
+  describe('usage', function () {
+    it('should set header parameters properly in request', async function () {
+      var creds = new ApiKeyCredentials({inHeader: {'key1': 'value1', 'key2': 'value2'}});
+      var request = {
+        headers: {}
+      } as msRest.WebResource;
+
+      await creds.signRequest(request);
+
+      request.headers.should.have.property('key1');
+      request.headers.should.have.property('key2');
+      request.headers['key1'].should.match(new RegExp('^value1$'));
+      request.headers['key2'].should.match(new RegExp('^value2$'));
+    });
+
+    it('should set query parameters properly in the request url without any query parameters', async function () {
+      var creds = new ApiKeyCredentials({inQuery: {'key1': 'value1', 'key2': 'value2'}});
+      var request = {
+        headers: {},
+        url: 'https://example.com'
+      } as msRest.WebResource;
+
+      await creds.signRequest(request);
+      request.url.should.equal('https://example.com?key1=value1&key2=value2');
+    });
+
+    it('should set query parameters properly in the request url with existing query parameters', async function () {
+      var creds = new ApiKeyCredentials({inQuery: {'key1': 'value1', 'key2': 'value2'}});
+      var request = {
+        headers: {},
+        url: 'https://example.com?q1=v2'
+      } as msRest.WebResource;
+
+      await creds.signRequest(request);
+      request.url.should.equal('https://example.com?q1=v2&key1=value1&key2=value2');
+    });
+  });
+
+  describe('construction', function () {
+
+    it('should fail with options.inHeader and options.inQuery set to null or undefined', function (done) {
+      (function () {
+        new ApiKeyCredentials({ inHeader: null, inQuery: undefined } as any);
+      }).should.throw();
+      done();
+    });
+
+    it('should fail without options', function (done) {
+      (function () {
+        new (ApiKeyCredentials as any)();
+      }).should.throw();
+      done();
+    });
+
+    it('should fail with empty options', function (done) {
+      (function () {
+        new ApiKeyCredentials({});
+      }).should.throw();
+      done();
+    });
+  });
   });
 });

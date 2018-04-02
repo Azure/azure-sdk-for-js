@@ -271,10 +271,11 @@ export class WebResource {
 export interface RequestPrepareOptions {
   method: HttpMethods;
   url?: string;
-  queryParameters?: { [key: string]: any } | ParameterValue;
+  queryParameters?: { [key: string]: any | ParameterValue };
   pathTemplate?: string;
   baseUrl?: string;
-  pathParameters?: { [key: string]: any } | ParameterValue;
+  pathParameters?: { [key: string]: any | ParameterValue };
+  formData?: { [key: string]: any };
   headers?: { [key: string]: any };
   disableClientRequestId?: boolean;
   body?: any;
