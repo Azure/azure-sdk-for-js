@@ -854,5 +854,46 @@ describe("msrest", function () {
       assert.deepEqual(array, deserializedArray);
       done();
     });
+
+    it('should correctly deserialize without failing when encountering unrecognized discriminator', function (done) {
+      const client = new TestClient('http://localhost:9090');
+      const mapper = Mappers.Fish;
+      const responseBody = {
+        'fish.type': 'sawshark',
+        'age': 22,
+        'birthday': new Date('2012-01-05T01:00:00Z').toISOString(),
+        'species': 'king',
+        'length': 1.0,
+        'picture': new Buffer([255, 255, 255, 255, 254]).toString(),
+        'siblings': [
+          {
+            'fish.type': 'mutatedshark',
+            'age': 105,
+            'birthday': new Date('1900-01-05T01:00:00Z').toISOString(),
+            'length': 10.0,
+            'picture': new Buffer([255, 255, 255, 255, 254]).toString(),
+            'species': 'dangerous',
+            'siblings': [
+              {
+                'fish.type': 'mutatedshark',
+                'age': 6,
+                'length': 20.0,
+                'species': 'predator'
+              }
+            ]
+          }
+        ]
+      };
+      const deserializedSawshark = client.serializer.deserialize(mapper, responseBody, 'responseBody');
+      deserializedSawshark.siblings.length.should.equal(1);
+      deserializedSawshark.siblings[0].fishtype.should.equal('mutatedshark');
+      deserializedSawshark.siblings[0].species.should.equal('dangerous');
+      deserializedSawshark.siblings[0].should.not.have.property('birthday');
+      deserializedSawshark.siblings[0].should.not.have.property('age');
+      deserializedSawshark.siblings[0].siblings[0].fishtype.should.equal('mutatedshark');
+      deserializedSawshark.siblings[0].siblings[0].species.should.equal('predator');
+      deserializedSawshark.siblings[0].siblings[0].should.not.have.property('age');
+      done();
+    });
   });
 });

@@ -596,13 +596,9 @@ export class Serializer {
       } else {
         indexDiscriminator = mapper.type.uberParent + "." + object[discriminatorAsObject[polymorphicPropertyName]];
       }
-      if (!(this.modelMappers as { [key: string]: any }).discriminators[indexDiscriminator]) {
-        throw new Error(`${discriminatorAsObject[polymorphicPropertyName]}": ` +
-          `"${object[discriminatorAsObject[polymorphicPropertyName]]}" in "${objectName}" is not a valid ` +
-          `discriminator as a corresponding model class for the disciminator "${indexDiscriminator}" ` +
-          `was not found in this.modelMappers.discriminators object.`);
+      if (this.modelMappers && this.modelMappers.discriminators[indexDiscriminator]) {
+        mapper = this.modelMappers.discriminators[indexDiscriminator];
       }
-      mapper = (this.modelMappers as { [key: string]: any }).discriminators[indexDiscriminator];
     }
     return mapper;
   }
@@ -625,14 +621,11 @@ export class Serializer {
       } else {
         indexDiscriminator = mapper.type.uberParent + "." + object[discriminatorAsString];
       }
-      if (!(this.modelMappers as { [key: string]: any }).discriminators[indexDiscriminator]) {
-        throw new Error(`${discriminatorAsString}": ` +
-          `"${object[discriminatorAsString]}"  in "${objectName}" is not a valid ` +
-          `discriminator as a corresponding model class for the disciminator "${indexDiscriminator}" ` +
-          `was not found in this.models.discriminators object.`);
+      if (this.modelMappers && this.modelMappers.discriminators[indexDiscriminator]) {
+        mapper = this.modelMappers.discriminators[indexDiscriminator];
       }
-      mapper = (this.modelMappers as { [key: string]: any }).discriminators[indexDiscriminator];
     }
+
     return mapper;
   }
 }
