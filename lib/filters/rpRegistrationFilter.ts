@@ -171,8 +171,8 @@ export class RPRegistrationFilter extends BaseFilter {
     } catch (err) {
       return Promise.reject(err);
     }
-    const obj = (res.bodyAsJson as any);
-    if (res.bodyAsJson && obj.registrationState && obj.registrationState === "Registered") {
+    const obj = (res.parsedBody as any);
+    if (res.parsedBody && obj.registrationState && obj.registrationState === "Registered") {
       result = true;
     } else {
       setTimeout(() => { return this.getRegistrationStatus(url, originalRequest); }, retryTimeout * 1000);

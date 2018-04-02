@@ -253,7 +253,7 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
   }
   return (cb: ServiceCallback<T>): void => {
     promise.then((data: HttpOperationResponse) => {
-      process.nextTick(cb, undefined, data.bodyAsJson as T, data.request, data.response);
+      process.nextTick(cb, undefined, data.parsedBody as T, data.request, data.response);
     }, (err: Error) => {
       process.nextTick(cb, err);
     });
@@ -356,9 +356,9 @@ export async function dispatchRequest(options: WebResource): Promise<HttpOperati
             });
           });
 
-          operationResponse.bodyAsJson = await parseString;
+          operationResponse.parsedBody = await parseString;
         } else {
-          operationResponse.bodyAsJson = JSON.parse(operationResponse.bodyAsText);
+          operationResponse.parsedBody = JSON.parse(operationResponse.bodyAsText);
         }
       }
     } catch (err) {
