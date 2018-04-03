@@ -698,7 +698,7 @@ class CognitiveServicesCredentials extends ms_rest_js_1.ApiKeyCredentials {
         const options = {
             inHeader: {
                 "Ocp-Apim-Subscription-Key": subscriptionKey,
-                "X-BingApis-SDK-Client": 'node-SDK'
+                "X-BingApis-SDK-Client": "node-SDK"
             }
         };
         super(options);
