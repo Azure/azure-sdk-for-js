@@ -66,6 +66,12 @@ var msRestAzure =
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+module.exports = msRest;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -104,12 +110,6 @@ exports.default = Constants;
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-module.exports = msRest;
-
-/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -120,12 +120,14 @@ module.exports = msRest;
 Object.defineProperty(exports, "__esModule", { value: true });
 const azureServiceClient_1 = __webpack_require__(3);
 exports.AzureServiceClient = azureServiceClient_1.AzureServiceClient;
-const constants_1 = __webpack_require__(0);
+const constants_1 = __webpack_require__(1);
 exports.Constants = constants_1.default;
 const cloudError_1 = __webpack_require__(5);
 exports.CloudErrorMapper = cloudError_1.CloudErrorMapper;
 const baseResource_1 = __webpack_require__(6);
 exports.BaseResourceMapper = baseResource_1.BaseResourceMapper;
+const cognitiveServicesCredentials_1 = __webpack_require__(7);
+exports.CognitiveServicesCredentials = cognitiveServicesCredentials_1.CognitiveServicesCredentials;
 
 
 /***/ }),
@@ -145,8 +147,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const msRest = __webpack_require__(1);
-const constants_1 = __webpack_require__(0);
+const msRest = __webpack_require__(0);
+const constants_1 = __webpack_require__(1);
 const pollingState_1 = __webpack_require__(4);
 const LroStates = constants_1.default.LongRunningOperationStates;
 /**
@@ -449,8 +451,8 @@ exports.AzureServiceClient = AzureServiceClient;
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = __webpack_require__(0);
-const msRest = __webpack_require__(1);
+const constants_1 = __webpack_require__(1);
+const msRest = __webpack_require__(0);
 const LroStates = constants_1.default.LongRunningOperationStates;
 /**
  * @class
@@ -670,6 +672,39 @@ exports.BaseResourceMapper = {
         modelProperties: {}
     }
 };
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+Object.defineProperty(exports, "__esModule", { value: true });
+const ms_rest_js_1 = __webpack_require__(0);
+/**
+ * Creates a new CognitiveServicesCredentials object.
+ *
+ * @constructor
+ * @param {string} subscriptionKey   The CognitiveServices subscription key
+ */
+class CognitiveServicesCredentials extends ms_rest_js_1.ApiKeyCredentials {
+    constructor(subscriptionKey) {
+        if (!subscriptionKey || (subscriptionKey && typeof subscriptionKey.valueOf() !== "string")) {
+            throw new Error("subscriptionKey cannot be null or undefined and must be of type string.");
+        }
+        const options = {
+            inHeader: {
+                "Ocp-Apim-Subscription-Key": subscriptionKey,
+                "X-BingApis-SDK-Client": 'node-SDK'
+            }
+        };
+        super(options);
+    }
+}
+exports.CognitiveServicesCredentials = CognitiveServicesCredentials;
 
 
 /***/ })

@@ -17,7 +17,7 @@ export default class PollingState {
   /**
    * @param {msRest.RequestOptionsBase} [optionsOfInitialRequest] - Request options that were provided as a part of the initial request.
    */
-  optionsOfInitialRequest: msRest.RequestOptionsBase;
+  optionsOfInitialRequest!: msRest.RequestOptionsBase;
   /**
    * @param {msRest.WebResource} [request] - provides information about the request made for polling.
    */
@@ -25,7 +25,7 @@ export default class PollingState {
   /**
    * @param {Response} [response] - The response object to extract longrunning operation status.
    */
-  response: Response;
+  response!: Response;
   /**
    * @param {any} [resource] - Provides information about the response body received in the polling request. Particularly useful when polling via provisioningState.
    */
