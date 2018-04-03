@@ -5,7 +5,7 @@ import { WebResource } from "./webResource";
 
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
- * the `bodyAsJson` property when the response body is received in JSON.
+ * the `parsedBody` property when the response body is received in JSON or XML.
  * @class
  * Initializes a new instance of the HttpOperationResponse class.
  * @constructor
@@ -22,11 +22,12 @@ export class HttpOperationResponse {
   /**
    * The response body as text (string format)
    */
-  bodyAsText: string | null;
+  bodyAsText?: string | null;
+
   /**
-   * The response body as parsed JSON
+   * The response body as parsed JSON or XML
    */
-  bodyAsJson: { [key: string]: any } | Array<any> | string | number | boolean | null | void;
+  parsedBody?: { [key: string]: any } | Array<any> | string | number | boolean | null | void;
 
   constructor(request: WebResource, response: Response) {
     /**
@@ -44,6 +45,6 @@ export class HttpOperationResponse {
     this.response = response;
     /* tslint:disable:no-null-keyword */
     this.bodyAsText = null;
-    this.bodyAsJson = null;
+    this.parsedBody = null;
   }
 }

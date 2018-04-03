@@ -7,6 +7,7 @@ import { WebResource } from "../webResource";
 import { Constants } from "./constants";
 import { RestError } from "../restError";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import * as xml2js from "xml2js";
 
 /**
  * Provides the fetch() method based on the environment.
@@ -252,11 +253,34 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
   }
   return (cb: ServiceCallback<T>): void => {
     promise.then((data: HttpOperationResponse) => {
-      process.nextTick(cb, undefined, data.bodyAsJson as T, data.request, data.response);
+      process.nextTick(cb, undefined, data.parsedBody as T, data.request, data.response);
     }, (err: Error) => {
       process.nextTick(cb, err);
     });
   };
+}
+
+
+const XML2JS_PARSER_OPTS: xml2js.OptionsV2 = {
+  explicitArray: false,
+  explicitCharkey: false,
+  explicitRoot: false
+};
+
+export function stringifyXML(obj: any, opts?: { rootName?: string }) {
+  const builder = new xml2js.Builder({
+    explicitArray: false,
+    explicitCharkey: false,
+    rootName: (opts || {}).rootName
+  });
+  return builder.buildObject(obj);
+}
+
+export function prepareXMLRootList(obj: any, elementName: string) {
+  if (!Array.isArray(obj)) {
+    obj = [obj];
+  }
+  return { [elementName]: obj };
 }
 
 /**
@@ -316,9 +340,26 @@ export async function dispatchRequest(options: WebResource): Promise<HttpOperati
       const e = new RestError(msg, errCode, res.status, options, res, res.body);
       return Promise.reject(e);
     }
+
     try {
       if (operationResponse.bodyAsText) {
-        operationResponse.bodyAsJson = JSON.parse(operationResponse.bodyAsText);
+        const contentType = res.headers.get("Content-Type")!;
+        if (contentType === "application/xml" || contentType === "text/xml") {
+          const xmlParser = new xml2js.Parser(XML2JS_PARSER_OPTS);
+          const parseString = new Promise(function(resolve: (result: any) => void, reject: (err: any) => void) {
+            xmlParser.parseString(operationResponse.bodyAsText!, function(err: any, result: any) {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(result);
+              }
+            });
+          });
+
+          operationResponse.parsedBody = await parseString;
+        } else {
+          operationResponse.parsedBody = JSON.parse(operationResponse.bodyAsText);
+        }
       }
     } catch (err) {
       const msg = `Error "${err}" occured while executing JSON.parse on the response body - ${operationResponse.bodyAsText}.`;

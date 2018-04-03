@@ -1,10 +1,11 @@
 export declare class Serializer {
+    private isXML;
     modelMappers?: {
         [key: string]: any;
     };
     constructor(mappers?: {
         [key: string]: any;
-    });
+    }, isXML?: boolean | undefined);
     validateConstraints(mapper: Mapper, value: any, objectName: string): void;
     private trimEnd(str, ch);
     private bufferToBase64Url(buffer);
@@ -69,6 +70,10 @@ export interface BaseMapperType {
     [key: string]: any;
 }
 export interface Mapper {
+    xmlName?: string;
+    xmlIsAttribute?: boolean;
+    xmlElementName?: string;
+    xmlIsWrapped?: boolean;
     readOnly?: boolean;
     isConstant?: boolean;
     required: boolean;
