@@ -10,4 +10,6 @@ const cloudError_1 = require("./cloudError");
 exports.CloudErrorMapper = cloudError_1.CloudErrorMapper;
 const baseResource_1 = require("./baseResource");
 exports.BaseResourceMapper = baseResource_1.BaseResourceMapper;
+const cognitiveServicesCredentials_1 = require("./credentials/cognitiveServicesCredentials");
+exports.CognitiveServicesCredentials = cognitiveServicesCredentials_1.CognitiveServicesCredentials;
 //# sourceMappingURL=msRestAzure.js.map
