@@ -25,7 +25,7 @@ class PollingState {
                 this.resource = JSON.parse(resultOfInitialRequest.bodyAsText);
             }
             else {
-                this.resource = resultOfInitialRequest.bodyAsJson;
+                this.resource = resultOfInitialRequest.parsedBody;
             }
         }
         catch (error) {
@@ -104,10 +104,10 @@ class PollingState {
         const result = new msRest.HttpOperationResponse(this.request, this.response);
         if (this.resource && typeof this.resource.valueOf() === "string") {
             result.bodyAsText = this.resource;
-            result.bodyAsJson = JSON.parse(this.resource);
+            result.parsedBody = JSON.parse(this.resource);
         }
         else {
-            result.bodyAsJson = this.resource;
+            result.parsedBody = this.resource;
             result.bodyAsText = JSON.stringify(this.resource);
         }
         return result;

@@ -302,7 +302,7 @@ class AzureServiceClient extends msRest.ServiceClient {
             catch (err) {
                 return Promise.reject(err);
             }
-            const parsedResponse = result.bodyAsJson;
+            const parsedResponse = result.parsedBody;
             if (!parsedResponse) {
                 return Promise.reject(new Error("The response from long running operation does not contain a body."));
             }
@@ -315,7 +315,7 @@ class AzureServiceClient extends msRest.ServiceClient {
             pollingState.request = result.request;
             pollingState.resource = undefined;
             if (inPostOrDelete) {
-                pollingState.resource = result.bodyAsJson;
+                pollingState.resource = result.parsedBody;
             }
             return Promise.resolve();
         });
@@ -334,7 +334,7 @@ class AzureServiceClient extends msRest.ServiceClient {
             catch (err) {
                 return Promise.reject(err);
             }
-            const parsedResponse = result.bodyAsJson;
+            const parsedResponse = result.parsedBody;
             pollingState.updateResponse(result.response);
             pollingState.request = result.request;
             const statusCode = result.response.status;
@@ -370,10 +370,10 @@ class AzureServiceClient extends msRest.ServiceClient {
             catch (err) {
                 return Promise.reject(err);
             }
-            if (!result.bodyAsJson) {
+            if (!result.parsedBody) {
                 return Promise.reject(new Error("The response from long running operation does not contain a body."));
             }
-            const parsedResponse = result.bodyAsJson;
+            const parsedResponse = result.parsedBody;
             pollingState.status = LroStates.Succeeded;
             if (parsedResponse && parsedResponse.properties && parsedResponse.properties.provisioningState) {
                 pollingState.status = parsedResponse.properties.provisioningState;
@@ -419,7 +419,7 @@ class AzureServiceClient extends msRest.ServiceClient {
                 return Promise.reject(err);
             }
             const statusCode = operationResponse.response.status;
-            const responseBody = operationResponse.bodyAsJson;
+            const responseBody = operationResponse.parsedBody;
             if (statusCode !== 200 && statusCode !== 201 && statusCode !== 202 && statusCode !== 204) {
                 const error = new msRest.RestError(`Invalid status code with response body "${operationResponse.bodyAsText}" occurred ` +
                     `when polling for operation status.`);
@@ -474,7 +474,7 @@ class PollingState {
                 this.resource = JSON.parse(resultOfInitialRequest.bodyAsText);
             }
             else {
-                this.resource = resultOfInitialRequest.bodyAsJson;
+                this.resource = resultOfInitialRequest.parsedBody;
             }
         }
         catch (error) {
@@ -553,10 +553,10 @@ class PollingState {
         const result = new msRest.HttpOperationResponse(this.request, this.response);
         if (this.resource && typeof this.resource.valueOf() === "string") {
             result.bodyAsText = this.resource;
-            result.bodyAsJson = JSON.parse(this.resource);
+            result.parsedBody = JSON.parse(this.resource);
         }
         else {
-            result.bodyAsJson = this.resource;
+            result.parsedBody = this.resource;
             result.bodyAsText = JSON.stringify(this.resource);
         }
         return result;
