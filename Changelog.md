@@ -1,6 +1,15 @@
+### 0.2.8 - 2018-04-02
+- Relaxed validation for object types
+- Relaxed handling of unrecognized polymorphic discriminator
+- Added ApiKeyCredentials type
+
+### 0.2.7 - 2018-03-23
+- Updated moment to 2.21.0
+- Added support to ensure that the provided Duration is a Duration like object. (based on ms-rest 2.3.2 in https://github.com/Azure/azure-sdk-for-node)
+
 ### 0.2.6 - 2018-02-22
 - Added support for [de]serializing an "any" type (case when type is not present for an entity in the open api spec.). Resolves https://github.com/Azure/autorest/issues/2855
-- Updated dependency versions 
+- Updated dependency versions
 
 ### 0.2.5 - 2018-01-25
 - Compiled target to `ES5` for supporting IE11 #13.
