@@ -1,3 +1,7 @@
+### 0.2.8 - 2017/04/02
+- Updated ms-rest-js to 0.2.8
+- Added CognitiveServicesCredentials
+
 ### 0.2.1 - 2017/10/25
 - Updating the minimum version of dependency "ms-rest-js": "^0.2.3". This brings in the change (removal of "bodyAsStream" property) done to HttpOperationResponse class
 
