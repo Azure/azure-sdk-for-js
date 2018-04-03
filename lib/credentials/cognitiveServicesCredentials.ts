@@ -18,7 +18,7 @@ export class CognitiveServicesCredentials extends ApiKeyCredentials {
     const options = {
       inHeader: {
         "Ocp-Apim-Subscription-Key": subscriptionKey,
-        "X-BingApis-SDK-Client": 'node-SDK'
+        "X-BingApis-SDK-Client": "node-SDK"
       }
     };
     super(options);
