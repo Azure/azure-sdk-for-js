@@ -47,6 +47,7 @@
   "devDependencies": {
     "@types/mocha": "^2.2.40",
     "@types/should": "^8.1.30",
+    "@types/url-parse": "^1.1.0",
     "@types/xml2js": "^0.4.2",
     "mocha": "^3.5.3",
     "should": "5.2.0",

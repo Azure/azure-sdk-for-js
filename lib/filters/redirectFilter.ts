@@ -3,8 +3,7 @@
 import { BaseFilter } from "./baseFilter";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
-
-const parse = require("url-parse");
+import * as parse from "url-parse";
 
 export class RedirectFilter extends BaseFilter {
 
@@ -21,13 +20,9 @@ export class RedirectFilter extends BaseFilter {
     if (response && response.headers && response.headers.get("location") &&
       (response.status === 300 || response.status === 307 || (response.status === 303 && request.method === "POST")) &&
       (!this.maximumRetries || currentRetries < this.maximumRetries)) {
-      if (parse(response.headers.get("location")).hostname) {
-        request.url = response.headers.get("location") as string;
-      } else {
-        const urlObject = parse(request.url);
-        urlObject.set("pathname", response.headers.get("location") as string);
-        request.url = urlObject.href;
-      }
+
+      request.url = parse(response.headers.get("location")!, parse(request.url)).href;
+
       // POST request with Status code 303 should be converted into a
       // redirected GET request if the redirect url is present in the location header
       if (response.status === 303) {
