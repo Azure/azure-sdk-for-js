@@ -323,6 +323,10 @@ export async function dispatchRequest(options: WebResource): Promise<HttpOperati
       options.headers["Content-Type"] = `multipart/form-data; boundary=${requestForm.getBoundary()}`;
     }
   }
+
+  // allow cross-origin cookies in browser
+  (options as any).credentials = "include";
+
   let res: Response;
   try {
     res = await myFetch(options.url, options);
