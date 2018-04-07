@@ -1,0 +1,38 @@
+# git #
+.git*
+
+# Node #
+node_modules/
+
+# Test folder #
+tests/
+testhub/
+
+# Tools and dev scripts #
+tools/
+tasks/
+scripts/
+gruntfile.js
+gulpfile.js
+
+# Nuget packages #
+.nuget/
+packages/
+packages.config
+
+# VS #
+.ntvs_analysis.*
+*.sln
+*.obj
+
+# Examples #
+examples/
+dist/examples
+# vscode #
+.vscode/
+.env
+.sample.env
+
+# misc #
+contribute.md
+./typings/examples/
