@@ -352,6 +352,8 @@ function dispatchRequest(options) {
                             options.headers["Content-Type"] = "multipart/form-data; boundary=" + requestForm_1.getBoundary();
                         }
                     }
+                    // allow cross-origin cookies in browser
+                    options.credentials = "include";
                     _c.label = 1;
                 case 1:
                     _c.trys.push([1, 3, , 4]);
