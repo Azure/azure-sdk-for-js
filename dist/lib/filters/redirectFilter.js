@@ -60,7 +60,7 @@ var RedirectFilter = /** @class */ (function (_super) {
     }
     RedirectFilter.prototype.handleRedirect = function (operationResponse, currentRetries) {
         return __awaiter(this, void 0, void 0, function () {
-            var request, response, urlObject, res, err_1;
+            var request, response, res, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -69,14 +69,7 @@ var RedirectFilter = /** @class */ (function (_super) {
                         if (!(response && response.headers && response.headers.get("location") &&
                             (response.status === 300 || response.status === 307 || (response.status === 303 && request.method === "POST")) &&
                             (!this.maximumRetries || currentRetries < this.maximumRetries))) return [3 /*break*/, 5];
-                        if (parse(response.headers.get("location")).hostname) {
-                            request.url = response.headers.get("location");
-                        }
-                        else {
-                            urlObject = parse(request.url);
-                            urlObject.set("pathname", response.headers.get("location"));
-                            request.url = urlObject.href;
-                        }
+                        request.url = parse(response.headers.get("location"), parse(request.url)).href;
                         // POST request with Status code 303 should be converted into a
                         // redirected GET request if the redirect url is present in the location header
                         if (response.status === 303) {
