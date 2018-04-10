@@ -84,3 +84,8 @@ SdkCodeGen
 output/*
 
 # Typescript output
+dist/
+typings/
+*.js
+*.js.map
+

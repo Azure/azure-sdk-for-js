@@ -1,21 +1,16 @@
 {
   "compilerOptions": {
-    "alwaysStrict": true,
     "module": "commonjs",
-    "noImplicitAny": true,
     "preserveConstEnums": true,
     "sourceMap": true,
     "newLine": "LF",
     "target": "es5",
     "moduleResolution": "node",
     "noImplicitReturns": true,
-    "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist",
-    "allowJs": false,
     "strict": true,
-    "strictNullChecks": true,
     "declaration": true,
     "declarationDir": "./typings",
     "lib": [

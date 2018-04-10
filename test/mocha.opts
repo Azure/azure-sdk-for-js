@@ -1,0 +1,5 @@
+--require ts-node/register
+--timeout 50000
+--reporter list
+--colors
+test/**/*.ts
