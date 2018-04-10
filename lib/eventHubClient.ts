@@ -13,7 +13,7 @@ import { SasTokenProvider } from "./auth/sas";
 import { AadTokenProvider } from "./auth/aad";
 import { ManagementClient, EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
 import { CbsClient } from "./cbs";
-import EventPosition from "./eventPosition";
+import { EventPosition } from "./eventPosition";
 const debug = debugModule("azure:event-hubs:client");
 
 export interface ReceiveOptions {

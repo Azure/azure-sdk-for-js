@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "alwaysStrict": true,
     "module": "commonjs",
     "preserveConstEnums": true,
     "sourceMap": true,
@@ -8,11 +7,11 @@
     "target": "es2017",
     "moduleResolution": "node",
     "noImplicitReturns": true,
-    "noImplicitThis": true,
+    "noImplicitAny": true,
     "outDir": "dist",
     "allowJs": false,
     "noUnusedLocals":true,
-    "strictNullChecks": true,
+    "strict": true,
     "strictPropertyInitialization": true,
     "declaration": true,
     "declarationDir": "./typings",

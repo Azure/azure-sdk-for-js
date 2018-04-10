@@ -5,11 +5,16 @@ _This SDK is currently in preview._
 
 ## Usage ##
 
-This sdk is promise-based for creating entities like the `EventHubClient`, `EventHubSender` and `EventHubReceiver`. See [examples](./examples) directory for some examples.
+This sdk is promise-based as well as event based.
+- It is **promise based** for for creating entities like the `EventHubClient`, `EventHubSender` and `EventHubReceiver`.
+- It is **event based** for listening to events/errors, etc. 
+  - `EventHubReceiver` and `EventHubSender` are `EventEmitter`(s) as well. Once they are created you should be adding eventListeners for the `error` event to both of them and adding eventListener for the `message` event to the `EventHubReceiver`.
+
+See [examples](./examples) directory for some examples.
 It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving messages over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
 ### Client creation
-The simplest usage is to use the static factory method `EventHubClient.createFromConnectionString(_connection-string_, _event-hub-path_)`. Once you have a client, you can use it to 
+The simplest usage is to use the static factory method `EventHubClient.createFromConnectionString(_connection-string_, _event-hub-path_)`. Once you have a client, you can use it for:
 
 ### Sender creation
 - Create an EventHubSender using the `client.createSender()` method.
@@ -54,7 +59,7 @@ const client = EventHubClient.fromConnectionString('Endpoint=sb://my-servicebus-
 
 function async main() {
   const receiver = await client.createReceiver("1", { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
-  // Sumper important - Please add an event listener for the error event.
+  // Super important - Please add an event listener for the error event.
   receiver.on("error", (err) => {
     console.log("An error occurred on the receiver ", receiver.name, err);
   });

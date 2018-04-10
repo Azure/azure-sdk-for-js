@@ -42,7 +42,7 @@ export interface EventPositionOptions {
  * Defines a position of an @link~EventData in the event hub partition.
  * @class EventPosition
  */
-export default class EventPosition {
+export class EventPosition {
 
   static readonly startOfStream: string = "-1";
 
