@@ -1,1 +1,0 @@
-{"version":3,"file":"baseResource.js","sourceRoot":"","sources":["../../lib/baseResource.ts"],"names":[],"mappings":";AAAA,4DAA4D;AAC5D,+FAA+F;;AAQlF,QAAA,kBAAkB,GAAG;IAChC,QAAQ,EAAE,KAAK;IACf,cAAc,EAAE,cAAc;IAC9B,IAAI,EAAE;QACJ,IAAI,EAAE,WAAW;QACjB,SAAS,EAAE,cAAc;QACzB,eAAe,EAAE,EAChB;KACF;CACF,CAAC"}

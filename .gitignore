@@ -82,5 +82,10 @@ node_modules
 SdkCodeGen
 
 output/*
+
 # Typescript output
-dist/ms-rest/*
+dist/
+typings/
+*.js
+*.js.map
+
