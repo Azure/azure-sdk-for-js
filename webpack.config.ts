@@ -1,8 +1,7 @@
-const webpack = require('webpack');
-//var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const path = require('path');
+import * as webpack from 'webpack';
+import * as path from 'path';
 
-module.exports = {
+const config: webpack.Configuration = {
   entry: './lib/msRest.ts',
   devtool: 'source-map',
   output: {
@@ -40,3 +39,5 @@ module.exports = {
     Buffer: false
   }
 };
+
+export default config;

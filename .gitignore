@@ -84,3 +84,8 @@ SdkCodeGen
 output/*
 
 # Typescript output
+dist/
+
+# .js files present at the repo root level
+./*.js
+./*.js.map
