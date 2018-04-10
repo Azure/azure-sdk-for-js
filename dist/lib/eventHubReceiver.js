@@ -191,55 +191,60 @@ class EventHubReceiver extends events_1.EventEmitter {
         if (!this._session && !this._receiver) {
             throw _1.Errors.translate({ condition: _1.Errors.ConditionStatusMapper[404], description: "The messaging entity underlying amqp receiver could not be found." });
         }
-        try {
-            let eventDatas = [];
-            let count = 0;
-            let timeOver = false;
-            return new Promise((resolve, reject) => {
-                let onReceiveMessage;
-                let waitTimer;
-                let actionAfterWaitTimeout;
-                // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-                const finalAction = (timeOver, data) => {
-                    // Remove the listener to avoid receiving duplicate messages.
-                    this.removeListener(Constants.message, onReceiveMessage);
-                    if (!data) {
-                        data = eventDatas.length ? eventDatas[eventDatas.length - 1] : undefined;
-                    }
-                    if (timeOver) {
-                        clearTimeout(waitTimer);
-                    }
-                    if (this.receiverRuntimeMetricEnabled && data) {
-                        this.runtimeInfo.lastSequenceNumber = data.lastSequenceNumber;
-                        this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
-                        this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
-                        this.runtimeInfo.retrievalTime = data.retrievalTime;
-                    }
-                    resolve(eventDatas);
-                };
-                // Action to be performed after the max wait time is over.
-                actionAfterWaitTimeout = () => {
-                    timeOver = true;
-                    finalAction(timeOver);
-                };
-                // Action to be performed on the "message" event.
-                onReceiveMessage = (data) => {
-                    if (!timeOver && count <= maxMessageCount) {
-                        count++;
-                        // console.log(`${new Date().toString()} - ${count}`);
-                        eventDatas.push(data);
-                    }
-                    if (count === maxMessageCount) {
-                        finalAction(timeOver, data);
-                    }
-                };
-                waitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInSeconds * 1000);
-                this.on(Constants.message, onReceiveMessage);
-            });
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventDatas = [];
+        let count = 0;
+        let timeOver = false;
+        return new Promise((resolve, reject) => {
+            let onReceiveMessage;
+            let waitTimer;
+            let actionAfterWaitTimeout;
+            // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
+            const finalAction = (timeOver, data) => {
+                // Remove the listener to avoid receiving duplicate messages.
+                this.removeListener(Constants.message, onReceiveMessage);
+                if (!data) {
+                    data = eventDatas.length ? eventDatas[eventDatas.length - 1] : undefined;
+                }
+                if (timeOver) {
+                    clearTimeout(waitTimer);
+                }
+                if (this.receiverRuntimeMetricEnabled && data) {
+                    this.runtimeInfo.lastSequenceNumber = data.lastSequenceNumber;
+                    this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
+                    this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
+                    this.runtimeInfo.retrievalTime = data.retrievalTime;
+                }
+                resolve(eventDatas);
+            };
+            // Action to be performed after the max wait time is over.
+            actionAfterWaitTimeout = () => {
+                timeOver = true;
+                finalAction(timeOver);
+            };
+            // Action to be performed on the "message" event.
+            onReceiveMessage = (data) => {
+                if (!timeOver && count <= maxMessageCount) {
+                    count++;
+                    // console.log(`${new Date().toString()} - ${count}`);
+                    eventDatas.push(data);
+                }
+                if (count === maxMessageCount) {
+                    finalAction(timeOver, data);
+                }
+            };
+            waitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInSeconds * 1000);
+            // Action to be taken when an error is received.
+            const onReceiveError = (error) => {
+                debug(`[${this._context.connectionId}] Receiver "${this.name}" received an error: \n ${JSON.stringify(error, undefined, 2)}`);
+                this.removeListener(Constants.error, onReceiveError);
+                this.removeListener(Constants.message, onReceiveMessage);
+                if (waitTimer) {
+                    clearTimeout(waitTimer);
+                }
+                reject(error);
+            };
+            this.on(Constants.message, onReceiveMessage);
+        });
     }
     /**
      * Closes the underlying AMQP receiver.

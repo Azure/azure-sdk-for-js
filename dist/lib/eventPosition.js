@@ -112,5 +112,5 @@ class EventPosition {
 }
 EventPosition.startOfStream = "-1";
 EventPosition.endOfStream = "@latest";
-exports.default = EventPosition;
+exports.EventPosition = EventPosition;
 //# sourceMappingURL=eventPosition.js.map

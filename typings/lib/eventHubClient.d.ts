@@ -3,7 +3,7 @@ import { EventHubReceiver, EventHubSender, ConnectionConfig } from ".";
 import { TokenProvider } from "./auth/token";
 import { ManagementClient, EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
 import { CbsClient } from "./cbs";
-import EventPosition from "./eventPosition";
+import { EventPosition } from "./eventPosition";
 export interface ReceiveOptions {
     /**
      * @property {object} [eventPosition] The starting event position at which to start receiving messages.

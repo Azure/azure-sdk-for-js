@@ -47,4 +47,4 @@ packages
 .ntvs_analysis.dat
 obj/*
 .env
-./typings/examples/
+typings/examples/**
