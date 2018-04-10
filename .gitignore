@@ -85,7 +85,6 @@ output/*
 
 # Typescript output
 dist/
+*.js
+*.js.map
 
-# .js files present at the repo root level
-./*.js
-./*.js.map
