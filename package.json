@@ -35,12 +35,14 @@
     "@types/mocha": "^2.2.43",
     "@types/should": "^8.1.30",
     "mocha": "^3.5.3",
+    "npm-run-all": "^4.1.2",
     "should": "5.2.0",
     "ts-loader": "^2.3.7",
+    "ts-node": "^5.0.1",
     "tslint": "^5.7.0",
     "typescript": "^2.5.2",
-    "webpack": "^3.6.0",
-    "uglify-es": "^3.1.0"
+    "uglify-es": "^3.1.0",
+    "webpack": "^3.6.0"
   },
   "homepage": "https://github.com/Azure/ms-rest-azure-js",
   "repository": {
@@ -51,10 +53,14 @@
     "url": "http://github.com/Azure/ms-rest-azure-js/issues"
   },
   "scripts": {
-    "tsc": "tsc -p tsconfig.json",
-    "test": "npm -s run-script tslint",
-    "unit": "mocha -t 50000 dist/test",
-    "build": "npm -s run-script tsc && webpack && node node_modules/uglify-es/bin/uglifyjs --source-map -c -m -o msRestAzureBundle.min.js msRestAzureBundle.js",
-    "tslint": "tslint -p . -c tslint.json --exclude test/**/*.ts"
+    "build": "run-p build:node build:browser",
+    "build:node": "tsc",
+    "build:browser": "webpack && node node_modules/uglify-es/bin/uglifyjs --source-map -c -m -o msRestAzureBundle.min.js msRestAzureBundle.js",
+    "watch:node": "tsc -w",
+    "watch:browser": "webpack -w",
+    "test": "run-p test:tslint test:unit",
+    "test:unit": "mocha",
+    "test:tslint": "tslint -p . -c tslint.json --exclude test/**/*.ts",
+    "prepare": "npm run build"
   }
 }

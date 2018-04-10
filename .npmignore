@@ -1,8 +1,13 @@
 .vscode/
-node_modules/
+.idea/
 samples/
+lib/
 test/
 .travis.yml
-gulpfile.js
 .gitignore
+gulpfile.js
 .git
+.DS_Store
+tsconfig.json
+tslint.json
+webpack.config.ts
