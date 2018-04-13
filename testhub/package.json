@@ -1,0 +1,15 @@
+{
+  "name": "testhub",
+  "version": "0.1.0",
+  "license": "MIT",
+  "dependencies": {
+    "yargs": "^11.0.0",
+    "@types/yargs": "^11.0.0"
+  },
+  "bin": {
+    "testhub": "./dist/cli.js"
+  },
+  "scripts": {
+    "tsc": "tsc"
+  }
+}
