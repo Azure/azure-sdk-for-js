@@ -251,7 +251,7 @@ describe("EventHub Receiver", function () {
       receiver.runtimeInfo!.lastEnqueuedOffset!.should.equal(pInfo.lastEnqueuedOffset);
       receiver.runtimeInfo!.lastSequenceNumber!.should.equal(pInfo.lastSequenceNumber);
       receiver.runtimeInfo!.lastEnqueuedTimeUtc!.getTime().should.equal(pInfo.lastEnqueuedTimeUtc.getTime());
-      receiver.runtimeInfo!.paritionId!.should.equal(pInfo.partitionId);
+      receiver.runtimeInfo!.partitionId!.should.equal(pInfo.partitionId);
       receiver.runtimeInfo!.retrievalTime!.getTime().should.be.greaterThan(Date.now() - 60000);
     });
   });

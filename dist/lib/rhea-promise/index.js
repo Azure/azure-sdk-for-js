@@ -6,7 +6,7 @@ const rhea = require("rhea");
 const debugModule = require("debug");
 const debug = debugModule("rhea-promise");
 /**
- * Eastablishes an amqp connection.
+ * Establishes an amqp connection.
  * @param {ConnectionOptions} [options] Options to be provided for establishing an amqp connection.
  * @return {Promise<Connection>} Promise<Connection>
  * - **Resolves** the promise with the Connection object when rhea emits the "connection_open" event.
