@@ -22,7 +22,7 @@ export interface ReceiverRuntimeInfo {
   /**
    * @property {string} partitionId The parition identifier.
    */
-  paritionId: string;
+  partitionId: string;
   /**
    * @property {number} lastSequenceNumber The logical sequence number of the event.
    */
@@ -155,7 +155,7 @@ export class EventHubReceiver extends EventEmitter {
     this.options = options;
     this.receiverRuntimeMetricEnabled = options.enableReceiverRuntimeMetric || false;
     this.runtimeInfo = {
-      paritionId: `${partitionId}`
+      partitionId: `${partitionId}`
     };
 
     const onMessage = (context: rheaPromise.Context) => {
@@ -212,7 +212,7 @@ export class EventHubReceiver extends EventEmitter {
       await defaultLock.acquire(this._context.cbsSession.cbsLock, () => { return this._context.cbsSession.init(this._context.connection); });
       const tokenObject = await this._context.tokenProvider.getToken(this.audience);
       debug(`[${this._context.connectionId}] EH Receiver: calling negotiateClaim for audience "${this.audience}"`);
-      // Negotitate the CBS claim.
+      // Negotiate the CBS claim.
       await this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
       if (!this._session && !this._receiver) {
         let receiverError: any;

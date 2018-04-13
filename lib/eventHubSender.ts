@@ -120,7 +120,7 @@ export class EventHubSender extends EventEmitter {
         () => { return this._context.cbsSession.init(this._context.connection); });
       const tokenObject = await this._context.tokenProvider.getToken(this.audience);
       debug(`[${this._context.connectionId}] EH Sender: calling negotiateClaim for audience "${this.audience}".`);
-      // Negotitate the CBS claim.
+      // Negotiate the CBS claim.
       await this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
       if (!this._session && !this._sender) {
         let senderError: any;

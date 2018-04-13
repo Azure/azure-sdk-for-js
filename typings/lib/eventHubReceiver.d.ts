@@ -10,7 +10,7 @@ export interface ReceiverRuntimeInfo {
     /**
      * @property {string} partitionId The parition identifier.
      */
-    paritionId: string;
+    partitionId: string;
     /**
      * @property {number} lastSequenceNumber The logical sequence number of the event.
      */
