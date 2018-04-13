@@ -63,4 +63,7 @@ export function delay<T>(t: number, value?: T): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 
+/**
+ * Type declaration for a Function type where T is the input to the function and V is the output of the function.
+ */
 export type Func<T, V> = (a: T) => V;

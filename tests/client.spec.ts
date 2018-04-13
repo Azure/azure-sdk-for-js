@@ -127,7 +127,7 @@ describe("EventHubClient on ", function () {
         await client.getHubRuntimeInformation();
       } catch (err) {
         debug(err);
-        should.equal(true, err instanceof Errors.MessagingEntityNotFoundError);
+        should.equal(err.name, "MessagingEntityNotFoundError");
       }
     });
 
@@ -137,7 +137,7 @@ describe("EventHubClient on ", function () {
         await client.getPartitionInformation("0");
       } catch (err) {
         debug(err);
-        should.equal(true, err instanceof Errors.MessagingEntityNotFoundError);
+        should.equal(err.name, "MessagingEntityNotFoundError");
       }
     });
 
@@ -147,7 +147,7 @@ describe("EventHubClient on ", function () {
         await client.createSender("0");
       } catch (err) {
         debug(err);
-        should.equal(true, err instanceof Errors.MessagingEntityNotFoundError);
+        should.equal(err.name, "MessagingEntityNotFoundError");
       }
     });
 
@@ -157,7 +157,7 @@ describe("EventHubClient on ", function () {
         await client.createReceiver("0");
       } catch (err) {
         debug(err);
-        should.equal(true, err instanceof Errors.MessagingEntityNotFoundError);
+        should.equal(err.name, "MessagingEntityNotFoundError");
       }
     });
   });
@@ -171,10 +171,10 @@ describe("EventHubClient on ", function () {
         debug(">>>>>>>> receiver created.", receiver.name!);
         receiver.on("error", (error) => {
           debug(">>>>>>>> error occurred", error);
-          should.equal(true, error instanceof Errors.MessagingEntityNotFoundError);
+          should.equal(error.name, "MessagingEntityNotFoundError");
         });
-        let d = await receiver.receive(10, 5);
         debug(">>>>>>>> attached the error handler on the receiver...");
+        let d = await receiver.receive(10, 5);
       } catch (err) {
         debug(">>> Some error", err);
         throw new Error("This code path must not have hit.. " + JSON.stringify(err));
@@ -193,7 +193,7 @@ describe("EventHubClient on ", function () {
         } catch (err) {
           debug(`>>>> Received error - `, err);
           should.exist(err);
-          should.equal(true, err instanceof Errors.InvalidOperationError);
+          should.equal(err.name, "InvalidOperationError");
         }
       });
     });

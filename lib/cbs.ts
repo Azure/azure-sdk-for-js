@@ -41,7 +41,7 @@ export class CbsClient {
    */
   async init(connection: any): Promise<void> {
     if (!this._cbsSenderReceiverLink) {
-      let rxOpt: rheaPromise.ReceiverOptions = {
+      const rxOpt: rheaPromise.ReceiverOptions = {
         source: {
           address: this.endpoint
         },
@@ -65,7 +65,7 @@ export class CbsClient {
    * and rejects when an error occurs during $cbs authentication.
    */
   negotiateClaim(audience: string, connection: any, tokenObject: TokenInfo): Promise<any> {
-    return new Promise(async (resolve: any, reject: any): Promise<void> => {
+    return new Promise((resolve: any, reject: any): void => {
       try {
         const request = {
           body: tokenObject.token,
@@ -99,7 +99,7 @@ export class CbsClient {
             if (!errorCondition) {
               errorCondition = "amqp:internal-error";
             }
-            let e: rheaPromise.AmqpError = {
+            const e: rheaPromise.AmqpError = {
               condition: errorCondition,
               description: desc
             };
@@ -128,9 +128,9 @@ export class CbsClient {
         this._cbsSenderReceiverLink = undefined;
       }
     } catch (err) {
-      const msg = `An error occurred while closing the cbs session: ${err}`;
+      const msg = `An error occurred while closing the cbs session: ${JSON.stringify(err)}`;
       debug(msg);
-      return Promise.reject(msg);
+      throw new Error(msg);
     }
   }
 }

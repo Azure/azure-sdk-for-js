@@ -37,6 +37,8 @@ export const defaultOperationTimeoutInSeconds = 60;
 export const managementRequestKey = "managementRequest";
 export const negotiateCbsKey = "negotiateCbs";
 export const ensureContainerAndBlob = "ensureContainerAndBlob";
+export const defaultPrefetchCount = 1000;
+export const reconnectLimit = 100;
 export const packageJsonInfo = {
   name: "azure-event-hubs-js",
   version: "0.1.0"

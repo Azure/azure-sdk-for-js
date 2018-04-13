@@ -18,6 +18,10 @@ const debug = debugModule("azure:event-hubs:client");
 
 export interface ReceiveOptions {
   /**
+   * @property {string} [name] The name of the receiver. If not provided then we will set a GUID by default.
+   */
+  name?: string;
+  /**
    * @property {object} [eventPosition] The starting event position at which to start receiving messages.
    * This is used to filter messages for the EventHub Receiver.
    */
@@ -115,7 +119,6 @@ export class EventHubClient {
    */
   constructor(config: ConnectionConfig, tokenProvider?: TokenProvider) {
     ConnectionConfig.validate(config);
-    this.userAgent = "/js-event-hubs";
     if (!tokenProvider) {
       tokenProvider = new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey);
     }
@@ -139,11 +142,11 @@ export class EventHubClient {
     try {
       if (this._context.connection) {
         // Close all the senders.
-        for (let sender of Object.values(this._context.senders)) {
+        for (const sender of Object.values(this._context.senders)) {
           await sender.close();
         }
         // Close all the receivers.
-        for (let receiver of Object.values(this._context.receivers)) {
+        for (const receiver of Object.values(this._context.receivers)) {
           await receiver.close();
         }
         // Close the cbs session;
@@ -157,7 +160,7 @@ export class EventHubClient {
     } catch (err) {
       const msg = `An error occurred while closing the connection "${this._context.connectionId}": ${JSON.stringify(err)}`;
       debug(msg);
-      return Promise.reject(msg);
+      throw new Error(msg);
     }
   }
 
@@ -174,13 +177,14 @@ export class EventHubClient {
     try {
       // Establish the amqp connection if it does not exist.
       await this._open();
-      let ehSender = new EventHubSender(this._context, partitionId);
+      const ehSender = new EventHubSender(this._context, partitionId);
       // Initialize the sender.
       await ehSender.init();
-      this._context.senders[ehSender.name!] = ehSender;
+      this._context.senders[ehSender.name] = ehSender;
       return ehSender;
     } catch (err) {
-      return Promise.reject(err);
+      debug("An error occurred while creating the sender: %O", err);
+      throw (err);
     }
   }
 
@@ -209,13 +213,14 @@ export class EventHubClient {
     try {
       // Establish the amqp connection if it does not exist.
       await this._open();
-      let ehReceiver = new EventHubReceiver(this._context, partitionId, options);
+      const ehReceiver = new EventHubReceiver(this._context, partitionId, options);
       // Initialize the receiver.
       await ehReceiver.init();
-      this._context.receivers[ehReceiver.name!] = ehReceiver;
+      this._context.receivers[ehReceiver.name] = ehReceiver;
       return ehReceiver;
     } catch (err) {
-      return Promise.reject(err);
+      debug("An error occurred while creating the receiver: %O", err);
+      throw (err);
     }
   }
 
@@ -229,7 +234,8 @@ export class EventHubClient {
       await this._open();
       return await this._context.managementSession.getHubRuntimeInformation(this._context.connection);
     } catch (err) {
-      return Promise.reject(err);
+      debug("An error occurred while getting the hub runtime information: %O", err);
+      throw (err);
     }
   }
 
@@ -240,10 +246,11 @@ export class EventHubClient {
    */
   async getPartitionIds(): Promise<Array<string>> {
     try {
-      let runtimeInfo = await this.getHubRuntimeInformation();
+      const runtimeInfo = await this.getHubRuntimeInformation();
       return runtimeInfo.partitionIds;
     } catch (err) {
-      return Promise.reject(err);
+      debug("An error occurred while getting the partition ids: %O", err);
+      throw (err);
     }
   }
 
@@ -260,7 +267,8 @@ export class EventHubClient {
       await this._open();
       return await this._context.managementSession.getPartitionInformation(this._context.connection, partitionId);
     } catch (err) {
-      return Promise.reject(err);
+      debug("An error occurred while getting the partition information: %O", err);
+      throw (err);
     }
   }
 
@@ -283,7 +291,7 @@ export class EventHubClient {
         hostname: this._context.config.host,
         username: this._context.config.sharedAccessKeyName,
         port: 5671,
-        reconnect_limit: 100,
+        reconnect_limit: Constants.reconnectLimit,
         properties: {
           product: "MSJSClient",
           version: Constants.packageJsonInfo.version || "0.1.0",
@@ -295,7 +303,7 @@ export class EventHubClient {
       if (useSaslPlain) {
         connectOptions.password = this._context.config.sharedAccessKey;
       }
-      debug(`Dialling the amqp connection with options.`, connectOptions);
+      debug(`Dialing the amqp connection with options.`, connectOptions);
       this._context.connection = await rheaPromise.connect(connectOptions);
       this._context.connectionId = this._context.connection.options.id;
       this.connectionId = this._context.connectionId;
@@ -340,11 +348,10 @@ export class EventHubClient {
     }
 
     if (!credentials ||
-      (credentials &&
-        !(credentials instanceof ApplicationTokenCredentials ||
-          credentials instanceof UserTokenCredentials ||
-          credentials instanceof DeviceTokenCredentials ||
-          credentials instanceof MSITokenCredentials))) {
+      !(credentials instanceof ApplicationTokenCredentials ||
+        credentials instanceof UserTokenCredentials ||
+        credentials instanceof DeviceTokenCredentials ||
+        credentials instanceof MSITokenCredentials)) {
       throw new Error("'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.");
     }
 

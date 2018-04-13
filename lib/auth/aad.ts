@@ -40,8 +40,6 @@ export class AadTokenProvider implements TokenProvider {
       credentials.resource = Constants.aadEventHubsAudience;
     }
     this.credentials = credentials;
-    this.tokenRenewalMarginInSeconds = 270;
-    this.tokenValidTimeInSeconds = 3599;
   }
 
   /**
@@ -49,8 +47,8 @@ export class AadTokenProvider implements TokenProvider {
    * @param {string} [audience] - The audience for which the token is desired. If not
    * provided then the Endpoint from the connection string will be applied.
    */
-  async getToken(audience?: string): Promise<TokenInfo> {
-    let self = this;
+  getToken(audience?: string): Promise<TokenInfo> {
+    const self = this;
     return new Promise<TokenInfo>((resolve, reject) => {
       self.credentials.getToken((err, result) => {
         if (err) {
@@ -60,8 +58,8 @@ export class AadTokenProvider implements TokenProvider {
         if (result.expiresOn && result.expiresOn instanceof Date) {
           expiresOn = result.expiresOn.getTime();
         }
-        let expiry = Math.floor(expiresOn / 1000) + self.tokenValidTimeInSeconds - 5;
-        let tokenObj: TokenInfo = {
+        const expiry = Math.floor(expiresOn / 1000) + self.tokenValidTimeInSeconds - 5;
+        const tokenObj: TokenInfo = {
           expiry: expiry,
           tokenType: TokenType.CbsTokenTypeJwt,
           token: result.accessToken

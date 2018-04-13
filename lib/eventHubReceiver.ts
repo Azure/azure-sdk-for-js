@@ -3,6 +3,7 @@
 
 import * as rhea from "rhea";
 import * as debugModule from "debug";
+import * as uuid from "uuid/v4";
 import * as rheaPromise from "./rhea-promise";
 import * as errors from "./errors";
 import * as Constants from "./util/constants";
@@ -55,7 +56,7 @@ export class EventHubReceiver extends EventEmitter {
   /**
    * @property {string} [name] The unique EventHub Receiver name (mostly a guid).
    */
-  name?: string;
+  name: string;
   /**
    * @property {string} address The EventHub Receiver address in the following format:
    * - "<event-hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"
@@ -143,11 +144,12 @@ export class EventHubReceiver extends EventEmitter {
     super();
     if (!options) options = {};
     this._context = context;
+    this.name = options.name || uuid();
     this.partitionId = partitionId;
     this.consumerGroup = options.consumerGroup ? options.consumerGroup : Constants.defaultConsumerGroup;
     this.address = `${this._context.config.entityPath}/ConsumerGroups/${this.consumerGroup}/Partitions/${this.partitionId}`;
     this.audience = `${this._context.config.endpoint}${this.address}`;
-    this.prefetchCount = options.prefetchCount !== undefined && options.prefetchCount !== null ? options.prefetchCount : 1000;
+    this.prefetchCount = options.prefetchCount !== undefined && options.prefetchCount !== null ? options.prefetchCount : Constants.defaultPrefetchCount;
     this.epoch = options.epoch;
     this.identifier = options.identifier;
     this.options = options;
@@ -161,10 +163,10 @@ export class EventHubReceiver extends EventEmitter {
       this.emit(Constants.message, evData);
     };
     const onError = async (context: rheaPromise.Context) => {
+      this.emit(Constants.error, errors.translate(context.receiver.error));
       // Since the receiver received an error the link has been closed. So calling
       // this.close() will ensure that the receiver has been removed from the context.
       await this.close();
-      this.emit(Constants.error, errors.translate(context.receiver.error));
     };
 
     this.on("newListener", (event) => {
@@ -214,7 +216,8 @@ export class EventHubReceiver extends EventEmitter {
       await this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
       if (!this._session && !this._receiver) {
         let receiverError: any;
-        let rcvrOptions: rheaPromise.ReceiverOptions = {
+        const rcvrOptions: rheaPromise.ReceiverOptions = {
+          name: this.name,
           autoaccept: true,
           source: {
             address: this.address
@@ -234,7 +237,7 @@ export class EventHubReceiver extends EventEmitter {
         }
         if (this.options && this.options.eventPosition) {
           // Set filter on the receiver if event position is specified.
-          let filterClause = this.options.eventPosition.getExpression();
+          const filterClause = this.options.eventPosition.getExpression();
           if (filterClause) {
             rcvrOptions.source.filter = {
               "apache.org:selector-filter:string": rhea.types.wrap_described(filterClause, 0x468C00000004)
@@ -250,8 +253,6 @@ export class EventHubReceiver extends EventEmitter {
         debug("Trying to create a receiver...");
         this._receiver = await rheaPromise.createReceiver(this._session, rcvrOptions);
         debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
-
-        this.name = this._receiver.name;
         if (receiverError) {
           // There are cases where the EH service sends an attach frame, which causes rhea to emit receiver_open event
           // thus resolving the promise to create a receiver and moments later the service sends back a detach frame
@@ -266,8 +267,8 @@ export class EventHubReceiver extends EventEmitter {
       this._ensureTokenRenewal();
     } catch (err) {
       if (err.value || (err.constructor && err.constructor.name === "c")) err = Errors.translate(err);
-      debug("Will reject the promise to create the receiver with error", err);
-      return Promise.reject(err);
+      debug("Will reject the promise to create the receiver with error: %O", err);
+      throw (err);
     }
   }
 
@@ -285,15 +286,14 @@ export class EventHubReceiver extends EventEmitter {
       throw new Error("'maxMessageCount' is a required parameter of type number with a value greater than 0.");
     }
 
-    if (maxWaitTimeInSeconds === null || maxWaitTimeInSeconds === undefined) {
+    if (maxWaitTimeInSeconds == undefined) {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
-    if (!this._session && !this._receiver) {
+    if (!this._session || !this._receiver) {
       throw Errors.translate({ condition: Errors.ConditionStatusMapper[404], description: "The messaging entity underlying amqp receiver could not be found." });
     }
-    let eventDatas: EventData[] = [];
-    let count = 0;
+    const eventDatas: EventData[] = [];
     let timeOver = false;
     return new Promise<EventData[]>((resolve, reject) => {
       let onReceiveMessage: Func<EventData, void>;
@@ -306,7 +306,7 @@ export class EventHubReceiver extends EventEmitter {
         if (!data) {
           data = eventDatas.length ? eventDatas[eventDatas.length - 1] : undefined;
         }
-        if (timeOver) {
+        if (!timeOver) {
           clearTimeout(waitTimer);
         }
         if (this.receiverRuntimeMetricEnabled && data) {
@@ -326,12 +326,10 @@ export class EventHubReceiver extends EventEmitter {
 
       // Action to be performed on the "message" event.
       onReceiveMessage = (data: EventData) => {
-        if (!timeOver && count <= maxMessageCount) {
-          count++;
-          // console.log(`${new Date().toString()} - ${count}`);
+        if (eventDatas.length <= maxMessageCount) {
           eventDatas.push(data);
         }
-        if (count === maxMessageCount) {
+        if (eventDatas.length === maxMessageCount) {
           finalAction(timeOver, data);
         }
       };
@@ -368,7 +366,8 @@ export class EventHubReceiver extends EventEmitter {
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         debug(`[${this._context.connectionId}] Receiver "${this.name}" has been closed.`);
       } catch (err) {
-        return Promise.reject(err);
+        debug("An error occurred while closing the receiver %O", err);
+        throw err;
       }
     }
   }
@@ -380,7 +379,15 @@ export class EventHubReceiver extends EventEmitter {
     const tokenValidTimeInSeconds = this._context.tokenProvider.tokenValidTimeInSeconds;
     const tokenRenewalMarginInSeconds = this._context.tokenProvider.tokenRenewalMarginInSeconds;
     const nextRenewalTimeout = (tokenValidTimeInSeconds - tokenRenewalMarginInSeconds) * 1000;
-    this._tokenRenewalTimer = setTimeout(async () => await this.init(), nextRenewalTimeout);
+    this._tokenRenewalTimer = setTimeout(async () => {
+      try {
+        await this.init();
+      } catch (err) {
+        // TODO: May be add some retries over here before emitting the error.
+        debug(`[${this._context.connectionId}] Receiver "${this.name}", an error occurred while renewing the token:\n${JSON.stringify(err)}.`);
+        this.emit(Constants.error, errors.translate(err));
+      }
+    }, nextRenewalTimeout);
     debug(`[${this._context.connectionId}] Receiver "${this.name}", has next token renewal in ${nextRenewalTimeout / 1000} seconds ` +
       `@(${new Date(Date.now() + nextRenewalTimeout).toString()}).`);
   }

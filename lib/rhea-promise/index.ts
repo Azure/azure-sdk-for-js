@@ -14,14 +14,18 @@ const debug = debugModule("rhea-promise");
  * - **Rejects** the promise with an AmqpError when rhea emits the "connection_close" event while trying
  * to establish an amqp connection.
  */
-export async function connect(options?: ConnectionOptions): Promise<any> {
+export function connect(options?: ConnectionOptions): Promise<any> {
   return new Promise((resolve, reject) => {
     const connection = rhea.connect(options);
 
-    function onOpen(context: any): void {
+    function removeListeners(connection: any): void {
       connection.removeListener("connection_open", onOpen);
       connection.removeListener("connection_close", onClose);
       connection.removeListener("disconnected", onClose);
+    }
+
+    function onOpen(context: any): void {
+      removeListeners(connection);
       process.nextTick(() => {
         debug("Resolving the promise with amqp connection.");
         resolve(connection);
@@ -29,9 +33,7 @@ export async function connect(options?: ConnectionOptions): Promise<any> {
     }
 
     function onClose(context: Context): void {
-      connection.removeListener("connection_open", onOpen);
-      connection.removeListener("connection_close", onClose);
-      connection.removeListener("disconnected", onClose);
+      removeListeners(connection);
       debug(`Error occurred while establishing amqp connection.`, context.connection.error);
       reject(context.connection.error);
     }
@@ -50,12 +52,12 @@ export async function connect(options?: ConnectionOptions): Promise<any> {
  * - **Rejects** the promise with an AmqpError when rhea emits the "connection_error" event while trying
  * to close an amqp connection.
  */
-export async function closeConnection(connection: any): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    if (!connection || (connection && typeof connection !== "object")) {
-      reject(new Error("connection is a required parameter and must be of tyepe 'object'."));
-    }
+export function closeConnection(connection: any): Promise<void> {
+  if (!connection || (connection && typeof connection !== "object")) {
+    throw new Error("connection is a required parameter and must be of type 'object'.");
+  }
 
+  return new Promise<void>((resolve, reject) => {
     if (connection.is_open()) {
       function onClose(context: Context): void {
         connection.removeListener("connection_close", onClose);
@@ -88,17 +90,21 @@ export async function closeConnection(connection: any): Promise<void> {
  * - **Rejects** the promise with an AmqpError when rhea emits the "session_close" event while trying
  * to create an amqp session.
  */
-export async function createSession(connection: any): Promise<any> {
-  return new Promise((resolve, reject) => {
-    if (!connection || (connection && typeof connection !== "object")) {
-      reject(new Error("connection is a required parameter and must be of tyepe 'object'."));
-    }
+export function createSession(connection: any): Promise<any> {
+  if (!connection || (connection && typeof connection !== "object")) {
+    throw new Error("connection is a required parameter and must be of type 'object'.");
+  }
 
+  return new Promise((resolve, reject) => {
     const session = connection.create_session();
 
-    function onOpen(context: any): void {
+    function removeListeners(session: any): void {
       session.removeListener("session_open", onOpen);
       session.removeListener("session_close", onClose);
+    }
+
+    function onOpen(context: any): void {
+      removeListeners(session);
       process.nextTick(() => {
         debug("Resolving the promise with amqp session.");
         resolve(session);
@@ -106,8 +112,7 @@ export async function createSession(connection: any): Promise<any> {
     }
 
     function onClose(context: Context): void {
-      session.removeListener("session_open", onOpen);
-      session.removeListener("session_close", onClose);
+      removeListeners(session);
       debug(`Error occurred while establishing a session over amqp connection.`, context.session.error);
       reject(context.session.error);
     }
@@ -127,12 +132,12 @@ export async function createSession(connection: any): Promise<any> {
  * - **Rejects** the promise with an AmqpError when rhea emits the "session_error" event while trying
  * to close an amqp session.
  */
-export async function closeSession(session: any): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    if (!session || (session && typeof session !== "object")) {
-      reject(new Error("session is a required parameter and must be of tyepe 'object'."));
-    }
+export function closeSession(session: any): Promise<void> {
+  if (!session || (session && typeof session !== "object")) {
+    throw new Error("session is a required parameter and must be of type 'object'.");
+  }
 
+  return new Promise<void>((resolve, reject) => {
     if (session.is_open()) {
       function onClose(context: Context): void {
         session.removeListener("session_close", onClose);
@@ -166,17 +171,21 @@ export async function closeSession(session: any): Promise<void> {
  * - **Rejects** the promise with an AmqpError when rhea emits the "sender_close" event while trying
  * to create an amqp sender.
  */
-export async function createSender(session: any, options?: SenderOptions): Promise<any> {
-  return new Promise((resolve, reject) => {
-    if (!session || (session && typeof session !== "object")) {
-      reject(new Error("session is a required parameter and must be of tyepe 'object'."));
-    }
+export function createSender(session: any, options?: SenderOptions): Promise<any> {
+  if (!session || (session && typeof session !== "object")) {
+    throw new Error("session is a required parameter and must be of type 'object'.");
+  }
 
+  return new Promise((resolve, reject) => {
     const sender = session.attach_sender(options);
 
-    function onOpen(context: any): void {
+    function removeListeners(session: any): void {
       sender.removeListener("sendable", onOpen);
       sender.removeListener("sender_close", onClose);
+    }
+
+    function onOpen(context: any): void {
+      removeListeners(session);
       process.nextTick(() => {
         debug(`Resolving the promise with amqp sender "${sender.name}".`);
         resolve(sender);
@@ -184,8 +193,7 @@ export async function createSender(session: any, options?: SenderOptions): Promi
     }
 
     function onClose(context: Context): void {
-      sender.removeListener("sendable", onOpen);
-      sender.removeListener("sender_close", onClose);
+      removeListeners(session);
       debug(`Error occurred while creating a sender over amqp connection.`, context.sender.error);
       reject(context.sender.error);
     }
@@ -203,11 +211,12 @@ export async function createSender(session: any, options?: SenderOptions): Promi
  * - **Rejects** the promise with an AmqpError when rhea emits the
  * "sender_error" event while trying to close an amqp sender.
  */
-export async function closeSender(sender: any): Promise<void> {
+export function closeSender(sender: any): Promise<void> {
+  if (!sender || (sender && typeof sender !== "object")) {
+    throw new Error("sender is a required parameter and must be of type 'object'.");
+  }
+
   return new Promise<void>((resolve, reject) => {
-    if (!sender || (sender && typeof sender !== "object")) {
-      reject(new Error("sender is a required parameter and must be of tyepe 'object'."));
-    }
     if (sender.is_open()) {
       function onClose(context: Context): void {
         sender.removeListener("sender_close", onClose);
@@ -241,17 +250,21 @@ export async function closeSender(sender: any): Promise<void> {
  * - **Rejects** the promise with an AmqpError when rhea emits the "receiver_close" event while trying
  * to create an amqp receiver.
  */
-export async function createReceiver(session: any, options?: ReceiverOptions): Promise<any> {
-  return new Promise((resolve, reject) => {
-    if (!session || (session && typeof session !== "object")) {
-      reject(new Error("session is a required parameter and must be of tyepe 'object'."));
-    }
+export function createReceiver(session: any, options?: ReceiverOptions): Promise<any> {
+  if (!session || (session && typeof session !== "object")) {
+    throw new Error("session is a required parameter and must be of type 'object'.");
+  }
 
+  return new Promise((resolve, reject) => {
     const receiver = session.attach_receiver(options);
 
-    function onOpen(context: any): void {
+    function removeListeners(receiver: any): void {
       receiver.removeListener("receiver_open", onOpen);
       receiver.removeListener("receiver_close", onClose);
+    }
+
+    function onOpen(context: any): void {
+      removeListeners(receiver);
       process.nextTick(() => {
         debug(`Resolving the promise with amqp receiver "${receiver.name}".`);
         resolve(receiver);
@@ -259,8 +272,7 @@ export async function createReceiver(session: any, options?: ReceiverOptions): P
     }
 
     function onClose(context: Context): void {
-      receiver.removeListener("receiver_open", onOpen);
-      receiver.removeListener("receiver_close", onClose);
+      removeListeners(receiver);
       debug(`Error occurred while creating a receiver over amqp connection.`, context.receiver.error);
       reject(context.receiver.error);
     }
@@ -278,12 +290,12 @@ export async function createReceiver(session: any, options?: ReceiverOptions): P
  * - **Rejects** the promise with an AmqpError when rhea emits the
  * "receiver_error" event while trying to close an amqp receiver.
  */
-export async function closeReceiver(receiver: any): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    if (!receiver || (receiver && typeof receiver !== "object")) {
-      reject(new Error("receiver is a required parameter and must be of tyepe 'object'."));
-    }
+export function closeReceiver(receiver: any): Promise<void> {
+  if (!receiver || (receiver && typeof receiver !== "object")) {
+    throw new Error("receiver is a required parameter and must be of type 'object'.");
+  }
 
+  return new Promise<void>((resolve, reject) => {
     if (receiver.is_open()) {
       function onClose(context: Context): void {
         receiver.removeListener("receiver_close", onClose);

@@ -52,7 +52,7 @@ export namespace EventData {
 
   export function fromAmqpMessage(msg: AmqpMessage): EventData {
     // TODO: Look at how other sdks are encoding their payloads and copy them. This will ensure consistency across all the sdks.
-    let data: EventData = {
+    const data: EventData = {
       body: msg.body,
       _raw_amqp_mesage: msg
     };
@@ -79,7 +79,7 @@ export namespace EventData {
   }
 
   export function toAmqpMessage(data: EventData): AmqpMessage {
-    let msg: AmqpMessage = {
+    const msg: AmqpMessage = {
       body: data.body
     };
     if (data.annotations) {
@@ -95,7 +95,7 @@ export namespace EventData {
       if (!msg.message_annotations) msg.message_annotations = {};
       msg.message_annotations[Constants.partitionKey] = data.partitionKey;
     }
-    if (data.sequenceNumber) {
+    if (data.sequenceNumber != undefined) {
       if (!msg.message_annotations) msg.message_annotations = {};
       msg.message_annotations[Constants.sequenceNumber] = data.sequenceNumber;
     }
@@ -103,15 +103,15 @@ export namespace EventData {
       if (!msg.message_annotations) msg.message_annotations = {};
       msg.message_annotations[Constants.enqueuedTime] = data.enqueuedTimeUtc.getTime();
     }
-    if (data.offset) {
+    if (data.offset != undefined) {
       if (!msg.message_annotations) msg.message_annotations = {};
       msg.message_annotations[Constants.offset] = data.offset;
     }
-    if (data.lastEnqueuedOffset) {
+    if (data.lastEnqueuedOffset != undefined) {
       if (!msg.delivery_annotations) msg.delivery_annotations = {};
       msg.delivery_annotations.last_enqueued_offset = data.lastEnqueuedOffset;
     }
-    if (data.lastSequenceNumber) {
+    if (data.lastSequenceNumber != undefined) {
       if (!msg.delivery_annotations) msg.delivery_annotations = {};
       msg.delivery_annotations.last_enqueued_sequence_number = data.lastSequenceNumber;
     }

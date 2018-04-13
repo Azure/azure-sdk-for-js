@@ -266,7 +266,7 @@ describe("EventHub Receiver", function () {
         epochRcvr1.on("error", (error) => {
           //debug(">>>> epoch Receiver 1", error);
           should.exist(error);
-          should.equal(true, error instanceof Errors.ReceiverDisconnectedError);
+          should.equal(error.name, "ReceiverDisconnectedError");
         });
         debug("Created epoch receiver 1 %s", epochRcvr1.name);
         events = await epochRcvr1.receive(20, 10);
@@ -305,7 +305,7 @@ describe("EventHub Receiver", function () {
         nonEpochRcvr.on("error", (error) => {
           debug(">>>> non epoch Receiver", error);
           should.exist(error);
-          should.equal(true, error instanceof Errors.ReceiverDisconnectedError);
+          should.equal(error.name, "ReceiverDisconnectedError");
         });
         debug("Created non epoch receiver %s", nonEpochRcvr.name);
         events = await nonEpochRcvr.receive(20, 10);
@@ -328,7 +328,7 @@ describe("EventHub Receiver", function () {
         nonEpochRcvr.on("error", (error) => {
           debug(">>>> non epoch Receiver: ", error);
           should.exist(error);
-          should.equal(true, error instanceof Errors.ReceiverDisconnectedError);
+          should.equal(error.name, "ReceiverDisconnectedError");
         });
         debug("Created non epoch receiver %s", nonEpochRcvr.name);
         events = await nonEpochRcvr.receive(20, 10);
@@ -362,7 +362,7 @@ describe("EventHub Receiver", function () {
             receiver.on("error", (error) => {
               debug("Receiver %s received an error", receiver.name, error);
               should.exist(error);
-              should.equal(true, error instanceof Errors.ArgumentOutOfRangeError || error instanceof Errors.InvalidOperationError);
+              should.equal(true, error.name === "ArgumentOutOfRangeError" || error.name === "InvalidOperationError");
             });
             debug("Created receiver and will be receiving messages from partition id ...", id);
             const d = await receiver.receive(10, 3);
@@ -395,7 +395,8 @@ describe("EventHub Receiver", function () {
       try {
         await receiver.receive(10, 3);
       } catch (err) {
-        should.equal(true, err instanceof Errors.MessagingEntityNotFoundError);
+        should.exist(err);
+        should.equal(err.name, "MessagingEntityNotFoundError");
       }
     });
 
@@ -435,7 +436,7 @@ describe("EventHub Receiver", function () {
           rcvrs.push(failedRcvr);
         } catch (err) {
           rcvrs.length.should.equal(5);
-          should.equal(true, err instanceof Errors.QuotaExceededError);
+          should.equal(err.name, "QuotaExceededError");
         }
       } catch (err) {
         debug("uber catch: ", err);

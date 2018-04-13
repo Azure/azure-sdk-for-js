@@ -30,6 +30,7 @@
         "variable-declaration": "onespace"
       }
     ],
+    "prefer-const": true,
     "no-construct": true,
     "no-duplicate-variable": true,
     "no-empty": true,

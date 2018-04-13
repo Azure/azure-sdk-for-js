@@ -77,7 +77,7 @@ export class ManagementClient {
   /**
    * $management sender, receiver on the same session.
    */
-  private _mgmgtReqResLink?: RequestResponseLink;
+  private _mgmtReqResLink?: RequestResponseLink;
 
   /**
    * @constructor
@@ -114,7 +114,7 @@ export class ManagementClient {
    * @returns {Promise<Array<string>>}
    */
   async getPartitionIds(connection: any): Promise<Array<string>> {
-    let runtimeInfo = await this.getHubRuntimeInformation(connection);
+    const runtimeInfo = await this.getHubRuntimeInformation(connection);
     return runtimeInfo.partitionIds;
   }
 
@@ -149,24 +149,24 @@ export class ManagementClient {
    */
   async close(): Promise<void> {
     try {
-      if (this._mgmgtReqResLink) {
-        await rheaPromise.closeSession(this._mgmgtReqResLink.session);
+      if (this._mgmtReqResLink) {
+        await rheaPromise.closeSession(this._mgmtReqResLink.session);
         debug("Successfully closed the management session.");
-        this._mgmgtReqResLink = undefined;
+        this._mgmtReqResLink = undefined;
       }
     } catch (err) {
       const msg = `An error occurred while closing the management session: ${err}`;
       debug(msg);
-      return Promise.reject(msg);
+      throw new Error(msg);
     }
   }
 
   private async _init(connection: any, endpoint: string, replyTo: string): Promise<void> {
-    if (!this._mgmgtReqResLink) {
+    if (!this._mgmtReqResLink) {
       const rxopt: rheaPromise.ReceiverOptions = { source: { address: endpoint }, name: replyTo, target: { address: replyTo } };
       debug("Creating a session for $management endpoint");
-      this._mgmgtReqResLink = await createRequestResponseLink(connection, { target: { address: endpoint } }, rxopt);
-      debug(`[${connection.options.id}] Created sender "${this._mgmgtReqResLink.sender.name}" and receiver "${this._mgmgtReqResLink.receiver.name}" links for $management endpoint.`);
+      this._mgmtReqResLink = await createRequestResponseLink(connection, { target: { address: endpoint } }, rxopt);
+      debug(`[${connection.options.id}] Created sender "${this._mgmtReqResLink.sender.name}" and receiver "${this._mgmtReqResLink.receiver.name}" links for $management endpoint.`);
     }
   }
 
@@ -181,30 +181,30 @@ export class ManagementClient {
     if (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
-    return new Promise(async (resolve: any, reject: any) => {
-      try {
-        const endpoint = Constants.management;
-        const replyTo = uuid();
-        const request: any = {
-          body: Buffer.from(JSON.stringify([])),
-          properties: {
-            message_id: uuid(),
-            reply_to: replyTo
-          },
-          application_properties: {
-            operation: Constants.readOperation,
-            name: this.entityPath as string,
-            type: `${Constants.vendorString}:${type}`
-          }
-        };
-        if (partitionId && type === Constants.partition) {
-          request.application_properties.partition = partitionId;
+    try {
+      const endpoint = Constants.management;
+      const replyTo = uuid();
+      const request: any = {
+        body: Buffer.from(JSON.stringify([])),
+        properties: {
+          message_id: uuid(),
+          reply_to: replyTo
+        },
+        application_properties: {
+          operation: Constants.readOperation,
+          name: this.entityPath as string,
+          type: `${Constants.vendorString}:${type}`
         }
-        await defaultLock.acquire(this.managementLock, () => { return this._init(connection, endpoint, replyTo); });
+      };
+      if (partitionId && type === Constants.partition) {
+        request.application_properties.partition = partitionId;
+      }
+      await defaultLock.acquire(this.managementLock, () => { return this._init(connection, endpoint, replyTo); });
+      return new Promise((resolve: any, reject: any) => {
         // TODO: Handle timeout incase SB/EH does not send a response.
         const messageCallback = ({ message, delivery }: any) => {
           // remove the event listener as this will be registered next time when someone makes a request.
-          this._mgmgtReqResLink!.receiver.removeListener(Constants.message, messageCallback);
+          this._mgmtReqResLink!.receiver.removeListener(Constants.message, messageCallback);
           const code: number = message.application_properties[Constants.statusCode];
           const desc: string = message.application_properties[Constants.statusDescription];
           debug(`[${connection.options.id}] $management request: \n`, request);
@@ -213,19 +213,19 @@ export class ManagementClient {
             return resolve(message.body);
           } else {
             const condition = ConditionStatusMapper[code] || "amqp:internal-error";
-            let e: rheaPromise.AmqpError = {
+            const e: rheaPromise.AmqpError = {
               condition: condition,
               description: desc
             };
             return reject(translate(e));
           }
         };
-        this._mgmgtReqResLink!.receiver.on(Constants.message, messageCallback);
-        this._mgmgtReqResLink!.sender.send(request);
-      } catch (err) {
-        debug(`An error occurred while making the request to $management endpoint: \n`, err);
-        reject(err);
-      }
-    });
+        this._mgmtReqResLink!.receiver.on(Constants.message, messageCallback);
+        this._mgmtReqResLink!.sender.send(request);
+      });
+    } catch (err) {
+      debug(`An error occurred while making the request to $management endpoint: \n`, err);
+      throw err;
+    }
   }
 }

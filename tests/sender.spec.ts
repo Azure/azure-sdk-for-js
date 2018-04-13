@@ -144,7 +144,8 @@ describe("EventHub Sender", function () {
       try {
         await sender.send(data);
       } catch (err) {
-        should.equal(true, err instanceof Errors.MessagingEntityNotFoundError);
+        should.exist(err);
+        should.equal(err.name, "MessagingEntityNotFoundError");
       }
     });
 
@@ -158,7 +159,8 @@ describe("EventHub Sender", function () {
         await sender.send(data);
       } catch (err) {
         debug(err);
-        should.equal(true, err instanceof Errors.MessageTooLargeError);
+        should.exist(err);
+        should.equal(err.name, "MessageTooLargeError");
         err.message.should.match(/.*The received message \(delivery-id:0, size:300016 bytes\) exceeds the limit \(262144 bytes\) currently allowed on the link\..*/ig);
       }
     });
@@ -176,7 +178,7 @@ describe("EventHub Sender", function () {
           } catch (err) {
             debug(`>>>> Received error for invalid partition id "${id}" - `, err);
             should.exist(err);
-            should.equal(true, err instanceof Errors.ArgumentOutOfRangeError || err instanceof Errors.InvalidOperationError);
+            should.equal(true, err.name === "ArgumentOutOfRangeError" || err.name === "InvalidOperationError");
           }
         });
       });

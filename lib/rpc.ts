@@ -31,8 +31,8 @@ export async function createRequestResponseLink(connection: any, senderOptions: 
   if (!receiverOptions) {
     throw new Error(`Please provide receiver options.`);
   }
-  let session = await createSession(connection);
-  let [sender, receiver] = await Promise.all([
+  const session = await createSession(connection);
+  const [sender, receiver] = await Promise.all([
     createSender(session, senderOptions),
     createReceiver(session, receiverOptions)
   ]);
@@ -52,8 +52,8 @@ export async function createReceiverLink(connection: any, receiverOptions: Recei
   if (!receiverOptions) {
     throw new Error(`Please provide receiver options.`);
   }
-  let session = await createSession(connection);
-  let receiver = await createReceiver(session, receiverOptions);
+  const session = await createSession(connection);
+  const receiver = await createReceiver(session, receiverOptions);
   debug(`[${connection.options.id}] Successfully created the receiver link on a dedicated session for it.`);
   return {
     session: session,
@@ -68,8 +68,8 @@ export async function createSenderLink(connection: any, senderOptions: SenderOpt
   if (!senderOptions) {
     throw new Error(`Please provide sender options.`);
   }
-  let session = await createSession(connection);
-  let sender = await createSender(session, senderOptions);
+  const session = await createSession(connection);
+  const sender = await createSender(session, senderOptions);
   debug(`[${connection.options.id}] Successfully created the sender link on a dedicated session for it.`);
   return {
     session: session,

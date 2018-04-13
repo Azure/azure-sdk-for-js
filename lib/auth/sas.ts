@@ -56,8 +56,8 @@ export class SasTokenProvider implements TokenProvider {
    * @param {string} [audience] - The audience for which the token is desired. If not
    * provided then the Endpoint from the connection string will be applied.
    */
-  getToken(audience?: string): Promise<TokenInfo> {
-    return Promise.resolve(this._createToken(Math.floor(Date.now() / 1000) + this.tokenValidTimeInSeconds, audience));
+  async getToken(audience?: string): Promise<TokenInfo> {
+    return this._createToken(Math.floor(Date.now() / 1000) + this.tokenValidTimeInSeconds, audience);
   }
 
   /**
@@ -84,7 +84,7 @@ export class SasTokenProvider implements TokenProvider {
    * @param {string} connectionString - The EventHub connection string
    */
   static fromConnectionString(connectionString: string): SasTokenProvider {
-    let parsed = parseConnectionString(connectionString);
+    const parsed = parseConnectionString(connectionString);
     return new SasTokenProvider(parsed.Endpoint, parsed.SharedAccessKeyName, parsed.SharedAccessKey);
   }
 }

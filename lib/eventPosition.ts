@@ -101,14 +101,14 @@ export class EventPosition {
         `${Constants.sequenceNumberAnnotation} >= '${this.sequenceNumber}'` :
         `${Constants.sequenceNumberAnnotation} > '${this.sequenceNumber}'`;
     } else if (this.enqueuedTime) {
-      let time = (this.enqueuedTime instanceof Date) ? this.enqueuedTime.getTime() : this.enqueuedTime;
+      const time = (this.enqueuedTime instanceof Date) ? this.enqueuedTime.getTime() : this.enqueuedTime;
       result = `${Constants.enqueuedTimeAnnotation} > '${time}'`;
     } else if (this.customFilter) {
       result = this.customFilter;
     }
 
     if (!result) {
-      throw new Errors.ArgumentError("No starting position was set in the EventPosition.");
+      throw Errors.translate({ condition: Errors.ErrorNameConditionMapper.ArgumentError, description: "No starting position was set in the EventPosition." });
     }
     return result;
   }
