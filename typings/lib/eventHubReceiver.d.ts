@@ -42,7 +42,7 @@ export declare class EventHubReceiver extends EventEmitter {
     /**
      * @property {string} [name] The unique EventHub Receiver name (mostly a guid).
      */
-    name?: string;
+    name: string;
     /**
      * @property {string} address The EventHub Receiver address in the following format:
      * - "<event-hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"

@@ -1,6 +1,14 @@
 "use strict";
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const crypto = require("crypto");
 const utils_1 = require("../util/utils");
@@ -33,7 +41,9 @@ class SasTokenProvider {
      * provided then the Endpoint from the connection string will be applied.
      */
     getToken(audience) {
-        return Promise.resolve(this._createToken(Math.floor(Date.now() / 1000) + this.tokenValidTimeInSeconds, audience));
+        return __awaiter(this, void 0, void 0, function* () {
+            return this._createToken(Math.floor(Date.now() / 1000) + this.tokenValidTimeInSeconds, audience);
+        });
     }
     /**
      * Creates the sas token based on the provided information
@@ -59,7 +69,7 @@ class SasTokenProvider {
      * @param {string} connectionString - The EventHub connection string
      */
     static fromConnectionString(connectionString) {
-        let parsed = utils_1.parseConnectionString(connectionString);
+        const parsed = utils_1.parseConnectionString(connectionString);
         return new SasTokenProvider(parsed.Endpoint, parsed.SharedAccessKeyName, parsed.SharedAccessKey);
     }
 }

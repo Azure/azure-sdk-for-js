@@ -61,7 +61,7 @@ export declare class ManagementClient {
     /**
      * $management sender, receiver on the same session.
      */
-    private _mgmgtReqResLink?;
+    private _mgmtReqResLink?;
     /**
      * @constructor
      * Instantiates the management client.

@@ -42,4 +42,7 @@ export declare const defaultLock: AsyncLock;
  * @returns {Promise<T>} - Resolved promise
  */
 export declare function delay<T>(t: number, value?: T): Promise<T>;
+/**
+ * Type declaration for a Function type where T is the input to the function and V is the output of the function.
+ */
 export declare type Func<T, V> = (a: T) => V;

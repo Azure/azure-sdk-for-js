@@ -34,6 +34,8 @@ export declare const defaultOperationTimeoutInSeconds = 60;
 export declare const managementRequestKey = "managementRequest";
 export declare const negotiateCbsKey = "negotiateCbs";
 export declare const ensureContainerAndBlob = "ensureContainerAndBlob";
+export declare const defaultPrefetchCount = 1000;
+export declare const reconnectLimit = 100;
 export declare const packageJsonInfo: {
     name: string;
     version: string;

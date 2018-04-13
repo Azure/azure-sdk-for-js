@@ -6,6 +6,10 @@ import { CbsClient } from "./cbs";
 import { EventPosition } from "./eventPosition";
 export interface ReceiveOptions {
     /**
+     * @property {string} [name] The name of the receiver. If not provided then we will set a GUID by default.
+     */
+    name?: string;
+    /**
      * @property {object} [eventPosition] The starting event position at which to start receiving messages.
      * This is used to filter messages for the EventHub Receiver.
      */

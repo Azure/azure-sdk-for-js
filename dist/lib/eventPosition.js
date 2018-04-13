@@ -42,14 +42,14 @@ class EventPosition {
                 `${Constants.sequenceNumberAnnotation} > '${this.sequenceNumber}'`;
         }
         else if (this.enqueuedTime) {
-            let time = (this.enqueuedTime instanceof Date) ? this.enqueuedTime.getTime() : this.enqueuedTime;
+            const time = (this.enqueuedTime instanceof Date) ? this.enqueuedTime.getTime() : this.enqueuedTime;
             result = `${Constants.enqueuedTimeAnnotation} > '${time}'`;
         }
         else if (this.customFilter) {
             result = this.customFilter;
         }
         if (!result) {
-            throw new _1.Errors.ArgumentError("No starting position was set in the EventPosition.");
+            throw _1.Errors.translate({ condition: _1.Errors.ErrorNameConditionMapper.ArgumentError, description: "No starting position was set in the EventPosition." });
         }
         return result;
     }

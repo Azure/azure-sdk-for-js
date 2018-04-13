@@ -14,7 +14,7 @@ export declare class EventHubSender extends EventEmitter {
     /**
      * @property {string} [name] The unique EventHub Sender name (mostly a guid).
      */
-    name?: string;
+    name: string;
     /**
      * @property {string} [partitionId] The partitionId to which the sender wants to send the EventData.
      */
@@ -59,7 +59,7 @@ export declare class EventHubSender extends EventEmitter {
      * @param {EventHubClient} client The EventHub client.
      * @param {string|number} [partitionId] The EventHub partition id to which the sender wants to send the event data.
      */
-    constructor(context: ConnectionContext, partitionId?: string | number);
+    constructor(context: ConnectionContext, partitionId?: string | number, name?: string);
     /**
      * Initializes the sender session on the connection.
      * @returns {Promoise<void>}

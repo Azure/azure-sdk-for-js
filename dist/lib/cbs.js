@@ -1,6 +1,14 @@
 "use strict";
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const rpc_1 = require("./rpc");
 const rheaPromise = require("./rhea-promise");
@@ -33,22 +41,24 @@ class CbsClient {
      * Creates a singleton instance of the CBS session if it hasn't been initialized previously on the given connection.
      * @param {any} connection The AMQP connection object on which the CBS session needs to be initialized.
      */
-    async init(connection) {
-        if (!this._cbsSenderReceiverLink) {
-            let rxOpt = {
-                source: {
-                    address: this.endpoint
-                },
-                name: this.replyTo
-            };
-            this._cbsSenderReceiverLink = await rpc_1.createRequestResponseLink(connection, { target: { address: this.endpoint } }, rxOpt);
-            debug(`[${connection.options.id}] Successfully created the cbs sender "${this._cbsSenderReceiverLink.sender.name}" ` +
-                `and receiver "${this._cbsSenderReceiverLink.receiver.name}" links over cbs session.`);
-        }
-        else {
-            debug(`[${connection.options.id}] CBS session is already present. Reusing the cbs sender ` +
-                `"${this._cbsSenderReceiverLink.sender.name}" and receiver "${this._cbsSenderReceiverLink.receiver.name}" links over cbs session.`);
-        }
+    init(connection) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!this._cbsSenderReceiverLink) {
+                const rxOpt = {
+                    source: {
+                        address: this.endpoint
+                    },
+                    name: this.replyTo
+                };
+                this._cbsSenderReceiverLink = yield rpc_1.createRequestResponseLink(connection, { target: { address: this.endpoint } }, rxOpt);
+                debug(`[${connection.options.id}] Successfully created the cbs sender "${this._cbsSenderReceiverLink.sender.name}" ` +
+                    `and receiver "${this._cbsSenderReceiverLink.receiver.name}" links over cbs session.`);
+            }
+            else {
+                debug(`[${connection.options.id}] CBS session is already present. Reusing the cbs sender ` +
+                    `"${this._cbsSenderReceiverLink.sender.name}" and receiver "${this._cbsSenderReceiverLink.receiver.name}" links over cbs session.`);
+            }
+        });
     }
     /**
      * Negotiates the CBS claim with the EventHub Service.
@@ -59,7 +69,7 @@ class CbsClient {
      * and rejects when an error occurs during $cbs authentication.
      */
     negotiateClaim(audience, connection, tokenObject) {
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             try {
                 const request = {
                     body: tokenObject.token,
@@ -94,7 +104,7 @@ class CbsClient {
                         if (!errorCondition) {
                             errorCondition = "amqp:internal-error";
                         }
-                        let e = {
+                        const e = {
                             condition: errorCondition,
                             description: desc
                         };
@@ -115,19 +125,21 @@ class CbsClient {
      * returning a promise that will be resolved when disconnection is completed.
      * @return {Promise<void>}
      */
-    async close() {
-        try {
-            if (this._cbsSenderReceiverLink) {
-                await rheaPromise.closeSession(this._cbsSenderReceiverLink.session);
-                debug("Successfully closed the cbs session.");
-                this._cbsSenderReceiverLink = undefined;
+    close() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (this._cbsSenderReceiverLink) {
+                    yield rheaPromise.closeSession(this._cbsSenderReceiverLink.session);
+                    debug("Successfully closed the cbs session.");
+                    this._cbsSenderReceiverLink = undefined;
+                }
             }
-        }
-        catch (err) {
-            const msg = `An error occurred while closing the cbs session: ${err}`;
-            debug(msg);
-            return Promise.reject(msg);
-        }
+            catch (err) {
+                const msg = `An error occurred while closing the cbs session: ${JSON.stringify(err)}`;
+                debug(msg);
+                throw new Error(msg);
+            }
+        });
     }
 }
 exports.CbsClient = CbsClient;

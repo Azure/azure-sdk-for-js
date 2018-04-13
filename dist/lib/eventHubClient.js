@@ -1,6 +1,14 @@
 "use strict";
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const os = require("os");
 const process = require("process");
@@ -30,7 +38,6 @@ class EventHubClient {
     constructor(config, tokenProvider) {
         this.userAgent = "/js-event-hubs";
         _1.ConnectionConfig.validate(config);
-        this.userAgent = "/js-event-hubs";
         if (!tokenProvider) {
             tokenProvider = new sas_1.SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey);
         }
@@ -49,31 +56,33 @@ class EventHubClient {
      * @method close
      * @returns {Promise<any>}
      */
-    async close() {
-        try {
-            if (this._context.connection) {
-                // Close all the senders.
-                for (let sender of Object.values(this._context.senders)) {
-                    await sender.close();
+    close() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (this._context.connection) {
+                    // Close all the senders.
+                    for (const sender of Object.values(this._context.senders)) {
+                        yield sender.close();
+                    }
+                    // Close all the receivers.
+                    for (const receiver of Object.values(this._context.receivers)) {
+                        yield receiver.close();
+                    }
+                    // Close the cbs session;
+                    yield this._context.cbsSession.close();
+                    // Close the management session
+                    yield this._context.managementSession.close();
+                    yield rheaPromise.closeConnection(this._context.connection);
+                    debug(`Closed the amqp connection "${this._context.connectionId}" on the client.`);
+                    this._context.connection = undefined;
                 }
-                // Close all the receivers.
-                for (let receiver of Object.values(this._context.receivers)) {
-                    await receiver.close();
-                }
-                // Close the cbs session;
-                await this._context.cbsSession.close();
-                // Close the management session
-                await this._context.managementSession.close();
-                await rheaPromise.closeConnection(this._context.connection);
-                debug(`Closed the amqp connection "${this._context.connectionId}" on the client.`);
-                this._context.connection = undefined;
             }
-        }
-        catch (err) {
-            const msg = `An error occurred while closing the connection "${this._context.connectionId}": ${JSON.stringify(err)}`;
-            debug(msg);
-            return Promise.reject(msg);
-        }
+            catch (err) {
+                const msg = `An error occurred while closing the connection "${this._context.connectionId}": ${JSON.stringify(err)}`;
+                debug(msg);
+                throw new Error(msg);
+            }
+        });
     }
     /**
      * Creates a sender to the given event hub, and optionally to a given partition.
@@ -81,22 +90,25 @@ class EventHubClient {
      * @param {(string|number)} [partitionId] Partition ID to which it will send event data.
      * @returns {Promise<EventHubSender>}
      */
-    async createSender(partitionId) {
-        if (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number") {
-            throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-        }
-        try {
-            // Establish the amqp connection if it does not exist.
-            await this._open();
-            let ehSender = new _1.EventHubSender(this._context, partitionId);
-            // Initialize the sender.
-            await ehSender.init();
-            this._context.senders[ehSender.name] = ehSender;
-            return ehSender;
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+    createSender(partitionId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number") {
+                throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
+            }
+            try {
+                // Establish the amqp connection if it does not exist.
+                yield this._open();
+                const ehSender = new _1.EventHubSender(this._context, partitionId);
+                // Initialize the sender.
+                yield ehSender.init();
+                this._context.senders[ehSender.name] = ehSender;
+                return ehSender;
+            }
+            catch (err) {
+                debug("An error occurred while creating the sender: %O", err);
+                throw (err);
+            }
+        });
     }
     /**
      * Creates a new receiver that will receive event data from the EventHub.
@@ -115,67 +127,79 @@ class EventHubClient {
      * `EventPosition.withCustomFilter()` should be used if you want more fine-grained control of the filtering.
      * See https://github.com/Azure/amqpnetlite/wiki/Azure%20Service%20Bus%20Event%20Hubs for details.
      */
-    async createReceiver(partitionId, options) {
-        if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
-            throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-        }
-        try {
-            // Establish the amqp connection if it does not exist.
-            await this._open();
-            let ehReceiver = new _1.EventHubReceiver(this._context, partitionId, options);
-            // Initialize the receiver.
-            await ehReceiver.init();
-            this._context.receivers[ehReceiver.name] = ehReceiver;
-            return ehReceiver;
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+    createReceiver(partitionId, options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
+                throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
+            }
+            try {
+                // Establish the amqp connection if it does not exist.
+                yield this._open();
+                const ehReceiver = new _1.EventHubReceiver(this._context, partitionId, options);
+                // Initialize the receiver.
+                yield ehReceiver.init();
+                this._context.receivers[ehReceiver.name] = ehReceiver;
+                return ehReceiver;
+            }
+            catch (err) {
+                debug("An error occurred while creating the receiver: %O", err);
+                throw (err);
+            }
+        });
     }
     /**
      * Provides the eventhub runtime information.
      * @method getHubRuntimeInformation
      * @returns {Promise<EventHubRuntimeInformation>}
      */
-    async getHubRuntimeInformation() {
-        try {
-            await this._open();
-            return await this._context.managementSession.getHubRuntimeInformation(this._context.connection);
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+    getHubRuntimeInformation() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this._open();
+                return yield this._context.managementSession.getHubRuntimeInformation(this._context.connection);
+            }
+            catch (err) {
+                debug("An error occurred while getting the hub runtime information: %O", err);
+                throw (err);
+            }
+        });
     }
     /**
      * Provides an array of partitionIds.
      * @method getPartitionIds
      * @returns {Promise<Array<string>>}
      */
-    async getPartitionIds() {
-        try {
-            let runtimeInfo = await this.getHubRuntimeInformation();
-            return runtimeInfo.partitionIds;
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+    getPartitionIds() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const runtimeInfo = yield this.getHubRuntimeInformation();
+                return runtimeInfo.partitionIds;
+            }
+            catch (err) {
+                debug("An error occurred while getting the partition ids: %O", err);
+                throw (err);
+            }
+        });
     }
     /**
      * Provides information about the specified partition.
      * @method getPartitionInformation
      * @param {(string|number)} partitionId Partition ID for which partition information is required.
      */
-    async getPartitionInformation(partitionId) {
-        if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
-            throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-        }
-        try {
-            await this._open();
-            return await this._context.managementSession.getPartitionInformation(this._context.connection, partitionId);
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+    getPartitionInformation(partitionId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
+                throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
+            }
+            try {
+                yield this._open();
+                return yield this._context.managementSession.getPartitionInformation(this._context.connection, partitionId);
+            }
+            catch (err) {
+                debug("An error occurred while getting the partition information: %O", err);
+                throw (err);
+            }
+        });
     }
     /**
      * Opens the AMQP connection to the Event Hub for this client, returning a promise
@@ -185,35 +209,37 @@ class EventHubClient {
      * @param {boolean} [useSaslPlain] - True for using sasl plain mode for authentication, false otherwise.
      * @returns {Promise<void>}
      */
-    async _open(useSaslPlain) {
-        if (useSaslPlain && typeof useSaslPlain !== "boolean") {
-            throw new Error("'useSaslPlain' must be of type 'boolean'.");
-        }
-        if (!this._context.connection) {
-            const connectOptions = {
-                transport: Constants.TLS,
-                host: this._context.config.host,
-                hostname: this._context.config.host,
-                username: this._context.config.sharedAccessKeyName,
-                port: 5671,
-                reconnect_limit: 100,
-                properties: {
-                    product: "MSJSClient",
-                    version: Constants.packageJsonInfo.version || "0.1.0",
-                    platform: `(${os.arch()}-${os.type()}-${os.release()})`,
-                    framework: `Node/${process.version}`,
-                    "user-agent": this.userAgent
-                }
-            };
-            if (useSaslPlain) {
-                connectOptions.password = this._context.config.sharedAccessKey;
+    _open(useSaslPlain) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (useSaslPlain && typeof useSaslPlain !== "boolean") {
+                throw new Error("'useSaslPlain' must be of type 'boolean'.");
             }
-            debug(`Dialling the amqp connection with options.`, connectOptions);
-            this._context.connection = await rheaPromise.connect(connectOptions);
-            this._context.connectionId = this._context.connection.options.id;
-            this.connectionId = this._context.connectionId;
-            debug(`Successfully established the amqp connection "${this._context.connectionId}".`);
-        }
+            if (!this._context.connection) {
+                const connectOptions = {
+                    transport: Constants.TLS,
+                    host: this._context.config.host,
+                    hostname: this._context.config.host,
+                    username: this._context.config.sharedAccessKeyName,
+                    port: 5671,
+                    reconnect_limit: Constants.reconnectLimit,
+                    properties: {
+                        product: "MSJSClient",
+                        version: Constants.packageJsonInfo.version || "0.1.0",
+                        platform: `(${os.arch()}-${os.type()}-${os.release()})`,
+                        framework: `Node/${process.version}`,
+                        "user-agent": this.userAgent
+                    }
+                };
+                if (useSaslPlain) {
+                    connectOptions.password = this._context.config.sharedAccessKey;
+                }
+                debug(`Dialing the amqp connection with options.`, connectOptions);
+                this._context.connection = yield rheaPromise.connect(connectOptions);
+                this._context.connectionId = this._context.connection.options.id;
+                this.connectionId = this._context.connectionId;
+                debug(`Successfully established the amqp connection "${this._context.connectionId}".`);
+            }
+        });
     }
     /**
      * Creates an EventHub Client from connection string.
@@ -248,11 +274,10 @@ class EventHubClient {
             throw new Error("'entityPath' is a required parameter and must be of type: 'string'.");
         }
         if (!credentials ||
-            (credentials &&
-                !(credentials instanceof ms_rest_azure_1.ApplicationTokenCredentials ||
-                    credentials instanceof ms_rest_azure_1.UserTokenCredentials ||
-                    credentials instanceof ms_rest_azure_1.DeviceTokenCredentials ||
-                    credentials instanceof ms_rest_azure_1.MSITokenCredentials))) {
+            !(credentials instanceof ms_rest_azure_1.ApplicationTokenCredentials ||
+                credentials instanceof ms_rest_azure_1.UserTokenCredentials ||
+                credentials instanceof ms_rest_azure_1.DeviceTokenCredentials ||
+                credentials instanceof ms_rest_azure_1.MSITokenCredentials)) {
             throw new Error("'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.");
         }
         if (!host.endsWith("/"))
