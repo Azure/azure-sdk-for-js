@@ -68,7 +68,7 @@ class EventHubReceiver extends events_1.EventEmitter {
         this.options = options;
         this.receiverRuntimeMetricEnabled = options.enableReceiverRuntimeMetric || false;
         this.runtimeInfo = {
-            paritionId: `${partitionId}`
+            partitionId: `${partitionId}`
         };
         const onMessage = (context) => {
             const evData = _1.EventData.fromAmqpMessage(context.message);
@@ -120,7 +120,7 @@ class EventHubReceiver extends events_1.EventEmitter {
                 yield utils_1.defaultLock.acquire(this._context.cbsSession.cbsLock, () => { return this._context.cbsSession.init(this._context.connection); });
                 const tokenObject = yield this._context.tokenProvider.getToken(this.audience);
                 debug(`[${this._context.connectionId}] EH Receiver: calling negotiateClaim for audience "${this.audience}"`);
-                // Negotitate the CBS claim.
+                // Negotiate the CBS claim.
                 yield this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
                 if (!this._session && !this._receiver) {
                     let receiverError;
