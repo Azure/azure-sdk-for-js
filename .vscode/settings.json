@@ -1,0 +1,25 @@
+{
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.DS_Store": true
+    },
+    "[typescript]": {
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true,
+      "editor.tabSize": 2,
+      "editor.detectIndentation": false
+    },
+    "[json]": {
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true,
+      "editor.tabSize": 2,
+      "editor.detectIndentation": false
+    },
+    "[yaml]": {
+      "editor.formatOnSave": true,
+      "editor.formatOnPaste": true,
+      "editor.tabSize": 2,
+      "editor.detectIndentation": false
+    }
+  }
