@@ -5,13 +5,17 @@ import * as assert from "assert";
 import { WebResource } from "../lib/webResource";
 import { MsRestUserAgentFilter } from "../lib/filters/msRestUserAgentFilter";
 import { Constants } from "../lib/util/constants";
+import { isNode } from "../lib/msRest";
 
 const should = require("should");
 const userAgentHeader = Constants.HeaderConstants.USER_AGENT;
 
-describe("ms-rest user agent filter", () => {
+describe("ms-rest user agent filter (nodejs only)", () => {
+  it("should construct user agent header when supplied empty array", function (done) {
+    if (!isNode) {
+      this.skip();
+    }
 
-  it("should construct user agent header when supplied empty array", (done) => {
     const userAgentArray: Array<string> = [];
     const userAgentFilter = new MsRestUserAgentFilter(userAgentArray);
     const resource = new WebResource();
@@ -24,7 +28,11 @@ describe("ms-rest user agent filter", () => {
     }).catch((err) => { done(err); });
   });
 
-  it("should not modify user agent header if already present", (done) => {
+  it("should not modify user agent header if already present", function (done) {
+    if (!isNode) {
+      this.skip();
+    }
+
     const genericRuntime = "ms-rest";
     const azureRuntime = "ms-rest-azure";
     const azureSDK = "Azure-SDK-For-Node";
@@ -45,7 +53,11 @@ describe("ms-rest user agent filter", () => {
     }).catch((err) => { done(err); });
   });
 
-  it("should insert azure-sdk-for-node at right position", (done) => {
+  it("should insert azure-sdk-for-node at right position", function (done) {
+    if (!isNode) {
+      this.skip();
+    }
+
     const genericRuntime = "ms-rest";
     const azureRuntime = "ms-rest-azure";
     const azureSDK = "Azure-SDK-For-Node";
