@@ -2,7 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as Constants from "./util/constants";
-import { Errors } from ".";
+import { translate } from "./errors";
+import { ErrorNameConditionMapper } from ".";
 
 /**
  * Describes the options that can be set while creating an EventPosition.
@@ -108,7 +109,7 @@ export class EventPosition {
     }
 
     if (!result) {
-      throw Errors.translate({ condition: Errors.ErrorNameConditionMapper.ArgumentError, description: "No starting position was set in the EventPosition." });
+      throw translate({ condition: ErrorNameConditionMapper.ArgumentError, description: "No starting position was set in the EventPosition." });
     }
     return result;
   }
