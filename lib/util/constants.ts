@@ -18,6 +18,7 @@ export const partition = "partition";
 export const partitionId = "partitionId";
 export const readOperation = "READ";
 export const TLS = "tls";
+export const establishConnection = "establishConnection";
 export const defaultConsumerGroup = "$default";
 export const eventHub = "eventhub";
 export const cbsEndpoint = "$cbs";
