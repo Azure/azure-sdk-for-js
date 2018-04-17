@@ -1,4 +1,4 @@
-import { EventHubClient, EventData, EventPosition } from "../lib";
+import { EventHubClient, EventData, EventPosition, OnMessage, OnError, EventHubsError } from "../lib";
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
@@ -9,16 +9,19 @@ const path = process.env[entityPath] || "";
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
   console.log("Created EH client from connection string");
-  const sender = await client.createSender("0");
+  const sender = client.createSender("0");
   console.log("Created Sender for partition 0.");
-  const receiver = await client.createReceiver("0", { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
-  receiver.on("message", (eventData: any) => {
+  const receiver = client.createReceiver("0", { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+  const onMessage: OnMessage = (eventData: any) => {
+    console.log("@@@@ receiver: ", receiver.name);
     console.log(">>> EventDataObject: ", eventData);
     console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-  });
-  receiver.on("error", (error) => {
-    console.log("Error occurred.. ", error);
-  });
+  }
+  const onError: OnError = (err: EventHubsError | Error) => {
+    console.log("@@@@ receiver: ", receiver.name);
+    console.log(">>>>> Error occurred: ", err);
+  };
+  receiver.start(onMessage, onError);
   console.log("Created Receiver for partition 0 and CG $default.");
 
   const messageCount = 5;

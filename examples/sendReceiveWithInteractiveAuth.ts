@@ -1,4 +1,4 @@
-import { EventHubClient, aadEventHubsAudience } from "../lib";
+import { EventHubClient, aadEventHubsAudience, EventPosition } from "../lib";
 import * as msrestAzure from "ms-rest-azure";
 
 const endpoint = "ENDPOINT";
@@ -12,13 +12,11 @@ async function main(): Promise<void> {
   // azure role assignment create -o contributor --scope /subscriptions/<subscriptionId>/resourceGroups/<rgName>/providers/Microsoft.EventHub/namespaces/<ehNamespaceName> --signInName <user@example.com>
   const credentials = await msrestAzure.interactiveLogin({ tokenAudience: aadEventHubsAudience });
   const client = EventHubClient.createFromAadTokenCredentials(address, path, credentials);
-  const sender = await client.createSender("0");
-  const receiver = await client.createReceiver("0");
+  const sender = client.createSender("0");
+  const receiver = client.createReceiver("0", { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
   sender.send({ body: "Hello awesome world!!" });
-  receiver.on("message", (eventData: any) => {
-    console.log(">>> EventDataObject: ", eventData);
-    console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-  });
+  const datas = await receiver.receive(2, 5);
+  console.log(">>> EventDataObjects: ", datas);
   await sender.close();
 }
 
