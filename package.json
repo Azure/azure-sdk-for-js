@@ -53,6 +53,7 @@
     "@types/xml2js": "^0.4.2",
     "glob": "^7.1.2",
     "mocha": "^3.5.3",
+    "mocha-chrome": "^1.1.0",
     "npm-run-all": "^4.1.2",
     "should": "5.2.0",
     "ts-loader": "^4.2.0",
