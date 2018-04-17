@@ -2,12 +2,12 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { TokenInfo } from "./auth/token";
-import { RequestResponseLink, createRequestResponseLink } from "./rpc";
+import { RequestResponseLink, createRequestResponseLink, sendRequest } from "./rpc";
 import * as rheaPromise from "./rhea-promise";
 import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
 import * as debugModule from "debug";
-import { ConditionStatusMapper, translate } from "./errors";
+import { AmqpMessage } from ".";
 const debug = debugModule("azure:event-hubs:cbs");
 
 /**
@@ -64,55 +64,27 @@ export class CbsClient {
    * @return {Promise<any>} Returns a Promise that resolves when $cbs authentication is successful
    * and rejects when an error occurs during $cbs authentication.
    */
-  negotiateClaim(audience: string, connection: any, tokenObject: TokenInfo): Promise<any> {
-    return new Promise((resolve: any, reject: any): void => {
-      try {
-        const request = {
-          body: tokenObject.token,
-          properties: {
-            message_id: uuid(),
-            reply_to: this.replyTo,
-            to: this.endpoint,
-          },
-          application_properties: {
-            operation: Constants.operationPutToken,
-            name: audience,
-            type: tokenObject.tokenType
-          }
-        };
-        const messageCallback = (result: any) => {
-          // remove the event listener as this will be registered next time when someone makes a request.
-          this._cbsSenderReceiverLink!.receiver.removeListener(Constants.message, messageCallback);
-          const code: number = result.message.application_properties[Constants.statusCode];
-          const desc: string = result.message.application_properties[Constants.statusDescription];
-          let errorCondition: string | undefined = result.message.application_properties[Constants.errorCondition];
-          debug(`[${connection.options.id}] $cbs request: \n`, request);
-          debug(`[${connection.options.id}] $cbs response: \n`, result.message);
-          if (code > 199 && code < 300) {
-            resolve();
-          } else {
-            // Try to map the status code to error condition
-            if (!errorCondition) {
-              errorCondition = ConditionStatusMapper[code];
-            }
-            // If we still cannot find a suitable error condition then we default to "amqp:internal-error"
-            if (!errorCondition) {
-              errorCondition = "amqp:internal-error";
-            }
-            const e: rheaPromise.AmqpError = {
-              condition: errorCondition,
-              description: desc
-            };
-            reject(translate(e));
-          }
-        };
-        this._cbsSenderReceiverLink!.receiver.on(Constants.message, messageCallback);
-        this._cbsSenderReceiverLink!.sender.send(request);
-      } catch (err) {
-        debug(`[${connection.options.id}] An error occurred while negotating the cbs claim: \n`, err);
-        reject(err);
-      }
-    });
+  async negotiateClaim(audience: string, connection: any, tokenObject: TokenInfo): Promise<any> {
+    try {
+      const request: AmqpMessage = {
+        body: tokenObject.token,
+        properties: {
+          message_id: uuid(),
+          reply_to: this.replyTo,
+          to: this.endpoint,
+        },
+        application_properties: {
+          operation: Constants.operationPutToken,
+          name: audience,
+          type: tokenObject.tokenType
+        }
+      };
+      const response = await sendRequest(connection, this._cbsSenderReceiverLink!, request);
+      return response;
+    } catch (err) {
+      debug(`[${connection.options.id}] An error occurred while negotating the cbs claim: \n`, err);
+      throw err;
+    }
   }
 
   /**
