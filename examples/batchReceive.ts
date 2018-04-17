@@ -8,9 +8,9 @@ const path = process.env[entityPath] || "";
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
-  const receiver = await client.createReceiver("0", { enableReceiverRuntimeMetric: true });
+  const receiver = client.createReceiver("0", { enableReceiverRuntimeMetric: true });
   console.log("Created Receiver for partition 0 and CG $default.");
-  let result: EventData[] = await receiver.receive(10);
+  let result: EventData[] = await receiver.receive(10, 20);
   console.log(">>> EventDataObjects: ", result);
   let i = 0;
   for (let data of result) {
