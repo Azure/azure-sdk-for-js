@@ -4,6 +4,7 @@
 import * as os from "os";
 import * as process from "process";
 import * as debugModule from "debug";
+import * as uuid from "uuid/v4";
 import { defaultLock } from "./util/utils";
 import {
   ReceiverOptions, SenderOptions, createSession,
@@ -121,7 +122,7 @@ export async function createSenderLink(connection: any, senderOptions: SenderOpt
   };
 }
 
-export function sendRequest(connection: any, link: RequestResponseLink, request: AmqpMessage): Promise<any> {
+export function sendRequest(connection: any, link: RequestResponseLink, request: AmqpMessage, timeoutInSeconds?: number): Promise<any> {
   if (!connection) {
     throw new Error("connection is a required parameter and must be of type 'object'.");
   }
@@ -133,18 +134,33 @@ export function sendRequest(connection: any, link: RequestResponseLink, request:
   if (!request) {
     throw new Error("request is a required parameter and must be of type 'object'.");
   }
+
+  if (!request.message_id) request.message_id = uuid();
+
+  if (!timeoutInSeconds) {
+    timeoutInSeconds = 30;
+  }
+
   return new Promise((resolve: any, reject: any) => {
-    // TODO: Handle timeout incase SB/EH does not send a response.
+    let waitTimer: any;
+    let timeOver: boolean = false;
+
     const messageCallback = (context: Context) => {
       // remove the event listener as this will be registered next time when someone makes a request.
       link.receiver.removeListener(Constants.message, messageCallback);
       const code: number = context.message!.application_properties![Constants.statusCode];
       const desc: string = context.message!.application_properties![Constants.statusDescription];
       const errorCondition: string | undefined = context.message!.application_properties![Constants.errorCondition];
+      const responseCorrelationId = context.message!.correlation_id;
       debug(`[${connection.options.id}] $management request: \n`, request);
       debug(`[${connection.options.id}] $management response: \n`, context.message);
       if (code > 199 && code < 300) {
-        return resolve(context.message!.body);
+        if (request.message_id === responseCorrelationId || request.correlation_id === responseCorrelationId) {
+          if (!timeOver) {
+            clearTimeout(waitTimer);
+          }
+          return resolve(context.message!.body);
+        }
       } else {
         const condition = errorCondition || ConditionStatusMapper[code] || "amqp:internal-error";
         const e: AmqpError = {
@@ -154,10 +170,26 @@ export function sendRequest(connection: any, link: RequestResponseLink, request:
         return reject(translate(e));
       }
     };
+
+    const actionAfterTimeout = () => {
+      timeOver = true;
+      link.receiver.removeListener(Constants.message, messageCallback);
+      const address = link.receiver.options && link.receiver.options.source && link.receiver.options.source.address
+        ? link.receiver.options.source.address
+        : "address";
+      const desc: string = `The request with message_id "${request.message_id}" to "${address}" ` +
+        `endpoint timed out. Please try again later.`;
+      const e: AmqpError = {
+        condition: ConditionStatusMapper[408],
+        description: desc
+      };
+      return reject(translate(e));
+    };
+
     link.receiver.on(Constants.message, messageCallback);
+    waitTimer = setTimeout(actionAfterTimeout, timeoutInSeconds! * 1000);
     link.sender.send(request);
   });
-
 }
 
 /**
