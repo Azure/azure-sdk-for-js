@@ -15,7 +15,7 @@ export interface EventData {
   offset?: string;
   sequenceNumber?: number;
   annotations?: AmqpMessageAnnotations;
-  properties?: Dictionary<any>;
+  properties?: AmqpMessageProperties;
   applicationProperties?: Dictionary<any>;
   lastSequenceNumber?: number;
   lastEnqueuedOffset?: string;
@@ -32,12 +32,25 @@ export interface AmqpMessageAnnotations {
   [x: string]: any;
 }
 
-export interface AmqpMessage {
+export interface AmqpMessageProperties {
+  message_id?: string;
+  reply_to?: string;
+  to?: string;
+  correlation_id?: string;
+  content_type?: string;
+  content_encoding?: string;
+  absolute_expiry_time?: number;
+  creation_time?: number;
+  group_id?: string;
+  group_sequence?: number;
+  reply_to_group_id?: string;
+}
+
+export interface AmqpMessage extends AmqpMessageProperties {
   // TODO: Ask Gordon about other AMQP message properties like durable, first_acquirer, etc.
   // https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide#messages
   body: any;
   message_annotations?: AmqpMessageAnnotations;
-  properties?: Dictionary<any>;
   application_properties?: Dictionary<any>;
   delivery_annotations?: {
     last_enqueued_offset?: string;
@@ -47,6 +60,10 @@ export interface AmqpMessage {
     [x: string]: any;
   };
 }
+export const messageProperties: string[] = [
+  "message_id", "reply_to", "to", "correlation_id", "content_type", "absolute_expiry_time",
+  "group_id", "group_sequence", "reply_to_group_id", "content_encoding", "creation_time"
+];
 
 export namespace EventData {
 
@@ -63,8 +80,14 @@ export namespace EventData {
       data.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
       data.offset = msg.message_annotations[Constants.offset];
     }
-    if (msg.properties) {
-      data.properties = msg.properties;
+    // Since rhea expects message properties as top level properties we will look for them and unflatten them inside properties.
+    for (const prop of messageProperties) {
+      if ((msg as any)[prop]) {
+        if (!data.properties) {
+          data.properties = {};
+        }
+        (data.properties as any)[prop] = (msg as any)[prop];
+      }
     }
     if (msg.application_properties) {
       data.applicationProperties = msg.application_properties;
@@ -86,7 +109,10 @@ export namespace EventData {
       msg.message_annotations = data.annotations;
     }
     if (data.properties) {
-      msg.properties = data.properties;
+      // Set amqp message properties as top level properties, since rhea sends them as top level properties.
+      for (const prop in data.properties) {
+        (msg as any)[prop] = (data.properties as any)[prop];
+      }
     }
     if (data.applicationProperties) {
       msg.application_properties = data.applicationProperties;

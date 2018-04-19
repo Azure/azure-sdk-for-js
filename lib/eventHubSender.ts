@@ -9,7 +9,7 @@ import * as rpc from "./rpc";
 import * as rheaPromise from "./rhea-promise";
 import * as Constants from "./util/constants";
 import { EventEmitter } from "events";
-import { EventData, AmqpMessage } from ".";
+import { EventData, AmqpMessage, messageProperties } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { defaultLock, Func } from "./util/utils";
 
@@ -184,9 +184,12 @@ export class EventHubSender extends EventEmitter {
       if (messages[0].application_properties) {
         batchMessage.application_properties = messages[0].application_properties;
       }
-      if (messages[0].properties) {
-        batchMessage.properties = messages[0].properties;
+      for (const prop of messageProperties) {
+        if ((messages[0] as any)[prop]) {
+          (batchMessage as any)[prop] = (messages[0] as any)[prop];
+        }
       }
+
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = rhea.message.encode(batchMessage);
       debug(`[${this._context.connectionId}] Sender "${this.name}", ` +
@@ -311,7 +314,7 @@ export class EventHubSender extends EventEmitter {
 
   /**
    * Initializes the sender session on the connection.
-   * @returns {Promoise<void>}
+   * @returns {Promise<void>}
    */
   private async _init(): Promise<void> {
     try {
@@ -342,8 +345,7 @@ export class EventHubSender extends EventEmitter {
           throw senderError;
         }
         this._session.removeListener(Constants.senderError, handleSenderError);
-        debug(`[${this._context.connectionId}] Sender "${this.name}" created with sender options:` +
-          `\n${JSON.stringify(options, undefined, 2)}`);
+        debug("[%s] Sender '%s' created with sender options: %O", this._context.connectionId, this.name, options);
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
         if (!this._context.senders[this.name]) this._context.senders[this.name] = this;
@@ -383,7 +385,7 @@ export class EventHubSender extends EventEmitter {
   }
 
   /**
-   * Ensures that the token is renewed within the predfiend renewal margin.
+   * Ensures that the token is renewed within the predefined renewal margin.
    * @private
    * @returns {void}
    */
@@ -396,8 +398,7 @@ export class EventHubSender extends EventEmitter {
         await this._negotiateClaim(true);
       } catch (err) {
         // TODO: May be add some retries over here before emitting the error.
-        debug(`[${this._context.connectionId}] Sender "${this.name}", an error occurred while renewing ` +
-          `the token:\n${JSON.stringify(err)}.`);
+        debug("[%s] Sender '%s', an error occurred while renewing the token: %O", this._context.connectionId, this.name, err);
         this.emit(Constants.error, translate(err));
       }
     }, nextRenewalTimeout);
