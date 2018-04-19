@@ -7,7 +7,6 @@
     "target": "es6",
     "moduleResolution": "node",
     "noImplicitReturns": true,
-    "noImplicitAny": true,
     "outDir": "dist",
     "allowJs": false,
     "noUnusedLocals":true,
