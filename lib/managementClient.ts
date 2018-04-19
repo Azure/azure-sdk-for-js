@@ -7,6 +7,7 @@ import * as Constants from "./util/constants";
 import * as debugModule from "debug";
 import { RequestResponseLink, createRequestResponseLink, sendRequest } from "./rpc";
 import { defaultLock } from "./util/utils";
+import { AmqpMessage } from ".";
 
 const Buffer = require("buffer/").Buffer;
 const debug = debugModule("azure:event-hubs:management");
@@ -183,12 +184,10 @@ export class ManagementClient {
     try {
       const endpoint = Constants.management;
       const replyTo = uuid();
-      const request: any = {
+      const request: AmqpMessage = {
         body: Buffer.from(JSON.stringify([])),
-        properties: {
-          message_id: uuid(),
-          reply_to: replyTo
-        },
+        message_id: uuid(),
+        reply_to: replyTo,
         application_properties: {
           operation: Constants.readOperation,
           name: this.entityPath as string,
@@ -196,7 +195,7 @@ export class ManagementClient {
         }
       };
       if (partitionId && type === Constants.partition) {
-        request.application_properties.partition = partitionId;
+        request.application_properties!.partition = partitionId;
       }
       await defaultLock.acquire(this.managementLock, () => { return this._init(connection, endpoint, replyTo); });
       return sendRequest(connection, this._mgmtReqResLink!, request);

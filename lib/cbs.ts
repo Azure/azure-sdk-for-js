@@ -68,11 +68,9 @@ export class CbsClient {
     try {
       const request: AmqpMessage = {
         body: tokenObject.token,
-        properties: {
-          message_id: uuid(),
-          reply_to: this.replyTo,
-          to: this.endpoint,
-        },
+        message_id: uuid(),
+        reply_to: this.replyTo,
+        to: this.endpoint,
         application_properties: {
           operation: Constants.operationPutToken,
           name: audience,
