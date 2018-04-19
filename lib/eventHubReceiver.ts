@@ -43,12 +43,12 @@ export interface ReceiverRuntimeInfo {
 }
 
 /**
- * Describes the message handler signtaure.
+ * Describes the message handler signature.
  */
 export type OnMessage = (eventData: EventData) => void;
 
 /**
- * Describes the error handler signtaure.
+ * Describes the error handler signature.
  */
 export type OnError = (error: EventHubsError | Error) => void;
 
@@ -101,9 +101,9 @@ export class EventHubReceiver extends EventEmitter {
    */
   options?: ReceiveOptions;
   /**
-   * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive initially. Defaults to 500.
+   * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive initially. Defaults to 1000.
    */
-  prefetchCount?: number = 1000;
+  prefetchCount?: number = Constants.defaultPrefetchCount;
   /**
    * @property {boolean} receiverRuntimeMetricEnabled Indicates whether receiver runtime metric is enabled. Default: false.
    */
@@ -135,6 +135,10 @@ export class EventHubReceiver extends EventEmitter {
   private _onError?: OnError;
 
   private _mode?: Mode;
+
+  private _onAmqpMessage: rheaPromise.OnAmqpEvent;
+
+  private _onAmqpError: rheaPromise.OnAmqpEvent;
 
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
@@ -172,6 +176,23 @@ export class EventHubReceiver extends EventEmitter {
     this.runtimeInfo = {
       partitionId: `${partitionId}`
     };
+    this._onAmqpMessage = (context: rheaPromise.Context) => {
+      const evData = EventData.fromAmqpMessage(context.message!);
+      if (this.receiverRuntimeMetricEnabled && evData) {
+        this.runtimeInfo.lastSequenceNumber = evData.lastSequenceNumber;
+        this.runtimeInfo.lastEnqueuedTimeUtc = evData.lastEnqueuedTime;
+        this.runtimeInfo.lastEnqueuedOffset = evData.lastEnqueuedOffset;
+        this.runtimeInfo.retrievalTime = evData.retrievalTime;
+      }
+      this._onMessage!(evData);
+    };
+
+    this._onAmqpError = (context: rheaPromise.Context) => {
+      const ehError = translate(context.receiver.error);
+      this._mode = undefined;
+      // TODO: Should we retry before calling user's error method?
+      this._onError!(ehError);
+    };
   }
 
   /**
@@ -196,13 +217,14 @@ export class EventHubReceiver extends EventEmitter {
       throw translate({
         condition: ErrorNameConditionMapper.InvalidOperationError,
         description: `Receiver ${this.name} is currently receiving messages using the "start()" method. ` +
-          `Hence receive() cannot be called, both are mutually exclusive.`
+          `Hence receive() cannot be called, both are mutually exclusive. If you want to use "receive()", ` +
+          ` then please call "await receiver.close();" before calling the "receive()" method.`
       });
     } else if (this._mode === Mode.receive) {
       throw translate({
         condition: ErrorNameConditionMapper.InvalidOperationError,
         description: `Receiver ${this.name} is currently receiving messages using the "receive()" method. ` +
-          `Once the current receive() is done executing, then the next receive() can be performed.`
+          `Once the current "receive()" is done executing, then the next receive() can be performed.`
       });
     }
     this._mode = Mode.receive;
@@ -263,17 +285,27 @@ export class EventHubReceiver extends EventEmitter {
         }
         reject(error);
       };
+
+      const addCreditAndSetTimer = (reuse?: boolean) => {
+        debug("[%s] Receiver '%s', adding credit for receiving %d messages.", this._context.connectionId, this.name, maxMessageCount);
+        this._receiver.add_credit(maxMessageCount);
+        let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
+        if (reuse) msg += " Receiver link already present, hence reusing it.";
+        debug(msg, this._context.connectionId, maxWaitTimeInSeconds, this.name);
+        waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
+      };
+
       if (!this._session && !this._receiver) {
+        debug("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
+        this.prefetchCount = 0;
         this._init(onReceiveMessage, onReceiveError).then(() => {
-          debug("[%s] Setting the wait timer for %d seconds for receiver '%s'.", this._context.connectionId, maxWaitTimeInSeconds, this.name);
-          waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
+          return addCreditAndSetTimer();
         }).catch((err) => {
           this._mode = undefined;
           reject(err);
         });
       } else {
-        debug("[%s] Amqp receiver link for receiver '%s' is already present. Hence reusing it and setting a wait timer for %d seconds.", this._context.connectionId, this.name, maxWaitTimeInSeconds);
-        waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
+        addCreditAndSetTimer(true);
         this._receiver.on(Constants.message, onReceiveMessage);
         this._receiver.on(Constants.receiverError, onReceiveError);
       }
@@ -347,8 +379,14 @@ export class EventHubReceiver extends EventEmitter {
       // It is possible that the receiver link has been established due to a previous receive() call. If that
       // is the case then add message and error event handlers to the receiver. When the receiver will be closed
       // these handlers will be automatically removed.
-      this._receiver.on(Constants.message, this._onMessage);
-      this._receiver.on(Constants.receiverError, this._onError);
+      debug("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
+        "Hence reusing it and attaching message and error handlers.", this._context.connectionId, this.name);
+      this._receiver.on(Constants.message, this._onAmqpMessage);
+      this._receiver.on(Constants.receiverError, this._onAmqpError);
+      this._receiver.set_credit_window(Constants.defaultPrefetchCount);
+      this._receiver.add_credit(Constants.defaultPrefetchCount);
+      debug("[%s] Receiver '%s', set the prefetch count to 1000 and " +
+        "providing a credit of the same amount.", this._context.connectionId, this.name);
     }
   }
 
@@ -386,7 +424,7 @@ export class EventHubReceiver extends EventEmitter {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   * @returns {Promoise<void>}
+   * @returns {Promise<void>}
    */
   private async _init(onAmqpMessage?: rheaPromise.OnAmqpEvent, onAmqpError?: rheaPromise.OnAmqpEvent): Promise<void> {
     try {
@@ -399,27 +437,13 @@ export class EventHubReceiver extends EventEmitter {
       if (!this._session && !this._receiver) {
         await this._negotiateClaim();
         if (!onAmqpMessage) {
-          onAmqpMessage = (context: rheaPromise.Context) => {
-            const evData = EventData.fromAmqpMessage(context.message!);
-            if (this.receiverRuntimeMetricEnabled && evData) {
-              this.runtimeInfo.lastSequenceNumber = evData.lastSequenceNumber;
-              this.runtimeInfo.lastEnqueuedTimeUtc = evData.lastEnqueuedTime;
-              this.runtimeInfo.lastEnqueuedOffset = evData.lastEnqueuedOffset;
-              this.runtimeInfo.retrievalTime = evData.retrievalTime;
-            }
-            this._onMessage!(evData);
-          };
+          onAmqpMessage = this._onAmqpMessage;
         }
         if (!onAmqpError) {
-          onAmqpError = (context: rheaPromise.Context) => {
-            const ehError = translate(context.receiver.error);
-            this._mode = undefined;
-            // TODO: Should we retry before calling user's error method?
-            this._onError!(ehError);
-          };
+          onAmqpError = this._onAmqpError;
         }
         this._session = await rheaPromise.createSession(this._context.connection);
-        debug("Trying to create a receiver...");
+        debug("[%s] Trying to create receiver '%s'...", this._context.connectionId, this.name);
         const rcvrOptions = this._createReceiverOptions();
         this._receiver = await rheaPromise.createReceiverWithHandlers(this._session, onAmqpMessage, onAmqpError, rcvrOptions);
         debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
@@ -462,7 +486,7 @@ export class EventHubReceiver extends EventEmitter {
   }
 
   /**
-   * Ensures that the token is renewed within the predfiend renewal margin.
+   * Ensures that the token is renewed within the predefined renewal margin.
    * @private
    * @return {Promise<void>} Promise<void>
    */
@@ -475,7 +499,7 @@ export class EventHubReceiver extends EventEmitter {
         await this._negotiateClaim(true);
       } catch (err) {
         // TODO: May be add some retries over here before emitting the error.
-        debug(`[${this._context.connectionId}] Receiver "${this.name}", an error occurred while renewing the token:\n${JSON.stringify(err)}.`);
+        debug("[%s] Receiver '%s', an error occurred while renewing the token: %O", this._context.connectionId, this.name, err);
         this.emit(Constants.error, translate(err));
       }
     }, nextRenewalTimeout);
