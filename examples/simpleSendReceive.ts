@@ -1,4 +1,5 @@
 import { EventHubClient, EventPosition, OnMessage, OnError, EventHubsError } from "../lib";
+import { delay } from "../lib/util/utils";
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
@@ -11,29 +12,29 @@ async function main(): Promise<void> {
   const hub = await client.getHubRuntimeInformation();
   console.log(">>>> Hub: \n", hub);
   for (let i = 0; i < ids.length; i++) {
-    const receiver = client.createReceiver(ids[i], { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
-    console.log("***********Created receiver %d", i);
-    const sender = client.createSender(ids[i]);
-    console.log("***********Created sender %d", i);
     const onMessage: OnMessage = async (eventData: any) => {
       console.log(">>> EventDataObject: ", eventData);
       console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-      await receiver.close();
     }
     const onError: OnError = (err: EventHubsError | Error) => {
       console.log(">>>>> Error occurred: ", err);
     };
     //console.log(onMessage, onError);
-    await sender.send({ body: "Hello awesome world!!" + new Date().toString() });
-    await sender.close();
-    receiver.start(onMessage, onError);
-    // Either use receiver.start()  or use receiver.receive().
-    // const datas = await receiver.receive(2, 5);
-    // console.log("@@@@@@@@ Event Data objects: \n", datas);
+    client.receiveOnMessage(ids[i], onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+    // giving some time for receiver setup to complete. This will make sure that the receiver can receive the newly sent
+    // message from now onwards.
+    await delay(3000);
+    console.log("***********Created receiver %d", i);
+    await client.send({ body: "Hello awesome world!!" + new Date().toString() }, ids[i]);
+    console.log("***********Created sender %d and sent the message...", i);
+    // Giving enough time for the receiver to receive the message...
+    await delay(6000);
+    //await rcvrHandler.stop();
   }
-
 }
 
-main().catch((err) => {
+main().then(() => {
+  return client.close();
+}).catch((err) => {
   console.log("error: ", err);
 });
