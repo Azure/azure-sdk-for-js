@@ -1,15 +1,19 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+
 import * as debugModule from "debug";
-import * as rheaPromise from "./rhea-promise";
+import { closeConnection, Delivery } from "./rhea-promise";
 import { ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials } from "ms-rest-azure";
-import { EventHubReceiver, EventHubSender, ConnectionConfig } from ".";
+import { ConnectionConfig, OnMessage, OnError, EventData, EventHubsError } from ".";
 import * as rpc from "./rpc";
 import { ConnectionContext } from "./connectionContext";
 import { TokenProvider } from "./auth/token";
 import { AadTokenProvider } from "./auth/aad";
 import { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
 import { EventPosition } from "./eventPosition";
+import { EventHubSender } from "./eventHubSender";
+import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
+import { BatchingReceiver } from "./batchingReceiver";
 const debug = debugModule("azure:event-hubs:client");
 
 export interface ReceiveOptions {
@@ -95,7 +99,7 @@ export class EventHubClient {
         await this._context.cbsSession.close();
         // Close the management session
         await this._context.managementSession.close();
-        await rheaPromise.closeConnection(this._context.connection);
+        await closeConnection(this._context.connection);
         debug(`Closed the amqp connection "${this._context.connectionId}" on the client.`);
         this._context.connection = undefined;
       }
@@ -107,24 +111,46 @@ export class EventHubClient {
   }
 
   /**
-   * Creates a sender to the given event hub, and optionally to a given partition.
-   * @method createSender
-   * @param {(string|number)} [partitionId] Partition ID to which it will send event data.
-   * @returns {Promise<EventHubSender>}
+   * Sends the given message to the EventHub.
+   *
+   * @method send
+   * @param {any} data               Message to send.  Will be sent as UTF8-encoded JSON string.
+   * @param {string|number} [partitionId] Partition ID to which the event data needs to be sent. This should only be specified
+   * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
+   * fashion amongst the different partitions in the EventHub.
+   *
+   * @returns {Promise<Delivery>} Promise<rheaPromise.Delivery>
    */
-  createSender(partitionId?: string | number): EventHubSender {
-    if (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number") {
-      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-    }
-    const ehSender = new EventHubSender(this._context, partitionId);
-    this._context.senders[ehSender.name] = ehSender;
-    return ehSender;
+  async send(data: EventData, partitionId?: string | number): Promise<Delivery> {
+    const sender = EventHubSender.create(this._context, partitionId);
+    return await sender.send(data);
   }
 
   /**
-   * Creates a new receiver that will receive event data from the EventHub.
-   * @method createReceiver
+   * Send a batch of EventData to the EventHub. The "message_annotations", "application_properties" and "properties"
+   * of the first message will be set as that of the envelope (batch message).
+   *
+   * @method sendBatch
+   * @param {Array<EventData>} datas  An array of EventData objects to be sent in a Batch message.
+   * @param {string|number} [partitionId] Partition ID to which the event data needs to be sent. This should only be specified
+   * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
+   * fashion amongst the different partitions in the EventHub.
+   *
+   * @return {Promise<rheaPromise.Delivery>} Promise<rheaPromise.Delivery>
+   */
+  async sendBatch(datas: EventData[], partitionId?: string | number): Promise<Delivery> {
+    const sender = EventHubSender.create(this._context, partitionId);
+    return await sender.sendBatch(datas);
+  }
+
+  /**
+   * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
+   * the provided onMessage handler and error will be passes to the provided onError handler.
+   *
    * @param {string|number} partitionId                        Partition ID from which to receive.
+   * @param {OnMessage} onMessage                              The message handler to receive event data objects.
+   * @param {OnError} onError                                  The error handler to receive an error that occurs
+   * while receiving messages.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    * @param {string} [name]                                    The name of the receiver. If not provided
    * then we will set a GUID by default.
@@ -139,15 +165,68 @@ export class EventHubClient {
    * where the receiver should start receiving. Only one of offset, sequenceNumber, enqueuedTime, customFilter can be specified.
    * `EventPosition.withCustomFilter()` should be used if you want more fine-grained control of the filtering.
    * See https://github.com/Azure/amqpnetlite/wiki/Azure%20Service%20Bus%20Event%20Hubs for details.
-   * @return {EventHubReceiver} EventHubReceiver The EventHub Receiver object.
+   *
+   * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
-  createReceiver(partitionId: string | number, options?: ReceiveOptions): EventHubReceiver {
+  receiveOnMessage(partitionId: string | number, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler {
     if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
-    const ehReceiver = new EventHubReceiver(this._context, partitionId, options);
-    this._context.receivers[ehReceiver.name] = ehReceiver;
-    return ehReceiver;
+    const sReceiver = new StreamingReceiver(this._context, partitionId, options);
+    this._context.receivers[sReceiver.name] = sReceiver;
+    sReceiver.receiveOnMessage(onMessage, onError);
+    return new ReceiveHandler(sReceiver);
+  }
+
+  /**
+   * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
+   * happens first. This method can be used directly after creating the receiver object and **MUST NOT** be used along with the `start()` method.
+   *
+   * @param {string|number} partitionId                        Partition ID from which to receive.
+   * @param {number} maxMessageCount                           The maximum message count. Must be a value greater than 0.
+   * @param {number} [maxWaitTimeInSeconds]                    The maximum wait time in seconds for which the Receiver should wait
+   * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
+   * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
+   * @param {string} [name]                                    The name of the receiver. If not provided
+   * then we will set a GUID by default.
+   * @param {string} [options.consumerGroup]                   Consumer group from which to receive.
+   * @param {number} [options.prefetchCount]                   The upper limit of events this receiver will
+   * actively receive regardless of whether a receive operation is pending.
+   * @param {boolean} [options.enableReceiverRuntimeMetric]    Provides the approximate receiver runtime information
+   * for a logical partition of an Event Hub if the value is true. Default false.
+   * @param {number} [options.epoch]                           The epoch value that this receiver is currently
+   * using for partition ownership. A value of undefined means this receiver is not an epoch-based receiver.
+   * @param {EventPosition} [options.eventPosition]            The position of EventData in the EventHub parition from
+   * where the receiver should start receiving. Only one of offset, sequenceNumber, enqueuedTime, customFilter can be specified.
+   * `EventPosition.withCustomFilter()` should be used if you want more fine-grained control of the filtering.
+   * See https://github.com/Azure/amqpnetlite/wiki/Azure%20Service%20Bus%20Event%20Hubs for details.
+   *
+   * @returns {Promise<EventData[]>} A promise that resolves with an array of EventData objects.
+   */
+  async receiveBatch(partitionId: string | number, maxMessageCount: number, maxWaitTimeInSeconds?: number, options?: ReceiveOptions): Promise<EventData[]> {
+    if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
+      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
+    }
+    const bReceiver = new BatchingReceiver(this._context, partitionId, options);
+    this._context.receivers[bReceiver.name] = bReceiver;
+    let error: EventHubsError | undefined;
+    let result: EventData[] = [];
+    try {
+      result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
+    } catch (err) {
+      error = err;
+      debug("[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
+        this._context.connectionId, bReceiver.name, maxMessageCount, maxWaitTimeInSeconds, err);
+    }
+    try {
+      await bReceiver.close();
+    } catch (err) {
+      // do nothing about it.
+    }
+    if (error) {
+      throw error;
+    }
+    return result;
   }
 
   /**
