@@ -191,7 +191,6 @@ export function sendRequest(connection: any, link: RequestResponseLink, request:
 
     link.receiver.on(Constants.message, messageCallback);
     waitTimer = setTimeout(actionAfterTimeout, timeoutInSeconds! * 1000);
-    clearTimeout(waitTimer);
     debug(`[${connection.options.id}] ${request.to} request sent: `, request);
     link.sender.send(request);
   });
