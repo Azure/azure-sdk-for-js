@@ -152,14 +152,17 @@ export function sendRequest(connection: any, link: RequestResponseLink, request:
       const desc: string = context.message!.application_properties![Constants.statusDescription];
       const errorCondition: string | undefined = context.message!.application_properties![Constants.errorCondition];
       const responseCorrelationId = context.message!.correlation_id;
-      debug(`[${connection.options.id}] $management request: \n`, request);
-      debug(`[${connection.options.id}] $management response: \n`, context.message);
+      debug(`[${connection.options.id}] ${request.to} response: `, context.message);
       if (code > 199 && code < 300) {
         if (request.message_id === responseCorrelationId || request.correlation_id === responseCorrelationId) {
           if (!timeOver) {
             clearTimeout(waitTimer);
           }
+          debug("[%s] request-messageId | '%s' == '%s' | response-correlationId.", connection.options.id, request.message_id, responseCorrelationId);
           return resolve(context.message!.body);
+        } else {
+          debug("[%s] request-messageId | '%s' != '%s' | response-correlationId. Hence dropping this response and waiting for the next one.",
+            connection.options.id, request.message_id, responseCorrelationId);
         }
       } else {
         const condition = errorCondition || ConditionStatusMapper[code] || "amqp:internal-error";
@@ -188,6 +191,8 @@ export function sendRequest(connection: any, link: RequestResponseLink, request:
 
     link.receiver.on(Constants.message, messageCallback);
     waitTimer = setTimeout(actionAfterTimeout, timeoutInSeconds! * 1000);
+    clearTimeout(waitTimer);
+    debug(`[${connection.options.id}] ${request.to} request sent: `, request);
     link.sender.send(request);
   });
 }

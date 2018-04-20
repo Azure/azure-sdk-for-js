@@ -111,17 +111,12 @@ export class EventHubSender extends EventEmitter {
    *
    * @method send
    * @param {any} data               Message to send.  Will be sent as UTF8-encoded JSON string.
-   * @param {string} [partitionKey]  Partition key - sent as x-opt-partition-key, and will hash to a partitionId.
    * @returns {Promise<rheaPromise.Delivery>} Promise<rheaPromise.Delivery>
    */
-  async send(data: EventData, partitionKey?: string): Promise<rheaPromise.Delivery> {
+  async send(data: EventData): Promise<rheaPromise.Delivery> {
     try {
       if (!data || (data && typeof data !== "object")) {
         throw new Error("data is required and it must be of type object.");
-      }
-
-      if (partitionKey && typeof partitionKey !== "string") {
-        throw new Error("partitionKey must be of type string");
       }
 
       if (!this._session && !this._sender) {
@@ -130,10 +125,6 @@ export class EventHubSender extends EventEmitter {
       }
 
       const message = EventData.toAmqpMessage(data);
-      if (partitionKey) {
-        if (!message.message_annotations) message.message_annotations = {};
-        message.message_annotations[Constants.partitionKey] = partitionKey;
-      }
       return await this._trySend(message);
     } catch (err) {
       debug("An error occurred while sending the message %O", err);
@@ -142,19 +133,15 @@ export class EventHubSender extends EventEmitter {
   }
 
   /**
-   * Send a batch of EventData to the EventHub.
+   * Send a batch of EventData to the EventHub. The "message_annotations", "application_properties" and "properties"
+   * of the first message will be set as that of the envelope (batch message).
    * @param {Array<EventData>} datas  An array of EventData objects to be sent in a Batch message.
-   * @param {string} [partitionKey]   Partition key - sent as x-opt-partition-key, and will hash to a partitionId.
    * @return {Promise<rheaPromise.Delivery>} Promise<rheaPromise.Delivery>
    */
-  async sendBatch(datas: EventData[], partitionKey?: string): Promise<rheaPromise.Delivery> {
+  async sendBatch(datas: EventData[]): Promise<rheaPromise.Delivery> {
     try {
       if (!datas || (datas && !Array.isArray(datas))) {
         throw new Error("data is required and it must be an Array.");
-      }
-
-      if (partitionKey && typeof partitionKey !== "string") {
-        throw new Error("partitionKey must be of type string");
       }
 
       if (!this._session && !this._sender) {
@@ -166,10 +153,6 @@ export class EventHubSender extends EventEmitter {
       // Convert EventData to AmqpMessage.
       for (let i = 0; i < datas.length; i++) {
         const message = EventData.toAmqpMessage(datas[i]);
-        if (partitionKey) {
-          if (!message.message_annotations) message.message_annotations = {};
-          message.message_annotations[Constants.partitionKey] = partitionKey;
-        }
         messages[i] = message;
       }
       // Encode every amqp message and then convert every encoded message to amqp data section
@@ -370,13 +353,16 @@ export class EventHubSender extends EventEmitter {
     // creating a shared resource (in this case the cbs session, since we want to have exactly 1 cbs session
     // per connection).
     debug(`Acquiring lock: ${this._context.cbsSession.cbsLock} for creating the cbs session while creating` +
-      ` the sender.`);
+      ` the sender: ${this.name}.`);
     await defaultLock.acquire(this._context.cbsSession.cbsLock,
       () => { return this._context.cbsSession.init(this._context.connection); });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
     debug(`[${this._context.connectionId}] EH Sender: calling negotiateClaim for audience "${this.audience}".`);
-    // Negotiate the CBS claim.
-    await this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
+    // Acquire the lock to negotiate the CBS claim.
+    debug(`Acquiring lock: ${this._context.negotiateClaimLock} for cbs auth for sender: ${this.name}.`);
+    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
+      return this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
+    });
     debug(`[${this._context.connectionId}] Negotiated claim for sender "${this.name}" with with partition` +
       ` "${this.partitionId}"`);
     if (setTokenRenewal) {
@@ -404,5 +390,24 @@ export class EventHubSender extends EventEmitter {
     }, nextRenewalTimeout);
     debug(`[${this._context.connectionId}] Sender "${this.name}", has next token renewal in ` +
       `${nextRenewalTimeout / 1000} seconds @(${new Date(Date.now() + nextRenewalTimeout).toString()}).`);
+  }
+
+  /**
+   * Creates a new sender to the given event hub, and optionally to a given partition if it is not present
+   * in the context or returns the one present in the context.
+   * @static
+   * @param {(string|number)} [partitionId] Partition ID to which it will send event data.
+   * @returns {Promise<EventHubSender>}
+   */
+  static create(context: ConnectionContext, partitionId?: string | number): EventHubSender {
+    if (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number") {
+      throw new Error("'partitionId' must be of type: 'string' | 'number'.");
+    }
+
+    const ehSender: EventHubSender = new EventHubSender(context, partitionId);
+    if (!context.senders[ehSender.address]) {
+      context.senders[ehSender.address] = ehSender;
+    }
+    return context.senders[ehSender.address];
   }
 }

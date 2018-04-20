@@ -5,7 +5,9 @@
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
-import { EventHubReceiver, EventHubSender, ConnectionConfig } from ".";
+import { ConnectionConfig } from ".";
+import { EventHubReceiver } from "./eventHubReceiver";
+import { EventHubSender } from "./eventHubSender";
 import { TokenProvider } from "./auth/token";
 import { ManagementClient } from "./managementClient";
 import { CbsClient } from "./cbs";
@@ -58,6 +60,11 @@ export interface ConnectionContext {
    * for establishing an aqmp connection per client if one does not exist.
    */
   readonly connectionLock: string;
+  /**
+   * @property {string} negotiateClaimLock The unqiue lock name per connection that is used to acquire the lock
+   * for negotiating cbs claim by an entity on that connection.
+   */
+  readonly negotiateClaimLock: string;
 }
 
 
@@ -72,6 +79,7 @@ export namespace ConnectionContext {
     ConnectionConfig.validate(config);
     const context: ConnectionContext = {
       connectionLock: `${Constants.establishConnection}-${uuid()}`,
+      negotiateClaimLock: `${Constants.negotiateClaim}-${uuid()}`,
       config: config,
       tokenProvider: tokenProvider || new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey),
       cbsSession: new CbsClient(),

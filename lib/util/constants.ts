@@ -37,6 +37,7 @@ export const connectionError = "connection_error";
 export const defaultOperationTimeoutInSeconds = 60;
 export const managementRequestKey = "managementRequest";
 export const negotiateCbsKey = "negotiateCbs";
+export const negotiateClaim = "negotiateClaim";
 export const ensureContainerAndBlob = "ensureContainerAndBlob";
 export const defaultPrefetchCount = 1000;
 export const reconnectLimit = 100;
