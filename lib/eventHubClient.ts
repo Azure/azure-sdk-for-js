@@ -100,7 +100,7 @@ export class EventHubClient {
         // Close the management session
         await this._context.managementSession.close();
         await closeConnection(this._context.connection);
-        debug(`Closed the amqp connection "${this._context.connectionId}" on the client.`);
+        debug("Closed the amqp connection '%s' on the client.", this._context.connectionId);
         this._context.connection = undefined;
       }
     } catch (err) {
@@ -114,7 +114,7 @@ export class EventHubClient {
    * Sends the given message to the EventHub.
    *
    * @method send
-   * @param {any} data               Message to send.  Will be sent as UTF8-encoded JSON string.
+   * @param {any} data                    Message to send.  Will be sent as UTF8-encoded JSON string.
    * @param {string|number} [partitionId] Partition ID to which the event data needs to be sent. This should only be specified
    * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
    * fashion amongst the different partitions in the EventHub.
@@ -172,7 +172,7 @@ export class EventHubClient {
     if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
-    const sReceiver = new StreamingReceiver(this._context, partitionId, options);
+    const sReceiver = StreamingReceiver.create(this._context, partitionId, options);
     this._context.receivers[sReceiver.name] = sReceiver;
     sReceiver.receiveOnMessage(onMessage, onError);
     return new ReceiveHandler(sReceiver);
@@ -207,8 +207,7 @@ export class EventHubClient {
     if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
-    const bReceiver = new BatchingReceiver(this._context, partitionId, options);
-    this._context.receivers[bReceiver.name] = bReceiver;
+    const bReceiver = BatchingReceiver.create(this._context, partitionId, options);
     let error: EventHubsError | undefined;
     let result: EventData[] = [];
     try {

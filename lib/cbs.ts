@@ -48,11 +48,11 @@ export class CbsClient {
         name: this.replyTo
       };
       this._cbsSenderReceiverLink = await createRequestResponseLink(connection, { target: { address: this.endpoint } }, rxOpt);
-      debug(`[${connection.options.id}] Successfully created the cbs sender "${this._cbsSenderReceiverLink.sender.name}" ` +
-        `and receiver "${this._cbsSenderReceiverLink.receiver.name}" links over cbs session.`);
+      debug("[%s] Successfully created the cbs sender '%s' and receiver '%s' links over cbs session.",
+        connection.options.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
     } else {
-      debug(`[${connection.options.id}] CBS session is already present. Reusing the cbs sender ` +
-        `"${this._cbsSenderReceiverLink.sender.name}" and receiver "${this._cbsSenderReceiverLink.receiver.name}" links over cbs session.`);
+      debug("[%s] CBS session is already present. Reusing the cbs sender '%s' and receiver '%s' links over cbs session.",
+        connection.options.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
     }
   }
 
@@ -80,7 +80,7 @@ export class CbsClient {
       const response = await sendRequest(connection, this._cbsSenderReceiverLink!, request);
       return response;
     } catch (err) {
-      debug(`[${connection.options.id}] An error occurred while negotating the cbs claim: \n`, err);
+      debug("[%s]An error occurred while negotating the cbs claim: %O", connection.options.id, err);
       throw err;
     }
   }
@@ -98,7 +98,7 @@ export class CbsClient {
         this._cbsSenderReceiverLink = undefined;
       }
     } catch (err) {
-      const msg = `An error occurred while closing the cbs session: ${JSON.stringify(err)}`;
+      const msg = `An error occurred while closing the cbs session: ${JSON.stringify(err)} `;
       debug(msg);
       throw new Error(msg);
     }

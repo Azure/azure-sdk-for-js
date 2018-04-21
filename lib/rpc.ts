@@ -58,7 +58,7 @@ export async function createRequestResponseLink(connection: any, senderOptions: 
     createSender(session, senderOptions),
     createReceiver(session, receiverOptions)
   ]);
-  debug(`[${connection.options.id}] Successfully created the sender and receiver links on the same session.`);
+  debug("[%s] Successfully created the sender and receiver links on the same session.", connection.options.id);
   return {
     session: session,
     sender: sender,
@@ -76,7 +76,7 @@ export async function createReceiverLink(connection: any, receiverOptions: Recei
   }
   const session = await createSession(connection);
   const receiver = await createReceiver(session, receiverOptions);
-  debug(`[${connection.options.id}] Successfully created the receiver link on a dedicated session for it.`);
+  debug("[%s] Successfully created the receiver link on a dedicated session for it.", connection.options.id);
   return {
     session: session,
     receiver: receiver
@@ -99,7 +99,7 @@ export async function createReceiverLinkWithHandlers(options: ReceiverLinkOption
   }
   const session = await createSession(options.connection);
   const receiver = await createReceiverWithHandlers(session, options.onMessage, options.onError, options.receiverOptions);
-  debug(`[${options.connection.options.id}] Successfully created the receiver link on a dedicated session for it.`);
+  debug("[%s] Successfully created the receiver link on a dedicated session for it.", options.connection.options.id);
   return {
     session: session,
     receiver: receiver
@@ -115,7 +115,7 @@ export async function createSenderLink(connection: any, senderOptions: SenderOpt
   }
   const session = await createSession(connection);
   const sender = await createSender(session, senderOptions);
-  debug(`[${connection.options.id}] Successfully created the sender link on a dedicated session for it.`);
+  debug("[%s] Successfully created the sender link on a dedicated session for it.", connection.options.id);
   return {
     session: session,
     sender: sender
@@ -152,7 +152,7 @@ export function sendRequest(connection: any, link: RequestResponseLink, request:
       const desc: string = context.message!.application_properties![Constants.statusDescription];
       const errorCondition: string | undefined = context.message!.application_properties![Constants.errorCondition];
       const responseCorrelationId = context.message!.correlation_id;
-      debug(`[${connection.options.id}] ${request.to} response: `, context.message);
+      debug("[%s] %s response: ", connection.options.id, request.to || "$management", context.message);
       if (code > 199 && code < 300) {
         if (request.message_id === responseCorrelationId || request.correlation_id === responseCorrelationId) {
           if (!timeOver) {
@@ -191,7 +191,7 @@ export function sendRequest(connection: any, link: RequestResponseLink, request:
 
     link.receiver.on(Constants.message, messageCallback);
     waitTimer = setTimeout(actionAfterTimeout, timeoutInSeconds! * 1000);
-    debug(`[${connection.options.id}] ${request.to} request sent: `, request);
+    debug("[%s] %s request sent: %O", connection.options.id, request.to || "$managment", request);
     link.sender.send(request);
   });
 }
@@ -236,10 +236,10 @@ async function _open(context: ConnectionContext, useSaslPlain?: boolean): Promis
     if (useSaslPlain) {
       connectOptions.password = context.config.sharedAccessKey;
     }
-    debug(`Dialing the amqp connection with options.`, connectOptions);
+    debug("Dialing the amqp connection with options.", connectOptions);
     context.connection = await connect(connectOptions);
     context.connectionId = context.connection.options.id;
-    debug(`Successfully established the amqp connection "${context.connectionId}".`);
+    debug("Successfully established the amqp connection '%s'.", context.connectionId);
   }
 }
 
