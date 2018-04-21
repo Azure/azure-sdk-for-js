@@ -244,11 +244,11 @@ export namespace EventData {
   export function toAmqpMessage(data: EventData): AmqpMessage {
     const msg: AmqpMessage = {
       body: data.body,
-      // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
-      // it is equivalent to a message-annotations section containing anempty map of annotations.
-      message_annotations: {},
-      delivery_annotations: {}
     };
+    // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
+    // it is equivalent to a message-annotations section containing anempty map of annotations.
+    msg.message_annotations = {};
+    msg.delivery_annotations = {};
     if (data.annotations) {
       msg.message_annotations = data.annotations;
     }
@@ -262,28 +262,28 @@ export namespace EventData {
       msg.application_properties = data.applicationProperties;
     }
     if (data.partitionKey) {
-      (msg.message_annotations as AmqpMessageAnnotations)[Constants.partitionKey] = data.partitionKey;
+      msg.message_annotations[Constants.partitionKey] = data.partitionKey;
     }
     if (data.sequenceNumber != undefined) {
-      (msg.message_annotations as AmqpMessageAnnotations)[Constants.sequenceNumber] = data.sequenceNumber;
+      msg.message_annotations[Constants.sequenceNumber] = data.sequenceNumber;
     }
     if (data.enqueuedTimeUtc) {
-      (msg.message_annotations as AmqpMessageAnnotations)[Constants.enqueuedTime] = data.enqueuedTimeUtc.getTime();
+      msg.message_annotations[Constants.enqueuedTime] = data.enqueuedTimeUtc.getTime();
     }
     if (data.offset != undefined) {
-      (msg.message_annotations as AmqpMessageAnnotations)[Constants.offset] = data.offset;
+      msg.message_annotations[Constants.offset] = data.offset;
     }
     if (data.lastEnqueuedOffset != undefined) {
-      (msg.delivery_annotations as DeliveryAnnotations).last_enqueued_offset = data.lastEnqueuedOffset;
+      msg.delivery_annotations.last_enqueued_offset = data.lastEnqueuedOffset;
     }
     if (data.lastSequenceNumber != undefined) {
-      (msg.delivery_annotations as DeliveryAnnotations).last_enqueued_sequence_number = data.lastSequenceNumber;
+      msg.delivery_annotations.last_enqueued_sequence_number = data.lastSequenceNumber;
     }
     if (data.lastEnqueuedTime) {
-      (msg.delivery_annotations as DeliveryAnnotations).last_enqueued_time_utc = data.lastEnqueuedTime.getTime();
+      msg.delivery_annotations.last_enqueued_time_utc = data.lastEnqueuedTime.getTime();
     }
     if (data.retrievalTime) {
-      (msg.delivery_annotations as DeliveryAnnotations).runtime_info_retrieval_time_utc = data.retrievalTime.getTime();
+      msg.delivery_annotations.runtime_info_retrieval_time_utc = data.retrievalTime.getTime();
     }
     return msg;
   }

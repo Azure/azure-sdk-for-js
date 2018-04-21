@@ -217,11 +217,11 @@ export class EventHubReceiver {
         // or can I directly close the session which will take care of closing the receiver as well.
         await rheaPromise.closeReceiver(this._receiver);
         // Resetting the mode.
-        debug(`Deleted the receiver "${this.name}" from the client cache.`);
+        debug("[%s] Deleted the receiver '%s' from the client cache.", this._context.connectionId, this.name);
         this._receiver = undefined;
         this._session = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-        debug(`[${this._context.connectionId}] Receiver "${this.name}" has been closed.`);
+        debug("[%s] Receiver '%s', has been closed.", this._context.connectionId, this.name);
       } catch (err) {
         debug("An error occurred while closing the receiver %s %O", this.name, translate(err));
       }
@@ -236,7 +236,7 @@ export class EventHubReceiver {
     try {
       // Acquire the lock and establish an amqp connection if it does not exist.
       if (!this._context.connection) {
-        debug(`EH Receiver "${this.name}" establishing AMQP connection.`);
+        debug("[%s] EH Receiver '%s' establishing AMQP connection.", this._context.connectionId, this.name);
         await defaultLock.acquire(this._context.connectionLock, () => { return rpc.open(this._context); });
       }
 
@@ -257,7 +257,7 @@ export class EventHubReceiver {
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
         if (!this._context.receivers[this.name]) this._context.receivers[this.name] = this;
-        this._ensureTokenRenewal();
+        await this._ensureTokenRenewal();
       }
     } catch (err) {
       err = translate(err);
@@ -313,18 +313,20 @@ export class EventHubReceiver {
     // is single threaded, we need a locking mechanism to ensure that a race condition does not happen while
     // creating a shared resource (in this case the cbs session, since we want to have exactly 1 cbs session
     // per connection).
-    debug(`Acquiring lock: ${this._context.cbsSession.cbsLock} for creating the cbs session while creating` +
-      ` the receiver: ${this.name}.`);
+    debug("Acquiring lock: '%s' for creating the cbs session while creating the receiver: ${this.name}.",
+      this._context.connectionId, this._context.cbsSession.cbsLock, this.name);
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
     await defaultLock.acquire(this._context.cbsSession.cbsLock, () => { return this._context.cbsSession.init(this._context.connection); });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
-    debug(`[${this._context.connectionId}] EH Receiver "${this.name}": calling negotiateClaim for audience "${this.audience}"`);
+    debug("[%s] EH Receiver '%s': calling negotiateClaim for audience '%s'.", this._context.connectionId, this.audience);
     // Acquire the lock to negotiate the CBS claim.
-    debug(`Acquiring lock: ${this._context.negotiateClaimLock} for cbs auth for receiver: ${this.name}.`);
+    debug("[%s] Acquiring lock: '%s' for cbs auth for receiver: '%s'.",
+      this._context.connectionId, this._context.negotiateClaimLock, this.name);
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
       return this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
     });
-    debug(`[${this._context.connectionId}] Negotiated claim for receiver "${this.name}" with with partition "${this.partitionId}"`);
+    debug("[%s] Negotiated claim for receiver '%s' with with partition '%s'",
+      this._context.connectionId, this.name, this.partitionId);
     if (setTokenRenewal) {
       await this._ensureTokenRenewal();
     }
@@ -344,10 +346,11 @@ export class EventHubReceiver {
         await this._negotiateClaim(true);
       } catch (err) {
         // TODO: May be add some retries over here before emitting the error.
-        debug("[%s] Receiver '%s', an error occurred while renewing the token: %O", this._context.connectionId, this.name, translate(err));
+        debug("[%s] Receiver '%s', an error occurred while renewing the token: %O",
+          this._context.connectionId, this.name, translate(err));
       }
     }, nextRenewalTimeout);
-    debug(`[${this._context.connectionId}] Receiver "${this.name}", has next token renewal in ${nextRenewalTimeout / 1000} seconds ` +
-      `@(${new Date(Date.now() + nextRenewalTimeout).toString()}).`);
+    debug("[%s]Receiver '%s', has next token renewal in %d seconds @(%s).", this._context.connectionId,
+      this.name, nextRenewalTimeout / 1000, new Date(Date.now() + nextRenewalTimeout).toString());
   }
 }

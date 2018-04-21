@@ -9,7 +9,7 @@ import { translate } from "./errors";
 import * as rheaPromise from "./rhea-promise";
 import * as Constants from "./util/constants";
 import { Func } from "./util/utils";
-const debug = debugModule("azure:event-hubs:peekreceiver");
+const debug = debugModule("azure:event-hubs:receiverbatching");
 
 
 /**
@@ -84,13 +84,13 @@ export class BatchingReceiver extends EventHubReceiver {
           this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
           this.runtimeInfo.retrievalTime = data.retrievalTime;
         }
-        return this.close().then(() => { resolve(eventDatas); });
+        resolve(eventDatas);
       };
 
       // Action to be performed after the max wait time is over.
       actionAfterWaitTimeout = () => {
         timeOver = true;
-        finalAction(timeOver);
+        return finalAction(timeOver);
       };
 
       // Action to be performed on the "message" event.
@@ -128,16 +128,26 @@ export class BatchingReceiver extends EventHubReceiver {
       if (!this._session && !this._receiver) {
         debug("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
         this.prefetchCount = 0;
-        this._init(onReceiveMessage, onReceiveError).then(() => {
-          return addCreditAndSetTimer();
-        }).catch((err) => {
-          reject(err);
-        });
+        this._init(onReceiveMessage, onReceiveError).then(() => addCreditAndSetTimer()).catch(reject);
       } else {
         addCreditAndSetTimer(true);
         this._receiver.on(Constants.message, onReceiveMessage);
         this._receiver.on(Constants.receiverError, onReceiveError);
       }
     });
+  }
+
+  /**
+   * Creates a batching receiver.
+   * @static
+   *
+   * @param {ConnectionContext} context    The connection context.
+   * @param {string | number} partitionId  The partitionId to receive events from.
+   * @param {ReceiveOptions} [options]     Receive options.
+   */
+  static create(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions): BatchingReceiver {
+    const bReceiver = new BatchingReceiver(context, partitionId, options);
+    context.receivers[bReceiver.name] = bReceiver;
+    return bReceiver;
   }
 }

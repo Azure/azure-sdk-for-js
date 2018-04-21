@@ -7,7 +7,7 @@ import { ReceiveOptions, OnMessage, OnError } from ".";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as Constants from "./util/constants";
-const debug = debugModule("azure:event-hubs:peekreceiver");
+const debug = debugModule("azure:event-hubs:receiverstreaming");
 
 export class ReceiveHandler {
   /**
@@ -103,5 +103,19 @@ export class StreamingReceiver extends EventHubReceiver {
       debug("[%s] Receiver '%s', set the prefetch count to 1000 and " +
         "providing a credit of the same amount.", this._context.connectionId, this.name);
     }
+  }
+
+  /**
+   * Creates a streaming receiver.
+   * @static
+   *
+   * @param {ConnectionContext} context    The connection context.
+   * @param {string | number} partitionId  The partitionId to receive events from.
+   * @param {ReceiveOptions} [options]     Receive options.
+   */
+  static create(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions): StreamingReceiver {
+    const sReceiver = new StreamingReceiver(context, partitionId, options);
+    context.receivers[sReceiver.name] = sReceiver;
+    return sReceiver;
   }
 }

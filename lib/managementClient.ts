@@ -103,7 +103,7 @@ export class ManagementClient {
       partitionIds: info.partition_ids,
       type: info.type
     };
-    debug(`[%s] The hub runtime info is.`, connection.options.id, runtimeInfo);
+    debug("[%s] The hub runtime info is: %O", connection.options.id, runtimeInfo);
     return runtimeInfo;
   }
 
@@ -138,7 +138,7 @@ export class ManagementClient {
       partitionId: info.partition,
       type: info.type
     };
-    debug(`[%s] The partition info is: ${partitionInfo}.`, connection.options.id);
+    debug("[%s] The partition info is: %O.", connection.options.id, partitionInfo);
     return partitionInfo;
   }
 
@@ -166,7 +166,8 @@ export class ManagementClient {
       const rxopt: rheaPromise.ReceiverOptions = { source: { address: endpoint }, name: replyTo, target: { address: replyTo } };
       debug("Creating a session for $management endpoint");
       this._mgmtReqResLink = await createRequestResponseLink(connection, { target: { address: endpoint } }, rxopt);
-      debug(`[${connection.options.id}] Created sender "${this._mgmtReqResLink.sender.name}" and receiver "${this._mgmtReqResLink.receiver.name}" links for $management endpoint.`);
+      debug("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
+        connection.options.id, this._mgmtReqResLink.sender.name, this._mgmtReqResLink.receiver.name);
     }
   }
 
@@ -200,7 +201,7 @@ export class ManagementClient {
       await defaultLock.acquire(this.managementLock, () => { return this._init(connection, endpoint, replyTo); });
       return sendRequest(connection, this._mgmtReqResLink!, request);
     } catch (err) {
-      debug(`An error occurred while making the request to $management endpoint: \n`, err);
+      debug("An error occurred while making the request to $management endpoint: %O", err);
       throw err;
     }
   }
