@@ -15,7 +15,6 @@ const rheaPromise = require("./rhea-promise");
 const uuid = require("uuid/v4");
 const Constants = require("./util/constants");
 const debugModule = require("debug");
-const errors_1 = require("./errors");
 const debug = debugModule("azure:event-hubs:cbs");
 /**
  * @class CbsClient
@@ -51,12 +50,10 @@ class CbsClient {
                     name: this.replyTo
                 };
                 this._cbsSenderReceiverLink = yield rpc_1.createRequestResponseLink(connection, { target: { address: this.endpoint } }, rxOpt);
-                debug(`[${connection.options.id}] Successfully created the cbs sender "${this._cbsSenderReceiverLink.sender.name}" ` +
-                    `and receiver "${this._cbsSenderReceiverLink.receiver.name}" links over cbs session.`);
+                debug("[%s] Successfully created the cbs sender '%s' and receiver '%s' links over cbs session.", connection.options.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
             }
             else {
-                debug(`[${connection.options.id}] CBS session is already present. Reusing the cbs sender ` +
-                    `"${this._cbsSenderReceiverLink.sender.name}" and receiver "${this._cbsSenderReceiverLink.receiver.name}" links over cbs session.`);
+                debug("[%s] CBS session is already present. Reusing the cbs sender '%s' and receiver '%s' links over cbs session.", connection.options.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
             }
         });
     }
@@ -69,54 +66,25 @@ class CbsClient {
      * and rejects when an error occurs during $cbs authentication.
      */
     negotiateClaim(audience, connection, tokenObject) {
-        return new Promise((resolve, reject) => {
+        return __awaiter(this, void 0, void 0, function* () {
             try {
                 const request = {
                     body: tokenObject.token,
-                    properties: {
-                        message_id: uuid(),
-                        reply_to: this.replyTo,
-                        to: this.endpoint,
-                    },
+                    message_id: uuid(),
+                    reply_to: this.replyTo,
+                    to: this.endpoint,
                     application_properties: {
                         operation: Constants.operationPutToken,
                         name: audience,
                         type: tokenObject.tokenType
                     }
                 };
-                const messageCallback = (result) => {
-                    // remove the event listener as this will be registered next time when someone makes a request.
-                    this._cbsSenderReceiverLink.receiver.removeListener(Constants.message, messageCallback);
-                    const code = result.message.application_properties[Constants.statusCode];
-                    const desc = result.message.application_properties[Constants.statusDescription];
-                    let errorCondition = result.message.application_properties[Constants.errorCondition];
-                    debug(`[${connection.options.id}] $cbs request: \n`, request);
-                    debug(`[${connection.options.id}] $cbs response: \n`, result.message);
-                    if (code > 199 && code < 300) {
-                        resolve();
-                    }
-                    else {
-                        // Try to map the status code to error condition
-                        if (!errorCondition) {
-                            errorCondition = errors_1.ConditionStatusMapper[code];
-                        }
-                        // If we still cannot find a suitable error condition then we default to "amqp:internal-error"
-                        if (!errorCondition) {
-                            errorCondition = "amqp:internal-error";
-                        }
-                        const e = {
-                            condition: errorCondition,
-                            description: desc
-                        };
-                        reject(errors_1.translate(e));
-                    }
-                };
-                this._cbsSenderReceiverLink.receiver.on(Constants.message, messageCallback);
-                this._cbsSenderReceiverLink.sender.send(request);
+                const response = yield rpc_1.sendRequest(connection, this._cbsSenderReceiverLink, request);
+                return response;
             }
             catch (err) {
-                debug(`[${connection.options.id}] An error occurred while negotating the cbs claim: \n`, err);
-                reject(err);
+                debug("[%s]An error occurred while negotating the cbs claim: %O", connection.options.id, err);
+                throw err;
             }
         });
     }
@@ -135,7 +103,7 @@ class CbsClient {
                 }
             }
             catch (err) {
-                const msg = `An error occurred while closing the cbs session: ${JSON.stringify(err)}`;
+                const msg = `An error occurred while closing the cbs session: ${JSON.stringify(err)} `;
                 debug(msg);
                 throw new Error(msg);
             }

@@ -1,4 +1,4 @@
-import { EventHubClient, aadEventHubsAudience } from "../lib";
+import { EventHubClient, aadEventHubsAudience, EventPosition } from "../lib";
 import * as msrestAzure from "ms-rest-azure";
 
 const endpoint = "ENDPOINT";
@@ -15,14 +15,10 @@ const domain = process.env[doma] || "";
 async function main(): Promise<void> {
   const credentials = await msrestAzure.loginWithServicePrincipalSecret(clientId, secret, domain, { tokenAudience: aadEventHubsAudience });
   const client = EventHubClient.createFromAadTokenCredentials(address, path, credentials);
-  const sender = await client.createSender("0");
-  const receiver = await client.createReceiver("0");
-  sender.send({ body: "Hello awesome world!!" });
-  receiver.on("message", (eventData: any) => {
-    console.log(">>> EventDataObject: ", eventData);
-    console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-  });
-  await sender.close();
+  await client.send({ body: "Hello awesome world!!" }, 0);
+  const datas = await client.receiveBatch("0", 2, 5, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+  console.log(">>> EventDataObjects: ", datas);
+  await client.close();
 }
 
 main().catch((err) => {

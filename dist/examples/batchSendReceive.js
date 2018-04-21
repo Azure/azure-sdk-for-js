@@ -17,16 +17,20 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const client = lib_1.EventHubClient.createFromConnectionString(str, path);
         console.log("Created EH client from connection string");
-        const sender = yield client.createSender("0");
         console.log("Created Sender for partition 0.");
-        const receiver = yield client.createReceiver("0", { eventPosition: lib_1.EventPosition.fromEnqueuedTime(Date.now()) });
-        receiver.on("message", (eventData) => {
+        let count = 0;
+        const onMessage = (eventData) => {
             console.log(">>> EventDataObject: ", eventData);
             console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-        });
-        receiver.on("error", (error) => {
-            console.log("Error occurred.. ", error);
-        });
+            count++;
+            if (count >= 5) {
+                client.close();
+            }
+        };
+        const onError = (err) => {
+            console.log(">>>>> Error occurred: ", err);
+        };
+        client.receiveOnMessage("0", onMessage, onError, { eventPosition: lib_1.EventPosition.fromEnqueuedTime(Date.now()) });
         console.log("Created Receiver for partition 0 and CG $default.");
         const messageCount = 5;
         let datas = [];
@@ -34,9 +38,9 @@ function main() {
             let obj = { body: `Hello foo ${i}` };
             datas.push(obj);
         }
-        yield sender.sendBatch(datas, 'pk1234656');
+        console.log("Sending batch message...");
+        yield client.sendBatch(datas, "0");
         console.log("message sent");
-        yield sender.close();
     });
 }
 main().catch((err) => {

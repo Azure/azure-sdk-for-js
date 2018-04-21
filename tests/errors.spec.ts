@@ -4,7 +4,7 @@
 import * as chai from "chai";
 chai.should();
 
-import { Errors } from "../lib";
+import * as Errors from "../lib/errors";
 
 class AMQPError {
   name = "AmqpProtocolError";

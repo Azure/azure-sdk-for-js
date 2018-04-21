@@ -1,4 +1,4 @@
-import { EventHubClient, EventData, EventPosition } from "../lib";
+import { EventHubClient, EventData, EventPosition, OnMessage, OnError, EventHubsError } from "../lib";
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
@@ -9,16 +9,20 @@ const path = process.env[entityPath] || "";
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
   console.log("Created EH client from connection string");
-  const sender = await client.createSender("0");
   console.log("Created Sender for partition 0.");
-  const receiver = await client.createReceiver("0", { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
-  receiver.on("message", (eventData: any) => {
+  let count = 0;
+  const onMessage: OnMessage = (eventData: any) => {
     console.log(">>> EventDataObject: ", eventData);
     console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-  });
-  receiver.on("error", (error) => {
-    console.log("Error occurred.. ", error);
-  });
+    count++;
+    if (count >= 5) {
+      client.close();
+    }
+  }
+  const onError: OnError = (err: EventHubsError | Error) => {
+    console.log(">>>>> Error occurred: ", err);
+  };
+  client.receiveOnMessage("0", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
   console.log("Created Receiver for partition 0 and CG $default.");
 
   const messageCount = 5;
@@ -27,10 +31,9 @@ async function main(): Promise<void> {
     let obj: EventData = { body: `Hello foo ${i}` };
     datas.push(obj);
   }
-
-  await sender.sendBatch(datas, 'pk1234656')
+  console.log("Sending batch message...");
+  await client.sendBatch(datas, "0");
   console.log("message sent");
-  await sender.close();
 }
 
 main().catch((err) => {

@@ -56,7 +56,7 @@ class EventHubSender extends events_1.EventEmitter {
     }
     /**
      * Initializes the sender session on the connection.
-     * @returns {Promoise<void>}
+     * @returns {Promise<void>}
      */
     async init() {
         try {
@@ -268,7 +268,7 @@ class EventHubSender extends events_1.EventEmitter {
         });
     }
     /**
-     * Ensures that the token is renewed within the predfiend renewal margin.
+     * Ensures that the token is renewed within the predefined renewal margin.
      * @private
      * @returns {void}
      */

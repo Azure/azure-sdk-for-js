@@ -1,4 +1,5 @@
-import { EventHubClient } from "../lib";
+import { EventHubClient, OnError, EventHubsError, OnMessage } from "../lib";
+import { delay } from "../lib/util/utils";
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
@@ -9,33 +10,30 @@ const path = process.env[entityPath] || "";
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
   console.log("Created EH client from connection string");
-  const receiver = await client.createReceiver("0", { epoch: 2 });
-  receiver.on("message", (eventData: any) => {
-    console.log("@@@@ receiver 1: ", receiver.name);
+  const onMessage: OnMessage = (eventData: any) => {
+    console.log("@@@@ receiver with epoch 2.");
     console.log(">>> EventDataObject: ", eventData);
     console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-  });
+  }
+  const onError: OnError = (err: EventHubsError | Error) => {
+    console.log("@@@@ receiver with epoch 2.");
+    console.log(">>>>> Error occurred for receiver with epoch 2: ", err);
+  };
+  client.receiveOnMessage("0", onMessage, onError, { epoch: 2 });
 
-  const receiver2 = await client.createReceiver("0", { epoch: 1 });
-  receiver2.on("message", (eventData: any) => {
-    console.log("@@@@ receiver 2: ", receiver2.name);
-    console.log(">>> EventDataObject 2: ", eventData);
-    console.log("### Actual message 2:", eventData.body ? eventData.body.toString() : null);
-  });
-  receiver2.on("receiver_error", (err: any) => {
-    console.log("From the sample");
-    console.log(err);
-  })
-
-  // console.log("%%%%%%%%%%% Waiting for receiver 2")
-  // setTimeout(async () => {
-  //   const receiver2 = await client.createReceiver("0", { epoch: 1 });
-  //   receiver2.on("message", (eventData: any) => {
-  //     console.log("@@@@ receiver 2: ", receiver2.name);
-  //     console.log(">>> EventDataObject 2: ", eventData);
-  //     console.log("### Actual message 2:", eventData.body ? eventData.body.toString() : null);
-  //   });
-  // }, 2000);
+  console.log("$$$$ Waiting for 8 seconds to let receiver 1 set up and start receiving messages...");
+  await delay(8000);
+  const onMessage2: OnMessage = (eventData: any) => {
+    console.log("@@@@ receiver with epoch 1.");
+    console.log(">>> EventDataObject: ", eventData);
+    console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
+  }
+  const onError2: OnError = (err: EventHubsError | Error) => {
+    console.log("@@@@ receiver with epoch 1.");
+    console.log(">>>>> Error occurred for receiver with epoch 1: ", err);
+  };
+  console.log("$$$$ Will start receiving messages from receiver with epoch value 1...");
+  client.receiveOnMessage("0", onMessage2, onError2, { epoch: 1 });
 }
 
 main().catch((err) => {

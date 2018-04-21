@@ -3,6 +3,7 @@
 
 import * as rhea from "rhea";
 import * as debugModule from "debug";
+import { AmqpMessage } from "..";
 
 const debug = debugModule("rhea-promise");
 
@@ -242,7 +243,9 @@ export function closeSender(sender: any): Promise<void> {
 }
 
 /**
- * Creates an amqp receiver on the provided amqp session.
+ * Creates an amqp receiver on the provided amqp session. This method should be used when you will be
+ * sending a request and waiting for a response from the service. For example: This method is useful
+ * while creating request/response links for $management or $cbs endpoint.
  * @param {Session} session The amqp session object on which the receiver link needs to be established.
  * @param {ReceiverOptions} [options] Options that can be provided while creating an amqp receiver.
  * @return {Promise<Receiver>} Promise<Receiver>
@@ -258,6 +261,60 @@ export function createReceiver(session: any, options?: ReceiverOptions): Promise
   return new Promise((resolve, reject) => {
     const receiver = session.attach_receiver(options);
 
+    function removeListeners(receiver: any): void {
+      receiver.removeListener("receiver_open", onOpen);
+      receiver.removeListener("receiver_close", onClose);
+    }
+
+    function onOpen(context: any): void {
+      removeListeners(receiver);
+      process.nextTick(() => {
+        debug(`Resolving the promise with amqp receiver "${receiver.name}".`);
+        resolve(receiver);
+      });
+    }
+
+    function onClose(context: Context): void {
+      removeListeners(receiver);
+      debug(`Error occurred while creating a receiver over amqp connection.`, context.receiver.error);
+      reject(context.receiver.error);
+    }
+
+    receiver.once("receiver_open", onOpen);
+    receiver.once("receiver_close", onClose);
+  });
+}
+
+/**
+ * Creates an amqp receiver with provided message and error event handlers on the provided amqp session.
+ * This method should be used when you want to ensure that no messages are lost. For example: This method
+ * is useful for creating EventHub Receivers where you want to start receiving ASAP.
+ * @param {Session} session The amqp session object on which the receiver link needs to be established.
+ * @param {OnAmqpEvent} onMessage The event handler for the "message" event for the receiver.
+ * @param {OnAmqpEvent} onError The event handler for the "error" event for the receiver.
+ * @param {ReceiverOptions} [options] Options that can be provided while creating an amqp receiver.
+ * @return {Promise<Receiver>} Promise<Receiver>
+ * - **Resolves** the promise with the Receiver object when rhea emits the "receiver_open" event.
+ * - **Rejects** the promise with an AmqpError when rhea emits the "receiver_close" event while trying
+ * to create an amqp receiver.
+ */
+export function createReceiverWithHandlers(session: any, onMessage: OnAmqpEvent, onError: OnAmqpEvent, options?: ReceiverOptions): Promise<any> {
+  if (!session || (session && typeof session !== "object")) {
+    throw new Error("session is a required parameter and must be of type 'object'.");
+  }
+
+  if (!onMessage || (onMessage && typeof onMessage !== "function")) {
+    throw new Error("onMessage is a required parameter and must be of type 'function'.");
+  }
+
+  if (!onError || (onError && typeof onError !== "function")) {
+    throw new Error("onError is a required parameter and must be of type 'function'.");
+  }
+
+  return new Promise((resolve, reject) => {
+    const receiver = session.attach_receiver(options);
+    receiver.on("message", onMessage);
+    receiver.on("receiver_error", onError);
     function removeListeners(receiver: any): void {
       receiver.removeListener("receiver_open", onOpen);
       receiver.removeListener("receiver_close", onClose);
@@ -319,6 +376,13 @@ export function closeReceiver(receiver: any): Promise<void> {
     }
   });
 }
+
+/**
+ * Describes the signature of the event handler for any event emitted by rhea.
+ * @type OnAmqpEvent
+ * @param {Context} context The rhea context.
+ */
+export type OnAmqpEvent = (context: Context) => void;
 
 /**
  * Defines the common set of properties that are applicable for a connection, session and a link (sender, receiver).
@@ -563,7 +627,7 @@ export interface Context {
    * @property {AmqpMessage} [message] The amqp message that is received in the message event
    * handler when rhea emits a message event on a receiver.
    */
-  message?: any;
+  message?: AmqpMessage;
   /**
    * @property {Receiver} [receiver] The amqp receiver link that was created on the amqp connection.
    */
