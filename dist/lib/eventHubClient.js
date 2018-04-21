@@ -10,17 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const os = require("os");
-const process = require("process");
 const debugModule = require("debug");
-const rheaPromise = require("./rhea-promise");
-const Constants = require("./util/constants");
+const rhea_promise_1 = require("./rhea-promise");
 const ms_rest_azure_1 = require("ms-rest-azure");
 const _1 = require(".");
-const sas_1 = require("./auth/sas");
+const rpc = require("./rpc");
+const connectionContext_1 = require("./connectionContext");
 const aad_1 = require("./auth/aad");
-const managementClient_1 = require("./managementClient");
-const cbs_1 = require("./cbs");
+const eventHubSender_1 = require("./eventHubSender");
+const streamingReceiver_1 = require("./streamingReceiver");
+const batchingReceiver_1 = require("./batchingReceiver");
 const debug = debugModule("azure:event-hubs:client");
 /**
  * @class EventHubClient
@@ -36,19 +35,7 @@ class EventHubClient {
      * Default value: SasTokenProvider.
      */
     constructor(config, tokenProvider) {
-        this.userAgent = "/js-event-hubs";
-        _1.ConnectionConfig.validate(config);
-        if (!tokenProvider) {
-            tokenProvider = new sas_1.SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey);
-        }
-        this._context = {
-            config: config,
-            tokenProvider: tokenProvider,
-            cbsSession: new cbs_1.CbsClient(),
-            managementSession: new managementClient_1.ManagementClient(config.entityPath),
-            senders: {},
-            receivers: {}
-        };
+        this._context = connectionContext_1.ConnectionContext.create(config, tokenProvider);
     }
     /**
      * Closes the AMQP connection to the Event Hub for this client,
@@ -72,8 +59,8 @@ class EventHubClient {
                     yield this._context.cbsSession.close();
                     // Close the management session
                     yield this._context.managementSession.close();
-                    yield rheaPromise.closeConnection(this._context.connection);
-                    debug(`Closed the amqp connection "${this._context.connectionId}" on the client.`);
+                    yield rhea_promise_1.closeConnection(this._context.connection);
+                    debug("Closed the amqp connection '%s' on the client.", this._context.connectionId);
                     this._context.connection = undefined;
                 }
             }
@@ -85,36 +72,51 @@ class EventHubClient {
         });
     }
     /**
-     * Creates a sender to the given event hub, and optionally to a given partition.
-     * @method createSender
-     * @param {(string|number)} [partitionId] Partition ID to which it will send event data.
-     * @returns {Promise<EventHubSender>}
+     * Sends the given message to the EventHub.
+     *
+     * @method send
+     * @param {any} data                    Message to send.  Will be sent as UTF8-encoded JSON string.
+     * @param {string|number} [partitionId] Partition ID to which the event data needs to be sent. This should only be specified
+     * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
+     * fashion amongst the different partitions in the EventHub.
+     *
+     * @returns {Promise<Delivery>} Promise<rheaPromise.Delivery>
      */
-    createSender(partitionId) {
+    send(data, partitionId) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number") {
-                throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-            }
-            try {
-                // Establish the amqp connection if it does not exist.
-                yield this._open();
-                const ehSender = new _1.EventHubSender(this._context, partitionId);
-                // Initialize the sender.
-                yield ehSender.init();
-                this._context.senders[ehSender.name] = ehSender;
-                return ehSender;
-            }
-            catch (err) {
-                debug("An error occurred while creating the sender: %O", err);
-                throw (err);
-            }
+            const sender = eventHubSender_1.EventHubSender.create(this._context, partitionId);
+            return yield sender.send(data);
         });
     }
     /**
-     * Creates a new receiver that will receive event data from the EventHub.
-     * @method createReceiver
+     * Send a batch of EventData to the EventHub. The "message_annotations", "application_properties" and "properties"
+     * of the first message will be set as that of the envelope (batch message).
+     *
+     * @method sendBatch
+     * @param {Array<EventData>} datas  An array of EventData objects to be sent in a Batch message.
+     * @param {string|number} [partitionId] Partition ID to which the event data needs to be sent. This should only be specified
+     * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
+     * fashion amongst the different partitions in the EventHub.
+     *
+     * @return {Promise<rheaPromise.Delivery>} Promise<rheaPromise.Delivery>
+     */
+    sendBatch(datas, partitionId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sender = eventHubSender_1.EventHubSender.create(this._context, partitionId);
+            return yield sender.sendBatch(datas);
+        });
+    }
+    /**
+     * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
+     * the provided onMessage handler and error will be passes to the provided onError handler.
+     *
      * @param {string|number} partitionId                        Partition ID from which to receive.
+     * @param {OnMessage} onMessage                              The message handler to receive event data objects.
+     * @param {OnError} onError                                  The error handler to receive an error that occurs
+     * while receiving messages.
      * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
+     * @param {string} [name]                                    The name of the receiver. If not provided
+     * then we will set a GUID by default.
      * @param {string} [options.consumerGroup]                   Consumer group from which to receive.
      * @param {number} [options.prefetchCount]                   The upper limit of events this receiver will
      * actively receive regardless of whether a receive operation is pending.
@@ -126,25 +128,68 @@ class EventHubClient {
      * where the receiver should start receiving. Only one of offset, sequenceNumber, enqueuedTime, customFilter can be specified.
      * `EventPosition.withCustomFilter()` should be used if you want more fine-grained control of the filtering.
      * See https://github.com/Azure/amqpnetlite/wiki/Azure%20Service%20Bus%20Event%20Hubs for details.
+     *
+     * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
      */
-    createReceiver(partitionId, options) {
+    receiveOnMessage(partitionId, onMessage, onError, options) {
+        if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
+            throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
+        }
+        const sReceiver = streamingReceiver_1.StreamingReceiver.create(this._context, partitionId, options);
+        this._context.receivers[sReceiver.name] = sReceiver;
+        sReceiver.receiveOnMessage(onMessage, onError);
+        return new streamingReceiver_1.ReceiveHandler(sReceiver);
+    }
+    /**
+     * Receives a batch of EventData objects from an EventHub partition for a given count and a given max wait time in seconds, whichever
+     * happens first. This method can be used directly after creating the receiver object and **MUST NOT** be used along with the `start()` method.
+     *
+     * @param {string|number} partitionId                        Partition ID from which to receive.
+     * @param {number} maxMessageCount                           The maximum message count. Must be a value greater than 0.
+     * @param {number} [maxWaitTimeInSeconds]                    The maximum wait time in seconds for which the Receiver should wait
+     * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
+     * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
+     * @param {string} [name]                                    The name of the receiver. If not provided
+     * then we will set a GUID by default.
+     * @param {string} [options.consumerGroup]                   Consumer group from which to receive.
+     * @param {number} [options.prefetchCount]                   The upper limit of events this receiver will
+     * actively receive regardless of whether a receive operation is pending.
+     * @param {boolean} [options.enableReceiverRuntimeMetric]    Provides the approximate receiver runtime information
+     * for a logical partition of an Event Hub if the value is true. Default false.
+     * @param {number} [options.epoch]                           The epoch value that this receiver is currently
+     * using for partition ownership. A value of undefined means this receiver is not an epoch-based receiver.
+     * @param {EventPosition} [options.eventPosition]            The position of EventData in the EventHub parition from
+     * where the receiver should start receiving. Only one of offset, sequenceNumber, enqueuedTime, customFilter can be specified.
+     * `EventPosition.withCustomFilter()` should be used if you want more fine-grained control of the filtering.
+     * See https://github.com/Azure/amqpnetlite/wiki/Azure%20Service%20Bus%20Event%20Hubs for details.
+     *
+     * @returns {Promise<EventData[]>} A promise that resolves with an array of EventData objects.
+     */
+    receiveBatch(partitionId, maxMessageCount, maxWaitTimeInSeconds, options) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
                 throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
             }
+            const bReceiver = batchingReceiver_1.BatchingReceiver.create(this._context, partitionId, options);
+            let error;
+            let result = [];
             try {
-                // Establish the amqp connection if it does not exist.
-                yield this._open();
-                const ehReceiver = new _1.EventHubReceiver(this._context, partitionId, options);
-                // Initialize the receiver.
-                yield ehReceiver.init();
-                this._context.receivers[ehReceiver.name] = ehReceiver;
-                return ehReceiver;
+                result = yield bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
             }
             catch (err) {
-                debug("An error occurred while creating the receiver: %O", err);
-                throw (err);
+                error = err;
+                debug("[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O", this._context.connectionId, bReceiver.name, maxMessageCount, maxWaitTimeInSeconds, err);
             }
+            try {
+                yield bReceiver.close();
+            }
+            catch (err) {
+                // do nothing about it.
+            }
+            if (error) {
+                throw error;
+            }
+            return result;
         });
     }
     /**
@@ -155,12 +200,12 @@ class EventHubClient {
     getHubRuntimeInformation() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this._open();
+                yield rpc.open(this._context);
                 return yield this._context.managementSession.getHubRuntimeInformation(this._context.connection);
             }
             catch (err) {
                 debug("An error occurred while getting the hub runtime information: %O", err);
-                throw (err);
+                throw err;
             }
         });
     }
@@ -177,7 +222,7 @@ class EventHubClient {
             }
             catch (err) {
                 debug("An error occurred while getting the partition ids: %O", err);
-                throw (err);
+                throw err;
             }
         });
     }
@@ -192,52 +237,12 @@ class EventHubClient {
                 throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
             }
             try {
-                yield this._open();
+                yield rpc.open(this._context);
                 return yield this._context.managementSession.getPartitionInformation(this._context.connection, partitionId);
             }
             catch (err) {
                 debug("An error occurred while getting the partition information: %O", err);
-                throw (err);
-            }
-        });
-    }
-    /**
-     * Opens the AMQP connection to the Event Hub for this client, returning a promise
-     * that will be resolved when the connection is completed.
-     * @method open
-     *
-     * @param {boolean} [useSaslPlain] - True for using sasl plain mode for authentication, false otherwise.
-     * @returns {Promise<void>}
-     */
-    _open(useSaslPlain) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (useSaslPlain && typeof useSaslPlain !== "boolean") {
-                throw new Error("'useSaslPlain' must be of type 'boolean'.");
-            }
-            if (!this._context.connection) {
-                const connectOptions = {
-                    transport: Constants.TLS,
-                    host: this._context.config.host,
-                    hostname: this._context.config.host,
-                    username: this._context.config.sharedAccessKeyName,
-                    port: 5671,
-                    reconnect_limit: Constants.reconnectLimit,
-                    properties: {
-                        product: "MSJSClient",
-                        version: Constants.packageJsonInfo.version || "0.1.0",
-                        platform: `(${os.arch()}-${os.type()}-${os.release()})`,
-                        framework: `Node/${process.version}`,
-                        "user-agent": this.userAgent
-                    }
-                };
-                if (useSaslPlain) {
-                    connectOptions.password = this._context.config.sharedAccessKey;
-                }
-                debug(`Dialing the amqp connection with options.`, connectOptions);
-                this._context.connection = yield rheaPromise.connect(connectOptions);
-                this._context.connectionId = this._context.connection.options.id;
-                this.connectionId = this._context.connectionId;
-                debug(`Successfully established the amqp connection "${this._context.connectionId}".`);
+                throw err;
             }
         });
     }

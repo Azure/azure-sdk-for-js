@@ -59,7 +59,7 @@ export async function handler(argv: any): Promise<void> {
     if (duration) {
       console.log(">>>>>>>>>>>> Performance benchmark mode. <<<<<<<<<<<<<<<<");
       console.log("Will be sending messages by default to partition '0' or to a partition you specify via the -p switch.");
-      sender = await client.createSender(partitionId || "0");
+      sender = client.createSender(partitionId || "0");
       console.log(`Created Sender - "${sender.name}".`);
       let counter = 0;
       console.log("Will be sending messages for %d seconds.", duration);
@@ -78,13 +78,13 @@ export async function handler(argv: any): Promise<void> {
         datas.push(obj);
         count++;
       }
-      sender = await client.createSender(partitionId);
+      sender = client.createSender(partitionId);
       console.log(`Created Sender - "${sender.name}".`);
       console.log(`Created a batch message where ${datas.length} messages are grouped together and the size of each message is: ${msgBody.length}.`);
-      sender.sendBatch(datas);
+      await sender.sendBatch(datas);
       console.log("[Sender - %s] Number of messages sent in a batch: ", sender.name, count);
     } else {
-      sender = await client.createSender(partitionId);
+      sender = client.createSender(partitionId);
       console.log(`Created Sender - "${sender.name}".`);
       console.log(`Created the message of specified size: ${msgBody.length}.`);
       await sender.send({ body: obj });
