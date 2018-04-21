@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const lib_1 = require("../lib");
+const utils_1 = require("../lib/util/utils");
 const connectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
 const str = process.env[connectionString] || "";
@@ -17,31 +18,29 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const client = lib_1.EventHubClient.createFromConnectionString(str, path);
         console.log("Created EH client from connection string");
-        const receiver = yield client.createReceiver("0", { epoch: 2 });
-        receiver.on("message", (eventData) => {
-            console.log("@@@@ receiver 1: ", receiver.name);
+        const onMessage = (eventData) => {
+            console.log("@@@@ receiver with epoch 2.");
             console.log(">>> EventDataObject: ", eventData);
             console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-        });
-        const receiver2 = yield client.createReceiver("0", { epoch: 1 });
-        receiver2.on("message", (eventData) => {
-            console.log("@@@@ receiver 2: ", receiver2.name);
-            console.log(">>> EventDataObject 2: ", eventData);
-            console.log("### Actual message 2:", eventData.body ? eventData.body.toString() : null);
-        });
-        receiver2.on("receiver_error", (err) => {
-            console.log("From the sample");
-            console.log(err);
-        });
-        // console.log("%%%%%%%%%%% Waiting for receiver 2")
-        // setTimeout(async () => {
-        //   const receiver2 = await client.createReceiver("0", { epoch: 1 });
-        //   receiver2.on("message", (eventData: any) => {
-        //     console.log("@@@@ receiver 2: ", receiver2.name);
-        //     console.log(">>> EventDataObject 2: ", eventData);
-        //     console.log("### Actual message 2:", eventData.body ? eventData.body.toString() : null);
-        //   });
-        // }, 2000);
+        };
+        const onError = (err) => {
+            console.log("@@@@ receiver with epoch 2.");
+            console.log(">>>>> Error occurred for receiver with epoch 2: ", err);
+        };
+        client.receiveOnMessage("0", onMessage, onError, { epoch: 2 });
+        console.log("$$$$ Waiting for 8 seconds to let receiver 1 set up and start receiving messages...");
+        yield utils_1.delay(8000);
+        const onMessage2 = (eventData) => {
+            console.log("@@@@ receiver with epoch 1.");
+            console.log(">>> EventDataObject: ", eventData);
+            console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
+        };
+        const onError2 = (err) => {
+            console.log("@@@@ receiver with epoch 1.");
+            console.log(">>>>> Error occurred for receiver with epoch 1: ", err);
+        };
+        console.log("$$$$ Will start receiving messages from receiver with epoch value 1...");
+        client.receiveOnMessage("0", onMessage2, onError2, { epoch: 1 });
     });
 }
 main().catch((err) => {

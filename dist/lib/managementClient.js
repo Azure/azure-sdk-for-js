@@ -15,7 +15,6 @@ const rheaPromise = require("./rhea-promise");
 const Constants = require("./util/constants");
 const debugModule = require("debug");
 const rpc_1 = require("./rpc");
-const errors_1 = require("./errors");
 const utils_1 = require("./util/utils");
 const Buffer = require("buffer/").Buffer;
 const debug = debugModule("azure:event-hubs:management");
@@ -51,7 +50,7 @@ class ManagementClient {
                 partitionIds: info.partition_ids,
                 type: info.type
             };
-            debug(`[%s] The hub runtime info is.`, connection.options.id, runtimeInfo);
+            debug("[%s] The hub runtime info is: %O", connection.options.id, runtimeInfo);
             return runtimeInfo;
         });
     }
@@ -88,7 +87,7 @@ class ManagementClient {
                 partitionId: info.partition,
                 type: info.type
             };
-            debug(`[%s] The partition info is: ${partitionInfo}.`, connection.options.id);
+            debug("[%s] The partition info is: %O.", connection.options.id, partitionInfo);
             return partitionInfo;
         });
     }
@@ -119,7 +118,7 @@ class ManagementClient {
                 const rxopt = { source: { address: endpoint }, name: replyTo, target: { address: replyTo } };
                 debug("Creating a session for $management endpoint");
                 this._mgmtReqResLink = yield rpc_1.createRequestResponseLink(connection, { target: { address: endpoint } }, rxopt);
-                debug(`[${connection.options.id}] Created sender "${this._mgmtReqResLink.sender.name}" and receiver "${this._mgmtReqResLink.receiver.name}" links for $management endpoint.`);
+                debug("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.", connection.options.id, this._mgmtReqResLink.sender.name, this._mgmtReqResLink.receiver.name);
             }
         });
     }
@@ -140,10 +139,8 @@ class ManagementClient {
                 const replyTo = uuid();
                 const request = {
                     body: Buffer.from(JSON.stringify([])),
-                    properties: {
-                        message_id: uuid(),
-                        reply_to: replyTo
-                    },
+                    message_id: uuid(),
+                    reply_to: replyTo,
                     application_properties: {
                         operation: Constants.readOperation,
                         name: this.entityPath,
@@ -154,33 +151,10 @@ class ManagementClient {
                     request.application_properties.partition = partitionId;
                 }
                 yield utils_1.defaultLock.acquire(this.managementLock, () => { return this._init(connection, endpoint, replyTo); });
-                return new Promise((resolve, reject) => {
-                    // TODO: Handle timeout incase SB/EH does not send a response.
-                    const messageCallback = ({ message, delivery }) => {
-                        // remove the event listener as this will be registered next time when someone makes a request.
-                        this._mgmtReqResLink.receiver.removeListener(Constants.message, messageCallback);
-                        const code = message.application_properties[Constants.statusCode];
-                        const desc = message.application_properties[Constants.statusDescription];
-                        debug(`[${connection.options.id}] $management request: \n`, request);
-                        debug(`[${connection.options.id}] $management response: \n`, message);
-                        if (code === rheaPromise.AmqpResponseStatusCode.OK || code === rheaPromise.AmqpResponseStatusCode.Accepted) {
-                            return resolve(message.body);
-                        }
-                        else {
-                            const condition = errors_1.ConditionStatusMapper[code] || "amqp:internal-error";
-                            const e = {
-                                condition: condition,
-                                description: desc
-                            };
-                            return reject(errors_1.translate(e));
-                        }
-                    };
-                    this._mgmtReqResLink.receiver.on(Constants.message, messageCallback);
-                    this._mgmtReqResLink.sender.send(request);
-                });
+                return rpc_1.sendRequest(connection, this._mgmtReqResLink, request);
             }
             catch (err) {
-                debug(`An error occurred while making the request to $management endpoint: \n`, err);
+                debug("An error occurred while making the request to $management endpoint: %O", err);
                 throw err;
             }
         });

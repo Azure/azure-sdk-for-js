@@ -3,6 +3,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 Object.defineProperty(exports, "__esModule", { value: true });
 const Constants = require("./util/constants");
+const errors_1 = require("./errors");
 const _1 = require(".");
 /**
  * Represents options can be set during the creation of a event hub receiver.
@@ -49,7 +50,7 @@ class EventPosition {
             result = this.customFilter;
         }
         if (!result) {
-            throw _1.Errors.translate({ condition: _1.Errors.ErrorNameConditionMapper.ArgumentError, description: "No starting position was set in the EventPosition." });
+            throw errors_1.translate({ condition: _1.ErrorNameConditionMapper.ArgumentError, description: "No starting position was set in the EventPosition." });
         }
         return result;
     }
