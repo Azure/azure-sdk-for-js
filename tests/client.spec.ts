@@ -7,7 +7,7 @@ import * as chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { EventHubReceiver, EventHubSender, EventHubClient, EventHubPartitionRuntimeInformation } from "../lib";
+import { EventHubClient, EventHubPartitionRuntimeInformation } from "../lib";
 import { delay } from "../lib/util/utils";
 
 function testFalsyValues(testFn) {
@@ -98,27 +98,6 @@ describe("EventHubClient on ", function () {
     });
   });
 
-  describe("createSender", function () {
-    const ids = [0, "0", "1"];
-    ids.forEach(function (partitionId) {
-      it("returns a Sender when partitionId is " + partitionId, async function () {
-        client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
-        const sender = client.createSender(partitionId);
-        sender.should.be.an.instanceof(EventHubSender);
-        should.exist(sender.name!);
-        sender.partitionId!.should.equal(partitionId);
-      });
-    });
-  });
-
-  describe("createReceiver", function () {
-    it("returns a Receiver", async function () {
-      client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
-      const receiver = client.createReceiver("0");
-      should.equal(true, receiver instanceof EventHubReceiver);
-    });
-  });
-
   describe("non existent eventhub", function () {
     it("should throw MessagingEntityNotFoundError while getting hub runtime info", async function () {
       try {
@@ -143,8 +122,7 @@ describe("EventHubClient on ", function () {
     it("should throw MessagingEntityNotFoundError while creating a sender", async function () {
       try {
         client = EventHubClient.createFromConnectionString(service.connectionString!, "bad" + Math.random());
-        const sender = client.createSender("0");
-        await sender.send({ body: "Hello World" });
+        await client.send({ body: "Hello World" }, "0");
       } catch (err) {
         debug(err);
         should.equal(err.name, "MessagingEntityNotFoundError");
@@ -154,8 +132,7 @@ describe("EventHubClient on ", function () {
     it("should throw MessagingEntityNotFoundError while creating a receiver", async function () {
       try {
         client = EventHubClient.createFromConnectionString(service.connectionString!, "bad" + Math.random());
-        const receiver = client.createReceiver("0");
-        await receiver.receive(10, 5);
+        await client.receiveBatch("0", 10, 5);
       } catch (err) {
         debug(err);
         should.equal(err.name, "MessagingEntityNotFoundError");
@@ -168,8 +145,6 @@ describe("EventHubClient on ", function () {
       try {
         client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
         debug(">>>>>>>> client created.");
-        let receiver = client.createReceiver("0", { consumerGroup: "some-randome-name" });
-        debug(">>>>>>>> receiver created.", receiver.name!);
         const onMessage = (data) => {
           debug(">>>>> data: ", data);
         };
@@ -177,7 +152,7 @@ describe("EventHubClient on ", function () {
           debug(">>>>>>>> error occurred", error);
           done(should.equal(error.name, "MessagingEntityNotFoundError"));
         }
-        receiver.start(onMessage, onError);
+        client.receiveOnMessage("0", onMessage, onError, { consumerGroup: "some-randome-name" });
         debug(">>>>>>>> attached the error handler on the receiver...");
       } catch (err) {
         debug(">>> Some error", err);

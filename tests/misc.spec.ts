@@ -7,14 +7,14 @@ import * as chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
-import { EventPosition, EventHubClient, EventHubReceiver, EventData, EventHubRuntimeInformation, EventHubSender } from "../lib";
+import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation } from "../lib";
+import { BatchingReceiver } from "../lib/batchingReceiver";
 
 describe("Misc tests", function () {
-  this.timeout(600000);
+  this.timeout(60000);
   const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
   let client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
-  let receiver: EventHubReceiver;
-  let sender: EventHubSender;
+  let breceiver: BatchingReceiver;
   let hubInfo: EventHubRuntimeInformation;
   before("validate environment", async function () {
     should.exist(process.env.EVENTHUB_CONNECTION_STRING,
@@ -28,17 +28,6 @@ describe("Misc tests", function () {
     await client.close();
   });
 
-  afterEach("close the sender link", async function () {
-    if (sender) {
-      await sender.close();
-      debug("Sender closed.");
-    }
-    if (receiver) {
-      await receiver.close();
-      debug("Receiver closed.");
-    }
-  });
-
   it("should be able to send and receive a large message correctly", async function () {
     const bodysize = 220 * 1024;
     const partitionId = hubInfo.partitionIds[0];
@@ -46,11 +35,12 @@ describe("Misc tests", function () {
     const msgBody = Buffer.from(msgString);
     const obj: EventData = { body: msgBody };
     debug("Sending one message with %d bytes.", bodysize);
-    receiver = client.createReceiver(partitionId, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
-    sender = client.createSender(partitionId);
-    await sender.send(obj);
+    breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+    let datas = await breceiver.receive(5, 5);
+    datas.length.should.equal(0);
+    await client.send(obj, partitionId);
     debug("Successfully sent the large message.");
-    let datas = await receiver.receive(10, 10);
+    datas = await breceiver.receive(5, 10);
     debug("received message: ", datas);
     should.exist(datas);
     datas.length.should.equal(1);
@@ -60,18 +50,20 @@ describe("Misc tests", function () {
   it("should be able to send and receive batched messages correctly", async function () {
     try {
       const partitionId = hubInfo.partitionIds[0];
-      receiver = client.createReceiver(partitionId, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
-      sender = client.createSender(partitionId);
+      breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+      let datas = await breceiver.receive(5, 10);
+      datas.length.should.equal(0);
       const messageCount = 5;
       let d: EventData[] = [];
       for (let i = 0; i < messageCount; i++) {
         let obj: EventData = { body: `Hello EH ${i}` };
         d.push(obj);
       }
+      d[0].partitionKey = 'pk1234656';
 
-      await sender.sendBatch(d, 'pk1234656');
+      await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      let datas = await receiver.receive(5, 10);
+      datas = await breceiver.receive(5, 10);
       debug("received message: ", datas);
       should.exist(datas);
       datas.length.should.equal(5);
@@ -95,17 +87,15 @@ describe("Misc tests", function () {
     function getRandomInt(max) {
       return Math.floor(Math.random() * Math.floor(max));
     }
-    sender = client.createSender();
     for (let i = 0; i < msgToSendCount; i++) {
       const partitionKey = getRandomInt(10);
-      await sender.send({ body: "Hello EventHub " + i }, partitionKey.toString());
+      await client.send({ body: "Hello EventHub " + i, partitionKey: partitionKey.toString() });
     }
     debug("Starting to receive all messages from each partition.");
     let partitionMap = {};
     let totalReceived = 0;
     for (let id of partitionIds) {
-      receiver = client.createReceiver(id, { eventPosition: EventPosition.fromOffset(partitionOffsets[id]) });
-      let datas = await receiver.receive(50, 10);
+      let datas = await client.receiveBatch(id, 50, 10, { eventPosition: EventPosition.fromOffset(partitionOffsets[id]) });
       debug(`Received ${datas.length} messages from partition ${id}.`);
       for (let d of datas) {
         debug(">>>> _raw_amqp_mesage: ", d._raw_amqp_mesage)
