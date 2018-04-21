@@ -26,7 +26,7 @@ const applicationProperties = {
 const testMessage: AmqpMessage = {
   body: testBody,
   message_annotations: testAnnotations,
-  properties: messageProperties,
+  message_id: "test_id",
   application_properties: applicationProperties
 };
 const testEventData = EventData.fromAmqpMessage(testMessage);
@@ -43,7 +43,7 @@ describe("EventData", function () {
     });
 
     it("populates the properties with the message properties", function () {
-      testEventData.properties!.should.equal(messageProperties);
+      testEventData.properties.message_id!.should.equal(messageProperties.message_id);
     });
 
     it("populates the application properties with the message application properties", function () {
@@ -65,7 +65,7 @@ describe("EventData", function () {
     });
 
     it("populates properties with the message properties", function () {
-      messageFromED.properties!.should.equal(messageProperties);
+      messageFromED.message_id!.should.equal(messageProperties.message_id);
     });
 
     it("populates application_properties of the message", function () {

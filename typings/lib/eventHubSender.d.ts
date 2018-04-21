@@ -1,8 +1,8 @@
 /// <reference types="node" />
 import * as rheaPromise from "./rhea-promise";
 import { EventEmitter } from "events";
-import { EventData } from ".";
-import { ConnectionContext } from "./eventHubClient";
+import { EventData } from "./eventData";
+import { ConnectionContext } from "./connectionContext";
 /**
  * Instantiates a new sender from the AMQP `Sender`. Used by `EventHubClient`.
  *
@@ -31,6 +31,7 @@ export declare class EventHubSender extends EventEmitter {
      * - "sb://<yournamespace>.servicebus.windows.net/<hubName>/Partitions/<partitionId>".
      */
     audience: string;
+    readonly senderLock: string;
     /**
      * @property {ConnectionContext} _context Provides relevant information about the amqp connection,
      * cbs and $management sessions, token provider, sender and receivers.
@@ -61,26 +62,20 @@ export declare class EventHubSender extends EventEmitter {
      */
     constructor(context: ConnectionContext, partitionId?: string | number, name?: string);
     /**
-     * Initializes the sender session on the connection.
-     * @returns {Promoise<void>}
-     */
-    init(): Promise<void>;
-    /**
      * Sends the given message, with the given options on this link
      *
      * @method send
      * @param {any} data               Message to send.  Will be sent as UTF8-encoded JSON string.
-     * @param {string} [partitionKey]  Partition key - sent as x-opt-partition-key, and will hash to a partitionId.
      * @returns {Promise<rheaPromise.Delivery>} Promise<rheaPromise.Delivery>
      */
-    send(data: EventData, partitionKey?: string): Promise<rheaPromise.Delivery>;
+    send(data: EventData): Promise<rheaPromise.Delivery>;
     /**
-     * Send a batch of EventData to the EventHub.
+     * Send a batch of EventData to the EventHub. The "message_annotations", "application_properties" and "properties"
+     * of the first message will be set as that of the envelope (batch message).
      * @param {Array<EventData>} datas  An array of EventData objects to be sent in a Batch message.
-     * @param {string} [partitionKey]   Partition key - sent as x-opt-partition-key, and will hash to a partitionId.
      * @return {Promise<rheaPromise.Delivery>} Promise<rheaPromise.Delivery>
      */
-    sendBatch(datas: EventData[], partitionKey?: string): Promise<rheaPromise.Delivery>;
+    sendBatch(datas: EventData[]): Promise<rheaPromise.Delivery>;
     /**
      * "Unlink" this sender, closing the link and resolving when that operation is complete.
      * Leaves the underlying connection/session open.
@@ -88,6 +83,7 @@ export declare class EventHubSender extends EventEmitter {
      * @return {Promise<void>} Promise<void>
      */
     close(): Promise<void>;
+    private _createSenderOptions();
     /**
      * Tries to send the message to EventHub if there is enough credit to send them
      * and the circular buffer has available space to settle the message after sending them.
@@ -100,9 +96,29 @@ export declare class EventHubSender extends EventEmitter {
      */
     private _trySend(message, tag?, format?);
     /**
-     * Ensures that the token is renewed within the predfiend renewal margin.
+     * Initializes the sender session on the connection.
+     * @returns {Promise<void>}
+     */
+    private _init();
+    /**
+     * Negotiates the cbs claim for the EventHub Sender.
+     * @private
+     * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
+     * @return {Promise<void>} Promise<void>
+     */
+    private _negotiateClaim(setTokenRenewal?);
+    /**
+     * Ensures that the token is renewed within the predefined renewal margin.
      * @private
      * @returns {void}
      */
     private _ensureTokenRenewal();
+    /**
+     * Creates a new sender to the given event hub, and optionally to a given partition if it is not present
+     * in the context or returns the one present in the context.
+     * @static
+     * @param {(string|number)} [partitionId] Partition ID to which it will send event data.
+     * @returns {Promise<EventHubSender>}
+     */
+    static create(context: ConnectionContext, partitionId?: string | number): EventHubSender;
 }

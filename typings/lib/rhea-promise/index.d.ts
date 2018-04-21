@@ -1,4 +1,5 @@
 /// <reference types="node" />
+import { AmqpMessage } from "..";
 /**
  * Establishes an amqp connection.
  * @param {ConnectionOptions} [options] Options to be provided for establishing an amqp connection.
@@ -55,7 +56,9 @@ export declare function createSender(session: any, options?: SenderOptions): Pro
  */
 export declare function closeSender(sender: any): Promise<void>;
 /**
- * Creates an amqp receiver on the provided amqp session.
+ * Creates an amqp receiver on the provided amqp session. This method should be used when you will be
+ * sending a request and waiting for a response from the service. For example: This method is useful
+ * while creating request/response links for $management or $cbs endpoint.
  * @param {Session} session The amqp session object on which the receiver link needs to be established.
  * @param {ReceiverOptions} [options] Options that can be provided while creating an amqp receiver.
  * @return {Promise<Receiver>} Promise<Receiver>
@@ -65,6 +68,20 @@ export declare function closeSender(sender: any): Promise<void>;
  */
 export declare function createReceiver(session: any, options?: ReceiverOptions): Promise<any>;
 /**
+ * Creates an amqp receiver with provided message and error event handlers on the provided amqp session.
+ * This method should be used when you want to ensure that no messages are lost. For example: This method
+ * is useful for creating EventHub Receivers where you want to start receiving ASAP.
+ * @param {Session} session The amqp session object on which the receiver link needs to be established.
+ * @param {OnAmqpEvent} onMessage The event handler for the "message" event for the receiver.
+ * @param {OnAmqpEvent} onError The event handler for the "error" event for the receiver.
+ * @param {ReceiverOptions} [options] Options that can be provided while creating an amqp receiver.
+ * @return {Promise<Receiver>} Promise<Receiver>
+ * - **Resolves** the promise with the Receiver object when rhea emits the "receiver_open" event.
+ * - **Rejects** the promise with an AmqpError when rhea emits the "receiver_close" event while trying
+ * to create an amqp receiver.
+ */
+export declare function createReceiverWithHandlers(session: any, onMessage: OnAmqpEvent, onError: OnAmqpEvent, options?: ReceiverOptions): Promise<any>;
+/**
  * Closes the amqp receiver.
  * @param {Receiver} receiver The amqp receiver that needs to be closed.
  * @return {Promise<void>} Promise<void>
@@ -73,6 +90,12 @@ export declare function createReceiver(session: any, options?: ReceiverOptions):
  * "receiver_error" event while trying to close an amqp receiver.
  */
 export declare function closeReceiver(receiver: any): Promise<void>;
+/**
+ * Describes the signature of the event handler for any event emitted by rhea.
+ * @type OnAmqpEvent
+ * @param {Context} context The rhea context.
+ */
+export declare type OnAmqpEvent = (context: Context) => void;
 /**
  * Defines the common set of properties that are applicable for a connection, session and a link (sender, receiver).
  * @interface EntityOptions
@@ -312,7 +335,7 @@ export interface Context {
      * @property {AmqpMessage} [message] The amqp message that is received in the message event
      * handler when rhea emits a message event on a receiver.
      */
-    message?: any;
+    message?: AmqpMessage;
     /**
      * @property {Receiver} [receiver] The amqp receiver link that was created on the amqp connection.
      */

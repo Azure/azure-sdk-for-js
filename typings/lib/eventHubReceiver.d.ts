@@ -1,7 +1,7 @@
 /// <reference types="node" />
-import { EventEmitter } from "events";
-import { ReceiveOptions, EventData } from ".";
-import { ConnectionContext } from "./eventHubClient";
+import * as rheaPromise from "./rhea-promise";
+import { ReceiveOptions, EventData, EventHubsError } from ".";
+import { ConnectionContext } from "./connectionContext";
 /**
  * Represents the approximate receiver runtime information for a logical partition of an Event Hub.
  * @interface ReceiverRuntimeInfo
@@ -29,16 +29,18 @@ export interface ReceiverRuntimeInfo {
     retrievalTime?: Date;
 }
 /**
- * Describes the event handler signtaure for the "message" event.
+ * Describes the message handler signature.
  */
-export interface OnMessage {
-    (event: "message", handler: (eventData: EventData) => void): void;
-}
+export declare type OnMessage = (eventData: EventData) => void;
+/**
+ * Describes the error handler signature.
+ */
+export declare type OnError = (error: EventHubsError | Error) => void;
 /**
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
  */
-export declare class EventHubReceiver extends EventEmitter {
+export declare class EventHubReceiver {
     /**
      * @property {string} [name] The unique EventHub Receiver name (mostly a guid).
      */
@@ -78,7 +80,7 @@ export declare class EventHubReceiver extends EventEmitter {
      */
     options?: ReceiveOptions;
     /**
-     * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive initially. Defaults to 500.
+     * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive initially. Defaults to 1000.
      */
     prefetchCount?: number;
     /**
@@ -88,24 +90,49 @@ export declare class EventHubReceiver extends EventEmitter {
     /**
      * @property {ConnectionContext} _context Provides relevant information about the amqp connection, cbs and $management sessions,
      * token provider, sender and receivers.
-     * @private
+     * @protected
      */
-    private _context;
+    protected _context: ConnectionContext;
     /**
      * @property {any} [_receiver] The AMQP receiver link.
-     * @private
+     * @protected
      */
-    private _receiver?;
+    protected _receiver?: any;
     /**
      * @property {any} [_session] The AMQP receiver session.
-     * @private
+     * @protected
      */
-    private _session?;
+    protected _session?: any;
     /**
-     * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when the EventHub Sender is due for token renewal.
-     * @private
+     * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when the EventHub Sender is
+     * due for token renewal.
+     * @protected
      */
-    private _tokenRenewalTimer?;
+    protected _tokenRenewalTimer?: NodeJS.Timer;
+    /**
+     * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
+     * inside _onAmqpMessage.
+     * @protected
+     */
+    protected _onMessage?: OnMessage;
+    /**
+     * @property {OnMessage} _onMessage The error handler provided by the user that will be wrapped
+     * inside _onAmqpError.
+     * @protected
+     */
+    protected _onError?: OnError;
+    /**
+     * @property {OnMessage} _onMessage The message handler that will be set as the handler on the
+     * underlying rhea receiver for the "message" event.
+     * @protected
+     */
+    protected _onAmqpMessage: rheaPromise.OnAmqpEvent;
+    /**
+     * @property {OnMessage} _onMessage The message handler that will be set as the handler on the
+     * underlying rhea receiver for the "receiver_error" event.
+     * @protected
+     */
+    protected _onAmqpError: rheaPromise.OnAmqpEvent;
     /**
      * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
      *
@@ -127,26 +154,31 @@ export declare class EventHubReceiver extends EventEmitter {
      */
     constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions);
     /**
-     * Creates a new AMQP receiver under a new AMQP session.
-     * @returns {Promoise<void>}
-     */
-    init(): Promise<void>;
-    /**
-     * Receive a batch of EventDatas from an EventHub partition for a given count and a given max wait time in seconds, whichever
-     * happens first.
-     *
-     * @param {number} maxMessageCount                         The maximum message count. Must be a value greater than 0.
-     * @param {number} [maxWaitTimeInSeconds]          The maximum wait time in seconds for which the Receiver should wait
-     * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-     * @returns {Promise<EventData[]>} A promise that resolves with an array of EventData objects.
-     */
-    receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<EventData[]>;
-    /**
      * Closes the underlying AMQP receiver.
+     * @param {boolean} [preserveInContext] Should the receiver be preserved in context. Default value false.
      */
     close(): Promise<void>;
     /**
-     * Ensures that the token is renewed within the predfiend renewal margin.
+     * Creates a new AMQP receiver under a new AMQP session.
+     * @returns {Promise<void>}
+     */
+    protected _init(onAmqpMessage?: rheaPromise.OnAmqpEvent, onAmqpError?: rheaPromise.OnAmqpEvent): Promise<void>;
+    /**
+     * Creates the options that need to be specified while creating an AMQP receiver link.
+     * @private
+     */
+    private _createReceiverOptions();
+    /**
+     * Negotiates the cbs claim for the EventHubReceiver.
+     * @private
+     * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
+     * @return {Promise<void>} Promise<void>
+     */
+    private _negotiateClaim(setTokenRenewal?);
+    /**
+     * Ensures that the token is renewed within the predefined renewal margin.
+     * @private
+     * @return {Promise<void>} Promise<void>
      */
     private _ensureTokenRenewal();
 }

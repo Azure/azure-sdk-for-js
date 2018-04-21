@@ -5,12 +5,12 @@ import * as rhea from "rhea";
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import * as rheaPromise from "./rhea-promise";
-import * as errors from "./errors";
+import * as rpc from "./rpc";
+import { translate } from "./errors";
 import * as Constants from "./util/constants";
-import { EventEmitter } from "events";
-import { ReceiveOptions, EventData, Errors } from ".";
-import { ConnectionContext } from "./eventHubClient";
-import { defaultLock, Func } from "./util/utils";
+import { ReceiveOptions, EventData, EventHubsError } from ".";
+import { ConnectionContext } from "./connectionContext";
+import { defaultLock } from "./util/utils";
 
 const debug = debugModule("azure:event-hubs:receiver");
 
@@ -42,17 +42,20 @@ export interface ReceiverRuntimeInfo {
 }
 
 /**
- * Describes the event handler signtaure for the "message" event.
+ * Describes the message handler signature.
  */
-export interface OnMessage {
-  (event: "message", handler: (eventData: EventData) => void): void;
-}
+export type OnMessage = (eventData: EventData) => void;
+
+/**
+ * Describes the error handler signature.
+ */
+export type OnError = (error: EventHubsError | Error) => void;
 
 /**
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
  */
-export class EventHubReceiver extends EventEmitter {
+export class EventHubReceiver {
   /**
    * @property {string} [name] The unique EventHub Receiver name (mostly a guid).
    */
@@ -92,9 +95,9 @@ export class EventHubReceiver extends EventEmitter {
    */
   options?: ReceiveOptions;
   /**
-   * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive initially. Defaults to 500.
+   * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive initially. Defaults to 1000.
    */
-  prefetchCount?: number = 500;
+  prefetchCount?: number = Constants.defaultPrefetchCount;
   /**
    * @property {boolean} receiverRuntimeMetricEnabled Indicates whether receiver runtime metric is enabled. Default: false.
    */
@@ -102,24 +105,50 @@ export class EventHubReceiver extends EventEmitter {
   /**
    * @property {ConnectionContext} _context Provides relevant information about the amqp connection, cbs and $management sessions,
    * token provider, sender and receivers.
-   * @private
+   * @protected
    */
-  private _context: ConnectionContext;
+  protected _context: ConnectionContext;
   /**
    * @property {any} [_receiver] The AMQP receiver link.
-   * @private
+   * @protected
    */
-  private _receiver?: any;
+  protected _receiver?: any;
   /**
    * @property {any} [_session] The AMQP receiver session.
-   * @private
+   * @protected
    */
-  private _session?: any;
+  protected _session?: any;
   /**
-   * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when the EventHub Sender is due for token renewal.
-   * @private
+   * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when the EventHub Sender is
+   * due for token renewal.
+   * @protected
    */
-  private _tokenRenewalTimer?: NodeJS.Timer;
+  protected _tokenRenewalTimer?: NodeJS.Timer;
+
+  /**
+   * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
+   * inside _onAmqpMessage.
+   * @protected
+   */
+  protected _onMessage?: OnMessage;
+  /**
+   * @property {OnMessage} _onMessage The error handler provided by the user that will be wrapped
+   * inside _onAmqpError.
+   * @protected
+   */
+  protected _onError?: OnError;
+  /**
+   * @property {OnMessage} _onMessage The message handler that will be set as the handler on the
+   * underlying rhea receiver for the "message" event.
+   * @protected
+   */
+  protected _onAmqpMessage: rheaPromise.OnAmqpEvent;
+  /**
+   * @property {OnMessage} _onMessage The message handler that will be set as the handler on the
+   * underlying rhea receiver for the "receiver_error" event.
+   * @protected
+   */
+  protected _onAmqpError: rheaPromise.OnAmqpEvent;
 
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
@@ -141,7 +170,6 @@ export class EventHubReceiver extends EventEmitter {
    * See https://github.com/Azure/amqpnetlite/wiki/Azure%20Service%20Bus%20Event%20Hubs for details.
    */
   constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions) {
-    super();
     if (!options) options = {};
     this._context = context;
     this.name = options.name || uuid();
@@ -157,199 +185,29 @@ export class EventHubReceiver extends EventEmitter {
     this.runtimeInfo = {
       partitionId: `${partitionId}`
     };
-
-    const onMessage = (context: rheaPromise.Context) => {
-      const evData = EventData.fromAmqpMessage(context.message);
-      this.emit(Constants.message, evData);
+    this._onAmqpMessage = (context: rheaPromise.Context) => {
+      const evData = EventData.fromAmqpMessage(context.message!);
+      if (this.receiverRuntimeMetricEnabled && evData) {
+        this.runtimeInfo.lastSequenceNumber = evData.lastSequenceNumber;
+        this.runtimeInfo.lastEnqueuedTimeUtc = evData.lastEnqueuedTime;
+        this.runtimeInfo.lastEnqueuedOffset = evData.lastEnqueuedOffset;
+        this.runtimeInfo.retrievalTime = evData.retrievalTime;
+      }
+      this._onMessage!(evData);
     };
-    const onError = async (context: rheaPromise.Context) => {
-      this.emit(Constants.error, errors.translate(context.receiver.error));
-      // Since the receiver received an error the link has been closed. So calling
-      // this.close() will ensure that the receiver has been removed from the context.
-      await this.close();
+
+    this._onAmqpError = (context: rheaPromise.Context) => {
+      const ehError = translate(context.receiver.error);
+      // TODO: Should we retry before calling user's error method?
+      this._onError!(ehError);
     };
-
-    this.on("newListener", (event) => {
-      if (event === Constants.message) {
-        if (this._session && this._receiver) {
-          debug("Attaching an event handler for the 'message' event on the underlying amqp receiver: ", this.name!);
-          this._receiver.on(Constants.message, onMessage);
-        }
-      }
-
-      if (event === Constants.error) {
-        if (this._session && this._receiver) {
-          debug("Attaching an event handler for the 'receiver_error' event on the underlying amqp receiver: ", this.name!);
-          this._receiver.on(Constants.receiverError, onError);
-        }
-      }
-    });
-
-    this.on("removeListener", (event) => {
-      if (event === Constants.message) {
-        if (this._session && this._receiver) {
-          debug("Removing an event handler for the 'message' event on the underlying amqp receiver: ", this.name!);
-          this._receiver.removeListener(Constants.message, onMessage);
-        }
-      }
-
-      if (event === Constants.error) {
-        if (this._session && this._receiver) {
-          debug("Removing an event handler for the 'receiver_error' event on the underlying amqp receiver: ", this.name!);
-          this._receiver.removeListener(Constants.receiverError, onError);
-        }
-      }
-    });
   }
 
-  /**
-   * Creates a new AMQP receiver under a new AMQP session.
-   * @returns {Promoise<void>}
-   */
-  async init(): Promise<void> {
-    try {
-      // Acquire the lock and establish a cbs session if it does not exist on the connection.
-      await defaultLock.acquire(this._context.cbsSession.cbsLock, () => { return this._context.cbsSession.init(this._context.connection); });
-      const tokenObject = await this._context.tokenProvider.getToken(this.audience);
-      debug(`[${this._context.connectionId}] EH Receiver: calling negotiateClaim for audience "${this.audience}"`);
-      // Negotiate the CBS claim.
-      await this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
-      if (!this._session && !this._receiver) {
-        let receiverError: any;
-        const rcvrOptions: rheaPromise.ReceiverOptions = {
-          name: this.name,
-          autoaccept: true,
-          source: {
-            address: this.address
-          },
-          credit_window: this.prefetchCount,
-        };
-        if (this.epoch !== undefined && this.epoch !== null) {
-          if (!rcvrOptions.properties) rcvrOptions.properties = {};
-          rcvrOptions.properties[Constants.attachEpoch] = rhea.types.wrap_long(this.epoch);
-        }
-        if (this.identifier) {
-          if (!rcvrOptions.properties) rcvrOptions.properties = {};
-          rcvrOptions.properties[Constants.receiverIdentifierName] = this.identifier;
-        }
-        if (this.receiverRuntimeMetricEnabled) {
-          rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
-        }
-        if (this.options && this.options.eventPosition) {
-          // Set filter on the receiver if event position is specified.
-          const filterClause = this.options.eventPosition.getExpression();
-          if (filterClause) {
-            rcvrOptions.source.filter = {
-              "apache.org:selector-filter:string": rhea.types.wrap_described(filterClause, 0x468C00000004)
-            };
-          }
-        }
-        this._session = await rheaPromise.createSession(this._context.connection);
-        const handleReceiverError = (context: rheaPromise.Context) => {
-          receiverError = errors.translate(context.receiver.error);
-          debug(`An error occurred while creating the receiver "${this.name}" : `, receiverError);
-        };
-        this._session.on(Constants.receiverError, handleReceiverError);
-        debug("Trying to create a receiver...");
-        this._receiver = await rheaPromise.createReceiver(this._session, rcvrOptions);
-        debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
-        if (receiverError) {
-          // There are cases where the EH service sends an attach frame, which causes rhea to emit receiver_open event
-          // thus resolving the promise to create a receiver and moments later the service sends back a detach frame
-          // indicating that there was some error. Hence we check for receiverError, even after the promise has resolved.
-          debug("throwing the receiverError, ", receiverError);
-          throw receiverError;
-        }
-        this._session.removeListener(Constants.receiverError, handleReceiverError);
-        debug(`[${this._context.connectionId}] Receiver "${this.name}" created with receiver options: \n${JSON.stringify(rcvrOptions, undefined, 2)}`);
-      }
-      debug(`[${this._context.connectionId}] Negotatited claim for receiver "${this.name}" with with partition "${this.partitionId}"`);
-      this._ensureTokenRenewal();
-    } catch (err) {
-      if (err.value || (err.constructor && err.constructor.name === "c")) err = Errors.translate(err);
-      debug("Will reject the promise to create the receiver with error: %O", err);
-      throw (err);
-    }
-  }
 
-  /**
-   * Receive a batch of EventDatas from an EventHub partition for a given count and a given max wait time in seconds, whichever
-   * happens first.
-   *
-   * @param {number} maxMessageCount                         The maximum message count. Must be a value greater than 0.
-   * @param {number} [maxWaitTimeInSeconds]          The maximum wait time in seconds for which the Receiver should wait
-   * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @returns {Promise<EventData[]>} A promise that resolves with an array of EventData objects.
-   */
-  async receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<EventData[]> {
-    if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== 'number')) {
-      throw new Error("'maxMessageCount' is a required parameter of type number with a value greater than 0.");
-    }
-
-    if (maxWaitTimeInSeconds == undefined) {
-      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
-    }
-
-    if (!this._session || !this._receiver) {
-      throw Errors.translate({ condition: Errors.ConditionStatusMapper[404], description: "The messaging entity underlying amqp receiver could not be found." });
-    }
-    const eventDatas: EventData[] = [];
-    let timeOver = false;
-    return new Promise<EventData[]>((resolve, reject) => {
-      let onReceiveMessage: Func<EventData, void>;
-      let waitTimer: any;
-      let actionAfterWaitTimeout: Func<void, void>;
-      // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = (timeOver: boolean, data?: EventData) => {
-        // Remove the listener to avoid receiving duplicate messages.
-        this.removeListener(Constants.message, onReceiveMessage);
-        if (!data) {
-          data = eventDatas.length ? eventDatas[eventDatas.length - 1] : undefined;
-        }
-        if (!timeOver) {
-          clearTimeout(waitTimer);
-        }
-        if (this.receiverRuntimeMetricEnabled && data) {
-          this.runtimeInfo.lastSequenceNumber = data.lastSequenceNumber;
-          this.runtimeInfo.lastEnqueuedTimeUtc = data.lastEnqueuedTime;
-          this.runtimeInfo.lastEnqueuedOffset = data.lastEnqueuedOffset;
-          this.runtimeInfo.retrievalTime = data.retrievalTime;
-        }
-        resolve(eventDatas);
-      };
-
-      // Action to be performed after the max wait time is over.
-      actionAfterWaitTimeout = () => {
-        timeOver = true;
-        finalAction(timeOver);
-      };
-
-      // Action to be performed on the "message" event.
-      onReceiveMessage = (data: EventData) => {
-        if (eventDatas.length <= maxMessageCount) {
-          eventDatas.push(data);
-        }
-        if (eventDatas.length === maxMessageCount) {
-          finalAction(timeOver, data);
-        }
-      };
-      waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
-      // Action to be taken when an error is received.
-      const onReceiveError = (error: any) => {
-        debug(`[${this._context.connectionId}] Receiver "${this.name}" received an error: \n ${JSON.stringify(error, undefined, 2)}`);
-        this.removeListener(Constants.error, onReceiveError);
-        this.removeListener(Constants.message, onReceiveMessage);
-        if (waitTimer) {
-          clearTimeout(waitTimer);
-        }
-        reject(error);
-      };
-      this.on(Constants.message, onReceiveMessage);
-    });
-  }
 
   /**
    * Closes the underlying AMQP receiver.
+   * @param {boolean} [preserveInContext] Should the receiver be preserved in context. Default value false.
    */
   async close(): Promise<void> {
     if (this._receiver) {
@@ -358,37 +216,141 @@ export class EventHubReceiver extends EventEmitter {
         // should I also call this._session.close() after closing the reciver
         // or can I directly close the session which will take care of closing the receiver as well.
         await rheaPromise.closeReceiver(this._receiver);
-        this.removeAllListeners();
-        delete this._context.receivers[this.name!];
-        debug(`Deleted the receiver "${this.name!}" from the client cache.`);
+        // Resetting the mode.
+        debug("[%s] Deleted the receiver '%s' from the client cache.", this._context.connectionId, this.name);
         this._receiver = undefined;
         this._session = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-        debug(`[${this._context.connectionId}] Receiver "${this.name}" has been closed.`);
+        debug("[%s] Receiver '%s', has been closed.", this._context.connectionId, this.name);
       } catch (err) {
-        debug("An error occurred while closing the receiver %O", err);
-        throw err;
+        debug("An error occurred while closing the receiver %s %O", this.name, translate(err));
       }
     }
   }
 
   /**
-   * Ensures that the token is renewed within the predfiend renewal margin.
+   * Creates a new AMQP receiver under a new AMQP session.
+   * @returns {Promise<void>}
    */
-  private _ensureTokenRenewal(): void {
+  protected async _init(onAmqpMessage?: rheaPromise.OnAmqpEvent, onAmqpError?: rheaPromise.OnAmqpEvent): Promise<void> {
+    try {
+      // Acquire the lock and establish an amqp connection if it does not exist.
+      if (!this._context.connection) {
+        debug("[%s] EH Receiver '%s' establishing AMQP connection.", this._context.connectionId, this.name);
+        await defaultLock.acquire(this._context.connectionLock, () => { return rpc.open(this._context); });
+      }
+
+      if (!this._session && !this._receiver) {
+        await this._negotiateClaim();
+        if (!onAmqpMessage) {
+          onAmqpMessage = this._onAmqpMessage;
+        }
+        if (!onAmqpError) {
+          onAmqpError = this._onAmqpError;
+        }
+        this._session = await rheaPromise.createSession(this._context.connection);
+        debug("[%s] Trying to create receiver '%s'...", this._context.connectionId, this.name);
+        const rcvrOptions = this._createReceiverOptions();
+        this._receiver = await rheaPromise.createReceiverWithHandlers(this._session, onAmqpMessage, onAmqpError, rcvrOptions);
+        debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
+        debug("[%s] Receiver '%s' created with receiver options: %O", this._context.connectionId, this.name, rcvrOptions);
+        // It is possible for someone to close the receiver and then start it again.
+        // Thus make sure that the receiver is present in the client cache.
+        if (!this._context.receivers[this.name]) this._context.receivers[this.name] = this;
+        await this._ensureTokenRenewal();
+      }
+    } catch (err) {
+      err = translate(err);
+      debug("[%s] An error occured while creating the receiver '%s': %O", this._context.connectionId, this.name, err);
+      throw err;
+    }
+  }
+
+  /**
+   * Creates the options that need to be specified while creating an AMQP receiver link.
+   * @private
+   */
+  private _createReceiverOptions(): rheaPromise.ReceiverOptions {
+    const rcvrOptions: rheaPromise.ReceiverOptions = {
+      name: this.name,
+      autoaccept: true,
+      source: {
+        address: this.address
+      },
+      credit_window: this.prefetchCount,
+    };
+    if (this.epoch !== undefined && this.epoch !== null) {
+      if (!rcvrOptions.properties) rcvrOptions.properties = {};
+      rcvrOptions.properties[Constants.attachEpoch] = rhea.types.wrap_long(this.epoch);
+    }
+    if (this.identifier) {
+      if (!rcvrOptions.properties) rcvrOptions.properties = {};
+      rcvrOptions.properties[Constants.receiverIdentifierName] = this.identifier;
+    }
+    if (this.receiverRuntimeMetricEnabled) {
+      rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
+    }
+    if (this.options && this.options.eventPosition) {
+      // Set filter on the receiver if event position is specified.
+      const filterClause = this.options.eventPosition.getExpression();
+      if (filterClause) {
+        rcvrOptions.source.filter = {
+          "apache.org:selector-filter:string": rhea.types.wrap_described(filterClause, 0x468C00000004)
+        };
+      }
+    }
+    return rcvrOptions;
+  }
+
+  /**
+   * Negotiates the cbs claim for the EventHubReceiver.
+   * @private
+   * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
+   * @return {Promise<void>} Promise<void>
+   */
+  private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
+    // Acquire the lock and establish a cbs session if it does not exist on the connection. Although node.js
+    // is single threaded, we need a locking mechanism to ensure that a race condition does not happen while
+    // creating a shared resource (in this case the cbs session, since we want to have exactly 1 cbs session
+    // per connection).
+    debug("Acquiring lock: '%s' for creating the cbs session while creating the receiver: ${this.name}.",
+      this._context.connectionId, this._context.cbsSession.cbsLock, this.name);
+    // Acquire the lock and establish a cbs session if it does not exist on the connection.
+    await defaultLock.acquire(this._context.cbsSession.cbsLock, () => { return this._context.cbsSession.init(this._context.connection); });
+    const tokenObject = await this._context.tokenProvider.getToken(this.audience);
+    debug("[%s] EH Receiver '%s': calling negotiateClaim for audience '%s'.", this._context.connectionId, this.audience);
+    // Acquire the lock to negotiate the CBS claim.
+    debug("[%s] Acquiring lock: '%s' for cbs auth for receiver: '%s'.",
+      this._context.connectionId, this._context.negotiateClaimLock, this.name);
+    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
+      return this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
+    });
+    debug("[%s] Negotiated claim for receiver '%s' with with partition '%s'",
+      this._context.connectionId, this.name, this.partitionId);
+    if (setTokenRenewal) {
+      await this._ensureTokenRenewal();
+    }
+  }
+
+  /**
+   * Ensures that the token is renewed within the predefined renewal margin.
+   * @private
+   * @return {Promise<void>} Promise<void>
+   */
+  private async _ensureTokenRenewal(): Promise<void> {
     const tokenValidTimeInSeconds = this._context.tokenProvider.tokenValidTimeInSeconds;
     const tokenRenewalMarginInSeconds = this._context.tokenProvider.tokenRenewalMarginInSeconds;
     const nextRenewalTimeout = (tokenValidTimeInSeconds - tokenRenewalMarginInSeconds) * 1000;
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
-        await this.init();
+        await this._negotiateClaim(true);
       } catch (err) {
         // TODO: May be add some retries over here before emitting the error.
-        debug(`[${this._context.connectionId}] Receiver "${this.name}", an error occurred while renewing the token:\n${JSON.stringify(err)}.`);
-        this.emit(Constants.error, errors.translate(err));
+        debug("[%s] Receiver '%s', an error occurred while renewing the token: %O",
+          this._context.connectionId, this.name, translate(err));
       }
     }, nextRenewalTimeout);
-    debug(`[${this._context.connectionId}] Receiver "${this.name}", has next token renewal in ${nextRenewalTimeout / 1000} seconds ` +
-      `@(${new Date(Date.now() + nextRenewalTimeout).toString()}).`);
+    debug("[%s]Receiver '%s', has next token renewal in %d seconds @(%s).", this._context.connectionId,
+      this.name, nextRenewalTimeout / 1000, new Date(Date.now() + nextRenewalTimeout).toString());
   }
 }

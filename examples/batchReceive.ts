@@ -8,15 +8,12 @@ const path = process.env[entityPath] || "";
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
-  const receiver = await client.createReceiver("0", { enableReceiverRuntimeMetric: true });
-  console.log("Created Receiver for partition 0 and CG $default.");
-  let result: EventData[] = await receiver.receive(10);
+  const result: EventData[] = await client.receiveBatch("0", 10, 20, { enableReceiverRuntimeMetric: true });
   console.log(">>> EventDataObjects: ", result);
   let i = 0;
   for (let data of result) {
     console.log("### Actual message (%d):", ++i, data.body ? data.body.toString() : null);
   }
-  await receiver.close();
   await client.close();
 }
 

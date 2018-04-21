@@ -101,7 +101,7 @@ class EventHubReceiver extends events_1.EventEmitter {
     }
     /**
      * Creates a new AMQP receiver under a new AMQP session.
-     * @returns {Promoise<void>}
+     * @returns {Promise<void>}
      */
     async init() {
         try {
@@ -265,7 +265,7 @@ class EventHubReceiver extends events_1.EventEmitter {
         }
     }
     /**
-     * Ensures that the token is renewed within the predfiend renewal margin.
+     * Ensures that the token is renewed within the predefined renewal margin.
      */
     _ensureTokenRenewal() {
         const tokenValidTimeInSeconds = this._context.tokenProvider.tokenValidTimeInSeconds;

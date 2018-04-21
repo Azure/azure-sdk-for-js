@@ -16,15 +16,12 @@ const path = process.env[entityPath] || "";
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const client = lib_1.EventHubClient.createFromConnectionString(str, path);
-        const receiver = yield client.createReceiver("0", { enableReceiverRuntimeMetric: true });
-        console.log("Created Receiver for partition 0 and CG $default.");
-        let result = yield receiver.receive(10);
+        const result = yield client.receiveBatch("0", 10, 20, { enableReceiverRuntimeMetric: true });
         console.log(">>> EventDataObjects: ", result);
         let i = 0;
         for (let data of result) {
             console.log("### Actual message (%d):", ++i, data.body ? data.body.toString() : null);
         }
-        yield receiver.close();
         yield client.close();
     });
 }
