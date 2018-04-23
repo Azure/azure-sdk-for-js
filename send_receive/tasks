@@ -1,4 +1,0 @@
-* put chai setup in a common fixture instead of duplicating it in every test file
-* test that onErrorReceived function in EventHubReceiver constructor is only called once in response to an 'errorReceived' event
-* client#open/close tests don't really confirm that the connection is opened or closed...
-* split out integration tests from unit tests
