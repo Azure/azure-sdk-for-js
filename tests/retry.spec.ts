@@ -48,7 +48,7 @@ describe("retry function", function () {
     }
   });
 
-  it.only("should succeed if the operation initially fails with a retryable error and then succeeds.", async function () {
+  it("should succeed if the operation initially fails with a retryable error and then succeeds.", async function () {
     let counter = 0;
     try {
       const operation = async () => {
