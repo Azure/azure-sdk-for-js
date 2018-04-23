@@ -3,6 +3,13 @@ azure-event-hubs
 
 _This SDK is currently in preview._
 
+- **Node.js version: 6.x or higher.** We would encourage you to install the latest available LTS version from https://nodejs.org.
+
+## Installation ##
+```bash
+npm install -g azure-event-hubs
+``` 
+
 ## Usage ##
 
 See [examples](./examples) directory for some examples.

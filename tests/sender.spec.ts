@@ -7,9 +7,9 @@ import * as chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
-import { EventHubClient, EventData, delay } from "../lib";
+import { EventHubClient, EventData } from "../lib";
 describe("EventHub Sender", function () {
-  this.timeout(6000);
+  this.timeout(20000);
   const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };
   let client: EventHubClient = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
   before("validate environment", function () {
@@ -151,6 +151,26 @@ describe("EventHub Sender", function () {
         throw err;
       }
     });
+
+    it("should fail when a message greater than 256 KB is sent and succeed when a normal message is sent after that on the same link.", async function () {
+      let data: EventData = {
+        body: Buffer.from("Z".repeat(300000))
+      }
+      try {
+        debug("Sendina message of 300KB...");
+        await client.send(data, "0");
+      } catch (err) {
+        debug(err);
+        should.exist(err);
+        should.equal(err.name, "MessageTooLargeError");
+        err.message.should.match(/.*The received message \(delivery-id:(\d+), size:3000\d\d bytes\) exceeds the limit \(262144 bytes\) currently allowed on the link\..*/ig);
+      }
+      const delivery = await client.send({ body: "Hello World EventHub!!" }, "0");
+      debug("Sent the message successfully on the same link..");
+      delivery.format.should.equal(0);
+      delivery.settled.should.equal(true);
+      delivery.remote_settled.should.equal(true);
+    });
   });
 
   describe("Negative scenarios", function () {
@@ -175,7 +195,7 @@ describe("EventHub Sender", function () {
         it(`"${id}" should throw an error`, async function () {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await client.send({ body: "Hello world!" }, id);
+            await client.send({ body: "Hello world!" }, id as any);
             debug("sent the message.");
           } catch (err) {
             debug(`>>>> Received error for invalid partition id "${id}" - `, err);

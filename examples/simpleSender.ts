@@ -8,13 +8,12 @@ const path = process.env[entityPath] || "";
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
-  const result: EventData[] = await client.receiveBatch("0", 10, 20);
-  console.log(">>> EventDataObjects: ", result);
-  let i = 0;
-  for (let data of result) {
-    console.log("### Actual message (%d):", ++i, data.body ? data.body.toString() : null);
-  }
-  await client.close();
+  const data: EventData = {
+    body: "Hello World!!"
+  };
+  const delivery = await client.send(data);
+  console.log(">>> Sent the message successfully: ", delivery.id);
+  // await client.close();
 }
 
 main().catch((err) => {
