@@ -1,0 +1,11 @@
+{
+  "name": "example-eh",
+  "private": true,
+  "version": "0.0.1",
+  "dependencies": {
+    "azure-event-hubs": "*"
+  },
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json --baseUrl ../"
+  }
+}
