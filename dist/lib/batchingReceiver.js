@@ -113,7 +113,7 @@ class BatchingReceiver extends eventHubReceiver_1.EventHubReceiver {
                 debug(msg, this._context.connectionId, maxWaitTimeInSeconds, this.name);
                 waitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInSeconds * 1000);
             };
-            if (!this._session && !this._receiver) {
+            if (!this._isOpen()) {
                 debug("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
                 this.prefetchCount = 0;
                 this._init(onReceiveMessage, onReceiveError).then(() => addCreditAndSetTimer()).catch(reject);

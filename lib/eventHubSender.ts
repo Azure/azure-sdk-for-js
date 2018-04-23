@@ -7,11 +7,10 @@ import * as uuid from "uuid/v4";
 import { translate } from "./errors";
 import * as rpc from "./rpc";
 import * as rheaPromise from "./rhea-promise";
-import * as Constants from "./util/constants";
-import { EventEmitter } from "events";
 import { EventData, AmqpMessage, messageProperties } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { defaultLock, Func } from "./util/utils";
+import { retry } from "./retry";
 
 const debug = debugModule("azure:event-hubs:sender");
 
@@ -22,7 +21,7 @@ const debug = debugModule("azure:event-hubs:sender");
  * @param {any} sender - The amqp sender link.
  * @constructor
  */
-export class EventHubSender extends EventEmitter {
+export class EventHubSender {
   /**
    * @property {string} [name] The unique EventHub Sender name (mostly a guid).
    */
@@ -71,10 +70,10 @@ export class EventHubSender extends EventEmitter {
    * Creates a new EventHubSender instance.
    * @constructor
    * @param {EventHubClient} client The EventHub client.
-   * @param {string|number} [partitionId] The EventHub partition id to which the sender wants to send the event data.
+   * @param {string|number} [partitionId] The EventHub partition id to which the sender
+   * wants to send the event data.
    */
   constructor(context: ConnectionContext, partitionId?: string | number, name?: string) {
-    super();
     this._context = context;
     this.name = name || uuid();
     this.address = this._context.config.entityPath as string;
@@ -83,34 +82,13 @@ export class EventHubSender extends EventEmitter {
       this.address += `/Partitions/${this.partitionId}`;
     }
     this.audience = `${this._context.config.endpoint}${this.address}`;
-    const onError = (context: rheaPromise.Context) => {
-      this.emit(Constants.error, translate(context.sender.error));
-    };
-
-    this.on("newListener", (event) => {
-      if (event === Constants.error) {
-        if (this._session && this._sender) {
-          debug("Attaching an event handler for the 'sender_error' event on the underlying amqp sender: ", this.name!);
-          this._sender.on(Constants.senderError, onError);
-        }
-      }
-    });
-
-    this.on("removeListener", (event) => {
-      if (event === Constants.error) {
-        if (this._session && this._sender) {
-          debug("Removing an event handler for the 'sender_error' event on the underlying amqp sender: ", this.name!);
-          this._sender.removeListener(Constants.senderError, onError);
-        }
-      }
-    });
   }
 
   /**
    * Sends the given message, with the given options on this link
    *
    * @method send
-   * @param {any} data               Message to send.  Will be sent as UTF8-encoded JSON string.
+   * @param {any} data Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<rheaPromise.Delivery>} Promise<rheaPromise.Delivery>
    */
   async send(data: EventData): Promise<rheaPromise.Delivery> {
@@ -119,8 +97,9 @@ export class EventHubSender extends EventEmitter {
         throw new Error("data is required and it must be of type object.");
       }
 
-      if (!this._session && !this._sender) {
-        debug("Acquiring lock %s for initializing the session, sender and possibly the connection.", this.senderLock);
+      if (!this._isOpen()) {
+        debug("Acquiring lock %s for initializing the session, sender and " +
+          "possibly the connection.", this.senderLock);
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
 
@@ -133,8 +112,9 @@ export class EventHubSender extends EventEmitter {
   }
 
   /**
-   * Send a batch of EventData to the EventHub. The "message_annotations", "application_properties" and "properties"
-   * of the first message will be set as that of the envelope (batch message).
+   * Send a batch of EventData to the EventHub. The "message_annotations",
+   * "application_properties" and "properties" of the first message will be set as that
+   * of the envelope (batch message).
    * @param {Array<EventData>} datas  An array of EventData objects to be sent in a Batch message.
    * @return {Promise<rheaPromise.Delivery>} Promise<rheaPromise.Delivery>
    */
@@ -144,11 +124,13 @@ export class EventHubSender extends EventEmitter {
         throw new Error("data is required and it must be an Array.");
       }
 
-      if (!this._session && !this._sender) {
-        debug("Acquiring lock %s for initializing the session, sender and possibly the connection.", this.senderLock);
+      if (!this._isOpen()) {
+        debug("Acquiring lock %s for initializing the session, sender and " +
+          "possibly the connection.", this.senderLock);
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
-      debug("[%s] Sender '%s', trying to send EventData[]: %O", this._context.connectionId, this.name, datas);
+      debug("[%s] Sender '%s', trying to send EventData[]: %O",
+        this._context.connectionId, this.name, datas);
       const messages: AmqpMessage[] = [];
       // Convert EventData to AmqpMessage.
       for (let i = 0; i < datas.length; i++) {
@@ -175,7 +157,8 @@ export class EventHubSender extends EventEmitter {
 
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = rhea.message.encode(batchMessage);
-      debug("[%s]Sender '%s', sending encoded batch message.", this._context.connectionId, this.name, encodedBatchMessage);
+      debug("[%s]Sender '%s', sending encoded batch message.",
+        this._context.connectionId, this.name, encodedBatchMessage);
       return await this._trySend(encodedBatchMessage, undefined, 0x80013700);
     } catch (err) {
       debug("An error occurred while sending the batch message %O", err);
@@ -185,7 +168,7 @@ export class EventHubSender extends EventEmitter {
 
   /**
    * "Unlink" this sender, closing the link and resolving when that operation is complete.
-   * Leaves the underlying connection/session open.
+   * Leaves the underlying connection open.
    * @method close
    * @return {Promise<void>} Promise<void>
    */
@@ -193,9 +176,9 @@ export class EventHubSender extends EventEmitter {
     if (this._sender) {
       try {
         await rheaPromise.closeSender(this._sender);
-        this.removeAllListeners();
         delete this._context.senders[this.name!];
-        debug("[%s] Deleted the sender '%s' from the client cache.", this._context.connectionId, this.name);
+        debug("[%s] Deleted the sender '%s' from the client cache.",
+          this._context.connectionId, this.name);
         this._sender = undefined;
         this._session = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
@@ -222,15 +205,16 @@ export class EventHubSender extends EventEmitter {
    * Tries to send the message to EventHub if there is enough credit to send them
    * and the circular buffer has available space to settle the message after sending them.
    *
-   * We have implemented a synchronous send over here. We shall be waiting for the message
-   * to be accepted or rejected and accordingly resolve or reject the promise.
+   * We have implemented a synchronous send over here in the sense that we shall be waiting
+   * for the message to be accepted or rejected and accordingly resolve or reject the promise.
    *
    * @param message The message to be sent to EventHub.
    * @return {Promise<rheaPromise.Delivery>} Promise<rheaPromise.Delivery>
    */
   private _trySend(message: AmqpMessage, tag?: any, format?: number): Promise<rheaPromise.Delivery> {
-    return new Promise((resolve, reject) => {
-      debug("[%s] Sender '%s', credit: %d available: %d", this._context.connectionId, this._sender.credit, this._sender.session.outgoing.available());
+    const sendEventPromise = new Promise<rheaPromise.Delivery>((resolve, reject) => {
+      debug("[%s] Sender '%s', credit: %d available: %d", this._context.connectionId, this.name,
+        this._sender.credit, this._sender.session.outgoing.available());
       if (this._sender.sendable()) {
         debug("[%s] Sender '%s', sending message: %O", this._context.connectionId, this.name, message);
         let onRejected: Func<rheaPromise.Context, void>;
@@ -264,7 +248,8 @@ export class EventHubSender extends EventEmitter {
           if (context!.delivery!.remote_state.error) {
             err = translate(context!.delivery!.remote_state.error);
           } else {
-            err = new Error(`[${this._context.connectionId}] Sender '${this.name}', received a release disposition. Hence we are rejecting the promise.`);
+            err = new Error(`[${this._context.connectionId}] Sender '${this.name}', ` +
+              `received a release disposition. Hence we are rejecting the promise.`);
           }
           reject(err);
         };
@@ -275,7 +260,8 @@ export class EventHubSender extends EventEmitter {
           if (context!.delivery!.remote_state.error) {
             err = translate(context!.delivery!.remote_state.error);
           } else {
-            err = new Error(`[${this._context.connectionId}] Sender "${this.name}", received a modified disposition. Hence we are rejecting the promise.`);
+            err = new Error(`[${this._context.connectionId}] Sender "${this.name}", ` +
+              `received a modified disposition. Hence we are rejecting the promise.`);
           }
           reject(err);
         };
@@ -284,13 +270,33 @@ export class EventHubSender extends EventEmitter {
         this._sender.on("modified", onModified);
         this._sender.on("released", onReleased);
         const delivery = this._sender.send(message, tag, format);
-        debug("[%s] Sender '%s', sent message with delivery id: %d", this._context.connectionId, this.name, delivery.id);
+        debug("[%s] Sender '%s', sent message with delivery id: %d",
+          this._context.connectionId, this.name, delivery.id);
       } else {
-        const msg = `[${this._context.connectionId}] Sender "${this.name}", cannot send the message right now. Please try later.`;
+        const msg = `[${this._context.connectionId}] Sender "${this.name}", ` +
+          `cannot send the message right now. Please try later.`;
         debug(msg);
         reject(new Error(msg));
       }
     });
+
+    return retry<rheaPromise.Delivery>(() => sendEventPromise);
+  }
+
+  /**
+   * Determines whether the AMQP sender link is open. If open then returns true else returns false.
+   * @private
+   *
+   * @return {boolean} boolean
+   */
+  private _isOpen(): boolean {
+    let result: boolean = false;
+    if (this._session && this._sender) {
+      if (this._sender.is_open && this._sender.is_open()) {
+        result = true;
+      }
+    }
+    return result;
   }
 
   /**
@@ -301,40 +307,36 @@ export class EventHubSender extends EventEmitter {
     try {
       // Acquire the lock and establish an amqp connection if it does not exist.
       if (!this._context.connection) {
-        debug("[%s] EH Sender '%s' establishing an AMQP connection.", this._context.connectionId, this.name);
+        debug("[%s] EH Sender '%s' establishing an AMQP connection.",
+          this._context.connectionId, this.name);
         await defaultLock.acquire(this._context.connectionLock, () => { return rpc.open(this._context); });
       }
 
       if (!this._session && !this._sender) {
         await this._negotiateClaim();
-        let senderError: any;
-        this._session = await rheaPromise.createSession(this._context.connection);
-        const handleSenderError = (context: rheaPromise.Context) => {
-          senderError = translate(context.sender.error);
-          debug("[%s] An error occurred while creating the sender: %O.", this._context.connectionId, senderError);
+        const onAmqpError = (context: rheaPromise.Context) => {
+          const senderError = translate(context.sender.error);
+          // TODO: Should we retry before calling user's error method?
+          debug("[%s] An error occurred for sender '%s': %O.",
+            this._context.connectionId, this.name, senderError);
         };
-        this._session.on(Constants.senderError, handleSenderError);
+        this._session = await rheaPromise.createSession(this._context.connection);
+        debug("[%s] Trying to create sender '%s'...", this._context.connectionId, this.name);
         const options = this._createSenderOptions();
-        debug("[%s] Trying to create a sender...", this._context.connectionId, );
-        this._sender = await rheaPromise.createSender(this._session, options);
-        debug("[%s] Promise to create the sender resolved. Created sender with name: %s", this._context.connectionId, this.name);
-        if (senderError) {
-          // There are cases where the EH service sends an attach frame, which causes rhea to emit sender_open event
-          // thus resolving the promise to create a sender and moments later the service sends back a detach frame
-          // indicating that there was some error. Hence we check for senderError, even after the promise has resolved.
-          debug("[%s] throwing the senderError, %O", this._context.connectionId, senderError);
-          throw senderError;
-        }
-        this._session.removeListener(Constants.senderError, handleSenderError);
-        debug("[%s] Sender '%s' created with sender options: %O", this._context.connectionId, this.name, options);
+        this._sender = await rheaPromise.createSenderWithHandlers(this._session, onAmqpError, options);
+        debug("[%s] Promise to create the sender resolved. Created sender with name: %s",
+          this._context.connectionId, this.name);
+        debug("[%s] Sender '%s' created with sender options: %O",
+          this._context.connectionId, this.name, options);
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
-        if (!this._context.senders[this.name]) this._context.senders[this.name] = this;
+        if (!this._context.senders[this.address]) this._context.senders[this.address] = this;
         await this._ensureTokenRenewal();
       }
     } catch (err) {
       err = translate(err);
-      debug("[%s] An error occurred while creating the sender %s", this._context.connectionId, this.name, err);
+      debug("[%s] An error occurred while creating the sender %s",
+        this._context.connectionId, this.name, err);
       throw err;
     }
   }
@@ -346,23 +348,26 @@ export class EventHubSender extends EventEmitter {
    * @return {Promise<void>} Promise<void>
    */
   private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
-    // Acquire the lock and establish a cbs session if it does not exist on the connection. Although node.js
-    // is single threaded, we need a locking mechanism to ensure that a race condition does not happen while
-    // creating a shared resource (in this case the cbs session, since we want to have exactly 1 cbs session
-    // per connection).
+    // Acquire the lock and establish a cbs session if it does not exist on the connection.
+    // Although node.js is single threaded, we need a locking mechanism to ensure that a
+    // race condition does not happen while creating a shared resource (in this case the
+    // cbs session, since we want to have exactly 1 cbs session per connection).
     debug("[%s] Acquiring lock: '%s' for creating the cbs session while creating the sender: '%s'.",
       this._context.connectionId, this._context.cbsSession.cbsLock, this.name);
     await defaultLock.acquire(this._context.cbsSession.cbsLock,
       () => { return this._context.cbsSession.init(this._context.connection); });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
-    debug("[%s] EH Sender: calling negotiateClaim for audience '%s'.", this._context.connectionId, this.audience);
+    debug("[%s] EH Sender: calling negotiateClaim for audience '%s'.",
+      this._context.connectionId, this.audience);
     // Acquire the lock to negotiate the CBS claim.
     debug("[%s] Acquiring lock: '%s' for cbs auth for sender: '%s'.",
       this._context.connectionId, this._context.negotiateClaimLock, this.name);
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
+      return this._context.cbsSession.negotiateClaim(this.audience,
+        this._context.connection, tokenObject);
     });
-    debug("[%s] Negotiated claim for sender '%s' with with partition: %s", this._context.connectionId, this.partitionId);
+    debug("[%s] Negotiated claim for sender '%s' with with partition: %s",
+      this._context.connectionId, this.partitionId);
     if (setTokenRenewal) {
       await this._ensureTokenRenewal();
     }
@@ -382,8 +387,8 @@ export class EventHubSender extends EventEmitter {
         await this._negotiateClaim(true);
       } catch (err) {
         // TODO: May be add some retries over here before emitting the error.
-        debug("[%s] Sender '%s', an error occurred while renewing the token: %O", this._context.connectionId, this.name, err);
-        this.emit(Constants.error, translate(err));
+        debug("[%s] Sender '%s', an error occurred while renewing the token: %O",
+          this._context.connectionId, this.name, err);
       }
     }, nextRenewalTimeout);
     debug("[%s]Sender '%s', has next token renewal in %d seconds @(%s).",
@@ -391,8 +396,8 @@ export class EventHubSender extends EventEmitter {
   }
 
   /**
-   * Creates a new sender to the given event hub, and optionally to a given partition if it is not present
-   * in the context or returns the one present in the context.
+   * Creates a new sender to the given event hub, and optionally to a given partition if it is
+   * not present in the context or returns the one present in the context.
    * @static
    * @param {(string|number)} [partitionId] Partition ID to which it will send event data.
    * @returns {Promise<EventHubSender>}

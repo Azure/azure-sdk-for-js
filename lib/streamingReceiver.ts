@@ -4,7 +4,7 @@
 
 import * as debugModule from "debug";
 import { ReceiveOptions, OnMessage, OnError } from ".";
-import { EventHubReceiver } from "./eventHubReceiver";
+import { EventHubReceiver, ReceiverRuntimeInfo } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import * as Constants from "./util/constants";
 const debug = debugModule("azure:event-hubs:receiverstreaming");
@@ -12,13 +12,16 @@ const debug = debugModule("azure:event-hubs:receiverstreaming");
 export class ReceiveHandler {
   /**
    * @property {string} name The Receiver handler name.
+   * @readonly
    */
-  name: string;
+  readonly name: string;
+
   /**
    * @property {EventHubReceiver} _receiver  The underlying EventHubReceiver.
    * @private
    */
   private _receiver: EventHubReceiver;
+
   /**
    * Creates an instance of the ReceiveHandler.
    * @constructor
@@ -26,7 +29,17 @@ export class ReceiveHandler {
    */
   constructor(receiver: EventHubReceiver) {
     this._receiver = receiver;
-    this.name = receiver.name;
+    this.name = receiver ? receiver.name : "ReceiveHandler";
+  }
+
+  /**
+   * @property {ReceiverRuntimeInfo} runtimeInfo The receiver runtime info. This property will only
+   * be enabled when `enableReceiverRuntimeMetric` option is set to true in the
+   * `client.receiveOnMessage()` method.
+   * @readonly
+   */
+  get runtimeInfo(): ReceiverRuntimeInfo | undefined {
+    return this._receiver ? this._receiver.runtimeInfo : undefined;
   }
 
   /**
@@ -86,7 +99,7 @@ export class StreamingReceiver extends EventHubReceiver {
     }
     this._onMessage = onMessage;
     this._onError = onError;
-    if (!this._session && !this._receiver) {
+    if (!this._isOpen()) {
       this._init().catch((err) => {
         this._onError!(err);
       });

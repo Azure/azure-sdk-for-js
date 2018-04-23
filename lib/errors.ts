@@ -66,7 +66,7 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when the service is unavailable. The operation should be retried.
    */
-  "com.microsoft:timeout" = "ServiceUnavailableError",
+  "com.microsoft:timeout" = "ServiceUnavailableError", // Retryable
   /**
    * Error is thrown when an argument has a value that is out of the admissible range.
    */
@@ -198,7 +198,7 @@ export enum ErrorNameConditionMapper {
   /**
    * Error is thrown when the service is unavailable. The operation should be retried.
    */
-  ServiceUnavailableError = "com.microsoft:timeout",
+  ServiceUnavailableError = "com.microsoft:timeout", // Retryable
   /**
    * Error is thrown when an argument has a value that is out of the admissible range.
    */
@@ -309,9 +309,9 @@ export class EventHubsError extends Error {
    */
   name: string = "EventHubsError";
   /**
-   * @property {boolean} translated Has the error been previously translated. Default value: false.
+   * @property {boolean} translated Has the error been translated. Default: true.
    */
-  translated: boolean = false;
+  translated: boolean = true;
   /**
    *
    * @param {boolean} retryable Describes whether the error is retryable. Default: false.
@@ -367,15 +367,15 @@ export function translate(err: AmqpError | Error): EventHubsError {
         description.match(/The messaging entity .* could not be found.*/i) !== null)) {
       error.name = "MessagingEntityNotFoundError";
     }
-    error.translated = true;
-    if (error.name === "InternalServerError" || error.name === "ServerBusyError") {
+    if (error.name === "InternalServerError"
+      || error.name === "ServerBusyError"
+      || error.name === "ServiceUnavailableError") {
       error.retryable = true;
     }
     return error;
   } else {
     // Translate a generic error into EventHubsError.
     const error = new EventHubsError((err as Error).message);
-    error.translated = true;
     return error;
   }
 }

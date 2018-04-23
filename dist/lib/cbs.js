@@ -15,6 +15,7 @@ const rheaPromise = require("./rhea-promise");
 const uuid = require("uuid/v4");
 const Constants = require("./util/constants");
 const debugModule = require("debug");
+const errors_1 = require("./errors");
 const debug = debugModule("azure:event-hubs:cbs");
 /**
  * @class CbsClient
@@ -50,6 +51,14 @@ class CbsClient {
                     name: this.replyTo
                 };
                 this._cbsSenderReceiverLink = yield rpc_1.createRequestResponseLink(connection, { target: { address: this.endpoint } }, rxOpt);
+                this._cbsSenderReceiverLink.sender.on("sender_error", (context) => {
+                    const ehError = errors_1.translate(context.sender.error);
+                    debug("An error occurred on the cbs sender link.. %O", ehError);
+                });
+                this._cbsSenderReceiverLink.receiver.on("receiver_error", (context) => {
+                    const ehError = errors_1.translate(context.receiver.error);
+                    debug("An error occurred on the cbs receiver link.. %O", ehError);
+                });
                 debug("[%s] Successfully created the cbs sender '%s' and receiver '%s' links over cbs session.", connection.options.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
             }
             else {

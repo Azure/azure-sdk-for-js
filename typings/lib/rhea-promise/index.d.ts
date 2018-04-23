@@ -47,6 +47,17 @@ export declare function closeSession(session: any): Promise<void>;
  */
 export declare function createSender(session: any, options?: SenderOptions): Promise<any>;
 /**
+ * Creates an amqp sender on the provided amqp session.
+ * @param {Session} session The amqp session object on which the sender link needs to be established.
+ * @param {OnAmqpEvent} onError The event handler for the "error" event for the sender.
+ * @param {SenderOptions} [options] Options that can be provided while creating an amqp sender.
+ * @return {Promise<Sender>} Promise<Sender>
+ * - **Resolves** the promise with the Sender object when rhea emits the "sender_open" event.
+ * - **Rejects** the promise with an AmqpError when rhea emits the "sender_close" event while trying
+ * to create an amqp sender.
+ */
+export declare function createSenderWithHandlers(session: any, onError: OnAmqpEvent, options?: SenderOptions): Promise<any>;
+/**
  * Closes the amqp sender.
  * @param {Sender} sender The amqp sender that needs to be closed.
  * @return {Promise<void>} Promise<void>

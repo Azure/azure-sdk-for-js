@@ -8,6 +8,7 @@ import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
 import * as debugModule from "debug";
 import { AmqpMessage } from ".";
+import { translate } from "./errors";
 const debug = debugModule("azure:event-hubs:cbs");
 
 /**
@@ -48,6 +49,14 @@ export class CbsClient {
         name: this.replyTo
       };
       this._cbsSenderReceiverLink = await createRequestResponseLink(connection, { target: { address: this.endpoint } }, rxOpt);
+      this._cbsSenderReceiverLink.sender.on("sender_error", (context: rheaPromise.Context) => {
+        const ehError = translate(context.sender.error);
+        debug("An error occurred on the cbs sender link.. %O", ehError);
+      });
+      this._cbsSenderReceiverLink.receiver.on("receiver_error", (context: rheaPromise.Context) => {
+        const ehError = translate(context.receiver.error);
+        debug("An error occurred on the cbs receiver link.. %O", ehError);
+      });
       debug("[%s] Successfully created the cbs sender '%s' and receiver '%s' links over cbs session.",
         connection.options.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
     } else {
