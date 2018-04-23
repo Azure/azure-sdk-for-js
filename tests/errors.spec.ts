@@ -24,7 +24,6 @@ describe("Errors", function () {
       const err = new MyError();
       const msg: any = undefined;
       const ehError = new Errors.EventHubsError(msg);
-      ehError.translated = true;
       const translatedError = Errors.translate(err);
       translatedError.name.should.equal(ehError.name);
       translatedError.retryable.should.equal(ehError.retryable);
