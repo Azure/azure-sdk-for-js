@@ -16,16 +16,22 @@ const path = process.env[entityPath] || "";
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const client = lib_1.EventHubClient.createFromConnectionString(str, path);
-        const result = yield client.receiveBatch("0", 10, 20);
-        console.log(">>> EventDataObjects: ", result);
-        let i = 0;
-        for (let data of result) {
-            console.log("### Actual message (%d):", ++i, data.body ? data.body.toString() : null);
-        }
-        yield client.close();
+        const onMessage = (eventData) => __awaiter(this, void 0, void 0, function* () {
+            console.log(">>> EventDataObject: ", eventData);
+            console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
+        });
+        const onError = (err) => {
+            console.log(">>>>> Error occurred: ", err);
+        };
+        const options = {
+            eventPosition: lib_1.EventPosition.fromEnqueuedTime(Date.now()),
+            enableReceiverRuntimeMetric: true
+        };
+        const rcvHandler = client.receiveOnMessage("0", onMessage, onError, options);
+        console.log("rcvHandler: ", rcvHandler.name);
     });
 }
 main().catch((err) => {
     console.log("error: ", err);
 });
-//# sourceMappingURL=batchReceive.js.map
+//# sourceMappingURL=streamingReceive.js.map

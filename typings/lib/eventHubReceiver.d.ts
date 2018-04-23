@@ -164,6 +164,13 @@ export declare class EventHubReceiver {
      */
     protected _init(onAmqpMessage?: rheaPromise.OnAmqpEvent, onAmqpError?: rheaPromise.OnAmqpEvent): Promise<void>;
     /**
+     * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
+     * @protected
+     *
+     * @return {boolean} boolean
+     */
+    protected _isOpen(): boolean;
+    /**
      * Creates the options that need to be specified while creating an AMQP receiver link.
      * @private
      */

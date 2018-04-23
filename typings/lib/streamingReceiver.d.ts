@@ -1,11 +1,12 @@
 import { ReceiveOptions, OnMessage, OnError } from ".";
-import { EventHubReceiver } from "./eventHubReceiver";
+import { EventHubReceiver, ReceiverRuntimeInfo } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 export declare class ReceiveHandler {
     /**
      * @property {string} name The Receiver handler name.
+     * @readonly
      */
-    name: string;
+    readonly name: string;
     /**
      * @property {EventHubReceiver} _receiver  The underlying EventHubReceiver.
      * @private
@@ -17,6 +18,13 @@ export declare class ReceiveHandler {
      * @param {EventHubReceiver} receiver The underlying EventHubReceiver.
      */
     constructor(receiver: EventHubReceiver);
+    /**
+     * @property {ReceiverRuntimeInfo} runtimeInfo The receiver runtime info. This property will only
+     * be enabled when `enableReceiverRuntimeMetric` option is set to true in the
+     * `client.receiveOnMessage()` method.
+     * @readonly
+     */
+    readonly runtimeInfo: ReceiverRuntimeInfo | undefined;
     /**
      * Stops the underlying EventHubReceiver from receiving more messages.
      * @return {Promise<void>} Promise<void>

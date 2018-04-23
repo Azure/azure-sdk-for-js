@@ -82,6 +82,7 @@ class EventHubReceiver {
         this._onAmqpError = (context) => {
             const ehError = errors_1.translate(context.receiver.error);
             // TODO: Should we retry before calling user's error method?
+            debug("[%s] An error occurred for Receiver '%s': %O.", this._context.connectionId, this.name, ehError);
             this._onError(ehError);
         };
     }
@@ -122,7 +123,7 @@ class EventHubReceiver {
                     debug("[%s] EH Receiver '%s' establishing AMQP connection.", this._context.connectionId, this.name);
                     yield utils_1.defaultLock.acquire(this._context.connectionLock, () => { return rpc.open(this._context); });
                 }
-                if (!this._session && !this._receiver) {
+                if (!this._isOpen()) {
                     yield this._negotiateClaim();
                     if (!onAmqpMessage) {
                         onAmqpMessage = this._onAmqpMessage;
@@ -149,6 +150,21 @@ class EventHubReceiver {
                 throw err;
             }
         });
+    }
+    /**
+     * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
+     * @protected
+     *
+     * @return {boolean} boolean
+     */
+    _isOpen() {
+        let result = false;
+        if (this._session && this._receiver) {
+            if (this._receiver.is_open && this._receiver.is_open()) {
+                result = true;
+            }
+        }
+        return result;
     }
     /**
      * Creates the options that need to be specified while creating an AMQP receiver link.
