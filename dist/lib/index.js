@@ -21,7 +21,4 @@ var constants_1 = require("./util/constants");
 exports.aadEventHubsAudience = constants_1.aadEventHubsAudience;
 var utils_1 = require("./util/utils");
 exports.delay = utils_1.delay;
-exports.EventHubManagementClient = require("azure-arm-eventhub");
-const EventHubManagementModels = require("azure-arm-eventhub/lib/models");
-exports.EventHubManagementModels = EventHubManagementModels;
 //# sourceMappingURL=index.js.map
