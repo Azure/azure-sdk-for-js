@@ -27,7 +27,6 @@ packages.config
 
 # Examples #
 examples/
-dist/examples
 # vscode #
 .vscode/
 .env
@@ -35,4 +34,10 @@ dist/examples
 
 # misc #
 contribute.md
-./typings/examples/
+lib/
+tsconfig.json
+tslint.json
+webpack.config.ts
+.idea/
+changelog.md
+samples/
