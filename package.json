@@ -5,13 +5,9 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "main": "./dist/lib/index.js",
-  "types": "./typings/index.d.ts",
+  "types": "./typings/lib/index.d.ts",
   "dependencies": {
-    "@types/async-lock": "^1.1.0",
-    "@types/debug": "^0.0.30",
-    "@types/node": "^8.0.37",
     "async-lock": "^1.1.2",
-    "azure-arm-eventhub": "^1.3.0",
     "buffer": "^5.1.0",
     "debug": "^3.1.0",
     "ms-rest": "^2.3.3",
@@ -19,6 +15,9 @@
     "rhea": "^0.2.11"
   },
   "devDependencies": {
+    "@types/async-lock": "^1.1.0",
+    "@types/debug": "^0.0.30",
+    "@types/node": "^8.0.37",
     "@types/chai": "^4.1.2",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^5.0.0",
@@ -27,14 +26,15 @@
     "mocha": "^5.0.5",
     "ts-node": "^5.0.1",
     "tslint": "^5.9.1",
-    "typescript": "^2.8.1"
+    "typescript": "^2.8.3"
   },
   "scripts": {
     "tslint": "tslint -p . -c tslint.json --exclude examples/**/*.ts --exclude tests/**/*.ts",
     "tsc": "tsc",
     "build": "npm run tslint && npm run tsc",
     "test": "npm run unit",
-    "unit": "mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts --abort-on-uncaught-exception"
+    "unit": "mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts --abort-on-uncaught-exception",
+    "prepare": "npm run build"
   },
   "homepage": "http://github.com/azure/azure-event-hubs-node",
   "repository": {
