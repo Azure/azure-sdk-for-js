@@ -7,13 +7,8 @@ _This SDK is currently in preview._
 
 ## Installation ##
 ```bash
-npm install -g azure-event-hubs
-``` 
-
-## Usage ##
-
-See [examples](./examples) directory for some examples.
-It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving messages over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
+npm install azure-event-hubs
+```
 
 ### Client creation
 The simplest usage is to use the static factory method `EventHubClient.createFromConnectionString(_connection-string_, _event-hub-path_)`. Once you have a client, you can use it for:
@@ -31,6 +26,10 @@ stop receiving further events `await receiverHandler.stop()`
 
 ## IDE ##
 This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) or any other IDE that provides better intellisense and exposes the full power of source code documentation.
+
+## Examples ##
+
+Please take a look at the [examples](https://github.com/Azure/azure-event-hubs-node/tree/master/examples) directory for detailed examples.
 
 ## Example 1 - Get the partition IDs.
 
@@ -55,7 +54,7 @@ Receive events from partition ID 1 after the current time.
 ```js
 const { EventHubClient, EventPosition } = require('azure-event-hubs');
 
-const client = EventHubClient.fromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
+const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
 function async main() {
   const receiver = client.createReceiver("1", );
@@ -94,7 +93,7 @@ Send an event with a given partition "key" which is then hashed to a partition I
 ```js
 const { EventHubClient, EventPosition } = require('azure-event-hubs');
 
-const client = EventHubClient.fromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
+const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
 function async main() {
   const eventData: EventData = { body: "Hello World", partitionKey: "pk12345"};
@@ -114,7 +113,7 @@ Send an event to a specific partition ID if needed. If not specified then EventH
 ```js
 const { EventHubClient, EventPosition } = require('azure-event-hubs');
 
-const client = EventHubClient.fromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
+const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
 function async main() {
   const data: EventData = { body: "Hello World 1", message_id: "343-0909-5454-23423-54543" };
@@ -134,7 +133,7 @@ Send multiple events grouped together.
 ```js
 const { EventHubClient, EventPosition } = require('azure-event-hubs');
 
-const client = EventHubClient.fromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
+const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
 function async main() {
   const datas = [
@@ -150,3 +149,6 @@ main().catch((err) => {
   console.log(err);
 });
 ```
+
+## AMQP Dependencies ##
+It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving messages over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
