@@ -302,7 +302,7 @@ export declare class EventHubsError extends Error {
      */
     name: string;
     /**
-     * @property {boolean} translated Has the error been previously translated. Default value: false.
+     * @property {boolean} translated Has the error been translated. Default: true.
      */
     translated: boolean;
     /**

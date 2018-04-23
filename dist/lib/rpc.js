@@ -19,6 +19,7 @@ const rhea_promise_1 = require("./rhea-promise");
 const Constants = require("./util/constants");
 const connectionContext_1 = require("./connectionContext");
 const errors_1 = require("./errors");
+const retry_1 = require("./retry");
 const debug = debugModule("azure:event-hubs:rpc");
 function createRequestResponseLink(connection, senderOptions, receiverOptions) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -105,6 +106,27 @@ function createSenderLink(connection, senderOptions) {
     });
 }
 exports.createSenderLink = createSenderLink;
+function createSenderLinkWithHandlers(options) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!options.connection) {
+            throw new Error(`Please provide a connection to create the sender link on a session.`);
+        }
+        if (!options.senderOptions) {
+            throw new Error(`Please provide sender options.`);
+        }
+        if (!options.onError) {
+            throw new Error(`Please provide onError.`);
+        }
+        const session = yield rhea_promise_1.createSession(options.connection);
+        const sender = yield rhea_promise_1.createSenderWithHandlers(session, options.onError, options.senderOptions);
+        debug("[%s] Successfully created the sender link on a dedicated session for it.", options.connection.options.id);
+        return {
+            session: session,
+            sender: sender
+        };
+    });
+}
+exports.createSenderLinkWithHandlers = createSenderLinkWithHandlers;
 function sendRequest(connection, link, request, timeoutInSeconds) {
     if (!connection) {
         throw new Error("connection is a required parameter and must be of type 'object'.");
@@ -118,9 +140,9 @@ function sendRequest(connection, link, request, timeoutInSeconds) {
     if (!request.message_id)
         request.message_id = uuid();
     if (!timeoutInSeconds) {
-        timeoutInSeconds = 30;
+        timeoutInSeconds = 10;
     }
-    return new Promise((resolve, reject) => {
+    const sendRequestPromise = new Promise((resolve, reject) => {
         let waitTimer;
         let timeOver = false;
         const messageCallback = (context) => {
@@ -171,6 +193,7 @@ function sendRequest(connection, link, request, timeoutInSeconds) {
         debug("[%s] %s request sent: %O", connection.options.id, request.to || "$managment", request);
         link.sender.send(request);
     });
+    return retry_1.retry(() => sendRequestPromise);
 }
 exports.sendRequest = sendRequest;
 /**

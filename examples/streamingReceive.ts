@@ -1,4 +1,4 @@
-import { EventHubClient, EventPosition, OnMessage, OnError, EventHubsError } from "../lib";
+import { EventHubClient, EventPosition, OnMessage, OnError, EventHubsError, ReceiveOptions } from "../lib";
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
@@ -15,7 +15,11 @@ async function main(): Promise<void> {
   const onError: OnError = (err: EventHubsError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  const rcvHandler = client.receiveOnMessage("0", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+  const options: ReceiveOptions = {
+    eventPosition: EventPosition.fromEnqueuedTime(Date.now()),
+    enableReceiverRuntimeMetric: true
+  }
+  const rcvHandler = client.receiveOnMessage("0", onMessage, onError, options);
   console.log("rcvHandler: ", rcvHandler.name);
 }
 
