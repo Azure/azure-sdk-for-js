@@ -7,7 +7,7 @@ import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import { defaultLock } from "./util/utils";
 import {
-  ReceiverOptions, SenderOptions, createSession,
+  ReceiverOptions, SenderOptions, createSession, createSenderWithHandlers,
   createSender, createReceiver, connect, ConnectionOptions,
   OnAmqpEvent, AmqpError, createReceiverWithHandlers, Context
 } from "./rhea-promise";
@@ -15,6 +15,7 @@ import * as Constants from "./util/constants";
 import { ConnectionContext } from "./connectionContext";
 import { ConditionStatusMapper, translate } from "./errors";
 import { AmqpMessage } from ".";
+import { retry } from "./retry";
 const debug = debugModule("azure:event-hubs:rpc");
 
 export interface RequestResponseLink {
@@ -35,12 +36,16 @@ export interface SenderLink {
 
 export interface LinkOptions {
   connection: any;
+  onError: OnAmqpEvent;
 }
 
 export interface ReceiverLinkOptions extends LinkOptions {
   onMessage: OnAmqpEvent;
-  onError: OnAmqpEvent;
   receiverOptions: ReceiverOptions;
+}
+
+export interface SenderLinkOptions extends LinkOptions {
+  senderOptions: SenderOptions;
 }
 
 export async function createRequestResponseLink(connection: any, senderOptions: SenderOptions, receiverOptions: ReceiverOptions): Promise<RequestResponseLink> {
@@ -99,7 +104,8 @@ export async function createReceiverLinkWithHandlers(options: ReceiverLinkOption
   }
   const session = await createSession(options.connection);
   const receiver = await createReceiverWithHandlers(session, options.onMessage, options.onError, options.receiverOptions);
-  debug("[%s] Successfully created the receiver link on a dedicated session for it.", options.connection.options.id);
+  debug("[%s] Successfully created the receiver link on a dedicated session for it.",
+    options.connection.options.id);
   return {
     session: session,
     receiver: receiver
@@ -115,7 +121,29 @@ export async function createSenderLink(connection: any, senderOptions: SenderOpt
   }
   const session = await createSession(connection);
   const sender = await createSender(session, senderOptions);
-  debug("[%s] Successfully created the sender link on a dedicated session for it.", connection.options.id);
+  debug("[%s] Successfully created the sender link on a dedicated session for it.",
+    connection.options.id);
+  return {
+    session: session,
+    sender: sender
+  };
+}
+
+export async function createSenderLinkWithHandlers(options: SenderLinkOptions): Promise<SenderLink> {
+  if (!options.connection) {
+    throw new Error(`Please provide a connection to create the sender link on a session.`);
+  }
+  if (!options.senderOptions) {
+    throw new Error(`Please provide sender options.`);
+  }
+  if (!options.onError) {
+    throw new Error(`Please provide onError.`);
+  }
+
+  const session = await createSession(options.connection);
+  const sender = await createSenderWithHandlers(session, options.onError, options.senderOptions);
+  debug("[%s] Successfully created the sender link on a dedicated session for it.",
+    options.connection.options.id);
   return {
     session: session,
     sender: sender
@@ -138,10 +166,10 @@ export function sendRequest(connection: any, link: RequestResponseLink, request:
   if (!request.message_id) request.message_id = uuid();
 
   if (!timeoutInSeconds) {
-    timeoutInSeconds = 30;
+    timeoutInSeconds = 10;
   }
 
-  return new Promise((resolve: any, reject: any) => {
+  const sendRequestPromise: Promise<any> = new Promise((resolve: any, reject: any) => {
     let waitTimer: any;
     let timeOver: boolean = false;
 
@@ -194,6 +222,8 @@ export function sendRequest(connection: any, link: RequestResponseLink, request:
     debug("[%s] %s request sent: %O", connection.options.id, request.to || "$managment", request);
     link.sender.send(request);
   });
+
+  return retry(() => sendRequestPromise);
 }
 
 /**
