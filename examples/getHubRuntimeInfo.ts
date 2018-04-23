@@ -1,4 +1,4 @@
-import { EventHubClient } from "../lib/index";
+import { EventHubClient } from "azure-arm-event-hubs";
 
 const str = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 const path = process.env["EVENTHUB_NAME"] || "";
