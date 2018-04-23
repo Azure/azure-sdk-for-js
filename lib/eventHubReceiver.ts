@@ -199,6 +199,8 @@ export class EventHubReceiver {
     this._onAmqpError = (context: rheaPromise.Context) => {
       const ehError = translate(context.receiver.error);
       // TODO: Should we retry before calling user's error method?
+      debug("[%s] An error occurred for Receiver '%s': %O.",
+        this._context.connectionId, this.name, ehError);
       this._onError!(ehError);
     };
   }
@@ -240,7 +242,7 @@ export class EventHubReceiver {
         await defaultLock.acquire(this._context.connectionLock, () => { return rpc.open(this._context); });
       }
 
-      if (!this._session && !this._receiver) {
+      if (!this._isOpen()) {
         await this._negotiateClaim();
         if (!onAmqpMessage) {
           onAmqpMessage = this._onAmqpMessage;
@@ -253,7 +255,8 @@ export class EventHubReceiver {
         const rcvrOptions = this._createReceiverOptions();
         this._receiver = await rheaPromise.createReceiverWithHandlers(this._session, onAmqpMessage, onAmqpError, rcvrOptions);
         debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
-        debug("[%s] Receiver '%s' created with receiver options: %O", this._context.connectionId, this.name, rcvrOptions);
+        debug("[%s] Receiver '%s' created with receiver options: %O",
+          this._context.connectionId, this.name, rcvrOptions);
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
         if (!this._context.receivers[this.name]) this._context.receivers[this.name] = this;
@@ -261,9 +264,26 @@ export class EventHubReceiver {
       }
     } catch (err) {
       err = translate(err);
-      debug("[%s] An error occured while creating the receiver '%s': %O", this._context.connectionId, this.name, err);
+      debug("[%s] An error occured while creating the receiver '%s': %O",
+        this._context.connectionId, this.name, err);
       throw err;
     }
+  }
+
+  /**
+   * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
+   * @protected
+   *
+   * @return {boolean} boolean
+   */
+  protected _isOpen(): boolean {
+    let result: boolean = false;
+    if (this._session && this._receiver) {
+      if (this._receiver.is_open && this._receiver.is_open()) {
+        result = true;
+      }
+    }
+    return result;
   }
 
   /**
