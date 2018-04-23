@@ -16,16 +16,20 @@ export interface SenderLink {
 }
 export interface LinkOptions {
     connection: any;
+    onError: OnAmqpEvent;
 }
 export interface ReceiverLinkOptions extends LinkOptions {
     onMessage: OnAmqpEvent;
-    onError: OnAmqpEvent;
     receiverOptions: ReceiverOptions;
+}
+export interface SenderLinkOptions extends LinkOptions {
+    senderOptions: SenderOptions;
 }
 export declare function createRequestResponseLink(connection: any, senderOptions: SenderOptions, receiverOptions: ReceiverOptions): Promise<RequestResponseLink>;
 export declare function createReceiverLink(connection: any, receiverOptions: ReceiverOptions): Promise<ReceiverLink>;
 export declare function createReceiverLinkWithHandlers(options: ReceiverLinkOptions): Promise<ReceiverLink>;
 export declare function createSenderLink(connection: any, senderOptions: SenderOptions): Promise<SenderLink>;
+export declare function createSenderLinkWithHandlers(options: SenderLinkOptions): Promise<SenderLink>;
 export declare function sendRequest(connection: any, link: RequestResponseLink, request: AmqpMessage, timeoutInSeconds?: number): Promise<any>;
 /**
  * Opens the AMQP connection to the Event Hub for this client, returning a promise

@@ -309,9 +309,9 @@ class EventHubsError extends Error {
          */
         this.name = "EventHubsError";
         /**
-         * @property {boolean} translated Has the error been previously translated. Default value: false.
+         * @property {boolean} translated Has the error been translated. Default: true.
          */
-        this.translated = false;
+        this.translated = true;
         /**
          *
          * @param {boolean} retryable Describes whether the error is retryable. Default: false.
@@ -362,8 +362,9 @@ function translate(err) {
                 description.match(/The messaging entity .* could not be found.*/i) !== null)) {
             error.name = "MessagingEntityNotFoundError";
         }
-        error.translated = true;
-        if (error.name === "InternalServerError" || error.name === "ServerBusyError") {
+        if (error.name === "InternalServerError"
+            || error.name === "ServerBusyError"
+            || error.name === "ServiceUnavailableError") {
             error.retryable = true;
         }
         return error;
@@ -371,7 +372,6 @@ function translate(err) {
     else {
         // Translate a generic error into EventHubsError.
         const error = new EventHubsError(err.message);
-        error.translated = true;
         return error;
     }
 }

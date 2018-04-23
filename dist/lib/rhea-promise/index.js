@@ -185,6 +185,44 @@ function createSender(session, options) {
 }
 exports.createSender = createSender;
 /**
+ * Creates an amqp sender on the provided amqp session.
+ * @param {Session} session The amqp session object on which the sender link needs to be established.
+ * @param {OnAmqpEvent} onError The event handler for the "error" event for the sender.
+ * @param {SenderOptions} [options] Options that can be provided while creating an amqp sender.
+ * @return {Promise<Sender>} Promise<Sender>
+ * - **Resolves** the promise with the Sender object when rhea emits the "sender_open" event.
+ * - **Rejects** the promise with an AmqpError when rhea emits the "sender_close" event while trying
+ * to create an amqp sender.
+ */
+function createSenderWithHandlers(session, onError, options) {
+    if (!session || (session && typeof session !== "object")) {
+        throw new Error("session is a required parameter and must be of type 'object'.");
+    }
+    return new Promise((resolve, reject) => {
+        const sender = session.attach_sender(options);
+        sender.on("sender_error", onError);
+        function removeListeners(session) {
+            sender.removeListener("sendable", onOpen);
+            sender.removeListener("sender_close", onClose);
+        }
+        function onOpen(context) {
+            removeListeners(session);
+            process.nextTick(() => {
+                debug(`Resolving the promise with amqp sender "${sender.name}".`);
+                resolve(sender);
+            });
+        }
+        function onClose(context) {
+            removeListeners(session);
+            debug(`Error occurred while creating a sender over amqp connection.`, context.sender.error);
+            reject(context.sender.error);
+        }
+        sender.once("sendable", onOpen);
+        sender.once("sender_close", onClose);
+    });
+}
+exports.createSenderWithHandlers = createSenderWithHandlers;
+/**
  * Closes the amqp sender.
  * @param {Sender} sender The amqp sender that needs to be closed.
  * @return {Promise<void>} Promise<void>
