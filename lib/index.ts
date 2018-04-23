@@ -12,6 +12,3 @@ export { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from 
 export { TokenType, TokenProvider, TokenInfo } from "./auth/token";
 export { aadEventHubsAudience } from "./util/constants";
 export { delay } from "./util/utils";
-export import EventHubManagementClient = require("azure-arm-eventhub");
-import * as EventHubManagementModels from "azure-arm-eventhub/lib/models";
-export { EventHubManagementModels };

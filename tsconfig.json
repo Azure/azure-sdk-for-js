@@ -7,13 +7,13 @@
     "target": "es6",
     "moduleResolution": "node",
     "noImplicitReturns": true,
-    "outDir": "dist",
+    "outDir": "dist/lib",
     "allowJs": false,
     "noUnusedLocals":true,
     "strict": true,
     "strictPropertyInitialization": true,
     "declaration": true,
-    "declarationDir": "./typings",
+    "declarationDir": "./typings/lib",
     "lib": [
       "es2015",
       "dom",
@@ -30,10 +30,10 @@
   "exclude": [
     "node_modules",
     "testhub",
-    "typings/**"
+    "typings/**",
+    "examples/**"
   ],
   "include": [
-    "./lib/**/*.ts",
-    "./examples"
+    "./lib/**/*.ts"
   ]
 }
