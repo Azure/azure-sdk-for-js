@@ -27,6 +27,18 @@ stop receiving further events `await receiverHandler.stop()`
 ## IDE ##
 This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) or any other IDE that provides better intellisense and exposes the full power of source code documentation.
 
+## Debug logs ##
+
+You can set the following environment variable to get the debug logs.
+- Getting the debug logs from the Event Hub SDK
+```
+export DEBUG=azure*
+```
+- Getting the debug logs from the Event Hub SDK and the protocol level library.
+```
+export DEBUG=azure*,rhea*
+```
+
 ## Examples ##
 
 Please take a look at the [examples](https://github.com/Azure/azure-event-hubs-node/tree/master/examples) directory for detailed examples.
