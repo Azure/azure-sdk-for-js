@@ -3,10 +3,10 @@
 
 import { EventEmitter } from "events";
 import * as debugModule from "debug";
-import BlobLease, { Lease } from "./blobLease";
+import { BlobLease, Lease } from "./blobLease";
 import { Dictionary } from "../eventData";
 import { delay } from "..";
-const debug = debugModule("cerulean:lease-manager");
+const debug = debugModule("azure:event-hubs:lease-manager");
 
 /**
  * Interface describing the Lease with renew interval and expiry time.
@@ -70,7 +70,7 @@ export interface LeaseManager extends EventEmitter {
  * @extends EventEmitter
  * @implements LeaseManager
  */
-export default class BlobLeaseManager extends EventEmitter implements LeaseManager {
+export class BlobLeaseManager extends EventEmitter implements LeaseManager {
   // Events
   static acquired: string = "lease:acquired";
   static lost: string = "lease:lost";

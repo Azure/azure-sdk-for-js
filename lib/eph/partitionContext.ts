@@ -6,7 +6,7 @@ const debug = debugModule("azure:event-hubs:processor:partition");
 import * as uuid from "uuid/v4";
 import { EventData } from "../eventData";
 import * as Constants from "../util/constants";
-import BlobLease from "./blobLease";
+import { BlobLease } from "./blobLease";
 
 export interface CheckpointInfo {
   partitionId: string;
@@ -62,7 +62,7 @@ export default class PartitionContext {
     try {
       if (this.lease.isHeld) {
         this._checkpointDetails.owner = this._owner; // We"re setting it, ensure we"re the owner.
-        let checkpointDetailsAsString: string = "";
+        let checkpointDetailsAsString: string = "{}";
         try {
           checkpointDetailsAsString = JSON.stringify(this._checkpointDetails);
         } catch (err) {
@@ -71,12 +71,12 @@ export default class PartitionContext {
         await this.lease.updateContent(checkpointDetailsAsString);
         return this._checkpointDetails;
       } else {
-        return Promise.reject(new Error("Lease not held."));
+        throw new Error("Lease not held.");
       }
     } catch (err) {
       const msg = `An error occurred while storing the checkpoint data in the blob: ${JSON.stringify(err)}.`;
       debug(msg);
-      return Promise.reject(msg);
+      throw new Error(msg);
     }
   }
 
@@ -105,15 +105,16 @@ export default class PartitionContext {
           const payload = JSON.parse(contents);
           this.setCheckpointDataFromPayload(payload);
         } catch (err) {
-          debug("Invalid payload '%s': %O", contents, err);
-          return Promise.reject("Invalid payload '" + contents + "': " + err);
+          const msg = `Invalid payload "${contents}": ${JSON.stringify(err)}`
+          debug(msg);
+          throw new Error(msg);
         }
       }
       return this._checkpointDetails;
     } catch (err) {
       const msg = `An error occurred while updating the checkpoint data from lease: ${JSON.stringify(err)}.`;
       debug(msg);
-      return Promise.reject(msg);
+      throw new Error(msg);
     }
   }
 

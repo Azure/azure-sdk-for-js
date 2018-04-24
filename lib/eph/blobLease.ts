@@ -24,7 +24,7 @@ export interface Lease {
   getContent(options?: any): Promise<string>;
 }
 
-export default class BlobLease implements Lease {
+export class BlobLease implements Lease {
 
   static notHeldError: string = "Lease not held";
   static _beginningOfTime: string = new Date(1990, 1, 1).toUTCString();
