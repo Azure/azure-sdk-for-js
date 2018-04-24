@@ -18,7 +18,7 @@ async function main(): Promise<void> {
     console.log("@@@@ receiver with epoch 2.");
     console.log(">>>>> Error occurred for receiver with epoch 2: ", err);
   };
-  client.receiveOnMessage("0", onMessage, onError, { epoch: 2 });
+  client.receive("0", onMessage, onError, { epoch: 2 });
 
   console.log("$$$$ Waiting for 8 seconds to let receiver 1 set up and start receiving messages...");
   await delay(8000);
@@ -32,7 +32,7 @@ async function main(): Promise<void> {
     console.log(">>>>> Error occurred for receiver with epoch 1: ", err);
   };
   console.log("$$$$ Will start receiving messages from receiver with epoch value 1...");
-  client.receiveOnMessage("0", onMessage2, onError2, { epoch: 1 });
+  client.receive("0", onMessage2, onError2, { epoch: 1 });
 }
 
 main().catch((err) => {

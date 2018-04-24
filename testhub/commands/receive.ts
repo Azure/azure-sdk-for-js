@@ -91,7 +91,7 @@ export async function handler(argv: any): Promise<void> {
         const onError = (err: any) => {
           console.log("An error occured with the receiver: %o", err);
         };
-        client.receiveOnMessage(id, onMessage, onError, { consumerGroup: consumerGroup, eventPosition: EventPosition.fromOffset(offset, true) });
+        client.receive(id, onMessage, onError, { consumerGroup: consumerGroup, eventPosition: EventPosition.fromOffset(offset, true) });
       }
     }
   } catch (err) {
