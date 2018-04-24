@@ -1,3 +1,6 @@
+## 2018-04-24 0.1.1
+- Changing `client.receiveOnMessage()` to `client.receive()` as that is a better naming convention and is in sync with other language sdks.
+
 ## 2018-04-23 0.1.0
 - Previously we were depending on [amqp10](https://npmjs.com/package/amqp10) package for the amqp protocol. Moving forward we will be depending on [rhea](https://npmjs.com/package/rhea).
 - The public facing API of this library has major breaking changes from the previous version 0.0.8. Please take a look at the [Readme](./README.md) and the [examples](./examples) directory for detailed samples.

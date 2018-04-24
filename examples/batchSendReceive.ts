@@ -22,7 +22,7 @@ async function main(): Promise<void> {
   const onError: OnError = (err: EventHubsError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  client.receiveOnMessage("0", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+  client.receive("0", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
   console.log("Created Receiver for partition 0 and CG $default.");
 
   const messageCount = 5;

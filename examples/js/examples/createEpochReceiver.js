@@ -26,7 +26,7 @@ function main() {
             console.log("@@@@ receiver with epoch 2.");
             console.log(">>>>> Error occurred for receiver with epoch 2: ", err);
         };
-        client.receiveOnMessage("0", onMessage, onError, { epoch: 2 });
+        client.receive("0", onMessage, onError, { epoch: 2 });
         console.log("$$$$ Waiting for 8 seconds to let receiver 1 set up and start receiving messages...");
         yield azure_arm_event_hubs_1.delay(8000);
         const onMessage2 = (eventData) => {
@@ -39,7 +39,7 @@ function main() {
             console.log(">>>>> Error occurred for receiver with epoch 1: ", err);
         };
         console.log("$$$$ Will start receiving messages from receiver with epoch value 1...");
-        client.receiveOnMessage("0", onMessage2, onError2, { epoch: 1 });
+        client.receive("0", onMessage2, onError2, { epoch: 1 });
     });
 }
 main().catch((err) => {
