@@ -14,15 +14,16 @@ npm install azure-event-hubs
 The simplest usage is to use the static factory method `EventHubClient.createFromConnectionString(_connection-string_, _event-hub-path_)`. Once you have a client, you can use it for:
 
 ### Sending events
-- Client object methods to `client.send()` a single message that allows you to easily send messages.
-- You can even batch multiple messages together using `client.sendBatch()` method.
+- You can send a single event using `client.send()` method.
+- You can even batch multiple events together using `client.sendBatch()` method.
 
 ### Receiving events
-- You can use `await client.receive(...)` to receive a desired number of messages for a specified amount of time. Note this is a blocking call. That is it will return an array of EventData objects
-once it receives the desired number of messages or the max wait time occurs (which ever happens first). This is a useful method for testing/debugging purposes.
-- For production we would expect customers would simply want to receive messages and process them. Hence we have a `client.receiveOnMessage(. . .)` method on the receiver.
-This message takes the `messageHandler()` and the `errorHandler()` amongst other parameters and registers them to the receiver. This method returns a `receiverHandler` that can be used to 
-stop receiving further events `await receiverHandler.stop()`
+- You can use `await client.receiveBatch(...)` to receive desired number of events for specified amount of time. **Note this is a blocking call**. 
+That is it will return an array of EventData objects once it receives the desired number of events or the max wait time occurs (which ever happens first). 
+This is very useful when you want to know how the received events look like or for testing/debugging purposes.
+- For production we would expect customers would simply want to receive events and process them. Hence we have a `client.receive(. . .)` method on the receiver.
+This message takes the `messageHandler()` and the `errorHandler()` amongst other parameters and registers them to the receiver. 
+This method returns a `ReceiverHandler` that can be used to stop receiving further events `await receiverHandler.stop()`
 
 ## IDE ##
 This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) or any other IDE that provides better intellisense and exposes the full power of source code documentation.
@@ -60,7 +61,7 @@ main().catch((err) => {
 ```
 
 ## Example 2.1 - Receive events with handlers
-This mechanism is useful for receiving messages for a longer duration.
+This mechanism is useful for receiving events for a longer duration.
 
 Receive events from partition ID 1 after the current time.
 ```js
@@ -79,7 +80,7 @@ function async main() {
     console.log("Enqueued Time: ", enqueuedTime);
   });
 
-  const receiveHandler = client.receiveOnMessage("1", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+  const receiveHandler = client.receive("1", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
 
   // To stop receiving events later on...
   await receiveHandler.stop();
@@ -93,14 +94,14 @@ main().catch((err) => {
 ## Example 2.2 - Receive specified number of events for a given time
 This mechanism is useful when you want to see how the received events look like. It can also be useful for debugging purpose.
 
-Receive events from partition ID 1 after the current time.
+Receive events from partitionId `"1"` after the current time.
 ```js
 const { EventHubClient, EventPosition } = require('azure-event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
 function async main() {
-  const datas = await receiver.receiveBatch("1", 100 /*number of messages*/, 20 /*amount of time in seconds the receiver should run. Default 60 seconds.*/, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+  const datas = await receiver.receiveBatch("1", 100 /*number of events*/, 20 /*amount of time in seconds the receiver should run. Default 60 seconds.*/, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
   console.log("Array of EventData objects", datas);
 }
 
@@ -111,7 +112,7 @@ main().catch((err) => {
 
 ## Example 3 - Send an event with partition key.
 
-Send an event with a given partition "key" which is then hashed to a partition ID (so all messages with the same key will go to the same ID, but load is balanced between partitions). 
+Send an event with a given "partition-key" which is then hashed to a partition ID (so all events with the same key will go to the same ID, but load is balanced between partitions). 
 
 ```js
 const { EventHubClient, EventPosition } = require('azure-event-hubs');
@@ -174,4 +175,4 @@ main().catch((err) => {
 ```
 
 ## AMQP Dependencies ##
-It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving messages over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
+It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
