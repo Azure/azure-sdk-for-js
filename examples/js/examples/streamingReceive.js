@@ -27,7 +27,7 @@ function main() {
             eventPosition: azure_arm_event_hubs_1.EventPosition.fromEnqueuedTime(Date.now()),
             enableReceiverRuntimeMetric: true
         };
-        const rcvHandler = client.receiveOnMessage("0", onMessage, onError, options);
+        const rcvHandler = client.receive("0", onMessage, onError, options);
         console.log("rcvHandler: ", rcvHandler.name);
     });
 }

@@ -19,7 +19,7 @@ async function main(): Promise<void> {
       console.log(">>>>> Error occurred: ", err);
     };
     //console.log(onMessage, onError);
-    client.receiveOnMessage(ids[i], onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+    client.receive(ids[i], onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
     // giving some time for receiver setup to complete. This will make sure that the receiver can receive the newly sent
     // message from now onwards.
     await delay(3000);
