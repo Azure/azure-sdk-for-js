@@ -19,7 +19,7 @@ async function main(): Promise<void> {
     eventPosition: EventPosition.fromEnqueuedTime(Date.now()),
     enableReceiverRuntimeMetric: true
   }
-  const rcvHandler = client.receiveOnMessage("0", onMessage, onError, options);
+  const rcvHandler = client.receive("0", onMessage, onError, options);
   console.log("rcvHandler: ", rcvHandler.name);
 }
 

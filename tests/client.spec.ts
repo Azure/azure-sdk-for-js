@@ -152,7 +152,7 @@ describe("EventHubClient on ", function () {
           debug(">>>>>>>> error occurred", error);
           done(should.equal(error.name, "MessagingEntityNotFoundError"));
         }
-        client.receiveOnMessage("0", onMessage, onError, { consumerGroup: "some-randome-name" });
+        client.receive("0", onMessage, onError, { consumerGroup: "some-randome-name" });
         debug(">>>>>>>> attached the error handler on the receiver...");
       } catch (err) {
         debug(">>> Some error", err);

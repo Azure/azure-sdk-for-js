@@ -35,7 +35,7 @@ export class ReceiveHandler {
   /**
    * @property {ReceiverRuntimeInfo} runtimeInfo The receiver runtime info. This property will only
    * be enabled when `enableReceiverRuntimeMetric` option is set to true in the
-   * `client.receiveOnMessage()` method.
+   * `client.receive()` method.
    * @readonly
    */
   get runtimeInfo(): ReceiverRuntimeInfo | undefined {
@@ -90,7 +90,7 @@ export class StreamingReceiver extends EventHubReceiver {
    * @param {OnMessage} onMessage The message handler to receive event data objects.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
    */
-  receiveOnMessage(onMessage: OnMessage, onError: OnError): void {
+  receive(onMessage: OnMessage, onError: OnError): void {
     if (!onMessage || typeof onMessage !== "function") {
       throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
     }
