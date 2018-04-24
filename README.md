@@ -69,9 +69,6 @@ const { EventHubClient, EventPosition } = require('azure-event-hubs');
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
 function async main() {
-  const receiver = client.createReceiver("1", );
-  // For receiving messages:
-
   // Option 1: Add handlers for message and error and provide them to the start(). <<<<<<<<<<<<<<<
   const onError = (err) => {
     console.log("An error occurred on the receiver ", err);
