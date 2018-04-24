@@ -168,13 +168,13 @@ export class EventHubClient {
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
-  receiveOnMessage(partitionId: string | number, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler {
+  receive(partitionId: string | number, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler {
     if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     const sReceiver = StreamingReceiver.create(this._context, partitionId, options);
     this._context.receivers[sReceiver.name] = sReceiver;
-    sReceiver.receiveOnMessage(onMessage, onError);
+    sReceiver.receive(onMessage, onError);
     return new ReceiveHandler(sReceiver);
   }
 

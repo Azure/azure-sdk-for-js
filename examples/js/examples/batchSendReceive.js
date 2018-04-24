@@ -30,7 +30,7 @@ function main() {
         const onError = (err) => {
             console.log(">>>>> Error occurred: ", err);
         };
-        client.receiveOnMessage("0", onMessage, onError, { eventPosition: azure_arm_event_hubs_1.EventPosition.fromEnqueuedTime(Date.now()) });
+        client.receive("0", onMessage, onError, { eventPosition: azure_arm_event_hubs_1.EventPosition.fromEnqueuedTime(Date.now()) });
         console.log("Created Receiver for partition 0 and CG $default.");
         const messageCount = 5;
         let datas = [];
