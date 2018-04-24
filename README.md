@@ -18,7 +18,7 @@ The simplest usage is to use the static factory method `EventHubClient.createFro
 - You can even batch multiple events together using `client.sendBatch()` method.
 
 ### Receiving events
-- You can use `await client.receive(...)` to receive desired number of events for specified amount of time. **Note this is a blocking call**. 
+- You can use `await client.receiveBatch(...)` to receive desired number of events for specified amount of time. **Note this is a blocking call**. 
 That is it will return an array of EventData objects once it receives the desired number of events or the max wait time occurs (which ever happens first). 
 This is very useful when you want to know how the received events look like or for testing/debugging purposes.
 - For production we would expect customers would simply want to receive events and process them. Hence we have a `client.receive(. . .)` method on the receiver.
