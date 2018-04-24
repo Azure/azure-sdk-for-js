@@ -62,7 +62,7 @@ export default class BlobLease implements Lease {
         this._containerAndBlobExist = true;
       }
     } catch (err) {
-      let msg = `An error occurred while ensuring that the container and blob exists. ` +
+      const msg = `An error occurred while ensuring that the container and blob exists. ` +
         `It is: \n${JSON.stringify(err)}`;
       return Promise.reject(msg);
     }
@@ -81,7 +81,7 @@ export default class BlobLease implements Lease {
    * Since others may manage lease renewal/acquisition, this allows them to tell the lease whether
    * they believe it is held or not. For instance, if the LeaseManager fails to renew the lease
    * once, the lease may still be held, but after multiple times, the hold might expire.
-   * The LeaseManager may choose to tell the lease that it has lost the hold before that 
+   * The LeaseManager may choose to tell the lease that it has lost the hold before that
    * has actually occurred.
    *
    * The lease is normally pretty good about managing this itself

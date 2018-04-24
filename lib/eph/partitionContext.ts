@@ -74,7 +74,7 @@ export default class PartitionContext {
         return Promise.reject(new Error("Lease not held."));
       }
     } catch (err) {
-      let msg = `An error occurred while storing the checkpoint data in the blob: ${JSON.stringify(err)}.`;
+      const msg = `An error occurred while storing the checkpoint data in the blob: ${JSON.stringify(err)}.`;
       debug(msg);
       return Promise.reject(msg);
     }
@@ -111,7 +111,7 @@ export default class PartitionContext {
       }
       return this._checkpointDetails;
     } catch (err) {
-      let msg = `An error occurred while updating the checkpoint data from lease: ${JSON.stringify(err)}.`;
+      const msg = `An error occurred while updating the checkpoint data from lease: ${JSON.stringify(err)}.`;
       debug(msg);
       return Promise.reject(msg);
     }
