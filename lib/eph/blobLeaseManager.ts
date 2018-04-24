@@ -5,6 +5,7 @@ import { EventEmitter } from "events";
 import * as debugModule from "debug";
 import BlobLease, { Lease } from "./blobLease";
 import { Dictionary } from "../eventData";
+import { delay } from "..";
 const debug = debugModule("cerulean:lease-manager");
 
 /**
@@ -103,9 +104,9 @@ export default class BlobLeaseManager extends EventEmitter implements LeaseManag
    * Manages the specified blob lease.
    * @param {BlobLease} lease The lease to be managed.
    */
-  manageLease(lease: BlobLease): void {
+  async manageLease(lease: BlobLease): Promise<void> {
     this.leases[lease.fullUri] = { lease: lease };
-    this._acquire(lease);
+    await this._acquire(lease);
   }
 
   /**
@@ -141,7 +142,7 @@ export default class BlobLeaseManager extends EventEmitter implements LeaseManag
           lease.isHeld = true;
           this._unmanage(lease);
           this.leases[lease.fullUri].expires = Date.now() + (this.leaseDuration * 1000);
-          this._maintain(lease);
+          await this._maintain(lease);
           this.emit(BlobLeaseManager.acquired, lease);
         } catch (error) {
           const msg = `Failed to acquire lease for "${lease.fullUri}": "${error}". Will retry.`;
@@ -171,10 +172,9 @@ export default class BlobLeaseManager extends EventEmitter implements LeaseManag
             this._unmanage(lease);
             this.emit(BlobLeaseManager.lost, lease);
             lease.isHeld = false;
-            setTimeout(() => {
-              debug(`Lease "${lease.fullUri}" lost. Attempting to re-acquire.`);
-              this._acquire(lease);
-            }, renewPeriod * 2);
+            await delay(renewPeriod * 2);
+            debug(`Lease "${lease.fullUri}" lost. Attempting to re-acquire.`);
+            await this._acquire(lease);
           } else {
             debug(`Failed to renew lease for "${lease.fullUri}": "${error}". Will retry.`);
           }

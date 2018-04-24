@@ -174,32 +174,35 @@ export class EventProcessorHost extends EventEmitter {
    * them, and attempting to grab leases on the (filtered) set. For each successful lease, will
    * get the details from the blob and start a receiver at the point where it left off previously.
    * @method start
-   * @param {function} [partitionFilter]  Predicate that takes a partition ID and return 
+   * @param {function} [partitionFilter]  Predicate that takes a partition ID and return
    * true/false for whether we should attempt to grab the lease and watch it.
    * If not provided, all partitions will be tried.
    *
-   * @return {Promise<EventProcessorHost>}
+   * @return {Promise<void>}
    */
-  async start(partitionFilter?: (id: string | number) => boolean): Promise<EventProcessorHost> {
+  async start(partitionFilter?: (id: string | number) => boolean): Promise<void> {
     try {
       this._contextByPartition = {};
       this._receiverByPartition = {};
       this._leaseManager.reset();
       this._leaseManager.on(BlobLeaseManager.acquired, (lease) => {
         debug("Acquired lease on " + lease.partitionId);
-        this._attachReceiver(lease.partitionId);
+        this._attachReceiver(lease.partitionId).catch((err) => {
+          const msg = `An error occurred while attaching the receiver: ${JSON.stringify(err)}.`;
+          debug(msg);
+        });
       });
       this._leaseManager.on(BlobLeaseManager.lost, (lease) => {
         debug("Lost lease on " + lease.partitionId);
-        this._detachReceiver(lease.partitionId, "Lease lost");
+        this._detachReceiver(lease.partitionId, "Lease lost").catch();
       });
       this._leaseManager.on(BlobLeaseManager.released, (lease) => {
         debug("Released lease on " + lease.partitionId);
-        this._detachReceiver(lease.partitionId, "Lease released");
+        this._detachReceiver(lease.partitionId, "Lease released").catch();
       });
       const ids = await this._eventHubClient.getPartitionIds();
       for (let i = 0; i < ids.length; i++) {
-        let id = ids[i];
+        const id = ids[i];
         if (partitionFilter && !partitionFilter(id)) {
           debug("Skipping partition " + id);
           continue;
@@ -212,9 +215,8 @@ export class EventProcessorHost extends EventEmitter {
         this._leaseManager.manageLease(lease);
       }
     } catch (err) {
-      return Promise.reject(err);
+      throw err;
     }
-    return this;
   }
 
   /**
@@ -223,7 +225,7 @@ export class EventProcessorHost extends EventEmitter {
    */
   async stop(): Promise<void> {
     const unmanage = (l: Lease) => { return this._leaseManager.unmanageLease(l); };
-    let releases: any = [];
+    const releases: any = [];
     for (const partitionId in this._contextByPartition!) {
       if (!this._contextByPartition!.hasOwnProperty(partitionId)) continue;
       const id = partitionId;
@@ -268,16 +270,22 @@ export class EventProcessorHost extends EventEmitter {
     return receiveHandler;
   }
 
-  private async _detachReceiver(partitionId: string, reason?: string): Promise<void> {
+  private _detachReceiver(partitionId: string, reason?: string): Promise<void> {
     const context = this._contextByPartition![partitionId];
     const receiveHandler = this._receiverByPartition![partitionId];
+    let result = Promise.resolve();
     if (receiveHandler) {
       delete this._receiverByPartition![partitionId];
-      await receiveHandler.stop();
-      debug("[%s] [EPH - '%s'] Closed the receiver '%s'.", this._eventHubClient.connectionId,
-        this._hostName, receiveHandler.name);
-      this.emit(EventProcessorHost.closed, context, reason);
+      result = receiveHandler.stop().catch((err) => {
+        debug("[%s] [EPH - '%s'] Receiver '%s' received an error: %O.",
+          this._eventHubClient.connectionId, this._hostName, receiveHandler.name, err);
+      }).finally(() => {
+        debug("[%s] [EPH - '%s'] Closed the receiver '%s'.", this._eventHubClient.connectionId,
+          this._hostName, receiveHandler.name);
+        this.emit(EventProcessorHost.closed, context, reason);
+      });
     }
+    return result;
   }
 
   /**
@@ -301,7 +309,7 @@ export class EventProcessorHost extends EventEmitter {
    * @param {string} eventHubConnectionString Connection string for the Event Hub to receive from.
    * Example: 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;
    * SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {string} [eventHubPath] The name of the EventHub. This is optional if the 
+   * @param {string} [eventHubPath] The name of the EventHub. This is optional if the
    * eventHubConnectionString contains ENTITY_PATH=hub-name.
    * @param {TokenProvider} [tokenProvider] An instance of the token provider that provides the
    * token for authentication. Default value: SasTokenProvider.
