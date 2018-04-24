@@ -27,6 +27,18 @@ stop receiving further events `await receiverHandler.stop()`
 ## IDE ##
 This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) or any other IDE that provides better intellisense and exposes the full power of source code documentation.
 
+## Debug logs ##
+
+You can set the following environment variable to get the debug logs.
+- Getting the debug logs from the Event Hub SDK
+```
+export DEBUG=azure*
+```
+- Getting the debug logs from the Event Hub SDK and the protocol level library.
+```
+export DEBUG=azure*,rhea*
+```
+
 ## Examples ##
 
 Please take a look at the [examples](https://github.com/Azure/azure-event-hubs-node/tree/master/examples) directory for detailed examples.
@@ -47,20 +59,16 @@ main().catch((err) => {
 });
 ```
 
-## Example 2 - Receive Events
+## Example 2.1 - Receive events with handlers
+This mechanism is useful for receiving messages for a longer duration.
 
 Receive events from partition ID 1 after the current time.
-
 ```js
 const { EventHubClient, EventPosition } = require('azure-event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
 function async main() {
-  const receiver = client.createReceiver("1", );
-  // For receiving messages:
-
-  // Option 1: Add handlers for message and error and provide them to the start(). <<<<<<<<<<<<<<<
   const onError = (err) => {
     console.log("An error occurred on the receiver ", err);
   });
@@ -73,10 +81,25 @@ function async main() {
 
   const receiveHandler = client.receiveOnMessage("1", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
 
-  // To stop receiving events using Option 1.
+  // To stop receiving events later on...
   await receiveHandler.stop();
+}
 
-  // Option 2: Use a convenience method.
+main().catch((err) => {
+  console.log(err);
+});
+```
+
+## Example 2.2 - Receive specified number of events for a given time
+This mechanism is useful when you want to see how the received events look like. It can also be useful for debugging purpose.
+
+Receive events from partition ID 1 after the current time.
+```js
+const { EventHubClient, EventPosition } = require('azure-event-hubs');
+
+const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
+
+function async main() {
   const datas = await receiver.receiveBatch("1", 100 /*number of messages*/, 20 /*amount of time in seconds the receiver should run. Default 60 seconds.*/, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
   console.log("Array of EventData objects", datas);
 }
