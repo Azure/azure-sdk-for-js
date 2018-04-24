@@ -3,8 +3,8 @@
 
 import * as uuid from "uuid/v4";
 import * as debugModule from "debug";
-import BlobLeaseManager, { LeaseManager } from "./blobLeaseManager";
-import BlobLease, { Lease } from "./blobLease";
+import { BlobLeaseManager, LeaseManager } from "./blobLeaseManager";
+import { BlobLease, Lease } from "./blobLease";
 import PartitionContext from "./partitionContext";
 import { EventHubClient } from "../eventHubClient";
 import { EventEmitter } from "events";
@@ -23,21 +23,21 @@ const debug = debugModule("azure:event-hubs:processor:host");
 /**
  * Describes the event handler signtaure for the "ephost:opened" event.
  */
-export interface OnOpen {
+export interface OnEphOpen {
   (event: "ephost:opened", handler: (context: PartitionContext) => void): void;
 }
 
 /**
  * Describes the event handler signtaure for the "ephost:message" event.
  */
-export interface OnMessage {
+export interface OnEphMessage {
   (event: "ephost:message", handler: (context: PartitionContext, eventData: EventData) => void): void;
 }
 
 /**
  * Describes the event handler signtaure for the "ephost:closed" event.
  */
-export interface OnClose {
+export interface OnEphClose {
   (event: "ephost:closed", handler: (context: PartitionContext, reason?: any) => void): void;
 }
 
@@ -48,28 +48,71 @@ export interface OnClose {
 export type PartitionFiler = (id: string | number) => boolean;
 
 /**
+ * Describes the optional parameters that can be provided for creating an EventProcessorHost.
+ * @interface EventProcessorOptions
+ */
+export interface EventProcessorOptions {
+  /**
+   * @property {string} [hostName] Name of the processor host. MUST BE UNIQUE.
+   * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+   * `EventProcessorHost.createHostName("your-prefix")`; Default: `js-host-${uuid()}`.
+   */
+  hostName?: string;
+  /**
+   * @property {string} [consumerGroup] The name of the consumer group within the Event Hub. Default
+   * value: "$default"
+   */
+  consumerGroup?: string;
+  /**
+   * @property {LeaseManager} [LeaseManager] A manager to manage leases. Default: BlobLeaseManager.
+   */
+  leaseManager?: LeaseManager;
+}
+
+/**
+ * Describes the optional parameters that can be provided for creating an EventProcessorHost while
+ * creating a client from the EventHub connectionstring.
+ * @interface ConnectionStringBasedOptions
+ * @extends EventProcessorOptions
+ */
+export interface ConnectionStringBasedOptions extends EventProcessorOptions {
+  /**
+   * @property {string} [eventHubPath] The name of the EventHub. This is optional if the
+   * EventHub connection string contains ENTITY_PATH=hub-name else an Error will be thrown.
+   */
+  eventHubPath?: string;
+  /**
+   * @property {TokenProvider} [tokenProvider] An instance of the token provider interface that
+   * provides the token for authentication. Default value: SasTokenProvider.
+   */
+  tokenProvider?: TokenProvider;
+}
+
+/**
  * Describes the Event Processor Host to process events from an EventHub.
  * @class EventProcessorHost
  */
 export class EventProcessorHost extends EventEmitter {
   /**
-   * Opened: Triggered whenever a partition obtains its lease. Passed the PartitionContext.
+   * Opened: Triggered whenever a partition obtains its lease. The PartitionContext is passed to
+   * the event listener.
    */
   static opened: string = "ephost:opened";
   /**
    * Closed: Triggered whenever a partition loses its lease and has to stop receiving,
-   * or when the host is shut down. Passed the PartitionContext and the closing reason.
+   * or when the host is shut down. The PartitionContext and the closing reason is passed to the
+   * event listener.
    */
   static closed: string = "ephost:closed";
   /**
-   * Message: Triggered whenever a message comes in on a given partition.
-   * Passed the PartitionContext and EventData.
+   * Message: Triggered whenever a message comes in on a given partition. The PartitionContext and
+   * EventData is passed to the event listener.
    */
   static message: string = "ephost:message";
 
   /**
-   * Error: Triggered when an error occurs on a given receiver.
-   * Passed the received error.
+   * Error: Triggered when an error occurs on a given receiver. The EventHubsError or a generic
+   * Error object is passed the event listener.
    */
   static error: string = "ephost:error";
 
@@ -83,16 +126,14 @@ export class EventProcessorHost extends EventEmitter {
 
   /**
    * Creates a new host to process events from an Event Hub.
-   * @param {string} hostName Name of the processor host. MUST BE UNIQUE. Strongly recommend
-   * including a Guid to ensure uniqueness.
-   * @param {string} consumerGroup The name of the consumer group within the Event Hub.
    * @param {string} storageConnectionString Connection string to Azure Storage account used for
    * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net
    * @param {EventHubClient} eventHubClient The EventHub client
-   * @param {LeaseManager} [LeaseManager] A manager to manage leases. Default: BlobLeaseManager.
+   * @param {EventProcessorOptions} [options] Optional parameters for creating an
+   * EventProcessorHost.
    */
-  constructor(hostName: string, consumerGroup: string, storageConnectionString: string, eventHubClient: EventHubClient, leaseManager?: LeaseManager) {
+  constructor(storageConnectionString: string, eventHubClient: EventHubClient, options?: EventProcessorOptions) {
     super();
     function ensure(paramName: string, param: any, type: string): void {
       if (!param) throw new Error(`${paramName} cannot be null or undefined.`);
@@ -102,16 +143,15 @@ export class EventProcessorHost extends EventEmitter {
         }
       }
     }
-    ensure("name", hostName, "string");
-    ensure("consumerGroup", consumerGroup, "string");
     ensure("storageConnectionString", storageConnectionString, "string");
     ensure("eventHubClient", eventHubClient, "object");
 
-    this._hostName = hostName;
-    this._consumerGroup = consumerGroup;
+    if (!options) options = {};
     this._eventHubClient = eventHubClient;
     this._storageConnectionString = storageConnectionString;
-    this._leaseManager = leaseManager || new BlobLeaseManager();
+    this._hostName = options.hostName || EventProcessorHost.createHostName();
+    this._consumerGroup = options.consumerGroup || "$default";
+    this._leaseManager = options.leaseManager || new BlobLeaseManager();
     this._contextByPartition = {};
     this._receiverByPartition = {};
   }
@@ -290,6 +330,8 @@ export class EventProcessorHost extends EventEmitter {
 
   /**
    * Convenience method for generating unique host name.
+   * @static
+   *
    * @param {string} [prefix] String to use as the beginning of the name. Default value: "js-host".
    * @return {string} A unique host name
    */
@@ -300,63 +342,51 @@ export class EventProcessorHost extends EventEmitter {
 
   /**
    * Creates a new host to process events from an Event Hub.
-   * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
-   * Strongly recommend including a Guid to ensure uniqueness.
-   * @param {string} consumerGroup The name of the consumer group within the Event Hub.
+   * @static
+   *
    * @param {string} storageConnectionString Connection string to Azure Storage account used for
    * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net
    * @param {string} eventHubConnectionString Connection string for the Event Hub to receive from.
    * Example: 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;
    * SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {string} [eventHubPath] The name of the EventHub. This is optional if the
-   * eventHubConnectionString contains ENTITY_PATH=hub-name.
-   * @param {TokenProvider} [tokenProvider] An instance of the token provider that provides the
-   * token for authentication. Default value: SasTokenProvider.
-   * @param {LeaseManager} [LeaseManager] A manager to manage leases. Default: BlobLeaseManager.
+   * @param {ConnectionStringBasedOptions} [options] Optional parameters for creating an
+   * EventProcessorHost.
    */
   static createFromConnectionString(
-    hostName: string,
-    consumerGroup: string,
     storageConnectionString: string,
     eventHubConnectionString: string,
-    eventHubPath?: string,
-    tokenProvider?: TokenProvider,
-    leaseManager?: LeaseManager): EventProcessorHost {
+    options?: ConnectionStringBasedOptions): EventProcessorHost {
+    if (!options) options = {};
     return new EventProcessorHost(
-      hostName, consumerGroup, storageConnectionString,
-      EventHubClient.createFromConnectionString(eventHubConnectionString, eventHubPath,
-        tokenProvider), leaseManager);
+      storageConnectionString,
+      EventHubClient.createFromConnectionString(eventHubConnectionString, options.eventHubPath,
+        options.tokenProvider), options);
   }
 
   /**
    * Creates a new host to process events from an Event Hub.
-   * @method
-   * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
-   * Strongly recommend including a Guid to ensure uniqueness.
-   * @param {string} consumerGroup The name of the consumer group within the Event Hub.
+   * @static
+   *
    * @param {string} storageConnectionString Connection string to Azure Storage account used for
    * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net
    * @param {string} namespace Fully qualified domain name for Event Hubs.
    * Example: "{your-sb-namespace}.servicebus.windows.net"
-   * @param {string} eventHubPath The name of the EventHub. This is optional if the
-   * eventHubConnectionString contains ENTITY_PATH=hub-name.
+   * @param {string} eventHubPath The name of the EventHub.
    * @param {TokenCredentials} credentials - The AAD Token credentials. It can be one of the
    * following: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials
    * | MSITokenCredentials.
-   * @param {LeaseManager} [LeaseManager] A manager to manage leases. Default: BlobLeaseManager.
+   * @param {ConnectionStringBasedOptions} [options] Optional parameters for creating an
+   * EventProcessorHost.
    */
   static createFromAadTokenCredentials(
-    hostName: string,
-    consumerGroup: string,
     storageConnectionString: string,
     namespace: string,
     eventHubPath: string,
     credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
-    leaseManager?: LeaseManager): EventProcessorHost {
-    return new EventProcessorHost(
-      hostName, consumerGroup, storageConnectionString,
-      EventHubClient.createFromAadTokenCredentials(namespace, eventHubPath, credentials), leaseManager);
+    options?: EventProcessorOptions): EventProcessorHost {
+    return new EventProcessorHost(storageConnectionString,
+      EventHubClient.createFromAadTokenCredentials(namespace, eventHubPath, credentials), options);
   }
 }
