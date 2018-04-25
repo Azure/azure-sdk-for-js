@@ -5,6 +5,7 @@ export {
   PartitionFiler, EventProcessorHost, OnEphClose, OnEphMessage, OnEphOpen,
   ConnectionStringBasedOptions, EventProcessorOptions
 } from "./eventProcessorHost";
-export { CheckpointInfo } from "./partitionContext";
+export { PartitionContext } from "./partitionContext";
+export { CheckpointInfo } from "./checkpointInfo";
 export { Lease } from "./blobLease";
 export { LeaseManager, LeaseWithDuration } from "./blobLeaseManager";

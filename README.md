@@ -51,7 +51,7 @@ const { EventHubClient } = require('azure-event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
-function async main() {
+async function main() {
   const partitionIds = await client.getPartitionIds();
 }
 
@@ -69,16 +69,16 @@ const { EventHubClient, EventPosition } = require('azure-event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
-function async main() {
+async function main() {
   const onError = (err) => {
     console.log("An error occurred on the receiver ", err);
-  });
+  };
   
   const onMessage = (eventData) => {
     console.log(eventData.body);
     const enqueuedTime = eventData.annotations["x-opt-enqueued-time"];
     console.log("Enqueued Time: ", enqueuedTime);
-  });
+  };
 
   const receiveHandler = client.receive("1", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
 
@@ -100,7 +100,7 @@ const { EventHubClient, EventPosition } = require('azure-event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
-function async main() {
+async function main() {
   const datas = await receiver.receiveBatch("1", 100 /*number of events*/, 20 /*amount of time in seconds the receiver should run. Default 60 seconds.*/, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
   console.log("Array of EventData objects", datas);
 }
@@ -119,7 +119,7 @@ const { EventHubClient, EventPosition } = require('azure-event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
-function async main() {
+async function main() {
   const eventData: EventData = { body: "Hello World", partitionKey: "pk12345"};
   const delivery = await client.send(eventData);
   console.log("message sent successfully.");
@@ -139,7 +139,7 @@ const { EventHubClient, EventPosition } = require('azure-event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
-function async main() {
+async function main() {
   const data: EventData = { body: "Hello World 1", message_id: "343-0909-5454-23423-54543" };
   const delivery = await client.send(data, "1");
   console.log("message sent successfully.");
@@ -159,7 +159,7 @@ const { EventHubClient, EventPosition } = require('azure-event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
-function async main() {
+async function main() {
   const datas = [
     { body: "Hello World 1", applicationProperties: { id: "Some id" }, partitionKey: "pk786" },
     { body: "Hello World 2" },

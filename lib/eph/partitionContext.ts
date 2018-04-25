@@ -4,23 +4,18 @@
 import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:processor:partition");
 import * as uuid from "uuid/v4";
-import { EventData } from "../eventData";
+import { EventData } from "../";
 import * as Constants from "../util/constants";
 import { BlobLease } from "./blobLease";
+import { CheckpointInfo } from "./checkpointInfo";
 
-export interface CheckpointInfo {
-  partitionId: string;
-  owner: string;
-  token: string;
-  epoch: number;
-  offset?: string;
-  sequenceNumber: number;
-}
+
+
 /**
  * Describes the Partition Context.
  * @class PartitionContext
  */
-export default class PartitionContext {
+export class PartitionContext {
   partitionId: string;
   lease: BlobLease;
   private _token: string;
@@ -61,13 +56,9 @@ export default class PartitionContext {
   async checkpoint(): Promise<CheckpointInfo> {
     try {
       if (this.lease.isHeld) {
-        this._checkpointDetails.owner = this._owner; // We"re setting it, ensure we"re the owner.
+        this._checkpointDetails.owner = this._owner; // We"re setting it, ensure we are the owner.
         let checkpointDetailsAsString: string = "{}";
-        try {
-          checkpointDetailsAsString = JSON.stringify(this._checkpointDetails);
-        } catch (err) {
-          debug("An error occurred while executing JSON.stringify() on checkpoint details: %O", err);
-        }
+        checkpointDetailsAsString = CheckpointInfo.serialize(this._checkpointDetails);
         await this.lease.updateContent(checkpointDetailsAsString);
         return this._checkpointDetails;
       } else {
@@ -80,7 +71,15 @@ export default class PartitionContext {
     }
   }
 
-  setCheckpointData(owner: string, token: string, epoch: number, offset: string, sequenceNumber: number): void {
+  /**
+   * Sets the checkpoint info.
+   * @param {string} owner Name of the owner.
+   * @param {string} token The token string.
+   * @param {number} epoch The epoch value.
+   * @param {string} offset The offset of the message in the event stream.
+   * @param {number} sequenceNumber The sequnce number of the message in the event stream
+   */
+  setCheckpointInfo(owner: string, token: string, epoch: number, offset: string, sequenceNumber: number): void {
     this._checkpointDetails.owner = owner;
     this._checkpointDetails.token = token;
     this._checkpointDetails.epoch = epoch;
@@ -88,24 +87,20 @@ export default class PartitionContext {
     this._checkpointDetails.sequenceNumber = sequenceNumber;
   }
 
-  setCheckpointDataFromPayload(payload: CheckpointInfo): void {
-    this._checkpointDetails = payload;
-  }
-
   /**
    * Updates the checkpoint data from the owned lease.
    * @return {Promise<CheckpointInfo>}
    */
-  async updateCheckpointDataFromLease(): Promise<CheckpointInfo> {
+  async updateCheckpointInfoFromLease(): Promise<CheckpointInfo> {
     try {
       const contents: string = await this.lease.getContent();
       if (contents) {
         debug("Lease '%s' with content: %s", this.lease.fullUri, contents);
         try {
-          const payload = JSON.parse(contents);
-          this.setCheckpointDataFromPayload(payload);
+          const payload = CheckpointInfo.deserialize(contents);
+          if (payload) this._checkpointDetails = payload;
         } catch (err) {
-          const msg = `Invalid payload "${contents}": ${JSON.stringify(err)}`
+          const msg = `Invalid payload "${contents}": ${JSON.stringify(err)}`;
           debug(msg);
           throw new Error(msg);
         }
@@ -134,7 +129,7 @@ export default class PartitionContext {
         this._checkpointDetails.offset = anno[Constants.offset] as string;
       if (anno[Constants.sequenceNumber])
         this._checkpointDetails.sequenceNumber = anno[Constants.sequenceNumber] as number;
-      debug("Updated checkpoint data from event data is: %o", this._checkpointDetails);
+      debug("Updated checkpoint data from event data is: %O", this._checkpointDetails);
     }
   }
 }

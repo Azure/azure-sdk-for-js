@@ -5,7 +5,7 @@ import * as uuid from "uuid/v4";
 import * as debugModule from "debug";
 import { BlobLeaseManager, LeaseManager } from "./blobLeaseManager";
 import { BlobLease, Lease } from "./blobLease";
-import PartitionContext from "./partitionContext";
+import { PartitionContext } from "./partitionContext";
 import { EventHubClient } from "../eventHubClient";
 import { EventEmitter } from "events";
 import {
@@ -53,11 +53,11 @@ export type PartitionFiler = (id: string | number) => boolean;
  */
 export interface EventProcessorOptions {
   /**
-   * @property {string} [hostName] Name of the processor host. MUST BE UNIQUE.
-   * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
-   * `EventProcessorHost.createHostName("your-prefix")`; Default: `js-host-${uuid()}`.
+   * @property {EventPosition} initialOffset This is only used when then receiver is being created
+   * for the very first time and there is no checkpoint data in the blob. For this option to be
+   * effective please make sure to provide a new hostName that was not used previously.
    */
-  hostName?: string;
+  initialOffset?: EventPosition;
   /**
    * @property {string} [consumerGroup] The name of the consumer group within the Event Hub. Default
    * value: "$default"
@@ -67,6 +67,14 @@ export interface EventProcessorOptions {
    * @property {LeaseManager} [LeaseManager] A manager to manage leases. Default: BlobLeaseManager.
    */
   leaseManager?: LeaseManager;
+  /**
+   * @property {string} [leasecontainerName] Azure Storage container name for use by built-in lease and checkpoint manager.
+   */
+  leasecontainerName?: string;
+  /**
+   * @property {string} [storageBlobPrefix] Prefix used when naming blobs within the storage container.
+   */
+  storageBlobPrefix?: string;
 }
 
 /**
@@ -123,9 +131,12 @@ export class EventProcessorHost extends EventEmitter {
   private _leaseManager: LeaseManager;
   private _contextByPartition?: Dictionary<PartitionContext>;
   private _receiverByPartition?: Dictionary<ReceiveHandler>;
-
+  private _initialOffset?: EventPosition;
   /**
    * Creates a new host to process events from an Event Hub.
+   * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
+   * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+   * `EventProcessorHost.createHostName("your-prefix")`; Default: `js-host-${uuid()}`.
    * @param {string} storageConnectionString Connection string to Azure Storage account used for
    * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net
@@ -133,7 +144,7 @@ export class EventProcessorHost extends EventEmitter {
    * @param {EventProcessorOptions} [options] Optional parameters for creating an
    * EventProcessorHost.
    */
-  constructor(storageConnectionString: string, eventHubClient: EventHubClient, options?: EventProcessorOptions) {
+  constructor(hostName: string, storageConnectionString: string, eventHubClient: EventHubClient, options?: EventProcessorOptions) {
     super();
     function ensure(paramName: string, param: any, type: string): void {
       if (!param) throw new Error(`${paramName} cannot be null or undefined.`);
@@ -149,9 +160,10 @@ export class EventProcessorHost extends EventEmitter {
     if (!options) options = {};
     this._eventHubClient = eventHubClient;
     this._storageConnectionString = storageConnectionString;
-    this._hostName = options.hostName || EventProcessorHost.createHostName();
+    this._hostName = hostName;
     this._consumerGroup = options.consumerGroup || "$default";
     this._leaseManager = options.leaseManager || new BlobLeaseManager();
+    this._initialOffset = options.initialOffset;
     this._contextByPartition = {};
     this._receiverByPartition = {};
   }
@@ -225,30 +237,30 @@ export class EventProcessorHost extends EventEmitter {
       this._contextByPartition = {};
       this._receiverByPartition = {};
       this._leaseManager.reset();
-      this._leaseManager.on(BlobLeaseManager.acquired, (lease) => {
-        debug("Acquired lease on " + lease.partitionId);
-        this._attachReceiver(lease.partitionId).catch((err) => {
+      this._leaseManager.on(BlobLeaseManager.acquired, (lease: Lease) => {
+        debug("Acquired lease on partitionId: '%s'.", lease.partitionId);
+        this._attachReceiver(lease.partitionId as string).catch((err: Error) => {
           const msg = `An error occurred while attaching the receiver: ${JSON.stringify(err)}.`;
           debug(msg);
         });
       });
       this._leaseManager.on(BlobLeaseManager.lost, (lease) => {
-        debug("Lost lease on " + lease.partitionId);
+        debug("Lost lease on on partitionId: '%s'.", lease.partitionId);
         this._detachReceiver(lease.partitionId, "Lease lost").catch();
       });
       this._leaseManager.on(BlobLeaseManager.released, (lease) => {
-        debug("Released lease on " + lease.partitionId);
+        debug("Released lease on partitionId: '%s'.", lease.partitionId);
         this._detachReceiver(lease.partitionId, "Lease released").catch();
       });
       const ids = await this._eventHubClient.getPartitionIds();
       for (let i = 0; i < ids.length; i++) {
         const id = ids[i];
         if (partitionFilter && !partitionFilter(id)) {
-          debug("Skipping partition " + id);
+          debug("Skipping partition id: '%s'.", id);
           continue;
         }
-        debug("Managing lease for partition " + id);
-        const blobPath = this._consumerGroup + "/" + id;
+        debug("Managing lease for partition id: '%s'", id);
+        const blobPath = `${this._consumerGroup}/${id}`;
         const lease = new BlobLease(this._storageConnectionString, this._hostName, blobPath);
         lease.partitionId = id;
         this._contextByPartition![id] = new PartitionContext(id, this._hostName, lease);
@@ -263,7 +275,7 @@ export class EventProcessorHost extends EventEmitter {
    * Stops the EventProcessorHost from processing messages.
    * @return {Promise<void>}
    */
-  async stop(): Promise<void> {
+  stop(): Promise<void> {
     const unmanage = (l: Lease) => { return this._leaseManager.unmanageLease(l); };
     const releases: any = [];
     for (const partitionId in this._contextByPartition!) {
@@ -282,10 +294,14 @@ export class EventProcessorHost extends EventEmitter {
     const context = this._contextByPartition![partitionId];
     if (!context)
       return Promise.reject(new Error("Invalid state - missing context for partition " + partitionId));
-    const checkpoint = await context.updateCheckpointDataFromLease();
+    const checkpoint = await context.updateCheckpointInfoFromLease();
     let eventPosition: EventPosition | undefined = undefined;
     if (checkpoint && checkpoint.offset) {
       eventPosition = EventPosition.fromOffset(checkpoint.offset);
+    } else if (this._initialOffset) {
+      // Since there is no checkpoint offset and the initial offset was provided we shall start
+      // receiving events from that position.
+      eventPosition = this._initialOffset;
     }
     let receiveHandler: ReceiveHandler;
     const rcvrOptions: ReceiveOptions = {
@@ -301,7 +317,7 @@ export class EventProcessorHost extends EventEmitter {
         this._eventHubClient.connectionId, this._hostName, receiveHandler.name, error);
       this.emit(EventProcessorHost.error, error);
     };
-    receiveHandler = this._eventHubClient.receiveOnMessage(partitionId, onMessage, onError, rcvrOptions);
+    receiveHandler = this._eventHubClient.receive(partitionId, onMessage, onError, rcvrOptions);
     debug("[%s] [EPH - '%s'] Attaching receiver '%s' for patition '%s' with offset: %s",
       this._eventHubClient.connectionId, this._hostName, receiveHandler.name,
       partitionId, checkpoint ? checkpoint.offset : "None");
@@ -311,10 +327,10 @@ export class EventProcessorHost extends EventEmitter {
   }
 
   private _detachReceiver(partitionId: string, reason?: string): Promise<void> {
-    const context = this._contextByPartition![partitionId];
     const receiveHandler = this._receiverByPartition![partitionId];
     let result = Promise.resolve();
     if (receiveHandler) {
+      const context = this._contextByPartition![partitionId];
       delete this._receiverByPartition![partitionId];
       result = receiveHandler.stop().catch((err) => {
         debug("[%s] [EPH - '%s'] Receiver '%s' received an error: %O.",
@@ -344,6 +360,9 @@ export class EventProcessorHost extends EventEmitter {
    * Creates a new host to process events from an Event Hub.
    * @static
    *
+   * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
+   * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+   * `EventProcessorHost.createHostName("your-prefix")`; Default: `js-host-${uuid()}`.
    * @param {string} storageConnectionString Connection string to Azure Storage account used for
    * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net
@@ -354,12 +373,12 @@ export class EventProcessorHost extends EventEmitter {
    * EventProcessorHost.
    */
   static createFromConnectionString(
+    hostName: string,
     storageConnectionString: string,
     eventHubConnectionString: string,
     options?: ConnectionStringBasedOptions): EventProcessorHost {
     if (!options) options = {};
-    return new EventProcessorHost(
-      storageConnectionString,
+    return new EventProcessorHost(hostName, storageConnectionString,
       EventHubClient.createFromConnectionString(eventHubConnectionString, options.eventHubPath,
         options.tokenProvider), options);
   }
@@ -368,6 +387,9 @@ export class EventProcessorHost extends EventEmitter {
    * Creates a new host to process events from an Event Hub.
    * @static
    *
+   * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
+   * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+   * `EventProcessorHost.createHostName("your-prefix")`; Default: `js-host-${uuid()}`.
    * @param {string} storageConnectionString Connection string to Azure Storage account used for
    * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net
@@ -381,12 +403,13 @@ export class EventProcessorHost extends EventEmitter {
    * EventProcessorHost.
    */
   static createFromAadTokenCredentials(
+    hostName: string,
     storageConnectionString: string,
     namespace: string,
     eventHubPath: string,
     credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
     options?: EventProcessorOptions): EventProcessorHost {
-    return new EventProcessorHost(storageConnectionString,
+    return new EventProcessorHost(hostName, storageConnectionString,
       EventHubClient.createFromAadTokenCredentials(namespace, eventHubPath, credentials), options);
   }
 }

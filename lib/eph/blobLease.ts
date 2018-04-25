@@ -31,21 +31,21 @@ export class BlobLease implements Lease {
 
   partitionId?: string;
   leaseId?: string;
-  storageAccount: any;
+  storageAccount: string;
   blobService: BlobService;
-  container: any;
-  blob: any;
+  containerName: string;
+  blob: string;
   fullUri: string;
 
   private _isHeld: boolean = false;
   private _containerAndBlobExist: boolean = false;
 
-  constructor(storageConnectionString: string, container: any, blob: any) {
+  constructor(storageConnectionString: string, containerName: string, blob: string) {
     this.blobService = createBlobService(storageConnectionString);
     this.storageAccount = (storageConnectionString.match("AccountName=([^;]*);") || [])[1];
-    this.container = container;
+    this.containerName = containerName;
     this.blob = blob;
-    this.fullUri = `https://${this.storageAccount}.blob.core.windows.net/${container}/${blob}`;
+    this.fullUri = `https://${this.storageAccount}.blob.core.windows.net/${containerName}/${blob}`;
     this._isHeld = false;
     this._containerAndBlobExist = false;
     debug(`Full lease path: ${this.fullUri}`);
@@ -64,7 +64,7 @@ export class BlobLease implements Lease {
     } catch (err) {
       const msg = `An error occurred while ensuring that the container and blob exists. ` +
         `It is: \n${JSON.stringify(err)}`;
-      return Promise.reject(msg);
+      throw new Error(msg);
     }
   }
 
@@ -94,24 +94,25 @@ export class BlobLease implements Lease {
     this._isHeld = isItHeld;
   }
 
-  async acquire(options: BlobService.AcquireLeaseRequestOptions): Promise<BlobLease> {
-    try {
-      await defaultLock.acquire(Constants.ensureContainerAndBlob, () => { return this.ensureContainerAndBlobExist(); });
-      return new Promise<BlobLease>((resolve, reject) => {
-        this.blobService.acquireLease(this.container, this.blob, options, (error, result, response) => {
-          if (error) {
-            reject(error);
-          } else {
-            this.leaseId = result.id;
-            debug(`Acquired lease: ${this.leaseId}`, result);
-            this._isHeld = true;
-            resolve(this);
-          }
-        });
+  acquire(options: BlobService.AcquireLeaseRequestOptions): Promise<BlobLease> {
+    const acquireLeasePromise = new Promise<BlobLease>((resolve, reject) => {
+      this.blobService.acquireLease(this.containerName, this.blob, options, (error, result, response) => {
+        if (error) {
+          reject(error);
+        } else {
+          this.leaseId = result.id;
+          debug("Acquired lease with leaseId: '%s' and the result is: %O.", this.leaseId, result);
+          this._isHeld = true;
+          resolve(this);
+        }
       });
-    } catch (err) {
-      return Promise.reject(err);
-    }
+    });
+    return defaultLock.acquire(Constants.ensureContainerAndBlob,
+      () => {
+        return this.ensureContainerAndBlobExist();
+      }).then(() => acquireLeasePromise)
+      .catch((err) =>
+        Promise.reject(err));
   }
 
   renew(options: BlobService.AcquireLeaseRequestOptions): Promise<BlobLease> {
@@ -119,11 +120,11 @@ export class BlobLease implements Lease {
       if (!this.leaseId) {
         reject(new Error(BlobLease.notHeldError));
       } else {
-        this.blobService.renewLease(this.container, this.blob, this.leaseId, options, (error, result, response) => {
+        this.blobService.renewLease(this.containerName, this.blob, this.leaseId, options, (error, result, response) => {
           if (error) {
             reject(error);
           } else {
-            debug(`Renewed lease: ${this.leaseId}`, result);
+            debug("Renewed lease with leaseId: '%s' and the result is: %O.", this.leaseId, result);
             this._isHeld = true;
             resolve(this);
           }
@@ -138,11 +139,11 @@ export class BlobLease implements Lease {
         reject(new Error(BlobLease.notHeldError));
       } else {
         if (!options) options = {};
-        this.blobService.releaseLease(this.container, this.blob, this.leaseId, options, (error, result, response) => {
+        this.blobService.releaseLease(this.containerName, this.blob, this.leaseId, options, (error, result, response) => {
           if (error) {
             reject(error);
           } else {
-            debug(`Released lease: ${this.leaseId}`, result);
+            debug("Released lease with leaseId: '%s' and the result is: %O.", this.leaseId, result);
             delete this.leaseId;
             this._isHeld = false;
             resolve(this);
@@ -165,11 +166,12 @@ export class BlobLease implements Lease {
       } else {
         if (!options) options = {};
         if (!options.leaseId) options.leaseId = this.leaseId;
-        this.blobService.createBlockBlobFromText(this.container, this.blob, text, options, (error, result, response) => {
+        this.blobService.createBlockBlobFromText(this.containerName, this.blob, text, options, (error, result, response) => {
           if (error) {
             reject(error);
           } else {
-            debug(`Updated blob contents with: ${this.leaseId}`, result);
+            debug("Updated blob contents with leaseId '%s' and the result is %O.",
+              this.leaseId, result);
             resolve(this);
           }
         });
@@ -189,11 +191,12 @@ export class BlobLease implements Lease {
       } else {
         if (!options) options = {};
         if (!options.leaseId) options.leaseId = this.leaseId;
-        this.blobService.getBlobToText(this.container, this.blob, options, (error, text, result, response) => {
+        this.blobService.getBlobToText(this.containerName, this.blob, options, (error, text, result, response) => {
           if (error) {
             reject(error);
           } else {
-            debug(`Fetched blob contents with: ${this.leaseId}`, text, result);
+            debug("Fetched blob contents with leaseId '%s', text '%s' and the result is %O.",
+              this.leaseId, text, result);
             resolve(text);
           }
         });
@@ -202,9 +205,8 @@ export class BlobLease implements Lease {
   }
 
   private _ensureContainerExists(): Promise<CreateContainerResult> {
-    const self = this;
     return new Promise<CreateContainerResult>((resolve, reject) => {
-      self.blobService.createContainerIfNotExists(self.container, (error, result, response) => {
+      this.blobService.createContainerIfNotExists(this.containerName, (error, result, response) => {
         if (error) {
           reject(error);
         } else {
@@ -215,15 +217,13 @@ export class BlobLease implements Lease {
   }
 
   private _ensureBlobExists(): Promise<void> {
-    const self = this;
     return new Promise((resolve, reject) => {
-      // Honestly, there"s no better way to say "hey, make sure this thing exists?"
       const options: BlobService.CreateBlobRequestOptions = {
         accessConditions: {
           DateUnModifiedSince: BlobLease._beginningOfTime
         }
       };
-      self.blobService.createBlockBlobFromText(self.container, self.blob, "", options, (error, result, response) => {
+      this.blobService.createBlockBlobFromText(this.containerName, this.blob, "", options, (error, result, response) => {
         if (error) {
           if ((error as any).statusCode === 412) {
             // Blob already exists.
@@ -242,12 +242,12 @@ export class BlobLease implements Lease {
    * Creates a lease from storage account name and key
    * @param {string} storageAccount The name of the storage account.
    * @param {string} storageKey The storage key value.
-   * @param {BlobService.ContainerResult} container The Azure storage blob container.
-   * @param {BlobService.BlobResult} blob The Azure storage blob.
+   * @param {string} containerName The Azure storage blob container name.
+   * @param {string} blob The Azure storage blob.
    */
-  static createFromNameAndKey(storageAccount: string, storageKey: string, container: BlobService.ContainerResult, blob: BlobService.BlobResult): BlobLease {
+  static createFromNameAndKey(storageAccount: string, storageKey: string, containerName: string, blob: string): BlobLease {
     const connectionString = `DefaultEndpointsProtocol=https;AccountName=${storageAccount};AccountKey=${storageKey}`;
-    return new BlobLease(connectionString, container, blob);
+    return new BlobLease(connectionString, containerName, blob);
   }
 }
 
