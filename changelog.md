@@ -1,3 +1,6 @@
+## 2018-04-26 0.1.2
+- Added missing dependency for `uuid` package and nit fixes in the README.md
+
 ## 2018-04-24 0.1.1
 - Changing `client.receiveOnMessage()` to `client.receive()` as that is a better naming convention and is in sync with other language sdks.
 
