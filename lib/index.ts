@@ -19,4 +19,4 @@ export { EventPosition } from "./eventPosition";
 export { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
 export { TokenType, TokenProvider, TokenInfo } from "./auth/token";
 export { aadEventHubsAudience } from "./util/constants";
-export { delay } from "./util/utils";
+export { delay, Timeout } from "./util/utils";

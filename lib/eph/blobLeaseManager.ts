@@ -5,8 +5,7 @@ import { EventEmitter } from "events";
 import * as debugModule from "debug";
 import { BlobLease, Lease } from "./blobLease";
 import { Dictionary } from "../eventData";
-import { delay } from "..";
-const debug = debugModule("azure:event-hubs:lease-manager");
+const debug = debugModule("azure:event-hubs:processor:lease-manager");
 
 /**
  * Interface describing the Lease with renew interval and expiry time.
@@ -75,8 +74,9 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
   static acquired: string = "lease:acquired";
   static lost: string = "lease:lost";
   static released: string = "lease:released";
+  static renewed: string = "lease:renewed";
   // seconds
-  static defaultLeaseDuration: number = 60;
+  static defaultLeaseDuration: number = 15;
 
   leaseDuration: number = BlobLeaseManager.defaultLeaseDuration;
   leases: Dictionary<LeaseWithDuration>;
@@ -104,9 +104,11 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
    * Manages the specified blob lease.
    * @param {BlobLease} lease The lease to be managed.
    */
-  async manageLease(lease: BlobLease): Promise<void> {
+  manageLease(lease: BlobLease): void {
     this.leases[lease.fullUri] = { lease: lease };
-    await this._acquire(lease);
+    this._acquire(lease).catch((err) => {
+      debug("An error occured while acquiring the lease '%s': %O", lease.fullUri, err);
+    });
   }
 
   /**
@@ -115,7 +117,7 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
    */
   async unmanageLease(lease: BlobLease): Promise<void> {
     try {
-      if (this.leases[lease.fullUri].interval) {
+      if (this.leases && this.leases[lease.fullUri] && this.leases[lease.fullUri].interval) {
         this._unmanage(lease);
         await lease.release();
         debug("Released lease: '%s'.", lease.fullUri);
@@ -129,8 +131,10 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
   }
 
   private _unmanage(lease: BlobLease): void {
-    if (this.leases[lease.fullUri].interval) clearInterval(this.leases[lease.fullUri].interval as NodeJS.Timer);
-    delete this.leases[lease.fullUri].interval;
+    if (this.leases && this.leases[lease.fullUri] && this.leases[lease.fullUri].interval) {
+      clearInterval(this.leases[lease.fullUri].interval as NodeJS.Timer);
+      delete this.leases[lease.fullUri].interval;
+    }
   }
 
   private async _acquire(lease: BlobLease): Promise<void> {
@@ -142,7 +146,9 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
           lease.isHeld = true;
           this._unmanage(lease);
           this.leases[lease.fullUri].expires = Date.now() + (this.leaseDuration * 1000);
-          await this._maintain(lease);
+          this._maintain(lease).catch((err) => {
+            debug("An error occured while maintaining the lease '%s': %O", lease.fullUri, err);
+          });
           this.emit(BlobLeaseManager.acquired, lease);
         } catch (error) {
           debug("Failed to acquire lease for '%s': %O. Will retry.", lease.fullUri, error);
@@ -151,7 +157,7 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
       this.leases[lease.fullUri].interval = setInterval(acquireLease, this.leaseDuration * 1000);
       await acquireLease(); // Best-case scenario, it acquires immediately and clears the interval.
     } catch (err) {
-      debug("An error occured while acquiring the lease for '%s': %O.", lease.fullUri, err);
+      debug("An error occured while acquiring the lease '%s': %O.", lease.fullUri, err);
     }
   }
 
@@ -163,6 +169,7 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
           await lease.renew({ leaseDuration: this.leaseDuration });
           debug("Renewed '%s'.", lease.fullUri);
           this.leases[lease.fullUri].expires = Date.now() + (this.leaseDuration * 1000);
+          this.emit(BlobLeaseManager.renewed, lease);
         } catch (error) {
           if ((this.leases[lease.fullUri].expires as number) < Date.now() + renewPeriod) {
             // We"ll expire before next renewal comes in.
@@ -170,9 +177,13 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
             this._unmanage(lease);
             this.emit(BlobLeaseManager.lost, lease);
             lease.isHeld = false;
-            await delay(renewPeriod * 2);
-            debug("Lease '%s' lost. Attempting to re-acquire.", lease.fullUri);
-            await this._acquire(lease);
+            setTimeout(() => {
+              debug("Lease '%s' lost. Attempting to re-acquire.", lease.fullUri);
+              this._acquire(lease).catch((err) => {
+                debug("An error occured while acquiring the lease '%s': %O", lease.fullUri, err);
+              });
+            }, renewPeriod * 2);
+
           } else {
             debug("Failed to renew lease for '%s': %O. Will retry.", lease.fullUri, error);
           }
