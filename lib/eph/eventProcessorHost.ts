@@ -21,25 +21,19 @@ import { ReceiveHandler } from "../streamingReceiver";
 const debug = debugModule("azure:event-hubs:processor:host");
 
 /**
- * Describes the event handler signtaure for the "ephost:opened" event.
+ * Describes the event handler signature for the "ephost:opened" event.
  */
-export interface OnEphOpen {
-  (event: "ephost:opened", handler: (context: PartitionContext) => void): void;
-}
+export type OnEphOpen = (context: PartitionContext) => void;
 
 /**
- * Describes the event handler signtaure for the "ephost:message" event.
+ * Describes the event handler signature for the "ephost:message" event.
  */
-export interface OnEphMessage {
-  (event: "ephost:message", handler: (context: PartitionContext, eventData: EventData) => void): void;
-}
+export type OnEphMessage = (context: PartitionContext, eventData: EventData) => void;
 
 /**
- * Describes the event handler signtaure for the "ephost:closed" event.
+ * Describes the event handler signature for the "ephost:closed" event.
  */
-export interface OnEphClose {
-  (event: "ephost:closed", handler: (context: PartitionContext, reason?: any) => void): void;
-}
+export type OnEphClose = (context: PartitionContext, reason?: any) => void;
 
 /**
  * A function that takes a partition ID and return true/false for whether we should
@@ -132,6 +126,9 @@ export class EventProcessorHost extends EventEmitter {
   private _contextByPartition?: Dictionary<PartitionContext>;
   private _receiverByPartition?: Dictionary<ReceiveHandler>;
   private _initialOffset?: EventPosition;
+  private _leasecontainerName: string;
+  private _storageBlobPrefix?: string;
+
   /**
    * Creates a new host to process events from an Event Hub.
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
@@ -163,6 +160,7 @@ export class EventProcessorHost extends EventEmitter {
     this._hostName = hostName;
     this._consumerGroup = options.consumerGroup || "$default";
     this._leaseManager = options.leaseManager || new BlobLeaseManager();
+    this._leasecontainerName = options.leasecontainerName || this._hostName;
     this._initialOffset = options.initialOffset;
     this._contextByPartition = {};
     this._receiverByPartition = {};
@@ -237,21 +235,48 @@ export class EventProcessorHost extends EventEmitter {
       this._contextByPartition = {};
       this._receiverByPartition = {};
       this._leaseManager.reset();
-      this._leaseManager.on(BlobLeaseManager.acquired, (lease: Lease) => {
-        debug("Acquired lease on partitionId: '%s'.", lease.partitionId);
-        this._attachReceiver(lease.partitionId as string).catch((err: Error) => {
-          const msg = `An error occurred while attaching the receiver: ${JSON.stringify(err)}.`;
-          debug(msg);
-        });
+      // Acquired lease.
+      this._leaseManager.on(BlobLeaseManager.acquired, async (lease: Lease) => {
+        const id = lease.partitionId!;
+        try {
+          debug("Acquired lease on partitionId: '%s'.", id);
+          await this._attachReceiver(id as string);
+        } catch (err) {
+          debug("An error occurred while attaching the receiver for partition '%s': %O", id, err);
+        }
       });
-      this._leaseManager.on(BlobLeaseManager.lost, (lease) => {
-        debug("Lost lease on on partitionId: '%s'.", lease.partitionId);
-        this._detachReceiver(lease.partitionId, "Lease lost").catch();
+      // Lost lease.
+      this._leaseManager.on(BlobLeaseManager.lost, async (lease: Lease) => {
+        const id = lease.partitionId!;
+        try {
+          debug("Lost lease on on partitionId: '%s'.", id);
+          await this._detachReceiver(id, "Lease lost.");
+        } catch (err) {
+          debug("An error occurred while detaching the receiver for partition '%s': %O", id, err);
+        }
       });
-      this._leaseManager.on(BlobLeaseManager.released, (lease) => {
-        debug("Released lease on partitionId: '%s'.", lease.partitionId);
-        this._detachReceiver(lease.partitionId, "Lease released").catch();
+      // Released lease.
+      this._leaseManager.on(BlobLeaseManager.released, async (lease: Lease) => {
+        const id = lease.partitionId!;
+        try {
+          debug("Released lease on partitionId: '%s'.", lease.partitionId);
+          await this._detachReceiver(id, "Lease released.");
+        } catch (err) {
+          debug("An error occurred while detaching the receiver for partition '%s': %O", id, err);
+        }
       });
+      // Renewed lease.
+      this._leaseManager.on(BlobLeaseManager.renewed, async (lease: Lease) => {
+        const id = lease.partitionId!;
+        try {
+          debug("Renewed lease on partitionId: '%s'.", id);
+          await this._contextByPartition![id].checkpoint();
+          debug(">>>> Successfully checkpointed info for partition '%s'.", id);
+        } catch (err) {
+          debug("An error occurred while checkpointing information for partition '%s': %O", id, err);
+        }
+      });
+
       const ids = await this._eventHubClient.getPartitionIds();
       for (let i = 0; i < ids.length; i++) {
         const id = ids[i];
@@ -260,8 +285,10 @@ export class EventProcessorHost extends EventEmitter {
           continue;
         }
         debug("Managing lease for partition id: '%s'", id);
-        const blobPath = `${this._consumerGroup}/${id}`;
-        const lease = new BlobLease(this._storageConnectionString, this._hostName, blobPath);
+        const blobPath = this._storageBlobPrefix
+          ? `${this._storageBlobPrefix.trim()}${this._consumerGroup}/${id}`
+          : `${this._consumerGroup}/${id}`;
+        const lease = new BlobLease(this._storageConnectionString, this._leasecontainerName, blobPath);
         lease.partitionId = id;
         this._contextByPartition![id] = new PartitionContext(id, this._hostName, lease);
         this._leaseManager.manageLease(lease);
@@ -287,20 +314,29 @@ export class EventProcessorHost extends EventEmitter {
     return Promise.all(releases).then(() => {
       this._leaseManager.reset();
       this._contextByPartition = {};
+      return this._eventHubClient.close();
+    }).catch((err) => {
+      debug("An error occurred while stopping the eph '%s': %O.", this._hostName, err);
     });
   }
 
   private async _attachReceiver(partitionId: string): Promise<ReceiveHandler> {
     const context = this._contextByPartition![partitionId];
     if (!context)
-      return Promise.reject(new Error("Invalid state - missing context for partition " + partitionId));
+      throw new Error(`Invalid state - missing context for partition "${partitionId}".`);
     const checkpoint = await context.updateCheckpointInfoFromLease();
     let eventPosition: EventPosition | undefined = undefined;
     if (checkpoint && checkpoint.offset) {
       eventPosition = EventPosition.fromOffset(checkpoint.offset);
+      debug("[%s] [EPH - '%s'] While creating the receiver, setting the event position " +
+        "to the offset: '%s'.", this._eventHubClient.connectionId, this._hostName,
+        this._initialOffset!.getExpression());
     } else if (this._initialOffset) {
       // Since there is no checkpoint offset and the initial offset was provided we shall start
       // receiving events from that position.
+      debug("[%s] [EPH - '%s'] While creating the receiver, setting the event position to " +
+        "the provided initial offset: '%s'.", this._eventHubClient.connectionId,
+        this._hostName, this._initialOffset!.getExpression());
       eventPosition = this._initialOffset;
     }
     let receiveHandler: ReceiveHandler;
@@ -318,30 +354,29 @@ export class EventProcessorHost extends EventEmitter {
       this.emit(EventProcessorHost.error, error);
     };
     receiveHandler = this._eventHubClient.receive(partitionId, onMessage, onError, rcvrOptions);
-    debug("[%s] [EPH - '%s'] Attaching receiver '%s' for patition '%s' with offset: %s",
+    debug("[%s] [EPH - '%s'] Attaching receiver '%s' for partition '%s' with offset: %s",
       this._eventHubClient.connectionId, this._hostName, receiveHandler.name,
-      partitionId, checkpoint ? checkpoint.offset : "None");
+      partitionId, (checkpoint ? checkpoint.offset : "None"));
     this.emit(EventProcessorHost.opened, context);
     this._receiverByPartition![partitionId] = receiveHandler;
     return receiveHandler;
   }
 
-  private _detachReceiver(partitionId: string, reason?: string): Promise<void> {
+  private async _detachReceiver(partitionId: string, reason?: string): Promise<void> {
     const receiveHandler = this._receiverByPartition![partitionId];
-    let result = Promise.resolve();
-    if (receiveHandler) {
-      const context = this._contextByPartition![partitionId];
-      delete this._receiverByPartition![partitionId];
-      result = receiveHandler.stop().catch((err) => {
-        debug("[%s] [EPH - '%s'] Receiver '%s' received an error: %O.",
-          this._eventHubClient.connectionId, this._hostName, receiveHandler.name, err);
-      }).finally(() => {
+    const context = this._contextByPartition![partitionId];
+    try {
+      if (receiveHandler) {
+        delete this._receiverByPartition![partitionId];
+        await receiveHandler.stop();
         debug("[%s] [EPH - '%s'] Closed the receiver '%s'.", this._eventHubClient.connectionId,
           this._hostName, receiveHandler.name);
         this.emit(EventProcessorHost.closed, context, reason);
-      });
+      }
+    } catch (err) {
+      debug("[%s] [EPH - '%s'] Receiver '%s' received an error: %O.",
+        this._eventHubClient.connectionId, this._hostName, receiveHandler.name, err);
     }
-    return result;
   }
 
   /**

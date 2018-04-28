@@ -53,6 +53,49 @@ export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
  */
 export const defaultLock: AsyncLock = new AsyncLock();
 
+export class Timeout {
+
+  private _timer?: NodeJS.Timer;
+
+  set<T>(t: number, value?: T): Promise<T> {
+    return new Promise<T>((resolve) => {
+      this._timer = setTimeout(() => resolve(value), t);
+    });
+  }
+
+  clear(): void {
+    if (this._timer) {
+      clearTimeout(this._timer);
+    }
+  }
+
+  wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T> {
+    const wrappedPromise = this._promiseFinally(promise, () => this.clear());
+    const timer = this.set(t, value);
+    return Promise.race([wrappedPromise, timer]);
+  }
+
+  private _promiseFinally<T>(promise: Promise<T>, fn: Function): Promise<T> {
+    const success = (result: T) => {
+      fn();
+      return result;
+    };
+    const error = (e: Error) => {
+      fn();
+      return Promise.reject(e);
+    };
+    return Promise.resolve(promise).then(success, error);
+  }
+
+  static set<T>(t: number, value?: T): Promise<T> {
+    return new Timeout().set(t, value);
+  }
+
+  static wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T> {
+    return new Timeout().wrap(promise, t, value);
+  }
+}
+
 /**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
  * @param {number} t - The number of milliseconds to be delayed.

@@ -54,20 +54,22 @@ export class PartitionContext {
    * @return {Promise<CheckpointInfo>}
    */
   async checkpoint(): Promise<CheckpointInfo> {
+    let leaseId: string = "";
     try {
       if (this.lease.isHeld) {
+        leaseId = this.lease.leaseId!;
         this._checkpointDetails.owner = this._owner; // We"re setting it, ensure we are the owner.
         let checkpointDetailsAsString: string = "{}";
         checkpointDetailsAsString = CheckpointInfo.serialize(this._checkpointDetails);
         await this.lease.updateContent(checkpointDetailsAsString);
         return this._checkpointDetails;
       } else {
-        throw new Error("Lease not held.");
+        throw new Error("Lease is not held.");
       }
     } catch (err) {
-      const msg = `An error occurred while storing the checkpoint data in the blob: ${JSON.stringify(err)}.`;
-      debug(msg);
-      throw new Error(msg);
+      debug("An error occurred while checkpointing info with lease id '%s' in the blob: %O",
+        leaseId, err);
+      throw err;
     }
   }
 

@@ -6,7 +6,7 @@ import { createBlobService, BlobService, ServiceResponse } from "azure-storage";
 import * as Constants from "../util/constants";
 import { defaultLock } from "../util/utils";
 
-const debug = debugModule("cerulean:lease");
+const debug = debugModule("azure:event-hubs:processor:lease");
 
 export interface CreateContainerResult {
   created: BlobService.ContainerResult;
@@ -48,7 +48,7 @@ export class BlobLease implements Lease {
     this.fullUri = `https://${this.storageAccount}.blob.core.windows.net/${containerName}/${blob}`;
     this._isHeld = false;
     this._containerAndBlobExist = false;
-    debug(`Full lease path: ${this.fullUri}`);
+    debug("Full lease path: '%s'.", this.fullUri);
   }
 
   /**
@@ -94,25 +94,9 @@ export class BlobLease implements Lease {
     this._isHeld = isItHeld;
   }
 
-  acquire(options: BlobService.AcquireLeaseRequestOptions): Promise<BlobLease> {
-    const acquireLeasePromise = new Promise<BlobLease>((resolve, reject) => {
-      this.blobService.acquireLease(this.containerName, this.blob, options, (error, result, response) => {
-        if (error) {
-          reject(error);
-        } else {
-          this.leaseId = result.id;
-          debug("Acquired lease with leaseId: '%s' and the result is: %O.", this.leaseId, result);
-          this._isHeld = true;
-          resolve(this);
-        }
-      });
-    });
-    return defaultLock.acquire(Constants.ensureContainerAndBlob,
-      () => {
-        return this.ensureContainerAndBlobExist();
-      }).then(() => acquireLeasePromise)
-      .catch((err) =>
-        Promise.reject(err));
+  async acquire(options: BlobService.AcquireLeaseRequestOptions): Promise<BlobLease> {
+    await defaultLock.acquire(Constants.ensureContainerAndBlob, () => { return this.ensureContainerAndBlobExist(); });
+    return await this._acquireLease(options);
   }
 
   renew(options: BlobService.AcquireLeaseRequestOptions): Promise<BlobLease> {
@@ -166,6 +150,8 @@ export class BlobLease implements Lease {
       } else {
         if (!options) options = {};
         if (!options.leaseId) options.leaseId = this.leaseId;
+        debug("Updating with leaseId '%s' in the container '%s' of the blob '%s' .",
+          this.leaseId, this.containerName, this.blob);
         this.blobService.createBlockBlobFromText(this.containerName, this.blob, text, options, (error, result, response) => {
           if (error) {
             reject(error);
@@ -204,13 +190,33 @@ export class BlobLease implements Lease {
     });
   }
 
-  private _ensureContainerExists(): Promise<CreateContainerResult> {
-    return new Promise<CreateContainerResult>((resolve, reject) => {
-      this.blobService.createContainerIfNotExists(this.containerName, (error, result, response) => {
+  private _acquireLease(options: BlobService.AcquireLeaseRequestOptions): Promise<BlobLease> {
+    return new Promise<BlobLease>((resolve, reject) => {
+      this.blobService.acquireLease(this.containerName, this.blob, options, (error, result, response) => {
         if (error) {
           reject(error);
         } else {
-          resolve({ created: result, details: response });
+          this.leaseId = result.id;
+          debug("Acquired lease with leaseId: '%s' and the result is: %O.", this.leaseId, result);
+          this._isHeld = true;
+          resolve(this);
+        }
+      });
+    });
+  }
+
+  private _ensureContainerExists(): Promise<CreateContainerResult> {
+    return new Promise<CreateContainerResult>((resolve, reject) => {
+      debug("Ensuring that the container '%s' exists.", this.containerName);
+      this.blobService.createContainerIfNotExists(this.containerName, (error, result, response) => {
+        if (error) {
+          debug("An error occurred while ensuring that the container '%s' exists: %O",
+            this.containerName, error);
+          reject(error);
+        } else {
+          const containerInfo = { created: result, details: response };
+          debug("Result for Container '%s': %O", this.containerName, containerInfo);
+          resolve(containerInfo);
         }
       });
     });
@@ -223,12 +229,15 @@ export class BlobLease implements Lease {
           DateUnModifiedSince: BlobLease._beginningOfTime
         }
       };
+      debug("Ensuring that blob '%s' exists in container '%s'.", this.blob, this.containerName);
       this.blobService.createBlockBlobFromText(this.containerName, this.blob, "", options, (error, result, response) => {
         if (error) {
           if ((error as any).statusCode === 412) {
             // Blob already exists.
             resolve();
           } else {
+            debug("An error occurred while ensuring that blob '%s' exists in container '%s': %O",
+              this.blob, this.containerName, error);
             reject(error);
           }
         } else {
