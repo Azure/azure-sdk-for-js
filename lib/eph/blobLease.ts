@@ -6,7 +6,7 @@ import { createBlobService, BlobService, ServiceResponse } from "azure-storage";
 import * as Constants from "../util/constants";
 import { defaultLock } from "../util/utils";
 
-const debug = debugModule("azure:event-hubs:processor:lease");
+const debug = debugModule("azure:event-hubs:eph:lease");
 
 export interface CreateContainerResult {
   created: BlobService.ContainerResult;
@@ -36,11 +36,13 @@ export class BlobLease implements Lease {
   containerName: string;
   blob: string;
   fullUri: string;
+  hostName: string;
 
   private _isHeld: boolean = false;
   private _containerAndBlobExist: boolean = false;
 
-  constructor(storageConnectionString: string, containerName: string, blob: string) {
+  constructor(hostName: string, storageConnectionString: string, containerName: string, blob: string) {
+    this.hostName = hostName;
     this.blobService = createBlobService(storageConnectionString);
     this.storageAccount = (storageConnectionString.match("AccountName=([^;]*);") || [])[1];
     this.containerName = containerName;
@@ -48,7 +50,7 @@ export class BlobLease implements Lease {
     this.fullUri = `https://${this.storageAccount}.blob.core.windows.net/${containerName}/${blob}`;
     this._isHeld = false;
     this._containerAndBlobExist = false;
-    debug("Full lease path: '%s'.", this.fullUri);
+    debug("[%s] Full lease path: '%s'.", this.hostName, this.fullUri);
   }
 
   /**
@@ -108,7 +110,8 @@ export class BlobLease implements Lease {
           if (error) {
             reject(error);
           } else {
-            debug("Renewed lease with leaseId: '%s' and the result is: %O.", this.leaseId, result);
+            debug("[%s] Renewed lease with leaseId: '%s' and the result is: %O.",
+              this.hostName, this.leaseId, result);
             this._isHeld = true;
             resolve(this);
           }
@@ -127,7 +130,8 @@ export class BlobLease implements Lease {
           if (error) {
             reject(error);
           } else {
-            debug("Released lease with leaseId: '%s' and the result is: %O.", this.leaseId, result);
+            debug("[%s] Released lease with leaseId: '%s' and the result is: %O.",
+              this.hostName, this.leaseId, result);
             delete this.leaseId;
             this._isHeld = false;
             resolve(this);
@@ -150,14 +154,14 @@ export class BlobLease implements Lease {
       } else {
         if (!options) options = {};
         if (!options.leaseId) options.leaseId = this.leaseId;
-        debug("Updating with leaseId '%s' in the container '%s' of the blob '%s' .",
-          this.leaseId, this.containerName, this.blob);
+        debug("[%s] Updating with leaseId '%s' in the container '%s' of the blob '%s' .",
+          this.hostName, this.leaseId, this.containerName, this.blob);
         this.blobService.createBlockBlobFromText(this.containerName, this.blob, text, options, (error, result, response) => {
           if (error) {
             reject(error);
           } else {
-            debug("Updated blob contents with leaseId '%s' and the result is %O.",
-              this.leaseId, result);
+            debug("[%s] Updated blob contents with leaseId '%s' and the result is %O.",
+              this.hostName, this.leaseId, result);
             resolve(this);
           }
         });
@@ -181,8 +185,8 @@ export class BlobLease implements Lease {
           if (error) {
             reject(error);
           } else {
-            debug("Fetched blob contents with leaseId '%s', text '%s' and the result is %O.",
-              this.leaseId, text, result);
+            debug("[%s] Fetched blob contents with leaseId '%s', text '%s' and the result is %O.",
+              this.hostName, this.leaseId, text, result);
             resolve(text);
           }
         });
@@ -197,7 +201,8 @@ export class BlobLease implements Lease {
           reject(error);
         } else {
           this.leaseId = result.id;
-          debug("Acquired lease with leaseId: '%s' and the result is: %O.", this.leaseId, result);
+          debug("[%s] Acquired lease with leaseId: '%s' and the result is: %O.",
+            this.hostName, this.leaseId, result);
           this._isHeld = true;
           resolve(this);
         }
@@ -207,15 +212,16 @@ export class BlobLease implements Lease {
 
   private _ensureContainerExists(): Promise<CreateContainerResult> {
     return new Promise<CreateContainerResult>((resolve, reject) => {
-      debug("Ensuring that the container '%s' exists.", this.containerName);
+      debug("[%s] Ensuring that the container '%s' exists.", this.containerName);
       this.blobService.createContainerIfNotExists(this.containerName, (error, result, response) => {
         if (error) {
-          debug("An error occurred while ensuring that the container '%s' exists: %O",
-            this.containerName, error);
+          debug("[%s] An error occurred while ensuring that the container '%s' exists: %O",
+            this.hostName, this.containerName, error);
           reject(error);
         } else {
           const containerInfo = { created: result, details: response };
-          debug("Result for Container '%s': %O", this.containerName, containerInfo);
+          debug("[%s] Result for Container '%s': %O",
+            this.hostName, this.containerName, containerInfo);
           resolve(containerInfo);
         }
       });
@@ -229,15 +235,16 @@ export class BlobLease implements Lease {
           DateUnModifiedSince: BlobLease._beginningOfTime
         }
       };
-      debug("Ensuring that blob '%s' exists in container '%s'.", this.blob, this.containerName);
+      debug("[%s] Ensuring that blob '%s' exists in container '%s'.",
+        this.hostName, this.blob, this.containerName);
       this.blobService.createBlockBlobFromText(this.containerName, this.blob, "", options, (error, result, response) => {
         if (error) {
           if ((error as any).statusCode === 412) {
             // Blob already exists.
             resolve();
           } else {
-            debug("An error occurred while ensuring that blob '%s' exists in container '%s': %O",
-              this.blob, this.containerName, error);
+            debug("[%s] An error occurred while ensuring that blob '%s' exists in container '%s': %O",
+              this.hostName, this.blob, this.containerName, error);
             reject(error);
           }
         } else {
@@ -249,14 +256,15 @@ export class BlobLease implements Lease {
 
   /**
    * Creates a lease from storage account name and key
+   * @param {string} hostName The EPH host name to which the lease belongs.
    * @param {string} storageAccount The name of the storage account.
    * @param {string} storageKey The storage key value.
    * @param {string} containerName The Azure storage blob container name.
    * @param {string} blob The Azure storage blob.
    */
-  static createFromNameAndKey(storageAccount: string, storageKey: string, containerName: string, blob: string): BlobLease {
+  static createFromNameAndKey(hostName: string, storageAccount: string, storageKey: string, containerName: string, blob: string): BlobLease {
     const connectionString = `DefaultEndpointsProtocol=https;AccountName=${storageAccount};AccountKey=${storageKey}`;
-    return new BlobLease(connectionString, containerName, blob);
+    return new BlobLease(hostName, connectionString, containerName, blob);
   }
 }
 

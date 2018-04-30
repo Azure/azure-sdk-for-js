@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as debugModule from "debug";
-const debug = debugModule("azure:event-hubs:processor:checkpointInfo");
+const debug = debugModule("azure:event-hubs:eph:checkpointInfo");
 
 /**
  * Describes the checkoint information.

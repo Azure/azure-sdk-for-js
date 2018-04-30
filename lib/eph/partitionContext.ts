@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as debugModule from "debug";
-const debug = debugModule("azure:event-hubs:processor:partition");
+const debug = debugModule("azure:event-hubs:eph:partition");
 import * as uuid from "uuid/v4";
 import { EventData } from "../";
 import * as Constants from "../util/constants";
@@ -37,7 +37,7 @@ export class PartitionContext {
       partitionId: this.partitionId,
       owner: this._owner,
       token: this._token,
-      epoch: 1,
+      epoch: -1,
       sequenceNumber: 0
     };
   }
@@ -51,18 +51,20 @@ export class PartitionContext {
    *
    * @method checkpoint
    *
-   * @return {Promise<CheckpointInfo>}
+   * @return {Promise<CheckpointInfo | void>}
    */
-  async checkpoint(): Promise<CheckpointInfo> {
+  async checkpoint(): Promise<CheckpointInfo | void> {
     let leaseId: string = "";
     try {
       if (this.lease.isHeld) {
-        leaseId = this.lease.leaseId!;
-        this._checkpointDetails.owner = this._owner; // We"re setting it, ensure we are the owner.
-        let checkpointDetailsAsString: string = "{}";
-        checkpointDetailsAsString = CheckpointInfo.serialize(this._checkpointDetails);
-        await this.lease.updateContent(checkpointDetailsAsString);
-        return this._checkpointDetails;
+        if (this._checkpointDetails.epoch > -1) {
+          leaseId = this.lease.leaseId!;
+          this._checkpointDetails.owner = this._owner; // We"re setting it, ensure we are the owner.
+          let checkpointDetailsAsString: string = "{}";
+          checkpointDetailsAsString = CheckpointInfo.serialize(this._checkpointDetails);
+          await this.lease.updateContent(checkpointDetailsAsString);
+          return this._checkpointDetails;
+        }
       } else {
         throw new Error("Lease is not held.");
       }

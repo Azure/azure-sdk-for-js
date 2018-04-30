@@ -110,3 +110,22 @@ export function delay<T>(t: number, value?: T): Promise<T> {
  * Type declaration for a Function type where T is the input to the function and V is the output of the function.
  */
 export type Func<T, V> = (a: T) => V;
+
+/*
+ * Executes an array of promises sequentially. Inspiration of this method is here:
+ * https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html. An awesome blog on promises!
+ *
+ * @param {Array} promiseFactories An array of promise factories(A function that return a promise)
+ *
+ * @param {any} [kickstart] Input to the first promise that is used to kickstart the promise chain.
+ * If not provided then the promise chain starts with undefined.
+ *
+ * @return A chain of resolved or rejected promises
+ */
+export function executePromisesSequentially(promiseFactories: Array<any>, kickstart?: any): Promise<any> {
+  let result = Promise.resolve(kickstart);
+  promiseFactories.forEach((promiseFactory) => {
+    result = result.then(promiseFactory);
+  });
+  return result;
+}
