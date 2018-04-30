@@ -9,14 +9,18 @@ import * as Constants from "../util/constants";
 import { BlobLease } from "./blobLease";
 import { CheckpointInfo } from "./checkpointInfo";
 
-
-
 /**
  * Describes the Partition Context.
  * @class PartitionContext
  */
 export class PartitionContext {
+  /**
+   * @property {string} partitionId The eventhub partition id.
+   */
   partitionId: string;
+  /**
+   * @property {string} owner The name of the owner.
+   */
   lease: BlobLease;
   private _token: string;
   private _owner: string;
@@ -46,8 +50,9 @@ export class PartitionContext {
    * Stores the checkpoint data into the appropriate blob, assuming the lease is held (otherwise, rejects).
    *
    * The checkpoint data is structured as a JSON payload (example):
-   * {"partitionId":"0","owner":"ephtest","token":"48e209e3-55f0-41b8-a8dd-d9c09ff6c35a",
-   * "epoch":1,"offset":"","sequenceNumber":0}
+   * `{ "PartitionId":"0","Owner":"ephtest","Token":"48e209e3-55f0-41b8-a8dd-d9c09ff6c35a",
+   * "Epoch":1,"Offset":"","SequenceNumber":0}`. The format and the casing of keys in the object
+   * is in sync with the .net sdk of EventHubs.
    *
    * @method checkpoint
    *

@@ -26,11 +26,32 @@ export interface LeaseWithDuration {
   expires?: number;
 }
 
+/**
+ * Describes the LeaseManager module. It is a placeholder for defining some constants pertaining to
+ * the lease manager.
+ * @namespace LeaseManager
+ */
 export namespace LeaseManager {
+  /**
+   * @constant {string} acquired Describes the value "lease:acquired" for the event name when the
+   * lease is acquired.
+   */
   export const acquired = "lease:acquired";
+  /**
+   * @constant {string} lost Describes the value "lease:lost" for the event name when the
+   * lease is lost.
+   */
   export const lost = "lease:lost";
+  /**
+   * @constant {string} released Describes the value "lease:released" for the event name when the
+   * lease is released.
+   */
   export const released = "lease:released";
-  export let defaultLeaseDuration: number;
+  /**
+   * @constant {string} defaultLeaseDuration Describes the value in seconds for the default lease
+   * duration after which the lease expires. Default: 15 seconds.
+   */
+  export let defaultLeaseDuration: number = 15;
 }
 
 /**
@@ -80,6 +101,9 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
 
   leaseDuration: number = BlobLeaseManager.defaultLeaseDuration;
   leases: Dictionary<LeaseWithDuration>;
+  /**
+   * @property {string} hostName The associated hostName with the lease manager.
+   */
   hostName: string;
 
   /**

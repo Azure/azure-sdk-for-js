@@ -9,11 +9,30 @@ const debug = debugModule("azure:event-hubs:eph:checkpointInfo");
  * @interface CheckpointInfo
  */
 export interface CheckpointInfo {
+  /**
+   * @property {string} partitionId The EventHub partition id.
+   */
   partitionId: string;
+  /**
+   * @property {string} owner The name of the owner checking in this event (usually the eph host name).
+   */
   owner: string;
+  /**
+   * @property {string} token The token associated with the lease.
+   */
   token: string;
+  /**
+   * @property {string} epoch The epoch value associated with the receiver that is checking in this
+   * event.
+   */
   epoch: number;
+  /**
+   * @property {string} offset The offset of the event to be checked in.
+   */
   offset?: string;
+  /**
+   * @property {string} sequenceNumber The sequence number of the event to be checked in.
+   */
   sequenceNumber: number;
 }
 
@@ -30,9 +49,13 @@ export interface CheckpointInfoUpperCase {
   SequenceNumber: number;
 }
 
+/**
+ * Describes the checkoint information.
+ * @namespace CheckpointInfo
+ */
 export namespace CheckpointInfo {
   /**
-   * Serializes the checkpoint info before writing it to the blobl
+   * Serializes the checkpoint info before writing it to the blob.
    * @param {CheckpointInfo} data The checkpoint data that needs to be serialized.
    * @return {serializedString} serializedString
    */
