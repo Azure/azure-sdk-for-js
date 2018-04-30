@@ -13,14 +13,53 @@ export interface CreateContainerResult {
   details: ServiceResponse;
 }
 
+/**
+ * Describes the lease used to checkpoint the offset of data received by a receiver for a given
+ * partition in a consumer group for an EventHub.
+ */
 export interface Lease {
+  /**
+   * @property {string} [partitionId] The associated partitionId for which the lease is held.
+   */
   partitionId?: string;
+  /**
+   * @property {string} [leaseId] The unqiue identifier for the lease. In the BlobLease this
+   * property will be set after getting a lease from the Azure Blob storage.
+   */
   leaseId?: string;
+  /**
+   * @property {boolean} isHeld Determines whether the lease is held. Default: false.
+   */
   isHeld: boolean;
+  /**
+   * Acquires the lease.
+   * @param {*} options Any options that need to be passed to acquire the lease.
+   * @returns {Promise<Lease>} Promise<Lease>
+   */
   acquire(options: any): Promise<Lease>;
+  /**
+   * Renews the lease.
+   * @param {*} options Any options that need to be passed to renew the lease.
+   * @returns {Promise<Lease>} Promise<Lease>
+   */
   renew(options: any): Promise<Lease>;
+  /**
+   * Releases the lease.
+   * @param {*} options Any options that need to be passed to release the lease.
+   * @returns {Promise<Lease>} Promise<Lease>
+   */
   release(options: any): Promise<Lease>;
+  /**
+   * Updates the content
+   * @param {*} options Any options that need to be passed to update the blob content.
+   * @returns {Promise<Lease>} Promise<Lease>
+   */
   updateContent(text: string, options?: any): Promise<Lease>;
+  /**
+   * Gets the content.
+   * @param {*} [options] Any options that need to be passed to get the blob content.
+   * @returns {Promise<string>} Promise<string>
+   */
   getContent(options?: any): Promise<string>;
 }
 
@@ -267,4 +306,3 @@ export class BlobLease implements Lease {
     return new BlobLease(hostName, connectionString, containerName, blob);
   }
 }
-
