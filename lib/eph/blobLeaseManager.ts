@@ -5,7 +5,7 @@ import { EventEmitter } from "events";
 import * as debugModule from "debug";
 import { BlobLease, Lease } from "./blobLease";
 import { Dictionary } from "../eventData";
-const debug = debugModule("azure:event-hubs:processor:lease-manager");
+const debug = debugModule("azure:event-hubs:eph:lease-manager");
 
 /**
  * Interface describing the Lease with renew interval and expiry time.
@@ -80,6 +80,7 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
 
   leaseDuration: number = BlobLeaseManager.defaultLeaseDuration;
   leases: Dictionary<LeaseWithDuration>;
+  hostName: string;
 
   /**
    * Instantiates a BlobLeaseManager.
@@ -87,10 +88,11 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
    * @param {number} [leaseDurationInSeconds] The lease duration in seconds for which it
    * can be held. Default value: 60.
    */
-  constructor(leaseDurationInSeconds?: number) {
+  constructor(hostName: string, leaseDurationInSeconds?: number) {
     super();
     this.leases = {};
     this.leaseDuration = leaseDurationInSeconds || BlobLeaseManager.defaultLeaseDuration;
+    this.hostName = hostName;
   }
 
   /**
@@ -107,7 +109,8 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
   manageLease(lease: BlobLease): void {
     this.leases[lease.fullUri] = { lease: lease };
     this._acquire(lease).catch((err) => {
-      debug("An error occured while acquiring the lease '%s': %O", lease.fullUri, err);
+      debug("[%s] An error occured while acquiring the lease '%s': %O",
+        this.hostName, lease.fullUri, err);
     });
   }
 
@@ -120,12 +123,13 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
       if (this.leases && this.leases[lease.fullUri] && this.leases[lease.fullUri].interval) {
         this._unmanage(lease);
         await lease.release();
-        debug("Released lease: '%s'.", lease.fullUri);
+        debug("[%s] Released lease: '%s'.", this.hostName, lease.fullUri);
         lease.isHeld = false;
         this.emit(BlobLeaseManager.released, lease);
       }
     } catch (ignored) {
-      debug("Ignoring error when unmanaging lease, as it likely means it was not held: %O", ignored);
+      debug("[%s] Ignoring error when unmanaging lease, as it likely means it was not held: %O",
+        this.hostName, ignored);
       this.emit(BlobLeaseManager.released, lease);
     }
   }
@@ -142,22 +146,25 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
       const acquireLease = async (): Promise<void> => {
         try {
           await lease.acquire({ leaseDuration: this.leaseDuration });
-          debug("Acquired lease: '%s'.", lease.fullUri);
+          debug("[%s] Acquired lease: '%s'.", this.hostName, lease.fullUri);
           lease.isHeld = true;
           this._unmanage(lease);
           this.leases[lease.fullUri].expires = Date.now() + (this.leaseDuration * 1000);
           this._maintain(lease).catch((err) => {
-            debug("An error occured while maintaining the lease '%s': %O", lease.fullUri, err);
+            debug("[%s] An error occured while maintaining the lease '%s': %O",
+              this.hostName, lease.fullUri, err);
           });
           this.emit(BlobLeaseManager.acquired, lease);
         } catch (error) {
-          debug("Failed to acquire lease for '%s': %O. Will retry.", lease.fullUri, error);
+          debug("[%s] Failed to acquire lease for '%s': %O. Will retry.",
+            this.hostName, lease.fullUri, error);
         }
       };
       this.leases[lease.fullUri].interval = setInterval(acquireLease, this.leaseDuration * 1000);
       await acquireLease(); // Best-case scenario, it acquires immediately and clears the interval.
     } catch (err) {
-      debug("An error occured while acquiring the lease '%s': %O.", lease.fullUri, err);
+      debug("[%s] An error occured while acquiring the lease '%s': %O.",
+        this.hostName, lease.fullUri, err);
     }
   }
 
@@ -167,7 +174,7 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
       this.leases[lease.fullUri].interval = setInterval(async () => {
         try {
           await lease.renew({ leaseDuration: this.leaseDuration });
-          debug("Renewed '%s'.", lease.fullUri);
+          debug("[%s] Renewed '%s'.", this.hostName, lease.fullUri);
           this.leases[lease.fullUri].expires = Date.now() + (this.leaseDuration * 1000);
           this.emit(BlobLeaseManager.renewed, lease);
         } catch (error) {
@@ -178,19 +185,23 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
             this.emit(BlobLeaseManager.lost, lease);
             lease.isHeld = false;
             setTimeout(() => {
-              debug("Lease '%s' lost. Attempting to re-acquire.", lease.fullUri);
+              debug("[%s] Lease '%s' lost. Attempting to re-acquire.",
+                this.hostName, lease.fullUri);
               this._acquire(lease).catch((err) => {
-                debug("An error occured while acquiring the lease '%s': %O", lease.fullUri, err);
+                debug("[%s] An error occured while acquiring the lease '%s': %O",
+                  this.hostName, lease.fullUri, err);
               });
             }, renewPeriod * 2);
 
           } else {
-            debug("Failed to renew lease for '%s': %O. Will retry.", lease.fullUri, error);
+            debug("[%s] Failed to renew lease for '%s': %O. Will retry.",
+              this.hostName, lease.fullUri, error);
           }
         }
       }, renewPeriod);
     } catch (err) {
-      debug("An error occured while renewing the lease for '%s': %O.", lease.fullUri, err);
+      debug("[%s] An error occured while renewing the lease for '%s': %O.",
+        this.hostName, lease.fullUri, err);
     }
   }
 }

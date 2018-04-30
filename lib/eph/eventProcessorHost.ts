@@ -18,7 +18,7 @@ import {
   DeviceTokenCredentials, MSITokenCredentials
 } from "ms-rest-azure";
 import { ReceiveHandler } from "../streamingReceiver";
-const debug = debugModule("azure:event-hubs:processor:host");
+const debug = debugModule("azure:event-hubs:eph:host");
 
 /**
  * Describes the event handler signature for the "ephost:opened" event.
@@ -159,7 +159,7 @@ export class EventProcessorHost extends EventEmitter {
     this._storageConnectionString = storageConnectionString;
     this._hostName = hostName;
     this._consumerGroup = options.consumerGroup || "$default";
-    this._leaseManager = options.leaseManager || new BlobLeaseManager();
+    this._leaseManager = options.leaseManager || new BlobLeaseManager(hostName);
     this._leasecontainerName = options.leasecontainerName || this._hostName;
     this._initialOffset = options.initialOffset;
     this._contextByPartition = {};
@@ -270,10 +270,12 @@ export class EventProcessorHost extends EventEmitter {
         const id = lease.partitionId!;
         try {
           debug("Renewed lease on partitionId: '%s'.", id);
-          await this._contextByPartition![id].checkpoint();
-          debug(">>>> Successfully checkpointed info for partition '%s'.", id);
+          const info = await this._contextByPartition![id].checkpoint();
+          debug(">>>> [EPH - %s] Successfully checkpointed info '%o' for partition '%s'.",
+            this._hostName, info, id);
         } catch (err) {
-          debug("An error occurred while checkpointing information for partition '%s': %O", id, err);
+          debug("[EPH - %s] An error occurred while checkpointing information for partition '%s': %O",
+            this._hostName, id, err);
         }
       });
 
@@ -288,7 +290,8 @@ export class EventProcessorHost extends EventEmitter {
         const blobPath = this._storageBlobPrefix
           ? `${this._storageBlobPrefix.trim()}${this._consumerGroup}/${id}`
           : `${this._consumerGroup}/${id}`;
-        const lease = new BlobLease(this._storageConnectionString, this._leasecontainerName, blobPath);
+        const lease = new BlobLease(this._hostName, this._storageConnectionString,
+          this._leasecontainerName, blobPath);
         lease.partitionId = id;
         this._contextByPartition![id] = new PartitionContext(id, this._hostName, lease);
         this._leaseManager.manageLease(lease);
