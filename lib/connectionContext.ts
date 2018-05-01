@@ -4,6 +4,7 @@
 
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
+import * as rhea from "rhea";
 import * as Constants from "./util/constants";
 import { ConnectionConfig } from ".";
 import { EventHubReceiver } from "./eventHubReceiver";
@@ -12,7 +13,9 @@ import { TokenProvider } from "./auth/token";
 import { ManagementClient } from "./managementClient";
 import { CbsClient } from "./cbs";
 import { SasTokenProvider } from "./auth/sas";
+import { ClientOptions } from "./eventHubClient";
 
+const isBuffer = require("is-buffer");
 const debug = debugModule("azure:event-hubs:connectionContext");
 
 /**
@@ -33,6 +36,14 @@ export interface ConnectionContext {
    * @property {string} [connectionId] The amqp connection id that uniquely identifies the connection within a process.
    */
   connectionId?: string;
+  /**
+   * @property {Function} encoder A function that takes the body from EventData object and returns the encoded body.
+   */
+  encoder: (body: any) => any;
+  /**
+   * @property {Function} decoder A function that takes the AMQP message body and returns the decoded body.
+   */
+  decoder: (body: any) => any;
   /**
    * @property {TokenProvider} tokenProvider The TokenProvider to be used for getting tokens for authentication for the EventHub client.
    */
@@ -75,17 +86,54 @@ export namespace ConnectionContext {
    */
   export const userAgent: string = "/js-event-hubs";
 
-  export function create(config: ConnectionConfig, tokenProvider?: TokenProvider): ConnectionContext {
+  function encodeMessage(body: any): any {
+    let result: any;
+    if (body != undefined)
+      if (isBuffer(body))
+        result = rhea.message.data_section(body);
+      else if (typeof body !== "string")
+        result = rhea.message.data_section(Buffer.from(JSON.stringify(body), "utf8"));
+      else
+        result = rhea.message.data_section(Buffer.from(body, "utf8"));
+    else
+      result = rhea.message.data_section(Buffer.from("", "utf8"));
+
+    return result;
+  }
+
+  function decodeMessage(body: any): any {
+    let processedBody: any = body;
+    if (isBuffer(body)) {
+      processedBody = body.toString("utf8");
+    } else if (typeof body === "string") {
+      processedBody = body;
+    } else if (body.content) {
+      processedBody = body.content.toString("utf8");
+    }
+    try {
+      processedBody = JSON.parse(processedBody);
+    } catch (err) {
+      // do nothing
+    }
+
+    return processedBody;
+  }
+
+  export function create(config: ConnectionConfig, options?: ClientOptions): ConnectionContext {
     ConnectionConfig.validate(config);
+    if (!options) options = {};
     const context: ConnectionContext = {
       connectionLock: `${Constants.establishConnection}-${uuid()}`,
       negotiateClaimLock: `${Constants.negotiateClaim}-${uuid()}`,
       config: config,
-      tokenProvider: tokenProvider || new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey),
+      tokenProvider: options.tokenProvider ||
+        new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey),
       cbsSession: new CbsClient(),
       managementSession: new ManagementClient(config.entityPath!),
       senders: {},
-      receivers: {}
+      receivers: {},
+      encoder: encodeMessage,
+      decoder: decodeMessage
     };
     debug("Created connection context: %O", context);
     return context;

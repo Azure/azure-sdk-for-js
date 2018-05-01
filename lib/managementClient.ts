@@ -9,7 +9,6 @@ import { RequestResponseLink, createRequestResponseLink, sendRequest } from "./r
 import { defaultLock } from "./util/utils";
 import { AmqpMessage } from ".";
 
-const Buffer = require("buffer/").Buffer;
 const debug = debugModule("azure:event-hubs:management");
 
 export interface EventHubRuntimeInformation {
