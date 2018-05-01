@@ -177,8 +177,8 @@ export class EventHubSender {
       try {
         await rheaPromise.closeSender(this._sender);
         delete this._context.senders[this.name!];
-        debug("[%s] Deleted the sender '%s' from the client cache.",
-          this._context.connectionId, this.name);
+        debug("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
+          this._context.connectionId, this.name, this.address);
         this._sender = undefined;
         this._session = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
@@ -367,7 +367,7 @@ export class EventHubSender {
         this._context.connection, tokenObject);
     });
     debug("[%s] Negotiated claim for sender '%s' with with partition: %s",
-      this._context.connectionId, this.partitionId);
+      this._context.connectionId, this.name, this.partitionId);
     if (setTokenRenewal) {
       await this._ensureTokenRenewal();
     }
@@ -392,7 +392,8 @@ export class EventHubSender {
       }
     }, nextRenewalTimeout);
     debug("[%s]Sender '%s', has next token renewal in %d seconds @(%s).",
-      nextRenewalTimeout / 1000, new Date(Date.now() + nextRenewalTimeout).toString());
+      this._context.connectionId, this.name, nextRenewalTimeout / 1000,
+      new Date(Date.now() + nextRenewalTimeout).toString());
   }
 
   /**

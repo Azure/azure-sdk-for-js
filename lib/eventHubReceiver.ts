@@ -333,20 +333,21 @@ export class EventHubReceiver {
     // is single threaded, we need a locking mechanism to ensure that a race condition does not happen while
     // creating a shared resource (in this case the cbs session, since we want to have exactly 1 cbs session
     // per connection).
-    debug("Acquiring lock: '%s' for creating the cbs session while creating the receiver: ${this.name}.",
-      this._context.connectionId, this._context.cbsSession.cbsLock, this.name);
+    debug("[%s] Acquiring lock: '%s' for creating the cbs session while creating the " +
+      "receiver: '%s' with address: '%s'.", this._context.connectionId, this._context.cbsSession.cbsLock,
+      this.name, this.address);
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
     await defaultLock.acquire(this._context.cbsSession.cbsLock, () => { return this._context.cbsSession.init(this._context.connection); });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
     debug("[%s] EH Receiver '%s': calling negotiateClaim for audience '%s'.", this._context.connectionId, this.audience);
     // Acquire the lock to negotiate the CBS claim.
-    debug("[%s] Acquiring lock: '%s' for cbs auth for receiver: '%s'.",
-      this._context.connectionId, this._context.negotiateClaimLock, this.name);
+    debug("[%s] Acquiring lock: '%s' for cbs auth for receiver: '%s' with address: '%s'.",
+      this._context.connectionId, this._context.negotiateClaimLock, this.name, this.address);
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
       return this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
     });
-    debug("[%s] Negotiated claim for receiver '%s' with with partition '%s'",
-      this._context.connectionId, this.name, this.partitionId);
+    debug("[%s] Negotiated claim for receiver '%s' with address '%s'",
+      this._context.connectionId, this.name, this.address);
     if (setTokenRenewal) {
       await this._ensureTokenRenewal();
     }
@@ -366,11 +367,12 @@ export class EventHubReceiver {
         await this._negotiateClaim(true);
       } catch (err) {
         // TODO: May be add some retries over here before emitting the error.
-        debug("[%s] Receiver '%s', an error occurred while renewing the token: %O",
-          this._context.connectionId, this.name, translate(err));
+        debug("[%s] Receiver '%s', with address '%s' an error occurred while renewing the token: %O",
+          this._context.connectionId, this.name, this.address, translate(err));
       }
     }, nextRenewalTimeout);
-    debug("[%s]Receiver '%s', has next token renewal in %d seconds @(%s).", this._context.connectionId,
-      this.name, nextRenewalTimeout / 1000, new Date(Date.now() + nextRenewalTimeout).toString());
+    debug("[%s]Receiver '%s' with address '%s' has next token renewal in %d seconds @(%s).",
+      this._context.connectionId, this.name, this.address, nextRenewalTimeout / 1000,
+      new Date(Date.now() + nextRenewalTimeout).toString());
   }
 }
