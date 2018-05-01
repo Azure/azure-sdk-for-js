@@ -17,10 +17,10 @@
                 "-t",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/tests/client.spec.ts"
+                "${workspaceFolder}/tests/eph.spec.ts"
             ],
             "internalConsoleOptions": "openOnSessionStart",
-            "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.enve file for supported environment variables.
+            "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
         },
         {
             "type": "node",
@@ -30,7 +30,7 @@
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"
             ],
-            "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.enve file for supported environment variables.
+            "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
         },
         {
             "type": "node",

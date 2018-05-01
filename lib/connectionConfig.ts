@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { parseConnectionString } from "./util/utils";
+import { parseConnectionString, EventHubConnectionStringModel } from "./util/utils";
 
 export interface ConnectionConfig {
   /**
@@ -40,7 +40,7 @@ export namespace ConnectionConfig {
     if (!connectionString || (connectionString && typeof connectionString !== "string")) {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
-    const parsedCS = parseConnectionString(connectionString);
+    const parsedCS = parseConnectionString<EventHubConnectionStringModel>(connectionString);
     if (!path && !parsedCS.EntityPath) {
       throw new Error(`Either provide "path" or the "connectionString": "${connectionString}", must contain EntityPath="<path-to-the-entity>".`);
     }
