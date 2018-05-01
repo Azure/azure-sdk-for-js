@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as crypto from "crypto";
-import { parseConnectionString } from "../util/utils";
+import { parseConnectionString, EventHubConnectionStringModel } from "../util/utils";
 import { TokenInfo, TokenProvider, TokenType } from "./token";
 
 /**
@@ -84,7 +84,7 @@ export class SasTokenProvider implements TokenProvider {
    * @param {string} connectionString - The EventHub connection string
    */
   static fromConnectionString(connectionString: string): SasTokenProvider {
-    const parsed = parseConnectionString(connectionString);
+    const parsed = parseConnectionString<EventHubConnectionStringModel>(connectionString);
     return new SasTokenProvider(parsed.Endpoint, parsed.SharedAccessKeyName, parsed.SharedAccessKey);
   }
 }

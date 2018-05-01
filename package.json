@@ -37,7 +37,7 @@
     "tslint": "tslint -p . -c tslint.json --exclude examples/**/*.ts --exclude tests/**/*.ts",
     "tsc": "tsc",
     "build": "npm run tslint && npm run tsc",
-    "test": "npm run unit",
+    "test": "npm run build",
     "unit": "mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts --abort-on-uncaught-exception",
     "prepare": "npm run build"
   },

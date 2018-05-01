@@ -13,7 +13,8 @@ export interface AsyncLockOptions {
    */
   maxPending?: number;
   /**
-   * @property {boolean} [domainReentrant] Whether lock can reenter in the same domain. Default is: false.
+   * @property {boolean} [domainReentrant] Whether lock can reenter in the same domain.
+   * Default is: false.
    */
   domainReentrant?: boolean;
   /**
@@ -22,7 +23,7 @@ export interface AsyncLockOptions {
   Promise?: any;
 }
 
-export interface ParsedConnectionString {
+export interface EventHubConnectionStringModel {
   Endpoint: string;
   SharedAccessKeyName: string;
   SharedAccessKey: string;
@@ -30,7 +31,19 @@ export interface ParsedConnectionString {
   [x: string]: any;
 }
 
-export function parseConnectionString(connectionString: string): ParsedConnectionString {
+export interface StorageConnectionStringModel {
+  DefaultEndpointsProtocol: string;
+  AccountName: string;
+  AccountKey: string;
+  EndpointSuffix: string;
+  [x: string]: any;
+}
+
+export type ParsedOutput<T> = {
+  [P in keyof T]: T[P];
+};
+
+export function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
   return connectionString.split(';').reduce((acc, part) => {
     const splitIndex = part.indexOf('=');
     return {
