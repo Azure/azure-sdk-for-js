@@ -37,19 +37,6 @@ export interface CheckpointInfo {
 }
 
 /**
- * Describes the .net sdk's way of checkpointing information. If someone has previously used .net
- * sdk then we should be able to use that information.
- */
-export interface CheckpointInfoUpperCase {
-  PartitionId: string;
-  Owner: string;
-  Token: string;
-  Epoch: number;
-  Offset?: string;
-  SequenceNumber: number;
-}
-
-/**
  * Describes the checkoint information.
  * @namespace CheckpointInfo
  */
@@ -60,17 +47,9 @@ export namespace CheckpointInfo {
    * @return {serializedString} serializedString
    */
   export function serialize(data: CheckpointInfo): string {
-    const result: CheckpointInfoUpperCase = {
-      Epoch: data.epoch,
-      Owner: data.owner,
-      PartitionId: data.partitionId,
-      Token: data.token,
-      SequenceNumber: data.sequenceNumber,
-      Offset: data.offset
-    };
     let resultAsString = "{}";
     try {
-      resultAsString = JSON.stringify(result);
+      resultAsString = JSON.stringify(data);
     } catch (err) {
       debug("An error occurred while executing JSON.stringify() on checkpoint details %o: %O",
         data, err);
@@ -78,7 +57,9 @@ export namespace CheckpointInfo {
     return resultAsString;
   }
   /**
-   * Deserializes the checkpoint data received from the blob.
+   * Deserializes the checkpoint data received from the blob. We take care of deserializing the blob
+   * content if someone ran a .net sdk EPH which stores the JSON keys in PascalCase. When we
+   * checkpoint, we will follow the standard convention of camelCasing the JSON keys.
    * @param {string} response The content received from the storage blob.
    * @return {CheckpointInfo} CheckpointInfo.
    */

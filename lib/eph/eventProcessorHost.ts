@@ -39,7 +39,16 @@ export type OnEphClose = (context: PartitionContext, reason?: any) => void;
  * A function that takes a partition ID and return true/false for whether we should
  *  attempt to grab the lease and watch it.
  */
-export type PartitionFiler = (id: string | number) => boolean;
+export type PartitionFilter = (id: string | number) => boolean;
+
+export interface StartEPHOptions {
+  /**
+   * @property {PartitionFilter} [partitionFilter] Predicate that takes a partition ID and return
+   * true/false for whether we should attempt to grab the lease and watch it.
+   * If not provided, all partitions will be tried.
+   */
+  partitionFilter?: PartitionFilter;
+}
 
 /**
  * Describes the optional parameters that can be provided for creating an EventProcessorHost.
@@ -186,11 +195,7 @@ export class EventProcessorHost extends EventEmitter {
    * @returns {Promise<EventHubRuntimeInformation>}
    */
   async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
-    try {
-      return await this._eventHubClient.getHubRuntimeInformation();
-    } catch (err) {
-      return Promise.reject(err);
-    }
+    return await this._eventHubClient.getHubRuntimeInformation();
   }
 
   /**
@@ -199,11 +204,7 @@ export class EventProcessorHost extends EventEmitter {
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    */
   async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
-    try {
-      return await this._eventHubClient.getPartitionInformation(partitionId);
-    } catch (err) {
-      return Promise.reject(err);
-    }
+    return await this._eventHubClient.getPartitionInformation(partitionId);
   }
 
   /**
@@ -212,11 +213,7 @@ export class EventProcessorHost extends EventEmitter {
    * @returns {Promise<string[]>}
    */
   async getPartitionIds(): Promise<string[]> {
-    try {
-      return this._eventHubClient.getPartitionIds();
-    } catch (err) {
-      return Promise.reject(err);
-    }
+    return this._eventHubClient.getPartitionIds();
   }
 
   /**
@@ -224,14 +221,14 @@ export class EventProcessorHost extends EventEmitter {
    * them, and attempting to grab leases on the (filtered) set. For each successful lease, will
    * get the details from the blob and start a receiver at the point where it left off previously.
    * @method start
-   * @param {function} [partitionFilter]  Predicate that takes a partition ID and return
-   * true/false for whether we should attempt to grab the lease and watch it.
-   * If not provided, all partitions will be tried.
    *
+   * @param {StartEPHOptions} [options] Optional parameters that can be provided while starting the
+   * EPH.
    * @return {Promise<void>}
    */
-  async start(partitionFilter?: (id: string | number) => boolean): Promise<void> {
+  async start(options?: StartEPHOptions): Promise<void> {
     try {
+      if (!options) options = {};
       this._contextByPartition = {};
       this._receiverByPartition = {};
       this._leaseManager.reset();
@@ -282,7 +279,7 @@ export class EventProcessorHost extends EventEmitter {
       const ids = await this._eventHubClient.getPartitionIds();
       for (let i = 0; i < ids.length; i++) {
         const id = ids[i];
-        if (partitionFilter && !partitionFilter(id)) {
+        if (options.partitionFilter && !options.partitionFilter(id)) {
           debug("Skipping partition id: '%s'.", id);
           continue;
         }

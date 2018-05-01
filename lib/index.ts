@@ -12,11 +12,11 @@ export {
 } from "./errors";
 export { EventHubClient, ReceiveOptions } from "./eventHubClient";
 export {
-  EventProcessorHost, OnEphClose, OnEphMessage, OnEphOpen, PartitionFiler,
+  EventProcessorHost, OnEphClose, OnEphMessage, OnEphOpen, PartitionFilter,
   ConnectionStringBasedOptions, EventProcessorOptions
 } from "./eph";
 export { EventPosition } from "./eventPosition";
 export { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
 export { TokenType, TokenProvider, TokenInfo } from "./auth/token";
 export { aadEventHubsAudience } from "./util/constants";
-export { delay, Timeout } from "./util/utils";
+export { delay, Timeout, EventHubConnectionStringModel } from "./util/utils";
