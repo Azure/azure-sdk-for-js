@@ -187,6 +187,8 @@ export class EventHubReceiver {
     };
     this._onAmqpMessage = (context: rheaPromise.Context) => {
       const evData = EventData.fromAmqpMessage(context.message!);
+      evData.body = this._context.decoder(context.message!.body);
+
       if (this.receiverRuntimeMetricEnabled && evData) {
         this.runtimeInfo.lastSequenceNumber = evData.lastSequenceNumber;
         this.runtimeInfo.lastEnqueuedTimeUtc = evData.lastEnqueuedTime;

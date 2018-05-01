@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as chai from "chai";
+import * as assert from "assert";
 const should = chai.should();
 import * as chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -47,6 +48,74 @@ describe("Misc tests", function () {
     datas[0].body.toString().should.equal(msgString);
   });
 
+  it("should be able to send and receive a JSON object as a message correctly", async function () {
+    const partitionId = hubInfo.partitionIds[0];
+    const msgBody = {
+      id: '123-456-789',
+      weight: 10,
+      isBlue: true,
+      siblings: [
+        {
+          id: '098-789-564',
+          weight: 20,
+          isBlue: false,
+        }
+      ]
+    };
+    const obj: EventData = { body: msgBody };
+    debug("Sending one message %O", obj);
+    breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+    await client.send(obj, partitionId);
+    debug("Successfully sent the large message.");
+    const datas = await breceiver.receive(5, 5);
+    debug("received message: ", datas);
+    should.exist(datas);
+    datas.length.should.equal(1);
+    debug("Received message: %O", datas);
+    assert.deepEqual(datas[0].body, msgBody);
+  });
+
+  it("should be able to send and receive an array as a message correctly", async function () {
+    const partitionId = hubInfo.partitionIds[0];
+    const msgBody = [
+      {
+        id: '098-789-564',
+        weight: 20,
+        isBlue: false,
+      },
+      10,
+      20,
+      "some string"
+    ];
+    const obj: EventData = { body: msgBody };
+    debug("Sending one message %O", obj);
+    breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+    await client.send(obj, partitionId);
+    debug("Successfully sent the large message.");
+    const datas = await breceiver.receive(5, 5);
+    debug("received message: ", datas);
+    should.exist(datas);
+    datas.length.should.equal(1);
+    debug("Received message: %O", datas);
+    assert.deepEqual(datas[0].body, msgBody);
+  });
+
+  it("should be able to send a boolean as a message correctly", async function () {
+    const partitionId = hubInfo.partitionIds[0];
+    const msgBody = true;
+    const obj: EventData = { body: msgBody };
+    debug("Sending one message %O", obj);
+    breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+    await client.send(obj, partitionId);
+    debug("Successfully sent the large message.");
+    const datas = await breceiver.receive(5, 5);
+    debug("received message: ", datas);
+    should.exist(datas);
+    datas.length.should.equal(1);
+    debug("Received message: %O", datas);
+    assert.deepEqual(datas[0].body, msgBody);
+  });
+
   it("should be able to send and receive batched messages correctly", async function () {
     try {
       const partitionId = hubInfo.partitionIds[0];
@@ -73,9 +142,50 @@ describe("Misc tests", function () {
     }
   });
 
+  it("should be able to send and receive batched messages correctly", async function () {
+    try {
+      const partitionId = hubInfo.partitionIds[0];
+      breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+      let datas = await breceiver.receive(5, 5);
+      datas.length.should.equal(0);
+      const messageCount = 5;
+      let d: EventData[] = [];
+      for (let i = 0; i < messageCount; i++) {
+        let obj: EventData = {
+          body: {
+            id: '123-456-789',
+            count: i,
+            weight: 10,
+            isBlue: true,
+            siblings: [
+              {
+                id: '098-789-564',
+                weight: 20,
+                isBlue: false,
+              }
+            ]
+          }
+        };
+        d.push(obj);
+      }
+      d[0].partitionKey = 'pk1234656';
+
+      await client.sendBatch(d, partitionId);
+      debug("Successfully sent 5 messages batched together.");
+      datas = await breceiver.receive(5, 5);
+      debug("received message: ", datas);
+      should.exist(datas);
+      datas[0].body.count.should.equal(0);
+      datas.length.should.equal(5);
+    } catch (err) {
+      debug("should not have happened, uber catch....", err);
+      throw err;
+    }
+  });
+
   it("should consistently send messages with partitionkey to a partitionId", async function () {
     const msgToSendCount = 50;
-    let partitionOffsets = {};
+    let partitionOffsets: any = {};
     debug("Discovering end of stream on each partition.");
     const partitionIds = hubInfo.partitionIds;
     for (let id of partitionIds) {
@@ -84,7 +194,7 @@ describe("Misc tests", function () {
       debug(`Partition ${id} has last message with offset ${pInfo.lastEnqueuedOffset}.`);
     }
     debug("Sending %d messages.", msgToSendCount);
-    function getRandomInt(max) {
+    function getRandomInt(max: number) {
       return Math.floor(Math.random() * Math.floor(max));
     }
     for (let i = 0; i < msgToSendCount; i++) {
@@ -92,7 +202,7 @@ describe("Misc tests", function () {
       await client.send({ body: "Hello EventHub " + i, partitionKey: partitionKey.toString() });
     }
     debug("Starting to receive all messages from each partition.");
-    let partitionMap = {};
+    let partitionMap: any = {};
     let totalReceived = 0;
     for (let id of partitionIds) {
       let datas = await client.receiveBatch(id, 50, 10, { eventPosition: EventPosition.fromOffset(partitionOffsets[id]) });
