@@ -13,7 +13,8 @@ export interface AsyncLockOptions {
    */
   maxPending?: number;
   /**
-   * @property {boolean} [domainReentrant] Whether lock can reenter in the same domain. Default is: false.
+   * @property {boolean} [domainReentrant] Whether lock can reenter in the same domain.
+   * Default is: false.
    */
   domainReentrant?: boolean;
   /**
@@ -22,7 +23,7 @@ export interface AsyncLockOptions {
   Promise?: any;
 }
 
-export interface ParsedConnectionString {
+export interface EventHubConnectionStringModel {
   Endpoint: string;
   SharedAccessKeyName: string;
   SharedAccessKey: string;
@@ -30,7 +31,19 @@ export interface ParsedConnectionString {
   [x: string]: any;
 }
 
-export function parseConnectionString(connectionString: string): ParsedConnectionString {
+export interface StorageConnectionStringModel {
+  DefaultEndpointsProtocol: string;
+  AccountName: string;
+  AccountKey: string;
+  EndpointSuffix: string;
+  [x: string]: any;
+}
+
+export type ParsedOutput<T> = {
+  [P in keyof T]: T[P];
+};
+
+export function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
   return connectionString.split(';').reduce((acc, part) => {
     const splitIndex = part.indexOf('=');
     return {
@@ -53,6 +66,49 @@ export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
  */
 export const defaultLock: AsyncLock = new AsyncLock();
 
+export class Timeout {
+
+  private _timer?: NodeJS.Timer;
+
+  set<T>(t: number, value?: T): Promise<T> {
+    return new Promise<T>((resolve) => {
+      this._timer = setTimeout(() => resolve(value), t);
+    });
+  }
+
+  clear(): void {
+    if (this._timer) {
+      clearTimeout(this._timer);
+    }
+  }
+
+  wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T> {
+    const wrappedPromise = this._promiseFinally(promise, () => this.clear());
+    const timer = this.set(t, value);
+    return Promise.race([wrappedPromise, timer]);
+  }
+
+  private _promiseFinally<T>(promise: Promise<T>, fn: Function): Promise<T> {
+    const success = (result: T) => {
+      fn();
+      return result;
+    };
+    const error = (e: Error) => {
+      fn();
+      return Promise.reject(e);
+    };
+    return Promise.resolve(promise).then(success, error);
+  }
+
+  static set<T>(t: number, value?: T): Promise<T> {
+    return new Timeout().set(t, value);
+  }
+
+  static wrap<T>(promise: Promise<T>, t: number, value?: T): Promise<T> {
+    return new Timeout().wrap(promise, t, value);
+  }
+}
+
 /**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
  * @param {number} t - The number of milliseconds to be delayed.
@@ -67,3 +123,22 @@ export function delay<T>(t: number, value?: T): Promise<T> {
  * Type declaration for a Function type where T is the input to the function and V is the output of the function.
  */
 export type Func<T, V> = (a: T) => V;
+
+/*
+ * Executes an array of promises sequentially. Inspiration of this method is here:
+ * https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html. An awesome blog on promises!
+ *
+ * @param {Array} promiseFactories An array of promise factories(A function that return a promise)
+ *
+ * @param {any} [kickstart] Input to the first promise that is used to kickstart the promise chain.
+ * If not provided then the promise chain starts with undefined.
+ *
+ * @return A chain of resolved or rejected promises
+ */
+export function executePromisesSequentially(promiseFactories: Array<any>, kickstart?: any): Promise<any> {
+  let result = Promise.resolve(kickstart);
+  promiseFactories.forEach((promiseFactory) => {
+    result = result.then(promiseFactory);
+  });
+  return result;
+}

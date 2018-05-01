@@ -33,7 +33,49 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property {ReceiverRuntimeInfo} runtimeInfo The receiver runtime info. This property will only
+   * @property {string | number} [partitionId] The partitionId from which the handler is receiving
+   * events from.
+   * @readonly
+   */
+  get partitionId(): string | number | undefined {
+    return this._receiver ? this._receiver.partitionId : undefined;
+  }
+
+  /**
+   * @property {string} [consumerGroup] The consumer group from which the handler is receiving
+   * events from.
+   * @readonly
+   */
+  get consumerGroup(): string | undefined {
+    return this._receiver ? this._receiver.consumerGroup : undefined;
+  }
+
+  /**
+   * @property {string} [address] The address of the underlying receiver.
+   * @readonly
+   */
+  get address(): string | undefined {
+    return this._receiver ? this._receiver.address : undefined;
+  }
+
+  /**
+   * @property {number} [epoch] The epoch value of the underlying receiver, if present.
+   * @readonly
+   */
+  get epoch(): number | undefined {
+    return this._receiver ? this._receiver.epoch : undefined;
+  }
+
+  /**
+   * @property {string} [identifier] The identifier of the underlying receiver, if present.
+   * @readonly
+   */
+  get identifier(): string | undefined {
+    return this._receiver ? this._receiver.identifier : undefined;
+  }
+
+  /**
+   * @property {ReceiverRuntimeInfo} [runtimeInfo] The receiver runtime info. This property will only
    * be enabled when `enableReceiverRuntimeMetric` option is set to true in the
    * `client.receive()` method.
    * @readonly
