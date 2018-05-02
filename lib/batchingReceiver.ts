@@ -96,6 +96,7 @@ export class BatchingReceiver extends EventHubReceiver {
       // Action to be performed on the "message" event.
       onReceiveMessage = (context: rheaPromise.Context) => {
         const data: EventData = EventData.fromAmqpMessage(context.message!);
+        data.body = this._context.dataTransformer.decode(context.message!.body);
         if (eventDatas.length <= maxMessageCount) {
           eventDatas.push(data);
         }
@@ -117,7 +118,8 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       const addCreditAndSetTimer = (reuse?: boolean) => {
-        debug("[%s] Receiver '%s', adding credit for receiving %d messages.", this._context.connectionId, this.name, maxMessageCount);
+        debug("[%s] Receiver '%s', adding credit for receiving %d messages.",
+          this._context.connectionId, this.name, maxMessageCount);
         this._receiver.add_credit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";

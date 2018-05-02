@@ -12,7 +12,7 @@ const debug = debugModule("azure:event-hubs:lease-spec");
 import { PartitionContext } from "../lib/eph/partitionContext"
 import { BlobLease } from "../lib/eph/blobLease";
 import { BlobLeaseManager } from "../lib/eph/blobLeaseManager";
-import { parseConnectionString, StorageConnectionString } from "../lib/util/utils";
+import { parseConnectionString, StorageConnectionStringModel } from "../lib/util/utils";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -23,7 +23,7 @@ describe("Partition Context", function () {
       "define STORAGE_CONNECTION_STRING in your environment before running integration tests.");
   });
   const storageConnString = process.env.STORAGE_CONNECTION_STRING;
-  const config = parseConnectionString<StorageConnectionString>(storageConnString!);
+  const config = parseConnectionString<StorageConnectionStringModel>(storageConnString!);
 
   it("should allow lease takeover", function (done) {
     const blobName = "testblob-" + uuid();

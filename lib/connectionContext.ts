@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
@@ -12,6 +11,8 @@ import { TokenProvider } from "./auth/token";
 import { ManagementClient } from "./managementClient";
 import { CbsClient } from "./cbs";
 import { SasTokenProvider } from "./auth/sas";
+import { ClientOptions } from "./eventHubClient";
+import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 
 const debug = debugModule("azure:event-hubs:connectionContext");
 
@@ -33,6 +34,12 @@ export interface ConnectionContext {
    * @property {string} [connectionId] The amqp connection id that uniquely identifies the connection within a process.
    */
   connectionId?: string;
+  /**
+   * @property {DataTransformer} dataTransformer A DataTransformer object that has methods named
+   * - encode Responsible for encoding the AMQP message before sending it on the wire.
+   * - decode Responsible for decoding the received AMQP message before passing it to the customer.
+   */
+  dataTransformer: DataTransformer;
   /**
    * @property {TokenProvider} tokenProvider The TokenProvider to be used for getting tokens for authentication for the EventHub client.
    */
@@ -75,17 +82,20 @@ export namespace ConnectionContext {
    */
   export const userAgent: string = "/js-event-hubs";
 
-  export function create(config: ConnectionConfig, tokenProvider?: TokenProvider): ConnectionContext {
+  export function create(config: ConnectionConfig, options?: ClientOptions): ConnectionContext {
     ConnectionConfig.validate(config);
+    if (!options) options = {};
     const context: ConnectionContext = {
       connectionLock: `${Constants.establishConnection}-${uuid()}`,
       negotiateClaimLock: `${Constants.negotiateClaim}-${uuid()}`,
       config: config,
-      tokenProvider: tokenProvider || new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey),
+      tokenProvider: options.tokenProvider ||
+        new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey),
       cbsSession: new CbsClient(),
       managementSession: new ManagementClient(config.entityPath!),
       senders: {},
-      receivers: {}
+      receivers: {},
+      dataTransformer: options.dataTransformer || new DefaultDataTransformer()
     };
     debug("Created connection context: %O", context);
     return context;

@@ -102,8 +102,8 @@ export class EventHubSender {
           "possibly the connection.", this.senderLock);
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
-
       const message = EventData.toAmqpMessage(data);
+      message.body = this._context.dataTransformer.encode(data.body);
       return await this._trySend(message);
     } catch (err) {
       debug("An error occurred while sending the message %O", err);
@@ -135,6 +135,7 @@ export class EventHubSender {
       // Convert EventData to AmqpMessage.
       for (let i = 0; i < datas.length; i++) {
         const message = EventData.toAmqpMessage(datas[i]);
+        message.body = this._context.dataTransformer.encode(datas[i].body);
         messages[i] = message;
       }
       // Encode every amqp message and then convert every encoded message to amqp data section
