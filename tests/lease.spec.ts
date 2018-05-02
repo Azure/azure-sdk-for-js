@@ -9,7 +9,7 @@ import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 const debug = debugModule("azure:event-hubs:lease-spec");
 import { BlobLease } from "../lib/eph/blobLease";
-import { parseConnectionString, StorageConnectionString } from "../lib/util/utils";
+import { parseConnectionString, StorageConnectionStringModel } from "../lib/util/utils";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -19,7 +19,7 @@ describe("Blob Lease", function () {
       "define STORAGE_CONNECTION_STRING in your environment before running integration tests.");
   });
   const storageConnString = process.env.STORAGE_CONNECTION_STRING;
-  const config = parseConnectionString<StorageConnectionString>(storageConnString!);
+  const config = parseConnectionString<StorageConnectionStringModel>(storageConnString!);
 
   it("should acquire and release a lease", async function () {
     const blobName = "testblob-" + uuid();

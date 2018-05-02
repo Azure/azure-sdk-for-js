@@ -96,7 +96,7 @@ export class BatchingReceiver extends EventHubReceiver {
       // Action to be performed on the "message" event.
       onReceiveMessage = (context: rheaPromise.Context) => {
         const data: EventData = EventData.fromAmqpMessage(context.message!);
-        data.body = this._context.decoder(context.message!.body);
+        data.body = this._context.dataTransformer.decode(context.message!.body);
         if (eventDatas.length <= maxMessageCount) {
           eventDatas.push(data);
         }

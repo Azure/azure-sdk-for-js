@@ -6,7 +6,7 @@ import * as debugModule from "debug";
 import { BlobLeaseManager, LeaseManager } from "./blobLeaseManager";
 import { BlobLease, Lease } from "./blobLease";
 import { PartitionContext } from "./partitionContext";
-import { EventHubClient } from "../eventHubClient";
+import { EventHubClient, ClientOptions } from "../eventHubClient";
 import { EventEmitter } from "events";
 import {
   TokenProvider, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation,
@@ -322,8 +322,9 @@ export class EventProcessorHost extends EventEmitter {
 
   private async _attachReceiver(partitionId: string): Promise<ReceiveHandler> {
     const context = this._contextByPartition![partitionId];
-    if (!context)
+    if (!context) {
       throw new Error(`Invalid state - missing context for partition "${partitionId}".`);
+    }
     const checkpoint = await context.updateCheckpointInfoFromLease();
     let eventPosition: EventPosition | undefined = undefined;
     if (checkpoint && checkpoint.offset) {
@@ -413,9 +414,12 @@ export class EventProcessorHost extends EventEmitter {
     eventHubConnectionString: string,
     options?: ConnectionStringBasedOptions): EventProcessorHost {
     if (!options) options = {};
+    const ehCOptions: ClientOptions = {
+      tokenProvider: options.tokenProvider
+    };
     return new EventProcessorHost(hostName, storageConnectionString,
       EventHubClient.createFromConnectionString(eventHubConnectionString, options.eventHubPath,
-        options.tokenProvider), options);
+        ehCOptions), options);
   }
 
   /**

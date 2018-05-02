@@ -132,12 +132,15 @@ export class PartitionContext {
   updateCheckpointDataFromEventData(eventData: EventData): void {
     if (eventData && eventData.annotations) {
       const anno = eventData.annotations;
-      if (anno[Constants.enqueuedTime])
+      if (anno[Constants.enqueuedTime]) {
         this._checkpointDetails.epoch = anno[Constants.enqueuedTime] as number;
-      if (anno[Constants.offset])
+      }
+      if (anno[Constants.offset]) {
         this._checkpointDetails.offset = anno[Constants.offset] as string;
-      if (anno[Constants.sequenceNumber])
+      }
+      if (anno[Constants.sequenceNumber]) {
         this._checkpointDetails.sequenceNumber = anno[Constants.sequenceNumber] as number;
+      }
       debug("Updated checkpoint data from event data is: %O", this._checkpointDetails);
     }
   }

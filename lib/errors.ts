@@ -357,10 +357,11 @@ export function translate(err: AmqpError | Error): EventHubsError {
     const error = new EventHubsError(description);
     error.condition = condition;
     if (condition) {
-      if (condition === "com.microsoft:precondition-failed")
+      if (condition === "com.microsoft:precondition-failed") {
         error.name = "PreconditionFailedError";
-      else
+      } else {
         error.name = ConditionErrorNameMapper[condition as any] || "EventHubsError";
+      }
     }
     if (description &&
       (description.includes("status-code: 404") ||

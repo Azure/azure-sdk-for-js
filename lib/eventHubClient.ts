@@ -4,7 +4,7 @@
 import * as debugModule from "debug";
 import { closeConnection, Delivery } from "./rhea-promise";
 import { ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials } from "ms-rest-azure";
-import { ConnectionConfig, OnMessage, OnError, EventData, EventHubsError } from ".";
+import { ConnectionConfig, OnMessage, OnError, EventData, EventHubsError, DataTransformer } from ".";
 import * as rpc from "./rpc";
 import { ConnectionContext } from "./connectionContext";
 import { TokenProvider } from "./auth/token";
@@ -52,20 +52,22 @@ export interface ReceiveOptions {
 
 /**
  * Describes the base client options.
+ * @interface ClientOptionsBase
  */
 export interface ClientOptionsBase {
   /**
-   * @property {Function} [encoder] A function that takes the body property from an EventData object
-   * and returns an encoded body.
+   * @property {DataTransformer} [dataTransformer] The data transformer that will be used to encode
+   * and decode the sent and received messages respectively. If not provided then we will use the
+   * DefaultDataTransformer. The default transformer should handle majority of the cases. This
+   * option needs to be used only for specialized scenarios.
    */
-  encoder?: (body: any) => any;
-  /**
-   * @property {Function} [decoder] A function that takes the body property from an AMQP message
-   * and returns the decoded message body.
-   */
-  decoder?: (body: any) => any;
+  dataTransformer?: DataTransformer;
 }
 
+/**
+ * Describes the options that can be provided while creating the EventHub Client.
+ * @interface ClientOptions
+ */
 export interface ClientOptions extends ClientOptionsBase {
   /**
    * @property {TokenProvider} [tokenProvider] - The token provider that provides the token for authentication.
