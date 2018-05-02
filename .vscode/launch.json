@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Mocha Tests",
+            "name": "EPH Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",
@@ -17,20 +17,48 @@
                 "-t",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/tests/eph.spec.ts"
+                "${workspaceFolder}/processor/tests/eph.spec.ts"
             ],
             "internalConsoleOptions": "openOnSessionStart",
-            "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
+            "envFile": "${workspaceFolder}/processor/.env" // You can take a look at the sample.env file for supported environment variables.
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "Run Example",
-            "program": "${workspaceFolder}/examples/simpleSendReceive.ts",
+            "name": "Client Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "-r",
+                "ts-node/register",
+                "-t",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/client/tests/client.spec.ts"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "envFile": "${workspaceFolder}/client/.env" // You can take a look at the sample.env file for supported environment variables.
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Client Example",
+            "program": "${workspaceFolder}/client/examples/simpleSendReceive.ts",
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"
             ],
-            "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
+            "envFile": "${workspaceFolder}/client/.env" // You can take a look at the sample.env file for supported environment variables.
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "EPH Example",
+            "program": "${workspaceFolder}/processor/examples/eph.ts",
+            "outFiles": [
+                "${workspaceFolder}/dist/**/*.js"
+            ],
+            "envFile": "${workspaceFolder}/processor/.env" // You can take a look at the sample.env file for supported environment variables.
         },
         {
             "type": "node",
