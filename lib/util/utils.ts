@@ -7,7 +7,7 @@ import { WebResource } from "../webResource";
 import { Constants } from "./constants";
 import { RestError } from "../restError";
 import { HttpOperationResponse } from "../httpOperationResponse";
-import * as xml2js from "xml2js";
+import * as xml2js from "isomorphic-xml2js";
 
 /**
  * Provides the fetch() method based on the environment.
