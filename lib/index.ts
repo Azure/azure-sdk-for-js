@@ -16,6 +16,7 @@ export {
   ConnectionStringBasedOptions, EventProcessorOptions
 } from "./eph";
 export { EventPosition } from "./eventPosition";
+export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 export { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
 export { TokenType, TokenProvider, TokenInfo } from "./auth/token";
 export { aadEventHubsAudience } from "./util/constants";
