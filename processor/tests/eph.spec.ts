@@ -8,11 +8,11 @@ chai.use(chaiAsPromised);
 import * as debugModule from "debug";
 const should = chai.should();
 const debug = debugModule("azure:event-hubs:eph-spec");
-import { EventHubClient, EventData, EventPosition, delay } from "../../client/lib";
+import { EventHubClient, EventData, EventPosition, delay } from "azure-event-hubs";
 import * as dotenv from "dotenv";
 import { BlobLeaseManager } from "../lib/blobLeaseManager";
 import { PartitionContext, OnEphMessage, EventProcessorHost, OnEphOpen } from "../lib";
-import { executePromisesSequentially } from "../../client/lib/util/utils";
+import { executePromisesSequentially } from "azure-event-hubs/lib/util/utils";
 dotenv.config();
 
 describe("EPH", function () {
@@ -82,7 +82,7 @@ describe("EPH", function () {
           }
         };
         const onMessage: OnEphMessage = (context: PartitionContext, data: EventData) => {
-          debug(">>>>> Rx message from '%s': '%s'", context.partitionId, data.body.toString('utf8'));
+          debug(">>>>> Rx message from '%s': '%s'", context.partitionId, data);
           if (data.properties!.message_id === msgId) {
             debug(">>>> Checkpointing the received message...");
             context.checkpoint().then(function () {
@@ -91,7 +91,7 @@ describe("EPH", function () {
             }).then(function (content) {
               debug(">>>> Seen expected message. New lease contents: %s", content);
               const parsed = JSON.parse(content);
-              parsed.Offset.should.eql(data.offset);
+              parsed.offset.should.eql(data.offset);
             }).then(() => {
               return ehc.close();
             }).then(() => {
@@ -134,7 +134,7 @@ describe("EPH", function () {
       let counter1 = 0;
       const onMessage1: OnEphMessage = (context: PartitionContext, data: EventData) => {
         counter1++;
-        debug(">>>>>[host1] Rx message from '%s': '%s'", context.partitionId, data.body.toString('utf8'));
+        debug(">>>>>[host1] Rx message from '%s': '%s'", context.partitionId, data);
         debug("&&&&&&& counter1: %d", counter1);
         if (counter1 >= 90) {
           debug("#### host1 counter %d, now closing it.", counter1);
@@ -156,7 +156,7 @@ describe("EPH", function () {
       let counter2 = 0;
       const onMessage2: OnEphMessage = (context: PartitionContext, data: EventData) => {
         counter2++;
-        debug(">>>>>[host2] Rx message from '%s': '%s'", context.partitionId, data.body.toString('utf8'));
+        debug(">>>>>[host2] Rx message from '%s': '%s'", context.partitionId, data);
         debug("&&&&&&& counter2: %d", counter2);
         if (counter2 >= 3) {
           debug("#### host2 counter %d, now closing it.", counter2);
