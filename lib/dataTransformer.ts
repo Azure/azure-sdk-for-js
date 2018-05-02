@@ -39,29 +39,25 @@ export class DefaultDataTransformer implements DataTransformer {
    */
   encode(body: any): any {
     let result: any;
-    debug("The given message body that needs to be encoded is: ", body);
-    if (body !== undefined) {
-      if (isBuffer(body)) {
-        result = rhea.message.data_section(body);
-      } else if (typeof body === "string") {
-        result = rhea.message.data_section(Buffer.from(`"${body}"`, "utf8"));
-      } else {
-        // null, boolean, array, object, number should end up here
-        try {
-          const bodyStr = JSON.stringify(body);
-          result = rhea.message.data_section(Buffer.from(bodyStr, "utf8"));
-        } catch (err) {
-          const msg = `An error occurred while executing JSON.stringify() on the given body ` + body
-            + `${err ? err.stack : JSON.stringify(err)}`;
-          debug(msg);
-          throw new Error(msg);
-        }
-      }
+    debug("[encode] The given message body that needs to be encoded is: ", body);
+    if (isBuffer(body)) {
+      result = rhea.message.data_section(body);
     } else {
-      // convert undefined to empty string.
-      result = rhea.message.data_section(Buffer.from("\"\"", "utf8"));
+      // string, undefined, null, boolean, array, object, number should end up here
+      // coercing undefined to null as that will ensure that null value will be given to the
+      // customer on receive.
+      if (body === undefined) body = null; // tslint:disable-line
+      try {
+        const bodyStr = JSON.stringify(body);
+        result = rhea.message.data_section(Buffer.from(bodyStr, "utf8"));
+      } catch (err) {
+        const msg = `An error occurred while executing JSON.stringify() on the given body ` + body
+          + `${err ? err.stack : JSON.stringify(err)}`;
+        debug("[encode] " + msg);
+        throw new Error(msg);
+      }
     }
-    debug("The encoded message body is: %O.", result);
+    debug("[encode] The encoded message body is: %O.", result);
     return result;
   }
 
@@ -76,7 +72,7 @@ export class DefaultDataTransformer implements DataTransformer {
   decode(body: any): any {
     let processedBody: any = body;
     try {
-      debug("Received message body for decoding is: %O", body);
+      debug("[decode] Received message body for decoding is: %O", body);
       if (body.content && isBuffer(body.content)) {
         // This indicates that we are getting the AMQP described type. Let us try decoding it.
         processedBody = body.content;
@@ -87,15 +83,13 @@ export class DefaultDataTransformer implements DataTransformer {
         const bodyStr: string = processedBody.toString("utf8");
         processedBody = JSON.parse(bodyStr);
       } catch (err) {
-        debug("An error occurred while trying JSON.stringify() on the received body. " +
+        debug("[decode] An error occurred while trying JSON.parse() on the received body. " +
           "The error is %O", err);
-        // Ensuring that the original body will be returned by resetting the orignal body back.
-        processedBody = body.content || body;
       }
     } catch (err) {
-      debug("An error occurred while decoding the received message body. The error is: %O", err);
+      debug("[decode] An error occurred while decoding the received message body. The error is: %O", err);
     }
-    debug("The decoded message body is: %O", processedBody);
+    debug("[decode] The decoded message body is: %O", processedBody);
     return processedBody;
   }
 }
