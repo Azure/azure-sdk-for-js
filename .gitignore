@@ -50,4 +50,5 @@ obj/*
 typings/
 dist/
 output/
-examples/js/lib/
+client/examples/js/lib/
+processor/examples/js/lib/
