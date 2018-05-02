@@ -68,7 +68,7 @@ describe("Misc tests", function () {
     breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
     await client.send(obj, partitionId);
     debug("Successfully sent the large message.");
-    const data = await breceiver.receive(5, 5);
+    const data = await breceiver.receive(5, 10);
     await breceiver.close();
     debug("received message: ", data);
     should.exist(data);
@@ -147,7 +147,7 @@ describe("Misc tests", function () {
     }
   });
 
-  it("should be able to send and receive batched messages correctly", async function () {
+  it("should be able to send and receive batched messages as JSON objects correctly", async function () {
     try {
       const partitionId = hubInfo.partitionIds[0];
       breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });

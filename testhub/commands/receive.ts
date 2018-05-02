@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import { CommandBuilder } from "yargs";
-import { EventHubClient, EventPosition, EventData } from "../../lib"
+import { EventHubClient, EventPosition, EventData } from "../../client/lib"
 export const command = "receive";
 
 export const describe = "Sends messages to an eventhub.";
@@ -38,6 +38,8 @@ export const builder: CommandBuilder = {
     boolean: true
   }
 };
+
+const partitionCount = {};
 
 function validateArgs(argv: any) {
   if (!argv) {
@@ -78,23 +80,39 @@ export async function handler(argv: any): Promise<void> {
     } else {
       for (let id of partitionIds) {
         console.log(`Created Receiver: for partition: "${id}" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`);
+        partitionCount[id] = 0;
         const onMessage = (m: EventData) => {
           if (m.body) {
             console.log("----------------------------------------------------------");
+            console.log(">>>>> %s Received message from partition id: %d, count: %d", new Date().toString(), id, ++partitionCount[id]);
             console.log("EnqueuedTime - %s", m.enqueuedTimeUtc!.toString());
-            console.log("Received message body - ", m.body.toString());
+            // console.log("Received message body - ", m.body.toString());
           }
           if (argv.fullEventData) {
             console.log("Corresponding EventData object: %o", m);
           }
         };
         const onError = (err: any) => {
-          console.log("An error occured with the receiver: %o", err);
+          console.log("^^^^^^^^^^ An error occured with the receiver: %o", err);
         };
         client.receive(id, onMessage, onError, { consumerGroup: consumerGroup, eventPosition: EventPosition.fromOffset(offset, true) });
       }
     }
+    console.log("Started receiving messages from: ", new Date().toString());
   } catch (err) {
     return Promise.reject(err);
   }
 }
+
+const CtrlC = require("death");
+CtrlC((signal, err) => {
+  console.log("\nstats:");
+  console.log("--------------------------------------");
+  console.log(" PartitionId | Received Message Count ");
+  console.log("--------------------------------------");
+  for (const key in partitionCount) {
+    console.log(`      ${key}      |          ${partitionCount[key]}`);
+  }
+  console.log("---------------------------------------");
+  process.exit();
+});
