@@ -3,8 +3,8 @@
 
 import * as debugModule from "debug";
 import { createBlobService, BlobService, ServiceResponse } from "azure-storage";
-import * as Constants from "azure-event-hubs/lib/util/constants";
-import { defaultLock } from "azure-event-hubs/lib/util/utils";
+import * as Constants from "./util/constants";
+import { defaultLock } from "./util/utils";
 
 const debug = debugModule("azure:event-hubs:eph:lease");
 

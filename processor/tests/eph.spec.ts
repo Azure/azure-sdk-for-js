@@ -12,7 +12,7 @@ import { EventHubClient, EventData, EventPosition, delay } from "azure-event-hub
 import * as dotenv from "dotenv";
 import { BlobLeaseManager } from "../lib/blobLeaseManager";
 import { PartitionContext, OnEphMessage, EventProcessorHost, OnEphOpen } from "../lib";
-import { executePromisesSequentially } from "azure-event-hubs/lib/util/utils";
+import { executePromisesSequentially } from "../lib/util/utils";
 dotenv.config();
 
 describe("EPH", function () {

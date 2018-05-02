@@ -10,7 +10,7 @@ import * as uuid from "uuid/v4";
 const debug = debugModule("azure:event-hubs:lease-spec");
 import { BlobLease } from "../lib/blobLease";
 import { BlobLeaseManager } from "../lib/blobLeaseManager";
-import { parseConnectionString, StorageConnectionStringModel } from "azure-event-hubs/lib/util/utils";
+import { parseConnectionString, StorageConnectionStringModel } from "../lib/util/utils";
 import * as dotenv from "dotenv";
 dotenv.config();
 

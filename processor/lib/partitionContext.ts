@@ -5,7 +5,7 @@ import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:eph:partition");
 import * as uuid from "uuid/v4";
 import { EventData } from "azure-event-hubs";
-import * as Constants from "azure-event-hubs/lib/util/constants";
+import * as Constants from "./util/constants";
 import { BlobLease } from "./blobLease";
 import { CheckpointInfo } from "./checkpointInfo";
 
