@@ -83,7 +83,7 @@ describe("DataTransformer", function () {
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);
-    decoded.should.equal("");
+    should.equal(decoded, nullBody);
     done();
   });
 
