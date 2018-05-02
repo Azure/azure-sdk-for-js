@@ -3,3 +3,15 @@ sudo: false
 node_js:
   - "8"
   - "6"
+
+  before_install:
+  - cd client
+  - npm install
+  - cd ../processor
+  - npm install
+
+  script:
+  - cd client
+  - npm test
+  - cd ../processor
+  - npm test
