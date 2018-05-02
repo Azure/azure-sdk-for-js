@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import { CommandBuilder } from "yargs";
-import { EventHubClient, EventData, EventHubSender } from "../../lib";
+import { EventHubClient, EventData } from "../../client/lib";
 
 export const command = "send";
 
@@ -24,6 +24,12 @@ export const builder: CommandBuilder = {
     alias: "partition-id",
     describe: "The partitionId that the sender should send the event to.",
     string: true,
+  },
+  r: {
+    alias: "repeat",
+    describe: "Number of times to repeat the send command",
+    number: true,
+    default: 1
   }
 };
 
@@ -49,28 +55,29 @@ export async function handler(argv: any): Promise<void> {
       connectionString = `Endpoint=${address};SharedAccessKeyName=${argv.keyName};SharedAccessKey=${argv.key}`;
     }
     client = EventHubClient.createFromConnectionString(connectionString, argv.hub);
-    let sender: EventHubSender;
     const duration = argv.duration;
     const msgCount = argv.msgCount;
     const msgSize = argv.msgSize;
     const partitionId = argv.partitionId;
+    const repeat = argv.repeat;
     const msgBody = Buffer.from("Z".repeat(msgSize));
     const obj: EventData = { body: msgBody };
     if (duration) {
       console.log(">>>>>>>>>>>> Performance benchmark mode. <<<<<<<<<<<<<<<<");
       console.log("Will be sending messages by default to partition '0' or to a partition you specify via the -p switch.");
-      sender = client.createSender(partitionId || "0");
-      console.log(`Created Sender - "${sender.name}".`);
       let counter = 0;
-      console.log("Will be sending messages for %d seconds.", duration);
-      const durationMS = duration * 1000;
-      const startTime = Date.now();
-      while ((Date.now() - startTime) < durationMS) {
-        await sender.send({ body: obj });
-        counter++;
-        console.log("[Sender - %s] sent the message, count: %d.", sender.name, counter);
+      for (let i = 0; i < repeat; i++) {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Repeat iteration: %d @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", i);
+        console.log("Will be sending messages for %d seconds.", duration);
+        const durationMS = duration * 1000;
+        const startTime = Date.now();
+        while ((Date.now() - startTime) < durationMS) {
+          await client.send(obj, (partitionId || "0"));
+          counter++;
+          console.log("[Sender] sent the message, count: %d.", counter);
+        }
+        console.log(">>>> Sent %d messages in %d seconds @ %d messages/second.", counter, duration, Math.floor(counter / duration));
       }
-      console.log(">>>> Sent %d messages in %d seconds @ %d messages/second.", counter, duration, Math.floor(counter / duration));
     } else if (msgCount > 1) {
       let datas: EventData[] = [];
       let count = 0;
@@ -78,19 +85,21 @@ export async function handler(argv: any): Promise<void> {
         datas.push(obj);
         count++;
       }
-      sender = client.createSender(partitionId);
-      console.log(`Created Sender - "${sender.name}".`);
-      console.log(`Created a batch message where ${datas.length} messages are grouped together and the size of each message is: ${msgBody.length}.`);
-      await sender.sendBatch(datas);
-      console.log("[Sender - %s] Number of messages sent in a batch: ", sender.name, count);
+      for (let i = 0; i < repeat; i++) {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Repeat iteration: %d @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", i);
+        console.log(`Created a batch message where ${datas.length} messages are grouped together and the size of each message is: ${msgBody.length}.`);
+        await client.sendBatch(datas, partitionId);
+        console.log("[Sender] Number of messages sent in a batch: ", count);
+      }
     } else {
-      sender = client.createSender(partitionId);
-      console.log(`Created Sender - "${sender.name}".`);
-      console.log(`Created the message of specified size: ${msgBody.length}.`);
-      await sender.send({ body: obj });
-      console.log("[Sender - %s] sent the message.", sender.name);
+      for (let i = 0; i < repeat; i++) {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Repeat iteration: %d @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", i);
+        console.log(`Created the message of specified size: ${msgBody.length}.`);
+        await client.send(obj, partitionId);
+        console.log("[Sender] sent the message.");
+      }
     }
   } catch (err) {
-    return Promise.reject(err);
+    throw err;
   }
 }
