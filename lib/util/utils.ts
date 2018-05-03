@@ -392,6 +392,8 @@ const validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?
 
 /**
  * Indicates whether the given string is in ISO 8601 format.
+ * @param {string} value - The value to be validated for ISO 8601 duration format.
+ * @return {boolean} result - `true` if valid, `false` otherwise.
  */
 export function isDuration(value: string): boolean {
   return validateISODuration.test(value);
