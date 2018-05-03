@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as assert from "assert";
-import * as moment from "moment";
 import * as msRest from "../lib/msRest";
 const should = require("should");
 
@@ -212,14 +211,16 @@ describe("msrest", function () {
       serializedDateString.should.equal("Mon, 01 Jan 2001 00:00:00 GMT");
       done();
     });
-    it("should correctly serialize a duration object", function (done) {
+    it("should correctly serialize an ISO 8601 duration", function () {
       let mapper: msRest.Mapper = { type: { name: "TimeSpan" }, required: false, serializedName: "TimeSpan" };
-      let duration = moment.duration({ days: 123, hours: 22, minutes: 14, seconds: 12, milliseconds: 11 });
+      let duration = "P123DT22H14M12.011S";
       let serializedDateString = Serializer.serialize(mapper, duration, "dateTimeObj");
-      if (serializedDateString !== "P123DT22H14M12.011S" && serializedDateString !== "P123DT22H14M12.010999999998603S") {
-        done(new Error(`serializedDateString: ${serializedDateString} from moment is invalid.`));
-      }
-      done();
+      serializedDateString.should.equal(duration);
+    });
+    it("should throw an error when given an invalid ISO 8601 duration", function () {
+      let mapper: msRest.Mapper = { type: { name: "TimeSpan" }, required: false, serializedName: "TimeSpan" };
+      let duration = "P123Z42DT22H14M12.011S";
+      (() => Serializer.serialize(mapper, duration, "dateTimeObj")).should.throw(/must be a string in ISO 8601 format/);
     });
 
     it("should correctly serialize an array of primitives", function (done) {

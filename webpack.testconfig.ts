@@ -2,7 +2,7 @@ import * as webpack from 'webpack';
 import * as glob from 'glob';
 import * as path from 'path';
 
-const config: webpack.Configuration = {
+const config = {
   entry: glob.sync('./test/*.ts'),
   mode: 'development',
   devtool: 'source-map',
@@ -21,7 +21,8 @@ const config: webpack.Configuration = {
       {
         test: /\.tsx?$/,
         loader: 'ts-loader',
-        exclude: /(node_modules)/
+        exclude: /(node_modules)/,
+        options: { configFile: "tsconfig.webpack.json" }
       }
     ]
   },
