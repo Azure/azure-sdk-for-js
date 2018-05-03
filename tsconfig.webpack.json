@@ -1,7 +1,6 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "es6",
-    "target": "es2017"
+    "module": "es6"
   }
 }
