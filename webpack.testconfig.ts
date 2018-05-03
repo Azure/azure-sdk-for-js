@@ -13,9 +13,6 @@ const config = {
     filename: 'testBundle.js',
     path: __dirname
   },
-  plugins: [
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-  ],
   module: {
     rules: [
       {
@@ -27,10 +24,7 @@ const config = {
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
-    alias: {
-      "moment": path.resolve('./node_modules/moment/min/moment.min.js')
-    }
+    extensions: [".tsx", ".ts", ".js"]
   },
   externals: {
     "ms-rest-js": "msRest"

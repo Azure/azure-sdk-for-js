@@ -4,7 +4,6 @@
 import * as utils from "./util/utils";
 import * as isStream from "is-stream";
 const isBuffer: (obj: any) => boolean = require("is-buffer");
-const validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
 
 export class Serializer {
   modelMappers?: { [key: string]: any };
@@ -228,8 +227,8 @@ export class Serializer {
         }
         value = this.dateToUnixTime(value);
       } else if (typeName.match(/^TimeSpan$/ig) !== null) {
-        if (!validateISODuration.test(value)) {
-          throw new Error(`${objectName} must be a string in ISO 8601 format. Instead was ${value}`);
+        if (!utils.isDuration(value)) {
+          throw new Error(`${objectName} must be a string in ISO 8601 format. Instead was "${value}".`);
         }
         value = value;
       }
