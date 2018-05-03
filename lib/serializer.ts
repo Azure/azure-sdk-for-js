@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as utils from "./util/utils";
-import { duration, isDuration } from "moment";
 import * as isStream from "is-stream";
 const isBuffer: (obj: any) => boolean = require("is-buffer");
 
@@ -228,10 +227,10 @@ export class Serializer {
         }
         value = this.dateToUnixTime(value);
       } else if (typeName.match(/^TimeSpan$/ig) !== null) {
-        if (!(isDuration(value) || (value.constructor && value.constructor.name === "Duration" && typeof value.isValid === "function" && value.isValid()))) {
-          throw new Error(`${objectName} must be a TimeSpan/Duration.`);
+        if (!utils.isDuration(value)) {
+          throw new Error(`${objectName} must be a string in ISO 8601 format. Instead was "${value}".`);
         }
-        value = value.toISOString();
+        value = value;
       }
     }
     return value;
@@ -592,12 +591,10 @@ export class Serializer {
       } else {
         payload = responseBody;
       }
-    } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|any)$/ig) !== null) {
+    } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/ig) !== null) {
       payload = responseBody;
     } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/ig) !== null) {
       payload = new Date(responseBody);
-    } else if (mapperType.match(/^TimeSpan$/ig) !== null) {
-      payload = duration(responseBody);
     } else if (mapperType.match(/^UnixTime$/ig) !== null) {
       payload = this.unixTimeToDate(responseBody);
     } else if (mapperType.match(/^ByteArray$/ig) !== null) {

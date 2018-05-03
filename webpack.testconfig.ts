@@ -2,7 +2,7 @@ import * as webpack from 'webpack';
 import * as glob from 'glob';
 import * as path from 'path';
 
-const config: webpack.Configuration = {
+const config = {
   entry: glob.sync('./test/*.ts'),
   mode: 'development',
   devtool: 'source-map',
@@ -13,23 +13,18 @@ const config: webpack.Configuration = {
     filename: 'testBundle.js',
     path: __dirname
   },
-  plugins: [
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-  ],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         loader: 'ts-loader',
-        exclude: /(node_modules)/
+        exclude: /(node_modules)/,
+        options: { configFile: "tsconfig.webpack.json" }
       }
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
-    alias: {
-      "moment": path.resolve('./node_modules/moment/min/moment.min.js')
-    }
+    extensions: [".tsx", ".ts", ".js"]
   },
   externals: {
     "ms-rest-js": "msRest"
