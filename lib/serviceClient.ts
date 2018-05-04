@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
+import { HttpOperationResponse } from "./httpOperationResponse";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
@@ -9,9 +10,8 @@ import { RequestPolicy, RequestPolicyCreator } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { HttpOperationResponse } from "./httpOperationResponse";
-import { createRequestPipeline } from "./requestPipeline";
 import { Constants } from "./util/constants";
+import * as utils from "./util/utils";
 import { RequestPrepareOptions, WebResource } from "./webResource";
 
 /**
@@ -104,7 +104,17 @@ export class ServiceClient {
       options.requestPolicyCreators.push(systemErrorRetryPolicy());
     }
 
-    this.httpRequestSender = createRequestPipeline(options.requestPolicyCreators);
+    this.httpRequestSender = {
+      sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+        if (!request.headers) request.headers = {};
+        return utils.dispatchRequest(request);
+      }
+    };
+    if (options.requestPolicyCreators && options.requestPolicyCreators.length > 0) {
+      for (let i = options.requestPolicyCreators.length - 1; i >= 0; --i) {
+        this.httpRequestSender = options.requestPolicyCreators[i](this.httpRequestSender);
+      }
+    }
   }
 
   pipeline(request: WebResource): Promise<HttpOperationResponse> {
