@@ -59,7 +59,7 @@ export function encodeUri(uri: string): string {
  *
  * @return {object} strippedResponse - The stripped version of Http Response.
  */
-export function stripResponse(response: Response): object {
+export function stripResponse(response: Response): any {
   const strippedResponse: any = {};
   strippedResponse.body = response.body;
   strippedResponse.headers = response.headers;

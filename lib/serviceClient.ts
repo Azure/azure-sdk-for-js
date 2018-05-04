@@ -58,9 +58,11 @@ export class ServiceClient {
   userAgentInfo: { value: Array<string> };
 
   /**
-   * The request pipeline that provides hooks for adding custom RequestPolicies.
+   * The HTTP client that will be used to send requests.
    */
-  httpRequestSender: RequestPolicy;
+  private readonly _httpClient: HttpClient;
+
+  private readonly _requestPolicyCreators: RequestPolicyCreator[];
 
   /**
    * The ServiceClient constructor
@@ -92,36 +94,19 @@ export class ServiceClient {
       // do nothing
     }
 
-    if (!options.requestPolicyCreators) {
-      options.requestPolicyCreators = [];
+    this._httpClient = options.httpClient || new FetchHttpClient();
 
-      if (credentials) {
-        options.requestPolicyCreators.push(signingPolicy(credentials));
-      }
-
-      options.requestPolicyCreators.push(msRestUserAgentPolicy(this.userAgentInfo.value));
-      options.requestPolicyCreators.push(redirectPolicy());
-      options.requestPolicyCreators.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
-
-      if (!options.noRetryPolicy) {
-        options.requestPolicyCreators.push(exponentialRetryPolicy());
-        options.requestPolicyCreators.push(systemErrorRetryPolicy());
-      }
-    }
-
-    if (!options.httpClient) {
-      options.httpClient = new FetchHttpClient();
-    }
-    this.httpRequestSender = options.httpClient;
-    if (options.requestPolicyCreators && options.requestPolicyCreators.length > 0) {
-      for (let i = options.requestPolicyCreators.length - 1; i >= 0; --i) {
-        this.httpRequestSender = options.requestPolicyCreators[i](this.httpRequestSender);
-      }
-    }
+    this._requestPolicyCreators = options.requestPolicyCreators || createDefaultRequestPolicyCreators(credentials, options, this.userAgentInfo.value);
   }
 
   pipeline(request: WebResource): Promise<HttpOperationResponse> {
-    return this.httpRequestSender.sendRequest(request);
+    let httpPipeline: RequestPolicy = this._httpClient;
+    if (this._requestPolicyCreators && this._requestPolicyCreators.length > 0) {
+      for (let i = this._requestPolicyCreators.length - 1; i >= 0; --i) {
+        httpPipeline = this._requestPolicyCreators[i](httpPipeline);
+      }
+    }
+    return httpPipeline.sendRequest(request);
   }
 
   /**
@@ -155,10 +140,29 @@ export class ServiceClient {
     // send request
     let operationResponse: HttpOperationResponse;
     try {
-      operationResponse = await this.httpRequestSender.sendRequest(httpRequest);
+      operationResponse = await this.pipeline(httpRequest);
     } catch (err) {
       return Promise.reject(err);
     }
     return Promise.resolve(operationResponse);
   }
+}
+
+function createDefaultRequestPolicyCreators(credentials: ServiceClientCredentials | undefined, options: ServiceClientOptions, userAgentInfo: string[]): RequestPolicyCreator[] {
+  const defaultRequestPolicyCreators: RequestPolicyCreator[] = [];
+
+  if (credentials) {
+    defaultRequestPolicyCreators.push(signingPolicy(credentials));
+  }
+
+  defaultRequestPolicyCreators.push(msRestUserAgentPolicy(userAgentInfo));
+  defaultRequestPolicyCreators.push(redirectPolicy());
+  defaultRequestPolicyCreators.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
+
+  if (!options.noRetryPolicy) {
+    defaultRequestPolicyCreators.push(exponentialRetryPolicy());
+    defaultRequestPolicyCreators.push(systemErrorRetryPolicy());
+  }
+
+  return defaultRequestPolicyCreators;
 }
