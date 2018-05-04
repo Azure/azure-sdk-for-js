@@ -22,10 +22,10 @@ export class LogPolicy extends BaseRequestPolicy {
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
-    return this.after(response);
+    return this.logResponse(response);
   }
 
-  after(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  public logResponse(response: HttpOperationResponse): Promise<HttpOperationResponse> {
     this.logger(`>> Request: ${JSON.stringify(response.request, undefined, 2)}`);
     this.logger(`>> Response status code: ${response.response.status}`);
     const responseBody = response.bodyAsText;

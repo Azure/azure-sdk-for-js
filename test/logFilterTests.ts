@@ -36,7 +36,7 @@ describe("Log filter", () => {
     const req = new WebResource("https://foo.com", "PUT", { "a": 1 });
     const res = new Response();
     const opRes = new HttpOperationResponse(req, res as any);
-    lf.after(opRes).then(() => {
+    lf.logResponse(opRes).then(() => {
       // console.dir(output, { depth: null });
       // console.log(">>>>>>>");
       // console.dir(expected);

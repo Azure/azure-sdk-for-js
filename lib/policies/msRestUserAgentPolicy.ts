@@ -25,7 +25,7 @@ export class MsRestUserAgentPolicy extends BaseRequestPolicy {
     this.userAgentInfo = userAgentInfo;
   }
 
-  tagRequest(request: WebResource): Promise<WebResource> {
+  tagRequest(request: WebResource): void {
     if (isNode) {
       const osInfo = `(${os.arch()}-${os.type()}-${os.release()})`;
       if (this.userAgentInfo.indexOf(osInfo) === -1) {
@@ -46,24 +46,24 @@ export class MsRestUserAgentPolicy extends BaseRequestPolicy {
         insertIndex = insertIndex < 0 ? this.userAgentInfo.length : insertIndex + 1;
         this.userAgentInfo.splice(insertIndex, 0, nodeSDKSignature);
       }
-      if (!request.headers) request.headers = {};
+      if (!request.headers) {
+        request.headers = {};
+      }
       request.headers[HeaderConstants.USER_AGENT] = this.userAgentInfo.join(" ");
     }
-    return Promise.resolve(request);
   }
 
-  before(request: WebResource): Promise<WebResource> {
-    const self = this;
-    if (!request.headers) request.headers = {};
+  addUserAgentHeader(request: WebResource): void {
+    if (!request.headers) {
+      request.headers = {};
+    }
     if (!request.headers[HeaderConstants.USER_AGENT]) {
-      return self.tagRequest(request);
-    } else {
-      return Promise.resolve(request);
+      this.tagRequest(request);
     }
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const nextRequest: WebResource = await this.before(request);
-    return await this._nextPolicy.sendRequest(nextRequest);
+    this.addUserAgentHeader(request);
+    return await this._nextPolicy.sendRequest(request);
   }
 }

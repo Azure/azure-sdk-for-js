@@ -46,12 +46,8 @@ export class RedirectPolicy extends BaseRequestPolicy {
     return Promise.resolve(operationResponse);
   }
 
-  after(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
-    return this.handleRedirect(operationResponse, 0);
-  }
-
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
-    return this.after(response);
+    return this.handleRedirect(response, 0);
   }
 }

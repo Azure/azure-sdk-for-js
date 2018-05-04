@@ -18,12 +18,12 @@ export class SigningPolicy extends BaseRequestPolicy {
     super(nextPolicy, options);
   }
 
-  before(request: WebResource): Promise<WebResource> {
+  signRequest(request: WebResource): Promise<WebResource> {
     return this.authenticationProvider.signRequest(request);
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const nextRequest: WebResource = await this.before(request);
+    const nextRequest: WebResource = await this.signRequest(request);
     return await this._nextPolicy.sendRequest(nextRequest);
   }
 }

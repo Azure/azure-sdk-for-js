@@ -3,11 +3,7 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
-
-/* tslint:disable:prefer-const */
-let retryTimeout = 30;
-/* tslint:enable:prefer-const */
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
 
 export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -17,17 +13,16 @@ export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyCreator {
 
 export class RPRegistrationPolicy extends BaseRequestPolicy {
 
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryTimeout = 30) {
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, private _retryTimeout = 30) {
     super(nextPolicy, options);
-    retryTimeout = retryTimeout;
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
-    return this.after(response);
+    return this.registerIfNeeded(response);
   }
 
-  async after(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
+  async registerIfNeeded(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
     let rpName, urlPrefix;
     const options = operationResponse.request;
     if (operationResponse.response.status === 409) {
@@ -186,7 +181,7 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
     if (res.parsedBody && obj.registrationState && obj.registrationState === "Registered") {
       result = true;
     } else {
-      setTimeout(() => { return this.getRegistrationStatus(url, originalRequest); }, retryTimeout * 1000);
+      setTimeout(() => { return this.getRegistrationStatus(url, originalRequest); }, this._retryTimeout * 1000);
     }
     return Promise.resolve(result);
   }

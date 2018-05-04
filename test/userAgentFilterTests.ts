@@ -29,12 +29,11 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, new RequestPolicyOptions(), userAgentArray);
     const resource = new WebResource();
     resource.headers = {};
-    userAgentFilter.before(resource).then((resource) => {
-      should.ok(resource);
-      resource.headers[userAgentHeader].should.containEql("Node");
-      resource.headers[userAgentHeader].should.containEql("Azure-SDK-For-Node");
-      done();
-    }).catch((err) => { done(err); });
+    userAgentFilter.addUserAgentHeader(resource);
+    should.ok(resource);
+    resource.headers[userAgentHeader].should.containEql("Node");
+    resource.headers[userAgentHeader].should.containEql("Azure-SDK-For-Node");
+    done();
   });
 
   it("should not modify user agent header if already present", function (done) {
@@ -51,15 +50,14 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     const resource = new WebResource();
     resource.headers = {};
     resource.headers[userAgentHeader] = customUA;
-    userAgentFilter.before(resource).then((resource) => {
-      should.ok(resource);
-      const actualUA = resource.headers[userAgentHeader];
-      actualUA.should.not.containEql("Node");
-      actualUA.should.not.containEql(azureSDK);
-      actualUA.should.not.containEql(azureRuntime);
-      actualUA.should.containEql(customUA);
-      done();
-    }).catch((err) => { done(err); });
+    userAgentFilter.addUserAgentHeader(resource);
+    should.ok(resource);
+    const actualUA = resource.headers[userAgentHeader];
+    actualUA.should.not.containEql("Node");
+    actualUA.should.not.containEql(azureSDK);
+    actualUA.should.not.containEql(azureRuntime);
+    actualUA.should.containEql(customUA);
+    done();
   });
 
   it("should insert azure-sdk-for-node at right position", function (done) {
@@ -74,16 +72,15 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, new RequestPolicyOptions(), userAgentArray);
     const resource = new WebResource();
     resource.headers = {};
-    userAgentFilter.before(resource).then((resource) => {
-      should.ok(resource);
-      const deconstructedUserAgent = resource.headers[userAgentHeader].split(" ");
-      should.ok(deconstructedUserAgent);
-      const indexOfAzureRuntime = deconstructedUserAgent.findIndex((e: string) => e.startsWith(azureRuntime));
-      assert.notEqual(indexOfAzureRuntime, -1, `did not find ${azureRuntime} in user agent`);
-      const indexOfAzureSDK = deconstructedUserAgent.indexOf(azureSDK);
-      assert.notEqual(indexOfAzureSDK, -1, `did not find ${azureSDK} in user agent`);
-      assert.equal(indexOfAzureSDK, 1 + indexOfAzureRuntime, `${azureSDK} is not in the right place in user agent string`);
-      done();
-    }).catch((err) => { done(err); });
+    userAgentFilter.addUserAgentHeader(resource);
+    should.ok(resource);
+    const deconstructedUserAgent = resource.headers[userAgentHeader].split(" ");
+    should.ok(deconstructedUserAgent);
+    const indexOfAzureRuntime = deconstructedUserAgent.findIndex((e: string) => e.startsWith(azureRuntime));
+    assert.notEqual(indexOfAzureRuntime, -1, `did not find ${azureRuntime} in user agent`);
+    const indexOfAzureSDK = deconstructedUserAgent.indexOf(azureSDK);
+    assert.notEqual(indexOfAzureSDK, -1, `did not find ${azureSDK} in user agent`);
+    assert.equal(indexOfAzureSDK, 1 + indexOfAzureRuntime, `${azureSDK} is not in the right place in user agent string`);
+    done();
   });
 });

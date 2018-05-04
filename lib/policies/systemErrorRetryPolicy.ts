@@ -130,12 +130,8 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
     }
   }
 
-  after(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
-    return this.retry(operationResponse); // See: https://github.com/Microsoft/TypeScript/issues/7426
-  }
-
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
-    return this.after(response);
+    return this.retry(response); // See: https://github.com/Microsoft/TypeScript/issues/7426
   }
 }
