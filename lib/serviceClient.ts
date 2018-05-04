@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
+import { FetchHttpClient } from "./fetchHttpClient";
+import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
@@ -11,7 +13,6 @@ import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { Constants } from "./util/constants";
-import * as utils from "./util/utils";
 import { RequestPrepareOptions, WebResource } from "./webResource";
 
 /**
@@ -29,6 +30,10 @@ export interface ServiceClientOptions {
    * wire.
    */
   requestPolicyCreators?: RequestPolicyCreator[];
+  /**
+   * @property {HttpClient} [httpClient] - The HttpClient that will be used to send HTTP requests.
+   */
+  httpClient?: HttpClient;
   /**
    * @property {bool} [noRetryPolicy] - If set to true, turn off the default retry policy.
    */
@@ -104,12 +109,10 @@ export class ServiceClient {
       options.requestPolicyCreators.push(systemErrorRetryPolicy());
     }
 
-    this.httpRequestSender = {
-      sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-        if (!request.headers) request.headers = {};
-        return utils.dispatchRequest(request);
-      }
-    };
+    if (!options.httpClient) {
+      options.httpClient = new FetchHttpClient();
+    }
+    this.httpRequestSender = options.httpClient;
     if (options.requestPolicyCreators && options.requestPolicyCreators.length > 0) {
       for (let i = options.requestPolicyCreators.length - 1; i >= 0; --i) {
         this.httpRequestSender = options.requestPolicyCreators[i](this.httpRequestSender);
