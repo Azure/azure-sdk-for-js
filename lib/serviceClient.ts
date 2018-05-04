@@ -94,19 +94,19 @@ export class ServiceClient {
 
     if (!options.requestPolicyCreators) {
       options.requestPolicyCreators = [];
-    }
 
-    if (credentials) {
-      options.requestPolicyCreators.push(signingPolicy(credentials));
-    }
+      if (credentials) {
+        options.requestPolicyCreators.push(signingPolicy(credentials));
+      }
 
-    options.requestPolicyCreators.push(msRestUserAgentPolicy(this.userAgentInfo.value));
-    options.requestPolicyCreators.push(redirectPolicy());
-    options.requestPolicyCreators.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
+      options.requestPolicyCreators.push(msRestUserAgentPolicy(this.userAgentInfo.value));
+      options.requestPolicyCreators.push(redirectPolicy());
+      options.requestPolicyCreators.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
 
-    if (!options.noRetryPolicy) {
-      options.requestPolicyCreators.push(exponentialRetryPolicy());
-      options.requestPolicyCreators.push(systemErrorRetryPolicy());
+      if (!options.noRetryPolicy) {
+        options.requestPolicyCreators.push(exponentialRetryPolicy());
+        options.requestPolicyCreators.push(systemErrorRetryPolicy());
+      }
     }
 
     if (!options.httpClient) {
