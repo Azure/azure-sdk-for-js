@@ -6,13 +6,13 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
 import { isNode } from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
 
 const HeaderConstants = Constants.HeaderConstants;
 
 export function msRestUserAgentPolicy(userAgentInfo: Array<string>): RequestPolicyCreator {
-  return (nextPolicy: RequestPolicy) => {
-    return new MsRestUserAgentPolicy(nextPolicy, userAgentInfo);
+  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+    return new MsRestUserAgentPolicy(nextPolicy, options, userAgentInfo);
   };
 }
 
@@ -20,8 +20,8 @@ export class MsRestUserAgentPolicy extends BaseRequestPolicy {
 
   userAgentInfo: Array<string>;
 
-  constructor(nextPolicy: RequestPolicy, userAgentInfo: Array<string>) {
-    super(nextPolicy);
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, userAgentInfo: Array<string>) {
+    super(nextPolicy, options);
     this.userAgentInfo = userAgentInfo;
   }
 

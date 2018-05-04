@@ -8,12 +8,13 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
-import { RequestPolicy, RequestPolicyCreator } from "./policies/requestPolicy";
+import { RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { Constants } from "./util/constants";
 import { RequestPrepareOptions, WebResource } from "./webResource";
+import { HttpPipelineLogger } from "./httpPipelineLogger";
 
 /**
  * Options to be provided while creating the client.
@@ -34,6 +35,11 @@ export interface ServiceClientOptions {
    * @property {HttpClient} [httpClient] - The HttpClient that will be used to send HTTP requests.
    */
   httpClient?: HttpClient;
+  /**
+   * @property {HttpPipelineLogger} [httpPipelineLogger] - The HttpPipelineLogger that can be used
+   * to debug RequestPolicies within the HTTP pipeline.
+   */
+  httpPipelineLogger?: HttpPipelineLogger;
   /**
    * @property {bool} [noRetryPolicy] - If set to true, turn off the default retry policy.
    */
@@ -61,6 +67,7 @@ export class ServiceClient {
    * The HTTP client that will be used to send requests.
    */
   private readonly _httpClient: HttpClient;
+  private readonly _requestPolicyOptions: RequestPolicyOptions;
 
   private readonly _requestPolicyCreators: RequestPolicyCreator[];
 
@@ -95,6 +102,7 @@ export class ServiceClient {
     }
 
     this._httpClient = options.httpClient || new FetchHttpClient();
+    this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
     this._requestPolicyCreators = options.requestPolicyCreators || createDefaultRequestPolicyCreators(credentials, options, this.userAgentInfo.value);
   }
@@ -103,7 +111,7 @@ export class ServiceClient {
     let httpPipeline: RequestPolicy = this._httpClient;
     if (this._requestPolicyCreators && this._requestPolicyCreators.length > 0) {
       for (let i = this._requestPolicyCreators.length - 1; i >= 0; --i) {
-        httpPipeline = this._requestPolicyCreators[i](httpPipeline);
+        httpPipeline = this._requestPolicyCreators[i](httpPipeline, this._requestPolicyOptions);
       }
     }
     return httpPipeline.sendRequest(request);

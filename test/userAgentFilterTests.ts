@@ -5,7 +5,7 @@ import * as assert from "assert";
 import { WebResource } from "../lib/webResource";
 import { MsRestUserAgentPolicy } from "../lib/policies/msRestUserAgentPolicy";
 import { Constants } from "../lib/util/constants";
-import { RequestPolicy } from "../lib/policies/requestPolicy";
+import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
 import { HttpOperationResponse } from "../lib/httpOperationResponse";
 import { isNode } from "../lib/util/utils";
 
@@ -26,7 +26,7 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     }
 
     const userAgentArray: Array<string> = [];
-    const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, userAgentArray);
+    const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, new RequestPolicyOptions(), userAgentArray);
     const resource = new WebResource();
     resource.headers = {};
     userAgentFilter.before(resource).then((resource) => {
@@ -46,7 +46,7 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     const azureRuntime = "ms-rest-azure";
     const azureSDK = "Azure-SDK-For-Node";
     const userAgentArray = [`${genericRuntime}/v1.0.0`, `${azureRuntime}/v1.0.0`];
-    const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, userAgentArray);
+    const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, new RequestPolicyOptions(), userAgentArray);
     const customUA = "my custom user agent";
     const resource = new WebResource();
     resource.headers = {};
@@ -71,7 +71,7 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     const azureRuntime = "ms-rest-azure";
     const azureSDK = "Azure-SDK-For-Node";
     const userAgentArray = [`${genericRuntime}/v1.0.0`, `${azureRuntime}/v1.0.0`];
-    const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, userAgentArray);
+    const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, new RequestPolicyOptions(), userAgentArray);
     const resource = new WebResource();
     resource.headers = {};
     userAgentFilter.before(resource).then((resource) => {

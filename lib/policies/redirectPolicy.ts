@@ -3,11 +3,11 @@
 import * as parse from "url-parse";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
 
 export function redirectPolicy(maximumRetries = 20): RequestPolicyCreator {
-  return (nextPolicy: RequestPolicy) => {
-    return new RedirectPolicy(nextPolicy, maximumRetries);
+  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+    return new RedirectPolicy(nextPolicy, options, maximumRetries);
   };
 }
 
@@ -15,8 +15,8 @@ export class RedirectPolicy extends BaseRequestPolicy {
 
   maximumRetries?: number;
 
-  constructor(nextPolicy: RequestPolicy, maximumRetries = 20) {
-    super(nextPolicy);
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, maximumRetries = 20) {
+    super(nextPolicy, options);
     this.maximumRetries = maximumRetries;
   }
 

@@ -4,18 +4,18 @@
 import { ServiceClientCredentials } from "../credentials/serviceClientCredentials";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
 
 export function signingPolicy(authenticationProvider: ServiceClientCredentials): RequestPolicyCreator {
-  return (nextPolicy: RequestPolicy) => {
-    return new SigningPolicy(nextPolicy, authenticationProvider);
+  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+    return new SigningPolicy(nextPolicy, options, authenticationProvider);
   };
 }
 
 export class SigningPolicy extends BaseRequestPolicy {
 
-  constructor(nextPolicy: RequestPolicy, public authenticationProvider: ServiceClientCredentials) {
-    super(nextPolicy);
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, public authenticationProvider: ServiceClientCredentials) {
+    super(nextPolicy, options);
   }
 
   before(request: WebResource): Promise<WebResource> {

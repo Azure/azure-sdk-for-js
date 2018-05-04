@@ -3,22 +3,22 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
 
 /* tslint:disable:prefer-const */
 let retryTimeout = 30;
 /* tslint:enable:prefer-const */
 
 export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyCreator {
-  return (nextPolicy: RequestPolicy) => {
-    return new RPRegistrationPolicy(nextPolicy, retryTimeout);
+  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+    return new RPRegistrationPolicy(nextPolicy, options, retryTimeout);
   };
 }
 
 export class RPRegistrationPolicy extends BaseRequestPolicy {
 
-  constructor(nextPolicy: RequestPolicy, retryTimeout = 30) {
-    super(nextPolicy);
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryTimeout = 30) {
+    super(nextPolicy, options);
     retryTimeout = retryTimeout;
   }
 

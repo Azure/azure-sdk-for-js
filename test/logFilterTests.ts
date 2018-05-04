@@ -6,7 +6,7 @@ import { Response } from "node-fetch";
 import { LogPolicy } from "../lib/policies/logPolicy";
 import { HttpOperationResponse } from "../lib/httpOperationResponse";
 import { WebResource } from "../lib/webResource";
-import { RequestPolicy } from "../lib/policies/requestPolicy";
+import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
 
 const emptyRequestPolicy: RequestPolicy = {
   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -32,7 +32,7 @@ describe("Log filter", () => {
 `;
     let output = "";
     const logger = (message: string): void => { output += message + "\n"; };
-    const lf = new LogPolicy(emptyRequestPolicy, logger);
+    const lf = new LogPolicy(emptyRequestPolicy, new RequestPolicyOptions(), logger);
     const req = new WebResource("https://foo.com", "PUT", { "a": 1 });
     const res = new Response();
     const opRes = new HttpOperationResponse(req, res as any);
