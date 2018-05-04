@@ -4,7 +4,7 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator } from "./requestPolicy";
 
 export interface RetryData {
   retryCount: number;
@@ -18,9 +18,9 @@ export interface RetryError extends Error {
   innerError?: RetryError;
 }
 
-export function exponentialRetryPolicyFilter(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyCreator {
+export function systemErrorRetryPolicy(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new ExponentialRetryPolicyFilter(retryCount, retryInterval, minRetryInterval, maxRetryInterval);
+    const result = new SystemErrorRetryPolicy(retryCount, retryInterval, minRetryInterval, maxRetryInterval);
     result.nextPolicy = nextPolicy;
     return result;
   };
@@ -36,7 +36,7 @@ export function exponentialRetryPolicyFilter(retryCount?: number, retryInterval?
  * @param {number} minRetryInterval  The minimum retry interval, in milliseconds.
  * @param {number} maxRetryInterval  The maximum retry interval, in milliseconds.
  */
-export class ExponentialRetryPolicyFilter extends BaseRequestPolicy {
+export class SystemErrorRetryPolicy extends BaseRequestPolicy {
 
   retryCount: number;
   retryInterval: number;
@@ -62,18 +62,13 @@ export class ExponentialRetryPolicyFilter extends BaseRequestPolicy {
    * @param {RetryData} retryData  The retry data.
    * @return {boolean} True if the operation qualifies for a retry; false otherwise.
    */
-  shouldRetry(statusCode: number, retryData: RetryData): boolean {
-    if ((statusCode < 500 && statusCode !== 408) || statusCode === 501 || statusCode === 505) {
-      return false;
-    }
-
-    let currentCount: number;
+  shouldRetry(retryData: RetryData): boolean {
+    let currentCount;
     if (!retryData) {
-      throw new Error("retryData for the ExponentialRetryPolicyFilter cannot be null.");
+      throw new Error("retryData for the SystemErrorRetryPolicyFilter cannot be null.");
     } else {
       currentCount = (retryData && retryData.retryCount);
     }
-
     return (currentCount < this.retryCount);
   }
 
@@ -115,9 +110,11 @@ export class ExponentialRetryPolicyFilter extends BaseRequestPolicy {
 
   async retry(operationResponse: HttpOperationResponse, retryData?: RetryData, err?: RetryError): Promise<HttpOperationResponse> {
     const self = this;
-    const response = operationResponse.response;
     retryData = self.updateRetryData(retryData, err);
-    if (!utils.objectIsNull(response) && self.shouldRetry(response.status, retryData)) {
+    if (err && err.code && self.shouldRetry(retryData) &&
+      (err.code === "ETIMEDOUT" || err.code === "ESOCKETTIMEDOUT" || err.code === "ECONNREFUSED" ||
+        err.code === "ECONNRESET" || err.code === "ENOENT")) {
+      // If previous operation ended with an error and the policy allows a retry, do that
       try {
         await utils.delay(retryData.retryInterval);
         const res: HttpOperationResponse = await utils.dispatchRequest(operationResponse.request);
@@ -135,8 +132,12 @@ export class ExponentialRetryPolicyFilter extends BaseRequestPolicy {
     }
   }
 
+  after(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
+    return this.retry(operationResponse); // See: https://github.com/Microsoft/TypeScript/issues/7426
+  }
+
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const response: HttpOperationResponse = await this.nextPolicy!.sendRequest(request);
-    return this.retry(response);
+    return this.after(response);
   }
 }

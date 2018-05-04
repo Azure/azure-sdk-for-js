@@ -3,16 +3,9 @@
 
 import * as assert from "assert";
 import { Response } from "node-fetch";
-import { LogFilter } from "../lib/filters/logFilter";
+import { LogPolicy } from "../lib/policies/logPolicy";
 import { HttpOperationResponse } from "../lib/httpOperationResponse";
 import { WebResource } from "../lib/webResource";
-
-// const emptyRequestPolicy: RequestPolicy = {
-//   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-//     assert(request);
-//     throw new Error("Not Implemented");
-//   }
-// };
 
 describe("Log filter", () => {
 
@@ -31,7 +24,7 @@ describe("Log filter", () => {
 `;
     let output = "";
     const logger: Function = (message: string): void => { output += message + "\n"; };
-    const lf = new LogFilter(logger);
+    const lf = new LogPolicy(logger);
     const req = new WebResource("https://foo.com", "PUT", { "a": 1 });
     const res = new Response();
     const opRes = new HttpOperationResponse(req, res as any);

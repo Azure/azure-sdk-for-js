@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { RequestPolicy, RequestPolicyCreator } from "./filters/requestPolicy";
+import { RequestPolicy, RequestPolicyCreator } from "./policies/requestPolicy";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import * as utils from "./util/utils";
 import { WebResource } from "./webResource";

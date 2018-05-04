@@ -9,15 +9,15 @@ import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./reques
 let retryTimeout = 30;
 /* tslint:enable:prefer-const */
 
-export function rpRegistrationFilter(retryTimeout = 30): RequestPolicyCreator {
+export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new RPRegistrationFilter(retryTimeout);
+    const result = new RPRegistrationPolicy(retryTimeout);
     result.nextPolicy = nextPolicy;
     return result;
   };
 }
 
-export class RPRegistrationFilter extends BaseRequestPolicy {
+export class RPRegistrationPolicy extends BaseRequestPolicy {
 
   constructor(retryTimeout = 30) {
     super();

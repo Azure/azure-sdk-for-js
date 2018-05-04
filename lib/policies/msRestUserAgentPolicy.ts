@@ -10,15 +10,15 @@ import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./reques
 
 const HeaderConstants = Constants.HeaderConstants;
 
-export function msRestUserAgentFilter(userAgentInfo: Array<string>): RequestPolicyCreator {
+export function msRestUserAgentPolicy(userAgentInfo: Array<string>): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new MsRestUserAgentFilter(userAgentInfo);
+    const result = new MsRestUserAgentPolicy(userAgentInfo);
     result.nextPolicy = nextPolicy;
     return result;
   };
 }
 
-export class MsRestUserAgentFilter extends BaseRequestPolicy {
+export class MsRestUserAgentPolicy extends BaseRequestPolicy {
 
   userAgentInfo: Array<string>;
 

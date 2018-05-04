@@ -6,15 +6,15 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
 
-export function signingFilter(authenticationProvider: ServiceClientCredentials): RequestPolicyCreator {
+export function signingPolicy(authenticationProvider: ServiceClientCredentials): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new SigningFilter(authenticationProvider);
+    const result = new SigningPolicy(authenticationProvider);
     result.nextPolicy = nextPolicy;
     return result;
   };
 }
 
-export class SigningFilter extends BaseRequestPolicy {
+export class SigningPolicy extends BaseRequestPolicy {
 
   constructor(public authenticationProvider: ServiceClientCredentials) {
     super();

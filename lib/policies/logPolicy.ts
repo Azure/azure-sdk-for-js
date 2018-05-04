@@ -5,15 +5,15 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
 
-export function logFilter(logger: any = console.log): RequestPolicyCreator {
+export function logPolicy(logger: any = console.log): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new LogFilter(logger);
+    const result = new LogPolicy(logger);
     result.nextPolicy = nextPolicy;
     return result;
   };
 }
 
-export class LogFilter extends BaseRequestPolicy {
+export class LogPolicy extends BaseRequestPolicy {
 
   logger?: any;
 

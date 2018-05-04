@@ -6,13 +6,13 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { RestError } from "./restError";
 import { ServiceClient, ServiceClientOptions } from "./serviceClient";
 import { Constants } from "./util/constants";
-import { logFilter } from "./filters/logFilter";
-import { BaseRequestPolicy, RequestPolicy } from "./filters/requestPolicy";
-import { exponentialRetryPolicyFilter } from "./filters/exponentialRetryPolicyFilter";
-import { systemErrorRetryPolicyFilter } from "./filters/systemErrorRetryPolicyFilter";
-import { redirectFilter } from "./filters/redirectFilter";
-import { signingFilter } from "./filters/signingFilter";
-import { msRestUserAgentFilter } from "./filters/msRestUserAgentFilter";
+import { logPolicy } from "./policies/logPolicy";
+import { BaseRequestPolicy, RequestPolicy } from "./policies/requestPolicy";
+import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
+import { redirectPolicy } from "./policies/redirectPolicy";
+import { signingPolicy } from "./policies/signingPolicy";
+import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 import {
   BaseMapperType, CompositeMapper, DictionaryMapper, EnumMapper, Mapper,
   MapperConstraints, MapperType, PolymorphicDiscriminator,
@@ -36,8 +36,8 @@ export {
   BaseMapperType, CompositeMapper, DictionaryMapper, EnumMapper, Mapper, MapperConstraints, MapperType,
   PolymorphicDiscriminator, SequenceMapper, UrlParameterValue, Serializer, serializeObject, TokenCredentials,
   WebResource, RequestPrepareOptions, HttpMethods, ParameterValue, HttpOperationResponse, ServiceClient, Constants,
-  BasicAuthenticationCredentials, ApiKeyCredentials, ApiKeyCredentialOptions, ServiceClientCredentials, BaseRequestPolicy, logFilter, ServiceClientOptions, exponentialRetryPolicyFilter,
-  systemErrorRetryPolicyFilter, signingFilter, msRestUserAgentFilter, stripRequest, stripResponse, delay, executePromisesSequentially,
+  BasicAuthenticationCredentials, ApiKeyCredentials, ApiKeyCredentialOptions, ServiceClientCredentials, BaseRequestPolicy, logPolicy, ServiceClientOptions, exponentialRetryPolicy,
+  systemErrorRetryPolicy, signingPolicy, msRestUserAgentPolicy, stripRequest, stripResponse, delay, executePromisesSequentially,
   generateUuid, isValidUuid, encodeUri, RestError, RequestOptionsBase, RequestPolicy, ServiceCallback, promiseToCallback,
-  promiseToServiceCallback, isStream, dispatchRequest, redirectFilter, applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
+  promiseToServiceCallback, isStream, dispatchRequest, redirectPolicy, applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
 };

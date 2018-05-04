@@ -2,13 +2,13 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
-import { exponentialRetryPolicyFilter } from "./filters/exponentialRetryPolicyFilter";
-import { msRestUserAgentFilter } from "./filters/msRestUserAgentFilter";
-import { redirectFilter } from "./filters/redirectFilter";
-import { RequestPolicy, RequestPolicyCreator } from "./filters/requestPolicy";
-import { rpRegistrationFilter } from "./filters/rpRegistrationFilter";
-import { signingFilter } from "./filters/signingFilter";
-import { systemErrorRetryPolicyFilter } from "./filters/systemErrorRetryPolicyFilter";
+import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
+import { redirectPolicy } from "./policies/redirectPolicy";
+import { RequestPolicy, RequestPolicyCreator } from "./policies/requestPolicy";
+import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
+import { signingPolicy } from "./policies/signingPolicy";
+import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { createRequestPipeline } from "./requestPipeline";
 import { Constants } from "./util/constants";
@@ -24,8 +24,9 @@ export interface ServiceClientOptions {
    */
   requestOptions?: RequestInit;
   /**
-   * @property {Array<BaseFilter>} [filters] An array of filters/interceptors that will
-   * be processed in the request pipeline (before and after) sending the request on the wire.
+   * @property {Array<RequestPolicyCreator>} [requestPolicyCreators] An array of functions that will be
+   * invoked to create the RequestPolicy pipeline that will be used to send a HTTP request on the
+   * wire.
    */
   requestPolicyCreators?: RequestPolicyCreator[];
   /**
@@ -52,8 +53,7 @@ export class ServiceClient {
   userAgentInfo: { value: Array<string> };
 
   /**
-   * The request pipeline that provides hooks for adding custom filters.
-   * The before filters get executed before sending the request and the after filters get executed after receiving the response.
+   * The request pipeline that provides hooks for adding custom RequestPolicies.
    */
   httpRequestSender: RequestPolicy;
 
@@ -92,16 +92,16 @@ export class ServiceClient {
     }
 
     if (credentials) {
-      options.requestPolicyCreators.push(signingFilter(credentials));
+      options.requestPolicyCreators.push(signingPolicy(credentials));
     }
 
-    options.requestPolicyCreators.push(msRestUserAgentFilter(this.userAgentInfo.value));
-    options.requestPolicyCreators.push(redirectFilter());
-    options.requestPolicyCreators.push(rpRegistrationFilter(options.rpRegistrationRetryTimeout));
+    options.requestPolicyCreators.push(msRestUserAgentPolicy(this.userAgentInfo.value));
+    options.requestPolicyCreators.push(redirectPolicy());
+    options.requestPolicyCreators.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
 
     if (!options.noRetryPolicy) {
-      options.requestPolicyCreators.push(exponentialRetryPolicyFilter());
-      options.requestPolicyCreators.push(systemErrorRetryPolicyFilter());
+      options.requestPolicyCreators.push(exponentialRetryPolicy());
+      options.requestPolicyCreators.push(systemErrorRetryPolicy());
     }
 
     this.httpRequestSender = createRequestPipeline(options.requestPolicyCreators);

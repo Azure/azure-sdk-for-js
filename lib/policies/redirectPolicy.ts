@@ -6,15 +6,15 @@ import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
 
-export function redirectFilter(maximumRetries = 20): RequestPolicyCreator {
+export function redirectPolicy(maximumRetries = 20): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new RedirectFilter(maximumRetries);
+    const result = new RedirectPolicy(maximumRetries);
     result.nextPolicy = nextPolicy;
     return result;
   };
 }
 
-export class RedirectFilter extends BaseRequestPolicy {
+export class RedirectPolicy extends BaseRequestPolicy {
 
   maximumRetries?: number;
 
