@@ -50,7 +50,7 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
         options.headers["x-ms-client-request-id"] = utils.generateUuid();
         let finalRes: HttpOperationResponse;
         try {
-          finalRes = await utils.dispatchRequest(options);
+          finalRes = await this._nextPolicy.sendRequest(options);
         } catch (err) {
           return Promise.reject(err);
         }
@@ -147,7 +147,7 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
     reqOptions.url = postUrl;
     let res: HttpOperationResponse;
     try {
-      res = await utils.dispatchRequest(reqOptions);
+      res = await this._nextPolicy.sendRequest(reqOptions);
     } catch (err) {
       return Promise.reject(err);
     }
@@ -178,7 +178,7 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
     reqOptions.url = url;
     reqOptions.method = "GET";
     try {
-      res = await utils.dispatchRequest(reqOptions);
+      res = await this._nextPolicy.sendRequest(reqOptions);
     } catch (err) {
       return Promise.reject(err);
     }

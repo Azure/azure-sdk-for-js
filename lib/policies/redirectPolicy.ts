@@ -2,9 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 import * as parse from "url-parse";
 import { HttpOperationResponse } from "../httpOperationResponse";
-import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator } from "./requestPolicy";
 
 export function redirectPolicy(maximumRetries = 20): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
@@ -37,7 +36,7 @@ export class RedirectPolicy extends BaseRequestPolicy {
       }
       let res: HttpOperationResponse;
       try {
-        res = await utils.dispatchRequest(request);
+        res = await this._nextPolicy.sendRequest(request);
         currentRetries++;
       } catch (err) {
         return Promise.reject(err);

@@ -21,7 +21,7 @@ import {
 import {
   stripRequest, stripResponse, delay,
   executePromisesSequentially, generateUuid, encodeUri, ServiceCallback,
-  promiseToCallback, promiseToServiceCallback, isValidUuid, dispatchRequest,
+  promiseToCallback, promiseToServiceCallback, isValidUuid,
   applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
 } from "./util/utils";
 
@@ -39,5 +39,5 @@ export {
   BasicAuthenticationCredentials, ApiKeyCredentials, ApiKeyCredentialOptions, ServiceClientCredentials, BaseRequestPolicy, logPolicy, ServiceClientOptions, exponentialRetryPolicy,
   systemErrorRetryPolicy, signingPolicy, msRestUserAgentPolicy, stripRequest, stripResponse, delay, executePromisesSequentially,
   generateUuid, isValidUuid, encodeUri, RestError, RequestOptionsBase, RequestPolicy, ServiceCallback, promiseToCallback,
-  promiseToServiceCallback, isStream, dispatchRequest, redirectPolicy, applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
+  promiseToServiceCallback, isStream, redirectPolicy, applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
 };

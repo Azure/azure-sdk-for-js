@@ -115,7 +115,7 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
       // If previous operation ended with an error and the policy allows a retry, do that
       try {
         await utils.delay(retryData.retryInterval);
-        const res: HttpOperationResponse = await utils.dispatchRequest(operationResponse.request);
+        const res: HttpOperationResponse = await this._nextPolicy.sendRequest(operationResponse.request);
         return self.retry(res, retryData, err);
       } catch (err) {
         return self.retry(operationResponse, retryData, err);
