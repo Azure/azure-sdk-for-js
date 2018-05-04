@@ -43,6 +43,19 @@ export class ConsoleHttpPipelineLogger implements HttpPipelineLogger {
    *                           provided message.
    */
   log(logLevel: HttpPipelineLogLevel, message: string): void {
-    console.log(`${HttpPipelineLogLevel[logLevel]}: ${message}`);
+    const logMessage = `${HttpPipelineLogLevel[logLevel]}: ${message}`;
+    switch (logLevel) {
+      case HttpPipelineLogLevel.ERROR:
+        console.error(logMessage);
+        break;
+
+      case HttpPipelineLogLevel.WARNING:
+        console.warn(logMessage);
+        break;
+
+      case HttpPipelineLogLevel.INFO:
+        console.log(logMessage);
+        break;
+    }
   }
 }

@@ -2,7 +2,11 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { WebResource, RequestPrepareOptions, HttpMethods, ParameterValue, RequestOptionsBase } from "./webResource";
+import { FetchHttpClient } from "./fetchHttpClient";
+import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
+import { HttpPipelineLogger } from "./httpPipelineLogger";
+import { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 import { RestError } from "./restError";
 import { ServiceClient, ServiceClientOptions } from "./serviceClient";
 import { Constants } from "./util/constants";
@@ -33,8 +37,8 @@ import { ServiceClientCredentials } from "./credentials/serviceClientCredentials
 import * as isStream from "is-stream";
 
 export {
-  BaseMapperType, CompositeMapper, DictionaryMapper, EnumMapper, Mapper, MapperConstraints, MapperType,
-  PolymorphicDiscriminator, SequenceMapper, UrlParameterValue, Serializer, serializeObject, TokenCredentials,
+  BaseMapperType, CompositeMapper, DictionaryMapper, EnumMapper, Mapper, MapperConstraints, MapperType, FetchHttpClient,
+  PolymorphicDiscriminator, SequenceMapper, UrlParameterValue, Serializer, serializeObject, HttpClient, HttpPipelineLogger, HttpPipelineLogLevel, TokenCredentials,
   WebResource, RequestPrepareOptions, HttpMethods, ParameterValue, HttpOperationResponse, ServiceClient, Constants,
   BasicAuthenticationCredentials, ApiKeyCredentials, ApiKeyCredentialOptions, ServiceClientCredentials, BaseRequestPolicy, logPolicy, ServiceClientOptions, exponentialRetryPolicy,
   systemErrorRetryPolicy, signingPolicy, msRestUserAgentPolicy, stripRequest, stripResponse, delay, executePromisesSequentially,

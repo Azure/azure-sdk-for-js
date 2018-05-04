@@ -15,6 +15,7 @@ import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { Constants } from "./util/constants";
 import { RequestPrepareOptions, WebResource } from "./webResource";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
+import * as utils from "./util/utils";
 
 /**
  * Options to be provided while creating the client.
@@ -163,7 +164,10 @@ function createDefaultRequestPolicyCreators(credentials: ServiceClientCredential
     defaultRequestPolicyCreators.push(signingPolicy(credentials));
   }
 
-  defaultRequestPolicyCreators.push(msRestUserAgentPolicy(userAgentInfo));
+  if (utils.isNode) {
+    defaultRequestPolicyCreators.push(msRestUserAgentPolicy(userAgentInfo));
+  }
+
   defaultRequestPolicyCreators.push(redirectPolicy());
   defaultRequestPolicyCreators.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
 
