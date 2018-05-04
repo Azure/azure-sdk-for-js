@@ -20,9 +20,7 @@ export interface RetryError extends Error {
 
 export function systemErrorRetryPolicy(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new SystemErrorRetryPolicy(retryCount, retryInterval, minRetryInterval, maxRetryInterval);
-    result.nextPolicy = nextPolicy;
-    return result;
+    return new SystemErrorRetryPolicy(nextPolicy, retryCount, retryInterval, minRetryInterval, maxRetryInterval);
   };
 }
 
@@ -47,8 +45,8 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
   DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
   DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
 
-  constructor(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number) {
-    super();
+  constructor(nextPolicy: RequestPolicy, retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number) {
+    super(nextPolicy);
     this.retryCount = typeof retryCount === "number" ? retryCount : this.DEFAULT_CLIENT_RETRY_COUNT;
     this.retryInterval = typeof retryInterval === "number" ? retryInterval : this.DEFAULT_CLIENT_RETRY_INTERVAL;
     this.minRetryInterval = typeof minRetryInterval === "number" ? minRetryInterval : this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
@@ -137,7 +135,7 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this.nextPolicy!.sendRequest(request);
+    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
     return this.after(response);
   }
 }

@@ -5,10 +5,19 @@ import * as assert from "assert";
 import { WebResource } from "../lib/webResource";
 import { MsRestUserAgentPolicy } from "../lib/policies/msRestUserAgentPolicy";
 import { Constants } from "../lib/util/constants";
-import { isNode } from "../lib/msRest";
+import { RequestPolicy } from "../lib/policies/requestPolicy";
+import { HttpOperationResponse } from "../lib/httpOperationResponse";
+import { isNode } from "../lib/util/utils";
 
 const should = require("should");
 const userAgentHeader = Constants.HeaderConstants.USER_AGENT;
+
+const emptyRequestPolicy: RequestPolicy = {
+  sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    assert(request);
+    throw new Error("Not Implemented");
+  }
+};
 
 describe("ms-rest user agent filter (nodejs only)", () => {
   it("should construct user agent header when supplied empty array", function (done) {
@@ -17,7 +26,7 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     }
 
     const userAgentArray: Array<string> = [];
-    const userAgentFilter = new MsRestUserAgentPolicy(userAgentArray);
+    const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, userAgentArray);
     const resource = new WebResource();
     resource.headers = {};
     userAgentFilter.before(resource).then((resource) => {
@@ -37,7 +46,7 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     const azureRuntime = "ms-rest-azure";
     const azureSDK = "Azure-SDK-For-Node";
     const userAgentArray = [`${genericRuntime}/v1.0.0`, `${azureRuntime}/v1.0.0`];
-    const userAgentFilter = new MsRestUserAgentPolicy(userAgentArray);
+    const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, userAgentArray);
     const customUA = "my custom user agent";
     const resource = new WebResource();
     resource.headers = {};
@@ -62,7 +71,7 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     const azureRuntime = "ms-rest-azure";
     const azureSDK = "Azure-SDK-For-Node";
     const userAgentArray = [`${genericRuntime}/v1.0.0`, `${azureRuntime}/v1.0.0`];
-    const userAgentFilter = new MsRestUserAgentPolicy(userAgentArray);
+    const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, userAgentArray);
     const resource = new WebResource();
     resource.headers = {};
     userAgentFilter.before(resource).then((resource) => {

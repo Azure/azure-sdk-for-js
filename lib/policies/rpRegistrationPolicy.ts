@@ -11,21 +11,19 @@ let retryTimeout = 30;
 
 export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new RPRegistrationPolicy(retryTimeout);
-    result.nextPolicy = nextPolicy;
-    return result;
+    return new RPRegistrationPolicy(nextPolicy, retryTimeout);
   };
 }
 
 export class RPRegistrationPolicy extends BaseRequestPolicy {
 
-  constructor(retryTimeout = 30) {
-    super();
+  constructor(nextPolicy: RequestPolicy, retryTimeout = 30) {
+    super(nextPolicy);
     retryTimeout = retryTimeout;
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this.nextPolicy!.sendRequest(request);
+    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
     return this.after(response);
   }
 

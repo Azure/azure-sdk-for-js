@@ -8,9 +8,7 @@ import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./reques
 
 export function redirectPolicy(maximumRetries = 20): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new RedirectPolicy(maximumRetries);
-    result.nextPolicy = nextPolicy;
-    return result;
+    return new RedirectPolicy(nextPolicy, maximumRetries);
   };
 }
 
@@ -18,8 +16,8 @@ export class RedirectPolicy extends BaseRequestPolicy {
 
   maximumRetries?: number;
 
-  constructor(maximumRetries = 20) {
-    super();
+  constructor(nextPolicy: RequestPolicy, maximumRetries = 20) {
+    super(nextPolicy);
     this.maximumRetries = maximumRetries;
   }
 
@@ -54,7 +52,7 @@ export class RedirectPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this.nextPolicy!.sendRequest(request);
+    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
     return this.after(response);
   }
 }

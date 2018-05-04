@@ -12,9 +12,7 @@ const HeaderConstants = Constants.HeaderConstants;
 
 export function msRestUserAgentPolicy(userAgentInfo: Array<string>): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new MsRestUserAgentPolicy(userAgentInfo);
-    result.nextPolicy = nextPolicy;
-    return result;
+    return new MsRestUserAgentPolicy(nextPolicy, userAgentInfo);
   };
 }
 
@@ -22,8 +20,8 @@ export class MsRestUserAgentPolicy extends BaseRequestPolicy {
 
   userAgentInfo: Array<string>;
 
-  constructor(userAgentInfo: Array<string>) {
-    super();
+  constructor(nextPolicy: RequestPolicy, userAgentInfo: Array<string>) {
+    super(nextPolicy);
     this.userAgentInfo = userAgentInfo;
   }
 
@@ -66,6 +64,6 @@ export class MsRestUserAgentPolicy extends BaseRequestPolicy {
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const nextRequest: WebResource = await this.before(request);
-    return await this.nextPolicy!.sendRequest(nextRequest);
+    return await this._nextPolicy.sendRequest(nextRequest);
   }
 }

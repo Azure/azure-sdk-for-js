@@ -7,9 +7,7 @@ import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./reques
 
 export function logPolicy(logger: any = console.log): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new LogPolicy(logger);
-    result.nextPolicy = nextPolicy;
-    return result;
+    return new LogPolicy(nextPolicy, logger);
   };
 }
 
@@ -17,13 +15,13 @@ export class LogPolicy extends BaseRequestPolicy {
 
   logger?: any;
 
-  constructor(logger: any = console.log) {
-    super();
+  constructor(nextPolicy: RequestPolicy, logger: any = console.log) {
+    super(nextPolicy);
     this.logger = logger;
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this.nextPolicy!.sendRequest(request);
+    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
     return this.after(response);
   }
 

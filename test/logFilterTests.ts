@@ -6,6 +6,14 @@ import { Response } from "node-fetch";
 import { LogPolicy } from "../lib/policies/logPolicy";
 import { HttpOperationResponse } from "../lib/httpOperationResponse";
 import { WebResource } from "../lib/webResource";
+import { RequestPolicy } from "../lib/policies/requestPolicy";
+
+const emptyRequestPolicy: RequestPolicy = {
+  sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    assert(request);
+    throw new Error("Not Implemented");
+  }
+};
 
 describe("Log filter", () => {
 
@@ -23,8 +31,8 @@ describe("Log filter", () => {
 >> Body: null
 `;
     let output = "";
-    const logger: Function = (message: string): void => { output += message + "\n"; };
-    const lf = new LogPolicy(logger);
+    const logger = (message: string): void => { output += message + "\n"; };
+    const lf = new LogPolicy(emptyRequestPolicy, logger);
     const req = new WebResource("https://foo.com", "PUT", { "a": 1 });
     const res = new Response();
     const opRes = new HttpOperationResponse(req, res as any);

@@ -14,7 +14,8 @@ export interface RequestPolicy {
 }
 
 export abstract class BaseRequestPolicy implements RequestPolicy {
-  public nextPolicy: RequestPolicy | undefined;
+  protected constructor(protected readonly _nextPolicy: RequestPolicy) {
+  }
 
   public abstract sendRequest(webResource: WebResource): Promise<HttpOperationResponse>;
 }

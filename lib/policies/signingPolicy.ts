@@ -8,16 +8,14 @@ import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./reques
 
 export function signingPolicy(authenticationProvider: ServiceClientCredentials): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy) => {
-    const result = new SigningPolicy(authenticationProvider);
-    result.nextPolicy = nextPolicy;
-    return result;
+    return new SigningPolicy(nextPolicy, authenticationProvider);
   };
 }
 
 export class SigningPolicy extends BaseRequestPolicy {
 
-  constructor(public authenticationProvider: ServiceClientCredentials) {
-    super();
+  constructor(nextPolicy: RequestPolicy, public authenticationProvider: ServiceClientCredentials) {
+    super(nextPolicy);
   }
 
   before(request: WebResource): Promise<WebResource> {
@@ -26,6 +24,6 @@ export class SigningPolicy extends BaseRequestPolicy {
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const nextRequest: WebResource = await this.before(request);
-    return await this.nextPolicy!.sendRequest(nextRequest);
+    return await this._nextPolicy.sendRequest(nextRequest);
   }
 }
