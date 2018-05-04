@@ -6,15 +6,17 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
 import { isNode } from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
 
 const HeaderConstants = Constants.HeaderConstants;
 
-// export function msRestUserAgentFilter(userAgentInfo: Array<string>): RequestPolicyCreator {
-//   return (nextPolicy: RequestPolicy) => {
-//     return new MsRestUserAgentFilter(userAgentInfo, nextPolicy);
-//   };
-// }
+export function msRestUserAgentFilter(userAgentInfo: Array<string>): RequestPolicyCreator {
+  return (nextPolicy: RequestPolicy) => {
+    const result = new MsRestUserAgentFilter(userAgentInfo);
+    result.nextPolicy = nextPolicy;
+    return result;
+  };
+}
 
 export class MsRestUserAgentFilter extends BaseRequestPolicy {
 
@@ -64,6 +66,6 @@ export class MsRestUserAgentFilter extends BaseRequestPolicy {
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const nextRequest: WebResource = await this.before(request);
-    return await this._nextPolicy!.sendRequest(nextRequest);
+    return await this.nextPolicy!.sendRequest(nextRequest);
   }
 }

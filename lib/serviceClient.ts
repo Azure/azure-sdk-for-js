@@ -2,13 +2,13 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
-import { ExponentialRetryPolicyFilter } from "./filters/exponentialRetryPolicyFilter";
-import { MsRestUserAgentFilter } from "./filters/msRestUserAgentFilter";
-import { RedirectFilter } from "./filters/redirectFilter";
-import { BaseRequestPolicy, RequestPolicy } from "./filters/requestPolicy";
-import { RPRegistrationFilter } from "./filters/rpRegistrationFilter";
-import { SigningFilter } from "./filters/signingFilter";
-import { SystemErrorRetryPolicyFilter } from "./filters/systemErrorRetryPolicyFilter";
+import { exponentialRetryPolicyFilter } from "./filters/exponentialRetryPolicyFilter";
+import { msRestUserAgentFilter } from "./filters/msRestUserAgentFilter";
+import { redirectFilter } from "./filters/redirectFilter";
+import { RequestPolicy, RequestPolicyCreator } from "./filters/requestPolicy";
+import { rpRegistrationFilter } from "./filters/rpRegistrationFilter";
+import { signingFilter } from "./filters/signingFilter";
+import { systemErrorRetryPolicyFilter } from "./filters/systemErrorRetryPolicyFilter";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { createRequestPipeline } from "./requestPipeline";
 import { Constants } from "./util/constants";
@@ -27,7 +27,7 @@ export interface ServiceClientOptions {
    * @property {Array<BaseFilter>} [filters] An array of filters/interceptors that will
    * be processed in the request pipeline (before and after) sending the request on the wire.
    */
-  baseRequestPolicies?: BaseRequestPolicy[];
+  requestPolicyCreators?: RequestPolicyCreator[];
   /**
    * @property {bool} [noRetryPolicy] - If set to true, turn off the default retry policy.
    */
@@ -73,10 +73,6 @@ export class ServiceClient {
       options.requestOptions = {};
     }
 
-    if (!options.baseRequestPolicies) {
-      options.baseRequestPolicies = [];
-    }
-
     this.userAgentInfo = { value: [] };
 
     if (credentials && !credentials.signRequest) {
@@ -91,20 +87,24 @@ export class ServiceClient {
       // do nothing
     }
 
-    if (credentials) {
-      options.baseRequestPolicies.push(new SigningFilter(credentials));
+    if (!options.requestPolicyCreators) {
+      options.requestPolicyCreators = [];
     }
 
-    options.baseRequestPolicies.push(new MsRestUserAgentFilter(this.userAgentInfo.value));
-    options.baseRequestPolicies.push(new RedirectFilter());
-    options.baseRequestPolicies.push(new RPRegistrationFilter(options.rpRegistrationRetryTimeout));
+    if (credentials) {
+      options.requestPolicyCreators.push(signingFilter(credentials));
+    }
+
+    options.requestPolicyCreators.push(msRestUserAgentFilter(this.userAgentInfo.value));
+    options.requestPolicyCreators.push(redirectFilter());
+    options.requestPolicyCreators.push(rpRegistrationFilter(options.rpRegistrationRetryTimeout));
 
     if (!options.noRetryPolicy) {
-      options.baseRequestPolicies.push(new ExponentialRetryPolicyFilter());
-      options.baseRequestPolicies.push(new SystemErrorRetryPolicyFilter());
+      options.requestPolicyCreators.push(exponentialRetryPolicyFilter());
+      options.requestPolicyCreators.push(systemErrorRetryPolicyFilter());
     }
 
-    this.httpRequestSender = createRequestPipeline(options.baseRequestPolicies);
+    this.httpRequestSender = createRequestPipeline(options.requestPolicyCreators);
   }
 
   pipeline(request: WebResource): Promise<HttpOperationResponse> {

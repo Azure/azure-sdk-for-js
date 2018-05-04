@@ -3,13 +3,15 @@
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
 
-// export function logFilter(logger: any = console.log): RequestPolicyCreator {
-//   return (nextPolicy: RequestPolicy) => {
-//     return new LogFilter(nextPolicy, logger);
-//   };
-// }
+export function logFilter(logger: any = console.log): RequestPolicyCreator {
+  return (nextPolicy: RequestPolicy) => {
+    const result = new LogFilter(logger);
+    result.nextPolicy = nextPolicy;
+    return result;
+  };
+}
 
 export class LogFilter extends BaseRequestPolicy {
 
@@ -21,7 +23,7 @@ export class LogFilter extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this._nextPolicy!.sendRequest(request);
+    const response: HttpOperationResponse = await this.nextPolicy!.sendRequest(request);
     return this.after(response);
   }
 

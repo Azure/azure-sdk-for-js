@@ -4,13 +4,15 @@ import * as parse from "url-parse";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
 
-// export function redirectFilter(maximumRetries = 20): RequestPolicyCreator {
-//   return (nextPolicy: RequestPolicy) => {
-//     return new RedirectFilter(maximumRetries, nextPolicy);
-//   };
-// }
+export function redirectFilter(maximumRetries = 20): RequestPolicyCreator {
+  return (nextPolicy: RequestPolicy) => {
+    const result = new RedirectFilter(maximumRetries);
+    result.nextPolicy = nextPolicy;
+    return result;
+  };
+}
 
 export class RedirectFilter extends BaseRequestPolicy {
 
@@ -52,7 +54,7 @@ export class RedirectFilter extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this._nextPolicy!.sendRequest(request);
+    const response: HttpOperationResponse = await this.nextPolicy!.sendRequest(request);
     return this.after(response);
   }
 }

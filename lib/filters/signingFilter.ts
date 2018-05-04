@@ -4,21 +4,20 @@
 import { ServiceClientCredentials } from "../credentials/serviceClientCredentials";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
 
-// export function signingFilter(authenticationProvider: ServiceClientCredentials): RequestPolicyCreator {
-//   return (nextPolicy: RequestPolicy) => {
-//     return new SigningFilter(authenticationProvider, nextPolicy);
-//   };
-// }
+export function signingFilter(authenticationProvider: ServiceClientCredentials): RequestPolicyCreator {
+  return (nextPolicy: RequestPolicy) => {
+    const result = new SigningFilter(authenticationProvider);
+    result.nextPolicy = nextPolicy;
+    return result;
+  };
+}
 
 export class SigningFilter extends BaseRequestPolicy {
 
-  authenticationProvider: ServiceClientCredentials;
-
-  constructor(authenticationProvider: ServiceClientCredentials) {
+  constructor(public authenticationProvider: ServiceClientCredentials) {
     super();
-    this.authenticationProvider = authenticationProvider;
   }
 
   before(request: WebResource): Promise<WebResource> {
@@ -27,6 +26,6 @@ export class SigningFilter extends BaseRequestPolicy {
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const nextRequest: WebResource = await this.before(request);
-    return await this._nextPolicy!.sendRequest(nextRequest);
+    return await this.nextPolicy!.sendRequest(nextRequest);
   }
 }

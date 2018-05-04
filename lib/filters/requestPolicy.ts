@@ -4,6 +4,9 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
 
+/**
+ * A function that creates a new RequestPolicy that uses the provided nextPolicy.
+ */
 export type RequestPolicyCreator = (nextPolicy: RequestPolicy) => RequestPolicy;
 
 export interface RequestPolicy {
@@ -11,8 +14,7 @@ export interface RequestPolicy {
 }
 
 export abstract class BaseRequestPolicy implements RequestPolicy {
-  protected constructor(public _nextPolicy?: RequestPolicy) {
-  }
+  public nextPolicy: RequestPolicy | undefined;
 
   public abstract sendRequest(webResource: WebResource): Promise<HttpOperationResponse>;
 }

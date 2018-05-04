@@ -3,17 +3,19 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
 
 /* tslint:disable:prefer-const */
 let retryTimeout = 30;
 /* tslint:enable:prefer-const */
 
-// export function rpRegistrationFilter(retryTimeout = 30): RequestPolicyCreator {
-//   return (nextPolicy: RequestPolicy) => {
-//     return new RPRegistrationFilter(retryTimeout, nextPolicy);
-//   };
-// }
+export function rpRegistrationFilter(retryTimeout = 30): RequestPolicyCreator {
+  return (nextPolicy: RequestPolicy) => {
+    const result = new RPRegistrationFilter(retryTimeout);
+    result.nextPolicy = nextPolicy;
+    return result;
+  };
+}
 
 export class RPRegistrationFilter extends BaseRequestPolicy {
 
@@ -23,7 +25,7 @@ export class RPRegistrationFilter extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this._nextPolicy!.sendRequest(request);
+    const response: HttpOperationResponse = await this.nextPolicy!.sendRequest(request);
     return this.after(response);
   }
 

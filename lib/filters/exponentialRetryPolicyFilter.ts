@@ -4,7 +4,7 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy } from "./requestPolicy";
 
 export interface RetryData {
   retryCount: number;
@@ -18,11 +18,13 @@ export interface RetryError extends Error {
   innerError?: RetryError;
 }
 
-// export function exponentialRetryPolicyFilter(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyCreator {
-//   return (nextPolicy: RequestPolicy) => {
-//     return new ExponentialRetryPolicyFilter(retryCount, retryInterval, minRetryInterval, maxRetryInterval, nextPolicy);
-//   };
-// }
+export function exponentialRetryPolicyFilter(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyCreator {
+  return (nextPolicy: RequestPolicy) => {
+    const result = new ExponentialRetryPolicyFilter(retryCount, retryInterval, minRetryInterval, maxRetryInterval);
+    result.nextPolicy = nextPolicy;
+    return result;
+  };
+}
 
 /**
  * @class
@@ -47,7 +49,6 @@ export class ExponentialRetryPolicyFilter extends BaseRequestPolicy {
 
   constructor(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number) {
     super();
-
     this.retryCount = typeof retryCount === "number" ? retryCount : this.DEFAULT_CLIENT_RETRY_COUNT;
     this.retryInterval = typeof retryInterval === "number" ? retryInterval : this.DEFAULT_CLIENT_RETRY_INTERVAL;
     this.minRetryInterval = typeof minRetryInterval === "number" ? minRetryInterval : this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
@@ -135,7 +136,7 @@ export class ExponentialRetryPolicyFilter extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this._nextPolicy!.sendRequest(request);
+    const response: HttpOperationResponse = await this.nextPolicy!.sendRequest(request);
     return this.retry(response);
   }
 }

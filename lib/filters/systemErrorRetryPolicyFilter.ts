@@ -4,7 +4,7 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator } from "./requestPolicy";
 
 export interface RetryData {
   retryCount: number;
@@ -18,11 +18,13 @@ export interface RetryError extends Error {
   innerError?: RetryError;
 }
 
-// export function systemErrorRetryPolicyFilter(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyCreator {
-//   return (nextPolicy: RequestPolicy) => {
-//     return new SystemErrorRetryPolicyFilter(retryCount, retryInterval, minRetryInterval, maxRetryInterval, nextPolicy);
-//   };
-// }
+export function systemErrorRetryPolicyFilter(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyCreator {
+  return (nextPolicy: RequestPolicy) => {
+    const result = new SystemErrorRetryPolicyFilter(retryCount, retryInterval, minRetryInterval, maxRetryInterval);
+    result.nextPolicy = nextPolicy;
+    return result;
+  };
+}
 
 /**
  * @class
@@ -135,7 +137,7 @@ export class SystemErrorRetryPolicyFilter extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this._nextPolicy!.sendRequest(request);
+    const response: HttpOperationResponse = await this.nextPolicy!.sendRequest(request);
     return this.after(response);
   }
 }
