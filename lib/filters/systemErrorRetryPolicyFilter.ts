@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { BaseFilter } from "./baseFilter";
-import * as utils from "../util/utils";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import * as utils from "../util/utils";
+import { WebResource } from "../webResource";
+import { BaseRequestPolicy } from "./requestPolicy";
 
 export interface RetryData {
   retryCount: number;
@@ -17,6 +18,12 @@ export interface RetryError extends Error {
   innerError?: RetryError;
 }
 
+// export function systemErrorRetryPolicyFilter(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyCreator {
+//   return (nextPolicy: RequestPolicy) => {
+//     return new SystemErrorRetryPolicyFilter(retryCount, retryInterval, minRetryInterval, maxRetryInterval, nextPolicy);
+//   };
+// }
+
 /**
  * @class
  * Instantiates a new "ExponentialRetryPolicyFilter" instance.
@@ -27,7 +34,7 @@ export interface RetryError extends Error {
  * @param {number} minRetryInterval  The minimum retry interval, in milliseconds.
  * @param {number} maxRetryInterval  The maximum retry interval, in milliseconds.
  */
-export class SystemErrorRetryPolicyFilter extends BaseFilter {
+export class SystemErrorRetryPolicyFilter extends BaseRequestPolicy {
 
   retryCount: number;
   retryInterval: number;
@@ -125,5 +132,10 @@ export class SystemErrorRetryPolicyFilter extends BaseFilter {
 
   after(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
     return this.retry(operationResponse); // See: https://github.com/Microsoft/TypeScript/issues/7426
+  }
+
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    const response: HttpOperationResponse = await this._nextPolicy!.sendRequest(request);
+    return this.after(response);
   }
 }

@@ -1,19 +1,30 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
-import { BaseFilter } from "./baseFilter";
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResource } from "../webResource";
 import * as utils from "../util/utils";
+import { WebResource } from "../webResource";
+import { BaseRequestPolicy } from "./requestPolicy";
 
 /* tslint:disable:prefer-const */
 let retryTimeout = 30;
 /* tslint:enable:prefer-const */
 
-export class RPRegistrationFilter extends BaseFilter {
+// export function rpRegistrationFilter(retryTimeout = 30): RequestPolicyCreator {
+//   return (nextPolicy: RequestPolicy) => {
+//     return new RPRegistrationFilter(retryTimeout, nextPolicy);
+//   };
+// }
+
+export class RPRegistrationFilter extends BaseRequestPolicy {
 
   constructor(retryTimeout = 30) {
     super();
     retryTimeout = retryTimeout;
+  }
+
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    const response: HttpOperationResponse = await this._nextPolicy!.sendRequest(request);
+    return this.after(response);
   }
 
   async after(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {

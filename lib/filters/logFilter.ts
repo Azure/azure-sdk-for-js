@@ -1,10 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { BaseFilter } from "./baseFilter";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResource } from "../webResource";
+import { BaseRequestPolicy } from "./requestPolicy";
 
-export class LogFilter extends BaseFilter {
+// export function logFilter(logger: any = console.log): RequestPolicyCreator {
+//   return (nextPolicy: RequestPolicy) => {
+//     return new LogFilter(nextPolicy, logger);
+//   };
+// }
+
+export class LogFilter extends BaseRequestPolicy {
 
   logger?: any;
 
@@ -13,12 +20,16 @@ export class LogFilter extends BaseFilter {
     this.logger = logger;
   }
 
-  after(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
-    const self = this;
-    self.logger(`>> Request: ${JSON.stringify(operationResponse.request, undefined, 2)}`);
-    self.logger(`>> Response status code: ${operationResponse.response.status}`);
-    const responseBody = operationResponse.bodyAsText;
-    self.logger(`>> Body: ${responseBody}`);
-    return Promise.resolve(operationResponse);
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    const response: HttpOperationResponse = await this._nextPolicy!.sendRequest(request);
+    return this.after(response);
+  }
+
+  after(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+    this.logger(`>> Request: ${JSON.stringify(response.request, undefined, 2)}`);
+    this.logger(`>> Response status code: ${response.response.status}`);
+    const responseBody = response.bodyAsText;
+    this.logger(`>> Body: ${responseBody}`);
+    return Promise.resolve(response);
   }
 }

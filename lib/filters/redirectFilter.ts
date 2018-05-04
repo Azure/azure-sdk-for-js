@@ -1,11 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
-import { BaseFilter } from "./baseFilter";
+import * as parse from "url-parse";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
-import * as parse from "url-parse";
+import { WebResource } from "../webResource";
+import { BaseRequestPolicy } from "./requestPolicy";
 
-export class RedirectFilter extends BaseFilter {
+// export function redirectFilter(maximumRetries = 20): RequestPolicyCreator {
+//   return (nextPolicy: RequestPolicy) => {
+//     return new RedirectFilter(maximumRetries, nextPolicy);
+//   };
+// }
+
+export class RedirectFilter extends BaseRequestPolicy {
 
   maximumRetries?: number;
 
@@ -42,5 +49,10 @@ export class RedirectFilter extends BaseFilter {
 
   after(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
     return this.handleRedirect(operationResponse, 0);
+  }
+
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    const response: HttpOperationResponse = await this._nextPolicy!.sendRequest(request);
+    return this.after(response);
   }
 }

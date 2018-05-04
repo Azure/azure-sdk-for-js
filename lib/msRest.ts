@@ -6,9 +6,8 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { RestError } from "./restError";
 import { ServiceClient, ServiceClientOptions } from "./serviceClient";
 import { Constants } from "./util/constants";
-import { RequestPipeline, RequestFunction } from "./requestPipeline";
 import { LogFilter } from "./filters/logFilter";
-import { BaseFilter } from "./filters/baseFilter";
+import { BaseRequestPolicy, RequestPolicy } from "./filters/requestPolicy";
 import { ExponentialRetryPolicyFilter } from "./filters/exponentialRetryPolicyFilter";
 import { SystemErrorRetryPolicyFilter } from "./filters/systemErrorRetryPolicyFilter";
 import { RedirectFilter } from "./filters/redirectFilter";
@@ -36,9 +35,9 @@ import * as isStream from "is-stream";
 export {
   BaseMapperType, CompositeMapper, DictionaryMapper, EnumMapper, Mapper, MapperConstraints, MapperType,
   PolymorphicDiscriminator, SequenceMapper, UrlParameterValue, Serializer, serializeObject, TokenCredentials,
-  WebResource, RequestPrepareOptions, HttpMethods, ParameterValue, HttpOperationResponse, ServiceClient, Constants, RequestPipeline,
-  BasicAuthenticationCredentials, ApiKeyCredentials, ApiKeyCredentialOptions, ServiceClientCredentials, BaseFilter, LogFilter, ServiceClientOptions, ExponentialRetryPolicyFilter,
+  WebResource, RequestPrepareOptions, HttpMethods, ParameterValue, HttpOperationResponse, ServiceClient, Constants,
+  BasicAuthenticationCredentials, ApiKeyCredentials, ApiKeyCredentialOptions, ServiceClientCredentials, BaseRequestPolicy, LogFilter, ServiceClientOptions, ExponentialRetryPolicyFilter,
   SystemErrorRetryPolicyFilter, SigningFilter, MsRestUserAgentFilter, stripRequest, stripResponse, delay, executePromisesSequentially,
-  generateUuid, isValidUuid, encodeUri, RestError, RequestOptionsBase, RequestFunction, ServiceCallback, promiseToCallback,
+  generateUuid, isValidUuid, encodeUri, RestError, RequestOptionsBase, RequestPolicy, ServiceCallback, promiseToCallback,
   promiseToServiceCallback, isStream, dispatchRequest, RedirectFilter, applyMixins, isNode, stringifyXML, prepareXMLRootList
 };

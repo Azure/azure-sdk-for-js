@@ -1,13 +1,18 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-
 import * as assert from "assert";
-import { WebResource } from "../lib/webResource";
-import { HttpOperationResponse } from "../lib/httpOperationResponse";
-import { LogFilter } from "../lib/filters/logFilter";
-
 import { Response } from "node-fetch";
+import { LogFilter } from "../lib/filters/logFilter";
+import { HttpOperationResponse } from "../lib/httpOperationResponse";
+import { WebResource } from "../lib/webResource";
+
+// const emptyRequestPolicy: RequestPolicy = {
+//   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+//     assert(request);
+//     throw new Error("Not Implemented");
+//   }
+// };
 
 describe("Log filter", () => {
 
@@ -31,9 +36,9 @@ describe("Log filter", () => {
     const res = new Response();
     const opRes = new HttpOperationResponse(req, res as any);
     lf.after(opRes).then(() => {
-      //console.dir(output, { depth: null });
-      //console.log(">>>>>>>");
-      //console.dir(expected);
+      // console.dir(output, { depth: null });
+      // console.log(">>>>>>>");
+      // console.dir(expected);
       assert.deepEqual(output, expected);
       done();
     }).catch((err: Error) => {

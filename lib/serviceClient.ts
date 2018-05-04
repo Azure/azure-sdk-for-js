@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { RequestPipeline } from "./requestPipeline";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
-import { BaseFilter } from "./filters/baseFilter";
 import { ExponentialRetryPolicyFilter } from "./filters/exponentialRetryPolicyFilter";
-import { SystemErrorRetryPolicyFilter } from "./filters/systemErrorRetryPolicyFilter";
-import { RedirectFilter } from "./filters/redirectFilter";
-import { SigningFilter } from "./filters/signingFilter";
-import { RPRegistrationFilter } from "./filters/rpRegistrationFilter";
 import { MsRestUserAgentFilter } from "./filters/msRestUserAgentFilter";
-import { WebResource, RequestPrepareOptions } from "./webResource";
-import { Constants } from "./util/constants";
+import { RedirectFilter } from "./filters/redirectFilter";
+import { BaseRequestPolicy, RequestPolicy } from "./filters/requestPolicy";
+import { RPRegistrationFilter } from "./filters/rpRegistrationFilter";
+import { SigningFilter } from "./filters/signingFilter";
+import { SystemErrorRetryPolicyFilter } from "./filters/systemErrorRetryPolicyFilter";
 import { HttpOperationResponse } from "./httpOperationResponse";
+import { createRequestPipeline } from "./requestPipeline";
+import { Constants } from "./util/constants";
+import { RequestPrepareOptions, WebResource } from "./webResource";
 
 /**
  * Options to be provided while creating the client.
@@ -27,7 +27,7 @@ export interface ServiceClientOptions {
    * @property {Array<BaseFilter>} [filters] An array of filters/interceptors that will
    * be processed in the request pipeline (before and after) sending the request on the wire.
    */
-  filters?: BaseFilter[];
+  baseRequestPolicies?: BaseRequestPolicy[];
   /**
    * @property {bool} [noRetryPolicy] - If set to true, turn off the default retry policy.
    */
@@ -55,7 +55,7 @@ export class ServiceClient {
    * The request pipeline that provides hooks for adding custom filters.
    * The before filters get executed before sending the request and the after filters get executed after receiving the response.
    */
-  pipeline: Function;
+  httpRequestSender: RequestPolicy;
 
   /**
    * The ServiceClient constructor
@@ -73,8 +73,8 @@ export class ServiceClient {
       options.requestOptions = {};
     }
 
-    if (!options.filters) {
-      options.filters = [];
+    if (!options.baseRequestPolicies) {
+      options.baseRequestPolicies = [];
     }
 
     this.userAgentInfo = { value: [] };
@@ -92,19 +92,23 @@ export class ServiceClient {
     }
 
     if (credentials) {
-      options.filters.push(new SigningFilter(credentials));
+      options.baseRequestPolicies.push(new SigningFilter(credentials));
     }
 
-    options.filters.push(new MsRestUserAgentFilter(this.userAgentInfo.value));
-    options.filters.push(new RedirectFilter());
-    options.filters.push(new RPRegistrationFilter(options.rpRegistrationRetryTimeout));
+    options.baseRequestPolicies.push(new MsRestUserAgentFilter(this.userAgentInfo.value));
+    options.baseRequestPolicies.push(new RedirectFilter());
+    options.baseRequestPolicies.push(new RPRegistrationFilter(options.rpRegistrationRetryTimeout));
 
     if (!options.noRetryPolicy) {
-      options.filters.push(new ExponentialRetryPolicyFilter());
-      options.filters.push(new SystemErrorRetryPolicyFilter());
+      options.baseRequestPolicies.push(new ExponentialRetryPolicyFilter());
+      options.baseRequestPolicies.push(new SystemErrorRetryPolicyFilter());
     }
 
-    this.pipeline = new RequestPipeline(options.filters, options.requestOptions).create();
+    this.httpRequestSender = createRequestPipeline(options.baseRequestPolicies);
+  }
+
+  pipeline(request: WebResource): Promise<HttpOperationResponse> {
+    return this.httpRequestSender.sendRequest(request);
   }
 
   /**
@@ -138,7 +142,7 @@ export class ServiceClient {
     // send request
     let operationResponse: HttpOperationResponse;
     try {
-      operationResponse = await this.pipeline(httpRequest);
+      operationResponse = await this.httpRequestSender.sendRequest(httpRequest);
     } catch (err) {
       return Promise.reject(err);
     }

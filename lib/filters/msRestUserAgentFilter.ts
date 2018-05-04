@@ -1,15 +1,22 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { BaseFilter } from "./baseFilter";
-import { WebResource } from "../webResource";
+import * as os from "os";
+import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
 import { isNode } from "../util/utils";
-import * as os from "os";
+import { WebResource } from "../webResource";
+import { BaseRequestPolicy } from "./requestPolicy";
 
 const HeaderConstants = Constants.HeaderConstants;
 
-export class MsRestUserAgentFilter extends BaseFilter {
+// export function msRestUserAgentFilter(userAgentInfo: Array<string>): RequestPolicyCreator {
+//   return (nextPolicy: RequestPolicy) => {
+//     return new MsRestUserAgentFilter(userAgentInfo, nextPolicy);
+//   };
+// }
+
+export class MsRestUserAgentFilter extends BaseRequestPolicy {
 
   userAgentInfo: Array<string>;
 
@@ -53,5 +60,10 @@ export class MsRestUserAgentFilter extends BaseFilter {
     } else {
       return Promise.resolve(request);
     }
+  }
+
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    const nextRequest: WebResource = await this.before(request);
+    return await this._nextPolicy!.sendRequest(nextRequest);
   }
 }
