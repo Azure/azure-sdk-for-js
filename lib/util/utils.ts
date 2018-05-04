@@ -1,33 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as xml2js from "isomorphic-xml2js";
 import * as uuid from "uuid";
-import * as FormData from "form-data";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { RestError } from "../restError";
 import { WebResource } from "../webResource";
 import { Constants } from "./constants";
-import { RestError } from "../restError";
-import { HttpOperationResponse } from "../httpOperationResponse";
-import * as xml2js from "isomorphic-xml2js";
-
-/**
- * Provides the fetch() method based on the environment.
- * @returns {fetch} fetch - The fetch() method available in the environment to make requests
- */
-export function getFetch(): Function {
-  // using window.Fetch in Edge gives a TypeMismatchError
-  // (https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/8546263/).
-  // Hence we will be using the fetch-ponyfill for Edge.
-  if (typeof window !== "undefined" && window.fetch && window.navigator &&
-    window.navigator.userAgent && window.navigator.userAgent.indexOf("Edge/") === -1) {
-    return window.fetch.bind(window);
-  }
-  return require("fetch-ponyfill")({ useCookie: true }).fetch;
-}
-
-/**
- * A constant that provides the fetch() method based on the environment.
- */
-export const myFetch = getFetch();
 
 /**
  * A constant that indicates whether the environment is node.js or browser based.
@@ -63,7 +42,7 @@ export function objectIsNull(value: any): boolean {
  * @param {string} uri The URI to be encoded.
  * @return {string} The encoded URI.
  */
-export function encodeUri(uri: string) {
+export function encodeUri(uri: string): string {
   return encodeURIComponent(uri)
     .replace(/!/g, "%21")
     .replace(/"/g, "%27")
@@ -80,7 +59,7 @@ export function encodeUri(uri: string) {
  *
  * @return {object} strippedResponse - The stripped version of Http Response.
  */
-export function stripResponse(response: Response) {
+export function stripResponse(response: Response): any {
   const strippedResponse: any = {};
   strippedResponse.body = response.body;
   strippedResponse.headers = response.headers;
@@ -260,13 +239,6 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
   };
 }
 
-
-const XML2JS_PARSER_OPTS: xml2js.OptionsV2 = {
-  explicitArray: false,
-  explicitCharkey: false,
-  explicitRoot: false
-};
-
 export function stringifyXML(obj: any, opts?: { rootName?: string }) {
   const builder = new xml2js.Builder({
     explicitArray: false,
@@ -281,98 +253,6 @@ export function prepareXMLRootList(obj: any, elementName: string) {
     obj = [obj];
   }
   return { [elementName]: obj };
-}
-
-/**
- * Sends the request and returns the received response.
- * @param {WebResource} options - The request to be sent.
- * @returns {Promise<HttpOperationResponse} operationResponse - The response object.
- */
-export async function dispatchRequest(options: WebResource): Promise<HttpOperationResponse> {
-  if (!options) {
-    return Promise.reject(new Error("options (WebResource) cannot be null or undefined and must be of type object."));
-  }
-
-  if (options.formData) {
-    const formData: any = options.formData;
-    const requestForm = new FormData();
-    const appendFormValue = (key: string, value: any) => {
-      if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
-        requestForm.append(key, value.value, value.options);
-      } else {
-        requestForm.append(key, value);
-      }
-    };
-    for (const formKey in formData) {
-      if (formData.hasOwnProperty(formKey)) {
-        const formValue = formData[formKey];
-        if (formValue instanceof Array) {
-          for (let j = 0; j < formValue.length; j++) {
-            appendFormValue(formKey, formValue[j]);
-          }
-        } else {
-          appendFormValue(formKey, formValue);
-        }
-      }
-    }
-
-    options.body = requestForm;
-    options.formData = undefined;
-    if (options.headers && options.headers["Content-Type"] &&
-      options.headers["Content-Type"].indexOf("multipart/form-data") > -1 && typeof requestForm.getBoundary === "function") {
-      options.headers["Content-Type"] = `multipart/form-data; boundary=${requestForm.getBoundary()}`;
-    }
-  }
-
-  // allow cross-origin cookies in browser
-  (options as any).credentials = "include";
-
-  let res: Response;
-  try {
-    res = await myFetch(options.url, options);
-  } catch (err) {
-    return Promise.reject(err);
-  }
-
-  const operationResponse = new HttpOperationResponse(options, res);
-  if (!options.rawResponse) {
-    try {
-      operationResponse.bodyAsText = await res.text();
-    } catch (err) {
-      const msg = `Error "${err}" occured while converting the raw response body into string.`;
-      const errCode = err.code || "RAWTEXT_CONVERSION_ERROR";
-      const e = new RestError(msg, errCode, res.status, options, res, res.body);
-      return Promise.reject(e);
-    }
-
-    try {
-      if (operationResponse.bodyAsText) {
-        const contentType = res.headers.get("Content-Type")!;
-        if (contentType === "application/xml" || contentType === "text/xml") {
-          const xmlParser = new xml2js.Parser(XML2JS_PARSER_OPTS);
-          const parseString = new Promise(function(resolve: (result: any) => void, reject: (err: any) => void) {
-            xmlParser.parseString(operationResponse.bodyAsText!, function(err: any, result: any) {
-              if (err) {
-                reject(err);
-              } else {
-                resolve(result);
-              }
-            });
-          });
-
-          operationResponse.parsedBody = await parseString;
-        } else {
-          operationResponse.parsedBody = JSON.parse(operationResponse.bodyAsText);
-        }
-      }
-    } catch (err) {
-      const msg = `Error "${err}" occured while executing JSON.parse on the response body - ${operationResponse.bodyAsText}.`;
-      const errCode = err.code || "JSON_PARSE_ERROR";
-      const e = new RestError(msg, errCode, res.status, options, res, operationResponse.bodyAsText);
-      return Promise.reject(e);
-    }
-  }
-  return Promise.resolve(operationResponse);
 }
 
 /**

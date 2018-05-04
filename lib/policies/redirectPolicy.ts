@@ -1,16 +1,22 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
-import { BaseFilter } from "./baseFilter";
-import { HttpOperationResponse } from "../httpOperationResponse";
-import * as utils from "../util/utils";
 import * as parse from "url-parse";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResource } from "../webResource";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
 
-export class RedirectFilter extends BaseFilter {
+export function redirectPolicy(maximumRetries = 20): RequestPolicyCreator {
+  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+    return new RedirectPolicy(nextPolicy, options, maximumRetries);
+  };
+}
+
+export class RedirectPolicy extends BaseRequestPolicy {
 
   maximumRetries?: number;
 
-  constructor(maximumRetries = 20) {
-    super();
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, maximumRetries = 20) {
+    super(nextPolicy, options);
     this.maximumRetries = maximumRetries;
   }
 
@@ -30,7 +36,7 @@ export class RedirectFilter extends BaseFilter {
       }
       let res: HttpOperationResponse;
       try {
-        res = await utils.dispatchRequest(request);
+        res = await this._nextPolicy.sendRequest(request);
         currentRetries++;
       } catch (err) {
         return Promise.reject(err);
@@ -40,7 +46,8 @@ export class RedirectFilter extends BaseFilter {
     return Promise.resolve(operationResponse);
   }
 
-  after(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
-    return this.handleRedirect(operationResponse, 0);
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
+    return this.handleRedirect(response, 0);
   }
 }

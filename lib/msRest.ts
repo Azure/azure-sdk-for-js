@@ -2,18 +2,21 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { WebResource, RequestPrepareOptions, HttpMethods, ParameterValue, RequestOptionsBase } from "./webResource";
+import { FetchHttpClient } from "./fetchHttpClient";
+import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
+import { HttpPipelineLogger } from "./httpPipelineLogger";
+import { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 import { RestError } from "./restError";
 import { ServiceClient, ServiceClientOptions } from "./serviceClient";
 import { Constants } from "./util/constants";
-import { RequestPipeline, RequestFunction } from "./requestPipeline";
-import { LogFilter } from "./filters/logFilter";
-import { BaseFilter } from "./filters/baseFilter";
-import { ExponentialRetryPolicyFilter } from "./filters/exponentialRetryPolicyFilter";
-import { SystemErrorRetryPolicyFilter } from "./filters/systemErrorRetryPolicyFilter";
-import { RedirectFilter } from "./filters/redirectFilter";
-import { SigningFilter } from "./filters/signingFilter";
-import { MsRestUserAgentFilter } from "./filters/msRestUserAgentFilter";
+import { logPolicy } from "./policies/logPolicy";
+import { BaseRequestPolicy, RequestPolicy } from "./policies/requestPolicy";
+import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
+import { redirectPolicy } from "./policies/redirectPolicy";
+import { signingPolicy } from "./policies/signingPolicy";
+import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 import {
   BaseMapperType, CompositeMapper, DictionaryMapper, EnumMapper, Mapper,
   MapperConstraints, MapperType, PolymorphicDiscriminator,
@@ -22,7 +25,7 @@ import {
 import {
   stripRequest, stripResponse, delay,
   executePromisesSequentially, generateUuid, encodeUri, ServiceCallback,
-  promiseToCallback, promiseToServiceCallback, isValidUuid, dispatchRequest,
+  promiseToCallback, promiseToServiceCallback, isValidUuid,
   applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
 } from "./util/utils";
 
@@ -34,11 +37,11 @@ import { ServiceClientCredentials } from "./credentials/serviceClientCredentials
 import * as isStream from "is-stream";
 
 export {
-  BaseMapperType, CompositeMapper, DictionaryMapper, EnumMapper, Mapper, MapperConstraints, MapperType,
-  PolymorphicDiscriminator, SequenceMapper, UrlParameterValue, Serializer, serializeObject, TokenCredentials,
-  WebResource, RequestPrepareOptions, HttpMethods, ParameterValue, HttpOperationResponse, ServiceClient, Constants, RequestPipeline,
-  BasicAuthenticationCredentials, ApiKeyCredentials, ApiKeyCredentialOptions, ServiceClientCredentials, BaseFilter, LogFilter, ServiceClientOptions, ExponentialRetryPolicyFilter,
-  SystemErrorRetryPolicyFilter, SigningFilter, MsRestUserAgentFilter, stripRequest, stripResponse, delay, executePromisesSequentially,
-  generateUuid, isValidUuid, encodeUri, RestError, RequestOptionsBase, RequestFunction, ServiceCallback, promiseToCallback,
-  promiseToServiceCallback, isStream, dispatchRequest, RedirectFilter, applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
+  BaseMapperType, CompositeMapper, DictionaryMapper, EnumMapper, Mapper, MapperConstraints, MapperType, FetchHttpClient,
+  PolymorphicDiscriminator, SequenceMapper, UrlParameterValue, Serializer, serializeObject, HttpClient, HttpPipelineLogger, HttpPipelineLogLevel, TokenCredentials,
+  WebResource, RequestPrepareOptions, HttpMethods, ParameterValue, HttpOperationResponse, ServiceClient, Constants,
+  BasicAuthenticationCredentials, ApiKeyCredentials, ApiKeyCredentialOptions, ServiceClientCredentials, BaseRequestPolicy, logPolicy, ServiceClientOptions, exponentialRetryPolicy,
+  systemErrorRetryPolicy, signingPolicy, msRestUserAgentPolicy, stripRequest, stripResponse, delay, executePromisesSequentially,
+  generateUuid, isValidUuid, encodeUri, RestError, RequestOptionsBase, RequestPolicy, ServiceCallback, promiseToCallback,
+  promiseToServiceCallback, isStream, redirectPolicy, applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
 };

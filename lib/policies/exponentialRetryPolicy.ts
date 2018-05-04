@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { BaseFilter } from "./baseFilter";
-import * as utils from "../util/utils";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import * as utils from "../util/utils";
+import { WebResource } from "../webResource";
+import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
 
 export interface RetryData {
   retryCount: number;
@@ -17,6 +18,12 @@ export interface RetryError extends Error {
   innerError?: RetryError;
 }
 
+export function exponentialRetryPolicy(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyCreator {
+  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+    return new ExponentialRetryPolicy(nextPolicy, options, retryCount, retryInterval, minRetryInterval, maxRetryInterval);
+  };
+}
+
 /**
  * @class
  * Instantiates a new "ExponentialRetryPolicyFilter" instance.
@@ -27,7 +34,7 @@ export interface RetryError extends Error {
  * @param {number} minRetryInterval  The minimum retry interval, in milliseconds.
  * @param {number} maxRetryInterval  The maximum retry interval, in milliseconds.
  */
-export class ExponentialRetryPolicyFilter extends BaseFilter {
+export class ExponentialRetryPolicy extends BaseRequestPolicy {
 
   retryCount: number;
   retryInterval: number;
@@ -38,8 +45,8 @@ export class ExponentialRetryPolicyFilter extends BaseFilter {
   DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
   DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
 
-  constructor(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number) {
-    super();
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number) {
+    super(nextPolicy, options);
     this.retryCount = typeof retryCount === "number" ? retryCount : this.DEFAULT_CLIENT_RETRY_COUNT;
     this.retryInterval = typeof retryInterval === "number" ? retryInterval : this.DEFAULT_CLIENT_RETRY_INTERVAL;
     this.minRetryInterval = typeof minRetryInterval === "number" ? minRetryInterval : this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
@@ -111,7 +118,7 @@ export class ExponentialRetryPolicyFilter extends BaseFilter {
     if (!utils.objectIsNull(response) && self.shouldRetry(response.status, retryData)) {
       try {
         await utils.delay(retryData.retryInterval);
-        const res: HttpOperationResponse = await utils.dispatchRequest(operationResponse.request);
+        const res: HttpOperationResponse = await this._nextPolicy.sendRequest(operationResponse.request);
         return self.retry(res, retryData, err);
       } catch (err) {
         return self.retry(operationResponse, retryData, err);
@@ -126,7 +133,8 @@ export class ExponentialRetryPolicyFilter extends BaseFilter {
     }
   }
 
-  after(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
-    return this.retry(operationResponse);
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
+    return this.retry(response);
   }
 }

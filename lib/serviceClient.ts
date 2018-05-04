@@ -1,18 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { RequestPipeline } from "./requestPipeline";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
-import { BaseFilter } from "./filters/baseFilter";
-import { ExponentialRetryPolicyFilter } from "./filters/exponentialRetryPolicyFilter";
-import { SystemErrorRetryPolicyFilter } from "./filters/systemErrorRetryPolicyFilter";
-import { RedirectFilter } from "./filters/redirectFilter";
-import { SigningFilter } from "./filters/signingFilter";
-import { RPRegistrationFilter } from "./filters/rpRegistrationFilter";
-import { MsRestUserAgentFilter } from "./filters/msRestUserAgentFilter";
-import { WebResource, RequestPrepareOptions } from "./webResource";
-import { Constants } from "./util/constants";
+import { FetchHttpClient } from "./fetchHttpClient";
+import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
+import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
+import { redirectPolicy } from "./policies/redirectPolicy";
+import { RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./policies/requestPolicy";
+import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
+import { signingPolicy } from "./policies/signingPolicy";
+import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
+import { Constants } from "./util/constants";
+import { RequestPrepareOptions, WebResource } from "./webResource";
+import { HttpPipelineLogger } from "./httpPipelineLogger";
+import * as utils from "./util/utils";
 
 /**
  * Options to be provided while creating the client.
@@ -24,10 +27,20 @@ export interface ServiceClientOptions {
    */
   requestOptions?: RequestInit;
   /**
-   * @property {Array<BaseFilter>} [filters] An array of filters/interceptors that will
-   * be processed in the request pipeline (before and after) sending the request on the wire.
+   * @property {Array<RequestPolicyCreator>} [requestPolicyCreators] An array of functions that will be
+   * invoked to create the RequestPolicy pipeline that will be used to send a HTTP request on the
+   * wire.
    */
-  filters?: BaseFilter[];
+  requestPolicyCreators?: RequestPolicyCreator[];
+  /**
+   * @property {HttpClient} [httpClient] - The HttpClient that will be used to send HTTP requests.
+   */
+  httpClient?: HttpClient;
+  /**
+   * @property {HttpPipelineLogger} [httpPipelineLogger] - The HttpPipelineLogger that can be used
+   * to debug RequestPolicies within the HTTP pipeline.
+   */
+  httpPipelineLogger?: HttpPipelineLogger;
   /**
    * @property {bool} [noRetryPolicy] - If set to true, turn off the default retry policy.
    */
@@ -52,10 +65,12 @@ export class ServiceClient {
   userAgentInfo: { value: Array<string> };
 
   /**
-   * The request pipeline that provides hooks for adding custom filters.
-   * The before filters get executed before sending the request and the after filters get executed after receiving the response.
+   * The HTTP client that will be used to send requests.
    */
-  pipeline: Function;
+  private readonly _httpClient: HttpClient;
+  private readonly _requestPolicyOptions: RequestPolicyOptions;
+
+  private readonly _requestPolicyCreators: RequestPolicyCreator[];
 
   /**
    * The ServiceClient constructor
@@ -73,10 +88,6 @@ export class ServiceClient {
       options.requestOptions = {};
     }
 
-    if (!options.filters) {
-      options.filters = [];
-    }
-
     this.userAgentInfo = { value: [] };
 
     if (credentials && !credentials.signRequest) {
@@ -91,20 +102,20 @@ export class ServiceClient {
       // do nothing
     }
 
-    if (credentials) {
-      options.filters.push(new SigningFilter(credentials));
+    this._httpClient = options.httpClient || new FetchHttpClient();
+    this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
+
+    this._requestPolicyCreators = options.requestPolicyCreators || createDefaultRequestPolicyCreators(credentials, options, this.userAgentInfo.value);
+  }
+
+  pipeline(request: WebResource): Promise<HttpOperationResponse> {
+    let httpPipeline: RequestPolicy = this._httpClient;
+    if (this._requestPolicyCreators && this._requestPolicyCreators.length > 0) {
+      for (let i = this._requestPolicyCreators.length - 1; i >= 0; --i) {
+        httpPipeline = this._requestPolicyCreators[i](httpPipeline, this._requestPolicyOptions);
+      }
     }
-
-    options.filters.push(new MsRestUserAgentFilter(this.userAgentInfo.value));
-    options.filters.push(new RedirectFilter());
-    options.filters.push(new RPRegistrationFilter(options.rpRegistrationRetryTimeout));
-
-    if (!options.noRetryPolicy) {
-      options.filters.push(new ExponentialRetryPolicyFilter());
-      options.filters.push(new SystemErrorRetryPolicyFilter());
-    }
-
-    this.pipeline = new RequestPipeline(options.filters, options.requestOptions).create();
+    return httpPipeline.sendRequest(request);
   }
 
   /**
@@ -144,4 +155,26 @@ export class ServiceClient {
     }
     return Promise.resolve(operationResponse);
   }
+}
+
+function createDefaultRequestPolicyCreators(credentials: ServiceClientCredentials | undefined, options: ServiceClientOptions, userAgentInfo: string[]): RequestPolicyCreator[] {
+  const defaultRequestPolicyCreators: RequestPolicyCreator[] = [];
+
+  if (credentials) {
+    defaultRequestPolicyCreators.push(signingPolicy(credentials));
+  }
+
+  if (utils.isNode) {
+    defaultRequestPolicyCreators.push(msRestUserAgentPolicy(userAgentInfo));
+  }
+
+  defaultRequestPolicyCreators.push(redirectPolicy());
+  defaultRequestPolicyCreators.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
+
+  if (!options.noRetryPolicy) {
+    defaultRequestPolicyCreators.push(exponentialRetryPolicy());
+    defaultRequestPolicyCreators.push(systemErrorRetryPolicy());
+  }
+
+  return defaultRequestPolicyCreators;
 }

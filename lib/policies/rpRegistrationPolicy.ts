@@ -1,22 +1,28 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
-import { BaseFilter } from "./baseFilter";
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResource } from "../webResource";
 import * as utils from "../util/utils";
+import { WebResource } from "../webResource";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
 
-/* tslint:disable:prefer-const */
-let retryTimeout = 30;
-/* tslint:enable:prefer-const */
+export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyCreator {
+  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+    return new RPRegistrationPolicy(nextPolicy, options, retryTimeout);
+  };
+}
 
-export class RPRegistrationFilter extends BaseFilter {
+export class RPRegistrationPolicy extends BaseRequestPolicy {
 
-  constructor(retryTimeout = 30) {
-    super();
-    retryTimeout = retryTimeout;
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, private _retryTimeout = 30) {
+    super(nextPolicy, options);
   }
 
-  async after(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
+    return this.registerIfNeeded(response);
+  }
+
+  async registerIfNeeded(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
     let rpName, urlPrefix;
     const options = operationResponse.request;
     if (operationResponse.response.status === 409) {
@@ -39,7 +45,7 @@ export class RPRegistrationFilter extends BaseFilter {
         options.headers["x-ms-client-request-id"] = utils.generateUuid();
         let finalRes: HttpOperationResponse;
         try {
-          finalRes = await utils.dispatchRequest(options);
+          finalRes = await this._nextPolicy.sendRequest(options);
         } catch (err) {
           return Promise.reject(err);
         }
@@ -136,7 +142,7 @@ export class RPRegistrationFilter extends BaseFilter {
     reqOptions.url = postUrl;
     let res: HttpOperationResponse;
     try {
-      res = await utils.dispatchRequest(reqOptions);
+      res = await this._nextPolicy.sendRequest(reqOptions);
     } catch (err) {
       return Promise.reject(err);
     }
@@ -167,7 +173,7 @@ export class RPRegistrationFilter extends BaseFilter {
     reqOptions.url = url;
     reqOptions.method = "GET";
     try {
-      res = await utils.dispatchRequest(reqOptions);
+      res = await this._nextPolicy.sendRequest(reqOptions);
     } catch (err) {
       return Promise.reject(err);
     }
@@ -175,7 +181,7 @@ export class RPRegistrationFilter extends BaseFilter {
     if (res.parsedBody && obj.registrationState && obj.registrationState === "Registered") {
       result = true;
     } else {
-      setTimeout(() => { return this.getRegistrationStatus(url, originalRequest); }, retryTimeout * 1000);
+      setTimeout(() => { return this.getRegistrationStatus(url, originalRequest); }, this._retryTimeout * 1000);
     }
     return Promise.resolve(result);
   }
