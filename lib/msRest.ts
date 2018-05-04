@@ -22,7 +22,7 @@ import {
   stripRequest, stripResponse, delay,
   executePromisesSequentially, generateUuid, encodeUri, ServiceCallback,
   promiseToCallback, promiseToServiceCallback, isValidUuid, dispatchRequest,
-  applyMixins, isNode, stringifyXML, prepareXMLRootList
+  applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
 } from "./util/utils";
 
 // Credentials
@@ -39,5 +39,5 @@ export {
   BasicAuthenticationCredentials, ApiKeyCredentials, ApiKeyCredentialOptions, ServiceClientCredentials, BaseRequestPolicy, LogFilter, ServiceClientOptions, ExponentialRetryPolicyFilter,
   SystemErrorRetryPolicyFilter, SigningFilter, MsRestUserAgentFilter, stripRequest, stripResponse, delay, executePromisesSequentially,
   generateUuid, isValidUuid, encodeUri, RestError, RequestOptionsBase, RequestPolicy, ServiceCallback, promiseToCallback,
-  promiseToServiceCallback, isStream, dispatchRequest, RedirectFilter, applyMixins, isNode, stringifyXML, prepareXMLRootList
+  promiseToServiceCallback, isStream, dispatchRequest, RedirectFilter, applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
 };

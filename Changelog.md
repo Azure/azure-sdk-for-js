@@ -1,3 +1,7 @@
+### 0.4.0 - 2018-05-03
+- Added isomorphic-xml2js dependency to reduce browser package size
+- Removed moment.js dependency, instead passing ISO 8601 strings for durations.
+
 ### 0.2.8 - 2018-04-02
 - Relaxed validation for object types
 - Relaxed handling of unrecognized polymorphic discriminator
