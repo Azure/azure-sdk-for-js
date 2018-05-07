@@ -2,7 +2,7 @@
 
 import * as msRest from "../lib/msRest";
 const clientOptions: msRest.ServiceClientOptions = {
-  filters: [new msRest.LogFilter()]
+  requestPolicyCreators: [msRest.logPolicy()]
 };
 
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -19,7 +19,7 @@ const creds = new msRest.TokenCredentials(token);
 const client = new msRest.ServiceClient(creds, clientOptions);
 const req: msRest.RequestPrepareOptions = {
   url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.Storage/storageAccounts?api-version=2015-06-15`,
-  method: 'GET'
+  method: "GET"
 };
 
 client.sendRequest(req).then(function (res: msRest.HttpOperationResponse) {
