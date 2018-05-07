@@ -108,16 +108,6 @@ export class ServiceClient {
     this._requestPolicyCreators = options.requestPolicyCreators || createDefaultRequestPolicyCreators(credentials, options, this.userAgentInfo.value);
   }
 
-  pipeline(request: WebResource): Promise<HttpOperationResponse> {
-    let httpPipeline: RequestPolicy = this._httpClient;
-    if (this._requestPolicyCreators && this._requestPolicyCreators.length > 0) {
-      for (let i = this._requestPolicyCreators.length - 1; i >= 0; --i) {
-        httpPipeline = this._requestPolicyCreators[i](httpPipeline, this._requestPolicyOptions);
-      }
-    }
-    return httpPipeline.sendRequest(request);
-  }
-
   /**
    * Adds custom information to user agent header
    * @param {any} additionalUserAgentInfo - information to be added to user agent header, as string.
@@ -149,7 +139,13 @@ export class ServiceClient {
     // send request
     let operationResponse: HttpOperationResponse;
     try {
-      operationResponse = await this.pipeline(httpRequest);
+      let httpPipeline: RequestPolicy = this._httpClient;
+      if (this._requestPolicyCreators && this._requestPolicyCreators.length > 0) {
+        for (let i = this._requestPolicyCreators.length - 1; i >= 0; --i) {
+          httpPipeline = this._requestPolicyCreators[i](httpPipeline, this._requestPolicyOptions);
+        }
+      }
+      operationResponse = await httpPipeline.sendRequest(httpRequest);
     } catch (err) {
       return Promise.reject(err);
     }
