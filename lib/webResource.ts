@@ -39,11 +39,18 @@ export class WebResource {
    * mentioned properties are not defined.
    */
   validateRequestProperties(): void {
-    if (!this.method || !this.url || !this.headers["Content-Type"] || !this.headers["accept-language"]) {
-      throw new Error("method, url, headers[\"Content-Type\"], headers[\"accept-language\"] are " +
-        "required properties before making a request. Either provide them or use WebResource.prepare() method.");
+    if (!this.method) {
+      throw new Error("method is a required property for making a request.");
     }
-    return;
+    if (!this.url) {
+      throw new Error("url is a required property for making a request.");
+    }
+    if (!this.headers["Content-Type"]) {
+      throw new Error("'Content-Type' is a required header for making a request.");
+    }
+    // if (!this.headers["accept-language"]) {
+    //   throw new Error("'accept-language' is a required header for making a request.");
+    // }
   }
 
   /**
