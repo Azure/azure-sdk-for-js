@@ -61,7 +61,7 @@ export interface ConnectionContext {
    * @property {CbsClient} cbsSession A reference to the cbs session ($cbs endpoint) on the underlying
    * the amqp connection for the EventHub Client.
    */
-  readonly cbsSession: CbsClient;
+  cbsSession?: CbsClient;
   /**
    * @property {string} connectionLock The unqiue lock name per connection that is used to acquire the lock
    * for establishing an aqmp connection per client if one does not exist.
@@ -91,11 +91,11 @@ export namespace ConnectionContext {
       config: config,
       tokenProvider: options.tokenProvider ||
         new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey),
-      cbsSession: new CbsClient(),
       senders: {},
       receivers: {},
       dataTransformer: options.dataTransformer || new DefaultDataTransformer()
     };
+    context.cbsSession = new CbsClient(context);
     context.managementSession = new ManagementClient(context);
     debug("Created connection context: %O", context);
     return context;

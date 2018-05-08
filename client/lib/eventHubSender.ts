@@ -5,7 +5,6 @@ import * as rhea from "rhea";
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import { translate } from "./errors";
-import * as rpc from "./rpc";
 import * as rheaPromise from "./rhea-promise";
 import { EventData, AmqpMessage, messageProperties } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
@@ -306,13 +305,6 @@ export class EventHubSender {
    */
   private async _init(): Promise<void> {
     try {
-      // Acquire the lock and establish an amqp connection if it does not exist.
-      if (!this._context.connection) {
-        debug("[%s] EH Sender '%s' establishing an AMQP connection.",
-          this._context.connectionId, this.name);
-        await defaultLock.acquire(this._context.connectionLock, () => { return rpc.open(this._context); });
-      }
-
       if (!this._session && !this._sender) {
         await this._negotiateClaim();
         const onAmqpError = (context: rheaPromise.Context) => {
@@ -354,9 +346,9 @@ export class EventHubSender {
     // race condition does not happen while creating a shared resource (in this case the
     // cbs session, since we want to have exactly 1 cbs session per connection).
     debug("[%s] Acquiring lock: '%s' for creating the cbs session while creating the sender: '%s'.",
-      this._context.connectionId, this._context.cbsSession.cbsLock, this.name);
-    await defaultLock.acquire(this._context.cbsSession.cbsLock,
-      () => { return this._context.cbsSession.init(this._context.connection); });
+      this._context.connectionId, this._context.cbsSession!.cbsLock, this.name);
+    await defaultLock.acquire(this._context.cbsSession!.cbsLock,
+      () => { return this._context.cbsSession!.init(); });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
     debug("[%s] EH Sender: calling negotiateClaim for audience '%s'.",
       this._context.connectionId, this.audience);
@@ -364,8 +356,7 @@ export class EventHubSender {
     debug("[%s] Acquiring lock: '%s' for cbs auth for sender: '%s'.",
       this._context.connectionId, this._context.negotiateClaimLock, this.name);
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience,
-        this._context.connection, tokenObject);
+      return this._context.cbsSession!.negotiateClaim(this.audience, tokenObject);
     });
     debug("[%s] Negotiated claim for sender '%s' with with partition: %s",
       this._context.connectionId, this.name, this.partitionId);
