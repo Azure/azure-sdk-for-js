@@ -29,7 +29,7 @@
   "types": "./typings/lib/msRestAzure.d.ts",
   "license": "MIT",
   "dependencies": {
-    "ms-rest-js": "github:Azure/ms-rest-js"
+    "ms-rest-js": "Azure/ms-rest-js"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.43",
