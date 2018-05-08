@@ -5,7 +5,7 @@ import * as uuid from "uuid/v4";
 import * as rheaPromise from "./rhea-promise";
 import * as Constants from "./util/constants";
 import * as debugModule from "debug";
-import { RequestResponseLink, createRequestResponseLink, sendRequest, open } from "./rpc";
+import { RequestResponseLink, createRequestResponseLink, sendRequest } from "./rpc";
 import { defaultLock } from "./util/utils";
 import { AmqpMessage } from ".";
 import { ConnectionContext } from "./connectionContext";
@@ -205,12 +205,6 @@ export class ManagementClient {
   }
 
   private async _init(): Promise<void> {
-    if (!this._context.connection) {
-      debug("[%s] Management client for EventHub establishing an AMQP connection.",
-        this._context.connectionId);
-      await defaultLock.acquire(this._context.connectionLock, () => { return open(this._context); });
-    }
-
     if (!this._mgmtReqResLink) {
       await this._negotiateClaim();
       const rxopt: rheaPromise.ReceiverOptions = {
@@ -235,9 +229,9 @@ export class ManagementClient {
    */
   private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
     debug("[%s] Acquiring lock: '%s' for creating the cbs session while creating the management client.",
-      this._context.connectionId, this._context.cbsSession.cbsLock);
-    await defaultLock.acquire(this._context.cbsSession.cbsLock,
-      () => { return this._context.cbsSession.init(this._context.connection); });
+      this._context.connectionId, this._context.cbsSession!.cbsLock);
+    await defaultLock.acquire(this._context.cbsSession!.cbsLock,
+      () => { return this._context.cbsSession!.init(); });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
     debug("[%s] EH Sender: calling negotiateClaim for audience '%s'.",
       this._context.connectionId, this.audience);
@@ -245,8 +239,7 @@ export class ManagementClient {
     debug("[%s] Acquiring lock: '%s' for cbs auth for management client.",
       this._context.connectionId, this._context.negotiateClaimLock);
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience,
-        this._context.connection, tokenObject);
+      return this._context.cbsSession!.negotiateClaim(this.audience, tokenObject);
     });
     debug("[%s] Negotiated claim for management client.", this._context.connectionId);
     if (setTokenRenewal) {

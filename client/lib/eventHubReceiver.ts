@@ -5,7 +5,6 @@ import * as rhea from "rhea";
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import * as rheaPromise from "./rhea-promise";
-import * as rpc from "./rpc";
 import { translate } from "./errors";
 import * as Constants from "./util/constants";
 import { ReceiveOptions, EventData, EventHubsError } from ".";
@@ -177,7 +176,7 @@ export class EventHubReceiver {
     this.consumerGroup = options.consumerGroup ? options.consumerGroup : Constants.defaultConsumerGroup;
     this.address = `${this._context.config.entityPath}/ConsumerGroups/${this.consumerGroup}/Partitions/${this.partitionId}`;
     this.audience = `${this._context.config.endpoint}${this.address}`;
-    this.prefetchCount = options.prefetchCount !== undefined && options.prefetchCount !== null ? options.prefetchCount : Constants.defaultPrefetchCount;
+    this.prefetchCount = options.prefetchCount != undefined ? options.prefetchCount : Constants.defaultPrefetchCount;
     this.epoch = options.epoch;
     this.identifier = options.identifier;
     this.options = options;
@@ -238,12 +237,6 @@ export class EventHubReceiver {
    */
   protected async _init(onAmqpMessage?: rheaPromise.OnAmqpEvent, onAmqpError?: rheaPromise.OnAmqpEvent): Promise<void> {
     try {
-      // Acquire the lock and establish an amqp connection if it does not exist.
-      if (!this._context.connection) {
-        debug("[%s] EH Receiver '%s' establishing AMQP connection.", this._context.connectionId, this.name);
-        await defaultLock.acquire(this._context.connectionLock, () => { return rpc.open(this._context); });
-      }
-
       if (!this._isOpen()) {
         await this._negotiateClaim();
         if (!onAmqpMessage) {
@@ -336,17 +329,17 @@ export class EventHubReceiver {
     // creating a shared resource (in this case the cbs session, since we want to have exactly 1 cbs session
     // per connection).
     debug("[%s] Acquiring lock: '%s' for creating the cbs session while creating the " +
-      "receiver: '%s' with address: '%s'.", this._context.connectionId, this._context.cbsSession.cbsLock,
+      "receiver: '%s' with address: '%s'.", this._context.connectionId, this._context.cbsSession!.cbsLock,
       this.name, this.address);
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
-    await defaultLock.acquire(this._context.cbsSession.cbsLock, () => { return this._context.cbsSession.init(this._context.connection); });
+    await defaultLock.acquire(this._context.cbsSession!.cbsLock, () => { return this._context.cbsSession!.init(); });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
     debug("[%s] EH Receiver '%s': calling negotiateClaim for audience '%s'.", this._context.connectionId, this.audience);
     // Acquire the lock to negotiate the CBS claim.
     debug("[%s] Acquiring lock: '%s' for cbs auth for receiver: '%s' with address: '%s'.",
       this._context.connectionId, this._context.negotiateClaimLock, this.name, this.address);
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience, this._context.connection, tokenObject);
+      return this._context.cbsSession!.negotiateClaim(this.audience, tokenObject);
     });
     debug("[%s] Negotiated claim for receiver '%s' with address '%s'",
       this._context.connectionId, this.name, this.address);

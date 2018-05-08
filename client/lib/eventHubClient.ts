@@ -122,7 +122,7 @@ export class EventHubClient {
           await receiver.close();
         }
         // Close the cbs session;
-        await this._context.cbsSession.close();
+        await this._context.cbsSession!.close();
         // Close the management session
         await this._context.managementSession!.close();
         await closeConnection(this._context.connection);
