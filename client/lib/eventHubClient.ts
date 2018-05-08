@@ -5,7 +5,6 @@ import * as debugModule from "debug";
 import { closeConnection, Delivery } from "./rhea-promise";
 import { ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials } from "ms-rest-azure";
 import { ConnectionConfig, OnMessage, OnError, EventData, EventHubsError, DataTransformer } from ".";
-import * as rpc from "./rpc";
 import { ConnectionContext } from "./connectionContext";
 import { TokenProvider } from "./auth/token";
 import { AadTokenProvider } from "./auth/aad";
@@ -125,7 +124,7 @@ export class EventHubClient {
         // Close the cbs session;
         await this._context.cbsSession.close();
         // Close the management session
-        await this._context.managementSession.close();
+        await this._context.managementSession!.close();
         await closeConnection(this._context.connection);
         debug("Closed the amqp connection '%s' on the client.", this._context.connectionId);
         this._context.connection = undefined;
@@ -262,8 +261,7 @@ export class EventHubClient {
    */
   async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
     try {
-      await rpc.open(this._context);
-      return await this._context.managementSession.getHubRuntimeInformation(this._context.connection);
+      return await this._context.managementSession!.getHubRuntimeInformation();
     } catch (err) {
       debug("An error occurred while getting the hub runtime information: %O", err);
       throw err;
@@ -295,8 +293,7 @@ export class EventHubClient {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     try {
-      await rpc.open(this._context);
-      return await this._context.managementSession.getPartitionInformation(this._context.connection, partitionId);
+      return await this._context.managementSession!.getPartitionInformation(partitionId);
     } catch (err) {
       debug("An error occurred while getting the partition information: %O", err);
       throw err;
