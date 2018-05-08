@@ -56,7 +56,7 @@ export interface ConnectionContext {
    * @property {ManagementClient} managementSession A reference to the management session ($management endpoint) on
    * the underlying amqp connection for the EventHub Client.
    */
-  readonly managementSession: ManagementClient;
+  managementSession?: ManagementClient;
   /**
    * @property {CbsClient} cbsSession A reference to the cbs session ($cbs endpoint) on the underlying
    * the amqp connection for the EventHub Client.
@@ -92,11 +92,11 @@ export namespace ConnectionContext {
       tokenProvider: options.tokenProvider ||
         new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey),
       cbsSession: new CbsClient(),
-      managementSession: new ManagementClient(config.entityPath!),
       senders: {},
       receivers: {},
       dataTransformer: options.dataTransformer || new DefaultDataTransformer()
     };
+    context.managementSession = new ManagementClient(context);
     debug("Created connection context: %O", context);
     return context;
   }
