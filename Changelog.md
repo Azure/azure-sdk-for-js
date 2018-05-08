@@ -1,3 +1,7 @@
+### 0.5.0 - 2018-05-08
+- Replace BaseFilter type with RequestPolicy.
+- Remove ServiceClient.pipeline() in favor of ServiceClient.sendRequest().
+
 ### 0.4.0 - 2018-05-03
 - Added isomorphic-xml2js dependency to reduce browser package size
 - Removed moment.js dependency, instead passing ISO 8601 strings for durations.
