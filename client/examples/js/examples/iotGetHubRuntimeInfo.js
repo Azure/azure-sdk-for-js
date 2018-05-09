@@ -9,17 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const lib_1 = require("../lib");
-const connectionString = "EVENTHUB_CONNECTION_STRING";
-const entityPath = "EVENTHUB_NAME";
+const connectionString = "IOTHUB_CONNECTION_STRING";
 const str = process.env[connectionString] || "";
-const path = process.env[entityPath] || "";
-console.log(path);
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const client = lib_1.EventHubClient.createFromConnectionString(str, path);
+        const client = yield lib_1.EventHubClient.createFromIotHubConnectionString(str);
         let info = yield client.getHubRuntimeInformation();
         console.log("RuntimeInfo: ", info);
-        let pInfo = yield client.getPartitionInformation("0");
+        let pInfo = yield client.getPartitionInformation(info.partitionIds[0]);
         console.log("Partition Information: ", pInfo);
         yield client.close();
     });

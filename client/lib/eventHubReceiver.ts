@@ -3,13 +3,12 @@
 
 import * as rhea from "rhea";
 import * as debugModule from "debug";
-import * as uuid from "uuid/v4";
 import * as rheaPromise from "./rhea-promise";
 import { translate } from "./errors";
 import * as Constants from "./util/constants";
 import { ReceiveOptions, EventData, EventHubsError } from ".";
 import { ConnectionContext } from "./connectionContext";
-import { defaultLock } from "./util/utils";
+import { ClientEntity } from "./clientEntity";
 
 const debug = debugModule("azure:event-hubs:receiver");
 
@@ -54,29 +53,11 @@ export type OnError = (error: EventHubsError | Error) => void;
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
  */
-export class EventHubReceiver {
-  /**
-   * @property {string} [name] The unique EventHub Receiver name (mostly a guid).
-   */
-  name: string;
-  /**
-   * @property {string} address The EventHub Receiver address in the following format:
-   * - "<event-hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"
-   */
-  address: string;
-  /**
-   * @property {string} audience The EventHub Receiver token audience in the following format:
-   * - "sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"
-   */
-  audience: string;
+export class EventHubReceiver extends ClientEntity {
   /**
    * @property {string} consumerGroup The EventHub consumer group from which the receiver will receive messages. (Default: "default").
    */
   consumerGroup: string;
-  /**
-   * @property {string | number} partitionId The EentHub partitionId from which the receiver will receive messages.
-   */
-  partitionId: string | number;
   /**
    * @property {ReceiverRuntimeInfo} runtimeInfo The receiver runtime info.
    */
@@ -102,28 +83,10 @@ export class EventHubReceiver {
    */
   receiverRuntimeMetricEnabled: boolean = false;
   /**
-   * @property {ConnectionContext} _context Provides relevant information about the amqp connection, cbs and $management sessions,
-   * token provider, sender and receivers.
-   * @protected
-   */
-  protected _context: ConnectionContext;
-  /**
    * @property {any} [_receiver] The AMQP receiver link.
    * @protected
    */
   protected _receiver?: any;
-  /**
-   * @property {any} [_session] The AMQP receiver session.
-   * @protected
-   */
-  protected _session?: any;
-  /**
-   * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when the EventHub Sender is
-   * due for token renewal.
-   * @protected
-   */
-  protected _tokenRenewalTimer?: NodeJS.Timer;
-
   /**
    * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
    * inside _onAmqpMessage.
@@ -169,10 +132,8 @@ export class EventHubReceiver {
    * See https://github.com/Azure/amqpnetlite/wiki/Azure%20Service%20Bus%20Event%20Hubs for details.
    */
   constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions) {
+    super(context, { partitionId: partitionId, name: options ? options.name : undefined });
     if (!options) options = {};
-    this._context = context;
-    this.name = options.name || uuid();
-    this.partitionId = partitionId;
     this.consumerGroup = options.consumerGroup ? options.consumerGroup : Constants.defaultConsumerGroup;
     this.address = `${this._context.config.entityPath}/ConsumerGroups/${this.consumerGroup}/Partitions/${this.partitionId}`;
     this.audience = `${this._context.config.endpoint}${this.address}`;
@@ -315,59 +276,5 @@ export class EventHubReceiver {
       }
     }
     return rcvrOptions;
-  }
-
-  /**
-   * Negotiates the cbs claim for the EventHubReceiver.
-   * @private
-   * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
-   * @return {Promise<void>} Promise<void>
-   */
-  private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
-    // Acquire the lock and establish a cbs session if it does not exist on the connection. Although node.js
-    // is single threaded, we need a locking mechanism to ensure that a race condition does not happen while
-    // creating a shared resource (in this case the cbs session, since we want to have exactly 1 cbs session
-    // per connection).
-    debug("[%s] Acquiring lock: '%s' for creating the cbs session while creating the " +
-      "receiver: '%s' with address: '%s'.", this._context.connectionId, this._context.cbsSession!.cbsLock,
-      this.name, this.address);
-    // Acquire the lock and establish a cbs session if it does not exist on the connection.
-    await defaultLock.acquire(this._context.cbsSession!.cbsLock, () => { return this._context.cbsSession!.init(); });
-    const tokenObject = await this._context.tokenProvider.getToken(this.audience);
-    debug("[%s] EH Receiver '%s': calling negotiateClaim for audience '%s'.", this._context.connectionId, this.audience);
-    // Acquire the lock to negotiate the CBS claim.
-    debug("[%s] Acquiring lock: '%s' for cbs auth for receiver: '%s' with address: '%s'.",
-      this._context.connectionId, this._context.negotiateClaimLock, this.name, this.address);
-    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession!.negotiateClaim(this.audience, tokenObject);
-    });
-    debug("[%s] Negotiated claim for receiver '%s' with address '%s'",
-      this._context.connectionId, this.name, this.address);
-    if (setTokenRenewal) {
-      await this._ensureTokenRenewal();
-    }
-  }
-
-  /**
-   * Ensures that the token is renewed within the predefined renewal margin.
-   * @private
-   * @return {Promise<void>} Promise<void>
-   */
-  private async _ensureTokenRenewal(): Promise<void> {
-    const tokenValidTimeInSeconds = this._context.tokenProvider.tokenValidTimeInSeconds;
-    const tokenRenewalMarginInSeconds = this._context.tokenProvider.tokenRenewalMarginInSeconds;
-    const nextRenewalTimeout = (tokenValidTimeInSeconds - tokenRenewalMarginInSeconds) * 1000;
-    this._tokenRenewalTimer = setTimeout(async () => {
-      try {
-        await this._negotiateClaim(true);
-      } catch (err) {
-        // TODO: May be add some retries over here before emitting the error.
-        debug("[%s] Receiver '%s', with address '%s' an error occurred while renewing the token: %O",
-          this._context.connectionId, this.name, this.address, translate(err));
-      }
-    }, nextRenewalTimeout);
-    debug("[%s]Receiver '%s' with address '%s' has next token renewal in %d seconds @(%s).",
-      this._context.connectionId, this.name, this.address, nextRenewalTimeout / 1000,
-      new Date(Date.now() + nextRenewalTimeout).toString());
   }
 }
