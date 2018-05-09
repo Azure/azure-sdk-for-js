@@ -8,7 +8,7 @@ import { ConnectionConfig } from ".";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
 import { TokenProvider } from "./auth/token";
-import { ManagementClient } from "./managementClient";
+import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { CbsClient } from "./cbs";
 import { SasTokenProvider } from "./auth/sas";
 import { ClientOptions } from "./eventHubClient";
@@ -74,15 +74,19 @@ export interface ConnectionContext {
   readonly negotiateClaimLock: string;
 }
 
+export interface ConnectionContextOptions extends ClientOptions {
+  managementSessionAddress?: string;
+  managementSessionAudience?: string;
+}
+
 
 export namespace ConnectionContext {
-
   /**
    * @property {string} userAgent The user agent string for the event hub client. Constant value: "/js-event-hubs".
    */
   export const userAgent: string = "/js-event-hubs";
 
-  export function create(config: ConnectionConfig, options?: ClientOptions): ConnectionContext {
+  export function create(config: ConnectionConfig, options?: ConnectionContextOptions): ConnectionContext {
     ConnectionConfig.validate(config);
     if (!options) options = {};
     const context: ConnectionContext = {
@@ -96,7 +100,11 @@ export namespace ConnectionContext {
       dataTransformer: options.dataTransformer || new DefaultDataTransformer()
     };
     context.cbsSession = new CbsClient(context);
-    context.managementSession = new ManagementClient(context);
+    const mOptions: ManagementClientOptions = {
+      address: options.managementSessionAddress,
+      audience: options.managementSessionAudience
+    };
+    context.managementSession = new ManagementClient(context, mOptions);
     debug("Created connection context: %O", context);
     return context;
   }

@@ -13,6 +13,7 @@ import { EventPosition } from "./eventPosition";
 import { EventHubSender } from "./eventHubSender";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
+import { IotHubClient } from "./iothub/iothubClient";
 const debug = debugModule("azure:event-hubs:client");
 
 export interface ReceiveOptions {
@@ -319,6 +320,22 @@ export class EventHubClient {
       throw new Error(`Either the connectionString must have "EntityPath=<path-to-entity>" or you must provide "path", while creating the client`);
     }
     return new EventHubClient(config, options);
+  }
+
+  /**
+   * Creates an EventHub Client from connection string.
+   * @method createFromConnectionString
+   * @param {string} iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
+   * @param {ClientOptions} [options] Options that can be provided during client creation.
+   * @param {TokenProvider} [options.tokenProvider] - An instance of the token provider that provides the token for authentication. Default value: SasTokenProvider.
+   * @returns {Promise<EventHubClient>} - Promise<EventHubClient>.
+   */
+  static async createFromIotHubConnectionString(iothubConnectionString: string, options?: ClientOptions): Promise<EventHubClient> {
+    if (!iothubConnectionString || (iothubConnectionString && typeof iothubConnectionString !== "string")) {
+      throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
+    }
+    const connectionString = await new IotHubClient(iothubConnectionString).getEventHubConnectionString();
+    return EventHubClient.createFromConnectionString(connectionString, undefined, options);
   }
 
   /**

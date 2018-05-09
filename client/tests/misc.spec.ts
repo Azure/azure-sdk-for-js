@@ -136,7 +136,7 @@ describe("Misc tests", function () {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 10);
+      data = await breceiver.receive(5, 15);
       await breceiver.close();
       debug("received message: ", data);
       should.exist(data);
@@ -177,7 +177,7 @@ describe("Misc tests", function () {
 
       await client.sendBatch(d, partitionId);
       debug("Successfully sent 5 messages batched together.");
-      data = await breceiver.receive(5, 5);
+      data = await breceiver.receive(5, 10);
       await breceiver.close();
       debug("received message: ", data);
       should.exist(data);

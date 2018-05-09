@@ -9,6 +9,8 @@ import { RequestResponseLink, createRequestResponseLink, sendRequest } from "./r
 import { defaultLock } from "./util/utils";
 import { AmqpMessage } from ".";
 import { ConnectionContext } from "./connectionContext";
+import { ClientEntity } from "./clientEntity";
+import { translate } from "./errors";
 
 const debug = debugModule("azure:event-hubs:management");
 
@@ -76,7 +78,7 @@ export interface ManagementClientOptions {
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
-export class ManagementClient {
+export class ManagementClient extends ClientEntity {
 
   readonly managementLock: string = `${Constants.managementRequestKey}-${uuid()}`;
   /**
@@ -85,36 +87,15 @@ export class ManagementClient {
    */
   entityPath: string;
   /**
-   * @property {string} address The Management client address: `"$management"`.
-   */
-  address: string;
-  /**
    * @property {string} replyTo The reply to Guid for the management client.
    */
   replyTo: string = uuid();
-  /**
-   * @property {string} audience The Management client token audience in the following format:
-   * - "sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/$management"
-   * @private
-   */
-  audience: string;
   /**
    * $management sender, receiver on the same session.
    * @private
    */
   private _mgmtReqResLink?: RequestResponseLink;
-  /**
-   * @property {BaseConnectionContext} _context Provides relevant information about the amqp connection,
-   * cbs and $management sessions, token provider, sender and receivers.
-   * @private
-   */
-  private _context: ConnectionContext;
-  /**
-   * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when the EventHub Sender is
-   * due for token renewal.
-   * @private
-   */
-  private _tokenRenewalTimer?: NodeJS.Timer;
+
   /**
    * @constructor
    * Instantiates the management client.
@@ -123,11 +104,12 @@ export class ManagementClient {
    * `/messages/events/$management`.
    */
   constructor(context: ConnectionContext, options?: ManagementClientOptions) {
-    if (!options) options = {};
+    super(context, {
+      address: options && options.address ? options.address : Constants.management,
+      audience: options && options.audience ? options.audience : context.config.endpoint
+    });
     this._context = context;
     this.entityPath = context.config.entityPath as string;
-    this.address = options.address || Constants.management;
-    this.audience = options.audience || context.config.endpoint;
   }
 
   /**
@@ -194,6 +176,7 @@ export class ManagementClient {
       if (this._mgmtReqResLink) {
         await rheaPromise.closeSession(this._mgmtReqResLink.session);
         debug("Successfully closed the management session.");
+        this._session = undefined;
         this._mgmtReqResLink = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
       }
@@ -215,59 +198,11 @@ export class ManagementClient {
       const sropt: rheaPromise.SenderOptions = { target: { address: this.address } };
       debug("Creating a session for $management endpoint");
       this._mgmtReqResLink = await createRequestResponseLink(this._context.connection, sropt, rxopt);
+      this._session = this._mgmtReqResLink.session;
       debug("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
         this._context.connectionId, this._mgmtReqResLink.sender.name, this._mgmtReqResLink.receiver.name);
       await this._ensureTokenRenewal();
     }
-  }
-
-  /**
-   * Negotiates the cbs claim for the EventHub Sender.
-   * @private
-   * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
-   * @return {Promise<void>} Promise<void>
-   */
-  private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
-    debug("[%s] Acquiring lock: '%s' for creating the cbs session while creating the management client.",
-      this._context.connectionId, this._context.cbsSession!.cbsLock);
-    await defaultLock.acquire(this._context.cbsSession!.cbsLock,
-      () => { return this._context.cbsSession!.init(); });
-    const tokenObject = await this._context.tokenProvider.getToken(this.audience);
-    debug("[%s] EH Sender: calling negotiateClaim for audience '%s'.",
-      this._context.connectionId, this.audience);
-    // Acquire the lock to negotiate the CBS claim.
-    debug("[%s] Acquiring lock: '%s' for cbs auth for management client.",
-      this._context.connectionId, this._context.negotiateClaimLock);
-    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession!.negotiateClaim(this.audience, tokenObject);
-    });
-    debug("[%s] Negotiated claim for management client.", this._context.connectionId);
-    if (setTokenRenewal) {
-      await this._ensureTokenRenewal();
-    }
-  }
-
-  /**
-   * Ensures that the token is renewed within the predefined renewal margin.
-   * @private
-   * @returns {void}
-   */
-  private async _ensureTokenRenewal(): Promise<void> {
-    const tokenValidTimeInSeconds = this._context.tokenProvider.tokenValidTimeInSeconds;
-    const tokenRenewalMarginInSeconds = this._context.tokenProvider.tokenRenewalMarginInSeconds;
-    const nextRenewalTimeout = (tokenValidTimeInSeconds - tokenRenewalMarginInSeconds) * 1000;
-    this._tokenRenewalTimer = setTimeout(async () => {
-      try {
-        await this._negotiateClaim(true);
-      } catch (err) {
-        // TODO: May be add some retries over here before emitting the error.
-        debug("[%s] Management client, an error occurred while renewing the token: %O",
-          this._context.connectionId, err);
-      }
-    }, nextRenewalTimeout);
-    debug("[%s] Management client, has next token renewal in %d seconds @(%s).",
-      this._context.connectionId, nextRenewalTimeout / 1000,
-      new Date(Date.now() + nextRenewalTimeout).toString());
   }
 
   /**
@@ -298,6 +233,7 @@ export class ManagementClient {
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
       return sendRequest(this._context.connection, this._mgmtReqResLink!, request);
     } catch (err) {
+      err = translate(err);
       debug("An error occurred while making the request to $management endpoint: %O", err);
       throw err;
     }
