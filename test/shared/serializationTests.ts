@@ -10,6 +10,14 @@ import { Mappers } from "./data/TestClient/lib/models/mappers";
 let Serializer = new msRest.Serializer({});
 let valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";
 
+function stringToByteArray(str: string): Uint8Array {
+  if (typeof Buffer === "function") {
+    return new Buffer(str, "utf-8");
+  } else {
+    return new TextEncoder().encode(str);
+  }
+}
+
 describe("msrest", function () {
   describe("serializeObject", function () {
     it("should correctly serialize a Date Object", function (done) {
@@ -25,10 +33,10 @@ describe("msrest", function () {
       done();
     });
 
-    it("should correctly serialize a Buffer Object", function (done) {
-      let bufferObj = new Buffer("Javascript");
+    it("should correctly serialize a Uint8Array Object", function (done) {
+      const byteArray = stringToByteArray("Javascript");
       let base64str = "SmF2YXNjcmlwdA==";
-      msRest.serializeObject(bufferObj).should.equal(base64str);
+      msRest.serializeObject(byteArray).should.equal(base64str);
       done();
     });
 
@@ -52,11 +60,11 @@ describe("msrest", function () {
       let o1: any = {
         "p1": "value1",
         "p2": "value2",
-        "top-buf": new Buffer("top string", "utf-8"),
+        "top-buf": stringToByteArray("top string"),
         "top-date": new Date("2014"),
         "top-dates": [new Date("1900"), new Date("1901")],
         "insider": {
-          "insider-buf": new Buffer("insider string", "utf-8"),
+          "insider-buf": stringToByteArray("insider string"),
           "insider-date": new Date("2015"),
           "insider-dates": [new Date("2100"), new Date("2101")],
           "insider-dictionary": {
@@ -71,7 +79,7 @@ describe("msrest", function () {
             "male": true,
             "birthday": "1992-01-01T00:00:00.000Z",
             "anniversary": new Date("2013-12-08"),
-            "memory": new Buffer("Yadadadada")
+            "memory": stringToByteArray("Yadadadada")
           }
         }
       };
@@ -176,11 +184,11 @@ describe("msrest", function () {
       }
     });
 
-    it("should correctly serialize a Buffer Object", function (done) {
+    it("should correctly serialize a ByteArray Object", function (done) {
       let mapper: msRest.Mapper = { type: { name: "ByteArray" }, required: false, serializedName: "ByteArray" };
-      let bufferObj = new Buffer("Javascript");
+      let byteArray = stringToByteArray("Javascript");
       let base64str = "SmF2YXNjcmlwdA==";
-      let serializedObject = Serializer.serialize(mapper, bufferObj, "stringBody");
+      let serializedObject = Serializer.serialize(mapper, byteArray, "stringBody");
       serializedObject.should.equal(base64str);
       done();
     });
@@ -509,7 +517,7 @@ describe("msrest", function () {
         "birthday": new Date("2012-01-05T01:00:00Z"),
         "species": "king",
         "length": 1.0,
-        "picture": new Buffer([255, 255, 255, 255, 254]),
+        "picture": new Uint8Array([255, 255, 255, 255, 254]),
         "siblings": [
           {
             "fishtype": "shark",
@@ -523,7 +531,7 @@ describe("msrest", function () {
             "age": 105,
             "birthday": new Date("1900-01-05T01:00:00Z"),
             "length": 10.0,
-            "picture": new Buffer([255, 255, 255, 255, 254]),
+            "picture": new Uint8Array([255, 255, 255, 255, 254]),
             "species": "dangerous"
           }
         ]
@@ -592,7 +600,7 @@ describe("msrest", function () {
     });
     it("should correctly deserialize an array if the type is 'any'", function (done) {
       let mapper: msRest.Mapper = { type: { name: "any" }, required: false, serializedName: "any" };
-      let buf = Buffer.from("HelloWorld!");
+      let buf = [1, 2, 3];
       let deserializedObject = Serializer.deserialize(mapper, buf, "anyBody");
       deserializedObject.should.equal(buf);
       done();
@@ -764,7 +772,7 @@ describe("msrest", function () {
         "birthday": new Date("2012-01-05T01:00:00Z").toISOString(),
         "species": "king",
         "length": 1.0,
-        "picture": new Buffer([255, 255, 255, 255, 254]).toString(),
+        "picture": Uint8Array.from([255, 255, 255, 255, 254]).toString(),
         "siblings": [
           {
             "fish.type": "shark",
@@ -778,7 +786,7 @@ describe("msrest", function () {
             "age": 105,
             "birthday": new Date("1900-01-05T01:00:00Z").toISOString(),
             "length": 10.0,
-            "picture": new Buffer([255, 255, 255, 255, 254]).toString(),
+            "picture": Uint8Array.from([255, 255, 255, 255, 254]).toString(),
             "species": "dangerous"
           }
         ]
@@ -865,14 +873,14 @@ describe("msrest", function () {
         'birthday': new Date('2012-01-05T01:00:00Z').toISOString(),
         'species': 'king',
         'length': 1.0,
-        'picture': new Buffer([255, 255, 255, 255, 254]).toString(),
+        'picture': Uint8Array.from([255, 255, 255, 255, 254]).toString(),
         'siblings': [
           {
             'fish.type': 'mutatedshark',
             'age': 105,
             'birthday': new Date('1900-01-05T01:00:00Z').toISOString(),
             'length': 10.0,
-            'picture': new Buffer([255, 255, 255, 255, 254]).toString(),
+            'picture': Uint8Array.from([255, 255, 255, 255, 254]).toString(),
             'species': 'dangerous',
             'siblings': [
               {

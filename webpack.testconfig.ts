@@ -2,7 +2,7 @@ import * as webpack from 'webpack';
 import * as glob from 'glob';
 import * as path from 'path';
 
-const config = {
+const config: webpack.Configuration = {
   entry: [...glob.sync(path.join(__dirname, 'test/shared/**/*.ts')), ...glob.sync(path.join(__dirname, 'test/browser/**/*.ts'))],
   mode: 'development',
   devtool: 'source-map',
@@ -13,21 +13,23 @@ const config = {
     filename: 'testBundle.js',
     path: __dirname
   },
+  plugins: [
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+  ],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         loader: 'ts-loader',
-        exclude: /(node_modules)/,
-        options: { configFile: "tsconfig.webpack.json" }
+        exclude: /(node_modules)/
       }
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
-  },
-  externals: {
-    "ms-rest-js": "msRest"
+    extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      "moment": path.join(__dirname, 'node_modules/moment/min/moment.min.js')
+    }
   },
   node: {
     fs: false,
@@ -37,7 +39,9 @@ const config = {
     tls: false,
     tty: false,
     v8: false,
-    Buffer: true // TODO: find alternative to Buffer for tests
+    Buffer: false,
+    process: false,
+    stream: false
   }
 };
 

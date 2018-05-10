@@ -5,6 +5,7 @@ import { HttpHeaders } from "../httpHeaders";
 import { Constants } from "../util/constants";
 import { WebResource } from "../webResource";
 import { ServiceClientCredentials } from "./serviceClientCredentials";
+import * as base64 from "../util/base64";
 const HeaderConstants = Constants.HeaderConstants;
 const DEFAULT_AUTHORIZATION_SCHEME = "Basic";
 
@@ -40,7 +41,7 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
    */
   signRequest(webResource: WebResource) {
     const credentials = `${this.userName}:${this.password}`;
-    const encodedCredentials = `${this.authorizationScheme} ${Buffer.from(credentials).toString("base64")}`;
+    const encodedCredentials = `${this.authorizationScheme} ${base64.encodeString(credentials)}`;
     if (!webResource.headers) webResource.headers = new HttpHeaders();
     webResource.headers.set(HeaderConstants.AUTHORIZATION, encodedCredentials);
     return Promise.resolve(webResource);

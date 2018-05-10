@@ -10,18 +10,23 @@ const config: webpack.Configuration = {
     libraryTarget: 'var',
     library: 'msRest'
   },
+  plugins: [
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+  ],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         loader: 'ts-loader',
-        exclude: /(node_modules|test)/,
-        options: { configFile: 'tsconfig.webpack.json' }
+        exclude: /(node_modules|test)/
       }
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      "moment": path.resolve('./node_modules/moment/min/moment.min.js')
+    }
   },
   node: {
     fs: false,
@@ -31,7 +36,9 @@ const config: webpack.Configuration = {
     tls: false,
     tty: false,
     v8: false,
-    Buffer: false
+    Buffer: false,
+    process: false,
+    stream: false
   }
 };
 
