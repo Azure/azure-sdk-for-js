@@ -174,5 +174,32 @@ main().catch((err) => {
 });
 ```
 
+## Example 6 - Create an EventHubClient from an IotHub connection string.
+
+Create EventHub Client from an IotHub Connection string. This is useful for receiving telemetry data
+of IotHub from the linked EventHub. Most likely the associated connection string will not have send
+claims. Hence getting HubRuntimeInfo or PartitionRuntimeInfo and receiving messages would be the
+possible operations.
+
+- Please notice that we are awaiting on the `createFromIotHubConnectionString()` method to get an
+instance of the `EventHubClient`. This is different from other static methods on the client. The method
+talks to the IotHub endpoint to get a redirect error which contains the EventHub endpoint to talk to.
+It then constructs the right EventHub connection string based on the information in the redirect error
+and returns an instance of the EventHubClient that you can play with.
+```js
+const { EventHubClient } = require('azure-event-hubs');
+
+async function main() {
+  const client = await EventHubClient.createFromIotHubConnectionString(process.env["IOTHUB_CONNECTION_STRING"]);
+  const hubInfo = await client.getHubRuntimeInfo();
+  console.log(hubInfo);
+  await client.close();
+}
+
+main().catch((err) => {
+  console.log(err);
+});
+```
+
 ## AMQP Dependencies ##
 It depends on [rhea](https://github.com/amqp/rhea) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
