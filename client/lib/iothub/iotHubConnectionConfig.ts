@@ -43,7 +43,7 @@ export namespace IotHubConnectionConfig {
     }
     const parsedCS = parseConnectionString<IotHubConnectionStringModel>(connectionString);
     if (!path) {
-      path = "/messages/events";
+      path = "messages/events";
     }
     const result: IotHubConnectionConfig = {
       connectionString: connectionString,
@@ -78,7 +78,7 @@ export namespace IotHubConnectionConfig {
     }
   }
 
-  export function convertToConnectionConfig(iotHubConfig: IotHubConnectionConfig): ConnectionConfig {
+  export function convertToEventHubConnectionConfig(iotHubConfig: IotHubConnectionConfig): ConnectionConfig {
     if (!iotHubConfig || (iotHubConfig && typeof iotHubConfig !== "object")) {
       throw new Error("'iotHubConfig' is a required parameter and must be of type: 'object'.");
     }
@@ -88,7 +88,7 @@ export namespace IotHubConnectionConfig {
       sharedAccessKeyName: iotHubConfig.sharedAccessKeyName,
       entityPath: iotHubConfig.entityPath,
       host: iotHubConfig.hostName,
-      endpoint: iotHubConfig.hostName,
+      endpoint: `sb://${iotHubConfig.hostName}/`,
       connectionString: iotHubConfig.connectionString
     };
     return config;
