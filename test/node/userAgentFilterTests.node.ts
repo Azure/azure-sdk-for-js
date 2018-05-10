@@ -2,12 +2,12 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as assert from "assert";
-import { WebResource } from "../lib/webResource";
-import { MsRestUserAgentPolicy } from "../lib/policies/msRestUserAgentPolicy";
-import { Constants } from "../lib/util/constants";
-import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
-import { HttpOperationResponse } from "../lib/httpOperationResponse";
-import { isNode } from "../lib/util/utils";
+import { WebResource } from "../../lib/webResource";
+import { MsRestUserAgentPolicy } from "../../lib/policies/msRestUserAgentPolicy";
+import { Constants } from "../../lib/util/constants";
+import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
+import { HttpOperationResponse } from "../../lib/httpOperationResponse";
+import { isNode } from "../../lib/util/utils";
 
 const should = require("should");
 const userAgentHeader = Constants.HeaderConstants.USER_AGENT;

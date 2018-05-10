@@ -3,7 +3,7 @@ import * as glob from 'glob';
 import * as path from 'path';
 
 const config = {
-  entry: glob.sync('./test/*.ts'),
+  entry: [...glob.sync(path.join(__dirname, 'test/shared/**/*.ts')), ...glob.sync(path.join(__dirname, 'test/browser/**/*.ts'))],
   mode: 'development',
   devtool: 'source-map',
   devServer: {
@@ -41,4 +41,4 @@ const config = {
   }
 };
 
-export default config;
+export = config;
