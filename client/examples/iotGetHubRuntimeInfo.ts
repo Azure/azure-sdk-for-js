@@ -1,16 +1,13 @@
 import { EventHubClient } from "azure-event-hubs";
 
-const connectionString = "EVENTHUB_CONNECTION_STRING";
-const entityPath = "EVENTHUB_NAME";
+const connectionString = "IOTHUB_CONNECTION_STRING";
 const str = process.env[connectionString] || "";
-const path = process.env[entityPath] || "";
-console.log(path);
 
 async function main(): Promise<void> {
-  const client = EventHubClient.createFromConnectionString(str, path);
+  const client = await EventHubClient.createFromIotHubConnectionString(str);
   let info = await client.getHubRuntimeInformation();
   console.log("RuntimeInfo: ", info);
-  let pInfo = await client.getPartitionInformation("0");
+  let pInfo = await client.getPartitionInformation(info.partitionIds[0]);
   console.log("Partition Information: ", pInfo);
   await client.close();
 }

@@ -61,17 +61,20 @@ export class SasTokenProvider implements TokenProvider {
   }
 
   /**
+   * @protected
    * Creates the sas token based on the provided information
    * @param {string | number} expiry - The time period in unix time after which the token will expire.
    * @param {string} [audience] - The audience for which the token is desired. If not
    * provided then the Endpoint from the connection string will be applied.
+   * @param {string | Buffer} [hashInput] The input to be provided to hmac to create the hash.
    */
-  private _createToken(expiry: number, audience?: string): TokenInfo {
+  protected _createToken(expiry: number, audience?: string, hashInput?: string | Buffer): TokenInfo {
     if (!audience) audience = this.namespace;
     audience = encodeURIComponent(audience);
     const keyName = encodeURIComponent(this.keyName);
     const stringToSign = audience + '\n' + expiry;
-    const sig = encodeURIComponent(crypto.createHmac('sha256', this.key).update(stringToSign, 'utf8').digest('base64'));
+    hashInput = hashInput || this.key;
+    const sig = encodeURIComponent(crypto.createHmac('sha256', hashInput).update(stringToSign, 'utf8').digest('base64'));
     return {
       token: `SharedAccessSignature sr=${audience}&sig=${sig}&se=${expiry}&skn=${keyName}`,
       tokenType: TokenType.CbsTokenTypeSas,
@@ -80,7 +83,7 @@ export class SasTokenProvider implements TokenProvider {
   }
 
   /**
-   *
+   * Creates a token provider from the EventHub connection string;
    * @param {string} connectionString - The EventHub connection string
    */
   static fromConnectionString(connectionString: string): SasTokenProvider {

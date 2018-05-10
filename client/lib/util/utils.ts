@@ -39,6 +39,13 @@ export interface StorageConnectionStringModel {
   [x: string]: any;
 }
 
+export interface IotHubConnectionStringModel {
+  HostName: string;
+  SharedAccessKeyName: string;
+  SharedAccessKey: string;
+  DeviceId?: string;
+}
+
 export type ParsedOutput<T> = {
   [P in keyof T]: T[P];
 };

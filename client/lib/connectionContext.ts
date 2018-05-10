@@ -8,7 +8,7 @@ import { ConnectionConfig } from ".";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
 import { TokenProvider } from "./auth/token";
-import { ManagementClient } from "./managementClient";
+import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { CbsClient } from "./cbs";
 import { SasTokenProvider } from "./auth/sas";
 import { ClientOptions } from "./eventHubClient";
@@ -56,12 +56,12 @@ export interface ConnectionContext {
    * @property {ManagementClient} managementSession A reference to the management session ($management endpoint) on
    * the underlying amqp connection for the EventHub Client.
    */
-  readonly managementSession: ManagementClient;
+  managementSession?: ManagementClient;
   /**
    * @property {CbsClient} cbsSession A reference to the cbs session ($cbs endpoint) on the underlying
    * the amqp connection for the EventHub Client.
    */
-  readonly cbsSession: CbsClient;
+  cbsSession?: CbsClient;
   /**
    * @property {string} connectionLock The unqiue lock name per connection that is used to acquire the lock
    * for establishing an aqmp connection per client if one does not exist.
@@ -74,15 +74,19 @@ export interface ConnectionContext {
   readonly negotiateClaimLock: string;
 }
 
+export interface ConnectionContextOptions extends ClientOptions {
+  managementSessionAddress?: string;
+  managementSessionAudience?: string;
+}
+
 
 export namespace ConnectionContext {
-
   /**
    * @property {string} userAgent The user agent string for the event hub client. Constant value: "/js-event-hubs".
    */
   export const userAgent: string = "/js-event-hubs";
 
-  export function create(config: ConnectionConfig, options?: ClientOptions): ConnectionContext {
+  export function create(config: ConnectionConfig, options?: ConnectionContextOptions): ConnectionContext {
     ConnectionConfig.validate(config);
     if (!options) options = {};
     const context: ConnectionContext = {
@@ -91,12 +95,16 @@ export namespace ConnectionContext {
       config: config,
       tokenProvider: options.tokenProvider ||
         new SasTokenProvider(config.endpoint, config.sharedAccessKeyName, config.sharedAccessKey),
-      cbsSession: new CbsClient(),
-      managementSession: new ManagementClient(config.entityPath!),
       senders: {},
       receivers: {},
       dataTransformer: options.dataTransformer || new DefaultDataTransformer()
     };
+    context.cbsSession = new CbsClient(context);
+    const mOptions: ManagementClientOptions = {
+      address: options.managementSessionAddress,
+      audience: options.managementSessionAudience
+    };
+    context.managementSession = new ManagementClient(context, mOptions);
     debug("Created connection context: %O", context);
     return context;
   }

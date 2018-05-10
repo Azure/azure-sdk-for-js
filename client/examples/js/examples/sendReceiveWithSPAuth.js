@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const azure_arm_event_hubs_1 = require("azure-arm-event-hubs");
+const azure_event_hubs_1 = require("azure-event-hubs");
 const msrestAzure = require("ms-rest-azure");
 const endpoint = "ENDPOINT";
 const entityPath = "EVENTHUB_NAME";
@@ -22,10 +22,10 @@ const secret = process.env[sec] || "";
 const domain = process.env[doma] || "";
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const credentials = yield msrestAzure.loginWithServicePrincipalSecret(clientId, secret, domain, { tokenAudience: azure_arm_event_hubs_1.aadEventHubsAudience });
-        const client = azure_arm_event_hubs_1.EventHubClient.createFromAadTokenCredentials(address, path, credentials);
+        const credentials = yield msrestAzure.loginWithServicePrincipalSecret(clientId, secret, domain, { tokenAudience: azure_event_hubs_1.aadEventHubsAudience });
+        const client = azure_event_hubs_1.EventHubClient.createFromAadTokenCredentials(address, path, credentials);
         yield client.send({ body: "Hello awesome world!!" }, 0);
-        const datas = yield client.receiveBatch("0", 2, 5, { eventPosition: azure_arm_event_hubs_1.EventPosition.fromEnqueuedTime(Date.now()) });
+        const datas = yield client.receiveBatch("0", 2, 5, { eventPosition: azure_event_hubs_1.EventPosition.fromEnqueuedTime(Date.now()) });
         console.log(">>> EventDataObjects: ", datas);
         yield client.close();
     });
