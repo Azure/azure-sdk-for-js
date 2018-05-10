@@ -1,4 +1,4 @@
-import { EventHubClient } from "../lib";
+import { EventHubClient } from "azure-event-hubs";
 
 const connectionString = "IOTHUB_CONNECTION_STRING";
 const str = process.env[connectionString] || "";
