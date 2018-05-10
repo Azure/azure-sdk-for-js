@@ -15,7 +15,7 @@
     "declaration": false,
     "baseUrl": "../",
     "paths": {
-      "azure-arm-event-hubs": ["./lib/"],
+      "azure-event-hubs": ["./lib/"],
       "rhea": ["./lib/rhea-promise/global.d.ts"]
     },
     "lib": [

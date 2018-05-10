@@ -7,8 +7,11 @@ import * as rheaPromise from "./rhea-promise";
 import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
 import * as debugModule from "debug";
+import * as rpc from "./rpc";
 import { AmqpMessage } from ".";
 import { translate } from "./errors";
+import { defaultLock } from "./util/utils";
+import { ConnectionContext } from "./connectionContext";
 const debug = debugModule("azure:event-hubs:cbs");
 
 /**
@@ -36,44 +39,62 @@ export class CbsClient {
    */
   private _cbsSenderReceiverLink?: RequestResponseLink;
 
+  private _context: ConnectionContext;
+
+  constructor(context: ConnectionContext) {
+    this._context = context;
+  }
+
   /**
    * Creates a singleton instance of the CBS session if it hasn't been initialized previously on the given connection.
    * @param {any} connection The AMQP connection object on which the CBS session needs to be initialized.
    */
-  async init(connection: any): Promise<void> {
-    if (!this._cbsSenderReceiverLink) {
-      const rxOpt: rheaPromise.ReceiverOptions = {
-        source: {
-          address: this.endpoint
-        },
-        name: this.replyTo
-      };
-      this._cbsSenderReceiverLink = await createRequestResponseLink(connection, { target: { address: this.endpoint } }, rxOpt);
-      this._cbsSenderReceiverLink.sender.on("sender_error", (context: rheaPromise.Context) => {
-        const ehError = translate(context.sender.error);
-        debug("An error occurred on the cbs sender link.. %O", ehError);
-      });
-      this._cbsSenderReceiverLink.receiver.on("receiver_error", (context: rheaPromise.Context) => {
-        const ehError = translate(context.receiver.error);
-        debug("An error occurred on the cbs receiver link.. %O", ehError);
-      });
-      debug("[%s] Successfully created the cbs sender '%s' and receiver '%s' links over cbs session.",
-        connection.options.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
-    } else {
-      debug("[%s] CBS session is already present. Reusing the cbs sender '%s' and receiver '%s' links over cbs session.",
-        connection.options.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
+  async init(): Promise<void> {
+    try {
+      // Acquire the lock and establish an amqp connection if it does not exist.
+      if (!this._context.connection) {
+        debug("[%s] The CBS client is trying to establish an AMQP connection.", this._context.connectionId);
+        await defaultLock.acquire(this._context.connectionLock, () => { return rpc.open(this._context); });
+      }
+
+      if (!this._cbsSenderReceiverLink) {
+        const rxOpt: rheaPromise.ReceiverOptions = {
+          source: {
+            address: this.endpoint
+          },
+          name: this.replyTo
+        };
+        this._cbsSenderReceiverLink = await createRequestResponseLink(this._context.connection, { target: { address: this.endpoint } }, rxOpt);
+        this._cbsSenderReceiverLink.sender.on("sender_error", (context: rheaPromise.Context) => {
+          const ehError = translate(context.sender.error);
+          debug("An error occurred on the cbs sender link.. %O", ehError);
+        });
+        this._cbsSenderReceiverLink.receiver.on("receiver_error", (context: rheaPromise.Context) => {
+          const ehError = translate(context.receiver.error);
+          debug("An error occurred on the cbs receiver link.. %O", ehError);
+        });
+        debug("[%s] Successfully created the cbs sender '%s' and receiver '%s' links over cbs session.",
+          this._context.connectionId, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
+      } else {
+        debug("[%s] CBS session is already present. Reusing the cbs sender '%s' and receiver '%s' links over cbs session.",
+          this._context.connectionId, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
+      }
+    } catch (err) {
+      err = translate(err);
+      debug("[%s] An error occured while establishing the cbs links: %O",
+        this._context.connectionId, err);
+      throw err;
     }
   }
 
   /**
    * Negotiates the CBS claim with the EventHub Service.
    * @param {string} audience The audience for which the token is requested.
-   * @param {any} connection The underlying AMQP connection.
    * @param {TokenInfo} tokenObject The token object that needs to be sent in the put-token request.
    * @return {Promise<any>} Returns a Promise that resolves when $cbs authentication is successful
    * and rejects when an error occurs during $cbs authentication.
    */
-  async negotiateClaim(audience: string, connection: any, tokenObject: TokenInfo): Promise<any> {
+  async negotiateClaim(audience: string, tokenObject: TokenInfo): Promise<any> {
     try {
       const request: AmqpMessage = {
         body: tokenObject.token,
@@ -86,10 +107,10 @@ export class CbsClient {
           type: tokenObject.tokenType
         }
       };
-      const response = await sendRequest(connection, this._cbsSenderReceiverLink!, request);
+      const response = await sendRequest(this._context.connection, this._cbsSenderReceiverLink!, request);
       return response;
     } catch (err) {
-      debug("[%s]An error occurred while negotating the cbs claim: %O", connection.options.id, err);
+      debug("[%s]An error occurred while negotating the cbs claim: %O", this._context.connectionId, err);
       throw err;
     }
   }

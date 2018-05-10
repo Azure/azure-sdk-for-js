@@ -5,12 +5,12 @@ import * as rhea from "rhea";
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import { translate } from "./errors";
-import * as rpc from "./rpc";
 import * as rheaPromise from "./rhea-promise";
 import { EventData, AmqpMessage, messageProperties } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { defaultLock, Func } from "./util/utils";
 import { retry } from "./retry";
+import { ClientEntity } from "./clientEntity";
 
 const debug = debugModule("azure:event-hubs:sender");
 
@@ -21,63 +21,24 @@ const debug = debugModule("azure:event-hubs:sender");
  * @param {any} sender - The amqp sender link.
  * @constructor
  */
-export class EventHubSender {
-  /**
-   * @property {string} [name] The unique EventHub Sender name (mostly a guid).
-   */
-  name: string;
-  /**
-   * @property {string} [partitionId] The partitionId to which the sender wants to send the EventData.
-   */
-  partitionId?: string | number;
-  /**
-   * @property {string} address The EventHub Sender address in one of the following forms:
-   * - "<hubName>"
-   * - "<hubName>/Partitions/<partitionId>".
-   */
-  address: string;
-  /**
-   * @property {string} audience The EventHub Sender token audience in one of the following forms:
-   * - "sb://<yournamespace>.servicebus.windows.net/<hubName>"
-   * - "sb://<yournamespace>.servicebus.windows.net/<hubName>/Partitions/<partitionId>".
-   */
-  audience: string;
+export class EventHubSender extends ClientEntity {
   readonly senderLock: string = `sender-${uuid()}`;
-  /**
-   * @property {ConnectionContext} _context Provides relevant information about the amqp connection,
-   * cbs and $management sessions, token provider, sender and receivers.
-   * @private
-   */
-  private _context: ConnectionContext;
   /**
    * @property {any} [_sender] The AMQP sender link.
    * @private
    */
   private _sender?: any;
-  /**
-   * @property {any} [_session] The AMQP sender session.
-   * @private
-   */
-  private _session?: any;
-  /**
-   * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
-   * the EventHub Sender is due for token renewal.
-   * @private
-   */
-  private _tokenRenewalTimer?: NodeJS.Timer;
 
   /**
    * Creates a new EventHubSender instance.
    * @constructor
-   * @param {EventHubClient} client The EventHub client.
+   * @param {ConnectionContext} context The connection context.
    * @param {string|number} [partitionId] The EventHub partition id to which the sender
    * wants to send the event data.
    */
   constructor(context: ConnectionContext, partitionId?: string | number, name?: string) {
-    this._context = context;
-    this.name = name || uuid();
+    super(context, { name: name, partitionId: partitionId });
     this.address = this._context.config.entityPath as string;
-    this.partitionId = partitionId;
     if (this.partitionId !== null && this.partitionId !== undefined) {
       this.address += `/Partitions/${this.partitionId}`;
     }
@@ -249,8 +210,8 @@ export class EventHubSender {
           if (context!.delivery!.remote_state.error) {
             err = translate(context!.delivery!.remote_state.error);
           } else {
-            err = new Error(`[${this._context.connectionId}] Sender '${this.name}', ` +
-              `received a release disposition. Hence we are rejecting the promise.`);
+            err = new Error(`[${this._context.connectionId}]Sender '${this.name}', ` +
+              `received a release disposition.Hence we are rejecting the promise.`);
           }
           reject(err);
         };
@@ -261,8 +222,8 @@ export class EventHubSender {
           if (context!.delivery!.remote_state.error) {
             err = translate(context!.delivery!.remote_state.error);
           } else {
-            err = new Error(`[${this._context.connectionId}] Sender "${this.name}", ` +
-              `received a modified disposition. Hence we are rejecting the promise.`);
+            err = new Error(`[${this._context.connectionId}]Sender "${this.name}", ` +
+              `received a modified disposition.Hence we are rejecting the promise.`);
           }
           reject(err);
         };
@@ -274,8 +235,8 @@ export class EventHubSender {
         debug("[%s] Sender '%s', sent message with delivery id: %d",
           this._context.connectionId, this.name, delivery.id);
       } else {
-        const msg = `[${this._context.connectionId}] Sender "${this.name}", ` +
-          `cannot send the message right now. Please try later.`;
+        const msg = `[${this._context.connectionId}]Sender "${this.name}", ` +
+          `cannot send the message right now.Please try later.`;
         debug(msg);
         reject(new Error(msg));
       }
@@ -306,14 +267,7 @@ export class EventHubSender {
    */
   private async _init(): Promise<void> {
     try {
-      // Acquire the lock and establish an amqp connection if it does not exist.
-      if (!this._context.connection) {
-        debug("[%s] EH Sender '%s' establishing an AMQP connection.",
-          this._context.connectionId, this.name);
-        await defaultLock.acquire(this._context.connectionLock, () => { return rpc.open(this._context); });
-      }
-
-      if (!this._session && !this._sender) {
+      if (!this._isOpen()) {
         await this._negotiateClaim();
         const onAmqpError = (context: rheaPromise.Context) => {
           const senderError = translate(context.sender.error);
@@ -340,61 +294,6 @@ export class EventHubSender {
         this._context.connectionId, this.name, err);
       throw err;
     }
-  }
-
-  /**
-   * Negotiates the cbs claim for the EventHub Sender.
-   * @private
-   * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
-   * @return {Promise<void>} Promise<void>
-   */
-  private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
-    // Acquire the lock and establish a cbs session if it does not exist on the connection.
-    // Although node.js is single threaded, we need a locking mechanism to ensure that a
-    // race condition does not happen while creating a shared resource (in this case the
-    // cbs session, since we want to have exactly 1 cbs session per connection).
-    debug("[%s] Acquiring lock: '%s' for creating the cbs session while creating the sender: '%s'.",
-      this._context.connectionId, this._context.cbsSession.cbsLock, this.name);
-    await defaultLock.acquire(this._context.cbsSession.cbsLock,
-      () => { return this._context.cbsSession.init(this._context.connection); });
-    const tokenObject = await this._context.tokenProvider.getToken(this.audience);
-    debug("[%s] EH Sender: calling negotiateClaim for audience '%s'.",
-      this._context.connectionId, this.audience);
-    // Acquire the lock to negotiate the CBS claim.
-    debug("[%s] Acquiring lock: '%s' for cbs auth for sender: '%s'.",
-      this._context.connectionId, this._context.negotiateClaimLock, this.name);
-    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience,
-        this._context.connection, tokenObject);
-    });
-    debug("[%s] Negotiated claim for sender '%s' with with partition: %s",
-      this._context.connectionId, this.name, this.partitionId);
-    if (setTokenRenewal) {
-      await this._ensureTokenRenewal();
-    }
-  }
-
-  /**
-   * Ensures that the token is renewed within the predefined renewal margin.
-   * @private
-   * @returns {void}
-   */
-  private async _ensureTokenRenewal(): Promise<void> {
-    const tokenValidTimeInSeconds = this._context.tokenProvider.tokenValidTimeInSeconds;
-    const tokenRenewalMarginInSeconds = this._context.tokenProvider.tokenRenewalMarginInSeconds;
-    const nextRenewalTimeout = (tokenValidTimeInSeconds - tokenRenewalMarginInSeconds) * 1000;
-    this._tokenRenewalTimer = setTimeout(async () => {
-      try {
-        await this._negotiateClaim(true);
-      } catch (err) {
-        // TODO: May be add some retries over here before emitting the error.
-        debug("[%s] Sender '%s', an error occurred while renewing the token: %O",
-          this._context.connectionId, this.name, err);
-      }
-    }, nextRenewalTimeout);
-    debug("[%s]Sender '%s', has next token renewal in %d seconds @(%s).",
-      this._context.connectionId, this.name, nextRenewalTimeout / 1000,
-      new Date(Date.now() + nextRenewalTimeout).toString());
   }
 
   /**

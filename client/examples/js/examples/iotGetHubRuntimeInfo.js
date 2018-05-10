@@ -9,26 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const azure_event_hubs_1 = require("azure-event-hubs");
-const connectionString = "EVENTHUB_CONNECTION_STRING";
-const entityPath = "EVENTHUB_NAME";
+const connectionString = "IOTHUB_CONNECTION_STRING";
 const str = process.env[connectionString] || "";
-const path = process.env[entityPath] || "";
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const client = azure_event_hubs_1.EventHubClient.createFromConnectionString(str, path);
-        const onMessage = (eventData) => __awaiter(this, void 0, void 0, function* () {
-            console.log(">>> EventDataObject: ", eventData);
-            console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-        });
-        const onError = (err) => {
-            console.log(">>>>> Error occurred: ", err);
-        };
-        const options = {
-            eventPosition: azure_event_hubs_1.EventPosition.fromEnqueuedTime(Date.now()),
-            enableReceiverRuntimeMetric: true
-        };
-        const rcvHandler = client.receive("0", onMessage, onError, options);
-        console.log("rcvHandler: ", rcvHandler.name);
+        const client = yield azure_event_hubs_1.EventHubClient.createFromIotHubConnectionString(str);
+        let info = yield client.getHubRuntimeInformation();
+        console.log("RuntimeInfo: ", info);
+        let pInfo = yield client.getPartitionInformation(info.partitionIds[0]);
+        console.log("Partition Information: ", pInfo);
+        yield client.close();
     });
 }
 main().catch((err) => {

@@ -314,9 +314,13 @@ export class EventHubsError extends Error {
   translated: boolean = true;
   /**
    *
-   * @param {boolean} retryable Describes whether the error is retryable. Default: false.
+   * @property {boolean} retryable Describes whether the error is retryable. Default: false.
    */
   retryable: boolean = false;
+  /**
+   * @property {any} [info] Any additional error information given by the service.
+   */
+  info?: any;
   /**
    * @param {string} message The error message that provides more information about the error.
    */
@@ -355,6 +359,7 @@ export function translate(err: AmqpError | Error): EventHubsError {
     const condition = (err as AmqpError).condition;
     const description = (err as AmqpError).description as string;
     const error = new EventHubsError(description);
+    error.info = (err as AmqpError).info;
     error.condition = condition;
     if (condition) {
       if (condition === "com.microsoft:precondition-failed") {

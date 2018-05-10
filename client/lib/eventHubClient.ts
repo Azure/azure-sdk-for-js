@@ -5,7 +5,6 @@ import * as debugModule from "debug";
 import { closeConnection, Delivery } from "./rhea-promise";
 import { ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials } from "ms-rest-azure";
 import { ConnectionConfig, OnMessage, OnError, EventData, EventHubsError, DataTransformer } from ".";
-import * as rpc from "./rpc";
 import { ConnectionContext } from "./connectionContext";
 import { TokenProvider } from "./auth/token";
 import { AadTokenProvider } from "./auth/aad";
@@ -14,6 +13,7 @@ import { EventPosition } from "./eventPosition";
 import { EventHubSender } from "./eventHubSender";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
+import { IotHubClient } from "./iothub/iothubClient";
 const debug = debugModule("azure:event-hubs:client");
 
 export interface ReceiveOptions {
@@ -123,9 +123,9 @@ export class EventHubClient {
           await receiver.close();
         }
         // Close the cbs session;
-        await this._context.cbsSession.close();
+        await this._context.cbsSession!.close();
         // Close the management session
-        await this._context.managementSession.close();
+        await this._context.managementSession!.close();
         await closeConnection(this._context.connection);
         debug("Closed the amqp connection '%s' on the client.", this._context.connectionId);
         this._context.connection = undefined;
@@ -262,8 +262,7 @@ export class EventHubClient {
    */
   async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
     try {
-      await rpc.open(this._context);
-      return await this._context.managementSession.getHubRuntimeInformation(this._context.connection);
+      return await this._context.managementSession!.getHubRuntimeInformation();
     } catch (err) {
       debug("An error occurred while getting the hub runtime information: %O", err);
       throw err;
@@ -295,8 +294,7 @@ export class EventHubClient {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     try {
-      await rpc.open(this._context);
-      return await this._context.managementSession.getPartitionInformation(this._context.connection, partitionId);
+      return await this._context.managementSession!.getPartitionInformation(partitionId);
     } catch (err) {
       debug("An error occurred while getting the partition information: %O", err);
       throw err;
@@ -322,6 +320,22 @@ export class EventHubClient {
       throw new Error(`Either the connectionString must have "EntityPath=<path-to-entity>" or you must provide "path", while creating the client`);
     }
     return new EventHubClient(config, options);
+  }
+
+  /**
+   * Creates an EventHub Client from connection string.
+   * @method createFromConnectionString
+   * @param {string} iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
+   * @param {ClientOptions} [options] Options that can be provided during client creation.
+   * @param {TokenProvider} [options.tokenProvider] - An instance of the token provider that provides the token for authentication. Default value: SasTokenProvider.
+   * @returns {Promise<EventHubClient>} - Promise<EventHubClient>.
+   */
+  static async createFromIotHubConnectionString(iothubConnectionString: string, options?: ClientOptions): Promise<EventHubClient> {
+    if (!iothubConnectionString || (iothubConnectionString && typeof iothubConnectionString !== "string")) {
+      throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
+    }
+    const connectionString = await new IotHubClient(iothubConnectionString).getEventHubConnectionString();
+    return EventHubClient.createFromConnectionString(connectionString, undefined, options);
   }
 
   /**

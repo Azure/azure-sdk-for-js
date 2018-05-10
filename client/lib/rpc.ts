@@ -59,10 +59,8 @@ export async function createRequestResponseLink(connection: any, senderOptions: 
     throw new Error(`Please provide receiver options.`);
   }
   const session = await createSession(connection);
-  const [sender, receiver] = await Promise.all([
-    createSender(session, senderOptions),
-    createReceiver(session, receiverOptions)
-  ]);
+  const sender = await createSender(session, senderOptions);
+  const receiver = await createReceiver(session, receiverOptions);
   debug("[%s] Successfully created the sender and receiver links on the same session.", connection.options.id);
   return {
     session: session,

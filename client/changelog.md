@@ -1,3 +1,13 @@
+## 2018-05-09 0.2.1
+- Added support to create EventHubClient from an IotHub connectionstring. The following can be done
+```javascript
+const client = await EventHubClient.createFromIotHubConnectionString(process.env.IOTHUB_CONNECTION_STRING);
+```
+- Internal design changes:
+  - ManagementClient also does cbs auth before making the management request.
+  - EventHubSender, EventHubReceiver, ManagementClient inherit from a base class ClientEntity.
+  - Moved opening the connection to CbSClient as that is the first thing that should happen after opening the connection. This reduces calls to `rpc.open()` all over the sdk and puts them at one place in the `init()` method on the CbsClient.
+
 ## 2018-05-02 0.2.0
 - Added functionality to encode/decode the messages sent and received.
 - Created an options object in the `client.createFromConnectionString()` and the `EventHubClient` constructor. This is a breaking change. However moving to an options object design reduces the chances of breaking changes in the future.
