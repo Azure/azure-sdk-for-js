@@ -106,7 +106,7 @@ export class ManagementClient extends ClientEntity {
   constructor(context: ConnectionContext, options?: ManagementClientOptions) {
     super(context, {
       address: options && options.address ? options.address : Constants.management,
-      audience: options && options.audience ? options.audience : context.config.endpoint
+      audience: options && options.audience ? options.audience : `${context.config.endpoint}${context.config.entityPath!}/$management`
     });
     this._context = context;
     this.entityPath = context.config.entityPath as string;
