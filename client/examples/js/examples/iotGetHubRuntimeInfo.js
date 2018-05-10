@@ -8,12 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const lib_1 = require("../lib");
+const azure_event_hubs_1 = require("azure-event-hubs");
 const connectionString = "IOTHUB_CONNECTION_STRING";
 const str = process.env[connectionString] || "";
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const client = yield lib_1.EventHubClient.createFromIotHubConnectionString(str);
+        const client = yield azure_event_hubs_1.EventHubClient.createFromIotHubConnectionString(str);
         let info = yield client.getHubRuntimeInformation();
         console.log("RuntimeInfo: ", info);
         let pInfo = yield client.getPartitionInformation(info.partitionIds[0]);

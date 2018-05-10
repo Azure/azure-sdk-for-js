@@ -8,14 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const azure_arm_event_hubs_1 = require("azure-arm-event-hubs");
+const azure_event_hubs_1 = require("azure-event-hubs");
 const connectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
 const str = process.env[connectionString] || "";
 const path = process.env[entityPath] || "";
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const client = azure_arm_event_hubs_1.EventHubClient.createFromConnectionString(str, path);
+        const client = azure_event_hubs_1.EventHubClient.createFromConnectionString(str, path);
         console.log("Created EH client from connection string");
         const onMessage = (eventData) => {
             console.log("@@@@ receiver with epoch 2.");
@@ -28,7 +28,7 @@ function main() {
         };
         client.receive("0", onMessage, onError, { epoch: 2 });
         console.log("$$$$ Waiting for 8 seconds to let receiver 1 set up and start receiving messages...");
-        yield azure_arm_event_hubs_1.delay(8000);
+        yield azure_event_hubs_1.delay(8000);
         const onMessage2 = (eventData) => {
             console.log("@@@@ receiver with epoch 1.");
             console.log(">>> EventDataObject: ", eventData);

@@ -1,4 +1,4 @@
-import { EventHubClient, aadEventHubsAudience, EventPosition } from "azure-arm-event-hubs";
+import { EventHubClient, aadEventHubsAudience, EventPosition } from "azure-event-hubs";
 import * as msrestAzure from "ms-rest-azure";
 
 const endpoint = "ENDPOINT";

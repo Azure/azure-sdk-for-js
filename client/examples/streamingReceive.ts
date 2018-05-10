@@ -1,4 +1,4 @@
-import { EventHubClient, EventPosition, OnMessage, OnError, EventHubsError, ReceiveOptions } from "azure-arm-event-hubs";
+import { EventHubClient, EventPosition, OnMessage, OnError, EventHubsError, ReceiveOptions } from "azure-event-hubs";
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
