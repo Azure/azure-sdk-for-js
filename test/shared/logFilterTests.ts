@@ -3,10 +3,10 @@
 
 import * as assert from "assert";
 import { Response } from "node-fetch";
-import { LogPolicy } from "../lib/policies/logPolicy";
-import { HttpOperationResponse } from "../lib/httpOperationResponse";
-import { WebResource } from "../lib/webResource";
-import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
+import { LogPolicy } from "../../lib/policies/logPolicy";
+import { HttpOperationResponse } from "../../lib/httpOperationResponse";
+import { WebResource } from "../../lib/webResource";
+import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 
 const emptyRequestPolicy: RequestPolicy = {
   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
