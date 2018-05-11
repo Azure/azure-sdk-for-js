@@ -166,7 +166,7 @@ export class URLBuilder {
             break;
 
           default:
-            throw new Error(`Unrecognized URLTokenType: ${token.type} (${URLTokenType[token.type]})`);
+            throw new Error(`Unrecognized URLTokenType: ${token.type}`);
         }
       }
     }
@@ -217,7 +217,7 @@ export class URLBuilder {
   }
 }
 
-export enum URLTokenizerState {
+export const enum URLTokenizerState {
   SCHEME,
   SCHEME_OR_HOST,
   HOST,
@@ -227,7 +227,7 @@ export enum URLTokenizerState {
   DONE,
 }
 
-export enum URLTokenType {
+export const enum URLTokenType {
   SCHEME,
   HOST,
   PORT,
@@ -414,7 +414,7 @@ export class URLTokenizer {
           break;
 
         default:
-          throw new Error(`Unrecognized URLTokenizerState: ${this._currentState} (${URLTokenizerState[this._currentState]})`);
+          throw new Error(`Unrecognized URLTokenizerState: ${this._currentState}`);
       }
     }
     return !!this._currentToken;
