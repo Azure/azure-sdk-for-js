@@ -2,4 +2,5 @@
 --timeout 50000
 --reporter list
 --colors
-test/**/*.ts
+test/node/**/*.ts
+test/shared/**/*.ts
