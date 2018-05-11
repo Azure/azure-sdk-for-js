@@ -588,6 +588,82 @@ describe("URLBuilder", () => {
       assert.strictEqual(URLBuilder.parse("https://www.bing.com/my:/path").toString(), "https://www.bing.com/my:/path");
     });
   });
+
+  describe("pathSubstitution()", () => {
+    it(`with undefined path, "{arg}" searchValue, and "cats" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPath(undefined);
+      urlBuilder.pathSubstitution("{arg}", "cats");
+      assert.strictEqual(urlBuilder.getPath(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`with "" path, "{arg}" searchValue, and "cats" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPath("");
+      urlBuilder.pathSubstitution("{arg}", "cats");
+      assert.strictEqual(urlBuilder.getPath(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`with "my/really/cool/path" path, "" searchValue, and "cats" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPath("my/really/cool/path");
+      urlBuilder.pathSubstitution("", "cats");
+      assert.strictEqual(urlBuilder.getPath(), "my/really/cool/path");
+      assert.strictEqual(urlBuilder.toString(), "/my/really/cool/path");
+    });
+
+    it(`with "my/really/cool/path" path, "y" searchValue, and "z" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPath("my/really/cool/path");
+      urlBuilder.pathSubstitution("y", "z");
+      assert.strictEqual(urlBuilder.getPath(), "mz/reallz/cool/path");
+      assert.strictEqual(urlBuilder.toString(), "/mz/reallz/cool/path");
+    });
+
+    it(`with "my/really/cool/path" path, "y" searchValue, and "" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPath("my/really/cool/path");
+      urlBuilder.pathSubstitution("y", "");
+      assert.strictEqual(urlBuilder.getPath(), "m/reall/cool/path");
+      assert.strictEqual(urlBuilder.toString(), "/m/reall/cool/path");
+    });
+  });
+
+  describe("querySubstitution()", () => {
+    it(`with undefined query, "A" searchValue, and "Z" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setQuery(undefined);
+      urlBuilder.querySubstitution("A", "Z");
+      assert.strictEqual(urlBuilder.getQuery(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`with "A=B&C=D&E=A" query, "" searchValue, and "Z" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setQuery("A=B&C=D&E=A");
+      urlBuilder.querySubstitution("", "Z");
+      assert.strictEqual(urlBuilder.getQuery(), "A=B&C=D&E=A");
+      assert.strictEqual(urlBuilder.toString(), "?A=B&C=D&E=A");
+    });
+
+    it(`with "A=B&C=D&E=A" query, "A" searchValue, and "" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setQuery("A=B&C=D&E=A");
+      urlBuilder.querySubstitution("A", "");
+      assert.strictEqual(urlBuilder.getQuery(), "C=D");
+      assert.strictEqual(urlBuilder.toString(), "?C=D");
+    });
+
+    it(`with "A=B&C=D&E=A" query, "A" searchValue, and "Z" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setQuery("A=B&C=D&E=A");
+      urlBuilder.querySubstitution("A", "Z");
+      assert.strictEqual(urlBuilder.getQuery(), "Z=B&C=D&E=Z");
+      assert.strictEqual(urlBuilder.toString(), "?Z=B&C=D&E=Z");
+    });
+  });
 });
 
 describe("URLTokenizer", () => {
