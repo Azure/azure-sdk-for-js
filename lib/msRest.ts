@@ -28,6 +28,7 @@ import {
   promiseToCallback, promiseToServiceCallback, isValidUuid,
   applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
 } from "./util/utils";
+import { URLBuilder, URLQuery } from "./url";
 
 // Credentials
 import { TokenCredentials } from "./credentials/tokenCredentials";
@@ -43,5 +44,6 @@ export {
   BasicAuthenticationCredentials, ApiKeyCredentials, ApiKeyCredentialOptions, ServiceClientCredentials, BaseRequestPolicy, logPolicy, ServiceClientOptions, exponentialRetryPolicy,
   systemErrorRetryPolicy, signingPolicy, msRestUserAgentPolicy, stripRequest, stripResponse, delay, executePromisesSequentially,
   generateUuid, isValidUuid, encodeUri, RestError, RequestOptionsBase, RequestPolicy, ServiceCallback, promiseToCallback,
-  promiseToServiceCallback, isStream, redirectPolicy, applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration
+  promiseToServiceCallback, isStream, redirectPolicy, applyMixins, isNode, stringifyXML, prepareXMLRootList, isDuration,
+  URLBuilder, URLQuery
 };
