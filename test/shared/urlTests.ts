@@ -2,7 +2,109 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as assert from "assert";
-import { URLTokenizer, URLToken, URLBuilder } from "../../lib/url";
+import { URLTokenizer, URLToken, URLBuilder, URLQuery } from "../../lib/url";
+
+describe("URLQuery", () => {
+  it(`constructor()`, () => {
+    const urlQuery = new URLQuery();
+    assert.strictEqual(urlQuery.any(), false);
+    assert.strictEqual(urlQuery.toString(), "");
+  });
+
+  describe("set(string,string)", () => {
+    it(`with undefined parameter name`, () => {
+      const urlQuery = new URLQuery();
+      urlQuery.set(undefined as any, "tasty");
+      assert.strictEqual(urlQuery.get(undefined as any), undefined);
+      assert.strictEqual(urlQuery.any(), false);
+      assert.strictEqual(urlQuery.toString(), "");
+    });
+
+    it(`with empty parameter name`, () => {
+      const urlQuery = new URLQuery();
+      urlQuery.set("", "tasty");
+      assert.strictEqual(urlQuery.get(""), undefined);
+      assert.strictEqual(urlQuery.any(), false);
+      assert.strictEqual(urlQuery.toString(), "");
+    });
+
+    it(`with undefined parameter value`, () => {
+      const urlQuery = new URLQuery();
+      urlQuery.set("apples", undefined);
+      assert.strictEqual(urlQuery.get("apples"), undefined);
+      assert.strictEqual(urlQuery.any(), false);
+      assert.strictEqual(urlQuery.toString(), "");
+    });
+
+    it(`with empty parameter value`, () => {
+      const urlQuery = new URLQuery();
+      urlQuery.set("apples", "");
+      assert.strictEqual(urlQuery.get("apples"), "");
+      assert.strictEqual(urlQuery.any(), true);
+      assert.strictEqual(urlQuery.toString(), "apples=");
+    });
+
+    it(`with non-empty parameter value`, () => {
+      const urlQuery = new URLQuery();
+      urlQuery.set("apples", "grapes");
+      assert.strictEqual(urlQuery.get("apples"), "grapes");
+      assert.strictEqual(urlQuery.any(), true);
+      assert.strictEqual(urlQuery.toString(), "apples=grapes");
+    });
+
+    it(`with existing parameter value and undefined parameter value`, () => {
+      const urlQuery = new URLQuery();
+      urlQuery.set("apples", "grapes");
+      urlQuery.set("apples", undefined);
+      assert.strictEqual(urlQuery.get("apples"), undefined);
+      assert.strictEqual(urlQuery.any(), false);
+      assert.strictEqual(urlQuery.toString(), "");
+    });
+
+    it(`with existing parameter value and empty parameter value`, () => {
+      const urlQuery = new URLQuery();
+      urlQuery.set("apples", "grapes");
+      urlQuery.set("apples", "");
+      assert.strictEqual(urlQuery.get("apples"), "");
+      assert.strictEqual(urlQuery.any(), true);
+      assert.strictEqual(urlQuery.toString(), "apples=");
+    });
+  });
+
+  describe("parse(string)", () => {
+    it(`with undefined`, () => {
+      assert.strictEqual(URLQuery.parse(undefined as any).toString(), "");
+    });
+
+    it(`with ""`, () => {
+      assert.strictEqual(URLQuery.parse("").toString(), "");
+    });
+
+    it(`with "A"`, () => {
+      assert.strictEqual(URLQuery.parse("A").toString(), "");
+    });
+
+    it(`with "A="`, () => {
+      assert.strictEqual(URLQuery.parse("A=").toString(), "A=");
+    });
+
+    it(`with "A=B"`, () => {
+      assert.strictEqual(URLQuery.parse("A=B").toString(), "A=B");
+    });
+
+    it(`with "A=&"`, () => {
+      assert.strictEqual(URLQuery.parse("A=").toString(), "A=");
+    });
+
+    it(`with "A=="`, () => {
+      assert.strictEqual(URLQuery.parse("A==").toString(), "");
+    });
+
+    it(`with "A=&B=C"`, () => {
+      assert.strictEqual(URLQuery.parse("A=&B=C").toString(), "A=&B=C");
+    });
+  });
+});
 
 describe("URLBuilder", () => {
   describe("setScheme()", () => {
@@ -487,6 +589,22 @@ describe("URLBuilder", () => {
     });
   });
 
+  describe("setQueryParameter()", () => {
+    it(`with "a" and undefined`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setQueryParameter("a", undefined);
+      assert.strictEqual(urlBuilder.getQueryParameterValue("a"), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`with "a" and ""`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setQueryParameter("a", "");
+      assert.strictEqual(urlBuilder.getQueryParameterValue("a"), "");
+      assert.strictEqual(urlBuilder.toString(), "?a=");
+    });
+  });
+
   describe("parse()", () => {
     it(`with ""`, () => {
       assert.strictEqual(URLBuilder.parse("").toString(), "");
@@ -586,6 +704,82 @@ describe("URLBuilder", () => {
 
     it(`with "https://www.bing.com/my:/path"`, () => {
       assert.strictEqual(URLBuilder.parse("https://www.bing.com/my:/path").toString(), "https://www.bing.com/my:/path");
+    });
+  });
+
+  describe("pathSubstitution()", () => {
+    it(`with undefined path, "{arg}" searchValue, and "cats" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPath(undefined);
+      urlBuilder.pathSubstitution("{arg}", "cats");
+      assert.strictEqual(urlBuilder.getPath(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`with "" path, "{arg}" searchValue, and "cats" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPath("");
+      urlBuilder.pathSubstitution("{arg}", "cats");
+      assert.strictEqual(urlBuilder.getPath(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`with "my/really/cool/path" path, "" searchValue, and "cats" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPath("my/really/cool/path");
+      urlBuilder.pathSubstitution("", "cats");
+      assert.strictEqual(urlBuilder.getPath(), "my/really/cool/path");
+      assert.strictEqual(urlBuilder.toString(), "/my/really/cool/path");
+    });
+
+    it(`with "my/really/cool/path" path, "y" searchValue, and "z" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPath("my/really/cool/path");
+      urlBuilder.pathSubstitution("y", "z");
+      assert.strictEqual(urlBuilder.getPath(), "mz/reallz/cool/path");
+      assert.strictEqual(urlBuilder.toString(), "/mz/reallz/cool/path");
+    });
+
+    it(`with "my/really/cool/path" path, "y" searchValue, and "" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPath("my/really/cool/path");
+      urlBuilder.pathSubstitution("y", "");
+      assert.strictEqual(urlBuilder.getPath(), "m/reall/cool/path");
+      assert.strictEqual(urlBuilder.toString(), "/m/reall/cool/path");
+    });
+  });
+
+  describe("querySubstitution()", () => {
+    it(`with undefined query, "A" searchValue, and "Z" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setQuery(undefined);
+      urlBuilder.querySubstitution("A", "Z");
+      assert.strictEqual(urlBuilder.getQuery(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`with "A=B&C=D&E=A" query, "" searchValue, and "Z" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setQuery("A=B&C=D&E=A");
+      urlBuilder.querySubstitution("", "Z");
+      assert.strictEqual(urlBuilder.getQuery(), "A=B&C=D&E=A");
+      assert.strictEqual(urlBuilder.toString(), "?A=B&C=D&E=A");
+    });
+
+    it(`with "A=B&C=D&E=A" query, "A" searchValue, and "" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setQuery("A=B&C=D&E=A");
+      urlBuilder.querySubstitution("A", "");
+      assert.strictEqual(urlBuilder.getQuery(), "C=D&E=");
+      assert.strictEqual(urlBuilder.toString(), "?C=D&E=");
+    });
+
+    it(`with "A=B&C=D&E=A" query, "A" searchValue, and "Z" replaceValue`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setQuery("A=B&C=D&E=A");
+      urlBuilder.querySubstitution("A", "Z");
+      assert.strictEqual(urlBuilder.getQuery(), "Z=B&C=D&E=Z");
+      assert.strictEqual(urlBuilder.toString(), "?Z=B&C=D&E=Z");
     });
   });
 });

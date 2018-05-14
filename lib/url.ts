@@ -1,8 +1,133 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-export interface URLQuery {
-  [queryParameterName: string]: string;
+/**
+ * A class that handles the query portion of a URLBuilder.
+ */
+export class URLQuery {
+  private readonly _rawQuery: { [queryParameterName: string]: string } = {};
+
+  /**
+   * Get whether or not there any query parameters in this URLQuery.
+   */
+  public any(): boolean {
+    return Object.keys(this._rawQuery).length > 0;
+  }
+
+  /**
+   * Set a query parameter with the provided name and value. If the parameterValue is undefined or
+   * empty, then this will attempt to remove an existing query parameter with the provided
+   * parameterName.
+   */
+  public set(parameterName: string, parameterValue: any): void {
+    if (parameterName) {
+      if (parameterValue != undefined) {
+        this._rawQuery[parameterName] = parameterValue.toString();
+      } else {
+        delete this._rawQuery[parameterName];
+      }
+    }
+  }
+
+  /**
+   * Get the value of the query parameter with the provided name. If no parameter exists with the
+   * provided parameter name, then undefined will be returned.
+   */
+  public get(parameterName: string): string | undefined {
+    return parameterName ? this._rawQuery[parameterName] : undefined;
+  }
+
+  /**
+   * Get the string representation of this query. The return value will not start with a "?".
+   */
+  public toString(): string {
+    let result = "";
+    for (const parameterName in this._rawQuery) {
+      if (result) {
+        result += "&";
+      }
+      result += `${parameterName}=${this._rawQuery[parameterName]}`;
+    }
+    return result;
+  }
+
+  /**
+   * Parse a URLQuery from the provided text.
+   */
+  public static parse(text: string): URLQuery {
+    const result = new URLQuery();
+
+    if (text) {
+      if (text.startsWith("?")) {
+        text = text.substring(1);
+      }
+
+      const parameterNameState = "parameterName";
+      const parameterValueState = "parameterValue";
+      const invalidateParameterState = "invalidParameter";
+
+      let currentState = parameterNameState;
+
+      let parameterName = "";
+      let parameterValue = "";
+      for (let i = 0; i < text.length; ++i) {
+        const currentCharacter: string = text[i];
+        switch (currentState) {
+          case parameterNameState:
+            switch (currentCharacter) {
+              case "=":
+                currentState = parameterValueState;
+                break;
+
+              case "&":
+                parameterName = "";
+                parameterValue = "";
+                break;
+
+              default:
+                parameterName += currentCharacter;
+                break;
+            }
+            break;
+
+          case parameterValueState:
+            switch (currentCharacter) {
+              case "=":
+                parameterName = "";
+                parameterValue = "";
+                currentState = invalidateParameterState;
+                break;
+
+              case "&":
+                result.set(parameterName, parameterValue);
+                parameterName = "";
+                parameterValue = "";
+                currentState = parameterNameState;
+                break;
+
+              default:
+                parameterValue += currentCharacter;
+                break;
+            }
+            break;
+
+          case invalidateParameterState:
+            if (currentCharacter === "&") {
+              currentState = parameterNameState;
+            }
+            break;
+
+          default:
+            throw new Error("Unrecognized URLQuery parse state: " + currentState);
+        }
+      }
+      if (currentState === parameterValueState) {
+        result.set(parameterName, parameterValue);
+      }
+    }
+
+    return result;
+  }
 }
 
 /**
@@ -13,7 +138,7 @@ export class URLBuilder {
   private _host: string | undefined;
   private _port: string | undefined;
   private _path: string | undefined;
-  private _query: URLQuery = {};
+  private _query: URLQuery | undefined;
 
   /**
    * Set the scheme/protocol for this URL. If the provided scheme contains other parts of a URL
@@ -96,25 +221,62 @@ export class URLBuilder {
   }
 
   /**
-   * Set the query parameter in this URL with the provided queryParameterName to be the provided
-   * queryParameterEncodedValue.
+   * If the provided searchValue is found in this URLBuilder's path, then replace it with the
+   * provided replaceValue.
    */
-  public setQueryParameter(queryParameterName: string, queryParameterEncodedValue: string): void {
-    if (queryParameterName) {
-      this._query[queryParameterName] = queryParameterEncodedValue;
+  public pathSubstitution(searchValue: string, replaceValue: string): void {
+    if (this._path && searchValue) {
+      this._path = replaceAll(this._path, searchValue, replaceValue || "");
     }
   }
 
   /**
    * Set the query in this URL.
    */
-  public setQuery(query: string | URLQuery | undefined): void {
+  public setQuery(query: string | undefined): void {
     if (!query) {
-      this._query = {};
-    } else if (typeof query !== "string") {
-      this._query = query;
+      this._query = undefined;
     } else {
-      this.set(query, URLTokenizerState.QUERY);
+      this._query = URLQuery.parse(query);
+    }
+  }
+
+  /**
+   * Set a query parameter with the provided name and value in this URL's query. If the provided
+   * query parameter value is undefined or empty, then the query parameter will be removed if it
+   * existed.
+   */
+  public setQueryParameter(queryParameterName: string, queryParameterValue: any): void {
+    if (queryParameterName) {
+      if (!this._query) {
+        this._query = new URLQuery();
+      }
+      this._query.set(queryParameterName, queryParameterValue);
+    }
+  }
+
+  /**
+   * Get the value of the query parameter with the provided query parameter name. If no query
+   * parameter exists with the provided name, then undefined will be returned.
+   */
+  public getQueryParameterValue(queryParameterName: string): string | undefined {
+    return this._query ? this._query.get(queryParameterName) : undefined;
+  }
+
+  /**
+   * Get the query in this URL.
+   */
+  public getQuery(): string | undefined {
+    return this._query ? this._query.toString() : undefined;
+  }
+
+  /**
+   * If the provided searchValue is found in this URLBuilder's query, then replace it with the
+   * provided replaceValue.
+   */
+  public querySubstitution(searchValue: string, replaceValue: string): void {
+    if (this._query && searchValue) {
+      this._query = URLQuery.parse(replaceAll(this._query.toString(), searchValue, replaceValue));
     }
   }
 
@@ -148,21 +310,7 @@ export class URLBuilder {
             break;
 
           case URLTokenType.QUERY:
-            let queryString: string | undefined = token.text;
-            if (queryString) {
-              if (queryString.startsWith("?")) {
-                queryString = queryString.substring(1);
-              }
-
-              for (const queryParameterString of queryString.split("&")) {
-                const queryParameterParts: string[] = queryParameterString.split("=");
-                if (queryParameterParts.length === 2) {
-                  this.setQueryParameter(queryParameterParts[0], queryParameterParts[1]);
-                } else {
-                  throw new Error("Malformed query parameter: " + queryParameterString);
-                }
-              }
-            }
+            this._query = URLQuery.parse(token.text);
             break;
 
           default:
@@ -194,17 +342,8 @@ export class URLBuilder {
       result += this._path;
     }
 
-    if (this._query) {
-      let queryString = "";
-      for (const queryParameterName in this._query) {
-        if (queryString) {
-          queryString += "&";
-        }
-        queryString += `${queryParameterName}=${this._query[queryParameterName]}`;
-      }
-      if (queryString) {
-        result += `?${queryString}`;
-      }
+    if (this._query && this._query.any()) {
+      result += `?${this._query.toString()}`;
     }
 
     return result;
@@ -269,6 +408,13 @@ export function isAlphaNumericCharacter(character: string): boolean {
   return (48 /* '0' */ <= characterCode && characterCode <= 57 /* '9' */) ||
     (65 /* 'A' */ <= characterCode && characterCode <= 90 /* 'Z' */) ||
     (97 /* 'a' */ <= characterCode && characterCode <= 122 /* 'z' */);
+}
+
+/**
+ * Replace all of the instances of searchValue in value with the provided replaceValue.
+ */
+export function replaceAll(value: string, searchValue: string, replaceValue: string): string {
+  return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
 }
 
 /**
