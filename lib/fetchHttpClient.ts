@@ -7,6 +7,8 @@ import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResource } from "./webResource";
 import { RestError } from "./restError";
+import { HttpHeaders } from "./httpHeaders";
+import { isNode } from "./util/utils";
 
 /**
  * A HttpClient implementation that uses fetch to send HTTP requests.
@@ -62,14 +64,27 @@ export class FetchHttpClient implements HttpClient {
       return Promise.reject(err);
     }
 
-    const operationResponse = new HttpOperationResponse(httpRequest, res);
+
+    const headers = new HttpHeaders();
+    res.headers.forEach((value: string, name: string) => {
+      headers.set(name, value);
+    });
+
+    const operationResponse: HttpOperationResponse = {
+      request: httpRequest,
+      status: res.status,
+      headers,
+      readableStreamBody: isNode ? res.body as any : undefined,
+      blobBody: isNode ? undefined : res.blob
+    };
+
     if (!httpRequest.rawResponse) {
       try {
         operationResponse.bodyAsText = await res.text();
       } catch (err) {
         const msg = `Error "${err}" occured while converting the raw response body into string.`;
         const errCode = err.code || "RAWTEXT_CONVERSION_ERROR";
-        const e = new RestError(msg, errCode, res.status, httpRequest, res, res.body);
+        const e = new RestError(msg, errCode, res.status, httpRequest, operationResponse, res.body);
         return Promise.reject(e);
       }
 
@@ -96,7 +111,7 @@ export class FetchHttpClient implements HttpClient {
       } catch (err) {
         const msg = `Error "${err}" occured while executing JSON.parse on the response body - ${operationResponse.bodyAsText}.`;
         const errCode = err.code || "JSON_PARSE_ERROR";
-        const e = new RestError(msg, errCode, res.status, httpRequest, res, operationResponse.bodyAsText);
+        const e = new RestError(msg, errCode, res.status, httpRequest, operationResponse, operationResponse.bodyAsText);
         return Promise.reject(e);
       }
     }

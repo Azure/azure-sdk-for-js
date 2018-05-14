@@ -22,11 +22,11 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
     return this.registerIfNeeded(response);
   }
 
-  async registerIfNeeded(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
+  async registerIfNeeded(response: HttpOperationResponse): Promise<HttpOperationResponse> {
     let rpName, urlPrefix;
-    const options = operationResponse.request;
-    if (operationResponse.response.status === 409) {
-      rpName = this.checkRPNotRegisteredError(operationResponse.bodyAsText as string);
+    const options = response.request;
+    if (response.status === 409) {
+      rpName = this.checkRPNotRegisteredError(response.bodyAsText as string);
     }
     if (rpName) {
       urlPrefix = this.extractSubscriptionUrl(options.url);
@@ -52,7 +52,7 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
         return Promise.resolve(finalRes);
       }
     }
-    return Promise.resolve(operationResponse);
+    return Promise.resolve(response);
   }
 
   /**
@@ -140,13 +140,13 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
     const reqOptions = this.getRequestEssentials(originalRequest);
     reqOptions.method = "POST";
     reqOptions.url = postUrl;
-    let res: HttpOperationResponse;
+    let response: HttpOperationResponse;
     try {
-      res = await this._nextPolicy.sendRequest(reqOptions);
+      response = await this._nextPolicy.sendRequest(reqOptions);
     } catch (err) {
       return Promise.reject(err);
     }
-    if (res.response.status !== 200) {
+    if (response.status !== 200) {
       return Promise.reject(new Error(`Autoregistration of ${provider} failed. Please try registering manually.`));
     }
     let statusRes = false;
