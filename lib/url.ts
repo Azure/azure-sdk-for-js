@@ -144,7 +144,7 @@ export class URLBuilder {
    * Set the scheme/protocol for this URL. If the provided scheme contains other parts of a URL
    * (such as a host, port, path, or query), those parts will be added to this URL as well.
    */
-  public setScheme(scheme: string): void {
+  public setScheme(scheme: string | undefined): void {
     if (!scheme) {
       this._scheme = undefined;
     } else {
@@ -163,7 +163,7 @@ export class URLBuilder {
    * Set the host for this URL. If the provided host contains other parts of a URL (such as a
    * port, path, or query), those parts will be added to this URL as well.
    */
-  public setHost(host: string): void {
+  public setHost(host: string | undefined): void {
     if (!host) {
       this._host = undefined;
     } else {
@@ -221,16 +221,6 @@ export class URLBuilder {
   }
 
   /**
-   * If the provided searchValue is found in this URLBuilder's path, then replace it with the
-   * provided replaceValue.
-   */
-  public pathSubstitution(searchValue: string, replaceValue: string): void {
-    if (this._path && searchValue) {
-      this._path = replaceAll(this._path, searchValue, replaceValue || "");
-    }
-  }
-
-  /**
    * Set the query in this URL.
    */
   public setQuery(query: string | undefined): void {
@@ -268,16 +258,6 @@ export class URLBuilder {
    */
   public getQuery(): string | undefined {
     return this._query ? this._query.toString() : undefined;
-  }
-
-  /**
-   * If the provided searchValue is found in this URLBuilder's query, then replace it with the
-   * provided replaceValue.
-   */
-  public querySubstitution(searchValue: string, replaceValue: string): void {
-    if (this._query && searchValue) {
-      this._query = URLQuery.parse(replaceAll(this._query.toString(), searchValue, replaceValue));
-    }
   }
 
   /**
@@ -349,6 +329,20 @@ export class URLBuilder {
     return result;
   }
 
+  /**
+   * If the provided searchValue is found in this URLBuilder, then replace it with the provided
+   * replaceValue.
+   */
+  public replaceAll(searchValue: string, replaceValue: string): void {
+    if (searchValue) {
+      this.setScheme(replaceAll(this.getScheme(), searchValue, replaceValue));
+      this.setHost(replaceAll(this.getHost(), searchValue, replaceValue));
+      this.setPort(replaceAll(this.getPort(), searchValue, replaceValue));
+      this.setPath(replaceAll(this.getPath(), searchValue, replaceValue));
+      this.setQuery(replaceAll(this.getQuery(), searchValue, replaceValue));
+    }
+  }
+
   public static parse(text: string): URLBuilder {
     const result = new URLBuilder();
     result.set(text, URLTokenizerState.SCHEME_OR_HOST);
@@ -413,7 +407,7 @@ export function isAlphaNumericCharacter(character: string): boolean {
 /**
  * Replace all of the instances of searchValue in value with the provided replaceValue.
  */
-export function replaceAll(value: string, searchValue: string, replaceValue: string): string {
+export function replaceAll(value: string | undefined, searchValue: string, replaceValue: string): string | undefined {
   return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
 }
 
