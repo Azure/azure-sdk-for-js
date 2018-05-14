@@ -75,7 +75,7 @@ export class FetchHttpClient implements HttpClient {
       status: res.status,
       headers,
       readableStreamBody: isNode ? res.body as any : undefined,
-      blobBody: isNode ? undefined : res.blob
+      blobBody: isNode ? undefined : () => res.blob()
     };
 
     if (!httpRequest.rawResponse) {
