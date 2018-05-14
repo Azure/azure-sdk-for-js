@@ -1,27 +1,45 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+/**
+ * A class that handles the query portion of a URLBuilder.
+ */
 export class URLQuery {
   private readonly _rawQuery: { [queryParameterName: string]: string } = {};
 
+  /**
+   * Get whether or not there any query parameters in this URLQuery.
+   */
   public any(): boolean {
     return Object.keys(this._rawQuery).length > 0;
   }
 
-  public set(parameterName: string, parameterValue: string | undefined): void {
+  /**
+   * Set a query parameter with the provided name and value. If the parameterValue is undefined or
+   * empty, then this will attempt to remove an existing query parameter with the provided
+   * parameterName.
+   */
+  public set(parameterName: string, parameterValue: any): void {
     if (parameterName) {
-      if (parameterValue) {
-        this._rawQuery[parameterName] = parameterValue;
+      if (parameterValue != undefined) {
+        this._rawQuery[parameterName] = parameterValue.toString();
       } else {
         delete this._rawQuery[parameterName];
       }
     }
   }
 
+  /**
+   * Get the value of the query parameter with the provided name. If no parameter exists with the
+   * provided parameter name, then undefined will be returned.
+   */
   public get(parameterName: string): string | undefined {
     return parameterName ? this._rawQuery[parameterName] : undefined;
   }
 
+  /**
+   * Get the string representation of this query. The return value will not start with a "?".
+   */
   public toString(): string {
     let result = "";
     for (const parameterName in this._rawQuery) {
@@ -33,6 +51,9 @@ export class URLQuery {
     return result;
   }
 
+  /**
+   * Parse a URLQuery from the provided text.
+   */
   public static parse(text: string): URLQuery {
     const result = new URLQuery();
 
@@ -40,12 +61,68 @@ export class URLQuery {
       if (text.startsWith("?")) {
         text = text.substring(1);
       }
-      const queryParameters: string[] = text.split("&");
-      for (const queryParameter of queryParameters) {
-        const queryParameterParts: string[] = queryParameter.split("=");
-        if (queryParameterParts.length === 2) {
-          result.set(queryParameterParts[0], queryParameterParts[1]);
+
+      const parameterNameState = "parameterName";
+      const parameterValueState = "parameterValue";
+      const invalidateParameterState = "invalidParameter";
+
+      let currentState = parameterNameState;
+
+      let parameterName = "";
+      let parameterValue = "";
+      for (let i = 0; i < text.length; ++i) {
+        const currentCharacter: string = text[i];
+        switch (currentState) {
+          case parameterNameState:
+            switch (currentCharacter) {
+              case "=":
+                currentState = parameterValueState;
+                break;
+
+              case "&":
+                parameterName = "";
+                parameterValue = "";
+                break;
+
+              default:
+                parameterName += currentCharacter;
+                break;
+            }
+            break;
+
+          case parameterValueState:
+            switch (currentCharacter) {
+              case "=":
+                parameterName = "";
+                parameterValue = "";
+                currentState = invalidateParameterState;
+                break;
+
+              case "&":
+                result.set(parameterName, parameterValue);
+                parameterName = "";
+                parameterValue = "";
+                currentState = parameterNameState;
+                break;
+
+              default:
+                parameterValue += currentCharacter;
+                break;
+            }
+            break;
+
+          case invalidateParameterState:
+            if (currentCharacter === "&") {
+              currentState = parameterNameState;
+            }
+            break;
+
+          default:
+            throw new Error("Unrecognized URLQuery parse state: " + currentState);
         }
+      }
+      if (currentState === parameterValueState) {
+        result.set(parameterName, parameterValue);
       }
     }
 
@@ -169,7 +246,7 @@ export class URLBuilder {
    * query parameter value is undefined or empty, then the query parameter will be removed if it
    * existed.
    */
-  public setQueryParameter(queryParameterName: string, queryParameterValue: string | undefined): void {
+  public setQueryParameter(queryParameterName: string, queryParameterValue: any): void {
     if (queryParameterName) {
       if (!this._query) {
         this._query = new URLQuery();
