@@ -25,7 +25,7 @@ export default class PollingState {
   /**
    * @param {Response} [response] - The response object to extract longrunning operation status.
    */
-  response!: Response;
+  response!: msRest.HttpOperationResponse;
   /**
    * @param {any} [resource] - Provides information about the response body received in the polling request. Particularly useful when polling via provisioningState.
    */
@@ -54,7 +54,7 @@ export default class PollingState {
   constructor(resultOfInitialRequest: msRest.HttpOperationResponse, retryTimeout = 30) {
     this.resultOfInitialRequest = resultOfInitialRequest;
     this.retryTimeout = retryTimeout;
-    this.updateResponse(resultOfInitialRequest.response);
+    this.updateResponse(resultOfInitialRequest);
     this.request = resultOfInitialRequest.request;
     // Parse response.body & assign it as the resource.
     try {
@@ -67,7 +67,7 @@ export default class PollingState {
       const deserializationError = new msRest.RestError(`Error "${error}" occurred in parsing the responseBody " +
         "while creating the PollingState for Long Running Operation- "${resultOfInitialRequest.bodyAsText}"`);
       deserializationError.request = resultOfInitialRequest.request;
-      deserializationError.response = resultOfInitialRequest.response;
+      deserializationError.response = resultOfInitialRequest;
       throw deserializationError;
     }
     switch (this.response.status) {
@@ -105,7 +105,7 @@ export default class PollingState {
    * Update cached data using the provided response object
    * @param {Response} [response] - provider response object.
    */
-  updateResponse(response: Response) {
+  updateResponse(response: msRest.HttpOperationResponse) {
     this.response = response;
     if (response && response.headers) {
       const asyncOperationHeader: string | null | undefined = response.headers.get("azure-asyncoperation");
@@ -142,7 +142,7 @@ export default class PollingState {
    * @returns {msRest.HttpOperationResponse} HttpOperationResponse
    */
   getOperationResponse(): msRest.HttpOperationResponse {
-    const result = new msRest.HttpOperationResponse(this.request, this.response);
+    const result = { ...this.response, headers: this.response.headers.clone() };
     if (this.resource && typeof this.resource.valueOf() === "string") {
       result.bodyAsText = this.resource;
       result.parsedBody = JSON.parse(this.resource);
