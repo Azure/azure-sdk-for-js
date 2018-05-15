@@ -4,7 +4,7 @@
 import { HttpMethods } from "./webResource";
 
 /**
- * A specification that defines a single Azure service operation.
+ * A specification that defines an operation.
  */
 export interface OperationSpec {
   /**
