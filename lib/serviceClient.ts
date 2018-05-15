@@ -5,6 +5,8 @@ import { ServiceClientCredentials } from "./credentials/serviceClientCredentials
 import { FetchHttpClient } from "./fetchHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
+import { HttpPipelineLogger } from "./httpPipelineLogger";
+import { OperationSpec } from "./operationSpec";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
@@ -13,9 +15,8 @@ import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { Constants } from "./util/constants";
-import { RequestPrepareOptions, WebResource } from "./webResource";
-import { HttpPipelineLogger } from "./httpPipelineLogger";
 import * as utils from "./util/utils";
+import { RequestPrepareOptions, WebResource } from "./webResource";
 
 /**
  * Options to be provided while creating the client.
@@ -119,6 +120,9 @@ export class ServiceClient {
     return;
   }
 
+  /**
+   * Send the provided httpRequest.
+   */
   async sendRequest(options: RequestPrepareOptions | WebResource): Promise<HttpOperationResponse> {
     if (options === null || options === undefined || typeof options !== "object") {
       throw new Error("options cannot be null or undefined and it must be of type object.");
@@ -136,6 +140,7 @@ export class ServiceClient {
     } catch (error) {
       return Promise.reject(error);
     }
+
     // send request
     let operationResponse: HttpOperationResponse;
     try {
@@ -150,6 +155,17 @@ export class ServiceClient {
       return Promise.reject(err);
     }
     return Promise.resolve(operationResponse);
+  }
+
+  /**
+   * Send an HTTP request that is populated using the provided OperationSpec.
+   * @param {WebResource} httpRequest - The HTTP request to populate and then to send.
+   * @param {operationSpec} operationSpec - The OperationSpec to use to populate the httpRequest.
+   */
+  async sendOperationRequest(httpRequest: WebResource, operationSpec: OperationSpec): Promise<HttpOperationResponse> {
+    httpRequest.method = operationSpec.httpMethod;
+
+    return this.sendRequest(httpRequest);
   }
 }
 
