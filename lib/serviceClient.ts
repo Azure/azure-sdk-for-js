@@ -120,6 +120,10 @@ export class ServiceClient {
     return;
   }
 
+  /**
+   * Send the provided httpRequest. If an operationSpec value is provided, then the httpRequest will
+   * be populated by the values provided in the operationSpec.
+   */
   async sendRequest(options: RequestPrepareOptions | WebResource, operationSpec?: OperationSpec): Promise<HttpOperationResponse> {
     if (options === null || options === undefined || typeof options !== "object") {
       throw new Error("options cannot be null or undefined and it must be of type object.");
