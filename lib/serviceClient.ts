@@ -5,6 +5,8 @@ import { ServiceClientCredentials } from "./credentials/serviceClientCredentials
 import { FetchHttpClient } from "./fetchHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
+import { HttpPipelineLogger } from "./httpPipelineLogger";
+import { OperationSpec } from "./operationSpec";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
@@ -13,9 +15,8 @@ import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { Constants } from "./util/constants";
-import { RequestPrepareOptions, WebResource } from "./webResource";
-import { HttpPipelineLogger } from "./httpPipelineLogger";
 import * as utils from "./util/utils";
+import { RequestPrepareOptions, WebResource } from "./webResource";
 
 /**
  * Options to be provided while creating the client.
@@ -119,7 +120,7 @@ export class ServiceClient {
     return;
   }
 
-  async sendRequest(options: RequestPrepareOptions | WebResource): Promise<HttpOperationResponse> {
+  async sendRequest(options: RequestPrepareOptions | WebResource, operationSpec?: OperationSpec): Promise<HttpOperationResponse> {
     if (options === null || options === undefined || typeof options !== "object") {
       throw new Error("options cannot be null or undefined and it must be of type object.");
     }
@@ -136,6 +137,11 @@ export class ServiceClient {
     } catch (error) {
       return Promise.reject(error);
     }
+
+    if (operationSpec) {
+      httpRequest.method = operationSpec.httpMethod;
+    }
+
     // send request
     let operationResponse: HttpOperationResponse;
     try {

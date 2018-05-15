@@ -7,6 +7,7 @@ import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
+export { OperationSpec } from "./operationSpec";
 import { RestError } from "./restError";
 import { ServiceClient, ServiceClientOptions } from "./serviceClient";
 import { Constants } from "./util/constants";
