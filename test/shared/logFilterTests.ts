@@ -2,11 +2,11 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as assert from "assert";
-import { Response } from "node-fetch";
 import { LogPolicy } from "../../lib/policies/logPolicy";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
 import { WebResource } from "../../lib/webResource";
 import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
+import { HttpHeaders } from "../../lib/httpHeaders";
 
 const emptyRequestPolicy: RequestPolicy = {
   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -34,8 +34,7 @@ describe("Log filter", () => {
     const logger = (message: string): void => { output += message + "\n"; };
     const lf = new LogPolicy(emptyRequestPolicy, new RequestPolicyOptions(), logger);
     const req = new WebResource("https://foo.com", "PUT", { "a": 1 });
-    const res = new Response();
-    const opRes = new HttpOperationResponse(req, res as any);
+    const opRes: HttpOperationResponse = { request: req, status: 200, headers: new HttpHeaders(), bodyAsText: null };
     lf.logResponse(opRes).then(() => {
       // console.dir(output, { depth: null });
       // console.log(">>>>>>>");

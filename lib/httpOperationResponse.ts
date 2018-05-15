@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { WebResource } from "./webResource";
+import { HttpHeaders } from "./httpHeaders";
 
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
@@ -10,15 +11,22 @@ import { WebResource } from "./webResource";
  * Initializes a new instance of the HttpOperationResponse class.
  * @constructor
  */
-export class HttpOperationResponse {
+export interface HttpOperationResponse {
   /**
    * The raw request
    */
   request: WebResource;
+
   /**
-   * The raw response. Please use the response directly when the response body is a ReadableStream.
+   * The HTTP response status (e.g. 200)
    */
-  response: Response;
+  status: number;
+
+  /**
+   * The HTTP response headers.
+   */
+  headers: HttpHeaders;
+
   /**
    * The response body as text (string format)
    */
@@ -27,24 +35,17 @@ export class HttpOperationResponse {
   /**
    * The response body as parsed JSON or XML
    */
-  parsedBody?: { [key: string]: any } | Array<any> | string | number | boolean | null | void;
+  parsedBody?: any;
 
-  constructor(request: WebResource, response: Response) {
-    /**
-     * Reference to the original request object.
-     * [WebResource] object.
-     * @type {object}
-     */
-    this.request = request;
+  /**
+   * The response body as a Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: (() => Promise<Blob>);
 
-    /**
-     * Reference to the original response object.
-     * [ServerResponse] object.
-     * @type {object}
-     */
-    this.response = response;
-    /* tslint:disable:no-null-keyword */
-    this.bodyAsText = null;
-    this.parsedBody = null;
-  }
+  /**
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
 }

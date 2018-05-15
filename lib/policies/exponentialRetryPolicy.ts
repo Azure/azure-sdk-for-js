@@ -111,17 +111,16 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
     return retryData;
   }
 
-  async retry(operationResponse: HttpOperationResponse, retryData?: RetryData, err?: RetryError): Promise<HttpOperationResponse> {
+  async retry(response: HttpOperationResponse, retryData?: RetryData, err?: RetryError): Promise<HttpOperationResponse> {
     const self = this;
-    const response = operationResponse.response;
     retryData = self.updateRetryData(retryData, err);
-    if (!utils.objectIsNull(response) && self.shouldRetry(response.status, retryData)) {
+    if (self.shouldRetry(response.status, retryData)) {
       try {
         await utils.delay(retryData.retryInterval);
-        const res: HttpOperationResponse = await this._nextPolicy.sendRequest(operationResponse.request);
+        const res: HttpOperationResponse = await this._nextPolicy.sendRequest(response.request);
         return self.retry(res, retryData, err);
       } catch (err) {
-        return self.retry(operationResponse, retryData, err);
+        return self.retry(response, retryData, err);
       }
     } else {
       if (!utils.objectIsNull(err)) {
@@ -129,7 +128,7 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
         err = retryData.error;
         return Promise.reject(err);
       }
-      return Promise.resolve(operationResponse);
+      return Promise.resolve(response);
     }
   }
 

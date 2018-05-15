@@ -55,13 +55,13 @@ export function encodeUri(uri: string): string {
  * Returns a stripped version of the Http Response which only contains body,
  * headers and the status.
  *
- * @param {nodeFetch.Response} response - The Http Response
+ * @param {HttpOperationResponse} response - The Http Response
  *
  * @return {object} strippedResponse - The stripped version of Http Response.
  */
-export function stripResponse(response: Response): any {
+export function stripResponse(response: HttpOperationResponse): any {
   const strippedResponse: any = {};
-  strippedResponse.body = response.body;
+  strippedResponse.body = response.bodyAsText;
   strippedResponse.headers = response.headers;
   strippedResponse.status = response.status;
   return strippedResponse;
@@ -199,9 +199,9 @@ export function strEnum<T extends string>(o: Array<T>): {[K in T]: K} {
  * @property {Error|RestError} err         - The error occurred if any, while executing the request; otherwise null
  * @property {TResult} result                 - The deserialized response body if an error did not occur.
  * @property {WebResource}  request           - The raw/actual request sent to the server if an error did not occur.
- * @property {Response} response  - The raw/actual response from the server if an error did not occur.
+ * @property {HttpOperationResponse} response  - The raw/actual response from the server if an error did not occur.
  */
-export interface ServiceCallback<TResult> { (err: Error | RestError, result?: TResult, request?: WebResource, response?: Response): void; }
+export interface ServiceCallback<TResult> { (err: Error | RestError, result?: TResult, request?: WebResource, response?: HttpOperationResponse): void; }
 
 /**
  * Converts a Promise to a callback.
@@ -232,7 +232,7 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
   }
   return (cb: ServiceCallback<T>): void => {
     promise.then((data: HttpOperationResponse) => {
-      process.nextTick(cb, undefined, data.parsedBody as T, data.request, data.response);
+      process.nextTick(cb, undefined, data.parsedBody as T, data.request, data);
     }, (err: Error) => {
       process.nextTick(cb, err);
     });
