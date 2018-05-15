@@ -49,8 +49,13 @@ export class FetchHttpClient implements HttpClient {
       httpRequest.body = requestForm;
       httpRequest.formData = undefined;
       if (httpRequest.headers && httpRequest.headers["Content-Type"] &&
-        httpRequest.headers["Content-Type"].indexOf("multipart/form-data") > -1 && typeof requestForm.getBoundary === "function") {
-        httpRequest.headers["Content-Type"] = `multipart/form-data; boundary=${requestForm.getBoundary()}`;
+          httpRequest.headers["Content-Type"].indexOf("multipart/form-data") !== -1) {
+        if (typeof requestForm.getBoundary === "function") {
+          httpRequest.headers["Content-Type"] = `multipart/form-data; boundary=${requestForm.getBoundary()}`;
+        } else {
+          // browser will automatically apply a suitable content-type header
+          delete httpRequest.headers["Content-Type"];
+        }
       }
     }
 
