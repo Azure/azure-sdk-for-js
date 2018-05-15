@@ -121,10 +121,9 @@ export class ServiceClient {
   }
 
   /**
-   * Send the provided httpRequest. If an operationSpec value is provided, then the httpRequest will
-   * be populated by the values provided in the operationSpec.
+   * Send the provided httpRequest.
    */
-  async sendRequest(options: RequestPrepareOptions | WebResource, operationSpec?: OperationSpec): Promise<HttpOperationResponse> {
+  async sendRequest(options: RequestPrepareOptions | WebResource): Promise<HttpOperationResponse> {
     if (options === null || options === undefined || typeof options !== "object") {
       throw new Error("options cannot be null or undefined and it must be of type object.");
     }
@@ -142,10 +141,6 @@ export class ServiceClient {
       return Promise.reject(error);
     }
 
-    if (operationSpec) {
-      httpRequest.method = operationSpec.httpMethod;
-    }
-
     // send request
     let operationResponse: HttpOperationResponse;
     try {
@@ -160,6 +155,17 @@ export class ServiceClient {
       return Promise.reject(err);
     }
     return Promise.resolve(operationResponse);
+  }
+
+  /**
+   * Send an HTTP request that is populated using the provided OperationSpec.
+   * @param {WebResource} httpRequest - The HTTP request to populate and then to send.
+   * @param {operationSpec} operationSpec - The OperationSpec to use to populate the httpRequest.
+   */
+  async sendOperationRequest(httpRequest: WebResource, operationSpec: OperationSpec): Promise<HttpOperationResponse> {
+    httpRequest.method = operationSpec.httpMethod;
+
+    return this.sendRequest(httpRequest);
   }
 }
 
