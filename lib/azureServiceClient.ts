@@ -109,7 +109,7 @@ export class AzureServiceClient extends msRest.ServiceClient {
    * @param {msRest.HttpOperationResponse} initialResponse - Response to the initial request that was sent as a part of the asynchronous operation.
    */
   private checkResponseStatusCodeFailed(initialResponse: msRest.HttpOperationResponse): boolean {
-    const statusCode = initialResponse.response.status;
+    const statusCode = initialResponse.status;
     const method = initialResponse.request.method;
     if (statusCode === 200 || statusCode === 202 ||
       (statusCode === 201 && method === "PUT") ||
@@ -132,7 +132,7 @@ export class AzureServiceClient extends msRest.ServiceClient {
 
     if (self.checkResponseStatusCodeFailed(resultOfInitialRequest)) {
       return Promise.reject(`Unexpected polling status code from long running operation ` +
-        `"${resultOfInitialRequest.response.status}" for method "${initialRequestMethod}".`);
+        `"${resultOfInitialRequest.status}" for method "${initialRequestMethod}".`);
     }
     let pollingState: PollingState;
     try {
@@ -191,7 +191,7 @@ export class AzureServiceClient extends msRest.ServiceClient {
     }
     pollingState.status = parsedResponse.status;
     pollingState.error = parsedResponse.error;
-    pollingState.updateResponse(result.response);
+    pollingState.updateResponse(result);
     pollingState.request = result.request;
     pollingState.resource = undefined;
     if (inPostOrDelete) {
@@ -214,9 +214,9 @@ export class AzureServiceClient extends msRest.ServiceClient {
     }
 
     const parsedResponse = result.parsedBody as { [key: string]: any };
-    pollingState.updateResponse(result.response);
+    pollingState.updateResponse(result);
     pollingState.request = result.request;
-    const statusCode = result.response.status;
+    const statusCode = result.status;
     if (statusCode === 202) {
       pollingState.status = LroStates.InProgress;
     } else if (statusCode === 200 ||
@@ -254,7 +254,7 @@ export class AzureServiceClient extends msRest.ServiceClient {
     if (parsedResponse && parsedResponse.properties && parsedResponse.properties.provisioningState) {
       pollingState.status = parsedResponse.properties.provisioningState;
     }
-    pollingState.updateResponse(result.response);
+    pollingState.updateResponse(result);
     pollingState.request = result.request;
     pollingState.resource = parsedResponse;
     // we might not throw an error, but initialize here just in case.
@@ -292,14 +292,14 @@ export class AzureServiceClient extends msRest.ServiceClient {
     } catch (err) {
       return Promise.reject(err);
     }
-    const statusCode = operationResponse.response.status;
+    const statusCode = operationResponse.status;
     const responseBody = operationResponse.parsedBody;
     if (statusCode !== 200 && statusCode !== 201 && statusCode !== 202 && statusCode !== 204) {
       const error = new msRest.RestError(`Invalid status code with response body "${operationResponse.bodyAsText}" occurred ` +
         `when polling for operation status.`);
       error.statusCode = statusCode;
       error.request = msRest.stripRequest(operationResponse.request);
-      error.response = operationResponse.response;
+      error.response = operationResponse;
       try {
         error.body = responseBody;
       } catch (badResponse) {
