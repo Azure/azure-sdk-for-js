@@ -3,6 +3,7 @@
 
 import { generateUuid } from "./util/utils";
 import { Serializer, Mapper } from "./serializer";
+import { OperationSpec } from "./msRest";
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 /**
@@ -21,7 +22,7 @@ export class WebResource {
   rawResponse?: boolean;
   formData?: any;
   query?: { [key: string]: any; };
-
+  operationSpec?: OperationSpec;
 
   constructor(url?: string, method?: HttpMethods, body?: any, query?: { [key: string]: any; }, headers: { [key: string]: any; } = {}, rawResponse = false) {
     this.rawResponse = rawResponse;

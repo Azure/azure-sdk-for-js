@@ -17,6 +17,8 @@ import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
 import { RequestPrepareOptions, WebResource } from "./webResource";
+import { Serializer } from "./serializer";
+import { serializationPolicy } from "./policies/serializationPolicy";
 
 /**
  * Options to be provided while creating the client.
@@ -51,6 +53,11 @@ export interface ServiceClientOptions {
    * in seconds for AutomaticRPRegistration. Default value is 30.
    */
   rpRegistrationRetryTimeout?: number;
+  /**
+   * @property {Serializer} [serializer] - The serializer that will be used in the serialization
+   * request policy.
+   */
+  serializer?: Serializer;
 }
 
 /**
@@ -164,6 +171,7 @@ export class ServiceClient {
    */
   async sendOperationRequest(httpRequest: WebResource, operationSpec: OperationSpec): Promise<HttpOperationResponse> {
     httpRequest.method = operationSpec.httpMethod;
+    httpRequest.operationSpec = operationSpec;
 
     return this.sendRequest(httpRequest);
   }
@@ -178,6 +186,10 @@ function createDefaultRequestPolicyCreators(credentials: ServiceClientCredential
 
   if (utils.isNode) {
     defaultRequestPolicyCreators.push(msRestUserAgentPolicy(userAgentInfo));
+  }
+
+  if (options.serializer) {
+    defaultRequestPolicyCreators.push(serializationPolicy(options.serializer));
   }
 
   defaultRequestPolicyCreators.push(redirectPolicy());
