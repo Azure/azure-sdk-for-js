@@ -57,6 +57,7 @@
     "mocha-chrome": "^1.1.0",
     "npm-run-all": "^4.1.2",
     "should": "5.2.0",
+    "shx": "^0.2.2",
     "ts-loader": "^4.2.0",
     "ts-node": "^5.0.1",
     "tslint": "^5.10.0",
@@ -64,7 +65,8 @@
     "uglify-es": "^3.1.0",
     "webpack": "^4.6.0",
     "webpack-cli": "^2.0.14",
-    "webpack-dev-middleware": "^3.1.2"
+    "webpack-dev-middleware": "^3.1.2",
+    "yarn": "^1.6.0"
   },
   "homepage": "https://github.com/Azure/ms-rest-js",
   "repository": {
@@ -86,6 +88,7 @@
     "test:nodejs-unit": "mocha",
     "test:mocha-chrome": "sleep 0.5 && mocha-chrome http://localhost:3001",
     "test:chrome-unit": "run-p -r test:server test:mocha-chrome",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish"
   }
 }
