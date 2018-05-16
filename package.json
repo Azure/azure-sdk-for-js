@@ -61,6 +61,7 @@
     "test": "run-p test:tslint test:unit",
     "test:unit": "mocha",
     "test:tslint": "tslint -p . -c tslint.json --exclude test/**/*.ts",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish"
   }
 }
