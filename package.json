@@ -29,7 +29,7 @@
   "types": "./typings/lib/msRestAzure.d.ts",
   "license": "MIT",
   "dependencies": {
-    "ms-rest-js": "0.5.143"
+    "ms-rest-js": "^0.5.143"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.43",
@@ -64,6 +64,9 @@
     "test:unit": "mocha",
     "test:tslint": "tslint -p . -c tslint.json --exclude test/**/*.ts",
     "prepare": "npm run build",
-    "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish"
+    "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish",
+    "local": "node ./.scripts/local.js",
+    "preview": "node ./.scripts/preview.js",
+    "latest": "node ./.scripts/latest.js"
   }
 }
