@@ -1,3 +1,5 @@
+!dist/lib/**/*.js
+!typings/lib/**/*.d.ts
 .vscode/
 .idea/
 samples/
@@ -11,3 +13,4 @@ gulpfile.js
 tsconfig.json
 tslint.json
 webpack.config.ts
+*.js.map
