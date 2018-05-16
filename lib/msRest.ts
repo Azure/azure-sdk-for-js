@@ -4,6 +4,7 @@
 export { WebResource, RequestPrepareOptions, HttpMethods, ParameterValue, RequestOptionsBase } from "./webResource";
 export { FetchHttpClient } from "./fetchHttpClient";
 export { HttpClient } from "./httpClient";
+export { HttpHeaders } from "./httpHeaders";
 export { HttpOperationResponse } from "./httpOperationResponse";
 export { HttpPipelineLogger } from "./httpPipelineLogger";
 export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
@@ -12,7 +13,7 @@ export { OperationSpec } from "./operationSpec";
 export { ServiceClient, ServiceClientOptions } from "./serviceClient";
 export { Constants } from "./util/constants";
 export { logPolicy } from "./policies/logPolicy";
-export { BaseRequestPolicy, RequestPolicy } from "./policies/requestPolicy";
+export { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator } from "./policies/requestPolicy";
 export { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 export { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 export { redirectPolicy } from "./policies/redirectPolicy";
