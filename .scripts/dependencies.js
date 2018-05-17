@@ -5,11 +5,20 @@ const { execSync } = require("child_process");
 /**
  * Execute the provided command on the shell synchronously.
  * @param {string} command The command to execute.
+ * @param {string} workingDirectory The working directory to execute the command in.
  * @returns {void}
  */
-function execute(command) {
-  console.log(command);
-  execSync(command, {stdio:[0,1,2]});
+function execute(command, workingDirectory) {
+  console.log(`Running "${command}" in "${workingDirectory}"...`);
+  execSync(command, {cwd: workingDirectory, stdio:[0,1,2]});
+}
+
+/**
+ * Get the absolute path to this repository's folder path.
+ * @returns {string} The absolute path to this repository's folder path.
+ */
+function getThisRepositoryFolderPath() {
+  return path.resolve(__dirname, "..");
 }
 
 /**
@@ -91,7 +100,7 @@ function runLocalRepositoryNPMScript(repoName, scriptName) {
   const packageJson = getPackageJson(packageJsonFilePath);
   const repoScripts = packageJson.scripts;
   if (repoScripts && repoScripts[scriptName]) {
-    execute(`npm run ${scriptName} --prefix ${repoFolderPath}`);
+    execute(`npm run ${scriptName}`, repoFolderPath);
   } else {
     console.log(`No script named "${scriptName}" is specified in "${packageJsonFilePath}".`);
   }
@@ -104,9 +113,11 @@ exports.runLocalRepositoryNPMScript = runLocalRepositoryNPMScript;
  * will be run for the changed dependency.
  * @param {string} dependencyName The name of the dependency to update.
  * @param {string} dependencyVersion The version to update the dependency to.
- * @returns {void}
+ * @returns {boolean} Whether or not the dependency needs to be installed.
  */
 function updatePackageJsonDependency(dependencyName, dependencyVersion) {
+  let dependencyChanged = false;
+
   const packageJsonFilePath = getPackageJsonFilePath();
 
   const packageJson = getPackageJson(packageJsonFilePath);
@@ -117,11 +128,34 @@ function updatePackageJsonDependency(dependencyName, dependencyVersion) {
     packageJson.dependencies[dependencyName] = dependencyVersion;
 
     fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  "));
-
-    execute(`npm install ${dependencyName}`);
+    
+    dependencyChanged = true;
   }
+  
+  return dependencyChanged;
 }
 exports.updatePackageJsonDependency = updatePackageJsonDependency;
+
+/**
+ * Run NPM install in this repository
+ * @returns {void}
+ */
+function refreshNodeModules() {
+  if (fs.existsSync("./node_modules")) {
+    try {
+      execute(`shx rm ./package-lock.json`, getThisRepositoryFolderPath());
+    } catch (error) {
+    }
+    try {
+      execute(`shx rm -rf ./node_modules`, getThisRepositoryFolderPath());
+    } catch (error) {
+      // This will always throw an exception because we're trying to delete shx, which is currently
+      // running.
+    }
+  }
+  execute(`npm install`, getThisRepositoryFolderPath());
+}
+exports.refreshNodeModules = refreshNodeModules;
 
 /**
  * Get the npm package version of the package with the provided name at the provided tag.
