@@ -33,9 +33,9 @@ function updatePackageJsonMain(mainValue) {
   const packageJson = getPackageJson(packageJsonFilePath);
 
   if (packageJson.main == mainValue) {
-    console.log(`"main" is already set to "${mainValue}".`);
+    console.log(`"main" is already set to "${mainValue}" in "${packageJsonFilePath}".`);
   } else {
-    console.log(`Changing "main" to "${mainValue}"`)
+    console.log(`Changing "main" to "${mainValue}" in "${packageJsonFilePath}"`)
     packageJson.main = mainValue;
     
     fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  "));
