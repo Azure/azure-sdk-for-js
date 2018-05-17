@@ -89,6 +89,9 @@
     "test:mocha-chrome": "sleep 0.5 && mocha-chrome http://localhost:3001",
     "test:chrome-unit": "run-p -r test:server test:mocha-chrome",
     "prepare": "npm run build",
-    "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish"
+    "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish",
+    "local": "node ./.scripts/local.js",
+    "preview": "node ./.scripts/preview.js",
+    "latest": "node ./.scripts/latest.js"
   }
 }
