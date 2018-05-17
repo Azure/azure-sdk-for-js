@@ -31,7 +31,7 @@ const config = {
   },
   node: {
     fs: false,
-    net: "empty",
+    net: false,
     path: false,
     dns: false,
     tls: false,

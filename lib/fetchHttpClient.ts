@@ -10,7 +10,7 @@ import { WebResource } from "./webResource";
 import { RestError } from "./restError";
 import { HttpHeaders } from "./httpHeaders";
 import { isNode } from "./util/utils";
-import * as tough from "tough-cookie";
+import * as tough from "isomorphic-tough-cookie";
 
 const axios = axiosFactory.create();
 
@@ -90,7 +90,7 @@ export class FetchHttpClient implements HttpClient {
         method: httpRequest.method,
         url: httpRequest.url,
         headers: httpRequest.headers,
-        data: httpRequest.body,
+        data: httpRequest.body === undefined ? null : httpRequest.body,
         transformResponse: undefined,
         validateStatus: () => true,
         withCredentials: true,
