@@ -7,4 +7,6 @@ for (const localDependency of localDependencies) {
     version = dependencies.getNpmPackageVersion(localDependency, "latest");
   }
   dependencies.updatePackageJsonDependency(localDependency, `^${version}`);
+  dependencies.runLocalRepositoryNPMScript(localDependency, "preview");
 }
+dependencies.updatePackageJsonMain("./dist/lib/msRestAzure.js");

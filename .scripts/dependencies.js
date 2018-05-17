@@ -3,11 +3,30 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 /**
+ * Execute the provided command on the shell synchronously.
+ * @param {string} command The command to execute.
+ * @returns {void}
+ */
+function execute(command) {
+  console.log(command);
+  execSync(command, {stdio:[0,1,2]});
+}
+
+/**
  * Get the absolute path to the package.json in this repository.
  * @returns {string} The absolute path to the package.json.
  */
 function getPackageJsonFilePath() {
   return path.resolve(__dirname, "../package.json");
+}
+
+/**
+ * Get the absolute path to the local clone of the repository with the provided name.
+ * @param {string} repoName The name of the repository.
+ * @returns {string} The absolute path to the local clone of the repository.
+ */
+function getLocalRepositoryPath(repoName) {
+  return path.resolve(__dirname, "..", "..", repoName);
 }
 
 /**
@@ -35,7 +54,7 @@ function getClonedRepositories(dependencies, clonedRepositoryNames) {
   if (clonedRepositoryNames && dependencies) {
     for (const dependencyName in dependencies) {
       if (clonedRepositoryNames.indexOf(dependencyName) === -1) {
-        const repoFolderPath = path.resolve(__dirname, "..", "..", dependencyName);
+        const repoFolderPath = getLocalRepositoryPath(dependencyName);
         if (fs.existsSync(repoFolderPath)) {
           clonedRepositoryNames.push(dependencyName);
         }
@@ -61,6 +80,25 @@ function getDependenciesWithClonedRepositories() {
 exports.getDependenciesWithClonedRepositories = getDependenciesWithClonedRepositories;
 
 /**
+ * Run a script with the provided name in the local clone of the repository with the provided name.
+ * @param {string} repoName The name of the repository to run the script in.
+ * @param {string} scriptName The name of the script to run in the local repository.
+ * @returns {void}
+ */
+function runLocalRepositoryNPMScript(repoName, scriptName) {
+  const repoFolderPath = getLocalRepositoryPath(repoName);
+  const packageJsonFilePath = path.join(repoFolderPath, "package.json");
+  const packageJson = getPackageJson(packageJsonFilePath);
+  const repoScripts = packageJson.scripts;
+  if (repoScripts && repoScripts[scriptName]) {
+    execute(`npm run ${scriptName} --prefix ${repoFolderPath}`);
+  } else {
+    console.log(`No script named "${scriptName}" is specified in "${packageJsonFilePath}".`);
+  }
+}
+exports.runLocalRepositoryNPMScript = runLocalRepositoryNPMScript;
+
+/**
  * Update this repository's package.json file's dependency version with the provided name to the
  * provided version. If the dependency version in the package.json file changes, then "npm install"
  * will be run for the changed dependency.
@@ -73,16 +111,14 @@ function updatePackageJsonDependency(dependencyName, dependencyVersion) {
 
   const packageJson = getPackageJson(packageJsonFilePath);
   if (packageJson.dependencies[dependencyName] == dependencyVersion) {
-    console.log(`"${dependencyName}" is already set to "${dependencyVersion}".`);
+    console.log(`"${dependencyName}" is already set to "${dependencyVersion}" in "${packageJsonFilePath}".`);
   } else {
-    console.log(`Changing "${dependencyName}" to "${dependencyVersion}"`)
+    console.log(`Changing "${dependencyName}" to "${dependencyVersion}" in "${packageJsonFilePath}"`)
     packageJson.dependencies[dependencyName] = dependencyVersion;
 
     fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  "));
 
-    const npmInstallCommand = `npm install ${dependencyName}`;
-    console.log(npmInstallCommand);
-    execSync(npmInstallCommand, {stdio:[0,1,2]});
+    execute(`npm install ${dependencyName}`);
   }
 }
 exports.updatePackageJsonDependency = updatePackageJsonDependency;
@@ -98,3 +134,24 @@ function getNpmPackageVersion(packageName, tag) {
   return npmViewResult['dist-tags'][tag];
 }
 exports.getNpmPackageVersion = getNpmPackageVersion;
+
+/**
+ * Update the package.json property values for "main".
+ * @param {string} mainValue The value that will be used for "main".
+ * @returns {void}
+ */
+function updatePackageJsonMain(mainValue) {
+  const packageJsonFilePath = getPackageJsonFilePath();
+
+  const packageJson = getPackageJson(packageJsonFilePath);
+
+  if (packageJson.main == mainValue) {
+    console.log(`"main" is already set to "${mainValue}" in "${packageJsonFilePath}".`);
+  } else {
+    console.log(`Changing "main" to "${mainValue}" in "${packageJsonFilePath}"`)
+    packageJson.main = mainValue;
+    
+    fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  "));
+  }
+}
+exports.updatePackageJsonMain = updatePackageJsonMain;
