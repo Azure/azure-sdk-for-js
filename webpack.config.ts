@@ -25,7 +25,7 @@ const config: webpack.Configuration = {
   },
   node: {
     fs: false,
-    net: false,
+    net: "empty", // TODO: create wrapper package for tough-cookie and change this back to "false"
     path: false,
     dns: false,
     tls: false,
