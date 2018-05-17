@@ -1,4 +1,10 @@
 const dependencies = require("./dependencies");
 
-const previewVersion = dependencies.getNpmPackageVersion("ms-rest-js", "preview");
-dependencies.updatePackageJsonDependency("ms-rest-js", `^${previewVersion}`);
+const localDependencies = dependencies.getDependenciesWithClonedRepositories();
+for (const localDependency of localDependencies) {
+  let version = dependencies.getNpmPackageVersion(localDependency, "preview");
+  if (!version) {
+    version = dependencies.getNpmPackageVersion(localDependency, "latest");
+  }
+  dependencies.updatePackageJsonDependency(localDependency, `^${version}`);
+}

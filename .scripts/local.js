@@ -1,3 +1,6 @@
 const dependencies = require("./dependencies");
 
-dependencies.updatePackageJsonDependency("ms-rest-js", "file:../ms-rest-js");
+const localDependencies = dependencies.getDependenciesWithClonedRepositories();
+for (const localDependency of localDependencies) {
+  dependencies.updatePackageJsonDependency(localDependency, `file:../${localDependency}`);
+}
