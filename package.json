@@ -40,7 +40,7 @@
     "is-buffer": "^2.0.0",
     "is-stream": "^1.1.0",
     "isomorphic-xml2js": "^0.0.3",
-    "isomorphic-tough-cookie": "../isomorphic-tough-cookie",
+    "isomorphic-tough-cookie": "^0.0.1",
     "url-parse": "^1.2.0",
     "uuid": "^3.2.1"
   },

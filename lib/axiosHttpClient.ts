@@ -23,7 +23,7 @@ if (isNode) {
  * A HttpClient implementation that uses axios to send HTTP requests.
  */
 export class AxiosHttpClient implements HttpClient {
-  private readonly cookieJar = isNode ? new tough.CookieJar() : null;
+  private readonly cookieJar = isNode ? new tough.CookieJar() : undefined;
 
   public async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
     if (!httpRequest) {
@@ -90,6 +90,7 @@ export class AxiosHttpClient implements HttpClient {
         method: httpRequest.method,
         url: httpRequest.url,
         headers: httpRequest.headers,
+        // tslint:disable-next-line:no-null-keyword
         data: httpRequest.body === undefined ? null : httpRequest.body,
         transformResponse: undefined,
         validateStatus: () => true,

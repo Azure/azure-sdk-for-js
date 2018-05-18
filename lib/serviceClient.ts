@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
-import { FetchHttpClient } from "./fetchHttpClient";
+import { AxiosHttpClient } from "./axiosHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
@@ -110,7 +110,7 @@ export class ServiceClient {
       // do nothing
     }
 
-    this._httpClient = options.httpClient || new FetchHttpClient();
+    this._httpClient = options.httpClient || new AxiosHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
     this._requestPolicyCreators = options.requestPolicyCreators || createDefaultRequestPolicyCreators(credentials, options, this.userAgentInfo.value);
