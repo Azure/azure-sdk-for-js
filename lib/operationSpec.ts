@@ -17,4 +17,9 @@ export interface OperationSpec {
    * The Mapper that will be used to serialize an HTTP request's body.
    */
   requestBodyMapper?: Mapper;
+
+  /**
+   * Whether or not this operation uses XML request and response bodies.
+   */
+  isXML?: boolean;
 }

@@ -5,6 +5,8 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
 import { Serializer, Mapper } from "../serializer";
+import { OperationSpec } from "../msRest";
+import * as utils from "../util/utils";
 
 /**
  * Create a new serialization RequestPolicyCreator that will serialized HTTP request bodies as they
@@ -24,9 +26,15 @@ export class SerializationPolicy extends BaseRequestPolicy {
     super(nextPolicy, options);
   }
 
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    this.serializeRequestBody(request);
-    return await this._nextPolicy.sendRequest(request);
+  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    let result: Promise<HttpOperationResponse>;
+    try {
+      this.serializeRequestBody(request);
+      result = this._nextPolicy.sendRequest(request);
+    } catch (error) {
+      result = Promise.reject(error);
+    }
+    return result;
   }
 
   /**
@@ -35,9 +43,28 @@ export class SerializationPolicy extends BaseRequestPolicy {
    * @param {WebResource} request - The HTTP request that will have its body serialized.
    */
   public serializeRequestBody(request: WebResource): void {
-    const requestBodyMapper: Mapper | undefined = request.operationSpec && request.operationSpec.requestBodyMapper;
-    if (requestBodyMapper) {
-      request.body = this._serializer.serialize(requestBodyMapper, request.body, "");
+    const operationSpec: OperationSpec | undefined = request.operationSpec;
+    if (operationSpec) {
+      const bodyMapper: Mapper | undefined = operationSpec.requestBodyMapper;
+      if (bodyMapper) {
+        try {
+          if (request.body != undefined) {
+            request.body = this._serializer.serialize(bodyMapper, request.body, "");
+            if (operationSpec.isXML) {
+              if (bodyMapper.type.name === "Sequence") {
+                request.body = utils.stringifyXML(utils.prepareXMLRootList(request.body, bodyMapper.xmlElementName || bodyMapper.xmlName || bodyMapper.serializedName), { rootName: bodyMapper.xmlName || bodyMapper.serializedName });
+              }
+              else {
+                request.body = utils.stringifyXML(request.body, { rootName: bodyMapper.xmlName || bodyMapper.serializedName });
+              }
+            } else {
+              request.body = JSON.stringify(request.body);
+            }
+          }
+        } catch (error) {
+          throw new Error(`Error "${error.message}" occurred in serializing the payload - ${JSON.stringify(bodyMapper.serializedName, undefined, "  ")}.`);
+        }
+      }
     }
   }
 }
