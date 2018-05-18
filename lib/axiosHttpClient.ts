@@ -95,6 +95,7 @@ export class AxiosHttpClient implements HttpClient {
         method: httpRequest.method,
         url: httpRequest.url,
         headers: httpRequest.headers,
+        // Workaround for https://github.com/axios/axios/issues/755
         // tslint:disable-next-line:no-null-keyword
         data: httpRequest.body === undefined ? null : httpRequest.body,
         transformResponse: undefined,
