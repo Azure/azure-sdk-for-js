@@ -19,6 +19,7 @@ export { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 export { redirectPolicy } from "./policies/redirectPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
+export { serializationPolicy } from "./policies/serializationPolicy";
 export {
   BaseMapperType, CompositeMapper, DictionaryMapper, EnumMapper, Mapper,
   MapperConstraints, MapperType, PolymorphicDiscriminator,
