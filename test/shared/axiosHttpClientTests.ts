@@ -98,13 +98,16 @@ describe("axiosHttpClient", () => {
     });
   });
 
-  it("should allow canceling requests", async () => {
+  it("should allow canceling requests", async function() {
+    // ensure that a large upload is actually cancelled
+    this.timeout(200);
+
     const cancellationToken: CancellationTokenLike = {
-      setCancellationListener: function(listener){ this.cancel = listener },
+      setCancellationListener: (listener) => { cancellationToken.cancel = listener },
       cancel: () => {}
     };
 
-    const request = new WebResource(`{baseURL}/httpbin-index.html`, "GET", undefined, undefined, undefined, false, cancellationToken);
+    const request = new WebResource(`${baseURL}/fileupload`, "POST", new Uint8Array(1024*1024*100), undefined, undefined, true, cancellationToken);
     const client = new AxiosHttpClient();
     const promise = client.sendRequest(request);
     cancellationToken.cancel();

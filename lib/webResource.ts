@@ -298,7 +298,7 @@ export interface RequestPrepareOptions {
   deserializationMapper?: object;
   disableJsonStringifyOnBody?: boolean;
   bodyIsStream?: boolean;
-  cancellationToken: CancellationTokenLike;
+  cancellationToken?: CancellationTokenLike;
 }
 
 /**
