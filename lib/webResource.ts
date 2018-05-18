@@ -6,6 +6,11 @@ import { Serializer, Mapper } from "./serializer";
 import { OperationSpec } from "./msRest";
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
+export interface CancellationTokenLike {
+  setCancellationListener(listener: () => void): void;
+  cancel(): void;
+}
+
 /**
  * Creates a new WebResource object.
  *
@@ -24,7 +29,9 @@ export class WebResource {
   query?: { [key: string]: any; };
   operationSpec?: OperationSpec;
 
-  constructor(url?: string, method?: HttpMethods, body?: any, query?: { [key: string]: any; }, headers: { [key: string]: any; } = {}, rawResponse = false) {
+  cancellationToken?: CancellationTokenLike;
+
+  constructor(url?: string, method?: HttpMethods, body?: any, query?: { [key: string]: any; }, headers: { [key: string]: any; } = {}, rawResponse = false, cancellationToken?: CancellationTokenLike) {
     this.rawResponse = rawResponse;
     this.url = url || "";
     this.method = method || "GET";
@@ -32,6 +39,7 @@ export class WebResource {
     this.body = body;
     this.query = query;
     this.formData = undefined;
+    this.cancellationToken = cancellationToken;
   }
 
   /**

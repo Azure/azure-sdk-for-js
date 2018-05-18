@@ -3,7 +3,7 @@
 
 import * as FormData from "form-data";
 import * as xml2js from "isomorphic-xml2js";
-import axiosFactory, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
+import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResource } from "./webResource";
@@ -12,11 +12,11 @@ import { HttpHeaders } from "./httpHeaders";
 import { isNode } from "./util/utils";
 import * as tough from "isomorphic-tough-cookie";
 
-const axios = axiosFactory.create();
+const axiosClient = axios.create();
 
 if (isNode) {
   // Workaround for https://github.com/axios/axios/issues/1158
-  axios.interceptors.request.use(config => ({ ...config, method: config.method && config.method.toUpperCase() }));
+  axiosClient.interceptors.request.use(config => ({ ...config, method: config.method && config.method.toUpperCase() }));
 }
 
 /**
@@ -84,6 +84,11 @@ export class AxiosHttpClient implements HttpClient {
       httpRequest.headers["Cookie"] = cookieString;
     }
 
+    const cancellationLike = httpRequest.cancellationToken;
+    const cancelToken = cancellationLike
+      ? new axios.CancelToken(canceler => cancellationLike.setCancellationListener(canceler))
+      : undefined;
+
     let res: AxiosResponse;
     try {
       const config: AxiosRequestConfig = {
@@ -95,12 +100,17 @@ export class AxiosHttpClient implements HttpClient {
         transformResponse: undefined,
         validateStatus: () => true,
         withCredentials: true,
-        responseType: httpRequest.rawResponse ? (isNode ? "stream" : "blob") : "text"
+        responseType: httpRequest.rawResponse ? (isNode ? "stream" : "blob") : "text",
+        cancelToken
       };
-      res = await axios(config);
+      res = await axiosClient(config);
     } catch (err) {
-      const axiosErr = err as AxiosError;
-      throw new RestError(axiosErr.message, "REQUEST_SEND_ERROR", undefined, httpRequest);
+      if (err instanceof axios.Cancel) {
+        throw new RestError(err.message, "REQUEST_CANCELLED_ERROR", undefined, httpRequest);
+      } else {
+        const axiosErr = err as AxiosError;
+        throw new RestError(axiosErr.message, "REQUEST_SEND_ERROR", undefined, httpRequest);
+      }
     }
 
     const headers = new HttpHeaders(res.headers);
@@ -154,7 +164,7 @@ export class AxiosHttpClient implements HttpClient {
             });
 
             operationResponse.parsedBody = await parseString;
-          } else {
+          } else if (contentType === "application/json" || contentType === "text/json" || !contentType) {
             operationResponse.parsedBody = JSON.parse(operationResponse.bodyAsText);
           }
         }
