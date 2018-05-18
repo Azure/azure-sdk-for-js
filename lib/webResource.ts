@@ -232,6 +232,8 @@ export class WebResource {
       }
     }
 
+    this.cancellationToken = options.cancellationToken;
+
     return this;
   }
 }
@@ -296,6 +298,7 @@ export interface RequestPrepareOptions {
   deserializationMapper?: object;
   disableJsonStringifyOnBody?: boolean;
   bodyIsStream?: boolean;
+  cancellationToken: CancellationTokenLike;
 }
 
 /**
