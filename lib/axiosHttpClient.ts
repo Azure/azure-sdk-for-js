@@ -20,9 +20,9 @@ if (isNode) {
 }
 
 /**
- * A HttpClient implementation that uses fetch to send HTTP requests.
+ * A HttpClient implementation that uses axios to send HTTP requests.
  */
-export class FetchHttpClient implements HttpClient {
+export class AxiosHttpClient implements HttpClient {
   private readonly cookieJar = isNode ? new tough.CookieJar() : null;
 
   public async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
