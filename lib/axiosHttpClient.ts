@@ -84,10 +84,14 @@ export class AxiosHttpClient implements HttpClient {
       httpRequest.headers["Cookie"] = cookieString;
     }
 
-    const cancellationLike = httpRequest.cancellationToken;
-    const cancelToken = cancellationLike
-      ? new axios.CancelToken(canceler => cancellationLike.setCancellationListener(canceler))
-      : undefined;
+    const abortSignal = httpRequest.abortSignal;
+    if (abortSignal && abortSignal.aborted) {
+      throw new RestError("The request was aborted", "REQUEST_ABORTED_ERROR", undefined, httpRequest);
+    }
+
+    const cancelToken = abortSignal && new axios.CancelToken(canceler => {
+      abortSignal.addEventListener("abort", () => canceler());
+    });
 
     let res: AxiosResponse;
     try {
@@ -101,13 +105,14 @@ export class AxiosHttpClient implements HttpClient {
         transformResponse: undefined,
         validateStatus: () => true,
         withCredentials: true,
+        maxContentLength: 1024*1024*1024*10,
         responseType: httpRequest.rawResponse ? (isNode ? "stream" : "blob") : "text",
         cancelToken
       };
       res = await axiosClient(config);
     } catch (err) {
       if (err instanceof axios.Cancel) {
-        throw new RestError(err.message, "REQUEST_CANCELLED_ERROR", undefined, httpRequest);
+        throw new RestError(err.message, "REQUEST_ABORTED_ERROR", undefined, httpRequest);
       } else {
         const axiosErr = err as AxiosError;
         throw new RestError(axiosErr.message, "REQUEST_SEND_ERROR", undefined, httpRequest);

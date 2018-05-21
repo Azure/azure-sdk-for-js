@@ -4,7 +4,8 @@ import * as assert from "assert";
 import * as should from "should";
 import { AxiosHttpClient } from "../../lib/axiosHttpClient";
 import { baseURL } from "../testUtils";
-import { WebResource, CancellationTokenLike } from "../../lib/webResource";
+import { WebResource } from "../../lib/webResource";
+import { isNode } from "../../lib/util/utils";
 
 describe("axiosHttpClient", () => {
   it("should send HTTP requests", async () => {
@@ -82,6 +83,7 @@ describe("axiosHttpClient", () => {
       assert.fail("Expected error to be thrown.");
     } catch (error) {
       should(error).be.instanceof(Error);
+      should(error).not.be.instanceof(assert.AssertionError);
     }
   });
 
@@ -89,33 +91,75 @@ describe("axiosHttpClient", () => {
     const request = new WebResource(`${baseURL}/nonexistent`, "GET");
     const httpClient = new AxiosHttpClient();
 
-    return httpClient.sendRequest(request)
-    .then(() => {
-      assert.fail("Expected error to be thrown.");
-    })
-    .catch((error: any) => {
-      should(error).be.instanceof(Error);
-    });
+    try {
+      await httpClient.sendRequest(request);
+    } catch (err) {
+      should(err).be.instanceof(Error);
+      should(err).not.be.instanceof(assert.AssertionError);
+    }
   });
 
   it("should allow canceling requests", async function() {
     // ensure that a large upload is actually cancelled
-    this.timeout(200);
+    this.timeout(2000);
 
-    const cancellationToken: CancellationTokenLike = {
-      setCancellationListener: (listener) => { cancellationToken.cancel = listener },
-      cancel: () => {}
-    };
-
-    const request = new WebResource(`${baseURL}/fileupload`, "POST", new Uint8Array(1024*1024*100), undefined, undefined, true, cancellationToken);
+    let controller: AbortController;
+    if (isNode) {
+      const AbortControllerPonyfill = require("abortcontroller-polyfill/dist/cjs-ponyfill").AbortController;
+      controller = new AbortControllerPonyfill();
+    } else {
+      controller = new AbortController();
+    }
+    const request = new WebResource(`${baseURL}/fileupload`, "POST", new Uint8Array(1024*1024*100), undefined, undefined, true, controller.signal);
     const client = new AxiosHttpClient();
     const promise = client.sendRequest(request);
-    cancellationToken.cancel();
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        controller.abort();
+        resolve();
+      });
+    });
     try {
       await promise;
       assert.fail('');
     } catch (err) {
       should(err).not.be.instanceof(assert.AssertionError);
+    }
+  });
+
+  it("should allow canceling multiple requests with one token", async function () {
+    // ensure that a large upload is actually cancelled
+    this.timeout(4000);
+
+    let controller: AbortController;
+    if (isNode) {
+      const AbortControllerPonyfill = require("abortcontroller-polyfill/dist/cjs-ponyfill").AbortController;
+      controller = new AbortControllerPonyfill();
+    } else {
+      controller = new AbortController();
+    }
+
+    const buf = new Uint8Array(1024*1024*100);
+    const requests = [
+      new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, controller.signal),
+      new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, controller.signal)
+    ];
+    const client = new AxiosHttpClient();
+    const promises = requests.map(r => client.sendRequest(r));
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        controller.abort();
+        resolve();
+      });
+    });
+    // Ensure each promise is individually rejected
+    for (const promise of promises) {
+      try {
+        await promise;
+        assert.fail('');
+      } catch (err) {
+        should(err).not.be.instanceof(assert.AssertionError);
+      }
     }
   });
 });
