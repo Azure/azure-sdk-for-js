@@ -74,29 +74,12 @@ describe("axiosHttpClient", () => {
     assert.strictEqual(responseBody, expectedResponseBody);
   });
 
-  it("should throw for awaited 404", async () => {
+  it("should return a response instead of throwing for awaited 404", async () => {
     const request = new WebResource(`${baseURL}/nonexistent`, "GET");
     const httpClient = new AxiosHttpClient();
 
-    try {
-      await httpClient.sendRequest(request);
-      assert.fail("Expected error to be thrown.");
-    } catch (error) {
-      should(error).be.instanceof(Error);
-      should(error).not.be.instanceof(assert.AssertionError);
-    }
-  });
-
-  it("should reject for promised 404", async () => {
-    const request = new WebResource(`${baseURL}/nonexistent`, "GET");
-    const httpClient = new AxiosHttpClient();
-
-    try {
-      await httpClient.sendRequest(request);
-    } catch (err) {
-      should(err).be.instanceof(Error);
-      should(err).not.be.instanceof(assert.AssertionError);
-    }
+    const response = await httpClient.sendRequest(request);
+    assert(response);
   });
 
   it("should allow canceling requests", async function() {
