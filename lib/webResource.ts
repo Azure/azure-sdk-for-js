@@ -24,7 +24,9 @@ export class WebResource {
   query?: { [key: string]: any; };
   operationSpec?: OperationSpec;
 
-  constructor(url?: string, method?: HttpMethods, body?: any, query?: { [key: string]: any; }, headers: { [key: string]: any; } = {}, rawResponse = false) {
+  abortSignal?: AbortSignal;
+
+  constructor(url?: string, method?: HttpMethods, body?: any, query?: { [key: string]: any; }, headers: { [key: string]: any; } = {}, rawResponse = false, abortSignal?: AbortSignal) {
     this.rawResponse = rawResponse;
     this.url = url || "";
     this.method = method || "GET";
@@ -32,6 +34,7 @@ export class WebResource {
     this.body = body;
     this.query = query;
     this.formData = undefined;
+    this.abortSignal = abortSignal;
   }
 
   /**
@@ -224,6 +227,8 @@ export class WebResource {
       }
     }
 
+    this.abortSignal = options.abortSignal;
+
     return this;
   }
 }
@@ -288,6 +293,7 @@ export interface RequestPrepareOptions {
   deserializationMapper?: object;
   disableJsonStringifyOnBody?: boolean;
   bodyIsStream?: boolean;
+  abortSignal?: AbortSignal;
 }
 
 /**
