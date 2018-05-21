@@ -16,7 +16,8 @@ describe("axiosHttpClient", () => {
     assert.deepStrictEqual(response.request, request);
     assert.strictEqual(response.status, 200);
     assert(response.headers);
-    assert.strictEqual(response.headers.get("content-length"), "1258");
+    // content-length varies based on OS line endings
+    assert.strictEqual(response.headers.get("content-length"), response.bodyAsText!.length.toString());
     assert.strictEqual(response.headers.get("content-type")!.split(";")[0], "text/html");
     const responseBody: string | null | undefined = response.bodyAsText;
     const expectedResponseBody =
@@ -70,8 +71,10 @@ describe("axiosHttpClient", () => {
 </div>
 </body>
 </html>
-`.replace("\r\n", "\n");
-    assert.strictEqual(responseBody, expectedResponseBody);
+`;
+    assert.strictEqual(
+      responseBody && responseBody.replace(/\r\n/g, "\n"),
+      expectedResponseBody.replace(/\r\n/g, "\n"));
   });
 
   it("should return a response instead of throwing for awaited 404", async () => {

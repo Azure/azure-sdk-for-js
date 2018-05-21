@@ -15,5 +15,7 @@ before(function(done) {
 });
 
 after(function() {
+    serverProcess.stdout.destroy();
+    serverProcess.stderr.destroy();
     serverProcess.kill();
 });
