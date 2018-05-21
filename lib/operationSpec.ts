@@ -19,6 +19,11 @@ export interface OperationSpec {
   requestBodyMapper?: Mapper;
 
   /**
+   * The name of the request body that will be used during serialization.
+   */
+  requestBodyName?: string;
+
+  /**
    * Whether or not this operation uses XML request and response bodies.
    */
   isXML?: boolean;

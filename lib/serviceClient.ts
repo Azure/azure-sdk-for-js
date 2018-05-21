@@ -188,16 +188,16 @@ function createDefaultRequestPolicyCreators(credentials: ServiceClientCredential
     defaultRequestPolicyCreators.push(msRestUserAgentPolicy(userAgentInfo));
   }
 
-  if (options.serializer) {
-    defaultRequestPolicyCreators.push(serializationPolicy(options.serializer));
-  }
-
   defaultRequestPolicyCreators.push(redirectPolicy());
   defaultRequestPolicyCreators.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
 
   if (!options.noRetryPolicy) {
     defaultRequestPolicyCreators.push(exponentialRetryPolicy());
     defaultRequestPolicyCreators.push(systemErrorRetryPolicy());
+  }
+
+  if (options.serializer) {
+    defaultRequestPolicyCreators.push(serializationPolicy(options.serializer));
   }
 
   return defaultRequestPolicyCreators;

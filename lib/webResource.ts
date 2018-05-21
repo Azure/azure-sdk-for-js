@@ -204,11 +204,10 @@ export class WebResource {
     }
 
     // set the request body. request.js automatically sets the Content-Length request header, so we need not set it explicilty
-    this.body = undefined;
-    if (options.body !== null && options.body !== undefined) {
+    this.body = options.body;
+    if (options.body != undefined) {
       // body as a stream special case. set the body as-is and check for some special request headers specific to sending a stream.
       if (options.bodyIsStream) {
-        this.body = options.body;
         if (!this.headers["Transfer-Encoding"]) {
           this.headers["Transfer-Encoding"] = "chunked";
         }
@@ -216,14 +215,11 @@ export class WebResource {
           this.headers["Content-Type"] = "application/octet-stream";
         }
       } else {
-        let serializedBody = undefined;
         if (options.serializationMapper) {
-          serializedBody = new Serializer(options.mappers).serialize(options.serializationMapper, options.body, "requestBody");
+          this.body = new Serializer(options.mappers).serialize(options.serializationMapper, options.body, "requestBody");
         }
-        if (options.disableJsonStringifyOnBody) {
-          this.body = serializedBody || options.body;
-        } else {
-          this.body = serializedBody ? JSON.stringify(serializedBody) : JSON.stringify(options.body);
+        if (!options.disableJsonStringifyOnBody) {
+          this.body = JSON.stringify(options.body);
         }
       }
     }

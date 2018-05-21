@@ -48,8 +48,8 @@ export class SerializationPolicy extends BaseRequestPolicy {
       const bodyMapper: Mapper | undefined = operationSpec.requestBodyMapper;
       if (bodyMapper) {
         try {
-          if (request.body != undefined) {
-            request.body = this._serializer.serialize(bodyMapper, request.body, "");
+          if (request.body != undefined && operationSpec.requestBodyName) {
+            request.body = this._serializer.serialize(bodyMapper, request.body, operationSpec.requestBodyName);
             if (operationSpec.isXML) {
               if (bodyMapper.type.name === "Sequence") {
                 request.body = utils.stringifyXML(utils.prepareXMLRootList(request.body, bodyMapper.xmlElementName || bodyMapper.xmlName || bodyMapper.serializedName), { rootName: bodyMapper.xmlName || bodyMapper.serializedName });
