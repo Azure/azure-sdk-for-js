@@ -127,7 +127,7 @@ function updatePackageJsonDependency(dependencyName, dependencyVersion) {
     console.log(`Changing "${dependencyName}" to "${dependencyVersion}" in "${packageJsonFilePath}"`)
     packageJson.dependencies[dependencyName] = dependencyVersion;
 
-    fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  "));
+    writePackageJson(packageJson, packageJsonFilePath);
     
     dependencyChanged = true;
   }
@@ -185,7 +185,17 @@ function updatePackageJsonMain(mainValue) {
     console.log(`Changing "main" to "${mainValue}" in "${packageJsonFilePath}"`)
     packageJson.main = mainValue;
     
-    fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  "));
+    writePackageJson(packageJson, packageJsonFilePath);
   }
 }
 exports.updatePackageJsonMain = updatePackageJsonMain;
+
+/**
+ * Write the provided packageJSON object to the file at the provided packageJsonFilePath.
+ * @param {any} packageJson The package json object to write.
+ * @param {string} packageJsonFilePath The path to the package.json file.
+ * @returns {void}
+ */
+function writePackageJson(packageJson, packageJsonFilePath) {
+  fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  ") + "\n");
+}
