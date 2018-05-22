@@ -18,21 +18,20 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
-    return this.registerIfNeeded(response);
+    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request.clone());
+    return this.registerIfNeeded(request, response);
   }
 
-  async registerIfNeeded(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  async registerIfNeeded(request: WebResource, response: HttpOperationResponse): Promise<HttpOperationResponse> {
     let rpName, urlPrefix;
-    const options = response.request;
     if (response.status === 409) {
       rpName = this.checkRPNotRegisteredError(response.bodyAsText as string);
     }
     if (rpName) {
-      urlPrefix = this.extractSubscriptionUrl(options.url);
+      urlPrefix = this.extractSubscriptionUrl(request.url);
       let registrationStatus = false;
       try {
-        registrationStatus = await this.registerRP(urlPrefix, rpName, options);
+        registrationStatus = await this.registerRP(urlPrefix, rpName, request);
       } catch (err) {
         // Autoregistration of ${provider} failed for some reason. We will not return this error
         // instead will return the initial response with 409 status code back to the user.
@@ -42,10 +41,10 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
       if (registrationStatus) {
         // Retry the original request. We have to change the x-ms-client-request-id
         // otherwise Azure endpoint will return the initial 409 (cached) response.
-        options.headers["x-ms-client-request-id"] = utils.generateUuid();
+        request.headers["x-ms-client-request-id"] = utils.generateUuid();
         let finalRes: HttpOperationResponse;
         try {
-          finalRes = await this._nextPolicy.sendRequest(options);
+          finalRes = await this._nextPolicy.sendRequest(request.clone());
         } catch (err) {
           return Promise.reject(err);
         }
