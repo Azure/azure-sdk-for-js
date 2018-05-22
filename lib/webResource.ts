@@ -231,6 +231,17 @@ export class WebResource {
 
     return this;
   }
+
+  /**
+   * Clone this WebResource HTTP request object.
+   * @returns {WebResource} The clone of this WebResource HTTP request object.
+   */
+  clone(): WebResource {
+    const result = new WebResource(this.url, this.method, this.body, this.query, this.headers, this.rawResponse, this.abortSignal);
+    result.formData = this.formData;
+    result.operationSpec = this.operationSpec;
+    return result;
+  }
 }
 
 /**

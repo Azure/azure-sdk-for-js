@@ -106,7 +106,7 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
     return retryData;
   }
 
-  async retry(operationResponse: HttpOperationResponse, retryData?: RetryData, err?: RetryError): Promise<HttpOperationResponse> {
+  async retry(request: WebResource, operationResponse: HttpOperationResponse, retryData?: RetryData, err?: RetryError): Promise<HttpOperationResponse> {
     const self = this;
     retryData = self.updateRetryData(retryData, err);
     if (err && err.code && self.shouldRetry(retryData) &&
@@ -115,10 +115,10 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
       // If previous operation ended with an error and the policy allows a retry, do that
       try {
         await utils.delay(retryData.retryInterval);
-        const res: HttpOperationResponse = await this._nextPolicy.sendRequest(operationResponse.request);
-        return self.retry(res, retryData, err);
+        const res: HttpOperationResponse = await this._nextPolicy.sendRequest(request.clone());
+        return self.retry(request, res, retryData, err);
       } catch (err) {
-        return self.retry(operationResponse, retryData, err);
+        return self.retry(request, operationResponse, retryData, err);
       }
     } else {
       if (!utils.objectIsNull(err)) {
@@ -131,7 +131,7 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
-    return this.retry(response); // See: https://github.com/Microsoft/TypeScript/issues/7426
+    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request.clone());
+    return this.retry(request, response); // See: https://github.com/Microsoft/TypeScript/issues/7426
   }
 }

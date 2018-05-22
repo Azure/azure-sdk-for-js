@@ -38,7 +38,7 @@ function updatePackageJsonMain(mainValue) {
     console.log(`Changing "main" to "${mainValue}" in "${packageJsonFilePath}"`)
     packageJson.main = mainValue;
     
-    fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  "));
+    fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  ") + "\n");
   }
 }
 exports.updatePackageJsonMain = updatePackageJsonMain;
