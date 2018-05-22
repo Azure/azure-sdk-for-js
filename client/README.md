@@ -191,7 +191,7 @@ const { EventHubClient } = require('azure-event-hubs');
 
 async function main() {
   const client = await EventHubClient.createFromIotHubConnectionString(process.env["IOTHUB_CONNECTION_STRING"]);
-  const hubInfo = await client.getHubRuntimeInfo();
+  const hubInfo = await client.getHubRuntimeInformation();
   console.log(hubInfo);
   await client.close();
 }
