@@ -3,6 +3,7 @@
 
 import { HttpMethods } from "./webResource";
 import { Mapper } from "./serializer";
+import { OperationHeaderParameter } from "./operationHeaderParameter";
 
 /**
  * A specification that defines an operation.
@@ -27,4 +28,10 @@ export interface OperationSpec {
    * Whether or not this operation uses XML request and response bodies.
    */
   isXML?: boolean;
+
+  /**
+   * The parameters to the operation method that will be converted to headers on the operation's
+   * HTTP request.
+   */
+  headerParameters?: OperationHeaderParameter[];
 }
