@@ -3,17 +3,28 @@
 
 import * as FormData from "form-data";
 import * as xml2js from "isomorphic-xml2js";
+import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResource } from "./webResource";
 import { RestError } from "./restError";
 import { HttpHeaders } from "./httpHeaders";
 import { isNode } from "./util/utils";
+import * as tough from "isomorphic-tough-cookie";
+
+const axiosClient = axios.create();
+
+if (isNode) {
+  // Workaround for https://github.com/axios/axios/issues/1158
+  axiosClient.interceptors.request.use(config => ({ ...config, method: config.method && config.method.toUpperCase() }));
+}
 
 /**
- * A HttpClient implementation that uses fetch to send HTTP requests.
+ * A HttpClient implementation that uses axios to send HTTP requests.
  */
-export class FetchHttpClient implements HttpClient {
+export class AxiosHttpClient implements HttpClient {
+  private readonly cookieJar = isNode ? new tough.CookieJar() : undefined;
+
   public async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
     if (!httpRequest) {
       return Promise.reject(new Error("options (WebResource) cannot be null or undefined and must be of type object."));
@@ -59,43 +70,94 @@ export class FetchHttpClient implements HttpClient {
       }
     }
 
-    // allow cross-origin cookies in browser
-    (httpRequest as any).credentials = "include";
+    if (this.cookieJar) {
+      const cookieString = await new Promise<string>((resolve, reject) => {
+        this.cookieJar!.getCookieString(httpRequest.url, (err, cookie) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(cookie);
+          }
+        });
+      });
 
-    let res: Response;
-    try {
-      res = await myFetch(httpRequest.url, httpRequest);
-    } catch (err) {
-      return Promise.reject(err);
+      httpRequest.headers["Cookie"] = cookieString;
     }
 
+    const abortSignal = httpRequest.abortSignal;
+    if (abortSignal && abortSignal.aborted) {
+      throw new RestError("The request was aborted", "REQUEST_ABORTED_ERROR", undefined, httpRequest);
+    }
 
-    const headers = new HttpHeaders();
-    res.headers.forEach((value: string, name: string) => {
-      headers.set(name, value);
+    const cancelToken = abortSignal && new axios.CancelToken(canceler => {
+      abortSignal.addEventListener("abort", () => canceler());
     });
+
+    let res: AxiosResponse;
+    try {
+      const config: AxiosRequestConfig = {
+        method: httpRequest.method,
+        url: httpRequest.url,
+        headers: httpRequest.headers,
+        // Workaround for https://github.com/axios/axios/issues/755
+        // tslint:disable-next-line:no-null-keyword
+        data: httpRequest.body === undefined ? null : httpRequest.body,
+        transformResponse: undefined,
+        validateStatus: () => true,
+        withCredentials: true,
+        // Workaround for https://github.com/axios/axios/issues/1362
+        maxContentLength: 1024 * 1024 * 1024 * 10,
+        responseType: httpRequest.rawResponse ? (isNode ? "stream" : "blob") : "text",
+        cancelToken
+      };
+      res = await axiosClient(config);
+    } catch (err) {
+      if (err instanceof axios.Cancel) {
+        throw new RestError(err.message, "REQUEST_ABORTED_ERROR", undefined, httpRequest);
+      } else {
+        const axiosErr = err as AxiosError;
+        throw new RestError(axiosErr.message, "REQUEST_SEND_ERROR", undefined, httpRequest);
+      }
+    }
+
+    const headers = new HttpHeaders(res.headers);
 
     const operationResponse: HttpOperationResponse = {
       request: httpRequest,
       status: res.status,
       headers,
-      readableStreamBody: isNode ? res.body as any : undefined,
-      blobBody: isNode ? undefined : () => res.blob()
+      readableStreamBody: httpRequest.rawResponse && isNode ? res.data as any : undefined,
+      blobBody: !httpRequest.rawResponse || isNode ? undefined : () => res.data
     };
+
+    if (this.cookieJar) {
+      const setCookieHeader = operationResponse.headers.get("Set-Cookie");
+      if (setCookieHeader != undefined) {
+        await new Promise((resolve, reject) => {
+          this.cookieJar!.setCookie(setCookieHeader, httpRequest.url, (err) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
+        });
+      }
+    }
 
     if (!httpRequest.rawResponse) {
       try {
-        operationResponse.bodyAsText = await res.text();
+        operationResponse.bodyAsText = res.data;
       } catch (err) {
         const msg = `Error "${err}" occured while converting the raw response body into string.`;
         const errCode = err.code || "RAWTEXT_CONVERSION_ERROR";
-        const e = new RestError(msg, errCode, res.status, httpRequest, operationResponse, res.body);
+        const e = new RestError(msg, errCode, res.status, httpRequest, operationResponse, res.data);
         return Promise.reject(e);
       }
 
       try {
         if (operationResponse.bodyAsText) {
-          const contentType = res.headers.get("Content-Type")!;
+          const contentType = operationResponse.headers.get("Content-Type");
           if (contentType === "application/xml" || contentType === "text/xml") {
             const xmlParser = new xml2js.Parser(XML2JS_PARSER_OPTS);
             const parseString = new Promise(function (resolve: (result: any) => void, reject: (err: any) => void) {
@@ -109,7 +171,7 @@ export class FetchHttpClient implements HttpClient {
             });
 
             operationResponse.parsedBody = await parseString;
-          } else {
+          } else if (contentType === "application/json" || contentType === "text/json" || !contentType) {
             operationResponse.parsedBody = JSON.parse(operationResponse.bodyAsText);
           }
         }
@@ -123,26 +185,6 @@ export class FetchHttpClient implements HttpClient {
     return Promise.resolve(operationResponse);
   }
 }
-
-/**
- * Provides the fetch() method based on the environment.
- * @returns {fetch} fetch - The fetch() method available in the environment to make requests
- */
-export function getFetch(): Function {
-  // using window.Fetch in Edge gives a TypeMismatchError
-  // (https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/8546263/).
-  // Hence we will be using the fetch-ponyfill for Edge.
-  if (typeof window !== "undefined" && window.fetch && window.navigator &&
-    window.navigator.userAgent && window.navigator.userAgent.indexOf("Edge/") === -1) {
-    return window.fetch.bind(window);
-  }
-  return require("fetch-ponyfill")({ useCookie: true }).fetch;
-}
-
-/**
- * A constant that provides the fetch() method based on the environment.
- */
-export const myFetch = getFetch();
 
 const XML2JS_PARSER_OPTS: xml2js.OptionsV2 = {
   explicitArray: false,

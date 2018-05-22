@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 export { WebResource, RequestPrepareOptions, HttpMethods, ParameterValue, RequestOptionsBase } from "./webResource";
-export { FetchHttpClient } from "./fetchHttpClient";
+export { AxiosHttpClient } from "./axiosHttpClient";
 export { HttpClient } from "./httpClient";
 export { HttpHeaders } from "./httpHeaders";
 export { HttpOperationResponse } from "./httpOperationResponse";
