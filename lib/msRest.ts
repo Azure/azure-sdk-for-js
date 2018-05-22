@@ -10,6 +10,7 @@ export { HttpPipelineLogger } from "./httpPipelineLogger";
 export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 export { RestError } from "./restError";
 export { OperationSpec } from "./operationSpec";
+export { OperationParameterType } from "./operationParameterType";
 export { ServiceClient, ServiceClientOptions } from "./serviceClient";
 export { Constants } from "./util/constants";
 export { logPolicy } from "./policies/logPolicy";

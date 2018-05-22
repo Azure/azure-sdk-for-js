@@ -17,8 +17,10 @@ import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
 import { RequestPrepareOptions, WebResource } from "./webResource";
-import { Serializer } from "./serializer";
+import { Serializer, serializeObject } from "./serializer";
 import { serializationPolicy } from "./policies/serializationPolicy";
+import { OperationArguments } from "./operationArguments";
+import { OperationParameterType } from "./operationParameterType";
 
 /**
  * Options to be provided while creating the client.
@@ -80,6 +82,8 @@ export class ServiceClient {
 
   private readonly _requestPolicyCreators: RequestPolicyCreator[];
 
+  private readonly _serializer: Serializer;
+
   /**
    * The ServiceClient constructor
    * @constructor
@@ -114,6 +118,8 @@ export class ServiceClient {
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
     this._requestPolicyCreators = options.requestPolicyCreators || createDefaultRequestPolicyCreators(credentials, options, this.userAgentInfo.value);
+
+    this._serializer = options.serializer!;
   }
 
   /**
@@ -169,9 +175,59 @@ export class ServiceClient {
    * @param {WebResource} httpRequest - The HTTP request to populate and then to send.
    * @param {operationSpec} operationSpec - The OperationSpec to use to populate the httpRequest.
    */
-  async sendOperationRequest(httpRequest: WebResource, operationSpec: OperationSpec): Promise<HttpOperationResponse> {
+  async sendOperationRequest(httpRequest: WebResource, operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<HttpOperationResponse> {
     httpRequest.method = operationSpec.httpMethod;
     httpRequest.operationSpec = operationSpec;
+
+    if (operationSpec.headerParameters) {
+      for (const headerParameter of operationSpec.headerParameters) {
+        const parameterName: string = headerParameter.parameterName;
+        const headerName: string = headerParameter.headerName || parameterName;
+        const parameterType: OperationParameterType | undefined = headerParameter.type;
+
+        let headerValue: any = operationArguments.arguments[parameterName];
+        if (headerValue != undefined) {
+          if (parameterType != undefined) {
+            switch (parameterType) {
+              case OperationParameterType.Date:
+                headerValue = serializeObject(headerValue).replace(/[Tt].*[Zz]/, "");
+                break;
+
+              case OperationParameterType.DateTimeRfc1123:
+                if (headerValue instanceof Date) {
+                  headerValue = headerValue.toUTCString();
+                }
+                break;
+
+              case OperationParameterType.DateTime:
+              case OperationParameterType.ByteArray:
+                headerValue = serializeObject(headerValue);
+                break;
+
+              case OperationParameterType.Base64Url:
+                headerValue = this._serializer.serialize({ required: true, serializedName: parameterName, type: { name: "Base64Url" } }, headerValue, parameterName);
+                break;
+
+              case OperationParameterType.UnixTime:
+                headerValue = this._serializer.serialize({ required: true, serializedName: parameterName, type: { name: "UnixTime" } }, headerValue, parameterName);
+                break;
+
+              default:
+                headerValue = headerValue.toString();
+                break;
+            }
+          }
+
+          httpRequest.headers[headerName] = headerValue;
+        }
+      }
+    }
+
+    if (operationArguments.customHeaders) {
+      for (const customHeader of operationArguments.customHeaders.headersArray()) {
+        httpRequest.headers[customHeader.name] = customHeader.value;
+      }
+    }
 
     return this.sendRequest(httpRequest);
   }
