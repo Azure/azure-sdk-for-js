@@ -240,7 +240,6 @@ export class WebResource {
     const result = new WebResource(this.url, this.method, this.body, this.query, this.headers, this.rawResponse, this.abortSignal);
     result.formData = this.formData;
     result.operationSpec = this.operationSpec;
-    result.abortSignal = this.abortSignal;
     return result;
   }
 }
