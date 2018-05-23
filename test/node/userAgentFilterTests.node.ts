@@ -2,11 +2,11 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as assert from "assert";
-import { WebResource } from "../../lib/webResource";
-import { MsRestUserAgentPolicy } from "../../lib/policies/msRestUserAgentPolicy";
-import { Constants } from "../../lib/util/constants";
-import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
+import { MsRestUserAgentPolicy } from "../../lib/policies/msRestUserAgentPolicy";
+import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
+import { Constants } from "../../lib/util/constants";
+import { WebResource } from "../../lib/webResource";
 
 const should = require("should");
 const userAgentHeader = Constants.HeaderConstants.USER_AGENT;
@@ -23,11 +23,10 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     const userAgentArray: Array<string> = [];
     const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, new RequestPolicyOptions(), userAgentArray);
     const resource = new WebResource();
-    resource.headers = {};
     userAgentFilter.addUserAgentHeader(resource);
     should.ok(resource);
-    resource.headers[userAgentHeader].should.containEql("Node");
-    resource.headers[userAgentHeader].should.containEql("Azure-SDK-For-Node");
+    should(resource.headers.get(userAgentHeader)).containEql("Node");
+    should(resource.headers.get(userAgentHeader)).containEql("Azure-SDK-For-Node");
     done();
   });
 
@@ -39,11 +38,10 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, new RequestPolicyOptions(), userAgentArray);
     const customUA = "my custom user agent";
     const resource = new WebResource();
-    resource.headers = {};
-    resource.headers[userAgentHeader] = customUA;
+    resource.headers.set(userAgentHeader, customUA);
     userAgentFilter.addUserAgentHeader(resource);
     should.ok(resource);
-    const actualUA = resource.headers[userAgentHeader];
+    const actualUA: string = resource.headers.get(userAgentHeader)!;
     actualUA.should.not.containEql("Node");
     actualUA.should.not.containEql(azureSDK);
     actualUA.should.not.containEql(azureRuntime);
@@ -58,10 +56,9 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     const userAgentArray = [`${genericRuntime}/v1.0.0`, `${azureRuntime}/v1.0.0`];
     const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, new RequestPolicyOptions(), userAgentArray);
     const resource = new WebResource();
-    resource.headers = {};
     userAgentFilter.addUserAgentHeader(resource);
     should.ok(resource);
-    const deconstructedUserAgent = resource.headers[userAgentHeader].split(" ");
+    const deconstructedUserAgent = resource.headers.get(userAgentHeader)!.split(" ");
     should.ok(deconstructedUserAgent);
     const indexOfAzureRuntime = deconstructedUserAgent.findIndex((e: string) => e.startsWith(azureRuntime));
     assert.notEqual(indexOfAzureRuntime, -1, `did not find ${azureRuntime} in user agent`);

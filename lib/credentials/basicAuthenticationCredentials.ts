@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { HttpHeaders } from "../httpHeaders";
 import { Constants } from "../util/constants";
 import { WebResource } from "../webResource";
 import { ServiceClientCredentials } from "./serviceClientCredentials";
@@ -40,8 +41,8 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
   signRequest(webResource: WebResource) {
     const credentials = `${this.userName}:${this.password}`;
     const encodedCredentials = `${this.authorizationScheme} ${Buffer.from(credentials).toString("base64")}`;
-    if (!webResource.headers) webResource.headers = {};
-    webResource.headers[HeaderConstants.AUTHORIZATION] = encodedCredentials;
+    if (!webResource.headers) webResource.headers = new HttpHeaders();
+    webResource.headers.set(HeaderConstants.AUTHORIZATION, encodedCredentials);
     return Promise.resolve(webResource);
   }
 }

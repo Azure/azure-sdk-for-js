@@ -78,11 +78,9 @@ export function stripResponse(response: HttpOperationResponse): any {
 export function stripRequest(request: WebResource): WebResource {
   let strippedRequest = new WebResource();
   try {
-    strippedRequest = JSON.parse(JSON.stringify(request));
-    if (strippedRequest.headers && strippedRequest.headers.Authorization) {
-      delete strippedRequest.headers.Authorization;
-    } else if (strippedRequest.headers && strippedRequest.headers.authorization) {
-      delete strippedRequest.headers.authorization;
+    strippedRequest = request.clone();
+    if (strippedRequest.headers) {
+      strippedRequest.headers.remove("authorization");
     }
   } catch (err) {
     const errMsg = err.message;
@@ -179,18 +177,6 @@ export function mergeObjects(source: { [key: string]: any; }, target: { [key: st
  */
 export function delay<T>(t: number, value?: T): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
-}
-
-/**
- * Utility function to create a K:V from a list of strings
- */
-export function strEnum<T extends string>(o: Array<T>): {[K in T]: K} {
-  /* tslint:disable:no-null-keyword */
-  return o.reduce((res, key: string) => {
-    res[key] = key;
-    return res;
-  }, Object.create(null));
-  /* tslint:enable:no-null-keyword */
 }
 
 /**

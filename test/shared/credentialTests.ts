@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as should from "should";
 import * as msRest from "../../lib/msRest";
-const should = require("should");
 const TokenCredentials = msRest.TokenCredentials;
 const BasicAuthenticationCredentials = msRest.BasicAuthenticationCredentials;
 const ApiKeyCredentials = msRest.ApiKeyCredentials;
@@ -16,12 +16,10 @@ describe("Token credentials", () => {
     it("should set auth header with bearer scheme in request", (done) => {
       const creds = new TokenCredentials(dummyToken);
       const request = new msRest.WebResource();
-      request.headers = {};
 
       creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        should.exist(signedRequest.headers["authorization"]);
-
-        signedRequest.headers["authorization"].should.match(new RegExp("^Bearer\\s+" + dummyToken + "$"));
+        should.exist(signedRequest.headers.get("authorization"));
+        should(signedRequest.headers.get("authorization")).match(new RegExp("^Bearer\\s+" + dummyToken + "$"));
         done();
       });
     });
@@ -29,10 +27,9 @@ describe("Token credentials", () => {
     it("should set auth header with custom scheme in request", (done) => {
       const creds = new TokenCredentials(dummyToken, fakeScheme);
       const request = new msRest.WebResource();
-      request.headers = {};
       creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        should.exist(signedRequest.headers["authorization"]);
-        signedRequest.headers["authorization"].should.match(new RegExp("^" + fakeScheme + "\\s+" + dummyToken + "$"));
+        should.exist(signedRequest.headers.get("authorization"));
+        should(signedRequest.headers.get("authorization")).match(new RegExp("^" + fakeScheme + "\\s+" + dummyToken + "$"));
         done();
       });
     });
@@ -66,10 +63,9 @@ describe("Basic Authentication credentials", () => {
     it("should base64 encode the username and password and set auth header with baisc scheme in request", (done) => {
       const creds = new BasicAuthenticationCredentials(dummyuserName, dummyPassword);
       const request = new msRest.WebResource();
-      request.headers = {};
       creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        signedRequest.headers.should.have.property("authorization");
-        signedRequest.headers["authorization"].should.match(new RegExp("^Basic\\s+" + encodedCredentials + "$"));
+        should.exist(signedRequest.headers.get("authorization"));
+        should(signedRequest.headers.get("authorization")).match(new RegExp("^Basic\\s+" + encodedCredentials + "$"));
         done();
       });
     });
@@ -77,11 +73,10 @@ describe("Basic Authentication credentials", () => {
     it("should base64 encode the username and password and set auth header with custom scheme in request", (done) => {
       const creds = new BasicAuthenticationCredentials(dummyuserName, dummyPassword, fakeScheme);
       const request = new msRest.WebResource();
-      request.headers = {};
 
       creds.signRequest(request).then((signedRequest: msRest.WebResource) => {
-        signedRequest.headers.should.have.property("authorization");
-        signedRequest.headers["authorization"].should.match(new RegExp("^" + fakeScheme + "\\s+" + encodedCredentials + "$"));
+        should.exist(signedRequest.headers.get("authorization"));
+        should(signedRequest.headers.get("authorization")).match(new RegExp("^" + fakeScheme + "\\s+" + encodedCredentials + "$"));
         done();
       });
     });
@@ -112,16 +107,15 @@ describe("ApiKey credentials", () => {
   describe("usage", function () {
     it("should set header parameters properly in request", async function () {
       const creds = new ApiKeyCredentials({inHeader: {"key1": "value1", "key2": "value2"}});
-      const request = {
-        headers: {}
-      } as msRest.WebResource;
+      const request = new msRest.WebResource();
+      request.headers = new msRest.HttpHeaders();
 
       await creds.signRequest(request);
 
-      request.headers.should.have.property("key1");
-      request.headers.should.have.property("key2");
-      request.headers["key1"].should.match(new RegExp("^value1$"));
-      request.headers["key2"].should.match(new RegExp("^value2$"));
+      should.exist(request.headers.get("key1"));
+      should.exist(request.headers.get("key2"));
+      should(request.headers.get("key1")).match(new RegExp("^value1$"));
+      should(request.headers.get("key2")).match(new RegExp("^value2$"));
     });
 
     it("should set query parameters properly in the request url without any query parameters", async function () {

@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { AxiosHttpClient } from "./axiosHttpClient";
+import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
+import { OperationArguments } from "./operationArguments";
+import { OperationParameterType } from "./operationParameterType";
 import { OperationSpec } from "./operationSpec";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
 import { RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
+import { serializationPolicy } from "./policies/serializationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
+import { Serializer, serializeObject } from "./serializer";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
 import { RequestPrepareOptions, WebResource } from "./webResource";
-import { Serializer, serializeObject } from "./serializer";
-import { serializationPolicy } from "./policies/serializationPolicy";
-import { OperationArguments } from "./operationArguments";
-import { OperationParameterType } from "./operationParameterType";
 
 /**
  * Options to be provided while creating the client.
@@ -218,14 +218,14 @@ export class ServiceClient {
             }
           }
 
-          httpRequest.headers[headerName] = headerValue;
+          httpRequest.headers.set(headerName, headerValue);
         }
       }
     }
 
     if (operationArguments.customHeaders) {
       for (const customHeader of operationArguments.customHeaders.headersArray()) {
-        httpRequest.headers[customHeader.name] = customHeader.value;
+        httpRequest.headers.set(customHeader.name, customHeader.value);
       }
     }
 

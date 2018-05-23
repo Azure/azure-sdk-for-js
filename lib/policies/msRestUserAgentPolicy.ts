@@ -2,11 +2,12 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as os from "os";
+import { HttpHeaders } from "../httpHeaders";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
 import { isNode } from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
 
 const HeaderConstants = Constants.HeaderConstants;
 
@@ -47,17 +48,17 @@ export class MsRestUserAgentPolicy extends BaseRequestPolicy {
         this.userAgentInfo.splice(insertIndex, 0, nodeSDKSignature);
       }
       if (!request.headers) {
-        request.headers = {};
+        request.headers = new HttpHeaders();
       }
-      request.headers[HeaderConstants.USER_AGENT] = this.userAgentInfo.join(" ");
+      request.headers.set(HeaderConstants.USER_AGENT, this.userAgentInfo.join(" "));
     }
   }
 
   addUserAgentHeader(request: WebResource): void {
     if (!request.headers) {
-      request.headers = {};
+      request.headers = new HttpHeaders();
     }
-    if (!request.headers[HeaderConstants.USER_AGENT]) {
+    if (!request.headers.get(HeaderConstants.USER_AGENT)) {
       this.tagRequest(request);
     }
   }

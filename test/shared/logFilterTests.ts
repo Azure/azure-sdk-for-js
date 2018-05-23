@@ -2,11 +2,11 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as assert from "assert";
-import { LogPolicy } from "../../lib/policies/logPolicy";
-import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { WebResource } from "../../lib/webResource";
-import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
 import { HttpHeaders } from "../../lib/httpHeaders";
+import { HttpOperationResponse } from "../../lib/httpOperationResponse";
+import { LogPolicy } from "../../lib/policies/logPolicy";
+import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
+import { WebResource } from "../../lib/webResource";
 
 const emptyRequestPolicy: RequestPolicy = {
   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -19,10 +19,12 @@ describe("Log filter", () => {
 
   it("should log messages when a logger object is provided", (done) => {
     const expected = `>> Request: {
-  "headers": {},
   "rawResponse": false,
   "url": "https://foo.com",
   "method": "PUT",
+  "headers": {
+    "_headersMap": {}
+  },
   "body": {
     "a": 1
   }

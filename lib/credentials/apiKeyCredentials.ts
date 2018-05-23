@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { HttpHeaders } from "../httpHeaders";
 import { WebResource } from "../webResource";
 import { ServiceClientCredentials } from "./serviceClientCredentials";
 
@@ -53,9 +54,11 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
 
     if (this.inHeader) {
       if (!webResource.headers) {
-        webResource.headers = {};
+        webResource.headers = new HttpHeaders();
       }
-      Object.assign(webResource.headers, this.inHeader);
+      for (const headerName in this.inHeader) {
+        webResource.headers.set(headerName, this.inHeader[headerName]);
+      }
     }
 
     if (this.inQuery) {
