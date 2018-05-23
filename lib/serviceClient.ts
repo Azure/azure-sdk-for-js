@@ -247,7 +247,7 @@ export class ServiceClient {
 function createDefaultRequestPolicyCreators(credentials: ServiceClientCredentials | undefined, options: ServiceClientOptions, userAgentInfo: string[]): RequestPolicyCreator[] {
   const defaultRequestPolicyCreators: RequestPolicyCreator[] = [];
 
-  if (options.generateRequestIdHeader !== false) {
+  if (options.generateRequestIdHeader) {
     defaultRequestPolicyCreators.push(generateRequestIdPolicy(options.requestIdHeaderName));
   }
 
