@@ -11,7 +11,7 @@ import { HttpHeaders } from "./httpHeaders";
  * Initializes a new instance of the HttpOperationResponse class.
  * @constructor
  */
-export interface HttpOperationResponse<THeaders = any, TBody = any> {
+export interface HttpOperationResponse<TBody = any, THeaders = any> {
   /**
    * The raw request
    */
