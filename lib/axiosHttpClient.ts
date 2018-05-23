@@ -89,12 +89,13 @@ export class AxiosHttpClient implements HttpClient {
       abortSignal.addEventListener("abort", () => canceler());
     });
 
+    const rawHeaders: { [headerName: string]: string } = httpRequest.headers.rawHeaders();
     let res: AxiosResponse;
     try {
       const config: AxiosRequestConfig = {
         method: httpRequest.method,
         url: httpRequest.url,
-        headers: httpRequest.headers,
+        headers: rawHeaders,
         // Workaround for https://github.com/axios/axios/issues/755
         // tslint:disable-next-line:no-null-keyword
         data: httpRequest.body === undefined ? null : httpRequest.body,
