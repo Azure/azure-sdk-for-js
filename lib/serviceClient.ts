@@ -10,6 +10,7 @@ import { OperationArguments } from "./operationArguments";
 import { OperationParameterType } from "./operationParameterType";
 import { OperationSpec } from "./operationSpec";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
 import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
 import { RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./policies/requestPolicy";
@@ -60,6 +61,15 @@ export interface ServiceClientOptions {
    * request policy.
    */
   serializer?: Serializer;
+  /**
+   * Whether or not to generate a client request ID header for each HTTP request.
+   */
+  generateClientRequestIdHeader?: boolean;
+  /**
+   * If specified, a GenerateRequestIdPolicy will be added to the HTTP pipeline that will add a
+   * header to all outgoing requests with this header name and a random UUID as the request ID.
+   */
+  clientRequestIdHeaderName?: string;
 }
 
 /**
@@ -235,6 +245,10 @@ export class ServiceClient {
 
 function createDefaultRequestPolicyCreators(credentials: ServiceClientCredentials | undefined, options: ServiceClientOptions, userAgentInfo: string[]): RequestPolicyCreator[] {
   const defaultRequestPolicyCreators: RequestPolicyCreator[] = [];
+
+  if (options.generateClientRequestIdHeader) {
+    defaultRequestPolicyCreators.push(generateClientRequestIdPolicy(options.clientRequestIdHeaderName));
+  }
 
   if (credentials) {
     defaultRequestPolicyCreators.push(signingPolicy(credentials));
