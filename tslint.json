@@ -49,7 +49,7 @@
         "no-null-keyword": true,
         "prefer-const": true,
         "no-switch-case-fall-through": true,
-        "triple-equals": true,
+        "triple-equals": [true, "allow-undefined-check"],
         "jsdoc-format": true
     }
 }

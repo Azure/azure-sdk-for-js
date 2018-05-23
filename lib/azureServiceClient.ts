@@ -16,12 +16,6 @@ export interface AzureServiceClientOptions extends msRest.ServiceClientOptions {
   acceptLanguage?: string;
 
   /**
-   * @property {boolean} [options.generateClientRequestId] - When set to true a unique x-ms-client-request-id value
-   * is generated and included in each request. Default is true.
-   */
-  generateClientRequestId?: boolean;
-
-  /**
    * @property {number} [options.longRunningOperationRetryTimeout] - Gets or sets the retry timeout in seconds for
    * Long Running Operations. Default value is 30.
    */
@@ -45,23 +39,17 @@ export interface AzureServiceClientOptions extends msRest.ServiceClientOptions {
  */
 export class AzureServiceClient extends msRest.ServiceClient {
   acceptLanguage: string = Constants.DEFAULT_LANGUAGE;
-  generateClientRequestId = true;
   longRunningOperationRetryTimeout = 30;
   rpRegistrationRetryTimeout = 30;
 
   constructor(credentials: msRest.ServiceClientCredentials, options?: AzureServiceClientOptions) {
-    super(credentials, options);
+    super(credentials, updateOptionsWithDefaultValues(options));
     this.acceptLanguage = Constants.DEFAULT_LANGUAGE;
-    this.generateClientRequestId = true;
     this.longRunningOperationRetryTimeout = 30;
     if (!options) options = {};
 
     if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
-    }
-
-    if (options.generateClientRequestId !== null && options.generateClientRequestId !== undefined) {
-      this.generateClientRequestId = options.generateClientRequestId;
     }
 
     if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
@@ -311,4 +299,14 @@ export class AzureServiceClient extends msRest.ServiceClient {
 
     return Promise.resolve(operationResponse);
   }
+}
+
+function updateOptionsWithDefaultValues(options?: AzureServiceClientOptions): AzureServiceClientOptions {
+  if (!options) {
+    options = {};
+  }
+  if (options.generateClientRequestIdHeader == undefined) {
+    options.generateClientRequestIdHeader = true;
+  }
+  return options;
 }
