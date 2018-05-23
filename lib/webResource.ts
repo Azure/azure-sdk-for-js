@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { HttpHeaders } from "./httpHeaders";
+import { OperationSpec } from "./operationSpec";
+import { Mapper, Serializer } from "./serializer";
 import { generateUuid } from "./util/utils";
-import { Serializer, Mapper } from "./serializer";
-import { OperationSpec } from "./msRest";
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 /**
@@ -18,7 +19,7 @@ export class WebResource {
   url: string;
   method: HttpMethods;
   body?: any;
-  headers: { [key: string]: any; } = {};
+  headers: HttpHeaders;
   rawResponse?: boolean;
   formData?: any;
   query?: { [key: string]: any; };
@@ -26,11 +27,11 @@ export class WebResource {
 
   abortSignal?: AbortSignal;
 
-  constructor(url?: string, method?: HttpMethods, body?: any, query?: { [key: string]: any; }, headers: { [key: string]: any; } = {}, rawResponse = false, abortSignal?: AbortSignal) {
+  constructor(url?: string, method?: HttpMethods, body?: any, query?: { [key: string]: any; }, headers?: { [key: string]: any; } | HttpHeaders, rawResponse = false, abortSignal?: AbortSignal) {
     this.rawResponse = rawResponse;
     this.url = url || "";
     this.method = method || "GET";
-    this.headers = headers || {};
+    this.headers = (headers instanceof HttpHeaders ? headers : new HttpHeaders(headers));
     this.body = body;
     this.query = query;
     this.formData = undefined;
@@ -49,7 +50,7 @@ export class WebResource {
     if (!this.url) {
       throw new Error("url is a required property for making a request.");
     }
-    if (!this.headers["Content-Type"]) {
+    if (!this.headers.get("Content-Type")) {
       throw new Error("'Content-Type' is a required header for making a request.");
     }
     // if (!this.headers["accept-language"]) {
@@ -188,22 +189,22 @@ export class WebResource {
       const headers = options.headers;
       for (const headerName in headers) {
         if (headers.hasOwnProperty(headerName)) {
-          this.headers[headerName] = headers[headerName];
+          this.headers.set(headerName, headers[headerName]);
         }
       }
     }
     // ensure accept-language is set correctly
-    if (!this.headers["accept-language"]) {
-      this.headers["accept-language"] = "en-US";
+    if (!this.headers.get("accept-language")) {
+      this.headers.set("accept-language", "en-US");
     }
     // ensure the request-id is set correctly
-    if (!this.headers["x-ms-client-request-id"] && !options.disableClientRequestId) {
-      this.headers["x-ms-client-request-id"] = generateUuid();
+    if (!this.headers.get("x-ms-client-request-id") && !options.disableClientRequestId) {
+      this.headers.set("x-ms-client-request-id", generateUuid());
     }
 
     // default
-    if (!this.headers["Content-Type"]) {
-      this.headers["Content-Type"] = "application/json; charset=utf-8";
+    if (!this.headers.get("Content-Type")) {
+      this.headers.set("Content-Type", "application/json; charset=utf-8");
     }
 
     // set the request body. request.js automatically sets the Content-Length request header, so we need not set it explicilty
@@ -211,11 +212,11 @@ export class WebResource {
     if (options.body != undefined) {
       // body as a stream special case. set the body as-is and check for some special request headers specific to sending a stream.
       if (options.bodyIsStream) {
-        if (!this.headers["Transfer-Encoding"]) {
-          this.headers["Transfer-Encoding"] = "chunked";
+        if (!this.headers.get("Transfer-Encoding")) {
+          this.headers.set("Transfer-Encoding", "chunked");
         }
-        if (this.headers["Content-Type"] !== "application/octet-stream") {
-          this.headers["Content-Type"] = "application/octet-stream";
+        if (this.headers.get("Content-Type") !== "application/octet-stream") {
+          this.headers.set("Content-Type", "application/octet-stream");
         }
       } else {
         if (options.serializationMapper) {
@@ -237,7 +238,7 @@ export class WebResource {
    * @returns {WebResource} The clone of this WebResource HTTP request object.
    */
   clone(): WebResource {
-    const result = new WebResource(this.url, this.method, this.body, this.query, this.headers, this.rawResponse, this.abortSignal);
+    const result = new WebResource(this.url, this.method, this.body, this.query, this.headers && this.headers.clone(), this.rawResponse, this.abortSignal);
     result.formData = this.formData;
     result.operationSpec = this.operationSpec;
     return result;

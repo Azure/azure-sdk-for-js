@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import * as FormData from "form-data";
-import * as xml2js from "isomorphic-xml2js";
-import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
-import { HttpClient } from "./httpClient";
-import { HttpOperationResponse } from "./httpOperationResponse";
-import { WebResource } from "./webResource";
-import { RestError } from "./restError";
-import { HttpHeaders } from "./httpHeaders";
-import { isNode } from "./util/utils";
 import * as tough from "isomorphic-tough-cookie";
+import * as xml2js from "isomorphic-xml2js";
+import { HttpClient } from "./httpClient";
+import { HttpHeaders } from "./httpHeaders";
+import { HttpOperationResponse } from "./httpOperationResponse";
+import { RestError } from "./restError";
+import { isNode } from "./util/utils";
+import { WebResource } from "./webResource";
 
 const axiosClient = axios.create();
 
@@ -28,10 +28,6 @@ export class AxiosHttpClient implements HttpClient {
   public async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
     if (!httpRequest) {
       return Promise.reject(new Error("options (WebResource) cannot be null or undefined and must be of type object."));
-    }
-
-    if (!httpRequest.headers) {
-      httpRequest.headers = {};
     }
 
     if (httpRequest.formData) {
@@ -59,13 +55,13 @@ export class AxiosHttpClient implements HttpClient {
 
       httpRequest.body = requestForm;
       httpRequest.formData = undefined;
-      if (httpRequest.headers && httpRequest.headers["Content-Type"] &&
-          httpRequest.headers["Content-Type"].indexOf("multipart/form-data") !== -1) {
+      const contentType: string | undefined = httpRequest.headers && httpRequest.headers.get("Content-Type");
+      if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
         if (typeof requestForm.getBoundary === "function") {
-          httpRequest.headers["Content-Type"] = `multipart/form-data; boundary=${requestForm.getBoundary()}`;
+          httpRequest.headers.set("Content-Type", `multipart/form-data; boundary=${requestForm.getBoundary()}`);
         } else {
           // browser will automatically apply a suitable content-type header
-          delete httpRequest.headers["Content-Type"];
+          httpRequest.headers.remove("Content-Type");
         }
       }
     }
@@ -81,7 +77,7 @@ export class AxiosHttpClient implements HttpClient {
         });
       });
 
-      httpRequest.headers["Cookie"] = cookieString;
+      httpRequest.headers.set("Cookie", cookieString);
     }
 
     const abortSignal = httpRequest.abortSignal;

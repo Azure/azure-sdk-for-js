@@ -132,14 +132,14 @@ export class HttpHeaders {
    * Get the JSON object representation of this HTTP header collection.
    */
   public toJson(): RawHttpHeaders {
-    const result: RawHttpHeaders = {};
+    return this.rawHeaders();
+  }
 
-    const headers: HttpHeader[] = this.headersArray();
-    for (let i = 0; i < headers.length; ++i) {
-      result[headers[i].name] = headers[i].value;
-    }
-
-    return result;
+  /**
+   * Get the string representation of this HTTP header collection.
+   */
+  public toString(): string {
+    return JSON.stringify(this.toJson());
   }
 
   /**

@@ -78,11 +78,9 @@ export function stripResponse(response: HttpOperationResponse): any {
 export function stripRequest(request: WebResource): WebResource {
   let strippedRequest = new WebResource();
   try {
-    strippedRequest = JSON.parse(JSON.stringify(request));
-    if (strippedRequest.headers && strippedRequest.headers.Authorization) {
-      delete strippedRequest.headers.Authorization;
-    } else if (strippedRequest.headers && strippedRequest.headers.authorization) {
-      delete strippedRequest.headers.authorization;
+    strippedRequest = request.clone();
+    if (strippedRequest.headers) {
+      strippedRequest.headers.remove("authorization");
     }
   } catch (err) {
     const errMsg = err.message;

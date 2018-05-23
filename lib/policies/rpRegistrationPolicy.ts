@@ -41,7 +41,7 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
       if (registrationStatus) {
         // Retry the original request. We have to change the x-ms-client-request-id
         // otherwise Azure endpoint will return the initial 409 (cached) response.
-        request.headers["x-ms-client-request-id"] = utils.generateUuid();
+        request.headers.set("x-ms-client-request-id", utils.generateUuid());
         let finalRes: HttpOperationResponse;
         try {
           finalRes = await this._nextPolicy.sendRequest(request.clone());
@@ -71,7 +71,7 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
     // Copy over the original request headers. This will get us the auth token and other useful stuff from
     // the original request header. Thus making it easier to make requests from this filter.
     for (const h in originalRequest.headers) {
-      reqOptions.headers[h] = originalRequest.headers[h];
+      reqOptions.headers.set(h, originalRequest.headers.get(h));
     }
     // We have to change the x-ms-client-request-id otherwise Azure endpoint
     // will return the initial 409 (cached) response.
