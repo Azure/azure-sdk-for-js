@@ -807,7 +807,18 @@ export function serializeObject(toSerialize: any): any {
   return toSerialize;
 }
 
-export const MapperType = utils.strEnum([
+/**
+ * Utility function to create a K:V from a list of strings
+ */
+function strEnum<T extends string>(o: Array<T>): {[K in T]: K} {
+  const result: any = {};
+  for (const key of o) {
+    result[key] = key;
+  }
+  return result;
+}
+
+export const MapperType = strEnum([
   "Base64Url",
   "Boolean",
   "ByteArray",

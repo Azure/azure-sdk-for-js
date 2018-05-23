@@ -180,18 +180,6 @@ export function delay<T>(t: number, value?: T): Promise<T> {
 }
 
 /**
- * Utility function to create a K:V from a list of strings
- */
-export function strEnum<T extends string>(o: Array<T>): {[K in T]: K} {
-  /* tslint:disable:no-null-keyword */
-  return o.reduce((res, key: string) => {
-    res[key] = key;
-    return res;
-  }, Object.create(null));
-  /* tslint:enable:no-null-keyword */
-}
-
-/**
  * Service callback that is returned for REST requests initiated by the service client.
  *
  * @property {Error|RestError} err         - The error occurred if any, while executing the request; otherwise null
