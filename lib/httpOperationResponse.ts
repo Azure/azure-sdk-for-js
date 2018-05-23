@@ -11,7 +11,7 @@ import { HttpHeaders } from "./httpHeaders";
  * Initializes a new instance of the HttpOperationResponse class.
  * @constructor
  */
-export interface HttpOperationResponse {
+export interface HttpOperationResponse<TBody = any, THeaders = any> {
   /**
    * The raw request
    */
@@ -28,6 +28,11 @@ export interface HttpOperationResponse {
   headers: HttpHeaders;
 
   /**
+   * The parsed HTTP response headers.
+   */
+  parsedHeaders?: THeaders;
+
+  /**
    * The response body as text (string format)
    */
   bodyAsText?: string | null;
@@ -35,7 +40,7 @@ export interface HttpOperationResponse {
   /**
    * The response body as parsed JSON or XML
    */
-  parsedBody?: any;
+  parsedBody?: TBody;
 
   /**
    * The response body as a Blob.
