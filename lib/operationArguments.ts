@@ -15,4 +15,9 @@ export interface OperationArguments {
    * header arguments are added.
    */
   customHeaders?: { [headerName: string]: string };
+
+  /**
+   * The signal which can be used to abort requests.
+   */
+  abortSignal?: AbortSignal;
 }

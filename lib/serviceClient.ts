@@ -256,6 +256,10 @@ export class ServiceClient {
       }
     }
 
+    if (operationArguments.abortSignal) {
+      httpRequest.abortSignal = operationArguments.abortSignal;
+    }
+
     return this.sendRequest(httpRequest);
   }
 }

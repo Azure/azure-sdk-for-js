@@ -85,8 +85,10 @@ export class AxiosHttpClient implements HttpClient {
       throw new RestError("The request was aborted", "REQUEST_ABORTED_ERROR", undefined, httpRequest);
     }
 
+    let abortListener: (() => void) | undefined;
     const cancelToken = abortSignal && new axios.CancelToken(canceler => {
-      abortSignal.addEventListener("abort", () => canceler());
+      abortListener = () => canceler();
+      abortSignal.addEventListener("abort", abortListener);
     });
 
     const rawHeaders: { [headerName: string]: string } = httpRequest.headers.rawHeaders();
@@ -114,6 +116,10 @@ export class AxiosHttpClient implements HttpClient {
       } else {
         const axiosErr = err as AxiosError;
         throw new RestError(axiosErr.message, "REQUEST_SEND_ERROR", undefined, httpRequest);
+      }
+    } finally {
+      if (abortSignal && abortListener) {
+        abortSignal.removeEventListener("abort", abortListener);
       }
     }
 
