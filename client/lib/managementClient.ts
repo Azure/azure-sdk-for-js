@@ -7,7 +7,7 @@ import * as Constants from "./util/constants";
 import * as debugModule from "debug";
 import { RequestResponseLink, createRequestResponseLink, sendRequest } from "./rpc";
 import { defaultLock } from "./util/utils";
-import { AmqpMessage } from ".";
+import { Message } from ".";
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntity } from "./clientEntity";
 import { translate } from "./errors";
@@ -114,7 +114,6 @@ export class ManagementClient extends ClientEntity {
 
   /**
    * Provides the eventhub runtime information.
-   * @method getHubRuntimeInformation
    * @param {Connection} connection - The established amqp connection
    * @returns {Promise<EventHubRuntimeInformation>}
    */
@@ -133,7 +132,6 @@ export class ManagementClient extends ClientEntity {
 
   /**
    * Provides an array of partitionIds.
-   * @method getPartitionIds
    * @param {Connection} connection - The established amqp connection
    * @returns {Promise<Array<string>>}
    */
@@ -144,7 +142,6 @@ export class ManagementClient extends ClientEntity {
 
   /**
    * Provides information about the specified partition.
-   * @method getPartitionInformation
    * @param {Connection} connection - The established amqp connection
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    */
@@ -217,7 +214,7 @@ export class ManagementClient extends ClientEntity {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     try {
-      const request: AmqpMessage = {
+      const request: Message = {
         body: Buffer.from(JSON.stringify([])),
         message_id: uuid(),
         reply_to: this.replyTo,

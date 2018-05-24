@@ -45,7 +45,7 @@ export interface ConnectionContext {
    */
   readonly tokenProvider: TokenProvider;
   /**
-   * @property {Dictionary<EventHubReceiver<} receivers A dictionary of the EventHub Receivers associated with this client.
+   * @property {Dictionary<EventHubReceiver>} receivers A dictionary of the EventHub Receivers associated with this client.
    */
   receivers: { [x: string]: EventHubReceiver };
   /**

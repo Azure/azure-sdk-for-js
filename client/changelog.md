@@ -1,3 +1,9 @@
+## 2018-05-23 0.2.2
+- Fixed the partitionkey issue while sending events. #73.
+- Bumped the minimum dependency on rhea to 0.2.13. This gives us type definitions for rhea.
+- rpc.open() returns the connection object. This makes it easy to extract common functionality to a
+separate library.
+
 ## 2018-05-09 0.2.1
 - Added support to create EventHubClient from an IotHub connectionstring. The following can be done
 ```javascript

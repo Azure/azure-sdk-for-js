@@ -94,7 +94,7 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       // Action to be performed on the "message" event.
-      onReceiveMessage = (context: rheaPromise.Context) => {
+      onReceiveMessage = (context: rheaPromise.EventContext) => {
         const data: EventData = EventData.fromAmqpMessage(context.message!);
         data.body = this._context.dataTransformer.decode(context.message!.body);
         if (eventDatas.length <= maxMessageCount) {
@@ -106,10 +106,10 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       // Action to be taken when an error is received.
-      onReceiveError = (context: rheaPromise.Context) => {
+      onReceiveError = (context: rheaPromise.EventContext) => {
         this._receiver.removeListener(Constants.receiverError, onReceiveError);
         this._receiver.removeListener(Constants.message, onReceiveMessage);
-        const error = translate(context.receiver.error);
+        const error = translate(context.receiver!.error!);
         debug("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
         if (waitTimer) {
           clearTimeout(waitTimer);
