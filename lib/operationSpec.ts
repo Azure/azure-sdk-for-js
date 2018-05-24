@@ -6,6 +6,7 @@ import { OperationQueryParameter } from "./operationQueryParameter";
 import { OperationURLParameter } from "./operationURLParameter";
 import { Mapper } from "./serializer";
 import { HttpMethods } from "./webResource";
+import { OperationFormDataParameter } from "./operationFormDataParameter";
 
 /**
  * A specification that defines an operation.
@@ -34,6 +35,11 @@ export interface OperationSpec {
   requestBodyMapper?: Mapper;
 
   /**
+   * The name of the parameter that contains the request body value.
+   */
+  requestBodyParameterName?: string;
+
+  /**
    * The name of the request body that will be used during serialization.
    */
   requestBodyName?: string;
@@ -58,4 +64,10 @@ export interface OperationSpec {
    * HTTP request.
    */
   headerParameters?: OperationHeaderParameter[];
+
+  /**
+   * The parameters to the operation method that will be used to create a formdata body for the
+   * operation's HTTP request.
+   */
+  formDataParameters?: OperationFormDataParameter[];
 }
