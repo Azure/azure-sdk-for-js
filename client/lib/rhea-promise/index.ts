@@ -3,9 +3,13 @@
 
 import * as rhea from "rhea";
 import * as debugModule from "debug";
-import { AmqpMessage } from "..";
 
 const debug = debugModule("rhea-promise");
+
+export {
+  Delivery, Message, OnAmqpEvent, MessageProperties, MessageHeader, EventContext,
+  Connection, ReceiverOptions, SenderOptions, ConnectionOptions, AmqpError, Dictionary
+} from "rhea";
 
 /**
  * Establishes an amqp connection.
@@ -15,17 +19,17 @@ const debug = debugModule("rhea-promise");
  * - **Rejects** the promise with an AmqpError when rhea emits the "connection_close" event while trying
  * to establish an amqp connection.
  */
-export function connect(options?: ConnectionOptions): Promise<any> {
+export function connect(options?: rhea.ConnectionOptions): Promise<rhea.Connection> {
   return new Promise((resolve, reject) => {
     const connection = rhea.connect(options);
 
-    function removeListeners(connection: any): void {
+    function removeListeners(connection: rhea.Connection): void {
       connection.removeListener("connection_open", onOpen);
       connection.removeListener("connection_close", onClose);
       connection.removeListener("disconnected", onClose);
     }
 
-    function onOpen(context: any): void {
+    function onOpen(context: rhea.EventContext): void {
       removeListeners(connection);
       process.nextTick(() => {
         debug("Resolving the promise with amqp connection.");
@@ -33,7 +37,7 @@ export function connect(options?: ConnectionOptions): Promise<any> {
       });
     }
 
-    function onClose(context: Context): void {
+    function onClose(context: rhea.EventContext): void {
       removeListeners(connection);
       debug(`Error occurred while establishing amqp connection.`, context.connection.error);
       reject(context.connection.error);
@@ -53,14 +57,14 @@ export function connect(options?: ConnectionOptions): Promise<any> {
  * - **Rejects** the promise with an AmqpError when rhea emits the "connection_error" event while trying
  * to close an amqp connection.
  */
-export function closeConnection(connection: any): Promise<void> {
+export function closeConnection(connection: rhea.Connection): Promise<void> {
   if (!connection || (connection && typeof connection !== "object")) {
     throw new Error("connection is a required parameter and must be of type 'object'.");
   }
 
   return new Promise<void>((resolve, reject) => {
     if (connection.is_open()) {
-      function onClose(context: Context): void {
+      function onClose(context: rhea.EventContext): void {
         connection.removeListener("connection_close", onClose);
         process.nextTick(() => {
           debug("Resolving the promise as the connection has been successfully closed.");
@@ -68,7 +72,7 @@ export function closeConnection(connection: any): Promise<void> {
         });
       }
 
-      function onError(context: Context): void {
+      function onError(context: rhea.EventContext): void {
         connection.removeListener("connection_error", onError);
         debug(`Error occurred while closing amqp connection.`, context.connection.error);
         reject(context.connection.error);
@@ -91,7 +95,7 @@ export function closeConnection(connection: any): Promise<void> {
  * - **Rejects** the promise with an AmqpError when rhea emits the "session_close" event while trying
  * to create an amqp session.
  */
-export function createSession(connection: any): Promise<any> {
+export function createSession(connection: rhea.Connection): Promise<rhea.Session> {
   if (!connection || (connection && typeof connection !== "object")) {
     throw new Error("connection is a required parameter and must be of type 'object'.");
   }
@@ -99,12 +103,12 @@ export function createSession(connection: any): Promise<any> {
   return new Promise((resolve, reject) => {
     const session = connection.create_session();
 
-    function removeListeners(session: any): void {
+    function removeListeners(session: rhea.Session): void {
       session.removeListener("session_open", onOpen);
       session.removeListener("session_close", onClose);
     }
 
-    function onOpen(context: any): void {
+    function onOpen(context: rhea.EventContext): void {
       removeListeners(session);
       process.nextTick(() => {
         debug("Resolving the promise with amqp session.");
@@ -112,7 +116,7 @@ export function createSession(connection: any): Promise<any> {
       });
     }
 
-    function onClose(context: Context): void {
+    function onClose(context: rhea.EventContext): void {
       removeListeners(session);
       debug(`Error occurred while establishing a session over amqp connection.`, context.session.error);
       reject(context.session.error);
@@ -133,14 +137,14 @@ export function createSession(connection: any): Promise<any> {
  * - **Rejects** the promise with an AmqpError when rhea emits the "session_error" event while trying
  * to close an amqp session.
  */
-export function closeSession(session: any): Promise<void> {
+export function closeSession(session: rhea.Session): Promise<void> {
   if (!session || (session && typeof session !== "object")) {
     throw new Error("session is a required parameter and must be of type 'object'.");
   }
 
   return new Promise<void>((resolve, reject) => {
     if (session.is_open()) {
-      function onClose(context: Context): void {
+      function onClose(context: rhea.EventContext): void {
         session.removeListener("session_close", onClose);
         process.nextTick(() => {
           debug("Resolving the promise as the amqp session has been closed.");
@@ -148,7 +152,7 @@ export function closeSession(session: any): Promise<void> {
         });
       }
 
-      function onError(context: Context): void {
+      function onError(context: rhea.EventContext): void {
         session.removeListener("session_error", onError);
         debug(`Error occurred while closing amqp session.`, context.session.error);
         reject(context.session.error);
@@ -172,7 +176,7 @@ export function closeSession(session: any): Promise<void> {
  * - **Rejects** the promise with an AmqpError when rhea emits the "sender_close" event while trying
  * to create an amqp sender.
  */
-export function createSender(session: any, options?: SenderOptions): Promise<any> {
+export function createSender(session: rhea.Session, options?: rhea.SenderOptions): Promise<rhea.Sender> {
   if (!session || (session && typeof session !== "object")) {
     throw new Error("session is a required parameter and must be of type 'object'.");
   }
@@ -180,12 +184,12 @@ export function createSender(session: any, options?: SenderOptions): Promise<any
   return new Promise((resolve, reject) => {
     const sender = session.attach_sender(options);
 
-    function removeListeners(session: any): void {
+    function removeListeners(session: rhea.Session): void {
       sender.removeListener("sendable", onOpen);
       sender.removeListener("sender_close", onClose);
     }
 
-    function onOpen(context: any): void {
+    function onOpen(context: rhea.EventContext): void {
       removeListeners(session);
       process.nextTick(() => {
         debug(`Resolving the promise with amqp sender "${sender.name}".`);
@@ -193,10 +197,10 @@ export function createSender(session: any, options?: SenderOptions): Promise<any
       });
     }
 
-    function onClose(context: Context): void {
+    function onClose(context: rhea.EventContext): void {
       removeListeners(session);
-      debug(`Error occurred while creating a sender over amqp connection.`, context.sender.error);
-      reject(context.sender.error);
+      debug(`Error occurred while creating a sender over amqp connection.`, context.sender!.error);
+      reject(context.sender!.error);
     }
 
     sender.once("sendable", onOpen);
@@ -214,7 +218,7 @@ export function createSender(session: any, options?: SenderOptions): Promise<any
  * - **Rejects** the promise with an AmqpError when rhea emits the "sender_close" event while trying
  * to create an amqp sender.
  */
-export function createSenderWithHandlers(session: any, onError: OnAmqpEvent, options?: SenderOptions): Promise<any> {
+export function createSenderWithHandlers(session: rhea.Session, onError: rhea.OnAmqpEvent, options?: rhea.SenderOptions): Promise<rhea.Sender> {
   if (!session || (session && typeof session !== "object")) {
     throw new Error("session is a required parameter and must be of type 'object'.");
   }
@@ -223,12 +227,12 @@ export function createSenderWithHandlers(session: any, onError: OnAmqpEvent, opt
     const sender = session.attach_sender(options);
     sender.on("sender_error", onError);
 
-    function removeListeners(session: any): void {
+    function removeListeners(session: rhea.Session): void {
       sender.removeListener("sendable", onOpen);
       sender.removeListener("sender_close", onClose);
     }
 
-    function onOpen(context: any): void {
+    function onOpen(context: rhea.EventContext): void {
       removeListeners(session);
       process.nextTick(() => {
         debug(`Resolving the promise with amqp sender "${sender.name}".`);
@@ -236,10 +240,10 @@ export function createSenderWithHandlers(session: any, onError: OnAmqpEvent, opt
       });
     }
 
-    function onClose(context: Context): void {
+    function onClose(context: rhea.EventContext): void {
       removeListeners(session);
-      debug(`Error occurred while creating a sender over amqp connection.`, context.sender.error);
-      reject(context.sender.error);
+      debug(`Error occurred while creating a sender over amqp connection.`, context.sender!.error);
+      reject(context.sender!.error);
     }
 
     sender.once("sendable", onOpen);
@@ -255,14 +259,14 @@ export function createSenderWithHandlers(session: any, onError: OnAmqpEvent, opt
  * - **Rejects** the promise with an AmqpError when rhea emits the
  * "sender_error" event while trying to close an amqp sender.
  */
-export function closeSender(sender: any): Promise<void> {
+export function closeSender(sender: rhea.Sender): Promise<void> {
   if (!sender || (sender && typeof sender !== "object")) {
     throw new Error("sender is a required parameter and must be of type 'object'.");
   }
 
   return new Promise<void>((resolve, reject) => {
     if (sender.is_open()) {
-      function onClose(context: Context): void {
+      function onClose(context: rhea.EventContext): void {
         sender.removeListener("sender_close", onClose);
         process.nextTick(() => {
           debug("Resolving the promise as the amqp sender has been closed.");
@@ -270,10 +274,10 @@ export function closeSender(sender: any): Promise<void> {
         });
       }
 
-      function onError(context: Context): void {
+      function onError(context: rhea.EventContext): void {
         sender.removeListener("sender_error", onError);
-        debug(`Error occurred while closing amqp sender.`, context.sender.error);
-        reject(context.sender.error);
+        debug(`Error occurred while closing amqp sender.`, context.sender!.error);
+        reject(context.sender!.error);
       }
 
       sender.once("sender_close", onClose);
@@ -296,7 +300,7 @@ export function closeSender(sender: any): Promise<void> {
  * - **Rejects** the promise with an AmqpError when rhea emits the "receiver_close" event while trying
  * to create an amqp receiver.
  */
-export function createReceiver(session: any, options?: ReceiverOptions): Promise<any> {
+export function createReceiver(session: rhea.Session, options?: rhea.ReceiverOptions): Promise<rhea.Receiver> {
   if (!session || (session && typeof session !== "object")) {
     throw new Error("session is a required parameter and must be of type 'object'.");
   }
@@ -304,12 +308,12 @@ export function createReceiver(session: any, options?: ReceiverOptions): Promise
   return new Promise((resolve, reject) => {
     const receiver = session.attach_receiver(options);
 
-    function removeListeners(receiver: any): void {
+    function removeListeners(receiver: rhea.Receiver): void {
       receiver.removeListener("receiver_open", onOpen);
       receiver.removeListener("receiver_close", onClose);
     }
 
-    function onOpen(context: any): void {
+    function onOpen(context: rhea.EventContext): void {
       removeListeners(receiver);
       process.nextTick(() => {
         debug(`Resolving the promise with amqp receiver "${receiver.name}".`);
@@ -317,10 +321,10 @@ export function createReceiver(session: any, options?: ReceiverOptions): Promise
       });
     }
 
-    function onClose(context: Context): void {
+    function onClose(context: rhea.EventContext): void {
       removeListeners(receiver);
-      debug(`Error occurred while creating a receiver over amqp connection.`, context.receiver.error);
-      reject(context.receiver.error);
+      debug(`Error occurred while creating a receiver over amqp connection.`, context.receiver!.error);
+      reject(context.receiver!.error);
     }
 
     receiver.once("receiver_open", onOpen);
@@ -341,7 +345,7 @@ export function createReceiver(session: any, options?: ReceiverOptions): Promise
  * - **Rejects** the promise with an AmqpError when rhea emits the "receiver_close" event while trying
  * to create an amqp receiver.
  */
-export function createReceiverWithHandlers(session: any, onMessage: OnAmqpEvent, onError: OnAmqpEvent, options?: ReceiverOptions): Promise<any> {
+export function createReceiverWithHandlers(session: rhea.Session, onMessage: rhea.OnAmqpEvent, onError: rhea.OnAmqpEvent, options?: rhea.ReceiverOptions): Promise<rhea.Receiver> {
   if (!session || (session && typeof session !== "object")) {
     throw new Error("session is a required parameter and must be of type 'object'.");
   }
@@ -364,7 +368,7 @@ export function createReceiverWithHandlers(session: any, onMessage: OnAmqpEvent,
       receiver.removeListener("receiver_close", onClose);
     }
 
-    function onOpen(context: any): void {
+    function onOpen(context: rhea.EventContext): void {
       removeListeners(receiver);
       process.nextTick(() => {
         debug(`Resolving the promise with amqp receiver "${receiver.name}".`);
@@ -372,10 +376,10 @@ export function createReceiverWithHandlers(session: any, onMessage: OnAmqpEvent,
       });
     }
 
-    function onClose(context: Context): void {
+    function onClose(context: rhea.EventContext): void {
       removeListeners(receiver);
-      debug(`Error occurred while creating a receiver over amqp connection.`, context.receiver.error);
-      reject(context.receiver.error);
+      debug(`Error occurred while creating a receiver over amqp connection.`, context.receiver!.error);
+      reject(context.receiver!.error);
     }
 
     receiver.once("receiver_open", onOpen);
@@ -391,14 +395,14 @@ export function createReceiverWithHandlers(session: any, onMessage: OnAmqpEvent,
  * - **Rejects** the promise with an AmqpError when rhea emits the
  * "receiver_error" event while trying to close an amqp receiver.
  */
-export function closeReceiver(receiver: any): Promise<void> {
+export function closeReceiver(receiver: rhea.Receiver): Promise<void> {
   if (!receiver || (receiver && typeof receiver !== "object")) {
     throw new Error("receiver is a required parameter and must be of type 'object'.");
   }
 
   return new Promise<void>((resolve, reject) => {
     if (receiver.is_open()) {
-      function onClose(context: Context): void {
+      function onClose(context: rhea.EventContext): void {
         receiver.removeListener("receiver_close", onClose);
         process.nextTick(() => {
           debug("Resolving the promise as the amqp receiver has been closed.");
@@ -406,10 +410,10 @@ export function closeReceiver(receiver: any): Promise<void> {
         });
       }
 
-      function onError(context: Context): void {
+      function onError(context: rhea.EventContext): void {
         receiver.removeListener("receiver_error", onError);
-        debug(`Error occurred while closing amqp receiver.`, context.receiver.error);
-        reject(context.receiver.error);
+        debug(`Error occurred while closing amqp receiver.`, context.receiver!.error);
+        reject(context.receiver!.error);
       }
 
       receiver.once("receiver_close", onClose);
@@ -419,294 +423,6 @@ export function closeReceiver(receiver: any): Promise<void> {
       resolve();
     }
   });
-}
-
-/**
- * Describes the signature of the event handler for any event emitted by rhea.
- * @type OnAmqpEvent
- * @param {Context} context The rhea context.
- */
-export type OnAmqpEvent = (context: Context) => void;
-
-/**
- * Defines the common set of properties that are applicable for a connection, session and a link (sender, receiver).
- * @interface EntityOptions
- */
-export interface EntityOptions {
-  /**
-   * @property {any} [desired_capabilities] Extension capabilities the sender can use if the receiver supports them.
-   */
-  desired_capabilities?: any;
-  /**
-   * @property {any} [offered_capabilities] Extension capabilities the sender supports.
-   */
-  offered_capabilities?: any;
-  /**
-   * @property {object} [properties] Properties of the entity (connection, session, link) contain a set of fields
-   * intended to provide more information about the entity.
-   */
-  properties?: { [x: string]: any };
-}
-
-/**
- * Defines the options that can be provided while creating a connection.
- * @interface ConnectionOptions
- * @extends EntityOptions
- */
-export interface ConnectionOptions extends EntityOptions {
-  /**
-   * @property {string} username - The username.
-   */
-  username: string;
-  /**
-   * @property {string} host - The host to connect to.
-   */
-  host: string;
-  /**
-   * @property {string} hostname - The hostname to connect to.
-   */
-  hostname: string;
-  /**
-   * @property {number} port - The port number (5671 or 5672) at which to connect to.
-   */
-  port: number;
-  /**
-   * @property {string} [transport] - The transport option.
-   */
-  transport?: "tls" | "ssl" | "tcp";
-  /**
-   * @property {string} [container_id] The id of the source container. If not provided then
-   * this will a guid string.
-   */
-  container_id?: string;
-  /**
-   * @property {string} [id] A unqiue name for the connection. If not provided then this will be
-   * a string in the following format: "connection-<counter>".
-   */
-  id?: string;
-  /**
-   * @property {boolean} [reconnect] if true (default), the library will automatically attempt to
-   * reconnect if disconnected.
-   * - if false, automatic reconnect will be disabled
-   * - if it is a numeric value, it is interpreted as the delay between
-   * reconnect attempts (in milliseconds)
-   */
-  reconnect?: boolean;
-  /**
-   * @property {number} [reconnect_limit] maximum number of reconnect attempts.
-   * Applicable only when reconnect is true.
-   */
-  reconnect_limit?: number;
-  /**
-   * @property {number} [initial_reconnect_delay] - Time to wait in milliseconds before
-   * attempting to reconnect. Applicable only when reconnect is true or a number is
-   * provided for reconnect.
-   */
-  initial_reconnect_delay?: number;
-  /**
-   * @property {number} [max_reconnect_delay] - Maximum reconnect delay in milliseconds
-   * before attempting to reconnect. Applicable only when reconnect is true.
-   */
-  max_reconnect_delay?: number;
-  /**
-   * @property {string} [password] - The secret key to be used while establishing the connection.
-   */
-  password?: string;
-  /**
-   * @property {number} [max_frame_size] The largest frame size that the sending peer
-   * is able to accept on this connection. Default: 4294967295
-   */
-  max_frame_size?: number;
-  /**
-   * @property {number} [idle_time_out] The largest frame size that the sending
-   * peer is able to accept on this connection.
-   */
-  idle_time_out?: number;
-  /**
-   * @property {number} [channel_max] The highest channel number that can be used on the connection.
-   */
-  channel_max?: number;
-  /**
-   * @property {string[]} [outgoing_locales] A list of the locales that the peer supports
-   * for sending informational text.
-   */
-  outgoing_locales?: string[];
-  /**
-   * @property {string[]} [incoming_locales] A list of locales that the sending peer
-   * permits for incoming informational text. This list is ordered in decreasing level of preference.
-   */
-  incoming_locales?: string[];
-}
-
-/**
- * Defines the common set of options that can be provided while creating a link (sender, receiver).
- * @interface LinkOptions
- * @extends EntityOptions
- */
-export interface LinkOptions extends EntityOptions {
-  /**
-   * @property {string} [name] The name of the link.
-   * This should be unique for the container.
-   * If not specified a unqiue name is generated.
-   */
-  name?: string;
-  /**
-   * @property {number} [snd_settle_mode] it specifies the sender settle mode with following possibile values:
-   * - 0 - "unsettled" - The sender will send all deliveries initially unsettled to the receiver.
-   * - 1 - "settled" - The sender will send all deliveries settled to the receiver.
-   * - 2 - "mixed" - (default) The sender MAY send a mixture of settled and unsettled deliveries to the receiver.
-   */
-  snd_settle_mode?: 0 | 1 | 2;
-  /**
-   * @property {number} [rcv_settle_mode] it specifies the receiver settle mode with following possibile values:
-   * - 0 - "first" - The receiver will spontaneously settle all incoming transfers.
-   * - 1 - "second" - The receiver will only settle after sending the disposition to the sender and receiving a
-   * disposition indicating settlement of the delivery from the sender.
-   */
-  rcv_settle_mode?: 0 | 1;
-  /**
-   * @property {number} [max_message_size] The maximum message size supported by the link endpoint.
-   */
-  max_message_size?: number;
-}
-
-/**
- * Defines the options that can be provided while creating the source/target for a Sender or Receiver (link).
- * @interface TerminusOptions
- */
-export interface TerminusOptions {
-  /**
-   * @property {string} [address] - The AMQP address as target for this terminus.
-   */
-  address: string;
-  /**
-   * @property {object} [filter] - The filters to be added for the terminus.
-   */
-  filter?: {
-    [x: string]: any;
-  };
-  /**
-   * @property {boolean} [durable] - It specifies a request for the receiving peer
-   * to dynamically create a node at the target/source. Default: false.
-   */
-  dynamic?: boolean;
-  /**
-   * @property {string} [expiry_policy] - The expiry policy of the terminus. Default value "session-end".
-   */
-  expiry_policy?: string;
-  /**
-   * @property {number} [durable] It specifies what state of the terminus will be retained durably:
-   *  - the state of durable messages (unsettled_state value),
-   *  - only existence and configuration of the terminus (configuration value), or
-   *  - no state at all (none value);
-   */
-  durable?: number;
-}
-
-/**
- * Defines the options that can be set while creating the Receiver (link).
- * @interface ReceiverOptions
- * @extends LinkOptions
- */
-export interface ReceiverOptions extends LinkOptions {
-  /**
-   * @property {object} [credit_window]  A "prefetch" window controlling the flow of messages over
-   * this receiver. Defaults to 1000 if not specified. A value of 0 can be used to
-   * turn of automatic flow control and manage it directly.
-   */
-  credit_window?: number;
-  /**
-   * @property {boolean} [autoaccept] Whether received messages should be automatically accepted. Defaults to true.
-   */
-  autoaccept?: boolean;
-  /**
-   * @property {object} source  The source from which messages are received.
-   */
-  source: TerminusOptions;
-  /**
-   * @property {object} [target]  The target of a receiving link is the local identifier
-   */
-  target?: TerminusOptions;
-}
-
-/**
- * Defines the options that can be set while creating the Sender (link).
- * @interface SenderOptions
- * @extends LinkOptions
- */
-export interface SenderOptions extends LinkOptions {
-  /**
-   * @property {boolean} [autosettle] Whether sent messages should be automatically settled once the peer settles them. Defaults to true.
-   */
-  autosettle?: boolean;
-  /**
-   * @property {object} target  - The target to which messages are sent
-   */
-  target: TerminusOptions;
-  /**
-   * @property {object} [source]  The source of a sending link is the local identifier
-   */
-  source?: TerminusOptions;
-}
-
-/**
- * Defines the AMQP Connection context. This context is provided when you add an
- * event handler to any of the objects created by rhea.
- * @interface Context
- */
-export interface Context {
-  /**
-   * @property {Connection} connection The amqp connection.
-   */
-  connection: any;
-  /**
-   * @property {Container} container The amqp container
-   */
-  container: any;
-  /**
-   * @property {Delivery} [delivery] The amqp delivery that is received after sending a message.
-   */
-  delivery?: Delivery;
-  /**
-   * @property {AmqpMessage} [message] The amqp message that is received in the message event
-   * handler when rhea emits a message event on a receiver.
-   */
-  message?: AmqpMessage;
-  /**
-   * @property {Receiver} [receiver] The amqp receiver link that was created on the amqp connection.
-   */
-  receiver?: any;
-  /**
-   * @property {Session} session The amqp session link that was created on the amqp connection.
-   */
-  session: any;
-  /**
-   * @property {Sender} [sender] The amqp sender link that was created on the amqp connection.
-   */
-  sender?: any;
-}
-
-/**
- * Defines the amqp error object.
- * @interface AmqpError
- */
-export interface AmqpError {
-  /**
-   * @property {string} [condition] Describes the error condition.
-   */
-  condition?: string;
-  /**
-   * @property {string} [description] Describes any supplementary information that is not indicated the error condition.
-   */
-  description?: string;
-  /**
-   * @property {any} [info] Describes the information about the error condition.
-   */
-  info?: any;
-  /**
-   * @property {any[]} [value] Describes the associated amqp value types.
-   */
-  value?: any[];
 }
 
 /**
@@ -764,19 +480,54 @@ export enum AmqpResponseStatusCode {
 }
 
 /**
- * Defines the Delivery frame that is received whenever a message/request is sent to the Broker.
- * @interface Delivery
+ * Describes the delivery annotations.
+ * @interface
  */
-export interface Delivery {
-  data: Buffer[];
-  format: number;
-  id: number;
-  tag: Buffer;
-  link: any;
-  remote_settled: boolean;
-  sent: boolean;
-  settled: boolean;
-  state?: any;
-  remote_state?: any;
-  update(settled: boolean, state?: any): void;
+export interface EventHubDeliveryAnnotations extends rhea.DeliveryAnnotations {
+  /**
+   * @property {string} [last_enqueued_offset] The offset of the last event.
+   */
+  last_enqueued_offset?: string;
+  /**
+   * @property {number} [last_enqueued_sequence_number] The sequence number of the last event.
+   */
+  last_enqueued_sequence_number?: number;
+  /**
+   * @property {number} [last_enqueued_time_utc] The enqueued time of the last event.
+   */
+  last_enqueued_time_utc?: number;
+  /**
+   * @property {number} [runtime_info_retrieval_time_utc] The retrieval time of the last event.
+   */
+  runtime_info_retrieval_time_utc?: number;
+  /**
+   * @property {string} Any unknown delivery annotations.
+   */
+  [x: string]: any;
+}
+
+/**
+ * Map containing message attributes that will be held in the message header.
+ */
+export interface EventHubMessageAnnotations extends rhea.MessageAnnotations {
+  /**
+   * @property {string | null} [x-opt-partition-key] Annotation for the partition key set for the event.
+   */
+  "x-opt-partition-key"?: string | null;
+  /**
+   * @property {number} [x-opt-sequence-number] Annontation for the sequence number of the event.
+   */
+  "x-opt-sequence-number"?: number;
+  /**
+   * @property {number} [x-opt-enqueued-time] Annotation for the enqueued time of the event.
+   */
+  "x-opt-enqueued-time"?: number;
+  /**
+   * @property {string} [x-opt-offset] Annotation for the offset of the event.
+   */
+  "x-opt-offset"?: string;
+  /**
+   * @property {any} Any other annotation that can be added to the message.
+   */
+  [x: string]: any;
 }

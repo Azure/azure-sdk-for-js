@@ -54,8 +54,6 @@ export class PartitionContext {
    * "Epoch":1,"Offset":"","SequenceNumber":0}`. The format and the casing of keys in the object
    * is in sync with the .net sdk of EventHubs.
    *
-   * @method checkpoint
-   *
    * @return {Promise<CheckpointInfo | void>}
    */
   async checkpoint(): Promise<CheckpointInfo | void> {
@@ -125,8 +123,6 @@ export class PartitionContext {
   /**
    * Updates data from the message, which should have an annotations field containing something like:
    *   "x-opt-sequence-number":6,"x-opt-offset":"480","x-opt-enqueued-time":"2015-12-18T17:26:49.331Z"
-   *
-   * @method updateCheckpointDataFromMessage
    * @param {EventData} eventData The event data received from the EventHubReceiver.
    */
   updateCheckpointDataFromEventData(eventData: EventData): void {

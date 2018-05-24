@@ -29,7 +29,6 @@ export class DefaultDataTransformer implements DataTransformer {
   /**
    * A function that takes the body property from an EventData object
    * and returns an encoded body (some form of AMQP type).
-   * @method
    * @param {*} body The AMQP message body
    * @return {DataSection} encodedBody - The encoded AMQP message body as an AMQP Data type
    * (data section in rhea terms). Section object with following properties:
