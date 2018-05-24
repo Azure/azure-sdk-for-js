@@ -69,7 +69,6 @@ export interface LeaseManager extends EventEmitter {
   leases: Dictionary<LeaseWithDuration>;
   /**
    * Resets the dictionary of leases to an empty object.
-   * @method reset
    */
   reset(): void;
   /**

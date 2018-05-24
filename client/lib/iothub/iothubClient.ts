@@ -66,7 +66,6 @@ export class IotHubClient {
   /**
    * Closes the AMQP connection to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @method close
    * @returns {Promise<any>}
    */
   async close(context: ConnectionContext): Promise<any> {

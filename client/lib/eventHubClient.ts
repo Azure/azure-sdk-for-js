@@ -2,7 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
-import { closeConnection, Delivery } from "./rhea-promise";
+import { closeConnection } from "./rhea-promise";
+import { Delivery } from "rhea";
 import { ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials } from "ms-rest-azure";
 import { ConnectionConfig, OnMessage, OnError, EventData, EventHubsError, DataTransformer } from ".";
 import { ConnectionContext } from "./connectionContext";
@@ -108,7 +109,6 @@ export class EventHubClient {
   /**
    * Closes the AMQP connection to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @method close
    * @returns {Promise<any>}
    */
   async close(): Promise<any> {
@@ -140,7 +140,6 @@ export class EventHubClient {
   /**
    * Sends the given message to the EventHub.
    *
-   * @method send
    * @param {any} data                    Message to send.  Will be sent as UTF8-encoded JSON string.
    * @param {string|number} [partitionId] Partition ID to which the event data needs to be sent. This should only be specified
    * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
@@ -157,7 +156,6 @@ export class EventHubClient {
    * Send a batch of EventData to the EventHub. The "message_annotations", "application_properties" and "properties"
    * of the first message will be set as that of the envelope (batch message).
    *
-   * @method sendBatch
    * @param {Array<EventData>} datas  An array of EventData objects to be sent in a Batch message.
    * @param {string|number} [partitionId] Partition ID to which the event data needs to be sent. This should only be specified
    * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
@@ -257,7 +255,6 @@ export class EventHubClient {
 
   /**
    * Provides the eventhub runtime information.
-   * @method getHubRuntimeInformation
    * @returns {Promise<EventHubRuntimeInformation>}
    */
   async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
@@ -271,7 +268,6 @@ export class EventHubClient {
 
   /**
    * Provides an array of partitionIds.
-   * @method getPartitionIds
    * @returns {Promise<Array<string>>}
    */
   async getPartitionIds(): Promise<Array<string>> {
@@ -286,7 +282,6 @@ export class EventHubClient {
 
   /**
    * Provides information about the specified partition.
-   * @method getPartitionInformation
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    */
   async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
@@ -303,7 +298,6 @@ export class EventHubClient {
 
   /**
    * Creates an EventHub Client from connection string.
-   * @method createFromConnectionString
    * @param {string} connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param {string} [path] - EventHub path of the form 'my-event-hub-name'
    * @param {ClientOptions} [options] Options that can be provided during client creation.
@@ -324,7 +318,6 @@ export class EventHubClient {
 
   /**
    * Creates an EventHub Client from connection string.
-   * @method createFromConnectionString
    * @param {string} iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param {ClientOptions} [options] Options that can be provided during client creation.
    * @param {TokenProvider} [options.tokenProvider] - An instance of the token provider that provides the token for authentication. Default value: SasTokenProvider.
@@ -340,7 +333,6 @@ export class EventHubClient {
 
   /**
    * Creates an EventHub Client from AADTokenCredentials.
-   * @method
    * @param {string} host - Fully qualified domain name for Event Hubs. Most likely, {yournamespace}.servicebus.windows.net
    * @param {string} entityPath - EventHub path of the form 'my-event-hub-name'
    * @param {TokenCredentials} credentials - The AAD Token credentials. It can be one of the following: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.

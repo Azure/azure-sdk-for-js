@@ -8,7 +8,7 @@ import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
 import * as debugModule from "debug";
 import * as rpc from "./rpc";
-import { AmqpMessage } from ".";
+import { Message } from ".";
 import { translate } from "./errors";
 import { defaultLock } from "./util/utils";
 import { ConnectionContext } from "./connectionContext";
@@ -52,9 +52,14 @@ export class CbsClient {
   async init(): Promise<void> {
     try {
       // Acquire the lock and establish an amqp connection if it does not exist.
-      if (!this._context.connection) {
+      if (!this._isConnectionOpen()) {
         debug("[%s] The CBS client is trying to establish an AMQP connection.", this._context.connectionId);
-        await defaultLock.acquire(this._context.connectionLock, () => { return rpc.open(this._context); });
+        const params: rpc.CreateConnectionPrameters = {
+          config: this._context.config,
+          userAgent: ConnectionContext.userAgent
+        };
+        this._context.connection = await defaultLock.acquire(this._context.connectionLock, () => { return rpc.open(params); });
+        this._context.connectionId = this._context.connection.options.id;
       }
 
       if (!this._cbsSenderReceiverLink) {
@@ -65,12 +70,12 @@ export class CbsClient {
           name: this.replyTo
         };
         this._cbsSenderReceiverLink = await createRequestResponseLink(this._context.connection, { target: { address: this.endpoint } }, rxOpt);
-        this._cbsSenderReceiverLink.sender.on("sender_error", (context: rheaPromise.Context) => {
-          const ehError = translate(context.sender.error);
+        this._cbsSenderReceiverLink.sender.on("sender_error", (context: rheaPromise.EventContext) => {
+          const ehError = translate(context.sender!.error!);
           debug("An error occurred on the cbs sender link.. %O", ehError);
         });
-        this._cbsSenderReceiverLink.receiver.on("receiver_error", (context: rheaPromise.Context) => {
-          const ehError = translate(context.receiver.error);
+        this._cbsSenderReceiverLink.receiver.on("receiver_error", (context: rheaPromise.EventContext) => {
+          const ehError = translate(context.receiver!.error!);
           debug("An error occurred on the cbs receiver link.. %O", ehError);
         });
         debug("[%s] Successfully created the cbs sender '%s' and receiver '%s' links over cbs session.",
@@ -96,7 +101,7 @@ export class CbsClient {
    */
   async negotiateClaim(audience: string, tokenObject: TokenInfo): Promise<any> {
     try {
-      const request: AmqpMessage = {
+      const request: Message = {
         body: tokenObject.token,
         message_id: uuid(),
         reply_to: this.replyTo,
@@ -132,5 +137,15 @@ export class CbsClient {
       debug(msg);
       throw new Error(msg);
     }
+  }
+
+  private _isConnectionOpen(): boolean {
+    let result: boolean = false;
+    if (this._context && this._context.connection) {
+      if (this._context.connection.is_open && this._context.connection.is_open()) {
+        result = true;
+      }
+    }
+    return result;
   }
 }

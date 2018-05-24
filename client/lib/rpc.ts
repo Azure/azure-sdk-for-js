@@ -9,12 +9,11 @@ import { defaultLock } from "./util/utils";
 import {
   ReceiverOptions, SenderOptions, createSession, createSenderWithHandlers,
   createSender, createReceiver, connect, ConnectionOptions,
-  OnAmqpEvent, AmqpError, createReceiverWithHandlers, Context
+  OnAmqpEvent, AmqpError, createReceiverWithHandlers, EventContext, Connection
 } from "./rhea-promise";
 import * as Constants from "./util/constants";
-import { ConnectionContext } from "./connectionContext";
 import { ConditionStatusMapper, translate } from "./errors";
-import { AmqpMessage } from ".";
+import { Message, ConnectionConfig } from ".";
 import { retry } from "./retry";
 const debug = debugModule("azure:event-hubs:rpc");
 
@@ -46,6 +45,12 @@ export interface ReceiverLinkOptions extends LinkOptions {
 
 export interface SenderLinkOptions extends LinkOptions {
   senderOptions: SenderOptions;
+}
+
+export interface CreateConnectionPrameters {
+  config: ConnectionConfig;
+  userAgent: string;
+  useSaslPlain?: boolean;
 }
 
 export async function createRequestResponseLink(connection: any, senderOptions: SenderOptions, receiverOptions: ReceiverOptions): Promise<RequestResponseLink> {
@@ -148,7 +153,7 @@ export async function createSenderLinkWithHandlers(options: SenderLinkOptions): 
   };
 }
 
-export function sendRequest(connection: any, link: RequestResponseLink, request: AmqpMessage, timeoutInSeconds?: number): Promise<any> {
+export function sendRequest(connection: any, link: RequestResponseLink, request: Message, timeoutInSeconds?: number): Promise<any> {
   if (!connection) {
     throw new Error("connection is a required parameter and must be of type 'object'.");
   }
@@ -171,7 +176,7 @@ export function sendRequest(connection: any, link: RequestResponseLink, request:
     let waitTimer: any;
     let timeOver: boolean = false;
 
-    const messageCallback = (context: Context) => {
+    const messageCallback = (context: EventContext) => {
       // remove the event listener as this will be registered next time when someone makes a request.
       link.receiver.removeListener(Constants.message, messageCallback);
       const code: number = context.message!.application_properties![Constants.statusCode];
@@ -230,44 +235,39 @@ export function sendRequest(connection: any, link: RequestResponseLink, request:
  *
  * @param {ConnectionContext} context The connection context.
  * @param {boolean} [useSaslPlain]   True for using sasl plain mode for authentication, false otherwise.
- * @returns {Promise<void>}
+ * @returns {Promise<Connection>} The Connection object.
  */
-export async function open(context: ConnectionContext, useSaslPlain?: boolean): Promise<void> {
+export async function open(params: CreateConnectionPrameters): Promise<Connection> {
   try {
-    await defaultLock.acquire("connect", () => { return _open(context, useSaslPlain); });
+    return await defaultLock.acquire("connect", () => { return _open(params); });
   } catch (err) {
     debug(err);
     throw err;
   }
 }
 
-async function _open(context: ConnectionContext, useSaslPlain?: boolean): Promise<void> {
-  if (useSaslPlain && typeof useSaslPlain !== "boolean") {
-    throw new Error("'useSaslPlain' must be of type 'boolean'.");
-  }
-  if (!context.connection) {
-    const connectOptions: ConnectionOptions = {
-      transport: Constants.TLS,
-      host: context.config.host,
-      hostname: context.config.host,
-      username: context.config.sharedAccessKeyName,
-      port: 5671,
-      reconnect_limit: Constants.reconnectLimit,
-      properties: {
-        product: "MSJSClient",
-        version: Constants.packageJsonInfo.version || "0.1.0",
-        platform: `(${os.arch()}-${os.type()}-${os.release()})`,
-        framework: `Node/${process.version}`,
-        "user-agent": ConnectionContext.userAgent
-      }
-    };
-    if (useSaslPlain) {
-      connectOptions.password = context.config.sharedAccessKey;
+async function _open(params: CreateConnectionPrameters): Promise<Connection> {
+  const connectOptions: ConnectionOptions = {
+    transport: Constants.TLS,
+    host: params.config.host,
+    hostname: params.config.host,
+    username: params.config.sharedAccessKeyName,
+    port: 5671,
+    reconnect_limit: Constants.reconnectLimit,
+    properties: {
+      product: "MSJSClient",
+      version: Constants.packageJsonInfo.version || "0.1.0",
+      platform: `(${os.arch()}-${os.type()}-${os.release()})`,
+      framework: `Node/${process.version}`,
+      "user-agent": params.userAgent
     }
-    debug("Dialing the amqp connection with options.", connectOptions);
-    context.connection = await connect(connectOptions);
-    context.connectionId = context.connection.options.id;
-    debug("Successfully established the amqp connection '%s'.", context.connectionId);
+  };
+  if (params.useSaslPlain) {
+    connectOptions.password = params.config.sharedAccessKey;
   }
+  debug("Dialing the amqp connection with options.", connectOptions);
+  const connection = await connect(connectOptions);
+  debug("Successfully established the amqp connection '%s'.", connection.options.id);
+  return connection;
 }
 

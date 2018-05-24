@@ -7,10 +7,9 @@ import * as chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { EventHubClient, EventHubPartitionRuntimeInformation } from "../lib";
-import { delay } from "../lib/util/utils";
+import { EventHubClient } from "../lib";
 
-function testFalsyValues(testFn) {
+function testFalsyValues(testFn: Function) {
   [null, undefined, "", 0].forEach(function (value) {
     testFn(value);
   });
@@ -20,9 +19,9 @@ describe("EventHubClient", function () {
   describe("#constructor", function () {
     ["endpoint", "entityPath", "sharedAccessKeyName", "sharedAccessKey"].forEach(function (prop) {
       it("throws if config." + prop + " is falsy", function () {
-        testFalsyValues(function (falsyVal) {
+        testFalsyValues(function (falsyVal: any) {
           const test = function () {
-            let config = { endpoint: "a", entityPath: "b", sharedAccessKey: "c", sharedAccessKeyName: "d" };
+            let config: any = { endpoint: "a", entityPath: "b", sharedAccessKey: "c", sharedAccessKeyName: "d" };
             config[prop] = falsyVal;
             return new EventHubClient(config as any);
           };
@@ -34,7 +33,7 @@ describe("EventHubClient", function () {
 
   describe(".fromConnectionString", function () {
     it("throws when there is no connection string", function () {
-      testFalsyValues(function (value) {
+      testFalsyValues(function (value: any) {
         const test = function () {
           return EventHubClient.createFromConnectionString(value);
         };
@@ -61,8 +60,8 @@ describe("EventHubClient", function () {
   });
 });
 
-function arrayOfIncreasingNumbersFromZero(length) {
-  return Array.apply(null, new Array(length)).map((x, i) => { return `${i}`; });
+function arrayOfIncreasingNumbersFromZero(length: any) {
+  return Array.apply(null, new Array(length)).map((x: any, i: any) => { return `${i}`; });
 }
 
 before("validate environment", function () {
@@ -145,10 +144,10 @@ describe("EventHubClient on ", function () {
       try {
         client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
         debug(">>>>>>>> client created.");
-        const onMessage = (data) => {
+        const onMessage = (data: any) => {
           debug(">>>>> data: ", data);
         };
-        const onError = (error) => {
+        const onError = (error: any) => {
           debug(">>>>>>>> error occurred", error);
           done(should.equal(error.name, "MessagingEntityNotFoundError"));
         }
@@ -163,12 +162,11 @@ describe("EventHubClient on ", function () {
 
   describe("on invalid partition ids like", function () {
     const invalidIds = ["XYZ", "-1", "1000", "-", " "];
-    let pinfo: EventHubPartitionRuntimeInformation;
     invalidIds.forEach(function (id) {
       it(`"${id}" should throw an error`, async function () {
         try {
           client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
-          pinfo = await client.getPartitionInformation(id);
+          await client.getPartitionInformation(id);
         } catch (err) {
           debug(`>>>> Received error - `, err);
           should.exist(err);
@@ -182,7 +180,7 @@ describe("EventHubClient on ", function () {
       it(`"${id}" should throw an error`, async function () {
         try {
           client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
-          pinfo = await client.getPartitionInformation(id);
+          await client.getPartitionInformation(id as any);
         } catch (err) {
           debug(`>>>> Received error - `, err);
           should.exist(err);

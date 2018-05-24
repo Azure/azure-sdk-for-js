@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+export { EventData } from "./eventData";
 export {
-  EventData, AmqpMessage, AmqpMessageAnnotations, Dictionary, AmqpMessageProperties
-} from "./eventData";
-export { Delivery } from "./rhea-promise";
+  Delivery, AmqpError, Message, MessageHeader, MessageProperties, Dictionary,
+  EventHubDeliveryAnnotations, EventHubMessageAnnotations
+} from "./rhea-promise";
 export { ConnectionConfig } from "./connectionConfig";
 export { ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
 export { ReceiveHandler } from "./streamingReceiver";
