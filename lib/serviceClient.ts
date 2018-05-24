@@ -23,7 +23,7 @@ import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
 import { RequestPrepareOptions, WebResource } from "./webResource";
 import { URLBuilder } from "./url";
-import { QueryCollectionFormat } from "./msRest";
+import { QueryCollectionFormat, getQueryCollectionFormatSeparator } from "./queryCollectionFormat";
 
 /**
  * Options to be provided while creating the client.
@@ -224,23 +224,7 @@ export class ServiceClient {
                 }
               }
             } else {
-              let queryParameterValueSeparator: string;
-              switch (queryParameter.collectionFormat) {
-                case QueryCollectionFormat.Csv:
-                  queryParameterValueSeparator = ",";
-                  break;
-                case QueryCollectionFormat.Pipes:
-                  queryParameterValueSeparator = "|";
-                  break;
-                case QueryCollectionFormat.Ssv:
-                  queryParameterValueSeparator = " ";
-                  break;
-                case QueryCollectionFormat.Tsv:
-                  queryParameterValueSeparator = "\t";
-                  break;
-                default:
-                  throw new Error(`Unrecognized QueryCollectionFormat: ${QueryCollectionFormat[queryParameter.collectionFormat]}`);
-              }
+              const queryParameterValueSeparator: string = getQueryCollectionFormatSeparator(queryParameter.collectionFormat);
               queryParameterValue = queryParameterValue.join(queryParameterValueSeparator);
             }
           }

@@ -18,13 +18,13 @@ export interface OperationSpec {
 
   /**
    * The URL that was provided in the service's specification. This will still have all of the URL
-   * placeholder variables in it.
+   * template variables in it.
    */
   baseUrl: string;
 
   /**
-   * The fixed path for this operation's URL. This will still have all of the URL placeholder
-   * variables in it.
+   * The fixed path for this operation's URL. This will still have all of the URL template variables
+   * in it.
    */
   path?: string;
 
