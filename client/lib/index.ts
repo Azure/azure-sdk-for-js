@@ -18,4 +18,7 @@ export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 export { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
 export { TokenType, TokenProvider, TokenInfo } from "./auth/token";
 export { aadEventHubsAudience } from "./util/constants";
-export { delay, Timeout, EventHubConnectionStringModel } from "./util/utils";
+export {
+  delay, Timeout, EventHubConnectionStringModel, parseConnectionString,
+  IotHubConnectionStringModel, StorageConnectionStringModel, isIotHubConnectionString
+} from "./util/utils";

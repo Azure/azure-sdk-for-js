@@ -149,3 +149,20 @@ export function executePromisesSequentially(promiseFactories: Array<any>, kickst
   });
   return result;
 }
+
+/**
+ * Determines whether the given connection string is an iothub connection string.
+ * @param {string} connectionString The connection string.
+ * @return {boolean} boolean.
+ */
+export function isIotHubConnectionString(connectionString: string): boolean {
+  if (!connectionString || typeof connectionString !== "string") {
+    throw new Error("connectionString is a required parameter and must be of type string.");
+  }
+  let result: boolean = false;
+  const model: any = parseConnectionString<any>(connectionString);
+  if (model && model.HostName && model.SharedAccessKey && model.SharedAccessKeyName) {
+    result = true;
+  }
+  return result;
+}
