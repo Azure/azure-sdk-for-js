@@ -5,7 +5,17 @@ import * as should from "should";
 import { AxiosHttpClient } from "../../lib/axiosHttpClient";
 import { baseURL } from "../testUtils";
 import { WebResource } from "../../lib/webResource";
-import { isNode } from "../../lib/util/utils";
+
+function getAbortController(): AbortController {
+  let controller: AbortController;
+  if (typeof AbortController === "function") {
+    controller = new AbortController();
+  } else {
+    const AbortControllerPonyfill = require("abortcontroller-polyfill/dist/cjs-ponyfill").AbortController;
+    controller = new AbortControllerPonyfill();
+  }
+  return controller;
+}
 
 describe("axiosHttpClient", () => {
   it("should send HTTP requests", async () => {
@@ -89,13 +99,7 @@ describe("axiosHttpClient", () => {
     // ensure that a large upload is actually cancelled
     this.timeout(2000);
 
-    let controller: AbortController;
-    if (isNode) {
-      const AbortControllerPonyfill = require("abortcontroller-polyfill/dist/cjs-ponyfill").AbortController;
-      controller = new AbortControllerPonyfill();
-    } else {
-      controller = new AbortController();
-    }
+    const controller = getAbortController();
     const request = new WebResource(`${baseURL}/fileupload`, "POST", new Uint8Array(1024*1024*100), undefined, undefined, true, controller.signal);
     const client = new AxiosHttpClient();
     const promise = client.sendRequest(request);
@@ -117,14 +121,7 @@ describe("axiosHttpClient", () => {
     // ensure that a large upload is actually cancelled
     this.timeout(4000);
 
-    let controller: AbortController;
-    if (isNode) {
-      const AbortControllerPonyfill = require("abortcontroller-polyfill/dist/cjs-ponyfill").AbortController;
-      controller = new AbortControllerPonyfill();
-    } else {
-      controller = new AbortController();
-    }
-
+    const controller = getAbortController();
     const buf = new Uint8Array(1024*1024*100);
     const requests = [
       new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, controller.signal),

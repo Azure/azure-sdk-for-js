@@ -326,5 +326,11 @@ export interface RequestOptionsBase {
    * will be applied before the request is sent.
    */
   customHeaders?: { [key: string]: string };
+
+  /**
+   * The signal which can be used to abort requests.
+   */
+  abortSignal?: AbortSignal;
+
   [key: string]: any;
 }
