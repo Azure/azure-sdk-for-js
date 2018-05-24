@@ -191,7 +191,6 @@ export class EventProcessorHost extends EventEmitter {
 
   /**
    * Provides the eventhub runtime information.
-   * @method getHubRuntimeInformation
    * @returns {Promise<EventHubRuntimeInformation>}
    */
   async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
@@ -200,7 +199,6 @@ export class EventProcessorHost extends EventEmitter {
 
   /**
    * Provides information about the specified partition.
-   * @method getPartitionInformation
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    */
   async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
@@ -209,7 +207,6 @@ export class EventProcessorHost extends EventEmitter {
 
   /**
    * Provides an array of partitionIds.
-   * @method getPartitionIds
    * @returns {Promise<string[]>}
    */
   async getPartitionIds(): Promise<string[]> {
@@ -220,7 +217,6 @@ export class EventProcessorHost extends EventEmitter {
    * Starts the event processor host, fetching the list of partitions, (optionally) filtering
    * them, and attempting to grab leases on the (filtered) set. For each successful lease, will
    * get the details from the blob and start a receiver at the point where it left off previously.
-   * @method start
    *
    * @param {StartEPHOptions} [options] Optional parameters that can be provided while starting the
    * EPH.

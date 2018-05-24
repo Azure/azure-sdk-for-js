@@ -145,7 +145,7 @@ export class EventHubReceiver extends ClientEntity {
     this.runtimeInfo = {
       partitionId: `${partitionId}`
     };
-    this._onAmqpMessage = (context: rheaPromise.Context) => {
+    this._onAmqpMessage = (context: rheaPromise.EventContext) => {
       const evData = EventData.fromAmqpMessage(context.message!);
       evData.body = this._context.dataTransformer.decode(context.message!.body);
 
@@ -158,8 +158,8 @@ export class EventHubReceiver extends ClientEntity {
       this._onMessage!(evData);
     };
 
-    this._onAmqpError = (context: rheaPromise.Context) => {
-      const ehError = translate(context.receiver.error);
+    this._onAmqpError = (context: rheaPromise.EventContext) => {
+      const ehError = translate(context.receiver!.error!);
       // TODO: Should we retry before calling user's error method?
       debug("[%s] An error occurred for Receiver '%s': %O.",
         this._context.connectionId, this.name, ehError);
@@ -270,7 +270,7 @@ export class EventHubReceiver extends ClientEntity {
       // Set filter on the receiver if event position is specified.
       const filterClause = this.options.eventPosition.getExpression();
       if (filterClause) {
-        rcvrOptions.source.filter = {
+        (rcvrOptions.source as any).filter = {
           "apache.org:selector-filter:string": rhea.types.wrap_described(filterClause, 0x468C00000004)
         };
       }

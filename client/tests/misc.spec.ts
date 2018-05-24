@@ -219,6 +219,7 @@ describe("Misc tests", function () {
         debug("pk: ", pk);
         if (partitionMap[pk] && partitionMap[pk] !== id) {
           debug(`#### Error: Received a message from partition ${id} with partition key ${pk}, whereas the same key was observed on partition ${partitionMap[pk]} before.`);
+          assert(partitionMap[pk] === id);
         }
         partitionMap[pk] = id;
         debug("partitionMap ", partitionMap);
