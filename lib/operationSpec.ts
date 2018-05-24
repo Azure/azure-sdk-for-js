@@ -15,6 +15,12 @@ export interface OperationSpec {
   httpMethod: HttpMethods;
 
   /**
+   * The URL that was provided in the service's specification. This will still have all of the URL
+   * placeholder variables in it.
+   */
+  baseUrl: string;
+
+  /**
    * The Mapper that will be used to serialize an HTTP request's body.
    */
   requestBodyMapper?: Mapper;
