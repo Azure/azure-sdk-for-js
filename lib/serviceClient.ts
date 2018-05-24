@@ -22,6 +22,8 @@ import { Serializer, serializeObject } from "./serializer";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
 import { RequestPrepareOptions, WebResource } from "./webResource";
+import { URLBuilder } from "./url";
+import { QueryCollectionFormat } from "./msRest";
 
 /**
  * Options to be provided while creating the client.
@@ -189,46 +191,77 @@ export class ServiceClient {
     httpRequest.method = operationSpec.httpMethod;
     httpRequest.operationSpec = operationSpec;
 
-    if (operationSpec.headerParameters) {
-      for (const headerParameter of operationSpec.headerParameters) {
-        const parameterName: string = headerParameter.parameterName;
-        const headerName: string = headerParameter.headerName || parameterName;
-        const parameterType: OperationParameterType | undefined = headerParameter.type;
-
-        let headerValue: any = operationArguments.arguments[parameterName];
-        if (headerValue != undefined) {
-          if (parameterType != undefined) {
-            switch (parameterType) {
-              case OperationParameterType.Date:
-                headerValue = serializeObject(headerValue).replace(/[Tt].*[Zz]/, "");
-                break;
-
-              case OperationParameterType.DateTimeRfc1123:
-                if (headerValue instanceof Date) {
-                  headerValue = headerValue.toUTCString();
+    const requestUrl: URLBuilder = URLBuilder.parse(operationSpec.baseUrl);
+    if (operationSpec.path) {
+      requestUrl.setPath(operationSpec.path);
+    }
+    if (operationSpec.urlParameters && operationSpec.urlParameters.length > 0) {
+      for (const urlParameter of operationSpec.urlParameters) {
+        let urlParameterValue: string = operationArguments.arguments[urlParameter.parameterName];
+        if (urlParameter.type != undefined) {
+          urlParameterValue = serializeParameterValue(urlParameterValue, urlParameter.type, this._serializer, urlParameter.parameterName);
+        }
+        if (!urlParameter.skipEncoding) {
+          urlParameterValue = encodeURIComponent(urlParameterValue);
+        }
+        requestUrl.replaceAll(`{${urlParameter.urlParameterName || urlParameter.parameterName}}`, urlParameterValue);
+      }
+    }
+    if (operationSpec.queryParameters && operationSpec.queryParameters.length > 0) {
+      for (const queryParameter of operationSpec.queryParameters) {
+        let queryParameterValue: any = operationArguments.arguments[queryParameter.parameterName];
+        if (queryParameterValue != undefined) {
+          if (queryParameter.type != undefined) {
+            queryParameterValue = serializeParameterValue(queryParameterValue, queryParameter.type, this._serializer, queryParameter.parameterName);
+          }
+          if (queryParameter.collectionFormat != undefined) {
+            if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
+              if (queryParameterValue.length === 0) {
+                queryParameterValue = "";
+              } else {
+                for (const item of queryParameterValue) {
+                  queryParameterValue = (item == undefined ? "" : item.toString());
                 }
-                break;
-
-              case OperationParameterType.DateTime:
-              case OperationParameterType.ByteArray:
-                headerValue = serializeObject(headerValue);
-                break;
-
-              case OperationParameterType.Base64Url:
-                headerValue = this._serializer.serialize({ required: true, serializedName: parameterName, type: { name: "Base64Url" } }, headerValue, parameterName);
-                break;
-
-              case OperationParameterType.UnixTime:
-                headerValue = this._serializer.serialize({ required: true, serializedName: parameterName, type: { name: "UnixTime" } }, headerValue, parameterName);
-                break;
-
-              default:
-                headerValue = headerValue.toString();
-                break;
+              }
+            } else {
+              let queryParameterValueSeparator: string;
+              switch (queryParameter.collectionFormat) {
+                case QueryCollectionFormat.Csv:
+                  queryParameterValueSeparator = ",";
+                  break;
+                case QueryCollectionFormat.Pipes:
+                  queryParameterValueSeparator = "|";
+                  break;
+                case QueryCollectionFormat.Ssv:
+                  queryParameterValueSeparator = " ";
+                  break;
+                case QueryCollectionFormat.Tsv:
+                  queryParameterValueSeparator = "\t";
+                  break;
+                default:
+                  throw new Error(`Unrecognized QueryCollectionFormat: ${QueryCollectionFormat[queryParameter.collectionFormat]}`);
+              }
+              queryParameterValue = queryParameterValue.join(queryParameterValueSeparator);
             }
           }
+          if (!queryParameter.skipEncoding) {
+            queryParameterValue = encodeURIComponent(queryParameterValue);
+          }
+          requestUrl.setQueryParameter(queryParameter.queryParameterName || queryParameter.parameterName, queryParameterValue);
+        }
+      }
+    }
+    httpRequest.url = requestUrl.toString();
 
-          httpRequest.headers.set(headerName, headerValue);
+    if (operationSpec.headerParameters) {
+      for (const headerParameter of operationSpec.headerParameters) {
+        const parameterType: OperationParameterType | undefined = headerParameter.type;
+        let headerValue: any = operationArguments.arguments[headerParameter.parameterName];
+        if (headerValue != undefined) {
+          if (parameterType != undefined) {
+            headerValue = serializeParameterValue(headerValue, parameterType, this._serializer, headerParameter.parameterName);
+          }
+          httpRequest.headers.set(headerParameter.headerName || headerParameter.parameterName, headerValue);
         }
       }
     }
@@ -240,6 +273,42 @@ export class ServiceClient {
     }
 
     return this.sendRequest(httpRequest);
+  }
+}
+
+function serializeParameterValue(value: any, parameterType: OperationParameterType | undefined, serializer: Serializer, parameterName: string): any {
+  if (value != undefined) {
+    if (parameterType != undefined) {
+      switch (parameterType) {
+        case OperationParameterType.Date:
+          value = serializeObject(value).replace(/[Tt].*[Zz]/, "");
+          break;
+
+        case OperationParameterType.DateTimeRfc1123:
+          if (value instanceof Date) {
+            value = value.toUTCString();
+          }
+          break;
+
+        case OperationParameterType.DateTime:
+        case OperationParameterType.ByteArray:
+          value = serializeObject(value);
+          break;
+
+        case OperationParameterType.Base64Url:
+          value = serializer.serialize({ required: true, serializedName: parameterName, type: { name: "Base64Url" } }, value, parameterName);
+          break;
+
+        case OperationParameterType.UnixTime:
+          value = serializer.serialize({ required: true, serializedName: parameterName, type: { name: "UnixTime" } }, value, parameterName);
+          break;
+
+        default:
+          value = value.toString();
+          break;
+      }
+    }
+    return value;
   }
 }
 

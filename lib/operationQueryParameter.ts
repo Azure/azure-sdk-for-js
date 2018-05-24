@@ -1,7 +1,8 @@
-import { OperationParameterType } from "./operationParameterType";
-
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+
+import { OperationParameterType } from "./operationParameterType";
+import { QueryCollectionFormat } from "./queryCollectionFormat";
 
 /**
  * A parameter for an operation that will be added as a query parameter to the operation's HTTP
@@ -28,7 +29,7 @@ export interface OperationQueryParameter {
    * If this query parameter's value is a collection, what type of format should the value be
    * converted to.
    */
-  collectionFormat?: string;
+  collectionFormat?: QueryCollectionFormat;
 
   /**
    * The type of value that this parameter contains.

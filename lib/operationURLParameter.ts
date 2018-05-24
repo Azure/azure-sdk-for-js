@@ -22,4 +22,9 @@ export interface OperationURLParameter {
    * The type of value that this parameter contains.
    */
   type?: OperationParameterType;
+
+  /**
+   * Whether or not to skip encoding the URL parameter's value before adding it to the URL.
+   */
+  skipEncoding?: boolean;
 }
