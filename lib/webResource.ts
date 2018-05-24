@@ -50,12 +50,6 @@ export class WebResource {
     if (!this.url) {
       throw new Error("url is a required property for making a request.");
     }
-    if (!this.headers.get("Content-Type")) {
-      throw new Error("'Content-Type' is a required header for making a request.");
-    }
-    // if (!this.headers["accept-language"]) {
-    //   throw new Error("'accept-language' is a required header for making a request.");
-    // }
   }
 
   /**
