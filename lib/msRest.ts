@@ -12,6 +12,7 @@ export { RestError } from "./restError";
 export { OperationSpec } from "./operationSpec";
 export { OperationParameterType } from "./operationParameterType";
 export { ServiceClient, ServiceClientOptions } from "./serviceClient";
+export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
 export { logPolicy } from "./policies/logPolicy";
 export { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator } from "./policies/requestPolicy";
