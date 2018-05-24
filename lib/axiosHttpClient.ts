@@ -87,7 +87,8 @@ export class AxiosHttpClient implements HttpClient {
 
     let abortListener: (() => void) | undefined;
     const cancelToken = abortSignal && new axios.CancelToken(canceler => {
-      abortSignal.addEventListener("abort", abortListener = () => canceler());
+      abortListener = () => canceler();
+      abortSignal.addEventListener("abort", abortListener);
     });
 
     const rawHeaders: { [headerName: string]: string } = httpRequest.headers.rawHeaders();
