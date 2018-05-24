@@ -4,7 +4,7 @@ import { OperationParameterType } from "./operationParameterType";
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 /**
- * A parameter for an operation that will be added as a header to the operation's HTTP request.
+ * A parameter for an operation that will be substituted into the operation's request URL.
  */
 export interface OperationURLParameter {
   /**

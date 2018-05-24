@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { OperationHeaderParameter } from "./operationHeaderParameter";
+import { OperationQueryParameter } from "./operationQueryParameter";
 import { OperationURLParameter } from "./operationURLParameter";
 import { Mapper } from "./serializer";
 import { HttpMethods } from "./webResource";
@@ -46,6 +47,11 @@ export interface OperationSpec {
    * The parameters to the operation method that will be substituted into the constructed URL.
    */
   urlParameters?: OperationURLParameter[];
+
+  /**
+   * The parameters to the operation method that will be added to the constructed URL's query.
+   */
+  queryParameters?: OperationQueryParameter[];
 
   /**
    * The parameters to the operation method that will be converted to headers on the operation's
