@@ -267,8 +267,8 @@ export class ServiceClient {
     }
 
     if (operationArguments.customHeaders) {
-      for (const customHeader of operationArguments.customHeaders.headersArray()) {
-        httpRequest.headers.set(customHeader.name, customHeader.value);
+      for (const customHeaderName in operationArguments.customHeaders) {
+        httpRequest.headers.set(customHeaderName, operationArguments.customHeaders[customHeaderName]);
       }
     }
 
