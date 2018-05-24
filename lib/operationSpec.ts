@@ -29,6 +29,12 @@ export interface OperationSpec {
   path?: string;
 
   /**
+   * The content type of the request body. This value will be used as the "Content-Type" header if
+   * it is provided.
+   */
+  contentType?: string;
+
+  /**
    * The Mapper that will be used to serialize an HTTP request's body.
    */
   requestBodyMapper?: Mapper;
