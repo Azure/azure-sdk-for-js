@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as utils from "./util/utils";
-import * as isStream from "is-stream";
 const isBuffer: (obj: any) => boolean = require("is-buffer");
 
 export class Serializer {
@@ -155,8 +154,13 @@ export class Serializer {
           throw new Error(`${objectName} with value ${value} must be of type boolean.`);
         }
       } else if (typeName.match(/^Stream$/ig) !== null) {
-        if (!isStream(value)) {
-          throw new Error(`${objectName} must be of type stream.`);
+        const objectType = typeof value;
+        if (objectType !== "string" &&
+            objectType !== "function" &&
+            !(value instanceof ArrayBuffer) &&
+            !ArrayBuffer.isView(value) &&
+            !(typeof Blob === "function" && value instanceof Blob)) {
+          throw new Error(`${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or a function returning NodeJS.ReadableStream.`);
         }
       }
     }
