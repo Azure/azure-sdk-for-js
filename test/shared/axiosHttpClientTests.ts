@@ -117,6 +117,16 @@ describe("axiosHttpClient", () => {
     }
   });
 
+  it("should not overwrite a user-provided cookie", async function() {
+    const client = new AxiosHttpClient();
+    const request1 = new WebResource(`${baseURL}/set-cookie`);
+    await client.sendRequest(request1);
+
+    const request2 = new WebResource(`${baseURL}/cookie`, "GET", undefined, undefined, { Cookie: "data=abcdefg" });
+    const response = await client.sendRequest(request2);
+    should(response.headers.get("Cookie")).equal("data=abcdefg");
+  });
+
   it("should allow canceling multiple requests with one token", async function () {
     // ensure that a large upload is actually cancelled
     this.timeout(4000);

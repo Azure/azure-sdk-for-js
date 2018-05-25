@@ -70,7 +70,7 @@ export class AxiosHttpClient implements HttpClient {
       }
     }
 
-    if (this.cookieJar) {
+    if (this.cookieJar && !httpRequest.headers.get("Cookie")) {
       const cookieString = await new Promise<string>((resolve, reject) => {
         this.cookieJar!.getCookieString(httpRequest.url, (err, cookie) => {
           if (err) {
