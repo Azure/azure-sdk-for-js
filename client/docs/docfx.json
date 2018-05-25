@@ -1,0 +1,52 @@
+{
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.md",
+          "**/*.yml"
+        ],
+        "src": "docs-ref-autogen",
+        "exclude": [
+          "**/obj/**",
+          "**/includes/**",
+          "README.md",
+          "LICENSE",
+          "LICENSE-CODE",
+          "ThirdPartyNotices"
+        ]
+      },
+      {
+        "files": [
+          "**/*.yml"
+        ],
+        "src": "breadcrumb",
+        "dest": "breadcrumb",
+        "exclude": [
+          "**/obj/**",
+          "**/includes/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "**/*.png",
+          "**/*.jpg"
+        ],
+        "exclude": [
+          "**/obj/**",
+          "**/includes/**"
+        ]
+      }
+    ],
+    "overwrite": [],
+    "externalReference": [],
+    "globalMetadata": {
+      "breadcrumb_path": "~/breadcrumb/toc.yml"
+    },
+    "fileMetadata": {},
+    "template": [],
+    "dest": "_site"
+  }
+}

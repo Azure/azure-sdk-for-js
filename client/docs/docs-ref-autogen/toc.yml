@@ -1,0 +1,6 @@
+- name: Sample
+  items:
+    - uid: azure-atlas-javscript-sdk.BoundingBox
+      name: BoundingBox
+    - uid: azure-atlas-javscript-sdk.Map
+      name: Map
