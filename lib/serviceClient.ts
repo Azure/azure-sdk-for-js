@@ -264,6 +264,23 @@ export class ServiceClient {
       httpRequest.abortSignal = operationArguments.abortSignal;
     }
 
+    if (operationSpec.requestBodyName) {
+      httpRequest.body = operationArguments.arguments[operationSpec.requestBodyName];
+    } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {
+      httpRequest.formData = {};
+      for (const formDataParameter of operationSpec.formDataParameters) {
+        const formDataParameterValue: any = operationArguments.arguments[formDataParameter.parameterName];
+        if (formDataParameterValue != undefined) {
+          const formDataParameterPropertyName: string = formDataParameter.formDataPropertyName || formDataParameter.parameterName;
+          if (formDataParameter.type === OperationParameterType.Stream) {
+            httpRequest.formData[formDataParameterPropertyName] = formDataParameterValue;
+          } else {
+            httpRequest.formData[formDataParameterPropertyName] = serializeParameterValue(formDataParameterValue, formDataParameter.type, this._serializer, formDataParameter.parameterName);
+          }
+        }
+      }
+    }
+
     return this.sendRequest(httpRequest);
   }
 }

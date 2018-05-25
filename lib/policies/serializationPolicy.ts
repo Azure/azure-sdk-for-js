@@ -5,7 +5,7 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
 import { Serializer, Mapper } from "../serializer";
-import { OperationSpec } from "../msRest";
+import { OperationSpec, OperationParameterType } from "../msRest";
 import * as utils from "../util/utils";
 
 /**
@@ -57,7 +57,7 @@ export class SerializationPolicy extends BaseRequestPolicy {
               else {
                 request.body = utils.stringifyXML(request.body, { rootName: bodyMapper.xmlName || bodyMapper.serializedName });
               }
-            } else {
+            } else if (operationSpec.requestBodyType !== OperationParameterType.Stream) {
               request.body = JSON.stringify(request.body);
             }
           }
