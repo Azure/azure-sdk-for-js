@@ -272,11 +272,7 @@ export class ServiceClient {
         const formDataParameterValue: any = operationArguments.arguments[formDataParameter.parameterName];
         if (formDataParameterValue != undefined) {
           const formDataParameterPropertyName: string = formDataParameter.formDataPropertyName || formDataParameter.parameterName;
-          if (formDataParameter.type === OperationParameterType.Stream) {
-            httpRequest.formData[formDataParameterPropertyName] = formDataParameterValue;
-          } else {
-            httpRequest.formData[formDataParameterPropertyName] = serializeParameterValue(formDataParameterValue, formDataParameter.type, this._serializer, formDataParameter.parameterName);
-          }
+          httpRequest.formData[formDataParameterPropertyName] = serializeParameterValue(formDataParameterValue, formDataParameter.type, this._serializer, formDataParameter.parameterName);
         }
       }
     }
@@ -310,6 +306,10 @@ function serializeParameterValue(value: any, parameterType: OperationParameterTy
 
         case OperationParameterType.UnixTime:
           value = serializer.serialize({ required: true, serializedName: parameterName, type: { name: "UnixTime" } }, value, parameterName);
+          break;
+
+        case OperationParameterType.Stream:
+          value = serializer.serialize({ required: true, serializedName: parameterName, type: { name: "Stream" } }, value, parameterName);
           break;
 
         default:

@@ -34,6 +34,10 @@ export class AxiosHttpClient implements HttpClient {
       const formData: any = httpRequest.formData;
       const requestForm = new FormData();
       const appendFormValue = (key: string, value: any) => {
+        // value function probably returns a stream so we can provide a fresh stream on each retry
+        if (typeof value === "function") {
+          value = value();
+        }
         if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
           requestForm.append(key, value.value, value.options);
         } else {
@@ -92,15 +96,20 @@ export class AxiosHttpClient implements HttpClient {
     });
 
     const rawHeaders: { [headerName: string]: string } = httpRequest.headers.rawHeaders();
+    const bodyType = typeof httpRequest.body;
+    // Workaround for https://github.com/axios/axios/issues/755
+    // tslint:disable-next-line:no-null-keyword
+    const axiosBody = bodyType === "undefined" ? null :
+      bodyType === "function" ? httpRequest.body() :
+      httpRequest.body;
+
     let res: AxiosResponse;
     try {
       const config: AxiosRequestConfig = {
         method: httpRequest.method,
         url: httpRequest.url,
         headers: rawHeaders,
-        // Workaround for https://github.com/axios/axios/issues/755
-        // tslint:disable-next-line:no-null-keyword
-        data: httpRequest.body === undefined ? null : httpRequest.body,
+        data: axiosBody,
         transformResponse: undefined,
         validateStatus: () => true,
         withCredentials: true,
