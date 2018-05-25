@@ -1,0 +1,16 @@
+### YamlMime:UniversalReference
+items:
+  - uid: index
+    name: index
+    summary: ''
+    children:
+      - azure-atlas-javscript-sdk.BoundingBox
+      - azure-atlas-javscript-sdk.Map
+    type: package
+    langs:
+      - typeScript
+references:
+  - uid: azure-atlas-javscript-sdk.BoundingBox
+    name: BoundingBox
+  - uid: azure-atlas-javscript-sdk.Map
+    name: Map
