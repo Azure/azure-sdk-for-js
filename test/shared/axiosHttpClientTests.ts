@@ -5,6 +5,7 @@ import * as should from "should";
 import { AxiosHttpClient } from "../../lib/axiosHttpClient";
 import { baseURL } from "../testUtils";
 import { WebResource } from "../../lib/webResource";
+import { isNode } from "../../lib/msRest";
 
 function getAbortController(): AbortController {
   let controller: AbortController;
@@ -115,6 +116,26 @@ describe("axiosHttpClient", () => {
     } catch (err) {
       should(err).not.be.instanceof(assert.AssertionError);
     }
+  });
+
+  it("should not overwrite a user-provided cookie (nodejs only)", async function() {
+    // Cookie is only allowed to be set by the browser based on an actual response Set-Cookie header
+    if (!isNode) {
+      this.skip();
+    }
+
+    const client = new AxiosHttpClient();
+
+    const request1 = new WebResource(`${baseURL}/set-cookie`);
+    await client.sendRequest(request1);
+
+    const request2 = new WebResource(`${baseURL}/cookie`);
+    const response2 = await client.sendRequest(request2);
+    should(response2.headers.get("Cookie")).equal("data=123456");
+
+    const request3 = new WebResource(`${baseURL}/cookie`, "GET", undefined, undefined, { Cookie: "data=abcdefg" });
+    const response3 = await client.sendRequest(request3);
+    should(response3.headers.get("Cookie")).equal("data=abcdefg");
   });
 
   it("should allow canceling multiple requests with one token", async function () {

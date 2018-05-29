@@ -21,6 +21,16 @@ app.post("/fileupload", function(req, res) {
     req.pipe(res);
 });
 
+app.get("/set-cookie", function(req, res) {
+    res.setHeader("Set-Cookie", "data=123456");
+    res.end(200);
+});
+
+app.get("/cookie", function(req, res) {
+    res.setHeader("Cookie", req.header("Cookie"));
+    res.end(200);
+});
+
 app.listen(port, function() {
     console.log(`ms-rest-js testserver listening on port ${port}...`);
 });
