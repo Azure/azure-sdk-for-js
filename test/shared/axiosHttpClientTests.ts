@@ -180,12 +180,12 @@ describe("axiosHttpClient", () => {
       ev => {
         uploadNotified = true;
         ev.should.not.be.instanceof(ProgressEvent);
-        ev.loaded.should.be.a.Number;
+        ev.loadedBytes.should.be.a.Number;
       },
       ev => {
         downloadNotified = true;
         ev.should.not.be.instanceof(ProgressEvent);
-        ev.loaded.should.be.a.Number;
+        ev.loadedBytes.should.be.a.Number;
       });
 
     const client = new AxiosHttpClient();

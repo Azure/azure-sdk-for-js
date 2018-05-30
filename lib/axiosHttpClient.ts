@@ -19,6 +19,8 @@ if (isNode) {
   axiosClient.interceptors.request.use(config => ({ ...config, method: config.method && config.method.toUpperCase() }));
 }
 
+type AxiosProgressFunction = (rawEvent: ProgressEvent) => void;
+
 /**
  * A HttpClient implementation that uses axios to send HTTP requests.
  */
@@ -104,10 +106,12 @@ export class AxiosHttpClient implements HttpClient {
       httpRequest.body;
 
     const userUploadProgress = httpRequest.onUploadProgress;
-    const onUploadProgress = userUploadProgress && ((rawEvent: ProgressEvent) => userUploadProgress({ loaded: rawEvent.loaded, total: rawEvent.lengthComputable ? rawEvent.total : undefined }));
+    const onUploadProgress: AxiosProgressFunction | undefined = userUploadProgress && (rawEvent =>
+      userUploadProgress({ loadedBytes: rawEvent.loaded, totalBytes: rawEvent.lengthComputable ? rawEvent.total : undefined }));
 
     const userDownloadProgress = httpRequest.onDownloadProgress;
-    const onDownloadProgress = userDownloadProgress && ((rawEvent: ProgressEvent) => userDownloadProgress({ loaded: rawEvent.loaded, total: rawEvent.lengthComputable ? rawEvent.total : undefined }));
+    const onDownloadProgress: AxiosProgressFunction | undefined = userDownloadProgress && (rawEvent =>
+      userDownloadProgress({ loadedBytes: rawEvent.loaded, totalBytes: rawEvent.lengthComputable ? rawEvent.total : undefined }));
 
     let res: AxiosResponse;
     try {
