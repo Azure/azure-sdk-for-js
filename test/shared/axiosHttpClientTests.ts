@@ -166,4 +166,31 @@ describe("axiosHttpClient", () => {
       }
     }
   });
+
+  it("should report upload and download progress (browser only)", async function() {
+    if (isNode) {
+      this.skip();
+    }
+
+    let uploadNotified = false;
+    let downloadNotified = false;
+
+    const buf = new Uint8Array(1024*1024*1);
+    const request = new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, undefined,
+      ev => {
+        uploadNotified = true;
+        ev.should.not.be.instanceof(ProgressEvent);
+        ev.loadedBytes.should.be.a.Number;
+      },
+      ev => {
+        downloadNotified = true;
+        ev.should.not.be.instanceof(ProgressEvent);
+        ev.loadedBytes.should.be.a.Number;
+      });
+
+    const client = new AxiosHttpClient();
+    await client.sendRequest(request);
+    assert(uploadNotified);
+    assert(downloadNotified);
+  });
 });

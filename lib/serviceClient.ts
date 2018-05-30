@@ -264,6 +264,14 @@ export class ServiceClient {
       httpRequest.abortSignal = operationArguments.abortSignal;
     }
 
+    if (operationArguments.onUploadProgress) {
+      httpRequest.onUploadProgress = operationArguments.onUploadProgress;
+    }
+
+    if (operationArguments.onDownloadProgress) {
+      httpRequest.onDownloadProgress = operationArguments.onDownloadProgress;
+    }
+
     if (operationSpec.requestBodyName) {
       httpRequest.body = operationArguments.arguments[operationSpec.requestBodyName];
     } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {
