@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { OperationHeaderParameter } from "./operationHeaderParameter";
-import { OperationQueryParameter } from "./operationQueryParameter";
-import { OperationURLParameter } from "./operationURLParameter";
 import { Mapper } from "./serializer";
 import { HttpMethods } from "./webResource";
-import { OperationFormDataParameter } from "./operationFormDataParameter";
-import { OperationParameterType } from "./msRest";
+import { OperationURLParameter, OperationQueryParameter, OperationHeaderParameter, OperationFormDataParameter } from "./operationParameter";
 
 /**
  * A specification that defines an operation.
@@ -50,12 +46,6 @@ export interface OperationSpec {
    * The name of the request body that will be used during serialization.
    */
   requestBodyName?: string;
-
-  /**
-   * The type of the request body. If this is not specified, then it is a composite or sequence
-   * type.
-   */
-  requestBodyType?: OperationParameterType;
 
   /**
    * Whether or not this operation uses XML request and response bodies.

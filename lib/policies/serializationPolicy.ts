@@ -2,11 +2,11 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
-import { Serializer, Mapper } from "../serializer";
-import { OperationSpec, OperationParameterType } from "../msRest";
+import { OperationSpec } from "../operationSpec";
+import { Mapper, MapperType, Serializer } from "../serializer";
 import * as utils from "../util/utils";
+import { WebResource } from "../webResource";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
 
 /**
  * Create a new serialization RequestPolicyCreator that will serialized HTTP request bodies as they
@@ -51,13 +51,13 @@ export class SerializationPolicy extends BaseRequestPolicy {
           if (request.body != undefined && operationSpec.requestBodyName) {
             request.body = this._serializer.serialize(bodyMapper, request.body, operationSpec.requestBodyName);
             if (operationSpec.isXML) {
-              if (bodyMapper.type.name === "Sequence") {
+              if (bodyMapper.type.name === MapperType.Sequence) {
                 request.body = utils.stringifyXML(utils.prepareXMLRootList(request.body, bodyMapper.xmlElementName || bodyMapper.xmlName || bodyMapper.serializedName), { rootName: bodyMapper.xmlName || bodyMapper.serializedName });
               }
               else {
                 request.body = utils.stringifyXML(request.body, { rootName: bodyMapper.xmlName || bodyMapper.serializedName });
               }
-            } else if (operationSpec.requestBodyType !== OperationParameterType.Stream) {
+            } else if (bodyMapper.type.name !== MapperType.Stream) {
               request.body = JSON.stringify(request.body);
             }
           }

@@ -25,7 +25,7 @@
     "autorest",
     "clientruntime"
   ],
-  "main": "./dist/lib/msRest.js",
+  "main": "./lib/msRest.ts",
   "types": "./typings/lib/msRest.d.ts",
   "license": "MIT",
   "dependencies": {
