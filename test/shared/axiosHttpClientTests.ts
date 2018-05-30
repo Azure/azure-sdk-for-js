@@ -97,19 +97,11 @@ describe("axiosHttpClient", () => {
   });
 
   it("should allow canceling requests", async function() {
-    // ensure that a large upload is actually cancelled
-    this.timeout(2000);
-
     const controller = getAbortController();
-    const request = new WebResource(`${baseURL}/fileupload`, "POST", new Uint8Array(1024*1024*100), undefined, undefined, true, controller.signal);
+    const request = new WebResource(`${baseURL}/fileupload`, "POST", new Uint8Array(1024*1024*10), undefined, undefined, true, controller.signal);
     const client = new AxiosHttpClient();
     const promise = client.sendRequest(request);
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        controller.abort();
-        resolve();
-      });
-    });
+    controller.abort();
     try {
       await promise;
       assert.fail('');
@@ -139,23 +131,15 @@ describe("axiosHttpClient", () => {
   });
 
   it("should allow canceling multiple requests with one token", async function () {
-    // ensure that a large upload is actually cancelled
-    this.timeout(4000);
-
     const controller = getAbortController();
-    const buf = new Uint8Array(1024*1024*100);
+    const buf = new Uint8Array(1024*1024*1);
     const requests = [
       new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, controller.signal),
       new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, controller.signal)
     ];
     const client = new AxiosHttpClient();
     const promises = requests.map(r => client.sendRequest(r));
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        controller.abort();
-        resolve();
-      });
-    });
+    controller.abort();
     // Ensure each promise is individually rejected
     for (const promise of promises) {
       try {
