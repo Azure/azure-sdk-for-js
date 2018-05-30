@@ -103,6 +103,12 @@ export class AxiosHttpClient implements HttpClient {
       bodyType === "function" ? httpRequest.body() :
       httpRequest.body;
 
+    const userUploadProgress = httpRequest.onUploadProgress;
+    const onUploadProgress = userUploadProgress && ((rawEvent: ProgressEvent) => userUploadProgress({ loaded: rawEvent.loaded, total: rawEvent.lengthComputable ? rawEvent.total : undefined }));
+
+    const userDownloadProgress = httpRequest.onDownloadProgress;
+    const onDownloadProgress = userDownloadProgress && ((rawEvent: ProgressEvent) => userDownloadProgress({ loaded: rawEvent.loaded, total: rawEvent.lengthComputable ? rawEvent.total : undefined }));
+
     let res: AxiosResponse;
     try {
       const config: AxiosRequestConfig = {
@@ -116,7 +122,9 @@ export class AxiosHttpClient implements HttpClient {
         // Workaround for https://github.com/axios/axios/issues/1362
         maxContentLength: 1024 * 1024 * 1024 * 10,
         responseType: httpRequest.rawResponse ? (isNode ? "stream" : "blob") : "text",
-        cancelToken
+        cancelToken,
+        onUploadProgress,
+        onDownloadProgress
       };
       res = await axiosClient(config);
     } catch (err) {

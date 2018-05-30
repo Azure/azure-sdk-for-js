@@ -10,6 +10,22 @@ export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" |
 export type HttpRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | (() => NodeJS.ReadableStream);
 
 /**
+ * Fired in response to upload or download progress (browser only).
+ */
+export type TransferProgressEvent = {
+  /**
+   * The number of bytes loaded so far.
+   */
+  loaded: number,
+
+  /**
+   * The total number of bytes that will be loaded.
+   * If the total number of bytes is unknown, this property will be undefined.
+   */
+  total?: number
+};
+
+/**
  * Creates a new WebResource object.
  *
  * This class provides an abstraction over a REST call by being library / implementation agnostic and wrapping the necessary
@@ -29,7 +45,23 @@ export class WebResource {
 
   abortSignal?: AbortSignal;
 
-  constructor(url?: string, method?: HttpMethods, body?: any, query?: { [key: string]: any; }, headers?: { [key: string]: any; } | HttpHeaders, rawResponse = false, abortSignal?: AbortSignal) {
+  /** Callback which fires upon upload progress. Only used in the browser. */
+  onUploadProgress?: (progress: TransferProgressEvent) => void;
+
+  /** Callback which fires upon download progress. Only used in the browser. */
+  onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  constructor(
+    url?: string,
+    method?: HttpMethods,
+    body?: any,
+    query?: { [key: string]: any; },
+    headers?: { [key: string]: any; } | HttpHeaders,
+    rawResponse = false,
+    abortSignal?: AbortSignal,
+    onUploadProgress?: (progress: TransferProgressEvent) => void,
+    onDownloadProgress?: (progress: TransferProgressEvent) => void) {
+
     this.rawResponse = rawResponse;
     this.url = url || "";
     this.method = method || "GET";
@@ -38,6 +70,8 @@ export class WebResource {
     this.query = query;
     this.formData = undefined;
     this.abortSignal = abortSignal;
+    this.onUploadProgress = onUploadProgress;
+    this.onDownloadProgress = onDownloadProgress;
   }
 
   /**
@@ -225,6 +259,8 @@ export class WebResource {
     }
 
     this.abortSignal = options.abortSignal;
+    this.onDownloadProgress = options.onDownloadProgress;
+    this.onUploadProgress = options.onUploadProgress;
 
     return this;
   }
@@ -234,7 +270,16 @@ export class WebResource {
    * @returns {WebResource} The clone of this WebResource HTTP request object.
    */
   clone(): WebResource {
-    const result = new WebResource(this.url, this.method, this.body, this.query, this.headers && this.headers.clone(), this.rawResponse, this.abortSignal);
+    const result = new WebResource(
+      this.url,
+      this.method,
+      this.body,
+      this.query,
+      this.headers && this.headers.clone(),
+      this.rawResponse,
+      this.abortSignal,
+      this.onUploadProgress,
+      this.onDownloadProgress);
     result.formData = this.formData;
     result.operationSpec = this.operationSpec;
     return result;
@@ -302,6 +347,8 @@ export interface RequestPrepareOptions {
   disableJsonStringifyOnBody?: boolean;
   bodyIsStream?: boolean;
   abortSignal?: AbortSignal;
+  onUploadProgress?: (progress: TransferProgressEvent) => void;
+  onDownloadProgress?: (progress: TransferProgressEvent) => void;
 }
 
 /**
@@ -327,6 +374,16 @@ export interface RequestOptionsBase {
    * The signal which can be used to abort requests.
    */
   abortSignal?: AbortSignal;
+
+  /**
+   * Callback which fires upon upload progress. Only used in the browser.
+   */
+  onUploadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Callback which fires upon download progress. Only used in the browser.
+   */
+  onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
   [key: string]: any;
 }
