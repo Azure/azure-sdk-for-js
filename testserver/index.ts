@@ -17,18 +17,17 @@ app.use(express.static(path.join(__dirname, "../")));
 app.use(express.static(path.join(__dirname, "../test/resources/")));
 
 app.post("/fileupload", function(req, res) {
-    res.status(200);
     req.pipe(res);
 });
 
 app.get("/set-cookie", function(req, res) {
     res.setHeader("Set-Cookie", "data=123456");
-    res.end(200);
+    res.end();
 });
 
 app.get("/cookie", function(req, res) {
     res.setHeader("Cookie", req.header("Cookie"));
-    res.end(200);
+    res.end();
 });
 
 app.listen(port, function() {
