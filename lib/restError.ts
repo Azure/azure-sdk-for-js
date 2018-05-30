@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { WebResource } from "./webResource";
-import { HttpOperationResponse } from "./msRest";
+import { HttpOperationResponse } from "./httpOperationResponse";
 
 export class RestError extends Error {
   code?: string;

@@ -17,12 +17,12 @@ import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { serializationPolicy } from "./policies/serializationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
+import { QueryCollectionFormat, getQueryCollectionFormatSeparator } from "./queryCollectionFormat";
 import { Serializer } from "./serializer";
+import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
 import { RequestPrepareOptions, WebResource } from "./webResource";
-import { URLBuilder } from "./url";
-import { QueryCollectionFormat, getQueryCollectionFormatSeparator } from "./queryCollectionFormat";
 
 /**
  * Options to be provided while creating the client.

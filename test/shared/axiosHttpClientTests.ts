@@ -3,9 +3,9 @@
 import * as assert from "assert";
 import * as should from "should";
 import { AxiosHttpClient } from "../../lib/axiosHttpClient";
-import { baseURL } from "../testUtils";
+import { isNode } from "../../lib/util/utils";
 import { WebResource } from "../../lib/webResource";
-import { isNode } from "../../lib/msRest";
+import { baseURL } from "../testUtils";
 
 function getAbortController(): AbortController {
   let controller: AbortController;
