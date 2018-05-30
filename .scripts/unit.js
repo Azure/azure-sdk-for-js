@@ -21,11 +21,11 @@ const webpackDevServerHandler = (data) => {
       } else {
         const mochaChromeExecutable = join(__dirname, "../node_modules/.bin/mocha-chrome");
         exec(`${mochaChromeExecutable} http://localhost:3001`, (err, stdout, stderr) => {
+          console.log(stdout);
+          console.error(stderr);
           if (err) {
             reject(err);
           } else {
-            console.log(stdout);
-            console.error(stderr);
             resolve();
           }
         });
@@ -35,11 +35,11 @@ const webpackDevServerHandler = (data) => {
     const mochaPromise = new Promise((resolve, reject) => {
       const mochaExecutable = join(__dirname, "../node_modules/.bin/_mocha");
       const mocha = exec(mochaExecutable, (err, stdout, stderr) => {
+        console.log(stdout);
+        console.error(stderr);
         if (err) {
           reject(err);
         } else {
-          console.log(stdout);
-          console.error(stderr);
           resolve();
         }
       });
@@ -49,7 +49,6 @@ const webpackDevServerHandler = (data) => {
       cleanupDevServer();
       process.exit(0);
     }).catch((err) => {
-      console.error(err);
       cleanupDevServer();
       process.exit(1);
     });
