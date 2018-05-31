@@ -47,12 +47,14 @@ export class Serializer {
             throw new Error(`${objectName}" with value "${value}" should satify the constraint "MinLength": ${((mapper.constraints as MapperConstraints).MinLength as number)}.`);
           }
         } else if (constraintType.match(/^MultipleOf$/ig) !== null) {
-          if (value.length % ((mapper.constraints as MapperConstraints).MultipleOf as number) !== 0) {
+          if (value % ((mapper.constraints as MapperConstraints).MultipleOf as number) !== 0) {
             throw new Error(`${objectName}" with value "${value}" should satify the constraint "MultipleOf": ${((mapper.constraints as MapperConstraints).MultipleOf as number)}.`);
           }
         } else if (constraintType.match(/^Pattern$/ig) !== null) {
-          if (value.match(((mapper.constraints as MapperConstraints).Pattern as string).split("/").join("\/")) === null) {
-            throw new Error(`${objectName}" with value "${value}" should satify the constraint "Pattern": ${((mapper.constraints as MapperConstraints).Pattern as string)}.`);
+          const regexp: RegExp = (mapper.constraints as MapperConstraints).Pattern!;
+          const match: any = value.match(regexp);
+          if (match === null) {
+            throw new Error(`${objectName}" with value "${value}" should satify the constraint "Pattern": ${regexp}.`);
           }
         } else if (constraintType.match(/^UniqueItems/ig) !== null) {
           if (((mapper.constraints as MapperConstraints).UniqueItems as boolean)) {
@@ -710,7 +712,7 @@ export interface MapperConstraints {
   ExclusiveMinimum?: number;
   MaxLength?: number;
   MinLength?: number;
-  Pattern?: string;
+  Pattern?: RegExp;
   MaxItems?: number;
   MinItems?: number;
   UniqueItems?: true;
@@ -729,7 +731,7 @@ export interface Mapper {
   xmlIsWrapped?: boolean;
   readOnly?: boolean;
   isConstant?: boolean;
-  required: boolean;
+  required?: boolean;
   serializedName: string;
   type: BaseMapperType;
   defaultValue?: any;
@@ -806,7 +808,7 @@ export function serializeObject(toSerialize: any): any {
 /**
  * Utility function to create a K:V from a list of strings
  */
-function strEnum<T extends string>(o: Array<T>): {[K in T]: K} {
+function strEnum<T extends string>(o: Array<T>): { [K in T]: K } {
   const result: any = {};
   for (const key of o) {
     result[key] = key;

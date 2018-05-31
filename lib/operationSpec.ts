@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { OperationHeaderParameter } from "./operationHeaderParameter";
-import { OperationQueryParameter } from "./operationQueryParameter";
-import { OperationURLParameter } from "./operationURLParameter";
 import { Mapper } from "./serializer";
 import { HttpMethods } from "./webResource";
-import { OperationFormDataParameter } from "./operationFormDataParameter";
-import { OperationParameterType } from "./msRest";
+import { OperationURLParameter, OperationQueryParameter, OperationParameter } from "./operationParameter";
 
 /**
  * A specification that defines an operation.
@@ -52,12 +48,6 @@ export interface OperationSpec {
   requestBodyName?: string;
 
   /**
-   * The type of the request body. If this is not specified, then it is a composite or sequence
-   * type.
-   */
-  requestBodyType?: OperationParameterType;
-
-  /**
    * Whether or not this operation uses XML request and response bodies.
    */
   isXML?: boolean;
@@ -76,11 +66,11 @@ export interface OperationSpec {
    * The parameters to the operation method that will be converted to headers on the operation's
    * HTTP request.
    */
-  headerParameters?: OperationHeaderParameter[];
+  headerParameters?: OperationParameter[];
 
   /**
    * The parameters to the operation method that will be used to create a formdata body for the
    * operation's HTTP request.
    */
-  formDataParameters?: OperationFormDataParameter[];
+  formDataParameters?: OperationParameter[];
 }

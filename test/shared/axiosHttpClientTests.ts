@@ -3,9 +3,9 @@
 import * as assert from "assert";
 import * as should from "should";
 import { AxiosHttpClient } from "../../lib/axiosHttpClient";
-import { baseURL } from "../testUtils";
+import { isNode } from "../../lib/util/utils";
 import { WebResource } from "../../lib/webResource";
-import { isNode } from "../../lib/msRest";
+import { baseURL } from "../testUtils";
 
 function getAbortController(): AbortController {
   let controller: AbortController;
@@ -32,7 +32,7 @@ describe("axiosHttpClient", () => {
     assert.strictEqual(response.headers.get("content-type")!.split(";")[0], "text/html");
     const responseBody: string | null | undefined = response.bodyAsText;
     const expectedResponseBody =
-    `<!doctype html>
+      `<!doctype html>
 <html>
 <head>
     <title>Example Domain</title>
@@ -96,21 +96,21 @@ describe("axiosHttpClient", () => {
     assert(response);
   });
 
-  it("should allow canceling requests", async function() {
+  it("should allow canceling requests", async function () {
     const controller = getAbortController();
-    const request = new WebResource(`${baseURL}/fileupload`, "POST", new Uint8Array(1024*1024*10), undefined, undefined, true, controller.signal);
+    const request = new WebResource(`${baseURL}/fileupload`, "POST", new Uint8Array(1024 * 1024 * 10), undefined, undefined, true, controller.signal);
     const client = new AxiosHttpClient();
     const promise = client.sendRequest(request);
     controller.abort();
     try {
       await promise;
-      assert.fail('');
+      assert.fail("");
     } catch (err) {
       should(err).not.be.instanceof(assert.AssertionError);
     }
   });
 
-  it("should not overwrite a user-provided cookie (nodejs only)", async function() {
+  it("should not overwrite a user-provided cookie (nodejs only)", async function () {
     // Cookie is only allowed to be set by the browser based on an actual response Set-Cookie header
     if (!isNode) {
       this.skip();
@@ -132,7 +132,7 @@ describe("axiosHttpClient", () => {
 
   it("should allow canceling multiple requests with one token", async function () {
     const controller = getAbortController();
-    const buf = new Uint8Array(1024*1024*1);
+    const buf = new Uint8Array(1024 * 1024 * 1);
     const requests = [
       new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, controller.signal),
       new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, controller.signal)
@@ -144,14 +144,14 @@ describe("axiosHttpClient", () => {
     for (const promise of promises) {
       try {
         await promise;
-        assert.fail('');
+        assert.fail("");
       } catch (err) {
         should(err).not.be.instanceof(assert.AssertionError);
       }
     }
   });
 
-  it("should report upload and download progress (browser only)", async function() {
+  it("should report upload and download progress (browser only)", async function () {
     if (isNode) {
       this.skip();
     }
@@ -159,7 +159,7 @@ describe("axiosHttpClient", () => {
     let uploadNotified = false;
     let downloadNotified = false;
 
-    const buf = new Uint8Array(1024*1024*1);
+    const buf = new Uint8Array(1024 * 1024 * 1);
     const request = new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, undefined,
       ev => {
         uploadNotified = true;

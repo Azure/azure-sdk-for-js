@@ -7,7 +7,6 @@ import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { OperationArguments } from "./operationArguments";
-import { OperationParameterType } from "./operationParameterType";
 import { OperationSpec } from "./operationSpec";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
@@ -18,12 +17,12 @@ import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { serializationPolicy } from "./policies/serializationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { Serializer, serializeObject } from "./serializer";
+import { QueryCollectionFormat, getQueryCollectionFormatSeparator } from "./queryCollectionFormat";
+import { Serializer } from "./serializer";
+import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
 import { RequestPrepareOptions, WebResource } from "./webResource";
-import { URLBuilder } from "./url";
-import { QueryCollectionFormat, getQueryCollectionFormatSeparator } from "./queryCollectionFormat";
 
 /**
  * Options to be provided while creating the client.
@@ -198,22 +197,18 @@ export class ServiceClient {
     if (operationSpec.urlParameters && operationSpec.urlParameters.length > 0) {
       for (const urlParameter of operationSpec.urlParameters) {
         let urlParameterValue: string = operationArguments.arguments[urlParameter.parameterName];
-        if (urlParameter.type != undefined) {
-          urlParameterValue = serializeParameterValue(urlParameterValue, urlParameter.type, this._serializer, urlParameter.parameterName);
-        }
+        urlParameterValue = this._serializer.serialize(urlParameter.mapper, urlParameterValue, urlParameter.parameterName);
         if (!urlParameter.skipEncoding) {
           urlParameterValue = encodeURIComponent(urlParameterValue);
         }
-        requestUrl.replaceAll(`{${urlParameter.urlParameterName || urlParameter.parameterName}}`, urlParameterValue);
+        requestUrl.replaceAll(`{${urlParameter.mapper.serializedName || urlParameter.parameterName}}`, urlParameterValue);
       }
     }
     if (operationSpec.queryParameters && operationSpec.queryParameters.length > 0) {
       for (const queryParameter of operationSpec.queryParameters) {
         let queryParameterValue: any = operationArguments.arguments[queryParameter.parameterName];
         if (queryParameterValue != undefined) {
-          if (queryParameter.type != undefined) {
-            queryParameterValue = serializeParameterValue(queryParameterValue, queryParameter.type, this._serializer, queryParameter.parameterName);
-          }
+          queryParameterValue = this._serializer.serialize(queryParameter.mapper, queryParameterValue, queryParameter.parameterName);
           if (queryParameter.collectionFormat != undefined) {
             if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
               if (queryParameterValue.length === 0) {
@@ -231,7 +226,7 @@ export class ServiceClient {
           if (!queryParameter.skipEncoding) {
             queryParameterValue = encodeURIComponent(queryParameterValue);
           }
-          requestUrl.setQueryParameter(queryParameter.queryParameterName || queryParameter.parameterName, queryParameterValue);
+          requestUrl.setQueryParameter(queryParameter.mapper.serializedName || queryParameter.parameterName, queryParameterValue);
         }
       }
     }
@@ -239,13 +234,10 @@ export class ServiceClient {
 
     if (operationSpec.headerParameters) {
       for (const headerParameter of operationSpec.headerParameters) {
-        const parameterType: OperationParameterType | undefined = headerParameter.type;
         let headerValue: any = operationArguments.arguments[headerParameter.parameterName];
         if (headerValue != undefined) {
-          if (parameterType != undefined) {
-            headerValue = serializeParameterValue(headerValue, parameterType, this._serializer, headerParameter.parameterName);
-          }
-          httpRequest.headers.set(headerParameter.headerName || headerParameter.parameterName, headerValue);
+          headerValue = this._serializer.serialize(headerParameter.mapper, headerValue, headerParameter.parameterName);
+          httpRequest.headers.set(headerParameter.mapper.serializedName || headerParameter.parameterName, headerValue);
         }
       }
     }
@@ -279,53 +271,13 @@ export class ServiceClient {
       for (const formDataParameter of operationSpec.formDataParameters) {
         const formDataParameterValue: any = operationArguments.arguments[formDataParameter.parameterName];
         if (formDataParameterValue != undefined) {
-          const formDataParameterPropertyName: string = formDataParameter.formDataPropertyName || formDataParameter.parameterName;
-          httpRequest.formData[formDataParameterPropertyName] = serializeParameterValue(formDataParameterValue, formDataParameter.type, this._serializer, formDataParameter.parameterName);
+          const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || formDataParameter.parameterName;
+          httpRequest.formData[formDataParameterPropertyName] = this._serializer.serialize(formDataParameter.mapper, formDataParameterValue, formDataParameter.parameterName);
         }
       }
     }
 
     return this.sendRequest(httpRequest);
-  }
-}
-
-function serializeParameterValue(value: any, parameterType: OperationParameterType | undefined, serializer: Serializer, parameterName: string): any {
-  if (value != undefined) {
-    if (parameterType != undefined) {
-      switch (parameterType) {
-        case OperationParameterType.Date:
-          value = serializeObject(value).replace(/[Tt].*[Zz]/, "");
-          break;
-
-        case OperationParameterType.DateTimeRfc1123:
-          if (value instanceof Date) {
-            value = value.toUTCString();
-          }
-          break;
-
-        case OperationParameterType.DateTime:
-        case OperationParameterType.ByteArray:
-          value = serializeObject(value);
-          break;
-
-        case OperationParameterType.Base64Url:
-          value = serializer.serialize({ required: true, serializedName: parameterName, type: { name: "Base64Url" } }, value, parameterName);
-          break;
-
-        case OperationParameterType.UnixTime:
-          value = serializer.serialize({ required: true, serializedName: parameterName, type: { name: "UnixTime" } }, value, parameterName);
-          break;
-
-        case OperationParameterType.Stream:
-          value = serializer.serialize({ required: true, serializedName: parameterName, type: { name: "Stream" } }, value, parameterName);
-          break;
-
-        default:
-          value = value.toString();
-          break;
-      }
-    }
-    return value;
   }
 }
 
