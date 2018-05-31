@@ -38,6 +38,7 @@
     "is-buffer": "^2.0.0",
     "isomorphic-tough-cookie": "^0.0.1",
     "isomorphic-xml2js": "^0.0.3",
+    "tslib": "^1.9.2",
     "url-parse": "^1.2.0",
     "uuid": "^3.2.1"
   },
