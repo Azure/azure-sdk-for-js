@@ -158,10 +158,10 @@ export class Serializer {
       } else if (typeName.match(/^Stream$/ig) !== null) {
         const objectType = typeof value;
         if (objectType !== "string" &&
-          objectType !== "function" &&
-          !(value instanceof ArrayBuffer) &&
-          !ArrayBuffer.isView(value) &&
-          !(typeof Blob === "function" && value instanceof Blob)) {
+            objectType !== "function" &&
+            !(value instanceof ArrayBuffer) &&
+            !ArrayBuffer.isView(value) &&
+            !(typeof Blob === "function" && value instanceof Blob)) {
           throw new Error(`${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or a function returning NodeJS.ReadableStream.`);
         }
       }
