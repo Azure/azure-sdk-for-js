@@ -177,4 +177,18 @@ describe("axiosHttpClient", () => {
     assert(uploadNotified);
     assert(downloadNotified);
   });
+
+  it("should parse a JSON response body", async function() {
+    const request = new WebResource(`${baseURL}/json`);
+    const client = new AxiosHttpClient();
+    const response = await client.sendRequest(request);
+    assert.deepStrictEqual(response.parsedBody, [123,456,789]);
+  });
+
+  it("should parse a JSON response body with a charset specified in Content-Type", async function() {
+    const request = new WebResource(`${baseURL}/json-charset`);
+    const client = new AxiosHttpClient();
+    const response = await client.sendRequest(request);
+    assert.deepStrictEqual(response.parsedBody, [123,456,789]);
+  });
 });

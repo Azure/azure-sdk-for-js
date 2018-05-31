@@ -30,6 +30,17 @@ app.get("/cookie", function(req, res) {
     res.end();
 });
 
+app.get("/json", function(req, res) {
+    res.setHeader("Content-Type", "application/json");
+    res.end("[123, 456, 789]");
+});
+
+
+app.get("/json-charset", function(req, res) {
+    res.setHeader("Content-Type", "application/json;charset=UTF-8");
+    res.end("[123, 456, 789]");
+});
+
 app.listen(port, function() {
     console.log(`ms-rest-js testserver listening on port ${port}...`);
 });
