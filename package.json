@@ -38,6 +38,7 @@
     "is-buffer": "^2.0.0",
     "isomorphic-tough-cookie": "^0.0.1",
     "isomorphic-xml2js": "^0.0.3",
+    "tslib": "^1.9.2",
     "url-parse": "^1.2.0",
     "uuid": "^3.2.1"
   },
@@ -87,7 +88,7 @@
     "test:unit": "node ./.scripts/unit",
     "test:server": "ts-node testserver",
     "prepare": "npm run build",
-    "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish",
+    "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "node ./.scripts/local.js",
     "preview": "node ./.scripts/preview.js",
     "latest": "node ./.scripts/latest.js"
