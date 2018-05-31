@@ -23,6 +23,14 @@ export interface AsyncLockOptions {
   Promise?: any;
 }
 
+export interface ServiceBusConnectionStringModel {
+  Endpoint: string;
+  SharedAccessKeyName: string;
+  SharedAccessKey: string;
+  EntityPath?: string;
+  [x: string]: any;
+}
+
 export interface EventHubConnectionStringModel {
   Endpoint: string;
   SharedAccessKeyName: string;
@@ -78,8 +86,9 @@ export class Timeout {
   private _timer?: NodeJS.Timer;
 
   set<T>(t: number, value?: T): Promise<T> {
+    const self = this;
     return new Promise<T>((resolve) => {
-      this._timer = setTimeout(() => resolve(value), t);
+      self._timer = setTimeout(() => resolve(value), t);
     });
   }
 

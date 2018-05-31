@@ -6,9 +6,9 @@ import * as debugModule from "debug";
 import { Connection } from "./connection";
 import { Receiver, ReceiverOptions } from "./receiver";
 import { Sender, SenderOptions } from "./sender";
-import { Func } from "../util/utils";
+import { Func, SenderEvents, ReceiverEvents } from ".";
 
-const debug = debugModule("rhea-promise");
+const debug = debugModule("rhea-promise:session");
 
 export class Session {
   private _session: rhea.Session;
@@ -21,6 +21,10 @@ export class Session {
 
   get connection(): Connection {
     return this._connection;
+  }
+
+  get outgoing(): any {
+    return (this._session as any).outgoing;
   }
 
   isOpen(): boolean {
@@ -96,13 +100,13 @@ export class Session {
 
     return new Promise((resolve, reject) => {
       const rheaReceiver = this._session.attach_receiver(options);
-      const receiver = new Receiver(this, rheaReceiver);
+      const receiver = new Receiver(this, rheaReceiver, options);
       let onOpen: Func<rhea.EventContext, void>;
       let onClose: Func<rhea.EventContext, void>;
 
       if (handlersProvided) {
-        rheaReceiver.on(rhea.ReceiverEvents.message, options!.onMessage!);
-        rheaReceiver.on(rhea.ReceiverEvents.receiverError, options!.onError!);
+        rheaReceiver.on(ReceiverEvents.message, options!.onMessage!);
+        rheaReceiver.on(ReceiverEvents.receiverError, options!.onError!);
       }
 
       const removeListeners = () => {
@@ -140,22 +144,22 @@ export class Session {
   createSender(options?: SenderOptions): Promise<Sender> {
     return new Promise((resolve, reject) => {
       const rheaSender = this._session.attach_sender(options);
-      const sender = new Sender(this, rheaSender);
-      let onOpen: Func<rhea.EventContext, void>;
+      const sender = new Sender(this, rheaSender, options);
+      let onSendable: Func<rhea.EventContext, void>;
       let onClose: Func<rhea.EventContext, void>;
 
       if (options) {
         if (options.onError) {
-          rheaSender.on(rhea.SenderEvents.senderError, options.onError);
+          rheaSender.on(SenderEvents.senderError, options.onError);
         }
         if (options.onAccepted) {
-          rheaSender.on(rhea.SenderEvents.accepted, options.onAccepted);
+          rheaSender.on(SenderEvents.accepted, options.onAccepted);
         }
         if (options.onRejected) {
-          rheaSender.on(rhea.SenderEvents.rejected, options.onRejected);
+          rheaSender.on(SenderEvents.rejected, options.onRejected);
         }
         if (options.onReleased) {
-          rheaSender.on(rhea.SenderEvents.released, options.onReleased);
+          rheaSender.on(SenderEvents.released, options.onReleased);
         }
         if (options.onModified) {
           rheaSender.on("modified", options.onModified);
@@ -163,11 +167,11 @@ export class Session {
       }
 
       const removeListeners = () => {
-        rheaSender.removeListener(rhea.SenderEvents.senderOpen, onOpen);
-        rheaSender.removeListener(rhea.SenderEvents.senderClose, onClose);
+        rheaSender.removeListener(SenderEvents.senderOpen, onSendable);
+        rheaSender.removeListener(SenderEvents.senderClose, onClose);
       };
 
-      onOpen = (context: rhea.EventContext) => {
+      onSendable = (context: rhea.EventContext) => {
         removeListeners();
         process.nextTick(() => {
           debug(`Resolving the promise with amqp sender "${rheaSender.name}".`);
@@ -181,8 +185,8 @@ export class Session {
         reject(context.sender!.error);
       };
 
-      rheaSender.once(rhea.SenderEvents.senderOpen, onOpen);
-      rheaSender.once(rhea.SenderEvents.senderClose, onClose);
+      rheaSender.once(SenderEvents.sendable, onSendable);
+      rheaSender.once(SenderEvents.senderClose, onClose);
     });
   }
 

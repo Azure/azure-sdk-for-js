@@ -33,6 +33,11 @@ node_modules
 # WebStorm
 .idea
 
+# coverage #
+.nyc_output
+coverage
+
+
 # Mac OS #
 .DS_Store
 .DS_Store?

@@ -5,8 +5,8 @@ import * as rhea from "rhea";
 import * as debugModule from "debug";
 import { Session } from "./session";
 import { Connection } from "./connection";
-import { Func } from "../util/utils";
-const debug = debugModule("rhea-promise");
+import { Func, SenderEvents } from ".";
+const debug = debugModule("rhea-promise:sender");
 
 export interface SenderOptions extends rhea.SenderOptions {
   onAccepted?: rhea.OnAmqpEvent;
@@ -17,12 +17,14 @@ export interface SenderOptions extends rhea.SenderOptions {
 }
 
 export class Sender {
+  senderOptions?: SenderOptions;
   private _session: Session;
   private _sender: rhea.Sender;
 
-  constructor(session: Session, sender: rhea.Sender) {
+  constructor(session: Session, sender: rhea.Sender, options?: SenderOptions) {
     this._session = session;
     this._sender = sender;
+    this.senderOptions = options;
   }
 
   get name(): string {
@@ -47,6 +49,9 @@ export class Sender {
 
   get address(): string {
     return this.source.address;
+  }
+  get credit(): number {
+    return (this._sender as any).credit;
   }
 
   get session(): Session {
@@ -104,7 +109,7 @@ export class Sender {
         let onClose: Func<rhea.EventContext, void>;
 
         onClose = (context: rhea.EventContext) => {
-          this._sender.removeListener(rhea.SenderEvents.senderClose, onClose);
+          this._sender.removeListener(SenderEvents.senderClose, onClose);
           process.nextTick(() => {
             debug("Resolving the promise as the amqp sender has been closed.");
             resolve();
@@ -112,27 +117,27 @@ export class Sender {
         };
 
         onError = (context: rhea.EventContext) => {
-          this._sender.removeListener(rhea.SenderEvents.senderError, onError);
+          this._sender.removeListener(SenderEvents.senderError, onError);
           debug(`Error occurred while closing amqp sender.`, context.session.error);
           reject(context.session.error);
         };
 
-        this._sender.once(rhea.SenderEvents.senderClose, onClose);
-        this._sender.once(rhea.SenderEvents.senderError, onError);
+        this._sender.once(SenderEvents.senderClose, onClose);
+        this._sender.once(SenderEvents.senderError, onError);
         this._sender.close();
       } else {
         resolve();
       }
     });
 
-    return senderClose.then(this._session.close);
+    return senderClose.then(() => { return this._session.close(); });
   }
 
-  registerHandler(event: rhea.SenderEvents, handler: rhea.OnAmqpEvent): void {
+  registerHandler(event: SenderEvents, handler: rhea.OnAmqpEvent): void {
     this._sender.on(event, handler);
   }
 
-  removeHandler(event: rhea.SenderEvents, handler: rhea.OnAmqpEvent): void {
+  removeHandler(event: SenderEvents, handler: rhea.OnAmqpEvent): void {
     this._sender.removeListener(event, handler);
   }
 }

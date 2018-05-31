@@ -6,9 +6,17 @@ import * as debugModule from "debug";
 import { Session } from "./session";
 import { Sender, SenderOptions } from "./sender";
 import { Receiver, ReceiverOptions } from "./receiver";
-import { Func } from "../util/utils";
+import { Func, ConnectionEvents } from ".";
 
-const debug = debugModule("rhea-promise");
+const debug = debugModule("rhea-promise:connection");
+
+export interface SenderOptionsWithSession extends SenderOptions {
+  session?: Session;
+}
+
+export interface ReceiverOptionsWithSession extends ReceiverOptions {
+  session?: Session;
+}
 
 export interface ReqResLink {
   sender: Sender;
@@ -174,14 +182,50 @@ export class Connection {
     });
   }
 
-  async createRequestResponseLink(senderOptions: SenderOptions, receiverOptions: ReceiverOptions): Promise<ReqResLink> {
+  /**
+   * Creates an amqp sender link. It either uses the provided session or creates a new one.
+   * @param {SenderOptionsWithSession} options Optional parameters to create a sender link.
+   * @return {Promise<Sender>} Promise<Sender>.
+   */
+  async createSender(options?: SenderOptionsWithSession): Promise<Sender> {
+    if (options && options.session) {
+      return await options.session.createSender(options);
+    }
+    const session = await this.createSession();
+    return await session.createSender(options);
+  }
+
+  /**
+   * Creates an amqp receiver link. It either uses the provided session or creates a new one.
+   * @param {ReceiverOptionsWithSession} options Optional parameters to create a receiver link.
+   * @return {Promise<Receiver>} Promise<Receiver>.
+   */
+  async createReceiver(options?: ReceiverOptionsWithSession): Promise<Receiver> {
+    if (options && options.session) {
+      return await options.session.createReceiver(options);
+    }
+    const session = await this.createSession();
+    return await session.createReceiver(options);
+  }
+
+  /**
+   * Creates an amqp sender-receiver link. It either uses the provided session or creates a new one.
+   * This method creates a sender-receiver link on the same session. It is useful for management
+   * style operations where one may want to send a request and await for response.
+   * @param {SenderOptions} senderOptions Parameters to create a sender.
+   * @param {ReceiverOptions} receiverOptions Parameters to create a receiver.
+   * @param {Session} [session] The optional session on which the sender and receiver links will be
+   * created.
+   * @return {Promise<ReqResLink>} Promise<ReqResLink>
+   */
+  async createRequestResponseLink(senderOptions: SenderOptions, receiverOptions: ReceiverOptions, providedSession?: Session): Promise<ReqResLink> {
     if (!senderOptions) {
       throw new Error(`Please provide sender options.`);
     }
     if (!receiverOptions) {
       throw new Error(`Please provide receiver options.`);
     }
-    const session = await this.createSession();
+    const session = providedSession || await this.createSession();
     const sender = await session.createSender(senderOptions);
     const receiver = await session.createReceiver(receiverOptions);
     debug("[%s] Successfully created the sender and receiver links on the same session.", this.id);
@@ -192,11 +236,11 @@ export class Connection {
     };
   }
 
-  registerHandler(event: rhea.ConnectionEvents, handler: rhea.OnAmqpEvent): void {
+  registerHandler(event: ConnectionEvents, handler: rhea.OnAmqpEvent): void {
     this._connection.on(event, handler);
   }
 
-  removeHandler(event: rhea.ConnectionEvents, handler: rhea.OnAmqpEvent): void {
+  removeHandler(event: ConnectionEvents, handler: rhea.OnAmqpEvent): void {
     this._connection.removeListener(event, handler);
   }
 }

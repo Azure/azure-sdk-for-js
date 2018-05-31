@@ -1,18 +1,19 @@
 {
-  "name": "azure-event-hubs",
-  "version": "0.2.1",
+  "name": "azure-sb",
+  "version": "0.11.0",
   "description": "Azure Event Hubs SDK for Node.js",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "main": "./dist/lib/index.js",
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
-    "is-buffer": "2.0.2",
     "async-lock": "^1.1.2",
     "debug": "^3.1.0",
+    "is-buffer": "2.0.2",
     "ms-rest": "^2.3.3",
     "ms-rest-azure": "^2.5.5",
     "rhea": "^0.2.13",
+    "tslib": "^1.9.2",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
@@ -30,14 +31,15 @@
     "tslint": "^5.9.1",
     "typescript": "^2.8.3",
     "dotenv": "^5.0.1",
-    "@types/dotenv": "^4.0.3"
+    "@types/dotenv": "^4.0.3",
+    "nyc": "^11.8.0"
   },
   "scripts": {
     "tslint": "tslint -p . -c tslint.json --exclude examples/**/*.ts --exclude test/**/*.ts",
     "tsc": "tsc",
     "build": "npm run tslint && npm run tsc",
     "test": "npm run build",
-    "unit": "mocha -r ts-node/register -t 50000 ./test/**/*.spec.ts --abort-on-uncaught-exception",
+    "unit": "nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 test/**/*.spec.ts --abort-on-uncaught-exception",
     "prepare": "npm run build"
   },
   "homepage": "http://github.com/azure/azure-event-hubs-node",

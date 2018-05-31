@@ -5,10 +5,63 @@ import * as os from "os";
 import * as process from "process";
 import * as debugModule from "debug";
 import { defaultLock } from "./util/utils";
-import { ConnectionOptions, Connection } from "./rhea-promise";
+import { ConnectionOptions, Connection, DeliveryAnnotations, MessageAnnotations } from "../rhea-promise";
 import * as Constants from "./util/constants";
 import { ConnectionConfig } from ".";
 const debug = debugModule("azure:amqp-common:rpc");
+
+/**
+ * Describes the delivery annotations.
+ * @interface
+ */
+export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
+  /**
+   * @property {string} [last_enqueued_offset] The offset of the last event.
+   */
+  last_enqueued_offset?: string;
+  /**
+   * @property {number} [last_enqueued_sequence_number] The sequence number of the last event.
+   */
+  last_enqueued_sequence_number?: number;
+  /**
+   * @property {number} [last_enqueued_time_utc] The enqueued time of the last event.
+   */
+  last_enqueued_time_utc?: number;
+  /**
+   * @property {number} [runtime_info_retrieval_time_utc] The retrieval time of the last event.
+   */
+  runtime_info_retrieval_time_utc?: number;
+  /**
+   * @property {string} Any unknown delivery annotations.
+   */
+  [x: string]: any;
+}
+
+/**
+ * Map containing message attributes that will be held in the message header.
+ */
+export interface ServiceBusMessageAnnotations extends MessageAnnotations {
+  /**
+   * @property {string | null} [x-opt-partition-key] Annotation for the partition key set for the event.
+   */
+  "x-opt-partition-key"?: string | null;
+  /**
+   * @property {number} [x-opt-sequence-number] Annontation for the sequence number of the event.
+   */
+  "x-opt-sequence-number"?: number;
+  /**
+   * @property {number} [x-opt-enqueued-time] Annotation for the enqueued time of the event.
+   */
+  "x-opt-enqueued-time"?: number;
+  /**
+   * @property {string} [x-opt-offset] Annotation for the offset of the event.
+   */
+  "x-opt-offset"?: string;
+  /**
+   * @property {string} [x-opt-locked-until] Annotation for the message being locked until.
+   */
+  "x-opt-locked-until"?: Date | number;
+}
 
 export interface CreateConnectionPrameters {
   config: ConnectionConfig;

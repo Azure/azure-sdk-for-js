@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { AmqpResponseStatusCode } from "./rhea-promise";
+import { AmqpResponseStatusCode } from "../rhea-promise";
 import { AmqpError } from "rhea";
 /**
  * Maps the conditions to the numeric AMQP Response status codes.

@@ -8,10 +8,10 @@ import { retry } from "./retry";
 import {
   Session, Connection, Sender, Receiver, Message, EventContext, AmqpError, ReqResLink,
   SenderOptions, ReceiverOptions, ReceiverEvents
-} from "./rhea-promise";
+} from "../rhea-promise";
 import { translate, ConditionStatusMapper } from "./errors";
 
-const debug = debugModule("rhea-promise");
+const debug = debugModule("azure:amqp-common:reqreslink");
 
 export class RequestResponseLink implements ReqResLink {
 

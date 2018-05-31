@@ -8,6 +8,10 @@ node_modules/
 tests/
 testhub/
 
+# coverage #
+.nyc_output
+coverage
+
 # Tools and dev scripts #
 tools/
 tasks/
@@ -41,3 +45,5 @@ webpack.config.ts
 .idea/
 changelog.md
 samples/
+typings/examples/
+dist/examples/
