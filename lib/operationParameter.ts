@@ -24,12 +24,6 @@ export interface OperationParameter {
  */
 export interface OperationURLParameter extends OperationParameter {
   /**
-   * The name of the parameter that will be replaced in the constructed URL. header. If this is not
-   * provided, then the name of the parameter will be used as the urlParameterName instead.
-   */
-  urlParameterName?: string;
-
-  /**
    * Whether or not to skip encoding the URL parameter's value before adding it to the URL.
    */
   skipEncoding?: boolean;
@@ -41,12 +35,6 @@ export interface OperationURLParameter extends OperationParameter {
  */
 export interface OperationQueryParameter extends OperationParameter {
   /**
-   * The name of the query parameter that will be added in the constructed URL. header. If this is
-   * not provided, then the name of the parameter will be used as the query parameter name instead.
-   */
-  queryParameterName?: string;
-
-  /**
    * Whether or not to skip encoding the query parameter's value before adding it to the URL.
    */
   skipEncoding?: boolean;
@@ -56,27 +44,4 @@ export interface OperationQueryParameter extends OperationParameter {
    * converted to.
    */
   collectionFormat?: QueryCollectionFormat;
-}
-
-/**
- * A parameter for an operation that will be added as a header to the operation's HTTP request.
- */
-export interface OperationHeaderParameter extends OperationParameter {
-  /**
-   * The name of the HTTP header. If this is not provided, then the name of the parameter will be
-   * used as the header's name.
-   */
-  headerName?: string;
-}
-
-/**
- * A parameter for an operation that will be added as a property to the operation's formdata request
- * body.
- */
-export interface OperationFormDataParameter extends OperationParameter {
-  /**
-   * The name of the formdata property. If this is not provided, then the name of the parameter will
-   * be used as the formdata's property name.
-   */
-  formDataPropertyName?: string;
 }

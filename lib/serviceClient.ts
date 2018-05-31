@@ -201,7 +201,7 @@ export class ServiceClient {
         if (!urlParameter.skipEncoding) {
           urlParameterValue = encodeURIComponent(urlParameterValue);
         }
-        requestUrl.replaceAll(`{${urlParameter.urlParameterName || urlParameter.parameterName}}`, urlParameterValue);
+        requestUrl.replaceAll(`{${urlParameter.mapper.serializedName || urlParameter.parameterName}}`, urlParameterValue);
       }
     }
     if (operationSpec.queryParameters && operationSpec.queryParameters.length > 0) {
@@ -226,7 +226,7 @@ export class ServiceClient {
           if (!queryParameter.skipEncoding) {
             queryParameterValue = encodeURIComponent(queryParameterValue);
           }
-          requestUrl.setQueryParameter(queryParameter.queryParameterName || queryParameter.parameterName, queryParameterValue);
+          requestUrl.setQueryParameter(queryParameter.mapper.serializedName || queryParameter.parameterName, queryParameterValue);
         }
       }
     }
@@ -237,7 +237,7 @@ export class ServiceClient {
         let headerValue: any = operationArguments.arguments[headerParameter.parameterName];
         if (headerValue != undefined) {
           headerValue = this._serializer.serialize(headerParameter.mapper, headerValue, headerParameter.parameterName);
-          httpRequest.headers.set(headerParameter.headerName || headerParameter.parameterName, headerValue);
+          httpRequest.headers.set(headerParameter.mapper.serializedName || headerParameter.parameterName, headerValue);
         }
       }
     }
@@ -271,7 +271,7 @@ export class ServiceClient {
       for (const formDataParameter of operationSpec.formDataParameters) {
         const formDataParameterValue: any = operationArguments.arguments[formDataParameter.parameterName];
         if (formDataParameterValue != undefined) {
-          const formDataParameterPropertyName: string = formDataParameter.formDataPropertyName || formDataParameter.parameterName;
+          const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || formDataParameter.parameterName;
           httpRequest.formData[formDataParameterPropertyName] = this._serializer.serialize(formDataParameter.mapper, formDataParameterValue, formDataParameter.parameterName);
         }
       }
