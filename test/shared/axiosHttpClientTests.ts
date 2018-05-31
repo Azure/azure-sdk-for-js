@@ -191,4 +191,18 @@ describe("axiosHttpClient", () => {
     const response = await client.sendRequest(request);
     assert.deepStrictEqual(response.parsedBody, [123,456,789]);
   });
+
+  it("should parse a JSON response body with an uppercase Content-Type", async function() {
+    const request = new WebResource(`${baseURL}/json-uppercase-content-type`);
+    const client = new AxiosHttpClient();
+    const response = await client.sendRequest(request);
+    assert.deepStrictEqual(response.parsedBody, [123,456,789]);
+  });
+
+  it("should parse a JSON response body with a missing Content-Type", async function() {
+    const request = new WebResource(`${baseURL}/json-no-content-type`);
+    const client = new AxiosHttpClient();
+    const response = await client.sendRequest(request);
+    assert.deepStrictEqual(response.parsedBody, [123,456,789]);
+  });
 });

@@ -35,6 +35,19 @@ app.get("/json", function(req, res) {
     res.end("[123, 456, 789]");
 });
 
+app.get("/json-charset", function(req, res) {
+    res.setHeader("Content-Type", "application/json;charset=UTF-8");
+    res.end("[123, 456, 789]");
+});
+
+app.get("/json-uppercase-content-type", function(req, res) {
+    res.setHeader("Content-Type", "APPLICATION/JSON");
+    res.end("[123, 456, 789]");
+});
+
+app.get("/json-no-content-type", function(req, res) {
+    res.end("[123, 456, 789]");
+});
 
 app.get("/json-charset", function(req, res) {
     res.setHeader("Content-Type", "application/json;charset=UTF-8");

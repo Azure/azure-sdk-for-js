@@ -181,8 +181,9 @@ export class AxiosHttpClient implements HttpClient {
 
       try {
         if (operationResponse.bodyAsText) {
-          const contentType = operationResponse.headers.get("Content-Type") || '';
-          if (contentType.includes("application/xml") || contentType.includes("text/xml")) {
+          const contentType = operationResponse.headers.get("Content-Type") || "";
+          const contentComponents = contentType.split(";").map(component => component.toLowerCase());
+          if (contentComponents.some(component => component === "application/xml" || component === "text/xml")) {
             const xmlParser = new xml2js.Parser(XML2JS_PARSER_OPTS);
             const parseString = new Promise(function (resolve: (result: any) => void, reject: (err: any) => void) {
               xmlParser.parseString(operationResponse.bodyAsText!, function (err: any, result: any) {
@@ -195,7 +196,7 @@ export class AxiosHttpClient implements HttpClient {
             });
 
             operationResponse.parsedBody = await parseString;
-          } else if (contentType.includes("application/json") || contentType.includes("text/json") || !contentType) {
+          } else if (contentComponents.some(component => component === "application/json" || component === "text/json") || !contentType) {
             operationResponse.parsedBody = JSON.parse(operationResponse.bodyAsText);
           }
         }
