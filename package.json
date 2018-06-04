@@ -35,7 +35,6 @@
     "@types/uuid": "^3.4.3",
     "axios": "^0.18.0",
     "form-data": "^2.3.2",
-    "is-buffer": "^2.0.0",
     "isomorphic-tough-cookie": "^0.0.1",
     "isomorphic-xml2js": "^0.0.3",
     "tslib": "^1.9.2",

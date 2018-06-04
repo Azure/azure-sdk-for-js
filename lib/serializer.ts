@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as utils from "./util/utils";
-const isBuffer: (obj: any) => boolean = require("is-buffer");
+import * as base64 from "./util/base64";
 
 export class Serializer {
   modelMappers?: { [key: string]: any };
@@ -79,26 +79,26 @@ export class Serializer {
     if (!buffer) {
       return undefined;
     }
-    if (!isBuffer(buffer)) {
-      throw new Error(`Please provide an input of type Buffer for converting to Base64Url.`);
+    if (!(buffer instanceof Uint8Array)) {
+      throw new Error(`Please provide an input of type Uint8Array for converting to Base64Url.`);
     }
-    // Buffer to Base64.
-    const str = buffer.toString("base64");
+    // Uint8Array to Base64.
+    const str = base64.encodeByteArray(buffer);
     // Base64 to Base64Url.
     return this.trimEnd(str, "=").replace(/\+/g, "-").replace(/\//g, "_");
   }
 
-  private base64UrlToBuffer(str: string): any {
+  private base64UrlToByteArray(str: string): Uint8Array | undefined {
     if (!str) {
       return undefined;
     }
     if (str && typeof str.valueOf() !== "string") {
-      throw new Error("Please provide an input of type string for converting to Buffer");
+      throw new Error("Please provide an input of type string for converting to Uint8Array");
     }
     // Base64Url to Base64.
     str = str.replace(/\-/g, "+").replace(/\_/g, "/");
-    // Base64 to Buffer.
-    return Buffer.from(str, "base64");
+    // Base64 to Uint8Array.
+    return base64.decodeString(str);
   }
 
   private splitSerializeName(prop: string): Array<string> {
@@ -185,20 +185,20 @@ export class Serializer {
     return value;
   }
 
-  private serializeBufferType(objectName: string, value: any): any {
+  private serializeByteArrayType(objectName: string, value: any): any {
     if (value !== null && value !== undefined) {
-      if (!isBuffer(value)) {
-        throw new Error(`${objectName} must be of type Buffer.`);
+      if (!(value instanceof Uint8Array)) {
+        throw new Error(`${objectName} must be of type Uint8Array.`);
       }
-      value = value.toString("base64");
+      value = base64.encodeByteArray(value);
     }
     return value;
   }
 
   private serializeBase64UrlType(objectName: string, value: any): any {
     if (value !== null && value !== undefined) {
-      if (!isBuffer(value)) {
-        throw new Error(`${objectName} must be of type Buffer.`);
+      if (!(value instanceof Uint8Array)) {
+        throw new Error(`${objectName} must be of type Uint8Array.`);
       }
       value = this.bufferToBase64Url(value);
     }
@@ -412,7 +412,7 @@ export class Serializer {
     } else if (mapperType.match(/^(Date|DateTime|TimeSpan|DateTimeRfc1123|UnixTime)$/ig) !== null) {
       payload = this.serializeDateTypes(mapperType, object, objectName);
     } else if (mapperType.match(/^ByteArray$/ig) !== null) {
-      payload = this.serializeBufferType(objectName, object);
+      payload = this.serializeByteArrayType(objectName, object);
     } else if (mapperType.match(/^Base64Url$/ig) !== null) {
       payload = this.serializeBase64UrlType(objectName, object);
     } else if (mapperType.match(/^Sequence$/ig) !== null) {
@@ -596,9 +596,9 @@ export class Serializer {
     } else if (mapperType.match(/^UnixTime$/ig) !== null) {
       payload = this.unixTimeToDate(responseBody);
     } else if (mapperType.match(/^ByteArray$/ig) !== null) {
-      payload = Buffer.from(responseBody, "base64");
+      payload = base64.decodeString(responseBody);
     } else if (mapperType.match(/^Base64Url$/ig) !== null) {
-      payload = this.base64UrlToBuffer(responseBody);
+      payload = this.base64UrlToByteArray(responseBody);
     } else if (mapperType.match(/^Sequence$/ig) !== null) {
       payload = this.deserializeSequenceType(mapper as SequenceMapper, responseBody, objectName);
     } else if (mapperType.match(/^Dictionary$/ig) !== null) {
@@ -782,8 +782,8 @@ export interface UrlParameterValue {
 
 export function serializeObject(toSerialize: any): any {
   if (toSerialize === null || toSerialize === undefined) return undefined;
-  if (isBuffer(toSerialize)) {
-    toSerialize = toSerialize.toString("base64");
+  if (toSerialize instanceof Uint8Array) {
+    toSerialize = base64.encodeByteArray(toSerialize);
     return toSerialize;
   }
   else if (toSerialize instanceof Date) {

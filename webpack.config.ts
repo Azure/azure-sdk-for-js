@@ -15,8 +15,7 @@ const config: webpack.Configuration = {
       {
         test: /\.tsx?$/,
         loader: 'ts-loader',
-        exclude: /(node_modules|test)/,
-        options: { configFile: 'tsconfig.webpack.json' }
+        exclude: /(node_modules|test)/
       }
     ]
   },
@@ -31,7 +30,9 @@ const config: webpack.Configuration = {
     tls: false,
     tty: false,
     v8: false,
-    Buffer: false
+    Buffer: false,
+    process: true,
+    stream: false
   }
 };
 

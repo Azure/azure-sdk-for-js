@@ -3,6 +3,7 @@
 
 import * as should from "should";
 import * as msRest from "../../lib/msRest";
+import * as base64 from "../../lib/util/base64";
 const TokenCredentials = msRest.TokenCredentials;
 const BasicAuthenticationCredentials = msRest.BasicAuthenticationCredentials;
 const ApiKeyCredentials = msRest.ApiKeyCredentials;
@@ -58,7 +59,7 @@ describe("Token credentials", () => {
 });
 
 describe("Basic Authentication credentials", () => {
-  const encodedCredentials = Buffer.from(dummyuserName + ":" + dummyPassword).toString("base64");
+  const encodedCredentials = base64.encodeString(dummyuserName + ":" + dummyPassword);
   describe("usage", () => {
     it("should base64 encode the username and password and set auth header with baisc scheme in request", (done) => {
       const creds = new BasicAuthenticationCredentials(dummyuserName, dummyPassword);
