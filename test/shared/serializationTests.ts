@@ -794,6 +794,14 @@ describe("msrest", function () {
       let deserializedSawshark = client.serializer.deserialize(mapper, responseBody, "responseBody");
       deserializedSawshark.age.should.equal(22);
       deserializedSawshark.fishtype.should.equal("sawshark");
+
+      deserializedSawshark.picture.should.be.instanceof(Uint8Array);
+      deserializedSawshark.picture.length.should.equal(4);
+      deserializedSawshark.picture[0].should.equal(255);
+      deserializedSawshark.picture[1].should.equal(255);
+      deserializedSawshark.picture[2].should.equal(255);
+      deserializedSawshark.picture[3].should.equal(254);
+
       deserializedSawshark.siblings.length.should.equal(2);
       deserializedSawshark.siblings[0].fishtype.should.equal("shark");
       deserializedSawshark.siblings[0].age.should.equal(6);
