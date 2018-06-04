@@ -1,10 +1,6 @@
-# Microsoft Azure Cosmos DB Node.js SDK  
+# Microsoft Azure Cosmos JavaScript SDK
 
-![](https://img.shields.io/npm/v/documentdb.svg)
-![](https://img.shields.io/npm/dm/documentdb.svg)
-![](https://img.shields.io/github/issues/azure/azure-documentdb-node.svg)
-
-This project provides Node.js SDK library for [SQL API](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query) of [Azure Cosmos DB
+This project provides JavaScript & Node.js SDK library for [SQL API](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query) of [Azure Cosmos
 Database Service](https://azure.microsoft.com/en-us/services/cosmos-db/). This project also includes samples, tools, and utilities.
 
 Useful links:
@@ -30,7 +26,7 @@ Node SDK can be consumed in two ways.
 
 The core module uses the callbacks model for responses, exposed through the DocumentClient 
 
-    npm install documentdb
+    npm install @azure/cosmos
 
 ### Install Core Module From Github
 
@@ -55,75 +51,65 @@ Follow these instructions to run the tests locally.
 
 ### Prerequisites
 
-1. Clone Azure/azure-documentdb-node repository
-Please clone the source and tests from [https://github.com/Azure/azure-documentdb-node](https://github.com/Azure/azure-documentdb-node)
+1. Clone Azure/azure-cosmos-js repository
+
+```bash
+git clone https://github.com/azure/azure-cosmos-js.git
+```
 
 2. Install Node.js and npm
 [https://docs.npmjs.com/getting-started/installing-node](https://docs.npmjs.com/getting-started/installing-node)
 
-3. Install mocha package globally
+3. [Cosmos DB emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator)
+    - Note: requires a windows machine or ability to run Windows container
 
-        npm install -g mocha
+4. Install dependencies
+
+    ```bash
+    npm i     # alias for npm install
+    ```
+
+5. Build the source
+
+    ```bash
+    npm run build   # compiles the typescript source, runs linting, creates webpack, creates docs
+    ```
 
 ### Running the tests
 
-Using your command-line tool, from the root of your local copy of azure-documentdb-node repository: 
-(If you are contributing changes and submitting PR then you need to ensure that you run the tests against your local copy of the source, and not the published npm package.) 
-
-1. Remove documentdb, if previously installed
-
-        npm remove documentdb
-
-2. Install documentdb
-
-        npm install source
-        
-3. Change to `test` directory
-
-        cd source\test
-        
-4. Run the tests
-
-        mocha -t 0 -R spec
-
-If you just want to run the tests against the published npm package then skip steps #1 & #2 proceed directly to step #3
+```bash
+npm run test    # runs all tests
+```
 
 ## Examples
-### Hello World using Callbacks via the Core Module
+### Hello World
 
-```js
-var DocumentClient = require('documentdb').DocumentClient;
+```ts
+import { CosmosClient } from "@azure/cosmos"
 
-var host = "[hostendpoint]";                     // Add your endpoint
-var masterKey = "[database account masterkey]";  // Add the masterkey of the endpoint
-var client = new DocumentClient(host, {masterKey: masterKey});
+const host = "[hostendpoint]";                     // Add your endpoint
+const masterKey = "[database account masterkey]";  // Add the masterkey of the endpoint
+const client = new CosmosClient(host, { masterKey });
 
 var databaseDefinition = { id: "sample database" };
 var collectionDefinition = { id: "sample collection" };
 var documentDefinition = { id: "hello world doc", content: "Hello World!" };
 
-client.createDatabase(databaseDefinition, function(err, database) {
-    if(err) return console.log(err);
+async function helloCosmos() {
+    await client.createDatabase(databaseDefinition);
     console.log('created db');
 
-    client.createCollection(database._self, collectionDefinition, function(err, collection) {
-        if(err) return console.log(err);
-        console.log('created collection');
+    await client.createCollection(database._self, collectionDefinition);
+    console.log('created collection');
 
-        client.createDocument(collection._self, documentDefinition, function(err, document) {
-            if(err) return console.log(err);
-            console.log('Created Document with content: ', document.content);
+    await client.createDocument(collection._self, documentDefinition);
+    console.log('Created Document with content: ', document.content);
 
-            cleanup(client, database);
-        });
-    });
+    await client.deleteDatabase(database._self);
+    console.log("Deleted database");
 });
 
-function cleanup(client, database) {
-    client.deleteDatabase(database._self, function(err) {
-        if(err) console.log(err);
-    })
-}
+helloCosmos().finally(()=>{});
 ```
 
 ### Youtube Videos

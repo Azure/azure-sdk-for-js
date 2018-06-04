@@ -1,0 +1,9 @@
+{
+    "extends": "../../tslint.json",
+    "rules":{
+        "only-arrow-functions": false,
+        "space-before-function-paren": false,
+        "no-console": false,
+        "no-implicit-dependencies": [true, "dev"]
+    }
+}

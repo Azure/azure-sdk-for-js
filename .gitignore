@@ -256,3 +256,5 @@ node_modules
 **/node_nodules/
 
 *.dat
+
+lib/**

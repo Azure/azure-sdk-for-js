@@ -1,3 +1,9 @@
+## Changes in 2.0.0-0 ##
+- Added Promise support
+- Added token handler option for auth
+- typings now emitted from source (moved source to TypeScript)
+- Added CosmosClient (DocumentClient now considered deprecated)
+
 ## Changes in 1.14.2 : ##
 - Updated documentation to use Azure Cosmos DB
 - Added Support for proxyUrl setting in ConnectionPolicy

@@ -1,0 +1,82 @@
+{
+  "name": "@azure/cosmos",
+  "description": "Azure Cosmos DB Service Node.js SDK for SQL API",
+  "keywords": [
+    "cosmosdb",
+    "cosmos db",
+    "documentdb",
+    "document database",
+    "azure",
+    "nosql",
+    "database",
+    "cloud"
+  ],
+  "version": "2.0.0-0",
+  "author": "Microsoft Corporation",
+  "main": "./lib/src/index.js",
+  "types": "./lib/src/index.d.ts",
+  "engine": {
+    "node": ">=0.8"
+  },
+  "scripts": {
+    "clean": "rimraf lib",
+    "lint": "tslint 'src/**/*.ts'",
+    "compile": "echo Using TypeScript && tsc --version && tsc --pretty",
+    "copy-legacy-js": "./node_modules/.bin/copy-cli src/test/legacy/* ./lib/test/legacy/",
+    "docs": "typedoc --mode file --out ./lib/docs ./src",
+    "pack": "webpack",
+    "build": "npm run clean && npm run lint && npm run compile && npm run docs && npm run copy-legacy-js && npm run pack",
+    "test": "mocha ./lib/test/ --recursive --timeout 30000 -i -g .*ignore.js",
+    "test-browser": "karma start ./karma.config.js --single-run"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.0",
+    "@types/node": "^8.10.10",
+    "@types/priorityqueuejs": "^1.0.1",
+    "@types/semaphore": "^1.1.0",
+    "@types/sinon": "^4.3.1",
+    "@types/tunnel": "^0.0.0",
+    "@types/underscore": "^1.8.8",
+    "copy": "^0.3.2",
+    "grunt": "^0.4.5",
+    "grunt-eslint": "^13.0.0",
+    "grunt-mocha-test": "^0.13.3",
+    "karma": "^2.0.2",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-cli": "^1.0.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-requirejs": "^1.1.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^3.0.0",
+    "load-grunt-tasks": "^3.1.0",
+    "mocha": "^5.1.1",
+    "mocha-junit-reporter": "^1.15.0",
+    "mocha-multi-reporters": "^1.1.6",
+    "requirejs": "^2.3.5",
+    "sinon": "^5.0.1",
+    "time-grunt": "^1.2.0",
+    "ts-node": "^6.0.0",
+    "tslint": "^5.9.1",
+    "typedoc": "^0.11.1",
+    "typescript": "^2.8.3",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.4"
+  },
+  "dependencies": {
+    "big-integer": "^1.6.28",
+    "binary-search-bounds": "2.0.3",
+    "int64-buffer": "^0.1.9",
+    "priorityqueuejs": "1.0.0",
+    "semaphore": "1.0.5",
+    "stream-http": "^2.8.1",
+    "tunnel": "0.0.5",
+    "underscore": "1.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-cosmos-js"
+  },
+  "license": "MIT"
+}
