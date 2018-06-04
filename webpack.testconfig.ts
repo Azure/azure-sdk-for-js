@@ -13,9 +13,6 @@ const config: webpack.Configuration = {
     filename: 'testBundle.js',
     path: __dirname
   },
-  plugins: [
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-  ],
   module: {
     rules: [
       {
@@ -26,10 +23,7 @@ const config: webpack.Configuration = {
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
-    alias: {
-      "moment": path.join(__dirname, 'node_modules/moment/min/moment.min.js')
-    }
+    extensions: [".tsx", ".ts", ".js"]
   },
   node: {
     fs: false,
@@ -40,7 +34,7 @@ const config: webpack.Configuration = {
     tty: false,
     v8: false,
     Buffer: false,
-    process: false,
+    process: true,
     stream: false
   }
 };
