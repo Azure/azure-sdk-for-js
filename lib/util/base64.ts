@@ -19,7 +19,11 @@ export function encodeString(value: string): string {
  */
 export function encodeByteArray(value: Uint8Array): string {
   if (typeof Buffer === "undefined") {
-    return btoa(encodeURIComponent(new TextDecoder().decode(value)));
+    let str = "";
+    for (let i = 0; i < value.length; i++) {
+      str += String.fromCharCode(value[i]);
+    }
+    return btoa(str);
   } else {
     // Buffer.from accepts <ArrayBuffer> | <SharedArrayBuffer>-- the TypeScript definition is off here
     // https://nodejs.org/api/buffer.html#buffer_class_method_buffer_from_arraybuffer_byteoffset_length
@@ -34,7 +38,12 @@ export function encodeByteArray(value: Uint8Array): string {
  */
 export function decodeString(value: string): Uint8Array {
   if (typeof Buffer === "undefined") {
-    return new TextEncoder().encode(atob(value));
+    const byteString = atob(value);
+    const arr = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+      arr[i] = byteString.charCodeAt(i);
+    }
+    return arr;
   } else {
     return Buffer.from(value, "base64");
   }

@@ -772,7 +772,7 @@ describe("msrest", function () {
         "birthday": new Date("2012-01-05T01:00:00Z").toISOString(),
         "species": "king",
         "length": 1.0,
-        "picture": Uint8Array.from([255, 255, 255, 255, 254]).toString(),
+        "picture": "/////g==",
         "siblings": [
           {
             "fish.type": "shark",
@@ -786,7 +786,7 @@ describe("msrest", function () {
             "age": 105,
             "birthday": new Date("1900-01-05T01:00:00Z").toISOString(),
             "length": 10.0,
-            "picture": Uint8Array.from([255, 255, 255, 255, 254]).toString(),
+            "picture": "/////g==",
             "species": "dangerous"
           }
         ]
@@ -873,14 +873,14 @@ describe("msrest", function () {
         'birthday': new Date('2012-01-05T01:00:00Z').toISOString(),
         'species': 'king',
         'length': 1.0,
-        'picture': Uint8Array.from([255, 255, 255, 255, 254]).toString(),
+        'picture': "/////g==",
         'siblings': [
           {
             'fish.type': 'mutatedshark',
             'age': 105,
             'birthday': new Date('1900-01-05T01:00:00Z').toISOString(),
             'length': 10.0,
-            'picture': Uint8Array.from([255, 255, 255, 255, 254]).toString(),
+            'picture': "/////g==",
             'species': 'dangerous',
             'siblings': [
               {
