@@ -15,12 +15,16 @@ const config: webpack.Configuration = {
       {
         test: /\.tsx?$/,
         loader: 'ts-loader',
-        exclude: /(node_modules|test)/
+        exclude: /(node_modules|test)/,
+        options: { configFile: path.join(__dirname, './tsconfig.es.json') }
       }
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      "./policies/msRestUserAgentPolicy": path.resolve(__dirname, "./lib/policies/msRestUserAgentPolicy.stub")
+    }
   },
   node: {
     fs: false,
