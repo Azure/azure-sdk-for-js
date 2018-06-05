@@ -10,7 +10,7 @@ for (const localDependency of localDependencies) {
   if (!version) {
     version = dependencies.getNpmPackageVersion(localDependency, "latest");
   }
-  if (dependencies.updatePackageJsonDependency(localDependency, `^${version}`)) {
+  if (dependencies.updatePackageJsonDependency(localDependency, `~${version}`)) {
     refreshNodeModules = true;
   }
 }
