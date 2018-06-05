@@ -3,6 +3,61 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 /**
+ * Replace all of the instances of searchValue in text with replaceValue.
+ * @param {string} text The text to search and replace in.
+ * @param {string} searchValue The value to search for in text.
+ * @param {string} replaceValue The value to replace searchValue with in text.
+ * @returns {string} The value of text after all of the instances of searchValue have been replaced
+ * by replaceValue.
+ */
+function replaceAll(text, searchValue, replaceValue) {
+  return text.split(searchValue).join(replaceValue);
+}
+
+/**
+ * Normalize the provided path by ensuring that all path separators are forward slashes ('/').
+ * @param {string} pathString The path to normalize.
+ * @returns {string} The normalized path.
+ */
+function normalizePath(pathString) {
+  return replaceAll(pathString, "\\", "/")
+}
+
+/**
+ * Delete the file at the provided file path.
+ * @param {string} filePath The path to the file to delete.
+ */
+function deleteFile(filePath) {
+  fs.unlinkSync(filePath);
+}
+
+/**
+ * Delete the folder at the provided folder path.
+ * @param {string} folderPath The path to the folder to delete.
+ */
+function deleteFolder(folderPath) {
+  try {
+    fs.rmdirSync(folderPath);
+  } catch (error) {
+    if (error.code === "ENOTEMPTY") {
+      const folderEntryPaths = fs.readdirSync(folderPath);
+      for (const entryName of folderEntryPaths) {
+        const entryPath = normalizePath(path.resolve(folderPath, entryName));
+        const entryStats = fs.lstatSync(entryPath);
+        if (entryStats.isDirectory()) {
+          deleteFolder(entryPath);
+        } else {
+          deleteFile(entryPath);
+        }
+      }
+      fs.rmdirSync(folderPath);
+    } else {
+      throw error;
+    }
+  }
+}
+
+/**
  * Execute the provided command on the shell synchronously.
  * @param {string} command The command to execute.
  * @param {string} workingDirectory The working directory to execute the command in.
@@ -18,7 +73,7 @@ function execute(command, workingDirectory) {
  * @returns {string} The absolute path to this repository's folder path.
  */
 function getThisRepositoryFolderPath() {
-  return path.resolve(__dirname, "..");
+  return normalizePath(path.resolve(__dirname, ".."));
 }
 
 /**
@@ -26,7 +81,7 @@ function getThisRepositoryFolderPath() {
  * @returns {string} The absolute path to the package.json.
  */
 function getPackageJsonFilePath() {
-  return path.resolve(__dirname, "../package.json");
+  return normalizePath(path.resolve(__dirname, "../package.json"));
 }
 
 /**
@@ -35,7 +90,7 @@ function getPackageJsonFilePath() {
  * @returns {string} The absolute path to the local clone of the repository.
  */
 function getLocalRepositoryPath(repoName) {
-  return path.resolve(__dirname, "..", "..", repoName);
+  return normalizePath(path.resolve(__dirname, "..", "..", repoName));
 }
 
 /**
@@ -96,7 +151,7 @@ exports.getDependenciesWithClonedRepositories = getDependenciesWithClonedReposit
  */
 function runLocalRepositoryNPMScript(repoName, scriptName) {
   const repoFolderPath = getLocalRepositoryPath(repoName);
-  const packageJsonFilePath = path.join(repoFolderPath, "package.json");
+  const packageJsonFilePath = normalizePath(path.join(repoFolderPath, "package.json"));
   const packageJson = getPackageJson(packageJsonFilePath);
   const repoScripts = packageJson.scripts;
   if (repoScripts && repoScripts[scriptName]) {
@@ -141,17 +196,18 @@ exports.updatePackageJsonDependency = updatePackageJsonDependency;
  * @returns {void}
  */
 function refreshNodeModules() {
-  if (fs.existsSync("./node_modules")) {
-    try {
-      execute(`shx rm ./package-lock.json`, getThisRepositoryFolderPath());
-    } catch (error) {
+  const thisRepositoryFolderPath = getThisRepositoryFolderPath();
+  const nodeModulesFolderPath = normalizePath(path.resolve(thisRepositoryFolderPath, "node_modules"));
+  if (fs.existsSync(nodeModulesFolderPath)) {
+
+    const packageLockFilePath = normalizePath(path.resolve(thisRepositoryFolderPath, "package-lock.json"));
+    if (fs.existsSync(packageLockFilePath)) {
+      console.log(`Deleting "${packageLockFilePath}"...`);
+      deleteFile(packageLockFilePath);
     }
-    try {
-      execute(`shx rm -rf ./node_modules`, getThisRepositoryFolderPath());
-    } catch (error) {
-      // This will always throw an exception because we're trying to delete shx, which is currently
-      // running.
-    }
+
+    console.log(`Deleting "${nodeModulesFolderPath}"...`);
+    deleteFolder(nodeModulesFolderPath);
   }
   execute(`npm install`, getThisRepositoryFolderPath());
 }
