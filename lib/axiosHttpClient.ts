@@ -122,7 +122,6 @@ export class AxiosHttpClient implements HttpClient {
         data: axiosBody,
         transformResponse: undefined,
         validateStatus: () => true,
-        withCredentials: true,
         // Workaround for https://github.com/axios/axios/issues/1362
         maxContentLength: 1024 * 1024 * 1024 * 10,
         responseType: httpRequest.rawResponse ? (isNode ? "stream" : "blob") : "text",

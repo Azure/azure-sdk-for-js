@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as xml2js from "isomorphic-xml2js";
-import * as uuid from "uuid";
+import * as uuidv4 from "uuid/v4";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { RestError } from "../restError";
 import { WebResource } from "../webResource";
@@ -132,7 +132,7 @@ export function objectValues(obj: { [key: string]: any; }): any[] {
  * @return {string} RFC4122 v4 UUID.
  */
 export function generateUuid(): string {
-  return uuid.v4();
+  return uuidv4();
 }
 
 /*
@@ -200,9 +200,9 @@ export function promiseToCallback(promise: Promise<any>): Function {
   }
   return (cb: Function): void => {
     promise.then((data: any) => {
-      process.nextTick(cb, undefined, data);
+      cb(undefined, data);
     }, (err: Error) => {
-      process.nextTick(cb, err);
+      cb(err);
     });
   };
 }
