@@ -18,7 +18,6 @@ import { serializationPolicy } from "./policies/serializationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { QueryCollectionFormat, getQueryCollectionFormatSeparator } from "./queryCollectionFormat";
-import { Serializer } from "./serializer";
 import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
@@ -58,11 +57,6 @@ export interface ServiceClientOptions {
    */
   rpRegistrationRetryTimeout?: number;
   /**
-   * @property {Serializer} [serializer] - The serializer that will be used in the serialization
-   * request policy.
-   */
-  serializer?: Serializer;
-  /**
    * Whether or not to generate a client request ID header for each HTTP request.
    */
   generateClientRequestIdHeader?: boolean;
@@ -92,8 +86,6 @@ export class ServiceClient {
   private readonly _requestPolicyOptions: RequestPolicyOptions;
 
   private readonly _requestPolicyCreators: RequestPolicyCreator[];
-
-  private readonly _serializer: Serializer;
 
   /**
    * The ServiceClient constructor
@@ -129,8 +121,6 @@ export class ServiceClient {
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
     this._requestPolicyCreators = options.requestPolicyCreators || createDefaultRequestPolicyCreators(credentials, options, this.userAgentInfo.value);
-
-    this._serializer = options.serializer!;
   }
 
   /**
@@ -197,7 +187,7 @@ export class ServiceClient {
     if (operationSpec.urlParameters && operationSpec.urlParameters.length > 0) {
       for (const urlParameter of operationSpec.urlParameters) {
         let urlParameterValue: string = operationArguments.arguments[urlParameter.parameterName];
-        urlParameterValue = this._serializer.serialize(urlParameter.mapper, urlParameterValue, urlParameter.parameterName);
+        urlParameterValue = operationSpec.serializer.serialize(urlParameter.mapper, urlParameterValue, urlParameter.parameterName);
         if (!urlParameter.skipEncoding) {
           urlParameterValue = encodeURIComponent(urlParameterValue);
         }
@@ -208,7 +198,7 @@ export class ServiceClient {
       for (const queryParameter of operationSpec.queryParameters) {
         let queryParameterValue: any = operationArguments.arguments[queryParameter.parameterName];
         if (queryParameterValue != undefined) {
-          queryParameterValue = this._serializer.serialize(queryParameter.mapper, queryParameterValue, queryParameter.parameterName);
+          queryParameterValue = operationSpec.serializer.serialize(queryParameter.mapper, queryParameterValue, queryParameter.parameterName);
           if (queryParameter.collectionFormat != undefined) {
             if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
               if (queryParameterValue.length === 0) {
@@ -236,7 +226,7 @@ export class ServiceClient {
       for (const headerParameter of operationSpec.headerParameters) {
         let headerValue: any = operationArguments.arguments[headerParameter.parameterName];
         if (headerValue != undefined) {
-          headerValue = this._serializer.serialize(headerParameter.mapper, headerValue, headerParameter.parameterName);
+          headerValue = operationSpec.serializer.serialize(headerParameter.mapper, headerValue, headerParameter.parameterName);
           httpRequest.headers.set(headerParameter.mapper.serializedName || headerParameter.parameterName, headerValue);
         }
       }
@@ -272,7 +262,7 @@ export class ServiceClient {
         const formDataParameterValue: any = operationArguments.arguments[formDataParameter.parameterName];
         if (formDataParameterValue != undefined) {
           const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || formDataParameter.parameterName;
-          httpRequest.formData[formDataParameterPropertyName] = this._serializer.serialize(formDataParameter.mapper, formDataParameterValue, formDataParameter.parameterName);
+          httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, formDataParameter.parameterName);
         }
       }
     }
@@ -304,9 +294,7 @@ function createDefaultRequestPolicyCreators(credentials: ServiceClientCredential
     defaultRequestPolicyCreators.push(systemErrorRetryPolicy());
   }
 
-  if (options.serializer) {
-    defaultRequestPolicyCreators.push(serializationPolicy(options.serializer));
-  }
+  defaultRequestPolicyCreators.push(serializationPolicy());
 
   return defaultRequestPolicyCreators;
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { Mapper } from "./serializer";
+import { Mapper, Serializer } from "./serializer";
 import { HttpMethods } from "./webResource";
 import { OperationURLParameter, OperationQueryParameter, OperationParameter } from "./operationParameter";
 
@@ -9,6 +9,11 @@ import { OperationURLParameter, OperationQueryParameter, OperationParameter } fr
  * A specification that defines an operation.
  */
 export interface OperationSpec {
+  /**
+   * The serializer to use in this operation.
+   */
+  serializer: Serializer;
+
   /**
    * The HTTP method that should be used by requests for this operation.
    */
