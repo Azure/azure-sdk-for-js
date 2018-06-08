@@ -3,7 +3,7 @@
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { OperationSpec } from "../operationSpec";
-import { Mapper, MapperType, Serializer } from "../serializer";
+import { Mapper, MapperType } from "../serializer";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
@@ -12,9 +12,9 @@ import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOp
  * Create a new serialization RequestPolicyCreator that will serialized HTTP request bodies as they
  * pass through the HTTP pipeline.
  */
-export function serializationPolicy(serializer: Serializer): RequestPolicyCreator {
+export function serializationPolicy(): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-    return new SerializationPolicy(nextPolicy, options, serializer);
+    return new SerializationPolicy(nextPolicy, options);
   };
 }
 
@@ -22,7 +22,7 @@ export function serializationPolicy(serializer: Serializer): RequestPolicyCreato
  * A RequestPolicy that will serialize HTTP request bodies as they pass through the HTTP pipeline.
  */
 export class SerializationPolicy extends BaseRequestPolicy {
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, private readonly _serializer: Serializer) {
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
   }
 
@@ -49,7 +49,7 @@ export class SerializationPolicy extends BaseRequestPolicy {
       if (bodyMapper) {
         try {
           if (request.body != undefined && operationSpec.requestBodyName) {
-            request.body = this._serializer.serialize(bodyMapper, request.body, operationSpec.requestBodyName);
+            request.body = operationSpec.serializer.serialize(bodyMapper, request.body, operationSpec.requestBodyName);
             if (operationSpec.isXML) {
               if (bodyMapper.type.name === MapperType.Sequence) {
                 request.body = utils.stringifyXML(utils.prepareXMLRootList(request.body, bodyMapper.xmlElementName || bodyMapper.xmlName || bodyMapper.serializedName), { rootName: bodyMapper.xmlName || bodyMapper.serializedName });
