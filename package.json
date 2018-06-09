@@ -32,9 +32,9 @@
     "ms-rest-js": "~0.9.248"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.43",
+    "@types/mocha": "^5.2.1",
     "@types/should": "^8.1.30",
-    "mocha": "^3.5.3",
+    "mocha": "^5.2.0",
     "npm-run-all": "^4.1.2",
     "should": "5.2.0",
     "shx": "^0.2.2",
