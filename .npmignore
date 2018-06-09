@@ -1,4 +1,5 @@
 !dist/lib/**/*.js
+!es/lib/**/*.js
 !typings/lib/**/*.d.ts
 .vscode/
 .idea/
