@@ -7,10 +7,10 @@ import { ClientEntity } from "./clientEntity";
 import { ConnectionContext } from "./connectionContext";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
-  Message, message
+  message
 } from "./rhea-promise";
-import { defaultLock, Func, retry, translate } from "./amqp-common";
-import { BrokeredMessage } from "./brokeredMessage";
+import { defaultLock, Func, retry, translate, AmqpMessage } from "./amqp-common";
+import { SBMessage } from "./message";
 
 const debug = debugModule("azure:service-bus:sender");
 
@@ -71,7 +71,7 @@ export class MessageSender extends ClientEntity {
    * @param {any} data Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
-  async send(data: BrokeredMessage): Promise<Delivery> {
+  async send(data: SBMessage): Promise<Delivery> {
     try {
       if (!data || (data && typeof data !== "object")) {
         throw new Error("data is required and it must be of type object.");
@@ -82,7 +82,7 @@ export class MessageSender extends ClientEntity {
           "possibly the connection.", this.senderLock);
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
-      const message = BrokeredMessage.toAmqpMessage(data);
+      const message = SBMessage.toAmqpMessage(data);
       message.body = this._context.dataTransformer.encode(data.body);
       return await this._trySend(message);
     } catch (err) {
@@ -92,14 +92,14 @@ export class MessageSender extends ClientEntity {
   }
 
   /**
-   * Send a batch of BrokeredMessage to the ServiceBus. The "message_annotations",
+   * Send a batch of Message to the ServiceBus. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
-   * @param {Array<BrokeredMessage>} datas  An array of BrokeredMessage objects to be sent in a
+   * @param {Array<Message>} datas  An array of Message objects to be sent in a
    * Batch message.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: BrokeredMessage[]): Promise<Delivery> {
+  async sendBatch(datas: SBMessage[]): Promise<Delivery> {
     try {
       if (!datas || (datas && !Array.isArray(datas))) {
         throw new Error("data is required and it must be an Array.");
@@ -110,17 +110,17 @@ export class MessageSender extends ClientEntity {
           "possibly the connection.", this.senderLock);
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
-      debug("[%s] Sender '%s', trying to send BrokeredMessage[]: %O",
+      debug("[%s] Sender '%s', trying to send Message[]: %O",
         this._context.connectionId, this.name, datas);
-      const messages: Message[] = [];
-      // Convert BrokeredMessage to AmqpMessage.
+      const messages: AmqpMessage[] = [];
+      // Convert Message to AmqpMessage.
       for (let i = 0; i < datas.length; i++) {
-        const message = BrokeredMessage.toAmqpMessage(datas[i]);
+        const message = SBMessage.toAmqpMessage(datas[i]);
         message.body = this._context.dataTransformer.encode(datas[i].body);
         messages[i] = message;
       }
       // Encode every amqp message and then convert every encoded message to amqp data section
-      const batchMessage: Message = {
+      const batchMessage: AmqpMessage = {
         body: message.data_sections(messages.map(message.encode))
       };
       // Set message_annotations, application_properties and properties of the first message as
@@ -158,7 +158,7 @@ export class MessageSender extends ClientEntity {
    * @param message The message to be sent to ServiceBus.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(message: Message, tag?: any, format?: number): Promise<Delivery> {
+  private _trySend(message: SBMessage, tag?: any, format?: number): Promise<Delivery> {
     const sendEventPromise = new Promise<Delivery>((resolve, reject) => {
       debug("[%s] Sender '%s', credit: %d available: %d", this._context.connectionId, this.name,
         this._sender!.credit, this._sender!.session.outgoing.available());

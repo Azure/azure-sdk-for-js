@@ -4,7 +4,7 @@
 import * as debugModule from "debug";
 import { Func, Constants, translate } from "./amqp-common";
 import { ReceiverEvents, EventContext, OnAmqpEvent } from "./rhea-promise";
-import { BrokeredMessage } from "./brokeredMessage";
+import { Message, ReceivedSBMessage } from "./message";
 import { MessageReceiver, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "./connectionContext";
 
@@ -30,16 +30,16 @@ export class BatchingReceiver extends MessageReceiver {
   }
 
   /**
-   * Receive a batch of BrokeredMessage objects from a ServiceBus Queue/Topic for a given count and
+   * Receive a batch of Message objects from a ServiceBus Queue/Topic for a given count and
    * a given max wait time in seconds, whichever happens first. This method can be used directly
    * after creating the receiver object and **MUST NOT** be used along with the `start()` method.
    *
    * @param {number} maxMessageCount The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @returns {Promise<BrokeredMessage[]>} A promise that resolves with an array of BrokeredMessage objects.
+   * @returns {Promise<Message[]>} A promise that resolves with an array of Message objects.
    */
-  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<BrokeredMessage[]> {
+  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<Message[]> {
     if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== 'number')) {
       throw new Error("'maxMessageCount' is a required parameter of type number with a value greater than 0.");
     }
@@ -48,15 +48,15 @@ export class BatchingReceiver extends MessageReceiver {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
-    const brokeredMessages: BrokeredMessage[] = [];
+    const brokeredMessages: Message[] = [];
     let timeOver = false;
-    return new Promise<BrokeredMessage[]>((resolve, reject) => {
+    return new Promise<Message[]>((resolve, reject) => {
       let onReceiveMessage: OnAmqpEvent;
       let onReceiveError: OnAmqpEvent;
       let waitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = (timeOver: boolean, data?: BrokeredMessage) => {
+      const finalAction = (timeOver: boolean, data?: Message) => {
         // Resetting the mode. Now anyone can call start() or receive() again.
         this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
         this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
@@ -77,7 +77,7 @@ export class BatchingReceiver extends MessageReceiver {
 
       // Action to be performed on the "message" event.
       onReceiveMessage = (context: EventContext) => {
-        const data: BrokeredMessage = BrokeredMessage.fromAmqpMessage(context.message!);
+        const data: Message = ReceivedSBMessage.fromAmqpMessage(context.message!, context.delivery!);
         data.body = this._context.dataTransformer.decode(context.message!.body);
         if (brokeredMessages.length <= maxMessageCount) {
           brokeredMessages.push(data);

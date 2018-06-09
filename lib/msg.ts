@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { Delivery } from "./rhea-promise";
 import {
-  Message, MessageProperties, MessageHeader, Dictionary
-} from "./rhea-promise";
-
-import { Constants, ServiceBusMessageAnnotations } from "./amqp-common";
+  Constants, ServiceBusMessageAnnotations, MessageHeader, MessageProperties, Dictionary,
+  AmqpMessage
+} from "./amqp-common";
 
 /**
  * Describes the structure of a message to be sent or received from the ServiceBus.
- * @interface BrokeredMessage
+ * @interface Message
  */
-export interface BrokeredMessage {
+export interface Message {
   /**
    * @property {MessageHeader} [header] - The message headers.
    */
@@ -38,11 +38,12 @@ export interface BrokeredMessage {
    */
   sequenceNumber?: number;
   /**
-   * @property {AmqpMessageAnnotations} [annotations] The amqp message attributes.
+   * @property {ServiceBusMessageAnnotations} [annotations] The amqp message attributes.
    */
   annotations?: ServiceBusMessageAnnotations;
   /**
-   * @property {AmqpMessageProperties} [properties] The predefined AMQP properties like message_id, correlation_id, reply_to, etc.
+   * @property {MessageProperties} [properties] The predefined Message properties like
+   * messageId, correlationId, replyTo, etc.
    */
   properties?: MessageProperties;
   /**
@@ -50,25 +51,14 @@ export interface BrokeredMessage {
    */
   applicationProperties?: Dictionary<any>;
   /**
-   * @property {number} [lastSequenceNumber] The last sequence number of the message within the partition stream of the ServiceBus.
-   */
-  lastSequenceNumber?: number;
-  /**
-   * @property {string} [lastEnqueuedOffset] The offset of the last enqueued message.
-   */
-  lastEnqueuedOffset?: string;
-  /**
-   * @property {Date} [lastEnqueuedTime] The enqueued UTC time of the last message.
-   */
-  lastEnqueuedTime?: Date;
-  /**
    * @property {Date} [retrievalTime] The time when the runtime info was retrieved
    */
   retrievalTime?: Date;
   /**
    * @property {AmqpMessage} _raw_amqp_mesage The underlying raw amqp message.
    */
-  _raw_amqp_mesage?: Message;
+  _raw_amqp_mesage?: AmqpMessage;
+  readonly delivery?: Delivery;
 }
 
 export const messageProperties: string[] = [
@@ -82,19 +72,20 @@ export const messageHeader: string[] = [
 ];
 
 /**
- * Describes the methods on the BrokeredMessage interface.
- * @module BrokeredMessage
+ * Describes the methods on the Message interface.
+ * @module Message
  */
-export namespace BrokeredMessage {
+export namespace Message {
 
   /**
-   * Converts the AMQP message to an BrokeredMessage.
-   * @param {AmqpMessage} msg The AMQP message that needs to be converted to BrokeredMessage.
+   * Converts the AMQP message to an Message.
+   * @param {AmqpMessage} msg The AMQP message that needs to be converted to Message.
    */
-  export function fromAmqpMessage(msg: Message): BrokeredMessage {
-    const data: BrokeredMessage = {
+  export function fromAmqpMessage(msg: AmqpMessage, delivery: Delivery): Message {
+    const data: Message = {
       body: msg.body,
-      _raw_amqp_mesage: msg
+      _raw_amqp_mesage: msg,
+      delivery: delivery
     };
     if (msg.message_annotations) {
       data.annotations = msg.message_annotations;
@@ -125,20 +116,17 @@ export namespace BrokeredMessage {
       data.applicationProperties = msg.application_properties;
     }
     if (msg.delivery_annotations) {
-      data.lastEnqueuedOffset = msg.delivery_annotations.last_enqueued_offset;
-      data.lastSequenceNumber = msg.delivery_annotations.last_enqueued_sequence_number;
-      data.lastEnqueuedTime = new Date(msg.delivery_annotations.last_enqueued_time_utc as number);
       data.retrievalTime = new Date(msg.delivery_annotations.runtime_info_retrieval_time_utc as number);
     }
     return data;
   }
 
   /**
-   * Converts an BrokeredMessage object to an AMQP message.
-   * @param {BrokeredMessage} data The BrokeredMessage object that needs to be converted to an AMQP message.
+   * Converts an Message object to an AMQP message.
+   * @param {Message} data The Message object that needs to be converted to an AMQP message.
    */
-  export function toAmqpMessage(data: BrokeredMessage): Message {
-    const msg: Message = {
+  export function toAmqpMessage(data: Message): AmqpMessage {
+    const msg: AmqpMessage = {
       body: data.body,
     };
     // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
@@ -172,18 +160,6 @@ export namespace BrokeredMessage {
     }
     if (data.offset != undefined) {
       msg.message_annotations[Constants.offset] = data.offset;
-    }
-    if (data.lastEnqueuedOffset != undefined) {
-      msg.delivery_annotations.last_enqueued_offset = data.lastEnqueuedOffset;
-    }
-    if (data.lastSequenceNumber != undefined) {
-      msg.delivery_annotations.last_enqueued_sequence_number = data.lastSequenceNumber;
-    }
-    if (data.lastEnqueuedTime) {
-      msg.delivery_annotations.last_enqueued_time_utc = data.lastEnqueuedTime.getTime();
-    }
-    if (data.retrievalTime) {
-      msg.delivery_annotations.runtime_info_retrieval_time_utc = data.retrievalTime.getTime();
     }
 
     if (data.header) {

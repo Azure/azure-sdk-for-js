@@ -296,18 +296,18 @@ export enum ErrorNameConditionMapper {
 
 /**
  * Describes the base class for an EventHub Error.
- * @class {EventHubsError}
+ * @class {MessagingError}
  * @extends Error
  */
-export class EventHubsError extends Error {
+export class MessagingError extends Error {
   /**
    * @property {string} [condition] The error condition.
    */
   condition?: string;
   /**
-   * @property {string} name The error name. Default value: "EventHubsError".
+   * @property {string} name The error name. Default value: "MessagingError".
    */
-  name: string = "EventHubsError";
+  name: string = "MessagingError";
   /**
    * @property {boolean} translated Has the error been translated. Default: true.
    */
@@ -347,25 +347,25 @@ function isAmqpError(err: any): boolean {
 }
 
 /**
- * Translates the AQMP error received at the protocol layer or a generic Error into an EventHubsError.
+ * Translates the AQMP error received at the protocol layer or a generic Error into an MessagingError.
  *
  * @param {AmqpError} err The amqp error that was received.
- * @returns {EventHubsError} EventHubsError object.
+ * @returns {MessagingError} MessagingError object.
  */
-export function translate(err: AmqpError | Error): EventHubsError {
-  if ((err as EventHubsError).translated) { // already translated
-    return err as EventHubsError;
+export function translate(err: AmqpError | Error): MessagingError {
+  if ((err as MessagingError).translated) { // already translated
+    return err as MessagingError;
   } else if (isAmqpError(err)) { // translate
     const condition = (err as AmqpError).condition;
     const description = (err as AmqpError).description as string;
-    const error = new EventHubsError(description);
+    const error = new MessagingError(description);
     error.info = (err as AmqpError).info;
     error.condition = condition;
     if (condition) {
       if (condition === "com.microsoft:precondition-failed") {
         error.name = "PreconditionFailedError";
       } else {
-        error.name = ConditionErrorNameMapper[condition as any] || "EventHubsError";
+        error.name = ConditionErrorNameMapper[condition as any] || "MessagingError";
       }
     }
     if (description &&
@@ -380,8 +380,8 @@ export function translate(err: AmqpError | Error): EventHubsError {
     }
     return error;
   } else {
-    // Translate a generic error into EventHubsError.
-    const error = new EventHubsError((err as Error).message);
+    // Translate a generic error into MessagingError.
+    const error = new MessagingError((err as Error).message);
     return error;
   }
 }

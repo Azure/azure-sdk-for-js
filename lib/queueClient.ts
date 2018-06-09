@@ -6,7 +6,7 @@ import {
   ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
 } from "ms-rest-azure";
 import {
-  ConnectionConfig, EventHubsError, DataTransformer, TokenProvider, AadTokenProvider
+  ConnectionConfig, MessagingError, DataTransformer, TokenProvider, AadTokenProvider
 } from "./amqp-common";
 import { Delivery } from "./rhea-promise";
 import { ConnectionContext } from "./connectionContext";
@@ -14,7 +14,7 @@ import { MessageSender } from "./messageSender";
 import { ReceiveOptions, OnError, OnMessage } from ".";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
-import { BrokeredMessage } from './brokeredMessage';
+import { Message, SBMessage } from './message';
 const debug = debugModule("azure:service-bus:queue-client");
 
 /**
@@ -121,21 +121,21 @@ export class QueueClient {
    * @param {any} data  Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
-  async send(data: BrokeredMessage, partitionId?: string | number): Promise<Delivery> {
+  async send(data: SBMessage, partitionId?: string | number): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.send(data);
   }
 
   /**
-   * Send a batch of BrokeredMessage to the ServiceBus Queue. The "message_annotations", "application_properties"
+   * Send a batch of Message to the ServiceBus Queue. The "message_annotations", "application_properties"
    * and "properties" of the first message will be set as that of the envelope (batch message).
    *
-   * @param {Array<BrokeredMessage>} datas  An array of BrokeredMessage objects to be sent in a Batch
+   * @param {Array<Message>} datas  An array of Message objects to be sent in a Batch
    * message.
    *
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: BrokeredMessage[]): Promise<Delivery> {
+  async sendBatch(datas: SBMessage[]): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.sendBatch(datas);
   }
@@ -146,7 +146,7 @@ export class QueueClient {
    * provided onError handler.
    *
    * @param {string|number} partitionId    Partition ID from which to receive.
-   * @param {OnMessage} onMessage          The message handler to receive BrokeredMessage objects.
+   * @param {OnMessage} onMessage          The message handler to receive Message objects.
    * @param {OnError} onError              The error handler to receive an error that occurs
    * while receiving messages.
    * @param {ReceiveOptions} [options]     Options for how you'd like to connect.
@@ -161,19 +161,19 @@ export class QueueClient {
   }
 
   /**
-   * Receives a batch of BrokeredMessage objects from a ServiceBus Queue for a given count and a
+   * Receives a batch of Message objects from a ServiceBus Queue for a given count and a
    * given max wait time in seconds, whichever happens first.
    * @param {number} maxMessageCount        The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    * @param {ReceiveOptions} [options]      Options for how you'd like to connect.
    *
-   * @returns {Promise<BrokeredMessage[]>} A promise that resolves with an array of BrokeredMessage objects.
+   * @returns {Promise<Message[]>} A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, options?: ReceiveOptions): Promise<BrokeredMessage[]> {
+  async receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number, options?: ReceiveOptions): Promise<Message[]> {
     const bReceiver: BatchingReceiver = BatchingReceiver.create(this._context, options);
-    let error: EventHubsError | undefined;
-    let result: BrokeredMessage[] = [];
+    let error: MessagingError | undefined;
+    let result: Message[] = [];
     try {
       result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
     } catch (err) {

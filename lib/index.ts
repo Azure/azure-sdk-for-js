@@ -4,12 +4,12 @@
 export {
   ConnectionConfig, TokenInfo, TokenType, TokenProvider, DataTransformer, DefaultDataTransformer,
   parseConnectionString, ServiceBusDeliveryAnnotations, ServiceBusMessageAnnotations,
-  ServiceBusConnectionStringModel, delay, Timeout, EventHubsError
+  ServiceBusConnectionStringModel, delay, Timeout, MessagingError
 } from "./amqp-common";
 export {
   AmqpError, Delivery, Dictionary, MessageProperties, MessageHeader
 } from "./rhea-promise";
-export { BrokeredMessage } from "./brokeredMessage";
+export { Message, ReceivedSBMessage, SBMessage } from "./message";
 export { ReceiveHandler } from "./streamingReceiver";
 export { ReceiveOptions, OnError, OnMessage } from "./messageReceiver";
 export { ClientOptions, ClientOptionsBase, QueueClient, ReceiveMode } from "./queueClient";

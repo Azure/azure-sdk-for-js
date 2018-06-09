@@ -4,9 +4,9 @@
 import * as debugModule from "debug";
 import { ClientEntity } from "./clientEntity";
 import { ConnectionContext } from "./connectionContext";
-import { Constants, EventHubsError, translate } from "./amqp-common";
+import { Constants, MessagingError, translate } from "./amqp-common";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions } from "./rhea-promise";
-import { ReceiveMode, BrokeredMessage } from ".";
+import { ReceiveMode, Message, ReceivedSBMessage } from ".";
 
 const debug = debugModule("azure:service-bus:receiver");
 
@@ -30,12 +30,12 @@ export interface ReceiveOptions {
 /**
  * Describes the message handler signature.
  */
-export type OnMessage = (brokeredMessage: BrokeredMessage) => void;
+export type OnMessage = (message: Message) => void;
 
 /**
  * Describes the error handler signature.
  */
-export type OnError = (error: EventHubsError | Error) => void;
+export type OnError = (error: MessagingError | Error) => void;
 
 /**
  * Describes the MessageReceiver that will receive messages from ServiceBus.
@@ -51,7 +51,7 @@ export class MessageReceiver extends ClientEntity {
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
-  receiveMode?: ReceiveMode;
+  receiveMode: ReceiveMode;
   /**
    * @property {Receiver} [_receiver] The AMQP receiver link.
    * @protected
@@ -91,7 +91,7 @@ export class MessageReceiver extends ClientEntity {
       options.prefetchCount : Constants.defaultPrefetchCount;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     this._onAmqpMessage = (context: EventContext) => {
-      const bMessage = BrokeredMessage.fromAmqpMessage(context.message!);
+      const bMessage = ReceivedSBMessage.fromAmqpMessage(context.message!, context.delivery!);
       bMessage.body = this._context.dataTransformer.decode(context.message!.body);
       this._onMessage!(bMessage);
     };
@@ -177,7 +177,9 @@ export class MessageReceiver extends ClientEntity {
   private _createReceiverOptions(onMessage?: OnAmqpEvent, onError?: OnAmqpEvent): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
       name: this.name,
-      autoaccept: true,
+      autoaccept: false,
+      rcv_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1,
+      snd_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 1 : 0,
       source: {
         address: this.address
       },

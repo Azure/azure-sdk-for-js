@@ -4,11 +4,17 @@
 export const partitionKey = "x-opt-partition-key";
 export const sequenceNumber = "x-opt-sequence-number";
 export const enqueuedTime = "x-opt-enqueued-time";
+export const scheduledEnqueueTime = "x-opt-scheduled-enqueue-time";
 export const offset = "x-opt-offset";
 export const lockedUntil = "x-opt-locked-until";
+export const partitionIdName = "x-opt-partition-id";
+export const publisher = "x-opt-publisher-name";
+export const viaPartitionKey = "x-opt-via-partition-key";
+export const deadLetterSource = "x-opt-deadletter-source";
 export const enqueuedTimeAnnotation = `amqp.annotation.${enqueuedTime}`;
 export const offsetAnnotation = `amqp.annotation.${offset}`;
 export const sequenceNumberAnnotation = `amqp.annotation.${sequenceNumber}`;
+export const guidSize = 16;
 export const message = "message";
 export const error = "error";
 export const statusCode = "status-code";
@@ -31,6 +37,9 @@ export const vendorString = "com.microsoft";
 export const attachEpoch = `${vendorString}:epoch`;
 export const receiverIdentifierName = `${vendorString}:receiver-name`;
 export const enableReceiverRuntimeMetricName = `${vendorString}:enable-receiver-runtime-metric`;
+export const timespan = `${vendorString}:timespan`;
+export const uri = `${vendorString}:uri`;
+export const dateTimeOffset = `${vendorString}:datetime-offset`;
 export const receiverError = "receiver_error";
 export const senderError = "sender_error";
 export const sessionError = "session_error";
@@ -46,3 +55,16 @@ export const packageJsonInfo = {
   name: "azure-event-hubs-js",
   version: "0.2.0"
 };
+export const maxMessageIdLength = 128;
+export const maxPartitionKeyLength = 128;
+export const maxSessionIdLength = 128;
+export const pathDelimiter = "/";
+export const ruleNameMaximumLength = 50;
+export const maximumSqlFilterStatementLength = 1024;
+export const maximumSqlRuleActionStatementLength = 1024;
+export const maxDeadLetterReasonLength = 4096;
+// https://stackoverflow.com/questions/11526504/minimum-and-maximum-date
+export const maxDate = new Date(8640000000000000);
+export const minDate = new Date(-8640000000000000);
+// https://github.com/Azure/azure-amqp/blob/master/Microsoft.Azure.Amqp/Amqp/AmqpConstants.cs#L47
+export const maxAbsoluteExpiryTime = new Date("9999-12-31T07:59:59.000Z").getTime();

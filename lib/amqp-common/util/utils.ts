@@ -158,3 +158,21 @@ export function executePromisesSequentially(promiseFactories: Array<any>, kickst
   });
   return result;
 }
+
+export function setIfDefined(obj: any, key: string, value: any): void {
+  if (value !== undefined) {
+    obj[key] = value;
+  }
+}
+
+export function verifyType(value: any, type: 'string' | 'number'): void {
+  if (value != undefined && typeof value !== type) {
+    throw new TypeError(`Invalid type provided. Value must be a ${type}.`);
+  }
+}
+
+export function verifyClass(value: any, clazz: Function, className: string): void {
+  if (value != undefined && !(value instanceof clazz)) {
+    throw new TypeError(`Invalid type provided. Value must be an instance of ${className}.`);
+  }
+}

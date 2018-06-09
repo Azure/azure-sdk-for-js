@@ -1,4 +1,4 @@
-import { QueueClient, OnMessage, OnError, EventHubsError, delay, BrokeredMessage, ReceiveMode } from "../lib";
+import { QueueClient, OnMessage, OnError, MessagingError, delay, Message, ReceiveMode } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -14,11 +14,13 @@ async function main(): Promise<void> {
   client = QueueClient.createFromConnectionString(str, path);
   await client.send({ body: "Hello awesome world!!" + new Date().toString() });
   console.log("***********Created sender and sent the message...");
-  const onMessage: OnMessage = async (brokeredMessage: BrokeredMessage) => {
-    console.log(">>> BrokeredMessage: ", brokeredMessage);
+  const onMessage: OnMessage = async (brokeredMessage: Message) => {
+    console.log(">>> Message: ", brokeredMessage);
     console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
+    console.log(">>>> Calling accept....");
+    brokeredMessage._delivery!.accept();
   }
-  const onError: OnError = (err: EventHubsError | Error) => {
+  const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
   //console.log(onMessage, onError);
@@ -31,6 +33,7 @@ async function main(): Promise<void> {
 }
 
 main().then(() => {
+  console.log(">>>> Calling close....");
   return client.close();
 }).catch((err) => {
   console.log("error: ", err);
