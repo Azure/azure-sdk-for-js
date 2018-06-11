@@ -180,6 +180,8 @@ export class ServiceClient {
     httpRequest.method = operationSpec.httpMethod;
     httpRequest.operationSpec = operationSpec;
 
+    applyParameterTransformations(operationArguments, operationSpec);
+
     const requestUrl: URLBuilder = URLBuilder.parse(operationSpec.baseUrl);
     if (operationSpec.path) {
       requestUrl.setPath(operationSpec.path);
@@ -297,4 +299,48 @@ function createDefaultRequestPolicyCreators(credentials: ServiceClientCredential
   defaultRequestPolicyCreators.push(serializationPolicy());
 
   return defaultRequestPolicyCreators;
+}
+
+export type PropertyParent = { [propertyName: string]: any };
+
+/**
+ * If there are any parameter transformations in the OperationSpec, then apply those transformations
+ * to the arguments in the OperationArguments object.
+ * @param {OperationArguments} operationArguments The operation arguments to apply the parameter
+ * transformations to.
+ * @param {OperationSpec} operationSpec The OperationSpec that contains the parameter
+ * transformations to apply to the OperationArguments.
+ */
+export function applyParameterTransformations(operationArguments: OperationArguments, operationSpec: OperationSpec): void {
+  if (operationSpec && operationSpec.parameterTransformations && operationSpec.parameterTransformations.length > 0) {
+    for (const parameterTransformation of operationSpec.parameterTransformations) {
+      const sourcePath: string[] = parameterTransformation.sourcePath;
+      const sourcePropertyParent: PropertyParent = getPropertyParent(operationArguments.arguments, sourcePath);
+      const lastSourcePathPropertyName: string = sourcePath[sourcePath.length - 1];
+
+      const targetPath: string[] = parameterTransformation.targetPath;
+      const targetPropertyParent: PropertyParent = getPropertyParent(operationArguments.arguments, targetPath);
+      const lastTargetPathPropertyName: string = targetPath[targetPath.length - 1];
+
+      targetPropertyParent[lastTargetPathPropertyName] = sourcePropertyParent[lastSourcePathPropertyName];
+    }
+  }
+}
+
+/**
+ * Get the property parent for the property at the provided path when starting with the provided
+ * parent object.
+ */
+export function getPropertyParent(parent: PropertyParent, propertyPath: string[]): PropertyParent {
+  if (parent && propertyPath) {
+    const propertyPathLength: number = propertyPath.length;
+    for (let i = 0; i < propertyPathLength - 1; ++i) {
+      const propertyName: string = propertyPath[i];
+      if (!parent[propertyName]) {
+        parent[propertyName] = {};
+      }
+      parent = parent[propertyName];
+    }
+  }
+  return parent;
 }
