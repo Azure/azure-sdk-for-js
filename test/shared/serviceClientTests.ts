@@ -4,6 +4,7 @@
 import * as assert from "assert";
 import { getPropertyParent, PropertyParent, applyParameterTransformations } from "../../lib/serviceClient";
 import { OperationArguments } from "../../lib/operationArguments";
+import { Serializer } from "../../lib/serializer";
 
 describe("applyParameterTransformations()", () => {
   it("should do nothing if provided an undefined operationArguments", () => {
@@ -11,7 +12,8 @@ describe("applyParameterTransformations()", () => {
       undefined as any,
       {
         baseUrl: "https://my.base.url",
-        httpMethod: "GET"
+        httpMethod: "GET",
+        serializer: new Serializer()
       });
   });
 
@@ -21,7 +23,8 @@ describe("applyParameterTransformations()", () => {
       null as any,
       {
         baseUrl: "https://my.base.url",
-        httpMethod: "GET"
+        httpMethod: "GET",
+        serializer: new Serializer()
       });
   });
 
@@ -32,7 +35,8 @@ describe("applyParameterTransformations()", () => {
       },
       {
         baseUrl: "https://my.base.url",
-        httpMethod: "GET"
+        httpMethod: "GET",
+        serializer: new Serializer()
       });
   });
 
@@ -44,7 +48,8 @@ describe("applyParameterTransformations()", () => {
       },
       {
         baseUrl: "https://my.base.url",
-        httpMethod: "GET"
+        httpMethod: "GET",
+        serializer: new Serializer()
       });
   });
 
@@ -55,7 +60,8 @@ describe("applyParameterTransformations()", () => {
       },
       {
         baseUrl: "https://my.base.url",
-        httpMethod: "GET"
+        httpMethod: "GET",
+        serializer: new Serializer()
       });
   });
 
@@ -84,7 +90,8 @@ describe("applyParameterTransformations()", () => {
       {
         baseUrl: "https://my.base.url",
         httpMethod: "GET",
-        parameterTransformations: undefined
+        parameterTransformations: undefined,
+        serializer: new Serializer()
       });
   });
 
@@ -97,7 +104,8 @@ describe("applyParameterTransformations()", () => {
         baseUrl: "https://my.base.url",
         httpMethod: "GET",
         // tslint:disable-next-line:no-null-keyword
-        parameterTransformations: null as any
+        parameterTransformations: null as any,
+        serializer: new Serializer()
       });
   });
 
@@ -109,6 +117,7 @@ describe("applyParameterTransformations()", () => {
       {
         baseUrl: "https://my.base.url",
         httpMethod: "GET",
+        serializer: new Serializer(),
         parameterTransformations: []
       });
   });
@@ -122,6 +131,7 @@ describe("applyParameterTransformations()", () => {
         {
           baseUrl: "https://my.base.url",
           httpMethod: "GET",
+          serializer: new Serializer(),
           parameterTransformations: [
             {
               sourcePath: ["a"],
@@ -143,6 +153,7 @@ describe("applyParameterTransformations()", () => {
         {
           baseUrl: "https://my.base.url",
           httpMethod: "GET",
+          serializer: new Serializer(),
           parameterTransformations: [
             {
               sourcePath: ["a"],
@@ -168,6 +179,7 @@ describe("applyParameterTransformations()", () => {
         {
           baseUrl: "https://my.base.url",
           httpMethod: "GET",
+          serializer: new Serializer(),
           parameterTransformations: [
             {
               sourcePath: ["a", "c", "d"],
@@ -189,6 +201,7 @@ describe("applyParameterTransformations()", () => {
         {
           baseUrl: "https://my.base.url",
           httpMethod: "GET",
+          serializer: new Serializer(),
           parameterTransformations: [
             {
               sourcePath: ["a"],

@@ -13,7 +13,7 @@ export interface OperationSpec {
   /**
    * The serializer to use in this operation.
    */
-  serializer?: Serializer;
+  serializer: Serializer;
 
   /**
    * The HTTP method that should be used by requests for this operation.
