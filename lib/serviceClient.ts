@@ -189,7 +189,7 @@ export class ServiceClient {
     if (operationSpec.urlParameters && operationSpec.urlParameters.length > 0) {
       for (const urlParameter of operationSpec.urlParameters) {
         let urlParameterValue: string = operationArguments.arguments[urlParameter.parameterName];
-        urlParameterValue = operationSpec.serializer.serialize(urlParameter.mapper, urlParameterValue, urlParameter.parameterName);
+        urlParameterValue = !operationSpec.serializer ? urlParameterValue : operationSpec.serializer.serialize(urlParameter.mapper, urlParameterValue, urlParameter.parameterName);
         if (!urlParameter.skipEncoding) {
           urlParameterValue = encodeURIComponent(urlParameterValue);
         }
@@ -200,7 +200,7 @@ export class ServiceClient {
       for (const queryParameter of operationSpec.queryParameters) {
         let queryParameterValue: any = operationArguments.arguments[queryParameter.parameterName];
         if (queryParameterValue != undefined) {
-          queryParameterValue = operationSpec.serializer.serialize(queryParameter.mapper, queryParameterValue, queryParameter.parameterName);
+          queryParameterValue = !operationSpec.serializer ? queryParameterValue : operationSpec.serializer.serialize(queryParameter.mapper, queryParameterValue, queryParameter.parameterName);
           if (queryParameter.collectionFormat != undefined) {
             if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
               if (queryParameterValue.length === 0) {
@@ -228,7 +228,7 @@ export class ServiceClient {
       for (const headerParameter of operationSpec.headerParameters) {
         let headerValue: any = operationArguments.arguments[headerParameter.parameterName];
         if (headerValue != undefined) {
-          headerValue = operationSpec.serializer.serialize(headerParameter.mapper, headerValue, headerParameter.parameterName);
+          headerValue = !operationSpec.serializer ? headerValue : operationSpec.serializer.serialize(headerParameter.mapper, headerValue, headerParameter.parameterName);
           httpRequest.headers.set(headerParameter.mapper.serializedName || headerParameter.parameterName, headerValue);
         }
       }
@@ -264,7 +264,7 @@ export class ServiceClient {
         const formDataParameterValue: any = operationArguments.arguments[formDataParameter.parameterName];
         if (formDataParameterValue != undefined) {
           const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || formDataParameter.parameterName;
-          httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, formDataParameter.parameterName);
+          httpRequest.formData[formDataParameterPropertyName] = !operationSpec.serializer ? formDataParameterValue : operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, formDataParameter.parameterName);
         }
       }
     }
