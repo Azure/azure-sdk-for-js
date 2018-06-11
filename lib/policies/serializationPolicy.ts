@@ -44,7 +44,7 @@ export class SerializationPolicy extends BaseRequestPolicy {
    */
   public serializeRequestBody(request: WebResource): void {
     const operationSpec: OperationSpec | undefined = request.operationSpec;
-    if (operationSpec && operationSpec.serializer) {
+    if (operationSpec) {
       const bodyMapper: Mapper | undefined = operationSpec.requestBodyMapper;
       if (bodyMapper) {
         try {
