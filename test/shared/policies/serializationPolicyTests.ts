@@ -6,7 +6,6 @@ import { HttpHeaders } from "../../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../../lib/httpOperationResponse";
 import { RequestPolicy, RequestPolicyOptions } from "../../../lib/policies/requestPolicy";
 import { SerializationPolicy } from "../../../lib/policies/serializationPolicy";
-import { Serializer } from "../../../lib/serializer";
 import { WebResource } from "../../../lib/webResource";
 
 describe("serializationPolicy", () => {
@@ -20,10 +19,8 @@ describe("serializationPolicy", () => {
     }
   };
 
-  const serializer = new Serializer();
-
   it(`should not modify a request that has no request body mapper`, async () => {
-    const serializationPolicy = new SerializationPolicy(mockPolicy, new RequestPolicyOptions(), serializer);
+    const serializationPolicy = new SerializationPolicy(mockPolicy, new RequestPolicyOptions());
 
     const request = new WebResource();
     request.body = "hello there!";
