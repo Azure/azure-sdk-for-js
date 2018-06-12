@@ -14,7 +14,8 @@ async function main() {
     storageCS!,
     ehCS!,
     {
-      eventHubPath: path
+      eventHubPath: path,
+      leasecontainerName: "my-container"
     }
   );
   // Message event handler
