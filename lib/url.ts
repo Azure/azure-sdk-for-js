@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { replaceAll } from "./util/utils";
+
 /**
  * A class that handles the query portion of a URLBuilder.
  */
@@ -402,13 +404,6 @@ export function isAlphaNumericCharacter(character: string): boolean {
   return (48 /* '0' */ <= characterCode && characterCode <= 57 /* '9' */) ||
     (65 /* 'A' */ <= characterCode && characterCode <= 90 /* 'Z' */) ||
     (97 /* 'a' */ <= characterCode && characterCode <= 122 /* 'z' */);
-}
-
-/**
- * Replace all of the instances of searchValue in value with the provided replaceValue.
- */
-export function replaceAll(value: string | undefined, searchValue: string, replaceValue: string): string | undefined {
-  return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
 }
 
 /**

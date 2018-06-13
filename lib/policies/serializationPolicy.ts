@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { getParameterPathString } from "../operationParameter";
 import { OperationSpec } from "../operationSpec";
 import { Mapper, MapperType } from "../serializer";
 import * as utils from "../util/utils";
@@ -44,12 +45,13 @@ export class SerializationPolicy extends BaseRequestPolicy {
    */
   public serializeRequestBody(request: WebResource): void {
     const operationSpec: OperationSpec | undefined = request.operationSpec;
-    if (operationSpec) {
-      const bodyMapper: Mapper | undefined = operationSpec.requestBodyMapper;
+    if (operationSpec && operationSpec.requestBody) {
+      const bodyMapper: Mapper | undefined = operationSpec.requestBody.mapper;
       if (bodyMapper) {
         try {
-          if (request.body != undefined && operationSpec.requestBodyName) {
-            request.body = operationSpec.serializer.serialize(bodyMapper, request.body, operationSpec.requestBodyName);
+          if (request.body != undefined) {
+            const requestBodyParameterPathString: string = getParameterPathString(operationSpec.requestBody);
+            request.body = operationSpec.serializer.serialize(bodyMapper, request.body, requestBodyParameterPathString);
             if (operationSpec.isXML) {
               if (bodyMapper.type.name === MapperType.Sequence) {
                 request.body = utils.stringifyXML(utils.prepareXMLRootList(request.body, bodyMapper.xmlElementName || bodyMapper.xmlName || bodyMapper.serializedName), { rootName: bodyMapper.xmlName || bodyMapper.serializedName });

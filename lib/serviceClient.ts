@@ -22,6 +22,7 @@ import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
 import { RequestPrepareOptions, WebResource } from "./webResource";
+import { OperationParameter, getParameterPathString, ParameterPath } from "./operationParameter";
 
 /**
  * Options to be provided while creating the client.
@@ -180,27 +181,25 @@ export class ServiceClient {
     httpRequest.method = operationSpec.httpMethod;
     httpRequest.operationSpec = operationSpec;
 
-    applyParameterTransformations(operationArguments, operationSpec);
-
     const requestUrl: URLBuilder = URLBuilder.parse(operationSpec.baseUrl);
     if (operationSpec.path) {
       requestUrl.setPath(operationSpec.path);
     }
     if (operationSpec.urlParameters && operationSpec.urlParameters.length > 0) {
       for (const urlParameter of operationSpec.urlParameters) {
-        let urlParameterValue: string = operationArguments.arguments[urlParameter.parameterName];
-        urlParameterValue = operationSpec.serializer.serialize(urlParameter.mapper, urlParameterValue, urlParameter.parameterName);
+        let urlParameterValue: string = getOperationArgumentValueFromParameter(operationArguments, urlParameter);
+        urlParameterValue = operationSpec.serializer.serialize(urlParameter.mapper, urlParameterValue, getParameterPathString(urlParameter));
         if (!urlParameter.skipEncoding) {
           urlParameterValue = encodeURIComponent(urlParameterValue);
         }
-        requestUrl.replaceAll(`{${urlParameter.mapper.serializedName || urlParameter.parameterName}}`, urlParameterValue);
+        requestUrl.replaceAll(`{${urlParameter.mapper.serializedName || getParameterPathString(urlParameter)}}`, urlParameterValue);
       }
     }
     if (operationSpec.queryParameters && operationSpec.queryParameters.length > 0) {
       for (const queryParameter of operationSpec.queryParameters) {
-        let queryParameterValue: any = operationArguments.arguments[queryParameter.parameterName];
+        let queryParameterValue: any = getOperationArgumentValueFromParameter(operationArguments, queryParameter);
         if (queryParameterValue != undefined) {
-          queryParameterValue = operationSpec.serializer.serialize(queryParameter.mapper, queryParameterValue, queryParameter.parameterName);
+          queryParameterValue = operationSpec.serializer.serialize(queryParameter.mapper, queryParameterValue, getParameterPathString(queryParameter));
           if (queryParameter.collectionFormat != undefined) {
             if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
               if (queryParameterValue.length === 0) {
@@ -218,7 +217,7 @@ export class ServiceClient {
           if (!queryParameter.skipEncoding) {
             queryParameterValue = encodeURIComponent(queryParameterValue);
           }
-          requestUrl.setQueryParameter(queryParameter.mapper.serializedName || queryParameter.parameterName, queryParameterValue);
+          requestUrl.setQueryParameter(queryParameter.mapper.serializedName || getParameterPathString(queryParameter), queryParameterValue);
         }
       }
     }
@@ -226,10 +225,10 @@ export class ServiceClient {
 
     if (operationSpec.headerParameters) {
       for (const headerParameter of operationSpec.headerParameters) {
-        let headerValue: any = operationArguments.arguments[headerParameter.parameterName];
+        let headerValue: any = getOperationArgumentValueFromParameter(operationArguments, headerParameter);
         if (headerValue != undefined) {
-          headerValue = operationSpec.serializer.serialize(headerParameter.mapper, headerValue, headerParameter.parameterName);
-          httpRequest.headers.set(headerParameter.mapper.serializedName || headerParameter.parameterName, headerValue);
+          headerValue = operationSpec.serializer.serialize(headerParameter.mapper, headerValue, getParameterPathString(headerParameter));
+          httpRequest.headers.set(headerParameter.mapper.serializedName || getParameterPathString(headerParameter), headerValue);
         }
       }
     }
@@ -256,15 +255,15 @@ export class ServiceClient {
       httpRequest.onDownloadProgress = operationArguments.onDownloadProgress;
     }
 
-    if (operationSpec.requestBodyName) {
-      httpRequest.body = operationArguments.arguments[operationSpec.requestBodyName];
+    if (operationSpec.requestBody) {
+      httpRequest.body = getOperationArgumentValueFromParameter(operationArguments, operationSpec.requestBody);
     } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {
       httpRequest.formData = {};
       for (const formDataParameter of operationSpec.formDataParameters) {
-        const formDataParameterValue: any = operationArguments.arguments[formDataParameter.parameterName];
+        const formDataParameterValue: any = getOperationArgumentValueFromParameter(operationArguments, formDataParameter);
         if (formDataParameterValue != undefined) {
-          const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || formDataParameter.parameterName;
-          httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, formDataParameter.parameterName);
+          const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || getParameterPathString(formDataParameter);
+          httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, getParameterPathString(formDataParameter));
         }
       }
     }
@@ -304,30 +303,6 @@ function createDefaultRequestPolicyCreators(credentials: ServiceClientCredential
 export type PropertyParent = { [propertyName: string]: any };
 
 /**
- * If there are any parameter transformations in the OperationSpec, then apply those transformations
- * to the arguments in the OperationArguments object.
- * @param {OperationArguments} operationArguments The operation arguments to apply the parameter
- * transformations to.
- * @param {OperationSpec} operationSpec The OperationSpec that contains the parameter
- * transformations to apply to the OperationArguments.
- */
-export function applyParameterTransformations(operationArguments: OperationArguments, operationSpec: OperationSpec): void {
-  if (operationSpec && operationSpec.parameterTransformations && operationSpec.parameterTransformations.length > 0) {
-    for (const parameterTransformation of operationSpec.parameterTransformations) {
-      const sourcePath: string[] = parameterTransformation.sourcePath;
-      const sourcePropertyParent: PropertyParent = getPropertyParent(operationArguments.arguments, sourcePath);
-      const lastSourcePathPropertyName: string = sourcePath[sourcePath.length - 1];
-
-      const targetPath: string[] = parameterTransformation.targetPath;
-      const targetPropertyParent: PropertyParent = getPropertyParent(operationArguments.arguments, targetPath);
-      const lastTargetPathPropertyName: string = targetPath[targetPath.length - 1];
-
-      targetPropertyParent[lastTargetPathPropertyName] = sourcePropertyParent[lastSourcePathPropertyName];
-    }
-  }
-}
-
-/**
  * Get the property parent for the property at the provided path when starting with the provided
  * parent object.
  */
@@ -343,4 +318,42 @@ export function getPropertyParent(parent: PropertyParent, propertyPath: string[]
     }
   }
   return parent;
+}
+
+function getOperationArgumentValueFromParameter(operationArguments: OperationArguments, parameter: OperationParameter): any {
+  return getOperationArgumentValueFromParameterPath(operationArguments, parameter.parameterPath);
+}
+
+function getOperationArgumentValueFromParameterPath(operationArguments: OperationArguments, parameterPath: ParameterPath): any {
+  let value: any;
+  if (parameterPath) {
+    if (typeof parameterPath === "string") {
+      parameterPath = [parameterPath];
+    }
+
+    if (operationArguments.arguments && parameterPath) {
+      if (Array.isArray(parameterPath)) {
+        if (parameterPath && parameterPath.length > 0) {
+          value = operationArguments.arguments;
+          for (const parameterPathPart of parameterPath) {
+            value = value[parameterPathPart];
+            if (value == undefined) {
+              break;
+            }
+          }
+        }
+      } else {
+        for (const propertyName in parameterPath) {
+          const propertyValue: any = getOperationArgumentValueFromParameterPath(operationArguments, parameterPath[propertyName]);
+          if (propertyValue !== undefined) {
+            if (!value) {
+              value = {};
+            }
+            value[propertyName] = propertyValue;
+          }
+        }
+      }
+    }
+  }
+  return value;
 }

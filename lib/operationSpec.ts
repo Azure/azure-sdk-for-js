@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { Mapper, Serializer } from "./serializer";
+import { OperationParameter, OperationQueryParameter, OperationURLParameter } from "./operationParameter";
+import { Serializer } from "./serializer";
 import { HttpMethods } from "./webResource";
-import { OperationURLParameter, OperationQueryParameter, OperationParameter } from "./operationParameter";
-import { OperationParameterTransformation } from "./operationParameterTransformation";
 
 /**
  * A specification that defines an operation.
@@ -39,19 +38,9 @@ export interface OperationSpec {
   contentType?: string;
 
   /**
-   * The Mapper that will be used to serialize an HTTP request's body.
+   * The parameter that will be used to construct the HTTP request's body.
    */
-  requestBodyMapper?: Mapper;
-
-  /**
-   * The name of the parameter that contains the request body value.
-   */
-  requestBodyParameterName?: string;
-
-  /**
-   * The name of the request body that will be used during serialization.
-   */
-  requestBodyName?: string;
+  requestBody?: OperationParameter;
 
   /**
    * Whether or not this operation uses XML request and response bodies.
@@ -79,10 +68,4 @@ export interface OperationSpec {
    * operation's HTTP request.
    */
   formDataParameters?: OperationParameter[];
-
-  /**
-   * Transformations that should be applied to convert the operation method's parameters into the
-   * operation request's parameters.
-   */
-  parameterTransformations?: OperationParameterTransformation[];
 }
