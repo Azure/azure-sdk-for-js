@@ -1,18 +1,19 @@
 {
   "name": "azure-event-hubs",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Azure Event Hubs SDK for Node.js",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "main": "./dist/lib/index.js",
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
-    "is-buffer": "2.0.2",
     "async-lock": "^1.1.2",
     "debug": "^3.1.0",
+    "is-buffer": "2.0.2",
     "ms-rest": "^2.3.3",
     "ms-rest-azure": "^2.5.5",
     "rhea": "^0.2.13",
+    "tslib": "^1.9.2",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
@@ -30,7 +31,7 @@
     "mocha": "^5.2.0",
     "ts-node": "^5.0.1",
     "tslint": "^5.10.0",
-    "typescript": "^2.8.3"
+    "typescript": "^2.9.1"
   },
   "scripts": {
     "tslint": "tslint -p . -c tslint.json --exclude examples/**/*.ts --exclude tests/**/*.ts",

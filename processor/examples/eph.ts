@@ -1,4 +1,6 @@
 import { EventProcessorHost, OnEphMessage, EventData, PartitionContext, OnEphError, delay } from "../lib";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const storageConnectionString = "STORAGE_CONNECTION_STRING";
 const ehconnectionString = "EVENTHUB_CONNECTION_STRING";

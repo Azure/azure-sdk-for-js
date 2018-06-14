@@ -27,10 +27,12 @@ export function connect(options?: rhea.ConnectionOptions): Promise<rhea.Connecti
       connection.removeListener("connection_open", onOpen);
       connection.removeListener("connection_close", onClose);
       connection.removeListener("disconnected", onClose);
+      connection.removeListener("disconnected", onTransportClose);
     }
 
     function onOpen(context: rhea.EventContext): void {
       removeListeners(connection);
+      connection.once("disconnected", onTransportClose);
       process.nextTick(() => {
         debug("Resolving the promise with amqp connection.");
         resolve(connection);
@@ -41,6 +43,15 @@ export function connect(options?: rhea.ConnectionOptions): Promise<rhea.Connecti
       removeListeners(connection);
       debug(`Error occurred while establishing amqp connection.`, context.connection.error);
       reject(context.connection.error);
+    }
+
+    function onTransportClose(context: rhea.EventContext): void {
+      debug(`Error occurred on the amqp connection.`, context.connection.error);
+      closeConnection(context.connection).then(() => {
+        context.connection = undefined as any;
+      }).catch((err: Error) => {
+        debug(`Error occurred while closing amqp connection.`, err);
+      });
     }
 
     connection.once("connection_open", onOpen);

@@ -1,4 +1,6 @@
 import { EventHubClient } from "azure-event-hubs";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const connectionString = "IOTHUB_CONNECTION_STRING";
 const str = process.env[connectionString] || "";

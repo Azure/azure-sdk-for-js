@@ -7,11 +7,13 @@
     "target": "es6",
     "moduleResolution": "node",
     "noImplicitReturns": true,
+    "importHelpers": true,
     "outDir": "dist/lib",
     "allowJs": false,
     "noUnusedLocals":true,
     "strict": true,
     "strictPropertyInitialization": true,
+    "strictNullChecks": true,
     "declaration": true,
     "declarationDir": "./typings/lib",
     "lib": [
