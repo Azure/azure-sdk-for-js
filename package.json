@@ -26,10 +26,11 @@
     "clientruntime"
   ],
   "main": "./dist/lib/msRestAzure.js",
+  "browser": "./es/lib/msRestAzure.js",
   "types": "./typings/lib/msRestAzure.d.ts",
   "license": "MIT",
   "dependencies": {
-    "ms-rest-js": "~0.9.248"
+    "ms-rest-js": "~0.9.250"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.1",
@@ -55,8 +56,9 @@
     "url": "http://github.com/Azure/ms-rest-azure-js/issues"
   },
   "scripts": {
-    "build": "run-p build:node build:browser",
+    "build": "run-p build:node build:es build:browser",
     "build:node": "tsc",
+    "build:es": "tsc -p tsconfig.es.json",
     "build:browser": "webpack && node node_modules/uglify-es/bin/uglifyjs --source-map -c -m -o msRestAzureBundle.min.js msRestAzureBundle.js",
     "watch:node": "tsc -w",
     "watch:browser": "webpack -w",
