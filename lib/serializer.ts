@@ -5,7 +5,7 @@ import * as utils from "./util/utils";
 import * as base64 from "./util/base64";
 
 export class Serializer {
-  constructor(public modelMappers?: { [key: string]: any }, public isXML?: boolean) { }
+  constructor(public readonly modelMappers?: { [key: string]: any }, public readonly isXML?: boolean) { }
 
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
     if (mapper.constraints && (value !== null || value !== undefined)) {
