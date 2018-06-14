@@ -2,9 +2,9 @@ language: node_js
 
 node_js:
   - "8"
- 
-  before_install:
+
+before_install:
   - cd client
 
-  script:
+script:
   - npm test

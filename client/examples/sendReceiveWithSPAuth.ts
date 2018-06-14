@@ -1,5 +1,7 @@
 import { EventHubClient, aadEventHubsAudience, EventPosition } from "azure-event-hubs";
 import * as msrestAzure from "ms-rest-azure";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const endpoint = "ENDPOINT";
 const entityPath = "EVENTHUB_NAME";

@@ -15,13 +15,15 @@ import { ClientEntity } from "./clientEntity";
 const debug = debugModule("azure:event-hubs:sender");
 
 /**
- * Instantiates a new sender from the AMQP `Sender`. Used by `EventHubClient`.
- *
- * @param {any} session - The amqp session on which the amqp sender link was created.
- * @param {any} sender - The amqp sender link.
- * @constructor
+ * Describes the EventHubSender that will send event data to EventHub.
+ * @class EventHubSender
  */
 export class EventHubSender extends ClientEntity {
+  /**
+   * @property {string} senderLock The unqiue lock name per connection that is used to acquire the
+   * lock for establishing a sender link by an entity on that connection.
+   * @readonly
+   */
   readonly senderLock: string = `sender-${uuid()}`;
   /**
    * @property {any} [_sender] The AMQP sender link.

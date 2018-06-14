@@ -1,3 +1,7 @@
+## 2018-06-13 0.2.3
+- Minor doc fixes and sample updates.
+- Add a listener for the disconnected event after opening the connection.
+
 ## 2018-05-23 0.2.2
 - Fixed the partitionkey issue while sending events. #73.
 - Bumped the minimum dependency on rhea to 0.2.13. This gives us type definitions for rhea.
