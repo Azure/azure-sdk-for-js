@@ -410,102 +410,15 @@ export function isAlphaNumericCharacter(character: string): boolean {
  * A class that tokenizes URL strings.
  */
 export class URLTokenizer {
-  private readonly _textLength: number;
-  private _currentState: URLTokenizerState;
-  private _currentIndex: number;
-  private _currentToken: URLToken | undefined;
+  readonly _textLength: number;
+  _currentState: URLTokenizerState;
+  _currentIndex: number;
+  _currentToken: URLToken | undefined;
 
-  public constructor(private readonly _text: string, state?: URLTokenizerState) {
+  public constructor(readonly _text: string, state?: URLTokenizerState) {
     this._textLength = _text ? _text.length : 0;
     this._currentState = state != undefined ? state : URLTokenizerState.SCHEME_OR_HOST;
     this._currentIndex = 0;
-  }
-
-  /**
-   * Whether or not this URLTokenizer has a current character.
-   */
-  private hasCurrentCharacter(): boolean {
-    return this._currentIndex < this._textLength;
-  }
-
-  /**
-   * Get the character in the text string at the current index.
-   */
-  private getCurrentCharacter(): string {
-    return this._text[this._currentIndex];
-  }
-
-  /**
-   * Advance to the character in text that is "step" characters ahead. If no step value is provided,
-   * then step will default to 1.
-   */
-  private nextCharacter(step?: number): void {
-    if (this.hasCurrentCharacter) {
-      if (!step) {
-        step = 1;
-      }
-      this._currentIndex += step;
-    }
-  }
-
-  /**
-   * Starting with the current character, peek "charactersToPeek" number of characters ahead in this
-   * Tokenizer's stream of characters.
-   */
-  private peekCharacters(charactersToPeek: number): string {
-    let endIndex: number = this._currentIndex + charactersToPeek;
-    if (this._textLength < endIndex) {
-      endIndex = this._textLength;
-    }
-    return this._text.substring(this._currentIndex, endIndex);
-  }
-
-  /**
-   * Read characters from this Tokenizer until the end of the stream or until the provided condition
-   * is false when provided the current character.
-   */
-  private readWhile(condition: (character: string) => boolean): string {
-    let result = "";
-
-    while (this.hasCurrentCharacter()) {
-      const currentCharacter: string = this.getCurrentCharacter();
-      if (!condition(currentCharacter)) {
-        break;
-      } else {
-        result += currentCharacter;
-        this.nextCharacter();
-      }
-    }
-
-    return result;
-  }
-
-  /**
-   * Read characters from this Tokenizer until a non-alphanumeric character or the end of the
-   * character stream is reached.
-   */
-  private readWhileLetterOrDigit(): string {
-    return this.readWhile((character: string) => isAlphaNumericCharacter(character));
-  }
-
-  /**
-   * Read characters from this Tokenizer until one of the provided terminating characters is read or
-   * the end of the character stream is reached.
-   */
-  private readUntilCharacter(...terminatingCharacters: string[]): string {
-    return this.readWhile((character: string) => terminatingCharacters.indexOf(character) === -1);
-  }
-
-  /**
-   * Read the remaining characters from this Tokenizer's character stream.
-   */
-  private readRemaining(): string {
-    let result = "";
-    if (this._currentIndex < this._textLength) {
-      result = this._text.substring(this._currentIndex);
-      this._currentIndex = this._textLength;
-    }
-    return result;
   }
 
   /**
@@ -520,32 +433,32 @@ export class URLTokenizer {
    * Advance to the next URLToken and return whether or not a URLToken was found.
    */
   public next(): boolean {
-    if (!this.hasCurrentCharacter()) {
+    if (!hasCurrentCharacter(this)) {
       this._currentToken = undefined;
     } else {
       switch (this._currentState) {
         case URLTokenizerState.SCHEME:
-          this.nextScheme();
+          nextScheme(this);
           break;
 
         case URLTokenizerState.SCHEME_OR_HOST:
-          this.nextSchemeOrHost();
+          nextSchemeOrHost(this);
           break;
 
         case URLTokenizerState.HOST:
-          this.nextHost();
+          nextHost(this);
           break;
 
         case URLTokenizerState.PORT:
-          this.nextPort();
+          nextPort(this);
           break;
 
         case URLTokenizerState.PATH:
-          this.nextPath();
+          nextPath(this);
           break;
 
         case URLTokenizerState.QUERY:
-          this.nextQuery();
+          nextQuery(this);
           break;
 
         default:
@@ -554,94 +467,182 @@ export class URLTokenizer {
     }
     return !!this._currentToken;
   }
+}
 
-  private nextScheme(): void {
-    const scheme: string = this.readWhileLetterOrDigit();
-    this._currentToken = URLToken.scheme(scheme);
-    if (!this.hasCurrentCharacter()) {
-      this._currentState = URLTokenizerState.DONE;
+
+/**
+ * Read the remaining characters from this Tokenizer's character stream.
+ */
+function readRemaining(tokenizer: URLTokenizer): string {
+  let result = "";
+  if (tokenizer._currentIndex < tokenizer._textLength) {
+    result = tokenizer._text.substring(tokenizer._currentIndex);
+    tokenizer._currentIndex = tokenizer._textLength;
+  }
+  return result;
+}
+
+/**
+ * Whether or not this URLTokenizer has a current character.
+ */
+function hasCurrentCharacter(tokenizer: URLTokenizer): boolean {
+  return tokenizer._currentIndex < tokenizer._textLength;
+}
+
+/**
+ * Get the character in the text string at the current index.
+ */
+function getCurrentCharacter(tokenizer: URLTokenizer): string {
+  return tokenizer._text[tokenizer._currentIndex];
+}
+
+/**
+ * Advance to the character in text that is "step" characters ahead. If no step value is provided,
+ * then step will default to 1.
+ */
+function nextCharacter(tokenizer: URLTokenizer, step?: number): void {
+  if (hasCurrentCharacter(tokenizer)) {
+    if (!step) {
+      step = 1;
+    }
+    tokenizer._currentIndex += step;
+  }
+}
+
+/**
+ * Starting with the current character, peek "charactersToPeek" number of characters ahead in this
+ * Tokenizer's stream of characters.
+ */
+function peekCharacters(tokenizer: URLTokenizer, charactersToPeek: number): string {
+  let endIndex: number = tokenizer._currentIndex + charactersToPeek;
+  if (tokenizer._textLength < endIndex) {
+    endIndex = tokenizer._textLength;
+  }
+  return tokenizer._text.substring(tokenizer._currentIndex, endIndex);
+}
+
+/**
+ * Read characters from this Tokenizer until the end of the stream or until the provided condition
+ * is false when provided the current character.
+ */
+function readWhile(tokenizer: URLTokenizer, condition: (character: string) => boolean): string {
+  let result = "";
+
+  while (hasCurrentCharacter(tokenizer)) {
+    const currentCharacter: string = getCurrentCharacter(tokenizer);
+    if (!condition(currentCharacter)) {
+      break;
     } else {
-      this._currentState = URLTokenizerState.HOST;
+      result += currentCharacter;
+      nextCharacter(tokenizer);
     }
   }
 
-  private nextSchemeOrHost(): void {
-    const schemeOrHost: string = this.readUntilCharacter(":", "/", "?");
-    if (!this.hasCurrentCharacter()) {
-      this._currentToken = URLToken.host(schemeOrHost);
-      this._currentState = URLTokenizerState.DONE;
-    } else if (this.getCurrentCharacter() === ":") {
-      if (this.peekCharacters(3) === "://") {
-        this._currentToken = URLToken.scheme(schemeOrHost);
-        this._currentState = URLTokenizerState.HOST;
-      } else {
-        this._currentToken = URLToken.host(schemeOrHost);
-        this._currentState = URLTokenizerState.PORT;
-      }
+  return result;
+}
+
+/**
+ * Read characters from this Tokenizer until a non-alphanumeric character or the end of the
+ * character stream is reached.
+ */
+function readWhileLetterOrDigit(tokenizer: URLTokenizer): string {
+  return readWhile(tokenizer, (character: string) => isAlphaNumericCharacter(character));
+}
+
+/**
+ * Read characters from this Tokenizer until one of the provided terminating characters is read or
+ * the end of the character stream is reached.
+ */
+function readUntilCharacter(tokenizer: URLTokenizer, ...terminatingCharacters: string[]): string {
+  return readWhile(tokenizer, (character: string) => terminatingCharacters.indexOf(character) === -1);
+}
+
+function nextScheme(tokenizer: URLTokenizer): void {
+  const scheme: string = readWhileLetterOrDigit(tokenizer);
+  tokenizer._currentToken = URLToken.scheme(scheme);
+  if (!hasCurrentCharacter(tokenizer)) {
+    tokenizer._currentState = URLTokenizerState.DONE;
+  } else {
+    tokenizer._currentState = URLTokenizerState.HOST;
+  }
+}
+
+function nextSchemeOrHost(tokenizer: URLTokenizer): void {
+  const schemeOrHost: string = readUntilCharacter(tokenizer, ":", "/", "?");
+  if (!hasCurrentCharacter(tokenizer)) {
+    tokenizer._currentToken = URLToken.host(schemeOrHost);
+    tokenizer._currentState = URLTokenizerState.DONE;
+  } else if (getCurrentCharacter(tokenizer) === ":") {
+    if (peekCharacters(tokenizer, 3) === "://") {
+      tokenizer._currentToken = URLToken.scheme(schemeOrHost);
+      tokenizer._currentState = URLTokenizerState.HOST;
     } else {
-      this._currentToken = URLToken.host(schemeOrHost);
-      if (this.getCurrentCharacter() === "/") {
-        this._currentState = URLTokenizerState.PATH;
-      } else {
-        this._currentState = URLTokenizerState.QUERY;
-      }
+      tokenizer._currentToken = URLToken.host(schemeOrHost);
+      tokenizer._currentState = URLTokenizerState.PORT;
     }
-  }
-
-  private nextHost(): void {
-    if (this.peekCharacters(3) === "://") {
-      this.nextCharacter(3);
-    }
-
-    const host: string = this.readUntilCharacter(":", "/", "?");
-    this._currentToken = URLToken.host(host);
-
-    if (!this.hasCurrentCharacter()) {
-      this._currentState = URLTokenizerState.DONE;
-    } else if (this.getCurrentCharacter() === ":") {
-      this._currentState = URLTokenizerState.PORT;
-    } else if (this.getCurrentCharacter() === "/") {
-      this._currentState = URLTokenizerState.PATH;
+  } else {
+    tokenizer._currentToken = URLToken.host(schemeOrHost);
+    if (getCurrentCharacter(tokenizer) === "/") {
+      tokenizer._currentState = URLTokenizerState.PATH;
     } else {
-      this._currentState = URLTokenizerState.QUERY;
+      tokenizer._currentState = URLTokenizerState.QUERY;
     }
   }
+}
 
-  private nextPort(): void {
-    if (this.getCurrentCharacter() === ":") {
-      this.nextCharacter();
-    }
-
-    const port: string = this.readUntilCharacter("/", "?");
-    this._currentToken = URLToken.port(port);
-
-    if (!this.hasCurrentCharacter()) {
-      this._currentState = URLTokenizerState.DONE;
-    } else if (this.getCurrentCharacter() === "/") {
-      this._currentState = URLTokenizerState.PATH;
-    } else {
-      this._currentState = URLTokenizerState.QUERY;
-    }
+function nextHost(tokenizer: URLTokenizer): void {
+  if (peekCharacters(tokenizer, 3) === "://") {
+    nextCharacter(tokenizer, 3);
   }
 
-  private nextPath(): void {
-    const path: string = this.readUntilCharacter("?");
-    this._currentToken = URLToken.path(path);
+  const host: string = readUntilCharacter(tokenizer, ":", "/", "?");
+  tokenizer._currentToken = URLToken.host(host);
 
-    if (!this.hasCurrentCharacter()) {
-      this._currentState = URLTokenizerState.DONE;
-    } else {
-      this._currentState = URLTokenizerState.QUERY;
-    }
+  if (!hasCurrentCharacter(tokenizer)) {
+    tokenizer._currentState = URLTokenizerState.DONE;
+  } else if (getCurrentCharacter(tokenizer) === ":") {
+    tokenizer._currentState = URLTokenizerState.PORT;
+  } else if (getCurrentCharacter(tokenizer) === "/") {
+    tokenizer._currentState = URLTokenizerState.PATH;
+  } else {
+    tokenizer._currentState = URLTokenizerState.QUERY;
+  }
+}
+
+function nextPort(tokenizer: URLTokenizer): void {
+  if (getCurrentCharacter(tokenizer) === ":") {
+    nextCharacter(tokenizer);
   }
 
-  private nextQuery(): void {
-    if (this.getCurrentCharacter() === "?") {
-      this.nextCharacter();
-    }
+  const port: string = readUntilCharacter(tokenizer, "/", "?");
+  tokenizer._currentToken = URLToken.port(port);
 
-    const query: string = this.readRemaining();
-    this._currentToken = URLToken.query(query);
-    this._currentState = URLTokenizerState.DONE;
+  if (!hasCurrentCharacter(tokenizer)) {
+    tokenizer._currentState = URLTokenizerState.DONE;
+  } else if (getCurrentCharacter(tokenizer) === "/") {
+    tokenizer._currentState = URLTokenizerState.PATH;
+  } else {
+    tokenizer._currentState = URLTokenizerState.QUERY;
   }
+}
+
+function nextPath(tokenizer: URLTokenizer): void {
+  const path: string = readUntilCharacter(tokenizer, "?");
+  tokenizer._currentToken = URLToken.path(path);
+
+  if (!hasCurrentCharacter(tokenizer)) {
+    tokenizer._currentState = URLTokenizerState.DONE;
+  } else {
+    tokenizer._currentState = URLTokenizerState.QUERY;
+  }
+}
+
+function nextQuery(tokenizer: URLTokenizer): void {
+  if (getCurrentCharacter(tokenizer) === "?") {
+    nextCharacter(tokenizer);
+  }
+
+  const query: string = readRemaining(tokenizer);
+  tokenizer._currentToken = URLToken.query(query);
+  tokenizer._currentState = URLTokenizerState.DONE;
 }
