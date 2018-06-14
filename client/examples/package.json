@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.0.1",
   "dependencies": {
-    "azure-event-hubs": "*"
+    "azure-event-hubs": "*",
+    "dotenv": "^5.0.1"
   },
   "scripts": {
     "build": "tsc -p ./tsconfig.json --baseUrl ../"

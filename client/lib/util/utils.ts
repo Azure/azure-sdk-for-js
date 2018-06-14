@@ -78,8 +78,9 @@ export class Timeout {
   private _timer?: NodeJS.Timer;
 
   set<T>(t: number, value?: T): Promise<T> {
+    const self = this;
     return new Promise<T>((resolve) => {
-      this._timer = setTimeout(() => resolve(value), t);
+      self._timer = setTimeout(() => resolve(value), t);
     });
   }
 

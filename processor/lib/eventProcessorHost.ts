@@ -327,14 +327,14 @@ export class EventProcessorHost extends EventEmitter {
       eventPosition = EventPosition.fromOffset(checkpoint.offset);
       debug("[%s] [EPH - '%s'] While creating the receiver, setting the event position " +
         "to the offset: '%s'.", this._eventHubClient.connectionId, this._hostName,
-        this._initialOffset!.getExpression());
+        eventPosition.getExpression());
     } else if (this._initialOffset) {
       // Since there is no checkpoint offset and the initial offset was provided we shall start
       // receiving events from that position.
+      eventPosition = this._initialOffset;
       debug("[%s] [EPH - '%s'] While creating the receiver, setting the event position to " +
         "the provided initial offset: '%s'.", this._eventHubClient.connectionId,
-        this._hostName, this._initialOffset!.getExpression());
-      eventPosition = this._initialOffset;
+        this._hostName, eventPosition.getExpression());
     }
     let receiveHandler: ReceiveHandler;
     const rcvrOptions: ReceiveOptions = {

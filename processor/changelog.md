@@ -1,3 +1,6 @@
+## 2018-06-13 0.1.2
+- Fixed an issue reported in [#80](https://github.com/Azure/azure-event-hubs-node/issues/80).
+
 ## 2018-05-02 0.1.1
 - Fix dependency version.
 
