@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "preserveConstEnums": true,
     "sourceMap": true,
     "newLine": "LF",
     "target": "es5",
