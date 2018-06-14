@@ -264,3 +264,10 @@ const validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?
 export function isDuration(value: string): boolean {
   return validateISODuration.test(value);
 }
+
+/**
+ * Replace all of the instances of searchValue in value with the provided replaceValue.
+ */
+export function replaceAll(value: string | undefined, searchValue: string, replaceValue: string): string | undefined {
+  return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
+}

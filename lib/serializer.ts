@@ -385,42 +385,52 @@ export class Serializer {
    *
    * @returns {object|string|Array|number|boolean|Date|stream} A valid serialized Javascript object
    */
-  serialize(mapper: Mapper, object: any, objectName: string): any {
+  serialize(mapper: Mapper, object: any, objectName?: string): any {
     let payload: any = {};
     const mapperType = mapper.type.name as string;
-    if (!objectName) objectName = mapper.serializedName;
-    if (mapperType.match(/^Sequence$/ig) !== null) payload = [];
-    // Throw if required and object is null or undefined
-    if (mapper.required && (object === null || object === undefined) && !mapper.isConstant) {
-      throw new Error(`${objectName} cannot be null or undefined.`);
+    if (!objectName) {
+      objectName = mapper.serializedName;
     }
-    // Set Defaults
-    if ((mapper.defaultValue !== null && mapper.defaultValue !== undefined) &&
-      (object === null || object === undefined)) {
-      object = mapper.defaultValue;
+    if (mapperType.match(/^Sequence$/ig) !== null) {
+      payload = [];
     }
-    if (mapper.isConstant) object = mapper.defaultValue;
-    // Validate Constraints if any
-    this.validateConstraints(mapper, object, objectName);
-    if (mapperType.match(/^any$/ig) !== null) {
+
+    if (object == undefined) {
+      // Throw if required and object is null or undefined
+      if (mapper.required && !mapper.isConstant) {
+        throw new Error(`${objectName} cannot be null or undefined.`);
+      }
+      // Set Defaults
+      if (mapper.defaultValue != undefined || mapper.isConstant) {
+        object = mapper.defaultValue;
+      }
+    }
+
+    if (object == undefined) {
       payload = object;
-    } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/ig) !== null) {
-      payload = this.serializeBasicTypes(mapperType, objectName, object);
-    } else if (mapperType.match(/^Enum$/ig) !== null) {
-      const enumMapper: EnumMapper = mapper as EnumMapper;
-      payload = this.serializeEnumType(objectName, enumMapper.type.allowedValues, object);
-    } else if (mapperType.match(/^(Date|DateTime|TimeSpan|DateTimeRfc1123|UnixTime)$/ig) !== null) {
-      payload = this.serializeDateTypes(mapperType, object, objectName);
-    } else if (mapperType.match(/^ByteArray$/ig) !== null) {
-      payload = this.serializeByteArrayType(objectName, object);
-    } else if (mapperType.match(/^Base64Url$/ig) !== null) {
-      payload = this.serializeBase64UrlType(objectName, object);
-    } else if (mapperType.match(/^Sequence$/ig) !== null) {
-      payload = this.serializeSequenceType(mapper as SequenceMapper, object, objectName);
-    } else if (mapperType.match(/^Dictionary$/ig) !== null) {
-      payload = this.serializeDictionaryType(mapper as DictionaryMapper, object, objectName);
-    } else if (mapperType.match(/^Composite$/ig) !== null) {
-      payload = this.serializeCompositeType(mapper as CompositeMapper, object, objectName);
+    } else {
+      // Validate Constraints if any
+      this.validateConstraints(mapper, object, objectName);
+      if (mapperType.match(/^any$/ig) !== null) {
+        payload = object;
+      } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/ig) !== null) {
+        payload = this.serializeBasicTypes(mapperType, objectName, object);
+      } else if (mapperType.match(/^Enum$/ig) !== null) {
+        const enumMapper: EnumMapper = mapper as EnumMapper;
+        payload = this.serializeEnumType(objectName, enumMapper.type.allowedValues, object);
+      } else if (mapperType.match(/^(Date|DateTime|TimeSpan|DateTimeRfc1123|UnixTime)$/ig) !== null) {
+        payload = this.serializeDateTypes(mapperType, object, objectName);
+      } else if (mapperType.match(/^ByteArray$/ig) !== null) {
+        payload = this.serializeByteArrayType(objectName, object);
+      } else if (mapperType.match(/^Base64Url$/ig) !== null) {
+        payload = this.serializeBase64UrlType(objectName, object);
+      } else if (mapperType.match(/^Sequence$/ig) !== null) {
+        payload = this.serializeSequenceType(mapper as SequenceMapper, object, objectName);
+      } else if (mapperType.match(/^Dictionary$/ig) !== null) {
+        payload = this.serializeDictionaryType(mapper as DictionaryMapper, object, objectName);
+      } else if (mapperType.match(/^Composite$/ig) !== null) {
+        payload = this.serializeCompositeType(mapper as CompositeMapper, object, objectName);
+      }
     }
     return payload;
   }

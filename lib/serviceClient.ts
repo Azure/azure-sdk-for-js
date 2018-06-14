@@ -7,6 +7,7 @@ import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { OperationArguments } from "./operationArguments";
+import { getPathStringFromParameter, getPathStringFromParameterPath, OperationParameter, ParameterPath } from "./operationParameter";
 import { OperationSpec } from "./operationSpec";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
@@ -17,7 +18,8 @@ import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { serializationPolicy } from "./policies/serializationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { QueryCollectionFormat, getQueryCollectionFormatSeparator } from "./queryCollectionFormat";
+import { getQueryCollectionFormatSeparator, QueryCollectionFormat } from "./queryCollectionFormat";
+import { Mapper, Serializer } from "./serializer";
 import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
@@ -176,100 +178,104 @@ export class ServiceClient {
    * @param {WebResource} httpRequest - The HTTP request to populate and then to send.
    * @param {operationSpec} operationSpec - The OperationSpec to use to populate the httpRequest.
    */
-  async sendOperationRequest(httpRequest: WebResource, operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<HttpOperationResponse> {
-    httpRequest.method = operationSpec.httpMethod;
-    httpRequest.operationSpec = operationSpec;
+  sendOperationRequest(httpRequest: WebResource, operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<HttpOperationResponse> {
+    let result: Promise<HttpOperationResponse>;
+    try {
+      httpRequest.method = operationSpec.httpMethod;
+      httpRequest.operationSpec = operationSpec;
 
-    applyParameterTransformations(operationArguments, operationSpec);
-
-    const requestUrl: URLBuilder = URLBuilder.parse(operationSpec.baseUrl);
-    if (operationSpec.path) {
-      requestUrl.setPath(operationSpec.path);
-    }
-    if (operationSpec.urlParameters && operationSpec.urlParameters.length > 0) {
-      for (const urlParameter of operationSpec.urlParameters) {
-        let urlParameterValue: string = operationArguments.arguments[urlParameter.parameterName];
-        urlParameterValue = operationSpec.serializer.serialize(urlParameter.mapper, urlParameterValue, urlParameter.parameterName);
-        if (!urlParameter.skipEncoding) {
-          urlParameterValue = encodeURIComponent(urlParameterValue);
-        }
-        requestUrl.replaceAll(`{${urlParameter.mapper.serializedName || urlParameter.parameterName}}`, urlParameterValue);
+      const requestUrl: URLBuilder = URLBuilder.parse(operationSpec.baseUrl);
+      if (operationSpec.path) {
+        requestUrl.setPath(operationSpec.path);
       }
-    }
-    if (operationSpec.queryParameters && operationSpec.queryParameters.length > 0) {
-      for (const queryParameter of operationSpec.queryParameters) {
-        let queryParameterValue: any = operationArguments.arguments[queryParameter.parameterName];
-        if (queryParameterValue != undefined) {
-          queryParameterValue = operationSpec.serializer.serialize(queryParameter.mapper, queryParameterValue, queryParameter.parameterName);
-          if (queryParameter.collectionFormat != undefined) {
-            if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
-              if (queryParameterValue.length === 0) {
-                queryParameterValue = "";
-              } else {
-                for (const item of queryParameterValue) {
-                  queryParameterValue = (item == undefined ? "" : item.toString());
+      if (operationSpec.urlParameters && operationSpec.urlParameters.length > 0) {
+        for (const urlParameter of operationSpec.urlParameters) {
+          let urlParameterValue: string = getOperationArgumentValueFromParameter(operationArguments, urlParameter, operationSpec.serializer);
+          urlParameterValue = operationSpec.serializer.serialize(urlParameter.mapper, urlParameterValue, getPathStringFromParameter(urlParameter));
+          if (!urlParameter.skipEncoding) {
+            urlParameterValue = encodeURIComponent(urlParameterValue);
+          }
+          requestUrl.replaceAll(`{${urlParameter.mapper.serializedName || getPathStringFromParameter(urlParameter)}}`, urlParameterValue);
+        }
+      }
+      if (operationSpec.queryParameters && operationSpec.queryParameters.length > 0) {
+        for (const queryParameter of operationSpec.queryParameters) {
+          let queryParameterValue: any = getOperationArgumentValueFromParameter(operationArguments, queryParameter, operationSpec.serializer);
+          if (queryParameterValue != undefined) {
+            queryParameterValue = operationSpec.serializer.serialize(queryParameter.mapper, queryParameterValue, getPathStringFromParameter(queryParameter));
+            if (queryParameter.collectionFormat != undefined) {
+              if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
+                if (queryParameterValue.length === 0) {
+                  queryParameterValue = "";
+                } else {
+                  for (const item of queryParameterValue) {
+                    queryParameterValue = (item == undefined ? "" : item.toString());
+                  }
                 }
+              } else {
+                const queryParameterValueSeparator: string = getQueryCollectionFormatSeparator(queryParameter.collectionFormat);
+                queryParameterValue = queryParameterValue.join(queryParameterValueSeparator);
               }
-            } else {
-              const queryParameterValueSeparator: string = getQueryCollectionFormatSeparator(queryParameter.collectionFormat);
-              queryParameterValue = queryParameterValue.join(queryParameterValueSeparator);
             }
+            if (!queryParameter.skipEncoding) {
+              queryParameterValue = encodeURIComponent(queryParameterValue);
+            }
+            requestUrl.setQueryParameter(queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter), queryParameterValue);
           }
-          if (!queryParameter.skipEncoding) {
-            queryParameterValue = encodeURIComponent(queryParameterValue);
+        }
+      }
+      httpRequest.url = requestUrl.toString();
+
+      if (operationSpec.headerParameters) {
+        for (const headerParameter of operationSpec.headerParameters) {
+          let headerValue: any = getOperationArgumentValueFromParameter(operationArguments, headerParameter, operationSpec.serializer);
+          if (headerValue != undefined) {
+            headerValue = operationSpec.serializer.serialize(headerParameter.mapper, headerValue, getPathStringFromParameter(headerParameter));
+            httpRequest.headers.set(headerParameter.mapper.serializedName || getPathStringFromParameter(headerParameter), headerValue);
           }
-          requestUrl.setQueryParameter(queryParameter.mapper.serializedName || queryParameter.parameterName, queryParameterValue);
         }
       }
-    }
-    httpRequest.url = requestUrl.toString();
 
-    if (operationSpec.headerParameters) {
-      for (const headerParameter of operationSpec.headerParameters) {
-        let headerValue: any = operationArguments.arguments[headerParameter.parameterName];
-        if (headerValue != undefined) {
-          headerValue = operationSpec.serializer.serialize(headerParameter.mapper, headerValue, headerParameter.parameterName);
-          httpRequest.headers.set(headerParameter.mapper.serializedName || headerParameter.parameterName, headerValue);
+      if (operationSpec.contentType) {
+        httpRequest.headers.set("Content-Type", operationSpec.contentType);
+      }
+
+      if (operationArguments.customHeaders) {
+        for (const customHeaderName in operationArguments.customHeaders) {
+          httpRequest.headers.set(customHeaderName, operationArguments.customHeaders[customHeaderName]);
         }
       }
-    }
 
-    if (operationSpec.contentType) {
-      httpRequest.headers.set("Content-Type", operationSpec.contentType);
-    }
-
-    if (operationArguments.customHeaders) {
-      for (const customHeaderName in operationArguments.customHeaders) {
-        httpRequest.headers.set(customHeaderName, operationArguments.customHeaders[customHeaderName]);
+      if (operationArguments.abortSignal) {
+        httpRequest.abortSignal = operationArguments.abortSignal;
       }
-    }
 
-    if (operationArguments.abortSignal) {
-      httpRequest.abortSignal = operationArguments.abortSignal;
-    }
+      if (operationArguments.onUploadProgress) {
+        httpRequest.onUploadProgress = operationArguments.onUploadProgress;
+      }
 
-    if (operationArguments.onUploadProgress) {
-      httpRequest.onUploadProgress = operationArguments.onUploadProgress;
-    }
+      if (operationArguments.onDownloadProgress) {
+        httpRequest.onDownloadProgress = operationArguments.onDownloadProgress;
+      }
 
-    if (operationArguments.onDownloadProgress) {
-      httpRequest.onDownloadProgress = operationArguments.onDownloadProgress;
-    }
-
-    if (operationSpec.requestBodyName) {
-      httpRequest.body = operationArguments.arguments[operationSpec.requestBodyName];
-    } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {
-      httpRequest.formData = {};
-      for (const formDataParameter of operationSpec.formDataParameters) {
-        const formDataParameterValue: any = operationArguments.arguments[formDataParameter.parameterName];
-        if (formDataParameterValue != undefined) {
-          const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || formDataParameter.parameterName;
-          httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, formDataParameter.parameterName);
+      if (operationSpec.requestBody) {
+        httpRequest.body = getOperationArgumentValueFromParameter(operationArguments, operationSpec.requestBody, operationSpec.serializer);
+      } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {
+        httpRequest.formData = {};
+        for (const formDataParameter of operationSpec.formDataParameters) {
+          const formDataParameterValue: any = getOperationArgumentValueFromParameter(operationArguments, formDataParameter, operationSpec.serializer);
+          if (formDataParameterValue != undefined) {
+            const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || getPathStringFromParameter(formDataParameter);
+            httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, getPathStringFromParameter(formDataParameter));
+          }
         }
       }
-    }
 
-    return this.sendRequest(httpRequest);
+      result = this.sendRequest(httpRequest);
+    } catch (error) {
+      result = Promise.reject(error);
+    }
+    return result;
   }
 }
 
@@ -304,30 +310,6 @@ function createDefaultRequestPolicyCreators(credentials: ServiceClientCredential
 export type PropertyParent = { [propertyName: string]: any };
 
 /**
- * If there are any parameter transformations in the OperationSpec, then apply those transformations
- * to the arguments in the OperationArguments object.
- * @param {OperationArguments} operationArguments The operation arguments to apply the parameter
- * transformations to.
- * @param {OperationSpec} operationSpec The OperationSpec that contains the parameter
- * transformations to apply to the OperationArguments.
- */
-export function applyParameterTransformations(operationArguments: OperationArguments, operationSpec: OperationSpec): void {
-  if (operationSpec && operationSpec.parameterTransformations && operationSpec.parameterTransformations.length > 0) {
-    for (const parameterTransformation of operationSpec.parameterTransformations) {
-      const sourcePath: string[] = parameterTransformation.sourcePath;
-      const sourcePropertyParent: PropertyParent = getPropertyParent(operationArguments.arguments, sourcePath);
-      const lastSourcePathPropertyName: string = sourcePath[sourcePath.length - 1];
-
-      const targetPath: string[] = parameterTransformation.targetPath;
-      const targetPropertyParent: PropertyParent = getPropertyParent(operationArguments.arguments, targetPath);
-      const lastTargetPathPropertyName: string = targetPath[targetPath.length - 1];
-
-      targetPropertyParent[lastTargetPathPropertyName] = sourcePropertyParent[lastSourcePathPropertyName];
-    }
-  }
-}
-
-/**
  * Get the property parent for the property at the provided path when starting with the provided
  * parent object.
  */
@@ -343,4 +325,48 @@ export function getPropertyParent(parent: PropertyParent, propertyPath: string[]
     }
   }
   return parent;
+}
+
+function getOperationArgumentValueFromParameter(operationArguments: OperationArguments, parameter: OperationParameter, serializer: Serializer): any {
+  return getOperationArgumentValueFromParameterPath(operationArguments, parameter.parameterPath, parameter.mapper, serializer);
+}
+
+function getOperationArgumentValueFromParameterPath(operationArguments: OperationArguments, parameterPath: ParameterPath, parameterMapper: Mapper, serializer: Serializer): any {
+  let value: any;
+  if (typeof parameterPath === "string") {
+    parameterPath = [parameterPath];
+  }
+  if (operationArguments.arguments) {
+    if (Array.isArray(parameterPath)) {
+      if (parameterPath.length > 0) {
+        value = operationArguments.arguments;
+        for (const parameterPathPart of parameterPath) {
+          value = value[parameterPathPart];
+          if (value == undefined) {
+            break;
+          }
+        }
+
+        // Serialize just for validation purposes.
+        const parameterPathString: string = getPathStringFromParameterPath(parameterPath, parameterMapper);
+        serializer.serialize(parameterMapper, value, parameterPathString);
+      }
+    } else {
+      for (const propertyName in parameterPath) {
+        const propertyMapper: Mapper = parameterMapper.type.modelProperties[propertyName];
+        const propertyPath: ParameterPath = parameterPath[propertyName];
+        const propertyValue: any = getOperationArgumentValueFromParameterPath(operationArguments, propertyPath, propertyMapper, serializer);
+        // Serialize just for validation purposes.
+        const propertyPathString: string = getPathStringFromParameterPath(propertyPath, propertyMapper);
+        serializer.serialize(propertyMapper, propertyValue, propertyPathString);
+        if (propertyValue !== undefined) {
+          if (!value) {
+            value = {};
+          }
+          value[propertyName] = propertyValue;
+        }
+      }
+    }
+  }
+  return value;
 }

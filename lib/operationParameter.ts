@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { Mapper } from "./serializer";
 import { QueryCollectionFormat } from "./queryCollectionFormat";
+import { Mapper } from "./serializer";
+
+export type ParameterPath = string | string[] | { [propertyName: string]: ParameterPath };
 
 /**
  * A common interface that all Operation parameter's extend.
  */
 export interface OperationParameter {
   /**
-   * The name of the parameter.
+   * The path to this parameter's value in OperationArguments or the object that contains paths for
+   * each property's value in OperationArguments.
    */
-  parameterName: string;
+  parameterPath: ParameterPath;
 
   /**
    * The mapper that defines how to validate and serialize this parameter's value.
@@ -44,4 +47,25 @@ export interface OperationQueryParameter extends OperationParameter {
    * converted to.
    */
   collectionFormat?: QueryCollectionFormat;
+}
+
+/**
+ * Get the path to this parameter's value as a dotted string (a.b.c).
+ * @param parameter The parameter to get the path string for.
+ * @returns The path to this parameter's value as a dotted string.
+ */
+export function getPathStringFromParameter(parameter: OperationParameter): string {
+  return getPathStringFromParameterPath(parameter.parameterPath, parameter.mapper);
+}
+
+export function getPathStringFromParameterPath(parameterPath: ParameterPath, mapper: Mapper): string {
+  let result: string;
+  if (typeof parameterPath === "string") {
+    result = parameterPath;
+  } else if (Array.isArray(parameterPath)) {
+    result = parameterPath.join(".");
+  } else {
+    result = mapper.serializedName;
+  }
+  return result;
 }
