@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { getParameterPathString } from "../operationParameter";
+import { getPathStringFromParameter } from "../operationParameter";
 import { OperationSpec } from "../operationSpec";
 import { Mapper, MapperType } from "../serializer";
 import * as utils from "../util/utils";
@@ -49,8 +49,8 @@ export class SerializationPolicy extends BaseRequestPolicy {
       const bodyMapper: Mapper | undefined = operationSpec.requestBody.mapper;
       if (bodyMapper) {
         try {
-          if (request.body != undefined) {
-            const requestBodyParameterPathString: string = getParameterPathString(operationSpec.requestBody);
+          if (request.body != undefined || bodyMapper.required) {
+            const requestBodyParameterPathString: string = getPathStringFromParameter(operationSpec.requestBody);
             request.body = operationSpec.serializer.serialize(bodyMapper, request.body, requestBodyParameterPathString);
             if (operationSpec.isXML) {
               if (bodyMapper.type.name === MapperType.Sequence) {

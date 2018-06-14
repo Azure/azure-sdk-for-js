@@ -3,7 +3,6 @@
 
 import { QueryCollectionFormat } from "./queryCollectionFormat";
 import { Mapper } from "./serializer";
-import { replaceAll } from "./util/utils";
 
 export type ParameterPath = string | string[] | { [propertyName: string]: ParameterPath };
 
@@ -55,21 +54,18 @@ export interface OperationQueryParameter extends OperationParameter {
  * @param parameter The parameter to get the path string for.
  * @returns The path to this parameter's value as a dotted string.
  */
-export function getParameterPathString(parameter: OperationParameter): string {
+export function getPathStringFromParameter(parameter: OperationParameter): string {
+  return getPathStringFromParameterPath(parameter.parameterPath, parameter.mapper);
+}
+
+export function getPathStringFromParameterPath(parameterPath: ParameterPath, mapper: Mapper): string {
   let result: string;
-  const parameterPath: ParameterPath = parameter.parameterPath;
   if (typeof parameterPath === "string") {
     result = parameterPath;
   } else if (Array.isArray(parameterPath)) {
-    result = "";
-    for (const pathPart of parameterPath) {
-      if (result) {
-        result += ".";
-      }
-      result += replaceAll(pathPart, ".", "\\.");
-    }
+    result = parameterPath.join(".");
   } else {
-    result = parameter.mapper.serializedName;
+    result = mapper.serializedName;
   }
   return result;
 }
