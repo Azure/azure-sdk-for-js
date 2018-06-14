@@ -43,5 +43,5 @@ export const defaultPrefetchCount = 1000;
 export const reconnectLimit = 100;
 export const packageJsonInfo = {
   name: "azure-event-hubs-js",
-  version: "0.2.0"
+  version: "0.2.3"
 };

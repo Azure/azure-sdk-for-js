@@ -170,7 +170,7 @@ export class EventHubClient {
 
   /**
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session. Messages will be passed to
-   * the provided onMessage handler and error will be passes to the provided onError handler.
+   * the provided onMessage handler and error will be passed to the provided onError handler.
    *
    * @param {string|number} partitionId                        Partition ID from which to receive.
    * @param {OnMessage} onMessage                              The message handler to receive event data objects.

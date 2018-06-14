@@ -23,7 +23,7 @@ export class BatchingReceiver extends EventHubReceiver {
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
    *
    * @constructor
-   * @param {EventHubClient} client                            The EventHub client.
+   * @param {ConnectionContext} context                        The connection context.
    * @param {string} partitionId                               Partition ID from which to receive.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    * @param {string} [options.consumerGroup]                   Consumer group from which to receive.

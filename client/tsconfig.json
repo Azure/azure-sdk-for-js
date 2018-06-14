@@ -5,6 +5,7 @@
     "sourceMap": true,
     "newLine": "LF",
     "target": "es6",
+    "importHelpers": true,
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "outDir": "dist/lib",
@@ -12,6 +13,7 @@
     "noUnusedLocals":true,
     "strict": true,
     "strictPropertyInitialization": true,
+    "strictNullChecks": true,
     "declaration": true,
     "declarationDir": "./typings/lib",
     "lib": [

@@ -1,4 +1,6 @@
 import { EventHubClient, OnError, EventHubsError, OnMessage, delay } from "azure-event-hubs";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const connectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
