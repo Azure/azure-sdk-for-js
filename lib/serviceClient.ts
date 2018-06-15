@@ -18,7 +18,7 @@ import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { serializationPolicy } from "./policies/serializationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { getQueryCollectionFormatSeparator, QueryCollectionFormat } from "./queryCollectionFormat";
+import { QueryCollectionFormat } from "./queryCollectionFormat";
 import { Mapper, Serializer } from "./serializer";
 import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
@@ -213,8 +213,7 @@ export class ServiceClient {
                   }
                 }
               } else {
-                const queryParameterValueSeparator: string = getQueryCollectionFormatSeparator(queryParameter.collectionFormat);
-                queryParameterValue = queryParameterValue.join(queryParameterValueSeparator);
+                queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
               }
             }
             if (!queryParameter.skipEncoding) {

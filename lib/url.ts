@@ -64,21 +64,23 @@ export class URLQuery {
         text = text.substring(1);
       }
 
-      const parameterNameState = "parameterName";
-      const parameterValueState = "parameterValue";
-      const invalidateParameterState = "invalidParameter";
+      const enum ParseState {
+        parameterName,
+        parameterValue,
+        invalid
+      }
 
-      let currentState = parameterNameState;
+      let currentState = ParseState.parameterName;
 
       let parameterName = "";
       let parameterValue = "";
       for (let i = 0; i < text.length; ++i) {
         const currentCharacter: string = text[i];
         switch (currentState) {
-          case parameterNameState:
+          case ParseState.parameterName:
             switch (currentCharacter) {
               case "=":
-                currentState = parameterValueState;
+                currentState = ParseState.parameterValue;
                 break;
 
               case "&":
@@ -92,19 +94,19 @@ export class URLQuery {
             }
             break;
 
-          case parameterValueState:
+          case ParseState.parameterValue:
             switch (currentCharacter) {
               case "=":
                 parameterName = "";
                 parameterValue = "";
-                currentState = invalidateParameterState;
+                currentState = ParseState.invalid;
                 break;
 
               case "&":
                 result.set(parameterName, parameterValue);
                 parameterName = "";
                 parameterValue = "";
-                currentState = parameterNameState;
+                currentState = ParseState.parameterName;
                 break;
 
               default:
@@ -113,9 +115,9 @@ export class URLQuery {
             }
             break;
 
-          case invalidateParameterState:
+          case ParseState.invalid:
             if (currentCharacter === "&") {
-              currentState = parameterNameState;
+              currentState = ParseState.parameterName;
             }
             break;
 
@@ -123,7 +125,7 @@ export class URLQuery {
             throw new Error("Unrecognized URLQuery parse state: " + currentState);
         }
       }
-      if (currentState === parameterValueState) {
+      if (currentState === ParseState.parameterValue) {
         result.set(parameterName, parameterValue);
       }
     }
