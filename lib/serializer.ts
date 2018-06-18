@@ -540,7 +540,16 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
       propertyObjectName = objectName + "." + propertyMapper.serializedName;
     }
 
-    if (serializer.isXML) {
+    const headerCollectionPrefix = (propertyMapper as DictionaryMapper).headerCollectionPrefix;
+    if (headerCollectionPrefix) {
+      const dictionary: any = {};
+      for (const headerKey of Object.keys(responseBody)) {
+        if (headerKey.startsWith(headerCollectionPrefix)) {
+          dictionary[headerKey.substring(headerCollectionPrefix.length)] = serializer.deserialize(propertyMapper.type.value, responseBody[headerKey], propertyObjectName);
+        }
+      }
+      instance[key] = dictionary;
+    } else if (serializer.isXML) {
       if (propertyMapper.xmlIsAttribute && responseBody.$) {
         instance[key] = serializer.deserialize(propertyMapper, responseBody.$[propertyMapper.xmlName!], propertyObjectName);
       } else {
@@ -771,6 +780,7 @@ export interface DictionaryMapper extends Mapper {
     name: "Dictionary";
     value: Mapper;
   };
+  headerCollectionPrefix?: string;
 }
 
 export interface EnumMapper extends Mapper {
