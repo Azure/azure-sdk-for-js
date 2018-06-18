@@ -913,35 +913,35 @@ describe("msrest", function () {
       done();
     });
 
-    const headerPrefixMapper = {
-      serializedName: "something",
-      type: {
-        name: "Composite",
-        className: "CustomHeadersType",
-        modelProperties: {
-          metadata: {
-            serializedName: "metadata",
-            type: {
-              name: "Dictionary",
-              value: {
-                type: {
-                  name: "String"
+    it("should deserialize headerCollectionPrefix", function() {
+      const mapper = {
+        serializedName: "something",
+        type: {
+          name: "Composite",
+          className: "CustomHeadersType",
+          modelProperties: {
+            metadata: {
+              serializedName: "metadata",
+              type: {
+                name: "Dictionary",
+                value: {
+                  type: {
+                    name: "String"
+                  }
                 }
-              }
+              },
+              headerCollectionPrefix: "foo-bar-"
             },
-            headerCollectionPrefix: "foo-bar-"
-          },
-          unrelated: {
-            serializedName: "unrelated",
-            type: {
-              name: "Number"
+            unrelated: {
+              serializedName: "unrelated",
+              type: {
+                name: "Number"
+              }
             }
           }
         }
-      }
-    }
+      };
 
-    it("should deserialize headerCollectionPrefix", function() {
       const rawHeaders = {
         "foo-bar-alpha": "hello",
         "foo-bar-beta": "world",
@@ -955,7 +955,7 @@ describe("msrest", function () {
         },
         unrelated: 42
       };
-      const actual = Serializer.deserialize(headerPrefixMapper, rawHeaders, "headers");
+      const actual = Serializer.deserialize(mapper, rawHeaders, "headers");
       assert.deepStrictEqual(actual, expected);
     });
   });
