@@ -4,7 +4,7 @@
 /**
  * The format that will be used to join an array of values together for a query parameter value.
  */
-export const enum QueryCollectionFormat {
+export enum QueryCollectionFormat {
   Csv = ",",
   Ssv = " ",
   Tsv = "\t",
