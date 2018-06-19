@@ -8,43 +8,55 @@ export class Serializer {
   constructor(public readonly modelMappers?: { [key: string]: any }, public readonly isXML?: boolean) { }
 
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
-    const constraints = mapper.constraints;
     const failValidation = (constraintName: keyof MapperConstraints, constraintValue: any) => {
       throw new Error(`"${objectName}" with value "${value}" should satisfy the constraint "${constraintName}": ${constraintValue}.`);
     };
-    if (constraints && (value != undefined)) {
-      if (constraints.ExclusiveMaximum != undefined && value >= constraints.ExclusiveMaximum) {
-        failValidation("ExclusiveMaximum", constraints.ExclusiveMaximum);
+    if (mapper.constraints && (value != undefined)) {
+      const {
+        ExclusiveMaximum,
+        ExclusiveMinimum,
+        InclusiveMaximum,
+        InclusiveMinimum,
+        MaxItems,
+        MaxLength,
+        MinItems,
+        MinLength,
+        MultipleOf,
+        Pattern,
+        UniqueItems
+      } = mapper.constraints;
+      if (ExclusiveMaximum != undefined && value >= ExclusiveMaximum) {
+        failValidation("ExclusiveMaximum", ExclusiveMaximum);
       }
-      if (constraints.ExclusiveMinimum != undefined && value <= constraints.ExclusiveMinimum) {
-        failValidation("ExclusiveMinimum", constraints.ExclusiveMinimum);
+      if (ExclusiveMinimum != undefined && value <= ExclusiveMinimum) {
+        failValidation("ExclusiveMinimum", ExclusiveMinimum);
       }
-      if (constraints.InclusiveMaximum != undefined && value > constraints.InclusiveMaximum) {
-        failValidation("InclusiveMaximum", constraints.InclusiveMaximum);
+      if (InclusiveMaximum != undefined && value > InclusiveMaximum) {
+        failValidation("InclusiveMaximum", InclusiveMaximum);
       }
-      if (constraints.InclusiveMinimum != undefined && value < constraints.InclusiveMinimum) {
-        failValidation("InclusiveMinimum", constraints.InclusiveMinimum);
+      if (InclusiveMinimum != undefined && value < InclusiveMinimum) {
+        failValidation("InclusiveMinimum", InclusiveMinimum);
       }
-      if (constraints.MaxItems != undefined && value.length > constraints.MaxItems) {
-        failValidation("MaxItems", constraints.MaxItems);
+      if (MaxItems != undefined && value.length > MaxItems) {
+        failValidation("MaxItems", MaxItems);
       }
-      if (constraints.MaxLength != undefined && value.length > constraints.MaxLength) {
-        failValidation("MaxLength", constraints.MaxLength);
+      if (MaxLength != undefined && value.length > MaxLength) {
+        failValidation("MaxLength", MaxLength);
       }
-      if (constraints.MinItems != undefined && value.length < constraints.MinItems) {
-        failValidation("MinItems", constraints.MinItems);
+      if (MinItems != undefined && value.length < MinItems) {
+        failValidation("MinItems", MinItems);
       }
-      if (constraints.MinLength != undefined && value.length < constraints.MinLength) {
-        failValidation("MinLength", constraints.MinLength);
+      if (MinLength != undefined && value.length < MinLength) {
+        failValidation("MinLength", MinLength);
       }
-      if (constraints.MultipleOf != undefined && value % constraints.MultipleOf !== 0) {
-        failValidation("MultipleOf", constraints.MultipleOf);
+      if (MultipleOf != undefined && value % MultipleOf !== 0) {
+        failValidation("MultipleOf", MultipleOf);
       }
-      if (constraints.Pattern && value.match(constraints.Pattern) === null) {
-        failValidation("Pattern", constraints.Pattern);
+      if (Pattern && value.match(Pattern) === null) {
+        failValidation("Pattern", Pattern);
       }
-      if (constraints.UniqueItems && value.length !== value.filter((item: any, i: number, ar: Array<any>) => ar.indexOf(item) === i).length) {
-        failValidation("UniqueItems", constraints.UniqueItems);
+      if (UniqueItems && value.length !== value.filter((item: any, i: number, ar: Array<any>) => ar.indexOf(item) === i).length) {
+        failValidation("UniqueItems", UniqueItems);
       }
     }
   }
