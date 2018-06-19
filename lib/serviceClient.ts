@@ -19,7 +19,7 @@ import { serializationPolicy } from "./policies/serializationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { QueryCollectionFormat } from "./queryCollectionFormat";
-import { Mapper, Serializer } from "./serializer";
+import { Mapper, Serializer, DictionaryMapper } from "./serializer";
 import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
@@ -230,7 +230,14 @@ export class ServiceClient {
           let headerValue: any = getOperationArgumentValueFromParameter(operationArguments, headerParameter, operationSpec.serializer);
           if (headerValue != undefined) {
             headerValue = operationSpec.serializer.serialize(headerParameter.mapper, headerValue, getPathStringFromParameter(headerParameter));
-            httpRequest.headers.set(headerParameter.mapper.serializedName || getPathStringFromParameter(headerParameter), headerValue);
+            const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper).headerCollectionPrefix;
+            if (headerCollectionPrefix) {
+              for (const key of Object.keys(headerValue)) {
+                httpRequest.headers.set(headerCollectionPrefix + key, headerValue[key]);
+              }
+            } else {
+              httpRequest.headers.set(headerParameter.mapper.serializedName || getPathStringFromParameter(headerParameter), headerValue);
+            }
           }
         }
       }
