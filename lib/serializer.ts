@@ -8,57 +8,43 @@ export class Serializer {
   constructor(public readonly modelMappers?: { [key: string]: any }, public readonly isXML?: boolean) { }
 
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
-    if (mapper.constraints && (value !== null || value !== undefined)) {
-      for (const constraintType of Object.keys(mapper.constraints)) {
-        if (constraintType.match(/^ExclusiveMaximum$/ig) !== null) {
-          if (value >= ((mapper.constraints as MapperConstraints).ExclusiveMaximum as number)) {
-            throw new Error(`"${objectName}" with value "${value}" should satify the constraint "ExclusiveMaximum": ${((mapper.constraints as MapperConstraints).ExclusiveMaximum as number)}.`);
-          }
-        } else if (constraintType.match(/^ExclusiveMinimum$/ig) !== null) {
-          if (value <= ((mapper.constraints as MapperConstraints).ExclusiveMinimum as number)) {
-            throw new Error(`${objectName} " with value "${value} " should satify the constraint "ExclusiveMinimum": ${((mapper.constraints as MapperConstraints).ExclusiveMinimum as number)}.`);
-          }
-        } else if (constraintType.match(/^InclusiveMaximum$/ig) !== null) {
-          if (value > ((mapper.constraints as MapperConstraints).InclusiveMaximum as number)) {
-            throw new Error(`${objectName}" with value "${value}" should satify the constraint "InclusiveMaximum": ${((mapper.constraints as MapperConstraints).InclusiveMaximum as number)}.`);
-          }
-        } else if (constraintType.match(/^InclusiveMinimum$/ig) !== null) {
-          if (value < ((mapper.constraints as MapperConstraints).InclusiveMinimum as number)) {
-            throw new Error(`${objectName}" with value "${value}" should satify the constraint "InclusiveMinimum": ${((mapper.constraints as MapperConstraints).InclusiveMinimum as number)}.`);
-          }
-        } else if (constraintType.match(/^MaxItems$/ig) !== null) {
-          if (value.length > ((mapper.constraints as MapperConstraints).MaxItems as number)) {
-            throw new Error(`${objectName}" with value "${value}" should satify the constraint "MaxItems": ${((mapper.constraints as MapperConstraints).MaxItems as number)}.`);
-          }
-        } else if (constraintType.match(/^MaxLength$/ig) !== null) {
-          if (value.length > ((mapper.constraints as MapperConstraints).MaxLength as number)) {
-            throw new Error(`${objectName}" with value "${value}" should satify the constraint "MaxLength": ${((mapper.constraints as MapperConstraints).MaxLength as number)}.`);
-          }
-        } else if (constraintType.match(/^MinItems$/ig) !== null) {
-          if (value.length < ((mapper.constraints as MapperConstraints).MinItems as number)) {
-            throw new Error(`${objectName}" with value "${value}" should satify the constraint "MinItems": ${((mapper.constraints as MapperConstraints).MinItems as number)}.`);
-          }
-        } else if (constraintType.match(/^MinLength$/ig) !== null) {
-          if (value.length < ((mapper.constraints as MapperConstraints).MinLength as number)) {
-            throw new Error(`${objectName}" with value "${value}" should satify the constraint "MinLength": ${((mapper.constraints as MapperConstraints).MinLength as number)}.`);
-          }
-        } else if (constraintType.match(/^MultipleOf$/ig) !== null) {
-          if (value % ((mapper.constraints as MapperConstraints).MultipleOf as number) !== 0) {
-            throw new Error(`${objectName}" with value "${value}" should satify the constraint "MultipleOf": ${((mapper.constraints as MapperConstraints).MultipleOf as number)}.`);
-          }
-        } else if (constraintType.match(/^Pattern$/ig) !== null) {
-          const regexp: RegExp = (mapper.constraints as MapperConstraints).Pattern!;
-          const match: any = value.match(regexp);
-          if (match === null) {
-            throw new Error(`${objectName}" with value "${value}" should satify the constraint "Pattern": ${regexp}.`);
-          }
-        } else if (constraintType.match(/^UniqueItems/ig) !== null) {
-          if (((mapper.constraints as MapperConstraints).UniqueItems as boolean)) {
-            if (value.length !== value.filter((item: any, i: number, ar: Array<any>) => { { return ar.indexOf(item) === i; } }).length) {
-              throw new Error(`${objectName}" with value "${value}" should satify the constraint "UniqueItems": ${((mapper.constraints as MapperConstraints).UniqueItems as boolean)}`);
-            }
-          }
-        }
+    const constraints = mapper.constraints;
+    const failValidation = (constraintName: keyof MapperConstraints, constraintValue: any) => {
+      throw new Error(`"${objectName}" with value "${value}" should satisfy the constraint "${constraintName}": ${constraintValue}.`);
+    };
+    if (constraints && (value != undefined)) {
+      if (constraints.ExclusiveMaximum != undefined && value >= constraints.ExclusiveMaximum) {
+        failValidation("ExclusiveMaximum", constraints.ExclusiveMaximum);
+      }
+      if (constraints.ExclusiveMinimum != undefined && value <= constraints.ExclusiveMinimum) {
+        failValidation("ExclusiveMinimum", constraints.ExclusiveMinimum);
+      }
+      if (constraints.InclusiveMaximum != undefined && value > constraints.InclusiveMaximum) {
+        failValidation("InclusiveMaximum", constraints.InclusiveMaximum);
+      }
+      if (constraints.InclusiveMinimum != undefined && value < constraints.InclusiveMinimum) {
+        failValidation("InclusiveMinimum", constraints.InclusiveMinimum);
+      }
+      if (constraints.MaxItems != undefined && value.length > constraints.MaxItems) {
+        failValidation("MaxItems", constraints.MaxItems);
+      }
+      if (constraints.MaxLength != undefined && value.length > constraints.MaxLength) {
+        failValidation("MaxLength", constraints.MaxLength);
+      }
+      if (constraints.MinItems != undefined && value.length < constraints.MinItems) {
+        failValidation("MinItems", constraints.MinItems);
+      }
+      if (constraints.MinLength != undefined && value.length < constraints.MinLength) {
+        failValidation("MinLength", constraints.MinLength);
+      }
+      if (constraints.MultipleOf != undefined && value % constraints.MultipleOf !== 0) {
+        failValidation("MultipleOf", constraints.MultipleOf);
+      }
+      if (constraints.Pattern && value.match(constraints.Pattern) === null) {
+        failValidation("Pattern", constraints.Pattern);
+      }
+      if (constraints.UniqueItems && value.length !== value.filter((item: any, i: number, ar: Array<any>) => ar.indexOf(item) === i).length) {
+        failValidation("UniqueItems", constraints.UniqueItems);
       }
     }
   }
@@ -393,10 +379,8 @@ function serializeDictionaryType(serializer: Serializer, mapper: DictionaryMappe
       `mapper and it must of type "object" in ${objectName}.`);
   }
   const tempDictionary: { [key: string]: any } = {};
-  for (const key in object) {
-    if (object.hasOwnProperty(key)) {
-      tempDictionary[key] = serializer.serialize(mapper.type.value, object[key], objectName);
-    }
+  for (const key of Object.keys(object)) {
+    tempDictionary[key] = serializer.serialize(mapper.type.value, object[key], objectName + "." + key);
   }
   return tempDictionary;
 }
