@@ -545,7 +545,7 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
       const dictionary: any = {};
       for (const headerKey of Object.keys(responseBody)) {
         if (headerKey.startsWith(headerCollectionPrefix)) {
-          dictionary[headerKey.substring(headerCollectionPrefix.length)] = serializer.deserialize(propertyMapper.type.value, responseBody[headerKey], propertyObjectName);
+          dictionary[headerKey.substring(headerCollectionPrefix.length)] = serializer.deserialize((propertyMapper as DictionaryMapper).type.value, responseBody[headerKey], propertyObjectName);
         }
       }
       instance[key] = dictionary;
@@ -735,10 +735,9 @@ export interface MapperConstraints {
 
 export interface BaseMapperType {
   name: string;
-  [key: string]: any;
 }
 
-export interface Mapper {
+export interface BaseMapper {
   xmlName?: string;
   xmlIsAttribute?: boolean;
   xmlElementName?: string;
@@ -752,30 +751,32 @@ export interface Mapper {
   constraints?: MapperConstraints;
 }
 
+export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
+
 export interface PolymorphicDiscriminator {
   serializedName: string;
   clientName: string;
   [key: string]: string;
 }
 
-export interface CompositeMapper extends Mapper {
+export interface CompositeMapper extends BaseMapper {
   type: {
     name: "Composite";
     className: string;
-    modelProperties?: { [propertyName: string]: Mapper };
+    modelProperties: { [propertyName: string]: Mapper };
     uberParent?: string;
     polymorphicDiscriminator?: string | PolymorphicDiscriminator;
   };
 }
 
-export interface SequenceMapper extends Mapper {
+export interface SequenceMapper extends BaseMapper {
   type: {
     name: "Sequence";
     element: Mapper;
   };
 }
 
-export interface DictionaryMapper extends Mapper {
+export interface DictionaryMapper extends BaseMapper {
   type: {
     name: "Dictionary";
     value: Mapper;
@@ -783,7 +784,7 @@ export interface DictionaryMapper extends Mapper {
   headerCollectionPrefix?: string;
 }
 
-export interface EnumMapper extends Mapper {
+export interface EnumMapper extends BaseMapper {
   type: {
     name: "Enum";
     allowedValues: Array<any>;
