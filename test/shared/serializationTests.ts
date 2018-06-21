@@ -912,5 +912,51 @@ describe("msrest", function () {
       deserializedSawshark.siblings[0].siblings[0].should.not.have.property('age');
       done();
     });
+
+    it("should deserialize headerCollectionPrefix", function() {
+      const mapper = {
+        serializedName: "something",
+        type: {
+          name: "Composite",
+          className: "CustomHeadersType",
+          modelProperties: {
+            metadata: {
+              serializedName: "metadata",
+              type: {
+                name: "Dictionary",
+                value: {
+                  type: {
+                    name: "String"
+                  }
+                }
+              },
+              headerCollectionPrefix: "foo-bar-"
+            },
+            unrelated: {
+              serializedName: "unrelated",
+              type: {
+                name: "Number"
+              }
+            }
+          }
+        }
+      };
+
+      const rawHeaders = {
+        "foo-bar-alpha": "hello",
+        "foo-bar-beta": "world",
+        "unrelated": "42"
+      };
+
+      const expected = {
+        metadata: {
+          "alpha": "hello",
+          "beta": "world"
+        },
+        unrelated: 42
+      };
+      const actual = Serializer.deserialize(mapper, rawHeaders, "headers");
+      assert.deepStrictEqual(actual, expected);
+    });
   });
 });

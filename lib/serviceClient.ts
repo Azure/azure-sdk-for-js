@@ -19,7 +19,7 @@ import { serializationPolicy } from "./policies/serializationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { QueryCollectionFormat } from "./queryCollectionFormat";
-import { Mapper, Serializer } from "./serializer";
+import { Mapper, Serializer, DictionaryMapper, CompositeMapper } from "./serializer";
 import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
@@ -230,7 +230,14 @@ export class ServiceClient {
           let headerValue: any = getOperationArgumentValueFromParameter(operationArguments, headerParameter, operationSpec.serializer);
           if (headerValue != undefined) {
             headerValue = operationSpec.serializer.serialize(headerParameter.mapper, headerValue, getPathStringFromParameter(headerParameter));
-            httpRequest.headers.set(headerParameter.mapper.serializedName || getPathStringFromParameter(headerParameter), headerValue);
+            const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper).headerCollectionPrefix;
+            if (headerCollectionPrefix) {
+              for (const key of Object.keys(headerValue)) {
+                httpRequest.headers.set(headerCollectionPrefix + key, headerValue[key]);
+              }
+            } else {
+              httpRequest.headers.set(headerParameter.mapper.serializedName || getPathStringFromParameter(headerParameter), headerValue);
+            }
           }
         }
       }
@@ -352,7 +359,7 @@ function getOperationArgumentValueFromParameterPath(operationArguments: Operatio
       }
     } else {
       for (const propertyName in parameterPath) {
-        const propertyMapper: Mapper = parameterMapper.type.modelProperties[propertyName];
+        const propertyMapper: Mapper = (parameterMapper as CompositeMapper).type.modelProperties[propertyName];
         const propertyPath: ParameterPath = parameterPath[propertyName];
         const propertyValue: any = getOperationArgumentValueFromParameterPath(operationArguments, propertyPath, propertyMapper, serializer);
         // Serialize just for validation purposes.
