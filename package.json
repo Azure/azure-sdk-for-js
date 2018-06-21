@@ -30,7 +30,7 @@
   "types": "./typings/lib/msRestAzure.d.ts",
   "license": "MIT",
   "dependencies": {
-    "ms-rest-js": "~0.10.264"
+    "ms-rest-js": "~0.12.289"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.1",
