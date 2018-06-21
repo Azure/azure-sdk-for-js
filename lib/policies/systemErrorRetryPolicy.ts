@@ -35,7 +35,6 @@ export function systemErrorRetryPolicy(retryCount?: number, retryInterval?: numb
  * @param {number} maxRetryInterval  The maximum retry interval, in milliseconds.
  */
 export class SystemErrorRetryPolicy extends BaseRequestPolicy {
-
   retryCount: number;
   retryInterval: number;
   minRetryInterval: number;
@@ -53,85 +52,80 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
     this.maxRetryInterval = typeof maxRetryInterval === "number" ? maxRetryInterval : this.DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
   }
 
-  /**
-   * Determines if the operation should be retried and how long to wait until the next retry.
-   *
-   * @param {number} statusCode The HTTP status code.
-   * @param {RetryData} retryData  The retry data.
-   * @return {boolean} True if the operation qualifies for a retry; false otherwise.
-   */
-  shouldRetry(retryData: RetryData): boolean {
-    let currentCount;
-    if (!retryData) {
-      throw new Error("retryData for the SystemErrorRetryPolicyFilter cannot be null.");
-    } else {
-      currentCount = (retryData && retryData.retryCount);
-    }
-    return (currentCount < this.retryCount);
+  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    return this._nextPolicy.sendRequest(request.clone()).then(response => retry(this, request, response));
+  }
+}
+
+/**
+ * Determines if the operation should be retried and how long to wait until the next retry.
+ *
+ * @param {number} statusCode The HTTP status code.
+ * @param {RetryData} retryData  The retry data.
+ * @return {boolean} True if the operation qualifies for a retry; false otherwise.
+ */
+function shouldRetry(policy: SystemErrorRetryPolicy, retryData: RetryData): boolean {
+  let currentCount;
+  if (!retryData) {
+    throw new Error("retryData for the SystemErrorRetryPolicyFilter cannot be null.");
+  } else {
+    currentCount = (retryData && retryData.retryCount);
+  }
+  return (currentCount < policy.retryCount);
+}
+
+/**
+ * Updates the retry data for the next attempt.
+ *
+ * @param {RetryData} retryData  The retry data.
+ * @param {object} err        The operation"s error, if any.
+ */
+function updateRetryData(policy: SystemErrorRetryPolicy, retryData?: RetryData, err?: RetryError): RetryData {
+  if (!retryData) {
+    retryData = {
+      retryCount: 0,
+      retryInterval: 0
+    };
   }
 
-  /**
-   * Updates the retry data for the next attempt.
-   *
-   * @param {RetryData} retryData  The retry data.
-   * @param {object} err        The operation"s error, if any.
-   */
-  updateRetryData(retryData?: RetryData, err?: RetryError): RetryData {
-    if (!retryData) {
-      retryData = {
-        retryCount: 0,
-        retryInterval: 0
-      };
+  if (err) {
+    if (retryData.error) {
+      err.innerError = retryData.error;
     }
 
-    if (err) {
-      if (retryData.error) {
-        err.innerError = retryData.error;
-      }
-
-      retryData.error = err;
-    }
-
-    // Adjust retry count
-    retryData.retryCount++;
-
-    // Adjust retry interval
-    let incrementDelta = Math.pow(2, retryData.retryCount) - 1;
-    const boundedRandDelta = this.retryInterval * 0.8 +
-      Math.floor(Math.random() * (this.retryInterval * 1.2 - this.retryInterval * 0.8));
-    incrementDelta *= boundedRandDelta;
-
-    retryData.retryInterval = Math.min(this.minRetryInterval + incrementDelta, this.maxRetryInterval);
-
-    return retryData;
+    retryData.error = err;
   }
 
-  async retry(request: WebResource, operationResponse: HttpOperationResponse, retryData?: RetryData, err?: RetryError): Promise<HttpOperationResponse> {
-    const self = this;
-    retryData = self.updateRetryData(retryData, err);
-    if (err && err.code && self.shouldRetry(retryData) &&
-      (err.code === "ETIMEDOUT" || err.code === "ESOCKETTIMEDOUT" || err.code === "ECONNREFUSED" ||
-        err.code === "ECONNRESET" || err.code === "ENOENT")) {
-      // If previous operation ended with an error and the policy allows a retry, do that
-      try {
-        await utils.delay(retryData.retryInterval);
-        const res: HttpOperationResponse = await this._nextPolicy.sendRequest(request.clone());
-        return self.retry(request, res, retryData, err);
-      } catch (err) {
-        return self.retry(request, operationResponse, retryData, err);
-      }
-    } else {
-      if (!utils.objectIsNull(err)) {
-        // If the operation failed in the end, return all errors instead of just the last one
-        err = retryData.error;
-        return Promise.reject(err);
-      }
-      return Promise.resolve(operationResponse);
-    }
-  }
+  // Adjust retry count
+  retryData.retryCount++;
 
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request.clone());
-    return this.retry(request, response); // See: https://github.com/Microsoft/TypeScript/issues/7426
+  // Adjust retry interval
+  let incrementDelta = Math.pow(2, retryData.retryCount) - 1;
+  const boundedRandDelta = policy.retryInterval * 0.8 +
+    Math.floor(Math.random() * (policy.retryInterval * 1.2 - policy.retryInterval * 0.8));
+  incrementDelta *= boundedRandDelta;
+
+  retryData.retryInterval = Math.min(policy.minRetryInterval + incrementDelta, policy.maxRetryInterval);
+
+  return retryData;
+}
+
+function retry(policy: SystemErrorRetryPolicy, request: WebResource, operationResponse: HttpOperationResponse, retryData?: RetryData, err?: RetryError): Promise<HttpOperationResponse> {
+  retryData = updateRetryData(policy, retryData, err);
+  if (err && err.code && shouldRetry(policy, retryData) &&
+    (err.code === "ETIMEDOUT" || err.code === "ESOCKETTIMEDOUT" || err.code === "ECONNREFUSED" ||
+      err.code === "ECONNRESET" || err.code === "ENOENT")) {
+    // If previous operation ended with an error and the policy allows a retry, do that
+    return utils.delay(retryData.retryInterval)
+        .then(() => policy._nextPolicy.sendRequest(request.clone()))
+        .then(res => retry(policy, request, res, retryData, err))
+        .catch(err => retry(policy, request, operationResponse, retryData, err));
+  } else {
+    if (err == undefined) {
+      // If the operation failed in the end, return all errors instead of just the last one
+      err = retryData.error;
+      return Promise.reject(err);
+    }
+    return Promise.resolve(operationResponse);
   }
 }

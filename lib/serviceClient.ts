@@ -139,7 +139,7 @@ export class ServiceClient {
   /**
    * Send the provided httpRequest.
    */
-  async sendRequest(options: RequestPrepareOptions | WebResource): Promise<HttpOperationResponse> {
+  sendRequest(options: RequestPrepareOptions | WebResource): Promise<HttpOperationResponse> {
     if (options === null || options === undefined || typeof options !== "object") {
       throw new Error("options cannot be null or undefined and it must be of type object.");
     }
@@ -157,20 +157,13 @@ export class ServiceClient {
       return Promise.reject(error);
     }
 
-    // send request
-    let operationResponse: HttpOperationResponse;
-    try {
-      let httpPipeline: RequestPolicy = this._httpClient;
-      if (this._requestPolicyCreators && this._requestPolicyCreators.length > 0) {
-        for (let i = this._requestPolicyCreators.length - 1; i >= 0; --i) {
-          httpPipeline = this._requestPolicyCreators[i](httpPipeline, this._requestPolicyOptions);
-        }
+    let httpPipeline: RequestPolicy = this._httpClient;
+    if (this._requestPolicyCreators && this._requestPolicyCreators.length > 0) {
+      for (let i = this._requestPolicyCreators.length - 1; i >= 0; --i) {
+        httpPipeline = this._requestPolicyCreators[i](httpPipeline, this._requestPolicyOptions);
       }
-      operationResponse = await httpPipeline.sendRequest(httpRequest);
-    } catch (err) {
-      return Promise.reject(err);
     }
-    return Promise.resolve(operationResponse);
+    return httpPipeline.sendRequest(httpRequest);
   }
 
   /**

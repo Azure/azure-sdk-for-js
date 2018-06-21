@@ -63,8 +63,8 @@ export class MsRestUserAgentPolicy extends BaseRequestPolicy {
     }
   }
 
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     this.addUserAgentHeader(request);
-    return await this._nextPolicy.sendRequest(request);
+    return this._nextPolicy.sendRequest(request);
   }
 }

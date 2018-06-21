@@ -22,8 +22,7 @@ export class SigningPolicy extends BaseRequestPolicy {
     return this.authenticationProvider.signRequest(request);
   }
 
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const nextRequest: WebResource = await this.signRequest(request);
-    return await this._nextPolicy.sendRequest(nextRequest);
+  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    return this.signRequest(request).then(nextRequest => this._nextPolicy.sendRequest(nextRequest));
   }
 }

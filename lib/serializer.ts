@@ -588,16 +588,15 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
 
 function deserializeDictionaryType(serializer: Serializer, mapper: DictionaryMapper, responseBody: any, objectName: string): any {
   /*jshint validthis: true */
-  if (!mapper.type.value || typeof mapper.type.value !== "object") {
+  const value = mapper.type.value;
+  if (!value || typeof value !== "object") {
     throw new Error(`"value" metadata for a Dictionary must be defined in the ` +
       `mapper and it must of type "object" in ${objectName}`);
   }
   if (responseBody) {
     const tempDictionary: { [key: string]: any } = {};
-    for (const key in responseBody) {
-      if (responseBody.hasOwnProperty(key)) {
-        tempDictionary[key] = serializer.deserialize(mapper.type.value, responseBody[key], objectName);
-      }
+    for (const key of Object.keys(responseBody)) {
+      tempDictionary[key] = serializer.deserialize(value, responseBody[key], objectName);
     }
     return tempDictionary;
   }
@@ -606,7 +605,8 @@ function deserializeDictionaryType(serializer: Serializer, mapper: DictionaryMap
 
 function deserializeSequenceType(serializer: Serializer, mapper: SequenceMapper, responseBody: any, objectName: string): any {
   /*jshint validthis: true */
-  if (!mapper.type.element || typeof mapper.type.element !== "object") {
+  const element = mapper.type.element;
+  if (!element || typeof element !== "object") {
     throw new Error(`element" metadata for an Array must be defined in the ` +
       `mapper and it must of type "object" in ${objectName}`);
   }
@@ -618,7 +618,7 @@ function deserializeSequenceType(serializer: Serializer, mapper: SequenceMapper,
 
     const tempArray = [];
     for (let i = 0; i < responseBody.length; i++) {
-      tempArray[i] = serializer.deserialize(mapper.type.element, responseBody[i], objectName);
+      tempArray[i] = serializer.deserialize(element, responseBody[i], objectName);
     }
     return tempArray;
   }
@@ -638,10 +638,11 @@ function getPolymorphicMapper(serializer: Serializer, mapper: CompositeMapper, o
   // for the model that needs to be serializes or deserialized.
   // We need this routing for backwards compatibility. This will absorb the breaking change in the mapper and allow new versions
   // of the runtime to work seamlessly with older version (>= 0.17.0-Nightly20161008) of Autorest generated node.js clients.
-  if (mapper.type.polymorphicDiscriminator) {
-    if (typeof mapper.type.polymorphicDiscriminator.valueOf() === "string") {
+  const polymorphicDiscriminator = mapper.type.polymorphicDiscriminator;
+  if (polymorphicDiscriminator) {
+    if (typeof polymorphicDiscriminator.valueOf() === "string") {
       return getPolymorphicMapperStringVersion(serializer, mapper, object, objectName);
-    } else if (mapper.type.polymorphicDiscriminator instanceof Object) {
+    } else if (polymorphicDiscriminator instanceof Object) {
       return getPolymorphicMapperObjectVersion(serializer, mapper, object, objectName, mode);
     } else {
       throw new Error(`The polymorphicDiscriminator for "${objectName}" is neither a string nor an object.`);

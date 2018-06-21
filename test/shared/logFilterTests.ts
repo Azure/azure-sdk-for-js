@@ -10,8 +10,7 @@ import { WebResource } from "../../lib/webResource";
 
 const emptyRequestPolicy: RequestPolicy = {
   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    assert(request);
-    throw new Error("Not Implemented");
+    return Promise.resolve({ request, status: 200, headers: new HttpHeaders(), bodyAsText: null });
   }
 };
 
@@ -36,8 +35,7 @@ describe("Log filter", () => {
     const logger = (message: string): void => { output += message + "\n"; };
     const lf = new LogPolicy(emptyRequestPolicy, new RequestPolicyOptions(), logger);
     const req = new WebResource("https://foo.com", "PUT", { "a": 1 });
-    const opRes: HttpOperationResponse = { request: req, status: 200, headers: new HttpHeaders(), bodyAsText: null };
-    lf.logResponse(opRes).then(() => {
+    lf.sendRequest(req).then(() => {
       // console.dir(output, { depth: null });
       // console.log(">>>>>>>");
       // console.dir(expected);
