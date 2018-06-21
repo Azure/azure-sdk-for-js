@@ -111,29 +111,33 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
     return retryData;
   }
 
-  async retry(request: WebResource, response: HttpOperationResponse, retryData?: RetryData, err?: RetryError): Promise<HttpOperationResponse> {
-    const self = this;
-    retryData = self.updateRetryData(retryData, err);
-    if (self.shouldRetry(response.status, retryData)) {
+  async retry(request: WebResource, response: HttpOperationResponse, retryData?: RetryData, requestError?: RetryError): Promise<HttpOperationResponse> {
+    retryData = this.updateRetryData(retryData, requestError);
+    const isAborted: boolean | undefined = request.abortSignal && request.abortSignal.aborted;
+    if (!isAborted && this.shouldRetry(response.status, retryData)) {
       try {
         await utils.delay(retryData.retryInterval);
-        const res: HttpOperationResponse = await this._nextPolicy.sendRequest(request.clone());
-        return self.retry(request, res, retryData, err);
+        response = await this._nextPolicy.sendRequest(request.clone());
+        requestError = undefined;
       } catch (err) {
-        return self.retry(request, response, retryData, err);
+        requestError = err;
       }
+      return this.retry(request, response, retryData, requestError);
+    } else if (isAborted || !utils.objectIsNull(requestError)) {
+      // If the operation failed in the end, return all errors instead of just the last one
+      requestError = retryData.error;
+      return Promise.reject(requestError);
     } else {
-      if (!utils.objectIsNull(err)) {
-        // If the operation failed in the end, return all errors instead of just the last one
-        err = retryData.error;
-        return Promise.reject(err);
-      }
       return Promise.resolve(response);
     }
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request.clone());
-    return this.retry(request, response);
+    try {
+      const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request.clone());
+      return this.retry(request, response);
+    } catch (error) {
+      return this.retry(request, error.response, undefined, error);
+    }
   }
 }

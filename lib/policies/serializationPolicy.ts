@@ -3,7 +3,9 @@
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { getPathStringFromParameter } from "../operationParameter";
+import { OperationResponse } from "../operationResponse";
 import { OperationSpec } from "../operationSpec";
+import { RestError } from "../restError";
 import { Mapper, MapperType } from "../serializer";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
@@ -27,11 +29,12 @@ export class SerializationPolicy extends BaseRequestPolicy {
     super(nextPolicy, options);
   }
 
-  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     let result: Promise<HttpOperationResponse>;
     try {
       this.serializeRequestBody(request);
-      result = this._nextPolicy.sendRequest(request);
+      const operationResponse: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
+      result = this.deserializeResponseBody(operationResponse);
     } catch (error) {
       result = Promise.reject(error);
     }
@@ -69,4 +72,88 @@ export class SerializationPolicy extends BaseRequestPolicy {
       }
     }
   }
+
+  public deserializeResponseBody(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+    const operationSpec: OperationSpec | undefined = response.request.operationSpec;
+    if (operationSpec && operationSpec.responses) {
+      const statusCode: number = response.status;
+
+      const expectedStatusCodes: string[] = Object.keys(operationSpec.responses);
+
+      const hasNoExpectedStatusCodes: boolean = (expectedStatusCodes.length === 0 || (expectedStatusCodes.length === 1 && expectedStatusCodes[0] === "default"));
+
+      const responseSpec: OperationResponse = operationSpec.responses[statusCode];
+
+      const isExpectedStatusCode: boolean = hasNoExpectedStatusCodes ? (200 <= statusCode && statusCode < 300) : !!responseSpec;
+      if (!isExpectedStatusCode) {
+        const defaultResponseSpec: OperationResponse = operationSpec.responses.default;
+        if (defaultResponseSpec) {
+          const initialErrorMessage: string = isStreamOperation(operationSpec.responses)
+            ? `Unexpected status code: ${statusCode}`
+            : response.bodyAsText as string;
+
+          const error = new RestError(initialErrorMessage);
+          error.statusCode = statusCode;
+          error.request = utils.stripRequest(response.request);
+          error.response = utils.stripResponse(response);
+
+          let parsedErrorResponse: { [key: string]: any } = response.parsedBody;
+          try {
+            if (parsedErrorResponse) {
+              if (defaultResponseSpec.isCloudError) {
+                if (parsedErrorResponse.error) {
+                  parsedErrorResponse = parsedErrorResponse.error;
+                }
+                if (parsedErrorResponse.code) {
+                  error.code = parsedErrorResponse.code;
+                }
+                if (parsedErrorResponse.message) {
+                  error.message = parsedErrorResponse.message;
+                }
+              } else {
+                let internalError: any = parsedErrorResponse;
+                if (parsedErrorResponse.error) {
+                  internalError = parsedErrorResponse.error;
+                }
+
+                error.code = internalError.code;
+                if (internalError.message) {
+                  error.message = internalError.message;
+                }
+              }
+
+              const defaultResponseBodyMapper: Mapper | undefined = defaultResponseSpec.bodyMapper;
+              if (defaultResponseBodyMapper) {
+                let valueToDeserialize: any = parsedErrorResponse;
+                if (operationSpec.isXML && defaultResponseBodyMapper.type.name === MapperType.Sequence) {
+                  valueToDeserialize = typeof parsedErrorResponse === "object"
+                    ? parsedErrorResponse[defaultResponseBodyMapper.xmlElementName!]
+                    : [];
+                }
+                error.body = operationSpec.serializer.deserialize(defaultResponseBodyMapper, valueToDeserialize, "error.body");
+              }
+            }
+          } catch (defaultError) {
+            error.message = `Error \"${defaultError.message}\" occurred in deserializing the responseBody - \"${response.bodyAsText}\" for the default response.`;
+          }
+          return Promise.reject(error);
+        }
+      } else {
+
+      }
+    }
+    return Promise.resolve(response);
+  }
+}
+
+function isStreamOperation(responseSpecs: { [statusCode: string]: OperationResponse }): boolean {
+  let result = false;
+  for (const statusCode in responseSpecs) {
+    const operationResponse: OperationResponse = responseSpecs[statusCode];
+    if (operationResponse.bodyMapper && operationResponse.bodyMapper.type.name === MapperType.Stream) {
+      result = true;
+      break;
+    }
+  }
+  return result;
 }
