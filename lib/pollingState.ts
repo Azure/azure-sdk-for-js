@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import Constants from "./util/constants";
+import { LongRunningOperationStates as LroStates } from "./util/constants";
 import * as msRest from "ms-rest-js";
-const LroStates = Constants.LongRunningOperationStates;
 
 /**
  * @class
@@ -45,7 +44,7 @@ export default class PollingState {
   /**
    * @param {string} [status] - The status of polling. "Succeeded, Failed, Cancelled, Updating, Creating, etc."
    */
-  status?: string;
+  status?: LroStates;
   /**
    * @param {msRest.RestError} [error] - Provides information about the error that happened while polling.
    */
@@ -71,21 +70,21 @@ export default class PollingState {
       throw deserializationError;
     }
     const resource = this.resource;
-    let status: string | undefined;
+    let status: LroStates;
     switch (this.response.status) {
       case 202:
-        status = LroStates.InProgress;
+        status = "InProgress";
         break;
 
       case 204:
-        status = LroStates.Succeeded;
+        status = "Succeeded";
         break;
 
       case 201:
         if (resource && resource.properties && resource.properties.provisioningState) {
           status = resource.properties.provisioningState;
         } else {
-          status = LroStates.InProgress;
+          status = "InProgress";
         }
         break;
 
@@ -93,12 +92,12 @@ export default class PollingState {
         if (resource && resource.properties && resource.properties.provisioningState) {
           status = resource.properties.provisioningState;
         } else {
-          status = LroStates.Succeeded;
+          status = "Succeeded";
         }
         break;
 
       default:
-        status = LroStates.Failed;
+        status = "Failed";
         break;
     }
     this.status = status;

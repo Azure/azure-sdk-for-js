@@ -2,9 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as msRest from "ms-rest-js";
-import Constants from "./util/constants";
+import Constants, { LongRunningOperationStates as LroStates } from "./util/constants";
 import PollingState from "./pollingState";
-const LroStates = Constants.LongRunningOperationStates;
 
 /**
  * Options to be provided while creating the client.
@@ -98,7 +97,7 @@ export class AzureServiceClient extends msRest.ServiceClient {
       pollingState.optionsOfInitialRequest = options as msRest.RequestOptionsBase;
 
     const resourceUrl: string = resultOfInitialRequest.request.url;
-    while (![LroStates.Succeeded, LroStates.Failed, LroStates.Canceled].some((e) => { return e === pollingState.status; })) {
+    while (terminalStates.indexOf(pollingState.status!) === -1) {
       await msRest.delay(pollingState.getTimeout());
       if (pollingState.azureAsyncOperationHeaderLink) {
         await updateStateFromAzureAsyncOperationHeader(this, pollingState, true);
@@ -111,19 +110,19 @@ export class AzureServiceClient extends msRest.ServiceClient {
       }
     }
 
-    if (pollingState.status === LroStates.Succeeded) {
+    if (pollingState.status === "Succeeded") {
       if ((pollingState.azureAsyncOperationHeaderLink || !pollingState.resource) &&
         (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH")) {
         await updateStateFromGetResourceOperation(this, resourceUrl, pollingState);
-        return pollingState.getOperationResponse();
-      } else {
-        return pollingState.getOperationResponse();
       }
+      return pollingState.getOperationResponse();
     } else {
       throw pollingState.getRestError();
     }
   }
 }
+
+const terminalStates: LroStates[] = ["Succeeded", "Failed", "Canceled"];
 
 function updateOptionsWithDefaultValues(options?: AzureServiceClientOptions): AzureServiceClientOptions {
   if (!options) {
@@ -188,11 +187,11 @@ function updateStateFromLocationHeader(client: AzureServiceClient, method: strin
     pollingState.request = result.request;
     const statusCode = result.status;
     if (statusCode === 202) {
-      pollingState.status = LroStates.InProgress;
+      pollingState.status = "InProgress";
     } else if (statusCode === 200 ||
       (statusCode === 201 && (method === "PUT" || method === "PATCH")) ||
       (statusCode === 204 && (method === "DELETE" || method === "POST"))) {
-      pollingState.status = LroStates.Succeeded;
+      pollingState.status = "Succeeded";
       pollingState.resource = parsedResponse;
       // we might not throw an error, but initialize here just in case.
       pollingState.error = new msRest.RestError(`Long running operation failed with status "${pollingState.status}".`);
@@ -216,7 +215,7 @@ function updateStateFromGetResourceOperation(client: AzureServiceClient, resourc
     }
 
     const parsedResponse = result.parsedBody as { [key: string]: any };
-    pollingState.status = LroStates.Succeeded;
+    pollingState.status = "Succeeded";
     if (parsedResponse && parsedResponse.properties && parsedResponse.properties.provisioningState) {
       pollingState.status = parsedResponse.properties.provisioningState;
     }
