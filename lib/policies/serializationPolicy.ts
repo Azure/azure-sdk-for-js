@@ -100,7 +100,8 @@ export class SerializationPolicy extends BaseRequestPolicy {
           let parsedErrorResponse: { [key: string]: any } = response.parsedBody;
           try {
             if (parsedErrorResponse) {
-              if (defaultResponseSpec.isCloudError) {
+              const defaultResponseBodyMapper: Mapper | undefined = defaultResponseSpec.bodyMapper;
+              if (defaultResponseBodyMapper && defaultResponseBodyMapper.serializedName === "CloudError") {
                 if (parsedErrorResponse.error) {
                   parsedErrorResponse = parsedErrorResponse.error;
                 }
@@ -122,7 +123,6 @@ export class SerializationPolicy extends BaseRequestPolicy {
                 }
               }
 
-              const defaultResponseBodyMapper: Mapper | undefined = defaultResponseSpec.bodyMapper;
               if (defaultResponseBodyMapper) {
                 let valueToDeserialize: any = parsedErrorResponse;
                 if (operationSpec.isXML && defaultResponseBodyMapper.type.name === MapperType.Sequence) {

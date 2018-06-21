@@ -16,9 +16,4 @@ export interface OperationResponse {
    * The mapper that will be used to deserialize the response body.
    */
   bodyMapper?: Mapper;
-
-  /**
-   * Whether or not the response body will be a cloud error.
-   */
-  isCloudError?: boolean;
 }
