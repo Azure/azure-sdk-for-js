@@ -8,7 +8,7 @@
  * @const
  * @type {string}
  */
-export type LongRunningOperationStates = "InProgress" | "Succeeded" | "Failed" | "Canceled"
+export type LongRunningOperationStates = "InProgress" | "Succeeded" | "Failed" | "Canceled";
 
 const Constants = {
 

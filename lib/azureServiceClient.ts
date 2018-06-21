@@ -93,7 +93,7 @@ export class AzureServiceClient extends msRest.ServiceClient {
       throw new Error(`Unexpected polling status code from long running operation ` +
         `"${resultOfInitialRequest.status}" for method "${initialRequestMethod}".`);
     }
-    let pollingState = new PollingState(resultOfInitialRequest, this.longRunningOperationRetryTimeout);
+    const pollingState = new PollingState(resultOfInitialRequest, this.longRunningOperationRetryTimeout);
       pollingState.optionsOfInitialRequest = options as msRest.RequestOptionsBase;
 
     const resourceUrl: string = resultOfInitialRequest.request.url;
