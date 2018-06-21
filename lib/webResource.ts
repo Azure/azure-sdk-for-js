@@ -81,10 +81,10 @@ export class WebResource {
    */
   validateRequestProperties(): void {
     if (!this.method) {
-      throw new Error("method is a required property for making a request.");
+      throw new Error("WebResource.method is required.");
     }
     if (!this.url) {
-      throw new Error("url is a required property for making a request.");
+      throw new Error("WebResource.url is required.");
     }
   }
 
@@ -94,21 +94,21 @@ export class WebResource {
    * @returns {object} WebResource Returns the prepared WebResource (HTTP Request) object that needs to be given to the request pipeline.
    */
   prepare(options: RequestPrepareOptions) {
-    if (options === null || options === undefined || typeof options !== "object") {
-      throw new Error("options cannot be null or undefined and must be of type object");
+    if (!options) {
+      throw new Error("options object is required");
     }
 
-    if (options.method === null || options.method === undefined || typeof options.method.valueOf() !== "string") {
-      throw new Error("options.method cannot be null or undefined and it must be of type string.");
+    if (options.method == undefined || typeof options.method.valueOf() !== "string") {
+      throw new Error("options.method must be a string.");
     }
 
     if (options.url && options.pathTemplate) {
-      throw new Error("options.url and options.pathTemplate are mutually exclusive. Please provide either of them.");
+      throw new Error("options.url and options.pathTemplate are mutually exclusive. Please provide exactly one of them.");
     }
 
 
-    if ((options.pathTemplate === null || options.pathTemplate === undefined || typeof options.pathTemplate.valueOf() !== "string") && (options.url === null || options.url === undefined || typeof options.url.valueOf() !== "string")) {
-      throw new Error("Please provide either options.pathTemplate or options.url. Currently none of them were provided.");
+    if ((options.pathTemplate == undefined || typeof options.pathTemplate.valueOf() !== "string") && (options.url == undefined || typeof options.url.valueOf() !== "string")) {
+      throw new Error("Please provide exactly one of options.pathTemplate or options.url.");
     }
 
     // set the url if it is provided.
@@ -130,26 +130,26 @@ export class WebResource {
 
     // construct the url if path template is provided
     if (options.pathTemplate) {
-      if (typeof options.pathTemplate !== "string") {
+      const { pathTemplate, pathParameters } = options;
+      if (typeof pathTemplate !== "string") {
         throw new Error("options.pathTemplate must be of type \"string\".");
       }
       if (!options.baseUrl) {
         options.baseUrl = "https://management.azure.com";
       }
       const baseUrl = options.baseUrl;
-      let url = baseUrl + (baseUrl.endsWith("/") ? "" : "/") + (options.pathTemplate.startsWith("/") ? options.pathTemplate.slice(1) : options.pathTemplate);
+      let url = baseUrl + (baseUrl.endsWith("/") ? "" : "/") + (pathTemplate.startsWith("/") ? pathTemplate.slice(1) : pathTemplate);
       const segments = url.match(/({\w*\s*\w*})/ig);
       if (segments && segments.length) {
-        if (options.pathParameters === null || options.pathParameters === undefined || typeof options.pathParameters !== "object") {
-          throw new Error(`pathTemplate: ${options.pathTemplate} has been provided. Hence, options.pathParameters ` +
-            `cannot be null or undefined and must be of type "object".`);
+        if (!pathParameters) {
+          throw new Error(`pathTemplate: ${pathTemplate} has been provided. Hence, options.pathParameters must also be provided.`);
         }
         segments.forEach(function (item) {
           const pathParamName = item.slice(1, -1);
-          const pathParam = (options.pathParameters as { [key: string]: any })[pathParamName];
+          const pathParam = (pathParameters as { [key: string]: any })[pathParamName];
           if (pathParam === null || pathParam === undefined || !(typeof pathParam === "string" || typeof pathParam === "object")) {
-            throw new Error(`pathTemplate: ${options.pathTemplate} contains the path parameter ${pathParamName}` +
-              ` however, it is not present in ${options.pathParameters} - ${JSON.stringify(options.pathParameters, undefined, 2)}.` +
+            throw new Error(`pathTemplate: ${pathTemplate} contains the path parameter ${pathParamName}` +
+              ` however, it is not present in ${pathParameters} - ${JSON.stringify(pathParameters, undefined, 2)}.` +
               `The value of the path parameter can either be a "string" of the form { ${pathParamName}: "some sample value" } or ` +
               `it can be an "object" of the form { "${pathParamName}": { value: "some sample value", skipUrlEncoding: true } }.`);
           }
@@ -175,7 +175,8 @@ export class WebResource {
 
     // append query parameters to the url if they are provided. They can be provided with pathTemplate or url option.
     if (options.queryParameters) {
-      if (typeof options.queryParameters !== "object") {
+      const queryParameters = options.queryParameters;
+      if (typeof queryParameters !== "object") {
         throw new Error(`options.queryParameters must be of type object. It should be a JSON object ` +
           `of "query-parameter-name" as the key and the "query-parameter-value" as the value. ` +
           `The "query-parameter-value" may be fo type "string" or an "object" of the form { value: "query-parameter-value", skipUrlEncoding: true }.`);
@@ -186,7 +187,6 @@ export class WebResource {
       }
       // construct queryString
       const queryParams = [];
-      const queryParameters = options.queryParameters;
       // We need to populate this.query as a dictionary if the request is being used for Sway's validateRequest().
       this.query = {};
       for (const queryParamName in queryParameters) {
@@ -217,10 +217,8 @@ export class WebResource {
     // add headers to the request if they are provided
     if (options.headers) {
       const headers = options.headers;
-      for (const headerName in headers) {
-        if (headers.hasOwnProperty(headerName)) {
-          this.headers.set(headerName, headers[headerName]);
-        }
+      for (const headerName of Object.keys(options.headers)) {
+        this.headers.set(headerName, headers[headerName]);
       }
     }
     // ensure accept-language is set correctly
