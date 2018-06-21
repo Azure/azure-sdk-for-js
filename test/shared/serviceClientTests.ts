@@ -1,8 +1,8 @@
 import { ServiceClient, WebResource, Serializer, HttpOperationResponse, DictionaryMapper } from "../../lib/msRest";
 import * as assert from "assert";
 
-describe("ServiceClient", function() {
-  it("should serialize headerCollectionPrefix", async function() {
+describe("ServiceClient", function () {
+  it("should serialize headerCollectionPrefix", async function () {
     const expected = {
       "foo-bar-alpha": "hello",
       "foo-bar-beta": "world",
@@ -21,45 +21,49 @@ describe("ServiceClient", function() {
       requestPolicyCreators: []
     });
 
-    await client.sendOperationRequest(new WebResource(), {
-      arguments: {
-        metadata: {
-          "alpha": "hello",
-          "beta": "world"
-        },
-        unrelated: 42
-      }
-    }, {
-      httpMethod: "GET",
-      baseUrl: "httpbin.org",
-      serializer: new Serializer(),
-      headerParameters: [{
-        parameterPath: "metadata",
-        mapper: {
-          serializedName: "metadata",
-          type: {
-            name: "Dictionary",
-            value: {
-              type: {
-                name: "String"
-              }
-            }
+    await client.sendOperationRequest(
+      new WebResource(), {
+        arguments: {
+          metadata: {
+            "alpha": "hello",
+            "beta": "world"
           },
-          headerCollectionPrefix: "foo-bar-"
-        } as DictionaryMapper
-      }, {
-        parameterPath: "unrelated",
-        mapper: {
-          serializedName: "unrelated",
-          type: {
-            name: "Number"
-          }
+          unrelated: 42
         }
-      }]
-    });
-
+      },
+      {
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        serializer: new Serializer(),
+        headerParameters: [{
+          parameterPath: "metadata",
+          mapper: {
+            serializedName: "metadata",
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "String"
+                }
+              }
+            },
+            headerCollectionPrefix: "foo-bar-"
+          } as DictionaryMapper
+        }, {
+          parameterPath: "unrelated",
+          mapper: {
+            serializedName: "unrelated",
+            type: {
+              name: "Number"
+            }
+          }
+        }],
+        responses: {
+          200: {}
+        }
+      });
 
     assert(request!);
     assert.deepStrictEqual(request!.headers.toJson(), expected);
   });
-})
+});

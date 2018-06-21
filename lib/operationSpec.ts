@@ -4,6 +4,7 @@
 import { OperationParameter, OperationQueryParameter, OperationURLParameter } from "./operationParameter";
 import { Serializer } from "./serializer";
 import { HttpMethods } from "./webResource";
+import { OperationResponse } from "./operationResponse";
 
 /**
  * A specification that defines an operation.
@@ -68,4 +69,10 @@ export interface OperationSpec {
    * operation's HTTP request.
    */
   formDataParameters?: OperationParameter[];
+
+  /**
+   * The different types of responses that this operation can return based on what status code is
+   * returned.
+   */
+  responses: { [responseCode: string]: OperationResponse };
 }
