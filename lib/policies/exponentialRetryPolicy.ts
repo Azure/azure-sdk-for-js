@@ -24,6 +24,11 @@ export function exponentialRetryPolicy(retryCount?: number, retryInterval?: numb
   };
 }
 
+const DEFAULT_CLIENT_RETRY_INTERVAL = 1000 * 30;
+const DEFAULT_CLIENT_RETRY_COUNT = 3;
+const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
+const DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
+
 /**
  * @class
  * Instantiates a new "ExponentialRetryPolicyFilter" instance.
@@ -39,21 +44,20 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
   retryInterval: number;
   minRetryInterval: number;
   maxRetryInterval: number;
-  DEFAULT_CLIENT_RETRY_INTERVAL = 1000 * 30;
-  DEFAULT_CLIENT_RETRY_COUNT = 3;
-  DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
-  DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
 
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number) {
     super(nextPolicy, options);
-    this.retryCount = typeof retryCount === "number" ? retryCount : this.DEFAULT_CLIENT_RETRY_COUNT;
-    this.retryInterval = typeof retryInterval === "number" ? retryInterval : this.DEFAULT_CLIENT_RETRY_INTERVAL;
-    this.minRetryInterval = typeof minRetryInterval === "number" ? minRetryInterval : this.DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
-    this.maxRetryInterval = typeof maxRetryInterval === "number" ? maxRetryInterval : this.DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+    function isNumber(n: any): n is number { return typeof n === "number"; }
+    this.retryCount = isNumber(retryCount) ? retryCount : DEFAULT_CLIENT_RETRY_COUNT;
+    this.retryInterval = isNumber(retryInterval) ? retryInterval : DEFAULT_CLIENT_RETRY_INTERVAL;
+    this.minRetryInterval = isNumber(minRetryInterval) ? minRetryInterval : DEFAULT_CLIENT_MIN_RETRY_INTERVAL;
+    this.maxRetryInterval = isNumber(maxRetryInterval) ? maxRetryInterval : DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
   }
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(request.clone()).then(response => retry(this, request, response));
+    return this._nextPolicy.sendRequest(request.clone())
+      .then(response => retry(this, request, response))
+      .catch(error => retry(this, request, error.response, undefined, error));
   }
 }
 
@@ -121,9 +125,9 @@ function retry(policy: ExponentialRetryPolicy, request: WebResource, response: H
   if (!isAborted && shouldRetry(policy, response.status, retryData)) {
     return utils.delay(retryData.retryInterval)
       .then(() => policy._nextPolicy.sendRequest(request.clone()))
-      .then(res => retry(policy, request, res, retryData, requestError))
+      .then(res => retry(policy, request, res, retryData, undefined))
       .catch(err => retry(policy, request, response, retryData, err));
-  } else if (isAborted || !utils.objectIsNull(requestError)) {
+  } else if (isAborted || requestError != null) {
     // If the operation failed in the end, return all errors instead of just the last one
     requestError = retryData.error;
     return Promise.reject(requestError);
