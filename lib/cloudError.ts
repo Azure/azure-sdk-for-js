@@ -25,7 +25,6 @@ export interface CloudError extends Error {
 }
 
 export const CloudErrorMapper = {
-  required: false,
   serializedName: "CloudError",
   type: {
     name: "Composite",
@@ -46,19 +45,16 @@ export const CloudErrorMapper = {
         }
       },
       target: {
-        required: false,
         serializedName: "target",
         type: {
           name: "String"
         }
       },
       details: {
-        required: false,
         serializedName: "details",
         type: {
           name: "Sequence",
           element: {
-            required: false,
             serializedName: "CloudErrorElementType",
             type: {
               name: "Composite",

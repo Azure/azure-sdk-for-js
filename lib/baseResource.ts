@@ -8,7 +8,6 @@
 export interface BaseResource { }
 
 export const BaseResourceMapper = {
-  required: false,
   serializedName: "BaseResource",
   type: {
     name: "Composite",

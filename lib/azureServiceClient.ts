@@ -2,9 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as msRest from "ms-rest-js";
-import Constants from "./util/constants";
+import Constants, { LongRunningOperationStates as LroStates } from "./util/constants";
 import PollingState from "./pollingState";
-const LroStates = Constants.LongRunningOperationStates;
 
 /**
  * Options to be provided while creating the client.
@@ -46,17 +45,19 @@ export class AzureServiceClient extends msRest.ServiceClient {
     super(credentials, updateOptionsWithDefaultValues(options));
     this.acceptLanguage = Constants.DEFAULT_LANGUAGE;
     this.longRunningOperationRetryTimeout = 30;
-    if (!options) options = {};
+    if (!options) {
+      options = {};
+    }
 
-    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage != undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
 
-    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (options.longRunningOperationRetryTimeout != undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
 
-    if (options.rpRegistrationRetryTimeout !== null && options.rpRegistrationRetryTimeout !== undefined) {
+    if (options.rpRegistrationRetryTimeout != undefined) {
       this.rpRegistrationRetryTimeout = options.rpRegistrationRetryTimeout;
     }
 
@@ -75,37 +76,8 @@ export class AzureServiceClient extends msRest.ServiceClient {
    * @param {msRest.RequestOptionsBase} [options] Additional options to be sent while making the request
    * @returns {Promise<msRest.HttpOperationResponse>} The HttpOperationResponse containing the final polling request, response and the responseBody.
    */
-  async sendLongRunningRequest(request: msRest.RequestPrepareOptions | msRest.WebResource, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    const self = this;
-    let initialResponse: msRest.HttpOperationResponse;
-    try {
-      initialResponse = await self.sendRequest(request);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    let finalResponse: msRest.HttpOperationResponse;
-    try {
-      finalResponse = await self.getLongRunningOperationResult(initialResponse, options);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-    return Promise.resolve(finalResponse);
-  }
-
-  /**
-   * Verified whether an unexpected polling status code for long running operation was received for the response of the initial request.
-   * @param {msRest.HttpOperationResponse} initialResponse - Response to the initial request that was sent as a part of the asynchronous operation.
-   */
-  private checkResponseStatusCodeFailed(initialResponse: msRest.HttpOperationResponse): boolean {
-    const statusCode = initialResponse.status;
-    const method = initialResponse.request.method;
-    if (statusCode === 200 || statusCode === 202 ||
-      (statusCode === 201 && method === "PUT") ||
-      (statusCode === 204 && (method === "DELETE" || method === "POST"))) {
-      return false;
-    } else {
-      return true;
-    }
+  sendLongRunningRequest(request: msRest.RequestPrepareOptions | msRest.WebResource, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
+    return this.sendRequest(request).then(response => this.getLongRunningOperationResult(response, options));
   }
 
   /**
@@ -115,67 +87,81 @@ export class AzureServiceClient extends msRest.ServiceClient {
    * @returns {Promise<msRest.HttpOperationResponse>} result - The final response after polling is complete.
    */
   async getLongRunningOperationResult(resultOfInitialRequest: msRest.HttpOperationResponse, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    const self = this;
     const initialRequestMethod: string = resultOfInitialRequest.request.method as msRest.HttpMethods;
 
-    if (self.checkResponseStatusCodeFailed(resultOfInitialRequest)) {
-      return Promise.reject(`Unexpected polling status code from long running operation ` +
+    if (checkResponseStatusCodeFailed(resultOfInitialRequest)) {
+      throw new Error(`Unexpected polling status code from long running operation ` +
         `"${resultOfInitialRequest.status}" for method "${initialRequestMethod}".`);
     }
-    let pollingState: PollingState;
-    try {
-      pollingState = new PollingState(resultOfInitialRequest, self.longRunningOperationRetryTimeout);
+    const pollingState = new PollingState(resultOfInitialRequest, this.longRunningOperationRetryTimeout);
       pollingState.optionsOfInitialRequest = options as msRest.RequestOptionsBase;
-    } catch (error) {
-      return Promise.reject(error);
-    }
+
     const resourceUrl: string = resultOfInitialRequest.request.url;
-    while (![LroStates.Succeeded, LroStates.Failed, LroStates.Canceled].some((e) => { return e === pollingState.status; })) {
+    while (terminalStates.indexOf(pollingState.status!) === -1) {
       await msRest.delay(pollingState.getTimeout());
       if (pollingState.azureAsyncOperationHeaderLink) {
-        await self.updateStateFromAzureAsyncOperationHeader(pollingState, true);
+        await updateStateFromAzureAsyncOperationHeader(this, pollingState, true);
       } else if (pollingState.locationHeaderLink) {
-        await self.updateStateFromLocationHeader(initialRequestMethod, pollingState);
+        await updateStateFromLocationHeader(this, initialRequestMethod, pollingState);
       } else if (initialRequestMethod === "PUT") {
-        await self.updateStateFromGetResourceOperation(resourceUrl, pollingState);
+        await updateStateFromGetResourceOperation(this, resourceUrl, pollingState);
       } else {
-        return Promise.reject(new Error("Location header is missing from long running operation."));
+        throw new Error("Location header is missing from long running operation.");
       }
     }
 
-    if (pollingState.status === LroStates.Succeeded) {
+    if (pollingState.status === "Succeeded") {
       if ((pollingState.azureAsyncOperationHeaderLink || !pollingState.resource) &&
         (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH")) {
-        await self.updateStateFromGetResourceOperation(resourceUrl, pollingState);
-        return Promise.resolve(pollingState.getOperationResponse());
-      } else {
-        return Promise.resolve(pollingState.getOperationResponse());
+        await updateStateFromGetResourceOperation(this, resourceUrl, pollingState);
       }
+      return pollingState.getOperationResponse();
     } else {
-      return Promise.reject(pollingState.getRestError());
+      throw pollingState.getRestError();
     }
   }
+}
 
-  /**
-   * Retrieve operation status by polling from "azure-asyncoperation" header.
-   * @param {PollingState} pollingState - The object to persist current operation state.
-   * @param {boolean} inPostOrDelete - Invoked by Post Or Delete operation.
-   */
-  private async updateStateFromAzureAsyncOperationHeader(pollingState: PollingState, inPostOrDelete = false): Promise<void> {
-    let result: msRest.HttpOperationResponse;
+const terminalStates: LroStates[] = ["Succeeded", "Failed", "Canceled"];
 
-    try {
-      result = await this.getStatus(pollingState.azureAsyncOperationHeaderLink as string, pollingState.optionsOfInitialRequest);
-    } catch (err) {
-      return Promise.reject(err);
-    }
+function updateOptionsWithDefaultValues(options?: AzureServiceClientOptions): AzureServiceClientOptions {
+  if (!options) {
+    options = {};
+  }
+  if (options.generateClientRequestIdHeader == undefined) {
+    options.generateClientRequestIdHeader = true;
+  }
+  return options;
+}
 
+/**
+ * Verified whether an unexpected polling status code for long running operation was received for the response of the initial request.
+ * @param {msRest.HttpOperationResponse} initialResponse - Response to the initial request that was sent as a part of the asynchronous operation.
+ */
+function checkResponseStatusCodeFailed(initialResponse: msRest.HttpOperationResponse): boolean {
+  const statusCode = initialResponse.status;
+  const method = initialResponse.request.method;
+  if (statusCode === 200 || statusCode === 202 ||
+    (statusCode === 201 && method === "PUT") ||
+    (statusCode === 204 && (method === "DELETE" || method === "POST"))) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+/**
+ * Retrieve operation status by polling from "azure-asyncoperation" header.
+ * @param {PollingState} pollingState - The object to persist current operation state.
+ * @param {boolean} inPostOrDelete - Invoked by Post Or Delete operation.
+ */
+function updateStateFromAzureAsyncOperationHeader(client: AzureServiceClient, pollingState: PollingState, inPostOrDelete = false): Promise<void> {
+  return getStatus(client, pollingState.azureAsyncOperationHeaderLink as string, pollingState.optionsOfInitialRequest).then(result => {
     const parsedResponse = result.parsedBody as { [key: string]: any };
-
     if (!parsedResponse) {
-      return Promise.reject(new Error("The response from long running operation does not contain a body."));
-    } else if (parsedResponse && !parsedResponse.status) {
-      return Promise.reject(new Error(`The response "${result.bodyAsText}" from long running operation does not contain the status property.`));
+      throw new Error("The response from long running operation does not contain a body.");
+    } else if (!parsedResponse.status) {
+      throw new Error(`The response "${result.bodyAsText}" from long running operation does not contain the status property.`);
     }
     pollingState.status = parsedResponse.status;
     pollingState.error = parsedResponse.error;
@@ -185,60 +171,51 @@ export class AzureServiceClient extends msRest.ServiceClient {
     if (inPostOrDelete) {
       pollingState.resource = result.parsedBody;
     }
-    return Promise.resolve();
-  }
+  });
+}
 
-  /**
-   * Retrieve PUT operation status by polling from "location" header.
-   * @param {string} method - The HTTP method.
-   * @param {PollingState} pollingState - The object to persist current operation state.
-   */
-  private async updateStateFromLocationHeader(method: string, pollingState: PollingState): Promise<void> {
-    let result: msRest.HttpOperationResponse;
-    try {
-      result = await this.getStatus(pollingState.locationHeaderLink as string, pollingState.optionsOfInitialRequest);
-    } catch (err) {
-      return Promise.reject(err);
-    }
-
+/**
+ * Retrieve PUT operation status by polling from "location" header.
+ * @param {string} method - The HTTP method.
+ * @param {PollingState} pollingState - The object to persist current operation state.
+ */
+function updateStateFromLocationHeader(client: AzureServiceClient, method: string, pollingState: PollingState): Promise<void> {
+  return getStatus(client, pollingState.locationHeaderLink as string, pollingState.optionsOfInitialRequest).then(result => {
     const parsedResponse = result.parsedBody as { [key: string]: any };
+
     pollingState.updateResponse(result);
     pollingState.request = result.request;
     const statusCode = result.status;
     if (statusCode === 202) {
-      pollingState.status = LroStates.InProgress;
+      pollingState.status = "InProgress";
     } else if (statusCode === 200 ||
       (statusCode === 201 && (method === "PUT" || method === "PATCH")) ||
       (statusCode === 204 && (method === "DELETE" || method === "POST"))) {
-      pollingState.status = LroStates.Succeeded;
+      pollingState.status = "Succeeded";
       pollingState.resource = parsedResponse;
       // we might not throw an error, but initialize here just in case.
       pollingState.error = new msRest.RestError(`Long running operation failed with status "${pollingState.status}".`);
       pollingState.error.code = pollingState.status;
     } else {
-      return Promise.reject(new Error(`The response with status code ${statusCode} from polling for ` +
-        `long running operation url "${pollingState.locationHeaderLink}" is not valid.`));
+      throw new Error(`The response with status code ${statusCode} from polling for ` +
+        `long running operation url "${pollingState.locationHeaderLink}" is not valid.`);
     }
-  }
+  });
+}
 
-  /**
-   * Polling for resource status.
-   * @param {string} resourceUrl - The url of resource.
-   * @param {PollingState} pollingState - The object to persist current operation state.
-   */
-  private async updateStateFromGetResourceOperation(resourceUrl: string, pollingState: PollingState): Promise<void> {
-    let result: msRest.HttpOperationResponse;
-    try {
-      result = await this.getStatus(resourceUrl, pollingState.optionsOfInitialRequest);
-    } catch (err) {
-      return Promise.reject(err);
-    }
+/**
+ * Polling for resource status.
+ * @param {string} resourceUrl - The url of resource.
+ * @param {PollingState} pollingState - The object to persist current operation state.
+ */
+function updateStateFromGetResourceOperation(client: AzureServiceClient, resourceUrl: string, pollingState: PollingState): Promise<void> {
+  return getStatus(client, resourceUrl, pollingState.optionsOfInitialRequest).then(result => {
     if (!result.parsedBody) {
-      return Promise.reject(new Error("The response from long running operation does not contain a body."));
+      throw new Error("The response from long running operation does not contain a body.");
     }
 
     const parsedResponse = result.parsedBody as { [key: string]: any };
-    pollingState.status = LroStates.Succeeded;
+    pollingState.status = "Succeeded";
     if (parsedResponse && parsedResponse.properties && parsedResponse.properties.provisioningState) {
       pollingState.status = parsedResponse.properties.provisioningState;
     }
@@ -248,38 +225,30 @@ export class AzureServiceClient extends msRest.ServiceClient {
     // we might not throw an error, but initialize here just in case.
     pollingState.error = new msRest.RestError(`Long running operation failed with status "${pollingState.status}".`);
     pollingState.error.code = pollingState.status;
-    return Promise.resolve();
-  }
+  });
+}
 
-  /**
-   * Retrieves operation status by querying the operation URL.
-   * @param {string} operationUrl - URL used to poll operation result.
-   * @param {object} options - Options that can be set on the request object
-   */
-  private async getStatus(operationUrl: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    const self = this;
-    // Construct URL
-    const requestUrl = operationUrl.replace(" ", "%20");
-    // Create HTTP request object
-    const httpRequest: msRest.RequestPrepareOptions = {
-      method: "GET",
-      url: requestUrl,
-      headers: {}
-    };
-    if (options) {
-      const customHeaders: { [key: string]: string } = (options.customHeaders as { [key: string]: string });
-      for (const headerName in customHeaders) {
-        if (customHeaders.hasOwnProperty(headerName)) {
-          (httpRequest.headers as { [key: string]: string })[headerName] = customHeaders[headerName];
-        }
-      }
+/**
+ * Retrieves operation status by querying the operation URL.
+ * @param {string} operationUrl - URL used to poll operation result.
+ * @param {object} options - Options that can be set on the request object
+ */
+function getStatus(client: AzureServiceClient, operationUrl: string, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
+  // Construct URL
+  const requestUrl = operationUrl.replace(" ", "%20");
+  // Create HTTP request object
+  const httpRequest: msRest.RequestPrepareOptions = {
+    method: "GET",
+    url: requestUrl,
+    headers: {}
+  };
+  if (options && options.customHeaders) {
+    const customHeaders = options.customHeaders;
+    for (const headerName of Object.keys(customHeaders)) {
+      httpRequest.headers![headerName] = customHeaders[headerName];
     }
-    let operationResponse: msRest.HttpOperationResponse;
-    try {
-      operationResponse = await self.sendRequest(httpRequest);
-    } catch (err) {
-      return Promise.reject(err);
-    }
+  }
+  return client.sendRequest(httpRequest).then(operationResponse => {
     const statusCode = operationResponse.status;
     const responseBody = operationResponse.parsedBody;
     if (statusCode !== 200 && statusCode !== 201 && statusCode !== 202 && statusCode !== 204) {
@@ -294,19 +263,9 @@ export class AzureServiceClient extends msRest.ServiceClient {
         error.message += ` Error "${badResponse}" occured while deserializing the response body - "${operationResponse.bodyAsText}".`;
         error.body = operationResponse.bodyAsText;
       }
-      return Promise.reject(error);
+      throw error;
     }
 
-    return Promise.resolve(operationResponse);
-  }
-}
-
-function updateOptionsWithDefaultValues(options?: AzureServiceClientOptions): AzureServiceClientOptions {
-  if (!options) {
-    options = {};
-  }
-  if (options.generateClientRequestIdHeader == undefined) {
-    options.generateClientRequestIdHeader = true;
-  }
-  return options;
+    return operationResponse;
+  });
 }

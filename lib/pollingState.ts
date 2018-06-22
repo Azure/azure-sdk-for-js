@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import Constants from "./util/constants";
+import { LongRunningOperationStates as LroStates } from "./util/constants";
 import * as msRest from "ms-rest-js";
-const LroStates = Constants.LongRunningOperationStates;
 
 /**
  * @class
@@ -45,7 +44,7 @@ export default class PollingState {
   /**
    * @param {string} [status] - The status of polling. "Succeeded, Failed, Cancelled, Updating, Creating, etc."
    */
-  status?: string;
+  status?: LroStates;
   /**
    * @param {msRest.RestError} [error] - Provides information about the error that happened while polling.
    */
@@ -70,35 +69,38 @@ export default class PollingState {
       deserializationError.response = resultOfInitialRequest;
       throw deserializationError;
     }
+    const resource = this.resource;
+    let status: LroStates;
     switch (this.response.status) {
       case 202:
-        this.status = LroStates.InProgress;
+        status = "InProgress";
         break;
 
       case 204:
-        this.status = LroStates.Succeeded;
+        status = "Succeeded";
         break;
 
       case 201:
-        if (this.resource && this.resource.properties && this.resource.properties.provisioningState) {
-          this.status = this.resource.properties.provisioningState;
+        if (resource && resource.properties && resource.properties.provisioningState) {
+          status = resource.properties.provisioningState;
         } else {
-          this.status = LroStates.InProgress;
+          status = "InProgress";
         }
         break;
 
       case 200:
-        if (this.resource && this.resource.properties && this.resource.properties.provisioningState) {
-          this.status = this.resource.properties.provisioningState;
+        if (resource && resource.properties && resource.properties.provisioningState) {
+          status = resource.properties.provisioningState;
         } else {
-          this.status = LroStates.Succeeded;
+          status = "Succeeded";
         }
         break;
 
       default:
-        this.status = LroStates.Failed;
+        status = "Failed";
         break;
     }
+    this.status = status;
   }
 
   /**
@@ -108,8 +110,8 @@ export default class PollingState {
   updateResponse(response: msRest.HttpOperationResponse) {
     this.response = response;
     if (response && response.headers) {
-      const asyncOperationHeader: string | null | undefined = response.headers.get("azure-asyncoperation");
-      const locationHeader: string | null | undefined = response.headers.get("location");
+      const asyncOperationHeader: string | undefined = response.headers.get("azure-asyncoperation");
+      const locationHeader: string | undefined = response.headers.get("location");
       if (asyncOperationHeader) {
         this.azureAsyncOperationHeaderLink = asyncOperationHeader;
       }
@@ -125,11 +127,12 @@ export default class PollingState {
    * @returns {number} timeout
    */
   getTimeout() {
-    if (this.retryTimeout || this.retryTimeout === 0) {
-      return this.retryTimeout * 1000;
+    const retryTimeout = this.retryTimeout;
+    if (retryTimeout || retryTimeout === 0) {
+      return retryTimeout * 1000;
     }
     if (this.response) {
-      const retryAfter: string | null | undefined = this.response.headers.get("retry-after");
+      const retryAfter: string | undefined = this.response.headers.get("retry-after");
       if (retryAfter) {
         return parseInt(retryAfter) * 1000;
       }
@@ -143,12 +146,13 @@ export default class PollingState {
    */
   getOperationResponse(): msRest.HttpOperationResponse {
     const result = { ...this.response, headers: this.response.headers.clone() };
-    if (this.resource && typeof this.resource.valueOf() === "string") {
-      result.bodyAsText = this.resource;
-      result.parsedBody = JSON.parse(this.resource);
+    const resource = this.resource;
+    if (resource && typeof resource.valueOf() === "string") {
+      result.bodyAsText = resource;
+      result.parsedBody = JSON.parse(resource);
     } else {
-      result.parsedBody = this.resource;
-      result.bodyAsText = JSON.stringify(this.resource);
+      result.parsedBody = resource;
+      result.bodyAsText = JSON.stringify(resource);
     }
     return result;
   }
