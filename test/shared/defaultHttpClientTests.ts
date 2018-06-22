@@ -173,7 +173,10 @@ describe("defaultHttpClient", () => {
       });
 
     const client = new DefaultHttpClient();
-    await client.sendRequest(request);
+    const response = await client.sendRequest(request);
+    if (response.blobBody) {
+      await response.blobBody;
+    }
     assert(uploadNotified);
     assert(downloadNotified);
   });

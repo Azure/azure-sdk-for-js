@@ -3,7 +3,7 @@
 
 import { HttpClient } from "./httpClient";
 import { HttpHeaders } from "./httpHeaders";
-import { WebResource } from './webResource';
+import { WebResource, TransferProgressEvent } from './webResource';
 import { HttpOperationResponse } from './httpOperationResponse';
 
 /**
@@ -12,10 +12,27 @@ import { HttpOperationResponse } from './httpOperationResponse';
 export class XhrHttpClient implements HttpClient {
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const xhr = new XMLHttpRequest();
-    xhr.responseType = request.rawResponse ? "blob" : "text";
+
+    const { abortSignal, onUploadProgress, onDownloadProgress } = request;
+    if (abortSignal) {
+      const listener = () => {
+        xhr.abort();
+      };
+      abortSignal.addEventListener("abort", listener);
+      // TODO: is this sufficient to prevent leaks?
+      xhr.addEventListener("abort", () => abortSignal.removeEventListener("abort", listener));
+    }
+
+    addProgressListener(xhr.upload, onUploadProgress);
+    addProgressListener(xhr, onDownloadProgress);
+
     for (const header of request.headers.headersArray()) {
       xhr.setRequestHeader(header.name, header.value);
     }
+
+    xhr.open(request.method, request.url);
+    xhr.responseType = request.rawResponse ? "blob" : "text";
+    xhr.send(request.body);
 
     if (request.rawResponse) {
       return new Promise((resolve, reject) => {
@@ -25,7 +42,7 @@ export class XhrHttpClient implements HttpClient {
             xhr.addEventListener("load", () => {
               resolve(xhr.response);
             });
-            xhr.addEventListener("error", reject);
+            rejectOnTerminalEvent(xhr, reject);
           });
 
           // Resolve as soon as headers are loaded
@@ -38,19 +55,28 @@ export class XhrHttpClient implements HttpClient {
             });
           }
         });
-        xhr.addEventListener("error", reject);
+        rejectOnTerminalEvent(xhr, reject);
+      });
+    } else {
+      return new Promise(function(resolve, reject) {
+        xhr.addEventListener("load", () => resolve({
+          request,
+          status: xhr.status,
+          headers: parseHeaders(xhr),
+          bodyAsText: xhr.responseText
+        }))
+        rejectOnTerminalEvent(xhr, reject);
       });
     }
+  }
+}
 
-    return new Promise(function(resolve, reject) {
-      xhr.addEventListener("load", () => resolve({
-        request,
-        status: xhr.status,
-        headers: parseHeaders(xhr),
-        bodyAsText: xhr.responseText
-      }))
-      xhr.addEventListener("error", reject);
-    });
+function addProgressListener(xhr: XMLHttpRequestEventTarget, listener?: (progress: TransferProgressEvent) => void) {
+  if (listener) {
+    xhr.addEventListener("progress", rawEvent => listener({
+      loadedBytes: rawEvent.loaded,
+      totalBytes: rawEvent.lengthComputable ? rawEvent.total : undefined
+    }));
   }
 }
 
@@ -64,4 +90,9 @@ function parseHeaders(xhr: XMLHttpRequest) {
     responseHeaders.set(headerName, headerValue);
   }
   return responseHeaders;
+}
+
+function rejectOnTerminalEvent(xhr: XMLHttpRequest, reject: (err: any) => void) {
+  xhr.addEventListener("error", reject);
+  xhr.addEventListener("abort", reject);
 }

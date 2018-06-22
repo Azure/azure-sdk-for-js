@@ -18,8 +18,6 @@ if (isNode) {
   axiosClient.interceptors.request.use(config => ({ ...config, method: config.method && config.method.toUpperCase() }));
 }
 
-type AxiosProgressFunction = (rawEvent: ProgressEvent) => void;
-
 /**
  * A HttpClient implementation that uses axios to send HTTP requests.
  */
@@ -104,14 +102,6 @@ export class AxiosHttpClient implements HttpClient {
       bodyType === "function" ? httpRequest.body() :
       httpRequest.body;
 
-    const userUploadProgress = httpRequest.onUploadProgress;
-    const onUploadProgress: AxiosProgressFunction | undefined = userUploadProgress && (rawEvent =>
-      userUploadProgress({ loadedBytes: rawEvent.loaded, totalBytes: rawEvent.lengthComputable ? rawEvent.total : undefined }));
-
-    const userDownloadProgress = httpRequest.onDownloadProgress;
-    const onDownloadProgress: AxiosProgressFunction | undefined = userDownloadProgress && (rawEvent =>
-      userDownloadProgress({ loadedBytes: rawEvent.loaded, totalBytes: rawEvent.lengthComputable ? rawEvent.total : undefined }));
-
     let res: AxiosResponse;
     try {
       const config: AxiosRequestConfig = {
@@ -124,9 +114,7 @@ export class AxiosHttpClient implements HttpClient {
         // Workaround for https://github.com/axios/axios/issues/1362
         maxContentLength: 1024 * 1024 * 1024 * 10,
         responseType: httpRequest.rawResponse ? (isNode ? "stream" : "blob") : "text",
-        cancelToken,
-        onUploadProgress,
-        onDownloadProgress
+        cancelToken
       };
       res = await axiosClient(config);
     } catch (err) {
