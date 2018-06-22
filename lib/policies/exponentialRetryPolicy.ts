@@ -127,7 +127,7 @@ function retry(policy: ExponentialRetryPolicy, request: WebResource, response: H
       .then(() => policy._nextPolicy.sendRequest(request.clone()))
       .then(res => retry(policy, request, res, retryData, undefined))
       .catch(err => retry(policy, request, response, retryData, err));
-  } else if (isAborted || requestError != null) {
+  } else if (isAborted || requestError != undefined) {
     // If the operation failed in the end, return all errors instead of just the last one
     requestError = retryData.error;
     return Promise.reject(requestError);
