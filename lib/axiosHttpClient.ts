@@ -4,7 +4,6 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import * as FormData from "form-data";
 import * as tough from "isomorphic-tough-cookie";
-import * as xml2js from "isomorphic-xml2js";
 import { HttpClient } from "./httpClient";
 import { HttpHeaders } from "./httpHeaders";
 import { HttpOperationResponse } from "./httpOperationResponse";
@@ -149,8 +148,10 @@ export class AxiosHttpClient implements HttpClient {
       request: httpRequest,
       status: res.status,
       headers,
+
       readableStreamBody: httpRequest.rawResponse && isNode ? res.data as any : undefined,
-      blobBody: !httpRequest.rawResponse || isNode ? undefined : () => res.data
+      blobBody: !httpRequest.rawResponse || isNode ? undefined : () => res.data,
+      bodyAsText: httpRequest.rawResponse ? undefined : res.data
     };
 
     if (this.cookieJar) {
@@ -168,50 +169,6 @@ export class AxiosHttpClient implements HttpClient {
       }
     }
 
-    if (!httpRequest.rawResponse) {
-      try {
-        operationResponse.bodyAsText = res.data;
-      } catch (err) {
-        const msg = `Error "${err}" occured while converting the raw response body into string.`;
-        const errCode = err.code || "RAWTEXT_CONVERSION_ERROR";
-        const e = new RestError(msg, errCode, res.status, httpRequest, operationResponse, res.data);
-        return Promise.reject(e);
-      }
-
-      try {
-        if (operationResponse.bodyAsText) {
-          const contentType = operationResponse.headers.get("Content-Type") || "";
-          const contentComponents = contentType.split(";").map(component => component.toLowerCase());
-          if (contentComponents.some(component => component === "application/xml" || component === "text/xml")) {
-            const xmlParser = new xml2js.Parser(XML2JS_PARSER_OPTS);
-            const parseString = new Promise(function (resolve: (result: any) => void, reject: (err: any) => void) {
-              xmlParser.parseString(operationResponse.bodyAsText!, function (err: any, result: any) {
-                if (err) {
-                  reject(err);
-                } else {
-                  resolve(result);
-                }
-              });
-            });
-
-            operationResponse.parsedBody = await parseString;
-          } else if (contentComponents.some(component => component === "application/json" || component === "text/json") || !contentType) {
-            operationResponse.parsedBody = JSON.parse(operationResponse.bodyAsText);
-          }
-        }
-      } catch (err) {
-        const msg = `Error "${err}" occured while executing JSON.parse on the response body - ${operationResponse.bodyAsText}.`;
-        const errCode = err.code || "JSON_PARSE_ERROR";
-        const e = new RestError(msg, errCode, res.status, httpRequest, operationResponse, operationResponse.bodyAsText);
-        return Promise.reject(e);
-      }
-    }
     return Promise.resolve(operationResponse);
   }
 }
-
-const XML2JS_PARSER_OPTS: xml2js.OptionsV2 = {
-  explicitArray: false,
-  explicitCharkey: false,
-  explicitRoot: false
-};
