@@ -29,7 +29,8 @@
   "types": "./typings/lib/msRest.d.ts",
   "browser": {
     "./dist/lib/msRest.js": "./es/lib/msRest.js",
-    "./es/lib/policies/msRestUserAgentPolicy.js": "./es/lib/policies/msRestUserAgentPolicy.stub.js"
+    "./es/lib/policies/msRestUserAgentPolicy.js": "./es/lib/policies/msRestUserAgentPolicy.stub.js",
+    "./es/lib/util/base64.js": "./es/lib/util/base64.browser.js"
   },
   "license": "MIT",
   "dependencies": {

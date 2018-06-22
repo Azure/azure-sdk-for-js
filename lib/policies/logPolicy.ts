@@ -12,7 +12,6 @@ export function logPolicy(logger: any = console.log): RequestPolicyCreator {
 }
 
 export class LogPolicy extends BaseRequestPolicy {
-
   logger?: any;
 
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, logger: any = console.log) {
@@ -20,16 +19,15 @@ export class LogPolicy extends BaseRequestPolicy {
     this.logger = logger;
   }
 
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    const response: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
-    return this.logResponse(response);
+  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+    return this._nextPolicy.sendRequest(request).then(response => logResponse(this, response));
   }
+}
 
-  public logResponse(response: HttpOperationResponse): Promise<HttpOperationResponse> {
-    this.logger(`>> Request: ${JSON.stringify(response.request, undefined, 2)}`);
-    this.logger(`>> Response status code: ${response.status}`);
-    const responseBody = response.bodyAsText;
-    this.logger(`>> Body: ${responseBody}`);
-    return Promise.resolve(response);
-  }
+function logResponse(policy: LogPolicy, response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  policy.logger(`>> Request: ${JSON.stringify(response.request, undefined, 2)}`);
+  policy.logger(`>> Response status code: ${response.status}`);
+  const responseBody = response.bodyAsText;
+  policy.logger(`>> Body: ${responseBody}`);
+  return Promise.resolve(response);
 }
