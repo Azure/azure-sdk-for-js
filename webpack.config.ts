@@ -11,7 +11,7 @@ const config: webpack.Configuration = {
     library: 'msRest'
   },
   plugins: [
-    new webpack.NormalModuleReplacementPlugin(/(\.)+\/util\/base64/, path.resolve(__dirname, "./lib/util/base64.browser"))
+    new webpack.NormalModuleReplacementPlugin(/(\.).+util\/base64/, path.resolve(__dirname, "./lib/util/base64.browser.ts"))
   ],
   module: {
     rules: [
