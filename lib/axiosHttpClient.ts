@@ -43,22 +43,20 @@ export class AxiosHttpClient implements HttpClient {
           requestForm.append(key, value);
         }
       };
-      for (const formKey in formData) {
-        if (formData.hasOwnProperty(formKey)) {
-          const formValue = formData[formKey];
-          if (formValue instanceof Array) {
-            for (let j = 0; j < formValue.length; j++) {
-              appendFormValue(formKey, formValue[j]);
-            }
-          } else {
-            appendFormValue(formKey, formValue);
+      for (const formKey of Object.keys(formData)) {
+        const formValue = formData[formKey];
+        if (Array.isArray(formValue)) {
+          for (let j = 0; j < formValue.length; j++) {
+            appendFormValue(formKey, formValue[j]);
           }
+        } else {
+          appendFormValue(formKey, formValue);
         }
       }
 
       httpRequest.body = requestForm;
       httpRequest.formData = undefined;
-      const contentType: string | undefined = httpRequest.headers && httpRequest.headers.get("Content-Type");
+      const contentType = httpRequest.headers.get("Content-Type");
       if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
         if (typeof requestForm.getBoundary === "function") {
           httpRequest.headers.set("Content-Type", `multipart/form-data; boundary=${requestForm.getBoundary()}`);

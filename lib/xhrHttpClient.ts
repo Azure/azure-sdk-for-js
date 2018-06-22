@@ -5,6 +5,7 @@ import { HttpClient } from "./httpClient";
 import { HttpHeaders } from "./httpHeaders";
 import { WebResource, TransferProgressEvent } from './webResource';
 import { HttpOperationResponse } from './httpOperationResponse';
+import { RestError } from './restError';
 
 /**
  * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.
@@ -19,18 +20,50 @@ export class XhrHttpClient implements HttpClient {
         xhr.abort();
       };
       abortSignal.addEventListener("abort", listener);
-      // TODO: is this sufficient to prevent leaks?
-      xhr.addEventListener("abort", () => abortSignal.removeEventListener("abort", listener));
+      xhr.addEventListener("readystatechange", () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          abortSignal.removeEventListener("abort", listener);
+        }
+      });
     }
 
     addProgressListener(xhr.upload, onUploadProgress);
     addProgressListener(xhr, onDownloadProgress);
 
-    for (const header of request.headers.headersArray()) {
-      xhr.setRequestHeader(header.name, header.value);
+    if (request.formData) {
+      const formData = request.formData;
+      const requestForm = new FormData();
+      const appendFormValue = (key: string, value: any) => {
+        if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
+          requestForm.append(key, value.value, value.options);
+        } else {
+          requestForm.append(key, value);
+        }
+      };
+      for (const formKey of Object.keys(formData)) {
+        const formValue = formData[formKey];
+        if (Array.isArray(formValue)) {
+          for (let j = 0; j < formValue.length; j++) {
+            appendFormValue(formKey, formValue[j]);
+          }
+        } else {
+          appendFormValue(formKey, formValue);
+        }
+      }
+
+      request.body = requestForm;
+      request.formData = undefined;
+      const contentType = request.headers.get("Content-Type");
+      if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
+        // browser will automatically apply a suitable content-type header
+        request.headers.remove("Content-Type");
+      }
     }
 
     xhr.open(request.method, request.url);
+    for (const header of request.headers.headersArray()) {
+      xhr.setRequestHeader(header.name, header.value);
+    }
     xhr.responseType = request.rawResponse ? "blob" : "text";
     xhr.send(request.body);
 
@@ -42,7 +75,7 @@ export class XhrHttpClient implements HttpClient {
             xhr.addEventListener("load", () => {
               resolve(xhr.response);
             });
-            rejectOnTerminalEvent(xhr, reject);
+            rejectOnTerminalEvent(request, xhr, reject);
           });
 
           // Resolve as soon as headers are loaded
@@ -55,7 +88,7 @@ export class XhrHttpClient implements HttpClient {
             });
           }
         });
-        rejectOnTerminalEvent(xhr, reject);
+        rejectOnTerminalEvent(request, xhr, reject);
       });
     } else {
       return new Promise(function(resolve, reject) {
@@ -65,7 +98,7 @@ export class XhrHttpClient implements HttpClient {
           headers: parseHeaders(xhr),
           bodyAsText: xhr.responseText
         }))
-        rejectOnTerminalEvent(xhr, reject);
+        rejectOnTerminalEvent(request, xhr, reject);
       });
     }
   }
@@ -92,7 +125,7 @@ function parseHeaders(xhr: XMLHttpRequest) {
   return responseHeaders;
 }
 
-function rejectOnTerminalEvent(xhr: XMLHttpRequest, reject: (err: any) => void) {
-  xhr.addEventListener("error", reject);
-  xhr.addEventListener("abort", reject);
+function rejectOnTerminalEvent(request: WebResource, xhr: XMLHttpRequest, reject: (err: any) => void) {
+  xhr.addEventListener("error", ev => reject(new RestError(ev.message, "REQUEST_SEND_ERROR", undefined, request)));
+  xhr.addEventListener("abort", () => reject(new RestError("The request was aborted", "REQUEST_ABORTED_ERROR", undefined, request)));
 }
