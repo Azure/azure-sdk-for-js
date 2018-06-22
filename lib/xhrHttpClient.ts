@@ -3,9 +3,9 @@
 
 import { HttpClient } from "./httpClient";
 import { HttpHeaders } from "./httpHeaders";
-import { WebResource, TransferProgressEvent } from './webResource';
-import { HttpOperationResponse } from './httpOperationResponse';
-import { RestError } from './restError';
+import { WebResource, TransferProgressEvent } from "./webResource";
+import { HttpOperationResponse } from "./httpOperationResponse";
+import { RestError } from "./restError";
 
 /**
  * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.
@@ -95,7 +95,7 @@ export class XhrHttpClient implements HttpClient {
           status: xhr.status,
           headers: parseHeaders(xhr),
           bodyAsText: xhr.responseText
-        }))
+        }));
         rejectOnTerminalEvent(request, xhr, reject);
       });
     }
@@ -115,9 +115,9 @@ function parseHeaders(xhr: XMLHttpRequest) {
   const responseHeaders = new HttpHeaders();
   const headerLines = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/);
   for (const line of headerLines) {
-    const parts = line.split(': ');
+    const parts = line.split(": ");
     const headerName = parts.shift()!;
-    const headerValue = parts.join(': ');
+    const headerValue = parts.join(": ");
     responseHeaders.set(headerName, headerValue);
   }
   return responseHeaders;
