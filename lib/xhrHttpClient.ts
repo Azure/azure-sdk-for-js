@@ -14,7 +14,7 @@ export class XhrHttpClient implements HttpClient {
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const xhr = new XMLHttpRequest();
 
-    const { abortSignal, onUploadProgress, onDownloadProgress } = request;
+    const abortSignal = request.abortSignal;
     if (abortSignal) {
       const listener = () => {
         xhr.abort();
@@ -27,8 +27,8 @@ export class XhrHttpClient implements HttpClient {
       });
     }
 
-    addProgressListener(xhr.upload, onUploadProgress);
-    addProgressListener(xhr, onDownloadProgress);
+    addProgressListener(xhr.upload, request.onUploadProgress);
+    addProgressListener(xhr, request.onDownloadProgress);
 
     if (request.formData) {
       const formData = request.formData;
