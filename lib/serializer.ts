@@ -55,7 +55,7 @@ export class Serializer {
       if (Pattern && value.match(Pattern) === null) {
         failValidation("Pattern", Pattern);
       }
-      if (UniqueItems && value.length !== value.filter((item: any, i: number, ar: Array<any>) => ar.indexOf(item) === i).length) {
+      if (UniqueItems && value.some((item: any, i: number, ar: Array<any>) => ar.indexOf(item) !== i)) {
         failValidation("UniqueItems", UniqueItems);
       }
     }
@@ -140,8 +140,6 @@ export class Serializer {
         // between the list being empty versus being missing,
         // so let's do the more user-friendly thing and return an empty list.
         responseBody = [];
-      } else {
-        return responseBody;
       }
       return responseBody;
     }
@@ -310,7 +308,7 @@ function serializeEnumType(objectName: string, allowedValues: Array<any>, value:
 }
 
 function serializeByteArrayType(objectName: string, value: any): any {
-  if (value !== null && value !== undefined) {
+  if (value != undefined) {
     if (!(value instanceof Uint8Array)) {
       throw new Error(`${objectName} must be of type Uint8Array.`);
     }
@@ -320,7 +318,7 @@ function serializeByteArrayType(objectName: string, value: any): any {
 }
 
 function serializeBase64UrlType(objectName: string, value: any): any {
-  if (value !== null && value !== undefined) {
+  if (value != undefined) {
     if (!(value instanceof Uint8Array)) {
       throw new Error(`${objectName} must be of type Uint8Array.`);
     }
@@ -370,13 +368,14 @@ function serializeSequenceType(serializer: Serializer, mapper: SequenceMapper, o
   if (!Array.isArray(object)) {
     throw new Error(`${objectName} must be of type Array.`);
   }
-  if (!mapper.type.element || typeof mapper.type.element !== "object") {
+  const elementType = mapper.type.element;
+  if (!elementType || typeof elementType !== "object") {
     throw new Error(`element" metadata for an Array must be defined in the ` +
       `mapper and it must of type "object" in ${objectName}.`);
   }
   const tempArray = [];
   for (let i = 0; i < object.length; i++) {
-    tempArray[i] = serializer.serialize(mapper.type.element, object[i], objectName);
+    tempArray[i] = serializer.serialize(elementType, object[i], objectName);
   }
   return tempArray;
 }
@@ -386,13 +385,14 @@ function serializeDictionaryType(serializer: Serializer, mapper: DictionaryMappe
   if (typeof object !== "object") {
     throw new Error(`${objectName} must be of type object.`);
   }
-  if (!mapper.type.value || typeof mapper.type.value !== "object") {
+  const valueType = mapper.type.value;
+  if (!valueType || typeof valueType !== "object") {
     throw new Error(`"value" metadata for a Dictionary must be defined in the ` +
       `mapper and it must of type "object" in ${objectName}.`);
   }
   const tempDictionary: { [key: string]: any } = {};
   for (const key of Object.keys(object)) {
-    tempDictionary[key] = serializer.serialize(mapper.type.value, object[key], objectName + "." + key);
+    tempDictionary[key] = serializer.serialize(valueType, object[key], objectName + "." + key);
   }
   return tempDictionary;
 }
@@ -416,19 +416,20 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
   if (object !== null && object !== undefined) {
     let modelProps = mapper.type.modelProperties;
     if (!modelProps) {
-      if (!mapper.type.className) {
+      const className = mapper.type.className;
+      if (!className) {
         throw new Error(`Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(mapper, undefined, 2)}".`);
       }
       // get the mapper if modelProperties of the CompositeType is not present and
       // then get the modelProperties from it.
-      modelMapper = (serializer.modelMappers as { [key: string]: any })[mapper.type.className];
+      modelMapper = (serializer.modelMappers as { [key: string]: any })[className];
       if (!modelMapper) {
-        throw new Error(`mapper() cannot be null or undefined for model "${mapper.type.className}".`);
+        throw new Error(`mapper() cannot be null or undefined for model "${className}".`);
       }
       modelProps = modelMapper.type.modelProperties;
       if (!modelProps) {
         throw new Error(`modelProperties cannot be null or undefined in the ` +
-          `mapper "${JSON.stringify(modelMapper)}" of type "${mapper.type.className}" for object "${objectName}".`);
+          `mapper "${JSON.stringify(modelMapper)}" of type "${className}" for object "${objectName}".`);
       }
     }
 
@@ -793,8 +794,9 @@ export interface UrlParameterValue {
   skipUrlEncoding: boolean;
 }
 
+// TODO: why is this here?
 export function serializeObject(toSerialize: any): any {
-  if (toSerialize === null || toSerialize === undefined) return undefined;
+  if (toSerialize == undefined) return undefined;
   if (toSerialize instanceof Uint8Array) {
     toSerialize = base64.encodeByteArray(toSerialize);
     return toSerialize;
