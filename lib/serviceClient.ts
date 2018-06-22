@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { AxiosHttpClient } from "./axiosHttpClient";
+import { DefaultHttpClient } from "./defaultHttpClient";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
@@ -119,7 +119,7 @@ export class ServiceClient {
       // do nothing
     }
 
-    this._httpClient = options.httpClient || new AxiosHttpClient();
+    this._httpClient = options.httpClient || new DefaultHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
     this._requestPolicyCreators = options.requestPolicyCreators || createDefaultRequestPolicyCreators(credentials, options, this.userAgentInfo.value);

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 import * as assert from "assert";
 import * as should from "should";
-import { AxiosHttpClient } from "../../lib/axiosHttpClient";
+import { DefaultHttpClient } from "../../lib/defaultHttpClient";
 import { isNode } from "../../lib/util/utils";
 import { WebResource } from "../../lib/webResource";
 import { baseURL } from "../testUtils";
@@ -18,10 +18,10 @@ function getAbortController(): AbortController {
   return controller;
 }
 
-describe("axiosHttpClient", () => {
+describe("defaultHttpClient", () => {
   it("should send HTTP requests", async () => {
     const request = new WebResource(`${baseURL}/example-index.html`, "GET");
-    const httpClient = new AxiosHttpClient();
+    const httpClient = new DefaultHttpClient();
 
     const response = await httpClient.sendRequest(request);
     assert.deepStrictEqual(response.request, request);
@@ -90,7 +90,7 @@ describe("axiosHttpClient", () => {
 
   it("should return a response instead of throwing for awaited 404", async () => {
     const request = new WebResource(`${baseURL}/nonexistent`, "GET");
-    const httpClient = new AxiosHttpClient();
+    const httpClient = new DefaultHttpClient();
 
     const response = await httpClient.sendRequest(request);
     assert(response);
@@ -99,7 +99,7 @@ describe("axiosHttpClient", () => {
   it("should allow canceling requests", async function () {
     const controller = getAbortController();
     const request = new WebResource(`${baseURL}/fileupload`, "POST", new Uint8Array(1024 * 1024 * 10), undefined, undefined, true, controller.signal);
-    const client = new AxiosHttpClient();
+    const client = new DefaultHttpClient();
     const promise = client.sendRequest(request);
     controller.abort();
     try {
@@ -116,7 +116,7 @@ describe("axiosHttpClient", () => {
       this.skip();
     }
 
-    const client = new AxiosHttpClient();
+    const client = new DefaultHttpClient();
 
     const request1 = new WebResource(`${baseURL}/set-cookie`);
     await client.sendRequest(request1);
@@ -137,7 +137,7 @@ describe("axiosHttpClient", () => {
       new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, controller.signal),
       new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, controller.signal)
     ];
-    const client = new AxiosHttpClient();
+    const client = new DefaultHttpClient();
     const promises = requests.map(r => client.sendRequest(r));
     controller.abort();
     // Ensure each promise is individually rejected
@@ -172,7 +172,7 @@ describe("axiosHttpClient", () => {
         ev.loadedBytes.should.be.a.Number;
       });
 
-    const client = new AxiosHttpClient();
+    const client = new DefaultHttpClient();
     await client.sendRequest(request);
     assert(uploadNotified);
     assert(downloadNotified);
