@@ -22,7 +22,7 @@ describe("ServiceClient", function () {
     });
 
     await client.sendOperationRequest(
-      new WebResource(), {
+      {
         arguments: {
           metadata: {
             "alpha": "hello",
