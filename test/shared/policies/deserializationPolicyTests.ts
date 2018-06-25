@@ -4,12 +4,12 @@
 import * as assert from "assert";
 import { HttpHeaders } from "../../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../../lib/httpOperationResponse";
+import { HttpClient } from "../../../lib/msRest";
+import { DeserializationPolicy, deserializationPolicy } from "../../../lib/policies/deserializationPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../../../lib/policies/requestPolicy";
-import { SerializationPolicy, serializationPolicy } from "../../../lib/policies/serializationPolicy";
 import { WebResource } from "../../../lib/webResource";
-import { HttpClient } from '../../../lib/msRest';
 
-describe("serializationPolicy", () => {
+describe("deserializationPolicy", () => {
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       return Promise.resolve({
@@ -21,12 +21,12 @@ describe("serializationPolicy", () => {
   };
 
   it(`should not modify a request that has no request body mapper`, async () => {
-    const serializationPolicy = new SerializationPolicy(mockPolicy, new RequestPolicyOptions());
+    const deserializationPolicy = new DeserializationPolicy(mockPolicy, new RequestPolicyOptions());
 
     const request = new WebResource();
     request.body = "hello there!";
 
-    await serializationPolicy.sendRequest(request);
+    await deserializationPolicy.sendRequest(request);
     assert.strictEqual(request.body, "hello there!");
   });
 
@@ -41,9 +41,9 @@ describe("serializationPolicy", () => {
       })
     };
 
-    const policy = serializationPolicy()(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy()(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
-    assert.deepStrictEqual(response.parsedBody, [123,456,789]);
+    assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
   });
 
   it("should parse a JSON response body with a charset specified in Content-Type", async function() {
@@ -57,9 +57,9 @@ describe("serializationPolicy", () => {
       })
     };
 
-    const policy = serializationPolicy()(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy()(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
-    assert.deepStrictEqual(response.parsedBody, [123,456,789]);
+    assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
   });
 
   it("should parse a JSON response body with an uppercase Content-Type", async function() {
@@ -73,9 +73,9 @@ describe("serializationPolicy", () => {
       })
     };
 
-    const policy = serializationPolicy()(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy()(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
-    assert.deepStrictEqual(response.parsedBody, [123,456,789]);
+    assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
   });
 
   it("should parse a JSON response body with a missing Content-Type", async function() {
@@ -89,8 +89,8 @@ describe("serializationPolicy", () => {
       })
     };
 
-    const policy = serializationPolicy()(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy()(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
-    assert.deepStrictEqual(response.parsedBody, [123,456,789]);
+    assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
   });
 });
