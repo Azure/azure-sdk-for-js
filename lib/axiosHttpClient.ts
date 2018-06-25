@@ -4,7 +4,6 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import * as FormData from "form-data";
 import * as tough from "isomorphic-tough-cookie";
-import * as xml2js from "isomorphic-xml2js";
 import { HttpClient } from "./httpClient";
 import { HttpHeaders } from "./httpHeaders";
 import { HttpOperationResponse } from "./httpOperationResponse";
@@ -18,8 +17,6 @@ if (isNode) {
   // Workaround for https://github.com/axios/axios/issues/1158
   axiosClient.interceptors.request.use(config => ({ ...config, method: config.method && config.method.toUpperCase() }));
 }
-
-type AxiosProgressFunction = (rawEvent: ProgressEvent) => void;
 
 /**
  * A HttpClient implementation that uses axios to send HTTP requests.
@@ -46,22 +43,20 @@ export class AxiosHttpClient implements HttpClient {
           requestForm.append(key, value);
         }
       };
-      for (const formKey in formData) {
-        if (formData.hasOwnProperty(formKey)) {
-          const formValue = formData[formKey];
-          if (formValue instanceof Array) {
-            for (let j = 0; j < formValue.length; j++) {
-              appendFormValue(formKey, formValue[j]);
-            }
-          } else {
-            appendFormValue(formKey, formValue);
+      for (const formKey of Object.keys(formData)) {
+        const formValue = formData[formKey];
+        if (Array.isArray(formValue)) {
+          for (let j = 0; j < formValue.length; j++) {
+            appendFormValue(formKey, formValue[j]);
           }
+        } else {
+          appendFormValue(formKey, formValue);
         }
       }
 
       httpRequest.body = requestForm;
       httpRequest.formData = undefined;
-      const contentType: string | undefined = httpRequest.headers && httpRequest.headers.get("Content-Type");
+      const contentType = httpRequest.headers.get("Content-Type");
       if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
         if (typeof requestForm.getBoundary === "function") {
           httpRequest.headers.set("Content-Type", `multipart/form-data; boundary=${requestForm.getBoundary()}`);
@@ -105,14 +100,6 @@ export class AxiosHttpClient implements HttpClient {
       bodyType === "function" ? httpRequest.body() :
       httpRequest.body;
 
-    const userUploadProgress = httpRequest.onUploadProgress;
-    const onUploadProgress: AxiosProgressFunction | undefined = userUploadProgress && (rawEvent =>
-      userUploadProgress({ loadedBytes: rawEvent.loaded, totalBytes: rawEvent.lengthComputable ? rawEvent.total : undefined }));
-
-    const userDownloadProgress = httpRequest.onDownloadProgress;
-    const onDownloadProgress: AxiosProgressFunction | undefined = userDownloadProgress && (rawEvent =>
-      userDownloadProgress({ loadedBytes: rawEvent.loaded, totalBytes: rawEvent.lengthComputable ? rawEvent.total : undefined }));
-
     let res: AxiosResponse;
     try {
       const config: AxiosRequestConfig = {
@@ -125,9 +112,7 @@ export class AxiosHttpClient implements HttpClient {
         // Workaround for https://github.com/axios/axios/issues/1362
         maxContentLength: 1024 * 1024 * 1024 * 10,
         responseType: httpRequest.rawResponse ? (isNode ? "stream" : "blob") : "text",
-        cancelToken,
-        onUploadProgress,
-        onDownloadProgress
+        cancelToken
       };
       res = await axiosClient(config);
     } catch (err) {
@@ -149,8 +134,10 @@ export class AxiosHttpClient implements HttpClient {
       request: httpRequest,
       status: res.status,
       headers,
+
       readableStreamBody: httpRequest.rawResponse && isNode ? res.data as any : undefined,
-      blobBody: !httpRequest.rawResponse || isNode ? undefined : () => res.data
+      blobBody: !httpRequest.rawResponse || isNode ? undefined : () => res.data,
+      bodyAsText: httpRequest.rawResponse ? undefined : res.data
     };
 
     if (this.cookieJar) {
@@ -168,50 +155,6 @@ export class AxiosHttpClient implements HttpClient {
       }
     }
 
-    if (!httpRequest.rawResponse) {
-      try {
-        operationResponse.bodyAsText = res.data;
-      } catch (err) {
-        const msg = `Error "${err}" occured while converting the raw response body into string.`;
-        const errCode = err.code || "RAWTEXT_CONVERSION_ERROR";
-        const e = new RestError(msg, errCode, res.status, httpRequest, operationResponse, res.data);
-        return Promise.reject(e);
-      }
-
-      try {
-        if (operationResponse.bodyAsText) {
-          const contentType = operationResponse.headers.get("Content-Type") || "";
-          const contentComponents = contentType.split(";").map(component => component.toLowerCase());
-          if (contentComponents.some(component => component === "application/xml" || component === "text/xml")) {
-            const xmlParser = new xml2js.Parser(XML2JS_PARSER_OPTS);
-            const parseString = new Promise(function (resolve: (result: any) => void, reject: (err: any) => void) {
-              xmlParser.parseString(operationResponse.bodyAsText!, function (err: any, result: any) {
-                if (err) {
-                  reject(err);
-                } else {
-                  resolve(result);
-                }
-              });
-            });
-
-            operationResponse.parsedBody = await parseString;
-          } else if (contentComponents.some(component => component === "application/json" || component === "text/json") || !contentType) {
-            operationResponse.parsedBody = JSON.parse(operationResponse.bodyAsText);
-          }
-        }
-      } catch (err) {
-        const msg = `Error "${err}" occured while executing JSON.parse on the response body - ${operationResponse.bodyAsText}.`;
-        const errCode = err.code || "JSON_PARSE_ERROR";
-        const e = new RestError(msg, errCode, res.status, httpRequest, operationResponse, operationResponse.bodyAsText);
-        return Promise.reject(e);
-      }
-    }
     return Promise.resolve(operationResponse);
   }
 }
-
-const XML2JS_PARSER_OPTS: xml2js.OptionsV2 = {
-  explicitArray: false,
-  explicitCharkey: false,
-  explicitRoot: false
-};

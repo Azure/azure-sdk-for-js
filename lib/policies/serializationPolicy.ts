@@ -10,6 +10,7 @@ import { Mapper, MapperType } from "../serializer";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
+import * as xml2js from "isomorphic-xml2js";
 
 /**
  * Create a new serialization RequestPolicyCreator that will serialized HTTP request bodies as they
@@ -30,50 +31,45 @@ export class SerializationPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    let result: Promise<HttpOperationResponse>;
+    serializeRequestBody(request);
+    return this._nextPolicy.sendRequest(request).then(operationResponse => deserializeResponseBody(operationResponse));
+  }
+}
+
+/**
+ * Serialize the provided HTTP request's body based on the requestBodyMapper assigned to the HTTP
+ * request.
+ * @param {WebResource} request - The HTTP request that will have its body serialized.
+ */
+function serializeRequestBody(request: WebResource): void {
+  const operationSpec: OperationSpec | undefined = request.operationSpec;
+  if (operationSpec && operationSpec.requestBody && operationSpec.requestBody.mapper) {
+    const bodyMapper = operationSpec.requestBody.mapper;
+    const { required, xmlName, xmlElementName, serializedName } = bodyMapper;
+    const typeName = bodyMapper.type.name;
     try {
-      this.serializeRequestBody(request);
-      const operationResponse: HttpOperationResponse = await this._nextPolicy.sendRequest(request);
-      result = this.deserializeResponseBody(operationResponse);
-    } catch (error) {
-      result = Promise.reject(error);
-    }
-    return result;
-  }
-
-  /**
-   * Serialize the provided HTTP request's body based on the requestBodyMapper assigned to the HTTP
-   * request.
-   * @param {WebResource} request - The HTTP request that will have its body serialized.
-   */
-  public serializeRequestBody(request: WebResource): void {
-    const operationSpec: OperationSpec | undefined = request.operationSpec;
-    if (operationSpec && operationSpec.requestBody && operationSpec.requestBody.mapper) {
-      const bodyMapper = operationSpec.requestBody.mapper;
-      const { required, xmlName, xmlElementName, serializedName } = bodyMapper;
-      const typeName = bodyMapper.type.name;
-      try {
-        if (request.body != undefined || required) {
-          const requestBodyParameterPathString: string = getPathStringFromParameter(operationSpec.requestBody);
-          request.body = operationSpec.serializer.serialize(bodyMapper, request.body, requestBodyParameterPathString);
-          if (operationSpec.isXML) {
-            if (typeName === MapperType.Sequence) {
-              request.body = utils.stringifyXML(utils.prepareXMLRootList(request.body, xmlElementName || xmlName || serializedName), { rootName: xmlName || serializedName });
-            }
-            else {
-              request.body = utils.stringifyXML(request.body, { rootName: xmlName || serializedName });
-            }
-          } else if (typeName !== MapperType.Stream) {
-            request.body = JSON.stringify(request.body);
+      if (request.body != undefined || required) {
+        const requestBodyParameterPathString: string = getPathStringFromParameter(operationSpec.requestBody);
+        request.body = operationSpec.serializer.serialize(bodyMapper, request.body, requestBodyParameterPathString);
+        if (operationSpec.isXML) {
+          if (typeName === MapperType.Sequence) {
+            request.body = utils.stringifyXML(utils.prepareXMLRootList(request.body, xmlElementName || xmlName || serializedName), { rootName: xmlName || serializedName });
           }
+          else {
+            request.body = utils.stringifyXML(request.body, { rootName: xmlName || serializedName });
+          }
+        } else if (typeName !== MapperType.Stream) {
+          request.body = JSON.stringify(request.body);
         }
-      } catch (error) {
-        throw new Error(`Error "${error.message}" occurred in serializing the payload - ${JSON.stringify(serializedName, undefined, "  ")}.`);
       }
+    } catch (error) {
+      throw new Error(`Error "${error.message}" occurred in serializing the payload - ${JSON.stringify(serializedName, undefined, "  ")}.`);
     }
   }
+}
 
-  public deserializeResponseBody(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+function deserializeResponseBody(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  return parse(response).then(response => {
     const operationSpec: OperationSpec | undefined = response.request.operationSpec;
     if (operationSpec && operationSpec.responses) {
       const statusCode: number = response.status;
@@ -143,7 +139,7 @@ export class SerializationPolicy extends BaseRequestPolicy {
       }
     }
     return Promise.resolve(response);
-  }
+  });
 }
 
 function isStreamOperation(responseSpecs: { [statusCode: string]: OperationResponse }): boolean {
@@ -156,4 +152,43 @@ function isStreamOperation(responseSpecs: { [statusCode: string]: OperationRespo
     }
   }
   return result;
+}
+
+function parse(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
+  const errorHandler = (err: any) => {
+    const msg = `Error "${err}" occurred while parsing the response body - ${operationResponse.bodyAsText}.`;
+    const errCode = err.code || "PARSE_ERROR";
+    const e = new RestError(msg, errCode, operationResponse.status, operationResponse.request, operationResponse, operationResponse.bodyAsText);
+    return Promise.reject(e);
+  };
+
+  if (!operationResponse.request.rawResponse && operationResponse.bodyAsText) {
+    const text = operationResponse.bodyAsText;
+    const contentType = operationResponse.headers.get("Content-Type") || "";
+    const contentComponents = contentType.split(";").map(component => component.toLowerCase());
+    if (contentComponents.some(component => component === "application/xml" || component === "text/xml")) {
+      const xmlParser = new xml2js.Parser({
+        explicitArray: false,
+        explicitCharkey: false,
+        explicitRoot: false
+      });
+      return new Promise<HttpOperationResponse>(function (resolve, reject) {
+        xmlParser.parseString(text, function (err: any, result: any) {
+          if (err) {
+            reject(err);
+          } else {
+            operationResponse.parsedBody = result;
+            resolve(operationResponse);
+          }
+        });
+      }).catch(errorHandler);
+    } else if (contentComponents.some(component => component === "application/json" || component === "text/json") || !contentType) {
+      return new Promise<HttpOperationResponse>(resolve => {
+        operationResponse.parsedBody = JSON.parse(text);
+        resolve(operationResponse);
+      }).catch(errorHandler);
+    }
+  }
+
+  return Promise.resolve(operationResponse);
 }
