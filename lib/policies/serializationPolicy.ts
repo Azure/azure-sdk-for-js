@@ -138,8 +138,10 @@ export class SerializationPolicy extends BaseRequestPolicy {
           }
           return Promise.reject(error);
         }
-      } else {
-
+      } else if (responseSpec) {
+        if (responseSpec.headersMapper) {
+          response.parsedHeaders = operationSpec.serializer.deserialize(responseSpec.headersMapper, response.headers.rawHeaders(), "operationRes.parsedBody");
+        }
       }
     }
     return Promise.resolve(response);
