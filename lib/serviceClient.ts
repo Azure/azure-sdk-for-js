@@ -8,6 +8,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { OperationArguments } from "./operationArguments";
 import { getPathStringFromParameter, getPathStringFromParameterPath, OperationParameter, ParameterPath } from "./operationParameter";
+import { OperationResponse } from "./operationResponse";
 import { OperationSpec } from "./operationSpec";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
@@ -19,7 +20,7 @@ import { serializationPolicy } from "./policies/serializationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { QueryCollectionFormat } from "./queryCollectionFormat";
-import { Mapper, Serializer, DictionaryMapper, CompositeMapper } from "./serializer";
+import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } from "./serializer";
 import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
@@ -171,7 +172,9 @@ export class ServiceClient {
    * @param {WebResource} httpRequest - The HTTP request to populate and then to send.
    * @param {operationSpec} operationSpec - The OperationSpec to use to populate the httpRequest.
    */
-  sendOperationRequest(httpRequest: WebResource, operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<HttpOperationResponse> {
+  sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<HttpOperationResponse> {
+    const httpRequest = new WebResource();
+
     let result: Promise<HttpOperationResponse>;
     try {
       httpRequest.method = operationSpec.httpMethod;
@@ -268,6 +271,18 @@ export class ServiceClient {
             httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, getPathStringFromParameter(formDataParameter));
           }
         }
+      }
+
+      if (operationSpec.responses) {
+        let rawResponse = false;
+        for (const responseStatusCode in operationSpec.responses) {
+          const responseSpec: OperationResponse = operationSpec.responses[responseStatusCode];
+          if (responseSpec.bodyMapper && responseSpec.bodyMapper.type.name === MapperType.Stream) {
+            rawResponse = true;
+            break;
+          }
+        }
+        httpRequest.rawResponse = rawResponse;
       }
 
       result = this.sendRequest(httpRequest);

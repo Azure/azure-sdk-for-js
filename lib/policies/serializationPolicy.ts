@@ -139,8 +139,23 @@ export class SerializationPolicy extends BaseRequestPolicy {
           return Promise.reject(error);
         }
       } else if (responseSpec) {
+        if (responseSpec.bodyMapper) {
+          let valueToDeserialize: any = response.parsedBody;
+          if (operationSpec.isXML && responseSpec.bodyMapper.type.name === MapperType.Sequence) {
+            valueToDeserialize = typeof valueToDeserialize === "object" ? valueToDeserialize[responseSpec.bodyMapper.xmlElementName!] : [];
+          }
+          try {
+          response.parsedBody = operationSpec.serializer.deserialize(responseSpec.bodyMapper, valueToDeserialize, "operationRes.parsedBody");
+          } catch (error) {
+            const restError = new RestError(`Error ${error} occurred in deserializing the responseBody - ${response.bodyAsText}`);
+            restError.request = utils.stripRequest(response.request);
+            restError.response = utils.stripResponse(response);
+            return Promise.reject(restError);
+          }
+        }
+
         if (responseSpec.headersMapper) {
-          response.parsedHeaders = operationSpec.serializer.deserialize(responseSpec.headersMapper, response.headers.rawHeaders(), "operationRes.parsedBody");
+          response.parsedHeaders = operationSpec.serializer.deserialize(responseSpec.headersMapper, response.headers.rawHeaders(), "operationRes.parsedHeaders");
         }
       }
     }
