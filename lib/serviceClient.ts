@@ -218,6 +218,10 @@ export class ServiceClient {
       }
       httpRequest.url = requestUrl.toString();
 
+      if (operationSpec.contentType) {
+        httpRequest.headers.set("Content-Type", operationSpec.contentType);
+      }
+
       if (operationSpec.headerParameters) {
         for (const headerParameter of operationSpec.headerParameters) {
           let headerValue: any = getOperationArgumentValueFromParameter(operationArguments, headerParameter, operationSpec.serializer);
@@ -233,10 +237,6 @@ export class ServiceClient {
             }
           }
         }
-      }
-
-      if (operationSpec.contentType) {
-        httpRequest.headers.set("Content-Type", operationSpec.contentType);
       }
 
       if (operationArguments.customHeaders) {
