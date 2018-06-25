@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as xml2js from "isomorphic-xml2js";
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { getPathStringFromParameter } from "../operationParameter";
 import { OperationResponse } from "../operationResponse";
 import { OperationSpec } from "../operationSpec";
 import { RestError } from "../restError";
@@ -10,61 +10,28 @@ import { Mapper, MapperType } from "../serializer";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
-import * as xml2js from "isomorphic-xml2js";
 
 /**
  * Create a new serialization RequestPolicyCreator that will serialized HTTP request bodies as they
  * pass through the HTTP pipeline.
  */
-export function serializationPolicy(): RequestPolicyCreator {
+export function deserializationPolicy(): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-    return new SerializationPolicy(nextPolicy, options);
+    return new DeserializationPolicy(nextPolicy, options);
   };
 }
 
 /**
- * A RequestPolicy that will serialize HTTP request bodies as they pass through the HTTP pipeline.
+ * A RequestPolicy that will deserialize HTTP response bodies and headers as they pass through the
+ * HTTP pipeline.
  */
-export class SerializationPolicy extends BaseRequestPolicy {
+export class DeserializationPolicy extends BaseRequestPolicy {
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    serializeRequestBody(request);
-    return this._nextPolicy.sendRequest(request).then(operationResponse => deserializeResponseBody(operationResponse));
-  }
-}
-
-/**
- * Serialize the provided HTTP request's body based on the requestBodyMapper assigned to the HTTP
- * request.
- * @param {WebResource} request - The HTTP request that will have its body serialized.
- */
-function serializeRequestBody(request: WebResource): void {
-  const operationSpec: OperationSpec | undefined = request.operationSpec;
-  if (operationSpec && operationSpec.requestBody && operationSpec.requestBody.mapper) {
-    const bodyMapper = operationSpec.requestBody.mapper;
-    const { required, xmlName, xmlElementName, serializedName } = bodyMapper;
-    const typeName = bodyMapper.type.name;
-    try {
-      if (request.body != undefined || required) {
-        const requestBodyParameterPathString: string = getPathStringFromParameter(operationSpec.requestBody);
-        request.body = operationSpec.serializer.serialize(bodyMapper, request.body, requestBodyParameterPathString);
-        if (operationSpec.isXML) {
-          if (typeName === MapperType.Sequence) {
-            request.body = utils.stringifyXML(utils.prepareXMLRootList(request.body, xmlElementName || xmlName || serializedName), { rootName: xmlName || serializedName });
-          }
-          else {
-            request.body = utils.stringifyXML(request.body, { rootName: xmlName || serializedName });
-          }
-        } else if (typeName !== MapperType.Stream) {
-          request.body = JSON.stringify(request.body);
-        }
-      }
-    } catch (error) {
-      throw new Error(`Error "${error.message}" occurred in serializing the payload - ${JSON.stringify(serializedName, undefined, "  ")}.`);
-    }
+    return this._nextPolicy.sendRequest(request).then(deserializeResponseBody);
   }
 }
 

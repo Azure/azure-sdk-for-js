@@ -16,7 +16,7 @@ import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
 import { RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
-import { serializationPolicy } from "./policies/serializationPolicy";
+import { deserializationPolicy } from "./policies/deserializationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { QueryCollectionFormat } from "./queryCollectionFormat";
@@ -260,18 +260,7 @@ export class ServiceClient {
         httpRequest.onDownloadProgress = operationArguments.onDownloadProgress;
       }
 
-      if (operationSpec.requestBody) {
-        httpRequest.body = getOperationArgumentValueFromParameter(operationArguments, operationSpec.requestBody, operationSpec.serializer);
-      } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {
-        httpRequest.formData = {};
-        for (const formDataParameter of operationSpec.formDataParameters) {
-          const formDataParameterValue: any = getOperationArgumentValueFromParameter(operationArguments, formDataParameter, operationSpec.serializer);
-          if (formDataParameterValue != undefined) {
-            const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || getPathStringFromParameter(formDataParameter);
-            httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, getPathStringFromParameter(formDataParameter));
-          }
-        }
-      }
+      serializeRequestBody(httpRequest, operationArguments, operationSpec);
 
       if (operationSpec.responses) {
         let rawResponse = false;
@@ -290,6 +279,43 @@ export class ServiceClient {
       result = Promise.reject(error);
     }
     return result;
+  }
+}
+
+function serializeRequestBody(httpRequest: WebResource, operationArguments: OperationArguments, operationSpec: OperationSpec): void {
+  if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
+    httpRequest.body = getOperationArgumentValueFromParameter(operationArguments, operationSpec.requestBody, operationSpec.serializer);
+
+    const bodyMapper = operationSpec.requestBody.mapper;
+    const { required, xmlName, xmlElementName, serializedName } = bodyMapper;
+    const typeName = bodyMapper.type.name;
+    try {
+      if (httpRequest.body != undefined || required) {
+        const requestBodyParameterPathString: string = getPathStringFromParameter(operationSpec.requestBody);
+        httpRequest.body = operationSpec.serializer.serialize(bodyMapper, httpRequest.body, requestBodyParameterPathString);
+        if (operationSpec.isXML) {
+          if (typeName === MapperType.Sequence) {
+            httpRequest.body = utils.stringifyXML(utils.prepareXMLRootList(httpRequest.body, xmlElementName || xmlName || serializedName), { rootName: xmlName || serializedName });
+          }
+          else {
+            httpRequest.body = utils.stringifyXML(httpRequest.body, { rootName: xmlName || serializedName });
+          }
+        } else if (typeName !== MapperType.Stream) {
+          httpRequest.body = JSON.stringify(httpRequest.body);
+        }
+      }
+    } catch (error) {
+      throw new Error(`Error "${error.message}" occurred in serializing the payload - ${JSON.stringify(serializedName, undefined, "  ")}.`);
+    }
+  } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {
+    httpRequest.formData = {};
+    for (const formDataParameter of operationSpec.formDataParameters) {
+      const formDataParameterValue: any = getOperationArgumentValueFromParameter(operationArguments, formDataParameter, operationSpec.serializer);
+      if (formDataParameterValue != undefined) {
+        const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || getPathStringFromParameter(formDataParameter);
+        httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, getPathStringFromParameter(formDataParameter));
+      }
+    }
   }
 }
 
@@ -316,7 +342,7 @@ function createDefaultRequestPolicyCreators(credentials: ServiceClientCredential
     defaultRequestPolicyCreators.push(systemErrorRetryPolicy());
   }
 
-  defaultRequestPolicyCreators.push(serializationPolicy());
+  defaultRequestPolicyCreators.push(deserializationPolicy());
 
   return defaultRequestPolicyCreators;
 }
