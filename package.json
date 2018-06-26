@@ -1,7 +1,7 @@
 {
   "name": "azure-sb",
   "version": "0.11.0",
-  "description": "Azure Event Hubs SDK for Node.js",
+  "description": "Azure ServiceBus SDK for Node.js",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "main": "./dist/lib/index.js",
@@ -12,7 +12,7 @@
     "is-buffer": "2.0.2",
     "ms-rest": "^2.3.3",
     "ms-rest-azure": "^2.5.5",
-    "rhea": "^0.2.13",
+    "rhea": "^0.2.14",
     "tslib": "^1.9.2",
     "uuid": "^3.2.1"
   },
@@ -42,12 +42,12 @@
     "unit": "nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 test/**/*.spec.ts --abort-on-uncaught-exception",
     "prepare": "npm run build"
   },
-  "homepage": "http://github.com/azure/azure-event-hubs-node",
+  "homepage": "http://github.com/azure/azure-servcie-bus-node",
   "repository": {
     "type": "git",
-    "url": "https://github.com/azure/azure-event-hubs-node.git"
+    "url": "https://github.com/azure/azure-servcie-bus-node.git"
   },
   "bugs": {
-    "url": "http://github.com/Azure/azure-event-hubs-node/issues"
+    "url": "http://github.com/Azure/azure-servcie-bus-node/issues"
   }
 }

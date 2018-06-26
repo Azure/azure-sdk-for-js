@@ -3,8 +3,8 @@
 
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
-import { ClientEntity } from "./clientEntity";
-import { ConnectionContext } from "./connectionContext";
+import { LinkEntity } from "./linkEntity";
+import { ClientEntityContext } from "./clientEntityContext";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
   message
@@ -18,7 +18,7 @@ const debug = debugModule("azure:service-bus:sender");
  * Describes the MessageSender that will send messages to ServiceBus.
  * @class MessageSender
  */
-export class MessageSender extends ClientEntity {
+export class MessageSender extends LinkEntity {
   /**
    * @property {string} senderLock The unqiue lock name per connection that is used to acquire the
    * lock for establishing a sender link by an entity on that connection.
@@ -34,13 +34,12 @@ export class MessageSender extends ClientEntity {
   /**
    * Creates a new MessageSender instance.
    * @constructor
-   * @param {ConnectionContext} context The connection context.
-   * @param {string} [name] The name of the message sender.
+   * @param {ClientEntityContext} context The client entity context.
    */
-  constructor(context: ConnectionContext, name?: string) {
-    super(context, { name: name });
-    this.address = this._context.config.entityPath as string;
-    this.audience = `${this._context.config.endpoint}${this.address}`;
+  constructor(context: ClientEntityContext) {
+    super(`${context.entityPath}`, context);
+    this.address = this._context.entityPath as string;
+    this.audience = `${this._context.namespace.config.endpoint}${this.address}`;
   }
 
   /**
@@ -51,13 +50,13 @@ export class MessageSender extends ClientEntity {
   async close(): Promise<void> {
     if (this._sender) {
       try {
-        await this._sender!.close();
-        delete this._context.senders[this.name!];
-        debug("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
-          this._context.connectionId, this.name, this.address);
+        await this._sender.close();
+        delete this._context.sender;
+        debug("[%s] Deleted the sender '%s' with address '%s' from the client entity context.",
+          this._context.namespace.connectionId, this.id, this.address);
         this._sender = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-        debug("[%s]Sender '%s' closed.", this._context.connectionId, this.name);
+        debug("[%s]Sender '%s' closed.", this._context.namespace.connectionId, this.id);
       } catch (err) {
         debug("An error occurred while closing the sender %O", err);
         throw err;
@@ -83,7 +82,7 @@ export class MessageSender extends ClientEntity {
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
       const message = SBMessage.toAmqpMessage(data);
-      message.body = this._context.dataTransformer.encode(data.body);
+      message.body = this._context.namespace.dataTransformer.encode(data.body);
       return await this._trySend(message);
     } catch (err) {
       debug("An error occurred while sending the message %O", err);
@@ -111,12 +110,12 @@ export class MessageSender extends ClientEntity {
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
       debug("[%s] Sender '%s', trying to send Message[]: %O",
-        this._context.connectionId, this.name, datas);
+        this._context.namespace.connectionId, this.id, datas);
       const messages: AmqpMessage[] = [];
       // Convert Message to AmqpMessage.
       for (let i = 0; i < datas.length; i++) {
         const message = SBMessage.toAmqpMessage(datas[i]);
-        message.body = this._context.dataTransformer.encode(datas[i].body);
+        message.body = this._context.namespace.dataTransformer.encode(datas[i].body);
         messages[i] = message;
       }
       // Encode every amqp message and then convert every encoded message to amqp data section
@@ -140,7 +139,7 @@ export class MessageSender extends ClientEntity {
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = message.encode(batchMessage);
       debug("[%s]Sender '%s', sending encoded batch message.",
-        this._context.connectionId, this.name, encodedBatchMessage);
+        this._context.namespace.connectionId, this.id, encodedBatchMessage);
       return await this._trySend(encodedBatchMessage, undefined, 0x80013700);
     } catch (err) {
       debug("An error occurred while sending the batch message %O", err);
@@ -160,10 +159,10 @@ export class MessageSender extends ClientEntity {
    */
   private _trySend(message: SBMessage, tag?: any, format?: number): Promise<Delivery> {
     const sendEventPromise = new Promise<Delivery>((resolve, reject) => {
-      debug("[%s] Sender '%s', credit: %d available: %d", this._context.connectionId, this.name,
-        this._sender!.credit, this._sender!.session.outgoing.available());
+      debug("[%s] Sender '%s', credit: %d available: %d", this._context.namespace.connectionId,
+        this.id, this._sender!.credit, this._sender!.session.outgoing.available());
       if (this._sender!.sendable()) {
-        debug("[%s] Sender '%s', sending message: %O", this._context.connectionId, this.name, message);
+        debug("[%s] Sender '%s', sending message: %O", this._context.namespace.connectionId, this.id, message);
         let onRejected: Func<EventContext, void>;
         let onReleased: Func<EventContext, void>;
         let onModified: Func<EventContext, void>;
@@ -180,34 +179,38 @@ export class MessageSender extends ClientEntity {
           // we send a message, we need to remove listener for both the events.
           // This will ensure duplicate listeners are not added for the same event.
           removeListeners();
-          debug("[%s] Sender '%s', got event accepted.", this._context.connectionId, this.name);
+          debug("[%s] Sender '%s', got event accepted.",
+            this._context.namespace.connectionId, this.id);
           resolve(context.delivery);
         };
         onRejected = (context: EventContext) => {
           removeListeners();
-          debug("[%s] Sender '%s', got event rejected.", this._context.connectionId, this.name);
+          debug("[%s] Sender '%s', got event rejected.",
+            this._context.namespace.connectionId, this.id);
           reject(translate(context!.delivery!.remote_state!.error));
         };
         onReleased = (context: EventContext) => {
           removeListeners();
-          debug("[%s] Sender '%s', got event released.", this._context.connectionId, this.name);
+          debug("[%s] Sender '%s', got event released.",
+            this._context.namespace.connectionId, this.id);
           let err: Error;
           if (context!.delivery!.remote_state!.error) {
             err = translate(context!.delivery!.remote_state!.error);
           } else {
-            err = new Error(`[${this._context.connectionId}]Sender '${this.name}', ` +
+            err = new Error(`[${this._context.namespace.connectionId}]Sender '${this.id}', ` +
               `received a release disposition.Hence we are rejecting the promise.`);
           }
           reject(err);
         };
         onModified = (context: EventContext) => {
           removeListeners();
-          debug("[%s] Sender '%s', got event modified.", this._context.connectionId, this.name);
+          debug("[%s] Sender '%s', got event modified.",
+            this._context.namespace.connectionId, this.id);
           let err: Error;
           if (context!.delivery!.remote_state!.error) {
             err = translate(context!.delivery!.remote_state!.error);
           } else {
-            err = new Error(`[${this._context.connectionId}]Sender "${this.name}", ` +
+            err = new Error(`[${this._context.namespace.connectionId}]Sender "${this.id}", ` +
               `received a modified disposition.Hence we are rejecting the promise.`);
           }
           reject(err);
@@ -218,9 +221,9 @@ export class MessageSender extends ClientEntity {
         this._sender!.registerHandler(SenderEvents.released, onReleased);
         const delivery = this._sender!.send(message, tag, format);
         debug("[%s] Sender '%s', sent message with delivery id: %d",
-          this._context.connectionId, this.name, delivery.id);
+          this._context.namespace.connectionId, this.id, delivery.id);
       } else {
-        const msg = `[${this._context.connectionId}]Sender "${this.name}", ` +
+        const msg = `[${this._context.namespace.connectionId}]Sender "${this.id}", ` +
           `cannot send the message right now. Please try later.`;
         debug(msg);
         reject(new Error(msg));
@@ -252,31 +255,32 @@ export class MessageSender extends ClientEntity {
           const senderError = translate(context.sender!.error!);
           // TODO: Should we retry before calling user's error method?
           debug("[%s] An error occurred for sender '%s': %O.",
-            this._context.connectionId, this.name, senderError);
+            this._context.namespace.connectionId, this.id, senderError);
         };
-        debug("[%s] Trying to create sender '%s'...", this._context.connectionId, this.name);
+        debug("[%s] Trying to create sender '%s'...",
+          this._context.namespace.connectionId, this.id);
         const options = this._createSenderOptions(onAmqpError);
-        this._sender = await this._context.connection!.createSender(options);
+        this._sender = await this._context.namespace.connection!.createSender(options);
         debug("[%s] Promise to create the sender resolved. Created sender with name: %s",
-          this._context.connectionId, this.name);
+          this._context.namespace.connectionId, this.id);
         debug("[%s] Sender '%s' created with sender options: %O",
-          this._context.connectionId, this.name, options);
+          this._context.namespace.connectionId, this.id, options);
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
-        if (!this._context.senders[this.address]) this._context.senders[this.address] = this;
+        if (!this._context.sender) this._context.sender = this;
         await this._ensureTokenRenewal();
       }
     } catch (err) {
       err = translate(err);
       debug("[%s] An error occurred while creating the sender %s",
-        this._context.connectionId, this.name, err);
+        this._context.namespace.connectionId, this.id, err);
       throw err;
     }
   }
 
   private _createSenderOptions(onError?: OnAmqpEvent): SenderOptions {
     const options: SenderOptions = {
-      name: this.name,
+      name: this.id,
       target: {
         address: this.address
       },
@@ -292,11 +296,10 @@ export class MessageSender extends ClientEntity {
    * @static
    * @returns {Promise<MessageSender>}
    */
-  static create(context: ConnectionContext): MessageSender {
-    const msgSender: MessageSender = new MessageSender(context);
-    if (!context.senders[msgSender.address]) {
-      context.senders[msgSender.address] = msgSender;
+  static create(context: ClientEntityContext): MessageSender {
+    if (!context.sender) {
+      context.sender = new MessageSender(context);
     }
-    return context.senders[msgSender.address];
+    return context.sender;
   }
 }

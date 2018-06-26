@@ -18,7 +18,7 @@ const debug = debugModule("azure:amqp-common:cbs");
 
 /**
  * @class CbsClient
- * Describes the EventHub Cbs client that talks to the $cbs endopint over AMQP connection.
+ * Describes the EventHub/ServiceBus Cbs client that talks to the $cbs endopint over AMQP connection.
  */
 export class CbsClient {
   /**
@@ -114,7 +114,7 @@ export class CbsClient {
   }
 
   /**
-   * Negotiates the CBS claim with the EventHub Service.
+   * Negotiates the CBS claim with the EventHub/ServiceBus Service.
    * @param {string} audience The audience for which the token is requested.
    * @param {TokenInfo} tokenObject The token object that needs to be sent in the put-token request.
    * @return {Promise<any>} Returns a Promise that resolves when $cbs authentication is successful
@@ -142,7 +142,7 @@ export class CbsClient {
   }
 
   /**
-   * Closes the AMQP cbs session to the Event Hub for this client,
+   * Closes the AMQP cbs session to the EventHub/ServiceBus for this client,
    * returning a promise that will be resolved when disconnection is completed.
    * @return {Promise<void>}
    */

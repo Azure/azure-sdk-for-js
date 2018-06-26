@@ -6,7 +6,7 @@ import * as chai from "chai";
 chai.should();
 
 describe("ConnectionConfig", function () {
-  it("populates config properties from an Event Hubs connection string", function () {
+  it("populates config properties from a SB connection string", function () {
     const config = ConnectionConfig.create("Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep");
     config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
     config.should.have.property("sharedAccessKeyName").that.equals("sakName");

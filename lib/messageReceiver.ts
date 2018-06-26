@@ -2,13 +2,18 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
-import { ClientEntity } from "./clientEntity";
-import { ConnectionContext } from "./connectionContext";
-import { Constants, MessagingError, translate } from "./amqp-common";
+import { LinkEntity } from "./linkEntity";
+import { ClientEntityContext } from "./clientEntityContext";
+import { MessagingError, translate } from "./amqp-common";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions } from "./rhea-promise";
-import { ReceiveMode, Message, ReceivedSBMessage } from ".";
+import { ReceiveMode, Message } from ".";
 
 const debug = debugModule("azure:service-bus:receiver");
+
+export enum ReceiverType {
+  batching = "batching",
+  streaming = "streaming"
+}
 
 export interface ReceiveOptions {
   /**
@@ -21,16 +26,24 @@ export interface ReceiveOptions {
    */
   name?: string;
   /**
-   * @property {number} [prefetchCount] The upper limit of events this receiver will actively receive
-   * regardless of whether a receive operation is pending. Defaults to 1000.
+   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
+   * processed concurrently while in peek lock mode. Once this limit has been reached, more
+   * messages will not be received until messages currently being processed have been settled.
+   * Default: 1
    */
-  prefetchCount?: number;
+  maxConcurrentCalls?: number;
+  /**
+   * @property {boolean} [autoComplete] Indicates whether `Message.complete()` should be called
+   * automatically after the message processing is complete while receiving messages with handlers
+   * or while messages are received using receiveBatch(). Default: false.
+   */
+  autoComplete?: boolean;
 }
 
 /**
  * Describes the message handler signature.
  */
-export type OnMessage = (message: Message) => void;
+export type OnMessage = (message: Message) => Promise<void>;
 
 /**
  * Describes the error handler signature.
@@ -41,17 +54,29 @@ export type OnError = (error: MessagingError | Error) => void;
  * Describes the MessageReceiver that will receive messages from ServiceBus.
  * @class MessageReceiver
  */
-export class MessageReceiver extends ClientEntity {
+export class MessageReceiver extends LinkEntity {
   /**
-   * @property {number} [prefetchCount] The number of messages that the receiver can
-   * fetch/receive initially. Defaults to 1000.
+   * @property {string} receiverType The type of receiver: "batching" or "streaming".
    */
-  prefetchCount?: number;
+  receiverType: ReceiverType;
+  /**
+   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
+   * processed concurrently while in peek lock mode. Once this limit has been reached, more
+   * messages will not be received until messages currently being processed have been settled.
+   * Default: 1
+   */
+  maxConcurrentCalls?: number;
   /**
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
   receiveMode: ReceiveMode;
+  /**
+   * @property {boolean} [autoComplete] Indicates whether `Message.complete()` should be called
+   * automatically after the message processing is complete while receiving messages with handlers
+   * or while messages are received using receiveBatch(). Default: false.
+   */
+  autoComplete: boolean;
   /**
    * @property {Receiver} [_receiver] The AMQP receiver link.
    * @protected
@@ -82,45 +107,67 @@ export class MessageReceiver extends ClientEntity {
    */
   protected _onAmqpError: OnAmqpEvent;
 
-  constructor(context: ConnectionContext, options?: ReceiveOptions) {
-    super(context, { name: options ? options.name : undefined });
+  constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
+    super(`${context.entityPath}`, context);
     if (!options) options = {};
-    this.address = `${this._context.config.entityPath}`;
-    this.audience = `${this._context.config.endpoint}${this._context.config.entityPath}`;
-    this.prefetchCount = options.prefetchCount != undefined ?
-      options.prefetchCount : Constants.defaultPrefetchCount;
+    this.receiverType = receiverType;
+    this.address = `${this._context.entityPath}`;
+    this.audience = `${this._context.namespace.config.endpoint}${this._context.entityPath}`;
+    this.maxConcurrentCalls = options.maxConcurrentCalls != undefined ?
+      options.maxConcurrentCalls : 1;
+    this.autoComplete = options.autoComplete != undefined ? options.autoComplete : false;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
-    this._onAmqpMessage = (context: EventContext) => {
-      const bMessage = ReceivedSBMessage.fromAmqpMessage(context.message!, context.delivery!);
-      bMessage.body = this._context.dataTransformer.decode(context.message!.body);
-      this._onMessage!(bMessage);
+    this._onAmqpMessage = async (context: EventContext) => {
+      const bMessage = new Message(context.message!, context.delivery!);
+      bMessage.body = this._context.namespace.dataTransformer.decode(context.message!.body);
+      try {
+        await this._onMessage!(bMessage);
+        if (this.autoComplete) {
+          debug("[%s] Auto completing the message with id '%s' on the receiver '%s'.",
+            this._context.namespace.connectionId, bMessage.messageId, this.id);
+          bMessage.complete();
+        }
+      } catch (err) {
+        debug("[%s] Abandoning the message with id '%s' on the receiver '%s' since an error " +
+          "occured: %O.",
+          this._context.namespace.connectionId, bMessage.messageId, this.id);
+        bMessage.abandon();
+      }
     };
 
     this._onAmqpError = (context: EventContext) => {
       const sbError = translate(context.receiver!.error!);
       // TODO: Should we retry before calling user's error method?
       debug("[%s] An error occurred for Receiver '%s': %O.",
-        this._context.connectionId, this.name, sbError);
+        this._context.namespace.connectionId, this.id, sbError);
       this._onError!(sbError);
     };
   }
 
   /**
+   * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
+   * @returns {boolean} boolean
+   */
+  isOpen(): boolean {
+    return this._receiver! && this._receiver!.isOpen();
+  }
+
+  /**
    * Closes the underlying AMQP receiver.
-   * @param {boolean} [preserveInContext] Should the receiver be preserved in context.
-   * Default value false.
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
     if (this._receiver) {
       try {
         await this._receiver.close();
-        debug("[%s] Deleted the receiver '%s' from the client cache.", this._context.connectionId, this.name);
+        debug("[%s] Deleted the receiver '%s' from the client entity context.",
+          this._context.namespace.connectionId, this.id);
         this._receiver = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-        debug("[%s] Receiver '%s', has been closed.", this._context.connectionId, this.name);
+        debug("[%s] Receiver '%s', has been closed.",
+          this._context.namespace.connectionId, this.id);
       } catch (err) {
-        debug("An error occurred while closing the receiver %s %O", this.name, translate(err));
+        debug("An error occurred while closing the receiver %s %O", this.id, translate(err));
       }
     }
   }
@@ -133,7 +180,7 @@ export class MessageReceiver extends ClientEntity {
    */
   protected async _init(onAmqpMessage?: OnAmqpEvent, onAmqpError?: OnAmqpEvent): Promise<void> {
     try {
-      if (!this._isOpen()) {
+      if (!this.isOpen()) {
         await this._negotiateClaim();
         if (!onAmqpMessage) {
           onAmqpMessage = this._onAmqpMessage;
@@ -141,33 +188,24 @@ export class MessageReceiver extends ClientEntity {
         if (!onAmqpError) {
           onAmqpError = this._onAmqpError;
         }
-        debug("[%s] Trying to create receiver '%s'...", this._context.connectionId, this.name);
+        debug("[%s] Trying to create receiver '%s'...",
+          this._context.namespace.connectionId, this.id);
         const rcvrOptions = this._createReceiverOptions(onAmqpMessage, onAmqpError);
-        this._receiver = await this._context.connection!.createReceiver(rcvrOptions);
-        debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
+        this._receiver = await this._context.namespace.connection!.createReceiver(rcvrOptions);
+        debug("Promise to create the receiver resolved. Created receiver with name: ", this.id);
         debug("[%s] Receiver '%s' created with receiver options: %O",
-          this._context.connectionId, this.name, rcvrOptions);
+          this._context.namespace.connectionId, this.id, rcvrOptions);
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
-        if (!this._context.receivers[this.name]) this._context.receivers[this.name] = this;
+        if (!this._context.streamingReceiver) this._context.streamingReceiver = this as any;
         await this._ensureTokenRenewal();
       }
     } catch (err) {
       err = translate(err);
       debug("[%s] An error occured while creating the receiver '%s': %O",
-        this._context.connectionId, this.name, err);
+        this._context.namespace.connectionId, this.id, err);
       throw err;
     }
-  }
-
-  /**
-   * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
-   * @protected
-   *
-   * @return {boolean} boolean
-   */
-  protected _isOpen(): boolean {
-    return this._receiver! && this._receiver!.isOpen();
   }
 
   /**
@@ -176,14 +214,16 @@ export class MessageReceiver extends ClientEntity {
    */
   private _createReceiverOptions(onMessage?: OnAmqpEvent, onError?: OnAmqpEvent): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
-      name: this.name,
+      name: this.id,
       autoaccept: false,
+      // receiveAndDelete -> first(0), peekLock -> second (1)
       rcv_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1,
+      // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
       snd_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 1 : 0,
       source: {
         address: this.address
       },
-      credit_window: this.prefetchCount,
+      credit_window: this.maxConcurrentCalls,
       onMessage: onMessage,
       onError: onError
     };

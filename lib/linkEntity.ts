@@ -3,16 +3,11 @@
 
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
-import { ConnectionContext } from "./connectionContext";
+import { ClientEntityContext } from "./clientEntityContext";
 import { defaultLock } from "./amqp-common";
 const debug = debugModule("azure:service-bus:clientEntity");
 
 export interface ClientEntityOptions {
-  /**
-   * @property {string} [name] The unique name for the entity. If not provided then a guid will be
-   * assigned.
-   */
-  name?: string;
   /**
    * @property {string | number} [partitionId] The partitionId associated with the client entity.
    */
@@ -28,14 +23,15 @@ export interface ClientEntityOptions {
 }
 
 /**
- * Describes the base class for entities like EventHub Sender, Receiver and Management client.
+ * Describes the base class for entities like MessageSender, MessageReceiver and Management client.
  * @class ClientEntity
  */
-export class ClientEntity {
+export class LinkEntity {
   /**
-   * @property {string} [name] The unique name for the entity (mostly a guid).
+   * @property {string} [id] The unique name for the entity in the format:
+   * `${name of the entity}-${guid}`.
    */
-  name: string;
+  id: string;
   /**
    * @property {string} address The client entity address in one of the following forms:
    *
@@ -68,11 +64,11 @@ export class ClientEntity {
    */
   audience: string;
   /**
-   * @property {ConnectionContext} _context Provides relevant information about the amqp connection,
+   * @property {ClientEntityContext} _context Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    * @protected
    */
-  protected _context: ConnectionContext;
+  protected _context: ClientEntityContext;
   /**
    * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
    * the Client Entity is due for token renewal.
@@ -82,15 +78,16 @@ export class ClientEntity {
   /**
    * Creates a new ClientEntity instance.
    * @constructor
-   * @param {ConnectionContext} context The connection context.
+   * @param {string} name The name of the entity.
+   * @param {ClientEntityContext} context The connection context.
    * @param {string} [name] Name of the entity.
    */
-  constructor(context: ConnectionContext, options?: ClientEntityOptions) {
+  constructor(name: string, context: ClientEntityContext, options?: ClientEntityOptions) {
     if (!options) options = {};
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
-    this.name = options.name || uuid();
+    this.id = `${name}/${uuid()}`;
   }
   /**
    * Provides the current type of the ClientEntity.
@@ -116,25 +113,27 @@ export class ClientEntity {
     // race condition does not happen while creating a shared resource (in this case the
     // cbs session, since we want to have exactly 1 cbs session per connection).
     debug("[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
-      "'%s' with address: '%s'.", this._context.connectionId, this._context.cbsSession!.cbsLock,
-      this.type, this.name, this.address);
-    await defaultLock.acquire(this._context.cbsSession!.cbsLock,
-      () => { return this._context.cbsSession!.init(); });
-    const tokenObject = await this._context.tokenProvider.getToken(this.audience);
-    if (!this._context.connection) {
-      this._context.connection = this._context.cbsSession!.connection;
-      this._context.connectionId = this._context.cbsSession!.connection!.id;
+      "'%s' with address: '%s'.", this._context.namespace.connectionId,
+      this._context.namespace.cbsSession!.cbsLock,
+      this.type, this.id, this.address);
+    await defaultLock.acquire(this._context.namespace.cbsSession!.cbsLock,
+      () => { return this._context.namespace.cbsSession!.init(); });
+    const tokenObject = await this._context.namespace.tokenProvider.getToken(this.audience);
+    if (!this._context.namespace.connection) {
+      this._context.namespace.connection = this._context.namespace.cbsSession!.connection;
+      this._context.namespace.connectionId = this._context.namespace.cbsSession!.connection!.id;
     }
     debug("[%s] %s: calling negotiateClaim for audience '%s'.",
-      this._context.connectionId, this.type, this.audience);
+      this._context.namespace.connectionId, this.type, this.audience);
     // Acquire the lock to negotiate the CBS claim.
     debug("[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
-      this._context.connectionId, this._context.negotiateClaimLock, this.type, this.name, this.address);
-    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession!.negotiateClaim(this.audience, tokenObject);
+      this._context.namespace.connectionId, this._context.namespace.negotiateClaimLock,
+      this.type, this.id, this.address);
+    await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
+      return this._context.namespace.cbsSession!.negotiateClaim(this.audience, tokenObject);
     });
     debug("[%s] Negotiated claim for %s '%s' with with address: %s",
-      this._context.connectionId, this.type, this.name, this.address);
+      this._context.namespace.connectionId, this.type, this.id, this.address);
     if (setTokenRenewal) {
       await this._ensureTokenRenewal();
     }
@@ -146,8 +145,8 @@ export class ClientEntity {
    * @returns {void}
    */
   protected async _ensureTokenRenewal(): Promise<void> {
-    const tokenValidTimeInSeconds = this._context.tokenProvider.tokenValidTimeInSeconds;
-    const tokenRenewalMarginInSeconds = this._context.tokenProvider.tokenRenewalMarginInSeconds;
+    const tokenValidTimeInSeconds = this._context.namespace.tokenProvider.tokenValidTimeInSeconds;
+    const tokenRenewalMarginInSeconds = this._context.namespace.tokenProvider.tokenRenewalMarginInSeconds;
     const nextRenewalTimeout = (tokenValidTimeInSeconds - tokenRenewalMarginInSeconds) * 1000;
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
@@ -155,11 +154,11 @@ export class ClientEntity {
       } catch (err) {
         // TODO: May be add some retries over here before emitting the error.
         debug("[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
-          this._context.connectionId, this.type, this.name, this.address, err);
+          this._context.namespace.connectionId, this.type, this.id, this.address, err);
       }
     }, nextRenewalTimeout);
     debug("[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
-      this._context.connectionId, this.type, this.name, this.address, nextRenewalTimeout / 1000,
+      this._context.namespace.connectionId, this.type, this.id, this.address, nextRenewalTimeout / 1000,
       new Date(Date.now() + nextRenewalTimeout).toString());
   }
 }

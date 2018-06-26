@@ -1,12 +1,27 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { Delivery, uuid_to_string } from "./rhea-promise";
+import { Delivery, uuid_to_string, AmqpError } from "./rhea-promise";
 import {
-  Constants, ServiceBusMessageAnnotations, Dictionary, AmqpMessage
+  Constants, Dictionary, AmqpMessage
 } from "./amqp-common";
 import * as debugModule from "debug";
 const debug = debugModule("azure:service-bus:message");
+/**
+ * Describes the reason and error description for dead lettering a message.
+ * @interface DeadLetterOptions
+ */
+export interface DeadLetterOptions {
+  /**
+   * @property {string} [deadletterReason] The reason for deadlettering the message.
+   */
+  deadletterReason: string;
+  /**
+   * @property {string} [deadLetterErrorDescription] The error description for deadlettering the message.
+   */
+  deadLetterErrorDescription: string;
+}
+
 /**
  * Describes the message to be sent to ServiceBus.
  * @interface SBMessage.
@@ -56,10 +71,6 @@ export interface SBMessage {
    */
   viaPartitionKey?: string;
   /**
-   * @property {number} [partitionId] The Queue partition id.
-   */
-  partitionId?: number;
-  /**
    * @property {string} [sessionId] The session identifier for a session-aware entity. Maximum
    * length is 128 characters. For session-aware entities, this application-defined value specifies
    * the session affiliation of the message. Messages with the same session identifier are subject
@@ -76,7 +87,7 @@ export interface SBMessage {
    */
   replyToSessionId?: string;
   /**
-   * @property {Date} [timeToLive] The message’s time to live value. This value is the relative
+   * @property {number} [timeToLive] The message’s time to live value. This value is the relative
    * duration after which the message expires, starting from the instant the message has been
    * accepted and stored by the broker, as captured in `enqueuedTimeUtc`. When not set explicitly,
    * the assumed value is the DefaultTimeToLive for the respective queue or topic. A message-level
@@ -84,7 +95,7 @@ export interface SBMessage {
    * silently adjusted if it does. See
    * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-expiration Expiration}.
    */
-  timeToLive?: Date;
+  timeToLive?: number;
   /**
    * @property {string} [label] The application specific label. This property enables the
    * application to indicate the purpose of the message to the receiver in a standardized. fashion,
@@ -116,9 +127,10 @@ export interface SBMessage {
    */
   scheduledEnqueueTimeUtc?: Date;
   /**
-   * @property {Dictionary<any>} [properties] The application specific properties.
+   * @property {Dictionary<any>} [userProperties] The application specific properties which can be
+   * used for custom message metadata.
    */
-  properties?: Dictionary<any>;
+  userProperties?: Dictionary<any>;
 }
 
 export namespace SBMessage {
@@ -144,9 +156,8 @@ export namespace SBMessage {
       throw new Error("replyToSessionId must be of type string");
     }
 
-    if (msg.timeToLive && !(msg.timeToLive instanceof Date) &&
-      msg.timeToLive!.toString() === "Invalid Date") {
-      throw new Error("timeToLive must be an instance of a valid Date.");
+    if (msg.timeToLive && typeof msg.timeToLive !== "number") {
+      throw new Error("timeToLive must be of type number.");
     }
 
     if (msg.scheduledEnqueueTimeUtc && !(msg.scheduledEnqueueTimeUtc instanceof Date) &&
@@ -154,20 +165,25 @@ export namespace SBMessage {
       throw new Error("scheduledEnqueueTimeUtc must be an instance of a valid Date.");
     }
 
-    if (msg.partitionKey && typeof msg.partitionKey !== "string") {
-      throw new Error("partitionKey must be of type string");
+    if (msg.partitionKey && typeof msg.partitionKey !== "string" ||
+      (typeof msg.partitionKey === "string" &&
+        msg.partitionKey.length > Constants.maxPartitionKeyLength)) {
+      throw new Error("partitionKey must be of type string with a length less than 128 characters.");
     }
 
-    if (msg.viaPartitionKey && typeof msg.viaPartitionKey !== "string") {
-      throw new Error("viaPartitionKey must be of type string");
-    }
-
-    if (msg.partitionId && typeof msg.partitionId !== "number") {
-      throw new Error("labpartitionIdel must be of type string");
+    if (msg.viaPartitionKey && typeof msg.viaPartitionKey !== "string" ||
+      (typeof msg.partitionKey === "string" &&
+        msg.partitionKey.length > Constants.maxPartitionKeyLength)) {
+      throw new Error("viaPartitionKey must be of type string with a length less than 128 characters.");
     }
 
     if (msg.sessionId && typeof msg.sessionId !== "string") {
       throw new Error("sessionId must be of type string");
+    }
+
+    if (msg.sessionId && typeof msg.sessionId === "string" &&
+      msg.sessionId.length > Constants.maxSessionIdLength) {
+      throw new Error("Length of sessionId of type string cannot be greater than 128 characters.");
     }
 
     if (msg.messageId && typeof msg.messageId !== "string" && typeof msg.messageId !== "number"
@@ -175,8 +191,13 @@ export namespace SBMessage {
       throw new Error("messageId must be of type string | number | Buffer.");
     }
 
-    if (msg.correlationId && typeof msg.correlationId !== "string" && typeof msg.correlationId !== "number"
-      && !Buffer.isBuffer(msg.correlationId)) {
+    if (msg.messageId && typeof msg.messageId === "string" &&
+      msg.messageId.length > Constants.maxMessageIdLength) {
+      throw new Error("Length of messageId of type string cannot be greater than 128 characters.");
+    }
+
+    if (msg.correlationId && typeof msg.correlationId !== "string" &&
+      typeof msg.correlationId !== "number" && !Buffer.isBuffer(msg.correlationId)) {
       throw new Error("correlationId must be of type string | number | Buffer.");
     }
   }
@@ -185,20 +206,20 @@ export namespace SBMessage {
     validate(msg);
     const amqpMsg: AmqpMessage = {
       body: msg.body,
-      application_properties: msg.properties,
-      content_type: msg.contentType,
-      group_id: msg.sessionId,
-      reply_to: msg.replyTo,
-      to: msg.to,
-      ttl: msg.timeToLive ? msg.timeToLive.getTime() : undefined,
-      subject: msg.label,
-      message_id: msg.messageId,
-      correlation_id: msg.correlationId,
-      reply_to_group_id: msg.replyToSessionId,
       message_annotations: {}
     };
-    if (msg.timeToLive && msg.timeToLive !== Constants.maxDate) {
-      amqpMsg.ttl = msg.timeToLive.getTime();
+    if (msg.userProperties) amqpMsg.application_properties = msg.userProperties;
+    if (msg.contentType) amqpMsg.content_type = msg.contentType;
+    if (msg.contentType) amqpMsg.content_type = msg.contentType;
+    if (msg.sessionId) amqpMsg.group_id = msg.sessionId;
+    if (msg.replyTo) amqpMsg.reply_to = msg.replyTo;
+    if (msg.to) amqpMsg.to = msg.to;
+    if (msg.label) amqpMsg.subject = msg.label;
+    if (msg.messageId) amqpMsg.message_id = msg.messageId;
+    if (msg.correlationId) amqpMsg.correlation_id = msg.correlationId;
+    if (msg.replyToSessionId) amqpMsg.reply_to_group_id = msg.replyToSessionId;
+    if (msg.timeToLive && msg.timeToLive !== Constants.maxDurationValue) {
+      amqpMsg.ttl = msg.timeToLive;
       amqpMsg.creation_time = Date.now();
       if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
         amqpMsg.absolute_expiry_time = amqpMsg.creation_time + amqpMsg.ttl;
@@ -208,7 +229,6 @@ export namespace SBMessage {
     }
     if (msg.partitionKey) amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
     if (msg.viaPartitionKey) amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
-    if (msg.partitionId) amqpMsg.message_annotations![Constants.partitionIdName] = msg.partitionId;
     if (msg.scheduledEnqueueTimeUtc) amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
     debug("SBMessage to AmqpMessage: %O", amqpMsg);
     return amqpMsg;
@@ -220,21 +240,22 @@ export namespace SBMessage {
     }
     const sbmsg: SBMessage = {
       body: msg.body,
-      properties: msg.application_properties,
-      contentType: msg.content_type,
-      sessionId: msg.group_id,
-      replyTo: msg.reply_to,
-      to: msg.to,
-      timeToLive: msg.ttl ? new Date(msg.ttl) : undefined,
-      label: msg.subject,
-      messageId: msg.message_id,
-      correlationId: msg.correlation_id,
-      replyToSessionId: msg.reply_to_group_id
     };
+
+    if (msg.application_properties) sbmsg.userProperties = msg.application_properties;
+    if (msg.content_type) sbmsg.contentType = msg.content_type;
+    if (msg.group_id) sbmsg.sessionId = msg.group_id;
+    if (msg.reply_to) sbmsg.replyTo = msg.reply_to;
+    if (msg.to) sbmsg.to = msg.to;
+    if (msg.ttl) sbmsg.timeToLive = msg.ttl;
+    if (msg.subject) sbmsg.label = msg.subject;
+    if (msg.message_id) sbmsg.messageId = msg.message_id;
+    if (msg.correlation_id) sbmsg.correlationId = msg.correlation_id;
+    if (msg.reply_to_group_id) sbmsg.replyToSessionId = msg.reply_to_group_id;
+
     if (msg.message_annotations) {
       if (msg.message_annotations[Constants.partitionKey]) sbmsg.partitionKey = msg.message_annotations[Constants.partitionKey];
       if (msg.message_annotations[Constants.viaPartitionKey]) sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
-      if (msg.message_annotations[Constants.partitionIdName]) sbmsg.partitionId = msg.message_annotations[Constants.partitionIdName];
       if (msg.message_annotations[Constants.scheduledEnqueueTime]) sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
     }
     debug("AmqpMessage to SBMessage: %O", sbmsg);
@@ -317,9 +338,27 @@ export interface ReceivedSBMessage extends SBMessage {
    */
   readonly _amqpMessage: AmqpMessage;
   /**
-   * @property {Delivery} delivery The associated delivery of the received message.
+   * Completes a message using it's lock token. This will delete the message from ServiceBus.
+   * @return void.
    */
-  readonly _delivery: Delivery;
+  complete(): void;
+  /**
+   * Abandons a message using it's lock token. This will make the message available again for
+   * processing.
+   * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
+   * abandoning the message. Abandoning a message will increase the delivery count on the message.
+   * @return void.
+   */
+  abandon(propertiesToModify?: Dictionary<any>): void;
+  /**
+   * Indicates that the receiver wants to defer the processing for the message. In order to receive
+   * this message again in the future, you will need to save the `sequenceNumber` and receive it
+   * using `receiveDeferredMessage(sequenceNumber)`. Deferring messages does not impact message's
+   * expiration, meaning that deferred messages can still expire.
+   * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
+   * deferring the message
+   */
+  defer(propertiesToModify?: Dictionary<any>): number;
 }
 
 export namespace ReceivedSBMessage {
@@ -361,11 +400,10 @@ export namespace ReceivedSBMessage {
   export function toAmqpMessage(msg: ReceivedSBMessage): AmqpMessage {
     ReceivedSBMessage.validate(msg);
     const amqpMsg: AmqpMessage = SBMessage.toAmqpMessage(msg);
-    amqpMsg.delivery_count = msg.deliveryCount;
-    amqpMsg.absolute_expiry_time = msg.expiresAtUtc ? msg.expiresAtUtc.getTime() : undefined;
+    if (msg.deliveryCount) amqpMsg.delivery_count = msg.deliveryCount;
     if (!amqpMsg.message_annotations) amqpMsg.message_annotations = {};
     if (msg.deadLetterSource) amqpMsg.message_annotations[Constants.deadLetterSource] = msg.deadLetterSource;
-    if (msg.enqueuedSequenceNumber) amqpMsg.message_annotations[Constants.offset] = msg.enqueuedSequenceNumber;
+    if (msg.enqueuedSequenceNumber) amqpMsg.message_annotations[Constants.enqueueSequenceNumber] = msg.enqueuedSequenceNumber;
     if (msg.sequenceNumber) amqpMsg.message_annotations[Constants.sequenceNumber] = msg.sequenceNumber;
     if (msg.enqueuedTimeUtc) amqpMsg.message_annotations[Constants.enqueuedTime] = msg.enqueuedTimeUtc;
     if (msg.lockedUntilUtc) amqpMsg.message_annotations[Constants.lockedUntil] = msg.lockedUntilUtc;
@@ -378,17 +416,24 @@ export namespace ReceivedSBMessage {
     const props: any = {};
     if (msg.message_annotations) {
       if (msg.message_annotations[Constants.deadLetterSource]) props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
-      if (msg.message_annotations[Constants.offset]) props.enqueuedSequenceNumber = msg.message_annotations[Constants.offset];
+      if (msg.message_annotations[Constants.enqueueSequenceNumber]) props.enqueuedSequenceNumber = msg.message_annotations[Constants.enqueueSequenceNumber];
       if (msg.message_annotations[Constants.sequenceNumber]) props.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
+      if (Buffer.isBuffer(props.sequenceNumber)) {
+        props.sequenceNumber = props.sequenceNumber.readInt32BE();
+      }
       if (msg.message_annotations[Constants.enqueuedTime]) props.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
-      if (msg.message_annotations[Constants.lockedUntil]) props.lockedUntilUtc = msg.message_annotations[Constants.lockedUntil];
+      if (msg.message_annotations[Constants.lockedUntil]) props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
+    }
+    if (msg.ttl && msg.ttl >= (Constants.maxDurationValue) - props.enqueuedTimeUtc.getTime()) {
+      props.expiresAtUtc = new Date(Constants.maxDurationValue);
+    } else {
+      props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
     }
     const rcvdsbmsg: ReceivedSBMessage = {
       _amqpMessage: msg,
       _delivery: delivery,
       deliveryCount: msg.delivery_count,
       lockToken: uuid_to_string(delivery.tag),
-      expiresAtUtc: msg.absolute_expiry_time ? new Date(msg.absolute_expiry_time) : undefined,
       ...sbmsg,
       ...props
     };
@@ -407,6 +452,10 @@ export class Message implements ReceivedSBMessage {
    * @property {any} body - The message body that needs to be sent or is received.
    */
   body: any;
+  /**
+   * @property {Dictionary<any>} [userProperties] The application specific properties.
+   */
+  userProperties?: Dictionary<any>;
   /**
    * @property {string | number | Buffer} [messageId] The message identifier is an
    * application-defined value that uniquely identifies the message and its payload. The identifier
@@ -438,10 +487,6 @@ export class Message implements ReceivedSBMessage {
    */
   partitionKey?: string;
   /**
-   * @property {number} [partitionId] The Queue partition id.
-   */
-  partitionId?: number;
-  /**
    * @property {string} [viaPartitionKey] The partition key for sending a message into an entity
    * via a partitioned transfer queue. Maximum length is 128 characters. If a message is sent via a
    * transfer queue in the scope of a transaction, this value selects the transfer queue partition:
@@ -467,7 +512,7 @@ export class Message implements ReceivedSBMessage {
    */
   replyToSessionId?: string;
   /**
-   * @property {Date} [timeToLive] The message’s time to live value. This value is the relative
+   * @property {number} [timeToLive] The message’s time to live value. This value is the relative
    * duration after which the message expires, starting from the instant the message has been
    * accepted and stored by the broker, as captured in `enqueuedTimeUtc`. When not set explicitly,
    * the assumed value is the DefaultTimeToLive for the respective queue or topic. A message-level
@@ -475,7 +520,7 @@ export class Message implements ReceivedSBMessage {
    * silently adjusted if it does. See
    * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-expiration Expiration}.
    */
-  timeToLive?: Date;
+  timeToLive?: number;
   /**
    * @property {string} [label] The application specific label. This property enables the
    * application to indicate the purpose of the message to the receiver in a standardized. fashion,
@@ -576,22 +621,62 @@ export class Message implements ReceivedSBMessage {
    */
   readonly _amqpMessage: AmqpMessage;
   /**
-   * @property {ServiceBusMessageAnnotations} [annotations] The amqp message attributes.
-   * @readonly
+   * The associated delivery of the received message.
    */
-  readonly annotations?: ServiceBusMessageAnnotations;
-  /**
-   * @property {Delivery} delivery The associated delivery of the received message.
-   */
-  readonly _delivery: Delivery;
-  /**
-   * @property {Dictionary<any>} [properties] The application specific properties.
-   */
-  properties?: Dictionary<any>;
+  private readonly _delivery: Delivery;
 
   constructor(msg: AmqpMessage, delivery: Delivery) {
     Object.assign(this, ReceivedSBMessage.fromAmqpMessage(msg, delivery));
     this._amqpMessage = msg;
     this._delivery = delivery;
+  }
+
+  /**
+   * Completes a message using it's lock token. This will delete the message from ServiceBus.
+   * @return void.
+   */
+  complete(): void {
+    return this._delivery.accept();
+  }
+  /**
+   * Abandons a message using it's lock token. This will make the message available again for
+   * processing.
+   * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
+   * abandoning the message. Abandoning a message will increase the delivery count on the message.
+   * @return void.
+   */
+  abandon(propertiesToModify?: Dictionary<any>): void {
+    // TODO: Figure out a mechanism to convert specified properties to message_annotations.
+    return this._delivery.modified({ message_annotations: propertiesToModify, undeliverable_here: false });
+  }
+
+  /**
+   * Indicates that the receiver wants to defer the processing for the message. In order to receive
+   * this message again in the future, you will need to save the `sequenceNumber` and receive it
+   * using `receiveDeferredMessage(sequenceNumber)`. Deferring messages does not impact message's
+   * expiration, meaning that deferred messages can still expire.
+   * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
+   * deferring the message
+   * @returns {number} sequenceNumber of the message that was deferred.
+   */
+  defer(propertiesToModify?: Dictionary<any>): number {
+    this._delivery.modified({ message_annotations: propertiesToModify, undeliverable_here: true });
+    return this.sequenceNumber!;
+  }
+
+  /**
+   * Moves the message to the deadletter sub-queue.
+   * @param {DeadLetterOptions} [options] The DeadLetter options that can be provided while rejecting
+   * the message.
+   */
+  deadLetter(options?: DeadLetterOptions): void {
+    let error: AmqpError = {};
+    if (options) {
+      error = {
+        condition: options.deadletterReason,
+        description: options.deadLetterErrorDescription
+      };
+    }
+    return this._delivery.reject(error);
   }
 }

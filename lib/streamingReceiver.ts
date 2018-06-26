@@ -4,8 +4,8 @@
 
 import * as debugModule from "debug";
 import { Constants } from "./amqp-common";
-import { MessageReceiver, ReceiveOptions, OnMessage, OnError } from "./messageReceiver";
-import { ConnectionContext } from "./connectionContext";
+import { MessageReceiver, ReceiveOptions, OnMessage, OnError, ReceiverType } from "./messageReceiver";
+import { ClientEntityContext } from "./clientEntityContext";
 import { ReceiverEvents } from "./rhea-promise";
 const debug = debugModule("azure:service-bus:receiverstreaming");
 
@@ -29,7 +29,7 @@ export class ReceiveHandler {
    */
   constructor(receiver: MessageReceiver) {
     this._receiver = receiver;
-    this.name = receiver ? receiver.name : "ReceiveHandler";
+    this.name = receiver ? receiver.id : "ReceiveHandler";
   }
 
   /**
@@ -51,6 +51,15 @@ export class ReceiveHandler {
   }
 }
 
+export interface MessageHandlerOptions {
+  /**
+   * @property {boolean} [autoComplete] Indicates whether `Message.complete()` should be called
+   * automatically after the message processing is complete while receiving messages with handlers
+   * or while messages are received using receiveBatch(). Default: true.
+   */
+  autoComplete?: boolean;
+}
+
 /**
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
@@ -60,15 +69,14 @@ export class ReceiveHandler {
 export class StreamingReceiver extends MessageReceiver {
 
   /**
-   * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
+   * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
    * @constructor
-   * @param {EventHubClient} client                            The EventHub client.
-   * @param {string} partitionId                               Partition ID from which to receive.
+   * @param {ClientEntityContext} context                      The client entity context.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, options?: ReceiveOptions) {
-    super(context, options);
+  constructor(context: ClientEntityContext, options?: ReceiveOptions) {
+    super(context, ReceiverType.streaming, options);
   }
 
   /**
@@ -86,7 +94,7 @@ export class StreamingReceiver extends MessageReceiver {
     }
     this._onMessage = onMessage;
     this._onError = onError;
-    if (!this._isOpen()) {
+    if (!this.isOpen()) {
       this._init().catch((err) => {
         this._onError!(err);
       });
@@ -95,13 +103,15 @@ export class StreamingReceiver extends MessageReceiver {
       // is the case then add message and error event handlers to the receiver. When the receiver will be closed
       // these handlers will be automatically removed.
       debug("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
-        "Hence reusing it and attaching message and error handlers.", this._context.connectionId, this.name);
+        "Hence reusing it and attaching message and error handlers.",
+        this._context.namespace.connectionId, this.id);
       this._receiver!.registerHandler(ReceiverEvents.message, this._onAmqpMessage);
       this._receiver!.registerHandler(ReceiverEvents.receiverError, this._onAmqpError);
       this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
       debug("[%s] Receiver '%s', set the prefetch count to 1000 and " +
-        "providing a credit of the same amount.", this._context.connectionId, this.name);
+        "providing a credit of the same amount.",
+        this._context.namespace.connectionId, this.id);
     }
   }
 
@@ -109,13 +119,15 @@ export class StreamingReceiver extends MessageReceiver {
    * Creates a streaming receiver.
    * @static
    *
-   * @param {ConnectionContext} context    The connection context.
+   * @param {ClientEntityContext} context    The connection context.
    * @param {ReceiveOptions} [options]     Receive options.
    * @return {StreamingReceiver} An instance of StreamingReceiver.
    */
-  static create(context: ConnectionContext, options?: ReceiveOptions): StreamingReceiver {
+  static create(context: ClientEntityContext, options?: ReceiveOptions): StreamingReceiver {
+    if (!options) options = {};
+    if (options.autoComplete == undefined) options.autoComplete = true;
     const sReceiver = new StreamingReceiver(context, options);
-    context.receivers[sReceiver.name] = sReceiver;
+    context.streamingReceiver = sReceiver;
     return sReceiver;
   }
 }

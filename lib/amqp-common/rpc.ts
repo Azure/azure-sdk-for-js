@@ -70,7 +70,7 @@ export interface CreateConnectionPrameters {
 }
 
 /**
- * Opens the AMQP connection to the Event Hub for this client, returning a promise
+ * Opens the AMQP connection to the EventHub/ServiceBus for this client, returning a promise
  * that will be resolved when the connection is completed.
  *
  * @param {ConnectionContext} context The connection context.

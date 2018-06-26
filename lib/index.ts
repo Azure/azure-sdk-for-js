@@ -12,4 +12,5 @@ export {
 export { Message, ReceivedSBMessage, SBMessage } from "./message";
 export { ReceiveHandler } from "./streamingReceiver";
 export { ReceiveOptions, OnError, OnMessage } from "./messageReceiver";
-export { ClientOptions, ClientOptionsBase, QueueClient, ReceiveMode } from "./queueClient";
+export { QueueClientOptions, QueueClient, ReceiveMode } from "./queueClient";
+export { Namespace, NamespaceOptions } from "./namespace";

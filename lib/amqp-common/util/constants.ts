@@ -3,6 +3,7 @@
 
 export const partitionKey = "x-opt-partition-key";
 export const sequenceNumber = "x-opt-sequence-number";
+export const enqueueSequenceNumber = "x-opt-enqueue-sequence-number";
 export const enqueuedTime = "x-opt-enqueued-time";
 export const scheduledEnqueueTime = "x-opt-scheduled-enqueue-time";
 export const offset = "x-opt-offset";
@@ -40,6 +41,7 @@ export const enableReceiverRuntimeMetricName = `${vendorString}:enable-receiver-
 export const timespan = `${vendorString}:timespan`;
 export const uri = `${vendorString}:uri`;
 export const dateTimeOffset = `${vendorString}:datetime-offset`;
+export const sessionFilterName = `${vendorString}:session-filter`;
 export const receiverError = "receiver_error";
 export const senderError = "sender_error";
 export const sessionError = "session_error";
@@ -63,8 +65,9 @@ export const ruleNameMaximumLength = 50;
 export const maximumSqlFilterStatementLength = 1024;
 export const maximumSqlRuleActionStatementLength = 1024;
 export const maxDeadLetterReasonLength = 4096;
-// https://stackoverflow.com/questions/11526504/minimum-and-maximum-date
-export const maxDate = new Date(8640000000000000);
-export const minDate = new Date(-8640000000000000);
+// https://stackoverflow.com/questions/11526504/minimum-and-maximum-date for js
+// However we are setting this to the TimeSpan.MaxValue of C#.
+export const maxDurationValue = 922337203685477;
+export const minDurationValue = -922337203685477;
 // https://github.com/Azure/azure-amqp/blob/master/Microsoft.Azure.Amqp/Amqp/AmqpConstants.cs#L47
 export const maxAbsoluteExpiryTime = new Date("9999-12-31T07:59:59.000Z").getTime();

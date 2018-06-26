@@ -4,9 +4,9 @@
 import * as debugModule from "debug";
 import { Func, Constants, translate } from "./amqp-common";
 import { ReceiverEvents, EventContext, OnAmqpEvent } from "./rhea-promise";
-import { Message, ReceivedSBMessage } from "./message";
-import { MessageReceiver, ReceiveOptions } from "./messageReceiver";
-import { ConnectionContext } from "./connectionContext";
+import { Message } from "./message";
+import { MessageReceiver, ReceiveOptions, ReceiverType } from "./messageReceiver";
+import { ClientEntityContext } from "./clientEntityContext";
 
 const debug = debugModule("azure:service-bus:receiverbatching");
 
@@ -19,14 +19,20 @@ const debug = debugModule("azure:service-bus:receiverbatching");
 export class BatchingReceiver extends MessageReceiver {
 
   /**
+   * @property {boolean} isReceivingMessages Indicates whether the link is actively receiving
+   * messages. Default: false.
+   */
+  isReceivingMessages: boolean = false;
+
+  /**
    * Instantiate a new BatchingReceiver.
    *
    * @constructor
-   * @param {ConnectionContext} context The connection context.
+   * @param {ClientEntityContext} context The client entity context.
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, options?: ReceiveOptions) {
-    super(context, options);
+  constructor(context: ClientEntityContext, options?: ReceiveOptions) {
+    super(context, ReceiverType.batching, options);
   }
 
   /**
@@ -41,7 +47,8 @@ export class BatchingReceiver extends MessageReceiver {
    */
   receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<Message[]> {
     if (!maxMessageCount || (maxMessageCount && typeof maxMessageCount !== 'number')) {
-      throw new Error("'maxMessageCount' is a required parameter of type number with a value greater than 0.");
+      throw new Error("'maxMessageCount' is a required parameter of type number with a value " +
+        "greater than 0.");
     }
 
     if (maxWaitTimeInSeconds == undefined) {
@@ -50,11 +57,16 @@ export class BatchingReceiver extends MessageReceiver {
 
     const brokeredMessages: Message[] = [];
     let timeOver = false;
+    this.isReceivingMessages = true;
     return new Promise<Message[]>((resolve, reject) => {
       let onReceiveMessage: OnAmqpEvent;
       let onReceiveError: OnAmqpEvent;
       let waitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
+      const resetCreditWindow = () => {
+        this._receiver!.setCreditWindow(0);
+        this._receiver!.addCredit(0);
+      };
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = (timeOver: boolean, data?: Message) => {
         // Resetting the mode. Now anyone can call start() or receive() again.
@@ -66,6 +78,8 @@ export class BatchingReceiver extends MessageReceiver {
         if (!timeOver) {
           clearTimeout(waitTimer);
         }
+        resetCreditWindow();
+        this.isReceivingMessages = false;
         resolve(brokeredMessages);
       };
 
@@ -77,8 +91,8 @@ export class BatchingReceiver extends MessageReceiver {
 
       // Action to be performed on the "message" event.
       onReceiveMessage = (context: EventContext) => {
-        const data: Message = ReceivedSBMessage.fromAmqpMessage(context.message!, context.delivery!);
-        data.body = this._context.dataTransformer.decode(context.message!.body);
+        const data: Message = new Message(context.message!, context.delivery!);
+        data.body = this._context.namespace.dataTransformer.decode(context.message!.body);
         if (brokeredMessages.length <= maxMessageCount) {
           brokeredMessages.push(data);
         }
@@ -92,26 +106,30 @@ export class BatchingReceiver extends MessageReceiver {
         this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
         this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
         const error = translate(context.receiver!.error!);
-        debug("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
+        debug("[%s] Receiver '%s' received an error:\n%O",
+          this._context.namespace.connectionId, this.id, error);
         if (waitTimer) {
           clearTimeout(waitTimer);
         }
+        resetCreditWindow();
+        this.isReceivingMessages = false;
         reject(error);
       };
 
       const addCreditAndSetTimer = (reuse?: boolean) => {
         debug("[%s] Receiver '%s', adding credit for receiving %d messages.",
-          this._context.connectionId, this.name, maxMessageCount);
+          this._context.namespace.connectionId, this.id, maxMessageCount);
         this._receiver!.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        debug(msg, this._context.connectionId, maxWaitTimeInSeconds, this.name);
+        debug(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.id);
         waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
       };
 
-      if (!this._isOpen()) {
-        debug("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
-        this.prefetchCount = 0;
+      if (!this.isOpen()) {
+        debug("[%s] Receiver '%s', setting the prefetch count to 0.",
+          this._context.namespace.connectionId, this.id);
+        this.maxConcurrentCalls = 0;
         this._init(onReceiveMessage, onReceiveError).then(() => addCreditAndSetTimer()).catch(reject);
       } else {
         addCreditAndSetTimer(true);
@@ -125,12 +143,12 @@ export class BatchingReceiver extends MessageReceiver {
    * Creates a batching receiver.
    * @static
    *
-   * @param {ConnectionContext} context    The connection context.
+   * @param {ClientEntityContext} context    The connection context.
    * @param {ReceiveOptions} [options]     Receive options.
    */
-  static create(context: ConnectionContext, options?: ReceiveOptions): BatchingReceiver {
+  static create(context: ClientEntityContext, options?: ReceiveOptions): BatchingReceiver {
     const bReceiver = new BatchingReceiver(context, options);
-    context.receivers[bReceiver.name] = bReceiver;
+    context.batchingReceiver = bReceiver;
     return bReceiver;
   }
 }

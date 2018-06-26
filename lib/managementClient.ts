@@ -5,8 +5,8 @@ import * as uuid from "uuid/v4";
 import * as debugModule from "debug";
 import { Message, ReceiverOptions, SenderOptions } from "./rhea-promise";
 import { defaultLock, translate, Constants, RequestResponseLink } from "./amqp-common";
-import { ConnectionContext } from "./connectionContext";
-import { ClientEntity } from "./clientEntity";
+import { ClientEntityContext } from "./clientEntityContext";
+import { LinkEntity } from "./linkEntity";
 
 const debug = debugModule("azure:service-bus:management");
 
@@ -20,7 +20,7 @@ export interface ManagementClientOptions {
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
-export class ManagementClient extends ClientEntity {
+export class ManagementClient extends LinkEntity {
 
   readonly managementLock: string = `${Constants.managementRequestKey}-${uuid()}`;
   /**
@@ -41,17 +41,18 @@ export class ManagementClient extends ClientEntity {
   /**
    * @constructor
    * Instantiates the management client.
-   * @param {BaseConnectionContext} context The connection context.
+   * @param {ClientEntityContext} context The client entity context.
    * @param {string} [address] The address for the management endpoint. For IotHub it will be
    * `/messages/events/$management`.
    */
-  constructor(context: ConnectionContext, options?: ManagementClientOptions) {
-    super(context, {
+  constructor(context: ClientEntityContext, options?: ManagementClientOptions) {
+    super(`${context.entityPath}/$management`, context, {
       address: options && options.address ? options.address : Constants.management,
-      audience: options && options.audience ? options.audience : `${context.config.endpoint}${context.config.entityPath!}/$management`
+      audience: options && options.audience ? options.audience :
+        `${context.namespace.config.endpoint}${context.entityPath}/$management`
     });
     this._context = context;
-    this.entityPath = context.config.entityPath as string;
+    this.entityPath = context.namespace.config.entityPath as string;
   }
 
   /**
@@ -118,9 +119,11 @@ export class ManagementClient extends ClientEntity {
       };
       const sropt: SenderOptions = { target: { address: this.address } };
       debug("Creating a session for $management endpoint");
-      this._mgmtReqResLink = await RequestResponseLink.create(this._context.connection!, sropt, rxopt);
+      this._mgmtReqResLink =
+        await RequestResponseLink.create(this._context.namespace.connection!, sropt, rxopt);
       debug("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
-        this._context.connectionId, this._mgmtReqResLink.sender.name, this._mgmtReqResLink.receiver.name);
+        this._context.namespace.connectionId, this._mgmtReqResLink.sender.name,
+        this._mgmtReqResLink.receiver.name);
       await this._ensureTokenRenewal();
     }
   }

@@ -1,5 +1,5 @@
 ## What to contribute
-There are many ways that you can contribute to the Azure Event Hubs client project:
+There are many ways that you can contribute to the Azure ServiceBus client project:
 
 * Submit a bug
 * Submit a code fix for a bug
