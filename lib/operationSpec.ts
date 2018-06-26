@@ -22,9 +22,10 @@ export interface OperationSpec {
 
   /**
    * The URL that was provided in the service's specification. This will still have all of the URL
-   * template variables in it.
+   * template variables in it. If this is not provided when the OperationSpec is created, then it
+   * will be populated by a "baseUri" property on the ServiceClient.
    */
-  baseUrl: string;
+  baseUrl?: string;
 
   /**
    * The fixed path for this operation's URL. This will still have all of the URL template variables
