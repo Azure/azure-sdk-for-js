@@ -76,6 +76,12 @@ export interface ServiceClientOptions {
  */
 export class ServiceClient {
   /**
+   * If specified, this is the base URI that requests will be made against for this ServiceClient.
+   * If it is not specified, then all OperationSpecs must contain a baseUrl property.
+   */
+  protected baseUri?: string;
+
+  /**
    * The string to be appended to the User-Agent header while sending the request.
    * This will be applicable only for node.js environment as the fetch library in browser does not allow setting custom UA.
    * @property {Array<string>} value - An array of string that need to be appended to the User-Agent request header.
@@ -178,7 +184,7 @@ export class ServiceClient {
     let result: Promise<HttpOperationResponse>;
     try {
       if (operationSpec.baseUrl == undefined) {
-        operationSpec.baseUrl = (this as any).baseUri;
+        operationSpec.baseUrl = this.baseUri;
         if (!operationSpec.baseUrl) {
           throw new Error("If operationSpec.baseUrl is not specified, then the ServiceClient must have a baseUri string property that contains the base URL to use.");
         }
