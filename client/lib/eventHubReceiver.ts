@@ -171,7 +171,6 @@ export class EventHubReceiver extends ClientEntity {
 
   /**
    * Closes the underlying AMQP receiver.
-   * @param {boolean} [preserveInContext] Should the receiver be preserved in context. Default value false.
    */
   async close(): Promise<void> {
     if (this._receiver) {
