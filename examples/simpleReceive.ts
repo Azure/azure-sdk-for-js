@@ -1,5 +1,4 @@
 import { OnMessage, OnError, MessagingError, delay, Message, ReceiveMode, Namespace } from "../lib";
-// import * as rhea from "rhea";
 import * as dotenv from "dotenv";
 dotenv.config();
 

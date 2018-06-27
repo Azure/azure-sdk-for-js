@@ -5,7 +5,8 @@ export {
   Delivery, Message, OnAmqpEvent, MessageProperties, MessageHeader, EventContext,
   ConnectionOptions, AmqpError, Dictionary, types, message, filter, Filter, MessageUtil,
   uuid_to_string, generate_uuid, string_to_uuid, LinkError, ProtocolError, LinkOptions,
-  DeliveryAnnotations, MessageAnnotations
+  DeliveryAnnotations, MessageAnnotations, ReceiverEvents, SenderEvents, ConnectionEvents,
+  SessionEvents
 } from "rhea";
 
 export { Connection, ReqResLink } from "./connection";
@@ -83,102 +84,19 @@ export const messageHeader: string[] = [
  */
 export type Func<T, V> = (a: T) => V;
 
-export enum ReceiverEvents {
-  /**
-   * @property {string} message Raised when a message is received.
-   */
-  message = "message",
-  /**
-   * @property {string} receiverOpen Raised when the remote peer indicates the link is
-   * open (i.e. attached in AMQP parlance).
-   */
-  receiverOpen = "receiver_open",
-  /**
-   * @property {string} receiverError Raised when the remote peer receives an error. The context
-   * may also have an error property giving some information about the reason for the error.
-   */
-  receiverError = "receiver_error",
-  /**
-   * @property {string} receiverClose Raised when the remote peer indicates the link is closed.
-   */
-  receiverClose = "receiver_close"
-}
-
-export enum SenderEvents {
-  /**
-   * @property {string} sendable Raised when the sender has sufficient credit to be able
-   * to transmit messages to its peer.
-   */
-  sendable = "sendable",
-  /**
-   * @property {string} senderOpen Raised when the remote peer indicates the link is
-   * open (i.e. attached in AMQP parlance).
-   */
-  senderOpen = "sender_open",
-  /**
-   * @property {string} senderError Raised when the remote peer receives an error. The context
-   * may also have an error property giving some information about the reason for the error.
-   */
-  senderError = "sender_error",
-  /**
-   * @property {string} senderClose Raised when the remote peer indicates the link is closed.
-   */
-  senderClose = "sender_close",
-  /**
-   * @property {string} accepted Raised when a sent message is accepted by the peer.
-   */
-  accepted = "accepted",
-  /**
-   * @property {string} released Raised when a sent message is released by the peer.
-   */
-  released = "released",
-  /**
-   * @property {string} rejected Raised when a sent message is rejected by the peer.
-   */
-  rejected = "rejected",
-  /**
-   * @property {string} modified Raised when a sent message is modified by the peer.
-   */
-  modified = "modified"
-}
-
-export enum SessionEvents {
-  /**
-   * @property {string} sessionOpen Raised when the remote peer indicates the session is
-   * open (i.e. attached in AMQP parlance).
-   */
-  sessionOpen = "session_open",
-  /**
-   * @property {string} sessionError Raised when the remote peer receives an error. The context
-   * may also have an error property giving some information about the reason for the error.
-   */
-  sessionError = "session_error",
-  /**
-   * @property {string} sessionClose Raised when the remote peer indicates the session is closed.
-   */
-  sessionClose = "session_close"
-}
-
-export enum ConnectionEvents {
-  /**
-   * @property {string} connectionOpen Raised when the remote peer indicates the connection is open.
-   */
-  connectionOpen = "connection_open",
-  /**
-   * @property {string} connectionClose Raised when the remote peer indicates the connection is closed.
-   */
-  connectionClose = "connection_close",
-  /**
-   * @property {string} connectionError Raised when the remote peer indicates an error occurred on
-   * the connection.
-   */
-  connectionError = "connection_error",
-  /**
-   * @property {string} disconnected Raised when the underlying tcp connection is lost. The context
-   * has a reconnecting property which is true if the library is attempting to automatically reconnect
-   * and false if it has reached the reconnect limit. If reconnect has not been enabled or if the connection
-   * is a tcp server, then the reconnecting property is undefined. The context may also have an error
-   * property giving some information about the reason for the disconnect.
-   */
-  disconnected = "disconnected"
+/**
+ * Determines whether the given error object is like an AmqpError object.
+ * @param err The AmqpError object
+ */
+export function isAmqpError(err: any): boolean {
+  if (!err || typeof err !== "object") {
+    throw new Error("err is a required parameter and must be of type 'object'.");
+  }
+  let result: boolean = false;
+  if (((err.condition && typeof err.condition === "string") && (err.description && typeof err.description === "string"))
+    || (err.value && Array.isArray(err.value))
+    || (err.constructor && err.constructor.name === "c")) {
+    result = true;
+  }
+  return result;
 }

@@ -4,7 +4,7 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "newLine": "LF",
-    "target": "es6",
+    "target": "es2017",
     "importHelpers": true,
     "moduleResolution": "node",
     "noImplicitReturns": true,
