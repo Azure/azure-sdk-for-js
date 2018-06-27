@@ -19,6 +19,10 @@ Runtime for isomorphic javascript libraries (that work in the browser and node.j
 - Set the subscriptionId and token and then run
 - Open index.html file in the browser. It should show the response from GET request on the storage account. From Chrome type Ctrl + Shift + I and you can see the logs in console.
 
+## Architecture Overview
+
+You can find an explanation of how this repository's code works by going to our [architecture overview](https://github.com/Azure/ms-rest-js/blob/master/docs/architectureOverview.md).
+
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
