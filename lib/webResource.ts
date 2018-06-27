@@ -26,6 +26,16 @@ export type TransferProgressEvent = {
 };
 
 /**
+ * Allows the request to be aborted upon firing of the "abort" event.
+ * Compatible with the browser built-in AbortSignal and common polyfills.
+ */
+export interface AbortSignalLike {
+  readonly aborted: boolean;
+  addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
+  removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
+}
+
+/**
  * Creates a new WebResource object.
  *
  * This class provides an abstraction over a REST call by being library / implementation agnostic and wrapping the necessary
@@ -43,7 +53,7 @@ export class WebResource {
   query?: { [key: string]: any; };
   operationSpec?: OperationSpec;
 
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 
   /** Callback which fires upon upload progress. Only used in the browser. */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
@@ -58,7 +68,7 @@ export class WebResource {
     query?: { [key: string]: any; },
     headers?: { [key: string]: any; } | HttpHeaders,
     rawResponse = false,
-    abortSignal?: AbortSignal,
+    abortSignal?: AbortSignalLike,
     onUploadProgress?: (progress: TransferProgressEvent) => void,
     onDownloadProgress?: (progress: TransferProgressEvent) => void) {
 
@@ -344,7 +354,7 @@ export interface RequestPrepareOptions {
   deserializationMapper?: object;
   disableJsonStringifyOnBody?: boolean;
   bodyIsStream?: boolean;
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
   onUploadProgress?: (progress: TransferProgressEvent) => void;
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 }
@@ -371,7 +381,7 @@ export interface RequestOptionsBase {
   /**
    * The signal which can be used to abort requests.
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 
   /**
    * Callback which fires upon upload progress. Only used in the browser.
