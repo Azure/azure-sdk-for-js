@@ -4,18 +4,18 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "newLine": "LF",
-    "target": "es6",
+    "target": "es2017",
     "importHelpers": true,
     "moduleResolution": "node",
     "noImplicitReturns": true,
-    "outDir": "dist/lib",
+    "outDir": "dist",
     "allowJs": false,
     "noUnusedLocals":true,
     "strict": true,
     "strictPropertyInitialization": true,
     "strictNullChecks": true,
     "declaration": true,
-    "declarationDir": "./typings/lib",
+    "declarationDir": "./typings",
     "lib": [
       "es2015",
       "dom",
@@ -33,10 +33,10 @@
     "node_modules",
     "testhub",
     "typings/**",
-    "examples/**",
     "processor"
   ],
   "include": [
-    "./lib/**/*.ts"
+    "./lib/**/*.ts",
+    "./examples/**/*.ts"
   ]
 }

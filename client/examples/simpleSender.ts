@@ -1,4 +1,4 @@
-import { EventHubClient, EventData } from "azure-event-hubs";
+import { EventHubClient, EventData } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -14,8 +14,9 @@ async function main(): Promise<void> {
     body: "Hello World!!"
   };
   const delivery = await client.send(data);
-  console.log(">>> Sent the message successfully: ", delivery.id);
-  // await (Object.values((client as any)._context.senders)[0] as any).close();
+  console.log(">>> Sent the message successfully: ", delivery.tag.toString());
+  console.log(delivery);
+  await (Object.values((client as any)._context.senders)[0] as any).close();
   // await client.close();
 }
 

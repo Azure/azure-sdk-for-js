@@ -1,4 +1,4 @@
-import { EventHubClient, EventPosition, OnMessage, OnError, EventHubsError, delay } from "azure-event-hubs";
+import { EventHubClient, EventPosition, OnMessage, OnError, MessagingError, delay } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -12,16 +12,16 @@ async function main(): Promise<void> {
   const ids = await client.getPartitionIds();
   const hub = await client.getHubRuntimeInformation();
   console.log(">>>> Hub: \n", hub);
-  for (let i = 0; i < ids.length; i++) {
+  for (let i = 0; i < 1; i++) {
     const onMessage: OnMessage = async (eventData: any) => {
       console.log(">>> EventDataObject: ", eventData);
       console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
     }
-    const onError: OnError = (err: EventHubsError | Error) => {
+    const onError: OnError = (err: MessagingError | Error) => {
       console.log(">>>>> Error occurred: ", err);
     };
     //console.log(onMessage, onError);
-    client.receive(ids[i], onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
+    client.receive(ids[i], onMessage, onError, { enableReceiverRuntimeMetric: true, eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
     // giving some time for receiver setup to complete. This will make sure that the receiver can receive the newly sent
     // message from now onwards.
     await delay(3000);

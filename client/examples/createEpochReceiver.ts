@@ -1,4 +1,4 @@
-import { EventHubClient, OnError, EventHubsError, OnMessage, delay } from "azure-event-hubs";
+import { EventHubClient, OnError, MessagingError, OnMessage, delay } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -16,7 +16,7 @@ async function main(): Promise<void> {
     console.log(">>> EventDataObject: ", eventData);
     console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
   }
-  const onError: OnError = (err: EventHubsError | Error) => {
+  const onError: OnError = (err: MessagingError | Error) => {
     console.log("@@@@ receiver with epoch 2.");
     console.log(">>>>> Error occurred for receiver with epoch 2: ", err);
   };
@@ -29,7 +29,7 @@ async function main(): Promise<void> {
     console.log(">>> EventDataObject: ", eventData);
     console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
   }
-  const onError2: OnError = (err: EventHubsError | Error) => {
+  const onError2: OnError = (err: MessagingError | Error) => {
     console.log("@@@@ receiver with epoch 1.");
     console.log(">>>>> Error occurred for receiver with epoch 1: ", err);
   };
