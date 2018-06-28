@@ -4,7 +4,7 @@
 import * as chai from "chai";
 chai.should();
 
-import * as Errors from "../lib/errors";
+import * as Errors from "../lib/amqp-common/errors";
 
 class AMQPError {
   name = "AmqpProtocolError";
@@ -21,9 +21,9 @@ describe("Errors", function () {
   describe("translate", function () {
     it("acts as a passthrough if the input is not an AmqpProtocolError", function () {
       const MyError = function () { };
-      const err = new MyError();
+      const err: any = new MyError();
       const msg: any = undefined;
-      const ehError = new Errors.EventHubsError(msg);
+      const ehError = new Errors.MessagingError(msg);
       const translatedError = Errors.translate(err);
       translatedError.name.should.equal(ehError.name);
       translatedError.retryable.should.equal(ehError.retryable);
@@ -31,14 +31,14 @@ describe("Errors", function () {
     });
 
     [
-      { from: "amqp:not-found", to: "EventHubsCommunicationError", message: "some message" },
+      { from: "amqp:not-found", to: "ServiceCommunicationError", message: "some message" },
       { from: "com.microsoft:server-busy", to: "ServerBusyError", message: "some message" },
       { from: "com.microsoft:argument-out-of-range", to: "ArgumentOutOfRangeError", message: "some message" },
-      { from: "<unknown>", to: "EventHubsError" }
+      { from: "<unknown>", to: "MessagingError" }
     ]
       .forEach(function (mapping) {
         it("translates " + mapping.from + " into " + mapping.to, function () {
-          const err = new AMQPError(mapping.from, mapping.message);
+          const err: any = new AMQPError(mapping.from, mapping.message);
           const translatedError = Errors.translate(err);
           translatedError.name.should.equal(mapping.to);
           if (translatedError.name === "ServerBusyError") {

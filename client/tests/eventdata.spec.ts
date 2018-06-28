@@ -4,7 +4,7 @@
 import * as chai from "chai";
 chai.should();
 
-import { EventData, AmqpMessage } from "../lib";
+import { EventData, Message } from "../lib";
 
 const testAnnotations = {
   "x-opt-enqueued-time": Date.now(),
@@ -23,7 +23,7 @@ const applicationProperties = {
   propKey: "propValue"
 };
 
-const testMessage: AmqpMessage = {
+const testMessage: Message = {
   body: testBody,
   message_annotations: testAnnotations,
   message_id: "test_id",

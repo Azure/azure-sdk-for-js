@@ -2,15 +2,14 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as uuid from "uuid/v4";
-import * as rheaPromise from "./rhea-promise";
-import * as Constants from "./util/constants";
 import * as debugModule from "debug";
-import { RequestResponseLink, createRequestResponseLink, sendRequest } from "./rpc";
-import { defaultLock } from "./util/utils";
+import * as rheaPromise from "./rhea-promise";
+import {
+  RequestResponseLink, defaultLock, translate, Constants
+} from "./amqp-common";
 import { Message } from ".";
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntity } from "./clientEntity";
-import { translate } from "./errors";
 
 const debug = debugModule("azure:event-hubs:management");
 
@@ -170,10 +169,9 @@ export class ManagementClient extends ClientEntity {
    */
   async close(): Promise<void> {
     try {
-      if (this._mgmtReqResLink) {
-        await rheaPromise.closeSession(this._mgmtReqResLink.session);
+      if (this._isMgmtRequestResponseLinkOpen()) {
+        await this._mgmtReqResLink!.close();
         debug("Successfully closed the management session.");
-        this._session = undefined;
         this._mgmtReqResLink = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
       }
@@ -185,7 +183,7 @@ export class ManagementClient extends ClientEntity {
   }
 
   private async _init(): Promise<void> {
-    if (!this._mgmtReqResLink) {
+    if (!this._isMgmtRequestResponseLinkOpen()) {
       await this._negotiateClaim();
       const rxopt: rheaPromise.ReceiverOptions = {
         source: { address: this.address },
@@ -194,7 +192,8 @@ export class ManagementClient extends ClientEntity {
       };
       const sropt: rheaPromise.SenderOptions = { target: { address: this.address } };
       debug("Creating a session for $management endpoint");
-      this._mgmtReqResLink = await createRequestResponseLink(this._context.connection, sropt, rxopt);
+      this._mgmtReqResLink =
+        await RequestResponseLink.create(this._context.connection!, sropt, rxopt);
       this._session = this._mgmtReqResLink.session;
       debug("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
         this._context.connectionId, this._mgmtReqResLink.sender.name, this._mgmtReqResLink.receiver.name);
@@ -227,12 +226,17 @@ export class ManagementClient extends ClientEntity {
       if (partitionId && type === Constants.partition) {
         request.application_properties!.partition = partitionId;
       }
+      debug("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
-      return sendRequest(this._context.connection, this._mgmtReqResLink!, request);
+      return await this._mgmtReqResLink!.sendRequest(request);
     } catch (err) {
       err = translate(err);
       debug("An error occurred while making the request to $management endpoint: %O", err);
       throw err;
     }
+  }
+
+  private _isMgmtRequestResponseLinkOpen(): boolean {
+    return this._mgmtReqResLink! && this._mgmtReqResLink!.isOpen();
   }
 }

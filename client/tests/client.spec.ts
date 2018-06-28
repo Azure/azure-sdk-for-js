@@ -25,7 +25,7 @@ describe("EventHubClient", function () {
             config[prop] = falsyVal;
             return new EventHubClient(config as any);
           };
-          test.should.throw(Error, `'${prop}' is a required property of the ConnectionConfig.`);
+          test.should.throw(Error, `'${prop}' is a required property of ConnectionConfig.`);
         });
       });
     });

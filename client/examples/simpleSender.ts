@@ -15,6 +15,7 @@ async function main(): Promise<void> {
   };
   const delivery = await client.send(data);
   console.log(">>> Sent the message successfully: ", delivery.id);
+  // await (Object.values((client as any)._context.senders)[0] as any).close();
   // await client.close();
 }
 

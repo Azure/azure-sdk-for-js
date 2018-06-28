@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import { retry } from "../lib/retry";
+import { retry, translate } from "../lib/amqp-common/";
 import * as chai from "chai";
-import { delay, EventHubsError } from "../lib";
+import { delay, MessagingError } from "../lib";
 import * as debugModule from "debug";
-import { translate } from "../lib/errors";
 const debug = debugModule("azure:event-hubs:retry-spec");
 const should = chai.should();
 
@@ -42,7 +41,7 @@ describe("retry function", function () {
       await retry(operation);
     } catch (err) {
       should.exist(err);
-      should.equal(true, err instanceof EventHubsError);
+      should.equal(true, err instanceof MessagingError);
       err.message.should.equal("I would like to fail.");
       counter.should.equal(1);
     }
@@ -83,11 +82,11 @@ describe("retry function", function () {
         await delay(200);
         debug("counter: %d", ++counter);
         if (counter == 1) {
-          const e = new EventHubsError("A retryable error.");
+          const e = new MessagingError("A retryable error.");
           e.retryable = true;
           throw e;
         } else if (counter == 2) {
-          const e = new EventHubsError("A retryable error.");
+          const e = new MessagingError("A retryable error.");
           e.retryable = true;
           throw e;
         } else {
@@ -114,11 +113,11 @@ describe("retry function", function () {
         await delay(200);
         debug("counter: %d", ++counter);
         if (counter == 1) {
-          const e = new EventHubsError("A retryable error.");
+          const e = new MessagingError("A retryable error.");
           e.retryable = true;
           throw e;
         } else if (counter == 2) {
-          const e = new EventHubsError("A retryable error.");
+          const e = new MessagingError("A retryable error.");
           e.retryable = true;
           throw e;
         } else {
@@ -128,7 +127,7 @@ describe("retry function", function () {
       await retry(operation, 3, 0.5);
     } catch (err) {
       should.exist(err);
-      should.equal(true, err instanceof EventHubsError);
+      should.equal(true, err instanceof MessagingError);
       err.message.should.equal("I would like to fail.");
       counter.should.equal(3);
     }
@@ -140,14 +139,14 @@ describe("retry function", function () {
       const operation = async () => {
         debug("counter: %d", ++counter);
         await delay(200);
-        const e = new EventHubsError("I would always like to fail, keep retrying.");
+        const e = new MessagingError("I would always like to fail, keep retrying.");
         e.retryable = true;
         throw e;
       };
       await retry(operation, 4, 0.5);
     } catch (err) {
       should.exist(err);
-      should.equal(true, err instanceof EventHubsError);
+      should.equal(true, err instanceof MessagingError);
       err.message.should.equal("I would always like to fail, keep retrying.");
       counter.should.equal(4);
     }

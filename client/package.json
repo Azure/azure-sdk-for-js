@@ -12,7 +12,7 @@
     "is-buffer": "2.0.2",
     "ms-rest": "^2.3.3",
     "ms-rest-azure": "^2.5.5",
-    "rhea": "^0.2.13",
+    "rhea": "^0.2.14",
     "tslib": "^1.9.2",
     "uuid": "^3.2.1"
   },
@@ -31,14 +31,14 @@
     "mocha": "^5.2.0",
     "ts-node": "^5.0.1",
     "tslint": "^5.10.0",
-    "typescript": "^2.9.1"
+    "typescript": "^2.9.2"
   },
   "scripts": {
     "tslint": "tslint -p . -c tslint.json --exclude examples/**/*.ts --exclude tests/**/*.ts",
     "tsc": "tsc",
     "build": "npm run tslint && npm run tsc",
     "test": "npm run build",
-    "unit": "mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts --abort-on-uncaught-exception",
+    "unit": "nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts --abort-on-uncaught-exception",
     "prepare": "npm run build"
   },
   "homepage": "http://github.com/azure/azure-event-hubs-node",

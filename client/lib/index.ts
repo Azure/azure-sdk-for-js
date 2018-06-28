@@ -3,22 +3,21 @@
 
 export { EventData } from "./eventData";
 export {
-  Delivery, AmqpError, Message, MessageHeader, MessageProperties, Dictionary,
-  EventHubDeliveryAnnotations, EventHubMessageAnnotations
+  Delivery, AmqpError, Message, MessageHeader, MessageProperties, Dictionary
 } from "./rhea-promise";
-export { ConnectionConfig } from "./connectionConfig";
 export { ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
 export { ReceiveHandler } from "./streamingReceiver";
-export {
-  EventHubsError, ErrorNameConditionMapper, ConditionStatusMapper, ConditionErrorNameMapper
-} from "./errors";
 export { EventHubClient, ReceiveOptions, ClientOptionsBase, ClientOptions } from "./eventHubClient";
 export { EventPosition } from "./eventPosition";
-export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 export { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
-export { TokenType, TokenProvider, TokenInfo } from "./auth/token";
-export { aadEventHubsAudience } from "./util/constants";
+export {
+  TokenType, TokenProvider, TokenInfo, EventHubDeliveryAnnotations, EventHubMessageAnnotations
+} from "./amqp-common";
+import { Constants } from "./amqp-common";
+export const aadEventHubsAudience = Constants.aadEventHubsAudience;
 export {
   delay, Timeout, EventHubConnectionStringModel, parseConnectionString,
-  IotHubConnectionStringModel, StorageConnectionStringModel, isIotHubConnectionString
-} from "./util/utils";
+  IotHubConnectionStringModel, StorageConnectionStringModel, isIotHubConnectionString,
+  ErrorNameConditionMapper, ConditionStatusMapper, ConditionErrorNameMapper, MessagingError,
+  DataTransformer, DefaultDataTransformer, ConnectionConfig
+} from "./amqp-common";
