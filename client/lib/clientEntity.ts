@@ -4,7 +4,7 @@
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import { ConnectionContext } from "./connectionContext";
-import { defaultLock } from "./util/utils";
+import { defaultLock } from "./amqp-common";
 const debug = debugModule("azure:event-hubs:clientEntity");
 
 export interface ClientEntityOptions {
@@ -89,7 +89,7 @@ export class ClientEntity {
    * Creates a new ClientEntity instance.
    * @constructor
    * @param {ConnectionContext} context The connection context.
-   * @param {string} [name] Name of the entity.
+   * @param {ClientEntityOptions} [options] Options that can be provided while creating the ClientEntity.
    */
   constructor(context: ConnectionContext, options?: ClientEntityOptions) {
     if (!options) options = {};
@@ -128,6 +128,10 @@ export class ClientEntity {
     await defaultLock.acquire(this._context.cbsSession!.cbsLock,
       () => { return this._context.cbsSession!.init(); });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
+    if (!this._context.connection) {
+      this._context.connection = this._context.cbsSession!.connection;
+      this._context.connectionId = this._context.cbsSession!.connection!.id;
+    }
     debug("[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.connectionId, this.type, this.audience);
     // Acquire the lock to negotiate the CBS claim.

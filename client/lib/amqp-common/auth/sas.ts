@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as crypto from "crypto";
-import { parseConnectionString, EventHubConnectionStringModel } from "../util/utils";
+import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
 import { TokenInfo, TokenProvider, TokenType } from "./token";
 
 /**
@@ -11,17 +11,17 @@ import { TokenInfo, TokenProvider, TokenType } from "./token";
  */
 export class SasTokenProvider implements TokenProvider {
   /**
-   * @property {string} namespace - The namespace of the EventHub instance.
+   * @property {string} namespace - The namespace of the EventHub/ServiceBus instance.
    */
   namespace: string;
 
   /**
-   * @property {string} keyName - The name of the EventHub key.
+   * @property {string} keyName - The name of the EventHub/ServiceBus key.
    */
   keyName: string;
 
   /**
-   * @property {string} key - The secret value associated with the above EventHub key
+   * @property {string} key - The secret value associated with the above EventHub/ServiceBus key
    */
   key: string;
   /**
@@ -36,9 +36,9 @@ export class SasTokenProvider implements TokenProvider {
   /**
    * Initializes a new isntance of SasTokenProvider
    * @constructor
-   * @param {string} namespace - The namespace of the EventHub instance.
-   * @param {string} keyName - The name of the EventHub key.
-   * @param {string} key - The secret value associated with the above EventHub key
+   * @param {string} namespace - The namespace of the EventHub/ServiceBus instance.
+   * @param {string} keyName - The name of the EventHub/ServiceBus key.
+   * @param {string} key - The secret value associated with the above EventHub/ServiceBus key
    */
   constructor(namespace: string, keyName: string, key: string, tokenValidTimeInSeconds?: number, tokenRenewalMarginInSeconds?: number) {
     this.namespace = namespace;
@@ -83,11 +83,11 @@ export class SasTokenProvider implements TokenProvider {
   }
 
   /**
-   * Creates a token provider from the EventHub connection string;
-   * @param {string} connectionString - The EventHub connection string
+   * Creates a token provider from the EventHub/ServiceBus connection string;
+   * @param {string} connectionString - The EventHub/ServiceBus connection string
    */
   static fromConnectionString(connectionString: string): SasTokenProvider {
-    const parsed = parseConnectionString<EventHubConnectionStringModel>(connectionString);
+    const parsed = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
     return new SasTokenProvider(parsed.Endpoint, parsed.SharedAccessKeyName, parsed.SharedAccessKey);
   }
 }

@@ -3,10 +3,9 @@
 
 import * as rhea from "rhea";
 import * as debugModule from "debug";
-import * as rheaPromise from "./rhea-promise";
-import { translate } from "./errors";
-import * as Constants from "./util/constants";
-import { ReceiveOptions, EventData, EventHubsError } from ".";
+import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions } from "./rhea-promise";
+import { translate, Constants, MessagingError } from "./amqp-common";
+import { ReceiveOptions, EventData } from ".";
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntity } from "./clientEntity";
 
@@ -47,7 +46,7 @@ export type OnMessage = (eventData: EventData) => void;
 /**
  * Describes the error handler signature.
  */
-export type OnError = (error: EventHubsError | Error) => void;
+export type OnError = (error: MessagingError | Error) => void;
 
 /**
  * Describes the EventHubReceiver that will receive event data from EventHub.
@@ -83,10 +82,10 @@ export class EventHubReceiver extends ClientEntity {
    */
   receiverRuntimeMetricEnabled: boolean = false;
   /**
-   * @property {any} [_receiver] The AMQP receiver link.
+   * @property {Receiver} [_receiver] The AMQP receiver link.
    * @protected
    */
-  protected _receiver?: any;
+  protected _receiver?: Receiver;
   /**
    * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
    * inside _onAmqpMessage.
@@ -104,13 +103,13 @@ export class EventHubReceiver extends ClientEntity {
    * underlying rhea receiver for the "message" event.
    * @protected
    */
-  protected _onAmqpMessage: rheaPromise.OnAmqpEvent;
+  protected _onAmqpMessage: OnAmqpEvent;
   /**
    * @property {OnMessage} _onMessage The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
    * @protected
    */
-  protected _onAmqpError: rheaPromise.OnAmqpEvent;
+  protected _onAmqpError: OnAmqpEvent;
 
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
@@ -118,18 +117,7 @@ export class EventHubReceiver extends ClientEntity {
    * @constructor
    * @param {EventHubClient} client                            The EventHub client.
    * @param {string} partitionId                               Partition ID from which to receive.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
-   * @param {string} [options.consumerGroup]                   Consumer group from which to receive.
-   * @param {number} [options.prefetchCount]                   The upper limit of events this receiver will
-   * actively receive regardless of whether a receive operation is pending.
-   * @param {boolean} [options.enableReceiverRuntimeMetric]    Provides the approximate receiver runtime information
-   * for a logical partition of an Event Hub if the value is true. Default false.
-   * @param {number} [options.epoch]                           The epoch value that this receiver is currently
-   * using for partition ownership. A value of undefined means this receiver is not an epoch-based receiver.
-   * @param {EventPosition} [options.eventPosition]            The position of EventData in the EventHub parition from
-   * where the receiver should start receiving. Only one of offset, sequenceNumber, enqueuedTime, customFilter can be specified.
-   * `EventPosition.withCustomFilter()` should be used if you want more fine-grained control of the filtering.
-   * See https://github.com/Azure/amqpnetlite/wiki/Azure%20Service%20Bus%20Event%20Hubs for details.
+   * @param {ReceiveOptions} [options]                         Receiver options.
    */
   constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions) {
     super(context, { partitionId: partitionId, name: options ? options.name : undefined });
@@ -145,7 +133,7 @@ export class EventHubReceiver extends ClientEntity {
     this.runtimeInfo = {
       partitionId: `${partitionId}`
     };
-    this._onAmqpMessage = (context: rheaPromise.EventContext) => {
+    this._onAmqpMessage = (context: EventContext) => {
       const evData = EventData.fromAmqpMessage(context.message!);
       evData.body = this._context.dataTransformer.decode(context.message!.body);
 
@@ -158,7 +146,7 @@ export class EventHubReceiver extends ClientEntity {
       this._onMessage!(evData);
     };
 
-    this._onAmqpError = (context: rheaPromise.EventContext) => {
+    this._onAmqpError = (context: EventContext) => {
       const ehError = translate(context.receiver!.error!);
       // TODO: Should we retry before calling user's error method?
       debug("[%s] An error occurred for Receiver '%s': %O.",
@@ -167,7 +155,13 @@ export class EventHubReceiver extends ClientEntity {
     };
   }
 
-
+  /**
+   * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
+   * @return {boolean} boolean
+   */
+  isOpen(): boolean {
+    return this._receiver! && this._receiver!.isOpen();
+  }
 
   /**
    * Closes the underlying AMQP receiver.
@@ -175,14 +169,10 @@ export class EventHubReceiver extends ClientEntity {
   async close(): Promise<void> {
     if (this._receiver) {
       try {
-        // TODO: should I call _receiver.detach() or _receiver.close()?
-        // should I also call this._session.close() after closing the reciver
-        // or can I directly close the session which will take care of closing the receiver as well.
-        await rheaPromise.closeReceiver(this._receiver);
+        await this._receiver.close();
         // Resetting the mode.
         debug("[%s] Deleted the receiver '%s' from the client cache.", this._context.connectionId, this.name);
         this._receiver = undefined;
-        this._session = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         debug("[%s] Receiver '%s', has been closed.", this._context.connectionId, this.name);
       } catch (err) {
@@ -195,9 +185,9 @@ export class EventHubReceiver extends ClientEntity {
    * Creates a new AMQP receiver under a new AMQP session.
    * @returns {Promise<void>}
    */
-  protected async _init(onAmqpMessage?: rheaPromise.OnAmqpEvent, onAmqpError?: rheaPromise.OnAmqpEvent): Promise<void> {
+  protected async _init(onAmqpMessage?: OnAmqpEvent, onAmqpError?: OnAmqpEvent): Promise<void> {
     try {
-      if (!this._isOpen()) {
+      if (!this.isOpen()) {
         await this._negotiateClaim();
         if (!onAmqpMessage) {
           onAmqpMessage = this._onAmqpMessage;
@@ -205,10 +195,9 @@ export class EventHubReceiver extends ClientEntity {
         if (!onAmqpError) {
           onAmqpError = this._onAmqpError;
         }
-        this._session = await rheaPromise.createSession(this._context.connection);
         debug("[%s] Trying to create receiver '%s'...", this._context.connectionId, this.name);
-        const rcvrOptions = this._createReceiverOptions();
-        this._receiver = await rheaPromise.createReceiverWithHandlers(this._session, onAmqpMessage, onAmqpError, rcvrOptions);
+        const rcvrOptions = this._createReceiverOptions(onAmqpMessage, onAmqpError);
+        this._receiver = await this._context.connection!.createReceiver(rcvrOptions);
         debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
         debug("[%s] Receiver '%s' created with receiver options: %O",
           this._context.connectionId, this.name, rcvrOptions);
@@ -226,33 +215,19 @@ export class EventHubReceiver extends ClientEntity {
   }
 
   /**
-   * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
-   * @protected
-   *
-   * @return {boolean} boolean
-   */
-  protected _isOpen(): boolean {
-    let result: boolean = false;
-    if (this._session && this._receiver) {
-      if (this._receiver.is_open && this._receiver.is_open()) {
-        result = true;
-      }
-    }
-    return result;
-  }
-
-  /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
    * @private
    */
-  private _createReceiverOptions(): rheaPromise.ReceiverOptions {
-    const rcvrOptions: rheaPromise.ReceiverOptions = {
+  private _createReceiverOptions(onMessage?: OnAmqpEvent, onError?: OnAmqpEvent): ReceiverOptions {
+    const rcvrOptions: ReceiverOptions = {
       name: this.name,
       autoaccept: true,
       source: {
         address: this.address
       },
       credit_window: this.prefetchCount,
+      onMessage: onMessage,
+      onError: onError
     };
     if (this.epoch !== undefined && this.epoch !== null) {
       if (!rcvrOptions.properties) rcvrOptions.properties = {};

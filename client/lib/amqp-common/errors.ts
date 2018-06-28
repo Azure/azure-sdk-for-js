@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { AmqpError, AmqpResponseStatusCode } from "../lib/rhea-promise";
-
+import { AmqpResponseStatusCode, isAmqpError } from "../rhea-promise";
+import { AmqpError } from "rhea";
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
  * @enum {ConditionStatusMapper}
@@ -12,6 +12,7 @@ export enum ConditionStatusMapper {
   "amqp:not-found" = AmqpResponseStatusCode.NotFound,
   "amqp:not-implemented" = AmqpResponseStatusCode.NotImplemented,
   "com.microsoft:entity-already-exists" = AmqpResponseStatusCode.Conflict,
+  "com.microsoft:message-lock-lost" = AmqpResponseStatusCode.Gone,
   "com.microsoft:session-lock-lost" = AmqpResponseStatusCode.Gone,
   "com.microsoft:no-matching-subscription" = AmqpResponseStatusCode.InternalServerError,
   "amqp:link:message-size-exceeded" = AmqpResponseStatusCode.Forbidden,
@@ -26,8 +27,7 @@ export enum ConditionStatusMapper {
   "amqp:link:stolen" = AmqpResponseStatusCode.Gone,
   "amqp:not-allowed" = AmqpResponseStatusCode.BadRequest,
   "amqp:unauthorized-access" = AmqpResponseStatusCode.Unauthorized,
-  "amqp:resource-limit-exceeded" = AmqpResponseStatusCode.Forbidden,
-  "com.microsoft:message-lock-lost" = AmqpResponseStatusCode.Gone,
+  "amqp:resource-limit-exceeded" = AmqpResponseStatusCode.Forbidden
 }
 
 /**
@@ -36,13 +36,29 @@ export enum ConditionStatusMapper {
  */
 export enum ConditionErrorNameMapper {
   /**
+   * Error is thrown when trying to access/connect to a disabled messaging entity.
+   */
+  "com.microsoft:entity-disabled" = "MessagingEntityDisabledError",
+  /**
+   * Error is thrown when the lock on the message is lost.
+   */
+  "com.microsoft:message-lock-lost" = "MessageLockLostError",
+  /**
+   * Error is thrown when the lock on the Azure ServiceBus session is lost.
+   */
+  "com.microsoft:session-lock-lost" = "SessionLockLostError",
+  /**
+   * Error is thrown when the Azure ServiceBus session cannot be locked.
+   */
+  "com.microsoft:session-cannot-be-locked" = "SessionCannotBeLockedError",
+  /**
    * Error is thrown when an internal server error occured. You may have found a bug?
    */
   "amqp:internal-error" = "InternalServerError", // Retryable
   /**
    * Error for signaling general communication errors related to messaging operations.
    */
-  "amqp:not-found" = "EventHubsCommunicationError",
+  "amqp:not-found" = "ServiceCommunicationError",
   /**
    * Error is thrown when a feature is not implemented yet but the placeholder is present.
    */
@@ -52,7 +68,7 @@ export enum ConditionErrorNameMapper {
    */
   "amqp:not-allowed" = "InvalidOperationError",
   /**
-   * Error is thrown the the Azure Event Hub quota has been exceeded.
+   * Error is thrown the the Azure EventHub/ServiceBus quota has been exceeded.
    * Quotas are reset periodically, this operation will have to wait until then.
    * The messaging entity has reached its maximum allowable size.
    * This can happen if the maximum number of receivers (which is 5) has already
@@ -63,6 +79,10 @@ export enum ConditionErrorNameMapper {
    * Error is thrown when the connection parameters are wrong and the server refused the connection.
    */
   "amqp:unauthorized-access" = "UnauthorizedError",
+  /**
+   * Error is thrown when the connection parameters are wrong and the server refused the connection.
+   */
+  "com.microsoft:auth-failed" = "UnauthorizedError",
   /**
    * Error is thrown when the service is unavailable. The operation should be retried.
    */
@@ -75,6 +95,10 @@ export enum ConditionErrorNameMapper {
    * Error is thrown when a condition that should have been met in order to execute an operation was not.
    */
   "amqp:precondition-failed" = "PreconditionFailedError",
+  /**
+   * Error is thrown when a condition that should have been met in order to execute an operation was not.
+   */
+  "com.microsoft:precondition-failed" = "PreconditionFailedError",
   /**
    * Error is thrown when data could not be decoded.
    */
@@ -168,13 +192,29 @@ export enum ConditionErrorNameMapper {
  */
 export enum ErrorNameConditionMapper {
   /**
+   * Error is thrown when trying to access/connect to a disabled messaging entity.
+   */
+  MessagingEntityDisabledError = "com.microsoft:entity-disabled",
+  /**
+   * Error is thrown when the lock on the message is lost.
+   */
+  MessageLockLostError = "com.microsoft:message-lock-lost",
+  /**
+   * Error is thrown when the lock on the Azure ServiceBus session is lost.
+   */
+  SessionLockLostError = "com.microsoft:session-lock-lost",
+  /**
+   * Error is thrown when the Azure ServiceBus session cannot be locked.
+   */
+  SessionCannotBeLockedError = "com.microsoft:session-cannot-be-locked",
+  /**
    * Error is thrown when an internal server error occured. You may have found a bug?
    */
   InternalServerError = "amqp:internal-error", // Retryable
   /**
    * Error for signaling general communication errors related to messaging operations.
    */
-  EventHubsCommunicationError = "amqp:not-found",
+  ServiceCommunicationError = "amqp:not-found",
   /**
    * Error is thrown when a feature is not implemented yet but the placeholder is present.
    */
@@ -184,7 +224,7 @@ export enum ErrorNameConditionMapper {
    */
   InvalidOperationError = "amqp:not-allowed",
   /**
-   * Error is thrown the the Azure Event Hub quota has been exceeded.
+   * Error is thrown the the Azure EventHub/ServiceBus quota has been exceeded.
    * Quotas are reset periodically, this operation will have to wait until then.
    * The messaging entity has reached its maximum allowable size.
    * This can happen if the maximum number of receivers (which is 5) has already
@@ -295,19 +335,19 @@ export enum ErrorNameConditionMapper {
 }
 
 /**
- * Describes the base class for an EventHub Error.
- * @class {EventHubsError}
+ * Describes the base class for Messaging Error.
+ * @class {MessagingError}
  * @extends Error
  */
-export class EventHubsError extends Error {
+export class MessagingError extends Error {
   /**
    * @property {string} [condition] The error condition.
    */
   condition?: string;
   /**
-   * @property {string} name The error name. Default value: "EventHubsError".
+   * @property {string} name The error name. Default value: "MessagingError".
    */
-  name: string = "EventHubsError";
+  name: string = "MessagingError";
   /**
    * @property {boolean} translated Has the error been translated. Default: true.
    */
@@ -330,44 +370,24 @@ export class EventHubsError extends Error {
 }
 
 /**
- * Determines whether the given error object is like an AmqpError object.
- * @param err The AmqpError object
- */
-function isAmqpError(err: any): boolean {
-  if (!err || typeof err !== "object") {
-    throw new Error("err is a required parameter and must be of type 'object'.");
-  }
-  let result: boolean = false;
-  if (((err.condition && typeof err.condition === "string") && (err.description && typeof err.description === "string"))
-    || (err.value && Array.isArray(err.value))
-    || (err.constructor && err.constructor.name === "c")) {
-    result = true;
-  }
-  return result;
-}
-
-/**
- * Translates the AQMP error received at the protocol layer or a generic Error into an EventHubsError.
+ * Translates the AQMP error received at the protocol layer or a generic Error into an MessagingError.
  *
  * @param {AmqpError} err The amqp error that was received.
- * @returns {EventHubsError} EventHubsError object.
+ * @returns {MessagingError} MessagingError object.
  */
-export function translate(err: AmqpError | Error): EventHubsError {
-  if ((err as EventHubsError).translated) { // already translated
-    return err as EventHubsError;
+export function translate(err: AmqpError | Error): MessagingError {
+  if ((err as MessagingError).translated) { // already translated
+    return err as MessagingError;
   } else if (isAmqpError(err)) { // translate
     const condition = (err as AmqpError).condition;
     const description = (err as AmqpError).description as string;
-    const error = new EventHubsError(description);
+    const error = new MessagingError(description);
     error.info = (err as AmqpError).info;
     error.condition = condition;
     if (condition) {
-      if (condition === "com.microsoft:precondition-failed") {
-        error.name = "PreconditionFailedError";
-      } else {
-        error.name = ConditionErrorNameMapper[condition as any] || "EventHubsError";
-      }
+      error.name = ConditionErrorNameMapper[condition as any];
     }
+    if (!error.name) error.name = "MessagingError";
     if (description &&
       (description.includes("status-code: 404") ||
         description.match(/The messaging entity .* could not be found.*/i) !== null)) {
@@ -380,8 +400,8 @@ export function translate(err: AmqpError | Error): EventHubsError {
     }
     return error;
   } else {
-    // Translate a generic error into EventHubsError.
-    const error = new EventHubsError((err as Error).message);
+    // Translate a generic error into MessagingError.
+    const error = new MessagingError((err as Error).message);
     return error;
   }
 }

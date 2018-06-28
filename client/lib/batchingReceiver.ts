@@ -2,13 +2,12 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
+import { ReceiverEvents, EventContext, OnAmqpEvent } from "./rhea-promise";
 import { ReceiveOptions, EventData } from ".";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
-import { translate } from "./errors";
-import * as rheaPromise from "./rhea-promise";
-import * as Constants from "./util/constants";
-import { Func } from "./util/utils";
+import { translate, Func, Constants } from "./amqp-common";
+
 const debug = debugModule("azure:event-hubs:receiverbatching");
 
 
@@ -63,15 +62,15 @@ export class BatchingReceiver extends EventHubReceiver {
     const eventDatas: EventData[] = [];
     let timeOver = false;
     return new Promise<EventData[]>((resolve, reject) => {
-      let onReceiveMessage: rheaPromise.OnAmqpEvent;
-      let onReceiveError: rheaPromise.OnAmqpEvent;
+      let onReceiveMessage: OnAmqpEvent;
+      let onReceiveError: OnAmqpEvent;
       let waitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = (timeOver: boolean, data?: EventData) => {
         // Resetting the mode. Now anyone can call start() or receive() again.
-        this._receiver.removeListener(Constants.receiverError, onReceiveError);
-        this._receiver.removeListener(Constants.message, onReceiveMessage);
+        this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
+        this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
         if (!data) {
           data = eventDatas.length ? eventDatas[eventDatas.length - 1] : undefined;
         }
@@ -94,7 +93,7 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       // Action to be performed on the "message" event.
-      onReceiveMessage = (context: rheaPromise.EventContext) => {
+      onReceiveMessage = (context: EventContext) => {
         const data: EventData = EventData.fromAmqpMessage(context.message!);
         data.body = this._context.dataTransformer.decode(context.message!.body);
         if (eventDatas.length <= maxMessageCount) {
@@ -106,9 +105,9 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       // Action to be taken when an error is received.
-      onReceiveError = (context: rheaPromise.EventContext) => {
-        this._receiver.removeListener(Constants.receiverError, onReceiveError);
-        this._receiver.removeListener(Constants.message, onReceiveMessage);
+      onReceiveError = (context: EventContext) => {
+        this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
+        this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
         const error = translate(context.receiver!.error!);
         debug("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
         if (waitTimer) {
@@ -120,21 +119,21 @@ export class BatchingReceiver extends EventHubReceiver {
       const addCreditAndSetTimer = (reuse?: boolean) => {
         debug("[%s] Receiver '%s', adding credit for receiving %d messages.",
           this._context.connectionId, this.name, maxMessageCount);
-        this._receiver.add_credit(maxMessageCount);
+        this._receiver!.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
         debug(msg, this._context.connectionId, maxWaitTimeInSeconds, this.name);
         waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
       };
 
-      if (!this._isOpen()) {
+      if (!this.isOpen()) {
         debug("[%s] Receiver '%s', setting the prefetch count to 0.", this._context.connectionId, this.name);
         this.prefetchCount = 0;
         this._init(onReceiveMessage, onReceiveError).then(() => addCreditAndSetTimer()).catch(reject);
       } else {
         addCreditAndSetTimer(true);
-        this._receiver.on(Constants.message, onReceiveMessage);
-        this._receiver.on(Constants.receiverError, onReceiveError);
+        this._receiver!.registerHandler(ReceiverEvents.message, onReceiveMessage);
+        this._receiver!.registerHandler(ReceiverEvents.receiverError, onReceiveError);
       }
     });
   }

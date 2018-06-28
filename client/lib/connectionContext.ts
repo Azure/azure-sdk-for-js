@@ -3,16 +3,16 @@
 
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
-import * as Constants from "./util/constants";
-import { ConnectionConfig } from ".";
+import { packageJsonInfo } from "./util/constants";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
-import { TokenProvider } from "./auth/token";
+import {
+  TokenProvider, CbsClient, DataTransformer, DefaultDataTransformer, SasTokenProvider,
+  Constants, ConnectionConfig
+} from "./amqp-common";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
-import { CbsClient } from "./cbs";
-import { SasTokenProvider } from "./auth/sas";
 import { ClientOptions } from "./eventHubClient";
-import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
+import { Connection, Dictionary } from "./rhea-promise";
 
 const debug = debugModule("azure:event-hubs:connectionContext");
 
@@ -27,9 +27,9 @@ export interface ConnectionContext {
    */
   readonly config: ConnectionConfig;
   /**
-   * @property {any} [connection] The underlying AMQP connection.
+   * @property {Connection} [connection] The underlying AMQP connection.
    */
-  connection?: any;
+  connection?: Connection;
   /**
    * @property {string} [connectionId] The amqp connection id that uniquely identifies the connection within a process.
    */
@@ -47,11 +47,11 @@ export interface ConnectionContext {
   /**
    * @property {Dictionary<EventHubReceiver>} receivers A dictionary of the EventHub Receivers associated with this client.
    */
-  receivers: { [x: string]: EventHubReceiver };
+  receivers: Dictionary<EventHubReceiver>;
   /**
    * @property {Dictionary<EventHubSender>} senders A dictionary of the EventHub Senders associated with this client.
    */
-  senders: { [x: string]: EventHubSender };
+  senders: Dictionary<EventHubSender>;
   /**
    * @property {ManagementClient} managementSession A reference to the management session ($management endpoint) on
    * the underlying amqp connection for the EventHub Client.
@@ -87,8 +87,8 @@ export namespace ConnectionContext {
   export const userAgent: string = "/js-event-hubs";
 
   export function create(config: ConnectionConfig, options?: ConnectionContextOptions): ConnectionContext {
-    ConnectionConfig.validate(config);
     if (!options) options = {};
+    ConnectionConfig.validate(config, { isEntityPathRequired: true });
     const context: ConnectionContext = {
       connectionLock: `${Constants.establishConnection}-${uuid()}`,
       negotiateClaimLock: `${Constants.negotiateClaim}-${uuid()}`,
@@ -99,7 +99,8 @@ export namespace ConnectionContext {
       receivers: {},
       dataTransformer: options.dataTransformer || new DefaultDataTransformer()
     };
-    context.cbsSession = new CbsClient(context);
+    const packageVersion = packageJsonInfo.version;
+    context.cbsSession = new CbsClient(config, packageVersion, userAgent);
     const mOptions: ManagementClientOptions = {
       address: options.managementSessionAddress,
       audience: options.managementSessionAudience

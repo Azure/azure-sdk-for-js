@@ -2,13 +2,17 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
-import { closeConnection } from "./rhea-promise";
-import { Delivery } from "rhea";
-import { ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials } from "ms-rest-azure";
-import { ConnectionConfig, OnMessage, OnError, EventData, EventHubsError, DataTransformer } from ".";
+import { Delivery } from "./rhea-promise";
+import {
+  ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
+} from "ms-rest-azure";
+import {
+  ConnectionConfig, MessagingError, DataTransformer, TokenProvider,
+  AadTokenProvider
+} from "./amqp-common";
+import { OnMessage, OnError } from "./eventHubReceiver";
+import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
-import { TokenProvider } from "./auth/token";
-import { AadTokenProvider } from "./auth/aad";
 import { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
 import { EventPosition } from "./eventPosition";
 import { EventHubSender } from "./eventHubSender";
@@ -113,7 +117,7 @@ export class EventHubClient {
    */
   async close(): Promise<any> {
     try {
-      if (this._context.connection) {
+      if (this._context.connection && this._context.connection.isOpen()) {
         // Close all the senders.
         for (const sender of Object.values(this._context.senders)) {
           await sender.close();
@@ -126,7 +130,7 @@ export class EventHubClient {
         await this._context.cbsSession!.close();
         // Close the management session
         await this._context.managementSession!.close();
-        await closeConnection(this._context.connection);
+        await this._context.connection.close();
         debug("Closed the amqp connection '%s' on the client.", this._context.connectionId);
         this._context.connection = undefined;
       }
@@ -231,7 +235,7 @@ export class EventHubClient {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     const bReceiver = BatchingReceiver.create(this._context, partitionId, options);
-    let error: EventHubsError | undefined;
+    let error: MessagingError | undefined;
     let result: EventData[] = [];
     try {
       result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);

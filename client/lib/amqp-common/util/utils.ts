@@ -23,6 +23,14 @@ export interface AsyncLockOptions {
   Promise?: any;
 }
 
+export interface ServiceBusConnectionStringModel {
+  Endpoint: string;
+  SharedAccessKeyName: string;
+  SharedAccessKey: string;
+  EntityPath?: string;
+  [x: string]: any;
+}
+
 export interface EventHubConnectionStringModel {
   Endpoint: string;
   SharedAccessKeyName: string;
@@ -166,4 +174,22 @@ export function isIotHubConnectionString(connectionString: string): boolean {
     result = true;
   }
   return result;
+}
+
+export function setIfDefined(obj: any, key: string, value: any): void {
+  if (value !== undefined) {
+    obj[key] = value;
+  }
+}
+
+export function verifyType(value: any, type: 'string' | 'number'): void {
+  if (value != undefined && typeof value !== type) {
+    throw new TypeError(`Invalid type provided. Value must be a ${type}.`);
+  }
+}
+
+export function verifyClass(value: any, clazz: Function, className: string): void {
+  if (value != undefined && !(value instanceof clazz)) {
+    throw new TypeError(`Invalid type provided. Value must be an instance of ${className}.`);
+  }
 }
