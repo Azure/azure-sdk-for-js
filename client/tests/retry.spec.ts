@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import "mocha";
 import { retry, translate } from "../lib/amqp-common/";
 import * as chai from "chai";
 import { delay, MessagingError } from "../lib";

@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "EPH Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "program": "${workspaceFolder}/processor/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",
                 "tdd",
@@ -26,7 +26,7 @@
             "type": "node",
             "request": "launch",
             "name": "Client Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "program": "${workspaceFolder}/client/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",
                 "tdd",

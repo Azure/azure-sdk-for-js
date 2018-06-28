@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import "mocha";
 import * as chai from "chai";
 const should = chai.should();
 import * as assert from "assert";
