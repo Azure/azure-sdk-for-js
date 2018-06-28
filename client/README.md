@@ -42,7 +42,7 @@ export DEBUG=azure*,rhea*
 
 ## Examples ##
 
-Please take a look at the [examples](https://github.com/Azure/azure-event-hubs-node/tree/master/examples) directory for detailed examples.
+Please take a look at the [examples](https://github.com/Azure/azure-event-hubs-node/tree/master/client/examples) directory for detailed examples.
 
 ## Example 1 - Get the partition IDs.
 
