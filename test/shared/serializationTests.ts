@@ -588,6 +588,206 @@ describe("msrest", function () {
       serializedPetGallery.pets[1].color.should.equal("red");
       done();
     });
+
+
+    it("should allow null when required: true and nullable: true", function() {
+      const mapper = {
+        required: false,
+        serializedName: 'testmodel',
+        type: {
+          name: 'Composite',
+          className: 'testmodel',
+          modelProperties: {
+            length: {
+              required: true,
+              nullable: true,
+              serializedName: 'length',
+              type: {
+                name: 'Number'
+              }
+            }
+          }
+        }
+      };
+
+      const result = Serializer.serialize(mapper, { length: null }, "testobj");
+      should.exist(result);
+    });
+
+    it("should not allow undefined when required: true and nullable: true", function() {
+      const mapper = {
+        required: false,
+        serializedName: 'testmodel',
+        type: {
+          name: 'Composite',
+          className: 'testmodel',
+          modelProperties: {
+            length: {
+              required: true,
+              nullable: true,
+              serializedName: 'length',
+              type: {
+                name: 'Number'
+              }
+            }
+          }
+        }
+      };
+
+      (function () { Serializer.serialize(mapper, { length: undefined }, "testobj"); }).should.throw("testobj.length cannot be undefined.");
+    });
+
+    it("should not allow null when required: true and nullable: false", function() {
+      const mapper = {
+        required: false,
+        serializedName: 'testmodel',
+        type: {
+          name: 'Composite',
+          className: 'testmodel',
+          modelProperties: {
+            length: {
+              required: true,
+              nullable: false,
+              serializedName: 'length',
+              type: {
+                name: 'Number'
+              }
+            }
+          }
+        }
+      };
+
+      (function () { Serializer.serialize(mapper, { length: null }, "testobj"); }).should.throw("testobj.length cannot be null or undefined.");
+    });
+
+    it("should not allow undefined when required: true and nullable: false", function() {
+      const mapper = {
+        required: false,
+        serializedName: 'testmodel',
+        type: {
+          name: 'Composite',
+          className: 'testmodel',
+          modelProperties: {
+            length: {
+              required: true,
+              nullable: false,
+              serializedName: 'length',
+              type: {
+                name: 'Number'
+              }
+            }
+          }
+        }
+      };
+
+      (function () { Serializer.serialize(mapper, { length: undefined }, "testobj"); }).should.throw("testobj.length cannot be null or undefined.");
+    });
+
+    it("should not allow null when required: true and nullable is undefined", function() {
+      const mapper = {
+        serializedName: "foo",
+        required: true,
+        type: {
+          name: "String"
+        }
+      };
+      (function () { Serializer.serialize(mapper, null, "testobj"); }).should.throw("testobj cannot be null or undefined.");
+    });
+
+    it("should not allow undefined when required: true and nullable is undefined", function() {
+      const mapper = {
+        serializedName: "foo",
+        required: true,
+        type: {
+          name: "String"
+        }
+      };
+      (function () { Serializer.serialize(mapper, undefined, "testobj"); }).should.throw("testobj cannot be null or undefined.");
+    });
+
+    it("should allow null when required: false and nullable: true", function() {
+      const mapper = {
+        serializedName: "foo",
+        required: false,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      };
+
+      Serializer.serialize(mapper, null, "testobj");
+    });
+
+    it("should not allow null when required: false and nullable: false", function() {
+      const mapper = {
+        serializedName: "foo",
+        required: false,
+        nullable: false,
+        type: {
+          name: "String"
+        }
+      };
+      (function () { Serializer.serialize(mapper, null, "testobj"); }).should.throw("testobj cannot be null.");
+    });
+
+    it("should allow null when required: false and nullable is undefined", function() {
+      const mapper = {
+        serializedName: "foo",
+        required: false,
+        type: {
+          name: "String"
+        }
+      };
+
+      Serializer.serialize(mapper, null, "testobj");
+    });
+
+    it("should allow undefined when required: false and nullable: true", function() {
+      const mapper = {
+        serializedName: "foo",
+        required: false,
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      };
+
+      Serializer.serialize(mapper, undefined, "testobj");
+    });
+
+    it("should allow undefined when required: false and nullable: false", function() {
+      const mapper = {
+        serializedName: "fooType",
+        type: {
+          name: "Composite",
+          className: "fooType",
+          modelProperties: {
+            length: {
+              serializedName: "length",
+              required: false,
+              nullable: false,
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+
+      Serializer.serialize(mapper, { length: undefined }, "testobj");
+    });
+
+    it("should allow undefined when required: false and nullable is undefined", function() {
+      const mapper = {
+        serializedName: "foo",
+        required: false,
+        type: {
+          name: "String"
+        }
+      };
+
+      Serializer.serialize(mapper, undefined, "testobj");
+    });
   });
 
   describe("deserialize", function () {
