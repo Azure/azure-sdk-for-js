@@ -110,7 +110,7 @@ export class ManagementClient extends LinkEntity {
   }
 
   private async _init(): Promise<void> {
-    if (this._isMgmtRequestResponseLinkOpen()) {
+    if (!this._isMgmtRequestResponseLinkOpen()) {
       await this._negotiateClaim();
       const rxopt: ReceiverOptions = {
         source: { address: this.address },

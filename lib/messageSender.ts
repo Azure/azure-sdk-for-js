@@ -51,7 +51,7 @@ export class MessageSender extends LinkEntity {
     if (this._sender) {
       try {
         await this._sender.close();
-        delete this._context.sender;
+        this._context.sender = undefined;
         debug("[%s] Deleted the sender '%s' with address '%s' from the client entity context.",
           this._context.namespace.connectionId, this.id, this.address);
         this._sender = undefined;
@@ -171,7 +171,7 @@ export class MessageSender extends LinkEntity {
           this._sender!.removeHandler(SenderEvents.rejected, onRejected);
           this._sender!.removeHandler(SenderEvents.accepted, onAccepted);
           this._sender!.removeHandler(SenderEvents.released, onReleased);
-          this._sender!.removeHandler("modified" as any, onModified);
+          this._sender!.removeHandler(SenderEvents.modified, onModified);
         };
 
         onAccepted = (context: EventContext) => {
@@ -217,7 +217,7 @@ export class MessageSender extends LinkEntity {
         };
         this._sender!.registerHandler(SenderEvents.accepted, onAccepted);
         this._sender!.registerHandler(SenderEvents.rejected, onRejected);
-        this._sender!.registerHandler("modified" as any, onModified);
+        this._sender!.registerHandler(SenderEvents.modified, onModified);
         this._sender!.registerHandler(SenderEvents.released, onReleased);
         const delivery = this._sender!.send(message, tag, format);
         debug("[%s] Sender '%s', sent message with delivery id: %d",

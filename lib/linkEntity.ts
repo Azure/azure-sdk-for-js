@@ -7,7 +7,7 @@ import { ClientEntityContext } from "./clientEntityContext";
 import { defaultLock } from "./amqp-common";
 const debug = debugModule("azure:service-bus:clientEntity");
 
-export interface ClientEntityOptions {
+export interface LinkEntityOptions {
   /**
    * @property {string | number} [partitionId] The partitionId associated with the client entity.
    */
@@ -80,9 +80,9 @@ export class LinkEntity {
    * @constructor
    * @param {string} name The name of the entity.
    * @param {ClientEntityContext} context The connection context.
-   * @param {string} [name] Name of the entity.
+   * @param {LinkEntityOptions} [options] Options that can be provided while creating the LinkEntity.
    */
-  constructor(name: string, context: ClientEntityContext, options?: ClientEntityOptions) {
+  constructor(name: string, context: ClientEntityContext, options?: LinkEntityOptions) {
     if (!options) options = {};
     this._context = context;
     this.address = options.address || "";
@@ -94,7 +94,7 @@ export class LinkEntity {
    * @return {string} The entity type.
    */
   get type(): string {
-    let result = "ClientEntity";
+    let result = "LinkEntity";
     if ((this as any).constructor && (this as any).constructor.name) {
       result = (this as any).constructor.name;
     }

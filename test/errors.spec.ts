@@ -31,10 +31,10 @@ describe("Errors", function () {
     });
 
     [
-      { from: "amqp:not-found", to: "EventHubsCommunicationError", message: "some message" },
+      { from: "amqp:not-found", to: "ServiceCommunicationError", message: "some message" },
       { from: "com.microsoft:server-busy", to: "ServerBusyError", message: "some message" },
       { from: "com.microsoft:argument-out-of-range", to: "ArgumentOutOfRangeError", message: "some message" },
-      { from: "<unknown>", to: "EventHubsError" }
+      { from: "<unknown>", to: "MessagingError" }
     ]
       .forEach(function (mapping) {
         it("translates " + mapping.from + " into " + mapping.to, function () {
