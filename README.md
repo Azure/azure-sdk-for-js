@@ -3,6 +3,8 @@
 This project provides JavaScript & Node.js SDK library for [SQL API](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query) of [Azure Cosmos
 Database Service](https://azure.microsoft.com/en-us/services/cosmos-db/). This project also includes samples, tools, and utilities.
 
+[![latest npm badge](https://img.shields.io/npm/v/%40azure%2Fcosmos/latest.svg)](https://www.npmjs.com/package/@azure/cosmos)
+
 Useful links:
 - [Welcome to Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/community)
 - [Quick start](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-get-started)
@@ -28,16 +30,6 @@ The core module uses the callbacks model for responses, exposed through the Docu
 
     npm install @azure/cosmos
 
-### Install Core Module From Github
-
-1. Clone Azure/azure-documentdb-node repository
-Please clone the source and tests from [https://github.com/Azure/azure-documentdb-node](https://github.com/Azure/azure-documentdb-node)
-
-2. Install documentdb
-
-        npm install azure-documentdb-node\source
-        
-
 ## Prerequisites
 
 To use the SDK, first [create an account](https://docs.microsoft.com/en-us/azure/cosmos-db/create-documentdb-nodejs) and follow [tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-nodejs-application).
@@ -53,9 +45,9 @@ Follow these instructions to run the tests locally.
 
 1. Clone Azure/azure-cosmos-js repository
 
-```bash
-git clone https://github.com/azure/azure-cosmos-js.git
-```
+    ```bash
+    git clone https://github.com/azure/azure-cosmos-js.git
+    ```
 
 2. Install Node.js and npm
 [https://docs.npmjs.com/getting-started/installing-node](https://docs.npmjs.com/getting-started/installing-node)

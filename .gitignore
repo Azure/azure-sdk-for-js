@@ -258,3 +258,5 @@ node_modules
 *.dat
 
 lib/**
+
+*.tgz
