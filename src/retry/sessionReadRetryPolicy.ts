@@ -1,4 +1,5 @@
 ﻿import * as url from "url";
+import { Base } from "../base";
 import { Constants, StatusCodes, SubStatusCodes } from "../common";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { ErrorResponse } from "../request";
@@ -15,8 +16,6 @@ export class SessionReadRetryPolicy {
 
     public static readonly maxRetryAttemptCount = 1;
     public static readonly retryAfterInMilliseconds = 0;
-    public static readonly NOT_FOUND_STATUS_CODE = StatusCodes.NotFound;
-    public static readonly READ_SESSION_NOT_AVAILABLE_SUB_STATUS_CODE = SubStatusCodes.PartitionKeyRangeGone;
     public currentRetryAttemptCount = 0;
     public retryAfterInMilliseconds = SessionReadRetryPolicy.retryAfterInMilliseconds;
     private maxRetryAttemptCount = SessionReadRetryPolicy.maxRetryAttemptCount;
@@ -53,7 +52,10 @@ export class SessionReadRetryPolicy {
                 } else {
                     // TODO: tracing
                     // console.log("Clear the the token for named base request");
-                    this.request.client.clearSessionToken(this.request.path);
+                    if (Base.isLinkNameBased(this.request.path)) {
+                        // console.log("Clear the the token for named base request");
+                        this.request.client.clearSessionToken(this.request.path);
+                    }
                     return false;
                 }
             }

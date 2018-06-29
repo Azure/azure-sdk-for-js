@@ -136,7 +136,7 @@ describe("Session Container unit tests", function () {
         };
 
         // test setSessionToken() for rid based request
-        sc.setSessionToken(ridRequest, {}, resHeadersRid);
+        sc.setSessionToken(ridRequest, resHeadersRid);
         assert.deepEqual((sc as any).collectionNameToCollectionResourceId, // TODO: implementation details
             { "dbs/testDatabase/colls/testCollection": "-566441763" });
         assert.deepEqual(sc.collectionResourceIdToSessionTokens, { "-566441763": { 1: "1290" } });
@@ -165,7 +165,7 @@ describe("Session Container unit tests", function () {
         };
 
         // test setSessionToken() for name based request
-        sc.setSessionToken(nameBasedRequest, {}, resHeadersNameBased);
+        sc.setSessionToken(nameBasedRequest, resHeadersNameBased);
         assert.deepEqual((sc as any).collectionNameToCollectionResourceId,
             { "dbs/testDatabase/colls/testCollection": "-566441763" });
         assert.deepEqual(sc.collectionResourceIdToSessionTokens, { "-566441763": { 1: "1126" } });

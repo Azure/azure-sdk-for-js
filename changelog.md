@@ -4,12 +4,22 @@
 - typings now emitted from source (moved source to TypeScript)
 - Added CosmosClient (DocumentClient now considered deprecated)
 
+## Changes in 1.14.4 : ##
+- npm documentation fixed.
+
+## Changes in 1.14.3 : ##
+- Added support for default retries on connection issues.
+- Added support to read collection change feed.
+- Fixed session consistency bug that intermittently caused "read session not available".
+- Added support for query metrics.
+- Modified http Agent's maximum number of connections.
+
 ## Changes in 1.14.2 : ##
-- Updated documentation to use Azure Cosmos DB
-- Added Support for proxyUrl setting in ConnectionPolicy
+- Updated documentation to use Azure Cosmos DB.
+- Added Support for proxyUrl setting in ConnectionPolicy.
 
 ## Changes in 1.14.1 : ##
-- Minor fix for case sensitive file systems
+- Minor fix for case sensitive file systems.
 
 ## Changes in 1.14.0 : ##
 - Adds support for Session Consistency.

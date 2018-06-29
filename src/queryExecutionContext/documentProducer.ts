@@ -175,6 +175,16 @@ export class DocumentProducer {
                 });
             }
 
+            // need to modify the header response so that the query metrics are per partition
+            if (headerResponse != null && Constants.HttpHeaders.QueryMetrics in headerResponse) {
+                // "0" is the default partition before one is actually assigned.
+                const queryMetrics = headerResponse[Constants.HttpHeaders.QueryMetrics]["0"];
+
+                // Wraping query metrics in a object where the keys are the partition key range.
+                headerResponse[Constants.HttpHeaders.QueryMetrics] = {};
+                headerResponse[Constants.HttpHeaders.QueryMetrics][this.targetPartitionKeyRange.id] = queryMetrics;
+            }
+
             return { result: resources, headers: headerResponse };
         } catch (err) { // TODO: any error
             if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {

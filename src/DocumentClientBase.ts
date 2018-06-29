@@ -1,4 +1,5 @@
-import { Agent } from "https";
+import * as http from "http";
+import { Agent, AgentOptions } from "https";
 import * as tunnel from "tunnel";
 import * as url from "url";
 import { Base, ResponseCallback } from "./base";
@@ -25,7 +26,7 @@ export abstract class DocumentClientBase {
     // tslint:disable-next-line:variable-name
     protected _globalEndpointManager: GlobalEndpointManager; // TODO: code smell naming
     public sessionContainer: SessionContainer;
-    public requestAgent: Agent;
+    public requestAgent: Agent | http.Agent; // tunnel uses the http Agent, not https Agent, so we accept both types
     constructor(
         public urlConnection: string,
         auth: any, // TODO: any auth
@@ -81,12 +82,16 @@ export abstract class DocumentClientBase {
         this.sessionContainer = new SessionContainer(this.urlConnection);
 
         // Initialize request agent
-        const requestAgentOptions: any = { keepAlive: true, maxSockets: Infinity }; // TODO: any
+        const requestAgentOptions: AgentOptions & tunnel.HttpsOverHttpsOptions & tunnel.HttpsOverHttpOptions = {
+            keepAlive: true, maxSockets: 256, maxFreeSockets: 256,
+        };
         if (!!this.connectionPolicy.ProxyUrl) {
             const proxyUrl = url.parse(this.connectionPolicy.ProxyUrl);
+            const port = parseInt(proxyUrl.port, 10);
             requestAgentOptions.proxy = {
                 host: proxyUrl.hostname,
-                port: proxyUrl.port,
+                port,
+                headers: {},
             };
 
             if (!!proxyUrl.auth) {
@@ -95,7 +100,7 @@ export abstract class DocumentClientBase {
 
             this.requestAgent = (proxyUrl.protocol.toLowerCase() === "https:" ?
                 tunnel.httpsOverHttps(requestAgentOptions) :
-                tunnel.httpsOverHttp(requestAgentOptions)) as any; // TODO: type coersion
+                tunnel.httpsOverHttp(requestAgentOptions)); // TODO: type coersion
         } else {
             this.requestAgent = new Agent(requestAgentOptions); // TODO: Move to request?
         }

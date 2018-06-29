@@ -99,6 +99,12 @@ export const Constants = {
         EnableCrossPartitionQuery: "x-ms-documentdb-query-enablecrosspartition",
         ParallelizeCrossPartitionQuery: "x-ms-documentdb-query-parallelizecrosspartitionquery",
 
+        // QueryMetrics
+        // Request header to tell backend to give you query metrics.
+        PopulateQueryMetrics: "x-ms-documentdb-populatequerymetrics",
+        // Response header that holds the serialized version of query metrics.
+        QueryMetrics: "x-ms-documentdb-query-metrics",
+
         // Version headers and values
         Version: "x-ms-version",
 
@@ -159,8 +165,8 @@ export const Constants = {
 
     CurrentVersion: "2017-11-15",
 
-    SDKName: "documentdb-nodejs-sdk",
-    SDKVersion: "1.14.2",
+    SDKName: "azure-cosmos-js",
+    SDKVersion: "2.0.0-0", // TODO: should pull this from package.json
 
     DefaultPrecisions: {
         DefaultNumberHashPrecision: 3,
@@ -196,6 +202,9 @@ export const Constants = {
         AttachmentsPathSegment: "attachments",
         PartitionKeyRangesPathSegment: "pkranges",
         SchemasPathSegment: "schemas",
+        OffersPathSegment: "offers",
+        TopologyPathSegment: "topology",
+        DatabaseAccountPathSegment: "databaseaccount",
     },
 
     OperationTypes: {

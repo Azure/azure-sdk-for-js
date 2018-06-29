@@ -13,7 +13,7 @@ import { Platform } from "../../common";
 describe("Platform.getUserAgent", function () {
     it("getUserAgent()", function () {
         const userAgent = Platform.getUserAgent();
-        const expectedUserAgent = util.format("%s/%s Nodejs/%s documentdb-nodejs-sdk/%s",
+        const expectedUserAgent = util.format("%s/%s Nodejs/%s azure-cosmos-js/%s",
             os.platform(), os.release(), process.version,
             Constants.SDKVersion,
         );

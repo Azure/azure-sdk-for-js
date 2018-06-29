@@ -44,6 +44,8 @@ var client = new DocumentDBClient( host, { masterKey: masterKey });
 // 5.1                  - Update some properties and replace the document
 // 5.2                  - Use ETag and AccessCondition to only replace document if it has not changed
 // 6. upsertDocument    - Update a document if it exists, else create new document
+// 6.1                  - Insert a document which does not exist
+// 6.2                  - Update a document which exists
 // 7. deleteDocument    - Given a document id, delete it
 //-------------------------------------------------------------------------------------------------------
 
@@ -165,17 +167,40 @@ init(function (err) {
                                                         }
 
                                                         //6.
-                                                        console.log('\n6. deleteDocument \'' + docLink + '\'');
-                                                        client.deleteDocument(docLink, function (err) {
+                                                        doc.id = "AndersenFamily2.0"
+                                                        doc.foo = "bar"
+                                                        doc.isUpdated = false
+                                                        var upsertDocLink = collLink + "/" + doc.id
+                                                        client.upsertDocument(collLink, doc, {}, function (err, insertedDoc) {
                                                             if (err) {
                                                                 handleError(err);
                                                             } else {
-                                                                console.log('Document deleted');
-                                                                
-                                                                //cleanup & end
-                                                                console.log('\nCleaning up ...');
-                                                                finish();
+                                                                console.log("\n6.1 document upsert when a document with the same id does not exist");
+                                                                console.log('The \'' + insertedDoc.id + '\' family has isUpdated set to \'' + insertedDoc.isUpdated + '\'');
                                                             }
+                                                            insertedDoc.isUpdated = true;
+                                                            client.upsertDocument(collLink, insertedDoc, {}, function (err, updatedDoc) {
+                                                                if (err) {
+                                                                    handleError(err);
+                                                                } else {
+                                                                    console.log("\n6.2 document upsert when a document with the same id exists");
+                                                                    console.log('The \'' + updatedDoc.id + '\' family has isUpdated set to \'' + updatedDoc.isUpdated + '\'');
+                                                                }
+
+                                                                //7.
+                                                                console.log('\n7. deleteDocument \'' + docLink + '\'');
+                                                                client.deleteDocument(docLink, function (err) {
+                                                                    if (err) {
+                                                                        handleError(err);
+                                                                    } else {
+                                                                        console.log('Document deleted');
+
+                                                                        //cleanup & end
+                                                                        console.log('\nCleaning up ...');
+                                                                        finish();
+                                                                    }
+                                                                });
+                                                            });
                                                         });
                                                     });
                                                 });

@@ -13,7 +13,6 @@ import { ErrorResponse } from "../request";
  * the retries are happening.
  */
 export class ResourceThrottleRetryPolicy {
-    public static readonly THROTTLE_STATUS_CODE = StatusCodes.TooManyRequests;
     public currentRetryAttemptCount: number = 0;
     public cummulativeWaitTimeinMilliseconds: number = 0;
     public retryAfterInMilliseconds: number = 0;

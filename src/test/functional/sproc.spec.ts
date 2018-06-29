@@ -384,7 +384,7 @@ describe("NodeJS CRUD Tests", function () {
                 const { result: result2, headers: headers2 } = await client.executeStoredProcedure(
                     TestHelpers.getStoredProcedureLink(true, db, collection, retrievedSproc), undefined, requestOptions);
                 assert.equal(result2, "Success!");
-                assert.equal(headers2[Constants.HttpHeaders.ScriptLogResults], "The value of x is 1.");
+                assert.equal(headers2[Constants.HttpHeaders.ScriptLogResults], encodeURIComponent("The value of x is 1."));
 
                 requestOptions = { enableScriptLogging: false };
                 const { result: result3, headers: headers3 } = await client.executeStoredProcedure(

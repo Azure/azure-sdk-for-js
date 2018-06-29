@@ -179,7 +179,32 @@ describe("Session Token", function () {
         }
     });
 
-    it("client should not have session token of a collection created by another client", async function () {
+    // tslint:disable-next-line:max-line-length
+    it("validate session container update on 'Not found' with 'undefined' status code for non master resource", async function () {
+        const client2 = new CosmosClient(host, { masterKey }, null, ConsistencyLevel.Session);
+        const { result: database } = await client.createDatabase(databaseBody);
+
+        const { result: createdCollection } =
+            await client.createCollection(database._self, collectionDefinition, collectionOptions);
+
+        const { result: createdDocument } = await client.createDocument(createdCollection._self, { id: "1" });
+        const requestOptions = { partitionKey: "1" };
+
+        const { result: document2 } = await client2.deleteDocument(createdDocument._self, requestOptions);
+        const setSessionTokenSpy = sinon.spy(client.sessionContainer, "setSessionToken");
+
+        try {
+            const { result: readDocument } = await client.readDocument(createdDocument._self, requestOptions);
+            assert.fail("Must throw");
+        } catch (err) {
+            assert.equal(err.code, 404, "expecting 404 (Not found)");
+            assert.equal(err.substatus, undefined, "expecting substatus code to be undefined");
+            assert.equal(setSessionTokenSpy.callCount, 1, "unexpected number of calls to sesSessionToken");
+            setSessionTokenSpy.restore();
+        }
+    });
+
+    it("validate client should not have session token of a collection created by another client", async function () {
         const client2 = new CosmosClient(host, { masterKey }, null, ConsistencyLevel.Session);
 
         const { result: database } = await client.createDatabase(databaseBody);

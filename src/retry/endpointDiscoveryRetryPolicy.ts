@@ -16,8 +16,6 @@ export class EndpointDiscoveryRetryPolicy {
     private maxRetryAttemptCount: number;
     private static readonly maxRetryAttemptCount = 120; // TODO: Constant?
     private static readonly retryAfterInMilliseconds = 1000;
-    public static readonly FORBIDDEN_STATUS_CODE = StatusCodes.Forbidden;
-    public static readonly WRITE_FORBIDDEN_SUB_STATUS_CODE = 3; // TODO: Constant
 
     /**
      * @constructor EndpointDiscoveryRetryPolicy

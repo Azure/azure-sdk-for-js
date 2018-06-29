@@ -102,6 +102,14 @@ export class Base {
             headers[Constants.HttpHeaders.EnableCrossPartitionQuery] = opts.enableCrossPartitionQuery;
         }
 
+        if (opts.populateQuotaInfo) {
+            headers[Constants.HttpHeaders.PopulateQuotaInfo] = opts.populateQuotaInfo;
+        }
+
+        if (opts.populateQueryMetrics) {
+            headers[Constants.HttpHeaders.PopulateQueryMetrics] = opts.populateQueryMetrics;
+        }
+
         if (opts.maxDegreeOfParallelism !== undefined) {
             headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] = true;
         }

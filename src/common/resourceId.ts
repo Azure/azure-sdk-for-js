@@ -153,7 +153,6 @@ export class ResourceId {
                 // 5th - 8th bytes represents the collection
 
                 rid.documentCollection = buffer.readIntBE(4, 4).toString();
-                const newBuff = new Buffer(4);
 
                 if (buffer.length >= 16) {
 

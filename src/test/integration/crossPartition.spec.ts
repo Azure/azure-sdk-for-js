@@ -264,22 +264,43 @@ describe("Cross Partition", function () {
             });
         };
 
+        const validateQueryMetrics = async function (queryIterator: QueryIterator) {
+            try {
+                while (queryIterator.hasMoreResults()) {
+                    const { result: results, headers } = await queryIterator.executeNext();
+                    if (results === undefined) {
+                        break;
+                    }
+
+                    assert.notEqual(headers[Constants.HttpHeaders.QueryMetrics], null);
+                }
+            } catch (err) {
+                throw err;
+            }
+        };
+
         const executeQueryAndValidateResults =
             async function (
                 collectionLink: string, query: string | SqlQuerySpec, options: any,
                 expectedOrderIds: any[], validateExecuteNextWithContinuationToken?: boolean) {
+                try {
+                    options.populateQueryMetrics = true;
+                    validateExecuteNextWithContinuationToken = validateExecuteNextWithContinuationToken || false;
+                    const queryIterator = client.queryDocuments(collectionLink, query, options);
 
-                validateExecuteNextWithContinuationToken = validateExecuteNextWithContinuationToken || false;
-                const queryIterator = client.queryDocuments(collectionLink, query, options);
-
-                await validateToArray(queryIterator, options, expectedOrderIds);
-                queryIterator.reset();
-                await validateExecuteNextAndHasMoreResults(
-                    collectionLink, query, options,
-                    queryIterator, expectedOrderIds, validateExecuteNextWithContinuationToken);
-                queryIterator.reset();
-                await validateNextItemAndCurrentAndHasMoreResults(queryIterator, options, expectedOrderIds);
-                await validateForEach(queryIterator, options, expectedOrderIds);
+                    await validateToArray(queryIterator, options, expectedOrderIds);
+                    queryIterator.reset();
+                    await validateExecuteNextAndHasMoreResults(
+                        collectionLink, query, options,
+                        queryIterator, expectedOrderIds, validateExecuteNextWithContinuationToken);
+                    queryIterator.reset();
+                    await validateNextItemAndCurrentAndHasMoreResults(queryIterator, options, expectedOrderIds);
+                    await validateForEach(queryIterator, options, expectedOrderIds);
+                    queryIterator.reset();
+                    await validateQueryMetrics(queryIterator);
+                } catch (err) {
+                    throw err;
+                }
             };
 
         const requestChargeValidator = async function (queryIterator: QueryIterator) {
@@ -325,7 +346,10 @@ describe("Cross Partition", function () {
         it("Validate Parallel Query As String With maxDegreeOfParallelism: -1", async function () {
             // simple order by query in string format
             const query = "SELECT * FROM root r";
-            const options = { enableCrossPartitionQuery: true, maxItemCount: 2, maxDegreeOfParallelism: -1 };
+            const options = {
+                enableCrossPartitionQuery: true, maxItemCount: 2, maxDegreeOfParallelism: -1,
+                populateQueryMetrics: true,
+            };
 
             // prepare expected results
             const getOrderByKey = function (r: any) {

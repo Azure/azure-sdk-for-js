@@ -85,7 +85,7 @@ export class SessionContainer {
         }
     }
 
-    public setSessionToken(request: any, reqHeaders: IHeaders, resHeaders: IHeaders) { // TODO: any request
+    public setSessionToken(request: any, resHeaders: IHeaders) { // TODO: any request
         if (resHeaders && !this.isReadingFromMaster(request["resourceType"], request["opearationType"])) {
             const sessionToken = resHeaders[Constants.HttpHeaders.SessionToken];
             if (sessionToken) {
@@ -151,14 +151,14 @@ export class SessionContainer {
     }
 
     public isReadingFromMaster(resourceType: string, operationType: string) {
-        if (resourceType === "offers" ||
-            resourceType === "dbs" ||
-            resourceType === "users" ||
-            resourceType === "permissions" ||
-            resourceType === "topology" ||
-            resourceType === "databaseaccount" ||
-            resourceType === "pkranges" ||
-            (resourceType === "colls"
+        if (resourceType === Constants.Path.OffersPathSegment ||
+            resourceType === Constants.Path.DatabasesPathSegment ||
+            resourceType === Constants.Path.UsersPathSegment ||
+            resourceType === Constants.Path.PermissionsPathSegment ||
+            resourceType === Constants.Path.TopologyPathSegment ||
+            resourceType === Constants.Path.DatabaseAccountPathSegment ||
+            resourceType === Constants.Path.PartitionKeyRangesPathSegment ||
+            (resourceType === Constants.Path.CollectionsPathSegment
                 && (operationType === Constants.OperationTypes.Query))) {
             return true;
         }

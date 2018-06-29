@@ -59,8 +59,8 @@ describe("Range Tests", function () {
                 (r as any).compareFunction = 1;
                 assert.fail("Must throw");
             } catch (err) {
-                assert.equal(err.message,
-                    "Cannot add property compareFunction, object is not extensible");
+                assert(err.message.includes(
+                    "add property compareFunction, object is not extensible"));
             }
         });
     });

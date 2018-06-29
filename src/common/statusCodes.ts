@@ -38,4 +38,10 @@ export const SubStatusCodes = {
 
     // 410: StatusCodeType_Gone: substatus
     "PartitionKeyRangeGone": 1002,
+
+    // 404: NotFound Substatus
+    "ReadSessionNotAvailable": 1002,
+
+    // 403: Forbidden Substatus
+    "WriteForbidden": 3,
 };
