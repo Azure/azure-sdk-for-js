@@ -2,7 +2,7 @@
 import { Base } from "../base";
 import { Constants, StatusCodes, SubStatusCodes } from "../common";
 import { GlobalEndpointManager } from "../globalEndpointManager";
-import { ErrorResponse } from "../request";
+import { ErrorResponse } from "../request/request";
 
 /**
  * This class implements the retry policy for session consistent reads.

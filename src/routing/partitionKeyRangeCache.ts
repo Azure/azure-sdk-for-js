@@ -1,5 +1,6 @@
 import * as semaphore from "semaphore";
 import { Base } from "../base";
+import { QueryIterator } from "../queryIterator";
 import { CollectionRoutingMapFactory, InMemoryCollectionRoutingMap, QueryRange } from "./";
 
 export class PartitionKeyRangeCache {
@@ -35,14 +36,13 @@ export class PartitionKeyRangeCache {
         if (collectionRoutingMap === undefined) {
             // attempt to consturct collection routing map
             collectionRoutingMap = await new Promise<InMemoryCollectionRoutingMap>((resolve, reject) => {
-                const semaphorizedFuncCollectionMapInstantiator = () => {
+                const semaphorizedFuncCollectionMapInstantiator = async () => {
                     let crm: InMemoryCollectionRoutingMap = this.collectionRoutingMapByCollectionId[collectionId];
                     if (crm === undefined) {
-                        const partitionKeyRangesIterator = this.documentclient.readPartitionKeyRanges(collectionLink);
-                        partitionKeyRangesIterator.toArray((err: Error, resources: any[]) => { // TODO: Promisification
-                            if (err) {
-                                return reject(err);
-                            }
+                        try {
+                            const partitionKeyRangesIterator: QueryIterator<any> =
+                                this.documentclient.readPartitionKeyRanges(collectionLink);
+                            const { result: resources } = await partitionKeyRangesIterator.toArray();
 
                             crm = CollectionRoutingMapFactory.createCompleteRoutingMap(
                                 resources.map((r) => [r, true]),
@@ -51,7 +51,10 @@ export class PartitionKeyRangeCache {
                             this.collectionRoutingMapByCollectionId[collectionId] = crm;
                             this.sem.leave();
                             resolve(crm);
-                        });
+                        } catch (err) {
+                            this.sem.leave();
+                            reject(err);
+                        }
 
                     } else {
                         // sanity gaurd

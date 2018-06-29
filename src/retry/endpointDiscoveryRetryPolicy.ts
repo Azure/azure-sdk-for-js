@@ -1,6 +1,6 @@
 ﻿import { Constants, StatusCodes } from "../common";
 import { GlobalEndpointManager } from "../globalEndpointManager";
-import { ErrorResponse } from "../request";
+import { ErrorResponse } from "../request/request";
 
 /**
  * This class implements the retry policy for endpoint discovery.

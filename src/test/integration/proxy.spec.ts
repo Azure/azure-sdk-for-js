@@ -34,9 +34,13 @@ if (!isBrowser()) {
                 proxy.listen(proxyPort, "127.0.0.1", async () => {
                     try {
                         const client =
-                            new CosmosClient(testConfig.host, { masterKey: testConfig.masterKey }, connectionPolicy);
+                            new CosmosClient({
+                                endpoint: testConfig.host,
+                                auth: { masterKey: testConfig.masterKey },
+                                connectionPolicy,
+                            });
                         // create database
-                        await client.createDatabase({ id: Base.generateGuidId() });
+                        await client.databases.create({ id: Base.generateGuidId() });
                         resolve();
                     } catch (err) {
                         throw err;
@@ -54,10 +58,13 @@ if (!isBrowser()) {
                     proxy.listen(proxyPort + 1, "127.0.0.1", async () => {
                         try {
                             const client =
-                                new CosmosClient(testConfig.host,
-                                    { masterKey: testConfig.masterKey }, connectionPolicy);
+                                new CosmosClient({
+                                    endpoint: testConfig.host,
+                                    auth: { masterKey: testConfig.masterKey },
+                                    connectionPolicy,
+                                });
                             // create database
-                            await client.createDatabase({ id: Base.generateGuidId() });
+                            await client.databases.create({ id: Base.generateGuidId() });
                             reject(new Error("Should create database in error while the proxy setting is not correct"));
                         } catch (err) {
                             resolve();

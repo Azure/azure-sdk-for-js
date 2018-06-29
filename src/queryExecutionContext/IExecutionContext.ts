@@ -1,5 +1,4 @@
-import { IHeaders } from ".";
-import { Response } from "../request";
+import { Response } from "../request/request";
 
 export interface IExecutionContext {
     nextItem: () => Promise<Response<any>>;

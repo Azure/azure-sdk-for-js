@@ -1,126 +1,133 @@
 ﻿import * as assert from "assert";
-import { Base, CosmosClient, DocumentBase, UriFactory } from "../../";
+import { Base, Container, CosmosClient, DocumentBase, UriFactory } from "../../";
+import { Database } from "../../client";
 import testConfig from "./../common/_testConfig";
 import { TestHelpers } from "./../common/TestHelpers";
 
-const host = testConfig.host;
+const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
 
 describe("Authorization", function () {
-    this.timeout(5000);
-    const client = new CosmosClient(host, { masterKey });
+    this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+    const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
     // TODO: should have types for all these things
-    let database: any = { id: "dbs" };
-    let collection: any = { id: "colls" };
+    let database: Database;
+    let container: Container;
 
-    let userReadPermission: any = { id: "User With Read Permission" };
-    let userAllPermission: any = { id: "User With All Permission" };
+    let userReadDefinition: any = { id: "User With Read Permission" };
+    let userAllDefinition: any = { id: "User With All Permission" };
     let collReadPermission: any = {
-        id: "collection Read Permission",
+        id: "container Read Permission",
         permissionMode: DocumentBase.PermissionMode.Read,
     };
     let collAllPermission: any = {
-        id: "collection All Permission",
+        id: "container All Permission",
         permissionMode: DocumentBase.PermissionMode.All,
     };
     /************** TEST **************/
 
     beforeEach(async function () {
-        await TestHelpers.removeAllDatabases(host, masterKey);
-        // create a database
-        const { result: db } = await client.createDatabase(database);
-        assert.equal(db.id, database.id, "database is not created properly");
-        database = db;
+        await TestHelpers.removeAllDatabases(client);
+
+        // create a database & container
+        container = await TestHelpers.getTestContainer(client, "Authorization tests");
+        database = container.database;
 
         // create userReadPermission
-        const { result: user } = await client.createUser(database._self, userReadPermission);
-        assert.equal(userReadPermission.id, user.id, "userReadPermission is not created properly");
-        userReadPermission = user;
+        const { result: userDef } = await container.database.users.create(userReadDefinition);
+        assert.equal(userReadDefinition.id, userDef.id, "userReadPermission is not created properly");
+        userReadDefinition = userDef;
+        const userRead = container.database.users.get(userDef.id);
 
-        // create collection
-        const { result: coll } = await client.createCollection(database._self, collection);
-        assert.equal(collection.id, coll.id, "coll1 is not created properly");
-        collection = coll;
-
-        // give permission to read collection, to userReadPermission
-        collReadPermission.resource = collection._self;
-        const { result: readPermission } = await client.createPermission(userReadPermission._self, collReadPermission);
+        // give permission to read container, to userReadPermission
+        collReadPermission.resource = container.url;
+        const { result: readPermission } = await userRead.permissions.create(collReadPermission);
         assert.equal(readPermission.id, collReadPermission.id, "permission to read coll1 is not created properly");
         collReadPermission = readPermission;
 
         // create userAllPermission
-        const { result: userAllPerm } = await client.createUser(database._self, userAllPermission);
-        assert.equal(userAllPermission.id, userAllPerm.id, "userAllPermission is not created properly");
-        userAllPermission = userAllPerm;
+        const { result: userAllDef } = await container.database.users.create(userAllDefinition);
+        assert.equal(userAllDefinition.id, userAllDef.id, "userAllPermission is not created properly");
+        userAllDefinition = userAllDef;
+        const userAll = container.database.users.get(userAllDef.id);
 
         // create collAllPermission
-        collAllPermission.resource = collection._self;
-        const { result: allPermission } = await client.createPermission(userAllPermission._self, collAllPermission);
+        collAllPermission.resource = container.url;
+        const { result: allPermission } = await userAll.permissions.create(collAllPermission);
         assert.equal(collAllPermission.id, allPermission.id, "permission to read coll2 is not created properly");
         collAllPermission = allPermission;
     });
 
     afterEach(async function () {
-        await TestHelpers.removeAllDatabases(host, masterKey);
+        await TestHelpers.removeAllDatabases(client);
     });
 
-    it("Accessing collection by resourceTokens", async function () {
+    it("Accessing container by resourceTokens", async function () {
         const rTokens: any = {};
-        rTokens[collection.id] = collReadPermission._token;
+        rTokens[container.id] = collReadPermission._token;
 
-        const collectionUri = UriFactory.createDocumentCollectionUri(database.id, collection.id);
-        const clientReadPermission = new CosmosClient(host, { resourceTokens: rTokens });
+        const clientReadPermission = new CosmosClient({ endpoint, auth: { resourceTokens: rTokens } });
 
-        const { result: coll } = await clientReadPermission.readCollection(collectionUri);
-        assert.equal(coll.id, collection.id, "invalid collection");
+        const { result: coll } = await clientReadPermission.databases.get(database.id)
+            .containers.get(container.id)
+            .read();
+        assert.equal(coll.id, container.id, "invalid container");
     });
 
-    it("Accessing collection by permissionFeed", async function () {
-        const clientReadPermission = new CosmosClient(host, { permissionFeed: [collReadPermission] });
+    it("Accessing container by permissionFeed", async function () {
+        const clientReadPermission = new CosmosClient({ endpoint, auth: { permissionFeed: [collReadPermission] } });
 
         // self link must be used to access a resource using permissionFeed
-        const { result: coll } = await clientReadPermission.readCollection(collection._self);
-        assert.equal(coll.id, collection.id, "invalid collection");
+        const { result: coll } = await clientReadPermission.databases.get(database.id)
+            .containers.get(container.id)
+            .read();
+        assert.equal(coll.id, container.id, "invalid container");
     });
 
-    it("Accessing collection without permission fails", async function () {
-        const clientNoPermission = new CosmosClient(host, null);
+    it("Accessing container without permission fails", async function () {
+        const clientNoPermission = new CosmosClient({ endpoint, auth: null });
 
-        const collectionUri = UriFactory.createDocumentCollectionUri(database.id, collection.id);
         try {
-            await clientNoPermission.readCollection(collectionUri);
-            assert.fail("accessing collectioni did not throw");
+            await clientNoPermission.databases.get(database.id)
+                .containers.get(container.id)
+                .read();
+            assert.fail("accessing container did not throw");
         } catch (err) {
             assert(err !== undefined); // TODO: should check that we get the right error message
         }
     });
 
-    it("Accessing document by permissionFeed of parent collection", async function () {
-        const { result: createdDoc } = await client.createDocument(collection._self, { id: "document1" });
-        const clientReadPermission = new CosmosClient(host, { permissionFeed: [collReadPermission] });
+    it("Accessing document by permissionFeed of parent container", async function () {
+        const { result: createdDoc } = await container.items.create({ id: "document1" });
+        const clientReadPermission = new CosmosClient({ endpoint, auth: { permissionFeed: [collReadPermission] } });
         assert.equal("document1", createdDoc.id, "invalid documnet create");
 
-        const { result: readDoc } = await clientReadPermission.readDocument(createdDoc._self);
+        const { result: readDoc } = await clientReadPermission.databases.get(database.id)
+            .containers.get(container.id)
+            .items.get(createdDoc.id)
+            .read<any>();
         assert.equal(readDoc.id, createdDoc.id, "invalid document read");
     });
 
-    it("Modifying collection by resourceTokens", async function () {
+    it("Modifying container by resourceTokens", async function () {
         const rTokens: any = {};
-        rTokens[collection.id] = collAllPermission._token;
+        rTokens[container.id] = collAllPermission._token;
+        const clientAllPermission = new CosmosClient({ endpoint, auth: { resourceTokens: rTokens } });
 
-        const collectionUri = UriFactory.createDocumentCollectionUri(database.id, collection.id);
-        const clientAllPermission = new CosmosClient(host, { resourceTokens: rTokens });
-
-        // delete collection
-        return clientAllPermission.deleteCollection(collectionUri);
+        // delete container
+        return clientAllPermission.databases.get(database.id)
+            .containers.get(container.id)
+            .delete();
     });
 
-    it("Modifying collection by permissionFeed", async function () {
-        const clientAllPermission = new CosmosClient(host, { permissionFeed: [collAllPermission] });
+    it("Modifying container by permissionFeed", async function () {
+        const clientAllPermission = new CosmosClient({ endpoint, auth: { permissionFeed: [collAllPermission] } });
 
         // self link must be used to access a resource using permissionFeed
-        // delete collection
-        return clientAllPermission.deleteCollection(collection._self);
+        // delete container
+        return clientAllPermission.databases.get(database.id)
+            .containers.get(container.id)
+            .delete();
     });
 });

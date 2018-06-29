@@ -1,7 +1,7 @@
 ﻿import * as assert from "assert";
 import { Base, CosmosClient, DocumentBase } from "../../";
 
-const host = "https://localhost:443";
+const endpoint = "https://localhost:443";
 const masterKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
 
 // TODO: Skipping these tests for now until we find a way to run these tests in a seperate nodejs process
@@ -10,9 +10,9 @@ const masterKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGG
 describe.skip("Validate SSL verification check for emulator", function () {
     it("nativeApi Client Should throw exception", async function () {
         try {
-            const client = new CosmosClient(host, { masterKey });
+            const client = new CosmosClient({ endpoint, auth: { masterKey } });
             // create database
-            await client.createDatabase({ id: Base.generateGuidId() });
+            await client.databases.create({ id: Base.generateGuidId() });
         } catch (err) {
             // connecting to emulator should throw SSL verification error,
             // unless you explicitly disable it via connectionPolicy.DisableSSLVerification
@@ -21,17 +21,15 @@ describe.skip("Validate SSL verification check for emulator", function () {
     });
 
     it("nativeApi Client Should successfully execute request", async function () {
-        try {
-            const connectionPolicy = new DocumentBase.ConnectionPolicy();
-            // Disable SSL verification explicitly
-            connectionPolicy.DisableSSLVerification = true;
-            const client = new CosmosClient(host, { masterKey },
-                connectionPolicy);
+        const connectionPolicy = new DocumentBase.ConnectionPolicy();
+        // Disable SSL verification explicitly
+        connectionPolicy.DisableSSLVerification = true;
+        const client = new CosmosClient({
+            endpoint, auth: { masterKey },
+            connectionPolicy,
+        });
 
-            // create database
-            await client.createDatabase({ id: Base.generateGuidId() });
-        } catch (err) {
-            throw err;
-        }
+        // create database
+        await client.databases.create({ id: Base.generateGuidId() });
     });
 });

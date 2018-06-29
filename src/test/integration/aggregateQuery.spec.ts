@@ -1,42 +1,42 @@
 ﻿import * as assert from "assert";
-import * as stream from "stream";
-import * as _ from "underscore";
 import * as util from "util";
-import { Base, DocumentClient, QueryIterator, Range } from "../../";
+import { QueryIterator } from "../../";
+import { Container, ContainerDefinition, Database } from "../../client";
+import { CosmosClient } from "../../CosmosClient";
+import { DataType, IndexKind, PartitionKind } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
-import { ErrorResponse } from "../../request";
 import testConfig from "./../common/_testConfig";
 import { TestData } from "./../common/TestData";
 import { TestHelpers } from "./../common/TestHelpers";
 
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-const host = testConfig.host;
+const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
+const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 describe.skip("NodeJS Aggregate Query Tests", async function () {
     const partitionKey = "key";
     const uniquePartitionKey = "uniquePartitionKey";
     const testdata = new TestData(partitionKey, uniquePartitionKey);
-    const client = new DocumentClient(host, { masterKey });
     const documentDefinitions = testdata.docs;
-    let db: any;
-    let collection: any;
+    let db: Database;
+    let container: Container;
 
-    const collectionDefinition = {
-        id: "sample collection",
+    const containerDefinition: ContainerDefinition = {
+        id: "sample container",
         indexingPolicy: {
             includedPaths: [
                 {
                     path: "/",
                     indexes: [
                         {
-                            kind: "Range",
-                            dataType: "Number",
+                            kind: IndexKind.Hash,
+                            dataType: DataType.Number,
                         },
                         {
-                            kind: "Range",
-                            dataType: "String",
+                            kind: IndexKind.Range,
+                            dataType: DataType.Number,
                         },
                     ],
                 },
@@ -46,31 +46,31 @@ describe.skip("NodeJS Aggregate Query Tests", async function () {
             paths: [
                 "/" + partitionKey,
             ],
-            kind: "Hash",
+            kind: PartitionKind.Hash,
         },
     };
 
-    const collectionOptions = { offerThroughput: 10100 };
+    const containerOptions = { offerThroughput: 10100 };
 
     describe("Validate Aggregate Document Query", function () {
 
         // - removes all the databases,
         //  - creates a new database,
         //      - creates a new collecton,
-        //          - bulk inserts documents to the collection
+        //          - bulk inserts documents to the container
         before(async function () {
-            await TestHelpers.removeAllDatabases(host, masterKey);
-            ({ result: db } = await client.createDatabase({ id: Base.generateGuidId() }));
-            ({ result: collection } = await client.createCollection(
-                TestHelpers.getDatabaseLink(true, db), collectionDefinition, collectionOptions));
-            await TestHelpers.bulkInsertDocuments(client, false, db, collection, documentDefinitions);
+            await TestHelpers.removeAllDatabases(client);
+            container = await TestHelpers.getTestContainer(
+                client, "Validate Aggregate Document Query", containerDefinition);
+            db = container.database;
+            await TestHelpers.bulkInsertItems(container, documentDefinitions);
         });
 
         const validateResult = function (actualValue: any, expectedValue: any) {
             assert.deepEqual(actualValue, expectedValue, "actual value doesn't match with expected value.");
         };
 
-        const validateToArray = async function (queryIterator: QueryIterator, options: any, expectedResults: any) {
+        const validateToArray = async function (queryIterator: QueryIterator<any>, expectedResults: any) {
             try {
                 const { result: results } = await queryIterator.toArray();
                 assert.equal(results.length, expectedResults.length, "invalid number of results");
@@ -80,7 +80,7 @@ describe.skip("NodeJS Aggregate Query Tests", async function () {
             }
         };
 
-        const validateNextItem = async function (queryIterator: QueryIterator, options: any, expectedResults: any) {
+        const validateNextItem = async function (queryIterator: QueryIterator<any>, expectedResults: any) {
             let results: any = [];
 
             try {
@@ -103,7 +103,7 @@ describe.skip("NodeJS Aggregate Query Tests", async function () {
         };
 
         const validateNextItemAndCurrentAndHasMoreResults =
-            async function (queryIterator: QueryIterator, options: any, expectedResults: any[]) {
+            async function (queryIterator: QueryIterator<any>, expectedResults: any[]) {
                 // curent and nextItem recursively invoke each other till queryIterator is exhausted
                 ////////////////////////////////
                 // validate nextItem()
@@ -132,7 +132,7 @@ describe.skip("NodeJS Aggregate Query Tests", async function () {
             };
 
         const validateExecuteNextAndHasMoreResults =
-            async function (queryIterator: QueryIterator, options: any, expectedResults: any[]) {
+            async function (queryIterator: QueryIterator<any>, options: any, expectedResults: any[]) {
                 ////////////////////////////////
                 // validate executeNext()
                 ////////////////////////////////
@@ -177,50 +177,39 @@ describe.skip("NodeJS Aggregate Query Tests", async function () {
                 }
             };
 
-        const validateForEach = async function (queryIterator: QueryIterator, options: any, expectedResults: any[]) {
+        const validateForEach = async function (queryIterator: QueryIterator<any>, expectedResults: any[]) {
 
             ////////////////////////////////
             // validate forEach()
             ////////////////////////////////
 
-            return new Promise((resolve, reject) => {
-                const results: any[] = [];
-                let callbackSingnalledEnd = false;
-                // forEach uses callbacks still, so just wrap in a promise
-                queryIterator.forEach((err: ErrorResponse, item: any) => {
-                    try {
-                        assert.equal(err, undefined,
-                            "unexpected failure in fetching the results: " + err + JSON.stringify(err));
-                        // if the previous invocation returned false, forEach must avoid invoking the callback again!
-                        assert.equal(callbackSingnalledEnd, false,
-                            "forEach called callback after the first false returned");
-                        results.push(item);
-                        if (results.length === expectedResults.length) {
-                            callbackSingnalledEnd = true;
-                            validateResult(results, expectedResults);
-                            process.nextTick(resolve);
-                            return false;
-                        }
-                        return true;
-                    } catch (err) {
-                        reject(err);
-                    }
-                });
-            });
+            const results: any[] = [];
+            let callbackSingnalledEnd = false;
+            // forEach uses callbacks still, so just wrap in a promise
+            for await (const { result: item } of queryIterator.forEach()) {
+                // if the previous invocation returned false, forEach must avoid invoking the callback again!
+                assert.equal(callbackSingnalledEnd, false,
+                    "forEach called callback after the first false returned");
+                results.push(item);
+                if (results.length === expectedResults.length) {
+                    callbackSingnalledEnd = true;
+                }
+            }
+            validateResult(results, expectedResults);
         };
 
         const executeQueryAndValidateResults =
-            async function (collectionLink: string, query: string | SqlQuerySpec, expectedResults: any[]) {
+            async function (query: string | SqlQuerySpec, expectedResults: any[]) {
 
                 const options = { enableCrossPartitionQuery: true };
 
-                const queryIterator = client.queryDocuments(collectionLink, query, options);
-                await validateToArray(queryIterator, options, expectedResults);
+                const queryIterator = container.items.query(query);
+                await validateToArray(queryIterator, expectedResults);
                 queryIterator.reset();
                 await validateExecuteNextAndHasMoreResults(queryIterator, options, expectedResults);
                 queryIterator.reset();
-                await validateNextItemAndCurrentAndHasMoreResults(queryIterator, options, expectedResults);
-                await validateForEach(queryIterator, options, expectedResults);
+                await validateNextItemAndCurrentAndHasMoreResults(queryIterator, expectedResults);
+                await validateForEach(queryIterator, expectedResults);
             };
 
         const generateTestConfigs = function () {
@@ -285,8 +274,7 @@ describe.skip("NodeJS Aggregate Query Tests", async function () {
             it(test.testName, async function () {
                 try {
                     const expected = test.expected === undefined ? [] : [test.expected];
-                    await executeQueryAndValidateResults(
-                        TestHelpers.getCollectionLink(false, db, collection), test.query, expected);
+                    await executeQueryAndValidateResults(test.query, expected);
                 } catch (err) {
                     throw err;
                 }

@@ -1,7 +1,6 @@
 ﻿import * as assert from "assert";
-import { Base } from "../../";
 import {
-    CollectionRoutingMapFactory, PartitionKeyRangeCache,
+    PartitionKeyRangeCache,
     QueryRange,
     SmartRoutingMapProvider,
 } from "../../routing";
@@ -9,8 +8,8 @@ import { MockedDocumentClient } from "./../common/MockDocumentClient";
 
 describe("Smart Routing Map Provider OverlappingRanges", function () {
 
-    const collectionLink = "dbs/7JZZAA==/colls/7JZZAOS-JQA=/";
-    const collectionId = "my collection";
+    const containerLink = "dbs/7JZZAA==/colls/7JZZAOS-JQA=/";
+    const containerId = "my container";
 
     const partitionKeyRanges = [
         { id: "0", minInclusive: "", maxExclusive: "05C1C9CD673398" },
@@ -19,7 +18,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
         { id: "3", minInclusive: "05C1E399CD6732", maxExclusive: "05C1E9CD673398" },
         { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" }];
 
-    const mockedDocumentClient = new MockedDocumentClient(partitionKeyRanges, collectionId);
+    const mockedDocumentClient = new MockedDocumentClient(partitionKeyRanges, containerId);
     const smartRoutingMapProvider = new SmartRoutingMapProvider(mockedDocumentClient);
     const partitionKeyRangeCache = new PartitionKeyRangeCache(mockedDocumentClient);
 
@@ -28,13 +27,13 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
         it('query ranges: ["", ""FF)', function () {
             // query range is the whole partition key range
             const pkRange = new QueryRange("", "FF", true, false);
-            validateOverlappingRanges([pkRange], partitionKeyRanges);
+            return validateOverlappingRanges([pkRange], partitionKeyRanges);
         });
 
         it('query ranges: ("", ""FF)', function () {
             // query range is the whole partition key range
             const pkRange = new QueryRange("", "FF", false, false);
-            validateOverlappingRanges([pkRange], partitionKeyRanges);
+            return validateOverlappingRanges([pkRange], partitionKeyRanges);
         });
     });
 
@@ -212,12 +211,12 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
         results1 = results2 = null;
         err1 = err2 = null;
         try {
-            results1 = await smartRoutingMapProvider.getOverlappingRanges(collectionLink, queryRanges);
+            results1 = await smartRoutingMapProvider.getOverlappingRanges(containerLink, queryRanges);
         } catch (err) {
             err1 = err;
         }
         try {
-            results2 = await partitionKeyRangeCache.getOverlappingRanges(collectionLink, queryRanges);
+            results2 = await partitionKeyRangeCache.getOverlappingRanges(containerLink, queryRanges);
         } catch (err) {
             err2 = err;
         }
@@ -257,12 +256,12 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
         provider: SmartRoutingMapProvider, queryRanges1: any, queryRanges2: any) {
         let results1: any; let results2: any; let err1: any; let err2: any;
         try {
-            results1 = await provider.getOverlappingRanges(collectionLink, queryRanges1);
+            results1 = await provider.getOverlappingRanges(containerLink, queryRanges1);
         } catch (err) {
             err1 = err;
         }
         try {
-            results2 = await provider.getOverlappingRanges(collectionLink, queryRanges2);
+            results2 = await provider.getOverlappingRanges(containerLink, queryRanges2);
         } catch (err) {
             err2 = err;
         }
@@ -278,7 +277,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function () {
             expectedResults: any, errorExpected?: any) {
             errorExpected = errorExpected || false;
             try {
-                const results = await provider.getOverlappingRanges(collectionLink, queryRanges);
+                const results = await provider.getOverlappingRanges(containerLink, queryRanges);
                 assert.deepEqual(results, expectedResults);
             } catch (err) {
                 if (errorExpected) {

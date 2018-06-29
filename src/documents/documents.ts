@@ -1,11 +1,11 @@
 import { Point, Range } from "../range";
-import { RetryOptions } from "../retry";
+import { PartitionKeyDefinition } from "./PartitionKeyDefinition";
 
 export interface Document {
     [key: string]: any;
 }
 
-export type PartitionKey = Point | Range;
+export type PartitionKey = PartitionKeyDefinition | Point | Range;
 
 /**
  * <p>Represents the consistency levels supported for Azure Cosmos DB client operations.<br>
@@ -42,11 +42,11 @@ export enum ConsistencyLevel {
  * @enum {string}
  * @property Consistent     <p>Index is updated synchronously with a create or update operation. <br>
  *                      With consistent indexing, query behavior is the same as the default consistency \
- *                      level for the collection. The index is
+ *                      level for the container. The index is
  *                       always kept up to date with the data. </p>
  * @property Lazy           <p>Index is updated asynchronously with respect to a create or update operation. <br>
  *                      With lazy indexing, queries are eventually consistent. The index is updated when the \
- *                      collection is idle.</p>
+ *                      container is idle.</p>
  */
 export enum IndexingMode {
     Consistent = "consistent",

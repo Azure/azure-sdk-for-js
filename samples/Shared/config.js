@@ -5,5 +5,5 @@
  
  exports.names = {  
      database: 'NodeSamples',  
-     collection: 'Data',  
+     container: 'Data',  
  };  

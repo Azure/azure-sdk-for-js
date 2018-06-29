@@ -1,5 +1,4 @@
 import * as crypto from "crypto";
-import { DocumentClient } from "./documentclient";
 import { DocumentClientBase } from "./DocumentClientBase";
 import { IHeaders } from "./queryExecutionContext";
 

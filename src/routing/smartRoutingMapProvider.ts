@@ -1,7 +1,6 @@
 import * as assert from "assert";
-import * as util from "util";
 import { Constants } from "../common";
-import { CollectionRoutingMapFactory, InMemoryCollectionRoutingMap, PartitionKeyRangeCache, QueryRange } from "./";
+import { PartitionKeyRangeCache, QueryRange } from "./";
 
 export const PARITIONKEYRANGE = Constants.PartitionKeyRange;
 

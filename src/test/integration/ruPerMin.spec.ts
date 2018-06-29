@@ -1,44 +1,31 @@
 ﻿import * as assert from "assert";
-import { Base, Constants, CosmosClient, DocumentBase, UriFactory } from "../../";
+import { Constants, CosmosClient, Database } from "../../";
 import testConfig from "./../common/_testConfig";
 import { TestHelpers } from "./../common/TestHelpers";
 
-const host = testConfig.host;
+const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
+const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 // TODO: these tests are all disabled
 
 describe("RU Per Minute", function () {
-    const client = new CosmosClient(host, { masterKey });
-
-    let databaseLink: string;
-    const createDatabase = async () => {
-        const { result: createdDB } = await client.createDatabase({ id: "Database" });
-        databaseLink = UriFactory.createDatabaseUri(createdDB.id);
-    };
+    let database: Database;
 
     // - removes all the databases,
     //  - creates a new database,
     beforeEach(async () => {
-        try {
-            await TestHelpers.removeAllDatabases(host, masterKey);
-            await createDatabase();
-        } catch (err) {
-            throw err;
-        }
+        await TestHelpers.removeAllDatabases(client);
+        database = await TestHelpers.getTestDatabase(client, "RU Per minute");
     });
 
     // - removes all the databases,
     afterEach(async () => {
-        try {
-            await TestHelpers.removeAllDatabases(host, masterKey);
-        } catch (err) {
-            throw err;
-        }
+        await TestHelpers.removeAllDatabases(client);
     });
 
-    xit("Create Collection with RU Per Minute Offer", function (done) {
-        const collectionDefinition = {
+    xit("Create container with RU Per Minute Offer", async function () {
+        const containerDefinition = {
             id: "sample col",
         };
 
@@ -48,27 +35,18 @@ describe("RU Per Minute", function () {
             offerThroughput: 400,
         };
 
-        client.createCollection(databaseLink, collectionDefinition, options, function (err, collection) {
-            assert.equal(err, undefined, "Error in creating collection");
+        await database.containers.create(containerDefinition, options);
+        const { result: offers } = await client.offers.readAll().toArray();
+        assert.equal(offers.length, 1);
+        const offer = offers[0];
 
-            const validateOffer = function (error: any, offers: any) {
-                assert.equal(error, undefined, "unexpected failure in reading offers");
-                assert.equal(offers.length, 1);
-                const offer = offers[0];
-
-                assert.equal(offer.offerType, "Invalid");
-                assert.notEqual(offer.content, undefined);
-                assert.equal(offer.content.offerIsRUPerMinuteThroughputEnabled, true);
-
-                done();
-            };
-
-            const queryIterator = client.readOffers().toArray(validateOffer);
-        });
+        assert.equal(offer.offerType, "Invalid");
+        assert.notEqual(offer.content, undefined);
+        assert.equal(offer.content.offerIsRUPerMinuteThroughputEnabled, true);
     });
 
-    xit("Create Collection without RU Per Minute Offer", function (done) {
-        const collectionDefinition = {
+    xit("Create container without RU Per Minute Offer", async function () {
+        const containerDefinition = {
             id: "sample col",
         };
 
@@ -77,49 +55,36 @@ describe("RU Per Minute", function () {
             offerThroughput: 400,
         };
 
-        client.createCollection(databaseLink, collectionDefinition, options, function (err, collection) {
-            assert.equal(err, undefined, "Error in creating collection");
+        await database.containers.create(containerDefinition, options);
+        const { result: offers } = await client.offers.readAll().toArray();
+        assert.equal(offers.length, 1);
+        const offer = offers[0];
 
-            const validateOffer = function (error: any, offers: any) {
-                assert.equal(error, undefined, "unexpected failure in reading offers");
-                assert.equal(offers.length, 1);
-                const offer = offers[0];
-
-                assert.equal(offer.offerType, "Invalid");
-                assert.notEqual(offer.content, undefined);
-                assert.equal(offer.content.offerIsRUPerMinuteThroughputEnabled, false);
-
-                done();
-            };
-
-            const queryIterator = client.readOffers().toArray(validateOffer);
-        });
+        assert.equal(offer.offerType, "Invalid");
+        assert.notEqual(offer.content, undefined);
+        assert.equal(offer.content.offerIsRUPerMinuteThroughputEnabled, false);
     });
 
-    xit("Create Collection with RU Per Minute Offer and insert Document with disableRUPerMinuteUsage options",
-        function (done) {
-        const collectionDefinition = {
-            id: "sample col",
-        };
+    xit("Create container with RU Per Minute Offer and insert Document with disableRUPerMinuteUsage options",
+        async function () {
+            const containerDefinition = {
+                id: "sample col",
+            };
 
-        const options = {
-            offerEnableRUPerMinuteThroughput: true,
-            offerVersion: "V2",
-            offerThroughput: 400,
-        };
+            const options = {
+                offerEnableRUPerMinuteThroughput: true,
+                offerVersion: "V2",
+                offerThroughput: 400,
+            };
 
-        client.createCollection(databaseLink, collectionDefinition, options, function (err, collection) {
-            assert.equal(err, undefined, "Error in creating collection");
-            const collectionLink = collection._self;
+            await database.containers.create(containerDefinition, options);
+            const container = database.containers.get(containerDefinition.id);
             const options2: any = {
                 disableRUPerMinuteUsage: true,
             };
-            client.createDocument(collectionLink, { id: "sample document" },
-                options2, function (err2, document, headers) {
-                assert.equal(err2, undefined, "Error in creating document");
-                assert(headers[Constants.HttpHeaders.IsRUPerMinuteUsed] !== true);
-                done();
-            });
+            const { headers } = await container.items.create({ id: "sample document" },
+                options2);
+            assert(headers[Constants.HttpHeaders.IsRUPerMinuteUsed] !== true);
+
         });
-    });
 });

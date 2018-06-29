@@ -1,6 +1,4 @@
 ﻿import * as os from "os";
-import * as semaphore from "semaphore";
-import * as util from "util";
 import { Constants } from ".";
 
 export class Platform {

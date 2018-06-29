@@ -1,14 +1,11 @@
-import * as assert from "assert";
 import {
     DocumentProducer,
-    HeaderUtils,
     IExecutionContext,
     ParallelQueryExecutionContextBase,
     PartitionedQueryExecutionContextInfo,
 } from ".";
-import { Constants } from "../common";
 import { DocumentClient } from "../documentclient";
-import { InMemoryCollectionRoutingMap, PARITIONKEYRANGE } from "../routing";
+import { PARITIONKEYRANGE } from "../routing";
 
 export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase implements IExecutionContext {
     /**

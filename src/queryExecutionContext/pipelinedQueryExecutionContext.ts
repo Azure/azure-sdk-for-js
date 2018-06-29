@@ -9,7 +9,7 @@ import {
     PartitionedQueryExecutionContextInfoParser,
 } from ".";
 import { DocumentClient } from "../documentclient";
-import { Response } from "../request";
+import { Response } from "../request/request";
 import {
     AggregateEndpointComponent,
     IEndpointComponent,

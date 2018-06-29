@@ -1,3 +1,4 @@
+/** @hidden */
 export class TestData {
     public numberOfDocuments: number;
     public field: string;

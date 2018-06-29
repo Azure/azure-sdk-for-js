@@ -1,6 +1,5 @@
 ﻿import * as url from "url";
 import { Constants } from "./common";
-import { DocumentClient } from "./documentclient";
 import { DocumentClientBase } from "./DocumentClientBase";
 import { DatabaseAccount, LocationsType } from "./documents";
 

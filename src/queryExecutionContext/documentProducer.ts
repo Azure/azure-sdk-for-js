@@ -3,7 +3,7 @@ import { FetchFunctionCallback, SqlQuerySpec } from ".";
 import { Base } from "../base";
 import { Constants, StatusCodes, SubStatusCodes } from "../common";
 import { DocumentClient } from "../documentclient";
-import { Response } from "../request";
+import { Response } from "../request/request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
 import { HeaderUtils, IHeaders } from "./headerUtils";

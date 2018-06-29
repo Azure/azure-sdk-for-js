@@ -10,7 +10,7 @@ import {
 } from ".";
 import { StatusCodes, SubStatusCodes } from "../common";
 import { DocumentClient } from "../documentclient";
-import { Response } from "../request";
+import { Response } from "../request/request";
 
 export class ProxyQueryExecutionContext implements IExecutionContext {
     private queryExecutionContext: IExecutionContext;

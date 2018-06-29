@@ -1,10 +1,12 @@
 ﻿import * as assert from "assert";
-import { CosmosClient, UriFactory } from "../../";
+import { CosmosClient } from "../../";
+import { IndexingMode } from "../../documents";
 import testConfig from "./../common/_testConfig";
 import { TestHelpers } from "./../common/TestHelpers";
 
-const host = testConfig.host;
+const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
+const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 const testDoc = {
     id: "ABC",
@@ -15,38 +17,33 @@ const testDoc = {
 describe("Create And Read Validation", function () {
     this.timeout(10000);
 
-    const client = new CosmosClient(host, { masterKey });
     const dateTime = new Date();
     const databaseId = "encodingTestDB";
 
-    afterEach(async function () { await TestHelpers.removeAllDatabases(host, masterKey); });
-    beforeEach(async function () { await TestHelpers.removeAllDatabases(host, masterKey); });
+    afterEach(async function () { await TestHelpers.removeAllDatabases(client); });
+    beforeEach(async function () { await TestHelpers.removeAllDatabases(client); });
 
     it("check if the document from db matches the actual document", async function () {
         try {
-            const databaseBody = { id: databaseId };
-
             // Create Database
-            const { result: database } = await client.createDatabase(databaseBody);
-            assert.equal(database.id, databaseId, "invalid database Id");
-
-            const collectionBody = {
+            const database = await TestHelpers.getTestDatabase(client, databaseId);
+            const containerBody = {
                 id: "डेटाबेस پایگاه داده 数据库" + dateTime.getTime(),
-                indexingPolicy: { indexingMode: "Lazy" }, // Modes : Lazy, Consistent
+                indexingPolicy: { indexingMode: IndexingMode.Lazy }, // Modes : Lazy, Consistent
             };
 
-            // Create a collection inside the database
-            const { result: collection } = await client.createCollection(database._self, collectionBody);
-            const path = UriFactory.createDocumentCollectionUri(databaseId, collectionBody.id);
+            // Create a container inside the database
+            const { result: containerDef } = await database.containers.create(containerBody);
+            const container = database.containers.get(containerDef.id);
+            assert.equal(containerDef.id, containerBody.id, "invalid container Id");
 
-            assert.equal(collection.id, collectionBody.id, "invalid collection Id");
-
-            // Add the document in the collection
-            const { result: doc } = await client.createDocument(collection._self, testDoc);
+            // Add the document in the container
+            const { result: doc } = await container.items.create(testDoc);
             assert.equal(doc.id, testDoc.id, "invalid document Id");
 
-            // Read the collection and see if it matches to the initial document
-            const { result: resultDoc } = await client.readDocument(doc._self);
+            // Read the container and see if it matches to the initial document
+            const { result: resultDoc } = await container.items.get(doc.id)
+                .read<{ id: string, content: string }>();
             assert.equal(testDoc.content, resultDoc.content, "read document result is different from initial document");
         } catch (err) {
             throw err;

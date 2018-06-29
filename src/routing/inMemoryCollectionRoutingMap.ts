@@ -1,6 +1,7 @@
 import * as assert from "assert";
 import * as bs from "binary-search-bounds"; // TODO: missing types
 import { Constants } from "../common";
+import { Range } from "../range";
 import { QueryRange } from "./QueryRange";
 
 export class InMemoryCollectionRoutingMap {

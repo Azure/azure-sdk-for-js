@@ -1,29 +1,20 @@
 ﻿import * as assert from "assert";
-import * as stream from "stream";
 import * as _ from "underscore";
 import * as util from "util";
-import {
-    AzureDocuments,
-    Base,
-    Constants,
-    CosmosClient,
-    DocumentBase,
-    HashPartitionResolver,
-    Range,
-    RangePartitionResolver,
-    RetryOptions,
-} from "../../";
+import { Constants, CosmosClient } from "../../";
+import { Container, ContainerDefinition } from "../../client";
+import { DataType, IndexKind, PartitionKind } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { ErrorResponse } from "../../request";
 import testConfig from "./../common/_testConfig";
 import { TestHelpers } from "./../common/TestHelpers";
 
-const host = testConfig.host;
+const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
+const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 describe("Cross Partition", function () {
-    this.timeout("30000");
+    this.timeout(process.env.MOCHA_TIMEOUT || "30000");
     const generateDocuments = function (docSize: number) {
         const docs = [];
         for (let i = 0; i < docSize; i++) {
@@ -44,24 +35,22 @@ describe("Cross Partition", function () {
     };
 
     describe("Validate Query", function () {
-        const client = new CosmosClient(host, { masterKey });
         const documentDefinitions = generateDocuments(20);
 
-        const databaseConfig = { id: "sample 中文 database" };
-        const collectionDefinition = {
-            id: "sample collection",
+        const containerDefinition: ContainerDefinition = {
+            id: "sample container",
             indexingPolicy: {
                 includedPaths: [
                     {
                         path: "/",
                         indexes: [
                             {
-                                kind: "Range",
-                                dataType: "Number",
+                                kind: IndexKind.Range,
+                                dataType: DataType.Number,
                             },
                             {
-                                kind: "Range",
-                                dataType: "String",
+                                kind: IndexKind.Range,
+                                dataType: DataType.String,
                             },
                         ],
                     },
@@ -71,24 +60,22 @@ describe("Cross Partition", function () {
                 paths: [
                     "/id",
                 ],
-                kind: "Hash",
+                kind: PartitionKind.Hash,
             },
         };
-        const collectionOptions = { offerThroughput: 10100 };
+        const containerOptions = { offerThroughput: 10100 };
 
-        let db: any; // TODO: any types
-        let collection: any; // TODO: any types
-        const isNameBased: boolean = false;
+        let container: Container;
 
         // - removes all the databases,
         // - creates a new database,
         // - creates a new collecton,
-        // - bulk inserts documents to the collection
+        // - bulk inserts documents to the container
         before(async function () {
-            await TestHelpers.removeAllDatabases(host, masterKey);
-            ({ result: db } = await client.createDatabase(databaseConfig));
-            ({ result: collection } = await client.createCollection(db._self, collectionDefinition, collectionOptions));
-            await TestHelpers.bulkInsertDocuments(client, isNameBased, db, collection, documentDefinitions);
+            await TestHelpers.removeAllDatabases(client);
+            container = await TestHelpers.getTestContainer(
+                client, "Validate 中文 Query", containerDefinition, containerOptions);
+            await TestHelpers.bulkInsertItems(container, documentDefinitions);
         });
 
         const validateResults = function (actualResults: any[], expectedOrderIds: string[]) {
@@ -104,7 +91,7 @@ describe("Cross Partition", function () {
         };
 
         const validateToArray = async function (
-            queryIterator: QueryIterator, options: any, expectedOrderIds: string[]) {
+            queryIterator: QueryIterator<any>, options: any, expectedOrderIds: string[]) {
 
             ////////////////////////////////
             // validate toArray()
@@ -122,7 +109,7 @@ describe("Cross Partition", function () {
         };
 
         const validateNextItem = async function (
-            queryIterator: QueryIterator, options: any, expectedOrderIds: string[]) {
+            queryIterator: QueryIterator<any>, expectedOrderIds: string[]) {
 
             ////////////////////////////////
             // validate nextItem()
@@ -146,7 +133,7 @@ describe("Cross Partition", function () {
         };
 
         const validateNextItemAndCurrentAndHasMoreResults =
-            async function (queryIterator: QueryIterator, options: any, expectedOrderIds: string[]) {
+            async function (queryIterator: QueryIterator<any>, expectedOrderIds: string[]) {
                 // curent and nextItem recursively invoke each other till queryIterator is exhausted
                 ////////////////////////////////
                 // validate nextItem()
@@ -174,8 +161,7 @@ describe("Cross Partition", function () {
             };
 
         const validateExecuteNextAndHasMoreResults = async function (
-            collectionLink: string, query: string | SqlQuerySpec, options: any,
-            queryIterator: QueryIterator, expectedOrderIds: string[],
+            options: any, queryIterator: QueryIterator<any>, expectedOrderIds: string[],
             validateExecuteNextWithContinuationToken?: boolean) {
             const pageSize = options["maxItemCount"];
 
@@ -227,44 +213,33 @@ describe("Cross Partition", function () {
                     // I don't think this code is ever called, which means we're missing tests or should delete it.
                     throw new Error("Not yet implemented");
                     // return validateExecuteNextWithGivenContinuationToken(
-                    //     collectionLink, query, options, listOfResultPages, listOfHeaders);
+                    //     containerLink, query, options, listOfResultPages, listOfHeaders);
                 }
             } catch (err) {
                 throw err;
             }
         };
 
-        const validateForEach = function (queryIterator: QueryIterator, options: any, expectedOrderIds: any[]) {
+        const validateForEach = async function (queryIterator: QueryIterator<any>, expectedOrderIds: any[]) {
             ////////////////////////////////
             // validate forEach()
             ////////////////////////////////
-            return new Promise((resolve, reject) => {
-                const results: any[] = [];
-                let callbackSingnalledEnd = false;
-                // forEach uses callbacks still, so just wrap in a promise
-                queryIterator.forEach((err: ErrorResponse, item: any) => {
-                    try {
-                        assert.equal(err, undefined,
-                            "unexpected failure in fetching the results: " + err + JSON.stringify(err));
-                        // if the previous invocation returned false, forEach must avoid invoking the callback again!
-                        assert.equal(callbackSingnalledEnd, false,
-                            "forEach called callback after the first false returned");
-                        results.push(item);
-                        if (results.length === expectedOrderIds.length) {
-                            callbackSingnalledEnd = true;
-                            validateResults(results, expectedOrderIds);
-                            process.nextTick(resolve);
-                            return false;
-                        }
-                        return true;
-                    } catch (err) {
-                        reject(err);
-                    }
-                });
-            });
+            const results: any[] = [];
+            let callbackSingnalledEnd = false;
+            // forEach uses callbacks still, so just wrap in a promise
+            for await (const { result: item } of queryIterator.forEach()) {
+                // if the previous invocation returned false, forEach must avoid invoking the callback again!
+                assert.equal(callbackSingnalledEnd, false,
+                    "forEach called callback after the first false returned");
+                results.push(item);
+                if (results.length === expectedOrderIds.length) {
+                    callbackSingnalledEnd = true;
+                }
+            }
+            validateResults(results, expectedOrderIds);
         };
 
-        const validateQueryMetrics = async function (queryIterator: QueryIterator) {
+        const validateQueryMetrics = async function (queryIterator: QueryIterator<any>) {
             try {
                 while (queryIterator.hasMoreResults()) {
                     const { result: results, headers } = await queryIterator.executeNext();
@@ -281,29 +256,24 @@ describe("Cross Partition", function () {
 
         const executeQueryAndValidateResults =
             async function (
-                collectionLink: string, query: string | SqlQuerySpec, options: any,
+                query: string | SqlQuerySpec, options: any,
                 expectedOrderIds: any[], validateExecuteNextWithContinuationToken?: boolean) {
-                try {
-                    options.populateQueryMetrics = true;
-                    validateExecuteNextWithContinuationToken = validateExecuteNextWithContinuationToken || false;
-                    const queryIterator = client.queryDocuments(collectionLink, query, options);
 
-                    await validateToArray(queryIterator, options, expectedOrderIds);
-                    queryIterator.reset();
-                    await validateExecuteNextAndHasMoreResults(
-                        collectionLink, query, options,
-                        queryIterator, expectedOrderIds, validateExecuteNextWithContinuationToken);
-                    queryIterator.reset();
-                    await validateNextItemAndCurrentAndHasMoreResults(queryIterator, options, expectedOrderIds);
-                    await validateForEach(queryIterator, options, expectedOrderIds);
-                    queryIterator.reset();
-                    await validateQueryMetrics(queryIterator);
-                } catch (err) {
-                    throw err;
-                }
+                options.populateQueryMetrics = true;
+                validateExecuteNextWithContinuationToken = validateExecuteNextWithContinuationToken || false;
+                const queryIterator = container.items.query(query, options);
+
+                await validateToArray(queryIterator, options, expectedOrderIds);
+                queryIterator.reset();
+                await validateExecuteNextAndHasMoreResults(
+                    options, queryIterator, expectedOrderIds, validateExecuteNextWithContinuationToken);
+                queryIterator.reset();
+                await validateNextItemAndCurrentAndHasMoreResults(queryIterator, expectedOrderIds);
+                await validateForEach(queryIterator, expectedOrderIds);
+                await validateQueryMetrics(queryIterator);
             };
 
-        const requestChargeValidator = async function (queryIterator: QueryIterator) {
+        const requestChargeValidator = async function (queryIterator: QueryIterator<any>) {
             let counter = 0;
             let totalRequestCharge = 0;
 
@@ -338,9 +308,7 @@ describe("Cross Partition", function () {
             const expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                query, options, expectedOrderedIds, false);
+            await executeQueryAndValidateResults(query, options, expectedOrderedIds, false);
         });
 
         it("Validate Parallel Query As String With maxDegreeOfParallelism: -1", async function () {
@@ -358,9 +326,7 @@ describe("Cross Partition", function () {
             const expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                query, options, expectedOrderedIds, false);
+            await executeQueryAndValidateResults(query, options, expectedOrderedIds, false);
         });
 
         it("Validate Parallel Query As String With maxDegreeOfParallelism: 1", async function () {
@@ -375,9 +341,7 @@ describe("Cross Partition", function () {
             const expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                query, options, expectedOrderedIds, false);
+            await executeQueryAndValidateResults(query, options, expectedOrderedIds, false);
         });
 
         it("Validate Parallel Query As String With maxDegreeOfParallelism: 3", async function () {
@@ -392,9 +356,7 @@ describe("Cross Partition", function () {
             const expectedOrderedIds = [1, 10, 18, 2, 3, 13, 14, 16, 17, 0, 11, 12, 5, 9, 19, 4, 6, 7, 8, 15];
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                query, options, expectedOrderedIds, false);
+            await executeQueryAndValidateResults(query, options, expectedOrderedIds, false);
         });
 
         it("Validate Parallel Query Request Charge With maxDegreeOfParallelism: 3", async function () {
@@ -402,8 +364,7 @@ describe("Cross Partition", function () {
             const query = "SELECT * FROM root r";
             const options = { enableCrossPartitionQuery: true, maxItemCount: 2, maxDegreeOfParallelism: 3 };
 
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+            const queryIterator = container.items.query(query, options);
             await requestChargeValidator(queryIterator);
         });
 
@@ -412,8 +373,7 @@ describe("Cross Partition", function () {
             const query = "SELECT * FROM root r";
             const options = { enableCrossPartitionQuery: true, maxItemCount: 2, maxDegreeOfParallelism: 1 };
 
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+            const queryIterator = container.items.query(query, options);
             await requestChargeValidator(queryIterator);
         });
 
@@ -422,8 +382,7 @@ describe("Cross Partition", function () {
             const query = "SELECT * FROM root r order by r.spam";
             const options = { enableCrossPartitionQuery: true, maxItemCount: 2, maxDegreeOfParallelism: 1 };
 
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+            const queryIterator = container.items.query(query, options);
             await requestChargeValidator(queryIterator);
         });
 
@@ -432,8 +391,7 @@ describe("Cross Partition", function () {
             const query = "SELECT * FROM root r order by r.spam";
             const options = { enableCrossPartitionQuery: true, maxItemCount: 2, maxDegreeOfParallelism: 0 };
 
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+            const queryIterator = container.items.query(query, options);
             await requestChargeValidator(queryIterator);
         });
 
@@ -446,8 +404,7 @@ describe("Cross Partition", function () {
             const query = util.format("SELECT top %d * FROM root r", topCount);
             const options = { enableCrossPartitionQuery: true, maxItemCount: 2, maxDegreeOfParallelism: 3 };
 
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+            const queryIterator = container.items.query(query, options);
             await requestChargeValidator(queryIterator);
         });
 
@@ -460,8 +417,7 @@ describe("Cross Partition", function () {
             const query = util.format("SELECT top %d * FROM root r", topCount);
             const options = { enableCrossPartitionQuery: true, maxItemCount: 2, maxDegreeOfParallelism: 0 };
 
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+            const queryIterator = container.items.query(query, options);
             await requestChargeValidator(queryIterator);
         });
 
@@ -479,9 +435,7 @@ describe("Cross Partition", function () {
             }));
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                query, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(query, options, expectedOrderedIds);
         });
 
         it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 1", async function () {
@@ -498,9 +452,7 @@ describe("Cross Partition", function () {
             }));
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                query, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(query, options, expectedOrderedIds);
         });
 
         it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 3", async function () {
@@ -517,9 +469,7 @@ describe("Cross Partition", function () {
             }));
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                query, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(query, options, expectedOrderedIds);
         });
 
         it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = -1", async function () {
@@ -536,9 +486,7 @@ describe("Cross Partition", function () {
             }));
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                query, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(query, options, expectedOrderedIds);
         });
 
         it("Validate Simple OrderBy Query As String", async function () {
@@ -555,9 +503,7 @@ describe("Cross Partition", function () {
             }));
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                query, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(query, options, expectedOrderedIds);
         });
 
         it("Validate Simple OrderBy Query", async function () {
@@ -576,9 +522,7 @@ describe("Cross Partition", function () {
             }));
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                querySpec, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
         });
 
         it("Validate OrderBy Query With ASC", async function () {
@@ -597,9 +541,7 @@ describe("Cross Partition", function () {
             }));
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                querySpec, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
         });
 
         it("Validate OrderBy Query With DESC", async function () {
@@ -618,9 +560,7 @@ describe("Cross Partition", function () {
             })).reverse();
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                querySpec, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
         });
 
         it("Validate OrderBy with top", async function () {
@@ -639,9 +579,7 @@ describe("Cross Partition", function () {
                 return r["id"];
             })).slice(0, topCount);
 
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                querySpec, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
 
         });
 
@@ -663,9 +601,7 @@ describe("Cross Partition", function () {
                 return r["id"];
             }));
 
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                querySpec, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
         });
 
         it("Validate Top Query with maxDegreeOfParallelism = 3", async function () {
@@ -678,8 +614,7 @@ describe("Cross Partition", function () {
             const options = { enableCrossPartitionQuery: true, maxItemCount: 2, maxDegreeOfParallelism: 3 };
 
             // prepare expected behaviour verifier
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+            const queryIterator = container.items.query(query, options);
 
             const { result: results } = await queryIterator.toArray();
             assert.equal(results.length, topCount);
@@ -703,8 +638,7 @@ describe("Cross Partition", function () {
             const options = { enableCrossPartitionQuery: true, maxItemCount: 2 };
 
             // prepare expected behaviour verifier
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+            const queryIterator = container.items.query(query, options);
 
             const { result: results } = await queryIterator.toArray();
             assert.equal(results.length, topCount);
@@ -728,8 +662,7 @@ describe("Cross Partition", function () {
             const options = { enableCrossPartitionQuery: true, maxItemCount: 2 };
 
             // prepare expected behaviour verifier
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+            const queryIterator = container.items.query(query, options);
 
             const { result: results } = await queryIterator.toArray();
             assert.equal(results.length, topCount);
@@ -759,8 +692,7 @@ describe("Cross Partition", function () {
             const options = { enableCrossPartitionQuery: true, maxItemCount: 2 };
 
             // prepare expected behaviour verifier
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), querySpec, options);
+            const queryIterator = container.items.query(querySpec, options);
 
             const { result: results } = await queryIterator.toArray();
             assert.equal(results.length, topCount);
@@ -797,9 +729,7 @@ describe("Cross Partition", function () {
                 return r["id"];
             })).slice(0, topCount);
 
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                querySpec, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
         });
 
         it("Validate OrderBy with Parametrized Predicate", async function () {
@@ -826,9 +756,7 @@ describe("Cross Partition", function () {
                         return r["id"];
                     }));
 
-            executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                querySpec, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(querySpec, options, expectedOrderedIds);
         });
 
         it("Validate Error Handling - Orderby where types are noncomparable", async function () {
@@ -841,8 +769,7 @@ describe("Cross Partition", function () {
 
             // prepare expected behaviour verifier
             try {
-                const queryIterator = client.queryDocuments(
-                    TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+                const queryIterator = container.items.query(query, options);
                 await queryIterator.toArray();
             } catch (err) {
                 assert.notEqual(err, undefined);
@@ -863,9 +790,7 @@ describe("Cross Partition", function () {
             }));
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                query, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(query, options, expectedOrderedIds);
         });
 
         it("Validate OrderBy Floating Point Number Query", async function () {
@@ -882,9 +807,7 @@ describe("Cross Partition", function () {
             }));
 
             // validates the results size and order
-            await executeQueryAndValidateResults(
-                TestHelpers.getCollectionLink(isNameBased, db, collection),
-                query, options, expectedOrderedIds);
+            await executeQueryAndValidateResults(query, options, expectedOrderedIds);
         });
 
         it("Validate OrderBy Boolean Query", async function () {
@@ -892,8 +815,7 @@ describe("Cross Partition", function () {
             const query = "SELECT * FROM root r order by r.boolVar";
             const options = { enableCrossPartitionQuery: true, maxItemCount: 2 };
 
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+            const queryIterator = container.items.query(query, options);
             const { result: results } = await queryIterator.toArray();
             assert.equal(results.length, documentDefinitions.length);
 
@@ -913,26 +835,6 @@ describe("Cross Partition", function () {
             }
         });
 
-        it("Validate forEach quick termination", async function () {
-            // simple order by query in string format
-            const query = "SELECT * FROM root r order by r.spam";
-
-            const options = { enableCrossPartitionQuery: true, maxItemCount: 2 };
-
-            // prepare expected results
-            const getOrderByKey = function (r: any) {
-                return r["spam"];
-            };
-            const expectedOrderedIds = (_.sortBy(documentDefinitions, getOrderByKey).map(function (r) {
-                return r["id"];
-            })).slice(0, 1);
-
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
-
-            await validateForEach(queryIterator, options, expectedOrderedIds);
-        });
-
         it("Validate Failure", async function () {
             // simple order by query in string format
             const query = "SELECT * FROM root r order by r.spam";
@@ -947,8 +849,7 @@ describe("Cross Partition", function () {
                 return r["id"];
             }));
 
-            const queryIterator = client.queryDocuments(
-                TestHelpers.getCollectionLink(isNameBased, db, collection), query, options);
+            const queryIterator = container.items.query(query, options);
 
             let firstTime = true;
 

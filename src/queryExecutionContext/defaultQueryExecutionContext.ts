@@ -1,5 +1,4 @@
-import { IExecutionContext, IHeaders } from ".";
-import { Base } from "../base";
+import { IExecutionContext } from ".";
 import { Constants } from "../common";
 import { DocumentClient } from "../documentclient";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";

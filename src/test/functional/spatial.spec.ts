@@ -1,22 +1,11 @@
 import * as assert from "assert";
-import * as Stream from "stream";
-import {
-    AzureDocuments, Base, Constants, CosmosClient,
-    DocumentBase, HashPartitionResolver, Range,
-    RangePartitionResolver, Response, RetryOptions,
-} from "../../";
+import { CosmosClient, Database, DocumentBase } from "../../";
 import testConfig from "./../common/_testConfig";
 import { TestHelpers } from "./../common/TestHelpers";
 
-// Used for sproc
-declare var getContext: any;
-// declare var body: (input?: any) => void; // TODO: remove this if it's not necessary
-
-// TODO: should fix long lines
-// tslint:disable:max-line-length
-
-const host = testConfig.host;
+const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
+const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 describe("NodeJS CRUD Tests", function () {
     this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -24,21 +13,19 @@ describe("NodeJS CRUD Tests", function () {
     beforeEach(async function () {
         this.timeout(10000);
         try {
-            await TestHelpers.removeAllDatabases(host, masterKey);
+            await TestHelpers.removeAllDatabases(client);
         } catch (err) {
             throw err;
         }
     });
 
     describe("Validate spatial index", function () {
-        const spatialIndexTest = async function (isNameBased: boolean, isUpsertTest: boolean) {
+        const spatialIndexTest = async function (isUpsertTest: boolean) {
             try {
-                const client = new CosmosClient(host, { masterKey });
-
                 // create database
-                const { result: db } = await client.createDatabase({ id: "sample database" });
+                const database: Database = await TestHelpers.getTestDatabase(client, "validate spatial index");
 
-                // create collection using an indexing policy with spatial index.
+                // create container using an indexing policy with spatial index.
                 const indexingPolicy = {
                     includedPaths: [
                         {
@@ -55,8 +42,11 @@ describe("NodeJS CRUD Tests", function () {
                         },
                     ],
                 };
-                const { result: collection } = await client.createCollection(
-                    TestHelpers.getDatabaseLink(isNameBased, db), { id: "sample collection", indexingPolicy });
+                const entropy = Math.floor(Math.random() * 10000);
+                const { result: containerDef } = await database.containers.create(
+                    { id: `sample container${entropy}`, indexingPolicy });
+                const container = database.containers.get(containerDef.id);
+
                 const location1 = {
                     id: "location1",
                     Location: {
@@ -64,9 +54,7 @@ describe("NodeJS CRUD Tests", function () {
                         coordinates: [20.0, 20.0],
                     },
                 };
-                await TestHelpers.createOrUpsertDocument(
-                    TestHelpers.getCollectionLink(isNameBased, db, collection),
-                    location1, undefined, client, isUpsertTest);
+                await TestHelpers.createOrUpsertItem(container, location1, undefined, isUpsertTest);
                 const location2 = {
                     id: "location2",
                     Location: {
@@ -74,12 +62,10 @@ describe("NodeJS CRUD Tests", function () {
                         coordinates: [100.0, 100.0],
                     },
                 };
-                await TestHelpers.createOrUpsertDocument(
-                    TestHelpers.getCollectionLink(isNameBased, db, collection),
-                    location2, undefined, client, isUpsertTest);
+                await TestHelpers.createOrUpsertItem(container, location2, undefined, isUpsertTest);
+                // tslint:disable-next-line:max-line-length
                 const query = "SELECT * FROM root WHERE (ST_DISTANCE(root.Location, {type: 'Point', coordinates: [20.1, 20]}) < 20000) ";
-                const { result: results } = await client.queryDocuments(
-                    TestHelpers.getCollectionLink(isNameBased, db, collection), query).toArray();
+                const { result: results } = await container.items.query(query).toArray();
                 assert.equal(1, results.length);
                 assert.equal("location1", results[0].id);
             } catch (err) {
@@ -89,15 +75,7 @@ describe("NodeJS CRUD Tests", function () {
 
         it("nativeApi Should support spatial index name based", async function () {
             try {
-                await spatialIndexTest(true, false);
-            } catch (err) {
-                throw err;
-            }
-        });
-
-        it("nativeApi Should support spatial index rid based", async function () {
-            try {
-                await spatialIndexTest(false, false);
+                await spatialIndexTest(false);
             } catch (err) {
                 throw err;
             }
@@ -105,15 +83,7 @@ describe("NodeJS CRUD Tests", function () {
 
         it("nativeApi Should support spatial index name based with upsert", async function () {
             try {
-                await spatialIndexTest(true, true);
-            } catch (err) {
-                throw err;
-            }
-        });
-
-        it("nativeApi Should support spatial index rid based with upsert", async function () {
-            try {
-                await spatialIndexTest(false, true);
+                await spatialIndexTest(true);
             } catch (err) {
                 throw err;
             }

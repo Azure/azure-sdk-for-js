@@ -1,5 +1,5 @@
 ﻿import { StatusCodes } from "../common";
-import { ErrorResponse } from "../request";
+import { ErrorResponse } from "../request/request";
 
 /**
  * This class implements the resource throttle retry policy for requests.

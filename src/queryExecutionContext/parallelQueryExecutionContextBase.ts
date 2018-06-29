@@ -14,7 +14,7 @@ import {
 } from ".";
 import { Constants, StatusCodes, SubStatusCodes } from "../common";
 import { DocumentClient } from "../documentclient";
-import { Response } from "../request";
+import { Response } from "../request/request";
 import { InMemoryCollectionRoutingMap, PARITIONKEYRANGE, QueryRange, SmartRoutingMapProvider } from "../routing";
 
 export enum ParallelQueryExecutionContextBaseStates {
@@ -153,7 +153,6 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
                             } catch (err) {
                                 this._mergeWithActiveResponseHeaders(err.headers);
                                 this.err = err;
-                                throw err;
                             } finally {
                                 parallelismSem.leave();
                                 this._decrementInitiationLock();
@@ -297,7 +296,7 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
                 }
             };
             // Invoke the recursive function to get the ball rolling
-            checkAndEnqueueDocumentProducers(replacementDocumentProducers);
+            await checkAndEnqueueDocumentProducers(replacementDocumentProducers);
         } catch (err) {
             this.err = err;
             throw err;
@@ -455,7 +454,7 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
                     // invoke the callback on the item
                     return resolve({result: item, headers: this._getAndResetActiveResponseHeaders()});
                 };
-                this._repairExecutionContextIfNeeded(ifCallback, elseCallback);
+                this._repairExecutionContextIfNeeded(ifCallback, elseCallback).catch(reject);
             });
         });
     }
@@ -494,7 +493,7 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
                         return resolve(documentProducer.current());
                     };
 
-                    this._repairExecutionContextIfNeeded(ifCallback, elseCallback);
+                    this._repairExecutionContextIfNeeded(ifCallback, elseCallback).catch(reject);
                 } finally {
                     this.sem.leave();
                 }

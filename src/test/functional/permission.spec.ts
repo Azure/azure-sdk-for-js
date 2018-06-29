@@ -1,22 +1,12 @@
 import * as assert from "assert";
-import * as Stream from "stream";
-import {
-    AzureDocuments, Base, Constants, CosmosClient,
-    DocumentBase, HashPartitionResolver, Range,
-    RangePartitionResolver, Response, RetryOptions,
-} from "../../";
+import { CosmosClient, DocumentBase } from "../../";
+import { PermissionDefinition } from "../../client";
 import testConfig from "./../common/_testConfig";
 import { TestHelpers } from "./../common/TestHelpers";
 
-// Used for sproc
-declare var getContext: any;
-// declare var body: (input?: any) => void; // TODO: remove this if it's not necessary
-
-// TODO: should fix long lines
-// tslint:disable:max-line-length
-
-const host = testConfig.host;
+const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
+const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 describe("NodeJS CRUD Tests", function () {
     this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -24,40 +14,38 @@ describe("NodeJS CRUD Tests", function () {
     beforeEach(async function () {
         this.timeout(10000);
         try {
-            await TestHelpers.removeAllDatabases(host, masterKey);
+            await TestHelpers.removeAllDatabases(client);
         } catch (err) {
             throw err;
         }
     });
     describe("Validate Permission CRUD", function () {
-        const permissionCRUDTest = async function (isNameBased: boolean, isUpsertTest: boolean) {
+        const permissionCRUDTest = async function (isUpsertTest: boolean) {
             try {
-                const client = new CosmosClient(host, { masterKey });
-
-                // create database
-                const { result: db } = await client.createDatabase({ id: "sample database" });
-                const { result: coll } = await client.createCollection(
-                    TestHelpers.getDatabaseLink(isNameBased, db), { id: "sample coll" });
+                // create container & database
+                const container = await TestHelpers.getTestContainer(client, "Validate Permission Crud");
 
                 // create user
-                const { result: user } = await client.createUser(
-                    TestHelpers.getDatabaseLink(isNameBased, db), { id: "new user" });
-
+                const { result: userDef } = await container.database.users.create({ id: "new user" });
+                const user = container.database.users.get(userDef.id);
                 // list permissions
-                const { result: permissions } = await client.readPermissions(
-                    TestHelpers.getUserLink(isNameBased, db, user)).toArray();
+                const { result: permissions } = await user.permissions.readAll().toArray();
                 assert.equal(permissions.constructor, Array, "Value should be an array");
                 const beforeCreateCount = permissions.length;
-                const permission = { id: "new permission", permissionMode: DocumentBase.PermissionMode.Read, resource: coll._self };
+                const permissionDef: PermissionDefinition = {
+                    id: "new permission",
+                    permissionMode: DocumentBase.PermissionMode.Read,
+                    resource: container.url,
+                };
 
                 // create permission
                 const { result: createdPermission } = await TestHelpers.createOrUpsertPermission(
-                    TestHelpers.getUserLink(isNameBased, db, user), permission, undefined, client, isUpsertTest);
+                    user, permissionDef, undefined, isUpsertTest);
+                let permission = user.permissions.get(createdPermission.id);
                 assert.equal(createdPermission.id, "new permission", "permission name error");
 
                 // list permissions after creation
-                const { result: permissionsAfterCreation } = await client.readPermissions(
-                    TestHelpers.getUserLink(isNameBased, db, user)).toArray();
+                const { result: permissionsAfterCreation } = await user.permissions.readAll().toArray();
                 assert.equal(permissionsAfterCreation.length, beforeCreateCount + 1);
 
                 // query permissions
@@ -66,38 +54,38 @@ describe("NodeJS CRUD Tests", function () {
                     parameters: [
                         {
                             name: "@id",
-                            value: permission.id,
+                            value: permissionDef.id,
                         },
                     ],
                 };
-                const { result: results } = await client.queryPermissions(
-                    TestHelpers.getUserLink(isNameBased, db, user), querySpec).toArray();
+                const { result: results } = await user.permissions.query(querySpec).toArray();
                 assert(results.length > 0, "number of results for the query should be > 0");
-                permission.permissionMode = DocumentBase.PermissionMode.All;
-                const { result: replacedPermission } = await TestHelpers.replaceOrUpsertPermission(
-                    TestHelpers.getUserLink(isNameBased, db, user), createdPermission._self, permission, undefined, client, isUpsertTest);
-                assert.equal(replacedPermission.permissionMode, DocumentBase.PermissionMode.All, "permission mode should change");
-                assert.equal(permission.id, replacedPermission.id, "permission id should stay the same");
+
+                permissionDef.permissionMode = DocumentBase.PermissionMode.All;
+                const { result: replacedPermission } =
+                    await TestHelpers.replaceOrUpsertPermission(user, permissionDef, undefined, isUpsertTest);
+                assert.equal(replacedPermission.permissionMode, DocumentBase.PermissionMode.All,
+                    "permission mode should change");
+                assert.equal(permissionDef.id, replacedPermission.id,
+                    "permission id should stay the same");
 
                 // to change the id of an existing resourcewe have to use replace
-                permission.id = "replaced permission";
-                const { result: replacedPermission2 } = await client.replacePermission(createdPermission._self, permission);
+                permissionDef.id = "replaced permission";
+                const { result: replacedPermission2 } = await permission.replace(permissionDef);
                 assert.equal(replacedPermission2.id, "replaced permission", "permission name should change");
-                assert.equal(permission.id, replacedPermission2.id, "permission id should stay the same");
+                assert.equal(permissionDef.id, replacedPermission2.id, "permission id should stay the same");
+                permission = user.permissions.get(replacedPermission2.id);
 
                 // read permission
-                const { result: permissionAfterReplace } = await client.readPermission(
-                    TestHelpers.getPermissionLink(isNameBased, db, user, replacedPermission2));
-                assert.equal(permissionAfterReplace.id, permission.id);
+                const { result: permissionAfterReplace } = await permission.read();
+                assert.equal(permissionAfterReplace.id, permissionDef.id);
 
                 // delete permission
-                const { result: res } = await client.deletePermission(
-                    TestHelpers.getPermissionLink(isNameBased, db, user, replacedPermission2));
+                const { result: res } = await permission.delete();
 
                 // read permission after deletion
                 try {
-                    const { result: badPermission } = await client.readPermission(
-                        TestHelpers.getPermissionLink(isNameBased, db, user, replacedPermission2));
+                    await permission.read();
                     assert.fail("Must fail to read permission after deletion");
                 } catch (err) {
                     const notFoundErrorCode = 404;
@@ -108,41 +96,44 @@ describe("NodeJS CRUD Tests", function () {
             }
         };
 
-        const permissionCRUDOverMultiplePartitionsTest = async function (isNameBased: boolean, isUpsertTest: boolean) {
+        const permissionCRUDOverMultiplePartitionsTest = async function (isUpsertTest: boolean) {
             try {
-                const client = new CosmosClient(host, { masterKey });
-
                 // create database
-                const { result: db } = await client.createDatabase({ id: "sample database" });
-                // create collection
+                // create container
                 const partitionKey = "id";
-                const collectionDefinition = {
+                const containerDefinition = {
                     id: "coll1",
                     partitionKey: { paths: ["/" + partitionKey], kind: DocumentBase.PartitionKind.Hash },
                 };
-                const { result: coll } = await client.createCollection(
-                    TestHelpers.getDatabaseLink(isNameBased, db), collectionDefinition, { offerThroughput: 12000 });
+                const container = await TestHelpers.getTestContainer(
+                    client, "permission CRUD over multiple partitions", containerDefinition);
 
                 // create user
-                const { result: user } = await client.createUser(
-                    TestHelpers.getDatabaseLink(isNameBased, db), { id: "new user" });
+                const { result: userDef } = await container.database.users.create({ id: "new user" });
+                const user = container.database.users.get(userDef.id);
 
                 // list permissions
-                const { result: permissions } = await client.readPermissions(
-                    TestHelpers.getUserLink(isNameBased, db, user)).toArray();
+                const { result: permissions } = await user.permissions.readAll().toArray();
                 assert(Array.isArray(permissions), "Value should be an array");
                 const beforeCreateCount = permissions.length;
-                const permissionDefinition = { id: "new permission", permissionMode: DocumentBase.PermissionMode.Read, resource: coll._self, resourcePartitionKey: [1] };
+                const permissionDefinition = {
+                    id: "new permission",
+                    permissionMode: DocumentBase.PermissionMode.Read,
+                    resource: container.url,
+                    resourcePartitionKey: [1],
+                };
 
                 // create permission
-                const { result: permission } = await TestHelpers.createOrUpsertPermission(
-                    TestHelpers.getUserLink(isNameBased, db, user), permissionDefinition, undefined, client, isUpsertTest);
-                assert.equal(permission.id, permissionDefinition.id, "permission name error");
-                assert.equal(JSON.stringify(permission.resourcePartitionKey), JSON.stringify(permissionDefinition.resourcePartitionKey), "permission resource partition key error");
+                const { result: permissionDef } = await TestHelpers.createOrUpsertPermission(
+                    user, permissionDefinition, undefined, isUpsertTest);
+                let permission = user.permissions.get(permissionDef.id);
+                assert.equal(permissionDef.id, permissionDefinition.id, "permission name error");
+                assert.equal(JSON.stringify(permissionDef.resourcePartitionKey),
+                    JSON.stringify(permissionDefinition.resourcePartitionKey),
+                    "permission resource partition key error");
 
                 // list permissions after creation
-                const { result: permissionsAfterCreation } = await client.readPermissions(
-                    TestHelpers.getUserLink(isNameBased, db, user)).toArray();
+                const { result: permissionsAfterCreation } = await user.permissions.readAll().toArray();
                 assert.equal(permissionsAfterCreation.length, beforeCreateCount + 1);
 
                 // query permissions
@@ -151,38 +142,41 @@ describe("NodeJS CRUD Tests", function () {
                     parameters: [
                         {
                             name: "@id",
-                            value: permission.id,
+                            value: permissionDef.id,
                         },
                     ],
                 };
-                const { result: results } = await client.queryPermissions(
-                    TestHelpers.getUserLink(isNameBased, db, user), querySpec).toArray();
+                const { result: results } = await user.permissions.query(querySpec).toArray();
                 assert(results.length > 0, "number of results for the query should be > 0");
-                permission.permissionMode = DocumentBase.PermissionMode.All;
+
+                // Replace permission
+                permissionDef.permissionMode = DocumentBase.PermissionMode.All;
                 const { result: replacedPermission } = await TestHelpers.replaceOrUpsertPermission(
-                    TestHelpers.getUserLink(isNameBased, db, user), permission._self, permission, undefined, client, isUpsertTest);
-                assert.equal(replacedPermission.permissionMode, DocumentBase.PermissionMode.All, "permission mode should change");
-                assert.equal(replacedPermission.id, permission.id, "permission id should stay the same");
-                assert.equal(JSON.stringify(replacedPermission.resourcePartitionKey), JSON.stringify(permission.resourcePartitionKey), "permission resource partition key error");
+                    user, permissionDef, undefined, isUpsertTest);
+                assert.equal(replacedPermission.permissionMode,
+                    DocumentBase.PermissionMode.All,
+                    "permission mode should change");
+                assert.equal(replacedPermission.id, permissionDef.id, "permission id should stay the same");
+                assert.equal(JSON.stringify(replacedPermission.resourcePartitionKey),
+                    JSON.stringify(permissionDef.resourcePartitionKey),
+                    "permission resource partition key error");
 
                 // to change the id of an existing resourcewe have to use replace
-                permission.id = "replaced permission";
-                const { result: replacedPermission2 } = await client.replacePermission(permission._self, permission);
-                assert.equal(replacedPermission2.id, permission.id);
+                permissionDef.id = "replaced permission";
+                const { result: replacedPermission2 } = await permission.replace(permissionDef);
+                assert.equal(replacedPermission2.id, permissionDef.id);
+                permission = user.permissions.get(replacedPermission2.id);
 
                 // read permission
-                const { result: permissionAfterReplace } = await client.readPermission(
-                    TestHelpers.getPermissionLink(isNameBased, db, user, replacedPermission2));
+                const { result: permissionAfterReplace } = await permission.read();
                 assert.equal(permissionAfterReplace.id, replacedPermission2.id);
 
                 // delete permission
-                const { result: res } = await client.deletePermission(
-                    TestHelpers.getPermissionLink(isNameBased, db, user, permissionAfterReplace));
+                const { result: res } = await permission.delete();
 
                 // read permission after deletion
                 try {
-                    const { result: badPermission } = await client.readPermission(
-                        TestHelpers.getPermissionLink(isNameBased, db, user, permissionAfterReplace));
+                    await permission.read();
                     assert.fail("Must throw on read after delete");
                 } catch (err) {
                     const notFoundErrorCode = 404;
@@ -196,15 +190,7 @@ describe("NodeJS CRUD Tests", function () {
 
         it("nativeApi Should do Permission CRUD operations successfully name based", async function () {
             try {
-                await permissionCRUDTest(true, false);
-            } catch (err) {
-                throw err;
-            }
-        });
-
-        it("nativeApi Should do Permission CRUD operations successfully rid based", async function () {
-            try {
-                await permissionCRUDTest(false, false);
+                await permissionCRUDTest(false);
             } catch (err) {
                 throw err;
             }
@@ -212,50 +198,28 @@ describe("NodeJS CRUD Tests", function () {
 
         it("nativeApi Should do Permission CRUD operations successfully name based with upsert", async function () {
             try {
-                await permissionCRUDTest(true, true);
+                await permissionCRUDTest(true);
             } catch (err) {
                 throw err;
             }
         });
 
-        it("nativeApi Should do Permission CRUD operations successfully rid based with upsert", async function () {
-            try {
-                await permissionCRUDTest(false, true);
-            } catch (err) {
-                throw err;
-            }
-        });
+        it("nativeApi Should do Permission CRUD operations over multiple partitions successfully name based",
+            async function () {
+                try {
+                    await permissionCRUDOverMultiplePartitionsTest(false);
+                } catch (err) {
+                    throw err;
+                }
+            });
 
-        it("nativeApi Should do Permission CRUD operations over multiple partitions successfully name based", async function () {
-            try {
-                await permissionCRUDOverMultiplePartitionsTest(true, false);
-            } catch (err) {
-                throw err;
-            }
-        });
-
-        it("nativeApi Should do Permission CRUD operations over multiple partitions successfully rid based", async function () {
-            try {
-                await permissionCRUDOverMultiplePartitionsTest(false, false);
-            } catch (err) {
-                throw err;
-            }
-        });
-
-        it("nativeApi Should do Permission CRUD operations over multiple partitions successfully name based with upsert", async function () {
-            try {
-                await permissionCRUDOverMultiplePartitionsTest(true, true);
-            } catch (err) {
-                throw err;
-            }
-        });
-
-        it("nativeApi Should do Permission CRUD operations over multiple partitions successfully rid based with upsert", async function () {
-            try {
-                await permissionCRUDOverMultiplePartitionsTest(false, true);
-            } catch (err) {
-                throw err;
-            }
-        });
+        it("nativeApi Should do Permission CRUD operations over multiple partitions successfully with upsert",
+            async function () {
+                try {
+                    await permissionCRUDOverMultiplePartitionsTest(true);
+                } catch (err) {
+                    throw err;
+                }
+            });
     });
 });

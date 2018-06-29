@@ -1,3 +1,4 @@
+import { PartitionKey } from "../documents";
 
 export type CompareFunction = (x: Point , y: Point) => number;
 
@@ -113,7 +114,7 @@ export class Range {
     // tslint:disable-next-line:variable-name
     public static _isRange = Range.isRange;
 
-    public static isRange(pointOrRange: Point | Range) {
+    public static isRange(pointOrRange: Point | Range | PartitionKey) {
         if (pointOrRange === undefined) {
             return false;
         }

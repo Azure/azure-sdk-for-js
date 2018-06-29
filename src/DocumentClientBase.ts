@@ -4,14 +4,15 @@ import * as tunnel from "tunnel";
 import * as url from "url";
 import { Base, ResponseCallback } from "./base";
 import { Constants, Helper, Platform } from "./common";
-import { RequestOptions } from "./documentclient";
 import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, QueryCompatibilityMode } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { IHeaders } from "./queryExecutionContext";
-import { RequestHandler, Response } from "./request";
+import { RequestHandler, Response } from "./request/request";
+import { RequestOptions } from "./request/RequestOptions";
 import { SessionContainer } from "./sessionContainer";
 
 // Using this to organize public vs internal methods
+/** @hidden */
 export abstract class DocumentClientBase {
     public masterKey: string;
     public resourceTokens: { [key: string]: string };

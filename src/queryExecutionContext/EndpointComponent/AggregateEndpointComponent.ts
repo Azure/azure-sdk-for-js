@@ -1,5 +1,5 @@
 import { IHeaders } from "..";
-import { Response } from "../../request";
+import { Response } from "../../request/request";
 import { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAggregator } from "../Aggregators";
 import { IExecutionContext } from "../IExecutionContext";
 import { IEndpointComponent } from "./IEndpointComponent";

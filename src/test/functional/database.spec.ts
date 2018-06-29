@@ -1,22 +1,11 @@
 import * as assert from "assert";
-import * as Stream from "stream";
-import {
-    AzureDocuments, Base, Constants, CosmosClient,
-    DocumentBase, HashPartitionResolver, Range,
-    RangePartitionResolver, Response, RetryOptions,
-} from "../../";
+import { CosmosClient } from "../../";
 import testConfig from "./../common/_testConfig";
 import { TestHelpers } from "./../common/TestHelpers";
 
-// Used for sproc
-declare var getContext: any;
-// declare var body: (input?: any) => void; // TODO: remove this if it's not necessary
-
-// TODO: should fix long lines
-// tslint:disable:max-line-length
-
-const host = testConfig.host;
+const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
+const client = new CosmosClient({endpoint, auth: { masterKey}});
 
 describe("NodeJS CRUD Tests", function () {
     this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -24,26 +13,27 @@ describe("NodeJS CRUD Tests", function () {
     beforeEach(async function () {
         this.timeout(10000);
         try {
-            await TestHelpers.removeAllDatabases(host, masterKey);
+            await TestHelpers.removeAllDatabases(client);
         } catch (err) {
             throw err;
         }
     });
 
     describe("Validate Database CRUD", async function () {
-        const databaseCRUDTest = async function (isNameBased: boolean) {
+        const databaseCRUDTest = async function () {
             try {
-                const client = new CosmosClient(host, { masterKey });
                 // read databases
-                const { result: databases } = await client.readDatabases().toArray();
+                const { result: databases } = await client.databases.readAll().toArray();
                 assert.equal(databases.constructor, Array, "Value should be an array");
+
                 // create a database
                 const beforeCreateDatabasesCount = databases.length;
-                const databaseDefinition = { id: "sample database" };
-                const { result: db } = await client.createDatabase(databaseDefinition);
+                const databaseDefinition = { id: "database test database" };
+                const { result: db } = await client.databases.create(databaseDefinition);
                 assert.equal(db.id, databaseDefinition.id);
+
                 // read databases after creation
-                const { result: databases2 } = await client.readDatabases().toArray();
+                const { result: databases2 } = await client.databases.readAll().toArray();
                 assert.equal(databases2.length, beforeCreateDatabasesCount + 1,
                     "create should increase the number of databases");
                 // query databases
@@ -56,15 +46,14 @@ describe("NodeJS CRUD Tests", function () {
                         },
                     ],
                 };
-                const { result: results } = await client.queryDatabases(querySpec).toArray();
+                const { result: results } = await client.databases.query(querySpec).toArray();
                 assert(results.length > 0, "number of results for the query should be > 0");
 
                 // delete database
-                const { result: res } = await client.deleteDatabase(TestHelpers.getDatabaseLink(isNameBased, db));
+                await client.databases.get(db.id).delete();
                 try {
                     // read database after deletion
-                    const { result: database3 } =
-                        await client.readDatabase(TestHelpers.getDatabaseLink(isNameBased, db));
+                    await client.databases.get(db.id).read();
                     assert.fail("Read database on non-existent database should fail");
                 } catch (err) {
                     const notFoundErrorCode = 404;
@@ -77,28 +66,19 @@ describe("NodeJS CRUD Tests", function () {
 
         it("nativeApi Should do database CRUD operations successfully name based", async function () {
             try {
-                await databaseCRUDTest(true);
-            } catch (err) {
-                throw err;
-            }
-        });
-
-        it("nativeApi Should do database CRUD operations successfully rid based", async function () {
-            try {
-                await databaseCRUDTest(false);
+                await databaseCRUDTest();
             } catch (err) {
                 throw err;
             }
         });
     });
 
+    // TODO: These are unit tests, not e2e tests like above, so maybe should seperate these.
     describe("Validate Id validation", function () {
-        const client = new CosmosClient(host, { masterKey });
-
         it("nativeApi Should fail on ends with a space", async function () {
             // Id shoudn't end with a space.
             try {
-                const { result: db } = await client.createDatabase({ id: "id_ends_with_space " });
+                const { result: db } = await client.databases.create({ id: "id_ends_with_space " });
                 assert.fail("Must throw if id ends with a space");
             } catch (err) {
                 assert.equal("Id ends with a space.", err.message);
@@ -108,7 +88,7 @@ describe("NodeJS CRUD Tests", function () {
         it("nativeAPI Should fail on contains '/'", async function() {
             // Id shoudn't contain "/".
             try {
-                const { result: db } = await client.createDatabase({ id: "id_with_illegal/_char" });
+                const { result: db } = await client.databases.create({ id: "id_with_illegal/_char" });
                 assert.fail("Must throw if id has illegal characters");
             } catch (err) {
                 assert.equal("Id contains illegal chars.", err.message);
@@ -118,7 +98,7 @@ describe("NodeJS CRUD Tests", function () {
         it("nativeAPI Should fail on contains '\\'", async function() {
             // Id shoudn't contain "\\".
             try {
-                const { result: db } = await client.createDatabase({ id: "id_with_illegal\\_char" });
+                const { result: db } = await client.databases.create({ id: "id_with_illegal\\_char" });
                 assert.fail("Must throw if id contains illegal characters");
             } catch (err) {
                 assert.equal("Id contains illegal chars.", err.message);
@@ -128,7 +108,7 @@ describe("NodeJS CRUD Tests", function () {
         it("nativeAPI Should fail on contains '?'", async function() {
             // Id shoudn't contain "?".
             try {
-                const { result: db } = await client.createDatabase({ id: "id_with_illegal?_?char" });
+                const { result: db } = await client.databases.create({ id: "id_with_illegal?_?char" });
                 assert.fail("Must throw if id contains illegal characters");
             } catch (err) {
                 assert.equal("Id contains illegal chars.", err.message);
@@ -139,7 +119,7 @@ describe("NodeJS CRUD Tests", function () {
 
             // Id shoudn't contain "#".
             try {
-                const { result: db } = await client.createDatabase({ id: "id_with_illegal#_char" });
+                const { result: db } = await client.databases.create({ id: "id_with_illegal#_char" });
                 assert.fail("Must throw if id contains illegal characters");
             } catch (err) {
                 assert.equal("Id contains illegal chars.", err.message);

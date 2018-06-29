@@ -13,27 +13,11 @@ import {
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { FetchFunctionCallback, IHeaders, SqlQuerySpec } from "./queryExecutionContext";
 import { QueryIterator } from "./queryIterator";
-import { ErrorResponse, RequestHandler, Response } from "./request";
+import { ErrorResponse, FeedOptions, MediaOptions, RequestHandler, RequestOptions, Response } from "./request";
 import { RetryOptions } from "./retry";
 import { SessionContainer } from "./sessionContainer";
 
 export class DocumentClient extends DocumentClientBase {
-    /**
-     * Provides a client-side logical representation of the Azure Cosmos DB database account.
-     * This client is used to configure and execute requests in the Azure Cosmos DB database service.
-     * @constructor DocumentClient
-     * @param {string} urlConnection           - The service endpoint to use to create the client.
-     * @param {object} auth                    - An object that is used for authenticating requests \
-     * and must contains one of the options
-     * @param {string} [auth.masterKey]        - The authorization master key to use to create the client.
-     * @param {Object} [auth.resourceTokens]   - An object that contains resources tokens. Keys for the \
-     * object are resource Ids and values are the resource tokens.
-     * @param {Array}  [auth.permissionFeed]   - An array of {@link Permission} objects.
-     * @param {object} [connectionPolicy]      - An instance of {@link ConnectionPolicy} class. This \
-     * parameter is optional and the default connectionPolicy will be used if omitted.
-     * @param {string} [consistencyLevel]      - An optional parameter that represents the consistency \
-     * level. It can take any value from {@link ConsistencyLevel}.
-     */
     constructor(
         public urlConnection: string,
         auth: any,
@@ -41,12 +25,8 @@ export class DocumentClient extends DocumentClientBase {
         consistencyLevel?: ConsistencyLevel) { // TODO: any auth options
         super(urlConnection, auth, connectionPolicy, consistencyLevel);
     }
-    /**
-     * Gets the curent write endpoint for a geo-replicated database account.
-     * @memberof DocumentClient
-     * @instance
-     * @param {function} callback        - The callback function which takes endpoint(string) as an argument.
-     */
+
+    // NOT USED IN NEW OM
     public async getWriteEndpoint(callback?: (writeEndPoint: string) => void): Promise<string> {
         const p = this._globalEndpointManager.getWriteEndpoint();
 
@@ -57,12 +37,7 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Gets the curent read endpoint for a geo-replicated database account.
-     * @memberof DocumentClient
-     * @instance
-     * @param {function} callback        - The callback function which takes endpoint(string) as an argument.
-     */
+    // NOT USED IN NEW OM
     public getReadEndpoint(callback?: (readEndPoint: string) => void): void | Promise<string> {
         const p = this._globalEndpointManager.getReadEndpoint();
 
@@ -73,23 +48,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Send a request for creating a database.
-     * <p>
-     *  A database manages users, permissions and a set of collections.  <br>
-     *  Each Azure Cosmos DB Database Account is able to support multiple independent named databases,\
-     *  with the database being the logical container for data. <br>
-     *  Each Database consists of one or more collections, each of which in turn contain one or more \
-     *  documents. Since databases are an an administrative resource, the Service Master Key will be \
-     * required in order to access and successfully complete any action using the User APIs. <br>
-     * </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {Object} body              - A json object that represents The database to be created.
-     * @param {string} body.id           - The id of the database.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {ResponseCallback<any>} callback - The callback for the request.
-     */
     public createDatabase(
         body: object,
         options?: RequestOptions,
@@ -108,27 +66,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.create(body, path, "dbs", undefined, undefined, options, callback);
     }
 
-    /**
-     * Creates a collection.
-     * <p>
-     * A collection is a named logical container for documents. <br>
-     * A database may contain zero or more named collections and each collection consists of \
-     * zero or more JSON documents. <br>
-     * Being schema-free, the documents in a collection do not need to share the same structure or fields. <br>
-     * Since collections are application resources, they can be authorized using either the \
-     * master key or resource keys. <br>
-     * </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} databaseLink                  - The self-link of the database.
-     * @param {object} body                          - Represents the body of the collection.
-     * @param {string} body.id                       - The id of the collection.
-     * @param {IndexingPolicy} body.indexingPolicy   - The indexing policy associated with the collection.
-     * @param {number} body.defaultTtl               - The default time to live in seconds for documents in \
-     * a collection.
-     * @param {RequestOptions} [options]             - The request options.
-     * @param {ResponseCallback<any>} callback             - The callback for the request.
-     */
     public async createCollection(
         databaseLink: string,
         body: any,
@@ -156,31 +93,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Create a document.
-     * <p>
-     * There is no set schema for JSON documents. They may contain any number of custom properties as \
-     * well as an optional list of attachments. <br>
-     * A Document is an application resource and can be authorized using the master key or resource keys
-     * </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentsFeedOrDatabaseLink               - \
-     * The collection link or database link if using a partition resolver
-     * @param {object} body                                      - \
-     * Represents the body of the document. Can contain any number of user defined properties.
-     * @param {string} [body.id]                                 - \
-     * The id of the document, MUST be unique for each document.
-     * @param {number} body.ttl                                  - \
-     * The time to live in seconds of the document.
-     * @param {RequestOptions} [options]                         - \
-     * The request options.
-     * @param {boolean} [options.disableAutomaticIdGeneration]   - \
-     * Disables the automatic id generation. If id is missing in the body and this option is true, \
-     * an error will be returned.
-     * @param {ResponseCallback<Document>} callback                         - \
-     * The callback for the request.
-     */
     public async createDocument(
         documentsFeedOrDatabaseLink: string, // TODO: bad name
         body: any,
@@ -204,24 +116,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Create an attachment for the document object.
-     * <p>
-     * Each document may contain zero or more attachments. Attachments can be of any MIME type - \
-     * text, image, binary data. <br>
-     * These are stored externally in Azure Blob storage. Attachments are automatically \
-     * deleted when the parent document is deleted.
-     * </P>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentLink         - The self-link of the document.
-     * @param {Object} body                 - The metadata the defines the attachment media like media, \
-     * contentType. It can include any other properties as part of the metedata.
-     * @param {string} body.contentType     - The MIME contentType of the attachment.
-     * @param {string} body.media           - Media link associated with the attachment content.
-     * @param {RequestOptions} options      - The request options.
-     * @param {RequestCallback} callback    - The callback for the request.
-     */
     public async createAttachment(
         documentLink: string,
         body: any,
@@ -249,16 +143,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Create a database user.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} databaseLink         - The self-link of the database.
-     * @param {object} body                 - Represents the body of the user.
-     * @param {string} body.id              - The id of the user.
-     * @param {RequestOptions} [options]    - The request options.
-     * @param {RequestCallback} callback    - The callback for the request.
-     */
     public async createUser(
         databaseLink: string,
         body: any,
@@ -286,20 +170,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Create a permission.
-     * <p> A permission represents a per-User Permission to access a specific resource \
-     * e.g. Document or Collection.  </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} userLink             - The self-link of the user.
-     * @param {object} body                 - Represents the body of the permission.
-     * @param {string} body.id              - The id of the permission
-     * @param {string} body.permissionMode  - The mode of the permission, must be a value of {@link PermissionMode}
-     * @param {string} body.resource        - The link of the resource that the permission will be applied to.
-     * @param {RequestOptions} [options]    - The request options.
-     * @param {ResponseCallback<any>} callback    - The callback for the request. Promise won't return response.
-     */
     public async createPermission(
         userLink: string,
         body: any,
@@ -326,26 +196,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Create a trigger.
-     * <p>
-     * Azure Cosmos DB supports pre and post triggers defined in JavaScript to be executed \
-     * on creates, updates and deletes. <br>
-     * For additional details, refer to the server-side JavaScript API documentation.
-     * </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink           - The self-link of the collection.
-     * @param {object} trigger                  - Represents the body of the trigger.
-     * @param {string} trigger.id             - The id of the trigger.
-     * @param {string} trigger.triggerType      - The type of the trigger, \
-     * should be one of the values of {@link TriggerType}.
-     * @param {string} trigger.triggerOperation - The trigger operation, \
-     * should be one of the values of {@link TriggerOperation}.
-     * @param {function} trigger.serverScript   - The body of the trigger, it can be passed as stringified too.
-     * @param {RequestOptions} [options]        - The request options.
-     * @param {RequestCallback} callback        - The callback for the request.
-     */
     public async createTrigger(
         collectionLink: string,
         trigger: any,
@@ -379,24 +229,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Create a UserDefinedFunction.
-     * <p>
-     * Azure Cosmos DB supports JavaScript UDFs which can be used inside queries, stored procedures and triggers. <br>
-     * For additional details, refer to the server-side JavaScript API documentation.
-     * </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink                - The self-link of the collection.
-     * @param {object} udf                           - Represents the body of the userDefinedFunction.
-     * @param {string} udf.id                      - The id of the udf.
-     * @param {string} udf.userDefinedFunctionType   - The type of the udf, it should be one of the values \
-     * of {@link UserDefinedFunctionType}
-     * @param {function} udf.serverScript            - Represents the body of the udf, it can be passed as \
-     * stringified too.
-     * @param {RequestOptions} [options]             - The request options.
-     * @param {RequestCallback} callback             - The callback for the request.
-     */
     public async createUserDefinedFunction(
         collectionLink: string,
         udf: any,
@@ -430,24 +262,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Create a StoredProcedure.
-     * <p>
-     * Azure Cosmos DB allows stored procedures to be executed in the storage tier, \
-     * directly against a document collection. The script <br>
-     * gets executed under ACID transactions on the primary storage partition of the \
-     * specified collection. For additional details, <br>
-     * refer to the server-side JavaScript API documentation.
-     * </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink       - The self-link of the collection.
-     * @param {object} sproc                - Represents the body of the stored procedure.
-     * @param {string} sproc.id           - The id of the stored procedure.
-     * @param {function} sproc.serverScript - The body of the stored procedure, it can be passed as stringified too.
-     * @param {RequestOptions} [options]    - The request options.
-     * @param {RequestCallback} callback    - The callback for the request.
-     */
     public async createStoredProcedure(
         collectionLink: string,
         sproc: any,
@@ -481,15 +295,7 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Create an attachment for the document object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentLink             - The self-link of the document.
-     * @param {Readable} readableStream  - the stream that represents the media itself that needs to be uploaded.
-     * @param {MediaOptions} [options]          - The request options.
-     * @param {ResponseCallback} callback        - The callback for the request.
-     */
+    // NOT USED IN NEW OM
     public async createAttachmentAndUploadMedia(
         documentLink: string,
         readableStream: Readable,
@@ -521,14 +327,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Reads a database.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} databaseLink         - The self-link of the database.
-     * @param {RequestOptions} [options]    - The request options.
-     * @param {ResponseCallback} callback    - The callback for the request.
-     */
     public async readDatabase(
         databaseLink: string,
         options?: RequestOptions,
@@ -549,14 +347,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Reads a collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink       - The self-link of the collection.
-     * @param {RequestOptions} [options]    - The request options.
-     * @param {ResponseCallback} callback    - The callback for the request.
-     */
     public async readCollection(
         collectionLink: string,
         options?: RequestOptions,
@@ -578,14 +368,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Reads a document.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentLink         - The self-link of the document.
-     * @param {RequestOptions} [options]    - The request options.
-     * @param {ResponseCallback} callback    - The callback for the request.
-     */
     public async readDocument(
         documentLink: string,
         options?: RequestOptions,
@@ -605,14 +387,7 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Reads an Attachment object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} attachmentLink    - The self-link of the attachment.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {ResponseCallback} callback - The callback for the request.
-     */
+    // NOT USED IN NEW OM
     public async readAttachment(
         attachmentLink: string,
         options?: RequestOptions,
@@ -632,14 +407,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Reads a user.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} userLink          - The self-link of the user.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {ResponseCallback} callback - The callback for the request.
-     */
     public async readUser(
         userLink: string,
         options?: RequestOptions,
@@ -660,14 +427,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Reads a permission.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} permissionLink    - The self-link of the permission.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {ResponseCallback} callback - The callback for the request.
-     */
     public async readPermission(
         permissionLink: string,
         options?: RequestOptions,
@@ -688,14 +447,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Reads a trigger object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} triggerLink       - The self-link of the trigger.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {ResponseCallback} callback - The callback for the request.
-     */
     public async readTrigger(
         triggerLink: string,
         options?: RequestOptions,
@@ -718,14 +469,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Reads a udf object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} udfLink           - The self-link of the user defined function.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {ResponseCallback} callback - The callback for the request.
-     */
     public async readUserDefinedFunction(
         udfLink: string,
         options?: RequestOptions,
@@ -746,14 +489,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Reads a StoredProcedure object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} sprocLink         - The self-link of the stored procedure.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public async readStoredProcedure(
         sprocLink: string,
         options?: RequestOptions,
@@ -773,14 +508,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Reads a conflict.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} conflictLink      - The self-link of the conflict.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public async readConflict(
         conflictLink: string,
         options?: RequestOptions,
@@ -801,134 +528,47 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Lists all databases.
-     * @memberof DocumentClient
-     * @instance
-     * @param {FeedOptions} [options] - The feed options.
-     * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
-     */
     public readDatabases(options?: FeedOptions) {
         return this.queryDatabases(undefined, options);
     }
 
-    /**
-     * Get all collections in this database.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} databaseLink   - The self-link of the database.
-     * @param {FeedOptions} [options] - The feed options.
-     * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
-     */
     public readCollections(databaseLink: string, options?: FeedOptions) {
         return this.queryCollections(databaseLink, undefined, options);
     }
 
-    /**
-     * Get all documents in this collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink - The self-link of the collection.
-     * @param {FeedOptions} [options] - The feed options.
-     * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
-     */
     public readDocuments(collectionLink: string, options?: FeedOptions) {
         return this.queryDocuments(collectionLink, undefined, options);
     }
 
-    /**
-     * Get all Partition key Ranges in this collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink - The self-link of the collection.
-     * @param {FeedOptions} [options] - The feed options.
-     * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
-     * @ignore
-     */
     public readPartitionKeyRanges(collectionLink: string, options?: FeedOptions) {
         return this.queryPartitionKeyRanges(collectionLink, undefined, options);
     }
 
-    /**
-     * Get all attachments for this document.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentLink   - The self-link of the document.
-     * @param {FeedOptions} [options] - The feed options.
-     * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
-     */
+    // NOT USED IN NEW OM
     public readAttachments(documentLink: string, options?: FeedOptions) {
         return this.queryAttachments(documentLink, undefined, options);
     }
 
-    /**
-     * Get all users in this database.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} databaseLink       - The self-link of the database.
-     * @param {FeedOptions} [feedOptions] - The feed options.
-     * @returns {QueryIterator}           - An instance of queryIterator to handle reading feed.
-     */
     public readUsers(databaseLink: string, options?: FeedOptions) {
         return this.queryUsers(databaseLink, undefined, options);
     }
 
-    /**
-     * Get all permissions for this user.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} userLink           - The self-link of the user.
-     * @param {FeedOptions} [feedOptions] - The feed options.
-     * @returns {QueryIterator}           - An instance of queryIterator to handle reading feed.
-     */
     public readPermissions(userLink: string, options?: FeedOptions) {
         return this.queryPermissions(userLink, undefined, options);
     }
 
-    /**
-     * Get all triggers in this collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink   - The self-link of the collection.
-     * @param {FeedOptions} [options]   - The feed options.
-     * @returns {QueryIterator}         - An instance of queryIterator to handle reading feed.
-     */
     public readTriggers(collectionLink: string, options?: FeedOptions) {
         return this.queryTriggers(collectionLink, undefined, options);
     }
 
-    /**
-     * Get all UserDefinedFunctions in this collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink - The self-link of the collection.
-     * @param {FeedOptions} [options] - The feed options.
-     * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
-     */
     public readUserDefinedFunctions(collectionLink: string, options?: FeedOptions) {
         return this.queryUserDefinedFunctions(collectionLink, undefined, options);
     }
 
-    /**
-     * Get all StoredProcedures in this collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink - The self-link of the collection.
-     * @param {FeedOptions} [options] - The feed options.
-     * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
-     */
     public readStoredProcedures(collectionLink: string, options?: FeedOptions) {
         return this.queryStoredProcedures(collectionLink, undefined, options);
     }
 
-    /**
-     * Get all conflicts in this collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink - The self-link of the collection.
-     * @param {FeedOptions} [options] - The feed options.
-     * @returns {QueryIterator}       - An instance of QueryIterator to handle reading feed.
-     */
     public readConflicts(collectionLink: string, options?: FeedOptions) {
         return this.queryConflicts(collectionLink, undefined, options);
     }
@@ -944,7 +584,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /** @ignore */
     public async queryFeed(
         documentclient: DocumentClient,
         path: string,
@@ -1010,14 +649,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Lists all databases that satisfy a query.
-     * @memberof DocumentClient
-     * @instance
-     * @param {SqlQuerySpec | string} query - A SQL query.
-     * @param {FeedOptions} [options]       - The feed options.
-     * @returns {QueryIterator}             - An instance of QueryIterator to handle reading feed.
-     */
     public queryDatabases(query: SqlQuerySpec | string, options?: FeedOptions) {
         const cb: FetchFunctionCallback = (innerOptions) => {
             return this.queryFeed(
@@ -1033,15 +664,6 @@ export class DocumentClient extends DocumentClientBase {
         return new QueryIterator(this, query, options, cb);
     }
 
-    /**
-     * Query the collections for the database.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} databaseLink           - The self-link of the database.
-     * @param {SqlQuerySpec | string} query   - A SQL query.
-     * @param {FeedOptions} [options]         - Represents the feed options.
-     * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
-     */
     public queryCollections(databaseLink: string, query: string | SqlQuerySpec, options?: FeedOptions) {
         const isNameBased = Base.isLinkNameBased(databaseLink);
         const path = this.getPathFromLink(databaseLink, "colls", isNameBased);
@@ -1060,18 +682,6 @@ export class DocumentClient extends DocumentClientBase {
         });
     }
 
-    /**
-     * Query the documents for the collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentsFeedOrDatabaseLink          -\
-     * The collection link or database link if using a partition resolver
-     * @param {SqlQuerySpec | string} query                 - A SQL query.
-     * @param {FeedOptions} [options]                       - Represents the feed options.
-     * @param {object} [options.partitionKey]               - \
-     * Optional partition key to be used with the partition resolver
-     * @returns {QueryIterator}                             - An instance of queryIterator to handle reading feed.
-     */
     public queryDocuments(documentsFeedOrDatabaseLink: string, query?: string | SqlQuerySpec, options?: FeedOptions) {
         const partitionResolver = this.partitionResolvers[documentsFeedOrDatabaseLink];
         const collectionLinks = (partitionResolver === undefined || partitionResolver === null)
@@ -1080,16 +690,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.queryDocumentsPrivate(collectionLinks, query, options);
     }
 
-    /**
-     * Query the partition key ranges
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} databaseLink           - The self-link of the database.
-     * @param {SqlQuerySpec | string} query   - A SQL query.
-     * @param {FeedOptions} [options]         - Represents the feed options.
-     * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
-     * @ignore
-     */
     public queryPartitionKeyRanges(collectionLink: string, query: string | SqlQuerySpec, options?: FeedOptions) {
         const isNameBased = Base.isLinkNameBased(collectionLink);
         const path = this.getPathFromLink(collectionLink, "pkranges", isNameBased);
@@ -1108,15 +708,7 @@ export class DocumentClient extends DocumentClientBase {
         });
     }
 
-    /**
-     * Query the attachments for the document.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentLink           - The self-link of the document.
-     * @param {SqlQuerySpec | string} query   - A SQL query.
-     * @param {FeedOptions} [options]         - Represents the feed options.
-     * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
-     */
+    // NOT USED IN NEW OM
     public queryAttachments(documentLink: string, query: string | SqlQuerySpec, options?: FeedOptions) {
         const isNameBased = Base.isLinkNameBased(documentLink);
         const path = this.getPathFromLink(documentLink, "attachments", isNameBased);
@@ -1135,15 +727,6 @@ export class DocumentClient extends DocumentClientBase {
         });
     }
 
-    /**
-     * Query the users for the database.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} databaseLink           - The self-link of the database.
-     * @param {SqlQuerySpec | string} query   - A SQL query.
-     * @param {FeedOptions} [options]         - Represents the feed options.
-     * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
-     */
     public queryUsers(databaseLink: string, query: string | SqlQuerySpec, options?: FeedOptions) {
         const isNameBased = Base.isLinkNameBased(databaseLink);
         const path = this.getPathFromLink(databaseLink, "users", isNameBased);
@@ -1162,15 +745,6 @@ export class DocumentClient extends DocumentClientBase {
         });
     }
 
-    /**
-     * Query the permission for the user.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} userLink               - The self-link of the user.
-     * @param {SqlQuerySpec | string} query   - A SQL query.
-     * @param {FeedOptions} [options]         - Represents the feed options.
-     * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
-     */
     public queryPermissions(userLink: string, query: string | SqlQuerySpec, options?: FeedOptions) {
         const isNameBased = Base.isLinkNameBased(userLink);
         const path = this.getPathFromLink(userLink, "permissions", isNameBased);
@@ -1189,15 +763,6 @@ export class DocumentClient extends DocumentClientBase {
         });
     }
 
-    /**
-     * Query the triggers for the collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink         - The self-link of the collection.
-     * @param {SqlQuerySpec | string} query   - A SQL query.
-     * @param {FeedOptions} [options]         - Represents the feed options.
-     * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
-     */
     public queryTriggers(collectionLink: string, query: string | SqlQuerySpec, options?: FeedOptions) {
         const isNameBased = Base.isLinkNameBased(collectionLink);
         const path = this.getPathFromLink(collectionLink, "triggers", isNameBased);
@@ -1216,15 +781,6 @@ export class DocumentClient extends DocumentClientBase {
         });
     }
 
-    /**
-     * Query the user defined functions for the collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink         - The self-link of the collection.
-     * @param {SqlQuerySpec | string} query   - A SQL query.
-     * @param {FeedOptions} [options]         - Represents the feed options.
-     * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
-     */
     public queryUserDefinedFunctions(collectionLink: string, query: string | SqlQuerySpec, options?: FeedOptions) {
         const isNameBased = Base.isLinkNameBased(collectionLink);
         const path = this.getPathFromLink(collectionLink, "udfs", isNameBased);
@@ -1243,15 +799,6 @@ export class DocumentClient extends DocumentClientBase {
         });
     }
 
-    /**
-     * Query the storedProcedures for the collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink         - The self-link of the collection.
-     * @param {SqlQuerySpec | string} query   - A SQL query.
-     * @param {FeedOptions} [options]         - Represents the feed options.
-     * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
-     */
     public queryStoredProcedures(collectionLink: string, query: string | SqlQuerySpec, options?: FeedOptions) {
         const isNameBased = Base.isLinkNameBased(collectionLink);
         const path = this.getPathFromLink(collectionLink, "sprocs", isNameBased);
@@ -1270,15 +817,6 @@ export class DocumentClient extends DocumentClientBase {
         });
     }
 
-    /**
-     * Query the conflicts for the collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink         - The self-link of the collection.
-     * @param {SqlQuerySpec | string} query   - A SQL query.
-     * @param {FeedOptions} [options]         - Represents the feed options.
-     * @returns {QueryIterator}               - An instance of queryIterator to handle reading feed.
-     */
     public queryConflicts(collectionLink: string, query: string | SqlQuerySpec, options?: FeedOptions) {
         const isNameBased = Base.isLinkNameBased(collectionLink);
         const path = this.getPathFromLink(collectionLink, "conflicts", isNameBased);
@@ -1297,14 +835,6 @@ export class DocumentClient extends DocumentClientBase {
         });
     }
 
-    /**
-     * Delete the database object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} databaseLink         - The self-link of the database.
-     * @param {RequestOptions} [options]    - The request options.
-     * @param {ResponseCallback<any>} callback    - The callback for the request.
-     */
     public deleteDatabase(
         databaseLink: string, options?: RequestOptions, callback?: ResponseCallback<any>): Promise<Response<any>> {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
@@ -1317,14 +847,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.deleteResource(path, "dbs", id, undefined, options, callback);
     }
 
-    /**
-     * Delete the collection object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink    - The self-link of the collection.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public deleteCollection(collectionLink: string, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -1337,14 +859,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.deleteResource(path, "colls", id, undefined, options, callback);
     }
 
-    /**
-     * Delete the document object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentLink      - The self-link of the document.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public deleteDocument(documentLink: string, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -1357,14 +871,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.deleteResource(path, "docs", id, undefined, options, callback);
     }
 
-    /**
-     * Delete the attachment object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} attachmentLink    - The self-link of the attachment.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public deleteAttachment(attachmentLink: string, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -1377,14 +883,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.deleteResource(path, "attachments", id, undefined, options, callback);
     }
 
-    /**
-     * Delete the user object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} userLink          - The self-link of the user.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public deleteUser(userLink: string, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -1397,14 +895,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.deleteResource(path, "users", id, undefined, options, callback);
     }
 
-    /**
-     * Delete the permission object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} permissionLink    - The self-link of the permission.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public deletePermission(permissionLink: string, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -1417,14 +907,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.deleteResource(path, "permissions", id, undefined, options, callback);
     }
 
-    /**
-     * Delete the trigger object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} triggerLink       - The self-link of the trigger.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public deleteTrigger(triggerLink: string, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -1437,14 +919,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.deleteResource(path, "triggers", id, undefined, options, callback);
     }
 
-    /**
-     * Delete the UserDefinedFunction object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} udfLink           - The self-link of the user defined function.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public deleteUserDefinedFunction(udfLink: string, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -1457,14 +931,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.deleteResource(path, "udfs", id, undefined, options, callback);
     }
 
-    /**
-     * Delete the StoredProcedure object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} sprocLink         - The self-link of the stored procedure.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public deleteStoredProcedure(sprocLink: string, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -1477,14 +943,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.deleteResource(path, "sprocs", id, undefined, options, callback);
     }
 
-    /**
-     * Delete the conflict object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} conflictLink      - The self-link of the conflict.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public deleteConflict(conflictLink: string, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -1497,15 +955,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.deleteResource(path, "conflicts", id, undefined, options, callback);
     }
 
-    /**
-     * Replace the document collection.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink    - The self-link of the document collection.
-     * @param {object} collection        - Represent the new document collection body.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public replaceCollection(
         collectionLink: string,
         collection: any,
@@ -1528,15 +977,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.replace(collection, path, "colls", id, undefined, options, callback);
     }
 
-    /**
-     * Replace the document object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentLink      - The self-link of the document.
-     * @param {object} document          - Represent the new document body.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {ResponseCallback} callback - The callback for the request.
-     */
     public async replaceDocument(
         documentLink: string,
         newDocument: any,
@@ -1569,15 +1009,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Replace the attachment object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} attachmentLink    - The self-link of the attachment.
-     * @param {object} attachment        - Represent the new attachment body.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public replaceAttachment(
         attachmentLink: string, attachment: any, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
@@ -1597,15 +1028,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.replace(attachment, path, "attachments", id, undefined, options, callback);
     }
 
-    /**
-     * Replace the user object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} userLink          - The self-link of the user.
-     * @param {object} user              - Represent the new user body.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public replaceUser(
         userLink: string, user: any, options?: RequestOptions, callback?: ResponseCallback<any>) { // TODO: any
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
@@ -1625,15 +1047,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.replace(user, path, "users", id, undefined, options, callback);
     }
 
-    /**
-     * Replace the permission object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} permissionLink    - The self-link of the permission.
-     * @param {object} permission        - Represent the new permission body.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public replacePermission(
         permissionLink: string, permission: any,
         options?: RequestOptions, callback?: ResponseCallback<any>) { // TODO: any
@@ -1654,15 +1067,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.replace(permission, path, "permissions", id, undefined, options, callback);
     }
 
-    /**
-     * Replace the trigger object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} triggerLink       - The self-link of the trigger.
-     * @param {object} trigger           - Represent the new trigger body.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public replaceTrigger(
         triggerLink: string, trigger: any, options?: RequestOptions, callback?: ResponseCallback<any>) { // TODO: any
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
@@ -1688,15 +1092,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.replace(trigger, path, "triggers", id, undefined, options, callback);
     }
 
-    /**
-     * Replace the UserDefinedFunction object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} udfLink           - The self-link of the user defined function.
-     * @param {object} udf               - Represent the new udf body.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public replaceUserDefinedFunction(
         udfLink: string, udf: any, options?: RequestOptions, callback?: ResponseCallback<any>) { // TODO: any
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
@@ -1722,15 +1117,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.replace(udf, path, "udfs", id, undefined, options, callback);
     }
 
-    /**
-     * Replace the StoredProcedure object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} sprocLink         - The self-link of the stored procedure.
-     * @param {object} sproc             - Represent the new sproc body.
-     * @param {RequestOptions} [options] - The request options.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public replaceStoredProcedure(
         sprocLink: string, sproc: any, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
@@ -1756,28 +1142,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.replace(sproc, path, "sprocs", id, undefined, options, callback);
     }
 
-    /**
-     * Upsert a document.
-     * <p>
-     * There is no set schema for JSON documents. They may contain any number of custom properties as \
-     * well as an optional list of attachments. <br>
-     * A Document is an application resource and can be authorized using the master key or resource keys
-     * </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentsFeedOrDatabaseLink               - \
-     * The collection link or database link if using a partition resolver
-     * @param {object} body                                      - \
-     * Represents the body of the document. Can contain any number of user defined properties.
-     * @param {string} [body.id]                                 - \
-     * The id of the document, MUST be unique for each document.
-     * @param {number} body.ttl                                  - The time to live in seconds of the document.
-     * @param {RequestOptions} [options]                         - The request options.
-     * @param {boolean} [options.disableAutomaticIdGeneration]   - \
-     * Disables the automatic id generation. If id is missing in the body and this option is true, an error \
-     * will be returned.
-     * @param {RequestCallback} callback                         - The callback for the request.
-     */
     public upsertDocument(
         documentsFeedOrDatabaseLink: string,
         body: any,
@@ -1792,25 +1156,7 @@ export class DocumentClient extends DocumentClientBase {
         return this.upsertDocumentPrivate(collectionLink, body, options, callback);
     }
 
-    /**
-     * Upsert an attachment for the document object.
-     * <p>
-     * Each document may contain zero or more attachments.
-     * Attachments can be of any MIME type - text, image, binary data. <br>
-     * These are stored externally in Azure Blob storage.
-     * Attachments are automatically deleted when the parent document is deleted.
-     * </P>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentLink         - The self-link of the document.
-     * @param {Object} body                 - \
-     * The metadata the defines the attachment media like media, contentType.
-     * It can include any other properties as part of the metedata.
-     * @param {string} body.contentType     - The MIME contentType of the attachment.
-     * @param {string} body.media           - Media link associated with the attachment content.
-     * @param {RequestOptions} options      - The request options.
-     * @param {RequestCallback} callback    - The callback for the request.
-     */
+    // NOT USED IN NEW OM
     public upsertAttachment(
         documentLink: string, body: any, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
@@ -1830,16 +1176,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.upsert(body, path, "attachments", id, undefined, options, callback);
     }
 
-    /**
-     * Upsert a database user.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} databaseLink         - The self-link of the database.
-     * @param {object} body                 - Represents the body of the user.
-     * @param {string} body.id              - The id of the user.
-     * @param {RequestOptions} [options]    - The request options.
-     * @param {RequestCallback} callback    - The callback for the request.
-     */
     public upsertUser(databaseLink: string, body: any, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -1858,20 +1194,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.upsert(body, path, "users", id, undefined, options, callback);
     }
 
-    /**
-     * Upsert a permission.
-     * <p> A permission represents a per-User Permission to access a \
-     * specific resource e.g. Document or Collection.  </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} userLink             - The self-link of the user.
-     * @param {object} body                 - Represents the body of the permission.
-     * @param {string} body.id              - The id of the permission
-     * @param {string} body.permissionMode  - The mode of the permission, must be a value of {@link PermissionMode}
-     * @param {string} body.resource        - The link of the resource that the permission will be applied to.
-     * @param {RequestOptions} [options]    - The request options.
-     * @param {RequestCallback} callback    - The callback for the request.
-     */
     public upsertPermission(userLink: string, body: any, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -1890,26 +1212,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.upsert(body, path, "permissions", id, undefined, options, callback);
     }
 
-    /**
-     * Upsert a trigger.
-     * <p>
-     * Azure Cosmos DB supports pre and post triggers defined in JavaScript to be
-     * executed on creates, updates and deletes. <br>
-     * For additional details, refer to the server-side JavaScript API documentation.
-     * </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink           - The self-link of the collection.
-     * @param {object} trigger                  - Represents the body of the trigger.
-     * @param {string} trigger.id             - The id of the trigger.
-     * @param {string} trigger.triggerType      -
-     * The type of the trigger, should be one of the values of {@link TriggerType}.
-     * @param {string} trigger.triggerOperation -
-     * The trigger operation, should be one of the values of {@link TriggerOperation}.
-     * @param {function} trigger.serverScript   - The body of the trigger, it can be passed as stringified too.
-     * @param {RequestOptions} [options]        - The request options.
-     * @param {RequestCallback} callback        - The callback for the request.
-     */
     public upsertTrigger(
         collectionLink: string, trigger: any, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
@@ -1935,24 +1237,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.upsert(trigger, path, "triggers", id, undefined, options, callback);
     }
 
-    /**
-     * Upsert a UserDefinedFunction.
-     * <p>
-     * Azure Cosmos DB supports JavaScript UDFs which can be used inside queries, stored procedures and triggers. <br>
-     * For additional details, refer to the server-side JavaScript API documentation.
-     * </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink                - The self-link of the collection.
-     * @param {object} udf                           - Represents the body of the userDefinedFunction.
-     * @param {string} udf.id                      - The id of the udf.
-     * @param {string} udf.userDefinedFunctionType   -
-     * The type of the udf, it should be one of the values of {@link UserDefinedFunctionType}
-     * @param {function} udf.serverScript            -
-     * Represents the body of the udf, it can be passed as stringified too.
-     * @param {RequestOptions} [options]             - The request options.
-     * @param {RequestCallback} callback             - The callback for the request.
-     */
     public upsertUserDefinedFunction(
         collectionLink: string, udf: any, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
@@ -1978,24 +1262,6 @@ export class DocumentClient extends DocumentClientBase {
         return this.upsert(udf, path, "udfs", id, undefined, options, callback);
     }
 
-    /**
-     * Upsert a StoredProcedure.
-     * <p>
-     * Azure Cosmos DB allows stored procedures to be executed in the storage tier,
-     * directly against a document collection. The script <br>
-     * gets executed under ACID transactions on the primary storage partition of the
-     *  specified collection. For additional details, <br>
-     * refer to the server-side JavaScript API documentation.
-     * </p>
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} collectionLink       - The self-link of the collection.
-     * @param {object} sproc                - Represents the body of the stored procedure.
-     * @param {string} sproc.id           - The id of the stored procedure.
-     * @param {function} sproc.serverScript - The body of the stored procedure, it can be passed as stringified too.
-     * @param {RequestOptions} [options]    - The request options.
-     * @param {RequestCallback} callback    - The callback for the request.
-     */
     public upsertStoredProcedure(
         collectionLink: string, sproc: any, options?: RequestOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
@@ -2021,17 +1287,9 @@ export class DocumentClient extends DocumentClientBase {
         return this.upsert(sproc, path, "sprocs", id, undefined, options, callback);
     }
 
-    /**
-     * Upsert an attachment for the document object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} documentLink             - The self-link of the document.
-     * @param {stream.Readable} readableStream  - the stream that represents the media itself that needs to be uploaded.
-     * @param {MediaOptions} [options]          - The request options.
-     * @param {RequestCallback} callback        - The callback for the request.
-     */
+    // NOT USED IN NEW OM
     public upsertAttachmentAndUploadMedia(
-        documentLink: string, readableStream: ReadableStream,
+        documentLink: string, readableStream: Readable,
         options?: MediaOptions, callback?: ResponseCallback<any>) {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -2054,15 +1312,7 @@ export class DocumentClient extends DocumentClientBase {
         return this.upsert(readableStream, path, "attachments", id, initialHeaders, options, callback);
     }
 
-    /**
-     * Read the media for the attachment object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} mediaLink         - The media link of the media in the attachment.
-     * @param {RequestCallback} callback -
-     * The callback for the request, the result parameter can be a buffer or a stream
-     *                                     depending on the value of {@link MediaReadMode}.
-     */
+    // NOT USED IN NEW OM
     public async readMedia(mediaLink: string, callback?: ResponseCallback<any>) {
         const resourceInfo = Base.parseLink(mediaLink);
         const path = mediaLink;
@@ -2081,17 +1331,9 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Update media for the attachment
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} mediaLink                - The media link of the media in the attachment.
-     * @param {stream.Readable} readableStream  - The stream that represents the media itself that needs to be uploaded.
-     * @param {MediaOptions} [options]          - options for the media
-     * @param {RequestCallback} callback        - The callback for the request.
-     */
+    // NOT USED IN NEW OM
     public async updateMedia(
-        mediaLink: string, readableStream: ReadableStream,
+        mediaLink: string, readableStream: Readable,
         options?: MediaOptions, callback?: ResponseCallback<any>): Promise<Response<any>> {
         const optionsCallbackTuple = this.validateOptionsAndCallback(options, callback);
         options = optionsCallbackTuple.options;
@@ -2126,15 +1368,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Execute the StoredProcedure represented by the object with partition key.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} sprocLink            - The self-link of the stored procedure.
-     * @param {Array} [params]              - represent the parameters of the stored procedure.
-     * @param {Object} [options]            - partition key
-     * @param {RequestCallback} callback    - The callback for the request.
-     */
     public async executeStoredProcedure(
         sprocLink: string, params?: any[], // TODO: any
         options?: RequestOptions, callback?: ResponseCallback<any>) {
@@ -2176,14 +1409,6 @@ export class DocumentClient extends DocumentClientBase {
         }
     }
 
-    /**
-     * Replace the offer object.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} offerLink         - The self-link of the offer.
-     * @param {object} offer             - Represent the new offer body.
-     * @param {RequestCallback} callback - The callback for the request.
-     */
     public replaceOffer(offerLink: string, offer: any, callback?: ResponseCallback<any>) {
         const err = {};
         if (!this.isResourceValid(offer, err)) {
@@ -2196,38 +1421,16 @@ export class DocumentClient extends DocumentClientBase {
         return this.replace(offer, path, "offers", id, undefined, {}, callback);
     }
 
-    /**
-     * Reads an offer.
-     * @memberof DocumentClient
-     * @instance
-     * @param {string} offerLink         - The self-link of the offer.
-     * @param {RequestCallback} callback    - The callback for the request.
-     */
     public async readOffer(offerLink: string, callback?: ResponseCallback<any>) {
         const path = "/" + offerLink;
         const id = Base.parseLink(offerLink).objectBody.id.toLowerCase();
         return Base.ResponseOrCallback(callback, await this.read(path, "offers", id, undefined, {}));
     }
 
-    /**
-     * Lists all offers.
-     * @memberof DocumentClient
-     * @instance
-     * @param {FeedOptions} [options] - The feed options.
-     * @returns {QueryIterator}       - An instance of queryIterator to handle reading feed.
-     */
     public readOffers(options?: FeedOptions) {
         return this.queryOffers(undefined, options);
     }
 
-    /**
-     * Lists all offers that satisfy a query.
-     * @memberof DocumentClient
-     * @instance
-     * @param {SqlQuerySpec | string} query - A SQL query.
-     * @param {FeedOptions} [options]       - The feed options.
-     * @returns {QueryIterator}             - An instance of QueryIterator to handle reading feed.
-     */
     public queryOffers(query: string | SqlQuerySpec, options?: FeedOptions) {
         return new QueryIterator(this, query, options, (innerOptions) => {
             return this.queryFeed(
@@ -2731,133 +1934,6 @@ export class DocumentClient extends DocumentClientBase {
     }
 }
 
-/**
- * The request options
- * @typedef {Object} RequestOptions                          -         \
- * Options that can be specified for a requested issued to the Azure Cosmos DB servers.
- * @property {object} [accessCondition]                      -         \
- * Conditions Associated with the request.
- * @property {string} accessCondition.type                   -         \
- * Conditional HTTP method header type (IfMatch or IfNoneMatch).
- * @property {string} accessCondition.condition              -         \
- * Conditional HTTP method header value (the _etag field from the last version you read).
- * @property {string} [consistencyLevel]                     -         \
- * Consistency level required by the client.
- * @property {boolean} [disableRUPerMinuteUsage]             -         \
- * DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity to \
- * serve the request if regular provisioned RUs/second is exhausted.
- * @property {boolean} [enableScriptLogging]                 -         \
- * Enables or disables logging in JavaScript stored procedures.
- * @property {string} [indexingDirective]                    -         \
- * Specifies indexing directives (index, do not index .. etc).
- * @property {boolean} [offerEnableRUPerMinuteThroughput]    -         \
- * Represents Request Units(RU)/Minute throughput is enabled/disabled for a collection \
- * in the Azure Cosmos DB database service.
- * @property {number} [offerThroughput]                      -         \
- * The offer throughput provisioned for a collection in measurement of Requests-per-Unit \
- * in the Azure Cosmos DB database service.
- * @property {string} [offerType]                            -         Offer type when creating document collections.
- * <p>This option is only valid when creating a document collection.</p>
- * @property {string} [partitionKey]                         -         \
- * Specifies a partition key definition for a particular path in the Azure Cosmos DB database service.
- * @property {boolean} [populateQuotaInfo]                   -         \
- * Enables/disables getting document collection quota related stats for document collection read requests.
- * @property {string} [postTriggerInclude]                   -         \
- * Indicates what is the post trigger to be invoked after the operation.
- * @property {string} [preTriggerInclude]                    -         \
- * Indicates what is the pre trigger to be invoked before the operation.
- * @property {number} [resourceTokenExpirySeconds]           -         \
- * Expiry time (in seconds) for resource token associated with permission (applicable only for requests on permissions).
- * @property {string} [sessionToken]                         -         Token for use with Session consistency.
- */
-
-export interface RequestOptions {
-    accessCondition?: {
-        type: string;
-        condition: string;
-    };
-    consistencyLevel?: string;
-    disableRUPerMinuteUsage?: boolean;
-    enableScriptLogging?: boolean;
-    indexingDirective?: string;
-    offerEnableRUPerMinuteThroughput?: boolean;
-    offerThroughput?: number;
-    offerType?: string;
-    partitionKey?: PartitionKey;
-    populateQuotaInfo?: boolean;
-    postTriggerInclude?: string | string[];
-    preTriggerInclude?: string | string[];
-    resourceTokenExpirySeconds?: number;
-    sessionToken?: string;
-    initialHeaders?: IHeaders;
-    urlConnection?: string;
-    skipGetPartitionKeyDefinition?: boolean;
-    disableAutomaticIdGeneration?: boolean;
-}
-
-/**
- * The feed options
- * @typedef {Object} FeedOptions                    -       \
- * The feed options and query methods.
- * @property {string} [continuation]                -       Opaque token for continuing the enumeration.
- * @property {boolean} [disableRUPerMinuteUsage]    -       \
- * DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity to serve the \
- * request if regular provisioned RUs/second is exhausted.
- * @property {boolean} [enableCrossPartitionQuery]  -       \
- * A value indicating whether users are enabled to send more than one request to execute the query \
- * in the Azure Cosmos DB database service.
- * <p>More than one request is necessary if the query is not scoped to single partition key value.</p>
- * @property {boolean} [populateQueryMetrics]       -       Whether to populate the query metrics.
- * @property {boolean} [enableScanInQuery]          -       \
- * Allow scan on the queries which couldn't be served as indexing was opted out on the requested paths.
- * @property {number} [maxDegreeOfParallelism]      -       \
- * The maximum number of concurrent operations that run client side during parallel query execution \
- * in the Azure Cosmos DB database service. Negative values make the system automatically decides the \
- * number of concurrent operations to run.
- * @property {number} [maxItemCount]                -       \
- * Max number of items to be returned in the enumeration operation.
- * @property {string} [partitionKey]                -       \
- * Specifies a partition key definition for a particular path in the Azure Cosmos DB database service.
- * @property {string} [sessionToken]                -       Token for use with Session consistency.
- */
-export interface FeedOptions {
-    continuation?: string;
-    disableRUPerMinuteUsage?: boolean;
-    enableCrossPartitionQuery?: boolean;
-    populateQueryMetrics?: boolean;
-    enableScanInQuery?: boolean;
-    maxDegreeOfParallelism?: number;
-    maxItemCount?: number;
-    partitionKey?: string;
-    sessionToken?: string;
-    initialHeaders?: IHeaders;
-    a_im?: string;
-    accessCondition?: any; // TODO: any
-}
-
-/**
- * The media options
- * @typedef {Object} MediaOptions                                   -         Options associated with upload media.
- * @property {string} [slug]                                        -         HTTP Slug header value.
- * @property {string} [contentType=application/octet-stream]        -         HTTP ContentType header value.
- *
- */
-export interface MediaOptions {
-    initialHeaders?: IHeaders;
-    slug?: string;
-    contentType?: string;
-}
-
-/**
- * The callback to execute after the request execution.
- * @callback RequestCallback
- * @param {object} error            -       Will contain error information if an error occurs, undefined otherwise.
- * @param {number} error.code       -       The response code corresponding to the error.
- * @param {string} error.body       -       A string represents the error information.
- * @param {Object} resource         -       An object that represents the requested resource \
- * (Db, collection, document ... etc) if no error happens.
- * @param {object} responseHeaders  -       An object that contain the response headers.
- */
 export interface RequestCallback {
     error?: RequestError;
     resource: any; // TODO: any
@@ -2897,44 +1973,3 @@ export interface Options {
     contentType?: string;
     a_im?: string;
 }
-
-/**
- * The Indexing Policy represents the indexing policy configuration for a collection.
- * @typedef {Object} IndexingPolicy
- * @property {boolean} automatic -         Specifies whether automatic indexing is enabled for a collection.
- * <p>In automatic indexing, documents can be explicitly excluded from indexing using {@link RequestOptions}.
- * In manual indexing, documents can be explicitly included. </p>
- * @property {string} indexingMode -         The indexing mode (consistent or lazy) {@link IndexingMode}.
- * @property {Array} IncludedPaths -         An array of {@link IncludedPath} represents the paths to be \
- * included for indexing.
- * @property {Array} ExcludedPaths -         An array of {@link ExcludedPath} represents the paths to be \
- * excluded from indexing.
- *
- */
-
-/**
- * <p> Included path. <br>
- * </p>
- * @typedef {Object} IncludedPath
- * @property {Array} Indexes                                               -         An array of {@link Indexes}.
- * @property {string} Path                                                 -         Path to be indexed.
- *
- */
-
-/**
- * <p> Index specification. <br>
- * </p>
- * @typedef {Object} Indexes
- * @property {string} Kind                                                  -         The index kind {@link IndexKind}.
- * @property {string} DataType                                              -         The data type {@link DataType}.
- * @property {number} Precision                                             -         The precision.
- *
- */
-
-/**
- * <p> Excluded path. <br>
- * </p>
- * @typedef {Object} ExcludedPath
- * @property {string} Path                                                  -         Path to be indexed.
- *
- */

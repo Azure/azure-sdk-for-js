@@ -14,9 +14,9 @@
                 "-u",
                 "tdd",
                 "--colors",
-                "${workspaceFolder}/lib/test/**.spec.js",
+                "${workspaceFolder}/lib/test/**/*.js",
                 "-g",
-                ".*"
+                ".*for non master resource$"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "sourceMaps": true,
