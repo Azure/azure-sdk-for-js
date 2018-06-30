@@ -109,6 +109,10 @@ export class Session {
         rheaReceiver.on(ReceiverEvents.receiverError, options!.onError!);
       }
 
+      if (options && options.onClose) {
+        rheaReceiver.on(ReceiverEvents.receiverClose, options.onClose);
+      }
+
       const removeListeners = () => {
         rheaReceiver.removeListener("receiver_open", onOpen);
         rheaReceiver.removeListener("receiver_close", onClose);
@@ -151,6 +155,9 @@ export class Session {
       if (options) {
         if (options.onError) {
           rheaSender.on(SenderEvents.senderError, options.onError);
+        }
+        if (options.onClose) {
+          rheaSender.on(SenderEvents.senderClose, options.onClose);
         }
         if (options.onAccepted) {
           rheaSender.on(SenderEvents.accepted, options.onAccepted);

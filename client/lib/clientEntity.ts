@@ -69,16 +69,16 @@ export class ClientEntity {
    */
   partitionId?: string | number;
   /**
+   * @property {boolean} wasCloseCalled Indicates whether the close() method was called on itself
+   * in a given context.
+   */
+  wasCloseCalled: boolean = false;
+  /**
    * @property {ConnectionContext} _context Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    * @protected
    */
   protected _context: ConnectionContext;
-  /**
-   * @property {any} [_session] The AMQP session.
-   * @protected
-   */
-  protected _session?: any;
   /**
    * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
    * the Client Entity is due for token renewal.

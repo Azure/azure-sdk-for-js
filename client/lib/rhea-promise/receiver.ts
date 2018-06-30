@@ -11,6 +11,7 @@ const debug = debugModule("rhea-promise:receiver");
 export interface ReceiverOptions extends rhea.ReceiverOptions {
   onMessage?: rhea.OnAmqpEvent;
   onError?: rhea.OnAmqpEvent;
+  onClose?: rhea.OnAmqpEvent;
 }
 
 export class Receiver {

@@ -170,6 +170,7 @@ export class ManagementClient extends ClientEntity {
   async close(): Promise<void> {
     try {
       if (this._isMgmtRequestResponseLinkOpen()) {
+        this.wasCloseCalled = true;
         await this._mgmtReqResLink!.close();
         debug("Successfully closed the management session.");
         this._mgmtReqResLink = undefined;
@@ -194,7 +195,7 @@ export class ManagementClient extends ClientEntity {
       debug("Creating a session for $management endpoint");
       this._mgmtReqResLink =
         await RequestResponseLink.create(this._context.connection!, sropt, rxopt);
-      this._session = this._mgmtReqResLink.session;
+      this.wasCloseCalled = false;
       debug("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
         this._context.connectionId, this._mgmtReqResLink.sender.name, this._mgmtReqResLink.receiver.name);
       await this._ensureTokenRenewal();

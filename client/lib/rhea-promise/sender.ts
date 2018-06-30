@@ -14,6 +14,7 @@ export interface SenderOptions extends rhea.SenderOptions {
   onReleased?: rhea.OnAmqpEvent;
   onModified?: rhea.OnAmqpEvent;
   onError?: rhea.OnAmqpEvent;
+  onClose?: rhea.OnAmqpEvent;
 }
 
 export class Sender {

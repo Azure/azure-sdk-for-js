@@ -16,7 +16,8 @@ async function main(): Promise<void> {
   const delivery = await client.send(data);
   console.log(">>> Sent the message successfully: ", delivery.tag.toString());
   console.log(delivery);
-  await (Object.values((client as any)._context.senders)[0] as any).close();
+  console.log("Calling rhea-promise sender close directly. This should result in sender getting reconnected.");
+  await ((Object.values((client as any)._context.senders)[0] as any)._sender as any).close();
   // await client.close();
 }
 
