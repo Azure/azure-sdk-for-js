@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as uuid from "uuid/v4";
 import {
   Message, MessageProperties, MessageHeader, Dictionary, messageHeader, messageProperties
 } from "./rhea-promise";
@@ -142,6 +143,9 @@ export namespace EventData {
       for (const prop in data.properties) {
         (msg as any)[prop] = (data.properties as any)[prop];
       }
+    }
+    if (!msg.message_id) {
+      msg.message_id = uuid();
     }
     if (data.applicationProperties) {
       msg.application_properties = data.applicationProperties;
