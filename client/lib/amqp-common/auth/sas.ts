@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as crypto from "crypto";
 import { parseConnectionString, ServiceBusConnectionStringModel } from "../util/utils";
 import { TokenInfo, TokenProvider, TokenType } from "./token";
+const isBuffer = require("is-buffer");
+const jssha = require("jssha");
 
 /**
  * @class SasTokenProvider
@@ -74,7 +75,17 @@ export class SasTokenProvider implements TokenProvider {
     const keyName = encodeURIComponent(this.keyName);
     const stringToSign = audience + '\n' + expiry;
     hashInput = hashInput || this.key;
-    const sig = encodeURIComponent(crypto.createHmac('sha256', hashInput).update(stringToSign, 'utf8').digest('base64'));
+    let shaObj: any;
+    if (isBuffer(hashInput)) {
+      shaObj = new jssha("SHA-256", "ARRAYBUFFER");
+      shaObj.setHMACKey(hashInput, "ARRAYBUFFER");
+      shaObj.update(Buffer.from(stringToSign));
+    } else {
+      shaObj = new jssha("SHA-256", "TEXT");
+      shaObj.setHMACKey(hashInput, "TEXT");
+      shaObj.update(stringToSign);
+    }
+    const sig = encodeURIComponent(shaObj.getHMAC("B64"));
     return {
       token: `SharedAccessSignature sr=${audience}&sig=${sig}&se=${expiry}&skn=${keyName}`,
       tokenType: TokenType.CbsTokenTypeSas,
