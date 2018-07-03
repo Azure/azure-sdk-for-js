@@ -173,6 +173,7 @@ export class EventProcessorHost extends EventEmitter {
     this._initialOffset = options.initialOffset;
     this._contextByPartition = {};
     this._receiverByPartition = {};
+    if (options.storageBlobPrefix) this._storageBlobPrefix = options.storageBlobPrefix;
   }
 
   /**
