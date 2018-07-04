@@ -92,9 +92,9 @@ export class XhrHttpClient implements HttpClient {
     } else {
       return new Promise(function(resolve, reject) {
         xhr.addEventListener("load", () => resolve({
-            request,
-            status: xhr.status,
-            headers: parseHeaders(xhr),
+          request,
+          status: xhr.status,
+          headers: parseHeaders(xhr),
           bodyAsText: xhr.responseText
         }));
         rejectOnTerminalEvent(request, xhr, reject);
@@ -106,7 +106,7 @@ export class XhrHttpClient implements HttpClient {
 function addProgressListener(xhr: XMLHttpRequestEventTarget, listener?: (progress: TransferProgressEvent) => void) {
   if (listener) {
     xhr.addEventListener("progress", rawEvent => listener({
-        loadedBytes: rawEvent.loaded,
+      loadedBytes: rawEvent.loaded,
       totalBytes: rawEvent.lengthComputable ? rawEvent.total : undefined
     }));
   }
