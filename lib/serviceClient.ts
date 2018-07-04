@@ -214,11 +214,12 @@ export class ServiceClient {
             queryParameterValue = operationSpec.serializer.serialize(queryParameter.mapper, queryParameterValue, getPathStringFromParameter(queryParameter));
             if (queryParameter.collectionFormat != undefined) {
               if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
+                queryParameter.skipEncoding = true;
                 if (queryParameterValue.length === 0) {
                   queryParameterValue = "";
                 } else {
-                  for (const item of queryParameterValue) {
-                    queryParameterValue = (item == undefined ? "" : item.toString());
+                  for (let item of queryParameterValue) {
+                    item = item == undefined ? "" : item.toString();
                   }
                 }
               } else {

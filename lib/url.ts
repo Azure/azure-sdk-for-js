@@ -7,7 +7,7 @@ import { replaceAll } from "./util/utils";
  * A class that handles the query portion of a URLBuilder.
  */
 export class URLQuery {
-  private readonly _rawQuery: { [queryParameterName: string]: string } = {};
+  private readonly _rawQuery: { [queryParameterName: string]: string | Array<any> } = {};
 
   /**
    * Get whether or not there any query parameters in this URLQuery.
@@ -24,7 +24,8 @@ export class URLQuery {
   public set(parameterName: string, parameterValue: any): void {
     if (parameterName) {
       if (parameterValue != undefined) {
-        this._rawQuery[parameterName] = parameterValue.toString();
+        const newValue = Array.isArray(parameterValue) ? parameterValue : parameterValue.toString();
+        this._rawQuery[parameterName] = newValue;
       } else {
         delete this._rawQuery[parameterName];
       }
@@ -48,7 +49,16 @@ export class URLQuery {
       if (result) {
         result += "&";
       }
-      result += `${parameterName}=${this._rawQuery[parameterName]}`;
+      const parameterValue = this._rawQuery[parameterName];
+      if (Array.isArray(parameterValue)) {
+        const parameterStrings = [];
+        for (const parameterValueElement of parameterValue) {
+          parameterStrings.push(`${parameterName}=${parameterValueElement}`);
+        }
+        result += parameterStrings.join("&");
+      } else {
+        result += `${parameterName}=${parameterValue}`;
+      }
     }
     return result;
   }
