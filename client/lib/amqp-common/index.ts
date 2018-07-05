@@ -4,13 +4,10 @@
 export { Dictionary, Message as AmqpMessage } from "../rhea-promise";
 export { ConnectionConfig } from "./connectionConfig";
 export {
-  MessagingError, ErrorNameConditionMapper, ConditionStatusMapper, ConditionErrorNameMapper, translate
+  MessagingError, ErrorNameConditionMapper, ConditionStatusMapper, ConditionErrorNameMapper,
+  translate
 } from "./errors";
 export { RequestResponseLink } from "./requestResponseLink";
-export {
-  CreateConnectionPrameters, open, ServiceBusMessageAnnotations,
-  ServiceBusDeliveryAnnotations, EventHubDeliveryAnnotations, EventHubMessageAnnotations
-} from "./rpc";
 export { retry } from "./retry";
 export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 export { TokenType, TokenProvider, TokenInfo } from "./auth/token";
@@ -25,6 +22,6 @@ export {
   delay, Timeout, EventHubConnectionStringModel, executePromisesSequentially,
   parseConnectionString, IotHubConnectionStringModel, StorageConnectionStringModel, defaultLock,
   Func, ParsedOutput, getNewAsyncLock, AsyncLockOptions, ServiceBusConnectionStringModel,
-  isIotHubConnectionString
+  isIotHubConnectionString, CreateConnectionPrameters, ServiceBusMessageAnnotations,
+  ServiceBusDeliveryAnnotations, EventHubDeliveryAnnotations, EventHubMessageAnnotations
 } from "./util/utils";
-

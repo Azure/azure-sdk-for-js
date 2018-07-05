@@ -70,17 +70,16 @@ export class IotHubClient {
    */
   async close(context: ConnectionContext): Promise<any> {
     try {
-      if (context.connection) {
+      if (context.connection.isOpen()) {
         debug("Closing the IotHubClient connection...");
         // Close the cbs session;
-        await context.cbsSession!.close();
+        await context.cbsSession.close();
         debug("IotHub cbs session closed.");
         // Close the management session
         await context.managementSession!.close();
         debug("IotHub management client closed.");
-        await context.connection!.close();
+        await context.connection.close();
         debug("Closed the amqp connection '%s' on the iothub client.", context.connectionId);
-        context.connection = undefined;
       }
     } catch (err) {
       const msg = `An error occurred while closing the connection "${context.connectionId}": ${err.stack}`;

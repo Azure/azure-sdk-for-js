@@ -10,7 +10,7 @@ import {
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { defaultLock, Func, retry, translate, AmqpMessage } from "./amqp-common";
-import { ClientEntity } from "./clientEntity";
+import { LinkEntity } from "./linkEntity";
 
 const debug = debugModule("azure:event-hubs:sender");
 
@@ -24,7 +24,7 @@ interface CreateSenderOptions {
  * Describes the EventHubSender that will send event data to EventHub.
  * @class EventHubSender
  */
-export class EventHubSender extends ClientEntity {
+export class EventHubSender extends LinkEntity {
   /**
    * @property {string} senderLock The unqiue lock name per connection that is used to acquire the
    * lock for establishing a sender link by an entity on that connection.
@@ -312,7 +312,7 @@ export class EventHubSender extends ClientEntity {
         if (!options) {
           options = this._createSenderOptions({ onError: onAmqpError, onClose: onAmqpClose });
         }
-        this._sender = await this._context.connection!.createSender(options);
+        this._sender = await this._context.connection.createSender(options);
         this.wasCloseCalled = false;
         debug("[%s] Promise to create the sender resolved. Created sender with name: %s",
           this._context.connectionId, this.name);

@@ -7,7 +7,7 @@ import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types } from "./r
 import { translate, Constants, MessagingError } from "./amqp-common";
 import { ReceiveOptions, EventData } from ".";
 import { ConnectionContext } from "./connectionContext";
-import { ClientEntity } from "./clientEntity";
+import { LinkEntity } from "./linkEntity";
 
 const debug = debugModule("azure:event-hubs:receiver");
 
@@ -78,7 +78,7 @@ export type OnError = (error: MessagingError | Error) => void;
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
  */
-export class EventHubReceiver extends ClientEntity {
+export class EventHubReceiver extends LinkEntity {
   /**
    * @property {string} consumerGroup The EventHub consumer group from which the receiver will
    * receive messages. (Default: "default").
@@ -280,7 +280,7 @@ export class EventHubReceiver extends ClientEntity {
         debug("[%s] Trying to create receiver '%s' with options %O",
           this._context.connectionId, this.name, options);
 
-        this._receiver = await this._context.connection!.createReceiver(options);
+        this._receiver = await this._context.connection.createReceiver(options);
         this.wasCloseCalled = false;
         debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
         debug("[%s] Receiver '%s' created with receiver options: %O",
