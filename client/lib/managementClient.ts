@@ -9,7 +9,7 @@ import {
 } from "./amqp-common";
 import { Message } from ".";
 import { ConnectionContext } from "./connectionContext";
-import { ClientEntity } from "./clientEntity";
+import { LinkEntity } from "./linkEntity";
 
 const debug = debugModule("azure:event-hubs:management");
 
@@ -77,7 +77,7 @@ export interface ManagementClientOptions {
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
-export class ManagementClient extends ClientEntity {
+export class ManagementClient extends LinkEntity {
 
   readonly managementLock: string = `${Constants.managementRequestKey}-${uuid()}`;
   /**
@@ -194,7 +194,7 @@ export class ManagementClient extends ClientEntity {
       const sropt: rheaPromise.SenderOptions = { target: { address: this.address } };
       debug("Creating a session for $management endpoint");
       this._mgmtReqResLink =
-        await RequestResponseLink.create(this._context.connection!, sropt, rxopt);
+        await RequestResponseLink.create(this._context.connection, sropt, rxopt);
       this.wasCloseCalled = false;
       debug("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
         this._context.connectionId, this._mgmtReqResLink.sender.name, this._mgmtReqResLink.receiver.name);
