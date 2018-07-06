@@ -60,6 +60,7 @@ export interface ServiceClientOptions {
   generateClientRequestIdHeader?: boolean;
   /**
    * Whether to include credentials in CORS requests in the browser.
+   * See https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials for more information.
    */
   withCredentials?: boolean;
   /**
