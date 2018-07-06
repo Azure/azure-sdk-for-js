@@ -187,10 +187,10 @@ export class EventHubSender extends LinkEntity {
       try {
         this.wasCloseCalled = true;
         await this._sender.close();
-        delete this._context.senders[this.name!];
+        this._sender = undefined;
+        delete this._context.senders[this.name];
         debug("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
           this._context.connectionId, this.name, this.address);
-        this._sender = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         debug("[%s]Sender '%s' closed.", this._context.connectionId, this.name);
       } catch (err) {
