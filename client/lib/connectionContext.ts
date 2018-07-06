@@ -135,19 +135,32 @@ export namespace ConnectionContext {
     connectionContext.managementSession = new ManagementClient(connectionContext, mOptions);
 
     // register handlers on the connection.
+    const onConnectionOpen: OnAmqpEvent = (context: EventContext) => {
+      connectionContext.wasConnectionCloseCalled = false;
+      debug("[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
+        connection.id, connectionContext.wasConnectionCloseCalled);
+    };
+    connection.registerHandler(ConnectionEvents.connectionOpen, onConnectionOpen);
+
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
-      if (context.connection.error) {
-        debug(`Error occurred on the amqp connection.`, context.connection.error);
+      const connectionError = context.connection ? context.connection.error : undefined;
+      if (connectionError) {
+        debug(`Error occurred on the amqp connection.`, connectionError);
       }
-      if (!connectionContext.wasConnectionCloseCalled) {
-        debug("connection.close() was not called from the sdk. We should reconnect.");
-        // recover senders if any
+      // The connection should always be brought back up if the sdk did not call connection.close()
+      // and there was atleast one sender/receiver link on the connection before it went down.
+      if (!connectionContext.wasConnectionCloseCalled &&
+        (Object.keys(connectionContext.senders).length) ||
+        Object.keys(connectionContext.receivers).length) {
+        debug("connection.close() was not called from the sdk and there were some " +
+          "sender or receiver links or both. We should reconnect.");
+        // reconnect senders if any
         for (const sender of Object.values(connectionContext.senders)) {
-          console.log(sender);
+          sender.reconnect();
         }
-        // recover receivers if any
+        // reconnect receivers if any
         for (const receiver of Object.values(connectionContext.receivers)) {
-          console.log(receiver);
+          receiver.reconnect();
         }
       }
     };
