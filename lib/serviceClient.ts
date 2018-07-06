@@ -95,6 +95,7 @@ export class ServiceClient {
   private readonly _requestPolicyOptions: RequestPolicyOptions;
 
   private readonly _requestPolicyCreators: RequestPolicyCreator[];
+  private readonly _requestOptions: RequestInit;
 
   /**
    * The ServiceClient constructor
@@ -111,6 +112,7 @@ export class ServiceClient {
     if (!options.requestOptions) {
       options.requestOptions = {};
     }
+    this._requestOptions = options.requestOptions;
 
     this.userAgentInfo = { value: [] };
 
@@ -280,6 +282,9 @@ export class ServiceClient {
       if (operationArguments.onDownloadProgress) {
         httpRequest.onDownloadProgress = operationArguments.onDownloadProgress;
       }
+
+      if (this._requestOptions.credentials === "include")
+        httpRequest.withCredentials = true;
 
       serializeRequestBody(httpRequest, operationArguments, operationSpec);
 
