@@ -31,11 +31,6 @@ import { RequestPrepareOptions, WebResource } from "./webResource";
  */
 export interface ServiceClientOptions {
   /**
-   * @property {RequestInit} [requestOptions] The request options. Detailed info can be found
-   * here https://github.github.io/fetch/#Request
-   */
-  requestOptions?: RequestInit;
-  /**
    * @property {Array<RequestPolicyCreator>} [requestPolicyCreators] An array of functions that will be
    * invoked to create the RequestPolicy pipeline that will be used to send a HTTP request on the
    * wire.
@@ -63,6 +58,10 @@ export interface ServiceClientOptions {
    * Whether or not to generate a client request ID header for each HTTP request.
    */
   generateClientRequestIdHeader?: boolean;
+  /**
+   * Whether to include credentials in CORS requests in the browser.
+   */
+  withCredentials?: boolean;
   /**
    * If specified, a GenerateRequestIdPolicy will be added to the HTTP pipeline that will add a
    * header to all outgoing requests with this header name and a random UUID as the request ID.
@@ -95,7 +94,7 @@ export class ServiceClient {
   private readonly _requestPolicyOptions: RequestPolicyOptions;
 
   private readonly _requestPolicyCreators: RequestPolicyCreator[];
-  private readonly _requestOptions: RequestInit;
+  private readonly _withCredentials: boolean;
 
   /**
    * The ServiceClient constructor
@@ -108,11 +107,6 @@ export class ServiceClient {
     if (!options) {
       options = {};
     }
-
-    if (!options.requestOptions) {
-      options.requestOptions = {};
-    }
-    this._requestOptions = options.requestOptions;
 
     this.userAgentInfo = { value: [] };
 
@@ -128,6 +122,7 @@ export class ServiceClient {
       // do nothing
     }
 
+    this._withCredentials = options.withCredentials || false;
     this._httpClient = options.httpClient || new DefaultHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
@@ -283,8 +278,7 @@ export class ServiceClient {
         httpRequest.onDownloadProgress = operationArguments.onDownloadProgress;
       }
 
-      if (this._requestOptions.credentials === "include")
-        httpRequest.withCredentials = true;
+      httpRequest.withCredentials = this._withCredentials;
 
       serializeRequestBody(httpRequest, operationArguments, operationSpec);
 
