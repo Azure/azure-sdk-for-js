@@ -235,6 +235,7 @@ export class EventHubClient {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     const bReceiver = BatchingReceiver.create(this._context, partitionId, options);
+    this._context.receivers[bReceiver.name] = bReceiver;
     let error: MessagingError | undefined;
     let result: EventData[] = [];
     try {

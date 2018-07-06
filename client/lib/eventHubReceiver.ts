@@ -220,6 +220,10 @@ export class EventHubReceiver extends LinkEntity {
    * @returns {Promise<void>} Promise<void>.
    */
   async reconnect(receiverError?: AmqpError | Error): Promise<void> {
+    // TODO:
+    // reconnect for batching is different from that of streaming. This should go in the child class.
+    // Batching - remove the timer, create a fresh link and receive remainig messages
+    // Streaming - reconnect with the new sequence number/offset as the link property.
     let shouldReOpen = false;
     if (receiverError && !this.wasCloseCalled) {
       const translatedError = translate(receiverError);
@@ -258,10 +262,10 @@ export class EventHubReceiver extends LinkEntity {
       try {
         this.wasCloseCalled = true;
         await this._receiver.close();
-        // Resetting the mode.
+        this._receiver = undefined;
+        delete this._context.receivers[this.name];
         debug("[%s] Deleted the receiver '%s' from the client cache.",
           this._context.connectionId, this.name);
-        this._receiver = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         debug("[%s] Receiver '%s', has been closed.", this._context.connectionId, this.name);
       } catch (err) {
