@@ -3,7 +3,7 @@
 
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types } from "./rhea-promise";
+import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError } from "./rhea-promise";
 import { translate, Constants, MessagingError } from "./amqp-common";
 import { ReceiveOptions, EventData } from ".";
 import { ConnectionContext } from "./connectionContext";
@@ -207,31 +207,39 @@ export class EventHubReceiver extends LinkEntity {
     };
 
     this._onAmqpClose = async (context: EventContext) => {
-      const receiverError = context.receiver!.error;
-      let shouldReOpen = false;
+      const receiverError = context.receiver ? context.receiver.error : undefined;
       debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
         this._context.connectionId, receiverError);
-      if (receiverError && !this.wasCloseCalled) {
-        const translatedError = translate(receiverError);
-        if (translatedError.retryable) {
-          shouldReOpen = true;
-        }
-      } else if (!this.wasCloseCalled) {
-        shouldReOpen = true;
-        debug("[%s] 'receiver_close' event occurred. Receiver's close() method was not called. " +
-          "There was no accompanying error as well. This is a candidate for re-establishing " +
-          "the receiver link.");
-      }
-      if (shouldReOpen) {
-        const options: ReceiverOptions = this._createReceiverOptions({
-          onMessage: this._onAmqpMessage,
-          onError: this._onAmqpError,
-          onClose: this._onAmqpClose,
-          newName: true // provide a new name to the link while re-connecting it.
-        });
-        await this._init(options);
-      }
+      await this.reconnect(receiverError);
     };
+  }
+
+  /**
+   * Will reconnect the receiver link if necessary.
+   * @param {AmqpError | Error} [receiverError] The receiver error if any.
+   * @returns {Promise<void>} Promise<void>.
+   */
+  async reconnect(receiverError?: AmqpError | Error): Promise<void> {
+    let shouldReOpen = false;
+    if (receiverError && !this.wasCloseCalled) {
+      const translatedError = translate(receiverError);
+      if (translatedError.retryable) {
+        shouldReOpen = true;
+      }
+    } else if (!this.wasCloseCalled) {
+      shouldReOpen = true;
+      debug("[%s] Receiver's close() method was not called. There was no accompanying error " +
+        "as well. This is a candidate for re-establishing the sender link.");
+    }
+    if (shouldReOpen) {
+      const options: ReceiverOptions = this._createReceiverOptions({
+        onMessage: this._onAmqpMessage,
+        onError: this._onAmqpError,
+        onClose: this._onAmqpClose,
+        newName: true // provide a new name to the link while re-connecting it.
+      });
+      await this._init(options);
+    }
   }
 
   /**

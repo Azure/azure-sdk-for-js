@@ -5,7 +5,7 @@ import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
-  message
+  message, AmqpError
 } from "./rhea-promise";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
@@ -15,8 +15,6 @@ import { LinkEntity } from "./linkEntity";
 const debug = debugModule("azure:event-hubs:sender");
 
 interface CreateSenderOptions {
-  onError: OnAmqpEvent;
-  onClose: OnAmqpEvent;
   newName?: boolean;
 }
 
@@ -31,6 +29,8 @@ export class EventHubSender extends LinkEntity {
    * @readonly
    */
   readonly senderLock: string = `sender-${uuid()}`;
+  private readonly _onAmqpError: OnAmqpEvent;
+  private readonly _onAmqpClose: OnAmqpEvent;
   /**
    * @property {Sender} [_sender] The AMQP sender link.
    * @private
@@ -51,6 +51,44 @@ export class EventHubSender extends LinkEntity {
       this.address += `/Partitions/${this.partitionId}`;
     }
     this.audience = `${this._context.config.endpoint}${this.address}`;
+    this._onAmqpError = (context: EventContext) => {
+      const senderError = translate(context.sender!.error!);
+      debug("[%s] An error occurred for sender '%s': %O.",
+        this._context.connectionId, this.name, senderError);
+    };
+    this._onAmqpClose = async (context: EventContext) => {
+      const senderError = context.sender ? context.sender.error : undefined;
+      debug("[%s] 'sender_close' event occurred. The associated error is: %O",
+        this._context.connectionId, senderError);
+      await this.reconnect(senderError);
+    };
+  }
+
+  /**
+   * Will reconnect the sender link if necessary.
+   * @param {AmqpError | Error} [senderError] The sender error if any.
+   * @returns {Promise<void>} Promise<void>.
+   */
+  async reconnect(senderError?: AmqpError | Error): Promise<void> {
+    let shouldReOpen = false;
+    if (senderError && !this.wasCloseCalled) {
+      const translatedError = translate(senderError);
+      if (translatedError.retryable) {
+        shouldReOpen = true;
+      }
+    } else if (!this.wasCloseCalled) {
+      shouldReOpen = true;
+      debug("[%s] Sender's close() method was not called. There was no accompanying error " +
+        "as well. This is a candidate for re-establishing the sender link.");
+    }
+    if (shouldReOpen) {
+      await defaultLock.acquire(this.senderLock, () => {
+        const options: SenderOptions = this._createSenderOptions({
+          newName: true
+        });
+        return this._init(options);
+      });
+    }
   }
 
   /**
@@ -177,8 +215,8 @@ export class EventHubSender extends LinkEntity {
       target: {
         address: this.address
       },
-      onError: options.onError,
-      onClose: options.onClose
+      onError: this._onAmqpError,
+      onClose: this._onAmqpClose
     };
     debug("Creating sender with options: %O", srOptions);
     return srOptions;
@@ -274,43 +312,9 @@ export class EventHubSender extends LinkEntity {
     try {
       if (!this.isOpen()) {
         await this._negotiateClaim();
-        const onAmqpError: OnAmqpEvent = (context: EventContext) => {
-          const senderError = translate(context.sender!.error!);
-          // TODO: Should we retry before calling user's error method?
-          debug("[%s] An error occurred for sender '%s': %O.",
-            this._context.connectionId, this.name, senderError);
-        };
-
-        const onAmqpClose: OnAmqpEvent = async (context: EventContext) => {
-          const senderError = context.sender!.error;
-          let shouldReOpen = false;
-          debug("[%s] 'sender_close' event occurred. The associated error is: %O",
-            this._context.connectionId, senderError);
-          if (senderError && !this.wasCloseCalled) {
-            const translatedError = translate(senderError);
-            if (translatedError.retryable) {
-              shouldReOpen = true;
-            }
-          } else if (!this.wasCloseCalled) {
-            shouldReOpen = true;
-            debug("[%s] 'sender_close' event occurred. Sender's close() method was not called. " +
-              "There was no accompanying error as well. This is a candidate for re-establishing " +
-              "the sender link.");
-          }
-          if (shouldReOpen) {
-            await defaultLock.acquire(this.senderLock, () => {
-              const options: SenderOptions = this._createSenderOptions({
-                onError: onAmqpError,
-                onClose: onAmqpClose,
-                newName: true
-              });
-              return this._init(options);
-            });
-          }
-        };
         debug("[%s] Trying to create sender '%s'...", this._context.connectionId, this.name);
         if (!options) {
-          options = this._createSenderOptions({ onError: onAmqpError, onClose: onAmqpClose });
+          options = this._createSenderOptions({});
         }
         this._sender = await this._context.connection.createSender(options);
         this.wasCloseCalled = false;
