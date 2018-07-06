@@ -1,4 +1,4 @@
-import { ServiceClient, WebResource, Serializer, HttpOperationResponse, DictionaryMapper, QueryCollectionFormat, SequenceMapper } from "../../lib/msRest";
+import { ServiceClient, WebResource, Serializer, HttpOperationResponse, DictionaryMapper, QueryCollectionFormat, SequenceMapper, HttpClient } from "../../lib/msRest";
 import * as assert from "assert";
 
 describe("ServiceClient", function () {
@@ -66,6 +66,7 @@ describe("ServiceClient", function () {
     assert(request!);
     assert.deepStrictEqual(request!.headers.toJson(), expected);
   });
+
   it("Should serialize collection:multi query parameters", async function () {
     const expected = "?q=1&q=2&q=3";
 
@@ -116,5 +117,43 @@ describe("ServiceClient", function () {
 
     assert(request!);
     assert(request!.url.endsWith(expected), `"${request!.url}" does not end with "${expected}"`);
+  });
+
+  it("should apply withCredentials to requests", async function() {
+    let request: WebResource;
+    const httpClient: HttpClient = {
+      sendRequest: req => {
+        request = req;
+        return Promise.resolve({} as HttpOperationResponse);
+      }
+    };
+
+    const client1 = new ServiceClient(undefined, {
+      httpClient,
+      requestPolicyCreators: []
+    });
+    await client1.sendOperationRequest({ arguments: {} },
+      {
+        serializer: new Serializer(),
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        responses: { 200: {} }
+      });
+
+    assert.strictEqual(request!.withCredentials, false);
+
+    const client2 = new ServiceClient(undefined, {
+      httpClient,
+      requestPolicyCreators: [],
+      withCredentials: true
+    });
+    await client2.sendOperationRequest({ arguments: {} },
+      {
+        serializer: new Serializer(),
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        responses: { 200: {} }
+      });
+    assert.strictEqual(request!.withCredentials, true);
   });
 });
