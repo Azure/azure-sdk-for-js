@@ -214,12 +214,12 @@ export class ServiceClient {
             queryParameterValue = operationSpec.serializer.serialize(queryParameter.mapper, queryParameterValue, getPathStringFromParameter(queryParameter));
             if (queryParameter.collectionFormat != undefined) {
               if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
-                queryParameter.skipEncoding = true;
                 if (queryParameterValue.length === 0) {
                   queryParameterValue = "";
                 } else {
-                  for (let item of queryParameterValue) {
-                    item = item == undefined ? "" : item.toString();
+                  for (const index in queryParameterValue) {
+                    const item = queryParameterValue[index];
+                    queryParameterValue[index] = item == undefined ? "" : item.toString();
                   }
                 }
               } else {
@@ -227,7 +227,14 @@ export class ServiceClient {
               }
             }
             if (!queryParameter.skipEncoding) {
-              queryParameterValue = encodeURIComponent(queryParameterValue);
+              if (Array.isArray(queryParameterValue)) {
+                for (const index in queryParameterValue) {
+                  queryParameterValue[index] = encodeURIComponent(queryParameterValue[index]);
+                }
+              }
+              else {
+                queryParameterValue = encodeURIComponent(queryParameterValue);
+              }
             }
             requestUrl.setQueryParameter(queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter), queryParameterValue);
           }

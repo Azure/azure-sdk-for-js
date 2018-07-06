@@ -7,7 +7,7 @@ import { replaceAll } from "./util/utils";
  * A class that handles the query portion of a URLBuilder.
  */
 export class URLQuery {
-  private readonly _rawQuery: { [queryParameterName: string]: string | Array<any> } = {};
+  private readonly _rawQuery: { [queryParameterName: string]: string | string[] } = {};
 
   /**
    * Get whether or not there any query parameters in this URLQuery.
