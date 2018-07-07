@@ -4,10 +4,11 @@
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError } from "./rhea-promise";
-import { translate, Constants, MessagingError } from "./amqp-common";
+import { translate, Constants, MessagingError, retry } from "./amqp-common";
 import { ReceiveOptions, EventData } from ".";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
+import { EventPosition } from './eventPosition';
 
 const debug = debugModule("azure:event-hubs:receiver");
 
@@ -16,6 +17,7 @@ interface CreateReceiverOptions {
   onError: OnAmqpEvent;
   onClose: OnAmqpEvent;
   newName?: boolean;
+  eventPosition?: EventPosition;
 }
 
 /**
@@ -100,7 +102,7 @@ export class EventHubReceiver extends LinkEntity {
    * @property {ReceiveOptions} [options] Optional properties that can be set while creating
    * the EventHubReceiver.
    */
-  options?: ReceiveOptions;
+  options: ReceiveOptions;
   /**
    * @property {number} [prefetchCount] The number of messages that the receiver can fetch/receive
    * initially. Defaults to 1000.
@@ -200,7 +202,6 @@ export class EventHubReceiver extends LinkEntity {
 
     this._onAmqpError = (context: EventContext) => {
       const ehError = translate(context.receiver!.error!);
-      // TODO: Should we retry before calling user's error method?
       debug("[%s] An error occurred for Receiver '%s': %O.",
         this._context.connectionId, this.name, ehError);
       this._onError!(ehError);
@@ -210,7 +211,7 @@ export class EventHubReceiver extends LinkEntity {
       const receiverError = context.receiver ? context.receiver.error : undefined;
       debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
         this._context.connectionId, receiverError);
-      await this.reconnect(receiverError);
+      await this.detached(receiverError);
     };
   }
 
@@ -219,30 +220,55 @@ export class EventHubReceiver extends LinkEntity {
    * @param {AmqpError | Error} [receiverError] The receiver error if any.
    * @returns {Promise<void>} Promise<void>.
    */
-  async reconnect(receiverError?: AmqpError | Error): Promise<void> {
-    // TODO:
-    // reconnect for batching is different from that of streaming. This should go in the child class.
-    // Batching - remove the timer, create a fresh link and receive remainig messages
-    // Streaming - reconnect with the new sequence number/offset as the link property.
-    let shouldReOpen = false;
-    if (receiverError && !this.wasCloseCalled) {
+  async detached(receiverError?: AmqpError | Error): Promise<void> {
+    let shouldReopen = false;
+    if (receiverError && this._context.receivers[this.name]) {
       const translatedError = translate(receiverError);
       if (translatedError.retryable) {
-        shouldReOpen = true;
+        shouldReopen = true;
       }
-    } else if (!this.wasCloseCalled) {
-      shouldReOpen = true;
+    } else if (this._context.receivers[this.name]) {
+      shouldReopen = true;
       debug("[%s] Receiver's close() method was not called. There was no accompanying error " +
         "as well. This is a candidate for re-establishing the sender link.");
     }
-    if (shouldReOpen) {
-      const options: ReceiverOptions = this._createReceiverOptions({
+    if (shouldReopen) {
+      const rcvrOptions: CreateReceiverOptions = {
         onMessage: this._onAmqpMessage,
         onError: this._onAmqpError,
         onClose: this._onAmqpClose,
-        newName: true // provide a new name to the link while re-connecting it.
-      });
-      await this._init(options);
+        newName: true // provide a new name to the link while re-connecting it. This ensures that
+        // the service does not send an error stating that the link is still open.
+      };
+      // reconnect the receiver link with sequenceNumber of the last received message as the offset
+      // if messages were received by the receiver before it got disconnected.
+      if (this._checkpoint.sequenceNumber > - 1) {
+        rcvrOptions.eventPosition = EventPosition.fromSequenceNumber(this._checkpoint.sequenceNumber);
+      }
+      const options: ReceiverOptions = this._createReceiverOptions(rcvrOptions);
+      // shall retry 3 times at an interval of 15 seconds and bail out.
+      await retry<void>(() => this._init(options));
+    }
+  }
+
+  /**
+   * Closes the underlying AMQP receiver.
+   * @returns {Promise<void>}
+   */
+  async close(): Promise<void> {
+    if (this._receiver) {
+      try {
+        const receiverLink = this._receiver;
+        this._receiver = undefined;
+        delete this._context.receivers[this.name];
+        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+        debug("[%s] Deleted the receiver '%s' from the client cache.",
+          this._context.connectionId, this.name);
+        await receiverLink.close();
+        debug("[%s] Receiver '%s', has been closed.", this._context.connectionId, this.name);
+      } catch (err) {
+        debug("An error occurred while closing the receiver %s %O", this.name, translate(err));
+      }
     }
   }
 
@@ -252,26 +278,6 @@ export class EventHubReceiver extends LinkEntity {
    */
   isOpen(): boolean {
     return this._receiver! && this._receiver!.isOpen();
-  }
-
-  /**
-   * Closes the underlying AMQP receiver.
-   */
-  async close(): Promise<void> {
-    if (this._receiver) {
-      try {
-        this.wasCloseCalled = true;
-        await this._receiver.close();
-        this._receiver = undefined;
-        delete this._context.receivers[this.name];
-        debug("[%s] Deleted the receiver '%s' from the client cache.",
-          this._context.connectionId, this.name);
-        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-        debug("[%s] Receiver '%s', has been closed.", this._context.connectionId, this.name);
-      } catch (err) {
-        debug("An error occurred while closing the receiver %s %O", this.name, translate(err));
-      }
-    }
   }
 
   /**
@@ -293,7 +299,6 @@ export class EventHubReceiver extends LinkEntity {
           this._context.connectionId, this.name, options);
 
         this._receiver = await this._context.connection.createReceiver(options);
-        this.wasCloseCalled = false;
         debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
         debug("[%s] Receiver '%s' created with receiver options: %O",
           this._context.connectionId, this.name, options);
@@ -323,7 +328,8 @@ export class EventHubReceiver extends LinkEntity {
       },
       credit_window: this.prefetchCount,
       onMessage: options.onMessage,
-      onError: options.onError
+      onError: options.onError,
+      onClose: options.onClose
     };
     if (this.epoch !== undefined && this.epoch !== null) {
       if (!rcvrOptions.properties) rcvrOptions.properties = {};
@@ -336,9 +342,10 @@ export class EventHubReceiver extends LinkEntity {
     if (this.receiverRuntimeMetricEnabled) {
       rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
     }
-    if (this.options && this.options.eventPosition) {
+    const eventPosition = options.eventPosition || this.options.eventPosition;
+    if (eventPosition) {
       // Set filter on the receiver if event position is specified.
-      const filterClause = this.options.eventPosition.getExpression();
+      const filterClause = eventPosition.getExpression();
       if (filterClause) {
         (rcvrOptions.source as any).filter = {
           "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468C00000004)

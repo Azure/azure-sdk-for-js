@@ -170,11 +170,11 @@ export class ManagementClient extends LinkEntity {
   async close(): Promise<void> {
     try {
       if (this._isMgmtRequestResponseLinkOpen()) {
-        this.wasCloseCalled = true;
-        await this._mgmtReqResLink!.close();
-        debug("Successfully closed the management session.");
+        const mgmtLink = this._mgmtReqResLink;
         this._mgmtReqResLink = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+        await mgmtLink!.close();
+        debug("Successfully closed the management session.");
       }
     } catch (err) {
       const msg = `An error occurred while closing the management session: ${err}`;
@@ -195,7 +195,6 @@ export class ManagementClient extends LinkEntity {
       debug("Creating a session for $management endpoint");
       this._mgmtReqResLink =
         await RequestResponseLink.create(this._context.connection, sropt, rxopt);
-      this.wasCloseCalled = false;
       debug("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
         this._context.connectionId, this._mgmtReqResLink.sender.name, this._mgmtReqResLink.receiver.name);
       await this._ensureTokenRenewal();

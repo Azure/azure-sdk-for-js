@@ -10,7 +10,7 @@ import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
 import {
   TokenProvider, CbsClient, DataTransformer, DefaultDataTransformer, SasTokenProvider,
-  Constants, ConnectionConfig
+  Constants, ConnectionConfig, delay
 } from "./amqp-common";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { ClientOptions } from "./eventHubClient";
@@ -138,11 +138,12 @@ export namespace ConnectionContext {
     const onConnectionOpen: OnAmqpEvent = (context: EventContext) => {
       connectionContext.wasConnectionCloseCalled = false;
       debug("[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
-        connection.id, connectionContext.wasConnectionCloseCalled);
+        connectionContext.connection.id, connectionContext.wasConnectionCloseCalled);
     };
-    connection.registerHandler(ConnectionEvents.connectionOpen, onConnectionOpen);
+    connectionContext.connection.registerHandler(ConnectionEvents.connectionOpen, onConnectionOpen);
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
+      connectionContext.connection.removeHandler(ConnectionEvents.connectionOpen, onConnectionOpen);
       const connectionError = context.connection ? context.connection.error : undefined;
       if (connectionError) {
         debug(`Error occurred on the amqp connection.`, connectionError);
@@ -154,17 +155,18 @@ export namespace ConnectionContext {
         Object.keys(connectionContext.receivers).length) {
         debug("connection.close() was not called from the sdk and there were some " +
           "sender or receiver links or both. We should reconnect.");
+        await delay(100);
         // reconnect senders if any
         for (const sender of Object.values(connectionContext.senders)) {
-          sender.reconnect();
+          sender.detached();
         }
         // reconnect receivers if any
         for (const receiver of Object.values(connectionContext.receivers)) {
-          receiver.reconnect();
+          receiver.detached();
         }
       }
     };
-    connection.registerHandler(ConnectionEvents.disconnected, disconnected);
+    connectionContext.connection.registerHandler(ConnectionEvents.disconnected, disconnected);
 
     debug("Created connection context: %O", connectionContext);
     return connectionContext;
