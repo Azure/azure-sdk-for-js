@@ -70,7 +70,7 @@ describe("EventHub Receiver", function () {
       datas2.length.should.equal(0);
     });
 
-    it("'after a particular offset' should receive messages correctly", async function () {
+    it("after a particular offset' should receive messages correctly", async function () {
       const partitionId = hubInfo.partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
@@ -97,7 +97,7 @@ describe("EventHub Receiver", function () {
       datas2.length.should.equal(0);
     });
 
-    it("'after a particular offset with isInclusive true' should receive messages correctly", async function () {
+    it("after a particular offset with isInclusive true' should receive messages correctly", async function () {
       const partitionId = hubInfo.partitionIds[0];
       const uid = uuid();
       const ed: EventData = {

@@ -3,7 +3,7 @@
 
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError } from "./rhea-promise";
+import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, SessionEvents } from "./rhea-promise";
 import { translate, Constants, MessagingError, retry } from "./amqp-common";
 import { ReceiveOptions, EventData } from ".";
 import { ConnectionContext } from "./connectionContext";
@@ -201,17 +201,32 @@ export class EventHubReceiver extends LinkEntity {
     };
 
     this._onAmqpError = (context: EventContext) => {
-      const ehError = translate(context.receiver!.error!);
-      debug("[%s] An error occurred for Receiver '%s': %O.",
-        this._context.connectionId, this.name, ehError);
-      this._onError!(ehError);
+      const receiverError = context.receiver && context.receiver.error;
+      const sessionError = context.session.error;
+      if (receiverError) {
+        const ehError = translate(context.receiver!.error!);
+        debug("[%s] An error occurred for Receiver '%s': %O.",
+          this._context.connectionId, this.name, ehError);
+        this._onError!(ehError);
+      } else if (sessionError) {
+        const ehError = translate(context.receiver!.error!);
+        debug("[%s] An error occurred on the session for Receiver '%s': %O.",
+          this._context.connectionId, this.name, ehError);
+        this._onError!(ehError);
+      }
     };
 
     this._onAmqpClose = async (context: EventContext) => {
-      const receiverError = context.receiver ? context.receiver.error : undefined;
-      debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
-        this._context.connectionId, receiverError);
-      await this.detached(receiverError);
+      const receiverError = context.receiver && context.receiver.error;
+      const sessionError = context.session.error;
+      if (receiverError) {
+        debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
+          this._context.connectionId, receiverError);
+      } else if (sessionError) {
+        debug("[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
+          this._context.connectionId, this.name, sessionError);
+      }
+      await this.detached(receiverError || sessionError);
     };
   }
 
@@ -299,6 +314,8 @@ export class EventHubReceiver extends LinkEntity {
           this._context.connectionId, this.name, options);
 
         this._receiver = await this._context.connection.createReceiver(options);
+        this._receiver.registerSessionHandler(SessionEvents.sessionError, options.onError!);
+        this._receiver.registerSessionHandler(SessionEvents.sessionClose, options.onClose!);
         debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
         debug("[%s] Receiver '%s' created with receiver options: %O",
           this._context.connectionId, this.name, options);
@@ -327,9 +344,9 @@ export class EventHubReceiver extends LinkEntity {
         address: this.address
       },
       credit_window: this.prefetchCount,
-      onMessage: options.onMessage,
-      onError: options.onError,
-      onClose: options.onClose
+      onMessage: options.onMessage || this._onAmqpMessage,
+      onError: options.onError || this._onAmqpError,
+      onClose: options.onClose || this._onAmqpClose
     };
     if (this.epoch !== undefined && this.epoch !== null) {
       if (!rcvrOptions.properties) rcvrOptions.properties = {};
