@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
-import { ReceiverEvents, EventContext, OnAmqpEvent, ReceiverOptions } from "./rhea-promise";
+import { ReceiverEvents, EventContext, OnAmqpEvent } from "./rhea-promise";
 import { ReceiveOptions, EventData } from ".";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
@@ -118,30 +118,9 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       onReceiveClose = async (context: EventContext) => {
-        const receiverError = context.receiver!.error;
-        let shouldReOpen = false;
+        const receiverError = context.session && context.session.error;
         debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
           this._context.connectionId, receiverError);
-        if (receiverError && !this.wasCloseCalled) {
-          const translatedError = translate(receiverError);
-          if (translatedError.retryable) {
-            shouldReOpen = true;
-          }
-        } else if (!this.wasCloseCalled) {
-          shouldReOpen = true;
-          debug("[%s] 'receiver_close' event occurred. Receiver's close() method was not called. " +
-            "There was no accompanying error as well. This is a candidate for re-establishing " +
-            "the receiver link.");
-        }
-        if (shouldReOpen) {
-          const options: ReceiverOptions = this._createReceiverOptions({
-            onMessage: onReceiveMessage,
-            onError: onReceiveError,
-            onClose: onReceiveClose,
-            newName: true // provide a new name to the link while re-connecting it.
-          });
-          await this._init(options);
-        }
       };
 
       const addCreditAndSetTimer = (reuse?: boolean) => {

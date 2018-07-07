@@ -69,11 +69,6 @@ export class LinkEntity {
    */
   partitionId?: string | number;
   /**
-   * @property {boolean} wasCloseCalled Indicates whether the close() method was called on itself
-   * in a given context.
-   */
-  wasCloseCalled: boolean = false;
-  /**
    * @property {ConnectionContext} _context Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    * @protected
@@ -128,10 +123,6 @@ export class LinkEntity {
     await defaultLock.acquire(this._context.cbsSession.cbsLock,
       () => { return this._context.cbsSession.init(); });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
-    if (!this._context.connection) {
-      // TODO: add handlers for connection error, close and disconnected over here.
-
-    }
     debug("[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.connectionId, this.type, this.audience);
     // Acquire the lock to negotiate the CBS claim.
@@ -160,7 +151,6 @@ export class LinkEntity {
       try {
         await this._negotiateClaim(true);
       } catch (err) {
-        // TODO: May be add some retries over here before emitting the error.
         debug("[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
           this._context.connectionId, this.type, this.name, this.address, err);
       }

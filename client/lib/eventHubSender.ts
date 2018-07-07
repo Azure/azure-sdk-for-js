@@ -29,7 +29,17 @@ export class EventHubSender extends LinkEntity {
    * @readonly
    */
   readonly senderLock: string = `sender-${uuid()}`;
+  /**
+   * @property {OnAmqpEvent} _onAmqpError The handler function to handle errors that happen on the
+   * underlying sender.
+   * @readonly
+   */
   private readonly _onAmqpError: OnAmqpEvent;
+  /**
+   * @property {OnAmqpEvent} _onAmqpError The handler function to handle close events that happen
+   * on the underlying sender.
+   * @readonly
+   */
   private readonly _onAmqpClose: OnAmqpEvent;
   /**
    * @property {Sender} [_sender] The AMQP sender link.
@@ -60,35 +70,8 @@ export class EventHubSender extends LinkEntity {
       const senderError = context.sender ? context.sender.error : undefined;
       debug("[%s] 'sender_close' event occurred. The associated error is: %O",
         this._context.connectionId, senderError);
-      await this.reconnect(senderError);
+      await this.detached(senderError);
     };
-  }
-
-  /**
-   * Will reconnect the sender link if necessary.
-   * @param {AmqpError | Error} [senderError] The sender error if any.
-   * @returns {Promise<void>} Promise<void>.
-   */
-  async reconnect(senderError?: AmqpError | Error): Promise<void> {
-    let shouldReOpen = false;
-    if (senderError && !this.wasCloseCalled) {
-      const translatedError = translate(senderError);
-      if (translatedError.retryable) {
-        shouldReOpen = true;
-      }
-    } else if (!this.wasCloseCalled) {
-      shouldReOpen = true;
-      debug("[%s] Sender's close() method was not called. There was no accompanying error " +
-        "as well. This is a candidate for re-establishing the sender link.");
-    }
-    if (shouldReOpen) {
-      await defaultLock.acquire(this.senderLock, () => {
-        const options: SenderOptions = this._createSenderOptions({
-          newName: true
-        });
-        return this._init(options);
-      });
-    }
   }
 
   /**
@@ -178,6 +161,34 @@ export class EventHubSender extends LinkEntity {
   }
 
   /**
+   * Will reconnect the sender link if necessary.
+   * @param {AmqpError | Error} [senderError] The sender error if any.
+   * @returns {Promise<void>} Promise<void>.
+   */
+  async detached(senderError?: AmqpError | Error): Promise<void> {
+    let shouldReopen = false;
+    if (senderError && this._context.senders[this.address]) {
+      const translatedError = translate(senderError);
+      if (translatedError.retryable) {
+        shouldReopen = true;
+      }
+    } else if (this._context.senders[this.address]) {
+      shouldReopen = true;
+      debug("[%s] Sender's close() method was not called. There was no accompanying error " +
+        "as well. This is a candidate for re-establishing the sender link.");
+    }
+    if (shouldReopen) {
+      await defaultLock.acquire(this.senderLock, () => {
+        const options: SenderOptions = this._createSenderOptions({
+          newName: true
+        });
+        // shall retry 3 times at an interval of 15 seconds and bail out.
+        return retry<void>(() => this._init(options));
+      });
+    }
+  }
+
+  /**
    * "Unlink" this sender, closing the link and resolving when that operation is complete.
    * Leaves the underlying connection open.
    * @return {Promise<void>} Promise<void>
@@ -185,13 +196,13 @@ export class EventHubSender extends LinkEntity {
   async close(): Promise<void> {
     if (this._sender) {
       try {
-        this.wasCloseCalled = true;
-        await this._sender.close();
+        const senderLink = this._sender;
         this._sender = undefined;
-        delete this._context.senders[this.name];
+        delete this._context.senders[this.address];
+        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         debug("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
           this._context.connectionId, this.name, this.address);
-        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+        await senderLink.close();
         debug("[%s]Sender '%s' closed.", this._context.connectionId, this.name);
       } catch (err) {
         debug("An error occurred while closing the sender %O", err);
@@ -317,7 +328,6 @@ export class EventHubSender extends LinkEntity {
           options = this._createSenderOptions({});
         }
         this._sender = await this._context.connection.createSender(options);
-        this.wasCloseCalled = false;
         debug("[%s] Promise to create the sender resolved. Created sender with name: %s",
           this._context.connectionId, this.name);
         debug("[%s] Sender '%s' created with sender options: %O",

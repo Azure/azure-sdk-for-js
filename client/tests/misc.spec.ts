@@ -190,7 +190,7 @@ describe("Misc tests", function () {
     }
   });
 
-  it.only("should consistently send messages with partitionkey to a partitionId", async function () {
+  it("should consistently send messages with partitionkey to a partitionId", async function () {
     const msgToSendCount = 50;
     let partitionOffsets: any = {};
     debug("Discovering end of stream on each partition.");
