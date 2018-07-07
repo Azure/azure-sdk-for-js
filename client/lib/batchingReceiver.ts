@@ -2,11 +2,11 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
-import { ReceiverEvents, EventContext, OnAmqpEvent } from "./rhea-promise";
+import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "./rhea-promise";
 import { ReceiveOptions, EventData } from ".";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
-import { translate, Func, Constants } from "./amqp-common";
+import { translate, Func, Constants, MessagingError } from "./amqp-common";
 
 const debug = debugModule("azure:event-hubs:receiverbatching");
 
@@ -109,8 +109,20 @@ export class BatchingReceiver extends EventHubReceiver {
       onReceiveError = (context: EventContext) => {
         this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
         this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
-        const error = translate(context.receiver!.error!);
-        debug("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId, this.name, error);
+        this._receiver!.removeSessionHandler(SessionEvents.sessionError, onReceiveError);
+        const receiverError = context.receiver && context.receiver.error;
+        const sessionError = context.session.error;
+        let error = new MessagingError("An error occuured while receiving messages.");
+        if (receiverError) {
+          error = translate(receiverError);
+          debug("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId,
+            this.name, error);
+
+        } else if (sessionError) {
+          error = translate(sessionError);
+          debug("[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
+            this._context.connectionId, this.name, error);
+        }
         if (waitTimer) {
           clearTimeout(waitTimer);
         }
@@ -118,9 +130,15 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       onReceiveClose = async (context: EventContext) => {
-        const receiverError = context.session && context.session.error;
-        debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
-          this._context.connectionId, receiverError);
+        const receiverError = context.receiver && context.receiver.error;
+        const sessionError = context.session.error;
+        if (receiverError) {
+          debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
+            this._context.connectionId, receiverError);
+        } else if (sessionError) {
+          debug("[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
+            this._context.connectionId, this.name, sessionError);
+        }
       };
 
       const addCreditAndSetTimer = (reuse?: boolean) => {
@@ -146,6 +164,7 @@ export class BatchingReceiver extends EventHubReceiver {
         addCreditAndSetTimer(true);
         this._receiver!.registerHandler(ReceiverEvents.message, onReceiveMessage);
         this._receiver!.registerHandler(ReceiverEvents.receiverError, onReceiveError);
+        this._receiver!.registerSessionHandler(SessionEvents.sessionError, onReceiveError);
       }
     });
   }

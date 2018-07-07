@@ -204,4 +204,12 @@ export class Session {
   removeHandler(event: rhea.SessionEvents, handler: rhea.OnAmqpEvent): void {
     this._session.removeListener(event, handler);
   }
+
+  registerConnectionHandler(event: rhea.ConnectionEvents, handler: rhea.OnAmqpEvent): void {
+    this._connection.registerHandler(event, handler);
+  }
+
+  removeConnectionHandler(event: rhea.ConnectionEvents, handler: rhea.OnAmqpEvent): void {
+    this._connection.removeHandler(event, handler);
+  }
 }

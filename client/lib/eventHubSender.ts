@@ -5,7 +5,7 @@ import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
-  message, AmqpError
+  message, AmqpError, SessionEvents
 } from "./rhea-promise";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
@@ -57,20 +57,34 @@ export class EventHubSender extends LinkEntity {
   constructor(context: ConnectionContext, partitionId?: string | number, name?: string) {
     super(context, { name: name, partitionId: partitionId });
     this.address = this._context.config.entityPath as string;
-    if (this.partitionId !== null && this.partitionId !== undefined) {
+    if (this.partitionId != undefined) {
       this.address += `/Partitions/${this.partitionId}`;
     }
     this.audience = `${this._context.config.endpoint}${this.address}`;
     this._onAmqpError = (context: EventContext) => {
-      const senderError = translate(context.sender!.error!);
-      debug("[%s] An error occurred for sender '%s': %O.",
-        this._context.connectionId, this.name, senderError);
+      const senderError = context.sender && context.sender.error;
+      const sessionError = context.session.error;
+      if (senderError) {
+        const err = translate(senderError);
+        debug("[%s] An error occurred for sender '%s': %O.",
+          this._context.connectionId, this.name, err);
+      } else if (sessionError) {
+        const err = translate(sessionError);
+        debug("[%s] An error occurred on the session of sender '%s': %O.",
+          this._context.connectionId, this.name, err);
+      }
     };
     this._onAmqpClose = async (context: EventContext) => {
-      const senderError = context.sender ? context.sender.error : undefined;
-      debug("[%s] 'sender_close' event occurred. The associated error is: %O",
-        this._context.connectionId, senderError);
-      await this.detached(senderError);
+      const senderError = context.sender && context.sender.error;
+      const sessionError = context.session.error;
+      if (senderError) {
+        debug("[%s] 'sender_close' event occurred for sender '%s'. The associated error is: %O",
+          this._context.connectionId, this.address, senderError);
+      } else if (sessionError) {
+        debug("[%s] 'session_close' event occurred for sender '%s'. The associated error is: %O",
+          this._context.connectionId, this.address, sessionError);
+      }
+      await this.detached(senderError || sessionError);
     };
   }
 
@@ -328,6 +342,8 @@ export class EventHubSender extends LinkEntity {
           options = this._createSenderOptions({});
         }
         this._sender = await this._context.connection.createSender(options);
+        this._sender.registerSessionHandler(SessionEvents.sessionError, this._onAmqpError);
+        this._sender.registerSessionHandler(SessionEvents.sessionClose, this._onAmqpClose);
         debug("[%s] Promise to create the sender resolved. Created sender with name: %s",
           this._context.connectionId, this.name);
         debug("[%s] Sender '%s' created with sender options: %O",
