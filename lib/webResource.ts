@@ -360,7 +360,7 @@ export interface RequestPrepareOptions {
    */
   disableClientRequestId?: boolean;
   /**
-   * The request body. It can be of any type. This method will JSON.stringify() the request body.
+   * The request body. It can be of any type. This value will be serialized if it is not a stream.
    */
   body?: any;
   /**
