@@ -217,8 +217,9 @@ export class ServiceClient {
                 if (queryParameterValue.length === 0) {
                   queryParameterValue = "";
                 } else {
-                  for (const item of queryParameterValue) {
-                    queryParameterValue = (item == undefined ? "" : item.toString());
+                  for (const index in queryParameterValue) {
+                    const item = queryParameterValue[index];
+                    queryParameterValue[index] = item == undefined ? "" : item.toString();
                   }
                 }
               } else {
@@ -226,7 +227,14 @@ export class ServiceClient {
               }
             }
             if (!queryParameter.skipEncoding) {
-              queryParameterValue = encodeURIComponent(queryParameterValue);
+              if (Array.isArray(queryParameterValue)) {
+                for (const index in queryParameterValue) {
+                  queryParameterValue[index] = encodeURIComponent(queryParameterValue[index]);
+                }
+              }
+              else {
+                queryParameterValue = encodeURIComponent(queryParameterValue);
+              }
             }
             requestUrl.setQueryParameter(queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter), queryParameterValue);
           }
