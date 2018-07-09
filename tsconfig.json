@@ -13,6 +13,7 @@
     "strict": true,
     "declaration": true,
     "declarationDir": "./typings",
+    "importHelpers": true,
     "lib": [
       "dom",
       "dom.iterable",
