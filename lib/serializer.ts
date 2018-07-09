@@ -82,15 +82,30 @@ export class Serializer {
       payload = [];
     }
 
-    if (object == undefined) {
-      // Throw if required and object is null or undefined
-      if (mapper.required && !mapper.isConstant) {
-        throw new Error(`${objectName} cannot be null or undefined.`);
-      }
-      // Set Defaults
-      if (mapper.defaultValue != undefined || mapper.isConstant) {
-        object = mapper.defaultValue;
-      }
+    if (object == undefined && (mapper.defaultValue != undefined || mapper.isConstant)) {
+      object = mapper.defaultValue;
+    }
+
+    // This table of allowed values should help explain
+    // the mapper.required and mapper.nullable properties.
+    // X means "neither undefined or null are allowed".
+    //           || required
+    //           || true      | false
+    //  nullable || ==========================
+    //      true || null      | undefined/null
+    //     false || X         | undefined
+    // undefined || X         | undefined/null
+
+    const { required, nullable } = mapper;
+
+    if (required && nullable && object === undefined) {
+      throw new Error(`${objectName} cannot be undefined.`);
+    }
+    if (required && !nullable && object == undefined) {
+      throw new Error(`${objectName} cannot be null or undefined.`);
+    }
+    if (!required && nullable === false && object === null) {
+      throw new Error(`${objectName} cannot be null.`);
     }
 
     if (object == undefined) {
@@ -413,7 +428,7 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
       modelProperties: {}
     }
   };
-  if (object !== null && object !== undefined) {
+  if (object != undefined) {
     let modelProps = mapper.type.modelProperties;
     if (!modelProps) {
       const className = mapper.type.className;
@@ -450,33 +465,25 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
 
         for (const pathName of paths) {
           const childObject = parentObject[pathName];
-          if ((childObject === null || childObject === undefined) && (object[key] !== null && object[key] !== undefined)) {
+          if ((childObject == undefined) && (object[key] != undefined)) {
             parentObject[pathName] = {};
           }
           parentObject = parentObject[pathName];
         }
       }
 
-      // make sure required properties of the CompositeType are present
-      if (propertyMapper.required && !propertyMapper.isConstant) {
-        if (object[key] == undefined) {
-          throw new Error(`${key}" cannot be null or undefined in "${objectName}".`);
-        }
-      }
       // make sure that readOnly properties are not sent on the wire
       if (propertyMapper.readOnly) {
         continue;
       }
-      // serialize the property if it is present in the provided object instance
-      if (((parentObject !== null && parentObject !== undefined) && (propertyMapper.defaultValue !== null && propertyMapper.defaultValue !== undefined)) ||
-        (object[key] !== null && object[key] !== undefined)) {
+
+      if (parentObject != undefined) {
         const propertyObjectName = propertyMapper.serializedName !== ""
           ? objectName + "." + propertyMapper.serializedName
           : objectName;
 
         const serializedValue = serializer.serialize(propertyMapper, object[key], propertyObjectName);
-
-        if (propName !== null && propName !== undefined) {
+        if (serializedValue !== undefined && propName != undefined) {
           if (propertyMapper.xmlIsAttribute) {
             // $ is the key attributes are kept under in xml2js.
             // This keeps things simple while preventing name collision
@@ -498,7 +505,6 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
 
 function deserializeCompositeType(serializer: Serializer, mapper: CompositeMapper, responseBody: any, objectName: string): any {
   /*jshint validthis: true */
-  // check for polymorphic discriminator
   if (mapper.type.polymorphicDiscriminator) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, objectName, "deserialize");
   }
@@ -578,7 +584,7 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
       if (Array.isArray(responseBody[key]) && modelProps[key].serializedName === "") {
         propertyInstance = responseBody[key];
         instance = serializer.deserialize(propertyMapper, propertyInstance, propertyObjectName);
-      } else if (propertyInstance !== null && propertyInstance !== undefined) {
+      } else if (propertyInstance !== undefined) {
         serializedValue = serializer.deserialize(propertyMapper, propertyInstance, propertyObjectName);
         instance[key] = serializedValue;
       }
@@ -634,8 +640,8 @@ function getPolymorphicMapper(serializer: Serializer, mapper: CompositeMapper, o
   // will be an object that contains the clientName (normalized property name, ex: "odatatype") and
   // the serializedName (ex: "odata.type") (We do not escape the dots with double backslash in this case as it is not required)
   // Thus when serializing, the user will give us an object which will contain the normalizedProperty hence we will lookup
-  // the clientName of the polmorphicDiscriminator in the mapper and during deserialization from the responseBody we will
-  // lookup the serializedName of the polmorphicDiscriminator in the mapper. This will help us in selecting the correct mapper
+  // the clientName of the polymorphicDiscriminator in the mapper and during deserialization from the responseBody we will
+  // lookup the serializedName of the polymorphicDiscriminator in the mapper. This will help us in selecting the correct mapper
   // for the model that needs to be serializes or deserialized.
   // We need this routing for backwards compatibility. This will absorb the breaking change in the mapper and allow new versions
   // of the runtime to work seamlessly with older version (>= 0.17.0-Nightly20161008) of Autorest generated node.js clients.
@@ -672,7 +678,7 @@ function getPolymorphicMapperObjectVersion(serializer: Serializer, mapper: Compo
     if (object === null || object === undefined) {
       throw new Error(`${objectName}" cannot be null or undefined. ` +
         `"${discriminatorAsObject[polymorphicPropertyName]}" is the ` +
-        `polmorphicDiscriminator and is a required property.`);
+        `polymorphicDiscriminator is a required property.`);
     }
     if (object[discriminatorAsObject[polymorphicPropertyName]] === null ||
       object[discriminatorAsObject[polymorphicPropertyName]] === undefined) {
@@ -695,12 +701,12 @@ function getPolymorphicMapperObjectVersion(serializer: Serializer, mapper: Compo
 function getPolymorphicMapperStringVersion(serializer: Serializer, mapper: CompositeMapper, object: any, objectName: string): CompositeMapper {
   // check for polymorphic discriminator
   const discriminatorAsString: string = mapper.type.polymorphicDiscriminator as string;
-  if (discriminatorAsString !== null && discriminatorAsString !== undefined) {
-    if (object === null || object === undefined) {
+  if (discriminatorAsString != undefined) {
+    if (object == undefined) {
       throw new Error(`${objectName}" cannot be null or undefined. "${discriminatorAsString}" is the ` +
-        `polmorphicDiscriminator and is a required property.`);
+        `polymorphicDiscriminator is a required property.`);
     }
-    if (object[discriminatorAsString] === null || object[discriminatorAsString] === undefined) {
+    if (object[discriminatorAsString] == undefined) {
       throw new Error(`No discriminator field "${discriminatorAsString}" was found in "${objectName}".`);
     }
     let indexDiscriminator = undefined;
@@ -743,6 +749,7 @@ export interface BaseMapper {
   readOnly?: boolean;
   isConstant?: boolean;
   required?: boolean;
+  nullable?: boolean;
   serializedName: string;
   type: BaseMapperType;
   defaultValue?: any;
