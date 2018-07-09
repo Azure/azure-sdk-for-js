@@ -1,4 +1,5 @@
-import { ServiceClient, WebResource, Serializer, HttpOperationResponse, DictionaryMapper, QueryCollectionFormat, SequenceMapper, HttpClient } from "../../lib/msRest";
+import { ServiceClient, WebResource, Serializer, HttpOperationResponse, DictionaryMapper, QueryCollectionFormat, SequenceMapper, HttpClient, MapperType } from "../../lib/msRest";
+import { serializeRequestBody } from "../../lib/serviceClient";
 import * as assert from "assert";
 
 describe("ServiceClient", function () {
@@ -156,4 +157,183 @@ describe("ServiceClient", function () {
       });
     assert.strictEqual(request!.withCredentials, true);
   });
+
+  describe("serializeRequestBody()", () => {
+    it("should serialize a JSON String request body", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        httpRequest,
+        {
+          arguments: {
+            bodyArg: "body value"
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.String
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer()
+        });
+      assert.strictEqual(httpRequest.body, `"body value"`);
+    });
+
+    it("should serialize a JSON ByteArray request body", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        httpRequest,
+        {
+          arguments: {
+            bodyArg: stringToByteArray("Javascript")
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.ByteArray
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer()
+        });
+      assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
+    });
+
+    it("should serialize a JSON Stream request body", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        httpRequest,
+        {
+          arguments: {
+            bodyArg: "body value"
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.Stream
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer()
+        });
+      assert.strictEqual(httpRequest.body, "body value");
+    });
+
+    it("should serialize an XML String request body", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        httpRequest,
+        {
+          arguments: {
+            bodyArg: "body value"
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.String
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(),
+          isXML: true
+        });
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>body value</bodyArg>`);
+    });
+
+    it("should serialize an XML ByteArray request body", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        httpRequest,
+        {
+          arguments: {
+            bodyArg: stringToByteArray("Javascript")
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.ByteArray
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(),
+          isXML: true
+        });
+        assert.strictEqual(
+          httpRequest.body,
+          `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>SmF2YXNjcmlwdA==</bodyArg>`);
+    });
+
+    it("should serialize an XML Stream request body", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        httpRequest,
+        {
+          arguments: {
+            bodyArg: "body value"
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.Stream
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(),
+          isXML: true
+        });
+        assert.strictEqual(httpRequest.body, "body value");
+    });
+  });
 });
+
+function stringToByteArray(str: string): Uint8Array {
+  if (typeof Buffer === "function") {
+    return Buffer.from(str, "utf-8");
+  } else {
+    return new TextEncoder().encode(str);
+  }
+}

@@ -303,7 +303,7 @@ export class ServiceClient {
   }
 }
 
-function serializeRequestBody(httpRequest: WebResource, operationArguments: OperationArguments, operationSpec: OperationSpec): void {
+export function serializeRequestBody(httpRequest: WebResource, operationArguments: OperationArguments, operationSpec: OperationSpec): void {
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
     httpRequest.body = getOperationArgumentValueFromParameter(operationArguments, operationSpec.requestBody, operationSpec.serializer);
 
@@ -314,14 +314,15 @@ function serializeRequestBody(httpRequest: WebResource, operationArguments: Oper
       if (httpRequest.body != undefined || required) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(operationSpec.requestBody);
         httpRequest.body = operationSpec.serializer.serialize(bodyMapper, httpRequest.body, requestBodyParameterPathString);
+        const isStream = typeName === MapperType.Stream;
         if (operationSpec.isXML) {
           if (typeName === MapperType.Sequence) {
             httpRequest.body = utils.stringifyXML(utils.prepareXMLRootList(httpRequest.body, xmlElementName || xmlName || serializedName), { rootName: xmlName || serializedName });
           }
-          else {
+          else if (!isStream) {
             httpRequest.body = utils.stringifyXML(httpRequest.body, { rootName: xmlName || serializedName });
           }
-        } else if (typeName !== MapperType.Stream) {
+        } else if (!isStream) {
           httpRequest.body = JSON.stringify(httpRequest.body);
         }
       }

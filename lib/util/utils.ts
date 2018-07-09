@@ -229,7 +229,10 @@ export function stringifyXML(obj: any, opts?: { rootName?: string }) {
   const builder = new xml2js.Builder({
     explicitArray: false,
     explicitCharkey: false,
-    rootName: (opts || {}).rootName
+    rootName: (opts || {}).rootName,
+    renderOpts: {
+      pretty: false
+    }
   });
   return builder.buildObject(obj);
 }
