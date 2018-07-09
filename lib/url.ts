@@ -36,7 +36,7 @@ export class URLQuery {
    * Get the value of the query parameter with the provided name. If no parameter exists with the
    * provided parameter name, then undefined will be returned.
    */
-  public get(parameterName: string): string | Array<any> | undefined {
+  public get(parameterName: string): string | string[] | undefined {
     return parameterName ? this._rawQuery[parameterName] : undefined;
   }
 
@@ -263,7 +263,7 @@ export class URLBuilder {
    * Get the value of the query parameter with the provided query parameter name. If no query
    * parameter exists with the provided name, then undefined will be returned.
    */
-  public getQueryParameterValue(queryParameterName: string): string | Array<any> | undefined {
+  public getQueryParameterValue(queryParameterName: string): string | string[] | undefined {
     return this._query ? this._query.get(queryParameterName) : undefined;
   }
 
