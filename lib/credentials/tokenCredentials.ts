@@ -10,16 +10,19 @@ const HeaderConstants = Constants.HeaderConstants;
 const DEFAULT_AUTHORIZATION_SCHEME = "Bearer";
 
 /**
- * Creates a new TokenCredentials object.
- *
- * @constructor
- * @param {string} token               The token.
- * @param {string} authorizationScheme The authorization scheme.
+ * A credentials object that uses a token string and a authorzation scheme to authenticate.
  */
 export class TokenCredentials implements ServiceClientCredentials {
   token: string;
   authorizationScheme: string = DEFAULT_AUTHORIZATION_SCHEME;
 
+  /**
+   * Creates a new TokenCredentials object.
+   *
+   * @constructor
+   * @param {string} token The token.
+   * @param {string} [authorizationScheme] The authorization scheme.
+   */
   constructor(token: string, authorizationScheme: string = DEFAULT_AUTHORIZATION_SCHEME) {
     if (!token) {
       throw new Error("token cannot be null or undefined.");
@@ -31,7 +34,7 @@ export class TokenCredentials implements ServiceClientCredentials {
   /**
    * Signs a request with the Authentication header.
    *
-   * @param {WebResource} The WebResource to be signed.
+   * @param {WebResource} webResource The WebResource to be signed.
    * @return {Promise<WebResource>} The signed request object.
    */
   signRequest(webResource: WebResource) {

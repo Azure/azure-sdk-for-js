@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { DefaultHttpClient } from "./defaultHttpClient";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
+import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
@@ -10,13 +10,13 @@ import { OperationArguments } from "./operationArguments";
 import { getPathStringFromParameter, getPathStringFromParameterPath, OperationParameter, ParameterPath } from "./operationParameter";
 import { OperationResponse } from "./operationResponse";
 import { OperationSpec } from "./operationSpec";
+import { deserializationPolicy } from "./policies/deserializationPolicy";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
 import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
 import { RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
-import { deserializationPolicy } from "./policies/deserializationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { QueryCollectionFormat } from "./queryCollectionFormat";
@@ -31,27 +31,24 @@ import { RequestPrepareOptions, WebResource } from "./webResource";
  */
 export interface ServiceClientOptions {
   /**
-   * @property {Array<RequestPolicyCreator>} [requestPolicyCreators] An array of functions that will be
-   * invoked to create the RequestPolicy pipeline that will be used to send a HTTP request on the
-   * wire.
+   * An array of functions that will be invoked to create the RequestPolicy pipeline that will be
+   * used to send a HTTP request on the wire.
    */
   requestPolicyCreators?: RequestPolicyCreator[];
   /**
-   * @property {HttpClient} [httpClient] - The HttpClient that will be used to send HTTP requests.
+   * The HttpClient that will be used to send HTTP requests.
    */
   httpClient?: HttpClient;
   /**
-   * @property {HttpPipelineLogger} [httpPipelineLogger] - The HttpPipelineLogger that can be used
-   * to debug RequestPolicies within the HTTP pipeline.
+   * The HttpPipelineLogger that can be used to debug RequestPolicies within the HTTP pipeline.
    */
   httpPipelineLogger?: HttpPipelineLogger;
   /**
-   * @property {bool} [noRetryPolicy] - If set to true, turn off the default retry policy.
+   * If set to true, turn off the default retry policy.
    */
   noRetryPolicy?: boolean;
   /**
-   * @property {number} [rpRegistrationRetryTimeout] - Gets or sets the retry timeout
-   * in seconds for AutomaticRPRegistration. Default value is 30.
+   * Gets or sets the retry timeout in seconds for AutomaticRPRegistration. Default value is 30.
    */
   rpRegistrationRetryTimeout?: number;
   /**
@@ -84,9 +81,8 @@ export class ServiceClient {
   /**
    * The string to be appended to the User-Agent header while sending the request.
    * This will be applicable only for node.js environment as the fetch library in browser does not allow setting custom UA.
-   * @property {Array<string>} value - An array of string that need to be appended to the User-Agent request header.
    */
-  userAgentInfo: { value: Array<string> };
+  userAgentInfo: { value: string[] };
 
   /**
    * The HTTP client that will be used to send requests.
@@ -100,9 +96,8 @@ export class ServiceClient {
   /**
    * The ServiceClient constructor
    * @constructor
-   * @param {ServiceClientCredentials }[credentials] - BasicAuthenticationCredentials or
-   * TokenCredentials object used for authentication.
-   * @param { ServiceClientOptions } [options] The service client options that govern the behavior of the client.
+   * @param {ServiceClientCredentials} [credentials] The credentials object used for authentication.
+   * @param {ServiceClientOptions} [options] The service client options that govern the behavior of the client.
    */
   constructor(credentials?: ServiceClientCredentials, options?: ServiceClientOptions) {
     if (!options) {
@@ -132,7 +127,7 @@ export class ServiceClient {
 
   /**
    * Adds custom information to user agent header
-   * @param {any} additionalUserAgentInfo - information to be added to user agent header, as string.
+   * @param {string} additionalUserAgentInfo information to be added to user agent header, as string.
    */
   addUserAgentInfo(additionalUserAgentInfo: string): void {
     if (this.userAgentInfo.value.indexOf(additionalUserAgentInfo) === -1) {
@@ -173,8 +168,8 @@ export class ServiceClient {
 
   /**
    * Send an HTTP request that is populated using the provided OperationSpec.
-   * @param {WebResource} httpRequest - The HTTP request to populate and then to send.
-   * @param {operationSpec} operationSpec - The OperationSpec to use to populate the httpRequest.
+   * @param {OperationArguments} operationArguments The arguments that the HTTP request's templated values will be populated from.
+   * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
    */
   sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<HttpOperationResponse> {
     const httpRequest = new WebResource();

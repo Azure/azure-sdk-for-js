@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
+
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { URLBuilder } from "../url";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
-import { URLBuilder } from "../url";
 
 export function redirectPolicy(maximumRetries = 20): RequestPolicyCreator {
   return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -20,7 +21,6 @@ export class RedirectPolicy extends BaseRequestPolicy {
     return this._nextPolicy.sendRequest(request).then(response => handleRedirect(this, response, 0));
   }
 }
-
 
 function handleRedirect(policy: RedirectPolicy, response: HttpOperationResponse, currentRetries: number): Promise<HttpOperationResponse> {
   const { request, status } = response;

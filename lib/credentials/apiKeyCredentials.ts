@@ -11,11 +11,11 @@ import { ServiceClientCredentials } from "./serviceClientCredentials";
  */
 export interface ApiKeyCredentialOptions {
   /**
-   * @property {object} [inHeader]  A key value pair of the header parameters that need to be applied to the request.
+   * A key value pair of the header parameters that need to be applied to the request.
    */
   inHeader?: { [x: string]: any };
   /**
-   * @property {object} [inQuery]   A key value pair of the query parameters that need to be applied to the request.
+   * A key value pair of the query parameters that need to be applied to the request.
    */
   inQuery?: { [x: string]: any };
 }
@@ -24,14 +24,18 @@ export interface ApiKeyCredentialOptions {
  * Authenticates to a service using an API key.
  */
 export class ApiKeyCredentials implements ServiceClientCredentials {
+  /**
+   * A key value pair of the header parameters that need to be applied to the request.
+   */
   private readonly inHeader?: { [x: string]: any };
+  /**
+   * A key value pair of the query parameters that need to be applied to the request.
+   */
   private readonly inQuery?: { [x: string]: any };
 
   /**
    * @constructor
    * @param {object} options   Specifies the options to be provided for auth. Either header or query needs to be provided.
-   * @param {object} [inHeader]  A key value pair of the header parameters that need to be applied to the request.
-   * @param {object} [inQuery]   A key value pair of the query parameters that need to be applied to the request.
    */
   constructor(options: ApiKeyCredentialOptions) {
     if (!options || (options && !options.inHeader && !options.inQuery)) {
@@ -44,8 +48,8 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
   /**
    * Signs a request with the values provided in the inHeader and inQuery parameter.
    *
-   * @param {WebResource} The WebResource to be signed.
-   * @returns {Promise<WebResource>} - The signed request object.
+   * @param {WebResource} webResource The WebResource to be signed.
+   * @returns {Promise<WebResource>} The signed request object.
    */
   signRequest(webResource: WebResource): Promise<WebResource> {
     if (!webResource) {
