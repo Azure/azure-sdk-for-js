@@ -267,7 +267,7 @@ describe("ServiceClient", function () {
         });
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<bodyArg>body value</bodyArg>`);
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>body value</bodyArg>`);
     });
 
     it("should serialize an XML ByteArray request body", () => {
@@ -297,7 +297,7 @@ describe("ServiceClient", function () {
         });
         assert.strictEqual(
           httpRequest.body,
-          `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<bodyArg>SmF2YXNjcmlwdA==</bodyArg>`);
+          `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>SmF2YXNjcmlwdA==</bodyArg>`);
     });
 
     it("should serialize an XML Stream request body", () => {
