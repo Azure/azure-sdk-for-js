@@ -7,9 +7,6 @@ import { HttpHeaders } from "./httpHeaders";
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
  * the `parsedBody` property when the response body is received in JSON or XML.
- * @class
- * Initializes a new instance of the HttpOperationResponse class.
- * @constructor
  */
 export interface HttpOperationResponse<TBody = any, THeaders = any> {
   /**

@@ -52,7 +52,7 @@ function registerIfNeeded(policy: RPRegistrationPolicy, request: WebResource, re
  * Reuses the headers of the original request and url (if specified).
  * @param {WebResource} originalRequest The original request
  * @param {boolean} reuseUrlToo Should the url from the original request be reused as well. Default false.
- * @returns {object} reqOptions - A new request object with desired headers.
+ * @returns {object} A new request object with desired headers.
  */
 function getRequestEssentials(originalRequest: WebResource, reuseUrlToo = false): any {
   const reqOptions: any = {
@@ -80,8 +80,8 @@ function getRequestEssentials(originalRequest: WebResource, reuseUrlToo = false)
 /**
  * Validates the error code and message associated with 409 response status code. If it matches to that of
  * RP not registered then it returns the name of the RP else returns undefined.
- * @param {string} body - The response body received after making the original request.
- * @returns {string} result The name of the RP if condition is satisfied else undefined.
+ * @param {string} body The response body received after making the original request.
+ * @returns {string} The name of the RP if condition is satisfied else undefined.
  */
 function checkRPNotRegisteredError(body: string): string {
   let result, responseBody;
@@ -105,8 +105,8 @@ function checkRPNotRegisteredError(body: string): string {
 /**
  * Extracts the first part of the URL, just after subscription:
  * https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/
- * @param {string} url - The original request url
- * @returns {string} urlPrefix The url prefix as explained above.
+ * @param {string} url The original request url
+ * @returns {string} The url prefix as explained above.
  */
 function extractSubscriptionUrl(url: string): string {
   let result;
@@ -121,11 +121,12 @@ function extractSubscriptionUrl(url: string): string {
 
 /**
  * Registers the given provider.
- * @param {string} urlPrefix - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/
- * @param {string} provider - The provider name to be registered.
- * @param {object} originalRequest - The original request sent by the user that returned a 409 response
+ * @param {RPRegistrationPolicy} policy The RPRegistrationPolicy this function is being called against.
+ * @param {string} urlPrefix https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/
+ * @param {string} provider The provider name to be registered.
+ * @param {WebResource} originalRequest The original request sent by the user that returned a 409 response
  * with a message that the provider is not registered.
- * @param {registrationCallback} callback - The callback that handles the RP registration
+ * @param {registrationCallback} callback The callback that handles the RP registration
  */
 function registerRP(policy: RPRegistrationPolicy, urlPrefix: string, provider: string, originalRequest: WebResource): Promise<boolean> {
   const postUrl = `${urlPrefix}providers/${provider}/register?api-version=2016-02-01`;
@@ -146,10 +147,11 @@ function registerRP(policy: RPRegistrationPolicy, urlPrefix: string, provider: s
 /**
  * Polls the registration status of the provider that was registered. Polling happens at an interval of 30 seconds.
  * Polling will happen till the registrationState property of the response body is "Registered".
- * @param {string} url - The request url for polling
- * @param {object} originalRequest - The original request sent by the user that returned a 409 response
+ * @param {RPRegistrationPolicy} policy The RPRegistrationPolicy this function is being called against.
+ * @param {string} url The request url for polling
+ * @param {WebResource} originalRequest The original request sent by the user that returned a 409 response
  * with a message that the provider is not registered.
- * @returns {Promise<boolean>} promise - True if RP Registration is successful.
+ * @returns {Promise<boolean>} True if RP Registration is successful.
  */
 function getRegistrationStatus(policy: RPRegistrationPolicy, url: string, originalRequest: WebResource): Promise<boolean> {
   const reqOptions: any = getRequestEssentials(originalRequest);

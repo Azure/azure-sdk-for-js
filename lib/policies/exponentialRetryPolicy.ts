@@ -4,7 +4,7 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
 
 export interface RetryData {
   retryCount: number;
@@ -32,19 +32,34 @@ const DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
 /**
  * @class
  * Instantiates a new "ExponentialRetryPolicyFilter" instance.
- *
- * @constructor
- * @param {number} retryCount        The client retry count.
- * @param {number} retryInterval     The client retry interval, in milliseconds.
- * @param {number} minRetryInterval  The minimum retry interval, in milliseconds.
- * @param {number} maxRetryInterval  The maximum retry interval, in milliseconds.
  */
 export class ExponentialRetryPolicy extends BaseRequestPolicy {
+  /**
+   * The client retry count.
+   */
   retryCount: number;
+  /**
+   * The client retry interval in milliseconds.
+   */
   retryInterval: number;
+  /**
+   * The minimum retry interval in milliseconds.
+   */
   minRetryInterval: number;
+  /**
+   * The maximum retry interval in milliseconds.
+   */
   maxRetryInterval: number;
 
+  /**
+   * @constructor
+   * @param {RequestPolicy} nextPolicy The next RequestPolicy in the pipeline chain.
+   * @param {RequestPolicyOptions} options The options for this RequestPolicy.
+   * @param {number} [retryCount]        The client retry count.
+   * @param {number} [retryInterval]     The client retry interval, in milliseconds.
+   * @param {number} [minRetryInterval]  The minimum retry interval, in milliseconds.
+   * @param {number} [maxRetryInterval]  The maximum retry interval, in milliseconds.
+   */
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number) {
     super(nextPolicy, options);
     function isNumber(n: any): n is number { return typeof n === "number"; }
@@ -64,6 +79,7 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
 /**
  * Determines if the operation should be retried and how long to wait until the next retry.
  *
+ * @param {ExponentialRetryPolicy} policy The ExponentialRetryPolicy that this function is being called against.
  * @param {number} statusCode The HTTP status code.
  * @param {RetryData} retryData  The retry data.
  * @return {boolean} True if the operation qualifies for a retry; false otherwise.
@@ -86,8 +102,9 @@ function shouldRetry(policy: ExponentialRetryPolicy, statusCode: number, retryDa
 /**
  * Updates the retry data for the next attempt.
  *
+ * @param {ExponentialRetryPolicy} policy The ExponentialRetryPolicy that this function is being called against.
  * @param {RetryData} retryData  The retry data.
- * @param {object} err        The operation"s error, if any.
+ * @param {RetryError} [err] The operation"s error, if any.
  */
 function updateRetryData(policy: ExponentialRetryPolicy, retryData?: RetryData, err?: RetryError): RetryData {
   if (!retryData) {

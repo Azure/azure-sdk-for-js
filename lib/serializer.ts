@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as utils from "./util/utils";
 import * as base64 from "./util/base64";
+import * as utils from "./util/utils";
 
 export class Serializer {
   constructor(public readonly modelMappers?: { [key: string]: any }, public readonly isXML?: boolean) { }

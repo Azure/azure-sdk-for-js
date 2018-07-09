@@ -2,9 +2,9 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { OperationParameter, OperationQueryParameter, OperationURLParameter } from "./operationParameter";
+import { OperationResponse } from "./operationResponse";
 import { Serializer } from "./serializer";
 import { HttpMethods } from "./webResource";
-import { OperationResponse } from "./operationResponse";
 
 /**
  * A specification that defines an operation.
