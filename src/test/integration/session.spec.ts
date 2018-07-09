@@ -50,7 +50,6 @@ describe("Session Token", function () {
         }
     };
 
-    afterEach(async function () { await TestHelpers.removeAllDatabases(client); });
     beforeEach(async function () { await TestHelpers.removeAllDatabases(client); });
 
     it("validate session tokens for sequence of opearations", async function () {
