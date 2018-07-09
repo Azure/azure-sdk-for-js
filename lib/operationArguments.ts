@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { RequestOptionsBase, TransferProgressEvent } from "./webResource";
+import { RequestOptionsBase, TransferProgressEvent, AbortSignalLike } from "./webResource";
 
 /**
  * A collection of properties that apply to a single invocation of an operation.
@@ -21,7 +21,7 @@ export interface OperationArguments {
   /**
    * The signal which can be used to abort requests.
    */
-  abortSignal?: AbortSignal;
+  abortSignal?: AbortSignalLike;
 
   /**
    * Callback which fires upon upload progress. Only used in the browser.
