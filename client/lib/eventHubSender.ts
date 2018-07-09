@@ -342,6 +342,7 @@ export class EventHubSender extends LinkEntity {
           options = this._createSenderOptions({});
         }
         this._sender = await this._context.connection.createSender(options);
+        this._sender.setMaxListeners(1000);
         this._sender.registerSessionHandler(SessionEvents.sessionError, this._onAmqpError);
         this._sender.registerSessionHandler(SessionEvents.sessionClose, this._onAmqpClose);
         debug("[%s] Promise to create the sender resolved. Created sender with name: %s",

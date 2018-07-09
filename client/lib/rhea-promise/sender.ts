@@ -134,6 +134,14 @@ export class Sender {
     return senderClose.then(() => { return this._session.close(); });
   }
 
+  setMaxListeners(count: number): void {
+    this._sender.setMaxListeners(count);
+  }
+
+  getMaxListeners(): number {
+    return this._sender.getMaxListeners();
+  }
+
   registerHandler(event: SenderEvents, handler: rhea.OnAmqpEvent): void {
     this._sender.on(event, handler);
   }
