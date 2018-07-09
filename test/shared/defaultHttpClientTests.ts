@@ -98,7 +98,7 @@ describe("defaultHttpClient", () => {
 
   it("should allow canceling requests", async function () {
     const controller = getAbortController();
-    const request = new WebResource(`${baseURL}/fileupload`, "POST", new Uint8Array(1024 * 1024 * 10), undefined, undefined, true, controller.signal);
+    const request = new WebResource(`${baseURL}/fileupload`, "POST", new Uint8Array(1024 * 1024 * 10), undefined, undefined, true, undefined, controller.signal);
     const client = new DefaultHttpClient();
     const promise = client.sendRequest(request);
     controller.abort();
@@ -134,8 +134,8 @@ describe("defaultHttpClient", () => {
     const controller = getAbortController();
     const buf = new Uint8Array(1024 * 1024 * 1);
     const requests = [
-      new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, controller.signal),
-      new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, controller.signal)
+      new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, undefined, controller.signal),
+      new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, undefined, controller.signal)
     ];
     const client = new DefaultHttpClient();
     const promises = requests.map(r => client.sendRequest(r));
@@ -160,7 +160,7 @@ describe("defaultHttpClient", () => {
     let downloadNotified = false;
 
     const buf = new Uint8Array(1024 * 1024 * 1);
-    const request = new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, undefined,
+    const request = new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, undefined, undefined,
       ev => {
         uploadNotified = true;
         ev.should.not.be.instanceof(ProgressEvent);

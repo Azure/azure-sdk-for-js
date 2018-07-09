@@ -60,6 +60,7 @@ export class XhrHttpClient implements HttpClient {
       }
     }
 
+    xhr.withCredentials = request.withCredentials;
     xhr.open(request.method, request.url);
     for (const header of request.headers.headersArray()) {
       xhr.setRequestHeader(header.name, header.value);

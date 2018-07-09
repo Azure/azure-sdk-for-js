@@ -26,7 +26,8 @@ describe("Log filter", () => {
   },
   "body": {
     "a": 1
-  }
+  },
+  "withCredentials": false
 }
 >> Response status code: 200
 >> Body: null
