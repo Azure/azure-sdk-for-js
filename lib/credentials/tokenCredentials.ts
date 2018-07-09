@@ -9,6 +9,9 @@ import { ServiceClientCredentials } from "./serviceClientCredentials";
 const HeaderConstants = Constants.HeaderConstants;
 const DEFAULT_AUTHORIZATION_SCHEME = "Bearer";
 
+/**
+ * A credentials object that uses a token string and a authorzation scheme to authenticate.
+ */
 export class TokenCredentials implements ServiceClientCredentials {
   token: string;
   authorizationScheme: string = DEFAULT_AUTHORIZATION_SCHEME;
