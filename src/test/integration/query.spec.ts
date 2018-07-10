@@ -50,14 +50,14 @@ describe("Test Query Metrics On Single Partition Collection", function () {
             const databaseBody = { id: databaseId };
 
             const { result: databaseDef } = await client.databases.create(databaseBody);
-            const database = client.databases.get(databaseDef.id);
+            const database = client.database(databaseDef.id);
 
             const collectionDefinition = { id: collectionId };
             const collectionOptions = { offerThroughput: 4000 };
 
             const { result: createdCollectionDef } =
                 await database.containers.create(collectionDefinition, collectionOptions);
-            const createdContainer = database.containers.get(createdCollectionDef.id);
+            const createdContainer = database.container(createdCollectionDef.id);
 
             await createdContainer.items.create(document);
             const collectionLink = "/dbs/" + databaseId + "/colls/" + collectionId + "/";

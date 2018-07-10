@@ -29,11 +29,11 @@ describe("NodeJS CRUD Tests", function () {
                 const client = new CosmosClient({ endpoint, auth: { masterKey } });
                 // create database
                 const { result: dbdef } = await client.databases.create({ id: "sample 中文 database" });
-                const db: Database = client.databases.get(dbdef.id);
+                const db: Database = client.database(dbdef.id);
                 // create container
                 const { result: containerdef } =
                     await db.containers.create({ id: "sample container" });
-                const container: Container = db.containers.get(containerdef.id);
+                const container: Container = db.container(containerdef.id);
 
                 // read items
                 const { result: items } = await container.items.readAll().toArray();
@@ -87,14 +87,14 @@ describe("NodeJS CRUD Tests", function () {
                 assert.equal(replacedDocument.foo, "not bar", "property should have changed");
                 assert.equal(document.id, replacedDocument.id, "document id should stay the same");
                 // read document
-                const { result: document2 } = await container.items.get(replacedDocument.id).read();
+                const { result: document2 } = await container.item(replacedDocument.id).read();
                 assert.equal(replacedDocument.id, document.id);
                 // delete document
-                const { result: res } = await container.items.get(replacedDocument.id).delete();
+                const { result: res } = await container.item(replacedDocument.id).delete();
 
                 // read documents after deletion
                 try {
-                    const { result: document3 } = await container.items.get(replacedDocument.id).read();
+                    const { result: document3 } = await container.item(replacedDocument.id).read();
                     assert.fail("must throw if document doesn't exist");
                 } catch (err) {
                     const notFoundErrorCode = 404;
@@ -110,7 +110,7 @@ describe("NodeJS CRUD Tests", function () {
                 const client = new CosmosClient({endpoint, auth: { masterKey }});
                 // create database
                 const { result: dbdef } = await client.databases.create({ id: "db1" });
-                const db = client.databases.get(dbdef.id);
+                const db = client.database(dbdef.id);
                 const partitionKey = "key";
 
                 // create container
@@ -121,7 +121,7 @@ describe("NodeJS CRUD Tests", function () {
 
                 const { result: containerdef } =
                     await db.containers.create(containerDefinition, { offerThroughput: 12000 });
-                const container = db.containers.get(containerdef.id);
+                const container = db.container(containerdef.id);
 
                 const documents = [
                     { id: "document1" },

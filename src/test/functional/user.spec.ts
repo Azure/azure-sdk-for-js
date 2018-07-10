@@ -33,7 +33,7 @@ describe("NodeJS CRUD Tests", function () {
             const { result: userDef } = await TestHelpers.createOrUpsertUser(
                 database, { id: "new user" }, undefined, isUpsertTest);
             assert.equal(userDef.id, "new user", "user name error");
-            let user = database.users.get(userDef.id);
+            let user = database.user(userDef.id);
 
             // list users after creation
             const { result: usersAfterCreation } = await database.users.readAll().toArray();
@@ -64,7 +64,7 @@ describe("NodeJS CRUD Tests", function () {
             }
             assert.equal(replacedUser.id, "replaced user", "user name should change");
             assert.equal(userDef.id, replacedUser.id, "user id should stay the same");
-            user = database.users.get(replacedUser.id);
+            user = database.user(replacedUser.id);
 
             // read user
             const { result: userAfterReplace } = await user.read();

@@ -11,10 +11,6 @@ export class Items {
         this.client = this.container.database.client.documentClient;
     }
 
-    public get(id: string, partitionKey?: string): Item {
-        return new Item(this.container, id, partitionKey);
-    }
-
     public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
     public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {

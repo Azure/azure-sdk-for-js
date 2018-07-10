@@ -7,9 +7,6 @@ import { DatabaseDefinition } from "./DatabaseDefinition";
 
 export class Databases {
     constructor(private readonly client: CosmosClient) {}
-    public get(id: string): Database {
-        return new Database(this.client, id);
-    }
 
     public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<DatabaseDefinition> {
         return this.client.documentClient.queryDatabases(query, options);

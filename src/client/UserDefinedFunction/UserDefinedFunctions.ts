@@ -12,10 +12,6 @@ export class UserDefinedFunctions {
         this.client = this.container.database.client;
      }
 
-    public get(id: string): UserDefinedFunction {
-        return new UserDefinedFunction(this.container, id);
-    }
-
     public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<UserDefinedFunctionDefinition> {
         return this.client.documentClient.queryUserDefinedFunctions(this.container.url, query, options);
     }

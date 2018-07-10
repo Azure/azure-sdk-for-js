@@ -1,10 +1,11 @@
 import { Constants, UriFactory } from "../../common";
 import { RequestOptions, Response } from "../../request";
+import { Conflict } from "../Conflict";
 import { Database } from "../Database";
-import { Items } from "../Item";
-import { StoredProcedures } from "../StoredProcedure";
-import { Triggers } from "../Trigger";
-import { UserDefinedFunctions } from "../UserDefinedFunction";
+import { Item, Items } from "../Item";
+import { StoredProcedure, StoredProcedures } from "../StoredProcedure";
+import { Trigger, Triggers } from "../Trigger";
+import { UserDefinedFunction, UserDefinedFunctions } from "../UserDefinedFunction";
 import { ContainerDefinition } from "./ContainerDefinition";
 
 export class Container {
@@ -22,6 +23,26 @@ export class Container {
         this.storedProcedures = new StoredProcedures(this);
         this.triggers = new Triggers(this);
         this.userDefinedFunctions = new UserDefinedFunctions(this);
+    }
+
+    public item(id: string, partitionKey?: string): Item {
+        return new Item(this, id, partitionKey);
+    }
+
+    public userDefinedFunction(id: string): UserDefinedFunction {
+        return new UserDefinedFunction(this, id);
+    }
+
+    public conflict(id: string): Conflict {
+        return new Conflict(this, id);
+    }
+
+    public storedProcedure(id: string): StoredProcedure {
+        return new StoredProcedure(this, id);
+    }
+
+    public trigger(id: string): Trigger {
+        return new Trigger(this, id);
     }
 
     public read(options?: RequestOptions): Promise<Response<ContainerDefinition>> {

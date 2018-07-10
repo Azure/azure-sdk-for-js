@@ -34,7 +34,7 @@ describe("Create And Read Validation", function () {
 
             // Create a container inside the database
             const { result: containerDef } = await database.containers.create(containerBody);
-            const container = database.containers.get(containerDef.id);
+            const container = database.container(containerDef.id);
             assert.equal(containerDef.id, containerBody.id, "invalid container Id");
 
             // Add the document in the container
@@ -42,7 +42,7 @@ describe("Create And Read Validation", function () {
             assert.equal(doc.id, testDoc.id, "invalid document Id");
 
             // Read the container and see if it matches to the initial document
-            const { result: resultDoc } = await container.items.get(doc.id)
+            const { result: resultDoc } = await container.item(doc.id)
                 .read<{ id: string, content: string }>();
             assert.equal(testDoc.content, resultDoc.content, "read document result is different from initial document");
         } catch (err) {

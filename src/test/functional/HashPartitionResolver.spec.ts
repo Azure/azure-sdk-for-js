@@ -37,8 +37,8 @@ describe("NodeJS CRUD Tests", function () {
             // };
 
             // const { result: db } = await client.databases.create({ id: "database" });
-            // const { result: collection1 } = await client.databases.getDatabase(db.id).containers.create({ id: "sample coll 1" });
-            // const { result: collection2 } = await client.databases.getDatabase(db.id).containers.create({ id: "sample coll 2" });
+            // const { result: collection1 } = await client.databaseDatabase(db.id).containers.create({ id: "sample coll 1" });
+            // const { result: collection2 } = await client.databaseDatabase(db.id).containers.create({ id: "sample coll 2" });
             // const resolver = getPartitionResolver(collection1.id, collection2.id);
             // client.documentClient.partitionResolvers["foo"] = resolver;
 

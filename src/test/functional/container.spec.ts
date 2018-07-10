@@ -40,7 +40,7 @@ describe("NodeJS CRUD Tests", function () {
                 }
 
                 const { result: containerDef } = await database.containers.create(containerDefinition);
-                const container = database.containers.get(containerDef.id);
+                const container = database.container(containerDef.id);
                 assert.equal(containerDefinition.id, containerDef.id);
                 assert.equal("consistent", containerDef.indexingPolicy.indexingMode);
                 assert.equal(JSON.stringify(containerDef.partitionKey),
@@ -175,11 +175,11 @@ describe("NodeJS CRUD Tests", function () {
             try {
                 // create database
                 const { result: dbdef } = await client.databases.create({ id: "container test database" });
-                const database = client.databases.get(dbdef.id);
+                const database = client.database(dbdef.id);
 
                 // create container
                 const { result: containerDef } = await database.containers.create({ id: "container test container" });
-                const container = database.containers.get(containerDef.id);
+                const container = database.container(containerDef.id);
 
                 assert.equal(containerDef.indexingPolicy.indexingMode,
                     DocumentBase.IndexingMode.Consistent, "default indexing mode should be consistent");
@@ -191,7 +191,7 @@ describe("NodeJS CRUD Tests", function () {
                 };
 
                 const { result: lazyContainerDef } = await database.containers.create(lazyContainerDefinition);
-                const lazyContainer = database.containers.get(lazyContainerDef.id);
+                const lazyContainer = database.container(lazyContainerDef.id);
 
                 assert.equal(lazyContainerDef.indexingPolicy.indexingMode,
                     DocumentBase.IndexingMode.Lazy, "indexing mode should be lazy");
@@ -204,7 +204,7 @@ describe("NodeJS CRUD Tests", function () {
                 };
                 const { result: consistentContainerDef } =
                     await database.containers.create(consistentcontainerDefinition);
-                const consistentContainer = database.containers.get(consistentContainerDef.id);
+                const consistentContainer = database.container(consistentContainerDef.id);
                 assert.equal(containerDef.indexingPolicy.indexingMode,
                     DocumentBase.IndexingMode.Consistent, "indexing mode should be consistent");
                 await consistentContainer.delete();
@@ -305,7 +305,7 @@ describe("NodeJS CRUD Tests", function () {
             try {
                 // create database
                 const { result: dbdef } = await client.databases.create({ id: "container test database" });
-                const database = client.databases.get(dbdef.id);
+                const database = client.database(dbdef.id);
 
                 // create container with no indexing policy specified.
                 const containerDefinition01: ContainerDefinition = { id: "TestCreateDefaultPolicy01" };
@@ -388,7 +388,7 @@ describe("NodeJS CRUD Tests", function () {
         const createThenReadcontainer = async function (database: Database, body: ContainerDefinition) {
             try {
                 const { result: createdcontainer, headers } = await database.containers.create(body);
-                const response = await database.containers.get(createdcontainer.id).read();
+                const response = await database.container(createdcontainer.id).read();
                 return response;
             } catch (err) {
                 throw err;
