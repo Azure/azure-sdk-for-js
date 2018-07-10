@@ -538,9 +538,10 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
 
   for (const key of Object.keys(modelProps)) {
     const propertyMapper = modelProps[key];
+    const { serializedName, xmlName, xmlElementName } = propertyMapper;
     let propertyObjectName = objectName;
-    if (propertyMapper.serializedName !== "") {
-      propertyObjectName = objectName + "." + propertyMapper.serializedName;
+    if (serializedName !== "") {
+      propertyObjectName = objectName + "." + serializedName;
     }
 
     const headerCollectionPrefix = (propertyMapper as DictionaryMapper).headerCollectionPrefix;
@@ -554,13 +555,13 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
       instance[key] = dictionary;
     } else if (serializer.isXML) {
       if (propertyMapper.xmlIsAttribute && responseBody.$) {
-        instance[key] = serializer.deserialize(propertyMapper, responseBody.$[propertyMapper.xmlName!], propertyObjectName);
+        instance[key] = serializer.deserialize(propertyMapper, responseBody.$[xmlName!], propertyObjectName);
       } else {
-        const propertyName = propertyMapper.xmlElementName || propertyMapper.xmlName;
+        const propertyName = xmlElementName || xmlName || serializedName;
         let unwrappedProperty = responseBody[propertyName!];
         if (propertyMapper.xmlIsWrapped) {
-          unwrappedProperty = responseBody[propertyMapper.xmlName!];
-          unwrappedProperty = unwrappedProperty && unwrappedProperty[propertyMapper.xmlElementName!];
+          unwrappedProperty = responseBody[xmlName!];
+          unwrappedProperty = unwrappedProperty && unwrappedProperty[xmlElementName!];
           if (unwrappedProperty === undefined) {
             // undefined means a wrapped list was empty
             unwrappedProperty = [];
