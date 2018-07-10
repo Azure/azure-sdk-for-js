@@ -4,9 +4,14 @@ import { CommandBuilder } from "yargs";
 import { EventHubClient, EventPosition, EventData } from "../../client/lib"
 export const command = "receive";
 
-export const describe = "Sends messages to an eventhub.";
+export const describe = "Receives messages from an eventhub.";
 
 export const builder: CommandBuilder = {
+  d: {
+    alias: "duration",
+    describe: "The value must be in seconds. Receive messages for the specified duration. Useful for benchmark testing.",
+    number: true
+  },
   p: {
     alias: "partitions",
     describe: "Comma seperated partition IDs.",
