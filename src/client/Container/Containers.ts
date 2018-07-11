@@ -4,6 +4,7 @@ import { FeedOptions, RequestOptions, Response } from "../../request";
 import { Database } from "../Database";
 import { Container } from "./Container";
 import { ContainerDefinition } from "./ContainerDefinition";
+import { ContainerResponse } from "./ContainerResponse";
 
 export class Containers {
     constructor(public readonly database: Database) { }
@@ -24,8 +25,10 @@ export class Containers {
      * </p>
      * @param body                          - Represents the body of the container.
      */
-    public create(body: ContainerDefinition, options?: RequestOptions): Promise<Response<ContainerDefinition>> {
-        return this.database.client.documentClient.createCollection(this.database.url, body, options);
+    public async create(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse> {
+        const response = await this.database.client.documentClient.createCollection(this.database.url, body, options);
+        const ref = new Container(this.database, response.result.id);
+        return { body: response.result, headers: response.headers, ref, container: ref };
     }
 
     public readAll(options?: FeedOptions): QueryIterator<ContainerDefinition> {

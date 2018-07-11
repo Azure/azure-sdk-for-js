@@ -236,15 +236,15 @@ describe("NodeJS CRUD Tests", function () {
                 await container.triggers.create(trigger);
             }
             // create document
-            const { result: document } = await container.items.create({ id: "doc1", key: "value" }, { preTriggerInclude: "t1" });
+            const { body: document } = await container.items.create({ id: "doc1", key: "value" }, { preTriggerInclude: "t1" });
             assert.equal(document.id, "DOC1t1", "name should be capitalized");
-            const { result: document2 } = await container.items.create({ id: "doc2", key2: "value2" }, { preTriggerInclude: "t2" });
+            const { body: document2 } = await container.items.create({ id: "doc2", key2: "value2" }, { preTriggerInclude: "t2" });
             assert.equal(document2.id, "doc2", "name shouldn't change");
-            const { result: document3 } = await container.items.create({ id: "Doc3", prop: "empty" }, { preTriggerInclude: "t3" });
+            const { body: document3 } = await container.items.create({ id: "Doc3", prop: "empty" }, { preTriggerInclude: "t3" });
             assert.equal(document3.id, "doc3t3");
-            const { result: document4 } = await container.items.create({ id: "testing post trigger" }, { postTriggerInclude: "response1", preTriggerInclude: "t1" });
+            const { body: document4 } = await container.items.create({ id: "testing post trigger" }, { postTriggerInclude: "response1", preTriggerInclude: "t1" });
             assert.equal(document4.id, "TESTING POST TRIGGERt1");
-            const { result: document5, headers } = await container.items.create({ id: "responseheaders" }, { preTriggerInclude: "t1" });
+            const { body: document5, headers } = await container.items.create({ id: "responseheaders" }, { preTriggerInclude: "t1" });
             assert.equal(document5.id, "RESPONSEHEADERSt1");
             try {
                 await container.items.create({ id: "Docoptype" }, { postTriggerInclude: "triggerOpType" });
@@ -259,15 +259,15 @@ describe("NodeJS CRUD Tests", function () {
                 await container.triggers.upsert(trigger);
             }
             // create document
-            const { result: document } = await container.items.upsert({ id: "doc1", key: "value" }, { preTriggerInclude: "t1" });
+            const { body: document } = await container.items.upsert({ id: "doc1", key: "value" }, { preTriggerInclude: "t1" });
             assert.equal(document.id, "DOC1t1", "name should be capitalized");
-            const { result: document2 } = await container.items.upsert({ id: "doc2", key2: "value2" }, { preTriggerInclude: "t2" });
+            const { body: document2 } = await container.items.upsert({ id: "doc2", key2: "value2" }, { preTriggerInclude: "t2" });
             assert.equal(document2.id, "doc2", "name shouldn't change");
-            const { result: document3 } = await container.items.upsert({ id: "Doc3", prop: "empty" }, { preTriggerInclude: "t3" });
+            const { body: document3 } = await container.items.upsert({ id: "Doc3", prop: "empty" }, { preTriggerInclude: "t3" });
             assert.equal(document3.id, "doc3t3");
-            const { result: document4 } = await container.items.upsert({ id: "testing post trigger" }, { postTriggerInclude: "response1", preTriggerInclude: "t1" });
+            const { body: document4 } = await container.items.upsert({ id: "testing post trigger" }, { postTriggerInclude: "response1", preTriggerInclude: "t1" });
             assert.equal(document4.id, "TESTING POST TRIGGERt1");
-            const { result: document5, headers } = await container.items.upsert({ id: "responseheaders" }, { preTriggerInclude: "t1" });
+            const { body: document5, headers } = await container.items.upsert({ id: "responseheaders" }, { preTriggerInclude: "t1" });
             assert.equal(document5.id, "RESPONSEHEADERSt1");
             try {
                 await container.items.upsert({ id: "Docoptype" }, { postTriggerInclude: "triggerOpType" });

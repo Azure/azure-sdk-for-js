@@ -48,14 +48,13 @@ describe("Test Query Metrics On Single Partition Collection", function () {
     const testQueryMetricsOnSinglePartition = async function (document: any) {
         try {
             const databaseBody = { id: databaseId };
-
-            const { result: databaseDef } = await client.databases.create(databaseBody);
+            const { body: databaseDef } = await client.databases.create(databaseBody);
             const database = client.database(databaseDef.id);
 
             const collectionDefinition = { id: collectionId };
             const collectionOptions = { offerThroughput: 4000 };
 
-            const { result: createdCollectionDef } =
+            const { body: createdCollectionDef } =
                 await database.containers.create(collectionDefinition, collectionOptions);
             const createdContainer = database.container(createdCollectionDef.id);
 

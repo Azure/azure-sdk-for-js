@@ -3,7 +3,7 @@ import {
     Container, CosmosClient,
     Database, DatabaseDefinition, Item, RequestOptions, Response,
 } from "../../";
-import { ContainerDefinition, PermissionDefinition, User, UserDefinition } from "../../client";
+import { ContainerDefinition, ItemResponse, PermissionDefinition, User, UserDefinition } from "../../client";
 
 /** @hidden */
 export class TestHelpers {
@@ -48,7 +48,7 @@ export class TestHelpers {
         const returnedDocuments = [];
         for (const doc of documents) {
             try {
-                const { result: document } = await container.items.create(doc);
+                const { body: document } = await container.items.create(doc);
                 returnedDocuments.push(document);
             } catch (err) {
                 throw err;
@@ -66,7 +66,8 @@ export class TestHelpers {
                     : { partitionKey: {} };
 
                 // TODO: should we block or do all requests in parallel?
-                const { result: doc } = await container.item(document.id).read(options);
+                const { body: doc } = await container.item(document.id).read(options);
+              
                 assert.equal(JSON.stringify(doc), JSON.stringify(document));
             } catch (err) {
                 throw err;
@@ -79,7 +80,7 @@ export class TestHelpers {
         const returnedDocuments: any[] = [];
         for (const document of documents) {
             try {
-                const { result: doc } = await container.item(document.id).replace(document);
+                const { body: doc } = await container.item(document.id).replace(document);
                 const expectedModifiedDocument = JSON.parse(JSON.stringify(document));
                 delete expectedModifiedDocument._etag;
                 delete expectedModifiedDocument._ts;
@@ -103,7 +104,7 @@ export class TestHelpers {
                     ? { partitionKey: document[partitionKeyPropertyName] }
                     : { partitionKey: {} };
 
-                const { result } = await container.item(document.id).delete(options);
+                await container.item(document.id).delete(options);
             } catch (err) {
                 throw err;
             }
@@ -139,7 +140,7 @@ export class TestHelpers {
 
     // Item
     public static async createOrUpsertItem(
-        container: Container, body: any, options: RequestOptions, isUpsertTest: boolean) {
+        container: Container, body: any, options: RequestOptions, isUpsertTest: boolean): Promise<ItemResponse<any>> {
         if (isUpsertTest) {
             return container.items.upsert(body, options);
         } else {
@@ -148,7 +149,7 @@ export class TestHelpers {
     }
 
     public static async replaceOrUpsertItem(
-        container: Container, body: any, options: RequestOptions, isUpsertTest: boolean) {
+        container: Container, body: any, options: RequestOptions, isUpsertTest: boolean): Promise<ItemResponse<any>> {
         if (isUpsertTest) {
             return container.items.upsert(body, options);
         } else {

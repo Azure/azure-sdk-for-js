@@ -18,21 +18,22 @@ describe("NodeJS CRUD Tests", function () {
     describe("Validate Authorization", function () {
         const setupEntities = async function (isUpsertTest: boolean, client: CosmosClient) {
             // create database
-            const { result: db } = await client.databases.create({ id: "Validate Authorization database" });
+            const { body: db } = await client.databases.create({ id: "Validate Authorization database" });
             // create container1
-            const { result: container1 } = await client.database(db.id)
+
+            const { body: container1 } = await client.database(db.id)
                 .containers.create({ id: "Validate Authorization container" });
             // create document1
-            const { result: document1 } = await client.database(db.id)
+            const { body: document1 } = await client.database(db.id)
                 .container(container1.id)
                 .items.create({ id: "coll1doc1", foo: "bar", key: "value" });
             // create document 2
-            const { result: document2 } = await client.database(db.id)
+            const { body: document2 } = await client.database(db.id)
                 .container(container1.id)
                 .items.create({ id: "coll1doc2", foo: "bar2", key: "value2" });
 
             // create container 2
-            const { result: container2 } = await client.database(db.id)
+            const { body: container2 } = await client.database(db.id)
                 .containers.create({ id: "sample container2" });
 
             // create user1
@@ -107,7 +108,7 @@ describe("NodeJS CRUD Tests", function () {
             const col1Client = new CosmosClient({ endpoint, auth: { resourceTokens } });
 
             // 1. Success-- Use Col1 Permission to Read
-            const { result: successColl1 } = await col1Client.database(entities.db.id)
+            const { body: successColl1 } = await col1Client.database(entities.db.id)
                 .container(entities.coll1.id).read();
             assert(successColl1 !== undefined, "error reading container");
 
@@ -129,7 +130,7 @@ describe("NodeJS CRUD Tests", function () {
             assert.equal(successDocuments.length, 2, "Expected 2 Documents to be succesfully read");
 
             // 4. Success-- Use Col1 Permission to Read Col1Doc1
-            const { result: successDoc } = await col1Client.database(entities.db.id)
+            const { body: successDoc } = await col1Client.database(entities.db.id)
                 .container(entities.coll1.id)
                 .item(entities.doc1.id).read();
             assert(successDoc !== undefined, "error reading document");

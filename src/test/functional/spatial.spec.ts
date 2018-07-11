@@ -43,7 +43,7 @@ describe("NodeJS CRUD Tests", function () {
                     ],
                 };
                 const entropy = Math.floor(Math.random() * 10000);
-                const { result: containerDef } = await database.containers.create(
+                const { body: containerDef } = await database.containers.create(
                     { id: `sample container${entropy}`, indexingPolicy });
                 const container = database.container(containerDef.id);
 

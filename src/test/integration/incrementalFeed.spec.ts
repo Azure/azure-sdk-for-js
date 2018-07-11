@@ -40,7 +40,8 @@ describe("NodeJS Incremental Feed Tests using 'a_im' and 'IfNoneMatch' options",
             assert.equal(results.length, 2, "initial number of documents should be equal 2");
 
             document.name = "xyz";
-            const { result: replaced } = await container.item(document.id).replace(document);
+
+            const { body: replaced } = await container.item(document.id).replace(document);
             assert.deepEqual(replaced.name, "xyz", "replaced document should be valid");
 
             options = {
@@ -78,7 +79,7 @@ describe("NodeJS Incremental Feed Tests using 'a_im' and 'IfNoneMatch' options",
             let { result, headers } = await query.current();
             assert(headers.etag, "listDocuments response should have etag header");
 
-            const { result: document } = await container.items.create({ id: "doc2", prop: 1 });
+            const { body: document } = await container.items.create({ id: "doc2", prop: 1 });
 
             options = {
                 a_im: "Incremental feed",

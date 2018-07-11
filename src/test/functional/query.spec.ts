@@ -29,7 +29,7 @@ describe("NodeJS CRUD Tests", function () {
             try {
                 // create a database
                 const databaseDefinition = { id: "query test database" };
-                const { result: db } = await client.databases.create(databaseDefinition);
+                const { body: db } = await client.databases.create(databaseDefinition);
                 assert.equal(db.id, databaseDefinition.id);
                 // query databases
                 const querySpec0 = {
@@ -112,9 +112,9 @@ describe("NodeJS CRUD Tests", function () {
         let resources: { container: Container, doc1: any, doc2: any, doc3: any };
         beforeEach(async function () {
             const container = await TestHelpers.getTestContainer(client, "Validate QueryIterator Functionality");
-            const { result: doc1 } = await container.items.create({ id: "doc1", prop1: "value1" });
-            const { result: doc2 } = await container.items.create({ id: "doc2", prop1: "value2" });
-            const { result: doc3 } = await container.items.create({ id: "doc3", prop1: "value3" });
+            const { body: doc1 } = await container.items.create({ id: "doc1", prop1: "value1" });
+            const { body: doc2 } = await container.items.create({ id: "doc2", prop1: "value2" });
+            const { body: doc3 } = await container.items.create({ id: "doc3", prop1: "value3" });
             resources = { container, doc1, doc2, doc3 };
         });
 
