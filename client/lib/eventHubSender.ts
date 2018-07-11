@@ -132,8 +132,8 @@ export class EventHubSender extends LinkEntity {
           "possibly the connection.", this.senderLock);
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
-      debug("[%s] Sender '%s', trying to send EventData[]: %O",
-        this._context.connectionId, this.name, datas);
+      debug("[%s] Sender '%s', trying to send EventData[].",
+        this._context.connectionId, this.name);
       const messages: AmqpMessage[] = [];
       // Convert EventData to AmqpMessage.
       for (let i = 0; i < datas.length; i++) {
