@@ -180,7 +180,7 @@ describe("NodeJS CRUD Tests", function () {
                 // create container
                 const { body: containerDef } = await database.containers.create({ id: "container test container" });
                 const container = database.container(containerDef.id);
-              
+
                 assert.equal(containerDef.indexingPolicy.indexingMode,
                     DocumentBase.IndexingMode.Consistent, "default indexing mode should be consistent");
                 await container.delete();

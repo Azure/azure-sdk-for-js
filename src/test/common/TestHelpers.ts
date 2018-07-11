@@ -67,7 +67,7 @@ export class TestHelpers {
 
                 // TODO: should we block or do all requests in parallel?
                 const { body: doc } = await container.item(document.id).read(options);
-              
+
                 assert.equal(JSON.stringify(doc), JSON.stringify(document));
             } catch (err) {
                 throw err;

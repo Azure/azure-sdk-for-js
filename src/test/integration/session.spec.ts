@@ -57,7 +57,7 @@ describe("Session Token", function () {
         let index2;
 
         await client.databases.create(databaseBody);
-        const database = client.database(databaseDef.id);
+        const database = client.database(databaseId);
 
         const { body: createdContainerDef } =
             await database.containers.create(containerDefinition, containerOptions);
@@ -85,7 +85,7 @@ describe("Session Token", function () {
         let secondPartitionLSN = tokens[index2];
 
         await container.item(document1.id, "1").read();
- 
+
         assert.equal(getSpy.lastCall.args[2][Constants.HttpHeaders.SessionToken],
             client.documentClient.sessionContainer.getCombinedSessionToken(tokens));
         tokens = getToken(client.documentClient.sessionContainer.collectionResourceIdToSessionTokens);

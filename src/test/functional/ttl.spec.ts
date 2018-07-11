@@ -66,7 +66,7 @@ describe("NodeJS CRUD Tests", function () {
                 };
                 const database = await client.database(db.id);
                 const { body: containerResult } = await database.containers.create(containerDefinition);
-              
+
                 assert.equal(containerDefinition.defaultTtl, containerResult.defaultTtl);
                 const container = database.container(containerResult.id);
 

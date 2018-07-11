@@ -3,7 +3,7 @@ import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
 import { User, Users } from "../User";
-import { DatabaseDefinition } from "./DatabaseDefinition";
+import { DatabaseResponse } from "./DatabaseResponse";
 
 export class Database {
     public readonly containers: Containers;

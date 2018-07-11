@@ -25,11 +25,11 @@ describe("NodeJS CRUD Tests", function () {
             const client = new CosmosClient({ endpoint, auth: { masterKey } });
             // create database
             const { body: dbdef } = await client.databases.create({ id: "sample 中文 database" });
-            const db: Database = client.databases.get(dbdef.id);
+            const db: Database = client.database(dbdef.id);
             // create container
             const { body: containerdef } =
                 await db.containers.create({ id: "sample container" });
-            const container: Container = db.containers.get(containerdef.id);
+            const container: Container = db.container(containerdef.id);
 
             // read items
             const { result: items } = await container.items.readAll().toArray();
@@ -44,80 +44,54 @@ describe("NodeJS CRUD Tests", function () {
                 replace: "new property",
             };
             try {
-                const client = new CosmosClient({ endpoint, auth: { masterKey } });
-                // create database
-                const { body: dbdef } = await client.databases.create({ id: "sample 中文 database" });
-                const db: Database = client.database(dbdef.id);
-                // create container
-                const { body: containerdef } =
-                    await db.containers.create({ id: "sample container" });
-                const container: Container = db.container(containerdef.id);
+                await TestHelpers.createOrUpsertItem(container, itemDefinition,
+                    { disableAutomaticIdGeneration: true }, isUpsertTest);
+                assert.fail("id generation disabled must throw with invalid id");
+            } catch (err) {
+                assert(err !== undefined, "should throw an error because automatic id generation is disabled");
+            }
+            const { body: document } = await TestHelpers.createOrUpsertItem(
+                container, itemDefinition, undefined, isUpsertTest);
+            assert.equal(document.name, itemDefinition.name);
+            assert(document.id !== undefined);
+            // read documents after creation
+            const { result: documents2 } = await container.items.readAll().toArray();
+            assert.equal(documents2.length, beforeCreateDocumentsCount + 1,
+                "create should increase the number of documents");
+            // query documents
+            const querySpec = {
+                query: "SELECT * FROM root r WHERE r.id=@id",
+                parameters: [
+                    {
+                        name: "@id",
+                        value: document.id,
+                    },
+                ],
+            };
+            const { result: results } = await container.items.query(querySpec).toArray();
+            assert(results.length > 0, "number of results for the query should be > 0");
+            const { result: results2 } = await container.items.query(
+                querySpec, { enableScanInQuery: true }).toArray();
+            assert(results2.length > 0, "number of results for the query should be > 0");
 
-                // read items
-                const { body: items } = await container.items.readAll().toArray();
-                assert(Array.isArray(items), "Value should be an array");
+            // replace document
+            document.name = "replaced document";
+            document.foo = "not bar";
+            const { body: replacedDocument } = await TestHelpers.replaceOrUpsertItem(
+                container, document, undefined, isUpsertTest);
+            assert.equal(replacedDocument.name, "replaced document", "document name property should change");
+            assert.equal(replacedDocument.foo, "not bar", "property should have changed");
+            assert.equal(document.id, replacedDocument.id, "document id should stay the same");
+            // read document
+            const { body: document2 } = await container.item(replacedDocument.id).read();
+            assert.equal(replacedDocument.id, document.id);
+            // delete document
+            const { body: res } = await container.item(replacedDocument.id).delete();
 
-                // create an item
-                const beforeCreateDocumentsCount = items.length;
-                const itemDefinition = {
-                    name: "sample document",
-                    foo: "bar",
-                    key: "value",
-                    replace: "new property",
-                };
-                try {
-                    await TestHelpers.createOrUpsertItem(container, itemDefinition,
-                        { disableAutomaticIdGeneration: true }, isUpsertTest);
-                    assert.fail("id generation disabled must throw with invalid id");
-                } catch (err) {
-                    assert(err !== undefined, "should throw an error because automatic id generation is disabled");
-                }
-                const { body: document } = await TestHelpers.createOrUpsertItem(
-                    container, itemDefinition, undefined, isUpsertTest);
-                assert.equal(document.name, itemDefinition.name);
-                assert(document.id !== undefined);
-                // read documents after creation
-                const { result: documents2 } = await container.items.readAll().toArray();
-                assert.equal(documents2.length, beforeCreateDocumentsCount + 1,
-                    "create should increase the number of documents");
-                // query documents
-                const querySpec = {
-                    query: "SELECT * FROM root r WHERE r.id=@id",
-                    parameters: [
-                        {
-                            name: "@id",
-                            value: document.id,
-                        },
-                    ],
-                };
-                const { body: results } = await container.items.query(querySpec).toArray();
-                assert(results.length > 0, "number of results for the query should be > 0");
-                const { body: results2 } = await container.items.query(
-                    querySpec, { enableScanInQuery: true }).toArray();
-                assert(results2.length > 0, "number of results for the query should be > 0");
-
-                // replace document
-                document.name = "replaced document";
-                document.foo = "not bar";
-                const { body: replacedDocument } = await TestHelpers.replaceOrUpsertItem(
-                    container, document, undefined, isUpsertTest);
-                assert.equal(replacedDocument.name, "replaced document", "document name property should change");
-                assert.equal(replacedDocument.foo, "not bar", "property should have changed");
-                assert.equal(document.id, replacedDocument.id, "document id should stay the same");
-                // read document
-                const { body: document2 } = await container.item(replacedDocument.id).read();
-                assert.equal(replacedDocument.id, document.id);
-                // delete document
-                const { body: res } = await container.item(replacedDocument.id).delete();
-
-                // read documents after deletion
-                try {
-                    const { body: document3 } = await container.item(replacedDocument.id).read();
-                    assert.fail("must throw if document doesn't exist");
-                } catch (err) {
-                    const notFoundErrorCode = 404;
-                    assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
-                }
+            // read documents after deletion
+            try {
+                const { body: document3 } = await container.item(replacedDocument.id).read();
+                assert.fail("must throw if document doesn't exist");
             } catch (err) {
                 const notFoundErrorCode = 404;
                 assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
@@ -127,7 +101,7 @@ describe("NodeJS CRUD Tests", function () {
         const documentCRUDMultiplePartitionsTest = async function () {
               const client = new CosmosClient({endpoint, auth: { masterKey }});
               // create database
-              const { result: dbdef } = await client.databases.create({ id: "db1" });
+              const { body: dbdef } = await client.databases.create({ id: "db1" });
               const db = client.database(dbdef.id);
               const partitionKey = "key";
 
@@ -137,7 +111,7 @@ describe("NodeJS CRUD Tests", function () {
                   partitionKey: { paths: ["/" + partitionKey], kind: DocumentBase.PartitionKind.Hash },
               };
 
-              const { result: containerdef } =
+              const { body: containerdef } =
                   await db.containers.create(containerDefinition, { offerThroughput: 12000 });
               const container = db.container(containerdef.id);
 
@@ -177,7 +151,7 @@ describe("NodeJS CRUD Tests", function () {
                   query: "SELECT * FROM Root",
               };
               try {
-                  const { body: badUpdate } = await container.items.query(
+                  const { result: badUpdate } = await container.items.query(
                       querySpec, { enableScanInQuery: true }).toArray();
                   assert.fail("Must fail");
               } catch (err) {
@@ -185,7 +159,7 @@ describe("NodeJS CRUD Tests", function () {
                   assert.equal(err.code, badRequestErrorCode,
                       "response should return error code " + badRequestErrorCode);
               }
-              const { body: results } = await container.items.query(
+              const { result: results } = await container.items.query(
                   querySpec, { enableScanInQuery: true, enableCrossPartitionQuery: true }).toArray();
               assert(results !== undefined, "error querying documents");
               results.sort(function (doc1, doc2) {
