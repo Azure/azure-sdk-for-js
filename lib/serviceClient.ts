@@ -192,7 +192,7 @@ export class ServiceClient {
       }
       if (operationSpec.urlParameters && operationSpec.urlParameters.length > 0) {
         for (const urlParameter of operationSpec.urlParameters) {
-          let urlParameterValue: string = getOperationArgumentValueFromParameter(operationArguments, urlParameter, operationSpec.serializer);
+          let urlParameterValue: string = getOperationArgumentValueFromParameter(this, operationArguments, urlParameter, operationSpec.serializer);
           urlParameterValue = operationSpec.serializer.serialize(urlParameter.mapper, urlParameterValue, getPathStringFromParameter(urlParameter));
           if (!urlParameter.skipEncoding) {
             urlParameterValue = encodeURIComponent(urlParameterValue);
@@ -202,7 +202,7 @@ export class ServiceClient {
       }
       if (operationSpec.queryParameters && operationSpec.queryParameters.length > 0) {
         for (const queryParameter of operationSpec.queryParameters) {
-          let queryParameterValue: any = getOperationArgumentValueFromParameter(operationArguments, queryParameter, operationSpec.serializer);
+          let queryParameterValue: any = getOperationArgumentValueFromParameter(this, operationArguments, queryParameter, operationSpec.serializer);
           if (queryParameterValue != undefined) {
             queryParameterValue = operationSpec.serializer.serialize(queryParameter.mapper, queryParameterValue, getPathStringFromParameter(queryParameter));
             if (queryParameter.collectionFormat != undefined) {
@@ -241,7 +241,7 @@ export class ServiceClient {
 
       if (operationSpec.headerParameters) {
         for (const headerParameter of operationSpec.headerParameters) {
-          let headerValue: any = getOperationArgumentValueFromParameter(operationArguments, headerParameter, operationSpec.serializer);
+          let headerValue: any = getOperationArgumentValueFromParameter(this, operationArguments, headerParameter, operationSpec.serializer);
           if (headerValue != undefined) {
             headerValue = operationSpec.serializer.serialize(headerParameter.mapper, headerValue, getPathStringFromParameter(headerParameter));
             const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper).headerCollectionPrefix;
@@ -276,7 +276,7 @@ export class ServiceClient {
 
       httpRequest.withCredentials = this._withCredentials;
 
-      serializeRequestBody(httpRequest, operationArguments, operationSpec);
+      serializeRequestBody(this, httpRequest, operationArguments, operationSpec);
 
       if (operationSpec.responses) {
         let rawResponse = false;
@@ -298,9 +298,9 @@ export class ServiceClient {
   }
 }
 
-export function serializeRequestBody(httpRequest: WebResource, operationArguments: OperationArguments, operationSpec: OperationSpec): void {
+export function serializeRequestBody(serviceClient: ServiceClient, httpRequest: WebResource, operationArguments: OperationArguments, operationSpec: OperationSpec): void {
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
-    httpRequest.body = getOperationArgumentValueFromParameter(operationArguments, operationSpec.requestBody, operationSpec.serializer);
+    httpRequest.body = getOperationArgumentValueFromParameter(serviceClient, operationArguments, operationSpec.requestBody, operationSpec.serializer);
 
     const bodyMapper = operationSpec.requestBody.mapper;
     const { required, xmlName, xmlElementName, serializedName } = bodyMapper;
@@ -327,7 +327,7 @@ export function serializeRequestBody(httpRequest: WebResource, operationArgument
   } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {
     httpRequest.formData = {};
     for (const formDataParameter of operationSpec.formDataParameters) {
-      const formDataParameterValue: any = getOperationArgumentValueFromParameter(operationArguments, formDataParameter, operationSpec.serializer);
+      const formDataParameterValue: any = getOperationArgumentValueFromParameter(serviceClient, operationArguments, formDataParameter, operationSpec.serializer);
       if (formDataParameterValue != undefined) {
         const formDataParameterPropertyName: string = formDataParameter.mapper.serializedName || getPathStringFromParameter(formDataParameter);
         httpRequest.formData[formDataParameterPropertyName] = operationSpec.serializer.serialize(formDataParameter.mapper, formDataParameterValue, getPathStringFromParameter(formDataParameter));
@@ -384,11 +384,11 @@ export function getPropertyParent(parent: PropertyParent, propertyPath: string[]
   return parent;
 }
 
-function getOperationArgumentValueFromParameter(operationArguments: OperationArguments, parameter: OperationParameter, serializer: Serializer): any {
-  return getOperationArgumentValueFromParameterPath(operationArguments, parameter.parameterPath, parameter.mapper, serializer);
+function getOperationArgumentValueFromParameter(serviceClient: ServiceClient, operationArguments: OperationArguments, parameter: OperationParameter, serializer: Serializer): any {
+  return getOperationArgumentValueFromParameterPath(serviceClient, operationArguments, parameter.parameterPath, parameter.mapper, serializer);
 }
 
-function getOperationArgumentValueFromParameterPath(operationArguments: OperationArguments, parameterPath: ParameterPath, parameterMapper: Mapper, serializer: Serializer): any {
+function getOperationArgumentValueFromParameterPath(serviceClient: ServiceClient, operationArguments: OperationArguments, parameterPath: ParameterPath, parameterMapper: Mapper, serializer: Serializer): any {
   let value: any;
   if (typeof parameterPath === "string") {
     parameterPath = [parameterPath];
@@ -396,13 +396,11 @@ function getOperationArgumentValueFromParameterPath(operationArguments: Operatio
   if (operationArguments.arguments) {
     if (Array.isArray(parameterPath)) {
       if (parameterPath.length > 0) {
-        value = operationArguments.arguments;
-        for (const parameterPathPart of parameterPath) {
-          value = value[parameterPathPart];
-          if (value == undefined) {
-            break;
-          }
+        let propertySearchResult: PropertySearchResult = getPropertyFromParameterPath(operationArguments.arguments, parameterPath);
+        if (!propertySearchResult.propertyFound) {
+          propertySearchResult = getPropertyFromParameterPath(serviceClient, parameterPath);
         }
+        value = propertySearchResult.propertyValue;
 
         // Serialize just for validation purposes.
         const parameterPathString: string = getPathStringFromParameterPath(parameterPath, parameterMapper);
@@ -412,7 +410,7 @@ function getOperationArgumentValueFromParameterPath(operationArguments: Operatio
       for (const propertyName in parameterPath) {
         const propertyMapper: Mapper = (parameterMapper as CompositeMapper).type.modelProperties[propertyName];
         const propertyPath: ParameterPath = parameterPath[propertyName];
-        const propertyValue: any = getOperationArgumentValueFromParameterPath(operationArguments, propertyPath, propertyMapper, serializer);
+        const propertyValue: any = getOperationArgumentValueFromParameterPath(serviceClient, operationArguments, propertyPath, propertyMapper, serializer);
         // Serialize just for validation purposes.
         const propertyPathString: string = getPathStringFromParameterPath(propertyPath, propertyMapper);
         serializer.serialize(propertyMapper, propertyValue, propertyPathString);
@@ -426,4 +424,28 @@ function getOperationArgumentValueFromParameterPath(operationArguments: Operatio
     }
   }
   return value;
+}
+
+interface PropertySearchResult {
+  propertyValue?: any;
+  propertyFound: boolean;
+}
+
+function getPropertyFromParameterPath(parent: { [parameterName: string]: any }, parameterPath: string[]): PropertySearchResult {
+  const result: PropertySearchResult = { propertyFound: false };
+  let i = 0;
+  for (; i < parameterPath.length; ++i) {
+    const parameterPathPart: string = parameterPath[i];
+    // Make sure to check inherited properties too, so don't use hasOwnProperty().
+    if (parent != undefined && parameterPathPart in parent) {
+      parent = parent[parameterPathPart];
+    } else {
+      break;
+    }
+  }
+  if (i === parameterPath.length) {
+    result.propertyValue = parent;
+    result.propertyFound = true;
+  }
+  return result;
 }

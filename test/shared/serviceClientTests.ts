@@ -162,6 +162,7 @@ describe("ServiceClient", function () {
     it("should serialize a JSON String request body", () => {
       const httpRequest = new WebResource();
       serializeRequestBody(
+        new ServiceClient(),
         httpRequest,
         {
           arguments: {
@@ -189,6 +190,7 @@ describe("ServiceClient", function () {
     it("should serialize a JSON ByteArray request body", () => {
       const httpRequest = new WebResource();
       serializeRequestBody(
+        new ServiceClient(),
         httpRequest,
         {
           arguments: {
@@ -216,6 +218,7 @@ describe("ServiceClient", function () {
     it("should serialize a JSON Stream request body", () => {
       const httpRequest = new WebResource();
       serializeRequestBody(
+        new ServiceClient(),
         httpRequest,
         {
           arguments: {
@@ -243,6 +246,7 @@ describe("ServiceClient", function () {
     it("should serialize an XML String request body", () => {
       const httpRequest = new WebResource();
       serializeRequestBody(
+        new ServiceClient(),
         httpRequest,
         {
           arguments: {
@@ -273,6 +277,7 @@ describe("ServiceClient", function () {
     it("should serialize an XML ByteArray request body", () => {
       const httpRequest = new WebResource();
       serializeRequestBody(
+        new ServiceClient(),
         httpRequest,
         {
           arguments: {
@@ -303,6 +308,7 @@ describe("ServiceClient", function () {
     it("should serialize an XML Stream request body", () => {
       const httpRequest = new WebResource();
       serializeRequestBody(
+        new ServiceClient(),
         httpRequest,
         {
           arguments: {
