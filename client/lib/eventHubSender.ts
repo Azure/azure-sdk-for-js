@@ -258,7 +258,7 @@ export class EventHubSender extends LinkEntity {
    * @return {Promise<Delivery>} Promise<Delivery>
    */
   private _trySend(message: AmqpMessage, tag?: any, format?: number): Promise<Delivery> {
-    const sendEventPromise = new Promise<Delivery>((resolve, reject) => {
+    const sendEventPromise = () => new Promise<Delivery>((resolve, reject) => {
       debug("[%s] Sender '%s', credit: %d available: %d", this._context.connectionId, this.name,
         this._sender!.credit, this._sender!.session.outgoing.available());
       if (this._sender!.sendable()) {
@@ -320,13 +320,13 @@ export class EventHubSender extends LinkEntity {
           this._context.connectionId, this.name, delivery.id, delivery.tag.toString());
       } else {
         const msg = `[${this._context.connectionId}] Sender "${this.name}", ` +
-          `cannot send the message right now.Please try later.`;
+          `cannot send the message right now. Please try later.`;
         debug(msg);
         reject(new Error(msg));
       }
     });
 
-    return retry<Delivery>(() => sendEventPromise);
+    return retry<Delivery>(sendEventPromise);
   }
 
   /**
