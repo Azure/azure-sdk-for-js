@@ -120,7 +120,7 @@ export class CbsClient {
       const response = await this._cbsSenderReceiverLink!.sendRequest(request);
       return response;
     } catch (err) {
-      debug("[%s] An error occurred while negotating the cbs claim: %O", this.connection.id, err);
+      debug("[%s] An error occurred while negotiating the cbs claim: %O", this.connection.id, err);
       throw err;
     }
   }
