@@ -89,8 +89,7 @@ export async function handler(argv: any): Promise<void> {
     }
     clients.push(EventHubClient.createFromConnectionString(connectionString, argv.hub));
   }
-
-  clients.forEach(async (client: EventHubClient, index: number) => {
+  const clientSendMessage = async (client: EventHubClient, index: number) => {
     try {
       const msgBody = Buffer.from("Z".repeat(msgSize));
       const obj: EventData = { body: msgBody };
@@ -122,9 +121,13 @@ export async function handler(argv: any): Promise<void> {
         }
       }
     } catch (err) {
-      throw err;
+      console.log(err);
     }
-  });
+  }
+
+  for (let i = 0; i < clients.length; i++) {
+    clientSendMessage(clients[i], i);
+  }
 }
 
 async function sendMessage(client: EventHubClient, index: number, data: EventData | EventData[], partitionId?: string): Promise<any> {
