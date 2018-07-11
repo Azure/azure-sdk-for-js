@@ -11,9 +11,6 @@ export class Users {
     constructor(public readonly database: Database) {
         this.client = this.database.client;
     }
-    public get(id: string): User {
-        return new User(this.database, id);
-    }
 
     public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<UserDefinition> {
         return this.client.documentClient.queryUsers(this.database.url, query, options);

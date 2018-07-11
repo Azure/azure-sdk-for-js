@@ -78,7 +78,7 @@ describe("RU Per Minute", function () {
             };
 
             await database.containers.create(containerDefinition, options);
-            const container = database.containers.get(containerDefinition.id);
+            const container = database.container(containerDefinition.id);
             const options2: any = {
                 disableRUPerMinuteUsage: true,
             };

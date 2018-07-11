@@ -18,7 +18,7 @@ export class TestHelpers {
 
             const count = 0;
             await Promise.all(databases.map<Promise<Response<DatabaseDefinition>>>(
-                async (database: DatabaseDefinition) => client.databases.get(database.id).delete()));
+                async (database: DatabaseDefinition) => client.database(database.id).delete()));
         } catch (err) {
             // TODO: remove console logging for errors and add ts-lint flag back
             console.log("An error occured", err);
@@ -31,7 +31,7 @@ export class TestHelpers {
         const entropy = Math.floor(Math.random() * 10000);
         const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
         await client.databases.create({ id });
-        return client.databases.get(id);
+        return client.database(id);
     }
 
     public static async getTestContainer(
@@ -40,7 +40,7 @@ export class TestHelpers {
         const entropy = Math.floor(Math.random() * 10000);
         const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
         await db.containers.create({ ...containerDef, ...{ id } }, options);
-        return db.containers.get(id);
+        return db.container(id);
     }
 
     public static async bulkInsertItems(
@@ -66,7 +66,7 @@ export class TestHelpers {
                     : { partitionKey: {} };
 
                 // TODO: should we block or do all requests in parallel?
-                const { result: doc } = await container.items.get(document.id).read(options);
+                const { result: doc } = await container.item(document.id).read(options);
                 assert.equal(JSON.stringify(doc), JSON.stringify(document));
             } catch (err) {
                 throw err;
@@ -79,7 +79,7 @@ export class TestHelpers {
         const returnedDocuments: any[] = [];
         for (const document of documents) {
             try {
-                const { result: doc } = await container.items.get(document.id).replace(document);
+                const { result: doc } = await container.item(document.id).replace(document);
                 const expectedModifiedDocument = JSON.parse(JSON.stringify(document));
                 delete expectedModifiedDocument._etag;
                 delete expectedModifiedDocument._ts;
@@ -103,7 +103,7 @@ export class TestHelpers {
                     ? { partitionKey: document[partitionKeyPropertyName] }
                     : { partitionKey: {} };
 
-                const { result } = await container.items.get(document.id).delete(options);
+                const { result } = await container.item(document.id).delete(options);
             } catch (err) {
                 throw err;
             }
@@ -152,7 +152,7 @@ export class TestHelpers {
         if (isUpsertTest) {
             return container.items.upsert(body, options);
         } else {
-            return container.items.get(body.id).replace(body, options);
+            return container.item(body.id).replace(body, options);
         }
     }
 
@@ -172,7 +172,7 @@ export class TestHelpers {
         if (isUpsertTest) {
             return database.users.upsert(body, options);
         } else {
-            return database.users.get(body.id).replace(body, options);
+            return database.user(body.id).replace(body, options);
         }
     }
 
@@ -192,7 +192,7 @@ export class TestHelpers {
         if (isUpsertTest) {
             return user.permissions.upsert(body, options);
         } else {
-            return user.permissions.get(body.id).replace(body, options);
+            return user.permission(body.id).replace(body, options);
         }
     }
 
@@ -210,7 +210,7 @@ export class TestHelpers {
         if (isUpsertTest) {
             return container.triggers.upsert(body, options);
         } else {
-            return container.triggers.get(body.id).replace(body, options);
+            return container.trigger(body.id).replace(body, options);
         }
     }
 
@@ -228,7 +228,7 @@ export class TestHelpers {
         if (isUpsertTest) {
             return container.userDefinedFunctions.upsert(body, options);
         } else {
-            return container.userDefinedFunctions.get(body.id).replace(body, options);
+            return container.userDefinedFunction(body.id).replace(body, options);
         }
     }
 
@@ -246,7 +246,7 @@ export class TestHelpers {
         if (isUpsertTest) {
             return container.storedProcedures.upsert(body, options);
         } else {
-            return container.storedProcedures.get(body.id).replace(body, options);
+            return container.storedProcedure(body.id).replace(body, options);
         }
     }
 }

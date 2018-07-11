@@ -40,7 +40,7 @@ describe("NodeJS Incremental Feed Tests using 'a_im' and 'IfNoneMatch' options",
             assert.equal(results.length, 2, "initial number of documents should be equal 2");
 
             document.name = "xyz";
-            const { result: replaced } = await container.items.get(document.id).replace(document);
+            const { result: replaced } = await container.item(document.id).replace(document);
             assert.deepEqual(replaced.name, "xyz", "replaced document should be valid");
 
             options = {

@@ -12,10 +12,6 @@ export class Triggers {
         this.client = this.container.database.client;
     }
 
-    public get(id: string): Trigger {
-        return new Trigger(this.container, id);
-    }
-
     public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<TriggerDefinition> {
         return this.client.documentClient
             .queryTriggers(this.container.url, query, options) as QueryIterator<TriggerDefinition>;

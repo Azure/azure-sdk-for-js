@@ -1,5 +1,5 @@
-import { Databases } from "./client/Database/";
-import { Offers } from "./client/Offer/";
+import { Database, Databases } from "./client/Database/";
+import { Offer, Offers } from "./client/Offer/";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DocumentClient } from "./documentclient";
 import { DatabaseAccount } from "./documents";
@@ -27,5 +27,13 @@ export class CosmosClient {
 
     public async getDatabaseAccount(): Promise<Response<DatabaseAccount>> {
         return this.documentClient.getDatabaseAccount();
+    }
+
+    public database(id: string): Database {
+        return new Database(this, id);
+    }
+
+    public offer(id: string) {
+        return new Offer(this, id);
     }
 }

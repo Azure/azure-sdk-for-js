@@ -3,17 +3,12 @@ import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions } from "../../request";
 import { Container } from "../Container";
-import { Conflict } from "./Conflict";
 import { ConflictDefinition } from "./ConflictDefinition";
 
 export class Conflicts {
     private client: CosmosClient;
     constructor(public readonly container: Container) {
         this.client = this.container.database.client;
-    }
-
-    public get(id: string) {
-        return new Conflict(this.container, id);
     }
 
     public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<ConflictDefinition> {

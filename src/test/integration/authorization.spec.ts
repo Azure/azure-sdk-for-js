@@ -38,7 +38,7 @@ describe("Authorization", function () {
         const { result: userDef } = await container.database.users.create(userReadDefinition);
         assert.equal(userReadDefinition.id, userDef.id, "userReadPermission is not created properly");
         userReadDefinition = userDef;
-        const userRead = container.database.users.get(userDef.id);
+        const userRead = container.database.user(userDef.id);
 
         // give permission to read container, to userReadPermission
         collReadPermission.resource = container.url;
@@ -50,7 +50,7 @@ describe("Authorization", function () {
         const { result: userAllDef } = await container.database.users.create(userAllDefinition);
         assert.equal(userAllDefinition.id, userAllDef.id, "userAllPermission is not created properly");
         userAllDefinition = userAllDef;
-        const userAll = container.database.users.get(userAllDef.id);
+        const userAll = container.database.user(userAllDef.id);
 
         // create collAllPermission
         collAllPermission.resource = container.url;
@@ -69,8 +69,8 @@ describe("Authorization", function () {
 
         const clientReadPermission = new CosmosClient({ endpoint, auth: { resourceTokens: rTokens } });
 
-        const { result: coll } = await clientReadPermission.databases.get(database.id)
-            .containers.get(container.id)
+        const { result: coll } = await clientReadPermission.database(database.id)
+            .container(container.id)
             .read();
         assert.equal(coll.id, container.id, "invalid container");
     });
@@ -79,8 +79,8 @@ describe("Authorization", function () {
         const clientReadPermission = new CosmosClient({ endpoint, auth: { permissionFeed: [collReadPermission] } });
 
         // self link must be used to access a resource using permissionFeed
-        const { result: coll } = await clientReadPermission.databases.get(database.id)
-            .containers.get(container.id)
+        const { result: coll } = await clientReadPermission.database(database.id)
+            .container(container.id)
             .read();
         assert.equal(coll.id, container.id, "invalid container");
     });
@@ -89,8 +89,8 @@ describe("Authorization", function () {
         const clientNoPermission = new CosmosClient({ endpoint, auth: null });
 
         try {
-            await clientNoPermission.databases.get(database.id)
-                .containers.get(container.id)
+            await clientNoPermission.database(database.id)
+                .container(container.id)
                 .read();
             assert.fail("accessing container did not throw");
         } catch (err) {
@@ -103,9 +103,9 @@ describe("Authorization", function () {
         const clientReadPermission = new CosmosClient({ endpoint, auth: { permissionFeed: [collReadPermission] } });
         assert.equal("document1", createdDoc.id, "invalid documnet create");
 
-        const { result: readDoc } = await clientReadPermission.databases.get(database.id)
-            .containers.get(container.id)
-            .items.get(createdDoc.id)
+        const { result: readDoc } = await clientReadPermission.database(database.id)
+            .container(container.id)
+            .item(createdDoc.id)
             .read<any>();
         assert.equal(readDoc.id, createdDoc.id, "invalid document read");
     });
@@ -116,8 +116,8 @@ describe("Authorization", function () {
         const clientAllPermission = new CosmosClient({ endpoint, auth: { resourceTokens: rTokens } });
 
         // delete container
-        return clientAllPermission.databases.get(database.id)
-            .containers.get(container.id)
+        return clientAllPermission.database(database.id)
+            .container(container.id)
             .delete();
     });
 
@@ -126,8 +126,8 @@ describe("Authorization", function () {
 
         // self link must be used to access a resource using permissionFeed
         // delete container
-        return clientAllPermission.databases.get(database.id)
-            .containers.get(container.id)
+        return clientAllPermission.database(database.id)
+            .container(container.id)
             .delete();
     });
 });
