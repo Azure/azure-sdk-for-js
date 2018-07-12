@@ -1,4 +1,4 @@
-import { EventHubClient, EventData, EventPosition, OnMessage, OnError, EventHubsError } from "azure-event-hubs";
+import { EventHubClient, EventData, EventPosition, OnMessage, OnError, MessagingError } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -21,7 +21,7 @@ async function main(): Promise<void> {
       client.close();
     }
   }
-  const onError: OnError = (err: EventHubsError | Error) => {
+  const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
   client.receive("0", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });

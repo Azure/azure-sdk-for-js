@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as AsyncLock from "async-lock";
+import { DeliveryAnnotations, MessageAnnotations } from "../../rhea-promise";
+import { ConnectionConfig } from "../connectionConfig";
 
 export interface AsyncLockOptions {
   /**
@@ -21,6 +23,14 @@ export interface AsyncLockOptions {
    * @property {any} [Promise] Your implementation of the promise. Default is: global promise.
    */
   Promise?: any;
+}
+
+export interface ServiceBusConnectionStringModel {
+  Endpoint: string;
+  SharedAccessKeyName: string;
+  SharedAccessKey: string;
+  EntityPath?: string;
+  [x: string]: any;
 }
 
 export interface EventHubConnectionStringModel {
@@ -166,4 +176,135 @@ export function isIotHubConnectionString(connectionString: string): boolean {
     result = true;
   }
   return result;
+}
+
+export function setIfDefined(obj: any, key: string, value: any): void {
+  if (value !== undefined) {
+    obj[key] = value;
+  }
+}
+
+export function verifyType(value: any, type: 'string' | 'number'): void {
+  if (value != undefined && typeof value !== type) {
+    throw new TypeError(`Invalid type provided. Value must be a ${type}.`);
+  }
+}
+
+export function verifyClass(value: any, clazz: Function, className: string): void {
+  if (value != undefined && !(value instanceof clazz)) {
+    throw new TypeError(`Invalid type provided. Value must be an instance of ${className}.`);
+  }
+}
+
+/**
+ * Describes the delivery annotations.
+ * @interface
+ */
+export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
+  /**
+   * @property {string} [last_enqueued_offset] The offset of the last event.
+   */
+  last_enqueued_offset?: string;
+  /**
+   * @property {number} [last_enqueued_sequence_number] The sequence number of the last event.
+   */
+  last_enqueued_sequence_number?: number;
+  /**
+   * @property {number} [last_enqueued_time_utc] The enqueued time of the last event.
+   */
+  last_enqueued_time_utc?: number;
+  /**
+   * @property {number} [runtime_info_retrieval_time_utc] The retrieval time of the last event.
+   */
+  runtime_info_retrieval_time_utc?: number;
+  /**
+   * @property {string} Any unknown delivery annotations.
+   */
+  [x: string]: any;
+}
+
+/**
+ * Describes the delivery annotations.
+ * @interface
+ */
+export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
+  /**
+   * @property {string} [last_enqueued_offset] The offset of the last event.
+   */
+  last_enqueued_offset?: string;
+  /**
+   * @property {number} [last_enqueued_sequence_number] The sequence number of the last event.
+   */
+  last_enqueued_sequence_number?: number;
+  /**
+   * @property {number} [last_enqueued_time_utc] The enqueued time of the last event.
+   */
+  last_enqueued_time_utc?: number;
+  /**
+   * @property {number} [runtime_info_retrieval_time_utc] The retrieval time of the last event.
+   */
+  runtime_info_retrieval_time_utc?: number;
+  /**
+   * @property {string} Any unknown delivery annotations.
+   */
+  [x: string]: any;
+}
+
+/**
+ * Map containing message attributes that will be held in the message header.
+ */
+export interface EventHubMessageAnnotations extends MessageAnnotations {
+  /**
+   * @property {string | null} [x-opt-partition-key] Annotation for the partition key set for the event.
+   */
+  "x-opt-partition-key"?: string | null;
+  /**
+   * @property {number} [x-opt-sequence-number] Annontation for the sequence number of the event.
+   */
+  "x-opt-sequence-number"?: number;
+  /**
+   * @property {number} [x-opt-enqueued-time] Annotation for the enqueued time of the event.
+   */
+  "x-opt-enqueued-time"?: number;
+  /**
+   * @property {string} [x-opt-offset] Annotation for the offset of the event.
+   */
+  "x-opt-offset"?: string;
+  /**
+   * @property {any} Any other annotation that can be added to the message.
+   */
+  [x: string]: any;
+}
+
+/**
+ * Map containing message attributes that will be held in the message header.
+ */
+export interface ServiceBusMessageAnnotations extends MessageAnnotations {
+  /**
+   * @property {string | null} [x-opt-partition-key] Annotation for the partition key set for the event.
+   */
+  "x-opt-partition-key"?: string | null;
+  /**
+   * @property {number} [x-opt-sequence-number] Annontation for the sequence number of the event.
+   */
+  "x-opt-sequence-number"?: number;
+  /**
+   * @property {number} [x-opt-enqueued-time] Annotation for the enqueued time of the event.
+   */
+  "x-opt-enqueued-time"?: number;
+  /**
+   * @property {string} [x-opt-offset] Annotation for the offset of the event.
+   */
+  "x-opt-offset"?: string;
+  /**
+   * @property {string} [x-opt-locked-until] Annotation for the message being locked until.
+   */
+  "x-opt-locked-until"?: Date | number;
+}
+
+export interface CreateConnectionPrameters {
+  config: ConnectionConfig;
+  userAgent: string;
+  packageVersion: string;
+  useSaslPlain?: boolean;
 }

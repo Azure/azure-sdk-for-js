@@ -1,4 +1,4 @@
-import { EventHubClient, EventData } from "azure-event-hubs";
+import { EventHubClient, EventData } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 

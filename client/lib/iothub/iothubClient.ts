@@ -5,8 +5,8 @@ import { IotHubConnectionConfig } from "./iotHubConnectionConfig";
 import { ConnectionContext, ConnectionContextOptions } from "../connectionContext";
 import { IotSasTokenProvider } from "./iotSas";
 import * as debugModule from "debug";
-import { translate, EventHubsError } from "../errors";
-import { closeConnection } from "../rhea-promise";
+import { translate, MessagingError } from "../amqp-common";
+import { } from "../rhea-promise";
 const debug = debugModule("azure:event-hubs:iothubClient");
 
 export interface ParsedRedirectError {
@@ -70,17 +70,16 @@ export class IotHubClient {
    */
   async close(context: ConnectionContext): Promise<any> {
     try {
-      if (context.connection) {
+      if (context.connection.isOpen()) {
         debug("Closing the IotHubClient connection...");
         // Close the cbs session;
-        await context.cbsSession!.close();
+        await context.cbsSession.close();
         debug("IotHub cbs session closed.");
         // Close the management session
         await context.managementSession!.close();
         debug("IotHub management client closed.");
-        await closeConnection(context.connection);
+        await context.connection.close();
         debug("Closed the amqp connection '%s' on the iothub client.", context.connectionId);
-        context.connection = undefined;
       }
     } catch (err) {
       const msg = `An error occurred while closing the connection "${context.connectionId}": ${err.stack}`;
@@ -88,7 +87,7 @@ export class IotHubClient {
     }
   }
 
-  private _parseRedirectError(error: EventHubsError): ParsedRedirectError {
+  private _parseRedirectError(error: MessagingError): ParsedRedirectError {
     if (!error) {
       throw new Error("'error' is a required parameter and must be of type 'object'.");
     }

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import "mocha";
 import * as chai from "chai";
 const should = chai.should();
 import * as chaiAsPromised from "chai-as-promised";
@@ -25,7 +26,7 @@ describe("EventHubClient", function () {
             config[prop] = falsyVal;
             return new EventHubClient(config as any);
           };
-          test.should.throw(Error, `'${prop}' is a required property of the ConnectionConfig.`);
+          test.should.throw(Error, `'${prop}' is a required property of ConnectionConfig.`);
         });
       });
     });

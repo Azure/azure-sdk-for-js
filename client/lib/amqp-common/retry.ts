@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { translate, EventHubsError } from "./errors";
+import { translate, MessagingError } from "./errors";
 import { delay } from ".";
 import * as debugModule from "debug";
-const debug = debugModule("azure:event-hubs:retry");
+const debug = debugModule("azure:amqp-common:retry");
 
 function isDelivery(obj: any): boolean {
   let result: boolean = false;
@@ -40,7 +40,7 @@ export async function retry<T>(operation: () => Promise<T>, times?: number, dela
 
   if (!times) times = 3;
   if (!delayInSeconds) delayInSeconds = 15;
-  let lastError: EventHubsError | undefined;
+  let lastError: MessagingError | undefined;
   let result: any;
   let success = false;
   for (let i = 0; i < times; i++) {
@@ -60,7 +60,7 @@ export async function retry<T>(operation: () => Promise<T>, times?: number, dela
       }
       lastError = err;
       debug("Error occured in attempt number %d: %O", j, err);
-      if (lastError!.retryable) {
+      if (lastError && lastError.retryable) {
         debug("Sleeping for %d seconds.", delayInSeconds);
         await delay(delayInSeconds * 1000);
         continue;

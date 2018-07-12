@@ -1,14 +1,20 @@
-
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
+import { Constants } from "./amqp-common";
+import { ReceiverEvents } from "./rhea-promise";
 import { ReceiveOptions, OnMessage, OnError } from ".";
 import { EventHubReceiver, ReceiverRuntimeInfo } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
-import * as Constants from "./util/constants";
+
 const debug = debugModule("azure:event-hubs:receiverstreaming");
 
+/**
+ * Describes the receive handler object that is returned from the receive() method with handlers is
+ * called. The ReceiveHandler is used to stop receiving more messages.
+ * @class ReceiveHandler
+ */
 export class ReceiveHandler {
   /**
    * @property {string} name The Receiver handler name.
@@ -141,7 +147,7 @@ export class StreamingReceiver extends EventHubReceiver {
     }
     this._onMessage = onMessage;
     this._onError = onError;
-    if (!this._isOpen()) {
+    if (!this.isOpen()) {
       this._init().catch((err) => {
         this._onError!(err);
       });
@@ -151,10 +157,10 @@ export class StreamingReceiver extends EventHubReceiver {
       // these handlers will be automatically removed.
       debug("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
         "Hence reusing it and attaching message and error handlers.", this._context.connectionId, this.name);
-      this._receiver.on(Constants.message, this._onAmqpMessage);
-      this._receiver.on(Constants.receiverError, this._onAmqpError);
-      this._receiver.set_credit_window(Constants.defaultPrefetchCount);
-      this._receiver.add_credit(Constants.defaultPrefetchCount);
+      this._receiver!.registerHandler(ReceiverEvents.message, this._onAmqpMessage);
+      this._receiver!.registerHandler(ReceiverEvents.receiverError, this._onAmqpError);
+      this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
+      this._receiver!.addCredit(Constants.defaultPrefetchCount);
       debug("[%s] Receiver '%s', set the prefetch count to 1000 and " +
         "providing a credit of the same amount.", this._context.connectionId, this.name);
     }
