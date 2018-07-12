@@ -102,13 +102,5 @@
       "check-seperator",
       "check-type"
     ]
-  },
-  "cliOptions": {
-    "exclude": [
-      "examples",
-      "tests",
-      "testhub/*.ts",
-      "client"
-    ]
   }
 }
