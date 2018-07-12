@@ -8,8 +8,6 @@ import {
 import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
 import * as debugModule from "debug";
-import * as rpc from "./rpc";
-import { ConnectionConfig } from "./connectionConfig";
 import { translate } from "./errors";
 import { defaultLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";
@@ -40,38 +38,21 @@ export class CbsClient {
    * @property {string} connectionLock The unqiue lock name per connection that is used to
    * acquire the lock for establishing an amqp connection if one does not exist.
    */
-  readonly connectionLock: string = `${Constants.establishConnection}-${uuid()}`;
-
-  /**
-   * @property {ConnectionConfig} config The connection config.
-   */
-  config: ConnectionConfig;
-
-  /**
-   * @property {string} pacakgeVersion The package version that will be set as a property of the
-   * connection.
-   */
-  packageVersion: string;
-
-  /**
-   * @property {string} userAgent The useragent string.
-   */
-  userAgent: string;
+  readonly connectionLock: string;
 
   /**
    * @property {Connection} connection The AMQP connection.
    */
-  connection?: Connection;
+  connection: Connection;
 
   /**
    * CBS sender, receiver on the same session.
    */
   private _cbsSenderReceiverLink?: RequestResponseLink;
 
-  constructor(config: ConnectionConfig, packageVersion: string, userAgent?: string) {
-    this.config = config;
-    this.packageVersion = packageVersion;
-    this.userAgent = userAgent || "/js-amqp-client";
+  constructor(connection: Connection, connectionLock: string) {
+    this.connection = connection;
+    this.connectionLock = connectionLock;
   }
 
   /**
@@ -81,14 +62,9 @@ export class CbsClient {
   async init(): Promise<void> {
     try {
       // Acquire the lock and establish an amqp connection if it does not exist.
-      if (!this._isConnectionOpen()) {
+      if (!this.connection.isOpen()) {
         debug("The CBS client is trying to establish an AMQP connection.");
-        const params: rpc.CreateConnectionPrameters = {
-          config: this.config,
-          packageVersion: this.packageVersion,
-          userAgent: this.userAgent
-        };
-        this.connection = await defaultLock.acquire(this.connectionLock, () => { return rpc.open(params); });
+        await defaultLock.acquire(this.connectionLock, () => { return this.connection.open(); });
       }
 
       if (!this._isCbsSenderReceiverLinkOpen()) {
@@ -99,7 +75,7 @@ export class CbsClient {
           name: this.replyTo
         };
         const srOpt: SenderOptions = { target: { address: this.endpoint } };
-        this._cbsSenderReceiverLink = await RequestResponseLink.create(this.connection!, srOpt, rxOpt);
+        this._cbsSenderReceiverLink = await RequestResponseLink.create(this.connection, srOpt, rxOpt);
         this._cbsSenderReceiverLink.sender.registerHandler(SenderEvents.senderError, (context: EventContext) => {
           const ehError = translate(context.sender!.error!);
           debug("An error occurred on the cbs sender link.. %O", ehError);
@@ -109,14 +85,14 @@ export class CbsClient {
           debug("An error occurred on the cbs receiver link.. %O", ehError);
         });
         debug("[%s] Successfully created the cbs sender '%s' and receiver '%s' links over cbs session.",
-          this.connection!.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
+          this.connection.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
       } else {
         debug("[%s] CBS session is already present. Reusing the cbs sender '%s' and receiver '%s' links over cbs session.",
-          this.connection!.id, this._cbsSenderReceiverLink!.sender.name, this._cbsSenderReceiverLink!.receiver.name);
+          this.connection.id, this._cbsSenderReceiverLink!.sender.name, this._cbsSenderReceiverLink!.receiver.name);
       }
     } catch (err) {
       err = translate(err);
-      debug("[%s] An error occured while establishing the cbs links: %O", this.connection!.id, err);
+      debug("[%s] An error occured while establishing the cbs links: %O", this.connection.id, err);
       throw err;
     }
   }
@@ -144,7 +120,7 @@ export class CbsClient {
       const response = await this._cbsSenderReceiverLink!.sendRequest(request);
       return response;
     } catch (err) {
-      debug("[%s] An error occurred while negotating the cbs claim: %O", this.connection!.id, err);
+      debug("[%s] An error occurred while negotiating the cbs claim: %O", this.connection.id, err);
       throw err;
     }
   }
@@ -157,22 +133,19 @@ export class CbsClient {
   async close(): Promise<void> {
     try {
       if (this._isCbsSenderReceiverLinkOpen()) {
-        await this._cbsSenderReceiverLink!.close();
-        debug("[%s] Successfully closed the cbs session.", this.connection!.id);
+        const cbsLink = this._cbsSenderReceiverLink;
         this._cbsSenderReceiverLink = undefined;
+        await cbsLink!.close();
+        debug("[%s] Successfully closed the cbs session.", this.connection.id);
       }
     } catch (err) {
       const msg = `An error occurred while closing the cbs link: ${err.stack || JSON.stringify(err)}.`;
-      debug("[%s] %s", this.connection!.id, msg);
+      debug("[%s] %s", this.connection.id, msg);
       throw new Error(msg);
     }
   }
 
   private _isCbsSenderReceiverLinkOpen(): boolean {
     return this._cbsSenderReceiverLink! && this._cbsSenderReceiverLink!.isOpen();
-  }
-
-  private _isConnectionOpen(): boolean {
-    return this.connection! && this.connection!.isOpen();
   }
 }

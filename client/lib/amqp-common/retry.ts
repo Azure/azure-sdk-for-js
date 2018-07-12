@@ -60,7 +60,7 @@ export async function retry<T>(operation: () => Promise<T>, times?: number, dela
       }
       lastError = err;
       debug("Error occured in attempt number %d: %O", j, err);
-      if (lastError!.retryable) {
+      if (lastError && lastError.retryable) {
         debug("Sleeping for %d seconds.", delayInSeconds);
         await delay(delayInSeconds * 1000);
         continue;

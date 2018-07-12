@@ -30,7 +30,7 @@ export class Connection {
 
   constructor(options?: rhea.ConnectionOptions) {
     this.options = options;
-    this._connection = rhea.connect(options);
+    this._connection = rhea.create_connection(options);
   }
 
   get id(): string {
@@ -51,18 +51,15 @@ export class Connection {
 
         let onOpen: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
-        let onTransportClose: Func<rhea.EventContext, void>;
 
         const removeListeners: Function = () => {
-          this._connection!.removeListener("connection_open", onOpen);
-          this._connection!.removeListener("connection_close", onClose);
-          this._connection!.removeListener("disconnected", onClose);
-          this._connection!.removeListener("disconnected", onTransportClose);
+          this._connection.removeListener("connection_open", onOpen);
+          this._connection.removeListener("connection_close", onClose);
+          this._connection.removeListener("disconnected", onClose);
         };
 
         onOpen = (context: rhea.EventContext) => {
           removeListeners();
-          this._connection!.once("disconnected", onTransportClose);
           process.nextTick(() => {
             debug("Resolving the promise with amqp connection.");
             resolve(this);
@@ -75,18 +72,10 @@ export class Connection {
           reject(context.connection.error);
         };
 
-        onTransportClose = (context: rhea.EventContext) => {
-          debug(`Error occurred on the amqp connection.`, context.connection.error);
-          this.close().then(() => {
-            context.connection = undefined as any;
-          }).catch((err: Error) => {
-            debug(`Error occurred while closing amqp connection.`, err);
-          });
-        };
-
-        this._connection!.once("connection_open", onOpen);
-        this._connection!.once("connection_close", onClose);
-        this._connection!.once("disconnected", onClose);
+        this._connection.once("connection_open", onOpen);
+        this._connection.once("connection_close", onClose);
+        this._connection.once("disconnected", onClose);
+        this._connection.connect();
       } else {
         resolve(this);
       }
@@ -108,7 +97,7 @@ export class Connection {
         let onError: Func<rhea.EventContext, void>;
 
         onClose = (context: rhea.EventContext) => {
-          this._connection!.removeListener("connection_close", onClose);
+          this._connection.removeListener("connection_close", onClose);
           process.nextTick(() => {
             debug("Resolving the promise as the connection has been successfully closed.");
             resolve();
@@ -116,7 +105,7 @@ export class Connection {
         };
 
         onError = (context: rhea.EventContext) => {
-          this._connection!.removeListener("connection_error", onError);
+          this._connection.removeListener("connection_error", onError);
           debug(`Error occurred while closing amqp connection.`, context.connection.error);
           reject(context.connection.error);
         };

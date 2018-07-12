@@ -11,6 +11,7 @@ const debug = debugModule("rhea-promise:receiver");
 export interface ReceiverOptions extends rhea.ReceiverOptions {
   onMessage?: rhea.OnAmqpEvent;
   onError?: rhea.OnAmqpEvent;
+  onClose?: rhea.OnAmqpEvent;
 }
 
 export class Receiver {
@@ -132,5 +133,13 @@ export class Receiver {
 
   removeHandler(event: ReceiverEvents, handler: rhea.OnAmqpEvent): void {
     this._receiver.removeListener(event, handler);
+  }
+
+  registerSessionHandler(event: rhea.SessionEvents, handler: rhea.OnAmqpEvent): void {
+    this._session.registerHandler(event, handler);
+  }
+
+  removeSessionHandler(event: rhea.SessionEvents, handler: rhea.OnAmqpEvent): void {
+    this._session.removeHandler(event, handler);
   }
 }
