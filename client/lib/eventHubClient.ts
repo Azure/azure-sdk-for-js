@@ -2,13 +2,17 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
-import { closeConnection } from "./rhea-promise";
-import { Delivery } from "rhea";
-import { ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials } from "ms-rest-azure";
-import { ConnectionConfig, OnMessage, OnError, EventData, EventHubsError, DataTransformer } from ".";
+import { Delivery } from "./rhea-promise";
+import {
+  ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
+} from "ms-rest-azure";
+import {
+  ConnectionConfig, MessagingError, DataTransformer, TokenProvider,
+  AadTokenProvider
+} from "./amqp-common";
+import { OnMessage, OnError } from "./eventHubReceiver";
+import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
-import { TokenProvider } from "./auth/token";
-import { AadTokenProvider } from "./auth/aad";
 import { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
 import { EventPosition } from "./eventPosition";
 import { EventHubSender } from "./eventHubSender";
@@ -98,8 +102,8 @@ export class EventHubClient {
    *
    * @constructor
    * @param {ConnectionConfig} config - The connection configuration to create the EventHub Client.
-   * @param {TokenProvider} [tokenProvider] - The token provider that provides the token for authentication.
-   * Default value: SasTokenProvider.
+   * @param {ClientOptions} options - The optional parameters that can be provided to the EventHub
+   * Client constructor.
    */
   constructor(config: ConnectionConfig, options?: ClientOptions) {
     if (!options) options = {};
@@ -113,7 +117,7 @@ export class EventHubClient {
    */
   async close(): Promise<any> {
     try {
-      if (this._context.connection) {
+      if (this._context.connection.isOpen()) {
         // Close all the senders.
         for (const sender of Object.values(this._context.senders)) {
           await sender.close();
@@ -123,12 +127,12 @@ export class EventHubClient {
           await receiver.close();
         }
         // Close the cbs session;
-        await this._context.cbsSession!.close();
+        await this._context.cbsSession.close();
         // Close the management session
         await this._context.managementSession!.close();
-        await closeConnection(this._context.connection);
+        await this._context.connection.close();
+        this._context.wasConnectionCloseCalled = true;
         debug("Closed the amqp connection '%s' on the client.", this._context.connectionId);
-        this._context.connection = undefined;
       }
     } catch (err) {
       const msg = `An error occurred while closing the connection "${this._context.connectionId}": ${JSON.stringify(err)}`;
@@ -177,7 +181,7 @@ export class EventHubClient {
    * @param {OnError} onError                                  The error handler to receive an error that occurs
    * while receiving messages.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
-   * @param {string} [name]                                    The name of the receiver. If not provided
+   * @param {string} [options.name]                            The name of the receiver. If not provided
    * then we will set a GUID by default.
    * @param {string} [options.consumerGroup]                   Consumer group from which to receive.
    * @param {number} [options.prefetchCount]                   The upper limit of events this receiver will
@@ -189,7 +193,6 @@ export class EventHubClient {
    * @param {EventPosition} [options.eventPosition]            The position of EventData in the EventHub parition from
    * where the receiver should start receiving. Only one of offset, sequenceNumber, enqueuedTime, customFilter can be specified.
    * `EventPosition.withCustomFilter()` should be used if you want more fine-grained control of the filtering.
-   * See https://github.com/Azure/amqpnetlite/wiki/Azure%20Service%20Bus%20Event%20Hubs for details.
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
@@ -212,7 +215,7 @@ export class EventHubClient {
    * @param {number} [maxWaitTimeInSeconds]                    The maximum wait time in seconds for which the Receiver should wait
    * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
-   * @param {string} [name]                                    The name of the receiver. If not provided
+   * @param {string} [options.name]                            The name of the receiver. If not provided
    * then we will set a GUID by default.
    * @param {string} [options.consumerGroup]                   Consumer group from which to receive.
    * @param {number} [options.prefetchCount]                   The upper limit of events this receiver will
@@ -224,16 +227,16 @@ export class EventHubClient {
    * @param {EventPosition} [options.eventPosition]            The position of EventData in the EventHub parition from
    * where the receiver should start receiving. Only one of offset, sequenceNumber, enqueuedTime, customFilter can be specified.
    * `EventPosition.withCustomFilter()` should be used if you want more fine-grained control of the filtering.
-   * See https://github.com/Azure/amqpnetlite/wiki/Azure%20Service%20Bus%20Event%20Hubs for details.
    *
-   * @returns {Promise<EventData[]>} A promise that resolves with an array of EventData objects.
+   * @returns {Array<EventData>} A promise that resolves with an array of EventData objects.
    */
   async receiveBatch(partitionId: string | number, maxMessageCount: number, maxWaitTimeInSeconds?: number, options?: ReceiveOptions): Promise<EventData[]> {
     if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     const bReceiver = BatchingReceiver.create(this._context, partitionId, options);
-    let error: EventHubsError | undefined;
+    this._context.receivers[bReceiver.name] = bReceiver;
+    let error: MessagingError | undefined;
     let result: EventData[] = [];
     try {
       result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
@@ -255,7 +258,7 @@ export class EventHubClient {
 
   /**
    * Provides the eventhub runtime information.
-   * @returns {Promise<EventHubRuntimeInformation>}
+   * @returns {Promise<EventHubRuntimeInformation>} A promise that resolves with EventHubRuntimeInformation.
    */
   async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
     try {
@@ -268,7 +271,7 @@ export class EventHubClient {
 
   /**
    * Provides an array of partitionIds.
-   * @returns {Promise<Array<string>>}
+   * @returns {Promise<Array<string>>} A promise that resolves with an Array of strings.
    */
   async getPartitionIds(): Promise<Array<string>> {
     try {
@@ -283,6 +286,7 @@ export class EventHubClient {
   /**
    * Provides information about the specified partition.
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
+   * @returns {Promise<EventHubPartitionRuntimeInformation>} A promise that resoloves with EventHubPartitionRuntimeInformation.
    */
   async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
     if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
@@ -301,7 +305,6 @@ export class EventHubClient {
    * @param {string} connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param {string} [path] - EventHub path of the form 'my-event-hub-name'
    * @param {ClientOptions} [options] Options that can be provided during client creation.
-   * @param {TokenProvider} [options.tokenProvider] - An instance of the token provider that provides the token for authentication. Default value: SasTokenProvider.
    * @returns {EventHubClient} - An instance of the eventhub client.
    */
   static createFromConnectionString(connectionString: string, path?: string, options?: ClientOptions): EventHubClient {
@@ -320,8 +323,7 @@ export class EventHubClient {
    * Creates an EventHub Client from connection string.
    * @param {string} iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param {ClientOptions} [options] Options that can be provided during client creation.
-   * @param {TokenProvider} [options.tokenProvider] - An instance of the token provider that provides the token for authentication. Default value: SasTokenProvider.
-   * @returns {Promise<EventHubClient>} - Promise<EventHubClient>.
+   * @returns {Promise<EventHubClient>} - A promise that resolves with EventHubClient.
    */
   static async createFromIotHubConnectionString(iothubConnectionString: string, options?: ClientOptions): Promise<EventHubClient> {
     if (!iothubConnectionString || (iothubConnectionString && typeof iothubConnectionString !== "string")) {

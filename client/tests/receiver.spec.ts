@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import "mocha";
 import * as chai from "chai";
 import * as uuid from "uuid/v4";
 const should = chai.should();
@@ -69,7 +70,7 @@ describe("EventHub Receiver", function () {
       datas2.length.should.equal(0);
     });
 
-    it("'after a particular offset' should receive messages correctly", async function () {
+    it("after a particular offset' should receive messages correctly", async function () {
       const partitionId = hubInfo.partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
@@ -96,7 +97,7 @@ describe("EventHub Receiver", function () {
       datas2.length.should.equal(0);
     });
 
-    it("'after a particular offset with isInclusive true' should receive messages correctly", async function () {
+    it("after a particular offset with isInclusive true' should receive messages correctly", async function () {
       const partitionId = hubInfo.partitionIds[0];
       const uid = uuid();
       const ed: EventData = {

@@ -1,4 +1,4 @@
-import { EventHubClient, EventPosition, OnMessage, OnError, EventHubsError, ReceiveOptions } from "azure-event-hubs";
+import { EventHubClient, EventPosition, OnMessage, OnError, MessagingError, ReceiveOptions } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -14,7 +14,7 @@ async function main(): Promise<void> {
     console.log(">>> EventDataObject: ", eventData);
     console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
   }
-  const onError: OnError = (err: EventHubsError | Error) => {
+  const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
   const options: ReceiveOptions = {

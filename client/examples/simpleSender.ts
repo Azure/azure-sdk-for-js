@@ -1,4 +1,4 @@
-import { EventHubClient, EventData } from "azure-event-hubs";
+import { EventHubClient, EventData } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -14,7 +14,10 @@ async function main(): Promise<void> {
     body: "Hello World!!"
   };
   const delivery = await client.send(data);
-  console.log(">>> Sent the message successfully: ", delivery.id);
+  console.log(">>> Sent the message successfully: ", delivery.tag.toString());
+  console.log(delivery);
+  console.log("Calling rhea-promise sender close directly. This should result in sender getting reconnected.");
+  await ((Object.values((client as any)._context.senders)[0] as any)._sender as any).close();
   // await client.close();
 }
 

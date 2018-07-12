@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import "mocha";
 import * as chai from "chai";
 chai.should();
 
-import { EventData, AmqpMessage } from "../lib";
+import { EventData, Message } from "../lib";
 
 const testAnnotations = {
   "x-opt-enqueued-time": Date.now(),
@@ -23,7 +24,7 @@ const applicationProperties = {
   propKey: "propValue"
 };
 
-const testMessage: AmqpMessage = {
+const testMessage: Message = {
   body: testBody,
   message_annotations: testAnnotations,
   message_id: "test_id",

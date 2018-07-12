@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "EPH Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "program": "${workspaceFolder}/processor/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",
                 "tdd",
@@ -26,7 +26,7 @@
             "type": "node",
             "request": "launch",
             "name": "Client Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "program": "${workspaceFolder}/client/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",
                 "tdd",
@@ -44,9 +44,9 @@
             "type": "node",
             "request": "launch",
             "name": "Client Example",
-            "program": "${workspaceFolder}/client/examples/simpleSendReceive.ts",
+            "program": "${workspaceFolder}/client/examples/simpleSender.ts",
             "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
+                "${workspaceFolder}/client/dist/**/*.js"
             ],
             "envFile": "${workspaceFolder}/client/.env" // You can take a look at the sample.env file for supported environment variables.
         },
@@ -56,7 +56,7 @@
             "name": "EPH Example",
             "program": "${workspaceFolder}/processor/examples/eph.ts",
             "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
+                "${workspaceFolder}/processor/dist/**/*.js"
             ],
             "envFile": "${workspaceFolder}/processor/.env" // You can take a look at the sample.env file for supported environment variables.
         },

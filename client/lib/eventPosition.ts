@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as Constants from "./util/constants";
-import { translate } from "./errors";
-import { ErrorNameConditionMapper } from ".";
+import { translate, Constants, ErrorNameConditionMapper } from "./amqp-common";
 
 /**
  * Describes the options that can be set while creating an EventPosition.
@@ -109,7 +107,10 @@ export class EventPosition {
     }
 
     if (!result) {
-      throw translate({ condition: ErrorNameConditionMapper.ArgumentError, description: "No starting position was set in the EventPosition." });
+      throw translate({
+        condition: ErrorNameConditionMapper.ArgumentError,
+        description: "No starting position was set in the EventPosition."
+      });
     }
     return result;
   }

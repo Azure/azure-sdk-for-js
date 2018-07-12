@@ -5,7 +5,7 @@ import * as rhea from "rhea";
 import * as debugModule from "debug";
 
 const isBuffer = require("is-buffer");
-const debug = debugModule("azure:event-hubs:datatransformer");
+const debug = debugModule("azure:amqp-common:datatransformer");
 
 export interface DataTransformer {
   /**
@@ -29,6 +29,7 @@ export class DefaultDataTransformer implements DataTransformer {
   /**
    * A function that takes the body property from an EventData object
    * and returns an encoded body (some form of AMQP type).
+   *
    * @param {*} body The AMQP message body
    * @return {DataSection} encodedBody - The encoded AMQP message body as an AMQP Data type
    * (data section in rhea terms). Section object with following properties:

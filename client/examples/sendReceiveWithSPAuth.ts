@@ -1,4 +1,4 @@
-import { EventHubClient, aadEventHubsAudience, EventPosition } from "azure-event-hubs";
+import { EventHubClient, aadEventHubsAudience, EventPosition } from "../lib";
 import * as msrestAzure from "ms-rest-azure";
 import * as dotenv from "dotenv";
 dotenv.config();
