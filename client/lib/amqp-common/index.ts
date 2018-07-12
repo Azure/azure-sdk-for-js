@@ -5,7 +5,7 @@ export { Dictionary, Message as AmqpMessage } from "../rhea-promise";
 export { ConnectionConfig } from "./connectionConfig";
 export {
   MessagingError, ErrorNameConditionMapper, ConditionStatusMapper, ConditionErrorNameMapper,
-  translate
+  translate, retryableErrors
 } from "./errors";
 export { RequestResponseLink } from "./requestResponseLink";
 export { retry } from "./retry";

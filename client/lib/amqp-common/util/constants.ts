@@ -67,3 +67,4 @@ export const maxDurationValue = 922337203685477;
 export const minDurationValue = -922337203685477;
 // https://github.com/Azure/azure-amqp/blob/master/Microsoft.Azure.Amqp/Amqp/AmqpConstants.cs#L47
 export const maxAbsoluteExpiryTime = new Date("9999-12-31T07:59:59.000Z").getTime();
+export const aadTokenValidityMarginSeconds = 5;

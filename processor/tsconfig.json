@@ -4,7 +4,7 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "newLine": "LF",
-    "target": "es6",
+    "target": "es2017",
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "importHelpers": true,
@@ -12,21 +12,8 @@
     "allowJs": false,
     "noUnusedLocals":true,
     "strict": true,
-    "strictPropertyInitialization": true,
-    "strictNullChecks": true,
     "declaration": true,
     "declarationDir": "./typings/lib",
-    "lib": [
-      "es2015",
-      "dom",
-      "dom.iterable",
-      "es5",
-      "es6",
-      "es7",
-      "esnext",
-      "esnext.asynciterable",
-      "es2015.iterable"
-    ]
   },
   "compileOnSave": true,
   "exclude": [

@@ -183,7 +183,16 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when an incorrect argument was received.
    */
-  "com.microsoft:argument-error" = "ArgumentError"
+  "com.microsoft:argument-error" = "ArgumentError",
+  /**
+   * Error is thrown when server cancels the operation due to an internal issue.
+   */
+  "com.microsoft:operation-cancelled" = "OperationCancelledError", // Retryable
+  /**
+   * Error is thrown when the client sender does not have enough link credits to send the message.
+   */
+  "client.sender:not-enough-link-credit" = "SenderBusyError" // Retryable
+
 }
 
 /**
@@ -302,7 +311,7 @@ export enum ErrorNameConditionMapper {
   /**
    * Error is thrown when input was received for a link that was detached with an error.
    */
-  ErrantLinkError = "amqp:session:errant-link", // Retryable
+  ErrantLinkError = "amqp:session:errant-link",
   /**
    * Error is thrown when an attach was received using a handle that is already in use for an attached link.
    */
@@ -331,7 +340,15 @@ export enum ErrorNameConditionMapper {
   /**
    * Error is thrown when an incorrect argument was received.
    */
-  ArgumentError = "com.microsoft:argument-error"
+  ArgumentError = "com.microsoft:argument-error",
+  /**
+   * Error is thrown when server cancels the operation due to an internal issue.
+   */
+  OperationCancelledError = "com.microsoft:operation-cancelled", // Retryable
+  /**
+   * Error is thrown when the client sender does not have enough link credits to send the message.
+   */
+  SenderBusyError = "client.sender:not-enough-link-credit" // Retryable
 }
 
 /**
@@ -354,9 +371,9 @@ export class MessagingError extends Error {
   translated: boolean = true;
   /**
    *
-   * @property {boolean} retryable Describes whether the error is retryable. Default: false.
+   * @property {boolean} retryable Describes whether the error is retryable. Default: true.
    */
-  retryable: boolean = false;
+  retryable: boolean = true;
   /**
    * @property {any} [info] Any additional error information given by the service.
    */
@@ -368,6 +385,11 @@ export class MessagingError extends Error {
     super(message);
   }
 }
+
+export const retryableErrors: string[] = [
+  "InternalServerError", "ServerBusyError", "ServiceUnavailableError", "OperationCancelledError",
+  "SenderBusyError", "MessagingError"
+];
 
 /**
  * Translates the AQMP error received at the protocol layer or a generic Error into an MessagingError.
@@ -393,10 +415,8 @@ export function translate(err: AmqpError | Error): MessagingError {
         description.match(/The messaging entity .* could not be found.*/i) !== null)) {
       error.name = "MessagingEntityNotFoundError";
     }
-    if (error.name === "InternalServerError"
-      || error.name === "ServerBusyError"
-      || error.name === "ServiceUnavailableError") {
-      error.retryable = true;
+    if (retryableErrors.indexOf(error.name) === -1) { // not found
+      error.retryable = false;
     }
     return error;
   } else {

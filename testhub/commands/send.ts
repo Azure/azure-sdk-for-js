@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 import { CommandBuilder } from "yargs";
 import { EventHubClient, EventData, delay } from "../../client/lib";
+import { log } from "../utils/util";
 
 export const command = "send";
 
@@ -83,9 +85,9 @@ export async function handler(argv: any): Promise<void> {
   let clients: EventHubClient[] = [];
   for (let c = 0; c < clientPool; c++) {
     if (partitionId != undefined) {
-      console.log("[Client-%d] Sending messages to partitionId '%s'.", c, partitionId);
+      log("[Client-%d] Sending messages to partitionId '%s'.", c, partitionId);
     } else {
-      console.log("[Client-%d] Sending messages in a round robin fashion to all the partitions.", c);
+      log("[Client-%d] Sending messages in a round robin fashion to all the partitions.", c);
     }
     clients.push(EventHubClient.createFromConnectionString(connectionString, argv.hub));
   }
@@ -104,24 +106,24 @@ export async function handler(argv: any): Promise<void> {
       for (let i = 0; i < iterationValue; i++) {
         const startTime = Date.now();
         for (let j = 0; j < msgCount; j++) {
+          log("[Client-%d] [iteration-%d] message number %d.", index, i, j + 1);
           await sendMessage(client, index, msgToSend, partitionId);
-          console.log("[Client-%d] [iteration-%d] message number %d.", index, i, j + 1);
         }
         const totalTime = (Date.now() - startTime) / 1000;
         const totalMsgs = msgCount * msgGroup;
-        console.log("[Client-%d] [iteration-%d] total time in seconds: %d, number of messages sent: %d, messages sent/second: %d, size (in bytes) of each message: %d.", index, i,
+        log("[Client-%d] [iteration-%d] total time in seconds: %d, number of messages sent: %d, messages sent/second: %d, size (in bytes) of each message: %d.", index, i,
           totalTime, totalMsgs, totalMsgs / totalTime, msgGroup * msgBody.length);
         if (wait > 0) {
           if (i + 1 < iterationValue) {
-            console.log("[Client-%d] #################### Waiting for %d seconds, before starting iteration: %d ########################", index, wait, i + 1);
+            log("[Client-%d] #################### Waiting for %d seconds, before starting iteration: %d ########################", index, wait, i + 1);
             await delay(wait * 1000);
           } else {
-            console.log("[Client-%d] #################### All iterations complete ########################", index);
+            log("[Client-%d] #################### All iterations complete ########################", index);
           }
         }
       }
     } catch (err) {
-      console.log(err);
+      log(err);
     }
   }
 
@@ -132,9 +134,16 @@ export async function handler(argv: any): Promise<void> {
 
 async function sendMessage(client: EventHubClient, index: number, data: EventData | EventData[], partitionId?: string): Promise<any> {
   if (Array.isArray(data)) {
-    return await client.sendBatch(data, partitionId);
-    console.log("[Client-%d] Number of messages sent in a batch: ", index, (data as EventData[]).length);
+    try {
+      return await client.sendBatch(data, partitionId);
+    } catch (err) {
+      log("[Client-%d] An error occurred while sending a batch message. ", index, err);
+    }
   } else {
-    return await client.send(data, partitionId);
+    try {
+      return await client.send(data, partitionId);
+    } catch (err) {
+      log("[Client-%d] An error occurred while sending a message. ", index, err);
+    }
   }
 }
