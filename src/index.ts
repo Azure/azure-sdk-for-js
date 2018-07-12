@@ -12,6 +12,6 @@ export { Response, RequestOptions, FeedOptions, MediaOptions, ErrorResponse } fr
 export { IHeaders } from "./queryExecutionContext";
 export { QueryIterator } from "./queryIterator";
 
-export {CosmosClient} from "./CosmosClient";
-export {CosmosClientOptions} from "./CosmosClientOptions";
+export { CosmosClient } from "./CosmosClient";
+export { CosmosClientOptions } from "./CosmosClientOptions";
 export * from "./client/";

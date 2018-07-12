@@ -1,6 +1,6 @@
 export class MockedQueryIterator {
-    constructor(private results: any) { }
-    public async toArray() {
-        return {result: this.results};
-    }
+  constructor(private results: any) {}
+  public async toArray() {
+    return { result: this.results };
+  }
 }

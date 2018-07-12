@@ -1,4 +1,4 @@
 export interface IAggregator<T> {
-    aggregate: (other: T) => void;
-    getResult: () => number;
+  aggregate: (other: T) => void;
+  getResult: () => number;
 }

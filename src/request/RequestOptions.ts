@@ -42,25 +42,25 @@ import { PartitionKey } from "../documents";
  */
 
 export interface RequestOptions {
-    accessCondition?: {
-        type: string;
-        condition: string;
-    };
-    consistencyLevel?: string;
-    disableRUPerMinuteUsage?: boolean;
-    enableScriptLogging?: boolean;
-    indexingDirective?: string;
-    offerEnableRUPerMinuteThroughput?: boolean;
-    offerThroughput?: number;
-    offerType?: string;
-    partitionKey?: PartitionKey;
-    populateQuotaInfo?: boolean;
-    postTriggerInclude?: string | string[];
-    preTriggerInclude?: string | string[];
-    resourceTokenExpirySeconds?: number;
-    sessionToken?: string;
-    initialHeaders?: IHeaders;
-    urlConnection?: string;
-    skipGetPartitionKeyDefinition?: boolean;
-    disableAutomaticIdGeneration?: boolean;
+  accessCondition?: {
+    type: string;
+    condition: string;
+  };
+  consistencyLevel?: string;
+  disableRUPerMinuteUsage?: boolean;
+  enableScriptLogging?: boolean;
+  indexingDirective?: string;
+  offerEnableRUPerMinuteThroughput?: boolean;
+  offerThroughput?: number;
+  offerType?: string;
+  partitionKey?: PartitionKey;
+  populateQuotaInfo?: boolean;
+  postTriggerInclude?: string | string[];
+  preTriggerInclude?: string | string[];
+  resourceTokenExpirySeconds?: number;
+  sessionToken?: string;
+  initialHeaders?: IHeaders;
+  urlConnection?: string;
+  skipGetPartitionKeyDefinition?: boolean;
+  disableAutomaticIdGeneration?: boolean;
 }

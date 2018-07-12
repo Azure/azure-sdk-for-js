@@ -29,24 +29,24 @@ import { ConsistencyLevel } from ".";
  * The list of readable locations for a geo-replicated database account.
  */
 export class DatabaseAccount {
-    // tslint:disable:variable-name
-    public _writableLocations: LocationsType = []; // TODO: naming is bad here.
-                                              // I think we're trying to do an "internal" thing.
-    public _readableLocations: LocationsType = []; // TODO: any location
-    public DatabasesLink: string;
-    public MediaLink: string;
-    public MaxMediaStorageUsageInMB: number;
-    public CurrentMediaStorageUsageInMB: number;
-    public ConsumedDocumentStorageInMB: number;
-    public ReservedDocumentStorageInMB: number;
-    public ProvisionedDocumentStorageInMB: number;
-    public ConsistencyPolicy: ConsistencyLevel;
-    get WritableLocations(): Array<{[key: string]: string}> {
-        return this._writableLocations;
-    }
-    get ReadableLocations(): Array<{[key: string]: string}> {
-        return this._readableLocations;
-    }
+  // tslint:disable:variable-name
+  public _writableLocations: LocationsType = []; // TODO: naming is bad here.
+  // I think we're trying to do an "internal" thing.
+  public _readableLocations: LocationsType = []; // TODO: any location
+  public DatabasesLink: string;
+  public MediaLink: string;
+  public MaxMediaStorageUsageInMB: number;
+  public CurrentMediaStorageUsageInMB: number;
+  public ConsumedDocumentStorageInMB: number;
+  public ReservedDocumentStorageInMB: number;
+  public ProvisionedDocumentStorageInMB: number;
+  public ConsistencyPolicy: ConsistencyLevel;
+  get WritableLocations(): Array<{ [key: string]: string }> {
+    return this._writableLocations;
+  }
+  get ReadableLocations(): Array<{ [key: string]: string }> {
+    return this._readableLocations;
+  }
 }
 
-export type LocationsType = Array<{[key: string]: string}>; // TODO: any (kind of) code smell at best
+export type LocationsType = Array<{ [key: string]: string }>; // TODO: any (kind of) code smell at best

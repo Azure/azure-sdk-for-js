@@ -21,13 +21,16 @@
   "scripts": {
     "clean": "rimraf lib",
     "lint": "tslint --project tsconfig.json",
+    "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\"",
+    "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\"",
     "compile": "echo Using TypeScript && tsc --version && tsc --pretty",
     "docs": "typedoc --mode file --out ./lib/docs ./src",
     "pack": "webpack",
-    "build": "npm run clean && npm run lint && npm run compile && npm run docs && npm run pack",
+    "build": "npm run clean && npm run check-format && npm run lint && npm run compile && npm run docs && npm run pack",
     "test": "mocha -r ./src/test/common/setup.ts ./lib/test/ --recursive --timeout 100000 -i -g .*ignore.js",
     "test-ts": "mocha -r ts-node/register -r ./src/test/common/setup.ts ./src/test/**/*.spec.ts --recursive --timeout 100000 -i -g .*ignore.js",
-    "test-browser": "karma start ./karma.config.js --single-run"
+    "test-browser": "karma start ./karma.config.js --single-run",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.0",
@@ -49,10 +52,12 @@
     "mocha": "^5.1.1",
     "mocha-junit-reporter": "^1.15.0",
     "mocha-multi-reporters": "^1.1.6",
+    "prettier": "^1.13.7",
     "requirejs": "^2.3.5",
     "sinon": "^5.0.1",
     "ts-node": "^6.2.0",
     "tslint": "^5.9.1",
+    "tslint-config-prettier": "^1.13.0",
     "typedoc": "^0.11.1",
     "typescript": "^2.8.3",
     "webpack": "^4.8.3",

@@ -2,7 +2,7 @@ import { Point, Range } from "../range";
 import { PartitionKeyDefinition } from "./PartitionKeyDefinition";
 
 export interface Document {
-    [key: string]: any;
+  [key: string]: any;
 }
 
 export type PartitionKey = PartitionKeyDefinition | Point | Range;
@@ -29,11 +29,11 @@ export type PartitionKey = PartitionKeyDefinition | Point | Range;
  *                           All writes will be eventually be available for reads.
  */
 export enum ConsistencyLevel {
-    Strong = "Strong",
-    BoundedStaleness = "BoundedStaleness",
-    Session = "Session",
-    Eventual = "Eventual",
-    ConsistentPrefix = "ConsistentPrefix",
+  Strong = "Strong",
+  BoundedStaleness = "BoundedStaleness",
+  Session = "Session",
+  Eventual = "Eventual",
+  ConsistentPrefix = "ConsistentPrefix"
 }
 
 /**
@@ -49,9 +49,9 @@ export enum ConsistencyLevel {
  *                      container is idle.</p>
  */
 export enum IndexingMode {
-    Consistent = "consistent",
-    Lazy = "lazy",
-    None = "none",
+  Consistent = "consistent",
+  Lazy = "lazy",
+  None = "none"
 }
 
 /**
@@ -64,31 +64,31 @@ export enum IndexingMode {
  * @property Spatial  This is supplied for a path which requires geospatial indexing.
  */
 export enum IndexKind {
-    Hash = "Hash",
-    Range = "Range",
-    Spatial = "Spatial",
+  Hash = "Hash",
+  Range = "Range",
+  Spatial = "Spatial"
 }
 
 export enum DataType {
-    Number = "Number",
-    String = "String",
-    Point = "Point",
-    LineString = "LineString",
-    Polygon = "Polygon",
+  Number = "Number",
+  String = "String",
+  Point = "Point",
+  LineString = "LineString",
+  Polygon = "Polygon"
 }
 
 export enum PartitionKind {
-    Hash = "Hash",
+  Hash = "Hash"
 }
 
 export enum ConnectionMode {
-    Gateway = 0,
+  Gateway = 0
 }
 
 export enum QueryCompatibilityMode {
-    Default = 0,
-    Query = 1,
-    SqlQuery = 2,
+  Default = 0,
+  Query = 1,
+  SqlQuery = 2
 }
 
 /**
@@ -101,8 +101,8 @@ export enum QueryCompatibilityMode {
  *                    <p>Use Streamed to reduce the client memory overhead of reading and writing media files. </p>
  */
 export enum MediaReadMode {
-    Buffered = "Buffered",
-    Streamed = "Streamed",
+  Buffered = "Buffered",
+  Streamed = "Streamed"
 }
 
 /**
@@ -114,9 +114,9 @@ export enum MediaReadMode {
  * @property All Permission applicable for all operations.
  */
 export enum PermissionMode {
-    None = "none",
-    Read = "read",
-    All = "all",
+  None = "none",
+  Read = "read",
+  All = "all"
 }
 
 /**
@@ -128,8 +128,8 @@ export enum PermissionMode {
  * @property Post Trigger should be executed after the associated operation(s).
  */
 export enum TriggerType {
-    Pre = "pre",
-    Post = "post",
+  Pre = "pre",
+  Post = "post"
 }
 
 /**
@@ -144,11 +144,11 @@ export enum TriggerType {
  * @property Replace Replace operations only.
  */
 export enum TriggerOperation {
-    All = "all",
-    Create = "create",
-    Update = "update",
-    Delete = "delete",
-    Replace = "replace",
+  All = "all",
+  Create = "create",
+  Update = "update",
+  Delete = "delete",
+  Replace = "replace"
 }
 
 /**
@@ -159,5 +159,5 @@ export enum TriggerOperation {
  * @property Javascript Javascript type.
  */
 export enum UserDefinedFunctionType {
-    Javascript = "Javascript",
+  Javascript = "Javascript"
 }

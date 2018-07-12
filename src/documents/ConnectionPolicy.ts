@@ -22,16 +22,16 @@ import { RetryOptions } from "../retry";
  * @property {string} ProxyUrl                     - Http/Https proxy url
  */
 export class ConnectionPolicy {
-    private static readonly defaultRequestTimeout: number = 60000;
-    private static readonly defaultMediaRequestTimeout: number = 300000;
+  private static readonly defaultRequestTimeout: number = 60000;
+  private static readonly defaultMediaRequestTimeout: number = 300000;
 
-    public ConnectionMode = ConnectionMode.Gateway;
-    public MediaReadMode = MediaReadMode.Buffered;
-    public MediaRequestTimeout = ConnectionPolicy.defaultMediaRequestTimeout;
-    public RequestTimeout = ConnectionPolicy.defaultRequestTimeout;
-    public EnableEndpointDiscovery = true;
-    public PreferredLocations: string[] = [];
-    public RetryOptions = new RetryOptions();
-    public DisableSSLVerification = false;
-    public ProxyUrl = "";
+  public ConnectionMode = ConnectionMode.Gateway;
+  public MediaReadMode = MediaReadMode.Buffered;
+  public MediaRequestTimeout = ConnectionPolicy.defaultMediaRequestTimeout;
+  public RequestTimeout = ConnectionPolicy.defaultRequestTimeout;
+  public EnableEndpointDiscovery = true;
+  public PreferredLocations: string[] = [];
+  public RetryOptions = new RetryOptions();
+  public DisableSSLVerification = false;
+  public ProxyUrl = "";
 }

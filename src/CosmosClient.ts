@@ -10,30 +10,30 @@ import { Response } from "./request";
  * This client is used to configure and execute requests in the Azure Cosmos DB database service.
  */
 export class CosmosClient {
-    public readonly databases: Databases;
-    public readonly offers: Offers;
-    public documentClient: DocumentClient; // TODO: This will go away.
-    constructor(private options: CosmosClientOptions) {
-        this.databases = new Databases(this);
-        this.offers = new Offers(this);
+  public readonly databases: Databases;
+  public readonly offers: Offers;
+  public documentClient: DocumentClient; // TODO: This will go away.
+  constructor(private options: CosmosClientOptions) {
+    this.databases = new Databases(this);
+    this.offers = new Offers(this);
 
-        this.documentClient = new DocumentClient(
-            options.endpoint,
-            options.auth,
-            options.connectionPolicy,
-            options.consistencyLevel,
-        );
-    }
+    this.documentClient = new DocumentClient(
+      options.endpoint,
+      options.auth,
+      options.connectionPolicy,
+      options.consistencyLevel
+    );
+  }
 
-    public async getDatabaseAccount(): Promise<Response<DatabaseAccount>> {
-        return this.documentClient.getDatabaseAccount();
-    }
+  public async getDatabaseAccount(): Promise<Response<DatabaseAccount>> {
+    return this.documentClient.getDatabaseAccount();
+  }
 
-    public database(id: string): Database {
-        return new Database(this, id);
-    }
+  public database(id: string): Database {
+    return new Database(this, id);
+  }
 
-    public offer(id: string) {
-        return new Offer(this, id);
-    }
+  public offer(id: string) {
+    return new Offer(this, id);
+  }
 }

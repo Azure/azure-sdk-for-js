@@ -9,85 +9,89 @@ const masterKey = testConfig.masterKey;
 
 const doc = { id: "myId", pk: "pk" };
 
-describe("ResourceLink Trimming of leading and trailing slashes", function () {
-    this.timeout(10000);
-    const client = new CosmosClient({ endpoint, auth: { masterKey } });
-    const containerId = "testcontainer";
+describe("ResourceLink Trimming of leading and trailing slashes", function() {
+  this.timeout(10000);
+  const client = new CosmosClient({ endpoint, auth: { masterKey } });
+  const containerId = "testcontainer";
 
-    beforeEach(async function () { await TestHelpers.removeAllDatabases(client); });
+  beforeEach(async function() {
+    await TestHelpers.removeAllDatabases(client);
+  });
 
-    it("validate correct execution of query using named container link with leading and trailing slashes"
-        , async function () {
-            const containerDefinition = {
-                id: containerId,
-                partitionKey: {
-                    paths: ["/pk"],
-                    kind: PartitionKind.Hash,
-                },
-            };
-            const containerOptions = { offerThroughput: 10100 };
+  it("validate correct execution of query using named container link with leading and trailing slashes", async function() {
+    const containerDefinition = {
+      id: containerId,
+      partitionKey: {
+        paths: ["/pk"],
+        kind: PartitionKind.Hash
+      }
+    };
+    const containerOptions = { offerThroughput: 10100 };
 
-            const container = await TestHelpers.getTestContainer(
-                client, "validate correct execution of query", containerDefinition, containerOptions);
+    const container = await TestHelpers.getTestContainer(
+      client,
+      "validate correct execution of query",
+      containerDefinition,
+      containerOptions
+    );
 
-            await container.items.create(doc);
-            const query = "SELECT * from " + containerId;
-            const queryOptions = { partitionKey: "pk" };
-            const queryIterator = container.items.query(query, queryOptions);
+    await container.items.create(doc);
+    const query = "SELECT * from " + containerId;
+    const queryOptions = { partitionKey: "pk" };
+    const queryIterator = container.items.query(query, queryOptions);
 
-            const { result } = await queryIterator.toArray();
-            assert.equal(result[0]["id"], "myId");
-        });
+    const { result } = await queryIterator.toArray();
+    assert.equal(result[0]["id"], "myId");
+  });
 });
 
-describe("Test Query Metrics On Single Partition Collection", function () {
-    const client = new CosmosClient({ endpoint, auth: { masterKey } });
-    const databaseId = "query metrics test db";
-    const collectionId = "testCollection2";
+describe("Test Query Metrics On Single Partition Collection", function() {
+  const client = new CosmosClient({ endpoint, auth: { masterKey } });
+  const databaseId = "query metrics test db";
+  const collectionId = "testCollection2";
 
-    const testQueryMetricsOnSinglePartition = async function (document: any) {
-        try {
-            const databaseBody = { id: databaseId };
-            const { body: databaseDef } = await client.databases.create(databaseBody);
-            const database = client.database(databaseDef.id);
+  const testQueryMetricsOnSinglePartition = async function(document: any) {
+    try {
+      const databaseBody = { id: databaseId };
+      const { body: databaseDef } = await client.databases.create(databaseBody);
+      const database = client.database(databaseDef.id);
 
-            const collectionDefinition = { id: collectionId };
-            const collectionOptions = { offerThroughput: 4000 };
+      const collectionDefinition = { id: collectionId };
+      const collectionOptions = { offerThroughput: 4000 };
 
-            const { body: createdCollectionDef } =
-                await database.containers.create(collectionDefinition, collectionOptions);
-            const createdContainer = database.container(createdCollectionDef.id);
+      const { body: createdCollectionDef } = await database.containers.create(collectionDefinition, collectionOptions);
+      const createdContainer = database.container(createdCollectionDef.id);
 
-            await createdContainer.items.create(document);
-            const collectionLink = "/dbs/" + databaseId + "/colls/" + collectionId + "/";
-            const query = "SELECT * from " + collectionId;
-            const queryOptions: FeedOptions = { populateQueryMetrics: true };
-            const queryIterator = createdContainer.items.query(query, queryOptions);
+      await createdContainer.items.create(document);
+      const collectionLink = "/dbs/" + databaseId + "/colls/" + collectionId + "/";
+      const query = "SELECT * from " + collectionId;
+      const queryOptions: FeedOptions = { populateQueryMetrics: true };
+      const queryIterator = createdContainer.items.query(query, queryOptions);
 
-            while (queryIterator.hasMoreResults()) {
-                const { result: results, headers } = await queryIterator.executeNext();
+      while (queryIterator.hasMoreResults()) {
+        const { result: results, headers } = await queryIterator.executeNext();
 
-                if (results === undefined) {
-                    // no more results
-                    break;
-                }
-
-                assert.notEqual(headers[Constants.HttpHeaders.QueryMetrics]["0"], null);
-            }
-        } catch (err) {
-            throw err;
+        if (results === undefined) {
+          // no more results
+          break;
         }
-    };
 
-    afterEach(async function () {
-        await TestHelpers.removeAllDatabases(client);
-    });
+        assert.notEqual(headers[Constants.HttpHeaders.QueryMetrics]["0"], null);
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
 
-    beforeEach(async function () {
-        await TestHelpers.removeAllDatabases(client);
-    });
+  afterEach(async function() {
+    await TestHelpers.removeAllDatabases(client);
+  });
 
-    it("validate that query metrics are correct for a single partition query", async function () {
-        await testQueryMetricsOnSinglePartition(doc);
-    });
+  beforeEach(async function() {
+    await TestHelpers.removeAllDatabases(client);
+  });
+
+  it("validate that query metrics are correct for a single partition query", async function() {
+    await testQueryMetricsOnSinglePartition(doc);
+  });
 });

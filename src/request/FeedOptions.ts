@@ -25,16 +25,16 @@ import { IHeaders } from "..";
  * @property {string} [sessionToken]                -       Token for use with Session consistency.
  */
 export interface FeedOptions {
-    continuation?: string;
-    disableRUPerMinuteUsage?: boolean;
-    enableCrossPartitionQuery?: boolean;
-    enableScanInQuery?: boolean;
-    maxDegreeOfParallelism?: number;
-    maxItemCount?: number;
-    partitionKey?: string;
-    sessionToken?: string;
-    initialHeaders?: IHeaders;
-    a_im?: string;
-    accessCondition?: any; // TODO: any
-    populateQueryMetrics?: boolean;
+  continuation?: string;
+  disableRUPerMinuteUsage?: boolean;
+  enableCrossPartitionQuery?: boolean;
+  enableScanInQuery?: boolean;
+  maxDegreeOfParallelism?: number;
+  maxItemCount?: number;
+  partitionKey?: string;
+  sessionToken?: string;
+  initialHeaders?: IHeaders;
+  a_im?: string;
+  accessCondition?: any; // TODO: any
+  populateQueryMetrics?: boolean;
 }

@@ -8,7 +8,7 @@ import { IHeaders } from "..";
  *
  */
 export interface MediaOptions {
-    initialHeaders?: IHeaders;
-    slug?: string;
-    contentType?: string;
+  initialHeaders?: IHeaders;
+  slug?: string;
+  contentType?: string;
 }

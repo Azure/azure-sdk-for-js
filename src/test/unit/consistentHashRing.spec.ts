@@ -1,66 +1,75 @@
 ﻿import * as assert from "assert";
 import { ConsistentHashRing } from "../../hash/consistentHashRing";
-describe("ConsistentHashRing", function () {
-    describe("#.constructor", function () {
-        it("valid arguments does not throw", function () {
-            const ring = new ConsistentHashRing(["bar"]);
-            assert(ring);
-            assert.strictEqual(ring.partitions.length, 128);
-        });
-
-        it("invalid nodes throws", function () {
-            assert.throws(
-                function () {
-                    const ring = new ConsistentHashRing(undefined);
-                },
-                /Invalid argument: 'nodes' has to be an array./,
-            );
-        });
+describe("ConsistentHashRing", function() {
+  describe("#.constructor", function() {
+    it("valid arguments does not throw", function() {
+      const ring = new ConsistentHashRing(["bar"]);
+      assert(ring);
+      assert.strictEqual(ring.partitions.length, 128);
     });
 
-    describe("#.getNode", function () {
-        const test = function (key: string, expected: string) {
-            const nodes = ["A", "B", "C"];
-            const options = {
-                partitionsPerNode: 1,
-                computeHash: (innerKey: string) => {
-                    if (innerKey === "A") { return 10; }
-                    if (innerKey === "B") { return 20; }
-                    if (innerKey === "C") { return 30; }
-
-                    if (innerKey === "a") { return 15; }
-                    if (innerKey === "b") { return 25; }
-                    if (innerKey === "c") { return 35; }
-
-                    return 0;
-                },
-            };
-
-            const ring = new ConsistentHashRing(nodes, options);
-            const actual = ring.getNode(key);
-
-            const message = {
-                key,
-                expected,
-                actual,
-            };
-            assert.strictEqual(expected, actual, JSON.stringify(message));
-        };
-
-        it("A(10), B(20), C(30)", function () {
-            test("a", "A");
-        });
-
-        it("A(10), B(20), C(30)", function () {
-            test("b", "B");
-        });
-        it("A(10), B(20), C(30)", function () {
-            test("c", "C");
-        });
-        it("A(10), B(20), C(30)", function () {
-            test("d", "C");
-        });
+    it("invalid nodes throws", function() {
+      assert.throws(function() {
+        const ring = new ConsistentHashRing(undefined);
+      }, /Invalid argument: 'nodes' has to be an array./);
     });
+  });
+
+  describe("#.getNode", function() {
+    const test = function(key: string, expected: string) {
+      const nodes = ["A", "B", "C"];
+      const options = {
+        partitionsPerNode: 1,
+        computeHash: (innerKey: string) => {
+          if (innerKey === "A") {
+            return 10;
+          }
+          if (innerKey === "B") {
+            return 20;
+          }
+          if (innerKey === "C") {
+            return 30;
+          }
+
+          if (innerKey === "a") {
+            return 15;
+          }
+          if (innerKey === "b") {
+            return 25;
+          }
+          if (innerKey === "c") {
+            return 35;
+          }
+
+          return 0;
+        }
+      };
+
+      const ring = new ConsistentHashRing(nodes, options);
+      const actual = ring.getNode(key);
+
+      const message = {
+        key,
+        expected,
+        actual
+      };
+      assert.strictEqual(expected, actual, JSON.stringify(message));
+    };
+
+    it("A(10), B(20), C(30)", function() {
+      test("a", "A");
+    });
+
+    it("A(10), B(20), C(30)", function() {
+      test("b", "B");
+    });
+    it("A(10), B(20), C(30)", function() {
+      test("c", "C");
+    });
+    it("A(10), B(20), C(30)", function() {
+      test("d", "C");
+    });
+  });
 });
 
 // TODO: bad test, testing implementation details

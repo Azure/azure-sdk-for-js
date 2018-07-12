@@ -7,9 +7,9 @@
  *                        the retries are happening. Default value 30 seconds.
  */
 export class RetryOptions {
-    constructor(
-        public readonly MaxRetryAttemptCount: number = 9,
-        public readonly FixedRetryIntervalInMilliseconds: number = 0,
-        public readonly MaxWaitTimeInSeconds: number = 30,
-    ) { }
+  constructor(
+    public readonly MaxRetryAttemptCount: number = 9,
+    public readonly FixedRetryIntervalInMilliseconds: number = 0,
+    public readonly MaxWaitTimeInSeconds: number = 30
+  ) {}
 }
