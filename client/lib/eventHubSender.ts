@@ -9,7 +9,7 @@ import {
 } from "./rhea-promise";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
-import { defaultLock, Func, retry, translate, AmqpMessage } from "./amqp-common";
+import { defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper } from "./amqp-common";
 import { LinkEntity } from "./linkEntity";
 
 const debug = debugModule("azure:event-hubs:sender");
@@ -294,7 +294,7 @@ export class EventHubSender extends LinkEntity {
           if (context!.delivery!.remote_state!.error) {
             err = translate(context!.delivery!.remote_state!.error);
           } else {
-            err = new Error(`[${this._context.connectionId}]Sender '${this.name}', ` +
+            err = new Error(`[${this._context.connectionId}] Sender '${this.name}', ` +
               `received a release disposition.Hence we are rejecting the promise.`);
           }
           reject(err);
@@ -306,7 +306,7 @@ export class EventHubSender extends LinkEntity {
           if (context!.delivery!.remote_state!.error) {
             err = translate(context!.delivery!.remote_state!.error);
           } else {
-            err = new Error(`[${this._context.connectionId}]Sender "${this.name}", ` +
+            err = new Error(`[${this._context.connectionId}] Sender "${this.name}", ` +
               `received a modified disposition.Hence we are rejecting the promise.`);
           }
           reject(err);
@@ -319,14 +319,19 @@ export class EventHubSender extends LinkEntity {
         debug("[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
           this._context.connectionId, this.name, delivery.id, delivery.tag.toString());
       } else {
+        // let us retry to send the message after some time.
         const msg = `[${this._context.connectionId}] Sender "${this.name}", ` +
           `cannot send the message right now. Please try later.`;
         debug(msg);
-        reject(new Error(msg));
+        const amqpError: AmqpError = {
+          condition: ErrorNameConditionMapper.SenderBusyError,
+          description: msg
+        };
+        reject(translate(amqpError));
       }
     });
 
-    return retry<Delivery>(sendEventPromise);
+    return retry<Delivery>(sendEventPromise, 3, 5);
   }
 
   /**

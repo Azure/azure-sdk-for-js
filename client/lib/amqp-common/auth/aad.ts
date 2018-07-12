@@ -58,7 +58,8 @@ export class AadTokenProvider implements TokenProvider {
         if (result.expiresOn && result.expiresOn instanceof Date) {
           expiresOn = result.expiresOn.getTime();
         }
-        const expiry = Math.floor(expiresOn / 1000) + self.tokenValidTimeInSeconds - 5;
+        const expiry = Math.floor(expiresOn / 1000) +
+          self.tokenValidTimeInSeconds - Constants.aadTokenValidityMarginSeconds;
         const tokenObj: TokenInfo = {
           expiry: expiry,
           tokenType: TokenType.CbsTokenTypeJwt,

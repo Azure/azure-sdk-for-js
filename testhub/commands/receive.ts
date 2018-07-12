@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import { CommandBuilder } from "yargs";
-import { EventHubClient, EventPosition, EventData } from "../../client/lib"
+import { EventHubClient, EventPosition, EventData } from "../../client/lib";
+import { log } from "../utils/util";
+
 export const command = "receive";
 
 export const describe = "Receives messages from an eventhub.";
@@ -75,35 +77,35 @@ export async function handler(argv: any): Promise<void> {
     if (!partitionIds) {
       partitionIds = await client.getPartitionIds();
     }
-    console.log("PartitionIds in the eventhub '%s' are: ", argv.hub, partitionIds);
+    log("PartitionIds in the eventhub '%s' are: ", argv.hub, partitionIds);
     if (duration) {
-      console.log(">>>>>>>>>>>> Performance benchmark mode. <<<<<<<<<<<<<<<<");
-      console.log("Will be receiving messages only from partition: '0'.");
-      console.log(`Created Receiver for partition: "0" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`);
+      log(">>>>>>>>>>>> Performance benchmark mode. <<<<<<<<<<<<<<<<");
+      log("Will be receiving messages only from partition: '0'.");
+      log(`Created Receiver for partition: "0" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`);
       let datas = await client.receiveBatch("0", 500000, duration, { consumerGroup: consumerGroup, eventPosition: EventPosition.fromOffset(offset, true) });
-      console.log(`Received ${datas.length} messages in ${duration} seconds @ ${Math.floor(datas.length / duration)} messages/second.`);
+      log(`Received ${datas.length} messages in ${duration} seconds @ ${Math.floor(datas.length / duration)} messages/second.`);
     } else {
       for (let id of partitionIds) {
-        console.log(`Created Receiver: for partition: "${id}" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`);
+        log(`Created Receiver: for partition: "${id}" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`);
         partitionCount[id] = 0;
         const onMessage = (m: EventData) => {
           if (m.body) {
-            console.log("----------------------------------------------------------");
-            console.log(">>>>> %s Received message from partition id: %d, count: %d", new Date().toString(), id, ++partitionCount[id]);
-            console.log("EnqueuedTime - %s", m.enqueuedTimeUtc!.toString());
-            // console.log("Received message body - ", m.body.toString());
+            log("----------------------------------------------------------");
+            log(">>>>> %s Received message from partition id: %d, count: %d", new Date().toString(), id, ++partitionCount[id]);
+            log("EnqueuedTime - %s", m.enqueuedTimeUtc!.toString());
+            // log("Received message body - ", m.body.toString());
           }
           if (argv.fullEventData) {
-            console.log("Corresponding EventData object: %o", m);
+            log("Corresponding EventData object: %o", m);
           }
         };
         const onError = (err: any) => {
-          console.log("^^^^^^^^^^ An error occured with the receiver: %o", err);
+          log("^^^^^^^^^^ An error occured with the receiver: %o", err);
         };
         client.receive(id, onMessage, onError, { consumerGroup: consumerGroup, eventPosition: EventPosition.fromOffset(offset, true) });
       }
     }
-    console.log("Started receiving messages from: ", new Date().toString());
+    log("Started receiving messages from: ", new Date().toString());
   } catch (err) {
     return Promise.reject(err);
   }
