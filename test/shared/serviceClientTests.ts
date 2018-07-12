@@ -24,13 +24,11 @@ describe("ServiceClient", function () {
 
     await client.sendOperationRequest(
       {
-        arguments: {
-          metadata: {
-            "alpha": "hello",
-            "beta": "world"
-          },
-          unrelated: 42
-        }
+        metadata: {
+          "alpha": "hello",
+          "beta": "world"
+        },
+        unrelated: 42
       },
       {
         httpMethod: "GET",
@@ -84,9 +82,7 @@ describe("ServiceClient", function () {
 
     await client.sendOperationRequest(
       {
-        arguments: {
-          q: [1, 2, 3],
-        },
+        q: [1, 2, 3]
       },
       {
         httpMethod: "GET",
@@ -133,7 +129,8 @@ describe("ServiceClient", function () {
       httpClient,
       requestPolicyCreators: []
     });
-    await client1.sendOperationRequest({ arguments: {} },
+    await client1.sendOperationRequest(
+      {},
       {
         serializer: new Serializer(),
         httpMethod: "GET",
@@ -148,7 +145,8 @@ describe("ServiceClient", function () {
       requestPolicyCreators: [],
       withCredentials: true
     });
-    await client2.sendOperationRequest({ arguments: {} },
+    await client2.sendOperationRequest(
+      {},
       {
         serializer: new Serializer(),
         httpMethod: "GET",
@@ -165,9 +163,7 @@ describe("ServiceClient", function () {
         new ServiceClient(),
         httpRequest,
         {
-          arguments: {
-            bodyArg: "body value"
-          }
+          bodyArg: "body value"
         },
         {
           httpMethod: "POST",
@@ -193,9 +189,7 @@ describe("ServiceClient", function () {
         new ServiceClient(),
         httpRequest,
         {
-          arguments: {
-            bodyArg: stringToByteArray("Javascript")
-          }
+          bodyArg: stringToByteArray("Javascript")
         },
         {
           httpMethod: "POST",
@@ -221,9 +215,7 @@ describe("ServiceClient", function () {
         new ServiceClient(),
         httpRequest,
         {
-          arguments: {
-            bodyArg: "body value"
-          }
+          bodyArg: "body value"
         },
         {
           httpMethod: "POST",
@@ -249,9 +241,7 @@ describe("ServiceClient", function () {
         new ServiceClient(),
         httpRequest,
         {
-          arguments: {
-            bodyArg: "body value"
-          }
+          bodyArg: "body value"
         },
         {
           httpMethod: "POST",
@@ -280,9 +270,7 @@ describe("ServiceClient", function () {
         new ServiceClient(),
         httpRequest,
         {
-          arguments: {
-            bodyArg: stringToByteArray("Javascript")
-          }
+          bodyArg: stringToByteArray("Javascript")
         },
         {
           httpMethod: "POST",
@@ -311,9 +299,7 @@ describe("ServiceClient", function () {
         new ServiceClient(),
         httpRequest,
         {
-          arguments: {
-            bodyArg: "body value"
-          }
+          bodyArg: "body value"
         },
         {
           httpMethod: "POST",
