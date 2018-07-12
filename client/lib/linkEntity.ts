@@ -94,17 +94,6 @@ export class LinkEntity {
     this.name = options.name || uuid();
     this.partitionId = options.partitionId;
   }
-  /**
-   * Provides the current type of the LinkEntity.
-   * @return {string} The entity type.
-   */
-  get type(): string {
-    let result = "LinkEntity";
-    if ((this as any).constructor && (this as any).constructor.name) {
-      result = (this as any).constructor.name;
-    }
-    return result;
-  }
 
   /**
    * Negotiates cbs claim for the LinkEntity.
@@ -119,20 +108,20 @@ export class LinkEntity {
     // cbs session, since we want to have exactly 1 cbs session per connection).
     debug("[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
       "'%s' with address: '%s'.", this._context.connectionId, this._context.cbsSession.cbsLock,
-      this.type, this.name, this.address);
+      this._type, this.name, this.address);
     await defaultLock.acquire(this._context.cbsSession.cbsLock,
       () => { return this._context.cbsSession.init(); });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
     debug("[%s] %s: calling negotiateClaim for audience '%s'.",
-      this._context.connectionId, this.type, this.audience);
+      this._context.connectionId, this._type, this.audience);
     // Acquire the lock to negotiate the CBS claim.
     debug("[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
-      this._context.connectionId, this._context.negotiateClaimLock, this.type, this.name, this.address);
+      this._context.connectionId, this._context.negotiateClaimLock, this._type, this.name, this.address);
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
       return this._context.cbsSession.negotiateClaim(this.audience, tokenObject);
     });
     debug("[%s] Negotiated claim for %s '%s' with with address: %s",
-      this._context.connectionId, this.type, this.name, this.address);
+      this._context.connectionId, this._type, this.name, this.address);
     if (setTokenRenewal) {
       await this._ensureTokenRenewal();
     }
@@ -152,11 +141,23 @@ export class LinkEntity {
         await this._negotiateClaim(true);
       } catch (err) {
         debug("[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
-          this._context.connectionId, this.type, this.name, this.address, err);
+          this._context.connectionId, this._type, this.name, this.address, err);
       }
     }, nextRenewalTimeout);
     debug("[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
-      this._context.connectionId, this.type, this.name, this.address, nextRenewalTimeout / 1000,
+      this._context.connectionId, this._type, this.name, this.address, nextRenewalTimeout / 1000,
       new Date(Date.now() + nextRenewalTimeout).toString());
+  }
+
+  /**
+   * Provides the current type of the LinkEntity.
+   * @return {string} The entity type.
+   */
+  private get _type(): string {
+    let result = "LinkEntity";
+    if ((this as any).constructor && (this as any).constructor.name) {
+      result = (this as any).constructor.name;
+    }
+    return result;
   }
 }

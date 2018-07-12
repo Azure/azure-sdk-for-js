@@ -113,9 +113,9 @@ export class EventHubClient {
   /**
    * Closes the AMQP connection to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @returns {Promise<any>}
+   * @returns {Promise<void>} Promise<void>
    */
-  async close(): Promise<any> {
+  async close(): Promise<void> {
     try {
       if (this._context.connection.isOpen()) {
         // Close all the senders.
@@ -149,7 +149,7 @@ export class EventHubClient {
    * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
    * fashion amongst the different partitions in the EventHub.
    *
-   * @returns {Promise<Delivery>} Promise<rheaPromise.Delivery>
+   * @returns {Promise<Delivery>} Promise<Delivery>
    */
   async send(data: EventData, partitionId?: string | number): Promise<Delivery> {
     const sender = EventHubSender.create(this._context, partitionId);
@@ -165,7 +165,7 @@ export class EventHubClient {
    * if you intend to send the event to a specific partition. When not specified EventHub will store the messages in a round-robin
    * fashion amongst the different partitions in the EventHub.
    *
-   * @return {Promise<rheaPromise.Delivery>} Promise<rheaPromise.Delivery>
+   * @return {Promise<Delivery>} Promise<Delivery>
    */
   async sendBatch(datas: EventData[], partitionId?: string | number): Promise<Delivery> {
     const sender = EventHubSender.create(this._context, partitionId);
@@ -180,19 +180,7 @@ export class EventHubClient {
    * @param {OnMessage} onMessage                              The message handler to receive event data objects.
    * @param {OnError} onError                                  The error handler to receive an error that occurs
    * while receiving messages.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
-   * @param {string} [options.name]                            The name of the receiver. If not provided
-   * then we will set a GUID by default.
-   * @param {string} [options.consumerGroup]                   Consumer group from which to receive.
-   * @param {number} [options.prefetchCount]                   The upper limit of events this receiver will
-   * actively receive regardless of whether a receive operation is pending.
-   * @param {boolean} [options.enableReceiverRuntimeMetric]    Provides the approximate receiver runtime information
-   * for a logical partition of an Event Hub if the value is true. Default false.
-   * @param {number} [options.epoch]                           The epoch value that this receiver is currently
-   * using for partition ownership. A value of undefined means this receiver is not an epoch-based receiver.
-   * @param {EventPosition} [options.eventPosition]            The position of EventData in the EventHub parition from
-   * where the receiver should start receiving. Only one of offset, sequenceNumber, enqueuedTime, customFilter can be specified.
-   * `EventPosition.withCustomFilter()` should be used if you want more fine-grained control of the filtering.
+   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
    *
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
@@ -214,21 +202,9 @@ export class EventHubClient {
    * @param {number} maxMessageCount                           The maximum message count. Must be a value greater than 0.
    * @param {number} [maxWaitTimeInSeconds]                    The maximum wait time in seconds for which the Receiver should wait
    * to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
-   * @param {string} [options.name]                            The name of the receiver. If not provided
-   * then we will set a GUID by default.
-   * @param {string} [options.consumerGroup]                   Consumer group from which to receive.
-   * @param {number} [options.prefetchCount]                   The upper limit of events this receiver will
-   * actively receive regardless of whether a receive operation is pending.
-   * @param {boolean} [options.enableReceiverRuntimeMetric]    Provides the approximate receiver runtime information
-   * for a logical partition of an Event Hub if the value is true. Default false.
-   * @param {number} [options.epoch]                           The epoch value that this receiver is currently
-   * using for partition ownership. A value of undefined means this receiver is not an epoch-based receiver.
-   * @param {EventPosition} [options.eventPosition]            The position of EventData in the EventHub parition from
-   * where the receiver should start receiving. Only one of offset, sequenceNumber, enqueuedTime, customFilter can be specified.
-   * `EventPosition.withCustomFilter()` should be used if you want more fine-grained control of the filtering.
+   * @param {ReceiveOptions} [options]                         Options for how you'd like to receive messages.
    *
-   * @returns {Array<EventData>} A promise that resolves with an array of EventData objects.
+   * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
    */
   async receiveBatch(partitionId: string | number, maxMessageCount: number, maxWaitTimeInSeconds?: number, options?: ReceiveOptions): Promise<EventData[]> {
     if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
@@ -323,7 +299,7 @@ export class EventHubClient {
    * Creates an EventHub Client from connection string.
    * @param {string} iothubConnectionString - Connection string of the form 'HostName=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param {ClientOptions} [options] Options that can be provided during client creation.
-   * @returns {Promise<EventHubClient>} - A promise that resolves with EventHubClient.
+   * @returns {Promise<EventHubClient>} - Promise<EventHubClient>.
    */
   static async createFromIotHubConnectionString(iothubConnectionString: string, options?: ClientOptions): Promise<EventHubClient> {
     if (!iothubConnectionString || (iothubConnectionString && typeof iothubConnectionString !== "string")) {
@@ -354,16 +330,15 @@ export class EventHubClient {
       throw new Error("'entityPath' is a required parameter and must be of type: 'string'.");
     }
 
-    if (!credentials ||
-      !(credentials instanceof ApplicationTokenCredentials ||
-        credentials instanceof UserTokenCredentials ||
-        credentials instanceof DeviceTokenCredentials ||
-        credentials instanceof MSITokenCredentials)) {
-      throw new Error("'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.");
+    if (!credentials) {
+      throw new Error("'credentials' is a required parameter and must be an instance of " +
+        "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
+        "MSITokenCredentials.");
     }
 
     if (!host.endsWith("/")) host += "/";
-    const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue`;
+    const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
+      `SharedAccessKey=defaultKeyValue`;
     if (!options) options = {};
     const clientOptions: ClientOptions = options;
     clientOptions.tokenProvider = new AadTokenProvider(credentials);
