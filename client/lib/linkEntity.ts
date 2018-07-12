@@ -5,39 +5,39 @@ import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import { ConnectionContext } from "./connectionContext";
 import { defaultLock } from "./amqp-common";
-const debug = debugModule("azure:event-hubs:clientEntity");
+const debug = debugModule("azure:event-hubs:linkEntity");
 
-export interface ClientEntityOptions {
+export interface LinkEntityOptions {
   /**
    * @property {string} [name] The unique name for the entity. If not provided then a guid will be
    * assigned.
    */
   name?: string;
   /**
-   * @property {string | number} [partitionId] The partitionId associated with the client entity.
+   * @property {string | number} [partitionId] The partitionId associated with the link entity.
    */
   partitionId?: string | number;
   /**
-   * @property {string} address The client entity address in one of the following forms:
+   * @property {string} address The link entity address in one of the following forms:
    */
   address?: string;
   /**
-   * @property {string} audience The client entity token audience in one of the following forms:
+   * @property {string} audience The link entity token audience in one of the following forms:
    */
   audience?: string;
 }
 
 /**
- * Describes the base class for entities like EventHub Sender, Receiver and Management client.
- * @class ClientEntity
+ * Describes the base class for entities like EventHub Sender, Receiver and Management link.
+ * @class LinkEntity
  */
-export class ClientEntity {
+export class LinkEntity {
   /**
    * @property {string} [name] The unique name for the entity (mostly a guid).
    */
   name: string;
   /**
-   * @property {string} address The client entity address in one of the following forms:
+   * @property {string} address The link entity address in one of the following forms:
    *
    * **Sender**
    * - `"<hubName>"`
@@ -51,7 +51,7 @@ export class ClientEntity {
    */
   address: string;
   /**
-   * @property {string} audience The client entity token audience in one of the following forms:
+   * @property {string} audience The link entity token audience in one of the following forms:
    *
    * **Sender**
    * - `"sb://<yournamespace>.servicebus.windows.net/<hubName>"`
@@ -65,7 +65,7 @@ export class ClientEntity {
    */
   audience: string;
   /**
-   * @property {string | number} [partitionId] The partitionId associated with the client entity.
+   * @property {string | number} [partitionId] The partitionId associated with the link entity.
    */
   partitionId?: string | number;
   /**
@@ -75,23 +75,18 @@ export class ClientEntity {
    */
   protected _context: ConnectionContext;
   /**
-   * @property {any} [_session] The AMQP session.
-   * @protected
-   */
-  protected _session?: any;
-  /**
    * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
-   * the Client Entity is due for token renewal.
+   * the Link Entity is due for token renewal.
    * @protected
    */
   protected _tokenRenewalTimer?: NodeJS.Timer;
   /**
-   * Creates a new ClientEntity instance.
+   * Creates a new LinkEntity instance.
    * @constructor
    * @param {ConnectionContext} context The connection context.
-   * @param {ClientEntityOptions} [options] Options that can be provided while creating the ClientEntity.
+   * @param {LinkEntityOptions} [options] Options that can be provided while creating the LinkEntity.
    */
-  constructor(context: ConnectionContext, options?: ClientEntityOptions) {
+  constructor(context: ConnectionContext, options?: LinkEntityOptions) {
     if (!options) options = {};
     this._context = context;
     this.address = options.address || "";
@@ -100,11 +95,11 @@ export class ClientEntity {
     this.partitionId = options.partitionId;
   }
   /**
-   * Provides the current type of the ClientEntity.
+   * Provides the current type of the LinkEntity.
    * @return {string} The entity type.
    */
   get type(): string {
-    let result = "ClientEntity";
+    let result = "LinkEntity";
     if ((this as any).constructor && (this as any).constructor.name) {
       result = (this as any).constructor.name;
     }
@@ -112,7 +107,7 @@ export class ClientEntity {
   }
 
   /**
-   * Negotiates the cbs claim for the ClientEntity.
+   * Negotiates cbs claim for the LinkEntity.
    * @protected
    * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
    * @return {Promise<void>} Promise<void>
@@ -123,22 +118,18 @@ export class ClientEntity {
     // race condition does not happen while creating a shared resource (in this case the
     // cbs session, since we want to have exactly 1 cbs session per connection).
     debug("[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
-      "'%s' with address: '%s'.", this._context.connectionId, this._context.cbsSession!.cbsLock,
+      "'%s' with address: '%s'.", this._context.connectionId, this._context.cbsSession.cbsLock,
       this.type, this.name, this.address);
-    await defaultLock.acquire(this._context.cbsSession!.cbsLock,
-      () => { return this._context.cbsSession!.init(); });
+    await defaultLock.acquire(this._context.cbsSession.cbsLock,
+      () => { return this._context.cbsSession.init(); });
     const tokenObject = await this._context.tokenProvider.getToken(this.audience);
-    if (!this._context.connection) {
-      this._context.connection = this._context.cbsSession!.connection;
-      this._context.connectionId = this._context.cbsSession!.connection!.id;
-    }
     debug("[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.connectionId, this.type, this.audience);
     // Acquire the lock to negotiate the CBS claim.
     debug("[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
       this._context.connectionId, this._context.negotiateClaimLock, this.type, this.name, this.address);
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession!.negotiateClaim(this.audience, tokenObject);
+      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject);
     });
     debug("[%s] Negotiated claim for %s '%s' with with address: %s",
       this._context.connectionId, this.type, this.name, this.address);
@@ -160,7 +151,6 @@ export class ClientEntity {
       try {
         await this._negotiateClaim(true);
       } catch (err) {
-        // TODO: May be add some retries over here before emitting the error.
         debug("[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
           this._context.connectionId, this.type, this.name, this.address, err);
       }

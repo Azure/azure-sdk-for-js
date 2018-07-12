@@ -5,26 +5,42 @@ import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
-  message
+  message, AmqpError, SessionEvents
 } from "./rhea-promise";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { defaultLock, Func, retry, translate, AmqpMessage } from "./amqp-common";
-import { ClientEntity } from "./clientEntity";
+import { LinkEntity } from "./linkEntity";
 
 const debug = debugModule("azure:event-hubs:sender");
+
+interface CreateSenderOptions {
+  newName?: boolean;
+}
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
  * @class EventHubSender
  */
-export class EventHubSender extends ClientEntity {
+export class EventHubSender extends LinkEntity {
   /**
    * @property {string} senderLock The unqiue lock name per connection that is used to acquire the
    * lock for establishing a sender link by an entity on that connection.
    * @readonly
    */
   readonly senderLock: string = `sender-${uuid()}`;
+  /**
+   * @property {OnAmqpEvent} _onAmqpError The handler function to handle errors that happen on the
+   * underlying sender.
+   * @readonly
+   */
+  private readonly _onAmqpError: OnAmqpEvent;
+  /**
+   * @property {OnAmqpEvent} _onAmqpError The handler function to handle close events that happen
+   * on the underlying sender.
+   * @readonly
+   */
+  private readonly _onAmqpClose: OnAmqpEvent;
   /**
    * @property {Sender} [_sender] The AMQP sender link.
    * @private
@@ -41,10 +57,35 @@ export class EventHubSender extends ClientEntity {
   constructor(context: ConnectionContext, partitionId?: string | number, name?: string) {
     super(context, { name: name, partitionId: partitionId });
     this.address = this._context.config.entityPath as string;
-    if (this.partitionId !== null && this.partitionId !== undefined) {
+    if (this.partitionId != undefined) {
       this.address += `/Partitions/${this.partitionId}`;
     }
     this.audience = `${this._context.config.endpoint}${this.address}`;
+    this._onAmqpError = (context: EventContext) => {
+      const senderError = context.sender && context.sender.error;
+      const sessionError = context.session.error;
+      if (senderError) {
+        const err = translate(senderError);
+        debug("[%s] An error occurred for sender '%s': %O.",
+          this._context.connectionId, this.name, err);
+      } else if (sessionError) {
+        const err = translate(sessionError);
+        debug("[%s] An error occurred on the session of sender '%s': %O.",
+          this._context.connectionId, this.name, err);
+      }
+    };
+    this._onAmqpClose = async (context: EventContext) => {
+      const senderError = context.sender && context.sender.error;
+      const sessionError = context.session.error;
+      if (senderError) {
+        debug("[%s] 'sender_close' event occurred for sender '%s'. The associated error is: %O",
+          this._context.connectionId, this.address, senderError);
+      } else if (sessionError) {
+        debug("[%s] 'session_close' event occurred for sender '%s'. The associated error is: %O",
+          this._context.connectionId, this.address, sessionError);
+      }
+      await this.detached(senderError || sessionError);
+    };
   }
 
   /**
@@ -59,14 +100,14 @@ export class EventHubSender extends ClientEntity {
         throw new Error("data is required and it must be of type object.");
       }
 
-      if (!this._isOpen()) {
+      if (!this.isOpen()) {
         debug("Acquiring lock %s for initializing the session, sender and " +
           "possibly the connection.", this.senderLock);
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
       const message = EventData.toAmqpMessage(data);
       message.body = this._context.dataTransformer.encode(data.body);
-      return await this._trySend(message);
+      return await this._trySend(message, message.message_id);
     } catch (err) {
       debug("An error occurred while sending the message %O", err);
       throw err;
@@ -86,13 +127,13 @@ export class EventHubSender extends ClientEntity {
         throw new Error("data is required and it must be an Array.");
       }
 
-      if (!this._isOpen()) {
+      if (!this.isOpen()) {
         debug("Acquiring lock %s for initializing the session, sender and " +
           "possibly the connection.", this.senderLock);
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
-      debug("[%s] Sender '%s', trying to send EventData[]: %O",
-        this._context.connectionId, this.name, datas);
+      debug("[%s] Sender '%s', trying to send EventData[].",
+        this._context.connectionId, this.name);
       const messages: AmqpMessage[] = [];
       // Convert EventData to AmqpMessage.
       for (let i = 0; i < datas.length; i++) {
@@ -118,14 +159,46 @@ export class EventHubSender extends ClientEntity {
         }
       }
 
+      if (!batchMessage.message_id) {
+        batchMessage.message_id = uuid();
+      }
+
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = message.encode(batchMessage);
       debug("[%s]Sender '%s', sending encoded batch message.",
         this._context.connectionId, this.name, encodedBatchMessage);
-      return await this._trySend(encodedBatchMessage, undefined, 0x80013700);
+      return await this._trySend(encodedBatchMessage, batchMessage.message_id, 0x80013700);
     } catch (err) {
       debug("An error occurred while sending the batch message %O", err);
       throw err;
+    }
+  }
+
+  /**
+   * Will reconnect the sender link if necessary.
+   * @param {AmqpError | Error} [senderError] The sender error if any.
+   * @returns {Promise<void>} Promise<void>.
+   */
+  async detached(senderError?: AmqpError | Error): Promise<void> {
+    let shouldReopen = false;
+    if (senderError && this._context.senders[this.address]) {
+      const translatedError = translate(senderError);
+      if (translatedError.retryable) {
+        shouldReopen = true;
+      }
+    } else if (this._context.senders[this.address]) {
+      shouldReopen = true;
+      debug("[%s] Sender's close() method was not called. There was no accompanying error " +
+        "as well. This is a candidate for re-establishing the sender link.");
+    }
+    if (shouldReopen) {
+      await defaultLock.acquire(this.senderLock, () => {
+        const options: SenderOptions = this._createSenderOptions({
+          newName: true
+        });
+        // shall retry 3 times at an interval of 15 seconds and bail out.
+        return retry<void>(() => this._init(options));
+      });
     }
   }
 
@@ -137,12 +210,13 @@ export class EventHubSender extends ClientEntity {
   async close(): Promise<void> {
     if (this._sender) {
       try {
-        await this._sender.close();
-        delete this._context.senders[this.name!];
+        const senderLink = this._sender;
+        this._sender = undefined;
+        delete this._context.senders[this.address];
+        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         debug("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
           this._context.connectionId, this.name, this.address);
-        this._sender = undefined;
-        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+        await senderLink.close();
         debug("[%s]Sender '%s' closed.", this._context.connectionId, this.name);
       } catch (err) {
         debug("An error occurred while closing the sender %O", err);
@@ -151,16 +225,26 @@ export class EventHubSender extends ClientEntity {
     }
   }
 
-  private _createSenderOptions(onError?: OnAmqpEvent): SenderOptions {
-    const options: SenderOptions = {
+  /**
+   * Determines whether the AMQP sender link is open. If open then returns true else returns false.
+   * @return {boolean} boolean
+   */
+  isOpen(): boolean {
+    return this._sender! && this._sender!.isOpen();
+  }
+
+  private _createSenderOptions(options: CreateSenderOptions): SenderOptions {
+    if (options.newName) this.name = `${uuid()}`;
+    const srOptions: SenderOptions = {
       name: this.name,
       target: {
         address: this.address
       },
-      onError: onError
+      onError: this._onAmqpError,
+      onClose: this._onAmqpClose
     };
-    debug("Creating sender with options: %O", options);
-    return options;
+    debug("Creating sender with options: %O", srOptions);
+    return srOptions;
   }
 
   /**
@@ -174,7 +258,7 @@ export class EventHubSender extends ClientEntity {
    * @return {Promise<Delivery>} Promise<Delivery>
    */
   private _trySend(message: AmqpMessage, tag?: any, format?: number): Promise<Delivery> {
-    const sendEventPromise = new Promise<Delivery>((resolve, reject) => {
+    const sendEventPromise = () => new Promise<Delivery>((resolve, reject) => {
       debug("[%s] Sender '%s', credit: %d available: %d", this._context.connectionId, this.name,
         this._sender!.credit, this._sender!.session.outgoing.available());
       if (this._sender!.sendable()) {
@@ -232,46 +316,35 @@ export class EventHubSender extends ClientEntity {
         this._sender!.registerHandler(SenderEvents.modified, onModified);
         this._sender!.registerHandler(SenderEvents.released, onReleased);
         const delivery = this._sender!.send(message, tag, format);
-        debug("[%s] Sender '%s', sent message with delivery id: %d",
-          this._context.connectionId, this.name, delivery.id);
+        debug("[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
+          this._context.connectionId, this.name, delivery.id, delivery.tag.toString());
       } else {
-        const msg = `[${this._context.connectionId}]Sender "${this.name}", ` +
-          `cannot send the message right now.Please try later.`;
+        const msg = `[${this._context.connectionId}] Sender "${this.name}", ` +
+          `cannot send the message right now. Please try later.`;
         debug(msg);
         reject(new Error(msg));
       }
     });
 
-    return retry<Delivery>(() => sendEventPromise);
-  }
-
-  /**
-   * Determines whether the AMQP sender link is open. If open then returns true else returns false.
-   * @private
-   *
-   * @return {boolean} boolean
-   */
-  private _isOpen(): boolean {
-    return this._sender! && this._sender!.isOpen();
+    return retry<Delivery>(sendEventPromise);
   }
 
   /**
    * Initializes the sender session on the connection.
    * @returns {Promise<void>}
    */
-  private async _init(): Promise<void> {
+  private async _init(options?: SenderOptions): Promise<void> {
     try {
-      if (!this._isOpen()) {
+      if (!this.isOpen()) {
         await this._negotiateClaim();
-        const onAmqpError: OnAmqpEvent = (context: EventContext) => {
-          const senderError = translate(context.sender!.error!);
-          // TODO: Should we retry before calling user's error method?
-          debug("[%s] An error occurred for sender '%s': %O.",
-            this._context.connectionId, this.name, senderError);
-        };
         debug("[%s] Trying to create sender '%s'...", this._context.connectionId, this.name);
-        const options = this._createSenderOptions(onAmqpError);
-        this._sender = await this._context.connection!.createSender(options);
+        if (!options) {
+          options = this._createSenderOptions({});
+        }
+        this._sender = await this._context.connection.createSender(options);
+        this._sender.setMaxListeners(1000);
+        this._sender.registerSessionHandler(SessionEvents.sessionError, this._onAmqpError);
+        this._sender.registerSessionHandler(SessionEvents.sessionClose, this._onAmqpClose);
         debug("[%s] Promise to create the sender resolved. Created sender with name: %s",
           this._context.connectionId, this.name);
         debug("[%s] Sender '%s' created with sender options: %O",

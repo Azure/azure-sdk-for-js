@@ -53,15 +53,24 @@ testhub send
 Sends messages to an eventhub.
 
 Options:
-  --version        Show version number                                 [boolean]
-  -h, --help       Show help                                           [boolean]
-  -c, --conn-str   EventHub connection string.                          [string]
-  -n, --hub        Name of the EventHub.                     [string] [required]
-  -a, --address    Address URI to the EventHub entity.                  [string]
-  -k, --key-name   SAS key-name for the EventHub.                       [string]
-  -v, --key        SAS key for the key-name.                            [string]
-  -b, --msg-count  Number of events to send.               [number] [default: 1]
-  -s, --msg-size   size in bytes for each event          [number] [default: 256]
+  --version           Show version number                              [boolean]
+  -h, --help          Show help                                        [boolean]
+  -c, --conn-str      EventHub connection string.                       [string]
+  -n, --hub           Name of the EventHub.                  [string] [required]
+  -a, --address       Address URI to the EventHub entity.               [string]
+  -k, --key-name      SAS key-name for the EventHub.                    [string]
+  -v, --key           SAS key for the key-name.                         [string]
+  -b, --msg-group     Number of events to group/batch.     [number] [default: 1]
+  -t, --msg-count     Number of events to send in one iteration.
+                                                        [number] [default: 1000]
+  -s, --msg-size      size in bytes for each event.      [number] [default: 256]
+  -p, --partition-id  The partitionId that the sender should send the event to.
+                                                         [string] [default: "0"]
+  -w, --wait          Number of seconds to sleep.          [number] [default: 0]
+  -i, --iterations    Number of iterations to repeat the process of sending
+                      messages. For sending messages forever, provide a
+                      value less than 1.
+                                                           [number] [default: 1]
 ```
 
 #### Receive
@@ -79,7 +88,7 @@ $ testhub receive -a yourNamespace -n yourHub -k yourKeyName -v yourKey
 $ testhub receive --help
 testhub receive
 
-Sends messages to an eventhub.
+Receives messages from an eventhub.
 
 Options:
   --version              Show version number                           [boolean]
@@ -89,11 +98,13 @@ Options:
   -a, --address          Address URI to the EventHub entity.            [string]
   -k, --key-name         SAS key-name for the EventHub.                 [string]
   -v, --key              SAS key for the key-name.                      [string]
+  -d, --duration         The value must be in seconds. Receive messages for the
+                         specified duration. Useful for benchmark testing.
+                                                                        [number]
   -p, --partitions       Comma seperated partition IDs.  [string] [default: "0"]
   -g, --consumer         Consumer group name      [string] [default: "$default"]
   -o, --offset           Starting offset                [string] [default: "-1"]
   -f, --full-event-data  Display the complete EventData object.
-                                                      [boolean] [default: false]
 ```
 
 #### Debug

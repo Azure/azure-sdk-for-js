@@ -14,6 +14,7 @@ export interface SenderOptions extends rhea.SenderOptions {
   onReleased?: rhea.OnAmqpEvent;
   onModified?: rhea.OnAmqpEvent;
   onError?: rhea.OnAmqpEvent;
+  onClose?: rhea.OnAmqpEvent;
 }
 
 export class Sender {
@@ -133,11 +134,27 @@ export class Sender {
     return senderClose.then(() => { return this._session.close(); });
   }
 
+  setMaxListeners(count: number): void {
+    this._sender.setMaxListeners(count);
+  }
+
+  getMaxListeners(): number {
+    return this._sender.getMaxListeners();
+  }
+
   registerHandler(event: SenderEvents, handler: rhea.OnAmqpEvent): void {
     this._sender.on(event, handler);
   }
 
   removeHandler(event: SenderEvents, handler: rhea.OnAmqpEvent): void {
     this._sender.removeListener(event, handler);
+  }
+
+  registerSessionHandler(event: rhea.SessionEvents, handler: rhea.OnAmqpEvent): void {
+    this._session.registerHandler(event, handler);
+  }
+
+  removeSessionHandler(event: rhea.SessionEvents, handler: rhea.OnAmqpEvent): void {
+    this._session.removeHandler(event, handler);
   }
 }

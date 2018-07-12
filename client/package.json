@@ -10,9 +10,10 @@
     "async-lock": "^1.1.2",
     "debug": "^3.1.0",
     "is-buffer": "2.0.2",
+    "jssha": "^2.3.1",
     "ms-rest": "^2.3.3",
     "ms-rest-azure": "^2.5.5",
-    "rhea": "^0.2.14",
+    "rhea": "amqp/rhea",
     "tslib": "^1.9.2",
     "uuid": "^3.2.1"
   },
