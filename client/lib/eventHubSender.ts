@@ -9,7 +9,7 @@ import {
 } from "./rhea-promise";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
-import { defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper } from "./amqp-common";
+import { defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper, randomNumberFromInterval } from "./amqp-common";
 import { LinkEntity } from "./linkEntity";
 
 const debug = debugModule("azure:event-hubs:sender");
@@ -188,8 +188,9 @@ export class EventHubSender extends LinkEntity {
       }
     } else if (this._context.senders[this.address]) {
       shouldReopen = true;
-      debug("[%s] Sender's close() method was not called. There was no accompanying error " +
-        "as well. This is a candidate for re-establishing the sender link.");
+      debug("[%s] close() method of Sender '%s' with address '%s' was not called. There " +
+        "was no accompanying error as well. This is a candidate for re-establishing the sender link.",
+        this._context.connectionId, this.name, this.address);
     }
     if (shouldReopen) {
       await defaultLock.acquire(this.senderLock, () => {
@@ -331,7 +332,8 @@ export class EventHubSender extends LinkEntity {
       }
     });
 
-    return retry<Delivery>(sendEventPromise, 3, 5);
+    const jitter = randomNumberFromInterval(1, 4);
+    return retry<Delivery>(sendEventPromise, 3, 5 + jitter);
   }
 
   /**

@@ -23,5 +23,6 @@ export {
   parseConnectionString, IotHubConnectionStringModel, StorageConnectionStringModel, defaultLock,
   Func, ParsedOutput, getNewAsyncLock, AsyncLockOptions, ServiceBusConnectionStringModel,
   isIotHubConnectionString, CreateConnectionPrameters, ServiceBusMessageAnnotations,
-  ServiceBusDeliveryAnnotations, EventHubDeliveryAnnotations, EventHubMessageAnnotations
+  ServiceBusDeliveryAnnotations, EventHubDeliveryAnnotations, EventHubMessageAnnotations,
+  randomNumberFromInterval
 } from "./util/utils";
