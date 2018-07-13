@@ -1,3 +1,6 @@
+## 2018-06-13 0.1.3
+- _storageBlobPrefix is set if provided in the options, [#91](https://github.com/Azure/azure-event-hubs-node/pull/91).
+
 ## 2018-06-13 0.1.2
 - Fixed an issue reported in [#80](https://github.com/Azure/azure-event-hubs-node/issues/80).
 
