@@ -255,7 +255,43 @@ describe("EventHub Receiver", function () {
   // });
 
   describe("with epoch", function () {
-    it("should behave correctly when 2 epoch receivers with different values are connecting to a partition in a consumer group", function (done) {
+    it("should behave correctly when a receiver with lower epoch value is connected after a receiver with higher epoch value to a partition in a consumer group", function (done) {
+      const partitionId = hubInfo.partitionIds[0];
+      let epochRcvr1: ReceiveHandler, epochRcvr2: ReceiveHandler
+      const onError = (error) => {
+        debug(">>>> epoch Receiver 1", error);
+        throw new Error("An Error should not have happened for epoch receiver with epoch value 2.");
+      };
+      const onMsg = (data) => {
+        debug(">>>> epoch Receiver 1", data);
+      };
+      epochRcvr1 = client.receive(partitionId, onMsg, onError, { epoch: 2, eventPosition: EventPosition.fromEnd() });
+      debug("Created epoch receiver 1 %s", epochRcvr1.name);
+      setTimeout(() => {
+        const onError2 = (error) => {
+          debug(">>>> epoch Receiver 2", error);
+          should.exist(error);
+          should.equal(error.name, "ReceiverDisconnectedError");
+          epochRcvr2.stop()
+            .then(() => epochRcvr1.stop())
+            .then(() => {
+              debug("Successfully closed the epoch receivers 1 and 2.");
+              done();
+            })
+            .catch((err) => {
+              debug("error occurred while closing the receivers... ", err);
+              done();
+            });
+        };
+        const onMsg2 = (data) => {
+          debug(">>>> epoch Receiver 2", data);
+        };
+        epochRcvr2 = client.receive(partitionId, onMsg, onError2, { epoch: 1, eventPosition: EventPosition.fromEnd() });
+        debug("Created epoch receiver 2 %s", epochRcvr2.name);
+      }, 3000);
+    });
+
+    it("should behave correctly when a receiver with higher epoch value is connected after a receiver with lower epoch value to a partition in a consumer group", function (done) {
       const partitionId = hubInfo.partitionIds[0];
       let epochRcvr1: ReceiveHandler, epochRcvr2: ReceiveHandler
       const onError = (error) => {
@@ -286,7 +322,7 @@ describe("EventHub Receiver", function () {
         const onMsg2 = (data) => {
           debug(">>>> epoch Receiver 2", data);
         };
-        epochRcvr2 = client.receive(partitionId, onMsg, onError, { epoch: 2, eventPosition: EventPosition.fromEnd() });
+        epochRcvr2 = client.receive(partitionId, onMsg, onError2, { epoch: 2, eventPosition: EventPosition.fromEnd() });
         debug("Created epoch receiver 2 %s", epochRcvr2.name);
       }, 3000);
     });

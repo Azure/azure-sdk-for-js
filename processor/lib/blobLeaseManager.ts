@@ -211,7 +211,7 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
               debug("[%s] Lease '%s' lost. Attempting to re-acquire.",
                 this.hostName, lease.fullUri);
               this._acquire(lease).catch((err) => {
-                debug("[%s] An error occured while acquiring the lease '%s': %O",
+                debug("[%s] An error occured while re-acquiring the lease '%s': %O",
                   this.hostName, lease.fullUri, err);
               });
             }, renewPeriod * 2);
