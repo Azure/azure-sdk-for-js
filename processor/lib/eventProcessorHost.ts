@@ -9,7 +9,7 @@ import { PartitionContext } from "./partitionContext";
 import { EventEmitter } from "events";
 import {
   TokenProvider, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation,
-  ReceiveOptions, EventPosition, OnMessage, OnError, EventHubsError, EventHubClient, ClientOptions,
+  ReceiveOptions, EventPosition, OnMessage, OnError, MessagingError, EventHubClient, ClientOptions,
   Dictionary, EventData, ReceiveHandler, ClientOptionsBase
 } from "azure-event-hubs";
 import {
@@ -346,7 +346,7 @@ export class EventProcessorHost extends EventEmitter {
       context.updateCheckpointDataFromEventData(eventData);
       this.emit(EventProcessorHost.message, context, eventData);
     };
-    const onError: OnError = (error: EventHubsError | Error) => {
+    const onError: OnError = (error: MessagingError | Error) => {
       debug("[%s] [EPH - '%s'] Receiver '%s' received an error: %O.",
         this._eventHubClient.connectionId, this._hostName, receiveHandler.name, error);
       this.emit(EventProcessorHost.error, error);
