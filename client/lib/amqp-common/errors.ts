@@ -129,11 +129,11 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when an operator intervened to detach for some reason.
    */
-  "amqp:link:detach-forced" = "DetachForcedError",
+  "amqp:link:detach-forced" = "DetachForcedError", // Retryable
   /**
    * Error is thrown when the peer sent more message transfers than currently allowed on the link.
    */
-  "amqp:link:transfer-limit-exceeded" = "TransferLimitExceededError",
+  "amqp:link:transfer-limit-exceeded" = "TransferLimitExceededError", // Retryable
   /**
    * Error is thrown when the message sent is too large: the maximum size is 256Kb.
    */
@@ -154,7 +154,7 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when input was received for a link that was detached with an error.
    */
-  "amqp:session:errant-link" = "ErrantLinkError", // Retryable
+  "amqp:session:errant-link" = "ErrantLinkError",
   /**
    * Error is thrown when an attach was received using a handle that is already in use for an attached link.
    */
@@ -167,7 +167,7 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when an operator intervened to close the connection for some reason.
    */
-  "amqp:connection:forced" = "ConnectionForcedError",
+  "amqp:connection:forced" = "ConnectionForcedError", // Retryable
   /**
    * Error is thrown when a valid frame header cannot be formed from the incoming byte stream.
    */
@@ -286,11 +286,11 @@ export enum ErrorNameConditionMapper {
   /**
    * Error is thrown when an operator intervened to detach for some reason.
    */
-  DetachForcedError = "amqp:link:detach-forced",
+  DetachForcedError = "amqp:link:detach-forced", // Retryable
   /**
    * Error is thrown when the peer sent more message transfers than currently allowed on the link.
    */
-  TransferLimitExceededError = "amqp:link:transfer-limit-exceeded",
+  TransferLimitExceededError = "amqp:link:transfer-limit-exceeded", // Retryable
   /**
    * Error is thrown when the message sent is too large: the maximum size is 256Kb.
    */
@@ -324,7 +324,7 @@ export enum ErrorNameConditionMapper {
   /**
    * Error is thrown when an operator intervened to close the connection for some reason.
    */
-  ConnectionForcedError = "amqp:connection:forced",
+  ConnectionForcedError = "amqp:connection:forced", // Retryable
   /**
    * Error is thrown when a valid frame header cannot be formed from the incoming byte stream.
    */
@@ -388,7 +388,8 @@ export class MessagingError extends Error {
 
 export const retryableErrors: string[] = [
   "InternalServerError", "ServerBusyError", "ServiceUnavailableError", "OperationCancelledError",
-  "SenderBusyError", "MessagingError"
+  "SenderBusyError", "MessagingError", "DetachForcedError", "ConnectionForcedError",
+  "TransferLimitExceededError"
 ];
 
 /**
