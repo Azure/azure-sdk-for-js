@@ -11,5 +11,5 @@ export { Lease } from "./blobLease";
 export { LeaseManager, LeaseWithDuration } from "./blobLeaseManager";
 export {
   delay, EventData, OnError as OnEphError, EventPosition, EventHubPartitionRuntimeInformation,
-  EventHubRuntimeInformation, EventHubsError, DataTransformer
+  EventHubRuntimeInformation, MessagingError, DataTransformer
 } from "azure-event-hubs";

@@ -7,12 +7,13 @@
   "main": "./dist/lib/index.js",
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
-    "azure-event-hubs": "^0.2.3",
-    "azure-storage": "^2.8.2",
-    "uuid": "^3.2.1",
     "async-lock": "^1.1.2",
+    "azure-event-hubs": "../client",
+    "azure-storage": "^2.8.2",
     "debug": "^3.1.0",
-    "tslib": "^1.9.2"
+    "ms-rest-azure": "^2.5.7",
+    "tslib": "^1.9.2",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "@types/async-lock": "^1.1.0",
