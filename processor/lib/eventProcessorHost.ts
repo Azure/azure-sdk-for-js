@@ -78,6 +78,11 @@ export interface EventProcessorOptions extends ClientOptionsBase {
    * @property {string} [storageBlobPrefix] Prefix used when naming blobs within the storage container.
    */
   storageBlobPrefix?: string;
+  /**
+   * @property {boolean} [autoCheckpoint] Automatically checkpoint the offset on behalf of the
+   * customer. Default value: `true`.
+   */
+  autoCheckpoint?: boolean;
 }
 
 /**
@@ -126,6 +131,11 @@ export class EventProcessorHost extends EventEmitter {
    * Error object is passed the event listener.
    */
   static error: string = "ephost:error";
+  /**
+   * @property {boolean} autoCheckpoint Automatically checkpoint the offset on behalf of the
+   * customer. Default value: `true`.
+   */
+  autoCheckpoint: boolean = true;
 
   private _hostName: string;
   private _consumerGroup: string;
@@ -174,6 +184,7 @@ export class EventProcessorHost extends EventEmitter {
     this._contextByPartition = {};
     this._receiverByPartition = {};
     if (options.storageBlobPrefix) this._storageBlobPrefix = options.storageBlobPrefix;
+    if (options.autoCheckpoint === false) this.autoCheckpoint = false;
   }
 
   /**
@@ -264,9 +275,13 @@ export class EventProcessorHost extends EventEmitter {
         const id = lease.partitionId!;
         try {
           debug("Renewed lease on partitionId: '%s'.", id);
-          const info = await this._contextByPartition![id].checkpoint();
-          debug(">>>> [EPH - %s] Successfully checkpointed info '%o' for partition '%s'.",
-            this._hostName, info, id);
+          if (this.autoCheckpoint) {
+            debug("[EPH - %s] Autocheckpoint is enabled, hence checkpointing the event metadata.",
+              this._hostName);
+            const info = await this._contextByPartition![id].checkpoint();
+            debug(">>>> [EPH - %s] Successfully checkpointed info '%o' for partition '%s'.",
+              this._hostName, info, id);
+          }
         } catch (err) {
           debug("[EPH - %s] An error occurred while checkpointing information for partition '%s': %O",
             this._hostName, id, err);
