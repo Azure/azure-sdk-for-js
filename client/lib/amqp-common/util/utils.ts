@@ -138,6 +138,15 @@ export function delay<T>(t: number, value?: T): Promise<T> {
 }
 
 /**
+ * Generates a random number between the given interval
+ * @param {number} min Min number of the range (inclusive).
+ * @param {number} max Max number of the range (inclusive).
+ */
+export function randomNumberFromInterval(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+/**
  * Type declaration for a Function type where T is the input to the function and V is the output of the function.
  */
 export type Func<T, V> = (a: T) => V;

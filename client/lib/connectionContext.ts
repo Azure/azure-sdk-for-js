@@ -14,7 +14,10 @@ import {
 } from "./amqp-common";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { ClientOptions } from "./eventHubClient";
-import { Connection, Dictionary, ConnectionOptions, OnAmqpEvent, EventContext, ConnectionEvents } from "./rhea-promise";
+import {
+  Connection, Dictionary, ConnectionOptions, OnAmqpEvent, EventContext, ConnectionEvents
+} from "./rhea-promise";
+import { connectionReconnectDelay } from "./amqp-common/util/constants";
 
 const debug = debugModule("azure:event-hubs:connectionContext");
 
@@ -146,22 +149,27 @@ export namespace ConnectionContext {
       connectionContext.connection.removeHandler(ConnectionEvents.connectionOpen, onConnectionOpen);
       const connectionError = context.connection ? context.connection.error : undefined;
       if (connectionError) {
-        debug(`Error occurred on the amqp connection.`, connectionError);
+        debug(`[%s] Error occurred on the amqp connection: %O`,
+          connectionContext.connection.id, connectionError);
       }
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
       if (!connectionContext.wasConnectionCloseCalled &&
         (Object.keys(connectionContext.senders).length) ||
         Object.keys(connectionContext.receivers).length) {
-        debug("connection.close() was not called from the sdk and there were some " +
-          "sender or receiver links or both. We should reconnect.");
-        await delay(100);
+        debug("[%s] connection.close() was not called from the sdk and there were some " +
+          "sender or receiver links or both. We should reconnect.", connectionContext.connection.id);
+        await delay(connectionReconnectDelay);
         // reconnect senders if any
         for (const sender of Object.values(connectionContext.senders)) {
+          debug("[%s] calling detached on sender '%s' with address '%s'.",
+            connectionContext.connection.id, sender.name, sender.address);
           sender.detached();
         }
         // reconnect receivers if any
         for (const receiver of Object.values(connectionContext.receivers)) {
+          debug("[%s] calling detached on receiver '%s' with address '%s'.",
+            connectionContext.connection.id, receiver.name, receiver.address);
           receiver.detached();
         }
       }

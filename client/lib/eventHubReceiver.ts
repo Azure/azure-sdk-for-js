@@ -244,8 +244,9 @@ export class EventHubReceiver extends LinkEntity {
       }
     } else if (this._context.receivers[this.name]) {
       shouldReopen = true;
-      debug("[%s] Receiver's close() method was not called. There was no accompanying error " +
-        "as well. This is a candidate for re-establishing the sender link.");
+      debug("[%s] close() method of Receiver '%s' with address '%s' was not called. " +
+        "There was no accompanying error as well. This is a candidate for re-establishing " +
+        "the sender link.", this._context.connectionId, this.name, this.address);
     }
     if (shouldReopen) {
       const rcvrOptions: CreateReceiverOptions = {
