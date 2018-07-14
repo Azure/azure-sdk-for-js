@@ -20,9 +20,10 @@ export const isNode = typeof navigator === "undefined" && typeof process !== "un
  * @param args
  */
 export function responseToBody(httpOperationResponseMethod: Function, ...args: any[]) {
-  const callback = args[args.length-1];
+  const callback = args[args.length - 1];
   if (typeof callback === "function") {
-    httpOperationResponseMethod(...args.slice(0, args.length-1))
+    httpOperationResponseMethod(...args.slice(0, args.length - 1))
+      // tslint:disable-next-line:no-null-keyword
       .then((res: HttpOperationResponse) => callback(null, res.parsedBody, res.request, res))
       .catch((err: any) => callback(err));
   } else {
