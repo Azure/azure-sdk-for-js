@@ -14,6 +14,23 @@ import { Constants } from "./constants";
 export const isNode = typeof navigator === "undefined" && typeof process !== "undefined";
 
 /**
+ * Converts a WithHttpOperationResponse method to a method returning only the body.
+ * Supports an optional callback as the last argument.
+ * @param httpOperationResponseMethod
+ * @param args
+ */
+export function responseToBody(httpOperationResponseMethod: Function, ...args: any[]) {
+  const callback = args[args.length-1];
+  if (typeof callback === "function") {
+    httpOperationResponseMethod(...args.slice(0, args.length-1))
+      .then((res: HttpOperationResponse) => callback(null, res.parsedBody, res.request, res))
+      .catch((err: any) => callback(err));
+  } else {
+    return httpOperationResponseMethod(...args).then((res: HttpOperationResponse) => res.parsedBody);
+  }
+}
+
+/**
  * Checks if a parsed URL is HTTPS
  *
  * @param {object} urlToCheck The url to check
@@ -184,6 +201,7 @@ export interface ServiceCallback<TResult> {
  * Converts a Promise to a callback.
  * @param {Promise<any>} promise The Promise to be converted to a callback
  * @returns {Function} A function that takes the callback (cb: Function): void
+ * @deprecated generated code should instead depend on responseToBody
  */
 export function promiseToCallback(promise: Promise<any>): Function {
   if (typeof promise.then !== "function") {
