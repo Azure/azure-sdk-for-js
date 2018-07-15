@@ -8,6 +8,8 @@ export const command = "receive";
 
 export const describe = "Receives messages from an eventhub.";
 
+const logFrequency = 60000;
+
 export const builder: CommandBuilder = {
   d: {
     alias: "duration",
@@ -46,7 +48,18 @@ export const builder: CommandBuilder = {
   }
 };
 
-const partitionCount = {};
+interface CountEntry {
+  currCount: number;
+  prevCount: number;
+  prevTimestamp: number;
+  currTimestamp: number;
+  timer?: NodeJS.Timer;
+}
+const partitionCount: { [x: string]: CountEntry } = {};
+
+const uberStartTime = Date.now();
+
+let startTime: number;
 
 function validateArgs(argv: any) {
   if (!argv) {
@@ -78,6 +91,8 @@ export async function handler(argv: any): Promise<void> {
       partitionIds = await client.getPartitionIds();
     }
     log("PartitionIds in the eventhub '%s' are: ", argv.hub, partitionIds);
+    startTime = Date.now();
+    log("Start time for receiving messages is: %s", startTime);
     if (duration) {
       log(">>>>>>>>>>>> Performance benchmark mode. <<<<<<<<<<<<<<<<");
       log("Will be receiving messages only from partition: '0'.");
@@ -87,25 +102,46 @@ export async function handler(argv: any): Promise<void> {
     } else {
       for (let id of partitionIds) {
         log(`Created Receiver: for partition: "${id}" in consumer group: "${consumerGroup}" in event hub "${argv.hub}".`);
-        partitionCount[id] = 0;
+        const initialTS = Date.now();
+        partitionCount[id] = { prevCount: 0, currCount: 0, timer: undefined, prevTimestamp: initialTS, currTimestamp: initialTS };
+        const messageRate = () => {
+          const prevCount = partitionCount[id].prevCount;
+          const currCount = partitionCount[id].currCount;
+          const currTimestamp = partitionCount[id].currTimestamp;
+          let duration = (currTimestamp - startTime) / 1000;
+          if (prevCount !== currCount) {
+            partitionCount[id].prevCount = currCount;
+            partitionCount[id].prevTimestamp = currTimestamp;
+          } else {
+            duration = (partitionCount[id].prevTimestamp - startTime) / 1000;
+            log("No new messages have been received since '%s'.", new Date(partitionCount[id].prevTimestamp).toISOString());
+          }
+          log(`Received ${currCount} messages from partition "${id}" in ${duration} seconds ` +
+            `@ ${Math.floor(currCount / duration)} messages/second.`);
+        };
         const onMessage = (m: EventData) => {
-          if (m.body) {
-            log("----------------------------------------------------------");
-            log(">>>>> %s Received message from partition id: %d, count: %d", new Date().toString(), id, ++partitionCount[id]);
-            log("EnqueuedTime - %s", m.enqueuedTimeUtc!.toString());
-            // log("Received message body - ", m.body.toString());
+          const ts = Date.now();
+          partitionCount[id].currCount += 1;
+          partitionCount[id].currTimestamp = ts;
+          if (partitionCount[id].timer == undefined) {
+            partitionCount[id].prevTimestamp = ts;
+            partitionCount[id].timer = setInterval(messageRate, logFrequency);
           }
           if (argv.fullEventData) {
             log("Corresponding EventData object: %o", m);
           }
         };
         const onError = (err: any) => {
+          if (partitionCount[id].timer != undefined) {
+            clearInterval(partitionCount[id].timer as NodeJS.Timer);
+            partitionCount[id].timer = undefined;
+          }
           log("^^^^^^^^^^ An error occured with the receiver: %o", err);
         };
         client.receive(id, onMessage, onError, { consumerGroup: consumerGroup, eventPosition: EventPosition.fromOffset(offset, true) });
       }
     }
-    log("Started receiving messages from: ", new Date().toString());
+    log("Started receiving messages from offset: '%s'.", offset);
   } catch (err) {
     return Promise.reject(err);
   }
@@ -114,12 +150,15 @@ export async function handler(argv: any): Promise<void> {
 const CtrlC = require("death");
 CtrlC((signal, err) => {
   console.log("\nstats:");
-  console.log("--------------------------------------");
-  console.log(" PartitionId | Received Message Count ");
-  console.log("--------------------------------------");
+  console.log("---------------------------------------------------------");
+  console.log(" PartitionId | Received Message Count |  messages/second ");
+  console.log("---------------------------------------------------------");
   for (const key in partitionCount) {
-    console.log(`      ${key}      |          ${partitionCount[key]}`);
+    const count = partitionCount[key].currCount;
+    const duration = (partitionCount[key].currTimestamp - (startTime || uberStartTime)) / 1000;
+    const rate = count / duration;
+    console.log(`      ${key}      |          ${count}          |      ${rate}      `);
   }
-  console.log("---------------------------------------");
+  console.log("---------------------------------------------------------");
   process.exit();
 });
