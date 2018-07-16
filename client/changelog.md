@@ -1,3 +1,13 @@
+## 2018-07-16 0.2.4
+- Added support to handle disconnects and link timeout errors.
+- Fixed client examples link in README.
+- Updated issue templates
+- Improvised the example structure
+- Moved the common stuff to `amqp-common` and added `Connection`, `Session`, `Sender`, `Receiver` objects to `rhea-promise`.
+- Improved tsconfig.json and tslint.json config files.
+- Added `import "mocha"` to all the test files, inorder to get rid of red squiggles in vscode.
+- Replaced crypto with jssha which is browser compatible
+
 ## 2018-06-13 0.2.3
 - Minor doc fixes and sample updates.
 - Add a listener for the disconnected event after opening the connection.
