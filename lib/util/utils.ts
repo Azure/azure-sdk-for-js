@@ -14,21 +14,26 @@ import { Constants } from "./constants";
 export const isNode = typeof navigator === "undefined" && typeof process !== "undefined";
 
 /**
- * Converts a WithHttpOperationResponse method to a method returning only the body.
- * Supports an optional callback as the last argument.
- * @param httpOperationResponseMethod
- * @param args
+ * Adapts a WithHttpOperationResponse method to unwrap the body and accept an optional callback.
+ * @param httpOperationResponseMethod the method to call and apply a callback to
+ * @param args the arguments to the method, optionally including a trailing callback.
  */
-export function responseToBody(httpOperationResponseMethod: Function, ...args: any[]) {
-  const callback = args[args.length - 1];
+export function responseToBody(httpOperationResponseMethod: (...args: any[]) => Promise<HttpOperationResponse>, ...args: any[]): Promise<any> | undefined {
+  // The generated code will always pass (options, callback) as the last two args.
+  // But `options` could actually be the callback for the sake of user convenience.
+  let callback = args.pop();
+  if (typeof callback !== "function" && typeof args[args.length - 1] === "function") {
+    callback = args.pop();
+  }
   if (typeof callback === "function") {
-    httpOperationResponseMethod(...args.slice(0, args.length - 1))
+    httpOperationResponseMethod(...args)
       // tslint:disable-next-line:no-null-keyword
-      .then((res: HttpOperationResponse) => callback(null, res.parsedBody, res.request, res))
-      .catch((err: any) => callback(err));
+      .then(res => callback(null, res.parsedBody, res.request, res))
+      .catch(err => callback(err));
   } else {
     return httpOperationResponseMethod(...args).then((res: HttpOperationResponse) => res.parsedBody);
   }
+  return undefined; // optimized out
 }
 
 /**
