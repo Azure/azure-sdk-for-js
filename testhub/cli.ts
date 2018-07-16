@@ -53,3 +53,5 @@ yargs
 if (yargs.argv._.length === 0 && yargs.argv.h === false) {
   yargs.coerce('help', function (arg) { return true; }).argv;
 }
+
+// if (!process.env.DEBUG) process.env.DEBUG = "azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer";
