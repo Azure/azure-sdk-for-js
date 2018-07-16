@@ -5,6 +5,7 @@ import { FeedOptions, RequestOptions, Response } from "../../request";
 import { User } from "../User";
 import { Permission } from "./Permission";
 import { PermissionDefinition } from "./PermissionDefinition";
+import { PermissionResponse } from "./PermissionResponse";
 
 export class Permissions {
   private client: CosmosClient;
@@ -35,8 +36,10 @@ export class Permissions {
    * @param {string} body.permissionMode  - The mode of the permission, must be a value of {@link PermissionMode}
    * @param {string} body.resource        - The link of the resource that the permission will be applied to.
    */
-  public create(body: PermissionDefinition, options?: RequestOptions): Promise<Response<PermissionDefinition>> {
-    return this.client.documentClient.createPermission(this.user.url, body, options);
+  public async create(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse> {
+    const response = await this.client.documentClient.createPermission(this.user.url, body, options);
+    const ref = new Permission(this.user, response.result.id);
+    return { body: response.result, headers: response.headers, ref, permission: ref };
   }
 
   /**
@@ -44,7 +47,9 @@ export class Permissions {
    * <p> A permission represents a per-User Permission to access a \
    * specific resource e.g. Item or Cotnainer.  </p>
    */
-  public upsert(body: PermissionDefinition, options?: RequestOptions): Promise<Response<PermissionDefinition>> {
-    return this.client.documentClient.upsertPermission(this.user.url, body, options);
+  public async upsert(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse> {
+    const response = await this.client.documentClient.upsertPermission(this.user.url, body, options);
+    const ref = new Permission(this.user, response.result.id);
+    return { body: response.result, headers: response.headers, ref, permission: ref };
   }
 }

@@ -2,7 +2,6 @@ import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions } from "../../request";
-import { Offer } from "./Offer";
 import { OfferDefinition } from "./OfferDefinition";
 
 export class Offers {

@@ -5,6 +5,7 @@ import { FeedOptions, RequestOptions, Response } from "../../request";
 import { Container } from "../Container";
 import { Trigger } from "./Trigger";
 import { TriggerDefinition } from "./TriggerDefinition";
+import { TriggerResponse } from "./TriggerResponse";
 
 export class Triggers {
   private client: CosmosClient;
@@ -29,8 +30,10 @@ export class Triggers {
    * For additional details, refer to the server-side JavaScript API documentation.
    * </p>
    */
-  public create(body: TriggerDefinition, options?: RequestOptions): Promise<Response<TriggerDefinition>> {
-    return this.client.documentClient.createTrigger(this.container.url, body, options);
+  public async create(body: TriggerDefinition, options?: RequestOptions): Promise<TriggerResponse> {
+    const response = await this.client.documentClient.createTrigger(this.container.url, body, options);
+    const ref = new Trigger(this.container, response.result.id);
+    return { body: response.result, headers: response.headers, ref, trigger: ref };
   }
 
   /**
@@ -41,7 +44,9 @@ export class Triggers {
    * For additional details, refer to the server-side JavaScript API documentation.
    * </p>
    */
-  public upsert(body: TriggerDefinition, options?: RequestOptions): Promise<Response<TriggerDefinition>> {
-    return this.client.documentClient.upsertTrigger(this.container.url, body, options);
+  public async upsert(body: TriggerDefinition, options?: RequestOptions): Promise<TriggerResponse> {
+    const response = await this.client.documentClient.upsertTrigger(this.container.url, body, options);
+    const ref = new Trigger(this.container, response.result.id);
+    return { body: response.result, headers: response.headers, ref, trigger: ref };
   }
 }

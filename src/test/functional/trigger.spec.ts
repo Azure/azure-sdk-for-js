@@ -58,7 +58,7 @@ describe("NodeJS CRUD Tests", function() {
       // tslint:enable:no-var-keyword
       // tslint:enable:prefer-const
 
-      const { result: trigger } = await container.triggers.create(triggerDefinition);
+      const { body: trigger } = await container.triggers.create(triggerDefinition);
 
       assert.equal(trigger.id, triggerDefinition.id);
       assert.equal(trigger.body, "serverScript() { var x = 10; }");
@@ -87,13 +87,13 @@ describe("NodeJS CRUD Tests", function() {
       // replace trigger
       // prettier-ignore
       trigger.body = function() { const x = 20; };
-      const { result: replacedTrigger } = await container.trigger(trigger.id).replace(trigger);
+      const { body: replacedTrigger } = await container.trigger(trigger.id).replace(trigger);
 
       assert.equal(replacedTrigger.id, trigger.id);
       assert.equal(replacedTrigger.body, "function () { const x = 20; }");
 
       // read trigger
-      const { result: triggerAfterReplace } = await container.trigger(replacedTrigger.id).read();
+      const { body: triggerAfterReplace } = await container.trigger(replacedTrigger.id).read();
       assert.equal(replacedTrigger.id, triggerAfterReplace.id);
 
       // delete trigger
@@ -126,7 +126,7 @@ describe("NodeJS CRUD Tests", function() {
       // tslint:enable:no-var-keyword
       // tslint:enable:prefer-const
 
-      const { result: trigger } = await container.triggers.upsert(triggerDefinition);
+      const { body: trigger } = await container.triggers.upsert(triggerDefinition);
 
       assert.equal(trigger.id, triggerDefinition.id);
       assert.equal(trigger.body, "serverScript() { var x = 10; }");
@@ -155,13 +155,13 @@ describe("NodeJS CRUD Tests", function() {
       // replace trigger
       // prettier-ignore
       trigger.body = function() { const x = 20; };
-      const { result: replacedTrigger } = await container.triggers.upsert(trigger);
+      const { body: replacedTrigger } = await container.triggers.upsert(trigger);
 
       assert.equal(replacedTrigger.id, trigger.id);
       assert.equal(replacedTrigger.body, "function () { const x = 20; }");
 
       // read trigger
-      const { result: triggerAfterReplace } = await container.trigger(replacedTrigger.id).read();
+      const { body: triggerAfterReplace } = await container.trigger(replacedTrigger.id).read();
       assert.equal(replacedTrigger.id, triggerAfterReplace.id);
 
       // delete trigger

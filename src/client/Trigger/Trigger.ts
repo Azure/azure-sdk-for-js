@@ -1,8 +1,9 @@
-import { Constants, UriFactory } from "../../common";
+import { UriFactory } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
-import { RequestOptions, Response } from "../../request";
+import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { TriggerDefinition } from "./TriggerDefinition";
+import { TriggerResponse } from "./TriggerResponse";
 
 export class Trigger {
   public get url() {
@@ -15,15 +16,18 @@ export class Trigger {
     this.client = this.container.database.client;
   }
 
-  public read(options?: RequestOptions): Promise<Response<TriggerDefinition>> {
-    return this.client.documentClient.readTrigger(this.url, options);
+  public async read(options?: RequestOptions): Promise<TriggerResponse> {
+    const response = await this.client.documentClient.readTrigger(this.url, options);
+    return { body: response.result, headers: response.headers, ref: this, trigger: this };
   }
 
-  public replace(body: TriggerDefinition, options?: RequestOptions): Promise<Response<TriggerDefinition>> {
-    return this.client.documentClient.replaceTrigger(this.url, body, options);
+  public async replace(body: TriggerDefinition, options?: RequestOptions): Promise<TriggerResponse> {
+    const response = await this.client.documentClient.replaceTrigger(this.url, body, options);
+    return { body: response.result, headers: response.headers, ref: this, trigger: this };
   }
 
-  public delete(options?: RequestOptions): Promise<Response<TriggerDefinition>> {
-    return this.client.documentClient.deleteTrigger(this.url, options);
+  public async delete(options?: RequestOptions): Promise<TriggerResponse> {
+    const response = await this.client.documentClient.deleteTrigger(this.url, options);
+    return { body: response.result, headers: response.headers, ref: this, trigger: this };
   }
 }

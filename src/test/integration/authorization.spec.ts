@@ -35,26 +35,26 @@ describe("Authorization", function() {
     database = container.database;
 
     // create userReadPermission
-    const { result: userDef } = await container.database.users.create(userReadDefinition);
+    const { body: userDef } = await container.database.users.create(userReadDefinition);
     assert.equal(userReadDefinition.id, userDef.id, "userReadPermission is not created properly");
     userReadDefinition = userDef;
     const userRead = container.database.user(userDef.id);
 
     // give permission to read container, to userReadPermission
     collReadPermission.resource = container.url;
-    const { result: readPermission } = await userRead.permissions.create(collReadPermission);
+    const { body: readPermission } = await userRead.permissions.create(collReadPermission);
     assert.equal(readPermission.id, collReadPermission.id, "permission to read coll1 is not created properly");
     collReadPermission = readPermission;
 
     // create userAllPermission
-    const { result: userAllDef } = await container.database.users.create(userAllDefinition);
+    const { body: userAllDef } = await container.database.users.create(userAllDefinition);
     assert.equal(userAllDefinition.id, userAllDef.id, "userAllPermission is not created properly");
     userAllDefinition = userAllDef;
     const userAll = container.database.user(userAllDef.id);
 
     // create collAllPermission
     collAllPermission.resource = container.url;
-    const { result: allPermission } = await userAll.permissions.create(collAllPermission);
+    const { body: allPermission } = await userAll.permissions.create(collAllPermission);
     assert.equal(collAllPermission.id, allPermission.id, "permission to read coll2 is not created properly");
     collAllPermission = allPermission;
   });

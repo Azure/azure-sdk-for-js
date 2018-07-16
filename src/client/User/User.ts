@@ -1,9 +1,10 @@
-import { Constants, UriFactory } from "../../common";
+import { UriFactory } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
-import { RequestOptions, Response } from "../../request";
+import { RequestOptions } from "../../request";
 import { Database } from "../Database";
 import { Permission, Permissions } from "../Permission";
 import { UserDefinition } from "./UserDefinition";
+import { UserResponse } from "./UserResponse";
 
 export class User {
   public readonly permissions: Permissions;
@@ -20,15 +21,18 @@ export class User {
     return new Permission(this, id);
   }
 
-  public read(options?: RequestOptions): Promise<Response<UserDefinition>> {
-    return this.client.documentClient.readUser(this.url, options);
+  public async read(options?: RequestOptions): Promise<UserResponse> {
+    const response = await this.client.documentClient.readUser(this.url, options);
+    return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 
-  public replace(body: UserDefinition, options?: RequestOptions): Promise<Response<UserDefinition>> {
-    return this.client.documentClient.replaceUser(this.url, body, options);
+  public async replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
+    const response = await this.client.documentClient.replaceUser(this.url, body, options);
+    return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 
-  public delete(options?: RequestOptions): Promise<Response<UserDefinition>> {
-    return this.client.documentClient.deleteUser(this.url, options);
+  public async delete(options?: RequestOptions): Promise<UserResponse> {
+    const response = await this.client.documentClient.deleteUser(this.url, options);
+    return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 }

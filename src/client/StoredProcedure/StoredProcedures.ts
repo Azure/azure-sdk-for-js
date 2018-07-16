@@ -1,10 +1,11 @@
 import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, Response } from "../../request";
+import { FeedOptions, RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { StoredProcedure } from "./StoredProcedure";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
+import { StoredProcedureResponse } from "./StoredProcedureResponse";
 
 export class StoredProcedures {
   private client: CosmosClient;
@@ -30,11 +31,10 @@ export class StoredProcedures {
    * refer to the server-side JavaScript API documentation.
    * </p>
    */
-  public async create(
-    body: StoredProcedureDefinition,
-    options?: RequestOptions
-  ): Promise<Response<StoredProcedureDefinition>> {
-    return this.client.documentClient.createStoredProcedure(this.container.url, body, options);
+  public async create(body: StoredProcedureDefinition, options?: RequestOptions): Promise<StoredProcedureResponse> {
+    const response = await this.client.documentClient.createStoredProcedure(this.container.url, body, options);
+    const ref = new StoredProcedure(this.container, response.result.id);
+    return { body: response.result, headers: response.headers, ref, storedProcedure: ref };
   }
 
   /**
@@ -47,10 +47,9 @@ export class StoredProcedures {
    * refer to the server-side JavaScript API documentation.
    * </p>
    */
-  public async upsert(
-    body: StoredProcedureDefinition,
-    options?: RequestOptions
-  ): Promise<Response<StoredProcedureDefinition>> {
-    return this.client.documentClient.upsertStoredProcedure(this.container.url, body, options);
+  public async upsert(body: StoredProcedureDefinition, options?: RequestOptions): Promise<StoredProcedureResponse> {
+    const response = await this.client.documentClient.upsertStoredProcedure(this.container.url, body, options);
+    const ref = new StoredProcedure(this.container, response.result.id);
+    return { body: response.result, headers: response.headers, ref, storedProcedure: ref };
   }
 }

@@ -30,7 +30,7 @@ describe("NodeJS CRUD Tests", function() {
       const beforeCreateCount = users.length;
 
       // create user
-      const { result: userDef } = await TestHelpers.createOrUpsertUser(
+      const { body: userDef } = await TestHelpers.createOrUpsertUser(
         database,
         { id: "new user" },
         undefined,
@@ -61,21 +61,21 @@ describe("NodeJS CRUD Tests", function() {
       let replacedUser: UserDefinition;
       if (isUpsertTest) {
         const r = await database.users.upsert(userDef);
-        replacedUser = r.result;
+        replacedUser = r.body;
       } else {
         const r = await user.replace(userDef);
-        replacedUser = r.result;
+        replacedUser = r.body;
       }
       assert.equal(replacedUser.id, "replaced user", "user name should change");
       assert.equal(userDef.id, replacedUser.id, "user id should stay the same");
       user = database.user(replacedUser.id);
 
       // read user
-      const { result: userAfterReplace } = await user.read();
+      const { body: userAfterReplace } = await user.read();
       assert.equal(replacedUser.id, userAfterReplace.id);
 
       // delete user
-      const { result: res } = await user.delete();
+      const { body: res } = await user.delete();
 
       // read user after deletion
       try {

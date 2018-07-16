@@ -5,6 +5,7 @@ import { FeedOptions, RequestOptions, Response } from "../../request";
 import { Container } from "../Container";
 import { UserDefinedFunction } from "./UserDefinedFunction";
 import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
+import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
 
 export class UserDefinedFunctions {
   private client: CosmosClient;
@@ -27,11 +28,13 @@ export class UserDefinedFunctions {
    * For additional details, refer to the server-side JavaScript API documentation.
    * </p>
    */
-  public create(
+  public async create(
     body: UserDefinedFunctionDefinition,
     options?: RequestOptions
-  ): Promise<Response<UserDefinedFunctionDefinition>> {
-    return this.client.documentClient.createUserDefinedFunction(this.container.url, body, options);
+  ): Promise<UserDefinedFunctionResponse> {
+    const response = await this.client.documentClient.createUserDefinedFunction(this.container.url, body, options);
+    const ref = new UserDefinedFunction(this.container, response.result.id);
+    return { body: response.result, headers: response.headers, ref, userDefinedFunction: ref, udf: ref };
   }
 
   /**
@@ -41,10 +44,12 @@ export class UserDefinedFunctions {
    * For additional details, refer to the server-side JavaScript API documentation.
    * </p>
    */
-  public upsert(
+  public async upsert(
     body: UserDefinedFunctionDefinition,
     options?: RequestOptions
-  ): Promise<Response<UserDefinedFunctionDefinition>> {
-    return this.client.documentClient.upsertUserDefinedFunction(this.container.url, body, options);
+  ): Promise<UserDefinedFunctionResponse> {
+    const response = await this.client.documentClient.upsertUserDefinedFunction(this.container.url, body, options);
+    const ref = new UserDefinedFunction(this.container, response.result.id);
+    return { body: response.result, headers: response.headers, ref, userDefinedFunction: ref, udf: ref };
   }
 }

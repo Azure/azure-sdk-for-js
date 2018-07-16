@@ -3,6 +3,7 @@ import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions, Response } from "../../request";
 import { Container } from "../Container";
 import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
+import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
 
 export class UserDefinedFunction {
   public get url() {
@@ -13,18 +14,21 @@ export class UserDefinedFunction {
     this.client = this.container.database.client;
   }
 
-  public read(options?: RequestOptions): Promise<Response<UserDefinedFunctionDefinition>> {
-    return this.client.documentClient.readUserDefinedFunction(this.url, options);
+  public async read(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
+    const response = await this.client.documentClient.readUserDefinedFunction(this.url, options);
+    return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
   }
 
-  public replace(
+  public async replace(
     body: UserDefinedFunctionDefinition,
     options?: RequestOptions
-  ): Promise<Response<UserDefinedFunctionDefinition>> {
-    return this.client.documentClient.replaceUserDefinedFunction(this.url, body, options);
+  ): Promise<UserDefinedFunctionResponse> {
+    const response = await this.client.documentClient.replaceUserDefinedFunction(this.url, body, options);
+    return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
   }
 
-  public delete(options?: RequestOptions): Promise<Response<UserDefinedFunctionDefinition>> {
-    return this.client.documentClient.deleteUserDefinedFunction(this.url, options);
+  public async delete(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
+    const response = await this.client.documentClient.deleteUserDefinedFunction(this.url, options);
+    return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
   }
 }

@@ -1,6 +1,17 @@
 import * as assert from "assert";
 import { Container, CosmosClient, Database, DatabaseDefinition, Item, RequestOptions, Response } from "../../";
-import { ContainerDefinition, ItemResponse, PermissionDefinition, User, UserDefinition } from "../../client";
+import {
+  ContainerDefinition,
+  ItemResponse,
+  PermissionDefinition,
+  PermissionResponse,
+  TriggerResponse,
+  User,
+  UserDefinedFunctionResponse,
+  UserDefinition
+} from "../../client";
+import { StoredProcedureResponse } from "../../client/StoredProcedure/StoredProcedureResponse";
+import { UserResponse } from "../../client/User/UserResponse";
 
 /** @hidden */
 export class TestHelpers {
@@ -180,7 +191,7 @@ export class TestHelpers {
     body: any,
     options: any,
     isUpsertTest: boolean
-  ): Promise<Response<UserDefinition>> {
+  ): Promise<UserResponse> {
     if (isUpsertTest) {
       return database.users.upsert(body, options);
     } else {
@@ -192,7 +203,7 @@ export class TestHelpers {
     body: any,
     options: any,
     isUpsertTest: boolean
-  ): Promise<Response<UserDefinition>> {
+  ): Promise<UserResponse> {
     if (isUpsertTest) {
       return database.users.upsert(body, options);
     } else {
@@ -206,7 +217,7 @@ export class TestHelpers {
     body: any,
     options: any,
     isUpsertTest: boolean
-  ): Promise<Response<PermissionDefinition>> {
+  ): Promise<PermissionResponse> {
     if (isUpsertTest) {
       return user.permissions.upsert(body, options);
     } else {
@@ -219,7 +230,7 @@ export class TestHelpers {
     body: any,
     options: any,
     isUpsertTest: boolean
-  ): Promise<Response<PermissionDefinition>> {
+  ): Promise<PermissionResponse> {
     if (isUpsertTest) {
       return user.permissions.upsert(body, options);
     } else {
@@ -233,7 +244,7 @@ export class TestHelpers {
     body: any,
     options: any,
     isUpsertTest: boolean
-  ): Promise<Response<any>> {
+  ): Promise<TriggerResponse> {
     if (isUpsertTest) {
       return container.triggers.upsert(body, options);
     } else {
@@ -245,7 +256,7 @@ export class TestHelpers {
     body: any,
     options: any,
     isUpsertTest: boolean
-  ): Promise<Response<any>> {
+  ): Promise<TriggerResponse> {
     if (isUpsertTest) {
       return container.triggers.upsert(body, options);
     } else {
@@ -259,7 +270,7 @@ export class TestHelpers {
     body: any,
     options: any,
     isUpsertTest: boolean
-  ): Promise<Response<any>> {
+  ): Promise<UserDefinedFunctionResponse> {
     if (isUpsertTest) {
       return container.userDefinedFunctions.upsert(body, options);
     } else {
@@ -271,7 +282,7 @@ export class TestHelpers {
     body: any,
     options: any,
     isUpsertTest: boolean
-  ): Promise<Response<any>> {
+  ): Promise<UserDefinedFunctionResponse> {
     if (isUpsertTest) {
       return container.userDefinedFunctions.upsert(body, options);
     } else {
@@ -285,7 +296,7 @@ export class TestHelpers {
     body: any,
     options: any,
     isUpsertTest: boolean
-  ): Promise<Response<any>> {
+  ): Promise<StoredProcedureResponse> {
     if (isUpsertTest) {
       return container.storedProcedures.upsert(body, options);
     } else {
@@ -297,7 +308,7 @@ export class TestHelpers {
     body: any,
     options: any,
     isUpsertTest: boolean
-  ): Promise<Response<any>> {
+  ): Promise<StoredProcedureResponse> {
     if (isUpsertTest) {
       return container.storedProcedures.upsert(body, options);
     } else {

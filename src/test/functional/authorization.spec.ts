@@ -39,14 +39,14 @@ describe("NodeJS CRUD Tests", function() {
       const { body: container2 } = await client.database(db.id).containers.create({ id: "sample container2" });
 
       // create user1
-      const { result: user1 } = await client.database(db.id).users.create({ id: "user1" });
+      const { body: user1 } = await client.database(db.id).users.create({ id: "user1" });
       let permission = {
         id: "permission On Coll1",
         permissionMode: DocumentBase.PermissionMode.Read,
         resource: (container1 as any)._self
       }; // TODO: any rid stuff
       // create permission for container1
-      const { result: permissionOnColl1 } = await TestHelpers.createOrUpsertPermission(
+      const { body: permissionOnColl1 } = await TestHelpers.createOrUpsertPermission(
         client.database(db.id).user(user1.id),
         permission,
         undefined,
@@ -59,7 +59,7 @@ describe("NodeJS CRUD Tests", function() {
         resource: (document2 as any)._self // TODO: any rid
       };
       // create permission for document 2
-      const { result: permissionOnDoc2 } = await TestHelpers.createOrUpsertPermission(
+      const { body: permissionOnDoc2 } = await TestHelpers.createOrUpsertPermission(
         client.database(db.id).user(user1.id),
         permission,
         undefined,
@@ -68,14 +68,14 @@ describe("NodeJS CRUD Tests", function() {
       assert((permissionOnDoc2 as any)._token !== undefined, "permission token is invalid"); // TODO: any rid
 
       // create user 2
-      const { result: user2 } = await client.database(db.id).users.create({ id: "user2" });
+      const { body: user2 } = await client.database(db.id).users.create({ id: "user2" });
       permission = {
         id: "permission On coll2",
         permissionMode: DocumentBase.PermissionMode.All,
         resource: (container2 as any)._self // TODO: any rid
       };
       // create permission on container 2
-      const { result: permissionOnColl2 } = await TestHelpers.createOrUpsertPermission(
+      const { body: permissionOnColl2 } = await TestHelpers.createOrUpsertPermission(
         client.database(db.id).user(user2.id),
         permission,
         undefined,
@@ -188,7 +188,7 @@ describe("NodeJS CRUD Tests", function() {
         containerDefinition
       );
       // create user
-      const { result: userDef } = await container.database.users.create({ id: "user1" });
+      const { body: userDef } = await container.database.users.create({ id: "user1" });
       const user = container.database.user(userDef.id);
 
       const key = 1;
@@ -200,7 +200,7 @@ describe("NodeJS CRUD Tests", function() {
       };
 
       // create permission
-      const { result: permission } = await user.permissions.create(permissionDefinition);
+      const { body: permission } = await user.permissions.create(permissionDefinition);
       assert((permission as any)._token !== undefined, "permission token is invalid");
       const resourceTokens: any = {};
       resourceTokens[container.id] = (permission as any)._token;

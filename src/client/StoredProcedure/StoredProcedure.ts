@@ -1,8 +1,9 @@
-import { Constants, UriFactory } from "../../common";
+import { UriFactory } from "../../common";
 import { DocumentClient } from "../../documentclient";
-import { RequestOptions, Response } from "../../request";
+import { CosmosResponse, RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
+import { StoredProcedureResponse } from "./StoredProcedureResponse";
 
 export class StoredProcedure {
   private client: DocumentClient;
@@ -13,23 +14,24 @@ export class StoredProcedure {
     this.client = this.container.database.client.documentClient;
   }
 
-  public read(options?: RequestOptions): Promise<Response<StoredProcedureDefinition>> {
-    return this.client.readStoredProcedure(this.url, options);
+  public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
+    const response = await this.client.readStoredProcedure(this.url, options);
+    return { body: response.result, headers: response.headers, ref: this, storedProcedure: this };
   }
 
-  public replace(
-    body: StoredProcedureDefinition,
-    options?: RequestOptions
-  ): Promise<Response<StoredProcedureDefinition>> {
-    return this.client.replaceStoredProcedure(this.url, body, options);
+  public async replace(body: StoredProcedureDefinition, options?: RequestOptions): Promise<StoredProcedureResponse> {
+    const response = await this.client.replaceStoredProcedure(this.url, body, options);
+    return { body: response.result, headers: response.headers, ref: this, storedProcedure: this };
   }
 
-  public delete(options?: RequestOptions): Promise<Response<StoredProcedureDefinition>> {
-    return this.client.deleteStoredProcedure(this.url, options);
+  public async delete(options?: RequestOptions): Promise<StoredProcedureResponse> {
+    const response = await this.client.deleteStoredProcedure(this.url, options);
+    return { body: response.result, headers: response.headers, ref: this, storedProcedure: this };
   }
 
-  public execute(params?: any[], options?: RequestOptions): Promise<Response<any>>;
-  public execute<T>(params?: any[], options?: RequestOptions): Promise<Response<T>> {
-    return this.client.executeStoredProcedure(this.url, params, options);
+  public async execute(params?: any[], options?: RequestOptions): Promise<CosmosResponse<any, StoredProcedure>>;
+  public async execute<T>(params?: any[], options?: RequestOptions): Promise<CosmosResponse<T, StoredProcedure>> {
+    const response = await this.client.executeStoredProcedure(this.url, params, options);
+    return { body: response.result, headers: response.headers, ref: this };
   }
 }

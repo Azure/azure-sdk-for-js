@@ -52,7 +52,7 @@ describe("NodeJS CRUD Tests", function() {
       };
 
       // TODO also handle upsert case
-      const { result: udf } = await container.userDefinedFunctions.create(udfDefinition);
+      const { body: udf } = await container.userDefinedFunctions.create(udfDefinition);
 
       assert.equal(udf.id, udfDefinition.id);
       assert.equal(udf.body, "function () { const x = 10; }");
@@ -76,22 +76,22 @@ describe("NodeJS CRUD Tests", function() {
 
       // replace udf
       udfDefinition.body = "function () { const x = 10; }";
-      const { result: replacedUdf } = await container.userDefinedFunction(udfDefinition.id).replace(udfDefinition);
+      const { body: replacedUdf } = await container.userDefinedFunction(udfDefinition.id).replace(udfDefinition);
 
       assert.equal(replacedUdf.id, udfDefinition.id);
       assert.equal(replacedUdf.body, "function () { const x = 10; }");
 
       // read udf
-      const { result: udfAfterReplace } = await container.userDefinedFunction(replacedUdf.id).read();
+      const { body: udfAfterReplace } = await container.userDefinedFunction(replacedUdf.id).read();
 
       assert.equal(replacedUdf.id, udfAfterReplace.id);
 
       // delete udf
-      const { result: res } = await container.userDefinedFunction(replacedUdf.id).delete();
+      const { body: res } = await container.userDefinedFunction(replacedUdf.id).delete();
 
       // read udfs after deletion
       try {
-        const { result: badudf } = await container.userDefinedFunction(replacedUdf.id).read();
+        const { body: badudf } = await container.userDefinedFunction(replacedUdf.id).read();
         assert.fail("Must fail to read after delete");
       } catch (err) {
         const notFoundErrorCode = 404;
@@ -109,7 +109,7 @@ describe("NodeJS CRUD Tests", function() {
         body: "function () { const x = 10; }"
       };
 
-      const { result: udf } = await container.userDefinedFunctions.upsert(udfDefinition);
+      const { body: udf } = await container.userDefinedFunctions.upsert(udfDefinition);
 
       assert.equal(udf.id, udfDefinition.id);
       assert.equal(udf.body, "function () { const x = 10; }");
@@ -133,22 +133,22 @@ describe("NodeJS CRUD Tests", function() {
 
       // replace udf
       udfDefinition.body = "function () { const x = 10; }";
-      const { result: replacedUdf } = await container.userDefinedFunctions.upsert(udfDefinition);
+      const { body: replacedUdf } = await container.userDefinedFunctions.upsert(udfDefinition);
 
       assert.equal(replacedUdf.id, udfDefinition.id);
       assert.equal(replacedUdf.body, "function () { const x = 10; }");
 
       // read udf
-      const { result: udfAfterReplace } = await container.userDefinedFunction(replacedUdf.id).read();
+      const { body: udfAfterReplace } = await container.userDefinedFunction(replacedUdf.id).read();
 
       assert.equal(replacedUdf.id, udfAfterReplace.id);
 
       // delete udf
-      const { result: res } = await container.userDefinedFunction(replacedUdf.id).delete();
+      const { body: res } = await container.userDefinedFunction(replacedUdf.id).delete();
 
       // read udfs after deletion
       try {
-        const { result: badudf } = await container.userDefinedFunction(replacedUdf.id).read();
+        const { body: badudf } = await container.userDefinedFunction(replacedUdf.id).read();
         assert.fail("Must fail to read after delete");
       } catch (err) {
         const notFoundErrorCode = 404;
