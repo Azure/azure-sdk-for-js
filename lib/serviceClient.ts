@@ -391,19 +391,27 @@ function getOperationArgumentValueFromParameter(serviceClient: ServiceClient, op
   return getOperationArgumentValueFromParameterPath(serviceClient, operationArguments, parameter.parameterPath, parameter.mapper, serializer);
 }
 
-function getOperationArgumentValueFromParameterPath(serviceClient: ServiceClient, operationArguments: OperationArguments, parameterPath: ParameterPath, parameterMapper: Mapper, serializer: Serializer): any {
+export function getOperationArgumentValueFromParameterPath(serviceClient: ServiceClient, operationArguments: OperationArguments, parameterPath: ParameterPath, parameterMapper: Mapper, serializer: Serializer): any {
   let value: any;
   if (typeof parameterPath === "string") {
     parameterPath = [parameterPath];
   }
   if (Array.isArray(parameterPath)) {
     if (parameterPath.length > 0) {
-      const parameterInOptions: boolean = parameterPath[0] === "options";
-      let propertySearchResult: PropertySearchResult = getPropertyFromParameterPath(operationArguments, parameterPath);
-      if (!propertySearchResult.propertyFound && parameterInOptions) {
-        propertySearchResult = getPropertyFromParameterPath(serviceClient, parameterPath);
+      if (parameterMapper.isConstant) {
+        value = parameterMapper.defaultValue;
+      } else {
+        let propertySearchResult: PropertySearchResult = getPropertyFromParameterPath(operationArguments, parameterPath);
+        if (!propertySearchResult.propertyFound) {
+          propertySearchResult = getPropertyFromParameterPath(serviceClient, parameterPath);
+        }
+
+        let useDefaultValue = false;
+        if (!propertySearchResult.propertyFound) {
+          useDefaultValue = parameterMapper.required || (parameterPath[0] === "options" && parameterPath.length === 2);
+        }
+        value = useDefaultValue ? parameterMapper.defaultValue : propertySearchResult.propertyValue;
       }
-      value = propertySearchResult.propertyFound ? propertySearchResult.propertyValue : parameterMapper.defaultValue;
 
       // Serialize just for validation purposes.
       const parameterPathString: string = getPathStringFromParameterPath(parameterPath, parameterMapper);
