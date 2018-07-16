@@ -24,7 +24,7 @@ import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } fro
 import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
-import { RequestPrepareOptions, WebResource } from "./webResource";
+import { RequestPrepareOptions, WebResource, RequestOptionsBase } from "./webResource";
 
 /**
  * Options to be provided while creating the client.
@@ -256,22 +256,25 @@ export class ServiceClient {
         }
       }
 
-      if (operationArguments.customHeaders) {
-        for (const customHeaderName in operationArguments.customHeaders) {
-          httpRequest.headers.set(customHeaderName, operationArguments.customHeaders[customHeaderName]);
+      const options: RequestOptionsBase | undefined = operationArguments.options;
+      if (options) {
+        if (options.customHeaders) {
+          for (const customHeaderName in options.customHeaders) {
+            httpRequest.headers.set(customHeaderName, options.customHeaders[customHeaderName]);
+          }
         }
-      }
 
-      if (operationArguments.abortSignal) {
-        httpRequest.abortSignal = operationArguments.abortSignal;
-      }
+        if (options.abortSignal) {
+          httpRequest.abortSignal = options.abortSignal;
+        }
 
-      if (operationArguments.onUploadProgress) {
-        httpRequest.onUploadProgress = operationArguments.onUploadProgress;
-      }
+        if (options.onUploadProgress) {
+          httpRequest.onUploadProgress = options.onUploadProgress;
+        }
 
-      if (operationArguments.onDownloadProgress) {
-        httpRequest.onDownloadProgress = operationArguments.onDownloadProgress;
+        if (options.onDownloadProgress) {
+          httpRequest.onDownloadProgress = options.onDownloadProgress;
+        }
       }
 
       httpRequest.withCredentials = this._withCredentials;
@@ -388,38 +391,45 @@ function getOperationArgumentValueFromParameter(serviceClient: ServiceClient, op
   return getOperationArgumentValueFromParameterPath(serviceClient, operationArguments, parameter.parameterPath, parameter.mapper, serializer);
 }
 
-function getOperationArgumentValueFromParameterPath(serviceClient: ServiceClient, operationArguments: OperationArguments, parameterPath: ParameterPath, parameterMapper: Mapper, serializer: Serializer): any {
+export function getOperationArgumentValueFromParameterPath(serviceClient: ServiceClient, operationArguments: OperationArguments, parameterPath: ParameterPath, parameterMapper: Mapper, serializer: Serializer): any {
   let value: any;
   if (typeof parameterPath === "string") {
     parameterPath = [parameterPath];
   }
-  if (operationArguments.arguments) {
-    if (Array.isArray(parameterPath)) {
-      if (parameterPath.length > 0) {
-        let propertySearchResult: PropertySearchResult = getPropertyFromParameterPath(operationArguments.arguments, parameterPath);
+  if (Array.isArray(parameterPath)) {
+    if (parameterPath.length > 0) {
+      if (parameterMapper.isConstant) {
+        value = parameterMapper.defaultValue;
+      } else {
+        let propertySearchResult: PropertySearchResult = getPropertyFromParameterPath(operationArguments, parameterPath);
         if (!propertySearchResult.propertyFound) {
           propertySearchResult = getPropertyFromParameterPath(serviceClient, parameterPath);
         }
-        value = propertySearchResult.propertyValue;
 
-        // Serialize just for validation purposes.
-        const parameterPathString: string = getPathStringFromParameterPath(parameterPath, parameterMapper);
-        serializer.serialize(parameterMapper, value, parameterPathString);
-      }
-    } else {
-      for (const propertyName in parameterPath) {
-        const propertyMapper: Mapper = (parameterMapper as CompositeMapper).type.modelProperties[propertyName];
-        const propertyPath: ParameterPath = parameterPath[propertyName];
-        const propertyValue: any = getOperationArgumentValueFromParameterPath(serviceClient, operationArguments, propertyPath, propertyMapper, serializer);
-        // Serialize just for validation purposes.
-        const propertyPathString: string = getPathStringFromParameterPath(propertyPath, propertyMapper);
-        serializer.serialize(propertyMapper, propertyValue, propertyPathString);
-        if (propertyValue !== undefined) {
-          if (!value) {
-            value = {};
-          }
-          value[propertyName] = propertyValue;
+        let useDefaultValue = false;
+        if (!propertySearchResult.propertyFound) {
+          useDefaultValue = parameterMapper.required || (parameterPath[0] === "options" && parameterPath.length === 2);
         }
+        value = useDefaultValue ? parameterMapper.defaultValue : propertySearchResult.propertyValue;
+      }
+
+      // Serialize just for validation purposes.
+      const parameterPathString: string = getPathStringFromParameterPath(parameterPath, parameterMapper);
+      serializer.serialize(parameterMapper, value, parameterPathString);
+    }
+  } else {
+    for (const propertyName in parameterPath) {
+      const propertyMapper: Mapper = (parameterMapper as CompositeMapper).type.modelProperties[propertyName];
+      const propertyPath: ParameterPath = parameterPath[propertyName];
+      const propertyValue: any = getOperationArgumentValueFromParameterPath(serviceClient, operationArguments, propertyPath, propertyMapper, serializer);
+      // Serialize just for validation purposes.
+      const propertyPathString: string = getPathStringFromParameterPath(propertyPath, propertyMapper);
+      serializer.serialize(propertyMapper, propertyValue, propertyPathString);
+      if (propertyValue !== undefined) {
+        if (!value) {
+          value = {};
+        }
+        value[propertyName] = propertyValue;
       }
     }
   }
