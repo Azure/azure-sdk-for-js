@@ -14,6 +14,29 @@ import { Constants } from "./constants";
 export const isNode = typeof navigator === "undefined" && typeof process !== "undefined";
 
 /**
+ * Adapts a WithHttpOperationResponse method to unwrap the body and accept an optional callback.
+ * @param httpOperationResponseMethod the method to call and apply a callback to
+ * @param args the arguments to the method, optionally including a trailing callback.
+ */
+export function responseToBody(httpOperationResponseMethod: (...args: any[]) => Promise<HttpOperationResponse>, ...args: any[]): Promise<any> | undefined {
+  // The generated code will always pass (options, callback) as the last two args.
+  // But `options` could actually be the callback for the sake of user convenience.
+  let callback = args.pop();
+  if (typeof callback !== "function" && typeof args[args.length - 1] === "function") {
+    callback = args.pop();
+  }
+  if (typeof callback === "function") {
+    httpOperationResponseMethod(...args)
+      // tslint:disable-next-line:no-null-keyword
+      .then(res => callback(null, res.parsedBody, res.request, res))
+      .catch(err => callback(err));
+  } else {
+    return httpOperationResponseMethod(...args).then((res: HttpOperationResponse) => res.parsedBody);
+  }
+  return undefined; // optimized out
+}
+
+/**
  * Checks if a parsed URL is HTTPS
  *
  * @param {object} urlToCheck The url to check
@@ -184,6 +207,7 @@ export interface ServiceCallback<TResult> {
  * Converts a Promise to a callback.
  * @param {Promise<any>} promise The Promise to be converted to a callback
  * @returns {Function} A function that takes the callback (cb: Function): void
+ * @deprecated generated code should instead depend on responseToBody
  */
 export function promiseToCallback(promise: Promise<any>): Function {
   if (typeof promise.then !== "function") {
