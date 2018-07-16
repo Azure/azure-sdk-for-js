@@ -1,6 +1,6 @@
 {
   "name": "azure-event-processor-host",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Azure Event Processor Host (Event Hubs) SDK for Node.js",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
     "async-lock": "^1.1.2",
-    "azure-event-hubs": "../client",
+    "azure-event-hubs": "^0.2.4",
     "azure-storage": "^2.8.2",
     "debug": "^3.1.0",
     "ms-rest-azure": "^2.5.7",
