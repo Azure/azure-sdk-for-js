@@ -53,6 +53,7 @@ export class WebResource {
   query?: { [key: string]: any; };
   operationSpec?: OperationSpec;
   withCredentials: boolean;
+  timeout: number;
 
   abortSignal?: AbortSignalLike;
 
@@ -68,21 +69,23 @@ export class WebResource {
     body?: any,
     query?: { [key: string]: any; },
     headers?: { [key: string]: any; } | HttpHeaders,
-    rawResponse = false,
-    withCredentials = false,
+    rawResponse?: boolean,
+    withCredentials?: boolean,
     abortSignal?: AbortSignalLike,
+    timeout?: number,
     onUploadProgress?: (progress: TransferProgressEvent) => void,
     onDownloadProgress?: (progress: TransferProgressEvent) => void) {
 
-    this.rawResponse = rawResponse;
+    this.rawResponse = rawResponse || false;
     this.url = url || "";
     this.method = method || "GET";
     this.headers = (headers instanceof HttpHeaders ? headers : new HttpHeaders(headers));
     this.body = body;
     this.query = query;
     this.formData = undefined;
-    this.withCredentials = withCredentials;
+    this.withCredentials = withCredentials || false;
     this.abortSignal = abortSignal;
+    this.timeout = timeout || 0;
     this.onUploadProgress = onUploadProgress;
     this.onDownloadProgress = onDownloadProgress;
   }
@@ -290,6 +293,7 @@ export class WebResource {
       this.rawResponse,
       this.withCredentials,
       this.abortSignal,
+      this.timeout,
       this.onUploadProgress,
       this.onDownloadProgress);
     result.formData = this.formData;
@@ -411,6 +415,11 @@ export interface RequestOptionsBase {
    * The signal which can be used to abort requests.
    */
   abortSignal?: AbortSignalLike;
+
+  /**
+   * The number of milliseconds a request can take before automatically being terminated.
+   */
+  timeout?: number;
 
   /**
    * Callback which fires upon upload progress. Only used in the browser.

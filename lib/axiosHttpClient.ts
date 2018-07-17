@@ -112,7 +112,8 @@ export class AxiosHttpClient implements HttpClient {
         // Workaround for https://github.com/axios/axios/issues/1362
         maxContentLength: 1024 * 1024 * 1024 * 10,
         responseType: httpRequest.rawResponse ? (isNode ? "stream" : "blob") : "text",
-        cancelToken
+        cancelToken,
+        timeout: httpRequest.timeout
       };
       res = await axiosClient(config);
     } catch (err) {
