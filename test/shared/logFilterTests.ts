@@ -27,7 +27,8 @@ describe("Log filter", () => {
   "body": {
     "a": 1
   },
-  "withCredentials": false
+  "withCredentials": false,
+  "timeout": 0
 }
 >> Response status code: 200
 >> Body: null
