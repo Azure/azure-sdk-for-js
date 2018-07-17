@@ -160,7 +160,7 @@ describe("defaultHttpClient", () => {
     let downloadNotified = false;
 
     const buf = new Uint8Array(1024 * 1024 * 1);
-    const request = new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, undefined, undefined,
+    const request = new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, undefined, undefined, 0,
       ev => {
         uploadNotified = true;
         ev.should.not.be.instanceof(ProgressEvent);
@@ -179,5 +179,16 @@ describe("defaultHttpClient", () => {
     }
     assert(uploadNotified);
     assert(downloadNotified);
+  });
+
+  it("should honor request timeouts", async function () {
+    const request = new WebResource(`${baseURL}/slow`, "GET", undefined, undefined, undefined, false, false, undefined, 100);
+    const client = new DefaultHttpClient();
+    try {
+      await client.sendRequest(request);
+      throw new Error("request did not fail as expected");
+    } catch (err) {
+      err.message.should.match(/timeout/);
+    }
   });
 });
