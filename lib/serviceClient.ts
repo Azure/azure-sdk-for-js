@@ -268,6 +268,10 @@ export class ServiceClient {
           httpRequest.abortSignal = options.abortSignal;
         }
 
+        if (options.timeout) {
+          httpRequest.timeout = options.timeout;
+        }
+
         if (options.onUploadProgress) {
           httpRequest.onUploadProgress = options.onUploadProgress;
         }

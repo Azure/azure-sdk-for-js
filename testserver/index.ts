@@ -30,6 +30,13 @@ app.get("/cookie", function(req, res) {
     res.end();
 });
 
+app.get("/slow", function(req, res) {
+    setTimeout(() => {
+        res.status(200);
+        res.end();
+    }, 2000);
+});
+
 app.listen(port, function() {
     console.log(`ms-rest-js testserver listening on port ${port}...`);
 });

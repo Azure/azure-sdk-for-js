@@ -60,6 +60,7 @@ export class XhrHttpClient implements HttpClient {
       }
     }
 
+    xhr.timeout = request.timeout;
     xhr.withCredentials = request.withCredentials;
     xhr.open(request.method, request.url);
     for (const header of request.headers.headersArray()) {
@@ -127,4 +128,5 @@ function parseHeaders(xhr: XMLHttpRequest) {
 function rejectOnTerminalEvent(request: WebResource, xhr: XMLHttpRequest, reject: (err: any) => void) {
   xhr.addEventListener("error", ev => reject(new RestError(ev.message, "REQUEST_SEND_ERROR", undefined, request)));
   xhr.addEventListener("abort", () => reject(new RestError("The request was aborted", "REQUEST_ABORTED_ERROR", undefined, request)));
+  xhr.addEventListener("timeout", () => reject(new RestError(`timeout of ${xhr.timeout}ms exceeded`, "REQUEST_SEND_ERROR", undefined, request)));
 }
