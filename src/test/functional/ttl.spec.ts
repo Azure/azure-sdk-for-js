@@ -3,7 +3,7 @@ import * as Stream from "stream";
 import { CosmosClient } from "../../";
 import { Container, ContainerDefinition, Database } from "../../client";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { removeAllDatabases } from "./../common/TestHelpers";
 
 // TODO: should fix long lines
 // tslint:disable:max-line-length
@@ -25,7 +25,7 @@ describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 600000);
   // remove all databases from the endpoint before each test
   beforeEach(async function() {
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
 
   describe("TTL tests", function() {

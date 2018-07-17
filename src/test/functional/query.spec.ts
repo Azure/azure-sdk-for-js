@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { Constants, CosmosClient, DocumentBase } from "../../";
 import { Container } from "../../client";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -19,11 +19,7 @@ describe("NodeJS CRUD Tests", function() {
   // remove all databases from the endpoint before each test
   before(async function() {
     this.timeout(10000);
-    try {
-      await TestHelpers.removeAllDatabases(client);
-    } catch (err) {
-      throw err;
-    }
+    await removeAllDatabases(client);
   });
 
   describe("Validate Queries CRUD", function() {
@@ -91,13 +87,8 @@ describe("NodeJS CRUD Tests", function() {
       };
 
       const containerOptions = { offerThroughput: 12000 };
-      container = await TestHelpers.getTestContainer(
-        client,
-        "query CRUD database 中文",
-        containerDefinition,
-        containerOptions
-      );
-      await TestHelpers.bulkInsertItems(container, documentDefinitions);
+      container = await getTestContainer(client, "query CRUD database 中文", containerDefinition, containerOptions);
+      await bulkInsertItems(container, documentDefinitions);
     });
 
     it("nativeApi validate QueryIterator nextItem on Multiple Partition Colleciton", async function() {
@@ -116,7 +107,7 @@ describe("NodeJS CRUD Tests", function() {
     this.timeout(30000);
     let resources: { container: Container; doc1: any; doc2: any; doc3: any };
     beforeEach(async function() {
-      const container = await TestHelpers.getTestContainer(client, "Validate QueryIterator Functionality");
+      const container = await getTestContainer(client, "Validate QueryIterator Functionality");
       const { body: doc1 } = await container.items.create({ id: "doc1", prop1: "value1" });
       const { body: doc2 } = await container.items.create({ id: "doc2", prop1: "value2" });
       const { body: doc3 } = await container.items.create({ id: "doc3", prop1: "value3" });

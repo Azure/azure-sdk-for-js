@@ -1,7 +1,16 @@
 import * as assert from "assert";
 import { Container, CosmosClient, Database, DocumentBase } from "../../";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import {
+  bulkDeleteItems,
+  bulkInsertItems,
+  bulkQueryItemsWithPartitionKey,
+  bulkReadItems,
+  bulkReplaceItems,
+  createOrUpsertItem,
+  removeAllDatabases,
+  replaceOrUpsertItem
+} from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -11,7 +20,7 @@ describe("NodeJS CRUD Tests", function() {
   // remove all databases from the endpoint before each test
   beforeEach(async function() {
     this.timeout(10000);
-    await TestHelpers.removeAllDatabases(new CosmosClient({ endpoint, auth: { masterKey } }));
+    await removeAllDatabases(new CosmosClient({ endpoint, auth: { masterKey } }));
   });
 
   describe("Validate Document CRUD", function() {
@@ -37,22 +46,12 @@ describe("NodeJS CRUD Tests", function() {
         replace: "new property"
       };
       try {
-        await TestHelpers.createOrUpsertItem(
-          container,
-          itemDefinition,
-          { disableAutomaticIdGeneration: true },
-          isUpsertTest
-        );
+        await createOrUpsertItem(container, itemDefinition, { disableAutomaticIdGeneration: true }, isUpsertTest);
         assert.fail("id generation disabled must throw with invalid id");
       } catch (err) {
         assert(err !== undefined, "should throw an error because automatic id generation is disabled");
       }
-      const { body: document } = await TestHelpers.createOrUpsertItem(
-        container,
-        itemDefinition,
-        undefined,
-        isUpsertTest
-      );
+      const { body: document } = await createOrUpsertItem(container, itemDefinition, undefined, isUpsertTest);
       assert.equal(document.name, itemDefinition.name);
       assert(document.id !== undefined);
       // read documents after creation
@@ -76,12 +75,7 @@ describe("NodeJS CRUD Tests", function() {
       // replace document
       document.name = "replaced document";
       document.foo = "not bar";
-      const { body: replacedDocument } = await TestHelpers.replaceOrUpsertItem(
-        container,
-        document,
-        undefined,
-        isUpsertTest
-      );
+      const { body: replacedDocument } = await replaceOrUpsertItem(container, document, undefined, isUpsertTest);
       assert.equal(replacedDocument.name, "replaced document", "document name property should change");
       assert.equal(replacedDocument.foo, "not bar", "property should have changed");
       assert.equal(document.id, replacedDocument.id, "document id should stay the same");
@@ -126,13 +120,13 @@ describe("NodeJS CRUD Tests", function() {
         { id: "document6", key: "A", prop: 1 }
       ];
 
-      let returnedDocuments = await TestHelpers.bulkInsertItems(container, documents);
+      let returnedDocuments = await bulkInsertItems(container, documents);
 
       assert.equal(returnedDocuments.length, documents.length);
       returnedDocuments.sort(function(doc1, doc2) {
         return doc1.id.localeCompare(doc2.id);
       });
-      await TestHelpers.bulkReadItems(container, returnedDocuments, partitionKey);
+      await bulkReadItems(container, returnedDocuments, partitionKey);
       const { result: successDocuments } = await container.items.readAll().toArray();
       assert(successDocuments !== undefined, "error reading documents");
       assert.equal(
@@ -152,9 +146,9 @@ describe("NodeJS CRUD Tests", function() {
       returnedDocuments.forEach(function(document) {
         ++document.prop;
       });
-      const newReturnedDocuments = await TestHelpers.bulkReplaceItems(container, returnedDocuments);
+      const newReturnedDocuments = await bulkReplaceItems(container, returnedDocuments);
       returnedDocuments = newReturnedDocuments;
-      await TestHelpers.bulkQueryItemsWithPartitionKey(container, returnedDocuments, partitionKey);
+      await bulkQueryItemsWithPartitionKey(container, returnedDocuments, partitionKey);
       const querySpec = {
         query: "SELECT * FROM Root"
       };
@@ -179,7 +173,7 @@ describe("NodeJS CRUD Tests", function() {
       );
       assert.equal(JSON.stringify(results), JSON.stringify(returnedDocuments), "Unexpected query results");
 
-      await TestHelpers.bulkDeleteItems(container, returnedDocuments, partitionKey);
+      await bulkDeleteItems(container, returnedDocuments, partitionKey);
     };
 
     it("nativeApi Should do document CRUD operations successfully name based", async function() {

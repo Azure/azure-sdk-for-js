@@ -3,7 +3,7 @@ import * as sinon from "sinon";
 import { Base, Constants, CosmosClient, IHeaders } from "../../";
 import { ConsistencyLevel, PartitionKind } from "../../documents";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -11,18 +11,17 @@ const masterKey = testConfig.masterKey;
 // TODO: there is alot of "any" types for tokens here
 // TODO: there is alot of leaky document client stuff here that will make removing document client hard
 
+const client = new CosmosClient({
+  endpoint,
+  auth: { masterKey },
+  consistencyLevel: ConsistencyLevel.Session
+});
+
 describe("Session Token", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
-  const client = new CosmosClient({
-    endpoint,
-    auth: { masterKey },
-    consistencyLevel: ConsistencyLevel.Session
-  });
-  const databaseId = "sessionTestDB";
-  const containerId = "sessionTestColl";
-  const containerLink = "dbs/" + databaseId + "/colls/" + containerId;
 
-  const databaseBody = { id: databaseId };
+  const containerId = "sessionTestColl";
+
   const containerDefinition = {
     id: containerId,
     partitionKey: { paths: ["/id"], kind: PartitionKind.Hash }
@@ -58,14 +57,14 @@ describe("Session Token", function() {
   };
 
   beforeEach(async function() {
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
 
   it("validate session tokens for sequence of opearations", async function() {
     let index1;
     let index2;
 
-    await client.databases.create(databaseBody);
+    const { id: databaseId } = await getTestDatabase(client, "session test");
     const database = client.database(databaseId);
 
     const { body: createdContainerDef } = await database.containers.create(containerDefinition, containerOptions);
@@ -162,8 +161,10 @@ describe("Session Token", function() {
   });
 
   it("validate 'lsn not caught up' error for higher lsn and clearing session token", async function() {
-    const { body: databaseDef } = await client.databases.create(databaseBody);
-    const database = client.database(databaseDef.id);
+    const { id: databaseId } = await getTestDatabase(client, "session test");
+
+    const containerLink = "dbs/" + databaseId + "/colls/" + containerId;
+    const database = client.database(databaseId);
     const increaseLSN = function(oldTokens: any) {
       for (const coll in oldTokens) {
         if (oldTokens.hasOwnProperty(coll)) {
@@ -201,31 +202,27 @@ describe("Session Token", function() {
   // We never had a name based version of this test. Looks like we fail to set the session token
   // because OwnerId is missing on the header. This only happens for name based.
   it.skip("client should not have session token of a container created by another client", async function() {
-    const client2 = new CosmosClient({
-      endpoint,
-      auth: { masterKey },
-      consistencyLevel: ConsistencyLevel.Session
-    });
-
-    const { body: databaseDef } = await client.databases.create(databaseBody);
-    const database = client.database(databaseDef.id);
-
-    await database.containers.create(containerDefinition, containerOptions);
-    const container = database.container(containerDefinition.id);
-    await container.read();
-    await client2
-      .database(databaseDef.id)
-      .container(containerDefinition.id)
-      .delete();
-
-    await client2.database(databaseDef.id).containers.create(containerDefinition, containerOptions);
-
-    await client2
-      .database(databaseDef.id)
-      .container(containerDefinition.id)
-      .read();
-    assert.equal(client.documentClient.getSessionToken(container.url), ""); // TODO: _self
-    assert.notEqual(client2.documentClient.getSessionToken(container.url), "");
+    // const client2 = new CosmosClient({
+    //   endpoint,
+    //   auth: { masterKey },
+    //   consistencyLevel: ConsistencyLevel.Session
+    // });
+    // const { body: databaseDef } = await client.databases.create(databaseBody);
+    // const database = client.database(databaseDef.id);
+    // await database.containers.create(containerDefinition, containerOptions);
+    // const container = database.container(containerDefinition.id);
+    // await container.read();
+    // await client2
+    //   .database(databaseDef.id)
+    //   .container(containerDefinition.id)
+    //   .delete();
+    // await client2.database(databaseDef.id).containers.create(containerDefinition, containerOptions);
+    // await client2
+    //   .database(databaseDef.id)
+    //   .container(containerDefinition.id)
+    //   .read();
+    // assert.equal(client.documentClient.getSessionToken(container.url), ""); // TODO: _self
+    // assert.notEqual(client2.documentClient.getSessionToken(container.url), "");
   });
 
   it("validate session container update on 'Not found' with 'undefined' status code for non master resource", async function() {
@@ -235,8 +232,7 @@ describe("Session Token", function() {
       consistencyLevel: ConsistencyLevel.Session
     });
 
-    const { body: databaseDef } = await client.databases.create(databaseBody);
-    const db = client.database(databaseDef.id);
+    const db = await getTestDatabase(client, "session test");
 
     const { body: createdContainerDef } = await db.containers.create(containerDefinition, containerOptions);
     const createdContainer = db.container(createdContainerDef.id);
@@ -246,7 +242,7 @@ describe("Session Token", function() {
     });
     const requestOptions = { partitionKey: "1" };
     await client2
-      .database(databaseDef.id)
+      .database(db.id)
       .container(createdContainerDef.id)
       .item(createdDocument.id)
       .delete(requestOptions);

@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { CosmosClient, DocumentBase } from "../../";
 import { PermissionDefinition } from "../../client";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { createOrUpsertPermission, getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -12,7 +12,7 @@ describe("NodeJS CRUD Tests", function() {
   // remove all databases from the endpoint before each test
   beforeEach(async function() {
     this.timeout(10000);
-    await TestHelpers.removeAllDatabases(new CosmosClient({ endpoint, auth: { masterKey } }));
+    await removeAllDatabases(new CosmosClient({ endpoint, auth: { masterKey } }));
   });
 
   describe("Validate Authorization", function() {
@@ -46,7 +46,7 @@ describe("NodeJS CRUD Tests", function() {
         resource: (container1 as any)._self
       }; // TODO: any rid stuff
       // create permission for container1
-      const { body: permissionOnColl1 } = await TestHelpers.createOrUpsertPermission(
+      const { body: permissionOnColl1 } = await createOrUpsertPermission(
         client.database(db.id).user(user1.id),
         permission,
         undefined,
@@ -59,7 +59,7 @@ describe("NodeJS CRUD Tests", function() {
         resource: (document2 as any)._self // TODO: any rid
       };
       // create permission for document 2
-      const { body: permissionOnDoc2 } = await TestHelpers.createOrUpsertPermission(
+      const { body: permissionOnDoc2 } = await createOrUpsertPermission(
         client.database(db.id).user(user1.id),
         permission,
         undefined,
@@ -75,7 +75,7 @@ describe("NodeJS CRUD Tests", function() {
         resource: (container2 as any)._self // TODO: any rid
       };
       // create permission on container 2
-      const { body: permissionOnColl2 } = await TestHelpers.createOrUpsertPermission(
+      const { body: permissionOnColl2 } = await createOrUpsertPermission(
         client.database(db.id).user(user2.id),
         permission,
         undefined,
@@ -165,7 +165,7 @@ describe("NodeJS CRUD Tests", function() {
             const doc = { id: "new doc", CustomProperty1: "BBBBBB", customProperty2: 1000 };
             const col2Container = await col2Client.databaseDatabase(entities.db.id)
                 .containerContainer(entities.coll2.id);
-            const { result: successDoc2 } = await TestHelpers.createOrUpsertItem(
+            const { result: successDoc2 } = await createOrUpsertItem(
                 col2Container, doc, undefined, isUpsertTest);
             assert(successDoc2 !== undefined, "error creating document");
             assert.equal(successDoc2.CustomProperty1, doc.CustomProperty1,
@@ -182,11 +182,7 @@ describe("NodeJS CRUD Tests", function() {
         id: "coll1",
         partitionKey: { paths: ["/" + partitionKey], kind: DocumentBase.PartitionKind.Hash }
       };
-      const container = await TestHelpers.getTestContainer(
-        client,
-        "authorization CRUD multiple partitons",
-        containerDefinition
-      );
+      const container = await getTestContainer(client, "authorization CRUD multiple partitons", containerDefinition);
       // create user
       const { body: userDef } = await container.database.users.create({ id: "user1" });
       const user = container.database.user(userDef.id);

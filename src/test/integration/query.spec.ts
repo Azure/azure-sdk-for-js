@@ -1,8 +1,8 @@
-﻿import * as assert from "assert";
+import * as assert from "assert";
 import { Constants, CosmosClient, FeedOptions, UriFactory } from "../../";
 import { PartitionKind } from "../../documents";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -15,7 +15,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function() {
   const containerId = "testcontainer";
 
   beforeEach(async function() {
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
 
   it("validate correct execution of query using named container link with leading and trailing slashes", async function() {
@@ -28,7 +28,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function() {
     };
     const containerOptions = { offerThroughput: 10100 };
 
-    const container = await TestHelpers.getTestContainer(
+    const container = await getTestContainer(
       client,
       "validate correct execution of query",
       containerDefinition,
@@ -84,11 +84,11 @@ describe("Test Query Metrics On Single Partition Collection", function() {
   };
 
   afterEach(async function() {
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
 
   beforeEach(async function() {
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
 
   it("validate that query metrics are correct for a single partition query", async function() {

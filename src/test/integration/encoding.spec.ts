@@ -1,8 +1,8 @@
-﻿import * as assert from "assert";
+import * as assert from "assert";
 import { CosmosClient } from "../../";
 import { IndexingMode } from "../../documents";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -22,16 +22,16 @@ describe("Create And Read Validation", function() {
   const databaseId = "encodingTestDB";
 
   afterEach(async function() {
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
   beforeEach(async function() {
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
 
   it("check if the document from db matches the actual document", async function() {
     try {
       // Create Database
-      const database = await TestHelpers.getTestDatabase(client, databaseId);
+      const database = await getTestDatabase(client, databaseId);
       const containerBody = {
         id: "डेटाबेस پایگاه داده 数据库" + dateTime.getTime(),
         indexingPolicy: { indexingMode: IndexingMode.Lazy } // Modes : Lazy, Consistent

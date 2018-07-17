@@ -1,4 +1,4 @@
-﻿import * as assert from "assert";
+import * as assert from "assert";
 import * as util from "util";
 import { QueryIterator } from "../../";
 import { Container, ContainerDefinition, Database } from "../../client";
@@ -7,7 +7,7 @@ import { DataType, IndexKind, PartitionKind } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import testConfig from "./../common/_testConfig";
 import { TestData } from "./../common/TestData";
-import { TestHelpers } from "./../common/TestHelpers";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
 
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
@@ -56,10 +56,10 @@ describe.skip("NodeJS Aggregate Query Tests", async function() {
     //      - creates a new collecton,
     //          - bulk inserts documents to the container
     before(async function() {
-      await TestHelpers.removeAllDatabases(client);
-      container = await TestHelpers.getTestContainer(client, "Validate Aggregate Document Query", containerDefinition);
+      await removeAllDatabases(client);
+      container = await getTestContainer(client, "Validate Aggregate Document Query", containerDefinition);
       db = container.database;
-      await TestHelpers.bulkInsertItems(container, documentDefinitions);
+      await bulkInsertItems(container, documentDefinitions);
     });
 
     const validateResult = function(actualValue: any, expectedValue: any) {

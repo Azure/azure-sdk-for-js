@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { CosmosClient, Database, DocumentBase } from "../../";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -12,18 +12,14 @@ describe("NodeJS CRUD Tests", function() {
   // remove all databases from the endpoint before each test
   beforeEach(async function() {
     this.timeout(10000);
-    try {
-      await TestHelpers.removeAllDatabases(client);
-    } catch (err) {
-      throw err;
-    }
+    await removeAllDatabases(client);
   });
 
   describe("Validate spatial index", function() {
     const spatialIndexTest = async function(isUpsertTest: boolean) {
       try {
         // create database
-        const database: Database = await TestHelpers.getTestDatabase(client, "validate spatial index");
+        const database: Database = await getTestDatabase(client, "validate spatial index");
 
         // create container using an indexing policy with spatial index.
         const indexingPolicy = {
@@ -56,7 +52,7 @@ describe("NodeJS CRUD Tests", function() {
             coordinates: [20.0, 20.0]
           }
         };
-        await TestHelpers.createOrUpsertItem(container, location1, undefined, isUpsertTest);
+        await createOrUpsertItem(container, location1, undefined, isUpsertTest);
         const location2 = {
           id: "location2",
           Location: {
@@ -64,7 +60,7 @@ describe("NodeJS CRUD Tests", function() {
             coordinates: [100.0, 100.0]
           }
         };
-        await TestHelpers.createOrUpsertItem(container, location2, undefined, isUpsertTest);
+        await createOrUpsertItem(container, location2, undefined, isUpsertTest);
         // tslint:disable-next-line:max-line-length
         const query =
           "SELECT * FROM root WHERE (ST_DISTANCE(root.Location, {type: 'Point', coordinates: [20.1, 20]}) < 20000) ";

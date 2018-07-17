@@ -3,7 +3,7 @@ import { Constants, CosmosClient, DocumentBase } from "../../";
 import { Container, ContainerDefinition, Database } from "../../client";
 import { DataType, Index, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../documents";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -15,7 +15,7 @@ describe("NodeJS CRUD Tests", function() {
   beforeEach(async function() {
     this.timeout(10000);
     try {
-      await TestHelpers.removeAllDatabases(client);
+      await removeAllDatabases(client);
     } catch (err) {
       throw err;
     }
@@ -25,7 +25,7 @@ describe("NodeJS CRUD Tests", function() {
     const containerCRUDTest = async function(hasPartitionKey: boolean) {
       try {
         // create database
-        const database = await TestHelpers.getTestDatabase(client, "Validate Container CRUD");
+        const database = await getTestDatabase(client, "Validate Container CRUD");
 
         // create a container
         const containerDefinition: ContainerDefinition = {
@@ -109,7 +109,7 @@ describe("NodeJS CRUD Tests", function() {
     const badPartitionKeyDefinitionTest = async function(isNameBased: boolean) {
       try {
         // create database
-        const database = await TestHelpers.getTestDatabase(client, "container CRUD bad partition key");
+        const database = await getTestDatabase(client, "container CRUD bad partition key");
 
         // create a container
         const badPartitionKeyDefinition: any = {
@@ -404,7 +404,7 @@ describe("NodeJS CRUD Tests", function() {
 
     const indexProgressHeadersTest = async function() {
       try {
-        const database = await TestHelpers.getTestDatabase(client, "Validate response headers");
+        const database = await getTestDatabase(client, "Validate response headers");
         const { headers: headers1 } = await createThenReadcontainer(database, { id: "consistent_coll" });
         assert.notEqual(headers1[Constants.HttpHeaders.IndexTransformationProgress], undefined);
         assert.equal(headers1[Constants.HttpHeaders.LazyIndexingProgress], undefined);

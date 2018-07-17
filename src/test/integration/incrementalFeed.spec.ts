@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { CosmosClient, Database, FeedOptions } from "../../";
 import { Container } from "../../client";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -11,7 +11,7 @@ const client = new CosmosClient({ endpoint, auth: { masterKey } });
 describe("NodeJS Incremental Feed Tests using 'a_im' and 'IfNoneMatch' options", function() {
   // delete all databases and create sample database
   before(async function() {
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
 
   describe("Newly updated documents should be fetched incremetally", function() {
@@ -19,7 +19,7 @@ describe("NodeJS Incremental Feed Tests using 'a_im' and 'IfNoneMatch' options",
 
     // create container and two documents
     before(async function() {
-      container = await TestHelpers.getTestContainer(client, "Newly updated documents should be fetched incrementally");
+      container = await getTestContainer(client, "Newly updated documents should be fetched incrementally");
       await container.items.create({ id: "doc1" });
       await container.items.create({ id: "doc2" });
     });
@@ -62,7 +62,7 @@ describe("NodeJS Incremental Feed Tests using 'a_im' and 'IfNoneMatch' options",
 
     // create container and one document
     before(async function() {
-      container = await TestHelpers.getTestContainer(client, "Newly updated documents should be fetched incrementally");
+      container = await getTestContainer(client, "Newly updated documents should be fetched incrementally");
       await container.items.create({ id: "doc1" });
     });
 

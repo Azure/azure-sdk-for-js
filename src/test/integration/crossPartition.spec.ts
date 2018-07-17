@@ -1,4 +1,4 @@
-﻿import * as assert from "assert";
+import * as assert from "assert";
 import * as _ from "underscore";
 import * as util from "util";
 import { Constants, CosmosClient } from "../../";
@@ -7,7 +7,7 @@ import { DataType, IndexKind, PartitionKind } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -69,14 +69,9 @@ describe("Cross Partition", function() {
     // - creates a new collecton,
     // - bulk inserts documents to the container
     before(async function() {
-      await TestHelpers.removeAllDatabases(client);
-      container = await TestHelpers.getTestContainer(
-        client,
-        "Validate 中文 Query",
-        containerDefinition,
-        containerOptions
-      );
-      await TestHelpers.bulkInsertItems(container, documentDefinitions);
+      await removeAllDatabases(client);
+      container = await getTestContainer(client, "Validate 中文 Query", containerDefinition, containerOptions);
+      await bulkInsertItems(container, documentDefinitions);
     });
 
     const validateResults = function(actualResults: any[], expectedOrderIds: string[]) {

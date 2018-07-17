@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { Container, CosmosClient } from "../../";
 import { UserDefinedFunctionDefinition } from "../../client";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -19,7 +19,7 @@ describe("NodeJS CRUD Tests", function() {
       endpoint,
       auth: { masterKey }
     });
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
 
   describe("User Defined Function", function() {

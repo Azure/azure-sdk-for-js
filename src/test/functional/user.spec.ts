@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { CosmosClient } from "../../";
 import { UserDefinition } from "../../client";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -14,7 +14,7 @@ describe("NodeJS CRUD Tests", function() {
   beforeEach(async function() {
     this.timeout(10000);
     try {
-      await TestHelpers.removeAllDatabases(client);
+      await removeAllDatabases(client);
     } catch (err) {
       throw err;
     }
@@ -22,7 +22,7 @@ describe("NodeJS CRUD Tests", function() {
   describe("Validate User CRUD", function() {
     const userCRUDTest = async function(isUpsertTest: boolean) {
       // create database
-      const database = await TestHelpers.getTestDatabase(client, "Validate user CRUD");
+      const database = await getTestDatabase(client, "Validate user CRUD");
 
       // list users
       const { result: users } = await database.users.readAll().toArray();
@@ -30,12 +30,7 @@ describe("NodeJS CRUD Tests", function() {
       const beforeCreateCount = users.length;
 
       // create user
-      const { body: userDef } = await TestHelpers.createOrUpsertUser(
-        database,
-        { id: "new user" },
-        undefined,
-        isUpsertTest
-      );
+      const { body: userDef } = await createOrUpsertUser(database, { id: "new user" }, undefined, isUpsertTest);
       assert.equal(userDef.id, "new user", "user name error");
       let user = database.user(userDef.id);
 

@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { CosmosClient, DocumentBase } from "../../";
 import { Container, TriggerDefinition } from "../../client";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -26,7 +26,7 @@ describe("NodeJS CRUD Tests", function() {
 
   beforeEach(async function() {
     // remove all databases from the endpoint before each test
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
 
     // create database
     await client.databases.create({

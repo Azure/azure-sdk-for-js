@@ -1,7 +1,7 @@
-﻿import * as assert from "assert";
+import * as assert from "assert";
 import { Constants, CosmosClient, Database } from "../../";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -15,13 +15,13 @@ describe("RU Per Minute", function() {
   // - removes all the databases,
   //  - creates a new database,
   beforeEach(async () => {
-    await TestHelpers.removeAllDatabases(client);
-    database = await TestHelpers.getTestDatabase(client, "RU Per minute");
+    await removeAllDatabases(client);
+    database = await getTestDatabase(client, "RU Per minute");
   });
 
   // - removes all the databases,
   afterEach(async () => {
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
 
   xit("Create container with RU Per Minute Offer", async function() {

@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as Stream from "stream";
 import { CosmosClient, HashPartitionResolver } from "../../";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { removeAllDatabases } from "./../common/TestHelpers";
 
 // TODO: should fix long lines
 // tslint:disable:max-line-length
@@ -19,7 +19,7 @@ describe("NodeJS CRUD Tests", function() {
   beforeEach(async function() {
     this.timeout(10000);
     // remove all databases from the endpoint before each test
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
 
   describe("HashPartitionResolver", function() {

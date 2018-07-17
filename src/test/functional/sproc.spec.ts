@@ -14,7 +14,7 @@ import {
 } from "../../";
 import { Container, StoredProcedureDefinition } from "../../client";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
 
 // Used for sproc
 declare var getContext: any;
@@ -34,12 +34,12 @@ describe("NodeJS CRUD Tests", function() {
   // remove all databases from the endpoint before each test
   beforeEach(async function() {
     this.timeout(10000);
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
   describe("Validate sproc CRUD", function() {
     let container: Container;
     beforeEach(async function() {
-      container = await TestHelpers.getTestContainer(client, this.test.fullTitle());
+      container = await getTestContainer(client, this.test.fullTitle());
     });
 
     it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function() {
@@ -161,7 +161,7 @@ describe("NodeJS CRUD Tests", function() {
   describe("Validate stored procedure functionality", function() {
     let container: Container;
     beforeEach(async function() {
-      container = await TestHelpers.getTestContainer(client, this.test.fullTitle());
+      container = await getTestContainer(client, this.test.fullTitle());
     });
 
     it("nativeApi should do stored procedure operations successfully with create/replace", async function() {
@@ -341,7 +341,7 @@ describe("NodeJS CRUD Tests", function() {
       { id: "document6", key: "A", prop: 1 }
     ];
 
-    const returnedDocuments = await TestHelpers.bulkInsertItems(container, documents);
+    const returnedDocuments = await bulkInsertItems(container, documents);
     const { body: sproc } = await container.storedProcedures.create(querySproc);
     const { body: result } = await container.storedProcedure(sproc.id).execute([], { partitionKey: null });
     assert(result !== undefined);

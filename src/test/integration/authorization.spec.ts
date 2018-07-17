@@ -1,8 +1,8 @@
-﻿import * as assert from "assert";
+import * as assert from "assert";
 import { Base, Container, CosmosClient, DocumentBase, UriFactory } from "../../";
 import { Database } from "../../client";
 import testConfig from "./../common/_testConfig";
-import { TestHelpers } from "./../common/TestHelpers";
+import { getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
 
 const endpoint = testConfig.host;
 const masterKey = testConfig.masterKey;
@@ -28,10 +28,10 @@ describe("Authorization", function() {
   /************** TEST **************/
 
   beforeEach(async function() {
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
 
     // create a database & container
-    container = await TestHelpers.getTestContainer(client, "Authorization tests");
+    container = await getTestContainer(client, "Authorization tests");
     database = container.database;
 
     // create userReadPermission
@@ -60,7 +60,7 @@ describe("Authorization", function() {
   });
 
   afterEach(async function() {
-    await TestHelpers.removeAllDatabases(client);
+    await removeAllDatabases(client);
   });
 
   it("Accessing container by resourceTokens", async function() {
