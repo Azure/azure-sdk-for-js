@@ -63,7 +63,7 @@ export class EventHubSender extends LinkEntity {
     this.audience = `${this._context.config.endpoint}${this.address}`;
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
-      const sessionError = context.session.error;
+      const sessionError = context.session && context.session.error;
       if (senderError) {
         const err = translate(senderError);
         debug("[%s] An error occurred for sender '%s': %O.",
@@ -76,7 +76,7 @@ export class EventHubSender extends LinkEntity {
     };
     this._onAmqpClose = async (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
-      const sessionError = context.session.error;
+      const sessionError = context.session && context.session.error;
       if (senderError) {
         debug("[%s] 'sender_close' event occurred for sender '%s'. The associated error is: %O",
           this._context.connectionId, this.address, senderError);

@@ -119,8 +119,8 @@ export class Sender {
 
         onError = (context: rhea.EventContext) => {
           this._sender.removeListener(SenderEvents.senderError, onError);
-          debug(`Error occurred while closing amqp sender.`, context.session.error);
-          reject(context.session.error);
+          debug(`Error occurred while closing amqp sender.`, context.session!.error);
+          reject(context.session!.error);
         };
 
         this._sender.once(SenderEvents.senderClose, onClose);
