@@ -3,7 +3,7 @@ azure-event-hubs
 
 _This SDK is currently in preview._
 
-- **Node.js version: 6.x or higher.** We would encourage you to install the latest available LTS version from https://nodejs.org.
+- **Node.js version: 8.x or higher.** We would encourage you to install the latest available LTS version from https://nodejs.org.
 
 ## Installation ##
 ```bash
@@ -26,19 +26,36 @@ This message takes the `messageHandler()` and the `errorHandler()` amongst other
 This method returns a `ReceiverHandler` that can be used to stop receiving further events `await receiverHandler.stop()`
 
 ## IDE ##
-This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) or any other IDE that provides better intellisense and exposes the full power of source code documentation.
+This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) 
+or any other IDE that provides better intellisense and exposes the full power of source code documentation.
 
 ## Debug logs ##
 
 You can set the following environment variable to get the debug logs.
-- Getting the debug logs from the Event Hub SDK
-```
+
+- Getting debug logs from the Event Hub SDK
+```bash
 export DEBUG=azure*
 ```
-- Getting the debug logs from the Event Hub SDK and the protocol level library.
-```
+- Getting debug logs from the Event Hub SDK and the protocol level library.
+```bash
 export DEBUG=azure*,rhea*
 ```
+- If you are **not interested in viewing the message transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
+```bash
+export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
+```
+
+#### Logging to a file
+- Set the `DEBUG` environment variable as shown above and then run your test script as follows:
+  - Logging statements from you test script go to `out.log` and logging statement from the sdk go to `debug.log`.
+    ```bash
+    node your-test-script.js > out.log 2>debug.log
+    ```
+  - Logging statements from your test script and the sdk go to the same file `out.log`.
+    ```bash
+      node your-test-script.js &> out.log
+    ```
 
 ## Examples ##
 

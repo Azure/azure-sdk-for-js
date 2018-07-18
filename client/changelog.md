@@ -1,3 +1,8 @@
+### 2018-07-17 0.2.5
+- Improved log statements
+- Updated README.md
+- Updated dependency rhea to "^0.2.16" instead of github dependency.
+
 ## 2018-07-16 0.2.4
 - Added support to handle disconnects and link timeout errors.
 - Fixed client examples link in README.
