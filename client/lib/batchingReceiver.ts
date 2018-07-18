@@ -111,7 +111,7 @@ export class BatchingReceiver extends EventHubReceiver {
         this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
         this._receiver!.removeSessionHandler(SessionEvents.sessionError, onReceiveError);
         const receiverError = context.receiver && context.receiver.error;
-        const sessionError = context.session.error;
+        const sessionError = context.session && context.session.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (receiverError) {
           error = translate(receiverError);
@@ -131,7 +131,7 @@ export class BatchingReceiver extends EventHubReceiver {
 
       onReceiveClose = async (context: EventContext) => {
         const receiverError = context.receiver && context.receiver.error;
-        const sessionError = context.session.error;
+        const sessionError = context.session && context.session.error;
         if (receiverError) {
           debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
             this._context.connectionId, receiverError);

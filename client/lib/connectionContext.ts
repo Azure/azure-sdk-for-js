@@ -146,13 +146,17 @@ export namespace ConnectionContext {
     connectionContext.connection.registerHandler(ConnectionEvents.connectionOpen, onConnectionOpen);
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
-      connectionContext.connection.removeHandler(ConnectionEvents.connectionOpen, onConnectionOpen);
       const connectionError = context.connection && context.connection.error
         ? context.connection.error
-        : (context as any).error ? (context as any).error : undefined;
+        : undefined;
       if (connectionError) {
-        debug("[%s] Error occurred on the amqp connection: %O",
+        debug("[%s] Error (context.connection.error) occurred on the amqp connection: %O",
           connectionContext.connection.id, connectionError);
+      }
+      const contextError = context.error;
+      if (contextError) {
+        debug("[%s] Error (context.error) occurred on the amqp connection: %O",
+          connectionContext.connection.id, contextError);
       }
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
@@ -166,13 +170,19 @@ export namespace ConnectionContext {
         for (const sender of Object.values(connectionContext.senders)) {
           debug("[%s] calling detached on sender '%s' with address '%s'.",
             connectionContext.connection.id, sender.name, sender.address);
-          sender.detached();
+          sender.detached().catch((err) => {
+            debug("[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
+              connectionContext.connection.id, sender.name, sender.address, err);
+          });
         }
         // reconnect receivers if any
         for (const receiver of Object.values(connectionContext.receivers)) {
           debug("[%s] calling detached on receiver '%s' with address '%s'.",
             connectionContext.connection.id, receiver.name, receiver.address);
-          receiver.detached();
+          receiver.detached().catch((err) => {
+            debug("[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
+              connectionContext.connection.id, receiver.name, receiver.address, err);
+          });
         }
       }
     };
