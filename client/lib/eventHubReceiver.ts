@@ -293,7 +293,10 @@ export class EventHubReceiver extends LinkEntity {
    * @return {boolean} boolean
    */
   isOpen(): boolean {
-    return this._receiver! && this._receiver!.isOpen();
+    const result: boolean = this._receiver! && this._receiver!.isOpen();
+    debug("[%s] Receiver '%s' with address '%s' is open? -> %s", this._context.connectionId,
+      this.name, this.address, result);
+    return result;
   }
 
   /**

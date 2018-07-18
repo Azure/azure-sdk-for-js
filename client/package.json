@@ -1,6 +1,6 @@
 {
   "name": "azure-event-hubs",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Azure Event Hubs SDK for Node.js",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "jssha": "^2.3.1",
     "ms-rest": "^2.3.3",
     "ms-rest-azure": "^2.5.5",
-    "rhea": "amqp/rhea",
+    "rhea": "^0.2.16",
     "tslib": "^1.9.2",
     "uuid": "^3.2.1"
   },
@@ -43,7 +43,7 @@
     "unit": "nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts --abort-on-uncaught-exception",
     "prepare": "npm run build"
   },
-  "homepage": "http://github.com/azure/azure-event-hubs-node",
+  "homepage": "https://github.com/Azure/azure-event-hubs-node/tree/master/client",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-event-hubs-node.git"
