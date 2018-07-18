@@ -165,7 +165,7 @@ export class EventHubSender extends LinkEntity {
 
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = message.encode(batchMessage);
-      debug("[%s]Sender '%s', sending encoded batch message.",
+      debug("[%s] Sender '%s', sending encoded batch message.",
         this._context.connectionId, this.name, encodedBatchMessage);
       return await this._trySend(encodedBatchMessage, batchMessage.message_id, 0x80013700);
     } catch (err) {
@@ -218,9 +218,11 @@ export class EventHubSender extends LinkEntity {
         debug("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
           this._context.connectionId, this.name, this.address);
         await senderLink.close();
-        debug("[%s]Sender '%s' closed.", this._context.connectionId, this.name);
+        debug("[%s] Sender '%s' with address '%s' closed.", this._context.connectionId, this.name,
+          this.address);
       } catch (err) {
-        debug("An error occurred while closing the sender %O", err);
+        debug("An error occurred while closing the sender '%s' with address '%s': %O",
+          this.name, this.address, err);
         throw err;
       }
     }
@@ -231,7 +233,10 @@ export class EventHubSender extends LinkEntity {
    * @return {boolean} boolean
    */
   isOpen(): boolean {
-    return this._sender! && this._sender!.isOpen();
+    const result: boolean = this._sender! && this._sender!.isOpen();
+    debug("[%s] Sender '%s' with address '%s' is open? -> %s", this._context.connectionId,
+      this.name, this.address, result);
+    return result;
   }
 
   private _createSenderOptions(options: CreateSenderOptions): SenderOptions {
