@@ -3,6 +3,8 @@
 !typings/lib/**/*.d.ts
 .vscode/
 .idea/
+.nyc_output/
+coverage/
 samples/
 lib/
 test/

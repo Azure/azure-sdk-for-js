@@ -84,6 +84,8 @@ SdkCodeGen
 output/*
 
 # Typescript output
+.nyc_output/
+coverage/
 dist/
 typings/
 *.js

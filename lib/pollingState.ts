@@ -44,13 +44,13 @@ export default class PollingState {
   /**
    * @param {string} [status] - The status of polling. "Succeeded, Failed, Cancelled, Updating, Creating, etc."
    */
-  status?: LroStates;
+  status: LroStates;
   /**
    * @param {msRest.RestError} [error] - Provides information about the error that happened while polling.
    */
   error?: msRest.RestError;
 
-  constructor(resultOfInitialRequest: msRest.HttpOperationResponse, retryTimeout = 30) {
+  constructor(resultOfInitialRequest: msRest.HttpOperationResponse, retryTimeout: number) {
     this.resultOfInitialRequest = resultOfInitialRequest;
     this.retryTimeout = retryTimeout;
     this.updateResponse(resultOfInitialRequest);
