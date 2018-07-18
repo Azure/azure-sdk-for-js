@@ -147,9 +147,11 @@ export namespace ConnectionContext {
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
       connectionContext.connection.removeHandler(ConnectionEvents.connectionOpen, onConnectionOpen);
-      const connectionError = context.connection ? context.connection.error : undefined;
+      const connectionError = context.connection && context.connection.error
+        ? context.connection.error
+        : (context as any).error ? (context as any).error : undefined;
       if (connectionError) {
-        debug(`[%s] Error occurred on the amqp connection: %O`,
+        debug("[%s] Error occurred on the amqp connection: %O",
           connectionContext.connection.id, connectionError);
       }
       // The connection should always be brought back up if the sdk did not call connection.close()
