@@ -202,7 +202,7 @@ export class EventHubReceiver extends LinkEntity {
 
     this._onAmqpError = (context: EventContext) => {
       const receiverError = context.receiver && context.receiver.error;
-      const sessionError = context.session.error;
+      const sessionError = context.session && context.session.error;
       if (receiverError) {
         const ehError = translate(context.receiver!.error!);
         debug("[%s] An error occurred for Receiver '%s': %O.",
@@ -218,7 +218,7 @@ export class EventHubReceiver extends LinkEntity {
 
     this._onAmqpClose = async (context: EventContext) => {
       const receiverError = context.receiver && context.receiver.error;
-      const sessionError = context.session.error;
+      const sessionError = context.session && context.session.error;
       if (receiverError) {
         debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
           this._context.connectionId, receiverError);
