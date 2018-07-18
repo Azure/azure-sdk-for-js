@@ -170,13 +170,19 @@ export namespace ConnectionContext {
         for (const sender of Object.values(connectionContext.senders)) {
           debug("[%s] calling detached on sender '%s' with address '%s'.",
             connectionContext.connection.id, sender.name, sender.address);
-          sender.detached();
+          sender.detached().catch((err) => {
+            debug("[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
+              connectionContext.connection.id, sender.name, sender.address, err);
+          });
         }
         // reconnect receivers if any
         for (const receiver of Object.values(connectionContext.receivers)) {
           debug("[%s] calling detached on receiver '%s' with address '%s'.",
             connectionContext.connection.id, receiver.name, receiver.address);
-          receiver.detached();
+          receiver.detached().catch((err) => {
+            debug("[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
+              connectionContext.connection.id, receiver.name, receiver.address, err);
+          });
         }
       }
     };
