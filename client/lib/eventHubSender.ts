@@ -268,7 +268,8 @@ export class EventHubSender extends LinkEntity {
       debug("[%s] Sender '%s', credit: %d available: %d", this._context.connectionId, this.name,
         this._sender!.credit, this._sender!.session.outgoing.available());
       if (this._sender!.sendable()) {
-        debug("[%s] Sender '%s', sending message: %O", this._context.connectionId, this.name, message);
+        debug("[%s] Sender '%s', sending message with id '%s'.", this._context.connectionId,
+          this.name, message.message_id);
         let onRejected: Func<EventContext, void>;
         let onReleased: Func<EventContext, void>;
         let onModified: Func<EventContext, void>;
