@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as msRest from "ms-rest-js";
-import PollingState from "./pollingState";
-import Constants, { LongRunningOperationStates as LroStates } from "./util/constants";
+import { HttpOperationResponse, RequestOptionsBase, RequestPrepareOptions, ServiceClient, ServiceClientCredentials, ServiceClientOptions, WebResource } from "ms-rest-js";
 import { HttpLongRunningOperationResponse } from "./httpLongRunningOperationResponse";
+import Constants from "./util/constants";
 
 /**
  * Options to be provided while creating the client.
  */
-export interface AzureServiceClientOptions extends msRest.ServiceClientOptions {
+export interface AzureServiceClientOptions extends ServiceClientOptions {
   /**
    * @property {string} [options.acceptLanguage] - Gets or sets the preferred language for the response. Default value is: "en-US".
    */
@@ -31,11 +30,11 @@ export interface AzureServiceClientOptions extends msRest.ServiceClientOptions {
  * UserTokenCredentials object used for authentication.
  * @param {AzureServiceClientOptions} options - The parameter options used by AzureServiceClient
  */
-export class AzureServiceClient extends msRest.ServiceClient {
+export class AzureServiceClient extends ServiceClient {
   acceptLanguage: string = Constants.DEFAULT_LANGUAGE;
   longRunningOperationRetryTimeout = 30;
 
-  constructor(credentials: msRest.ServiceClientCredentials, options?: AzureServiceClientOptions) {
+  constructor(credentials: ServiceClientCredentials, options?: AzureServiceClientOptions) {
     super(credentials, options = updateOptionsWithDefaultValues(options));
 
     if (options.acceptLanguage != undefined) {
@@ -55,8 +54,8 @@ export class AzureServiceClient extends msRest.ServiceClient {
    * @param {msRest.RequestOptionsBase} [options] Additional options to be sent while making the request
    * @returns {Promise<msRest.HttpOperationResponse>} The HttpOperationResponse containing the final polling request, response and the responseBody.
    */
-  async sendLongRunningRequest(request: msRest.RequestPrepareOptions | msRest.WebResource, options?: msRest.RequestOptionsBase): Promise<msRest.HttpOperationResponse> {
-    const initialResponse: msRest.HttpOperationResponse = await this.sendRequest(request);
+  async sendLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
+    const initialResponse: HttpOperationResponse = await this.sendRequest(request);
     const httpLongRunningOperationResponse = new HttpLongRunningOperationResponse(this);
     return httpLongRunningOperationResponse.getLongRunningOperationResult(initialResponse, options);
   }

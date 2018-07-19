@@ -27,14 +27,22 @@ export class HttpLongRunningOperationResponse {
     pollingState.optionsOfInitialRequest = options!;
 
     const resourceUrl: string = resultOfInitialRequest.request.url;
-    while (terminalStates.indexOf(pollingState.status) === -1) {
-      await delay(pollingState.getTimeout());
+    if (terminalStates.indexOf(pollingState.status) === -1) {
       if (pollingState.azureAsyncOperationHeaderLink) {
-        await updateStateFromAzureAsyncOperationHeader(this._azureServiceClient, pollingState);
+        while (terminalStates.indexOf(pollingState.status) === -1) {
+          await delay(pollingState.getTimeout());
+          await updateStateFromAzureAsyncOperationHeader(this._azureServiceClient, pollingState);
+        }
       } else if (pollingState.locationHeaderLink) {
-        await updateStateFromLocationHeader(this._azureServiceClient, initialRequestMethod, pollingState);
+        while (terminalStates.indexOf(pollingState.status) === -1) {
+          await delay(pollingState.getTimeout());
+          await updateStateFromLocationHeader(this._azureServiceClient, initialRequestMethod, pollingState);
+        }
       } else if (initialRequestMethod === "PUT") {
-        await updateStateFromGetResourceOperation(this._azureServiceClient, resourceUrl, pollingState);
+        while (terminalStates.indexOf(pollingState.status) === -1) {
+          await delay(pollingState.getTimeout());
+          await updateStateFromGetResourceOperation(this._azureServiceClient, resourceUrl, pollingState);
+        }
       } else {
         throw new Error("Location header is missing from long running operation.");
       }
