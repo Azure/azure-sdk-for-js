@@ -52,6 +52,10 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransfo
     ```bash
     node your-test-script.js > out.log 2>debug.log
     ```
+  - Logging statements from your test script and the sdk go to the same file `out.log` by redirecting stderr to stdout (&1), and then redirect stdout to a file:
+    ```bash
+    node your-test-script.js >out.log 2>&1
+    ```
   - Logging statements from your test script and the sdk go to the same file `out.log`.
     ```bash
       node your-test-script.js &> out.log
