@@ -57,7 +57,7 @@ interface CountEntry {
 }
 const partitionCount: { [x: string]: CountEntry } = {};
 
-const uberStartTime = Date.now();
+// const uberStartTime = Date.now();
 
 let startTime: number;
 
@@ -121,6 +121,9 @@ export async function handler(argv: any): Promise<void> {
         };
         const onMessage = (m: EventData) => {
           const ts = Date.now();
+          if (m.sequenceNumber && m.sequenceNumber !== partitionCount[id].currCount) {
+            log(`missed a message: seq: ${m.sequenceNumber}, count: ${partitionCount[id].currCount}`);
+          }
           partitionCount[id].currCount += 1;
           partitionCount[id].currTimestamp = ts;
           if (partitionCount[id].timer == undefined) {
@@ -147,18 +150,18 @@ export async function handler(argv: any): Promise<void> {
   }
 }
 
-const CtrlC = require("death");
-CtrlC((signal, err) => {
-  console.log("\nstats:");
-  console.log("---------------------------------------------------------");
-  console.log(" PartitionId | Received Message Count |  messages/second ");
-  console.log("---------------------------------------------------------");
-  for (const key in partitionCount) {
-    const count = partitionCount[key].currCount;
-    const duration = (partitionCount[key].currTimestamp - (startTime || uberStartTime)) / 1000;
-    const rate = count / duration;
-    console.log(`      ${key}      |          ${count}          |      ${rate}      `);
-  }
-  console.log("---------------------------------------------------------");
-  process.exit();
-});
+// const CtrlC = require("death");
+// CtrlC((signal, err) => {
+//   console.log("\nstats:");
+//   console.log("---------------------------------------------------------");
+//   console.log(" PartitionId | Received Message Count |  messages/second ");
+//   console.log("---------------------------------------------------------");
+//   for (const key in partitionCount) {
+//     const count = partitionCount[key].currCount;
+//     const duration = (partitionCount[key].currTimestamp - (startTime || uberStartTime)) / 1000;
+//     const rate = count / duration;
+//     console.log(`      ${key}      |          ${count}          |      ${rate}      `);
+//   }
+//   console.log("---------------------------------------------------------");
+//   process.exit();
+// });
