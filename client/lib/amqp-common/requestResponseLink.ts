@@ -94,7 +94,7 @@ export class RequestResponseLink implements ReqResLink {
       this.sender.send(request);
     });
 
-    return retry<T>(() => sendRequestPromise);
+    return retry<T>(() => sendRequestPromise, this.connection.id);
   }
 
   async close(): Promise<void> {

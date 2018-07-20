@@ -264,7 +264,7 @@ export class EventHubReceiver extends LinkEntity {
       }
       const options: ReceiverOptions = this._createReceiverOptions(rcvrOptions);
       // shall retry 3 times at an interval of 15 seconds and bail out.
-      await retry<void>(() => this._init(options));
+      await retry<void>(() => this._init(options), this._context.connectionId);
     }
   }
 
