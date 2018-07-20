@@ -8,7 +8,7 @@ export {
   translate, retryableErrors
 } from "./errors";
 export { RequestResponseLink } from "./requestResponseLink";
-export { retry } from "./retry";
+export { retry, RetryConfig, RetryOperationType } from "./retry";
 export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 export { TokenType, TokenProvider, TokenInfo } from "./auth/token";
 export { SasTokenProvider } from "./auth/sas";

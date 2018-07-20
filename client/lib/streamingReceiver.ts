@@ -4,8 +4,8 @@
 import * as debugModule from "debug";
 import { Constants } from "./amqp-common";
 import { ReceiverEvents } from "./rhea-promise";
-import { ReceiveOptions, OnMessage, OnError } from ".";
-import { EventHubReceiver, ReceiverRuntimeInfo } from "./eventHubReceiver";
+import { ReceiveOptions } from "./eventHubClient";
+import { EventHubReceiver, ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 
 const debug = debugModule("azure:event-hubs:receiverstreaming");

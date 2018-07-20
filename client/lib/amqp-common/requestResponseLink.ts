@@ -4,7 +4,7 @@
 import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
 import * as debugModule from "debug";
-import { retry } from "./retry";
+import { retry, RetryConfig, RetryOperationType } from "./retry";
 import {
   Session, Connection, Sender, Receiver, Message, EventContext, AmqpError, ReqResLink,
   SenderOptions, ReceiverOptions, ReceiverEvents
@@ -93,8 +93,14 @@ export class RequestResponseLink implements ReqResLink {
       debug("[%s] %s request sent: %O", this.connection.id, request.to || "$managment", request);
       this.sender.send(request);
     });
-
-    return retry<T>(() => sendRequestPromise);
+    const config: RetryConfig<T> = {
+      operation: () => sendRequestPromise,
+      connectionId: this.connection.id,
+      operationType: request.to && request.to === Constants.cbsEndpoint
+        ? RetryOperationType.cbsAuth
+        : RetryOperationType.management
+    };
+    return retry<T>(config);
   }
 
   async close(): Promise<void> {

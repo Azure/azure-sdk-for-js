@@ -26,8 +26,8 @@ describe("RuntimeInformation", function () {
     await client.close();
   });
 
-  function arrayOfIncreasingNumbersFromZero(length) {
-    return Array.apply(null, new Array(length)).map((x, i) => { return `${i}`; });
+  function arrayOfIncreasingNumbersFromZero(length: any) {
+    return Array.apply(null, new Array(length)).map((x: any, i: any) => { return `${i}`; });
   }
 
   it("gets the hub runtime information", async function () {

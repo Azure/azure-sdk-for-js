@@ -2,7 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import { CommandBuilder } from "yargs";
 import { EventHubClient, EventPosition, EventData, delay } from "../../client/lib";
-import { log } from "../utils/util";
+import { randomNumberFromInterval } from "../../client/lib/amqp-common";
+import { log, setCurrentCommand } from "../utils/util";
 import * as uuid from "uuid/v4";
 
 export const command = "send-receive";
@@ -24,9 +25,10 @@ export const builder: CommandBuilder = {
     string: true
   },
   w: {
-    alias: "wait",
-    describe: "Time in seconds to wait before sending the next message.",
-    default: 5,
+    alias: "maxwait",
+    describe: "Max time in seconds to wait before sending the next message. " +
+      "A random number between 5 and the provided number",
+    default: 2000,
     number: true
   },
 };
@@ -42,17 +44,20 @@ function validateArgs(argv: any) {
   }
 }
 
-const cache: { [x: string]: EventData } = {};
+export const cache: { [x: string]: EventData } = {};
+
+export const minWaitTime = 5;
 
 export async function handler(argv: any): Promise<void> {
+  setCurrentCommand(command);
   try {
     validateArgs(argv);
     const partitionId: string = argv.partitionId;
     const consumerGroup: string = argv.consumer;
-    const waitTime: number = argv.wait;
-    console.log("consumer group            - %s", consumerGroup);
-    console.log("partitionId               - %s", partitionId);
-    console.log("wait time (seconds)       - %d", waitTime);
+    const maxWaitTime: number = argv.maxwait;
+    console.log("consumer group                - %s", consumerGroup);
+    console.log("partitionId                   - %s", partitionId);
+    console.log("max wait time (seconds)       - %d", maxWaitTime);
     let client1: EventHubClient;
     let client2: EventHubClient;
     let connectionString = argv.connStr;
@@ -82,10 +87,11 @@ export async function handler(argv: any): Promise<void> {
     };
     const now = Date.now();
     client1.receive(partitionId, onMessage, onError, { consumerGroup: consumerGroup, eventPosition: EventPosition.fromEnqueuedTime(now) });
-    log("Started receiving messages from time : '%s'.", new Date(now).toString());
+    log("Started receiving messages from enqueued time : '%s'.", new Date(now).toString());
     await delay(3000);
-    setInterval(async () => {
-      const nextIterationAt = Date.now() + (waitTime * 1000);
+    while (true) {
+      const waitTime = randomNumberFromInterval(minWaitTime, maxWaitTime) * 1000;
+      const nextIterationAt = Date.now() + waitTime;
       const messageId = uuid();
       const m: EventData = {
         body: "Hello World Event Hub " + new Date().toString(),
@@ -104,20 +110,15 @@ export async function handler(argv: any): Promise<void> {
       } catch (err) {
         log("An error occurred while sending the message with id '%s', %o", messageId, err);
       }
-      log("Next message will be sent around %s", new Date(nextIterationAt).toString());
-    }, waitTime * 1000);
+      log("Sleeping for %d seconds. Next message will be sent around %s",
+        waitTime / 1000, new Date(nextIterationAt).toString());
+      try {
+        await delay(waitTime);
+      } catch (err) {
+        log("An error occurred while sleeping for %d milliseconds, %o", waitTime, err);
+      }
+    }
   } catch (err) {
     return Promise.reject(err);
   }
 }
-
-const CtrlC = require("death");
-CtrlC((signal, err) => {
-  console.log("\nstats:");
-  console.log("---------------------");
-  console.log(" messageId | message ");
-  console.log("---------------------");
-  console.log("%o", cache);
-  console.log("---------------------");
-  process.exit();
-});

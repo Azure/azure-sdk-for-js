@@ -7,9 +7,12 @@ import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
   message, AmqpError, SessionEvents
 } from "./rhea-promise";
+import {
+  defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper,
+  randomNumberFromInterval, RetryConfig, RetryOperationType, Constants
+} from "./amqp-common";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
-import { defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper, randomNumberFromInterval } from "./amqp-common";
 import { LinkEntity } from "./linkEntity";
 
 const debug = debugModule("azure:event-hubs:sender");
@@ -180,6 +183,7 @@ export class EventHubSender extends LinkEntity {
    * @returns {Promise<void>} Promise<void>.
    */
   async detached(senderError?: AmqpError | Error): Promise<void> {
+    await this._closeLink(this._sender); // clear the token renewal timer.
     let shouldReopen = false;
     if (senderError && this._context.senders[this.address]) {
       const translatedError = translate(senderError);
@@ -198,33 +202,25 @@ export class EventHubSender extends LinkEntity {
           newName: true
         });
         // shall retry 3 times at an interval of 15 seconds and bail out.
-        return retry<void>(() => this._init(options));
+        const config: RetryConfig<void> = {
+          operation: () => this._init(options),
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.senderLink
+        };
+        return retry<void>(config);
       });
     }
   }
 
   /**
-   * "Unlink" this sender, closing the link and resolving when that operation is complete.
-   * Leaves the underlying connection open.
+   * Deletes the sender fromt the context. Clears the token renewal timer. Closes the sender link.
    * @return {Promise<void>} Promise<void>
    */
   async close(): Promise<void> {
     if (this._sender) {
-      try {
-        const senderLink = this._sender;
-        this._sender = undefined;
-        delete this._context.senders[this.address];
-        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-        debug("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
-          this._context.connectionId, this.name, this.address);
-        await senderLink.close();
-        debug("[%s] Sender '%s' with address '%s' closed.", this._context.connectionId, this.name,
-          this.address);
-      } catch (err) {
-        debug("An error occurred while closing the sender '%s' with address '%s': %O",
-          this.name, this.address, err);
-        throw err;
-      }
+      const senderLink = this._sender;
+      this._deleteFromCache();
+      await this._closeLink(senderLink);
     }
   }
 
@@ -237,6 +233,13 @@ export class EventHubSender extends LinkEntity {
     debug("[%s] Sender '%s' with address '%s' is open? -> %s", this._context.connectionId,
       this.name, this.address, result);
     return result;
+  }
+
+  private _deleteFromCache(): void {
+    this._sender = undefined;
+    delete this._context.senders[this.address];
+    debug("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
+      this._context.connectionId, this.name, this.address);
   }
 
   private _createSenderOptions(options: CreateSenderOptions): SenderOptions {
@@ -268,7 +271,8 @@ export class EventHubSender extends LinkEntity {
       debug("[%s] Sender '%s', credit: %d available: %d", this._context.connectionId, this.name,
         this._sender!.credit, this._sender!.session.outgoing.available());
       if (this._sender!.sendable()) {
-        debug("[%s] Sender '%s', sending message: %O", this._context.connectionId, this.name, message);
+        debug("[%s] Sender '%s', sending message with id '%s'.", this._context.connectionId,
+          this.name, message.message_id);
         let onRejected: Func<EventContext, void>;
         let onReleased: Func<EventContext, void>;
         let onModified: Func<EventContext, void>;
@@ -337,8 +341,15 @@ export class EventHubSender extends LinkEntity {
       }
     });
 
-    const jitter = randomNumberFromInterval(1, 4);
-    return retry<Delivery>(sendEventPromise, 3, 5 + jitter);
+    const jitterInSeconds = randomNumberFromInterval(1, 4);
+    const config: RetryConfig<Delivery> = {
+      operation: sendEventPromise,
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.sendMessage,
+      times: Constants.defaultRetryAttempts,
+      delayInSeconds: Constants.defaultDelayBetweenRetriesInSeconds + jitterInSeconds
+    };
+    return retry<Delivery>(config);
   }
 
   /**

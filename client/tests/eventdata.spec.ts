@@ -44,7 +44,7 @@ describe("EventData", function () {
     });
 
     it("populates the properties with the message properties", function () {
-      testEventData.properties.message_id!.should.equal(messageProperties.message_id);
+      testEventData.properties!.message_id!.should.equal(messageProperties.message_id!);
     });
 
     it("populates the application properties with the message application properties", function () {

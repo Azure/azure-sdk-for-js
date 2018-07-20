@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import { CommandBuilder } from "yargs";
 import { EventHubClient, EventPosition, EventData } from "../../client/lib";
-import { log } from "../utils/util";
+import { log, setCurrentCommand } from "../utils/util";
 
 export const command = "receive";
 
@@ -55,11 +55,13 @@ interface CountEntry {
   currTimestamp: number;
   timer?: NodeJS.Timer;
 }
-const partitionCount: { [x: string]: CountEntry } = {};
 
-// const uberStartTime = Date.now();
 
-let startTime: number;
+export const partitionCount: { [x: string]: CountEntry } = {};
+
+export const uberStartTime = Date.now();
+
+export let startTime: number;
 
 function validateArgs(argv: any) {
   if (!argv) {
@@ -72,6 +74,8 @@ function validateArgs(argv: any) {
 }
 
 export async function handler(argv: any): Promise<void> {
+  setCurrentCommand(command);
+
   try {
     validateArgs(argv);
     let partitionIds = argv.partitions;
@@ -149,19 +153,3 @@ export async function handler(argv: any): Promise<void> {
     return Promise.reject(err);
   }
 }
-
-// const CtrlC = require("death");
-// CtrlC((signal, err) => {
-//   console.log("\nstats:");
-//   console.log("---------------------------------------------------------");
-//   console.log(" PartitionId | Received Message Count |  messages/second ");
-//   console.log("---------------------------------------------------------");
-//   for (const key in partitionCount) {
-//     const count = partitionCount[key].currCount;
-//     const duration = (partitionCount[key].currTimestamp - (startTime || uberStartTime)) / 1000;
-//     const rate = count / duration;
-//     console.log(`      ${key}      |          ${count}          |      ${rate}      `);
-//   }
-//   console.log("---------------------------------------------------------");
-//   process.exit();
-// });

@@ -3,9 +3,14 @@
 
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, SessionEvents } from "./rhea-promise";
-import { translate, Constants, MessagingError, retry } from "./amqp-common";
-import { ReceiveOptions, EventData } from ".";
+import {
+  Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, SessionEvents
+} from "./rhea-promise";
+import {
+  translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig
+} from "./amqp-common";
+import { EventData } from "./eventData";
+import { ReceiveOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from './eventPosition';
@@ -220,12 +225,15 @@ export class EventHubReceiver extends LinkEntity {
       const receiverError = context.receiver && context.receiver.error;
       const sessionError = context.session && context.session.error;
       if (receiverError) {
-        debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
-          this._context.connectionId, receiverError);
+        debug("[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
+          "The associated error is: %O", this._context.connectionId, this.name,
+          this.address, receiverError);
       } else if (sessionError) {
         debug("[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
           this._context.connectionId, this.name, sessionError);
       }
+      debug("[%s] Calling detached() of receiver '%s' with address '%s to revive the link.",
+        this._context.connectionId, this.name, this.address);
       await this.detached(receiverError || sessionError);
     };
   }
@@ -236,6 +244,7 @@ export class EventHubReceiver extends LinkEntity {
    * @returns {Promise<void>} Promise<void>.
    */
   async detached(receiverError?: AmqpError | Error): Promise<void> {
+    await this._closeLink(this._receiver); // clear the token renewal timer.
     let shouldReopen = false;
     if (receiverError && this._context.receivers[this.name]) {
       const translatedError = translate(receiverError);
@@ -246,7 +255,7 @@ export class EventHubReceiver extends LinkEntity {
       shouldReopen = true;
       debug("[%s] close() method of Receiver '%s' with address '%s' was not called. " +
         "There was no accompanying error as well. This is a candidate for re-establishing " +
-        "the sender link.", this._context.connectionId, this.name, this.address);
+        "the receiver link.", this._context.connectionId, this.name, this.address);
     }
     if (shouldReopen) {
       const rcvrOptions: CreateReceiverOptions = {
@@ -263,7 +272,12 @@ export class EventHubReceiver extends LinkEntity {
       }
       const options: ReceiverOptions = this._createReceiverOptions(rcvrOptions);
       // shall retry 3 times at an interval of 15 seconds and bail out.
-      await retry<void>(() => this._init(options));
+      const config: RetryConfig<void> = {
+        operation: () => this._init(options),
+        connectionId: this._context.connectionId,
+        operationType: RetryOperationType.receiverLink
+      };
+      await retry<void>(config);
     }
   }
 
@@ -273,18 +287,9 @@ export class EventHubReceiver extends LinkEntity {
    */
   async close(): Promise<void> {
     if (this._receiver) {
-      try {
-        const receiverLink = this._receiver;
-        this._receiver = undefined;
-        delete this._context.receivers[this.name];
-        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-        debug("[%s] Deleted the receiver '%s' from the client cache.",
-          this._context.connectionId, this.name);
-        await receiverLink.close();
-        debug("[%s] Receiver '%s', has been closed.", this._context.connectionId, this.name);
-      } catch (err) {
-        debug("An error occurred while closing the receiver %s %O", this.name, translate(err));
-      }
+      const receiverLink = this._receiver;
+      this._deleteFromCache();
+      await this._closeLink(receiverLink);
     }
   }
 
@@ -297,6 +302,13 @@ export class EventHubReceiver extends LinkEntity {
     debug("[%s] Receiver '%s' with address '%s' is open? -> %s", this._context.connectionId,
       this.name, this.address, result);
     return result;
+  }
+
+  protected _deleteFromCache(): void {
+    this._receiver = undefined;
+    delete this._context.receivers[this.name];
+    debug("[%s] Deleted the receiver '%s' from the client cache.",
+      this._context.connectionId, this.name);
   }
 
   /**
