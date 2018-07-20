@@ -11,6 +11,7 @@ export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 export { RestError } from "./restError";
 export { OperationSpec } from "./operationSpec";
 export { OperationArguments } from "./operationArguments";
+export { OperationParameter, OperationQueryParameter, OperationURLParameter } from "./operationParameter";
 export { ServiceClient, ServiceClientOptions } from "./serviceClient";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
