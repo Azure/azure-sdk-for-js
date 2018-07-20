@@ -199,7 +199,7 @@ export class EventHubSender extends LinkEntity {
           newName: true
         });
         // shall retry 3 times at an interval of 15 seconds and bail out.
-        return retry<void>(() => this._init(options));
+        return retry<void>(() => this._init(options), this._context.connectionId);
       });
     }
   }
@@ -348,7 +348,7 @@ export class EventHubSender extends LinkEntity {
     });
 
     const jitter = randomNumberFromInterval(1, 4);
-    return retry<Delivery>(sendEventPromise, 3, 5 + jitter);
+    return retry<Delivery>(sendEventPromise, this._context.connectionId, 3, 5 + jitter);
   }
 
   /**
