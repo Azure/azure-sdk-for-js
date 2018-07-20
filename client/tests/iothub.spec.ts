@@ -9,15 +9,13 @@ import * as chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:iothub-spec");
-import { EventHubClient, EventData, EventPosition } from "../lib";
-import * as assert from "assert";
+import { EventHubClient } from "../lib";
 dotenv.config();
 
 describe("EventHub Client with iothub connection string", function () {
   this.timeout(30000);
   const service = { connectionString: process.env.IOTHUB_CONNECTION_STRING };
   let client: EventHubClient;
-  const now: number = Date.now();
   before("validate environment", async function () {
     should.exist(process.env.IOTHUB_CONNECTION_STRING,
       "define IOTHUB_CONNECTION_STRING in your environment before running integration tests.");
