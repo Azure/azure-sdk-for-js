@@ -7,7 +7,7 @@ import * as rheaPromise from "./rhea-promise";
 import {
   RequestResponseLink, defaultLock, translate, Constants
 } from "./amqp-common";
-import { Message } from ".";
+import { Message } from "./rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 
