@@ -3,7 +3,7 @@
 
 import { CommandBuilder } from "yargs";
 import { EventHubClient, EventData, delay } from "../../client/lib";
-import { log } from "../utils/util";
+import { log, setCurrentCommand } from "../utils/util";
 
 export const command = "send";
 
@@ -60,6 +60,7 @@ function validateArgs(argv: any): void {
 }
 
 export async function handler(argv: any): Promise<void> {
+  setCurrentCommand(command);
   validateArgs(argv);
   let connectionString = argv.connStr;
   if (!connectionString) {

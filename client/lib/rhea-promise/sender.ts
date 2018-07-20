@@ -87,6 +87,10 @@ export class Sender {
     return result;
   }
 
+  /**
+   * Removes the sender and it's underlying session from the internal map.
+   * @returns {void} void
+   */
   remove(): void {
     if (this._sender) {
       this._sender.remove();

@@ -3,7 +3,8 @@
 
 import * as debugModule from "debug";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "./rhea-promise";
-import { ReceiveOptions, EventData } from ".";
+import { EventData } from "./eventData";
+import { ReceiveOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
 import { translate, Func, Constants, MessagingError } from "./amqp-common";

@@ -21,7 +21,7 @@ class AMQPError {
 describe("Errors", function () {
   describe("translate", function () {
     it("acts as a passthrough if the input is not an AmqpProtocolError", function () {
-      const MyError = function () { };
+      const MyError: any = function () { };
       const err: any = new MyError();
       const msg: any = undefined;
       const ehError = new Errors.MessagingError(msg);
@@ -39,7 +39,7 @@ describe("Errors", function () {
     ]
       .forEach(function (mapping) {
         it("translates " + mapping.from + " into " + mapping.to, function () {
-          const err: any = new AMQPError(mapping.from, mapping.message);
+          const err: any = new AMQPError(mapping.from as any, mapping.message as any);
           const translatedError = Errors.translate(err);
           translatedError.name.should.equal(mapping.to);
           if (translatedError.name === "ServerBusyError") {

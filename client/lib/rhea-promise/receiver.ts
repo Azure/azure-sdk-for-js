@@ -80,6 +80,10 @@ export class Receiver {
     return result;
   }
 
+  /**
+   * Removes the receiver and it's underlying session from the internal map.
+   * @returns {void} void
+   */
   remove(): void {
     if (this._receiver) {
       this._receiver.remove();

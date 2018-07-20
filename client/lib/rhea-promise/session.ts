@@ -169,7 +169,7 @@ export class Session {
           rheaSender.on(SenderEvents.released, options.onReleased);
         }
         if (options.onModified) {
-          rheaSender.on("modified", options.onModified);
+          rheaSender.on(SenderEvents.modified, options.onModified);
         }
       }
 
