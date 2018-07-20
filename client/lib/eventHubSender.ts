@@ -180,6 +180,7 @@ export class EventHubSender extends LinkEntity {
    * @returns {Promise<void>} Promise<void>.
    */
   async detached(senderError?: AmqpError | Error): Promise<void> {
+    await this._closeLink(this._sender); // clear the token renewal timer.
     let shouldReopen = false;
     if (senderError && this._context.senders[this.address]) {
       const translatedError = translate(senderError);
@@ -204,27 +205,14 @@ export class EventHubSender extends LinkEntity {
   }
 
   /**
-   * "Unlink" this sender, closing the link and resolving when that operation is complete.
-   * Leaves the underlying connection open.
+   * Deletes the sender fromt the context. Clears the token renewal timer. Closes the sender link.
    * @return {Promise<void>} Promise<void>
    */
   async close(): Promise<void> {
     if (this._sender) {
-      try {
-        const senderLink = this._sender;
-        this._sender = undefined;
-        delete this._context.senders[this.address];
-        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-        debug("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
-          this._context.connectionId, this.name, this.address);
-        await senderLink.close();
-        debug("[%s] Sender '%s' with address '%s' closed.", this._context.connectionId, this.name,
-          this.address);
-      } catch (err) {
-        debug("An error occurred while closing the sender '%s' with address '%s': %O",
-          this.name, this.address, err);
-        throw err;
-      }
+      const senderLink = this._sender;
+      this._deleteFromCache();
+      await this._closeLink(senderLink);
     }
   }
 
@@ -237,6 +225,27 @@ export class EventHubSender extends LinkEntity {
     debug("[%s] Sender '%s' with address '%s' is open? -> %s", this._context.connectionId,
       this.name, this.address, result);
     return result;
+  }
+
+  private _deleteFromCache(): void {
+    this._sender = undefined;
+    delete this._context.senders[this.address];
+    debug("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
+      this._context.connectionId, this.name, this.address);
+  }
+
+  private async _closeLink(link?: Sender): Promise<void> {
+    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+    if (link) {
+      try {
+        await link.close();
+        debug("[%s] Sender '%s' with address '%s' closed.", this._context.connectionId, this.name,
+          this.address);
+      } catch (err) {
+        debug("An error occurred while closing the sender '%s' with address '%s': %O",
+          this.name, this.address, err);
+      }
+    }
   }
 
   private _createSenderOptions(options: CreateSenderOptions): SenderOptions {

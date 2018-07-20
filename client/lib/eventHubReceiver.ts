@@ -236,6 +236,7 @@ export class EventHubReceiver extends LinkEntity {
    * @returns {Promise<void>} Promise<void>.
    */
   async detached(receiverError?: AmqpError | Error): Promise<void> {
+    await this._closeLink(this._receiver); // clear the token renewal timer.
     let shouldReopen = false;
     if (receiverError && this._context.receivers[this.name]) {
       const translatedError = translate(receiverError);
@@ -246,7 +247,7 @@ export class EventHubReceiver extends LinkEntity {
       shouldReopen = true;
       debug("[%s] close() method of Receiver '%s' with address '%s' was not called. " +
         "There was no accompanying error as well. This is a candidate for re-establishing " +
-        "the sender link.", this._context.connectionId, this.name, this.address);
+        "the receiver link.", this._context.connectionId, this.name, this.address);
     }
     if (shouldReopen) {
       const rcvrOptions: CreateReceiverOptions = {
@@ -273,18 +274,9 @@ export class EventHubReceiver extends LinkEntity {
    */
   async close(): Promise<void> {
     if (this._receiver) {
-      try {
-        const receiverLink = this._receiver;
-        this._receiver = undefined;
-        delete this._context.receivers[this.name];
-        clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-        debug("[%s] Deleted the receiver '%s' from the client cache.",
-          this._context.connectionId, this.name);
-        await receiverLink.close();
-        debug("[%s] Receiver '%s', has been closed.", this._context.connectionId, this.name);
-      } catch (err) {
-        debug("An error occurred while closing the receiver %s %O", this.name, translate(err));
-      }
+      const receiverLink = this._receiver;
+      this._deleteFromCache();
+      await this._closeLink(receiverLink);
     }
   }
 
@@ -297,6 +289,25 @@ export class EventHubReceiver extends LinkEntity {
     debug("[%s] Receiver '%s' with address '%s' is open? -> %s", this._context.connectionId,
       this.name, this.address, result);
     return result;
+  }
+
+  protected _deleteFromCache(): void {
+    this._receiver = undefined;
+    delete this._context.receivers[this.name];
+    debug("[%s] Deleted the receiver '%s' from the client cache.",
+      this._context.connectionId, this.name);
+  }
+
+  protected async _closeLink(link?: Receiver): Promise<void> {
+    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+    if (link) {
+      try {
+        await link.close();
+        debug("[%s] Receiver '%s', has been closed.", this._context.connectionId, this.name);
+      } catch (err) {
+        debug("An error occurred while closing the receiver %s %O", this.name, translate(err));
+      }
+    }
   }
 
   /**
