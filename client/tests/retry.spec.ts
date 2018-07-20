@@ -9,7 +9,7 @@ import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:retry-spec");
 const should = chai.should();
 
-describe.only("retry function", function () {
+describe("retry function", function () {
   it("should succeed if the operation succeeds.", async function () {
     let counter = 0;
     try {
