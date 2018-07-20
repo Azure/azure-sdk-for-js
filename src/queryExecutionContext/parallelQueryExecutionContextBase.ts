@@ -17,12 +17,14 @@ import { DocumentClient } from "../documentclient";
 import { Response } from "../request/request";
 import { InMemoryCollectionRoutingMap, PARITIONKEYRANGE, QueryRange, SmartRoutingMapProvider } from "../routing";
 
+/** @hidden */
 export enum ParallelQueryExecutionContextBaseStates {
   started = "started",
   inProgress = "inProgress",
   ended = "ended"
 }
 
+/** @hidden */
 export abstract class ParallelQueryExecutionContextBase implements IExecutionContext {
   private static readonly DEFAULT_PAGE_SIZE = 10;
 

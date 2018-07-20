@@ -7,6 +7,7 @@ import {
 } from ".";
 import { DocumentClient } from "../documentclient";
 
+/** @hidden */
 export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextBase implements IExecutionContext {
   private orderByComparator: any;
   /**

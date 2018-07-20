@@ -3,6 +3,7 @@ import { Key, MurmurHash } from "./murmurHash";
 
 export { Key } from "./murmurHash";
 
+/** @hidden */
 export class ConsistentHashRing {
   private computeHash: any; // TODO: any
   public partitions: any[]; // TODO: any , public

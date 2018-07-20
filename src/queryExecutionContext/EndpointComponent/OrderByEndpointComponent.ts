@@ -2,6 +2,7 @@ import { Response } from "../../request/request";
 import { IExecutionContext } from "../IExecutionContext";
 import { IEndpointComponent } from "./IEndpointComponent";
 
+/** @hidden */
 export class OrderByEndpointComponent implements IEndpointComponent {
   /**
    * Represents an endpoint in handling an order by query. For each processed orderby \

@@ -24,7 +24,7 @@
     "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\"",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\"",
     "compile": "echo Using TypeScript && tsc --version && tsc --pretty",
-    "docs": "typedoc --mode file --out ./lib/docs ./src",
+    "docs": "typedoc --excludePrivate --exclude \"**/test/**\" --mode file --out ./lib/docs ./src",
     "pack": "webpack",
     "build": "npm run clean && npm run check-format && npm run lint && npm run compile && npm run docs && npm run pack",
     "test": "mocha -r ./src/test/common/setup.ts ./lib/test/ --recursive --timeout 100000 -i -g .*ignore.js",

@@ -1,6 +1,7 @@
 import { OrderByDocumentProducerComparator } from "../orderByDocumentProducerComparator";
 import { IAggregator } from "./IAggregator";
 
+/** @hidden */
 export class MinAggregator implements IAggregator<number> {
   private value: number;
   private comparer: OrderByDocumentProducerComparator;

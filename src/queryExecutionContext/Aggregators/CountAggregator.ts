@@ -1,5 +1,6 @@
 import { IAggregator } from "./IAggregator";
 
+/** @hidden */
 export class CountAggregator implements IAggregator<number> {
   public value: number;
   /**

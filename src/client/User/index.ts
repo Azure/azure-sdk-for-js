@@ -1,4 +1,4 @@
 export { User } from "./User";
 export { Users } from "./Users";
 export { UserDefinition } from "./UserDefinition";
-export {} from "./UserResponse";
+export { UserResponse } from "./UserResponse";

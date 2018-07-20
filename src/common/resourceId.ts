@@ -2,8 +2,10 @@
 import * as BigInt from "big-integer";
 import { Int64BE } from "int64-buffer";
 
+/** @hidden */
 export const EMPTY = "0"; // TODO: This is kinda hacky
 
+/** @hidden */
 export class ResourceId {
   public offer: string;
   public database: string;

@@ -1,10 +1,9 @@
 import { ErrorResponse } from "../request";
 
-// var Base = require("./base");
-
 /**
  * This class implements the default connection retry policy for requests.
  * @property {int} currentRetryAttemptCount           - Current retry attempt count.
+ * @hidden
  */
 export class DefaultRetryPolicy {
   private maxRetryAttemptCount: number = 10;

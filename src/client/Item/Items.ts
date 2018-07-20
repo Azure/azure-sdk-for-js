@@ -6,19 +6,84 @@ import { Container } from "../Container";
 import { Item } from "./Item";
 import { ItemResponse } from "./ItemResponse";
 
+/**
+ * Operations for creating new items, and reading/querying all items
+ *
+ * @see {@link Item} for reading, replacing, or deleting an existing container; use `.item(id)`.
+ */
 export class Items {
   private client: DocumentClient;
+  /**
+   * Create an instance of {@link Items} linked to the parent {@link Container}.
+   * @param container The parent container.
+   * @hidden
+   */
   constructor(public readonly container: Container) {
     this.client = this.container.database.client.documentClient;
   }
 
+  /**
+   * Queries all items.
+   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options Used for modifying the request (for instance, specifying the partition key).
+   * @example Read all items to array.
+   * ```typescript
+   * const querySpec: SqlQuerySpec = {
+   *   query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
+   *   parameters: [
+   *     {name: "@lastName", value: "Hendricks"}
+   *   ]
+   * };
+   * const {body: containerList} = await items.query.toArray();
+   * ```
+   */
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
-  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
-  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
+  /**
+   * Queries all items.
+   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options Used for modifying the request (for instance, specifying the partition key).
+   * @example Read all items to array.
+   * ```typescript
+   * const querySpec: SqlQuerySpec = {
+   *   query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
+   *   parameters: [
+   *     {name: "@lastName", value: "Hendricks"}
+   *   ]
+   * };
+   * const {body: containerList} = await items.query.toArray();
+   * ```
+   */
+  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
+  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     return this.client.queryDocuments(this.container.url, query, options) as QueryIterator<T>;
   }
 
+  /**
+   * Read all items.
+   *
+   * There is no set schema for JSON items. They may contain any number of custom properties.
+   *
+   * @param options Used for modifying the request (for instance, specifying the partition key).
+   * @example Read all items to array.
+   * ```typescript
+   * const {body: containerList} = await items.readAll().toArray();
+   * ```
+   */
   public readAll(options?: FeedOptions): QueryIterator<any>;
+  /**
+   * Read all items.
+   *
+   * Any provided type, T, is not necessarily enforced by the SDK.
+   * You may get more or less properties and it's up to your logic to enforce it.
+   *
+   * There is no set schema for JSON items. They may contain any number of custom properties.
+   *
+   * @param options Used for modifying the request (for instance, specifying the partition key).
+   * @example Read all items to array.
+   * ```typescript
+   * const {body: containerList} = await items.readAll().toArray();
+   * ```
+   */
   public readAll<T>(options?: FeedOptions): QueryIterator<T>;
   public readAll<T>(options?: FeedOptions): QueryIterator<T> {
     return this.client.readDocuments(this.container.url, options) as QueryIterator<T>;
@@ -26,14 +91,24 @@ export class Items {
 
   /**
    * Create a item.
-   * <p>
-   * There is no set schema for JSON items. They may contain any number of custom properties as \
-   * well as an optional list of attachments. <br>
-   * A item is an application resource and can be authorized using the master key or resource keys
-   * </p>
-   * @param body  - Represents the body of the item. Can contain any number of user defined properties.
+   *
+   * There is no set schema for JSON items. They may contain any number of custom properties..
+   *
+   * @param body Represents the body of the item. Can contain any number of user defined properties.
+   * @param options Used for modifying the request (for instance, specifying the partition key).
    */
   public async create(body: any, options?: RequestOptions): Promise<ItemResponse<any>>;
+  /**
+   * Create a item.
+   *
+   * Any provided type, T, is not necessarily enforced by the SDK.
+   * You may get more or less properties and it's up to your logic to enforce it.
+   *
+   * There is no set schema for JSON items. They may contain any number of custom properties.
+   *
+   * @param body Represents the body of the item. Can contain any number of user defined properties.
+   * @param options Used for modifying the request (for instance, specifying the partition key).
+   */
   public async create<T>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
   public async create<T>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
     const response = await (this.client.createDocument(this.container.url, body, options) as Promise<Response<T>>);
@@ -48,12 +123,24 @@ export class Items {
 
   /**
    * Upsert an item.
-   * <p>
-   * There is no set schema for JSON items. They may contain any number of custom properties.<br>
-   * An Item is an application resource and can be authorized using the master key or resource keys
-   * </p>
+   *
+   * There is no set schema for JSON items. They may contain any number of custom properties.
+   *
+   * @param body Represents the body of the item. Can contain any number of user defined properties.
+   * @param options Used for modifying the request (for instance, specifying the partition key).
    */
   public async upsert(body: any, options?: RequestOptions): Promise<ItemResponse<any>>;
+  /**
+   * Upsert an item.
+   *
+   * Any provided type, T, is not necessarily enforced by the SDK.
+   * You may get more or less properties and it's up to your logic to enforce it.
+   *
+   * There is no set schema for JSON items. They may contain any number of custom properties.
+   *
+   * @param body Represents the body of the item. Can contain any number of user defined properties.
+   * @param options Used for modifying the request (for instance, specifying the partition key).
+   */
   public async upsert<T>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
   public async upsert<T>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
     const response = await this.client.upsertDocument(this.container.url, body, options);

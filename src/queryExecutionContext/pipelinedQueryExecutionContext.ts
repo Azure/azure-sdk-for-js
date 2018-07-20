@@ -17,6 +17,7 @@ import {
   TopEndpointComponent
 } from "./EndpointComponent";
 
+/** @hidden */
 export class PipelinedQueryExecutionContext implements IExecutionContext {
   private fetchBuffer: any[];
   private fetchMoreRespHeaders: IHeaders;

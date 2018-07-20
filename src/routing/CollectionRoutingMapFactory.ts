@@ -2,6 +2,7 @@ import * as _ from "underscore";
 import { InMemoryCollectionRoutingMap } from ".";
 import { Constants } from "../common";
 
+/** @hidden */
 export class CollectionRoutingMapFactory {
   public static createCompleteRoutingMap(partitionKeyRangeInfoTuppleList: any[], collectionUniqueId: string) {
     const rangeById: any = {}; // TODO: any

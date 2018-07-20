@@ -4,6 +4,7 @@ import { DocumentClientBase } from "./DocumentClientBase";
 import { DatabaseAccount, LocationsType } from "./documents";
 
 /**
+ * @hidden
  * This internal class implements the logic for endpoint management for geo-replicated database accounts.
  * @property {object} client                       - The document client instance.
  * @property {string} defaultEndpoint              - The endpoint used to create the client instance.

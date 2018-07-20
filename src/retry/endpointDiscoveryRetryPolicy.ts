@@ -4,22 +4,22 @@ import { ErrorResponse } from "../request/request";
 
 /**
  * This class implements the retry policy for endpoint discovery.
- * @property {int} _maxRetryAttemptCount                           - Max number of retry attempts to perform.
- * @property {int} currentRetryAttemptCount                        - Current retry attempt count.
- * @property {object} globalEndpointManager                        - The GlobalEndpointManager instance.
- * @property {int} retryAfterInMilliseconds                        - Retry interval in milliseconds.
+ * @hidden
  */
 export class EndpointDiscoveryRetryPolicy {
+  /** Current retry attempt count. */
   public currentRetryAttemptCount: number;
+  /** Retry interval in milliseconds. */
   public retryAfterInMilliseconds: number;
 
+  /** Max number of retry attempts to perform. */
   private maxRetryAttemptCount: number;
   private static readonly maxRetryAttemptCount = 120; // TODO: Constant?
   private static readonly retryAfterInMilliseconds = 1000;
 
   /**
    * @constructor EndpointDiscoveryRetryPolicy
-   * @param {object} globalEndpointManager                           - The GlobalEndpointManager instance.
+   * @param {object} globalEndpointManager The GlobalEndpointManager instance.
    */
   constructor(private globalEndpointManager: GlobalEndpointManager) {
     this.maxRetryAttemptCount = EndpointDiscoveryRetryPolicy.maxRetryAttemptCount;

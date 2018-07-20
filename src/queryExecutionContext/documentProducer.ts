@@ -8,14 +8,17 @@ import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
 import { HeaderUtils, IHeaders } from "./headerUtils";
 
+/** @hidden */
 const HttpHeaders = Constants;
 
+/** @hidden */
 enum DocumentProducerStates {
   started = "started",
   inProgress = "inProgress",
   ended = "ended"
 }
 
+/** @hidden */
 export class DocumentProducer {
   // // Static Members
   // STATES: Object.freeze({ started: "started", inProgress: "inProgress", ended: "ended" })

@@ -1,14 +1,13 @@
 import { IHeaders } from "..";
 
 /**
- * The media options
- * @typedef {Object} MediaOptions                                   -         Options associated with upload media.
- * @property {string} [slug]                                        -         HTTP Slug header value.
- * @property {string} [contentType=application/octet-stream]        -         HTTP ContentType header value.
- *
+ * Options associated with upload media.
  */
 export interface MediaOptions {
+  /** (Advanced use case) Initial headers to start with when sending requests to Cosmos */
   initialHeaders?: IHeaders;
+  /** HTTP Slug header value. */
   slug?: string;
+  /** HTTP ContentType header value. */
   contentType?: string;
 }

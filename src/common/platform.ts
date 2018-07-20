@@ -1,6 +1,8 @@
 ﻿import * as os from "os";
 import { Constants } from ".";
 
+/** @hidden */
+
 export class Platform {
   public static getPlatformDefaultHeaders(): { [key: string]: string } {
     const defaultHeaders: { [key: string]: string } = {};

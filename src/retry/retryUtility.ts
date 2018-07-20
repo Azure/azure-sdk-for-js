@@ -10,17 +10,20 @@ import { IHeaders } from "../queryExecutionContext";
 import { ErrorResponse, Response } from "../request";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
 
+/** @hidden */
 export interface Body {
   buffer?: Buffer;
   stream?: Stream;
 }
 
+/** @hidden */
 export type CreateRequestObjectStubFunction = (
   connectionPolicy: ConnectionPolicy,
   requestOptions: RequestOptions,
   body: Body
 ) => Promise<Response<any>>; // TODO: any response
 
+/** @hidden */
 export class RetryUtility {
   /**
    * Executes the retry policy for the created request object.

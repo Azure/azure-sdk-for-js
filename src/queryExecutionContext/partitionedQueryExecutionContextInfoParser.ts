@@ -1,6 +1,7 @@
 import * as assert from "assert";
 import * as util from "util";
 
+/** @hidden */
 const PartitionedQueryContants = {
   QueryInfoPath: "queryInfo",
   TopPath: ["queryInfo", "top"],
@@ -10,11 +11,13 @@ const PartitionedQueryContants = {
   RewrittenQueryPath: ["queryInfo", "rewrittenQuery"]
 };
 
+/** @hidden */
 export interface PartitionedQueryExecutionContextInfo {
   [key: string]: any;
 }
 
 // TODO: any partitionedQueryExecutionInfo
+/** @hidden */
 export class PartitionedQueryExecutionContextInfoParser {
   public static parseRewrittenQuery(partitionedQueryExecutionInfo: { [key: string]: any }) {
     return this._extract(partitionedQueryExecutionInfo, PartitionedQueryContants.RewrittenQueryPath);

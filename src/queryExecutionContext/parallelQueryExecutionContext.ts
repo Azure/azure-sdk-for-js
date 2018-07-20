@@ -7,6 +7,7 @@ import {
 import { DocumentClient } from "../documentclient";
 import { PARITIONKEYRANGE } from "../routing";
 
+/** @hidden */
 export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase implements IExecutionContext {
   /**
    * Provides the ParallelQueryExecutionContext.

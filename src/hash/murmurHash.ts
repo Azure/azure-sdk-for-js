@@ -1,6 +1,8 @@
 // tslint:disable:no-bitwise
+/** @hidden */
 export type Key = string | Buffer | number;
 
+/** @hidden */
 export class MurmurHash {
   /**
    * Hashes a string, a unsigned 32-bit integer, or a Buffer into a new unsigned 32-bit integer \

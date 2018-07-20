@@ -22,6 +22,8 @@ import { ErrorResponse, FeedOptions, MediaOptions, RequestHandler, RequestOption
 import { RetryOptions } from "./retry";
 import { SessionContainer } from "./sessionContainer";
 
+// TODO: This needs to eventually be refactored away
+/** @hidden */
 export class DocumentClient extends DocumentClientBase {
   constructor(
     public urlConnection: string,

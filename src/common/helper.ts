@@ -1,7 +1,9 @@
 ﻿import { Constants } from ".";
 
+/** @hidden */
 const Regexes = Constants.RegularExpressions;
 
+/** @hidden */
 export class Helper {
   public static isStringNullOrEmpty(inputString: string) {
     // checks whether string is null, undefined, empty or only contains space

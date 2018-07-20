@@ -1,5 +1,6 @@
 import { Constants } from "../common";
 
+/** @hidden */
 export class QueryRange {
   public min: string;
   public max: string;

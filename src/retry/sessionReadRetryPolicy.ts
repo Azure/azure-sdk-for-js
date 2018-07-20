@@ -6,15 +6,14 @@ import { ErrorResponse } from "../request/request";
 
 /**
  * This class implements the retry policy for session consistent reads.
- * @property {int} _maxRetryAttemptCount                           - Max number of retry attempts to perform.
- * @property {int} currentRetryAttemptCount                        - Current retry attempt count.
- * @property {object} globalEndpointManager                        - The GlobalEndpointManager instance.
- * @property {object} request                                      - The Http request information
- * @property {int} retryAfterInMilliseconds                        - Retry interval in milliseconds.
+ * @hidden
  */
 export class SessionReadRetryPolicy {
+  /** Max number of retry attempts to perform. */
   public static readonly maxRetryAttemptCount = 1;
+  /** Retry interval in milliseconds. */
   public static readonly retryAfterInMilliseconds = 0;
+  /** Current retry attempt count. */
   public currentRetryAttemptCount = 0;
   public retryAfterInMilliseconds = SessionReadRetryPolicy.retryAfterInMilliseconds;
   private maxRetryAttemptCount = SessionReadRetryPolicy.maxRetryAttemptCount;

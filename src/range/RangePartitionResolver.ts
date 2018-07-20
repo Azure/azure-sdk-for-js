@@ -1,13 +1,17 @@
 import { CompareFunction, Range } from ".";
 import { Document, PartitionKey } from "../documents";
 
+/** @hidden */
 export type PartitionKeyExtractorFunction = (obj: object) => PartitionKey;
+/** @hidden */
 export type PartitionKeyExtractor = string | PartitionKeyExtractorFunction;
+/** @hidden */
 export interface PartitionKeyMapItem {
   range: Range;
   link: string;
 }
 
+/** @hidden */
 export class RangePartitionResolver {
   // TODO: should these be public?
   public partitionKeyExtractor: PartitionKeyExtractor;

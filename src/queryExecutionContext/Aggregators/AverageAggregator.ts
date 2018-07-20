@@ -1,10 +1,12 @@
 import { IAggregator } from "./IAggregator";
 
+/** @hidden */
 export interface IAverageAggregator {
   sum: number;
   count: number;
 }
 
+/** @hidden */
 export class AverageAggregator implements IAverageAggregator, IAggregator<IAverageAggregator> {
   public sum: number;
   public count: number;

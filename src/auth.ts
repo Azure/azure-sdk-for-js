@@ -2,6 +2,7 @@ import * as crypto from "crypto";
 import { DocumentClientBase } from "./DocumentClientBase";
 import { IHeaders } from "./queryExecutionContext";
 
+/** @hidden */
 export interface IRequestInfo {
   [index: string]: any;
   verb: string;
@@ -15,6 +16,7 @@ export interface ITokenProvider {
   getToken: (requestInfo: IRequestInfo, callback?: (err: Error, token: string) => void) => Promise<string>;
 }
 
+/** @hidden */
 export class AuthHandler {
   // TODO: documentClient
   public static async getAuthorizationHeader(

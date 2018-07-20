@@ -3,20 +3,17 @@ import { ErrorResponse } from "../request/request";
 
 /**
  * This class implements the resource throttle retry policy for requests.
- * @property {int} _maxRetryAttemptCount              - Max number of retries to be performed for a request.
- * @property {int} _fixedRetryIntervalInMilliseconds  - Fixed retry interval in milliseconds to wait between each \
- * retry ignoring the retryAfter returned as part of the response.
- * @property {int} _maxWaitTimeInMilliseconds         - Max wait time in milliseconds to wait for a request while \
- * the retries are happening.
- * @property {int} currentRetryAttemptCount           - Current retry attempt count.
- * @property {int} cummulativeWaitTimeinMilliseconds  - Cummulative wait time in milliseconds for a request while \
- * the retries are happening.
+ * @hidden
  */
 export class ResourceThrottleRetryPolicy {
+  /** Current retry attempt count. */
   public currentRetryAttemptCount: number = 0;
+  /** Cummulative wait time in milliseconds for a request while the retries are happening. */
   public cummulativeWaitTimeinMilliseconds: number = 0;
+  /** Max wait time in milliseconds to wait for a request while the retries are happening. */
   public retryAfterInMilliseconds: number = 0;
 
+  /** Max number of retries to be performed for a request. */
   private maxWaitTimeInMilliseconds: number;
   /**
    * @constructor ResourceThrottleRetryPolicy

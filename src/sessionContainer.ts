@@ -3,6 +3,7 @@ import { Base } from "./base";
 import { Constants, EMPTY, ResourceId } from "./common";
 import { IHeaders } from "./queryExecutionContext";
 
+/** @hidden */
 export class SessionContainer {
   constructor(
     private hostname?: string,

@@ -3,6 +3,7 @@ import { Document, PartitionKey } from "../documents";
 import { PartitionKeyExtractor, PartitionKeyExtractorFunction } from "../range";
 import { ConsistentHashRing } from "./consistentHashRing";
 
+/** @hidden */
 export class HashPartitionResolver {
   private partitionKeyExtractor: PartitionKeyExtractor; // TODO: Function could be more specific
   private consistentHashRing: ConsistentHashRing;

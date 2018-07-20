@@ -22,7 +22,7 @@ describe("NodeJS CRUD Tests", function() {
   describe("validate database account functionality", function() {
     const databaseAccountTest = async function() {
       try {
-        const { result: databaseAccount, headers } = await client.getDatabaseAccount();
+        const { body: databaseAccount, headers } = await client.getDatabaseAccount();
         assert.equal(databaseAccount.DatabasesLink, "/dbs/");
         assert.equal(databaseAccount.MediaLink, "/media/");
         assert.equal(databaseAccount.MaxMediaStorageUsageInMB, headers["x-ms-max-media-storage-usage-mb"]); // TODO: should use constants here

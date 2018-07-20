@@ -2,6 +2,7 @@ import { Response } from "../../request/request";
 import { IExecutionContext } from "../IExecutionContext";
 import { IEndpointComponent } from "./IEndpointComponent";
 
+/** @hidden */
 export class TopEndpointComponent implements IEndpointComponent {
   /**
    * Represents an endpoint in handling top query. It only returns as many results as top arg specified.

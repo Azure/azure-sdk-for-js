@@ -4,6 +4,7 @@ import { Constants } from "../common";
 import { Range } from "../range";
 import { QueryRange } from "./QueryRange";
 
+/** @hidden */
 export class InMemoryCollectionRoutingMap {
   private rangeById: Range[];
   private rangeByInfo: string;

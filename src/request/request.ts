@@ -16,17 +16,21 @@ export { ErrorResponse }; // Should refactor this out
 import { Response } from "./Response";
 export { Response }; // Should refactor this out
 
+/** @hidden */
 const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
 
 // TODO: :This feels hacky... Maybe just do this in the webpack.config.json?
 // Alternatively, we can move to superagent which will handle this for us...
-// tslint:disable-next-line:no-var-requires
+// tslint:disable:no-var-requires
+/** @hidden */
 const https = isBrowser && false ? require("stream-http") : require("https");
+// tslint:enable:no-var-requires
 
 // ----------------------------------------------------------------------------
 // Utility methods
 //
 
+/** @hidden */
 function javaScriptFriendlyJSONStringify(s: object) {
   // two line terminators (Line separator and Paragraph separator) are not needed to be escaped in JSON
   // but are needed to be escaped in JavaScript.
@@ -35,6 +39,7 @@ function javaScriptFriendlyJSONStringify(s: object) {
     .replace(/\u2029/g, "\\u2029");
 }
 
+/** @hidden */
 function bodyFromData(data: Stream | Buffer | string | object) {
   if ((data as Stream).pipe) {
     return data;
@@ -51,10 +56,12 @@ function bodyFromData(data: Stream | Buffer | string | object) {
   return undefined;
 }
 
+/** @hidden */
 function parse(urlString: string) {
   return url.parse(urlString);
 }
 
+/** @hidden */
 function createRequestObject(
   connectionPolicy: ConnectionPolicy,
   requestOptions: RequestOptions,
@@ -134,6 +141,7 @@ function createRequestObject(
  *  Constructs the error body from the response and the data returned from the request.
  * @param {object} response - response object returned from the executon of a request.
  * @param {object} data - the data body returned from the executon of a request.
+ * @hidden
  */
 function getErrorBody(response: ClientResponse, data: string, headers: IHeaders): ErrorResponse {
   const errorBody: ErrorResponse = {
@@ -160,6 +168,7 @@ function getErrorBody(response: ClientResponse, data: string, headers: IHeaders)
   return errorBody;
 }
 
+/** @hidden */
 export class RequestHandler {
   public static async createRequestObjectStub(
     connectionPolicy: ConnectionPolicy,

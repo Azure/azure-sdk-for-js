@@ -1,5 +1,4 @@
-import { IndexingMode } from ".";
-import { DataType, IndexKind } from "./documents";
+import { DataType, IndexingMode, IndexKind } from ".";
 
 export interface IndexingPolicy {
   /** The indexing mode (consistent or lazy) {@link IndexingMode}. */

@@ -7,6 +7,7 @@ export interface IHeaders {
   [key: string]: any;
 }
 
+/** @hidden */
 // TODO: docs
 export class HeaderUtils {
   public static getRequestChargeIfAny(headers: IHeaders): number {

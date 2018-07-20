@@ -4,6 +4,7 @@ import { AverageAggregator, CountAggregator, MaxAggregator, MinAggregator, SumAg
 import { IExecutionContext } from "../IExecutionContext";
 import { IEndpointComponent } from "./IEndpointComponent";
 
+/** @hidden */
 export class AggregateEndpointComponent implements IEndpointComponent {
   private toArrayTempResources: any[];
   private aggregateValues: any[];

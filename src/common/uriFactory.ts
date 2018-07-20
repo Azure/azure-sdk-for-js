@@ -1,5 +1,6 @@
 ﻿import { Constants, Helper } from ".";
 
+/** @hidden */
 export class UriFactory {
   /**
    * Given a database id, this creates a database link.

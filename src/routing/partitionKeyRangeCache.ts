@@ -3,6 +3,7 @@ import { Base } from "../base";
 import { QueryIterator } from "../queryIterator";
 import { CollectionRoutingMapFactory, InMemoryCollectionRoutingMap, QueryRange } from "./";
 
+/** @hidden */
 export class PartitionKeyRangeCache {
   private documentclient: any;
   private collectionRoutingMapByCollectionId: {

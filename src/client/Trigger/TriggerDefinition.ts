@@ -1,6 +1,7 @@
 import { TriggerOperation, TriggerType } from "../../documents";
 
 export interface TriggerDefinition {
+  /** The id of the trigger. */
   id?: string;
   /** The body of the trigger, it can also be passed as a stringifed function */
   body: (() => void) | string;

@@ -7,6 +7,8 @@ import { MediaOptions } from "./request/MediaOptions";
 import { Response } from "./request/request";
 import { RequestOptions } from "./request/RequestOptions";
 
+// TODO: This is a publically exported type, but it's not really necessary for anything nominal to customers. We should refactor this away.
+/** @hidden */
 export class Base {
   public static extend(arg0: any, arg1: any): any {
     // tslint:disable-next-line:prefer-object-spread
@@ -439,4 +441,6 @@ export class Base {
   }
 }
 
+// TODO: Remove this type
+/** @hidden */
 export type ResponseCallback<T> = (err: any, result?: T, headers?: IHeaders) => void;

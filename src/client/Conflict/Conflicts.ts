@@ -5,6 +5,11 @@ import { FeedOptions } from "../../request";
 import { Container } from "../Container";
 import { ConflictDefinition } from "./ConflictDefinition";
 
+/**
+ * Use to query or read all conflicts.
+ *
+ * @see {@link Conflict} to read or delete a given {@link Conflict} by id.
+ */
 export class Conflicts {
   private client: CosmosClient;
   constructor(public readonly container: Container) {

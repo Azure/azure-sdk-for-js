@@ -1,9 +1,11 @@
+/** @hidden */
 export enum FetchResultType {
   "Done" = 0,
   "Exception" = 1,
   "Result" = 2
 }
 
+/** @hidden */
 export class FetchResult {
   public feedResponse: any;
   public fetchResultType: FetchResultType;

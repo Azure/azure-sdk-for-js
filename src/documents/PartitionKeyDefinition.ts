@@ -1,4 +1,4 @@
-import { PartitionKind } from "./documents";
+import { PartitionKind } from ".";
 
 export interface PartitionKeyDefinition {
   paths: string[];

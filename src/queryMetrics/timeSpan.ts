@@ -1,32 +1,44 @@
 // Ported this implementation to javascript:
 // https://referencesource.microsoft.com/#mscorlib/system/timespan.cs,83e476c1ae112117
+/** @hidden */
 const ticksPerMillisecond = 10000;
+/** @hidden */
 const millisecondsPerTick = 1.0 / ticksPerMillisecond;
 
+/** @hidden */
 const ticksPerSecond = ticksPerMillisecond * 1000; // 10,000,000
+/** @hidden */
 const secondsPerTick = 1.0 / ticksPerSecond; // 0.0001
 
+/** @hidden */
 const ticksPerMinute = ticksPerSecond * 60; // 600,000,000
+/** @hidden */
 const minutesPerTick = 1.0 / ticksPerMinute; // 1.6666666666667e-9
 
+/** @hidden */
 const ticksPerHour = ticksPerMinute * 60; // 36,000,000,000
+/** @hidden */
 const hoursPerTick = 1.0 / ticksPerHour; // 2.77777777777777778e-11
 
+/** @hidden */
 const ticksPerDay = ticksPerHour * 24; // 864,000,000,000
+/** @hidden */
 const daysPerTick = 1.0 / ticksPerDay; // 1.1574074074074074074e-12
 
+/** @hidden */
 const millisPerSecond = 1000;
+/** @hidden */
 const millisPerMinute = millisPerSecond * 60; //     60,000
+/** @hidden */
 const millisPerHour = millisPerMinute * 60; //  3,600,000
+/** @hidden */
 const millisPerDay = millisPerHour * 24; // 86,400,000
 
-const maxSeconds = Number.MAX_SAFE_INTEGER / ticksPerSecond;
-const minSeconds = Number.MIN_SAFE_INTEGER / ticksPerSecond;
-
+/** @hidden */
 const maxMilliSeconds = Number.MAX_SAFE_INTEGER / ticksPerMillisecond;
+/** @hidden */
 const minMilliSeconds = Number.MIN_SAFE_INTEGER / ticksPerMillisecond;
 
-const ticksPerTenthSecond = ticksPerMillisecond * 100;
 /**
  * Represents a time interval.
  *

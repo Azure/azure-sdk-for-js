@@ -5,14 +5,17 @@ import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { Response } from "../request";
 import { SqlParameter, SqlQuerySpec } from "./SqlQuerySpec";
 
+/** @hidden */
 export type FetchFunctionCallback = (options: any) => Promise<Response<any>>;
 
+/** @hidden */
 enum STATES {
   start = "start",
   inProgress = "inProgress",
   ended = "ended"
 }
 
+/** @hidden */
 export class DefaultQueryExecutionContext implements IExecutionContext {
   private static readonly STATES = STATES;
   private documentclient: DocumentClient;

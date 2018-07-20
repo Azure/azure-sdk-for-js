@@ -1,9 +1,12 @@
 import { PartitionKey } from "../documents";
 
+/** @hidden */
 export type CompareFunction = (x: Point, y: Point) => number;
 
+/** @hidden */
 export type Point = number | string;
 
+/** @hidden */
 export class Range {
   public readonly low: Point;
   public readonly high: Point;

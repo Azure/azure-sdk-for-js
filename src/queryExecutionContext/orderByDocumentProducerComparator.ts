@@ -3,6 +3,7 @@ import * as util from "util";
 import { DocumentProducer } from "./documentProducer";
 
 // TODO: this smells funny
+/** @hidden */
 const TYPEORDCOMPARATOR: {
   [type: string]: { ord: number; compFunc?: (a: any, b: any) => number };
 } = Object.freeze({
@@ -32,6 +33,7 @@ const TYPEORDCOMPARATOR: {
   }
 });
 
+/** @hidden */
 export class OrderByDocumentProducerComparator {
   constructor(public sortOrder: string[]) {} // TODO: This should be an enum
 
