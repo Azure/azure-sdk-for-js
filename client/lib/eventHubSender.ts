@@ -7,9 +7,12 @@ import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
   message, AmqpError, SessionEvents
 } from "./rhea-promise";
+import {
+  defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper,
+  randomNumberFromInterval, RetryConfig, RetryOperationType, Constants
+} from "./amqp-common";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
-import { defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper, randomNumberFromInterval, RetryConfig, RetryOperationType, Constants } from "./amqp-common";
 import { LinkEntity } from "./linkEntity";
 
 const debug = debugModule("azure:event-hubs:sender");
@@ -237,20 +240,6 @@ export class EventHubSender extends LinkEntity {
     delete this._context.senders[this.address];
     debug("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
       this._context.connectionId, this.name, this.address);
-  }
-
-  private async _closeLink(link?: Sender): Promise<void> {
-    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-    if (link) {
-      try {
-        await link.close();
-        debug("[%s] Sender '%s' with address '%s' closed.", this._context.connectionId, this.name,
-          this.address);
-      } catch (err) {
-        debug("An error occurred while closing the sender '%s' with address '%s': %O",
-          this.name, this.address, err);
-      }
-    }
   }
 
   private _createSenderOptions(options: CreateSenderOptions): SenderOptions {
