@@ -4,7 +4,7 @@
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, SessionEvents } from "./rhea-promise";
-import { translate, Constants, MessagingError, retry } from "./amqp-common";
+import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "./amqp-common";
 import { ReceiveOptions, EventData } from ".";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
@@ -220,12 +220,15 @@ export class EventHubReceiver extends LinkEntity {
       const receiverError = context.receiver && context.receiver.error;
       const sessionError = context.session && context.session.error;
       if (receiverError) {
-        debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
-          this._context.connectionId, receiverError);
+        debug("[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
+          "The associated error is: %O", this._context.connectionId, this.name,
+          this.address, receiverError);
       } else if (sessionError) {
         debug("[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
           this._context.connectionId, this.name, sessionError);
       }
+      debug("[%s] Calling detached() of receiver '%s' with address '%s to revive the link.",
+        this._context.connectionId, this.name, this.address);
       await this.detached(receiverError || sessionError);
     };
   }
@@ -264,7 +267,12 @@ export class EventHubReceiver extends LinkEntity {
       }
       const options: ReceiverOptions = this._createReceiverOptions(rcvrOptions);
       // shall retry 3 times at an interval of 15 seconds and bail out.
-      await retry<void>(() => this._init(options), this._context.connectionId);
+      const config: RetryConfig<void> = {
+        operation: () => this._init(options),
+        connectionId: this._context.connectionId,
+        operationType: RetryOperationType.receiverLink
+      };
+      await retry<void>(config);
     }
   }
 

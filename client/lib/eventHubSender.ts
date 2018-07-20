@@ -9,7 +9,7 @@ import {
 } from "./rhea-promise";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
-import { defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper, randomNumberFromInterval } from "./amqp-common";
+import { defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper, randomNumberFromInterval, RetryConfig, RetryOperationType, Constants } from "./amqp-common";
 import { LinkEntity } from "./linkEntity";
 
 const debug = debugModule("azure:event-hubs:sender");
@@ -199,7 +199,12 @@ export class EventHubSender extends LinkEntity {
           newName: true
         });
         // shall retry 3 times at an interval of 15 seconds and bail out.
-        return retry<void>(() => this._init(options), this._context.connectionId);
+        const config: RetryConfig<void> = {
+          operation: () => this._init(options),
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.senderLink
+        };
+        return retry<void>(config);
       });
     }
   }
@@ -347,8 +352,15 @@ export class EventHubSender extends LinkEntity {
       }
     });
 
-    const jitter = randomNumberFromInterval(1, 4);
-    return retry<Delivery>(sendEventPromise, this._context.connectionId, 3, 5 + jitter);
+    const jitterInSeconds = randomNumberFromInterval(1, 4);
+    const config: RetryConfig<Delivery> = {
+      operation: sendEventPromise,
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.sendMessage,
+      times: Constants.defaultRetryAttempts,
+      delayInSeconds: Constants.defaultDelayBetweenRetriesInSeconds + jitterInSeconds
+    };
+    return retry<Delivery>(config);
   }
 
   /**
