@@ -5,7 +5,7 @@ import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import { defaultLock } from "./amqp-common";
 import { ConnectionContext } from "./connectionContext";
-import { Sender, Receiver } from "./rhea-promise"
+import { Sender, Receiver } from "./rhea-promise";
 const debug = debugModule("azure:event-hubs:linkEntity");
 
 export interface LinkEntityOptions {
