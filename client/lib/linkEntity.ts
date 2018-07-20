@@ -3,8 +3,9 @@
 
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
-import { ConnectionContext } from "./connectionContext";
 import { defaultLock } from "./amqp-common";
+import { ConnectionContext } from "./connectionContext";
+import { Sender, Receiver } from "./rhea-promise"
 const debug = debugModule("azure:event-hubs:linkEntity");
 
 export interface LinkEntityOptions {
@@ -147,6 +148,29 @@ export class LinkEntity {
     debug("[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
       this._context.connectionId, this._type, this.name, this.address, nextRenewalTimeout / 1000,
       new Date(Date.now() + nextRenewalTimeout).toString());
+  }
+
+  /**
+   * Closes the Sender|Receiver link and it's underlying session and also removes it from the
+   * internal map.
+   * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be closed and
+   * removed.
+   */
+  protected async _closeLink(link?: Sender | Receiver): Promise<void> {
+    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+    if (link) {
+      try {
+        await link.close();
+        debug("[%s] %s '%s' with address '%s' closed.", this._context.connectionId, this._type,
+          this.name, this.address);
+      } catch (err) {
+        debug("[%s] An error occurred while closing the %s '%s' with address '%s': %O",
+          this._context.connectionId, this._type, this.name, this.address, err);
+      }
+      link.remove();
+      debug("[%s] %s '%s' with address '%s' and it's session have been removed from " +
+        "internal map.", this._context.connectionId, this._type, this.name, this.address);
+    }
   }
 
   /**

@@ -89,7 +89,6 @@ export interface ConnectionContextOptions extends ClientOptions {
   managementSessionAudience?: string;
 }
 
-
 export namespace ConnectionContext {
   /**
    * @property {string} userAgent The user agent string for the event hub client. Constant value: "/js-event-hubs".

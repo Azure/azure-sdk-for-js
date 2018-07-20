@@ -3,9 +3,14 @@
 
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, SessionEvents } from "./rhea-promise";
-import { translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig } from "./amqp-common";
-import { ReceiveOptions, EventData } from ".";
+import {
+  Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, SessionEvents
+} from "./rhea-promise";
+import {
+  translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig
+} from "./amqp-common";
+import { EventData } from "./eventData";
+import { ReceiveOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from './eventPosition';
@@ -304,18 +309,6 @@ export class EventHubReceiver extends LinkEntity {
     delete this._context.receivers[this.name];
     debug("[%s] Deleted the receiver '%s' from the client cache.",
       this._context.connectionId, this.name);
-  }
-
-  protected async _closeLink(link?: Receiver): Promise<void> {
-    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-    if (link) {
-      try {
-        await link.close();
-        debug("[%s] Receiver '%s', has been closed.", this._context.connectionId, this.name);
-      } catch (err) {
-        debug("An error occurred while closing the receiver %s %O", this.name, translate(err));
-      }
-    }
   }
 
   /**
