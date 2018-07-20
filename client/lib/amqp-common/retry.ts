@@ -50,7 +50,7 @@ export async function retry<T>(operation: () => Promise<T>, times?: number, dela
       result = await operation();
       success = true;
       debug("Success, after attempt number: %d.", j);
-      if (!isDelivery(result)) {
+      if (result && !isDelivery(result)) {
         debug("Success result: %O", result);
       }
       break;
