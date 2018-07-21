@@ -109,6 +109,7 @@ export class Sender {
    */
   close(): Promise<void> {
     const senderClose = new Promise<void>((resolve, reject) => {
+      debug("[%s] The sender is open ? -> %s", this.connection.id, this.isOpen());
       if (this.isOpen()) {
         let onError: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
@@ -137,7 +138,10 @@ export class Sender {
       }
     });
 
-    return senderClose.then(() => { return this._session.close(); });
+    return senderClose.then(() => {
+      debug("[%s] sender has been closed, now closing it's session.", this.connection.id);
+      return this._session.close();
+    });
   }
 
   setMaxListeners(count: number): void {

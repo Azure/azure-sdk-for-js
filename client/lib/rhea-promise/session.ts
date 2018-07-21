@@ -56,6 +56,7 @@ export class Session {
    */
   close(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
+      debug("[%s] The session is open ? -> %s", this.connection.id, this.isOpen());
       if (this.isOpen()) {
         const onClose = (context: rhea.EventContext) => {
           this._session.removeListener("session_close", onClose);
@@ -75,6 +76,7 @@ export class Session {
 
         this._session.once("session_close", onClose);
         this._session.once("session_error", onError);
+        debug("[%s] Calling session.close()", this.connection.id);
         this._session.close();
       } else {
         resolve();

@@ -102,6 +102,7 @@ export class Receiver {
    */
   close(): Promise<void> {
     const receiverClose = new Promise<void>((resolve, reject) => {
+      debug("[%s] The receiver is open ? -> %s", this.connection.id, this.isOpen());
       if (this.isOpen()) {
         let onError: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
@@ -130,7 +131,10 @@ export class Receiver {
       }
     });
 
-    return receiverClose.then(() => { return this._session.close(); });
+    return receiverClose.then(() => {
+      debug("[%s] receiver has been closed, now closing it's session.", this.connection.id);
+      return this._session.close();
+    });
   }
 
   registerHandler(event: ReceiverEvents, handler: rhea.OnAmqpEvent): void {

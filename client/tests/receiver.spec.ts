@@ -530,7 +530,7 @@ describe("EventHub Receiver", function () {
         const rcvrId = `rcvr-${i}`;
         debug(rcvrId);
         const onMsg = (data) => {
-          //debug("receiver %s, %o", rcvrId, data);
+          debug("receiver id %s", rcvrId);
         };
         const onError = (err) => {
           debug("@@@@ Error received by receiver %s", rcvrId);
