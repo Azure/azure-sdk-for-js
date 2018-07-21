@@ -42,7 +42,7 @@ describe("Errors", function () {
           const err: any = new AMQPError(mapping.from as any, mapping.message as any);
           const translatedError = Errors.translate(err);
           translatedError.name.should.equal(mapping.to);
-          if (translatedError.name === "ServerBusyError") {
+          if (translatedError.name === "ServerBusyError" || translatedError.name === "MessagingError") {
             translatedError.retryable.should.equal(true);
           } else {
             translatedError.retryable.should.equal(false);
