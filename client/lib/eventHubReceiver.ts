@@ -4,7 +4,7 @@
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import {
-  Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, SessionEvents
+  Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError
 } from "./rhea-promise";
 import {
   translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig
@@ -330,8 +330,11 @@ export class EventHubReceiver extends LinkEntity {
           this._context.connectionId, this.name, options);
 
         this._receiver = await this._context.connection.createReceiver(options);
-        this._receiver.registerSessionHandler(SessionEvents.sessionError, options.onError!);
-        this._receiver.registerSessionHandler(SessionEvents.sessionClose, options.onClose!);
+        // TODO: Need to figure out how to handle session_close for sender and receiver.
+        // Should be able to distinguish between sdk calling session close (from the close method)
+        // Or due to close in detached. OR it happened due to an actual error.
+        // this._receiver.registerSessionHandler(SessionEvents.sessionError, options.onError!);
+        // this._receiver.registerSessionHandler(SessionEvents.sessionClose, options.onClose!);
         debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
         debug("[%s] Receiver '%s' created with receiver options: %O",
           this._context.connectionId, this.name, options);

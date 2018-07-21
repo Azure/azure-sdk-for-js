@@ -167,9 +167,10 @@ export class LinkEntity {
         debug("[%s] An error occurred while closing the %s '%s' with address '%s': %O",
           this._context.connectionId, this._type, this.name, this.address, err);
       }
-      link.remove();
-      debug("[%s] %s '%s' with address '%s' and it's session have been removed from " +
-        "internal map.", this._context.connectionId, this._type, this.name, this.address);
+      // TODO: Let us wait for rhea to do this correctly for us.
+      // link.remove();
+      // debug("[%s] %s '%s' with address '%s' and it's session have been removed from " +
+      //   "internal map.", this._context.connectionId, this._type, this.name, this.address);
     }
   }
 
