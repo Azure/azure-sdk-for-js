@@ -57,7 +57,8 @@ export interface RetryConfig<T> {
 
 function validateRetryConfig<T>(config: RetryConfig<T>): void {
   if (!config.operation || typeof config.operation !== "function") {
-    throw new Error("'operation' is a required property and must be of type 'function' that returns a Promise.");
+    throw new Error("'operation' is a required property and must be of type 'function' " +
+      "that returns a Promise.");
   }
 
   if (!config.connectionId || typeof config.connectionId !== "string") {
@@ -94,13 +95,14 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   let success = false;
   for (let i = 0; i < config.times; i++) {
     const j = i + 1;
-    debug("[%s] Retry attempt number: %d", config.connectionId, j);
+    debug("[%s] Retry for '%s', attempt number: %d", config.connectionId, config.operationType, j);
     try {
       result = await config.operation();
       success = true;
-      debug("[%s] Success, after attempt number: %d.", config.connectionId, j);
+      debug("[%s] Success for '%s', after attempt number: %d.", config.connectionId,
+        config.operationType, j);
       if (result && !isDelivery(result)) {
-        debug("[%s] Success result: %O", config.connectionId, result);
+        debug("[%s] Success result for '%s': %O", config.connectionId, config.operationType, result);
       }
       break;
     } catch (err) {
@@ -108,9 +110,11 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         err = translate(err);
       }
       lastError = err;
-      debug("[%s] Error occured in attempt number %d: %O", config.connectionId, j, err);
+      debug("[%s] Error occured for '%s' in attempt number %d: %O", config.connectionId,
+        config.operationType, j, err);
       if (lastError && lastError.retryable) {
-        debug("[%s] Sleeping for %d seconds.", config.connectionId, config.delayInSeconds);
+        debug("[%s] Sleeping for %d seconds for '%s'.", config.connectionId,
+          config.delayInSeconds, config.operationType);
         await delay(config.delayInSeconds * 1000);
         continue;
       } else {

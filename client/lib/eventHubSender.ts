@@ -5,7 +5,7 @@ import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
-  message, AmqpError, SessionEvents
+  message, AmqpError
 } from "./rhea-promise";
 import {
   defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper,
@@ -366,8 +366,9 @@ export class EventHubSender extends LinkEntity {
         }
         this._sender = await this._context.connection.createSender(options);
         this._sender.setMaxListeners(1000);
-        this._sender.registerSessionHandler(SessionEvents.sessionError, this._onAmqpError);
-        this._sender.registerSessionHandler(SessionEvents.sessionClose, this._onAmqpClose);
+        // TODO: Handle this correctly, same as receiver.
+        // this._sender.registerSessionHandler(SessionEvents.sessionError, this._onAmqpError);
+        // this._sender.registerSessionHandler(SessionEvents.sessionClose, this._onAmqpClose);
         debug("[%s] Promise to create the sender resolved. Created sender with name: %s",
           this._context.connectionId, this.name);
         debug("[%s] Sender '%s' created with sender options: %O",
