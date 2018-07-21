@@ -43,8 +43,9 @@ describe("Misc tests", function () {
     await client.send(obj, partitionId);
     debug("Successfully sent the large message.");
     data = await breceiver.receive(5, 10);
+    debug("Closing the receiver..");
     await breceiver.close();
-    debug("received message: ", data);
+    debug("received message: ", data.length);
     should.exist(data);
     data.length.should.equal(1);
     data[0].body.toString().should.equal(msgString);

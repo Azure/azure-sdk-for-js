@@ -94,7 +94,8 @@ export class Connection {
    */
   close(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      if (this._connection && this._connection.is_open()) {
+      debug("[%s] The connection is open ? -> %s", this.id, this.isOpen());
+      if (this.isOpen()) {
         let onClose: Func<rhea.EventContext, void>;
         let onError: Func<rhea.EventContext, void>;
 
