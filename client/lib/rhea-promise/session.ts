@@ -60,14 +60,16 @@ export class Session {
         const onClose = (context: rhea.EventContext) => {
           this._session.removeListener("session_close", onClose);
           process.nextTick(() => {
-            debug("Resolving the promise as the amqp session has been closed.");
+            debug("[%s] Resolving the promise as the amqp session has been closed.",
+              this.connection.id);
             resolve();
           });
         };
 
         const onError = (context: rhea.EventContext) => {
           this._session.removeListener("session_error", onError);
-          debug(`Error occurred while closing amqp session.`, context.session!.error);
+          debug("[%s] Error occurred while closing amqp session.",
+            this.connection.id, context.session!.error);
           reject(context.session!.error);
         };
 
@@ -121,14 +123,16 @@ export class Session {
       onOpen = (context: rhea.EventContext) => {
         removeListeners();
         process.nextTick(() => {
-          debug(`Resolving the promise with amqp receiver "${rheaReceiver.name}".`);
+          debug("[%s] Resolving the promise with amqp receiver '%s'.",
+            this.connection.id, rheaReceiver.name);
           resolve(receiver);
         });
       };
 
       onClose = (context: rhea.EventContext) => {
         removeListeners();
-        debug(`Error occurred while creating a receiver over amqp connection.`, context.receiver!.error);
+        debug("[%s] Error occurred while creating a receiver over amqp connection: %O.",
+          this.connection.id, context.receiver!.error);
         reject(context.receiver!.error);
       };
 
@@ -181,14 +185,16 @@ export class Session {
       onSendable = (context: rhea.EventContext) => {
         removeListeners();
         process.nextTick(() => {
-          debug(`Resolving the promise with amqp sender "${rheaSender.name}".`);
+          debug("[%s] Resolving the promise with amqp sender '%s'.",
+            this.connection.id, rheaSender.name);
           resolve(sender);
         });
       };
 
       onClose = (context: rhea.EventContext) => {
         removeListeners();
-        debug(`Error occurred while creating a sender over amqp connection.`, context.sender!.error);
+        debug("[%s] Error occurred while creating a sender over amqp connection: %O.",
+          this.connection.id, context.sender!.error);
         reject(context.sender!.error);
       };
 

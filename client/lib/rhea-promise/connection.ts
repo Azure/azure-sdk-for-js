@@ -61,15 +61,17 @@ export class Connection {
         onOpen = (context: rhea.EventContext) => {
           removeListeners();
           process.nextTick(() => {
-            debug("Resolving the promise with amqp connection.");
+            debug("[%s] Resolving the promise with amqp connection.", this.id);
             resolve(this);
           });
         };
 
         onClose = (context: rhea.EventContext) => {
           removeListeners();
-          debug(`Error occurred while establishing amqp connection.`, context.connection.error);
-          reject(context.connection.error);
+          const err = context.error || context.connection.error;
+          debug("[%s] Error occurred while establishing amqp connection: %O",
+            this.id, err);
+          reject(err);
         };
 
         this._connection.once("connection_open", onOpen);
@@ -99,14 +101,16 @@ export class Connection {
         onClose = (context: rhea.EventContext) => {
           this._connection.removeListener("connection_close", onClose);
           process.nextTick(() => {
-            debug("Resolving the promise as the connection has been successfully closed.");
+            debug("[%s] Resolving the promise as the connection has been successfully closed.",
+              this.id);
             resolve();
           });
         };
 
         onError = (context: rhea.EventContext) => {
           this._connection.removeListener("connection_error", onError);
-          debug(`Error occurred while closing amqp connection.`, context.connection.error);
+          debug("[%s] Error occurred while closing amqp connection: %O.",
+            this.id, context.connection.error);
           reject(context.connection.error);
         };
 
@@ -153,20 +157,21 @@ export class Connection {
       onOpen = (context: rhea.EventContext) => {
         removeListeners();
         process.nextTick(() => {
-          debug("Resolving the promise with amqp session.");
+          debug("[%s] Resolving the promise with amqp session.", this.id);
           resolve(session);
         });
       };
 
       onClose = (context: rhea.EventContext) => {
         removeListeners();
-        debug(`Error occurred while establishing a session over amqp connection.`, context.session!.error);
+        debug("[%s] Error occurred while establishing a session over amqp connection: %O.",
+          this.id, context.session!.error);
         reject(context.session!.error);
       };
 
       rheaSession.once("session_open", onOpen);
       rheaSession.once("session_close", onClose);
-      debug("Calling amqp session.begin().");
+      debug("[%s] Calling amqp session.begin().", this.id);
       rheaSession.begin();
     });
   }
