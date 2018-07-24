@@ -2,8 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as assert from "assert";
-import * as msRest from "ms-rest-js";
-import { HttpHeaders, HttpOperationResponse, TokenCredentials, WebResource } from "ms-rest-js";
+import { HttpHeaders, HttpOperationResponse, RequestOptionsBase, RestError, TokenCredentials, WebResource } from "ms-rest-js";
 import { AzureServiceClient, AzureServiceClientOptions, updateOptionsWithDefaultValues } from "../lib/azureServiceClient";
 import * as msAssert from "./msAssert";
 
@@ -12,14 +11,14 @@ describe("AzureServiceClient", () => {
     it("with no options provided", () => {
       const client = new AzureServiceClient(new TokenCredentials("my-fake-token"));
       assert.strictEqual(client.acceptLanguage, "en-us");
-      assert.strictEqual(client.longRunningOperationRetryTimeout, 30);
+      assert.strictEqual(client.longRunningOperationRetryTimeout, undefined);
       assert.deepStrictEqual(client.userAgentInfo, { value: ["ms-rest-js/0.1.0", "ms-rest-azure/0.1.0"] });
     });
 
     it("with acceptLanguage provided", () => {
       const client = new AzureServiceClient(new TokenCredentials("my-fake-token"), { acceptLanguage: "my-fake-language" });
       assert.strictEqual(client.acceptLanguage, "my-fake-language");
-      assert.strictEqual(client.longRunningOperationRetryTimeout, 30);
+      assert.strictEqual(client.longRunningOperationRetryTimeout, undefined);
       assert.deepStrictEqual(client.userAgentInfo, { value: ["ms-rest-js/0.1.0", "ms-rest-azure/0.1.0"] });
     });
 
@@ -49,7 +48,7 @@ describe("AzureServiceClient", () => {
         }
       ]);
       const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "GET");
-      const error: msRest.RestError = await msAssert.throwsAsync(serviceClient.sendLongRunningRequest(httpRequest));
+      const error: RestError = await msAssert.throwsAsync(serviceClient.sendLongRunningRequest(httpRequest));
       assert.strictEqual(error.message, `Error "SyntaxError: Unexpected token < in JSON at position 0" occurred while parsing the response body - <responseBody>hello</responseBody>.`);
       assert.strictEqual(error.request!.headers.get("authorization"), "Bearer my-fake-token");
     });
@@ -166,7 +165,7 @@ describe("AzureServiceClient", () => {
         { status: 200, body: {} }
       ]);
       const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-      const options: msRest.RequestOptionsBase = {
+      const options: RequestOptionsBase = {
         customHeaders: {
           a: "1"
         }
@@ -184,7 +183,7 @@ describe("AzureServiceClient", () => {
         { status: 200, body: { properties: { provisioningState: "Failed" } } }
       ]);
       const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-      const error: msRest.RestError = await msAssert.throwsAsync(serviceClient.sendLongRunningRequest(httpRequest));
+      const error: RestError = await msAssert.throwsAsync(serviceClient.sendLongRunningRequest(httpRequest));
       assert.strictEqual(error.message, `Long running operation failed with status: "Failed".`);
       assert.strictEqual(error.code, undefined);
     });
@@ -210,7 +209,7 @@ describe("AzureServiceClient", () => {
       const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "GET");
       await msAssert.throwsAsync(
         serviceClient.sendLongRunningRequest(httpRequest),
-        new Error(`Location header is missing from long running operation.`));
+        new Error(`Can't determine long running operation polling strategy from initial response.`));
     });
 
     it("with 202 status and PATCH method", async () => {
@@ -218,7 +217,7 @@ describe("AzureServiceClient", () => {
       const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
       await msAssert.throwsAsync(
         serviceClient.sendLongRunningRequest(httpRequest),
-        new Error(`Location header is missing from long running operation.`));
+        new Error(`Can't determine long running operation polling strategy from initial response.`));
     });
 
     it("with 202 status, PUT method, and undefined final response body", async () => {
@@ -237,7 +236,7 @@ describe("AzureServiceClient", () => {
       const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
       await msAssert.throwsAsync(
         serviceClient.sendLongRunningRequest(httpRequest),
-        new Error(`Location header is missing from long running operation.`));
+        new Error(`Can't determine long running operation polling strategy from initial response.`));
     });
 
     it("with 202 status, POST method, azure-asyncoperation header, and undefined final response body", async () => {
@@ -478,7 +477,7 @@ describe("AzureServiceClient", () => {
         }
       ]);
       const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-      const error: msRest.RestError = await msAssert.throwsAsync(serviceClient.sendLongRunningRequest(httpRequest));
+      const error: RestError = await msAssert.throwsAsync(serviceClient.sendLongRunningRequest(httpRequest));
       assert.strictEqual(error.message, `Invalid status code with response body "undefined" occurred when polling for operation status.`);
       assert.strictEqual(error.statusCode, 404);
       assert.strictEqual(error.request!.headers.contains("authorization"), false);
@@ -490,7 +489,7 @@ describe("AzureServiceClient", () => {
       const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
       await msAssert.throwsAsync(
         serviceClient.sendLongRunningRequest(httpRequest),
-        new Error(`Location header is missing from long running operation.`));
+        new Error(`Can't determine long running operation polling strategy from initial response.`));
     });
 
     it("with 204 status and GET method", async () => {
