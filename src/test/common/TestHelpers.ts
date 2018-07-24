@@ -16,6 +16,14 @@ import { endpoint, masterKey } from "./../common/_testConfig";
 
 const defaultClient = new CosmosClient({ endpoint, auth: { masterKey } });
 
+export function addEntropy(name: string): string {
+  return name + getEntropy();
+}
+
+export function getEntropy(): string {
+  return `${Math.floor(Math.random() * 10000)}`;
+}
+
 export async function removeAllDatabases(client: CosmosClient = defaultClient) {
   try {
     const { result: databases } = await client.databases.readAll().toArray();

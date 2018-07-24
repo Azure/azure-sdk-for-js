@@ -1,7 +1,8 @@
+import { StatusCodes } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
-import { SqlQuerySpec } from "../../queryExecutionContext";
+import { HeaderUtils, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, Response } from "../../request";
+import { FeedOptions, RequestOptions } from "../../request";
 import { Database } from "./Database";
 import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseResponse } from "./DatabaseResponse";
@@ -42,16 +43,16 @@ export class Databases {
 
   /**
    * Send a request for creating a database.
-   * <p>
-   *  A database manages users, permissions and a set of containers.  <br>
-   *  Each Azure Cosmos DB Database Account is able to support multiple independent named databases,
-   *  with the database being the logical container for data. <br>
-   *  Each Database consists of one or more containers, each of which in turn contain one or more
-   *  documents. Since databases are an an administrative resource, the Service Master Key will be
-   *  required in order to access and successfully complete any action using the User APIs. <br>
-   * </p>
    *
-   * @param body A json object that represents The database to be created.
+   * A database manages users, permissions and a set of containers.
+   * Each Azure Cosmos DB Database Account is able to support multiple independent named databases,
+   * with the database being the logical container for data.
+   *
+   * Each Database consists of one or more containers, each of which in turn contain one or more
+   * documents. Since databases are an an administrative resource, the Service Master Key will be
+   * required in order to access and successfully complete any action using the User APIs.
+   *
+   * @param body The {@link DatabaseDefinition} that represents the {@link Database} to be created.
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
   public async create(body: DatabaseDefinition, options?: RequestOptions): Promise<DatabaseResponse> {
@@ -63,6 +64,44 @@ export class Databases {
       ref,
       database: ref
     };
+  }
+
+  /**
+   * Check if a database exists, and if it doesn't, create it.
+   * This will make a read operation based on the id in the `body`, then if it is not found, a create operation.
+   *
+   * A database manages users, permissions and a set of containers.
+   * Each Azure Cosmos DB Database Account is able to support multiple independent named databases,
+   * with the database being the logical container for data.
+   *
+   * Each Database consists of one or more containers, each of which in turn contain one or more
+   * documents. Since databases are an an administrative resource, the Service Master Key will be
+   * required in order to access and successfully complete any action using the User APIs.
+   *
+   * @param body The {@link DatabaseDefinition} that represents the {@link Database} to be created.
+   * @param options
+   */
+  public async createIfNotExists(body: DatabaseDefinition, options?: RequestOptions): Promise<DatabaseResponse> {
+    if (!body || body.id === null || body.id === undefined) {
+      throw new Error("body parameter must be an object with an id property");
+    }
+    /*
+      1. Attempt to read the Database (based on an assumption that most databases will already exist, so its faster)
+      2. If it fails with NotFound error, attempt to create the db. Else, return the read results.
+    */
+    try {
+      const readResponse = await this.client.database(body.id).read(options);
+      return readResponse;
+    } catch (err) {
+      if (err.code === StatusCodes.NotFound) {
+        const createResponse = await this.create(body, options);
+        // Must merge the headers to capture RU costskaty
+        HeaderUtils.mergeHeaders(createResponse.headers, err.headers);
+        return createResponse;
+      } else {
+        throw err;
+      }
+    }
   }
 
   // TODO: DatabaseResponse for QueryIterator?

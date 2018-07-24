@@ -1,7 +1,7 @@
 import * as assert from "assert";
-import { CosmosClient } from "../../";
+import { CosmosClient, DatabaseDefinition } from "../../";
 import { endpoint, masterKey } from "./../common/_testConfig";
-import { removeAllDatabases } from "./../common/TestHelpers";
+import { addEntropy, removeAllDatabases } from "./../common/TestHelpers";
 
 const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
@@ -53,6 +53,26 @@ describe("NodeJS CRUD Tests", function() {
 
     it("nativeApi Should do database CRUD operations successfully name based", async function() {
       await databaseCRUDTest();
+    });
+
+    describe("database.createIfNotExists", function() {
+      it("should handle does not exist", async function() {
+        const def: DatabaseDefinition = { id: addEntropy("does not exist") };
+        const { database } = await client.databases.createIfNotExists(def);
+        const { body: readDef } = await database.read();
+        assert.equal(def.id, readDef.id);
+      });
+
+      it("should handle does exist", async function() {
+        const def: DatabaseDefinition = { id: addEntropy("does  exist") };
+        // Set up
+        await client.databases.create(def);
+
+        // Now call createIfNotExists on existing db
+        const { database } = await client.databases.createIfNotExists(def);
+        const { body: readDef } = await database.read();
+        assert.equal(def.id, readDef.id);
+      });
     });
   });
 

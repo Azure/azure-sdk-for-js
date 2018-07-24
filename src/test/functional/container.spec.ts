@@ -425,3 +425,27 @@ describe("NodeJS CRUD Tests", function() {
     });
   });
 });
+
+describe("container.createIfNotExists", function() {
+  let database: Database;
+  before(async function() {
+    // create database
+    database = await getTestDatabase("container.createIfNotExists");
+  });
+
+  it("should handle container does not exist", async function() {
+    const def: ContainerDefinition = { id: "does not exist" };
+    const { container } = await database.containers.createIfNotExists(def);
+    const { body: readDef } = await container.read();
+    assert.equal(def.id, readDef.id);
+  });
+
+  it("should handle container exists", async function() {
+    const def: ContainerDefinition = { id: "does exist" };
+    await database.containers.create(def);
+
+    const { container } = await database.containers.createIfNotExists(def);
+    const { body: readDef } = await container.read();
+    assert.equal(def.id, readDef.id);
+  });
+});
