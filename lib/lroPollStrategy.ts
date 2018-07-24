@@ -88,7 +88,7 @@ export abstract class LROPollStrategy {
         throw new Error("The response from long running operation does not contain a body.");
       }
 
-      this._status = getStatusFromResponseBodyProvisioningState(result.parsedBody) || "Succeeded";
+      this._status = getProvisioningState(result.parsedBody) || "Succeeded";
       this._response = result;
       this._mostRecentRequest = result.request;
       this._resource = getResponseBody(result);
@@ -145,7 +145,7 @@ export function getDelayInSeconds(azureServiceClient: AzureServiceClient, previo
   return delayInSeconds;
 }
 
-function getStatusFromResponseBodyProvisioningState(responseBody: any): LongRunningOperationStates | undefined {
+function getProvisioningState(responseBody: any): LongRunningOperationStates | undefined {
   return responseBody && responseBody.properties && responseBody.properties.provisioningState;
 }
 
@@ -183,11 +183,11 @@ function getStatusFromResponse(response: HttpOperationResponse, responseBody?: a
       break;
 
     case 201:
-      result = getStatusFromResponseBodyProvisioningState(responseBody) || "InProgress";
+      result = getProvisioningState(responseBody) || "InProgress";
       break;
 
     case 200:
-      result = getStatusFromResponseBodyProvisioningState(responseBody) || "Succeeded";
+      result = getProvisioningState(responseBody) || "Succeeded";
       break;
 
     default:
