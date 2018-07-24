@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { HttpOperationResponse, RequestOptionsBase, RequestPrepareOptions, ServiceClient, ServiceClientCredentials, ServiceClientOptions, WebResource } from "ms-rest-js";
-import { HttpLongRunningOperationResponse } from "./httpLongRunningOperationResponse";
-import Constants from "./util/constants";
+import { createLROPollStrategy, LROPollStrategy } from "./lroPollStrategy";
+import * as Constants from "./util/constants";
 
 /**
  * Options to be provided while creating the client.
@@ -31,8 +31,11 @@ export interface AzureServiceClientOptions extends ServiceClientOptions {
  * @param {AzureServiceClientOptions} options - The parameter options used by AzureServiceClient
  */
 export class AzureServiceClient extends ServiceClient {
-  acceptLanguage: string = Constants.DEFAULT_LANGUAGE;
-  longRunningOperationRetryTimeout = 30;
+  public acceptLanguage: string = Constants.DEFAULT_LANGUAGE;
+  /**
+   * The retry timeout in seconds for Long Running Operations. Default value is 30.
+   */
+  public longRunningOperationRetryTimeout?: number;
 
   constructor(credentials: ServiceClientCredentials, options?: AzureServiceClientOptions) {
     super(credentials, options = updateOptionsWithDefaultValues(options));
@@ -51,13 +54,27 @@ export class AzureServiceClient extends ServiceClient {
   /**
    * Provides a mechanism to make a request that will poll and provide the final result.
    * @param {msRest.RequestPrepareOptions|msRest.WebResource} request - The request object
-   * @param {msRest.RequestOptionsBase} [options] Additional options to be sent while making the request
+   * @param {AzureRequestOptionsBase} [options] Additional options to be sent while making the request
    * @returns {Promise<msRest.HttpOperationResponse>} The HttpOperationResponse containing the final polling request, response and the responseBody.
    */
   async sendLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
-    const initialResponse: HttpOperationResponse = await this.sendRequest(request);
-    const httpLongRunningOperationResponse = new HttpLongRunningOperationResponse(this);
-    return httpLongRunningOperationResponse.getLongRunningOperationResult(initialResponse, options);
+    return this.sendRequest(request).then((response: HttpOperationResponse) => this.getLongRunningOperationResult(response, options));
+  }
+
+  /**
+   * Poll Azure long running PUT, PATCH, POST or DELETE operations.
+   * @param {HttpOperationResponse} initialResponse - response of the initial request which is a part of the asynchronous polling operation.
+   * @param {AzureRequestOptionsBase} [options] - custom request options.
+   * @returns {Promise<HttpOperationResponse>} The final response after polling is complete.
+   */
+  async getLongRunningOperationResult(initialResponse: HttpOperationResponse, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
+    const lroPollStrategy: LROPollStrategy = createLROPollStrategy(initialResponse, this, options);
+    const succeeded: boolean = await lroPollStrategy.pollUntilFinished();
+    if (succeeded) {
+      return lroPollStrategy.getOperationResponse();
+    } else {
+      throw lroPollStrategy.getRestError();
+    }
   }
 }
 
