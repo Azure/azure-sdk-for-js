@@ -1,21 +1,16 @@
 import * as assert from "assert";
-import { Constants, CosmosClient, FeedOptions, UriFactory } from "../../";
+import { Constants, FeedOptions } from "../../";
 import { PartitionKind } from "../../documents";
-import testConfig from "./../common/_testConfig";
-import { getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
-
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
+import { getTestContainer, getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
 
 const doc = { id: "myId", pk: "pk" };
 
 describe("ResourceLink Trimming of leading and trailing slashes", function() {
   this.timeout(10000);
-  const client = new CosmosClient({ endpoint, auth: { masterKey } });
   const containerId = "testcontainer";
 
   beforeEach(async function() {
-    await removeAllDatabases(client);
+    await removeAllDatabases();
   });
 
   it("validate correct execution of query using named container link with leading and trailing slashes", async function() {
@@ -29,8 +24,8 @@ describe("ResourceLink Trimming of leading and trailing slashes", function() {
     const containerOptions = { offerThroughput: 10100 };
 
     const container = await getTestContainer(
-      client,
       "validate correct execution of query",
+      undefined,
       containerDefinition,
       containerOptions
     );
@@ -46,15 +41,11 @@ describe("ResourceLink Trimming of leading and trailing slashes", function() {
 });
 
 describe("Test Query Metrics On Single Partition Collection", function() {
-  const client = new CosmosClient({ endpoint, auth: { masterKey } });
-  const databaseId = "query metrics test db";
   const collectionId = "testCollection2";
 
   const testQueryMetricsOnSinglePartition = async function(document: any) {
     try {
-      const databaseBody = { id: databaseId };
-      const { body: databaseDef } = await client.databases.create(databaseBody);
-      const database = client.database(databaseDef.id);
+      const database = await getTestDatabase("query metrics test db");
 
       const collectionDefinition = { id: collectionId };
       const collectionOptions = { offerThroughput: 4000 };
@@ -63,7 +54,7 @@ describe("Test Query Metrics On Single Partition Collection", function() {
       const createdContainer = database.container(createdCollectionDef.id);
 
       await createdContainer.items.create(document);
-      const collectionLink = "/dbs/" + databaseId + "/colls/" + collectionId + "/";
+      const collectionLink = "/dbs/" + database.id + "/colls/" + collectionId + "/";
       const query = "SELECT * from " + collectionId;
       const queryOptions: FeedOptions = { populateQueryMetrics: true };
       const queryIterator = createdContainer.items.query(query, queryOptions);
@@ -84,11 +75,11 @@ describe("Test Query Metrics On Single Partition Collection", function() {
   };
 
   afterEach(async function() {
-    await removeAllDatabases(client);
+    await removeAllDatabases();
   });
 
   beforeEach(async function() {
-    await removeAllDatabases(client);
+    await removeAllDatabases();
   });
 
   it("validate that query metrics are correct for a single partition query", async function() {

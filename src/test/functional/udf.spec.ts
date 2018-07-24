@@ -1,45 +1,28 @@
 import * as assert from "assert";
-import { Container, CosmosClient } from "../../";
+import { Container } from "../../";
 import { UserDefinedFunctionDefinition } from "../../client";
-import testConfig from "./../common/_testConfig";
-import { removeAllDatabases } from "./../common/TestHelpers";
+import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
 
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
-const dbId = "udf test database";
 const containerId = "sample container";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   beforeEach(async function() {
-    this.timeout(10000);
-    // remove all databases from the endpoint before each test
-    const client = new CosmosClient({
-      endpoint,
-      auth: { masterKey }
-    });
-    await removeAllDatabases(client);
+    await removeAllDatabases();
   });
 
   describe("User Defined Function", function() {
     let container: Container;
 
     beforeEach(async function() {
-      const client = new CosmosClient({
-        endpoint,
-        auth: { masterKey }
-      });
-
       // create database
-      await client.databases.create({
-        id: dbId
-      });
+      const database = await getTestDatabase("udf test database");
 
       // create container
-      await client.database(dbId).containers.create({ id: containerId });
+      await database.containers.create({ id: containerId });
 
-      container = await client.database(dbId).container(containerId);
+      container = await database.container(containerId);
     });
     it("nativeApi Should do UDF CRUD operations successfully", async function() {
       const { result: udfs } = await container.userDefinedFunctions.readAll().toArray();

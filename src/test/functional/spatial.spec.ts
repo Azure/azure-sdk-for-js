@@ -1,25 +1,18 @@
 import * as assert from "assert";
-import { CosmosClient, Database, DocumentBase } from "../../";
-import testConfig from "./../common/_testConfig";
+import { Database, DocumentBase } from "../../";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
-
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
-const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  // remove all databases from the endpoint before each test
   beforeEach(async function() {
-    this.timeout(10000);
-    await removeAllDatabases(client);
+    await removeAllDatabases();
   });
 
   describe("Validate spatial index", function() {
     const spatialIndexTest = async function(isUpsertTest: boolean) {
       try {
         // create database
-        const database: Database = await getTestDatabase(client, "validate spatial index");
+        const database: Database = await getTestDatabase("validate spatial index");
 
         // create container using an indexing policy with spatial index.
         const indexingPolicy = {
@@ -61,7 +54,6 @@ describe("NodeJS CRUD Tests", function() {
           }
         };
         await createOrUpsertItem(container, location2, undefined, isUpsertTest);
-        // tslint:disable-next-line:max-line-length
         const query =
           "SELECT * FROM root WHERE (ST_DISTANCE(root.Location, {type: 'Point', coordinates: [20.1, 20]}) < 20000) ";
         const { result: results } = await container.items.query(query).toArray();

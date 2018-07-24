@@ -84,14 +84,12 @@ export default [
     parts: ["[]", "fine!", "*"]
   },
   {
-    // tslint:disable:max-line-length
     path:
       '/"this is a long key with speicial characters (*)(*)__)((*&*(&*&\'*(&)()(*_)()(_(_)*!@#$%^ and numbers 132654890"/*',
     parts: [
       "this is a long key with speicial characters (*)(*)__)((*&*(&*&'*(&)()(*_)()(_(_)*!@#$%^ and numbers 132654890",
       "*"
     ]
-    // tslint:enable:max-line-length
   },
   {
     path: "/ Key 1 / Key 2 ",

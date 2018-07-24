@@ -1,10 +1,6 @@
 import * as assert from "assert";
 import { AzureDocuments, Constants, CosmosClient, RetryOptions } from "../..";
 import * as request from "../../request";
-import testConfig from "../common/_testConfig";
-
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
 
 describe("retry policy tests", function() {
   this.timeout(300000);

@@ -1,45 +1,20 @@
 import * as assert from "assert";
-import * as Stream from "stream";
-import {
-  AzureDocuments,
-  Base,
-  Constants,
-  CosmosClient,
-  DocumentBase,
-  HashPartitionResolver,
-  Range,
-  RangePartitionResolver,
-  Response,
-  RetryOptions
-} from "../../";
+import { Constants, CosmosClient, DocumentBase } from "../../";
 import { Container, StoredProcedureDefinition } from "../../client";
-import testConfig from "./../common/_testConfig";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
+import { bulkInsertItems, getTestContainer, getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
 
 // Used for sproc
 declare var getContext: any;
 
-// TODO: should fix long lines
-// tslint:disable:max-line-length
-
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
-const client = new CosmosClient({
-  endpoint,
-  auth: { masterKey }
-});
-
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  // remove all databases from the endpoint before each test
   beforeEach(async function() {
-    this.timeout(10000);
-    await removeAllDatabases(client);
+    await removeAllDatabases();
   });
   describe("Validate sproc CRUD", function() {
     let container: Container;
     beforeEach(async function() {
-      container = await getTestContainer(client, this.test.fullTitle());
+      container = await getTestContainer(this.test.fullTitle());
     });
 
     it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function() {
@@ -161,7 +136,7 @@ describe("NodeJS CRUD Tests", function() {
   describe("Validate stored procedure functionality", function() {
     let container: Container;
     beforeEach(async function() {
-      container = await getTestContainer(client, this.test.fullTitle());
+      container = await getTestContainer(this.test.fullTitle());
     });
 
     it("nativeApi should do stored procedure operations successfully with create/replace", async function() {
@@ -284,7 +259,7 @@ describe("NodeJS CRUD Tests", function() {
   });
 
   it("nativeApi Should execute stored procedure with partition key successfully name based", async function() {
-    const { body: db } = await client.databases.create({ id: "sproc test database" });
+    const database = await getTestDatabase("sproc test database");
     // create container
     const partitionKey = "key";
 
@@ -293,10 +268,8 @@ describe("NodeJS CRUD Tests", function() {
       partitionKey: { paths: ["/" + partitionKey], kind: DocumentBase.PartitionKind.Hash }
     };
 
-    const { body: containerResult } = await client
-      .database(db.id)
-      .containers.create(containerDefinition, { offerThroughput: 12000 });
-    const container = await client.database(db.id).container(containerResult.id);
+    const { body: containerResult } = await database.containers.create(containerDefinition, { offerThroughput: 12000 });
+    const container = await database.container(containerResult.id);
 
     // tslint:disable:no-var-keyword
     // tslint:disable:prefer-const
@@ -356,11 +329,11 @@ describe("NodeJS CRUD Tests", function() {
 
   it("nativeApi Should enable/disable script logging while executing stored procedure", async function() {
     // create database
-    const { body: db } = await client.databases.create({ id: "sproc test database" });
+    const database = await getTestDatabase("sproc test database");
     // create container
-    const { body: containerResult } = await client.database(db.id).containers.create({ id: "sample container" });
+    const { body: containerResult } = await database.containers.create({ id: "sample container" });
 
-    const container = await client.database(db.id).container(containerResult.id);
+    const container = await database.container(containerResult.id);
 
     // tslint:disable:curly
     // tslint:disable:no-string-throw

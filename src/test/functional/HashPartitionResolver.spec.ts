@@ -1,25 +1,12 @@
 import * as assert from "assert";
 import * as Stream from "stream";
 import { CosmosClient, HashPartitionResolver } from "../../";
-import testConfig from "./../common/_testConfig";
 import { removeAllDatabases } from "./../common/TestHelpers";
-
-// TODO: should fix long lines
-// tslint:disable:max-line-length
-
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
-const client = new CosmosClient({
-  endpoint,
-  auth: { masterKey }
-});
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
-    this.timeout(10000);
-    // remove all databases from the endpoint before each test
-    await removeAllDatabases(client);
+    await removeAllDatabases();
   });
 
   describe("HashPartitionResolver", function() {

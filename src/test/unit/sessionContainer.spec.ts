@@ -1,10 +1,6 @@
 ﻿import * as assert from "assert";
 import { ResourceId } from "../../common";
 import { SessionContainer } from "../../sessionContainer";
-import testConfig from "./../common/_testConfig";
-
-const host = testConfig.host;
-const masterKey = testConfig.masterKey;
 
 describe("Session Container unit tests", function() {
   const collectionLink = "dbs/testDatabase/colls/testCollection";

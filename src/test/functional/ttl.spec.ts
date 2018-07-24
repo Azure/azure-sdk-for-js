@@ -1,19 +1,6 @@
 import * as assert from "assert";
-import * as Stream from "stream";
-import { CosmosClient } from "../../";
 import { Container, ContainerDefinition, Database } from "../../client";
-import testConfig from "./../common/_testConfig";
-import { removeAllDatabases } from "./../common/TestHelpers";
-
-// TODO: should fix long lines
-// tslint:disable:max-line-length
-
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
-const client = new CosmosClient({
-  endpoint,
-  auth: { masterKey }
-});
+import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
 
 async function sleep(time: number) {
   return new Promise(resolve => {
@@ -23,9 +10,8 @@ async function sleep(time: number) {
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 600000);
-  // remove all databases from the endpoint before each test
   beforeEach(async function() {
-    await removeAllDatabases(client);
+    await removeAllDatabases();
   });
 
   describe("TTL tests", function() {
@@ -60,13 +46,12 @@ describe("NodeJS CRUD Tests", function() {
 
     it("nativeApi Validate container and Item TTL values.", async function() {
       try {
-        const { body: db } = await client.databases.create({ id: "ttl test1 database" });
+        const database = await getTestDatabase("ttl test1 database");
 
         const containerDefinition = {
           id: "sample container1",
           defaultTtl: 5
         };
-        const database = await client.database(db.id);
         const { body: containerResult } = await database.containers.create(containerDefinition);
 
         assert.equal(containerDefinition.defaultTtl, containerResult.defaultTtl);
@@ -149,16 +134,16 @@ describe("NodeJS CRUD Tests", function() {
     }
 
     it("nativeApi Validate Item TTL with positive defaultTtl.", async function() {
-      const { body: db } = await client.databases.create({ id: "ttl test2 database" });
+      const database = await getTestDatabase("ttl test2 database");
 
       const containerDefinition = {
         id: "sample container",
         defaultTtl: 5
       };
 
-      const { body: containerResult } = await client.database(db.id).containers.create(containerDefinition);
+      const { body: containerResult } = await database.containers.create(containerDefinition);
 
-      const container = await client.database(db.id).container(containerResult.id);
+      const container = await database.container(containerResult.id);
 
       const itemDefinition = {
         id: "doc1",
@@ -189,16 +174,16 @@ describe("NodeJS CRUD Tests", function() {
     }
 
     it("nativeApi Validate Item TTL with -1 defaultTtl.", async function() {
-      const { body: db } = await client.databases.create({ id: "ttl test2 database" });
+      const database = await getTestDatabase("ttl test2 database");
 
       const containerDefinition = {
         id: "sample container",
         defaultTtl: -1
       };
 
-      const { body: createdContainer } = await client.database(db.id).containers.create(containerDefinition);
+      const { body: createdContainer } = await database.containers.create(containerDefinition);
 
-      const container = await client.database(db.id).container(createdContainer.id);
+      const container = await database.container(createdContainer.id);
 
       const itemDefinition: any = {
         id: "doc1",
@@ -224,13 +209,13 @@ describe("NodeJS CRUD Tests", function() {
     });
 
     it("nativeApi Validate Item TTL with no defaultTtl.", async function() {
-      const { body: db } = await client.databases.create({ id: "ttl test3 database" });
+      const database = await getTestDatabase("ttl test3 database");
 
       const containerDefinition = { id: "sample container" };
 
-      const { body: createdContainer } = await client.database(db.id).containers.create(containerDefinition);
+      const { body: createdContainer } = await database.containers.create(containerDefinition);
 
-      const container = await client.database(db.id).container(createdContainer.id);
+      const container = await database.container(createdContainer.id);
 
       const itemDefinition = {
         id: "doc1",
@@ -292,16 +277,16 @@ describe("NodeJS CRUD Tests", function() {
     }
 
     it("nativeApi Validate Item TTL Misc cases.", async function() {
-      const { body: db } = await client.databases.create({ id: "ttl test4 database" });
+      const database = await getTestDatabase("ttl test4 database");
 
       const containerDefinition = {
         id: "sample container",
         defaultTtl: 8
       };
 
-      const { body: containerResult } = await client.database(db.id).containers.create(containerDefinition);
+      const { body: containerResult } = await database.containers.create(containerDefinition);
 
-      const container = await client.database(db.id).container(containerResult.id);
+      const container = await database.container(containerResult.id);
 
       const itemDefinition = {
         id: "doc1",

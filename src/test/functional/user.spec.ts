@@ -1,28 +1,16 @@
 import * as assert from "assert";
-import { CosmosClient } from "../../";
 import { UserDefinition } from "../../client";
-import testConfig from "./../common/_testConfig";
 import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
-
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
-const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  // remove all databases from the endpoint before each test
   beforeEach(async function() {
-    this.timeout(10000);
-    try {
-      await removeAllDatabases(client);
-    } catch (err) {
-      throw err;
-    }
+    await removeAllDatabases();
   });
   describe("Validate User CRUD", function() {
     const userCRUDTest = async function(isUpsertTest: boolean) {
       // create database
-      const database = await getTestDatabase(client, "Validate user CRUD");
+      const database = await getTestDatabase("Validate user CRUD");
 
       // list users
       const { result: users } = await database.users.readAll().toArray();

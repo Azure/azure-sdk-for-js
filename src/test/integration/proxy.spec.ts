@@ -2,7 +2,7 @@
 import * as net from "net";
 import * as url from "url";
 import { Base, CosmosClient, DocumentBase } from "../../";
-import testConfig from "./../common/_testConfig";
+import { endpoint, masterKey } from "./../common/_testConfig";
 
 const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
 if (!isBrowser()) {
@@ -35,8 +35,8 @@ if (!isBrowser()) {
         proxy.listen(proxyPort, "127.0.0.1", async () => {
           try {
             const client = new CosmosClient({
-              endpoint: testConfig.host,
-              auth: { masterKey: testConfig.masterKey },
+              endpoint,
+              auth: { masterKey },
               connectionPolicy
             });
             // create database
@@ -59,8 +59,8 @@ if (!isBrowser()) {
         proxy.listen(proxyPort + 1, "127.0.0.1", async () => {
           try {
             const client = new CosmosClient({
-              endpoint: testConfig.host,
-              auth: { masterKey: testConfig.masterKey },
+              endpoint,
+              auth: { masterKey },
               connectionPolicy
             });
             // create database

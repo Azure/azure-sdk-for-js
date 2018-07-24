@@ -1,5 +1,6 @@
 ﻿import * as assert from "assert";
-import { Base, CosmosClient, DocumentBase } from "../../";
+import { CosmosClient, DocumentBase } from "../../";
+import { getTestDatabase } from "../common/TestHelpers";
 
 const endpoint = "https://localhost:443";
 const masterKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
@@ -12,7 +13,7 @@ describe.skip("Validate SSL verification check for emulator", function() {
     try {
       const client = new CosmosClient({ endpoint, auth: { masterKey } });
       // create database
-      await client.databases.create({ id: Base.generateGuidId() });
+      await getTestDatabase("ssl verification", client);
     } catch (err) {
       // connecting to emulator should throw SSL verification error,
       // unless you explicitly disable it via connectionPolicy.DisableSSLVerification
@@ -31,6 +32,6 @@ describe.skip("Validate SSL verification check for emulator", function() {
     });
 
     // create database
-    await client.databases.create({ id: Base.generateGuidId() });
+    await getTestDatabase("ssl verification", client);
   });
 });

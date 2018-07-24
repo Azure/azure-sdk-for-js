@@ -1,17 +1,12 @@
 import * as assert from "assert";
 import * as _ from "underscore";
 import * as util from "util";
-import { Constants, CosmosClient } from "../../";
+import { Constants } from "../../";
 import { Container, ContainerDefinition } from "../../client";
 import { DataType, IndexKind, PartitionKind } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import testConfig from "./../common/_testConfig";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
-
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
-const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 describe("Cross Partition", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
@@ -69,8 +64,8 @@ describe("Cross Partition", function() {
     // - creates a new collecton,
     // - bulk inserts documents to the container
     before(async function() {
-      await removeAllDatabases(client);
-      container = await getTestContainer(client, "Validate 中文 Query", containerDefinition, containerOptions);
+      await removeAllDatabases();
+      container = await getTestContainer("Validate 中文 Query", undefined, containerDefinition, containerOptions);
       await bulkInsertItems(container, documentDefinitions);
     });
 

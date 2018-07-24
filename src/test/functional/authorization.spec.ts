@@ -1,45 +1,41 @@
 import * as assert from "assert";
 import { CosmosClient, DocumentBase } from "../../";
 import { PermissionDefinition } from "../../client";
-import testConfig from "./../common/_testConfig";
-import { createOrUpsertPermission, getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
-
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
+import { endpoint } from "./../common/_testConfig";
+import {
+  createOrUpsertPermission,
+  getTestContainer,
+  getTestDatabase,
+  removeAllDatabases
+} from "./../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  // remove all databases from the endpoint before each test
   beforeEach(async function() {
-    this.timeout(10000);
-    await removeAllDatabases(new CosmosClient({ endpoint, auth: { masterKey } }));
+    await removeAllDatabases();
   });
 
   describe("Validate Authorization", function() {
-    const setupEntities = async function(isUpsertTest: boolean, client: CosmosClient) {
+    const setupEntities = async function(isUpsertTest: boolean) {
       // create database
-      const { body: db } = await client.databases.create({ id: "Validate Authorization database" });
+      const database = await getTestDatabase("Validate Authorization database");
       // create container1
 
-      const { body: container1 } = await client
-        .database(db.id)
-        .containers.create({ id: "Validate Authorization container" });
+      const { body: container1 } = await database.containers.create({ id: "Validate Authorization container" });
       // create document1
-      const { body: document1 } = await client
-        .database(db.id)
+      const { body: document1 } = await database
         .container(container1.id)
         .items.create({ id: "coll1doc1", foo: "bar", key: "value" });
       // create document 2
-      const { body: document2 } = await client
-        .database(db.id)
+      const { body: document2 } = await database
         .container(container1.id)
         .items.create({ id: "coll1doc2", foo: "bar2", key: "value2" });
 
       // create container 2
-      const { body: container2 } = await client.database(db.id).containers.create({ id: "sample container2" });
+      const { body: container2 } = await database.containers.create({ id: "sample container2" });
 
       // create user1
-      const { body: user1 } = await client.database(db.id).users.create({ id: "user1" });
+      const { body: user1 } = await database.users.create({ id: "user1" });
       let permission = {
         id: "permission On Coll1",
         permissionMode: DocumentBase.PermissionMode.Read,
@@ -47,7 +43,7 @@ describe("NodeJS CRUD Tests", function() {
       }; // TODO: any rid stuff
       // create permission for container1
       const { body: permissionOnColl1 } = await createOrUpsertPermission(
-        client.database(db.id).user(user1.id),
+        database.user(user1.id),
         permission,
         undefined,
         isUpsertTest
@@ -60,7 +56,7 @@ describe("NodeJS CRUD Tests", function() {
       };
       // create permission for document 2
       const { body: permissionOnDoc2 } = await createOrUpsertPermission(
-        client.database(db.id).user(user1.id),
+        database.user(user1.id),
         permission,
         undefined,
         isUpsertTest
@@ -68,7 +64,7 @@ describe("NodeJS CRUD Tests", function() {
       assert((permissionOnDoc2 as any)._token !== undefined, "permission token is invalid"); // TODO: any rid
 
       // create user 2
-      const { body: user2 } = await client.database(db.id).users.create({ id: "user2" });
+      const { body: user2 } = await database.users.create({ id: "user2" });
       permission = {
         id: "permission On coll2",
         permissionMode: DocumentBase.PermissionMode.All,
@@ -76,13 +72,13 @@ describe("NodeJS CRUD Tests", function() {
       };
       // create permission on container 2
       const { body: permissionOnColl2 } = await createOrUpsertPermission(
-        client.database(db.id).user(user2.id),
+        database.user(user2.id),
         permission,
         undefined,
         isUpsertTest
       );
       const entities = {
-        db,
+        database,
         coll1: container1,
         coll2: container2,
         doc1: document1,
@@ -108,11 +104,9 @@ describe("NodeJS CRUD Tests", function() {
         assert.equal(err.code, unauthorizedErrorCode, "error code should be equal to 401");
       }
 
-      const client = new CosmosClient({ endpoint, auth: { masterKey } });
-
       // setup entities
       // TODO: should move this out of this test and into before/etc.
-      const entities = await setupEntities(isUpsertTest, client);
+      const entities = await setupEntities(isUpsertTest);
       const resourceTokens: any = {};
       resourceTokens[entities.coll1.id] = (entities.permissionOnColl1 as any)._token;
       resourceTokens[entities.doc1.id] = (entities.permissionOnColl1 as any)._token;
@@ -121,7 +115,7 @@ describe("NodeJS CRUD Tests", function() {
 
       // 1. Success-- Use Col1 Permission to Read
       const { body: successColl1 } = await col1Client
-        .database(entities.db.id)
+        .database(entities.database.id)
         .container(entities.coll1.id)
         .read();
       assert(successColl1 !== undefined, "error reading container");
@@ -129,7 +123,7 @@ describe("NodeJS CRUD Tests", function() {
       // 2. Failure-- Use Col1 Permission to delete
       try {
         await col1Client
-          .database(entities.db.id)
+          .database(entities.database.id)
           .container(entities.coll1.id)
           .delete();
         assert.fail("must fail if no permission");
@@ -140,7 +134,7 @@ describe("NodeJS CRUD Tests", function() {
 
       // 3. Success-- Use Col1 Permission to Read All Docs
       const { result: successDocuments } = await col1Client
-        .database(entities.db.id)
+        .database(entities.database.id)
         .container(entities.coll1.id)
         .items.readAll()
         .toArray();
@@ -149,7 +143,7 @@ describe("NodeJS CRUD Tests", function() {
 
       // 4. Success-- Use Col1 Permission to Read Col1Doc1
       const { body: successDoc } = await col1Client
-        .database(entities.db.id)
+        .database(entities.database.id)
         .container(entities.coll1.id)
         .item(entities.doc1.id)
         .read();
@@ -174,7 +168,6 @@ describe("NodeJS CRUD Tests", function() {
     };
 
     const authorizationCRUDOverMultiplePartitionsTest = async function() {
-      const client = new CosmosClient({ endpoint, auth: { masterKey } });
       // create database
       // create container
       const partitionKey = "key";
@@ -182,7 +175,7 @@ describe("NodeJS CRUD Tests", function() {
         id: "coll1",
         partitionKey: { paths: ["/" + partitionKey], kind: DocumentBase.PartitionKind.Hash }
       };
-      const container = await getTestContainer(client, "authorization CRUD multiple partitons", containerDefinition);
+      const container = await getTestContainer("authorization CRUD multiple partitons", undefined, containerDefinition);
       // create user
       const { body: userDef } = await container.database.users.create({ id: "user1" });
       const user = container.database.user(userDef.id);

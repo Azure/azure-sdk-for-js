@@ -1,11 +1,9 @@
 import * as assert from "assert";
 import { Constants, CosmosClient, DocumentBase } from "../../";
 import { Container } from "../../client";
-import testConfig from "./../common/_testConfig";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
+import { endpoint, masterKey } from "./../common/_testConfig";
+import { bulkInsertItems, getTestContainer, getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
 
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
 const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 // TODO: This is required for Node 6 and above, so just putting it in here.
@@ -16,37 +14,33 @@ if (!Symbol || !Symbol.asyncIterator) {
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  // remove all databases from the endpoint before each test
   before(async function() {
-    this.timeout(10000);
-    await removeAllDatabases(client);
+    await removeAllDatabases();
   });
 
   describe("Validate Queries CRUD", function() {
     const queriesCRUDTest = async function() {
       try {
         // create a database
-        const databaseDefinition = { id: "query test database" };
-        const { body: db } = await client.databases.create(databaseDefinition);
-        assert.equal(db.id, databaseDefinition.id);
+        const database = await getTestDatabase("query test database");
         // query databases
         const querySpec0 = {
           query: "SELECT * FROM root r WHERE r.id=@id",
           parameters: [
             {
               name: "@id",
-              value: databaseDefinition.id
+              value: database.id
             }
           ]
         };
         const { result: results } = await client.databases.query(querySpec0).toArray();
         assert(results.length > 0, "number of results for the query should be > 0");
         const querySpec1 = {
-          query: "SELECT * FROM root r WHERE r.id='" + databaseDefinition.id + "'"
+          query: "SELECT * FROM root r WHERE r.id='" + database.id + "'"
         };
         const { result: results2 } = await client.databases.query(querySpec1).toArray();
         assert(results2.length > 0, "number of results for the query should be > 0");
-        const querySpec2 = "SELECT * FROM root r WHERE r.id='" + databaseDefinition.id + "'";
+        const querySpec2 = "SELECT * FROM root r WHERE r.id='" + database.id + "'";
         const { result: results3 } = await client.databases.query(querySpec2).toArray();
         assert(results3.length > 0, "number of results for the query should be > 0");
       } catch (err) {
@@ -87,7 +81,7 @@ describe("NodeJS CRUD Tests", function() {
       };
 
       const containerOptions = { offerThroughput: 12000 };
-      container = await getTestContainer(client, "query CRUD database 中文", containerDefinition, containerOptions);
+      container = await getTestContainer("query CRUD database 中文", client, containerDefinition, containerOptions);
       await bulkInsertItems(container, documentDefinitions);
     });
 
@@ -107,7 +101,7 @@ describe("NodeJS CRUD Tests", function() {
     this.timeout(30000);
     let resources: { container: Container; doc1: any; doc2: any; doc3: any };
     beforeEach(async function() {
-      const container = await getTestContainer(client, "Validate QueryIterator Functionality");
+      const container = await getTestContainer("Validate QueryIterator Functionality", client);
       const { body: doc1 } = await container.items.create({ id: "doc1", prop1: "value1" });
       const { body: doc2 } = await container.items.create({ id: "doc2", prop1: "value2" });
       const { body: doc3 } = await container.items.create({ id: "doc3", prop1: "value3" });

@@ -1,21 +1,9 @@
 import * as assert from "assert";
-import { CosmosClient, DocumentBase } from "../../";
+import { DocumentBase } from "../../";
 import { Container, TriggerDefinition } from "../../client";
-import testConfig from "./../common/_testConfig";
-import { removeAllDatabases } from "./../common/TestHelpers";
+import { getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
 
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
-const dbId = "trigger databse";
-const containerId = "trigger container";
-const client = new CosmosClient({
-  endpoint,
-  auth: { masterKey }
-});
 const notFoundErrorCode = 404;
-
-// TODO: should fix long lines
-// tslint:disable:max-line-length
 
 // Mock for trigger function bodies
 declare var getContext: any;
@@ -25,18 +13,8 @@ describe("NodeJS CRUD Tests", function() {
   let container: Container;
 
   beforeEach(async function() {
-    // remove all databases from the endpoint before each test
-    await removeAllDatabases(client);
-
-    // create database
-    await client.databases.create({
-      id: dbId
-    });
-
-    // create container
-    await client.database(dbId).containers.create({ id: containerId });
-
-    container = await client.database(dbId).container(containerId);
+    await removeAllDatabases();
+    container = await getTestContainer("trigger container");
   });
 
   describe("Validate Trigger CRUD", function() {

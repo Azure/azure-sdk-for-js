@@ -1,14 +1,12 @@
 ﻿import * as assert from "assert";
 import { Constants, CosmosClient, IHeaders } from "../../";
-import testConfig from "./../common/_testConfig";
+import { endpoint, masterKey } from "./../common/_testConfig";
+
+const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 // TODO: Should evaluate whether any of these tests are necessary. Are these really public apis?
 
 describe("DocumentClient Tests", function() {
-  const endpoint = testConfig.host;
-  const masterKey = testConfig.masterKey;
-  const client = new CosmosClient({ endpoint, auth: { masterKey } });
-
   describe("setIsUpsertHeader", function() {
     it("Should add is-upsert header.", function(done) {
       const headers = client.documentClient.defaultHeaders;

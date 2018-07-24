@@ -1,15 +1,11 @@
 import * as assert from "assert";
 import { Base, Container, CosmosClient, DocumentBase, UriFactory } from "../../";
 import { Database } from "../../client";
-import testConfig from "./../common/_testConfig";
+import { endpoint } from "./../common/_testConfig";
 import { getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
-
-const endpoint = testConfig.host;
-const masterKey = testConfig.masterKey;
 
 describe("Authorization", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
   // TODO: should have types for all these things
   let database: Database;
@@ -28,10 +24,10 @@ describe("Authorization", function() {
   /************** TEST **************/
 
   beforeEach(async function() {
-    await removeAllDatabases(client);
+    await removeAllDatabases();
 
     // create a database & container
-    container = await getTestContainer(client, "Authorization tests");
+    container = await getTestContainer("Authorization tests");
     database = container.database;
 
     // create userReadPermission
@@ -60,7 +56,7 @@ describe("Authorization", function() {
   });
 
   afterEach(async function() {
-    await removeAllDatabases(client);
+    await removeAllDatabases();
   });
 
   it("Accessing container by resourceTokens", async function() {
