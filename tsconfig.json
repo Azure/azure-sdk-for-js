@@ -6,20 +6,12 @@
     "noImplicitAny": true,
     "outDir": "./lib",
     "preserveConstEnums": true,
-    "removeComments": true,
+    "removeComments": false,
     "target": "es6",
     "sourceMap": true,
     "newLine": "LF",
-    "lib": [
-      "es6",
-      "esnext.asynciterable"
-    ]
+    "lib": ["es6", "esnext.asynciterable"]
   },
-  "include": [
-    "./src/**/*",
-    "./test/**/*.spec.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./src/**/*", "./test/**/*.spec.ts"],
+  "exclude": ["node_modules"]
 }
