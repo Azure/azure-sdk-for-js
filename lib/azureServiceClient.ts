@@ -68,12 +68,16 @@ export class AzureServiceClient extends ServiceClient {
    * @returns {Promise<HttpOperationResponse>} The final response after polling is complete.
    */
   async getLongRunningOperationResult(initialResponse: HttpOperationResponse, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
-    const lroPollStrategy: LROPollStrategy = createLROPollStrategy(initialResponse, this, options);
-    const succeeded: boolean = await lroPollStrategy.pollUntilFinished();
-    if (succeeded) {
-      return lroPollStrategy.getOperationResponse();
+    const lroPollStrategy: LROPollStrategy | undefined = createLROPollStrategy(initialResponse, this, options);
+    if (!lroPollStrategy) {
+      return initialResponse;
     } else {
-      throw lroPollStrategy.getRestError();
+      const succeeded: boolean = await lroPollStrategy.pollUntilFinished();
+      if (succeeded) {
+        return lroPollStrategy.getOperationResponse();
+      } else {
+        throw lroPollStrategy.getRestError();
+      }
     }
   }
 }
