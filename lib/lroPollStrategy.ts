@@ -51,7 +51,8 @@ export abstract class LROPollStrategy {
   protected abstract finalStatusIsAcceptable(): boolean;
 
   protected shouldDoFinalGetResourceRequest(): boolean {
-    return !this._resource && (this._initialRequestMethod === "PUT" || this._initialRequestMethod === "PATCH" || this._initialRequestMethod === "POST");
+    const initialRequestMethod: HttpMethods = this._initialRequestMethod;
+    return !this._resource && (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH" || initialRequestMethod === "POST");
   }
 
   protected abstract doFinalGetResourceRequest(): Promise<void>;
@@ -60,16 +61,18 @@ export abstract class LROPollStrategy {
     if (this.shouldDoFinalGetResourceRequest()) {
       await this.doFinalGetResourceRequest();
     }
+    const response: HttpOperationResponse = this._response;
     const result: HttpOperationResponse = {
-      ...this._response,
-      headers: this._response.headers.clone()
+      ...response,
+      headers: response.headers.clone()
     };
-    if (this._resource && typeof this._resource.valueOf() === "string") {
-      result.bodyAsText = this._resource;
-      result.parsedBody = JSON.parse(this._resource);
+    const resource: any = this._resource;
+    if (resource && typeof resource.valueOf() === "string") {
+      result.bodyAsText = resource;
+      result.parsedBody = JSON.parse(resource);
     } else {
-      result.bodyAsText = JSON.stringify(this._resource);
-      result.parsedBody = this._resource;
+      result.bodyAsText = JSON.stringify(resource);
+      result.parsedBody = resource;
     }
     return result;
   }
@@ -257,16 +260,18 @@ class LocationLROPollStrategy extends LROPollStrategy {
       this._response = result;
       this._mostRecentRequest = result.request;
 
+      const initialRequestMethod: HttpMethods = this._initialRequestMethod;
+      const initialResponseStatusCode: number = this._initialResponseStatusCode;
       const statusCode: number = result.status;
       if (statusCode === 202) {
         this._status = "InProgress";
       } else if (statusCode === 200 ||
-        (statusCode === 201 && (this._initialRequestMethod === "PUT" || this._initialRequestMethod === "PATCH")) ||
-        (statusCode === 204 && (this._initialRequestMethod === "DELETE" || this._initialRequestMethod === "POST"))) {
+        (statusCode === 201 && (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH")) ||
+        (statusCode === 204 && (initialRequestMethod === "DELETE" || initialRequestMethod === "POST"))) {
         this._status = "Succeeded";
         this._resource = getResponseBody(result);
       } else if (statusCode === 404 && this._initialRequestMethod === "POST" &&
-        (this._initialResponseStatusCode === 200 || this._initialResponseStatusCode === 201 || this._initialResponseStatusCode === 202)) {
+        (initialResponseStatusCode === 200 || initialResponseStatusCode === 201 || initialResponseStatusCode === 202)) {
         this._status = "Failed";
         this._resource = getResponseBody(result);
       } else {
@@ -276,33 +281,37 @@ class LocationLROPollStrategy extends LROPollStrategy {
   }
 
   protected finalStatusIsAcceptable(): boolean {
+    const initialResponseStatusCode: number = this._initialResponseStatusCode;
     return this._status === "Succeeded" ||
       (this._initialRequestMethod === "POST" && this._response.status === 404 &&
-        (this._initialResponseStatusCode === 200 ||
-          this._initialResponseStatusCode === 201 ||
-          this._initialResponseStatusCode === 202));
+        (initialResponseStatusCode === 200 ||
+          initialResponseStatusCode === 201 ||
+          initialResponseStatusCode === 202));
   }
 
   protected shouldDoFinalGetResourceRequest(): boolean {
     let result: boolean;
-    if (this._initialRequestMethod === "POST" && this._response.status === 404 &&
-      (this._initialResponseStatusCode === 200 ||
-        this._initialResponseStatusCode === 201 ||
-        this._initialResponseStatusCode === 202)) {
+    const initialRequestMethod: HttpMethods = this._initialRequestMethod;
+    const initialResponseStatusCode: number = this._initialResponseStatusCode;
+    if (initialRequestMethod === "POST" && this._response.status === 404 &&
+      (initialResponseStatusCode === 200 ||
+        initialResponseStatusCode === 201 ||
+        initialResponseStatusCode === 202)) {
       result = false;
     } else {
       result = super.shouldDoFinalGetResourceRequest() ||
-        (this._initialRequestMethod === "POST" && this._initialResponseStatusCode === 201);
+        (initialRequestMethod === "POST" && initialResponseStatusCode === 201);
     }
     return result;
   }
 
   protected doFinalGetResourceRequest(): Promise<void> {
     let getResourceRequestUrl: string;
+    const initialResponseStatusCode: number = this._initialResponseStatusCode;
     if (this._initialRequestMethod === "POST" &&
-        (this._initialResponseStatusCode === 200 ||
-         this._initialResponseStatusCode === 201 ||
-         this._initialResponseStatusCode === 202)) {
+        (initialResponseStatusCode === 200 ||
+         initialResponseStatusCode === 201 ||
+         initialResponseStatusCode === 202)) {
       getResourceRequestUrl = this._locationHeaderValue!;
     } else {
       getResourceRequestUrl = this._initialRequestUrl;
@@ -346,15 +355,17 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
   }
 
   protected shouldDoFinalGetResourceRequest(): boolean {
+    const initialRequestMethod: HttpMethods = this._initialRequestMethod;
     let result = false;
-    if (this._initialRequestMethod === "PUT" || this._initialRequestMethod === "PATCH") {
+    if (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH") {
       result = true;
     } else {
       if (this._locationHeaderValue) {
-        if (this._initialRequestMethod === "POST") {
-          result = this._initialResponseStatusCode === 200 || this._initialResponseStatusCode === 201 || this._initialResponseStatusCode === 202;
-        } else if (this._initialRequestMethod === "DELETE") {
-          result = this._initialResponseStatusCode === 200 || this._initialResponseStatusCode === 202;
+        const initialResponseStatusCode: number = this._initialResponseStatusCode;
+        if (initialRequestMethod === "POST") {
+          result = initialResponseStatusCode === 200 || initialResponseStatusCode === 201 || initialResponseStatusCode === 202;
+        } else if (initialRequestMethod === "DELETE") {
+          result = initialResponseStatusCode === 200 || initialResponseStatusCode === 202;
         }
       }
     }
@@ -362,20 +373,24 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
   }
 
   protected doFinalGetResourceRequest(): Promise<void> {
+    const locationHeaderValue: string | undefined = this._locationHeaderValue;
     let getResourceRequestUrl: string = this._initialRequestUrl;
-    if (this._locationHeaderValue) {
-      if (this._initialRequestMethod === "POST" && (this._initialResponseStatusCode === 200 || this._initialResponseStatusCode === 201 || this._initialResponseStatusCode === 202)) {
-        getResourceRequestUrl = this._locationHeaderValue;
-      } else if (this._initialRequestMethod === "DELETE" && (this._initialResponseStatusCode === 200 || this._initialResponseStatusCode === 202)) {
-        getResourceRequestUrl = this._locationHeaderValue;
+    if (locationHeaderValue) {
+      const initialRequestMethod: HttpMethods = this._initialRequestMethod;
+      const initialResponseStatusCode: number = this._initialResponseStatusCode;
+      if (initialRequestMethod === "POST" && (initialResponseStatusCode === 200 || initialResponseStatusCode === 201 || initialResponseStatusCode === 202)) {
+        getResourceRequestUrl = locationHeaderValue;
+      } else if (initialRequestMethod === "DELETE" && (initialResponseStatusCode === 200 || initialResponseStatusCode === 202)) {
+        getResourceRequestUrl = locationHeaderValue;
       }
     }
     return this.updateState(getResourceRequestUrl);
   }
 
   protected finalStatusIsAcceptable(): boolean {
+    const initialResponseStatusCode: number = this._initialResponseStatusCode;
     return this._status === "Succeeded" ||
-      (this._initialRequestMethod === "POST" && (this._initialResponseStatusCode === 200 || this._initialResponseStatusCode === 201));
+      (this._initialRequestMethod === "POST" && (initialResponseStatusCode === 200 || initialResponseStatusCode === 201));
   }
 }
 
