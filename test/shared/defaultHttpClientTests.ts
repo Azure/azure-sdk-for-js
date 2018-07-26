@@ -4,8 +4,10 @@ import * as assert from "assert";
 import * as should from "should";
 import { DefaultHttpClient } from "../../lib/defaultHttpClient";
 import { isNode } from "../../lib/util/utils";
-import { WebResource } from "../../lib/webResource";
+import { WebResource, HttpRequestBody } from "../../lib/webResource";
 import { baseURL } from "../testUtils";
+import { createReadStream } from 'fs';
+import { join } from 'path';
 
 function getAbortController(): AbortController {
   let controller: AbortController;
@@ -151,31 +153,70 @@ describe("defaultHttpClient", () => {
     }
   });
 
-  it("should report upload and download progress (browser only)", async function () {
-    if (isNode) {
-      this.skip();
-    }
-
+  it("should report upload and download progress for simple bodies", async function () {
     let uploadNotified = false;
     let downloadNotified = false;
 
-    const buf = new Uint8Array(1024 * 1024 * 1);
-    const request = new WebResource(`${baseURL}/fileupload`, "POST", buf, undefined, undefined, true, undefined, undefined, 0,
+    const body = isNode ? new Buffer(1024 * 1024) : new Uint8Array(1024 * 1024);
+    const request = new WebResource(`${baseURL}/fileupload`, "POST", body, undefined, undefined, false, undefined, undefined, 0,
       ev => {
         uploadNotified = true;
-        ev.should.not.be.instanceof(ProgressEvent);
+        if (typeof ProgressEvent !== "undefined") {
+          ev.should.not.be.instanceof(ProgressEvent);
+        }
         ev.loadedBytes.should.be.a.Number;
       },
       ev => {
         downloadNotified = true;
-        ev.should.not.be.instanceof(ProgressEvent);
+        if (typeof ProgressEvent !== "undefined") {
+          ev.should.not.be.instanceof(ProgressEvent);
+        }
+        ev.loadedBytes.should.be.a.Number;
+      });
+
+    const client = new DefaultHttpClient();
+    await client.sendRequest(request);
+    assert(uploadNotified);
+    assert(downloadNotified);
+  });
+
+  it("should report upload and download progress for blob or stream bodies", async function() {
+    let uploadNotified = false;
+    let downloadNotified = false;
+
+    let body: HttpRequestBody;
+    if (isNode) {
+      body = () => createReadStream(join(__dirname, "..", "resources", "example-index.html"));
+    } else {
+      body = new Blob([new Uint8Array(1024 * 1024)]);
+    }
+    const request = new WebResource(`${baseURL}/fileupload`, "POST", body, undefined, undefined, true, undefined, undefined, 0,
+      ev => {
+        uploadNotified = true;
+        if (typeof ProgressEvent !== "undefined") {
+          ev.should.not.be.instanceof(ProgressEvent);
+        }
+        ev.loadedBytes.should.be.a.Number;
+      },
+      ev => {
+        downloadNotified = true;
+        if (typeof ProgressEvent !== "undefined") {
+          ev.should.not.be.instanceof(ProgressEvent);
+        }
         ev.loadedBytes.should.be.a.Number;
       });
 
     const client = new DefaultHttpClient();
     const response = await client.sendRequest(request);
+    const streamBody = response.readableStreamBody;
     if (response.blobBody) {
       await response.blobBody();
+    } else if (streamBody) {
+      streamBody.on('data', () => {});
+      await new Promise((resolve, reject) => {
+        streamBody.on("end", resolve);
+        streamBody.on("error", reject);
+      });
     }
     assert(uploadNotified);
     assert(downloadNotified);
