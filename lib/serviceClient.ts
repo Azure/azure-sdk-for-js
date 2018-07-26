@@ -79,6 +79,12 @@ export class ServiceClient {
   protected baseUri?: string;
 
   /**
+   * The default request content type for the service.
+   * Used if no requestContentType is present on an OperationSpec.
+   */
+  protected requestContentType?: string;
+
+  /**
    * The string to be appended to the User-Agent header while sending the request.
    * This will be applicable only for node.js environment as the fetch library in browser does not allow setting custom UA.
    */
@@ -235,8 +241,9 @@ export class ServiceClient {
       }
       httpRequest.url = requestUrl.toString();
 
-      if (operationSpec.contentType) {
-        httpRequest.headers.set("Content-Type", operationSpec.contentType);
+      const contentType = operationSpec.contentType || this.requestContentType;
+      if (contentType) {
+        httpRequest.headers.set("Content-Type", contentType);
       }
 
       if (operationSpec.headerParameters) {
