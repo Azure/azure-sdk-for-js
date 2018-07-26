@@ -48,9 +48,7 @@ export abstract class LROPollStrategy {
 
   protected abstract sendPollRequest(): Promise<void>;
 
-  protected finalStatusIsAcceptable(): boolean {
-    return this._status === "Succeeded";
-  }
+  protected abstract finalStatusIsAcceptable(): boolean;
 
   protected shouldDoFinalGetResourceRequest(): boolean {
     return !this._resource && (this._initialRequestMethod === "PUT" || this._initialRequestMethod === "PATCH" || this._initialRequestMethod === "POST");
@@ -98,19 +96,6 @@ export abstract class LROPollStrategy {
 
   protected updateState(url: string): Promise<void> {
     return this.getStatus(url).then(result => {
-      this._status = getProvisioningState(result.parsedBody) || "Succeeded";
-      this._response = result;
-      this._mostRecentRequest = result.request;
-      this._resource = getResponseBody(result);
-    });
-  }
-
-  protected updateStateFromGetResourceOperation(): Promise<void> {
-    return this.getStatus(this._initialRequestUrl).then(result => {
-      if (!result.parsedBody) {
-        throw new Error("The response from long running operation does not contain a body.");
-      }
-
       this._status = getProvisioningState(result.parsedBody) || "Succeeded";
       this._response = result;
       this._mostRecentRequest = result.request;
@@ -238,11 +223,9 @@ export function createLROPollStrategy(initialResponse: HttpOperationResponse, az
     result = new AzureAsyncOperationLROPollStrategy(initialResponse, azureServiceClient, options);
   } else if (getLocationHeaderValue(initialResponse)) {
     result = new LocationLROPollStrategy(initialResponse, azureServiceClient, options);
-  } else if (initialResponse.request.method === "PUT" || initialResponse.request.method === "PATCH" || isFinished(getStatusFromResponse(initialResponse))) {
+  } else if (initialResponse.request.method === "PUT" || initialResponse.request.method === "PATCH") {
     result = new GetResourceLROPollStrategy(initialResponse, azureServiceClient, options);
-  } else if (initialResponse.status === 201 || initialResponse.status === 202) {
-    // If the initial response didn't contain either azure-asyncoperation or location header, then
-    // we won't do any polling and we'll just return the initial response.
+  } else if (initialResponse.status === 201 || initialResponse.status === 202 || isFinished(getStatusFromResponse(initialResponse))) {
     result = undefined;
   } else {
     throw new Error("Can't determine long running operation polling strategy from initial response.");
@@ -282,7 +265,8 @@ class LocationLROPollStrategy extends LROPollStrategy {
         (statusCode === 204 && (this._initialRequestMethod === "DELETE" || this._initialRequestMethod === "POST"))) {
         this._status = "Succeeded";
         this._resource = getResponseBody(result);
-      } else if (statusCode === 404 && this._initialRequestMethod === "POST" && (this._initialRequestStatusCode === 200 || this._initialRequestStatusCode === 201 || this._initialRequestStatusCode === 202)) {
+      } else if (statusCode === 404 && this._initialRequestMethod === "POST" &&
+        (this._initialRequestStatusCode === 200 || this._initialRequestStatusCode === 201 || this._initialRequestStatusCode === 202)) {
         this._status = "Failed";
         this._resource = getResponseBody(result);
       } else {
@@ -292,17 +276,19 @@ class LocationLROPollStrategy extends LROPollStrategy {
   }
 
   protected finalStatusIsAcceptable(): boolean {
-    return super.finalStatusIsAcceptable() ||
-      (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 200 && this._response.status === 404) ||
-      (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 201 && this._response.status === 404) ||
-      (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 202 && this._response.status === 404);
+    return this._status === "Succeeded" ||
+      (this._initialRequestMethod === "POST" && this._response.status === 404 &&
+        (this._initialRequestStatusCode === 200 ||
+          this._initialRequestStatusCode === 201 ||
+          this._initialRequestStatusCode === 202));
   }
 
   protected shouldDoFinalGetResourceRequest(): boolean {
     let result: boolean;
-    if ((this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 200 && this._response.status === 404) ||
-        (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 201 && this._response.status === 404) ||
-        (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 202 && this._response.status === 404)) {
+    if (this._initialRequestMethod === "POST" && this._response.status === 404 &&
+      (this._initialRequestStatusCode === 200 ||
+        this._initialRequestStatusCode === 201 ||
+        this._initialRequestStatusCode === 202)) {
       result = false;
     } else {
       result = super.shouldDoFinalGetResourceRequest() ||
@@ -313,9 +299,10 @@ class LocationLROPollStrategy extends LROPollStrategy {
 
   protected doFinalGetResourceRequest(): Promise<void> {
     let getResourceRequestUrl: string;
-    if ((this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 200) ||
-        (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 201) ||
-        (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 202)) {
+    if (this._initialRequestMethod === "POST" &&
+        (this._initialRequestStatusCode === 200 ||
+         this._initialRequestStatusCode === 201 ||
+         this._initialRequestStatusCode === 202)) {
       getResourceRequestUrl = this._locationHeaderValue!;
     } else {
       getResourceRequestUrl = this._initialRequestUrl;
@@ -359,33 +346,36 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
   }
 
   protected shouldDoFinalGetResourceRequest(): boolean {
-    return this._initialRequestMethod === "PUT" ||
-      this._initialRequestMethod === "PATCH" ||
-      (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 200 && !!this._locationHeaderValue) ||
-      (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 201 && !!this._locationHeaderValue) ||
-      (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 202 && !!this._locationHeaderValue) ||
-      (this._initialRequestMethod === "DELETE" && this._initialRequestStatusCode === 200 && !!this._locationHeaderValue) ||
-      (this._initialRequestMethod === "DELETE" && this._initialRequestStatusCode === 202 && !!this._locationHeaderValue);
+    let result = false;
+    if (this._initialRequestMethod === "PUT" || this._initialRequestMethod === "PATCH") {
+      result = true;
+    } else {
+      if (this._locationHeaderValue) {
+        if (this._initialRequestMethod === "POST") {
+          result = this._initialRequestStatusCode === 200 || this._initialRequestStatusCode === 201 || this._initialRequestStatusCode === 202;
+        } else if (this._initialRequestMethod === "DELETE") {
+          result = this._initialRequestStatusCode === 200 || this._initialRequestStatusCode === 202;
+        }
+      }
+    }
+    return result;
   }
 
   protected doFinalGetResourceRequest(): Promise<void> {
-    let getResourceRequestUrl: string;
-    if ((this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 200 && this._locationHeaderValue) ||
-        (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 201 && this._locationHeaderValue) ||
-        (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 202 && this._locationHeaderValue) ||
-        (this._initialRequestMethod === "DELETE" && this._initialRequestStatusCode === 200 && !!this._locationHeaderValue) ||
-        (this._initialRequestMethod === "DELETE" && this._initialRequestStatusCode === 202 && !!this._locationHeaderValue)) {
-      getResourceRequestUrl = this._locationHeaderValue;
-    } else {
-      getResourceRequestUrl = this._initialRequestUrl;
+    let getResourceRequestUrl: string = this._initialRequestUrl;
+    if (this._locationHeaderValue) {
+      if (this._initialRequestMethod === "POST" && (this._initialRequestStatusCode === 200 || this._initialRequestStatusCode === 201 || this._initialRequestStatusCode === 202)) {
+        getResourceRequestUrl = this._locationHeaderValue;
+      } else if (this._initialRequestMethod === "DELETE" && (this._initialRequestStatusCode === 200 || this._initialRequestStatusCode === 202)) {
+        getResourceRequestUrl = this._locationHeaderValue;
+      }
     }
     return this.updateState(getResourceRequestUrl);
   }
 
   protected finalStatusIsAcceptable(): boolean {
-    return super.finalStatusIsAcceptable() ||
-      (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 200) ||
-      (this._initialRequestMethod === "POST" && this._initialRequestStatusCode === 201);
+    return this._status === "Succeeded" ||
+      (this._initialRequestMethod === "POST" && (this._initialRequestStatusCode === 200 || this._initialRequestStatusCode === 201));
   }
 }
 
@@ -394,10 +384,23 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
  */
 class GetResourceLROPollStrategy extends LROPollStrategy {
   protected sendPollRequest(): Promise<void> {
-    return this.updateStateFromGetResourceOperation();
+    return this.getStatus(this._initialRequestUrl).then(result => {
+      if (!result.parsedBody) {
+        throw new Error("The response from long running operation does not contain a body.");
+      }
+
+      this._status = getProvisioningState(result.parsedBody) || "Succeeded";
+      this._response = result;
+      this._mostRecentRequest = result.request;
+      this._resource = getResponseBody(result);
+    });
+  }
+
+  protected finalStatusIsAcceptable(): boolean {
+    return this._status === "Succeeded";
   }
 
   protected doFinalGetResourceRequest(): Promise<void> {
-    return this.updateStateFromGetResourceOperation();
+    return this.sendPollRequest();
   }
 }
