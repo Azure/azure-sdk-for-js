@@ -30,7 +30,7 @@
   "types": "./typings/lib/msRestAzure.d.ts",
   "license": "MIT",
   "dependencies": {
-    "ms-rest-js": "~0.16.373",
+    "ms-rest-js": "~0.16.374",
     "tslib": "^1.9.2"
   },
   "devDependencies": {

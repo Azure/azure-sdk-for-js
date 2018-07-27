@@ -67,7 +67,10 @@ export abstract class LROPollStrategy {
       headers: response.headers.clone()
     };
     const resource: any = this._resource;
-    if (resource && typeof resource.valueOf() === "string") {
+    if (!resource) {
+      result.bodyAsText = response.bodyAsText;
+      result.parsedBody = response.parsedBody;
+    } else if (typeof resource.valueOf() === "string") {
       result.bodyAsText = resource;
       result.parsedBody = JSON.parse(resource);
     } else {
@@ -102,7 +105,15 @@ export abstract class LROPollStrategy {
       this._status = getProvisioningState(result.parsedBody) || "Succeeded";
       this._response = result;
       this._mostRecentRequest = result.request;
-      this._resource = getResponseBody(result);
+      try {
+        this._resource = getResponseBody(result);
+      } catch (error) {
+        this._resource = undefined;
+        const resultStatus: number = result.status;
+        if (this._initialRequestMethod !== "DELETE" || resultStatus < 400 || 499 < resultStatus) {
+          throw error;
+        }
+      }
     });
   }
 
@@ -270,10 +281,13 @@ class LocationLROPollStrategy extends LROPollStrategy {
         (statusCode === 204 && (initialRequestMethod === "DELETE" || initialRequestMethod === "POST"))) {
         this._status = "Succeeded";
         this._resource = getResponseBody(result);
-      } else if (statusCode === 404 && this._initialRequestMethod === "POST" &&
+      } else if (statusCode === 404 && initialRequestMethod === "POST" &&
         (initialResponseStatusCode === 200 || initialResponseStatusCode === 201 || initialResponseStatusCode === 202)) {
         this._status = "Failed";
         this._resource = getResponseBody(result);
+      } else if (400 <= statusCode && statusCode <= 499) {
+        const resultBody: string = result.bodyAsText!;
+        throw new RestError(resultBody, undefined, statusCode, stripRequest(result.request), result, resultBody);
       } else {
         throw new Error(`The response with status code ${statusCode} from polling for long running operation url "${this._locationHeaderValue}" is not valid.`);
       }
@@ -309,9 +323,9 @@ class LocationLROPollStrategy extends LROPollStrategy {
     let getResourceRequestUrl: string;
     const initialResponseStatusCode: number = this._initialResponseStatusCode;
     if (this._initialRequestMethod === "POST" &&
-        (initialResponseStatusCode === 200 ||
-         initialResponseStatusCode === 201 ||
-         initialResponseStatusCode === 202)) {
+      (initialResponseStatusCode === 200 ||
+        initialResponseStatusCode === 201 ||
+        initialResponseStatusCode === 202)) {
       getResourceRequestUrl = this._locationHeaderValue!;
     } else {
       getResourceRequestUrl = this._initialRequestUrl;
@@ -335,7 +349,17 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
    */
   protected sendPollRequest(): Promise<void> {
     return this.getStatus(this._azureAsyncOperationHeaderValue!).then((response: HttpOperationResponse) => {
+      const statusCode: number = response.status;
       const parsedResponse: any = response.parsedBody;
+      if (statusCode !== 200 && statusCode !== 201 && statusCode !== 202 && statusCode !== 204) {
+        const error = new RestError(`Invalid status code with response body "${response.bodyAsText}" occurred when polling for operation status.`);
+        error.statusCode = statusCode;
+        error.request = stripRequest(response.request);
+        error.response = response;
+        error.body = parsedResponse;
+        throw error;
+      }
+
       if (!parsedResponse) {
         throw new Error("The response from long running operation does not contain a body.");
       } else if (!parsedResponse.status) {
@@ -400,6 +424,17 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
 class GetResourceLROPollStrategy extends LROPollStrategy {
   protected sendPollRequest(): Promise<void> {
     return this.getStatus(this._initialRequestUrl).then(result => {
+      const statusCode: number = result.status;
+      const responseBody: any = result.parsedBody;
+      if (statusCode !== 200 && statusCode !== 201 && statusCode !== 202 && statusCode !== 204) {
+        const error = new RestError(`Invalid status code with response body "${result.bodyAsText}" occurred when polling for operation status.`);
+        error.statusCode = statusCode;
+        error.request = stripRequest(result.request);
+        error.response = result;
+        error.body = responseBody;
+        throw error;
+      }
+
       if (!result.parsedBody) {
         throw new Error("The response from long running operation does not contain a body.");
       }
