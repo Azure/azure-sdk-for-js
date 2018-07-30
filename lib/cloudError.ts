@@ -1,3 +1,5 @@
+import { CompositeMapper } from "ms-rest-js";
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
@@ -24,7 +26,7 @@ export interface CloudError extends Error {
   details?: Array<CloudError>;
 }
 
-export const CloudErrorMapper = {
+export const CloudErrorMapper: CompositeMapper = {
   serializedName: "CloudError",
   type: {
     name: "Composite",
