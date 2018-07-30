@@ -209,12 +209,12 @@ export class EventHubReceiver extends LinkEntity {
       const receiverError = context.receiver && context.receiver.error;
       const sessionError = context.session && context.session.error;
       if (receiverError) {
-        const ehError = translate(context.receiver!.error!);
+        const ehError = translate(receiverError);
         debug("[%s] An error occurred for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
         this._onError!(ehError);
       } else if (sessionError) {
-        const ehError = translate(context.receiver!.error!);
+        const ehError = translate(sessionError);
         debug("[%s] An error occurred on the session for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
         this._onError!(ehError);
@@ -228,13 +228,15 @@ export class EventHubReceiver extends LinkEntity {
         debug("[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
           "The associated error is: %O", this._context.connectionId, this.name,
           this.address, receiverError);
+        debug("[%s] Calling detached() of receiver '%s' with address '%s to revive the link.",
+          this._context.connectionId, this.name, this.address);
+        await this.detached(receiverError);
       } else if (sessionError) {
         debug("[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
           this._context.connectionId, this.name, sessionError);
+        // TODO: session_close and session_error needs to be handled correctly, same problem in
+        // sender.
       }
-      debug("[%s] Calling detached() of receiver '%s' with address '%s to revive the link.",
-        this._context.connectionId, this.name, this.address);
-      await this.detached(receiverError || sessionError);
     };
   }
 
