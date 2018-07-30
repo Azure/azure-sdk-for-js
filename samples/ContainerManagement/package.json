@@ -1,9 +1,11 @@
 {
-  "name": "DocumentDB.Samples.CollectionManagement",
+  "name": "cosmos-container-management",
   "version": "0.0.0",
-  "description": "DocumentDB.Samples.CollectionManagement",
+  "private": true,
+  "description": "A sample showing managing containers in Cosmos DB",
   "main": "app.js",
-  "dependencies": {
-    "documentdb": "^1.5.5"
+  "dependencies": {},
+  "scripts": {
+    "start": "node app.js"
   }
 }

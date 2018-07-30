@@ -1,24 +1,24 @@
 ﻿// @ts-check
-'use strict';
+"use strict";
 console.log();
-console.log('Azure Cosmos DB Node.js Samples');
-console.log('================================');
+console.log("Azure Cosmos DB Node.js Samples");
+console.log("================================");
 console.log();
-console.log('container MANAGEMENT');
-console.log('=====================');
+console.log("container MANAGEMENT");
+console.log("=====================");
 console.log();
 
-const cosmos = require('../../lib/');
+const cosmos = require("../../lib/");
 const CosmosClient = cosmos.CosmosClient;
-const config = require('../Shared/config')
-const databaseId = config.names.database
-const containerId = config.names.container
+const config = require("../Shared/config");
+const databaseId = config.names.database;
+const containerId = config.names.container;
 
-var endpoint = config.connection.endpoint;
-var masterKey = config.connection.authKey;
+const endpoint = config.connection.endpoint;
+const masterKey = config.connection.authKey;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
-var client = new CosmosClient({ endpoint, auth: { masterKey } });
+const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
 //---------------------------------------------------------------------------------
 // This demo performs a few steps
@@ -28,77 +28,53 @@ var client = new CosmosClient({ endpoint, auth: { masterKey } });
 // 4. delete container  - given just the container id, delete the container
 //---------------------------------------------------------------------------------
 
-/** @type {cosmos.Database} */
-let database;
-
 //ensuring a database exists for us to work with
 async function run() {
-    await init(databaseId);
+  const database = await init(databaseId);
 
-    //1.
-    console.log('1. create container ith id \'' + containerId + '\'');
-    await database.containers.create({id: containerId});
+  //1.
+  console.log("1. create container with id '" + containerId + "'");
+  await database.containers.createIfNotExists({ id: containerId });
 
-    //2.
-    console.log('\n2. read all containers in database');
-    const iterator = database.containers.readAll();
-    for (const {result} of await iterator.forEach()) {
-        console.log(result.id);
-    }
+  //2.
+  console.log("\n2. read all containers in database");
+  const iterator = database.containers.readAll();
+  const { result: containersList } = await iterator.toArray();
+  console.log(" --- Priting via iterator.toArray");
+  console.log(containersList);
 
-    //3.
-    console.log('\n3. read container definition');
-    const container = database.containers.get(containerId);
-    const {result: containerDef} = await container.read();
+  //3.
+  console.log("\n3. read container definition");
+  const container = database.container(containerId);
+  const { body: containerDef } = await container.read();
 
-    console.log('container with url \'' + container.url + '\' was found its id is \'' + containerDef.id);
+  console.log("container with url '" + container.url + "' was found its id is '" + containerDef.id);
 
-    //4.
-    console.log('\n7. deletecontainer \'' + containerId + '\'');
-    container.delete();
+  //4.
+  console.log("\n4. deletecontainer '" + containerId + "'");
+  await container.delete();
+  await finish(database);
 }
 
 async function init(databaseId) {
-    //we're using queryDatabases here and not readDatabase
-    //readDatabase will throw an exception if resource is not found
-    //queryDatabases will not, it will return empty resultset. 
-
-    var querySpec = {
-        query: 'SELECT * FROM root r WHERE r.id=@id',
-        parameters: [
-            {
-                name: '@id',
-                value: databaseId
-            }
-        ]
-    };
-
-    const { result: results } = await client.databases.query(querySpec).toArray();
-    if (results.length === 0) {
-        var databaseDef = { id: databaseId };
-
-        const { result: newDB } = await client.databases.create(databaseDef);
-        client.databases.get(newDB.id);
-        //database found, return it
-    } else {
-        client.databases.get(results[0].id);
-    }
+  const { database } = await client.databases.createIfNotExists({ id: databaseId });
+  return database;
 }
 
 async function handleError(error) {
-    console.log('\nAn error with code \'' + error.code + '\' has occurred:');
-    console.log('\t' + JSON.parse(error.body).message);
+  console.log("\nAn error with code '" + error.code + "' has occurred:");
+  console.log("\t" + error);
 
-    await finish();
+  await finish();
 }
 
-async function finish() {
-    try {
-        await database.delete();
-        console.log('\nEnd of demo.');
-    } catch (err) {
-        throw err;
-    }
+async function finish(database) {
+  try {
+    await database.delete();
+    console.log("\nEnd of demo.");
+  } catch (err) {
+    console.log(`Database[${databaseId}] might not have deleted properly. You might need to delete it manually.`);
+  }
 }
 
-run().then(finish).catch(handleError);
+run().catch(handleError);

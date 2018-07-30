@@ -1,13 +1,10 @@
 {
   "name": "user-management",
   "version": "0.0.0",
+  "private": true,
   "description": "UserManagement",
-  "main": "app.js",
-  "author": {
-    "name": "hemantk"
+  "scripts": {
+    "start": "node app.js"
   },
-  "dependencies": {
-    "async": "^1.5.2",
-    "documentdb": "^1.12.2"
-  }
+  "dependencies": {}
 }

@@ -1,9 +1,11 @@
 {
-  "name": "DocumentDB.Samples.DatabaseManagement",
+  "name": "cosmos-database-management",
   "version": "0.0.0",
-  "description": "DocumentDB.Samples.DatabaseManagement",
+  "private": true,
+  "description": "A sample showing managing databases in Cosmos DB",
   "main": "app.js",
-  "dependencies": {
-    "documentdb": "^1.5.5"
+  "dependencies": {},
+  "scripts": {
+    "start": "node app.js"
   }
 }

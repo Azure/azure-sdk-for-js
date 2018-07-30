@@ -1,337 +1,260 @@
-﻿'use strict';
+﻿// @ts-check
 console.log();
-console.log('Azure Cosmos DB Node.js Samples');
-console.log('================================');
+console.log("Azure Cosmos DB Node.js Samples");
+console.log("================================");
 console.log();
-console.log('USER MANAGEMENT');
-console.log('================');
+console.log("USER MANAGEMENT");
+console.log("================");
 console.log();
 
-var DocumentDBClient = require('documentdb').DocumentClient
-    , DocumentBase = require('documentdb').DocumentBase
-    , async = require('async')
-    , config = require('../Shared/config')
-    , fs = require('fs')
-    , utils = require('../Shared/utils')
-    , databaseId = config.names.database
-    , dbLink
+const cosmos = require("../../lib/");
+const CosmosClient = cosmos.CosmosClient;
+const config = require("../Shared/config");
+const databaseId = config.names.database;
+const containerId = config.names.container;
 
-var host = config.connection.endpoint;
-var masterKey = config.connection.authKey;
+const endpoint = config.connection.endpoint;
+const masterKey = config.connection.authKey;
+
+const container1Name = "COL1";
+const container2Name = "COL2";
+const user1Name = "Thomas Andersen";
+const user2Name = "Robin Wakefield";
+const item1Name = "item1";
+const item2Name = "item2";
+const item3Name = "item3";
 
 // Establish a new instance of the DocumentDBClient to be used throughout this demo
-var client = new DocumentDBClient(host, { masterKey: masterKey });
+const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
-init(function (data) {
+async function run() {
+  const resources = await init();
+  await attemptAdminOperations(resources.container1, resources.user1, resources.permission1);
+  await attemptWriteWithReadPermissionAsync(resources.container1, resources.user1, resources.permission1);
+  await attemptReadFromTwoCollections(
+    resources.container1,
+    resources.container2,
+    resources.user1,
+    resources.permission1,
+    resources.permission3
+  );
+  await finish();
+}
 
-    //Callback called when all the required data is ready.
+async function init() {
+  //--------------------------------------------------------------------------------------------------
+  // We need a database, two containers, two users, and some permissions for this sample,
+  // So let's go ahead and set these up initially
+  //--------------------------------------------------------------------------------------------------
+  const { database } = await client.databases.createIfNotExists({ id: databaseId });
+  const { container: container1 } = await database.containers.createIfNotExists({ id: container1Name });
+  const { container: container2 } = await database.containers.createIfNotExists({ id: container2Name });
 
-    //attempt admin operation. It should fail as the user does have only read access
-    attemptAdminOperations(data.col1, data.user1, data.user1Col1ReadPermission)
+  let itemSpec = { id: item1Name };
 
-    //attempts to write a document on a collection where user has access to read only
-    attemptWriteWithReadPermissionAsync(data.col1, data.user1, data.user1Col1ReadPermission);
+  let userDef = { id: user1Name };
 
-    //attempts to read from 2 collections.
-    attemptReadFromTwoCollections(data.col1, data.col2, data.user1, data.user1Col1ReadPermission, data.user1ReadCol2Permission)
-   
-});
+  let permissionDef;
 
-function init(callback)
-{
-    //--------------------------------------------------------------------------------------------------
-    // We need a Database, Two Collections, Two Users, and some permissions for this sample,
-    // So let's go ahead and set these up initially
-    //--------------------------------------------------------------------------------------------------
-    utils.getOrCreateDatabase(client, databaseId, function (err,db) {
+  const { body: itemDef, item: item1 } = await container1.items.create(itemSpec);
+  console.log(item1Name + "Created in " + container1Name + " !");
 
-        if (err)
-        {
-            handleError(err);
-        } else
-        {
-            var databaseLink = 'dbs/' + databaseId;
-            var col1Name = "COL1";
-            var col2Name = "COL2";
-            var user1Name = "Thomas Andersen";
-            var user2Name = "Robin Wakefield";
-            var doc1Name = "doc1";
-            var doc2Name = "doc2";
-            var doc3Name = "doc3";
-            
-            utils.getOrCreateCollection(client, databaseLink, col1Name, function (err, col1)
-            {
-                if (err) {
-                    handleError(err);
-                } else {
+  itemSpec = { id: item2Name };
 
-                    utils.getOrCreateCollection(client, databaseLink, col2Name, function (err, col2) {
+  const { item: item2 } = await container1.items.create(itemSpec);
+  console.log(item2Name + "Created in " + container1Name + " !");
 
-                        if (err) {
-                            handleError(err);
-                        } else {
+  itemSpec = { id: item3Name };
 
-                            var col1Link = databaseLink + '/colls/' + col1Name;
-                            var col2Link = databaseLink + '/colls/' + col2Name;
+  const { item: item3 } = await container2.items.create(itemSpec);
+  console.log(item3Name + " Created in " + container2Name + " !");
 
-                            var docDef = { id: doc1Name };
+  const { user: user1 } = await database.users.create(userDef);
+  console.log(user1Name + " created!");
 
-                            var userDef = { id: user1Name };
+  userDef = { id: user2Name };
 
-                            var permissionDef;
+  const { user: user2 } = await database.users.create(userDef);
+  console.log(user2Name + " created!");
 
-                            client.upsertDocument(col1Link, docDef, function (err, doc1) {
-                                if (err) {
-                                    handleError(err)
-                                } else {
+  // Read Permission on container 1 for user1
+  permissionDef = { id: "p1", permissionMode: cosmos.DocumentBase.PermissionMode.Read, resource: container1.url };
 
-                                    console.log(doc1Name + 'Created in ' + col1Name + ' !');
+  const { ref: permission1 } = await user1.permissions.create(permissionDef);
+  console.log("Read only permission assigned to Thomas Andersen on container 1!");
 
-                                    docDef = { id: doc2Name };
+  permissionDef = { id: "p2", permissionMode: cosmos.DocumentBase.PermissionMode.All, resource: item1.url };
 
-                                    client.upsertDocument(col1Link, docDef, function (err, doc2) {
+  // All Permissions on Doc1 for user1
+  const { ref: permission2 } = await user1.permissions.create(permissionDef);
+  console.log("All permission assigned to Thomas Andersen on item 1!");
 
-                                        if (err){
-                                            handleError(err)
-                                        } else {
+  permissionDef = { id: "p3", permissionMode: cosmos.DocumentBase.PermissionMode.Read, resource: container2.url };
 
-                                            console.log(doc2Name + 'Created in ' +  col1Name + ' !');
+  // Read Permissions on Col2 for user1
+  const { ref: permission3 } = await user1.permissions.create(permissionDef);
+  console.log("Read permission assigned to Thomas Andersen on container 2!");
 
-                                            docDef = { id: doc3Name };
+  permissionDef = { id: "p4", permissionMode: cosmos.DocumentBase.PermissionMode.All, resource: container2.url };
 
-                                            client.upsertDocument(col2Link, docDef, function (err, doc3) {
+  const { ref: permission4 } = await user2.permissions.create(permissionDef);
+  console.log("All permission assigned to Robin Wakefield on container 2!");
 
-                                                if (err) {
-                                                    handleError(err);
-                                                } else {
-                                                    console.log(doc3Name + ' Created in ' + col2Name + ' !');
+  const { result: permissions } = await user1.permissions.readAll().toArray();
+  console.log("Fetched permission for Thomas Andersen. Count is : " + permissions.length);
 
-                                                    client.upsertUser(databaseLink, userDef, function (err, user1) {
-
-                                                        if (err){
-                                                            handleError(err);
-                                                        } else {
-
-                                                            console.log(user1Name + ' created!');
-
-                                                            userDef = { id: user2Name };
-
-                                                            client.upsertUser(databaseLink, userDef, function (err, user2) {
-
-                                                                console.log(user2Name + ' created!');
-
-                                                                // Read Permission on col1 for user1
-                                                                permissionDef = { id : "p1", permissionMode: 'Read', resource: col1Link };
-
-                                                                client.upsertPermission(user1._self, permissionDef, function (err, user1Col1ReadPermission) {
-
-                                                                    if (err){
-                                                                        handleError(err)
-                                                                    } else {
-
-                                                                        console.log('Read only permission assigned to Thomas Andersen on col1!');
-
-                                                                        permissionDef = { id: "p2", permissionMode: 'All', resource: doc1._self };
-
-                                                                        // All Permissions on Doc1 for user1
-                                                                        client.upsertPermission(user1._self, permissionDef, function (err, user1AllDoc1Permission) {
-
-                                                                            if (err) {
-                                                                                handleError(err);
-                                                                            } else {
-                                                                                console.log('All permission assigned to Thomas Andersen on doc1!');
-
-                                                                                permissionDef = { id: "p3", permissionMode: 'Read', resource: col2Link };
-
-                                                                                // Read Permissions on Col2 for user1
-                                                                                client.upsertPermission(user1._self, permissionDef, function (err, user1ReadCol2Permission) {
-                                                                                    if (err) {
-
-                                                                                        handleError(err);
-                                                                                    } else {
-
-                                                                                        console.log('Read permission assigned to Thomas Andersen on col2!');
-
-                                                                                        permissionDef = { id: "p4", permissionMode: 'All', resource: col2Link };
-
-                                                                                        client.upsertPermission(user2._self, permissionDef, function (err, user2ReadCol2Permission) {
-
-                                                                                            if (err){
-
-                                                                                                handleError(err);
-                                                                                            } else {
-
-                                                                                                console.log('All permission assigned to Robin Wakefield on col2!');
-
-                                                                                                client.readPermissions(user1._self).toArray(function (err, permissions) {
-
-                                                                                                    if (err){
-                                                                                                        handleError(err);
-                                                                                                    } else{
-                                                                                                        console.log("Fetched permission for Thomas Andersen. Count is : " + permissions.length);
-
-                                                                                                        var dataToReturn = new function () { };
-
-                                                                                                        dataToReturn.user1 = user1;
-                                                                                                        dataToReturn.user2 = user2;
-                                                                                                        dataToReturn.user1Permissions = permissions;
-                                                                                                        dataToReturn.col1 = col1;
-                                                                                                        dataToReturn.col2 = col2;
-                                                                                                        dataToReturn.user1Col1ReadPermission = user1Col1ReadPermission;
-                                                                                                        dataToReturn.user1AllDoc1Permission = user1AllDoc1Permission;
-                                                                                                        dataToReturn.user1ReadCol2Permission = user1ReadCol2Permission;
-                                                                                                        dataToReturn.user2ReadCol2Permission = user2ReadCol2Permission;
-
-                                                                                                        callback(dataToReturn);
-                                                                                                    }
-
-                                                                                                });
-
-                                                                                            }
-
-                                                                                        });
-
-                                                                                    }
-                                                                                });
-
-                                                                            }
-                                                                        });
-
-                                                                    }
-
-                                                                });
-                                                                
-                                                            });
-                                                        }
-                                                    });
-
-                                                }
-                                            });
-
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
-
-    });
-};
+  return { user1, user2, container1, container2, permission1, permission2, permission3, permission4 };
+}
 
 //handle error
-function handleError(error) {
-    console.log();
-    console.log('An error with code \'' + error.code + '\' has occurred:');
-    console.log('\t' + JSON.parse(error.body).message);
-    console.log();
-
-    finish();
+async function handleError(error) {
+  console.log();
+  console.log("An error with code '" + error.code + "' has occurred:");
+  console.log("\t" + error.body || error);
+  if (error.headers) {
+    console.log("\t" + JSON.stringify(error.headers));
+  }
+  console.log();
+  try {
+    await finish();
+  } catch (err) {
+    console.log("Database might not have cleaned itself up properly...");
+  }
 }
 
-function finish() {
-    console.log();
-    console.log('End of demo.');
+async function finish() {
+  await client.database(databaseId).delete();
+  console.log();
+  console.log("End of demo.");
 }
 
-//Attempt to do admin operations when user only has Read on a collection
-function attemptAdminOperations(collection1Link,user1,user1Col1ReadPermission) {
-    
-    var resourceTokens = {};
-    resourceTokens[(collection1Link._rid)] = (user1Col1ReadPermission._token); 
-
-    var client = new DocumentDBClient(host, {
-        resourceTokens: resourceTokens
-    });
-    
-    client.readDocuments(collection1Link._self).toArray(function (err, documents) {
-
-        if (err) {
-            handleError(err);
-        } else {
-            console.log(user1.id + ' able to perform read operation on collection 1');
-        }
-    });
-
-    client.readDatabases().toArray(function (err, databases) {
-        if (err) {
-            console.log('Expected error occurred as ' + user1.id + ' does not have access to get the list of databases. Error code : ' + err.code);
-        } else {
-            console.log('It should never come here as ' + user1.id + ' has read only permission on COL1');
-        }
-    });
-
-
+/**
+ *
+ * @param {cosmos.Permission} permission
+ */
+async function getResourceToken(container, permission) {
+  const { body: permDef } = await permission.read();
+  const resourceToken = {};
+  resourceToken[container.url] = permDef._token;
+  return resourceToken;
 }
 
-//attempts to write in collection 1 with user 1 permission. It fails as the user1 has read only permission on col1
-function attemptWriteWithReadPermissionAsync(collection1Link, user1, user1Col1ReadPermission)
-{
-    var resourceTokens = {};
-    resourceTokens[(collection1Link._rid)] = (user1Col1ReadPermission._token);
+/**
+ * Attempt to do admin operations when user only has Read on a container
+ * @param {cosmos.Container} container
+ * @param {cosmos.User} user
+ * @param {cosmos.Permission} permission
+ */
+async function attemptAdminOperations(container, user, permission) {
+  const resourceTokens = await getResourceToken(container, permission);
+  const client = new CosmosClient({
+    endpoint,
+    auth: {
+      resourceTokens
+    }
+  });
 
-    var client = new DocumentDBClient(host, {
-        resourceTokens: resourceTokens
-    });
+  await client
+    .database(databaseId)
+    .container(container.id)
+    .items.readAll()
+    .toArray();
+  console.log(user.id + " able to perform read operation on container 1");
 
-    var docDef = { id: 'not allowed' };
-
-    client.upsertDocument(collection1Link._self, docDef, function (err, doc2) {
-        if (err) {
-            console.log('Expected error occurred as ' + user1.id + ' does not have access to insert a document in COL1. Error code : ' + err.code);
-        } else {
-            console.log('It should never come here as ' + user1.id + ' has read only permission on COL1');
-        }
-    });
-    
-   
+  try {
+    await client.databases.readAll().toArray();
+  } catch (err) {
+    console.log(
+      "Expected error occurred as " +
+        user.id +
+        " does not have access to get the list of databases. Error code : " +
+        err.code
+    );
+  }
 }
 
-//attempts to read from both the collections as the user has read permission
-function attemptReadFromTwoCollections(collection1Link, collection2Link, user1, user1Col1ReadPermission, user1ReadCol2Permission)
-{
-    var resourceTokens = {};
-    resourceTokens[(collection1Link._rid)] = (user1Col1ReadPermission._token);
-    resourceTokens[(collection2Link._rid)] = (user1ReadCol2Permission._token);
+/**
+ * attempts to write in container 1 with user 1 permission. It fails as the user1 has read only permission on container 1
+ * @param {cosmos.Container} container
+ * @param {cosmos.User} user
+ * @param {cosmos.Permission} permission
+ */
+async function attemptWriteWithReadPermissionAsync(container, user, permission) {
+  const resourceTokens = await getResourceToken(container, permission);
+  const client = new CosmosClient({
+    endpoint,
+    auth: {
+      resourceTokens
+    }
+  });
 
-
-    var client = new DocumentDBClient(host, {
-        resourceTokens: resourceTokens
-    });
-
-
-    client.readDocuments(collection1Link._self).toArray(function (err, documents) {
-
-        if (err) {
-            handleError(err);
-        } else {
-            console.log(user1.id + ' able to read documents from COL1. Document count is ' + documents.length);
-        }
-
-    });
-
-    client.readDocuments(collection2Link._self).toArray(function (err, documents) {
-
-        if (err) {
-            handleError(err);
-        } else {
-            console.log(user1.id + ' able to read documents from COL2. Document count is ' + documents.length);
-        }
-
-    });
-
-
-    var docDef = { id: 'not allowed' };
-
-    client.upsertDocument(collection2Link._self, docDef, function (err, doc2) {
-        if (err) {
-            console.log('Expected error occurred as ' + user1.id + ' does not have access to insert a document in COL2. Error code : ' + err.code);
-        } else {
-            console.log('It should never come here as ' + user1.id + ' has read only permission on COL2');
-        }
-    });
-
-
+  const itemDef = { id: "not allowed" };
+  try {
+    await client
+      .database(databaseId)
+      .container(container.id)
+      .items.upsert(itemDef);
+  } catch (err) {
+    console.log(
+      "Expected error occurred as " +
+        user.id +
+        " does not have access to insert an item in the first container. Error code : " +
+        err.code
+    );
+  }
 }
+
+//attempts to read from both the containers as the user has read permission
+/**
+ *
+ * @param {cosmos.Container} container1
+ * @param {cosmos.Container} container2
+ * @param {cosmos.User} user1
+ * @param {cosmos.Permission} permission1
+ * @param {cosmos.Permission} permission2
+ */
+async function attemptReadFromTwoCollections(container1, container2, user1, permission1, permission2) {
+  const token1 = await getResourceToken(container1, permission1);
+  const token2 = await getResourceToken(container2, permission2);
+  const resourceTokens = { ...token1, ...token2 };
+
+  const client = new CosmosClient({
+    endpoint,
+    auth: {
+      resourceTokens
+    }
+  });
+
+  const { result: items1 } = await client
+    .database(databaseId)
+    .container(container1.id)
+    .items.readAll()
+    .toArray();
+  console.log(user1.id + " able to read items from container 1. Document count is " + items1.length);
+
+  const { result: items2 } = await client
+    .database(databaseId)
+    .container(container2.id)
+    .items.readAll()
+    .toArray();
+
+  console.log(user1.id + " able to read items from container 2. Document count is " + items2.length);
+
+  const itemDef = { id: "not allowed" };
+
+  try {
+    await client
+      .database(databaseId)
+      .container(container2.id)
+      .items.upsert(itemDef);
+  } catch (err) {
+    console.log(
+      "Expected error occurred as " +
+        user1.id +
+        " does not have access to insert an item in container 2. Error code : " +
+        err.code
+    );
+  }
+}
+
+run().catch(handleError);
