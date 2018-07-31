@@ -12,6 +12,18 @@ import {
   replaceOrUpsertItem
 } from "./../common/TestHelpers";
 
+/**
+ * @ignore
+ * @hidden
+ */
+interface TestItem {
+  id?: string;
+  name?: string;
+  foo?: string;
+  key?: string;
+  replace?: string;
+}
+
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
@@ -32,7 +44,7 @@ describe("NodeJS CRUD Tests", function() {
 
       // create an item
       const beforeCreateDocumentsCount = items.length;
-      const itemDefinition = {
+      const itemDefinition: TestItem = {
         name: "sample document",
         foo: "bar",
         key: "value",
@@ -73,8 +85,8 @@ describe("NodeJS CRUD Tests", function() {
       assert.equal(replacedDocument.foo, "not bar", "property should have changed");
       assert.equal(document.id, replacedDocument.id, "document id should stay the same");
       // read document
-      const { body: document2 } = await container.item(replacedDocument.id).read();
-      assert.equal(replacedDocument.id, document.id);
+      const { body: document2 } = await container.item(replacedDocument.id).read<TestItem>();
+      assert.equal(replacedDocument.id, document2.id);
       // delete document
       const { body: res } = await container.item(replacedDocument.id).delete();
 

@@ -4,6 +4,8 @@ import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions, Response } from "../../request";
 import { Container } from "../Container";
 import { Item } from "./Item";
+import { ItemBody } from "./ItemBody";
+import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 
 /**
@@ -37,7 +39,7 @@ export class Items {
    * const {body: containerList} = await items.query.toArray();
    * ```
    */
-  public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
+  public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<ItemDefinition>;
   /**
    * Queries all items.
    * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
@@ -53,8 +55,8 @@ export class Items {
    * const {body: containerList} = await items.query.toArray();
    * ```
    */
-  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
-  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
+  public query<T extends ItemDefinition>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
+  public query<T extends ItemDefinition>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     return this.client.queryDocuments(this.container.url, query, options) as QueryIterator<T>;
   }
 
@@ -69,7 +71,7 @@ export class Items {
    * const {body: containerList} = await items.readAll().toArray();
    * ```
    */
-  public readAll(options?: FeedOptions): QueryIterator<any>;
+  public readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
   /**
    * Read all items.
    *
@@ -84,8 +86,8 @@ export class Items {
    * const {body: containerList} = await items.readAll().toArray();
    * ```
    */
-  public readAll<T>(options?: FeedOptions): QueryIterator<T>;
-  public readAll<T>(options?: FeedOptions): QueryIterator<T> {
+  public readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
+  public readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T> {
     return this.client.readDocuments(this.container.url, options) as QueryIterator<T>;
   }
 
@@ -97,7 +99,7 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async create(body: any, options?: RequestOptions): Promise<ItemResponse<any>>;
+  public async create(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Create a item.
    *
@@ -109,12 +111,12 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async create<T>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async create<T>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
-    const response = await (this.client.createDocument(this.container.url, body, options) as Promise<Response<T>>);
+  public async create<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+  public async create<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
+    const response = await this.client.createDocument(this.container.url, body, options);
     const ref = new Item(this.container, (response.result as any).id, (options && options.partitionKey) as string);
     return {
-      body: response.result,
+      body: response.result as T & ItemBody,
       headers: response.headers,
       ref,
       item: ref
@@ -129,7 +131,7 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async upsert(body: any, options?: RequestOptions): Promise<ItemResponse<any>>;
+  public async upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Upsert an item.
    *
@@ -141,8 +143,8 @@ export class Items {
    * @param body Represents the body of the item. Can contain any number of user defined properties.
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
-  public async upsert<T>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async upsert<T>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
+  public async upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+  public async upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
     const response = await this.client.upsertDocument(this.container.url, body, options);
     const ref = new Item(this.container, (response.result as any).id, (options && options.partitionKey) as string);
     return {

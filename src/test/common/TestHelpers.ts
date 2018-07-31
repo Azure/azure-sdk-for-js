@@ -2,14 +2,14 @@ import * as assert from "assert";
 import { Container, CosmosClient, Database, DatabaseDefinition, Item, RequestOptions, Response } from "../../";
 import {
   ContainerDefinition,
+  ItemDefinition,
   ItemResponse,
-  PermissionDefinition,
   PermissionResponse,
   TriggerResponse,
   User,
-  UserDefinedFunctionResponse,
-  UserDefinition
+  UserDefinedFunctionResponse
 } from "../../client";
+import { ItemBody } from "../../client/Item/ItemBody";
 import { StoredProcedureResponse } from "../../client/StoredProcedure/StoredProcedureResponse";
 import { UserResponse } from "../../client/User/UserResponse";
 import { endpoint, masterKey } from "./../common/_testConfig";
@@ -67,7 +67,10 @@ export async function getTestContainer(
   return db.container(id);
 }
 
-export async function bulkInsertItems(container: Container, documents: any[]) {
+export async function bulkInsertItems(
+  container: Container,
+  documents: any[]
+): Promise<Array<ItemDefinition & ItemBody>> {
   const returnedDocuments = [];
   for (const doc of documents) {
     try {

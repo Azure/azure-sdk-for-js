@@ -2,6 +2,8 @@ import { UriFactory } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions, Response } from "../../request";
 import { Container } from "../Container";
+import { ItemBody } from "./ItemBody";
+import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 
 /**
@@ -36,7 +38,7 @@ export class Item {
    * @param options Additional options for the request, such as the partition key.
    * Note, if you provide a partition key on the options object, it will override the primary key on `this.primaryKey`.
    */
-  public read(options?: RequestOptions): Promise<ItemResponse<any>>;
+  public read(options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Read the item's definition.
    *
@@ -62,15 +64,15 @@ export class Item {
    * ({body: item} = await item.read<TodoItem>());
    * ```
    */
-  public read<T>(options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async read<T>(options?: RequestOptions): Promise<ItemResponse<T>> {
+  public read<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>>;
+  public async read<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>> {
     options = options || {};
     if ((!options || !options.partitionKey) && this.primaryKey) {
       options.partitionKey = this.primaryKey;
     }
-    const response = await (this.client.documentClient.readDocument(this.url, options) as Promise<Response<T>>);
+    const response = await this.client.documentClient.readDocument(this.url, options);
     return {
-      body: response.result,
+      body: response.result as T & ItemBody,
       headers: response.headers,
       ref: this,
       item: this
@@ -85,7 +87,7 @@ export class Item {
    * @param body The definition to replace the existing {@link Item}'s defintion with.
    * @param options Additional options for the request, such as the partition key.
    */
-  public replace(body: any, options?: RequestOptions): Promise<ItemResponse<any>>;
+  public replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Replace the item's definition.
    *
@@ -97,15 +99,13 @@ export class Item {
    * @param body The definition to replace the existing {@link Item}'s defintion with.
    * @param options Additional options for the request, such as the partition key.
    */
-  public replace<T>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async replace<T>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
+  public replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+  public async replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
     options = options || {};
     if ((!options || !options.partitionKey) && this.primaryKey) {
       options.partitionKey = this.primaryKey;
     }
-    const response = await (this.client.documentClient.replaceDocument(this.url, body, options) as Promise<
-      Response<T>
-    >);
+    const response = await this.client.documentClient.replaceDocument(this.url, body, options);
     return {
       body: response.result,
       headers: response.headers,
@@ -118,7 +118,7 @@ export class Item {
    * Delete the item.
    * @param options Additional options for the request, such as the partition key.
    */
-  public delete(options?: RequestOptions): Promise<ItemResponse<any>>;
+  public delete(options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Delete the item.
    *
@@ -127,13 +127,13 @@ export class Item {
    *
    * @param options Additional options for the request, such as the partition key.
    */
-  public delete<T>(options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async delete<T>(options?: RequestOptions): Promise<ItemResponse<T>> {
+  public delete<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>>;
+  public async delete<T extends ItemDefinition>(options?: RequestOptions): Promise<ItemResponse<T>> {
     options = options || {};
     if ((!options || !options.partitionKey) && this.primaryKey) {
       options.partitionKey = this.primaryKey;
     }
-    const response = await (this.client.documentClient.deleteDocument(this.url, options) as Promise<Response<T>>);
+    const response = await this.client.documentClient.deleteDocument(this.url, options);
     return {
       body: response.result,
       headers: response.headers,
