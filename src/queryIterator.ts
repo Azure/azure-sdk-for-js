@@ -35,10 +35,67 @@ export class QueryIterator<T> {
     this.resourceLink = resourceLink;
     this.queryExecutionContext = this._createQueryExecutionContext();
   }
+
   /**
-   * Execute a provided function once per feed element.
+   * Calls a specified callback for each item returned from the query.
+   * Runs serially; each callback blocks the next.
+   *
+   * @param callback Specified callback.
+   * First param is the result,
+   * second param (optional) is the current headers object state,
+   * third param (optional) is current index.
+   * No more callbacks will be called if one of them results false.
+   *
+   * @returns Promise<void> - you should await or .catch the Promise in case there are any errors
+   *
+   * @example Iterate over all databases
+   * ```typescript
+   * await client.databases.readAll().forEach((db, headers, index) => {
+   *   console.log(`Got ${db.id} from forEach`);
+   * })
+   * ```
    */
-  public async *forEach(): AsyncIterable<Response<T>> {
+  public async forEach(callback: (result: T, headers?: IHeaders, index?: number) => boolean | void): Promise<void> {
+    this.reset();
+    let index = 0;
+    while (this.queryExecutionContext.hasMoreResults()) {
+      const result = await this.queryExecutionContext.nextItem();
+      if (result.result === undefined) {
+        return;
+      }
+      if (callback(result.result, result.headers, index) === false) {
+        return;
+      } else {
+        ++index;
+      }
+    }
+  }
+
+  /**
+   * Gets an async iterator that will yield results until completion.
+   *
+   * NOTE: AsyncIterators are a very new feature and you might need to
+   * use polyfils/etc. in order to use them in your code.
+   *
+   * If you're using TypeScript, you can use the following polyfill as long
+   * as you target ES6 or higher and are running on Node 6 or higher.
+   *
+   * ```typescript
+   * if (!Symbol || !Symbol.asyncIterator) {
+   *   (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
+   * }
+   * ```
+   *
+   * @see QueryIterator.forEach for very similar functionality.
+   *
+   * @example Iterate over all databases
+   * ```typescript
+   * for await(const {result: db} in client.databases.readAll().getAsyncIterator()) {
+   *   console.log(`Got ${db.id} from AsyncIterator`);
+   * }
+   * ```
+   */
+  public async *getAsyncIterator(): AsyncIterable<Response<T>> {
     this.reset();
     while (this.queryExecutionContext.hasMoreResults()) {
       const result = await this.queryExecutionContext.nextItem();

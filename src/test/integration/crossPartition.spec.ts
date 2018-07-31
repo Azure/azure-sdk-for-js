@@ -231,7 +231,7 @@ describe("Cross Partition", function() {
       const results: any[] = [];
       let callbackSingnalledEnd = false;
       // forEach uses callbacks still, so just wrap in a promise
-      for await (const { result: item } of queryIterator.forEach()) {
+      for await (const { result: item } of queryIterator.getAsyncIterator()) {
         // if the previous invocation returned false, forEach must avoid invoking the callback again!
         assert.equal(callbackSingnalledEnd, false, "forEach called callback after the first false returned");
         results.push(item);
