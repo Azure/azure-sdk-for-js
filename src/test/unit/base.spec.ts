@@ -1,7 +1,7 @@
 ﻿import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
-import { Base } from "../../";
+import { Base } from "../../base";
 import content from "./../common/BaselineTest.PathParser";
 
 describe("Base", function() {

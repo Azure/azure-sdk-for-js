@@ -1,17 +1,34 @@
 import * as DocumentBase from "./documents";
+export {
+  ConnectionMode,
+  ConsistencyLevel,
+  ConnectionPolicy,
+  DatabaseAccount,
+  DataType,
+  Index,
+  IndexedPath,
+  IndexingMode,
+  IndexingPolicy,
+  IndexKind,
+  LocationsType,
+  MediaReadMode,
+  PartitionKey,
+  PartitionKeyDefinition,
+  PartitionKind,
+  PermissionMode,
+  QueryCompatibilityMode,
+  TriggerOperation,
+  TriggerType,
+  UserDefinedFunctionType
+} from "./documents";
 
-export { DocumentClient } from "./documentclient";
 export { DocumentBase, DocumentBase as AzureDocuments };
-export { Range, RangePartitionResolver } from "./range";
-export { HashPartitionResolver } from "./hash";
 export { Constants, UriFactory } from "./common";
-export { Base } from "./base";
 export { RetryOptions } from "./retry";
 export { Response, RequestOptions, FeedOptions, MediaOptions, ErrorResponse } from "./request/";
-
-export { IHeaders } from "./queryExecutionContext";
+export { IHeaders, SqlParameter, SqlQuerySpec } from "./queryExecutionContext";
 export { QueryIterator } from "./queryIterator";
-
+export * from "./queryMetrics";
 export { CosmosClient } from "./CosmosClient";
 export { CosmosClientOptions } from "./CosmosClientOptions";
 export * from "./client/";

@@ -1,8 +1,9 @@
 ﻿import * as http from "http";
 import * as net from "net";
 import * as url from "url";
-import { Base, CosmosClient, DocumentBase } from "../../";
+import { CosmosClient, DocumentBase } from "../../";
 import { endpoint, masterKey } from "./../common/_testConfig";
+import { addEntropy } from "./../common/TestHelpers";
 
 const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
 if (!isBrowser()) {
@@ -41,7 +42,7 @@ if (!isBrowser()) {
             });
             // create database
             await client.databases.create({
-              id: Base.generateGuidId()
+              id: addEntropy("ProxyTest")
             });
             resolve();
           } catch (err) {
@@ -65,7 +66,7 @@ if (!isBrowser()) {
             });
             // create database
             await client.databases.create({
-              id: Base.generateGuidId()
+              id: addEntropy("ProxyTest")
             });
             reject(new Error("Should create database in error while the proxy setting is not correct"));
           } catch (err) {

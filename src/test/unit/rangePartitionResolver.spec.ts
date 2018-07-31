@@ -1,5 +1,5 @@
 ﻿import * as assert from "assert";
-import { Range, RangePartitionResolver } from "../../";
+import { Range, RangePartitionResolver } from "../../range";
 import { CompareFunction } from "../../range";
 
 describe("RangePartitionResolver", function() {

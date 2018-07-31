@@ -1,5 +1,5 @@
 ﻿import * as assert from "assert";
-import { Range } from "../../";
+import { Range } from "../../range";
 
 describe("Range Tests", function() {
   describe("constructor", function() {

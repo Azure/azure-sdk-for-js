@@ -1,6 +1,7 @@
 import * as assert from "assert";
 import * as sinon from "sinon";
-import { Base, Constants, CosmosClient, IHeaders } from "../../";
+import { Constants, CosmosClient, IHeaders } from "../../";
+import { Base } from "../../base";
 import { ConsistencyLevel, PartitionKind } from "../../documents";
 import { endpoint, masterKey } from "./../common/_testConfig";
 import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";

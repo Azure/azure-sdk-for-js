@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as Stream from "stream";
-import { CosmosClient, HashPartitionResolver } from "../../";
+import { HashPartitionResolver } from "../../hash/";
 import { removeAllDatabases } from "./../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
