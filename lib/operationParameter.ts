@@ -65,7 +65,7 @@ export function getPathStringFromParameterPath(parameterPath: ParameterPath, map
   } else if (Array.isArray(parameterPath)) {
     result = parameterPath.join(".");
   } else {
-    result = mapper.serializedName;
+    result = mapper.serializedName!;
   }
   return result;
 }

@@ -24,9 +24,10 @@ export { signingPolicy } from "./policies/signingPolicy";
 export { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 export { deserializationPolicy } from "./policies/deserializationPolicy";
 export {
-  BaseMapperType, CompositeMapper, DictionaryMapper, EnumMapper, Mapper,
-  MapperConstraints, MapperType, PolymorphicDiscriminator,
-  SequenceMapper, Serializer, UrlParameterValue, serializeObject
+  MapperType, SimpleMapperType, CompositeMapperType, DictionaryMapperType, SequenceMapperType, EnumMapperType,
+  Mapper, BaseMapper, CompositeMapper, SequenceMapper, DictionaryMapper, EnumMapper,
+  MapperConstraints, PolymorphicDiscriminator,
+  Serializer, UrlParameterValue, serializeObject
 } from "./serializer";
 export {
   stripRequest, stripResponse, delay,

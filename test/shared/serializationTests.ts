@@ -279,13 +279,13 @@ describe("msrest", function () {
     });
 
     it('should correctly serialize an array of array of object types', function (done) {
-      const mapper = {
+      const mapper: msRest.SequenceMapper = {
         serializedName: 'arrayObj',
         required: true,
         type: {
           name: 'Sequence',
           element: {
-            type : {
+            type: {
               name: 'Sequence',
               element: {
                 type: {
@@ -303,13 +303,13 @@ describe("msrest", function () {
     });
 
     it('should fail while serializing an array of array of "object" types when a null value is provided', function (done) {
-      const mapper = {
+      const mapper: msRest.Mapper = {
         serializedName: 'arrayObj',
         required: true,
         type: {
           name: 'Sequence',
           element: {
-            type : {
+            type: {
               name: 'Sequence',
               element: {
                 required: true,
@@ -590,8 +590,8 @@ describe("msrest", function () {
     });
 
 
-    it("should allow null when required: true and nullable: true", function() {
-      const mapper = {
+    it("should allow null when required: true and nullable: true", function () {
+      const mapper: msRest.Mapper = {
         required: false,
         serializedName: 'testmodel',
         type: {
@@ -614,8 +614,8 @@ describe("msrest", function () {
       should.exist(result);
     });
 
-    it("should not allow undefined when required: true and nullable: true", function() {
-      const mapper = {
+    it("should not allow undefined when required: true and nullable: true", function () {
+      const mapper: msRest.Mapper = {
         required: false,
         serializedName: 'testmodel',
         type: {
@@ -637,8 +637,8 @@ describe("msrest", function () {
       (function () { Serializer.serialize(mapper, { length: undefined }, "testobj"); }).should.throw("testobj.length cannot be undefined.");
     });
 
-    it("should not allow null when required: true and nullable: false", function() {
-      const mapper = {
+    it("should not allow null when required: true and nullable: false", function () {
+      const mapper: msRest.Mapper = {
         required: false,
         serializedName: 'testmodel',
         type: {
@@ -660,8 +660,8 @@ describe("msrest", function () {
       (function () { Serializer.serialize(mapper, { length: null }, "testobj"); }).should.throw("testobj.length cannot be null or undefined.");
     });
 
-    it("should not allow undefined when required: true and nullable: false", function() {
-      const mapper = {
+    it("should not allow undefined when required: true and nullable: false", function () {
+      const mapper: msRest.Mapper = {
         required: false,
         serializedName: 'testmodel',
         type: {
@@ -684,7 +684,7 @@ describe("msrest", function () {
     });
 
     it("should not allow null when required: true and nullable is undefined", function() {
-      const mapper = {
+      const mapper: msRest.Mapper ={
         serializedName: "foo",
         required: true,
         type: {
@@ -695,7 +695,7 @@ describe("msrest", function () {
     });
 
     it("should not allow undefined when required: true and nullable is undefined", function() {
-      const mapper = {
+      const mapper: msRest.Mapper ={
         serializedName: "foo",
         required: true,
         type: {
@@ -706,7 +706,7 @@ describe("msrest", function () {
     });
 
     it("should allow null when required: false and nullable: true", function() {
-      const mapper = {
+      const mapper: msRest.Mapper ={
         serializedName: "foo",
         required: false,
         nullable: true,
@@ -719,7 +719,7 @@ describe("msrest", function () {
     });
 
     it("should not allow null when required: false and nullable: false", function() {
-      const mapper = {
+      const mapper: msRest.Mapper ={
         serializedName: "foo",
         required: false,
         nullable: false,
@@ -731,7 +731,7 @@ describe("msrest", function () {
     });
 
     it("should allow null when required: false and nullable is undefined", function() {
-      const mapper = {
+      const mapper: msRest.Mapper ={
         serializedName: "foo",
         required: false,
         type: {
@@ -743,7 +743,7 @@ describe("msrest", function () {
     });
 
     it("should allow undefined when required: false and nullable: true", function() {
-      const mapper = {
+      const mapper: msRest.Mapper ={
         serializedName: "foo",
         required: false,
         nullable: true,
@@ -756,7 +756,7 @@ describe("msrest", function () {
     });
 
     it("should allow undefined when required: false and nullable: false", function() {
-      const mapper = {
+      const mapper: msRest.Mapper ={
         serializedName: "fooType",
         type: {
           name: "Composite",
@@ -778,7 +778,7 @@ describe("msrest", function () {
     });
 
     it("should allow undefined when required: false and nullable is undefined", function() {
-      const mapper = {
+      const mapper: msRest.Mapper ={
         serializedName: "foo",
         required: false,
         type: {
@@ -1049,15 +1049,17 @@ describe("msrest", function () {
     });
 
     it('should correctly deserialize an array of array of object types', function (done) {
-      const mapper = {
+      const mapper: msRest.Mapper ={
         serializedName: 'arrayObj',
         required: true,
         type: {
           name: 'Sequence',
           element: {
-            type : {
+            serializedName: "ObjectElementType",
+            type: {
               name: 'Sequence',
               element: {
+                serializedName: "ObjectElementType",
                 type: {
                   name: 'Object'
                 }
@@ -1067,7 +1069,7 @@ describe("msrest", function () {
         }
       };
       var array = [[1], ["2"], [1, "2", {}, true, []]];
-      var deserializedArray = Serializer.deserialize(mapper, array, mapper.serializedName);
+      var deserializedArray = Serializer.deserialize(mapper, array, mapper.serializedName!);
       assert.deepEqual(array, deserializedArray);
       done();
     });
@@ -1114,7 +1116,7 @@ describe("msrest", function () {
     });
 
     it("should deserialize headerCollectionPrefix", function() {
-      const mapper = {
+      const mapper: msRest.CompositeMapper = {
         serializedName: "something",
         type: {
           name: "Composite",
@@ -1125,6 +1127,7 @@ describe("msrest", function () {
               type: {
                 name: "Dictionary",
                 value: {
+                  serializedName: "element",
                   type: {
                     name: "String"
                   }

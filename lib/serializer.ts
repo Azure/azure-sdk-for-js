@@ -5,7 +5,7 @@ import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
 
 export class Serializer {
-  constructor(public readonly modelMappers?: { [key: string]: any }, public readonly isXML?: boolean) { }
+  constructor(public readonly modelMappers: { [key: string]: any } = {}, public readonly isXML?: boolean) { }
 
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
     const failValidation = (constraintName: keyof MapperConstraints, constraintValue: any) => {
@@ -76,7 +76,7 @@ export class Serializer {
     let payload: any = {};
     const mapperType = mapper.type.name as string;
     if (!objectName) {
-      objectName = mapper.serializedName;
+      objectName = mapper.serializedName!;
     }
     if (mapperType.match(/^Sequence$/ig) !== null) {
       payload = [];
@@ -162,7 +162,7 @@ export class Serializer {
     let payload: any;
     const mapperType = mapper.type.name;
     if (!objectName) {
-      objectName = mapper.serializedName;
+      objectName = mapper.serializedName!;
     }
 
     if (mapperType.match(/^Number$/ig) !== null) {
@@ -460,7 +460,7 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
           propName = propertyMapper.xmlElementName || propertyMapper.xmlName;
         }
       } else {
-        const paths = splitSerializeName(propertyMapper.serializedName);
+        const paths = splitSerializeName(propertyMapper.serializedName!);
         propName = paths.pop();
 
         for (const pathName of paths) {
@@ -509,14 +509,6 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, objectName, "deserialize");
   }
 
-  let instance: { [key: string]: any } = {};
-  let modelMapper: Mapper = {
-    required: false,
-    serializedName: "serializedName",
-    type: {
-      name: "Composite"
-    }
-  };
   responseBody = responseBody || {};
   let modelProps = mapper.type.modelProperties;
   if (!modelProps) {
@@ -525,17 +517,18 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
     }
     // get the mapper if modelProperties of the CompositeType is not present and
     // then get the modelProperties from it.
-    modelMapper = (serializer.modelMappers as { [key: string]: any })[mapper.type.className];
+    const modelMapper: CompositeMapper = serializer.modelMappers[mapper.type.className];
     if (!modelMapper) {
       throw new Error(`mapper() cannot be null or undefined for model "${mapper.type.className}"`);
     }
-    modelProps = (modelMapper as CompositeMapper).type.modelProperties;
+    modelProps = modelMapper.type.modelProperties;
     if (!modelProps) {
       throw new Error(`modelProperties cannot be null or undefined in the ` +
         `mapper "${JSON.stringify(modelMapper)}" of type "${mapper.type.className}" for responseBody "${objectName}".`);
     }
   }
 
+  let instance: { [key: string]: any } = {};
   for (const key of Object.keys(modelProps)) {
     const propertyMapper = modelProps[key];
     const { serializedName, xmlName, xmlElementName } = propertyMapper;
@@ -570,7 +563,7 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
         instance[key] = serializer.deserialize(propertyMapper, unwrappedProperty, propertyObjectName);
       }
     } else {
-      const paths = splitSerializeName(modelProps[key].serializedName);
+      const paths = splitSerializeName(modelProps[key].serializedName!);
       // deserialize the property if it is present in the provided responseBody instance
       let propertyInstance;
       let res = responseBody;
@@ -738,8 +731,51 @@ export interface MapperConstraints {
   MultipleOf?: number;
 }
 
-export interface BaseMapperType {
-  name: string;
+export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
+
+export interface SimpleMapperType {
+  name: "Base64Url"
+    | "Boolean"
+    | "ByteArray"
+    | "Date"
+    | "DateTime"
+    | "DateTimeRfc1123"
+    | "Object"
+    | "Stream"
+    | "String"
+    | "TimeSpan"
+    | "UnixTime"
+    | "Uuid"
+    | "Number"
+    | "any";
+}
+
+export interface CompositeMapperType {
+  name: "Composite";
+
+  // Only one of the two below properties should be present.
+  // Use className to reference another type definition,
+  // and use modelProperties when the reference to the other type has been resolved.
+  className?: string;
+  modelProperties?: { [propertyName: string]: Mapper };
+
+  uberParent?: string;
+  polymorphicDiscriminator?: string | PolymorphicDiscriminator;
+}
+
+export interface SequenceMapperType {
+  name: "Sequence";
+  element: Mapper;
+}
+
+export interface DictionaryMapperType {
+  name: "Dictionary";
+  value: Mapper;
+}
+
+export interface EnumMapperType {
+  name: "Enum";
+  allowedValues: any[];
 }
 
 export interface BaseMapper {
@@ -751,8 +787,8 @@ export interface BaseMapper {
   isConstant?: boolean;
   required?: boolean;
   nullable?: boolean;
-  serializedName: string;
-  type: BaseMapperType;
+  serializedName?: string;
+  type: MapperType;
   defaultValue?: any;
   constraints?: MapperConstraints;
 }
@@ -766,35 +802,20 @@ export interface PolymorphicDiscriminator {
 }
 
 export interface CompositeMapper extends BaseMapper {
-  type: {
-    name: "Composite";
-    className: string;
-    modelProperties: { [propertyName: string]: Mapper };
-    uberParent?: string;
-    polymorphicDiscriminator?: string | PolymorphicDiscriminator;
-  };
+  type: CompositeMapperType;
 }
 
 export interface SequenceMapper extends BaseMapper {
-  type: {
-    name: "Sequence";
-    element: Mapper;
-  };
+  type: SequenceMapperType;
 }
 
 export interface DictionaryMapper extends BaseMapper {
-  type: {
-    name: "Dictionary";
-    value: Mapper;
-  };
+  type: DictionaryMapperType;
   headerCollectionPrefix?: string;
 }
 
 export interface EnumMapper extends BaseMapper {
-  type: {
-    name: "Enum";
-    allowedValues: Array<any>;
-  };
+  type: EnumMapperType;
 }
 
 export interface UrlParameterValue {

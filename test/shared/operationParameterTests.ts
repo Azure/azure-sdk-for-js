@@ -20,7 +20,7 @@ describe("getParameterPathString()", () => {
       mapper: {
         serializedName: "value",
         type: {
-          name: "number"
+          name: "Number"
         }
       }
     };
@@ -33,7 +33,7 @@ describe("getParameterPathString()", () => {
       mapper: {
         serializedName: "value",
         type: {
-          name: "number"
+          name: "Number"
         }
       }
     };
@@ -46,7 +46,7 @@ describe("getParameterPathString()", () => {
       mapper: {
         serializedName: "value",
         type: {
-          name: "number"
+          name: "Number"
         }
       }
     };
@@ -62,7 +62,7 @@ describe("getParameterPathString()", () => {
       mapper: {
         serializedName: "value",
         type: {
-          name: "number"
+          name: "Number"
         }
       }
     };

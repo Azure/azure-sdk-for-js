@@ -326,7 +326,7 @@ export function serializeRequestBody(serviceClient: ServiceClient, httpRequest: 
         const isStream = typeName === MapperType.Stream;
         if (operationSpec.isXML) {
           if (typeName === MapperType.Sequence) {
-            httpRequest.body = utils.stringifyXML(utils.prepareXMLRootList(httpRequest.body, xmlElementName || xmlName || serializedName), { rootName: xmlName || serializedName });
+            httpRequest.body = utils.stringifyXML(utils.prepareXMLRootList(httpRequest.body, xmlElementName || xmlName || serializedName!), { rootName: xmlName || serializedName });
           }
           else if (!isStream) {
             httpRequest.body = utils.stringifyXML(httpRequest.body, { rootName: xmlName || serializedName });
@@ -430,7 +430,7 @@ export function getOperationArgumentValueFromParameterPath(serviceClient: Servic
     }
   } else {
     for (const propertyName in parameterPath) {
-      const propertyMapper: Mapper = (parameterMapper as CompositeMapper).type.modelProperties[propertyName];
+      const propertyMapper: Mapper = (parameterMapper as CompositeMapper).type.modelProperties![propertyName];
       const propertyPath: ParameterPath = parameterPath[propertyName];
       const propertyValue: any = getOperationArgumentValueFromParameterPath(serviceClient, operationArguments, propertyPath, propertyMapper, serializer);
       // Serialize just for validation purposes.

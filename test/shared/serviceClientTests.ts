@@ -2,7 +2,7 @@ import * as assert from "assert";
 import { HttpClient } from "../../lib/httpClient";
 import { HttpOperationResponse } from "../../lib/httpOperationResponse";
 import { QueryCollectionFormat } from "../../lib/queryCollectionFormat";
-import { DictionaryMapper, MapperType, SequenceMapper, Serializer, Mapper } from "../../lib/serializer";
+import { DictionaryMapper, MapperType, Serializer, Mapper } from "../../lib/serializer";
 import { serializeRequestBody, ServiceClient, getOperationArgumentValueFromParameterPath } from "../../lib/serviceClient";
 import { WebResource } from "../../lib/webResource";
 import { OperationArguments } from "../../lib/msRest";
@@ -104,12 +104,12 @@ describe("ServiceClient", function () {
                 name: "Sequence",
                 element: {
                   type: {
-                    name: "number",
+                    name: "Number",
                   },
                   serializedName: "q",
                 },
               },
-            } as SequenceMapper,
+            },
           },
         ],
         responses: {
