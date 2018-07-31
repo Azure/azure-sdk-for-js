@@ -91,6 +91,8 @@ export class BatchingReceiver extends EventHubReceiver {
       // Action to be performed after the max wait time is over.
       actionAfterWaitTimeout = () => {
         timeOver = true;
+        debug("[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
+          this._context.connectionId, this.name, maxWaitTimeInSeconds);
         return finalAction(timeOver);
       };
 

@@ -168,9 +168,9 @@ export class LinkEntity {
           this._context.connectionId, this._type, this.name, this.address, err);
       }
       // TODO: Let us wait for rhea to do this correctly for us.
-      // link.remove();
-      // debug("[%s] %s '%s' with address '%s' and it's session have been removed from " +
-      //   "internal map.", this._context.connectionId, this._type, this.name, this.address);
+      link.remove();
+      debug("[%s] %s '%s' with address '%s' and it's session have been removed from " +
+        "internal map.", this._context.connectionId, this._type, this.name, this.address);
     }
   }
 

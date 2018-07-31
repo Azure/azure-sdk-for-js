@@ -109,12 +109,18 @@ export class Sender {
    */
   close(): Promise<void> {
     const senderClose = new Promise<void>((resolve, reject) => {
+      debug("[%s] The sender is open ? -> %s", this.connection.id, this.isOpen());
       if (this.isOpen()) {
         let onError: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
 
-        onClose = (context: rhea.EventContext) => {
+        const removeListeners = () => {
+          this._sender.removeListener(SenderEvents.senderError, onError);
           this._sender.removeListener(SenderEvents.senderClose, onClose);
+        };
+
+        onClose = (context: rhea.EventContext) => {
+          removeListeners();
           process.nextTick(() => {
             debug("[%s] Resolving the promise as the amqp sender has been closed.",
               this.connection.id);
@@ -123,7 +129,7 @@ export class Sender {
         };
 
         onError = (context: rhea.EventContext) => {
-          this._sender.removeListener(SenderEvents.senderError, onError);
+          removeListeners();
           debug("[%s] Error occurred while closing amqp sender: %O.",
             this.connection.id, context.session!.error);
           reject(context.session!.error);
@@ -137,7 +143,10 @@ export class Sender {
       }
     });
 
-    return senderClose.then(() => { return this._session.close(); });
+    return senderClose.then(() => {
+      debug("[%s] sender has been closed, now closing it's session.", this.connection.id);
+      return this._session.close();
+    });
   }
 
   setMaxListeners(count: number): void {
