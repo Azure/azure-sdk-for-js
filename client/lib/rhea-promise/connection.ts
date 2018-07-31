@@ -6,7 +6,7 @@ import * as debugModule from "debug";
 import { Session } from "./session";
 import { Sender, SenderOptions } from "./sender";
 import { Receiver, ReceiverOptions } from "./receiver";
-import { Func, ConnectionEvents } from ".";
+import { Func, ConnectionEvents, SessionEvents } from ".";
 
 const debug = debugModule("rhea-promise:connection");
 
@@ -53,9 +53,9 @@ export class Connection {
         let onClose: Func<rhea.EventContext, void>;
 
         const removeListeners: Function = () => {
-          this._connection.removeListener("connection_open", onOpen);
-          this._connection.removeListener("connection_close", onClose);
-          this._connection.removeListener("disconnected", onClose);
+          this._connection.removeListener(ConnectionEvents.connectionOpen, onOpen);
+          this._connection.removeListener(ConnectionEvents.connectionClose, onClose);
+          this._connection.removeListener(ConnectionEvents.disconnected, onClose);
         };
 
         onOpen = (context: rhea.EventContext) => {
@@ -74,9 +74,9 @@ export class Connection {
           reject(err);
         };
 
-        this._connection.once("connection_open", onOpen);
-        this._connection.once("connection_close", onClose);
-        this._connection.once("disconnected", onClose);
+        this._connection.once(ConnectionEvents.connectionOpen, onOpen);
+        this._connection.once(ConnectionEvents.connectionClose, onClose);
+        this._connection.once(ConnectionEvents.disconnected, onClose);
         this._connection.connect();
       } else {
         resolve(this);
@@ -94,12 +94,18 @@ export class Connection {
    */
   close(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      if (this._connection && this._connection.is_open()) {
+      debug("[%s] The connection is open ? -> %s", this.id, this.isOpen());
+      if (this.isOpen()) {
         let onClose: Func<rhea.EventContext, void>;
         let onError: Func<rhea.EventContext, void>;
 
+        const removeListeners = () => {
+          this._connection.removeListener(ConnectionEvents.connectionError, onError);
+          this._connection.removeListener(ConnectionEvents.connectionClose, onClose);
+        };
+
         onClose = (context: rhea.EventContext) => {
-          this._connection.removeListener("connection_close", onClose);
+          removeListeners();
           process.nextTick(() => {
             debug("[%s] Resolving the promise as the connection has been successfully closed.",
               this.id);
@@ -108,14 +114,14 @@ export class Connection {
         };
 
         onError = (context: rhea.EventContext) => {
-          this._connection.removeListener("connection_error", onError);
+          removeListeners();
           debug("[%s] Error occurred while closing amqp connection: %O.",
             this.id, context.connection.error);
           reject(context.connection.error);
         };
 
-        this._connection.once("connection_close", onClose);
-        this._connection.once("connection_error", onError);
+        this._connection.once(ConnectionEvents.connectionClose, onClose);
+        this._connection.once(ConnectionEvents.connectionError, onError);
         this._connection.close();
       } else {
         resolve();
@@ -150,8 +156,8 @@ export class Connection {
       let onClose: Func<rhea.EventContext, void>;
 
       const removeListeners = () => {
-        rheaSession.removeListener("session_open", onOpen);
-        rheaSession.removeListener("session_close", onClose);
+        rheaSession.removeListener(SessionEvents.sessionOpen, onOpen);
+        rheaSession.removeListener(SessionEvents.sessionClose, onClose);
       };
 
       onOpen = (context: rhea.EventContext) => {
@@ -169,8 +175,8 @@ export class Connection {
         reject(context.session!.error);
       };
 
-      rheaSession.once("session_open", onOpen);
-      rheaSession.once("session_close", onClose);
+      rheaSession.once(SessionEvents.sessionOpen, onOpen);
+      rheaSession.once(SessionEvents.sessionClose, onClose);
       debug("[%s] Calling amqp session.begin().", this.id);
       rheaSession.begin();
     });

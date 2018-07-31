@@ -102,12 +102,18 @@ export class Receiver {
    */
   close(): Promise<void> {
     const receiverClose = new Promise<void>((resolve, reject) => {
+      debug("[%s] The receiver is open ? -> %s", this.connection.id, this.isOpen());
       if (this.isOpen()) {
         let onError: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
 
-        onClose = (context: rhea.EventContext) => {
+        const removeListeners = () => {
+          this._receiver.removeListener(ReceiverEvents.receiverError, onError);
           this._receiver.removeListener(ReceiverEvents.receiverClose, onClose);
+        };
+
+        onClose = (context: rhea.EventContext) => {
+          removeListeners();
           process.nextTick(() => {
             debug("[%s] Resolving the promise as the amqp receiver has been closed.",
               this.connection.id);
@@ -116,7 +122,7 @@ export class Receiver {
         };
 
         onError = (context: rhea.EventContext) => {
-          this._receiver.removeListener(ReceiverEvents.receiverError, onError);
+          removeListeners();
           debug("[%s] Error occurred while closing amqp receiver. %O",
             this.connection.id, context.session!.error);
           reject(context.session!.error);
@@ -130,7 +136,10 @@ export class Receiver {
       }
     });
 
-    return receiverClose.then(() => { return this._session.close(); });
+    return receiverClose.then(() => {
+      debug("[%s] receiver has been closed, now closing it's session.", this.connection.id);
+      return this._session.close();
+    });
   }
 
   registerHandler(event: ReceiverEvents, handler: rhea.OnAmqpEvent): void {

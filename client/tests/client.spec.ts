@@ -79,8 +79,10 @@ describe("EventHubClient on ", function () {
   let client: EventHubClient;
 
   afterEach('close the connection', async function () {
-    debug(">>>>>>>> afterEach: closing the client.");
-    if (client) await client.close();
+    if (client) {
+      debug(">>>>>>>> afterEach: closing the client.");
+      await client.close();
+    }
   });
 
   describe("#close", function () {
@@ -150,7 +152,11 @@ describe("EventHubClient on ", function () {
         };
         const onError = (error: any) => {
           debug(">>>>>>>> error occurred", error);
-          done(should.equal(error.name, "MessagingEntityNotFoundError"));
+          // sleep for 3 seconds so that receiver link and the session can be closed properly then
+          // in aftereach the connection can be closed. closing the connection while the receiver
+          // link and it's session are being closed (and the session being removed from rhea's
+          // internal map) can create havoc.
+          setTimeout(() => { done(should.equal(error.name, "MessagingEntityNotFoundError")) }, 3000);
         }
         client.receive("0", onMessage, onError, { consumerGroup: "some-randome-name" });
         debug(">>>>>>>> attached the error handler on the receiver...");

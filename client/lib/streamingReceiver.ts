@@ -96,7 +96,12 @@ export class ReceiveHandler {
    */
   async stop(): Promise<void> {
     if (this._receiver) {
-      await this._receiver.close();
+      try {
+        await this._receiver.close();
+      } catch (err) {
+        debug("An error occurred while stopping the receiver '%s' with address '%s': %O",
+          this._receiver.name, this._receiver.address, err);
+      }
     }
   }
 }
