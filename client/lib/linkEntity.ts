@@ -172,19 +172,6 @@ export class LinkEntity {
       debug("[%s] %s '%s' with address '%s' and it's session have been removed from " +
         "internal map.", this._context.connectionId, this._type, this.name, this.address);
     }
-    // if (link) {
-    //   return link.close().then(() => {
-    //     debug("[%s] %s '%s' with address '%s' closed.", this._context.connectionId, this._type,
-    //       this.name, this.address);
-    //     link.remove();
-    //     debug("[%s] %s '%s' with address '%s' and it's session have been removed from " +
-    //       "internal map.", this._context.connectionId, this._type, this.name, this.address);
-    //     return Promise.resolve();
-    //   }).catch((err) => {
-    //     debug("[%s] An error occurred while closing the %s '%s' with address '%s': %O",
-    //       this._context.connectionId, this._type, this.name, this.address, err);
-    //   });
-    // }
   }
 
   /**

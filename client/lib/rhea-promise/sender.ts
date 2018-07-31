@@ -114,8 +114,13 @@ export class Sender {
         let onError: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
 
-        onClose = (context: rhea.EventContext) => {
+        const removeListeners = () => {
+          this._sender.removeListener(SenderEvents.senderError, onError);
           this._sender.removeListener(SenderEvents.senderClose, onClose);
+        };
+
+        onClose = (context: rhea.EventContext) => {
+          removeListeners();
           process.nextTick(() => {
             debug("[%s] Resolving the promise as the amqp sender has been closed.",
               this.connection.id);
@@ -124,7 +129,7 @@ export class Sender {
         };
 
         onError = (context: rhea.EventContext) => {
-          this._sender.removeListener(SenderEvents.senderError, onError);
+          removeListeners();
           debug("[%s] Error occurred while closing amqp sender: %O.",
             this.connection.id, context.session!.error);
           reject(context.session!.error);

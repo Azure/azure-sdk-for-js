@@ -6,7 +6,7 @@ import * as debugModule from "debug";
 import { Connection } from "./connection";
 import { Receiver, ReceiverOptions } from "./receiver";
 import { Sender, SenderOptions } from "./sender";
-import { Func, SenderEvents, ReceiverEvents } from ".";
+import { Func, SenderEvents, ReceiverEvents, SessionEvents } from ".";
 
 const debug = debugModule("rhea-promise:session");
 
@@ -58,8 +58,15 @@ export class Session {
     return new Promise<void>((resolve, reject) => {
       debug("[%s] The session is open ? -> %s", this.connection.id, this.isOpen());
       if (this.isOpen()) {
-        const onClose = (context: rhea.EventContext) => {
-          this._session.removeListener("session_close", onClose);
+        let onError: Func<rhea.EventContext, void>;
+        let onClose: Func<rhea.EventContext, void>;
+        const removeListeners = () => {
+          this._session.removeListener(SessionEvents.sessionError, onError);
+          this._session.removeListener(SessionEvents.sessionClose, onClose);
+        };
+
+        onClose = (context: rhea.EventContext) => {
+          removeListeners();
           process.nextTick(() => {
             debug("[%s] Resolving the promise as the amqp session has been closed.",
               this.connection.id);
@@ -67,15 +74,15 @@ export class Session {
           });
         };
 
-        const onError = (context: rhea.EventContext) => {
-          this._session.removeListener("session_error", onError);
+        onError = (context: rhea.EventContext) => {
+          removeListeners();
           debug("[%s] Error occurred while closing amqp session.",
             this.connection.id, context.session!.error);
           reject(context.session!.error);
         };
 
-        this._session.once("session_close", onClose);
-        this._session.once("session_error", onError);
+        this._session.once(SessionEvents.sessionClose, onClose);
+        this._session.once(SessionEvents.sessionError, onError);
         debug("[%s] Calling session.close()", this.connection.id);
         this._session.close();
       } else {
@@ -118,8 +125,8 @@ export class Session {
       }
 
       const removeListeners = () => {
-        rheaReceiver.removeListener("receiver_open", onOpen);
-        rheaReceiver.removeListener("receiver_close", onClose);
+        rheaReceiver.removeListener(ReceiverEvents.receiverOpen, onOpen);
+        rheaReceiver.removeListener(ReceiverEvents.receiverClose, onClose);
       };
 
       onOpen = (context: rhea.EventContext) => {
