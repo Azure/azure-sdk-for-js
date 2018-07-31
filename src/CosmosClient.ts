@@ -2,7 +2,7 @@ import { Database, Databases } from "./client/Database/";
 import { Offer, Offers } from "./client/Offer/";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DocumentClient } from "./documentclient";
-import { DatabaseAccount } from "./documents";
+import { ConsistencyLevel, DatabaseAccount } from "./documents";
 import { CosmosResponse } from "./request";
 
 /**
@@ -59,7 +59,7 @@ export class CosmosClient {
       options.endpoint,
       options.auth,
       options.connectionPolicy,
-      options.consistencyLevel
+      ConsistencyLevel[options.consistencyLevel]
     );
   }
 

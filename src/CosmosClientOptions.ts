@@ -22,5 +22,5 @@ export interface CosmosClientOptions {
   /** An optional parameter that represents the consistency level.
    * It can take any value from {@link ConsistencyLevel}.
    */
-  consistencyLevel?: ConsistencyLevel;
+  consistencyLevel?: keyof typeof ConsistencyLevel;
 }

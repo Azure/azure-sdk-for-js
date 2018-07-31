@@ -10,7 +10,7 @@ export class ConnectionPolicy {
   /** Determines which mode to connect to Cosmos with. (Currently only supports Gateway option) */
   public ConnectionMode = ConnectionMode.Gateway;
   /** Attachment content (aka media) download mode. Should be one of the values of {@link MediaReadMode} */
-  public MediaReadMode = MediaReadMode.Buffered;
+  public MediaReadMode: keyof typeof MediaReadMode = MediaReadMode.Buffered;
 
   /** Time to wait for response from network peer for attachment content (aka media) operations. Represented in milliseconds. */
   public MediaRequestTimeout = ConnectionPolicy.defaultMediaRequestTimeout;

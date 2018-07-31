@@ -19,7 +19,7 @@ describe("NodeJS CRUD Tests", function() {
         // create a container
         const containerDefinition: ContainerDefinition = {
           id: "sample container",
-          indexingPolicy: { indexingMode: IndexingMode.Consistent }
+          indexingPolicy: { indexingMode: IndexingMode.consistent }
         };
 
         if (hasPartitionKey) {
@@ -49,7 +49,7 @@ describe("NodeJS CRUD Tests", function() {
         assert(results.length > 0, "number of results for the query should be > 0");
 
         // Replacing indexing policy is allowed.
-        containerDef.indexingPolicy.indexingMode = IndexingMode.Lazy;
+        containerDef.indexingPolicy.indexingMode = IndexingMode.lazy;
         const { body: replacedContainer } = await container.replace(containerDef);
         assert.equal("lazy", replacedContainer.indexingPolicy.indexingMode);
 
@@ -108,7 +108,7 @@ describe("NodeJS CRUD Tests", function() {
 
         const containerDefinition: ContainerDefinition = {
           id: "sample container",
-          indexingPolicy: { indexingMode: IndexingMode.Consistent },
+          indexingPolicy: { indexingMode: IndexingMode.consistent },
           partitionKey: badPartitionKeyDefinition // This is invalid, forced using type coersion
         };
 
@@ -167,14 +167,14 @@ describe("NodeJS CRUD Tests", function() {
 
         assert.equal(
           containerDef.indexingPolicy.indexingMode,
-          DocumentBase.IndexingMode.Consistent,
+          DocumentBase.IndexingMode.consistent,
           "default indexing mode should be consistent"
         );
         await container.delete();
 
         const lazyContainerDefinition: ContainerDefinition = {
           id: "lazy container",
-          indexingPolicy: { indexingMode: DocumentBase.IndexingMode.Lazy }
+          indexingPolicy: { indexingMode: DocumentBase.IndexingMode.lazy }
         };
 
         const { body: lazyContainerDef } = await database.containers.create(lazyContainerDefinition);
@@ -182,7 +182,7 @@ describe("NodeJS CRUD Tests", function() {
 
         assert.equal(
           lazyContainerDef.indexingPolicy.indexingMode,
-          DocumentBase.IndexingMode.Lazy,
+          DocumentBase.IndexingMode.lazy,
           "indexing mode should be lazy"
         );
 
@@ -190,13 +190,13 @@ describe("NodeJS CRUD Tests", function() {
 
         const consistentcontainerDefinition: ContainerDefinition = {
           id: "lazy container",
-          indexingPolicy: { indexingMode: DocumentBase.IndexingMode.Consistent }
+          indexingPolicy: { indexingMode: "consistent" } // tests the type flexibility
         };
         const { body: consistentContainerDef } = await database.containers.create(consistentcontainerDefinition);
         const consistentContainer = database.container(consistentContainerDef.id);
         assert.equal(
           containerDef.indexingPolicy.indexingMode,
-          DocumentBase.IndexingMode.Consistent,
+          DocumentBase.IndexingMode.consistent,
           "indexing mode should be consistent"
         );
         await consistentContainer.delete();
@@ -205,7 +205,7 @@ describe("NodeJS CRUD Tests", function() {
           id: "containerWithIndexingPolicy",
           indexingPolicy: {
             automatic: true,
-            indexingMode: DocumentBase.IndexingMode.Consistent,
+            indexingMode: DocumentBase.IndexingMode.consistent,
             includedPaths: [
               {
                 path: "/",
@@ -311,7 +311,7 @@ describe("NodeJS CRUD Tests", function() {
         const containerDefinition02: ContainerDefinition = {
           id: "TestCreateDefaultPolicy02",
           indexingPolicy: {
-            indexingMode: IndexingMode.Lazy,
+            indexingMode: IndexingMode.lazy,
             automatic: true
           }
         };
@@ -398,7 +398,7 @@ describe("NodeJS CRUD Tests", function() {
 
         const lazyContainerDefinition = {
           id: "lazy_coll",
-          indexingPolicy: { indexingMode: DocumentBase.IndexingMode.Lazy }
+          indexingPolicy: { indexingMode: DocumentBase.IndexingMode.lazy }
         };
         const { headers: headers2 } = await createThenReadcontainer(database, lazyContainerDefinition);
         assert.notEqual(headers2[Constants.HttpHeaders.IndexTransformationProgress], undefined);
@@ -406,7 +406,7 @@ describe("NodeJS CRUD Tests", function() {
 
         const noneContainerDefinition = {
           id: "none_coll",
-          indexingPolicy: { indexingMode: DocumentBase.IndexingMode.None, automatic: false }
+          indexingPolicy: { indexingMode: DocumentBase.IndexingMode.none, automatic: false }
         };
         const { headers: headers3 } = await createThenReadcontainer(database, noneContainerDefinition);
         assert.notEqual(headers3[Constants.HttpHeaders.IndexTransformationProgress], undefined);

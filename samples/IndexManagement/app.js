@@ -196,7 +196,11 @@ async function useLazyIndexing(database) {
 
   // allowed values for IndexingMode are consistent (default), lazy and none
   const containerId = "LazyIndexDemo";
-  const indexingPolicySpec = { indexingMode: cosmos.DocumentBase.IndexingMode.Lazy };
+  /** @type cosmos.DocumentBase.IndexingPolicy */
+  const indexingPolicySpec = { indexingMode: cosmos.DocumentBase.IndexingMode.lazy };
+
+  // You can also set the indexing policy Mode via string
+  indexingPolicySpec.indexingMode = "lazy";
 
   const { body: containerDef, container } = await database.containers.create({
     id: containerId,

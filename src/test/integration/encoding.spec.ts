@@ -27,7 +27,7 @@ describe("Create And Read Validation", function() {
       const database = await getTestDatabase(databaseId);
       const containerBody = {
         id: "डेटाबेस پایگاه داده 数据库" + dateTime.getTime(),
-        indexingPolicy: { indexingMode: IndexingMode.Lazy } // Modes : Lazy, Consistent
+        indexingPolicy: { indexingMode: IndexingMode.lazy } // Modes : Lazy, Consistent
       };
 
       // Create a container inside the database
