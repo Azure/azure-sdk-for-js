@@ -48,18 +48,10 @@ helloCosmos().catch((err)=>{console.error(err)});
 
 ### Prerequisites
 
-Install Node.js and npm
+Install Node.js 6 or above and npm
 [https://docs.npmjs.com/getting-started/installing-node](https://docs.npmjs.com/getting-started/installing-node)
 
-Node SDK can be consumed in two ways.
-
-### Install Core Module Published to NPM
-
-The core module uses the callbacks model for responses, exposed through the DocumentClient
-
-    npm install @azure/cosmos
-
-## Prerequisites
+The SDK is not supported in Node v4 or below. Those Node.js versions are out of support and not recommended for production. Our support will only cover maintained versions of Node.js.
 
 To use the SDK, first [create an account](https://docs.microsoft.com/en-us/azure/cosmos-db/create-documentdb-nodejs) and follow [tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-nodejs-application).
 
@@ -68,6 +60,12 @@ To use the SDK, first [create an account](https://docs.microsoft.com/en-us/azure
 When connecting to the [emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator) from the SDK, SSL verification is disabled.
 
 Follow these instructions to run the tests locally.
+
+### Install
+
+```bash
+npm install @azure/cosmos
+```
 
 ## Tests
 
@@ -79,7 +77,7 @@ Follow these instructions to run the tests locally.
     git clone https://github.com/azure/azure-cosmos-js.git
     ```
 
-2.  Install Node.js and npm
+2.  Install Node.js 6 or above and npm
     [https://docs.npmjs.com/getting-started/installing-node](https://docs.npmjs.com/getting-started/installing-node)
 
 3.  [Cosmos DB emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator)
