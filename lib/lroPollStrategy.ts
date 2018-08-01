@@ -5,40 +5,46 @@ import { delay, HttpMethods, HttpOperationResponse, RequestOptionsBase, RequestP
 import { AzureServiceClient } from "./azureServiceClient";
 import { LongRunningOperationStates } from "./util/constants";
 
+export type LROPollStrategyType = "AzureAsyncOperation" | "Location" | "GetResource";
+
+export interface LROMemento {
+  pollStrategyType: LROPollStrategyType;
+  initialResponse: HttpOperationResponse;
+  state: LongRunningOperationStates;
+  mostRecentRequest: WebResource;
+  mostRecentResponse: HttpOperationResponse;
+  resource: any;
+  azureAsyncOperationHeaderValue?: string;
+  locationHeaderValue?: string;
+  options?: RequestOptionsBase;
+}
+
 /**
  * A long-running operation polling strategy base class that other polling strategies should extend.
  */
 export abstract class LROPollStrategy {
-  protected readonly _initialRequestUrl: string;
-  protected readonly _initialRequestMethod: HttpMethods;
-  protected readonly _initialResponseStatusCode: number;
-  protected _status: LongRunningOperationStates;
-  protected _mostRecentRequest: WebResource;
-  protected _response: HttpOperationResponse;
-  protected _resource: any;
-  protected _azureAsyncOperationHeaderValue: string | undefined;
-  protected _locationHeaderValue: string | undefined;
-
-  constructor(initialResponse: HttpOperationResponse, private readonly _azureServiceClient: AzureServiceClient, private readonly _options?: RequestOptionsBase) {
-    this._response = initialResponse;
-
-    this._mostRecentRequest = initialResponse.request;
-    this._initialRequestUrl = this._mostRecentRequest.url;
-    this._initialResponseStatusCode = initialResponse.status;
-    this._initialRequestMethod = this._mostRecentRequest.method;
-
-    this._resource = getResponseBody(initialResponse);
-    this._status = getStatusFromResponse(initialResponse, this._resource);
-    this._resource = getResponseBody(initialResponse);
-
-    this._azureAsyncOperationHeaderValue = getAzureAsyncOperationHeaderValue(initialResponse);
-    this._locationHeaderValue = getLocationHeaderValue(initialResponse);
-
+  constructor(private readonly _azureServiceClient: AzureServiceClient, protected readonly _memento: LROMemento) {
   }
 
+  public getOperationStatus(): LongRunningOperationStates {
+    return this._memento.state;
+  }
+
+  /**
+   * Get whether or not this poll strategy's LRO is finished.
+   * @returns Whether or not this poll strategy's LRO is finished.
+   */
+  public isFinished(): boolean {
+    return isFinished(this._memento.state);
+  }
+
+  /**
+   * Send poll requests that check the LRO's status until it is determined that the LRO is finished.
+   * @returns Whether or not the LRO succeeded.
+   */
   public async pollUntilFinished(): Promise<boolean> {
-    while (!isFinished(this._status)) {
-      const delayInSeconds: number = getDelayInSeconds(this._azureServiceClient, this._response);
+    while (!this.isFinished()) {
+      const delayInSeconds: number = getDelayInSeconds(this._azureServiceClient, this._memento.mostRecentResponse);
       await delay(delayInSeconds * 1000);
 
       await this.sendPollRequest();
@@ -46,13 +52,17 @@ export abstract class LROPollStrategy {
     return this.finalStatusIsAcceptable();
   }
 
-  protected abstract sendPollRequest(): Promise<void>;
+  /**
+   * Send a single poll request that checks the LRO's status and return the response. If the LRO is
+   * finished, then no request will be sent and the last response received will be returned.
+   */
+  public abstract sendPollRequest(): Promise<void>;
 
-  protected abstract finalStatusIsAcceptable(): boolean;
+  public abstract finalStatusIsAcceptable(): boolean;
 
   protected shouldDoFinalGetResourceRequest(): boolean {
-    const initialRequestMethod: HttpMethods = this._initialRequestMethod;
-    return !this._resource && (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH" || initialRequestMethod === "POST");
+    const initialRequestMethod: HttpMethods = this._memento.initialResponse.request.method;
+    return !this._memento.resource && (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH" || initialRequestMethod === "POST");
   }
 
   protected abstract doFinalGetResourceRequest(): Promise<void>;
@@ -61,12 +71,12 @@ export abstract class LROPollStrategy {
     if (this.shouldDoFinalGetResourceRequest()) {
       await this.doFinalGetResourceRequest();
     }
-    const response: HttpOperationResponse = this._response;
+    const response: HttpOperationResponse = this._memento.mostRecentResponse;
     const result: HttpOperationResponse = {
       ...response,
       headers: response.headers.clone()
     };
-    const resource: any = this._resource;
+    const resource: any = this._memento.resource;
     if (!resource) {
       result.bodyAsText = response.bodyAsText;
       result.parsedBody = response.parsedBody;
@@ -82,10 +92,10 @@ export abstract class LROPollStrategy {
 
   public getRestError(): RestError {
     const error = new RestError("");
-    error.request = stripRequest(this._mostRecentRequest);
-    error.response = this._response;
-    error.message = `Long running operation failed with status: "${this._status}".`;
-    error.body = this._resource;
+    error.request = stripRequest(this._memento.mostRecentRequest);
+    error.response = this._memento.mostRecentResponse;
+    error.message = `Long running operation failed with status: "${this._memento.state}".`;
+    error.body = this._memento.resource;
     if (error.body) {
       const innerError: any = error.body.error;
       if (innerError) {
@@ -101,16 +111,16 @@ export abstract class LROPollStrategy {
   }
 
   protected updateState(url: string): Promise<void> {
-    return this.getStatus(url).then(result => {
-      this._status = getProvisioningState(result.parsedBody) || "Succeeded";
-      this._response = result;
-      this._mostRecentRequest = result.request;
+    return this.updateOperationStatus(url).then(result => {
+      this._memento.state = getProvisioningState(result.parsedBody) || "Succeeded";
+      this._memento.mostRecentResponse = result;
+      this._memento.mostRecentRequest = result.request;
       try {
-        this._resource = getResponseBody(result);
+        this._memento.resource = getResponseBody(result);
       } catch (error) {
-        this._resource = undefined;
+        this._memento.resource = undefined;
         const resultStatus: number = result.status;
-        if (this._initialRequestMethod !== "DELETE" || resultStatus < 400 || 499 < resultStatus) {
+        if (this._memento.initialResponse.request.method !== "DELETE" || resultStatus < 400 || 499 < resultStatus) {
           throw error;
         }
       }
@@ -121,20 +131,25 @@ export abstract class LROPollStrategy {
    * Retrieves operation status by querying the operation URL.
    * @param {string} statusUrl URL used to poll operation result.
    */
-  protected getStatus(statusUrl: string): Promise<HttpOperationResponse> {
+  protected updateOperationStatus(statusUrl: string): Promise<HttpOperationResponse> {
     const requestUrl: string = statusUrl.replace(" ", "%20");
     const httpRequest: RequestPrepareOptions = {
       method: "GET",
       url: requestUrl,
       headers: {}
     };
-    if (this._options && this._options.customHeaders) {
-      const customHeaders = this._options.customHeaders;
+    const options: RequestOptionsBase | undefined = this._memento.options;
+    if (options && options.customHeaders) {
+      const customHeaders = options.customHeaders;
       for (const headerName of Object.keys(customHeaders)) {
         httpRequest.headers![headerName] = customHeaders[headerName];
       }
     }
     return this._azureServiceClient.sendRequest(httpRequest);
+  }
+
+  public getMemento(): LROMemento {
+    return this._memento;
   }
 }
 
@@ -230,21 +245,61 @@ function isFinished(status: LongRunningOperationStates): boolean {
  * @param azureServiceClient The AzureServiceClient that was used to send the initial request.
  * @param options Any options that were provided to the initial request.
  */
-export function createLROPollStrategy(initialResponse: HttpOperationResponse, azureServiceClient: AzureServiceClient, options?: RequestOptionsBase): LROPollStrategy | undefined {
-  let result: LROPollStrategy | undefined;
+export function createLROPollStrategyFromInitialResponse(initialResponse: HttpOperationResponse, azureServiceClient: AzureServiceClient, options?: RequestOptionsBase): LROPollStrategy | undefined {
+  const initialRequestMethod: HttpMethods = initialResponse.request.method;
+  const initialResponseStatus: number = initialResponse.status;
 
+  let lroPollStrategyType: LROPollStrategyType | undefined;
   if (getAzureAsyncOperationHeaderValue(initialResponse)) {
-    result = new AzureAsyncOperationLROPollStrategy(initialResponse, azureServiceClient, options);
+    lroPollStrategyType = "AzureAsyncOperation";
   } else if (getLocationHeaderValue(initialResponse)) {
-    result = new LocationLROPollStrategy(initialResponse, azureServiceClient, options);
-  } else if (initialResponse.request.method === "PUT" || initialResponse.request.method === "PATCH") {
-    result = new GetResourceLROPollStrategy(initialResponse, azureServiceClient, options);
-  } else if (initialResponse.status === 201 || initialResponse.status === 202 || isFinished(getStatusFromResponse(initialResponse))) {
-    result = undefined;
-  } else {
-    throw new Error("Can't determine long running operation polling strategy from initial response.");
+    lroPollStrategyType = "Location";
+  } else if (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH") {
+    lroPollStrategyType = "GetResource";
+  } else if (initialResponseStatus !== 201 && initialResponseStatus !== 202 && !isFinished(getStatusFromResponse(initialResponse))) {
+    throw new Error("Can't determine long running operation polling strategy.");
   }
 
+  let result: LROPollStrategy | undefined;
+  if (lroPollStrategyType) {
+    const resource: any = getResponseBody(initialResponse);
+    const lroMemento: LROMemento = {
+      pollStrategyType: lroPollStrategyType,
+      options: options,
+      initialResponse: initialResponse,
+      mostRecentResponse: initialResponse,
+      mostRecentRequest: initialResponse.request,
+      azureAsyncOperationHeaderValue: getAzureAsyncOperationHeaderValue(initialResponse),
+      locationHeaderValue: getLocationHeaderValue(initialResponse),
+      resource: resource,
+      state: getStatusFromResponse(initialResponse, resource)
+    };
+    result = createLROPollStrategyFromMemento(azureServiceClient, lroMemento);
+  } else {
+    result = undefined;
+  }
+  return result;
+}
+
+export function createLROPollStrategyFromMemento(azureServiceClient: AzureServiceClient, lroMemento: LROMemento): LROPollStrategy | undefined {
+  let result: LROPollStrategy;
+  switch (lroMemento.pollStrategyType) {
+    case "AzureAsyncOperation":
+      result = new AzureAsyncOperationLROPollStrategy(azureServiceClient, lroMemento);
+      break;
+
+    case "Location":
+      result = new LocationLROPollStrategy(azureServiceClient, lroMemento);
+      break;
+
+    case "GetResource":
+      result = new GetResourceLROPollStrategy(azureServiceClient, lroMemento);
+      break;
+
+    default:
+      throw new Error(`Unrecognized LRO poll strategy type: "${lroMemento.pollStrategyType}"`);
+      break;
+  }
   return result;
 }
 
@@ -261,53 +316,59 @@ class LocationLROPollStrategy extends LROPollStrategy {
    * @param {string} method - The HTTP method.
    * @param {PollingState} pollingState - The object to persist current operation state.
    */
-  protected sendPollRequest(): Promise<void> {
-    return this.getStatus(this._locationHeaderValue!).then((result: HttpOperationResponse) => {
+  public sendPollRequest(): Promise<void> {
+    const memento: LROMemento = this._memento;
+    return this.updateOperationStatus(memento.locationHeaderValue!).then((result: HttpOperationResponse) => {
       const locationHeaderValue: string | undefined = getLocationHeaderValue(result);
       if (locationHeaderValue) {
-        this._locationHeaderValue = locationHeaderValue;
+        memento.locationHeaderValue = locationHeaderValue;
       }
 
-      this._response = result;
-      this._mostRecentRequest = result.request;
+      memento.mostRecentResponse = result;
+      memento.mostRecentRequest = result.request;
 
-      const initialRequestMethod: HttpMethods = this._initialRequestMethod;
-      const initialResponseStatusCode: number = this._initialResponseStatusCode;
+      const initialResponse: HttpOperationResponse = memento.initialResponse;
+      const initialRequestMethod: HttpMethods = initialResponse.request.method;
+      const initialResponseStatusCode: number = initialResponse.status;
       const statusCode: number = result.status;
       if (statusCode === 202) {
-        this._status = "InProgress";
+        memento.state = "InProgress";
       } else if (statusCode === 200 ||
         (statusCode === 201 && (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH")) ||
         (statusCode === 204 && (initialRequestMethod === "DELETE" || initialRequestMethod === "POST"))) {
-        this._status = "Succeeded";
-        this._resource = getResponseBody(result);
+        memento.state = "Succeeded";
+        memento.resource = getResponseBody(result);
       } else if (statusCode === 404 && initialRequestMethod === "POST" &&
         (initialResponseStatusCode === 200 || initialResponseStatusCode === 201 || initialResponseStatusCode === 202)) {
-        this._status = "Failed";
-        this._resource = getResponseBody(result);
+        memento.state = "Failed";
+        memento.resource = getResponseBody(result);
       } else if (400 <= statusCode && statusCode <= 499) {
         const resultBody: string = result.bodyAsText!;
         throw new RestError(resultBody, undefined, statusCode, stripRequest(result.request), result, resultBody);
       } else {
-        throw new Error(`The response with status code ${statusCode} from polling for long running operation url "${this._locationHeaderValue}" is not valid.`);
+        throw new Error(`The response with status code ${statusCode} from polling for long running operation url "${memento.locationHeaderValue}" is not valid.`);
       }
     });
   }
 
-  protected finalStatusIsAcceptable(): boolean {
-    const initialResponseStatusCode: number = this._initialResponseStatusCode;
-    return this._status === "Succeeded" ||
-      (this._initialRequestMethod === "POST" && this._response.status === 404 &&
+  public finalStatusIsAcceptable(): boolean {
+    const memento: LROMemento = this._memento;
+    const initialResponse: HttpOperationResponse = memento.initialResponse;
+    const initialResponseStatusCode: number = initialResponse.status;
+    return memento.state === "Succeeded" ||
+      (initialResponse.request.method === "POST" && memento.mostRecentResponse.status === 404 &&
         (initialResponseStatusCode === 200 ||
           initialResponseStatusCode === 201 ||
           initialResponseStatusCode === 202));
   }
 
   protected shouldDoFinalGetResourceRequest(): boolean {
+    const memento: LROMemento = this._memento;
+    const initialResponse: HttpOperationResponse = memento.initialResponse;
     let result: boolean;
-    const initialRequestMethod: HttpMethods = this._initialRequestMethod;
-    const initialResponseStatusCode: number = this._initialResponseStatusCode;
-    if (initialRequestMethod === "POST" && this._response.status === 404 &&
+    const initialRequestMethod: HttpMethods = initialResponse.request.method;
+    const initialResponseStatusCode: number = initialResponse.status;
+    if (initialRequestMethod === "POST" && memento.mostRecentResponse.status === 404 &&
       (initialResponseStatusCode === 200 ||
         initialResponseStatusCode === 201 ||
         initialResponseStatusCode === 202)) {
@@ -320,15 +381,18 @@ class LocationLROPollStrategy extends LROPollStrategy {
   }
 
   protected doFinalGetResourceRequest(): Promise<void> {
+    const memento: LROMemento = this._memento;
+    const initialResponse: HttpOperationResponse = memento.initialResponse;
     let getResourceRequestUrl: string;
-    const initialResponseStatusCode: number = this._initialResponseStatusCode;
-    if (this._initialRequestMethod === "POST" &&
+    const initialResponseStatusCode: number = initialResponse.status;
+    const initialRequest: WebResource = initialResponse.request;
+    if (initialRequest.method === "POST" &&
       (initialResponseStatusCode === 200 ||
         initialResponseStatusCode === 201 ||
         initialResponseStatusCode === 202)) {
-      getResourceRequestUrl = this._locationHeaderValue!;
+      getResourceRequestUrl = memento.locationHeaderValue!;
     } else {
-      getResourceRequestUrl = this._initialRequestUrl;
+      getResourceRequestUrl = initialRequest.url;
     }
     return this.updateState(getResourceRequestUrl);
   }
@@ -347,8 +411,9 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
    * @param {PollingState} pollingState - The object to persist current operation state.
    * @param {boolean} inPostOrDelete - Invoked by Post Or Delete operation.
    */
-  protected sendPollRequest(): Promise<void> {
-    return this.getStatus(this._azureAsyncOperationHeaderValue!).then((response: HttpOperationResponse) => {
+  public sendPollRequest(): Promise<void> {
+    const memento: LROMemento = this._memento;
+    return this.updateOperationStatus(memento.azureAsyncOperationHeaderValue!).then((response: HttpOperationResponse) => {
       const statusCode: number = response.status;
       const parsedResponse: any = response.parsedBody;
       if (statusCode !== 200 && statusCode !== 201 && statusCode !== 202 && statusCode !== 204) {
@@ -368,24 +433,26 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
 
       const azureAsyncOperationHeaderValue: string | undefined = getAzureAsyncOperationHeaderValue(response);
       if (azureAsyncOperationHeaderValue) {
-        this._azureAsyncOperationHeaderValue = azureAsyncOperationHeaderValue;
+        memento.azureAsyncOperationHeaderValue = azureAsyncOperationHeaderValue;
       }
 
-      this._status = parsedResponse.status;
-      this._response = response;
-      this._mostRecentRequest = response.request;
-      this._resource = getResponseBody(response);
+      memento.state = parsedResponse.status;
+      memento.mostRecentResponse = response;
+      memento.mostRecentRequest = response.request;
+      memento.resource = getResponseBody(response);
     });
   }
 
   protected shouldDoFinalGetResourceRequest(): boolean {
-    const initialRequestMethod: HttpMethods = this._initialRequestMethod;
+    const memento: LROMemento = this._memento;
+    const initialResponse: HttpOperationResponse = memento.initialResponse;
+    const initialRequestMethod: HttpMethods = initialResponse.request.method;
     let result = false;
     if (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH") {
       result = true;
     } else {
-      if (this._locationHeaderValue) {
-        const initialResponseStatusCode: number = this._initialResponseStatusCode;
+      if (memento.locationHeaderValue) {
+        const initialResponseStatusCode: number = initialResponse.status;
         if (initialRequestMethod === "POST") {
           result = initialResponseStatusCode === 200 || initialResponseStatusCode === 201 || initialResponseStatusCode === 202;
         } else if (initialRequestMethod === "DELETE") {
@@ -397,11 +464,14 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
   }
 
   protected doFinalGetResourceRequest(): Promise<void> {
-    const locationHeaderValue: string | undefined = this._locationHeaderValue;
-    let getResourceRequestUrl: string = this._initialRequestUrl;
+    const memento: LROMemento = this._memento;
+    const locationHeaderValue: string | undefined = memento.locationHeaderValue;
+    const initialResponse: HttpOperationResponse = memento.initialResponse;
+    const initialRequest: WebResource = initialResponse.request;
+    let getResourceRequestUrl: string = initialRequest.url;
     if (locationHeaderValue) {
-      const initialRequestMethod: HttpMethods = this._initialRequestMethod;
-      const initialResponseStatusCode: number = this._initialResponseStatusCode;
+      const initialRequestMethod: HttpMethods = initialRequest.method;
+      const initialResponseStatusCode: number = initialResponse.status;
       if (initialRequestMethod === "POST" && (initialResponseStatusCode === 200 || initialResponseStatusCode === 201 || initialResponseStatusCode === 202)) {
         getResourceRequestUrl = locationHeaderValue;
       } else if (initialRequestMethod === "DELETE" && (initialResponseStatusCode === 200 || initialResponseStatusCode === 202)) {
@@ -411,10 +481,12 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
     return this.updateState(getResourceRequestUrl);
   }
 
-  protected finalStatusIsAcceptable(): boolean {
-    const initialResponseStatusCode: number = this._initialResponseStatusCode;
-    return this._status === "Succeeded" ||
-      (this._initialRequestMethod === "POST" && (initialResponseStatusCode === 200 || initialResponseStatusCode === 201));
+  public finalStatusIsAcceptable(): boolean {
+    const memento: LROMemento = this._memento;
+    const initialResponse: HttpOperationResponse = memento.initialResponse;
+    const initialResponseStatusCode: number = initialResponse.status;
+    return memento.state === "Succeeded" ||
+      (initialResponse.request.method === "POST" && (initialResponseStatusCode === 200 || initialResponseStatusCode === 201));
   }
 }
 
@@ -422,8 +494,9 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
  * A long-running operation polling strategy that is based on the resource's provisioning state.
  */
 class GetResourceLROPollStrategy extends LROPollStrategy {
-  protected sendPollRequest(): Promise<void> {
-    return this.getStatus(this._initialRequestUrl).then(result => {
+  public sendPollRequest(): Promise<void> {
+    const memento: LROMemento = this._memento;
+    return this.updateOperationStatus(memento.initialResponse.request.url).then(result => {
       const statusCode: number = result.status;
       const responseBody: any = result.parsedBody;
       if (statusCode !== 200 && statusCode !== 201 && statusCode !== 202 && statusCode !== 204) {
@@ -439,15 +512,15 @@ class GetResourceLROPollStrategy extends LROPollStrategy {
         throw new Error("The response from long running operation does not contain a body.");
       }
 
-      this._status = getProvisioningState(result.parsedBody) || "Succeeded";
-      this._response = result;
-      this._mostRecentRequest = result.request;
-      this._resource = getResponseBody(result);
+      memento.state = getProvisioningState(result.parsedBody) || "Succeeded";
+      memento.mostRecentResponse = result;
+      memento.mostRecentRequest = result.request;
+      memento.resource = getResponseBody(result);
     });
   }
 
-  protected finalStatusIsAcceptable(): boolean {
-    return this._status === "Succeeded";
+  public finalStatusIsAcceptable(): boolean {
+    return this._memento.state === "Succeeded";
   }
 
   protected doFinalGetResourceRequest(): Promise<void> {
