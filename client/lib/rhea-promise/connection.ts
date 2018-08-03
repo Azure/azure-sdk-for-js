@@ -142,6 +142,15 @@ export class Connection {
   }
 
   /**
+   * Determines whether the close from the peer is a response to a locally initiated close request
+   * for the connection.
+   * @returns {boolean} `true` if close was locally initiated, `false` otherwise.
+   */
+  wasCloseInitiated(): boolean {
+    return this._connection.is_closed();
+  }
+
+  /**
    * Creates an amqp session on the provided amqp connection.
    * @return {Promise<Session>} Promise<Session>
    * - **Resolves** the promise with the Session object when rhea emits the "session_open" event.
@@ -188,7 +197,7 @@ export class Connection {
    * @return {Promise<Sender>} Promise<Sender>.
    */
   async createSender(options?: SenderOptionsWithSession): Promise<Sender> {
-    if (options && options.session) {
+    if (options && options.session && options.session.createSender) {
       return await options.session.createSender(options);
     }
     const session = await this.createSession();
@@ -201,7 +210,7 @@ export class Connection {
    * @return {Promise<Receiver>} Promise<Receiver>.
    */
   async createReceiver(options?: ReceiverOptionsWithSession): Promise<Receiver> {
-    if (options && options.session) {
+    if (options && options.session && options.session.createReceiver) {
       return await options.session.createReceiver(options);
     }
     const session = await this.createSession();
