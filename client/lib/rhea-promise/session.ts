@@ -35,6 +35,14 @@ export class Session {
     return result;
   }
 
+  /**
+   * Determines whether the close from the peer is a response to a locally initiated close request.
+   * @returns {boolean} `true` if close was locally initiated, `false` otherwise.
+   */
+  wasCloseInitiated(): boolean {
+    return this._session.is_closed();
+  }
+
   remove(): void {
     if (this._session) {
       this._session.remove();
@@ -108,8 +116,16 @@ export class Session {
     }
 
     const handlersProvided = options && options.onMessage ? true : false;
-
     return new Promise((resolve, reject) => {
+
+      // Register session handlers for session_error and session_close if provided.
+      if (options && options.onSessionError) {
+        this._session.on(SessionEvents.sessionError, options.onSessionError);
+      }
+
+      if (options && options.onSessionClose) {
+        this._session.on(SessionEvents.sessionClose, options.onSessionClose);
+      }
       const rheaReceiver = this._session.attach_receiver(options);
       const receiver = new Receiver(this, rheaReceiver, options);
       let onOpen: Func<rhea.EventContext, void>;
@@ -145,8 +161,8 @@ export class Session {
         reject(context.receiver!.error);
       };
 
-      rheaReceiver.once("receiver_open", onOpen);
-      rheaReceiver.once("receiver_close", onClose);
+      rheaReceiver.once(ReceiverEvents.receiverOpen, onOpen);
+      rheaReceiver.once(ReceiverEvents.receiverClose, onClose);
     });
   }
 
@@ -160,6 +176,15 @@ export class Session {
    */
   createSender(options?: SenderOptions): Promise<Sender> {
     return new Promise((resolve, reject) => {
+      // Register session handlers for session_error and session_close if provided.
+      if (options && options.onSessionError) {
+        this._session.on(SessionEvents.sessionError, options.onSessionError);
+      }
+
+      if (options && options.onSessionClose) {
+        this._session.on(SessionEvents.sessionClose, options.onSessionClose);
+      }
+
       const rheaSender = this._session.attach_sender(options);
       const sender = new Sender(this, rheaSender, options);
       let onSendable: Func<rhea.EventContext, void>;
