@@ -13,6 +13,10 @@ import { LinkEntity } from "./linkEntity";
 
 const debug = debugModule("azure:event-hubs:management");
 
+/**
+ * Describes the runtime information of an EventHub.
+ * @interface EventHubRuntimeInformation
+ */
 export interface EventHubRuntimeInformation {
   /**
    * @property {string} path - The name of the event hub.
@@ -36,6 +40,10 @@ export interface EventHubRuntimeInformation {
   type: "com.microsoft:eventhub";
 }
 
+/**
+ * Describes the runtime information of an EventHub Partition.
+ * @interface EventHubPartitionRuntimeInformation
+ */
 export interface EventHubPartitionRuntimeInformation {
   /**
    * @property {string} hubPath - The name of the eventhub.
@@ -74,6 +82,7 @@ export interface ManagementClientOptions {
 
 /**
  * @class ManagementClient
+ * @ignore
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
@@ -96,8 +105,9 @@ export class ManagementClient extends LinkEntity {
   private _mgmtReqResLink?: RequestResponseLink;
 
   /**
-   * @constructor
    * Instantiates the management client.
+   * @constructor
+   * @ignore
    * @param {BaseConnectionContext} context The connection context.
    * @param {string} [address] The address for the management endpoint. For IotHub it will be
    * `/messages/events/$management`.
@@ -113,6 +123,7 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Provides the eventhub runtime information.
+   * @ignore
    * @param {Connection} connection - The established amqp connection
    * @returns {Promise<EventHubRuntimeInformation>}
    */
@@ -131,6 +142,7 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Provides an array of partitionIds.
+   * @ignore
    * @param {Connection} connection - The established amqp connection
    * @returns {Promise<Array<string>>}
    */
@@ -141,6 +153,7 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Provides information about the specified partition.
+   * @ignore
    * @param {Connection} connection - The established amqp connection
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    */
@@ -165,6 +178,7 @@ export class ManagementClient extends LinkEntity {
   /**
    * Closes the AMQP management session to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
+   * @ignore
    * @return {Promise<void>}
    */
   async close(): Promise<void> {
