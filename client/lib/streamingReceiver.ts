@@ -109,6 +109,7 @@ export class ReceiveHandler {
 /**
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
+ * @ignore
  * @class StreamingReceiver
  * @extends EventHubReceiver
  */
@@ -116,7 +117,7 @@ export class StreamingReceiver extends EventHubReceiver {
 
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
-   *
+   * @ignore
    * @constructor
    * @param {EventHubClient} client                            The EventHub client.
    * @param {string} partitionId                               Partition ID from which to receive.
@@ -139,7 +140,7 @@ export class StreamingReceiver extends EventHubReceiver {
 
   /**
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
-   *
+   * @ignore
    * @param {OnMessage} onMessage The message handler to receive event data objects.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
    */
@@ -174,7 +175,7 @@ export class StreamingReceiver extends EventHubReceiver {
   /**
    * Creates a streaming receiver.
    * @static
-   *
+   * @ignore
    * @param {ConnectionContext} context    The connection context.
    * @param {string | number} partitionId  The partitionId to receive events from.
    * @param {ReceiveOptions} [options]     Receive options.

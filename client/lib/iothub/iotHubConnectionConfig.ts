@@ -3,6 +3,10 @@
 
 import { parseConnectionString, IotHubConnectionStringModel, ConnectionConfig } from "../amqp-common";
 
+/**
+ * @interface IotHubConnectionConfig
+ * @ignore
+ */
 export interface IotHubConnectionConfig {
   /**
    * @property {string} endpoint - The iothub endpoint `"<iothub-namespace>.azure-devices.net"`.
@@ -30,9 +34,14 @@ export interface IotHubConnectionConfig {
   sharedAccessKey: string;
 }
 
+/**
+ * @module IotHubConnectionConfig
+ * @ignore
+ */
 export namespace IotHubConnectionConfig {
   /**
    * Creates the connection config.
+   * @ignore
    * @param {string} connectionString - The event hub connection string
    * @param {string} [path]           - The name/path of the entity (hub name) to which the connection needs to happen
    */
@@ -57,6 +66,7 @@ export namespace IotHubConnectionConfig {
 
   /**
    * Validates the properties of connection config.
+   * @ignore
    * @param {ConnectionConfig} config The connection config to be validated.
    */
   export function validate(config: IotHubConnectionConfig): void {
@@ -76,7 +86,11 @@ export namespace IotHubConnectionConfig {
       throw new Error("'sharedAccessKey' is a required property of the ConnectionConfig.");
     }
   }
-
+  /**
+   * Convert iothub connection config to eventhub connection config.
+   * @ignore
+   * @param {IotHubConnectionConfig} iotHubConfig
+   */
   export function convertToEventHubConnectionConfig(iotHubConfig: IotHubConnectionConfig): ConnectionConfig {
     if (!iotHubConfig || (iotHubConfig && typeof iotHubConfig !== "object")) {
       throw new Error("'iotHubConfig' is a required parameter and must be of type: 'object'.");

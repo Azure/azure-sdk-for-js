@@ -5,6 +5,7 @@ import { translate, Constants, ErrorNameConditionMapper } from "./amqp-common";
 
 /**
  * Describes the options that can be set while creating an EventPosition.
+ * @ignore
  * @interface EventPositionOptions
  */
 export interface EventPositionOptions {
