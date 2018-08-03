@@ -22,5 +22,6 @@
       "editor.tabSize": 2,
       "editor.detectIndentation": false
     },
-    "editor.rulers": [100]
+    "editor.rulers": [100],
+    "typescript.tsdk": "./client/node_modules/typescript/lib"
   }
