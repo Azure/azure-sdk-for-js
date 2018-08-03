@@ -66,6 +66,8 @@ export class BatchingReceiver extends EventHubReceiver {
       let onReceiveMessage: OnAmqpEvent;
       let onReceiveError: OnAmqpEvent;
       let onReceiveClose: OnAmqpEvent;
+      let onSessionError: OnAmqpEvent;
+      let onSessionClose: OnAmqpEvent;
       let waitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
@@ -112,19 +114,13 @@ export class BatchingReceiver extends EventHubReceiver {
       onReceiveError = (context: EventContext) => {
         this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
         this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
-        this._receiver!.removeSessionHandler(SessionEvents.sessionError, onReceiveError);
+        this._receiver!.removeSessionHandler(SessionEvents.sessionError, onSessionError);
         const receiverError = context.receiver && context.receiver.error;
-        const sessionError = context.session && context.session.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (receiverError) {
           error = translate(receiverError);
           debug("[%s] Receiver '%s' received an error:\n%O", this._context.connectionId,
             this.name, error);
-
-        } else if (sessionError) {
-          error = translate(sessionError);
-          debug("[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
-            this._context.connectionId, this.name, error);
         }
         if (waitTimer) {
           clearTimeout(waitTimer);
@@ -134,14 +130,35 @@ export class BatchingReceiver extends EventHubReceiver {
 
       onReceiveClose = async (context: EventContext) => {
         const receiverError = context.receiver && context.receiver.error;
-        const sessionError = context.session && context.session.error;
         if (receiverError) {
           debug("[%s] 'receiver_close' event occurred. The associated error is: %O",
             this._context.connectionId, receiverError);
-        } else if (sessionError) {
+        }
+      };
+
+      onSessionClose = async (context: EventContext) => {
+        const sessionError = context.session && context.session.error;
+        if (sessionError) {
           debug("[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
             this._context.connectionId, this.name, sessionError);
         }
+      };
+
+      onSessionError = (context: EventContext) => {
+        this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
+        this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
+        this._receiver!.removeSessionHandler(SessionEvents.sessionError, onReceiveError);
+        const sessionError = context.session && context.session.error;
+        let error = new MessagingError("An error occuured while receiving messages.");
+        if (sessionError) {
+          error = translate(sessionError);
+          debug("[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
+            this._context.connectionId, this.name, error);
+        }
+        if (waitTimer) {
+          clearTimeout(waitTimer);
+        }
+        reject(error);
       };
 
       const addCreditAndSetTimer = (reuse?: boolean) => {
@@ -160,7 +177,9 @@ export class BatchingReceiver extends EventHubReceiver {
         const rcvrOptions = this._createReceiverOptions({
           onMessage: onReceiveMessage,
           onError: onReceiveError,
-          onClose: onReceiveClose
+          onClose: onReceiveClose,
+          onSessionError: onSessionError,
+          onSessionClose: onSessionClose
         });
         this._init(rcvrOptions).then(() => addCreditAndSetTimer()).catch(reject);
       } else {
