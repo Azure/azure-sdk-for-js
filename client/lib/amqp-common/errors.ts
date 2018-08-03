@@ -386,6 +386,9 @@ export class MessagingError extends Error {
   }
 }
 
+/**
+ * Provides a list of retryable errors.
+ */
 export const retryableErrors: string[] = [
   "InternalServerError", "ServerBusyError", "ServiceUnavailableError", "OperationCancelledError",
   "SenderBusyError", "MessagingError", "DetachForcedError", "ConnectionForcedError",

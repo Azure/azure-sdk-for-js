@@ -30,6 +30,7 @@ export interface LinkEntityOptions {
 
 /**
  * Describes the base class for entities like EventHub Sender, Receiver and Management link.
+ * @ignore
  * @class LinkEntity
  */
 export class LinkEntity {
@@ -88,6 +89,7 @@ export class LinkEntity {
   protected _tokenRenewalTimer?: NodeJS.Timer;
   /**
    * Creates a new LinkEntity instance.
+   * @ignore
    * @constructor
    * @param {ConnectionContext} context The connection context.
    * @param {LinkEntityOptions} [options] Options that can be provided while creating the LinkEntity.
@@ -103,6 +105,7 @@ export class LinkEntity {
 
   /**
    * Negotiates cbs claim for the LinkEntity.
+   * @ignore
    * @protected
    * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
    * @return {Promise<void>} Promise<void>
@@ -135,6 +138,7 @@ export class LinkEntity {
 
   /**
    * Ensures that the token is renewed within the predefined renewal margin.
+   * @ignore
    * @protected
    * @returns {void}
    */
@@ -158,6 +162,7 @@ export class LinkEntity {
   /**
    * Closes the Sender|Receiver link and it's underlying session and also removes it from the
    * internal map.
+   * @ignore
    * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be closed and
    * removed.
    */

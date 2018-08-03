@@ -86,6 +86,7 @@ export type OnError = (error: MessagingError | Error) => void;
 /**
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
+ * @ignore
  */
 export class EventHubReceiver extends LinkEntity {
   /**
@@ -175,7 +176,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
-   *
+   * @ignore
    * @constructor
    * @param {EventHubClient} client                            The EventHub client.
    * @param {string} partitionId                               Partition ID from which to receive.
@@ -300,6 +301,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Will reconnect the receiver link if necessary.
+   * @ignore
    * @param {AmqpError | Error} [receiverError] The receiver error if any.
    * @returns {Promise<void>} Promise<void>.
    */
@@ -350,6 +352,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Closes the underlying AMQP receiver.
+   * @ignore
    * @returns {Promise<void>}
    */
   async close(): Promise<void> {
@@ -362,6 +365,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
+   * @ignore
    * @return {boolean} boolean
    */
   isOpen(): boolean {
@@ -380,6 +384,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
+   * @ignore
    * @returns {Promise<void>}
    */
   protected async _init(options?: ReceiverOptions): Promise<void> {
@@ -429,6 +434,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
+   * @ignore
    */
   protected _createReceiverOptions(options: CreateReceiverOptions): ReceiverOptions {
     if (options.newName) this.name = `${uuid()}`;

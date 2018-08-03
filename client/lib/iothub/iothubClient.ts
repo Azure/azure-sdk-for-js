@@ -9,16 +9,26 @@ import { translate, MessagingError } from "../amqp-common";
 import { } from "../rhea-promise";
 const debug = debugModule("azure:event-hubs:iothubClient");
 
+/**
+ * @interface ParsedRedirectError
+ * @ignore
+ */
 export interface ParsedRedirectError {
   endpoint: string;
   entityPath: string;
 }
-
+/**
+ * @interface EHConfig
+ * @ignore
+ */
 export interface EHConfig extends ParsedRedirectError {
   sharedAccessKey: string;
   sharedAccessKeyName: string;
 }
-
+/**
+ * @class IotHubClient
+ * @ignore
+ */
 export class IotHubClient {
   /**
    * @property {string} connectionString the IotHub connection string.
@@ -31,6 +41,7 @@ export class IotHubClient {
   /**
    * Constructs the EventHub connection string by catching the redirect error and parsing the error
    * information.
+   * @ignore
    * @param {ConnectionContextOptions} [options] optional parameters to be provided while creating
    * the connection context.
    * @return {Promise<string>} Promise<string>
@@ -66,6 +77,7 @@ export class IotHubClient {
   /**
    * Closes the AMQP connection to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
+   * @ignore
    * @returns {Promise<any>}
    */
   async close(context: ConnectionContext): Promise<any> {
