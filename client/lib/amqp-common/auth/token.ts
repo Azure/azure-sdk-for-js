@@ -30,6 +30,9 @@ export interface TokenInfo {
    * @property {string} token - The access token.
    */
   token: string;
+  /**
+   * @property {number} expiry - The token expiration time in seconds.
+   */
   expiry: number;
 }
 

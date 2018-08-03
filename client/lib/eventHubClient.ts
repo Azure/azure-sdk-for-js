@@ -21,6 +21,10 @@ import { BatchingReceiver } from "./batchingReceiver";
 import { IotHubClient } from "./iothub/iothubClient";
 const debug = debugModule("azure:event-hubs:client");
 
+/**
+ * Describes the options that one can set while receiving messages.
+ * @interface ReceiveOptions
+ */
 export interface ReceiveOptions {
   /**
    * @property {string} [name] The name of the receiver. If not provided then we will set a GUID by default.

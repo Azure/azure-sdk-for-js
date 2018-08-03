@@ -3,10 +3,23 @@
 
 import { parseConnectionString, ServiceBusConnectionStringModel } from "./util/utils";
 
+/**
+ * Describes the options that can be provided while creating a connection config.
+ * @interface ConnectionConfigOptions
+ */
 export interface ConnectionConfigOptions {
+  /**
+   * @property {boolean} [isEntityPathRequired] Indicates whether the entity path is required in the
+   * connection config.
+   */
   isEntityPathRequired?: boolean;
 }
 
+/**
+ * Describes the connection config object that is created after parsing an EventHub or ServiceBus
+ * connection string.
+ * @interface ConnectionConfig
+ */
 export interface ConnectionConfig {
   /**
    * @property {string} endpoint - The service bus endpoint
@@ -36,6 +49,10 @@ export interface ConnectionConfig {
   sharedAccessKey: string;
 }
 
+/**
+ * Describes the ConnectionConfig module
+ * @module ConnectionConfig
+ */
 export namespace ConnectionConfig {
   /**
    * Creates the connection config.
@@ -43,6 +60,7 @@ export namespace ConnectionConfig {
    * EventHub/ServiceBus.
    * @param {string} [path]           - The name/path of the entity (hub name) to which the
    * connection needs to happen.
+   * @returns {ConnectionConfig} ConnectionConfig
    */
   export function create(connectionString: string, path?: string): ConnectionConfig {
     if (!connectionString || (connectionString && typeof connectionString !== "string")) {
@@ -67,6 +85,7 @@ export namespace ConnectionConfig {
   /**
    * Validates the properties of connection config.
    * @param {ConnectionConfig} config The connection config to be validated.
+   * @returns {void} void
    */
   export function validate(config: ConnectionConfig, options?: ConnectionConfigOptions): void {
     if (!options) options = {};

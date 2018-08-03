@@ -7,6 +7,11 @@ import * as debugModule from "debug";
 const isBuffer = require("is-buffer");
 const debug = debugModule("azure:amqp-common:datatransformer");
 
+/**
+ * Describes the transformations that can be performed to encode/decode the data before sending it
+ * on (or receiving it from) the wire.
+ * @interface DataTransformer
+ */
 export interface DataTransformer {
   /**
    * @property {Function} encode A function that takes the body property from an EventData object
