@@ -70,6 +70,11 @@ export class LinkEntity {
    */
   partitionId?: string | number;
   /**
+   * @property {boolean} isConnecting Indicates whether the link is in the process of connecting
+   * (establishing) itself. Default value: `false`.
+   */
+  isConnecting: boolean = false;
+  /**
    * @property {ConnectionContext} _context Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    * @protected
@@ -160,6 +165,8 @@ export class LinkEntity {
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     if (link) {
       try {
+        // This should take care of closing the link and it's underlying session. This should also
+        // remove them from the internal map.
         await link.close();
         debug("[%s] %s '%s' with address '%s' closed.", this._context.connectionId, this._type,
           this.name, this.address);
@@ -167,10 +174,6 @@ export class LinkEntity {
         debug("[%s] An error occurred while closing the %s '%s' with address '%s': %O",
           this._context.connectionId, this._type, this.name, this.address, err);
       }
-      // TODO: Let us wait for rhea to do this correctly for us.
-      link.remove();
-      debug("[%s] %s '%s' with address '%s' and it's session have been removed from " +
-        "internal map.", this._context.connectionId, this._type, this.name, this.address);
     }
   }
 

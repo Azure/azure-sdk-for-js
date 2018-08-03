@@ -12,6 +12,8 @@ export interface ReceiverOptions extends rhea.ReceiverOptions {
   onMessage?: rhea.OnAmqpEvent;
   onError?: rhea.OnAmqpEvent;
   onClose?: rhea.OnAmqpEvent;
+  onSessionError?: rhea.OnAmqpEvent;
+  onSessionClose?: rhea.OnAmqpEvent;
 }
 
 export class Receiver {
@@ -69,7 +71,7 @@ export class Receiver {
     this._receiver.set_credit_window(creditWindow);
   }
   /**
-   * Determines whether the sender link is open.
+   * Determines whether the receiver link is open.
    * @returns {boolean} `true` open. `false` closed.
    */
   isOpen(): boolean {
@@ -78,6 +80,24 @@ export class Receiver {
       result = true;
     }
     return result;
+  }
+
+  /**
+   * Determines whether the close from the peer is a response to a locally initiated close request
+   * for the receiver.
+   * @returns {boolean} `true` if close was locally initiated, `false` otherwise.
+   */
+  wasCloseInitiated(): boolean {
+    return this._receiver.is_closed();
+  }
+
+  /**
+   * Determines whether the close from the peer is a response to a locally initiated close request
+   * for the receiver's session.
+   * @returns {boolean} `true` if close was locally initiated, `false` otherwise.
+   */
+  wasSessionCloseInitiated(): boolean {
+    return this._session.wasCloseInitiated();
   }
 
   /**

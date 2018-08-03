@@ -167,21 +167,33 @@ export namespace ConnectionContext {
         await delay(connectionReconnectDelay);
         // reconnect senders if any
         for (const sender of Object.values(connectionContext.senders)) {
-          debug("[%s] calling detached on sender '%s' with address '%s'.",
-            connectionContext.connection.id, sender.name, sender.address);
-          sender.detached().catch((err) => {
-            debug("[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
-              connectionContext.connection.id, sender.name, sender.address, err);
-          });
+          if (!sender.isConnecting) {
+            debug("[%s] calling detached on sender '%s' with address '%s'.",
+              connectionContext.connection.id, sender.name, sender.address);
+            sender.detached().catch((err) => {
+              debug("[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
+                connectionContext.connection.id, sender.name, sender.address, err);
+            });
+          } else {
+            debug("[%s] sender '%s' with address '%s' is already reconnecting. Hence not " +
+              "calling detached on the sender.", connectionContext.connection.id, sender.name,
+              sender.address);
+          }
         }
         // reconnect receivers if any
         for (const receiver of Object.values(connectionContext.receivers)) {
-          debug("[%s] calling detached on receiver '%s' with address '%s'.",
-            connectionContext.connection.id, receiver.name, receiver.address);
-          receiver.detached().catch((err) => {
-            debug("[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
-              connectionContext.connection.id, receiver.name, receiver.address, err);
-          });
+          if (!receiver.isConnecting) {
+            debug("[%s] calling detached on receiver '%s' with address '%s'.",
+              connectionContext.connection.id, receiver.name, receiver.address);
+            receiver.detached().catch((err) => {
+              debug("[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
+                connectionContext.connection.id, receiver.name, receiver.address, err);
+            });
+          } else {
+            debug("[%s] receiver '%s' with address '%s' is already reconnecting. Hence not " +
+              "calling detached on the receiver.", connectionContext.connection.id, receiver.name,
+              receiver.address);
+          }
         }
       }
     };

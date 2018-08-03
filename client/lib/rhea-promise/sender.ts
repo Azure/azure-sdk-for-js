@@ -15,6 +15,8 @@ export interface SenderOptions extends rhea.SenderOptions {
   onModified?: rhea.OnAmqpEvent;
   onError?: rhea.OnAmqpEvent;
   onClose?: rhea.OnAmqpEvent;
+  onSessionError?: rhea.OnAmqpEvent;
+  onSessionClose?: rhea.OnAmqpEvent;
 }
 
 export class Sender {
@@ -85,6 +87,24 @@ export class Sender {
       result = true;
     }
     return result;
+  }
+
+  /**
+   * Determines whether the close from the peer is a response to a locally initiated close request
+   * for the sender.
+   * @returns {boolean} `true` if close was locally initiated, `false` otherwise.
+   */
+  wasCloseInitiated(): boolean {
+    return this._sender.is_closed();
+  }
+
+  /**
+   * Determines whether the close from the peer is a response to a locally initiated close request
+   * for the sender's session.
+   * @returns {boolean} `true` if close was locally initiated, `false` otherwise.
+   */
+  wasSessionCloseInitiated(): boolean {
+    return this._session.wasCloseInitiated();
   }
 
   /**
