@@ -88,5 +88,6 @@
     "local": "node ./.scripts/local.js",
     "preview": "node ./.scripts/preview.js",
     "latest": "node ./.scripts/latest.js"
-  }
+  },
+  "sideEffects": false
 }
