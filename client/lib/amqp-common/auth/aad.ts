@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials } from "ms-rest-azure";
+import {
+  ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
+} from "ms-rest-azure";
 import { TokenInfo, TokenType, TokenProvider } from "./token";
 import * as Constants from "../util/constants";
 
@@ -16,8 +18,8 @@ export class AadTokenProvider implements TokenProvider {
   credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials;
   /**
    * @property {number} tokenRenewalMarginInSeconds - The number of seconds within which it is
-   * good to renew the token. A constant set to 270 seconds (4.5 minutes). Adal has a set window of 5 minutes
-   * when it refreshes the token from its token cache.
+   * good to renew the token. A constant set to 270 seconds (4.5 minutes). Adal has a set window
+   * of 5 minutes when it refreshes the token from its token cache.
    */
   readonly tokenRenewalMarginInSeconds: number = 270;
   /**
@@ -34,7 +36,8 @@ export class AadTokenProvider implements TokenProvider {
           credentials instanceof UserTokenCredentials ||
           credentials instanceof DeviceTokenCredentials ||
           credentials instanceof MSITokenCredentials))) {
-      throw new Error("'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.");
+      throw new Error("'credentials' is a required parameter and must be an instance of " +
+        "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.");
     }
     if (credentials instanceof MSITokenCredentials) {
       credentials.resource = Constants.aadEventHubsAudience;

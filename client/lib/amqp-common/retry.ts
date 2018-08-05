@@ -6,6 +6,10 @@ import { delay } from ".";
 import * as debugModule from "debug";
 const debug = debugModule("azure:amqp-common:retry");
 
+/**
+ * Determines whether the object is a Delivery object.
+ * @ignore
+ */
 function isDelivery(obj: any): boolean {
   let result: boolean = false;
   if (obj && typeof obj.id === "number" && typeof obj.settled === "boolean" &&
@@ -15,6 +19,10 @@ function isDelivery(obj: any): boolean {
   return result;
 }
 
+/**
+ * Describes the retry operation type.
+ * @enum RetryOperationType
+ */
 export enum RetryOperationType {
   cbsAuth = "cbsAuth",
   connection = "connection",
@@ -27,6 +35,7 @@ export enum RetryOperationType {
 
 /**
  * Describes the parameters that need to be configured for the retry operation.
+ * @interface RetryConfig
  */
 export interface RetryConfig<T> {
   /**
@@ -55,6 +64,10 @@ export interface RetryConfig<T> {
   delayInSeconds?: number;
 }
 
+/**
+ * Validates the retry config.
+ * @ignore
+ */
 function validateRetryConfig<T>(config: RetryConfig<T>): void {
   if (!config.operation || typeof config.operation !== "function") {
     throw new Error("'operation' is a required property and must be of type 'function' " +

@@ -67,8 +67,17 @@ export interface MessageProperties {
   userId?: string;
 }
 
+/**
+ * Describes the operations that can be performed on the amqp message properties.
+ * @module MessageProperties
+ */
 export namespace MessageProperties {
 
+  /**
+   * Converts MessageProperties to AmqpMessageProperties.
+   * @param {MessageProperties} props Message properties.
+   * @returns {AmqpMessageProperties} AmqpMessageProperties.
+   */
   export function toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties {
     const amqpProperties: AmqpMessageProperties = {
       absolute_expiry_time: props.absoluteExpiryTime,
@@ -89,6 +98,11 @@ export namespace MessageProperties {
     return amqpProperties;
   }
 
+  /**
+   * Converts AmqpMessageProperties to MessageProperties.
+   * @param {AmqpMessageProperties} props Amqp message properties.
+   * @returns {MessageProperties} MessageProperties.
+   */
   export function fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties {
     const msgProperties: MessageProperties = {
       absoluteExpiryTime: props.absolute_expiry_time,

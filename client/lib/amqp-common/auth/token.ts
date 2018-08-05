@@ -3,7 +3,6 @@
 
 /**
  * Describes the type of supported tokens.
- * @readonly
  * @enum TokenType
  */
 export enum TokenType {

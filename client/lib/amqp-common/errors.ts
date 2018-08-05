@@ -387,7 +387,10 @@ export class MessagingError extends Error {
 }
 
 /**
- * Provides a list of retryable errors.
+ * Provides a list of retryable AMQP errors.
+ * "InternalServerError", "ServerBusyError", "ServiceUnavailableError", "OperationCancelledError",
+ * "SenderBusyError", "MessagingError", "DetachForcedError", "ConnectionForcedError",
+ * "TransferLimitExceededError"
  */
 export const retryableErrors: string[] = [
   "InternalServerError", "ServerBusyError", "ServiceUnavailableError", "OperationCancelledError",

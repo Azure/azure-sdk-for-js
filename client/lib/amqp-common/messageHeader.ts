@@ -35,8 +35,18 @@ export interface MessageHeader {
   priority?: number;
 }
 
+/**
+ * Describes the operations that can be performed on the message header.
+ * @module MessageHeader
+ */
 export namespace MessageHeader {
 
+  /**
+   * Converts MessageHeader to AmqpMessageHeader.
+   *
+   * @param {MessageHeader} props Message header.
+   * @returns {AmqpMessageHeader} AmqpMessageHeader
+   */
   export function toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader {
     const amqpHeader: AmqpMessageHeader = {
       delivery_count: props.deliveryCount,
@@ -49,6 +59,12 @@ export namespace MessageHeader {
     return amqpHeader;
   }
 
+  /**
+   * Converts AmqpMessageHeader to MessageHeader.
+   *
+   * @param {AmqpMessageHeader} props Amqp Message Header
+   * @returns {MessageHeader} MessageHeader.
+   */
   export function fromAmqpMessageProperties(props: AmqpMessageHeader): MessageHeader {
     const msgHeader: MessageHeader = {
       deliveryCount: props.delivery_count,

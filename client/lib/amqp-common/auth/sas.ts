@@ -22,15 +22,17 @@ export class SasTokenProvider implements TokenProvider {
   keyName: string;
 
   /**
-   * @property {string} key - The secret value associated with the above EventHub/ServiceBus key
+   * @property {string} key - The secret value associated with the above EventHub/ServiceBus key.
    */
   key: string;
   /**
-   * @property {number} tokenRenewalMarginInSeconds - The number of seconds within which it is good to renew the token. Default = 900 seconds (15 minutes).
+   * @property {number} tokenRenewalMarginInSeconds - The number of seconds within which it
+   * is good to renew the token. Default = 900 seconds (15 minutes).
    */
   tokenRenewalMarginInSeconds: number;
   /**
-   * @property {number} tokenValidTimeInSeconds - The number of seconds for which the token is valid. Default = 3600 seconds (1 hour).
+   * @property {number} tokenValidTimeInSeconds - The number of seconds for which the token
+   * is valid. Default = 3600 seconds (1 hour).
    */
   tokenValidTimeInSeconds: number;
 
