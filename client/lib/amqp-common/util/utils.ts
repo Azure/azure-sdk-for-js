@@ -3,8 +3,11 @@
 
 import * as AsyncLock from "async-lock";
 import { DeliveryAnnotations, MessageAnnotations } from "../../rhea-promise";
-import { ConnectionConfig } from "../connectionConfig";
 
+/**
+ * Describes the options that can be provided to create an async lock.
+ * @interface AsyncLockOptions
+ */
 export interface AsyncLockOptions {
   /**
    * @property {number} [timeout] The max timeout. Default is: 0 (never timeout).
@@ -25,6 +28,10 @@ export interface AsyncLockOptions {
   Promise?: any;
 }
 
+/**
+ * Describes the servicebus connection string model.
+ * @interface ServiceBusConnectionStringModel
+ */
 export interface ServiceBusConnectionStringModel {
   Endpoint: string;
   SharedAccessKeyName: string;
@@ -33,6 +40,10 @@ export interface ServiceBusConnectionStringModel {
   [x: string]: any;
 }
 
+/**
+ * Describes the eventhub connection string model.
+ * @interface EventHubConnectionStringModel
+ */
 export interface EventHubConnectionStringModel {
   Endpoint: string;
   SharedAccessKeyName: string;
@@ -41,6 +52,10 @@ export interface EventHubConnectionStringModel {
   [x: string]: any;
 }
 
+/**
+ * Describes the stroage connection string model.
+ * @interface StorageConnectionStringModel
+ */
 export interface StorageConnectionStringModel {
   DefaultEndpointsProtocol: string;
   AccountName: string;
@@ -49,6 +64,10 @@ export interface StorageConnectionStringModel {
   [x: string]: any;
 }
 
+/**
+ * Describes the iothub connection string model.
+ * @interface IotHubConnectionStringModel
+ */
 export interface IotHubConnectionStringModel {
   HostName: string;
   SharedAccessKeyName: string;
@@ -56,10 +75,19 @@ export interface IotHubConnectionStringModel {
   DeviceId?: string;
 }
 
+/**
+ * Defines an object with possible properties defined in T.
+ * @type ParsedOutput<T>
+ */
 export type ParsedOutput<T> = {
   [P in keyof T]: T[P];
 };
 
+/**
+ * Parses the connection string and returns an object of type T.
+ * @param {string} connectionString The connection string to be parsed.
+ * @returns {ParsedOutput<T>} ParsedOutput<T>.
+ */
 export function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
   return connectionString.split(';').reduce((acc, part) => {
     const splitIndex = part.indexOf('=');
@@ -73,6 +101,7 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
 /**
  * Gets a new instance of the async lock with desired settings.
  * @param {AsyncLockOptions} [options] The async lock options.
+ * @returns {AsyncLock} AsyncLock
  */
 export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
   return new AsyncLock(options);
@@ -83,6 +112,11 @@ export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
  */
 export const defaultLock: AsyncLock = new AsyncLock();
 
+/**
+ * Describes a Timeout class that can wait for the specified amount of time and then resolve/reject
+ * the promise with the given value.
+ * @class Timout
+ */
 export class Timeout {
 
   private _timer?: NodeJS.Timer;
@@ -147,7 +181,8 @@ export function randomNumberFromInterval(min: number, max: number): number {
 }
 
 /**
- * Type declaration for a Function type where T is the input to the function and V is the output of the function.
+ * Type declaration for a Function type where T is the input to the function and V is the output
+ * of the function.
  */
 export type Func<T, V> = (a: T) => V;
 
@@ -187,27 +222,9 @@ export function isIotHubConnectionString(connectionString: string): boolean {
   return result;
 }
 
-export function setIfDefined(obj: any, key: string, value: any): void {
-  if (value !== undefined) {
-    obj[key] = value;
-  }
-}
-
-export function verifyType(value: any, type: 'string' | 'number'): void {
-  if (value != undefined && typeof value !== type) {
-    throw new TypeError(`Invalid type provided. Value must be a ${type}.`);
-  }
-}
-
-export function verifyClass(value: any, clazz: Function, className: string): void {
-  if (value != undefined && !(value instanceof clazz)) {
-    throw new TypeError(`Invalid type provided. Value must be an instance of ${className}.`);
-  }
-}
-
 /**
  * Describes the delivery annotations.
- * @interface
+ * @interface EventHubDeliveryAnnotations
  */
 export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
   /**
@@ -234,7 +251,7 @@ export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * Describes the delivery annotations.
- * @interface
+ * @interface ServiceBusDeliveryAnnotations
  */
 export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
   /**
@@ -261,6 +278,7 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * Map containing message attributes that will be held in the message header.
+ * @interface EventHubMessageAnnotations
  */
 export interface EventHubMessageAnnotations extends MessageAnnotations {
   /**
@@ -287,6 +305,7 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
 
 /**
  * Map containing message attributes that will be held in the message header.
+ * @interface ServiceBusMessageAnnotations
  */
 export interface ServiceBusMessageAnnotations extends MessageAnnotations {
   /**
@@ -309,11 +328,4 @@ export interface ServiceBusMessageAnnotations extends MessageAnnotations {
    * @property {string} [x-opt-locked-until] Annotation for the message being locked until.
    */
   "x-opt-locked-until"?: Date | number;
-}
-
-export interface CreateConnectionPrameters {
-  config: ConnectionConfig;
-  userAgent: string;
-  packageVersion: string;
-  useSaslPlain?: boolean;
 }

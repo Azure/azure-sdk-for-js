@@ -1,3 +1,12 @@
+### 2018-08-06 0.2.6
+- Improved log statements
+- Minimum dependency on rhea: ^0.2.18
+- Fixed bugs in recovery logic
+- Added support to recover from session close for sender and receiver
+- Added a new property `isConnecting` that provides information whether a linkEntity is currently in the process of establishing itself.
+- Using `is_closed()` method of sender, receiver and session in rhea to determine whether the sdk initiated the close.
+- MessagingError is retryable by default.
+
 ### 2018-07-17 0.2.5
 - Improved log statements
 - Updated README.md
