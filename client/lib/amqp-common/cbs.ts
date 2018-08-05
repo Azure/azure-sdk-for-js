@@ -27,19 +27,16 @@ export class CbsClient {
    * @property {string} replyTo CBS replyTo - The reciever link name that the service should reply to.
    */
   readonly replyTo: string = `${Constants.cbsReplyTo}-${uuid()}`;
-
   /**
    * @property {string} cbsLock The unqiue lock name per $cbs session per connection that is used to
    * acquire the lock for establishing a cbs session if one does not exist for an aqmp connection.
    */
   readonly cbsLock: string = `${Constants.negotiateCbsKey}-${uuid()}`;
-
   /**
    * @property {string} connectionLock The unqiue lock name per connection that is used to
    * acquire the lock for establishing an amqp connection if one does not exist.
    */
   readonly connectionLock: string;
-
   /**
    * @property {Connection} connection The AMQP connection.
    */
@@ -47,17 +44,24 @@ export class CbsClient {
 
   /**
    * CBS sender, receiver on the same session.
+   * @private
    */
   private _cbsSenderReceiverLink?: RequestResponseLink;
 
+  /**
+   * @constructor
+   * @param {Connection} connection The AMQP conection.
+   * @param {string} connectionLock A unique string (usually a guid) per connection.
+   */
   constructor(connection: Connection, connectionLock: string) {
     this.connection = connection;
     this.connectionLock = connectionLock;
   }
 
   /**
-   * Creates a singleton instance of the CBS session if it hasn't been initialized previously on the given connection.
-   * @param {any} connection The AMQP connection object on which the CBS session needs to be initialized.
+   * Creates a singleton instance of the CBS session if it hasn't been initialized previously on
+   * the given connection.
+   * @returns {Promise<void>} Promise<void>.
    */
   async init(): Promise<void> {
     try {
@@ -145,6 +149,11 @@ export class CbsClient {
     }
   }
 
+  /**
+   * Indicates whether the cbs sender receiver link is open or closed.
+   * @private
+   * @return {boolean} `true` open, `false` closed.
+   */
   private _isCbsSenderReceiverLinkOpen(): boolean {
     return this._cbsSenderReceiverLink! && this._cbsSenderReceiverLink!.isOpen();
   }
