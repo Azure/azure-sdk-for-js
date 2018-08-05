@@ -22,7 +22,6 @@ export {
   delay, Timeout, EventHubConnectionStringModel, executePromisesSequentially,
   parseConnectionString, IotHubConnectionStringModel, StorageConnectionStringModel, defaultLock,
   Func, ParsedOutput, getNewAsyncLock, AsyncLockOptions, ServiceBusConnectionStringModel,
-  isIotHubConnectionString, CreateConnectionPrameters, ServiceBusMessageAnnotations,
-  ServiceBusDeliveryAnnotations, EventHubDeliveryAnnotations, EventHubMessageAnnotations,
-  randomNumberFromInterval
+  isIotHubConnectionString, ServiceBusMessageAnnotations, randomNumberFromInterval,
+  ServiceBusDeliveryAnnotations, EventHubDeliveryAnnotations, EventHubMessageAnnotations
 } from "./util/utils";
