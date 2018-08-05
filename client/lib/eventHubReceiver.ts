@@ -393,6 +393,7 @@ export class EventHubReceiver extends LinkEntity {
         debug("[%s] The receiver '%s' with address '%s' is not open and is not currently " +
           "establishing itself. Hence let's try to connect.", this._context.connectionId,
           this.name, this.address);
+        this.isConnecting = true;
         await this._negotiateClaim();
         if (!options) {
           options = this._createReceiverOptions({
