@@ -34,10 +34,6 @@ sample.env
 
 # misc #
 contribute.md
-lib/
-tsconfig.json
-tslint.json
-webpack.config.ts
 .idea/
 changelog.md
 samples/

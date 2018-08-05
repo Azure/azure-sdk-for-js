@@ -13,7 +13,8 @@
     "noUnusedLocals":true,
     "strict": true,
     "declaration": true,
-    "declarationDir": "./typings"
+    "declarationDir": "./typings",
+    "declarationMap": true
   },
   "compileOnSave": true,
   "exclude": [
