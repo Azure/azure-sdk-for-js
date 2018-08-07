@@ -224,7 +224,7 @@ export class EventHubReceiver extends LinkEntity {
         const ehError = translate(receiverError);
         log.error("[%s] An error occurred for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
-        if (!this._receiver!.isClosed()) {
+        if (this._receiver && this._receiver.isClosed()) {
           this._onError!(ehError);
         }
       }
@@ -236,7 +236,7 @@ export class EventHubReceiver extends LinkEntity {
         const ehError = translate(sessionError);
         log.error("[%s] An error occurred on the session for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
-        if (!this._receiver!.isSessionClosed()) {
+        if (this._receiver && this._receiver.isSessionClosed()) {
           this._onError!(ehError);
         }
       }
