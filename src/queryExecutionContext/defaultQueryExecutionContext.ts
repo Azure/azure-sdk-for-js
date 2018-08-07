@@ -1,9 +1,9 @@
 import { IExecutionContext } from ".";
+import { ClientContext } from "../ClientContext";
 import { Constants } from "../common";
-import { DocumentClient } from "../documentclient";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { Response } from "../request";
-import { SqlParameter, SqlQuerySpec } from "./SqlQuerySpec";
+import { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */
 export type FetchFunctionCallback = (options: any) => Promise<Response<any>>;
@@ -18,7 +18,6 @@ enum STATES {
 /** @hidden */
 export class DefaultQueryExecutionContext implements IExecutionContext {
   private static readonly STATES = STATES;
-  private documentclient: DocumentClient;
   private query: string | SqlQuerySpec;
   private resources: any; // TODO: any resources
   private currentIndex: number;
@@ -31,7 +30,7 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
    * Provides the basic Query Execution Context.
    * This wraps the internal logic query execution using provided fetch functions
    * @constructor DefaultQueryExecutionContext
-   * @param {DocumentClient} documentclient        - The service endpoint to use to create the client.
+   * @param {ClientContext} clientContext          - Is used to read the partitionKeyRanges for split proofing
    * @param {SqlQuerySpec | string} query          - A SQL query.
    * @param {FeedOptions} [options]                - Represents the feed options.
    * @param {callback | callback[]} fetchFunctions - A function to retrieve each page of data.
@@ -39,13 +38,12 @@ export class DefaultQueryExecutionContext implements IExecutionContext {
    * @ignore
    */
   constructor(
-    documentclient: DocumentClient,
+    private clientContext: ClientContext,
     query: string | SqlQuerySpec,
     options: any,
     fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]
   ) {
     // TODO: any options
-    this.documentclient = documentclient;
     this.query = query;
     this.resources = [];
     this.currentIndex = 0;

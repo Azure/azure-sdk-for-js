@@ -1,4 +1,5 @@
-import { UriFactory } from "../../common";
+import { ClientContext } from "../../ClientContext";
+import { Helper, UriFactory } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions, Response } from "../../request";
 import { Container } from "../Container";
@@ -12,7 +13,6 @@ import { ItemResponse } from "./ItemResponse";
  * @see {@link Items} for operations on all items; see `container.items`.
  */
 export class Item {
-  private client: CosmosClient;
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
@@ -26,9 +26,12 @@ export class Item {
    * @param id The id of the given {@link Item}.
    * @param primaryKey The primary key of the given {@link Item} (only for partitioned containers).
    */
-  constructor(public readonly container: Container, public readonly id: string, public readonly primaryKey: string) {
-    this.client = this.container.database.client;
-  }
+  constructor(
+    public readonly container: Container,
+    public readonly id: string,
+    public readonly primaryKey: string,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Read the item's definition.
@@ -70,7 +73,10 @@ export class Item {
     if ((!options || !options.partitionKey) && this.primaryKey) {
       options.partitionKey = this.primaryKey;
     }
-    const response = await this.client.documentClient.readDocument(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+    const response = await this.clientContext.read(path, "docs", id, undefined, options);
+
     return {
       body: response.result as T & ItemBody,
       headers: response.headers,
@@ -105,7 +111,20 @@ export class Item {
     if ((!options || !options.partitionKey) && this.primaryKey) {
       options.partitionKey = this.primaryKey;
     }
-    const response = await this.client.documentClient.replaceDocument(this.url, body, options);
+    if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
+      const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      options.partitionKey = this.container.extractPartitionKey(body, partitionKeyDefinition);
+    }
+
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.replace<T & ItemBody>(body, path, "docs", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,
@@ -133,7 +152,10 @@ export class Item {
     if ((!options || !options.partitionKey) && this.primaryKey) {
       options.partitionKey = this.primaryKey;
     }
-    const response = await this.client.documentClient.deleteDocument(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.delete<T & ItemBody>(path, "docs", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,

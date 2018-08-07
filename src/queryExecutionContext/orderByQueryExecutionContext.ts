@@ -5,7 +5,7 @@ import {
   ParallelQueryExecutionContextBase,
   PartitionedQueryExecutionContextInfo
 } from ".";
-import { DocumentClient } from "../documentclient";
+import { ClientContext } from "../ClientContext";
 
 /** @hidden */
 export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextBase implements IExecutionContext {
@@ -18,21 +18,21 @@ export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextB
    * DocumentProcuder per target partition key range and aggregates the result of each.
    *
    * @constructor ParallelQueryExecutionContext
-   * @param {DocumentClient} documentclient        - The service endpoint to use to create the client.
+   * @param {ClientContext} clientContext        - The service endpoint to use to create the client.
    * @param {string} collectionLink                - The Collection Link
    * @param {FeedOptions} [options]                - Represents the feed options.
    * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
    * @ignore
    */
   constructor(
-    documentclient: DocumentClient,
+    clientContext: ClientContext,
     collectionLink: string,
     query: any, // TODO: any query
     options: any, // TODO: any options
     partitionedQueryExecutionInfo: PartitionedQueryExecutionContextInfo
   ) {
     // Calling on base class constructor
-    super(documentclient, collectionLink, query, options, partitionedQueryExecutionInfo);
+    super(clientContext, collectionLink, query, options, partitionedQueryExecutionInfo);
     this.orderByComparator = new OrderByDocumentProducerComparator(this.sortOrders);
   }
   // Instance members are inherited

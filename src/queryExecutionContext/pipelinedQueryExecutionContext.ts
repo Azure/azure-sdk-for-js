@@ -1,4 +1,3 @@
-import * as assert from "assert";
 import {
   HeaderUtils,
   IExecutionContext,
@@ -8,7 +7,7 @@ import {
   PartitionedQueryExecutionContextInfo,
   PartitionedQueryExecutionContextInfoParser
 } from ".";
-import { DocumentClient } from "../documentclient";
+import { ClientContext } from "../ClientContext";
 import { Response } from "../request/request";
 import {
   AggregateEndpointComponent,
@@ -24,19 +23,8 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
   private endpoint: IEndpointComponent;
   private pageSize: number;
   private static DEFAULT_PAGE_SIZE = 10;
-  /**
-   * Provides the PipelinedQueryExecutionContext. It piplelines top and orderby execution context if necessary
-   * @constructor PipelinedQueryExecutionContext
-   * @param {object} documentclient                - The documentclient object.
-   * @param {SqlQuerySpec | string} query          - A SQL query.
-   * @param {FeedOptions} options                  - Represents the feed options.
-   * @param {callback | callback[]} fetchFunctions - A function to retrieve each page of data. \
-   * An array of functions may be used to query more than one partition.
-   * @param {string} [resourceLink]                - collectionLink for parallelized query execution.
-   * @ignore
-   */
   constructor(
-    private documentclient: DocumentClient,
+    private clientContext: ClientContext,
     private collectionLink: string,
     private query: any, // TODO: any query
     private options: any, // TODO: any options
@@ -55,7 +43,7 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
       //      "payload" property.
       this.endpoint = new OrderByEndpointComponent(
         new OrderByQueryExecutionContext(
-          this.documentclient,
+          this.clientContext,
           this.collectionLink,
           this.query,
           this.options,
@@ -64,7 +52,7 @@ export class PipelinedQueryExecutionContext implements IExecutionContext {
       );
     } else {
       this.endpoint = new ParallelQueryExecutionContext(
-        this.documentclient,
+        this.clientContext,
         this.collectionLink,
         this.query,
         this.options,

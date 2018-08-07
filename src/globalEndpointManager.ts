@@ -1,6 +1,8 @@
 ﻿import * as url from "url";
+import { RequestOptions } from ".";
+import { Response } from ".";
 import { Constants } from "./common";
-import { DocumentClientBase } from "./DocumentClientBase";
+import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount, LocationsType } from "./documents";
 
 /**
@@ -24,14 +26,17 @@ export class GlobalEndpointManager {
 
   /**
    * @constructor GlobalEndpointManager
-   * @param {object} client                          - The document client instance.
+   * @param {object} options                          - The document client instance.
    */
-  constructor(private client: DocumentClientBase) {
-    this.defaultEndpoint = client.urlConnection;
-    this.readEndpoint = client.urlConnection;
-    this.writeEndpoint = client.urlConnection;
-    this.enableEndpointDiscovery = client.connectionPolicy.EnableEndpointDiscovery;
-    this.preferredLocations = client.connectionPolicy.PreferredLocations;
+  constructor(
+    options: CosmosClientOptions,
+    private readDatabaseAccount: (opts: RequestOptions) => Promise<Response<DatabaseAccount>>
+  ) {
+    this.defaultEndpoint = options.endpoint;
+    this.readEndpoint = options.endpoint;
+    this.writeEndpoint = options.endpoint;
+    this.enableEndpointDiscovery = options.connectionPolicy.EnableEndpointDiscovery;
+    this.preferredLocations = options.connectionPolicy.PreferredLocations;
     this.isEndpointCacheInitialized = false;
   }
 
@@ -125,10 +130,10 @@ export class GlobalEndpointManager {
   private async _getDatabaseAccount(): Promise<DatabaseAccount> {
     const options = { urlConnection: this.defaultEndpoint };
     try {
-      const { result: databaseAccount } = await this.client.getDatabaseAccount(options);
+      const { result: databaseAccount } = await this.readDatabaseAccount(options);
       return databaseAccount;
       // If for any reason(non - globaldb related), we are not able to get the database
-      // account from the above call to getDatabaseAccount,
+      // account from the above call to readDatabaseAccount,
       // we would try to get this information from any of the preferred locations that the user
       // might have specified(by creating a locational endpoint)
       // and keeping eating the exception until we get the database account and return None at the end,
@@ -141,7 +146,7 @@ export class GlobalEndpointManager {
       try {
         const locationalEndpoint = GlobalEndpointManager._getLocationalEndpoint(this.defaultEndpoint, location);
         const innerOptions = { urlConnection: locationalEndpoint }; // TODO: code smell inner options is hacky
-        const { result: databaseAccount } = await this.client.getDatabaseAccount(innerOptions);
+        const { result: databaseAccount } = await this.readDatabaseAccount(innerOptions);
         if (databaseAccount) {
           return databaseAccount;
         }

@@ -4,7 +4,7 @@ import {
   ParallelQueryExecutionContextBase,
   PartitionedQueryExecutionContextInfo
 } from ".";
-import { DocumentClient } from "../documentclient";
+import { ClientContext } from "../ClientContext";
 import { PARITIONKEYRANGE } from "../routing";
 
 /** @hidden */
@@ -14,21 +14,21 @@ export class ParallelQueryExecutionContext extends ParallelQueryExecutionContext
    * This class is capable of handling parallelized queries and dervives from ParallelQueryExecutionContextBase.
    *
    * @constructor ParallelQueryExecutionContext
-   * @param {DocumentClient} documentclient        - The service endpoint to use to create the client.
+   * @param {ClientContext} clientContext        - The service endpoint to use to create the client.
    * @param {string} collectionLink                - The Collection Link
    * @param {FeedOptions} [options]                - Represents the feed options.
    * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
    * @ignore
    */
   constructor(
-    documentclient: DocumentClient,
+    clientContext: ClientContext,
     collectionLink: string,
     query: any,
     options: any,
     partitionedQueryExecutionInfo: PartitionedQueryExecutionContextInfo
   ) {
     // Calling on base class constructor
-    super(documentclient, collectionLink, query, options, partitionedQueryExecutionInfo);
+    super(clientContext, collectionLink, query, options, partitionedQueryExecutionInfo);
   }
   // Instance members are inherited
 

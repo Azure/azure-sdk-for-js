@@ -1,4 +1,5 @@
-import { Constants } from "../../common";
+import { ClientContext } from "../../ClientContext";
+import { Constants, Helper } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { OfferDefinition } from "./OfferDefinition";
@@ -21,14 +22,18 @@ export class Offer {
    * @param client The parent {@link CosmosClient} for the Database Account.
    * @param id The id of the given {@link Offer}.
    */
-  constructor(public readonly client: CosmosClient, public readonly id: string) {}
+  constructor(
+    public readonly client: CosmosClient,
+    public readonly id: string,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Read the {@link OfferDefinition} for the given {@link Offer}.
    * @param options
    */
   public async read(options?: RequestOptions): Promise<OfferResponse> {
-    const response = await this.client.documentClient.readOffer(this.url); // TODO: options?
+    const response = await this.clientContext.read(this.url, "offers", this.id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, offer: this };
   }
 
@@ -38,7 +43,11 @@ export class Offer {
    * @param options
    */
   public async replace(body: OfferDefinition, options?: RequestOptions): Promise<OfferResponse> {
-    const response = await this.client.documentClient.replaceOffer(this.url, body); // TODO: options?
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+    const response = await this.clientContext.replace(body, this.url, "offers", this.id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, offer: this };
   }
 }

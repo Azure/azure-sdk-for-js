@@ -1,3 +1,5 @@
+import { ClientContext } from "../../ClientContext";
+import { Helper } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -18,7 +20,7 @@ export class Triggers {
    * @hidden
    * @param container The parent {@link Container}.
    */
-  constructor(public readonly container: Container) {
+  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {
     this.client = this.container.database.client;
   }
 
@@ -28,9 +30,12 @@ export class Triggers {
    * @param options
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<TriggerDefinition> {
-    return this.client.documentClient.queryTriggers(this.container.url, query, options) as QueryIterator<
-      TriggerDefinition
-    >;
+    const path = Helper.getPathFromLink(this.container.url, "triggers");
+    const id = Helper.getIdFromLink(this.container.url);
+
+    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+      return this.clientContext.queryFeed(path, "triggers", id, result => result.Triggers, query, innerOptions);
+    });
   }
 
   /**
@@ -42,7 +47,7 @@ export class Triggers {
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<TriggerDefinition> {
-    return this.client.documentClient.readTriggers(this.container.url, options) as QueryIterator<TriggerDefinition>;
+    return this.query(undefined, options);
   }
   /**
    * Create a trigger.
@@ -55,8 +60,20 @@ export class Triggers {
    * @param options
    */
   public async create(body: TriggerDefinition, options?: RequestOptions): Promise<TriggerResponse> {
-    const response = await this.client.documentClient.createTrigger(this.container.url, body, options);
-    const ref = new Trigger(this.container, response.result.id);
+    if (body.body) {
+      body.body = body.body.toString();
+    }
+
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.container.url, "triggers");
+    const id = Helper.getIdFromLink(this.container.url);
+
+    const response = await this.clientContext.create(body, path, "triggers", id, undefined, options);
+    const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, trigger: ref };
   }
 
@@ -71,8 +88,20 @@ export class Triggers {
    * @param options
    */
   public async upsert(body: TriggerDefinition, options?: RequestOptions): Promise<TriggerResponse> {
-    const response = await this.client.documentClient.upsertTrigger(this.container.url, body, options);
-    const ref = new Trigger(this.container, response.result.id);
+    if (body.body) {
+      body.body = body.body.toString();
+    }
+
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.container.url, "triggers");
+    const id = Helper.getIdFromLink(this.container.url);
+
+    const response = await this.clientContext.upsert(body, path, "triggers", id, undefined, options);
+    const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, trigger: ref };
   }
 }

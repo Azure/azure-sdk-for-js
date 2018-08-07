@@ -1,4 +1,5 @@
-import { UriFactory } from "../../common";
+import { ClientContext } from "../../ClientContext";
+import { Helper, UriFactory } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Database } from "../Database";
@@ -32,9 +33,13 @@ export class User {
    * @param database The parent {@link Database}.
    * @param id
    */
-  constructor(public readonly database: Database, public readonly id: string) {
+  constructor(
+    public readonly database: Database,
+    public readonly id: string,
+    private readonly clientContext: ClientContext
+  ) {
     this.client = this.database.client;
-    this.permissions = new Permissions(this);
+    this.permissions = new Permissions(this, this.clientContext);
   }
 
   /**
@@ -44,7 +49,7 @@ export class User {
    * @param id
    */
   public permission(id: string): Permission {
-    return new Permission(this, id);
+    return new Permission(this, id, this.clientContext);
   }
 
   /**
@@ -52,7 +57,9 @@ export class User {
    * @param options
    */
   public async read(options?: RequestOptions): Promise<UserResponse> {
-    const response = await this.client.documentClient.readUser(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+    const response = await this.clientContext.read(path, "users", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 
@@ -62,7 +69,15 @@ export class User {
    * @param options
    */
   public async replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
-    const response = await this.client.documentClient.replaceUser(this.url, body, options);
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.replace(body, path, "users", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 
@@ -71,7 +86,10 @@ export class User {
    * @param options
    */
   public async delete(options?: RequestOptions): Promise<UserResponse> {
-    const response = await this.client.documentClient.deleteUser(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.delete(path, "users", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 }

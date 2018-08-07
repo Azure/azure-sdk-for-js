@@ -1,3 +1,4 @@
+import { ClientContext } from "../../ClientContext";
 import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -14,7 +15,7 @@ export class Offers {
    * @hidden
    * @param client The parent {@link CosmosClient} for the Database Account.
    */
-  constructor(public readonly client: CosmosClient) {}
+  constructor(public readonly client: CosmosClient, private readonly clientContext: ClientContext) {}
 
   /**
    * Query all offers.
@@ -22,7 +23,9 @@ export class Offers {
    * @param options
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<OfferDefinition> {
-    return this.client.documentClient.queryOffers(query, options);
+    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+      return this.clientContext.queryFeed("/offers", "offers", "", result => result.Offers, query, innerOptions);
+    });
   }
 
   /**
@@ -34,6 +37,6 @@ export class Offers {
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<OfferDefinition> {
-    return this.client.documentClient.readOffers(options);
+    return this.query(undefined, options);
   }
 }

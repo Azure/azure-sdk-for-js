@@ -1,13 +1,8 @@
 import * as assert from "assert";
-import { CosmosClient, DocumentBase } from "../../";
+import { CosmosClient, DocumentBase } from "../..";
 import { PermissionDefinition } from "../../client";
-import { endpoint } from "./../common/_testConfig";
-import {
-  createOrUpsertPermission,
-  getTestContainer,
-  getTestDatabase,
-  removeAllDatabases
-} from "./../common/TestHelpers";
+import { endpoint } from "../common/_testConfig";
+import { createOrUpsertPermission, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

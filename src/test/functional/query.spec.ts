@@ -1,8 +1,8 @@
 import * as assert from "assert";
-import { Constants, CosmosClient, DocumentBase } from "../../";
+import { Constants, CosmosClient, DocumentBase } from "../..";
 import { Container } from "../../client";
-import { endpoint, masterKey } from "./../common/_testConfig";
-import { bulkInsertItems, getTestContainer, getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
+import { endpoint, masterKey } from "../common/_testConfig";
+import { bulkInsertItems, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 const client = new CosmosClient({ endpoint, auth: { masterKey } });
 

@@ -1,3 +1,5 @@
+import { ClientContext } from "../../ClientContext";
+import { Helper } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -18,7 +20,7 @@ export class Users {
    * @hidden
    * @param database The parent {@link Database}.
    */
-  constructor(public readonly database: Database) {
+  constructor(public readonly database: Database, private readonly clientContext: ClientContext) {
     this.client = this.database.client;
   }
 
@@ -28,7 +30,12 @@ export class Users {
    * @param options
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<UserDefinition> {
-    return this.client.documentClient.queryUsers(this.database.url, query, options);
+    const path = Helper.getPathFromLink(this.database.url, "users");
+    const id = Helper.getIdFromLink(this.database.url);
+
+    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+      return this.clientContext.queryFeed(path, "users", id, result => result.Users, query, innerOptions);
+    });
   }
 
   /**
@@ -40,7 +47,7 @@ export class Users {
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<UserDefinition> {
-    return this.client.documentClient.readUsers(this.database.url, options);
+    return this.query(undefined, options);
   }
 
   /**
@@ -49,8 +56,15 @@ export class Users {
    * @param options
    */
   public async create(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
-    const response = await this.client.documentClient.createUser(this.database.url, body, options);
-    const ref = new User(this.database, response.result.id);
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.database.url, "users");
+    const id = Helper.getIdFromLink(this.database.url);
+    const response = await this.clientContext.create(body, path, "users", id, undefined, options);
+    const ref = new User(this.database, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, user: ref };
   }
 
@@ -60,8 +74,16 @@ export class Users {
    * @param options
    */
   public async upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse> {
-    const response = await this.client.documentClient.upsertUser(this.database.url, body, options);
-    const ref = new User(this.database, response.result.id);
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.database.url, "users");
+    const id = Helper.getIdFromLink(this.database.url);
+
+    const response = await this.clientContext.upsert(body, path, "users", id, undefined, options);
+    const ref = new User(this.database, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, user: ref };
   }
 }

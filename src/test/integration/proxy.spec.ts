@@ -1,9 +1,9 @@
 ﻿import * as http from "http";
 import * as net from "net";
 import * as url from "url";
-import { CosmosClient, DocumentBase } from "../../";
-import { endpoint, masterKey } from "./../common/_testConfig";
-import { addEntropy } from "./../common/TestHelpers";
+import { CosmosClient, DocumentBase } from "../..";
+import { endpoint, masterKey } from "../common/_testConfig";
+import { addEntropy } from "../common/TestHelpers";
 
 const isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
 if (!isBrowser()) {

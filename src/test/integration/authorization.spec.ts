@@ -1,8 +1,8 @@
 import * as assert from "assert";
-import { Container, CosmosClient, DocumentBase } from "../../";
+import { Container, CosmosClient, DocumentBase } from "../..";
 import { Database } from "../../client";
-import { endpoint } from "./../common/_testConfig";
-import { getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
+import { endpoint } from "../common/_testConfig";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 describe("Authorization", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

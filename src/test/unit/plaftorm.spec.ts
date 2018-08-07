@@ -1,7 +1,7 @@
 ﻿import * as assert from "assert";
 import * as os from "os";
 import * as util from "util";
-import { Constants } from "../../";
+import { Constants } from "../..";
 import { Platform } from "../../common";
 
 // var assert = require("assert")

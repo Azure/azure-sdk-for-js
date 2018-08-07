@@ -1,8 +1,8 @@
 import * as assert from "assert";
-import { Constants, DocumentBase } from "../../";
+import { Constants, DocumentBase } from "../..";
 import { ContainerDefinition, Database } from "../../client";
 import { DataType, Index, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../documents";
-import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
+import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

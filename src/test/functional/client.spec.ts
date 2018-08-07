@@ -1,7 +1,7 @@
 import * as assert from "assert";
-import { CosmosClient, DocumentBase } from "../../";
-import { endpoint, masterKey } from "./../common/_testConfig";
-import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
+import { CosmosClient, DocumentBase } from "../..";
+import { endpoint, masterKey } from "../common/_testConfig";
+import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

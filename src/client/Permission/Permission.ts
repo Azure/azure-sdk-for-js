@@ -1,7 +1,9 @@
-import { UriFactory } from "../../common";
+import { ClientContext } from "../../ClientContext";
+import { Helper, UriFactory } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request/RequestOptions";
 import { User } from "../User";
+import { PermissionBody } from "./PermissionBody";
 import { PermissionDefinition } from "./PermissionDefinition";
 import { PermissionResponse } from "./PermissionResponse";
 
@@ -17,23 +19,28 @@ export class Permission {
   public get url() {
     return UriFactory.createPermissionUri(this.user.database.id, this.user.id, this.id);
   }
-  private client: CosmosClient;
   /**
    * @hidden
    * @param user The parent {@link User}.
    * @param id The id of the given {@link Permission}.
    */
-  constructor(public readonly user: User, public readonly id: string) {
-    this.client = this.user.database.client;
-  }
+  constructor(public readonly user: User, public readonly id: string, private readonly clientContext: ClientContext) {}
 
   /**
    * Read the {@link PermissionDefinition} of the given {@link Permission}.
    * @param options
    */
   public async read(options?: RequestOptions): Promise<PermissionResponse> {
-    const response = await this.client.documentClient.readPermission(this.url, options);
-    return { body: response.result, headers: response.headers, ref: this, permission: this };
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.read<PermissionDefinition>(path, "permissions", id, undefined, options);
+    return {
+      body: response.result as PermissionDefinition & PermissionBody,
+      headers: response.headers,
+      ref: this,
+      permission: this
+    };
   }
 
   /**
@@ -42,8 +49,21 @@ export class Permission {
    * @param options
    */
   public async replace(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse> {
-    const response = await this.client.documentClient.replacePermission(this.url, body, options);
-    return { body: response.result, headers: response.headers, ref: this, permission: this };
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.replace(body, path, "permissions", id, undefined, options);
+    return {
+      body: response.result as PermissionDefinition & PermissionBody,
+      headers: response.headers,
+      ref: this,
+      permission: this
+    };
   }
 
   /**
@@ -51,7 +71,15 @@ export class Permission {
    * @param options
    */
   public async delete(options?: RequestOptions): Promise<PermissionResponse> {
-    const response = await this.client.documentClient.deletePermission(this.url, options);
-    return { body: response.result, headers: response.headers, ref: this, permission: this };
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.delete(path, "permissions", id, undefined, options);
+    return {
+      body: response.result as PermissionDefinition & PermissionBody,
+      headers: response.headers,
+      ref: this,
+      permission: this
+    };
   }
 }

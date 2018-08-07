@@ -1,6 +1,5 @@
 ﻿import * as BigInt from "big-integer";
-import { Base } from "./base";
-import { Constants, EMPTY, ResourceId } from "./common";
+import { Constants, EMPTY, Helper, ResourceId } from "./common";
 import { IHeaders } from "./queryExecutionContext";
 
 /** @hidden */
@@ -41,8 +40,8 @@ export class SessionContainer {
         }
       }
     } else {
-      resourceAddress = Base._trimSlashes(resourceAddress);
-      const collectionName = Base.getCollectionLink(resourceAddress);
+      resourceAddress = Helper.trimSlashes(resourceAddress);
+      const collectionName = Helper.getContainerLink(resourceAddress);
       if (collectionName && collectionName in this.collectionNameToCollectionResourceId) {
         rangeIdToTokenMap = this.collectionResourceIdToSessionTokens[
           this.collectionNameToCollectionResourceId[collectionName]
@@ -87,8 +86,8 @@ export class SessionContainer {
         }
       }
     } else {
-      const resourceAddress = Base._trimSlashes(request["resourceAddress"]);
-      const collectionName = Base.getCollectionLink(resourceAddress);
+      const resourceAddress = Helper.trimSlashes(request["resourceAddress"]);
+      const collectionName = Helper.getContainerLink(resourceAddress);
       if (collectionName) {
         collectionResourceId = this.collectionNameToCollectionResourceId[collectionName];
         delete this.collectionNameToCollectionResourceId[collectionName];
@@ -106,10 +105,10 @@ export class SessionContainer {
       if (sessionToken) {
         let ownerFullName = resHeaders[Constants.HttpHeaders.OwnerFullName];
         if (!ownerFullName) {
-          ownerFullName = Base._trimSlashes(request["resourceAddress"]);
+          ownerFullName = Helper.trimSlashes(request["resourceAddress"]);
         }
 
-        const collectionName = Base.getCollectionLink(ownerFullName as string);
+        const collectionName = Helper.getContainerLink(ownerFullName as string);
 
         const ownerId = !request["isNameBased"]
           ? request["resourceId"]

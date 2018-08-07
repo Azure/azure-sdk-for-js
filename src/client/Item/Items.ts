@@ -1,7 +1,8 @@
-import { DocumentClient } from "../../documentclient";
-import { SqlQuerySpec } from "../../queryExecutionContext";
+import { ClientContext } from "../../ClientContext";
+import { Helper } from "../../common";
+import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, Response } from "../../request";
+import { FeedOptions, RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { Item } from "./Item";
 import { ItemBody } from "./ItemBody";
@@ -14,15 +15,12 @@ import { ItemResponse } from "./ItemResponse";
  * @see {@link Item} for reading, replacing, or deleting an existing container; use `.item(id)`.
  */
 export class Items {
-  private client: DocumentClient;
   /**
    * Create an instance of {@link Items} linked to the parent {@link Container}.
    * @param container The parent container.
    * @hidden
    */
-  constructor(public readonly container: Container) {
-    this.client = this.container.database.client.documentClient;
-  }
+  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
 
   /**
    * Queries all items.
@@ -57,7 +55,21 @@ export class Items {
    */
   public query<T extends ItemDefinition>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T extends ItemDefinition>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
-    return this.client.queryDocuments(this.container.url, query, options) as QueryIterator<T>;
+    const path = Helper.getPathFromLink(this.container.url, "docs");
+    const id = Helper.getIdFromLink(this.container.url);
+
+    const fetchFunction: FetchFunctionCallback = (innerOptions: FeedOptions) => {
+      return this.clientContext.queryFeed(
+        path,
+        "docs",
+        id,
+        result => (result ? result.Documents : []),
+        query,
+        innerOptions
+      );
+    };
+
+    return new QueryIterator(this.clientContext, query, options, fetchFunction, this.container.url);
   }
 
   /**
@@ -88,7 +100,7 @@ export class Items {
    */
   public readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
   public readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T> {
-    return this.client.readDocuments(this.container.url, options) as QueryIterator<T>;
+    return this.query<T>(undefined, options);
   }
 
   /**
@@ -112,9 +124,34 @@ export class Items {
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
   public async create<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async create<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
-    const response = await this.client.createDocument(this.container.url, body, options);
-    const ref = new Item(this.container, (response.result as any).id, (options && options.partitionKey) as string);
+  public async create<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
+    if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
+      const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      options.partitionKey = this.container.extractPartitionKey(body, partitionKeyDefinition);
+    }
+
+    // Generate random document id if the id is missing in the payload and
+    // options.disableAutomaticIdGeneration != true
+    if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
+      body.id = Helper.generateGuidId();
+    }
+
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.container.url, "docs");
+    const id = Helper.getIdFromLink(this.container.url);
+
+    const response = await this.clientContext.create(body, path, "docs", id, undefined, options);
+
+    const ref = new Item(
+      this.container,
+      (response.result as any).id,
+      (options && options.partitionKey) as string,
+      this.clientContext
+    );
     return {
       body: response.result as T & ItemBody,
       headers: response.headers,
@@ -144,9 +181,34 @@ export class Items {
    * @param options Used for modifying the request (for instance, specifying the partition key).
    */
   public async upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-  public async upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>> {
-    const response = await this.client.upsertDocument(this.container.url, body, options);
-    const ref = new Item(this.container, (response.result as any).id, (options && options.partitionKey) as string);
+  public async upsert<T extends ItemDefinition>(body: T, options: RequestOptions = {}): Promise<ItemResponse<T>> {
+    if (options.partitionKey === undefined && options.skipGetPartitionKeyDefinition !== true) {
+      const { body: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      options.partitionKey = this.container.extractPartitionKey(body, partitionKeyDefinition);
+    }
+
+    // Generate random document id if the id is missing in the payload and
+    // options.disableAutomaticIdGeneration != true
+    if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
+      body.id = Helper.generateGuidId();
+    }
+
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.container.url, "docs");
+    const id = Helper.getIdFromLink(this.container.url);
+
+    const response = (await this.clientContext.upsert<T>(body, path, "docs", id, undefined, options)) as T & ItemBody;
+
+    const ref = new Item(
+      this.container,
+      (response.result as any).id,
+      (options && options.partitionKey) as string,
+      this.clientContext
+    );
     return {
       body: response.result,
       headers: response.headers,

@@ -1,5 +1,5 @@
-import { Constants } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
+import { ClientContext } from "../../ClientContext";
+import { Constants, Helper } from "../../common";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { ConflictResponse } from "./ConflictResponse";
@@ -16,22 +16,26 @@ export class Conflict {
   public get url() {
     return `/${this.container.url}/${Constants.Path.ConflictsPathSegment}/${this.id}`;
   }
-  private client: CosmosClient;
   /**
    * @hidden
    * @param container The parent {@link Container}.
    * @param id The id of the given {@link Conflict}.
    */
-  constructor(public readonly container: Container, public readonly id: string) {
-    this.client = this.container.database.client;
-  }
+  constructor(
+    public readonly container: Container,
+    public readonly id: string,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Read the {@link ConflictDefinition} for the given {@link Conflict}.
    * @param options
    */
   public async read(options?: RequestOptions): Promise<ConflictResponse> {
-    const response = await this.client.documentClient.readConflict(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.read(path, "users", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, conflict: this };
   }
 
@@ -40,7 +44,10 @@ export class Conflict {
    * @param options
    */
   public async delete(options?: RequestOptions): Promise<ConflictResponse> {
-    const response = await this.client.documentClient.deleteConflict(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.delete(path, "conflicts", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, conflict: this };
   }
 }

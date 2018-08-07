@@ -1,4 +1,5 @@
-import { CosmosClient } from "../../CosmosClient";
+import { ClientContext } from "../../ClientContext";
+import { Helper } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions } from "../../request";
@@ -11,16 +12,18 @@ import { ConflictDefinition } from "./ConflictDefinition";
  * @see {@link Conflict} to read or delete a given {@link Conflict} by id.
  */
 export class Conflicts {
-  private client: CosmosClient;
-  constructor(public readonly container: Container) {
-    this.client = this.container.database.client;
-  }
+  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
 
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<ConflictDefinition> {
-    return this.client.documentClient.queryConflicts(this.container.url, query, options);
+    const path = Helper.getPathFromLink(this.container.url);
+    const id = Helper.getIdFromLink(this.container.url);
+
+    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+      return this.clientContext.queryFeed(path, "conflicts", id, result => result.Conflicts, query, innerOptions);
+    });
   }
 
   public readAll(options?: FeedOptions): QueryIterator<ConflictDefinition> {
-    return this.client.documentClient.readConflicts(this.container.url, options);
+    return this.query(undefined, options);
   }
 }

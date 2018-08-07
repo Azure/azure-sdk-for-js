@@ -1,7 +1,7 @@
 import { ConnectionMode, MediaReadMode } from ".";
 import { RetryOptions } from "../retry";
 /**
- * Represents the Connection policy associated with a DocumentClient in the Azure Cosmos DB database service.
+ * Represents the Connection policy associated with a CosmosClient in the Azure Cosmos DB database service.
  */
 export class ConnectionPolicy {
   private static readonly defaultRequestTimeout: number = 60000;

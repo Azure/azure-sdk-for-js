@@ -1,4 +1,5 @@
-import { StatusCodes } from "../../common";
+import { ClientContext } from "../../ClientContext";
+import { Helper, StatusCodes } from "../../common";
 import { HeaderUtils, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
@@ -18,7 +19,7 @@ import { ContainerResponse } from "./ContainerResponse";
  * do this once on application start up.
  */
 export class Containers {
-  constructor(public readonly database: Database) {}
+  constructor(public readonly database: Database, private readonly clientContext: ClientContext) {}
 
   /**
    * Queries all containers.
@@ -37,7 +38,12 @@ export class Containers {
    * ```
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<ContainerDefinition> {
-    return this.database.client.documentClient.queryCollections(this.database.url, query, options);
+    const path = Helper.getPathFromLink(this.database.url, "colls");
+    const id = Helper.getIdFromLink(this.database.url);
+
+    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+      return this.clientContext.queryFeed(path, "colls", id, result => result.DocumentCollections, query, innerOptions);
+    });
   }
 
   /**
@@ -58,8 +64,15 @@ export class Containers {
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
   public async create(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse> {
-    const response = await this.database.client.documentClient.createCollection(this.database.url, body, options);
-    const ref = new Container(this.database, response.result.id);
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+    const path = Helper.getPathFromLink(this.database.url, "colls");
+    const id = Helper.getIdFromLink(this.database.url);
+
+    const response = await this.clientContext.create(body, path, "colls", id, undefined, options);
+    const ref = new Container(this.database, response.result.id, this.clientContext);
     return {
       body: response.result,
       headers: response.headers,
@@ -120,6 +133,6 @@ export class Containers {
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<ContainerDefinition> {
-    return this.database.client.documentClient.readCollections(this.database.url, options);
+    return this.query(undefined, options);
   }
 }

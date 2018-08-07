@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { Container, DocumentBase } from "../../";
+import { Container, DocumentBase } from "../..";
 import {
   bulkDeleteItems,
   bulkInsertItems,
@@ -10,7 +10,7 @@ import {
   getTestDatabase,
   removeAllDatabases,
   replaceOrUpsertItem
-} from "./../common/TestHelpers";
+} from "../common/TestHelpers";
 
 /**
  * @ignore

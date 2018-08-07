@@ -1,12 +1,12 @@
 import * as assert from "assert";
-import { DocumentBase } from "../../";
+import { DocumentBase } from "../..";
 import { PermissionDefinition } from "../../client";
 import {
   createOrUpsertPermission,
   getTestContainer,
   removeAllDatabases,
   replaceOrUpsertPermission
-} from "./../common/TestHelpers";
+} from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

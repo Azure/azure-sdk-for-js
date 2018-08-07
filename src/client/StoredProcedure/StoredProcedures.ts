@@ -1,3 +1,5 @@
+import { ClientContext } from "../../ClientContext";
+import { Helper } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -13,14 +15,11 @@ import { StoredProcedureResponse } from "./StoredProcedureResponse";
  * For operations to read, replace, delete, or execute a specific, existing stored procedure by id, see `container.storedProcedure()`.
  */
 export class StoredProcedures {
-  private client: CosmosClient;
   /**
    * @param container The parent {@link Container}.
    * @hidden
    */
-  constructor(public readonly container: Container) {
-    this.client = this.container.database.client;
-  }
+  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
 
   /**
    * Query all Stored Procedures.
@@ -38,7 +37,12 @@ export class StoredProcedures {
    * ```
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<StoredProcedureDefinition> {
-    return this.client.documentClient.queryStoredProcedures(this.container.url, query, options);
+    const path = Helper.getPathFromLink(this.container.url, "sprocs");
+    const id = Helper.getIdFromLink(this.container.url);
+
+    return new QueryIterator(this.clientContext, query, options, innerOptions => {
+      return this.clientContext.queryFeed(path, "sprocs", id, result => result.StoredProcedures, query, innerOptions);
+    });
   }
 
   /**
@@ -50,7 +54,7 @@ export class StoredProcedures {
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<StoredProcedureDefinition> {
-    return this.client.documentClient.readStoredProcedures(this.container.url, options);
+    return this.query(undefined, options);
   }
 
   /**
@@ -63,8 +67,20 @@ export class StoredProcedures {
    * refer to the server-side JavaScript API documentation.
    */
   public async create(body: StoredProcedureDefinition, options?: RequestOptions): Promise<StoredProcedureResponse> {
-    const response = await this.client.documentClient.createStoredProcedure(this.container.url, body, options);
-    const ref = new StoredProcedure(this.container, response.result.id);
+    if (body.body) {
+      body.body = body.body.toString();
+    }
+
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.container.url, "sprocs");
+    const id = Helper.getIdFromLink(this.container.url);
+
+    const response = await this.clientContext.create(body, path, "sprocs", id, undefined, options);
+    const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, storedProcedure: ref, sproc: ref };
   }
 
@@ -79,8 +95,20 @@ export class StoredProcedures {
    *
    */
   public async upsert(body: StoredProcedureDefinition, options?: RequestOptions): Promise<StoredProcedureResponse> {
-    const response = await this.client.documentClient.upsertStoredProcedure(this.container.url, body, options);
-    const ref = new StoredProcedure(this.container, response.result.id);
+    if (body.body) {
+      body.body = body.body.toString();
+    }
+
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.container.url, "sprocs");
+    const id = Helper.getIdFromLink(this.container.url);
+
+    const response = await this.clientContext.upsert(body, path, "sprocs", id, undefined, options);
+    const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, storedProcedure: ref, sproc: ref };
   }
 }

@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { Container, CosmosClient, Database, DatabaseDefinition, Item, RequestOptions, Response } from "../../";
+import { Container, CosmosClient, Database, DatabaseDefinition, Item, RequestOptions, Response } from "../..";
 import {
   ContainerDefinition,
   ItemDefinition,
@@ -12,7 +12,7 @@ import {
 import { ItemBody } from "../../client/Item/ItemBody";
 import { StoredProcedureResponse } from "../../client/StoredProcedure/StoredProcedureResponse";
 import { UserResponse } from "../../client/User/UserResponse";
-import { endpoint, masterKey } from "./../common/_testConfig";
+import { endpoint, masterKey } from "./_testConfig";
 
 const defaultClient = new CosmosClient({ endpoint, auth: { masterKey } });
 

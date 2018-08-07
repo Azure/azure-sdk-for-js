@@ -1,4 +1,4 @@
-import { DocumentClient } from "./documentclient";
+import { ClientContext } from "./ClientContext";
 import {
   FetchFunctionCallback,
   IExecutionContext,
@@ -22,13 +22,12 @@ export class QueryIterator<T> {
    * @hidden
    */
   constructor(
-    private documentclient: DocumentClient,
+    private clientContext: ClientContext,
     private query: SqlQuerySpec | string,
     private options: FeedOptions, // TODO: any options
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
     private resourceLink?: string | string[]
   ) {
-    this.documentclient = documentclient;
     this.query = query;
     this.fetchFunctions = fetchFunctions;
     this.options = options;
@@ -179,7 +178,7 @@ export class QueryIterator<T> {
 
   private _createQueryExecutionContext() {
     return new ProxyQueryExecutionContext(
-      this.documentclient,
+      this.clientContext,
       this.query,
       this.options,
       this.fetchFunctions,

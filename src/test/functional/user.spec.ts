@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { UserDefinition } from "../../client";
-import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
+import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

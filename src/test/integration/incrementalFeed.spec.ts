@@ -1,7 +1,7 @@
 import * as assert from "assert";
-import { FeedOptions } from "../../";
+import { FeedOptions } from "../..";
 import { Container } from "../../client";
-import { getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 describe("NodeJS Incremental Feed Tests using 'a_im' and 'IfNoneMatch' options", function() {
   // delete all databases and create sample database

@@ -1,20 +1,13 @@
-import { ConnectionPolicy, ConsistencyLevel } from "./documents";
+import { Agent } from "http";
+import { AuthOptions } from "./auth";
+import { ConnectionPolicy, ConsistencyLevel, QueryCompatibilityMode } from "./documents";
+import { IHeaders } from "./queryExecutionContext/IHeaders";
 
 export interface CosmosClientOptions {
   /** The service endpoint to use to create the client. */
   endpoint: string;
   /** An object that is used for authenticating requests and must contains one of the options */
-  auth: {
-    /** The authorization master key to use to create the client. */
-    masterKey?: string;
-    /** An array of {@link Permission} objects. */
-    permissionFeed?: any; // TODO: any
-    /** An object that contains resources tokens.
-     * Keys for the object are resource Ids and values are the resource tokens.
-     */
-    resourceTokens?: any; // TODO: any
-    tokenProvider?: any; // TODO: any
-  };
+  auth: AuthOptions;
   /** An instance of {@link ConnectionPolicy} class.
    * This parameter is optional and the default connectionPolicy will be used if omitted.
    */
@@ -23,4 +16,7 @@ export interface CosmosClientOptions {
    * It can take any value from {@link ConsistencyLevel}.
    */
   consistencyLevel?: keyof typeof ConsistencyLevel;
+  defaultHeaders?: IHeaders;
+  agent?: Agent;
+  queryCompatibilityMode?: QueryCompatibilityMode;
 }

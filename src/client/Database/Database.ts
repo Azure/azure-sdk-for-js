@@ -1,4 +1,5 @@
-import { UriFactory } from "../../common";
+import { ClientContext } from "../../ClientContext";
+import { Helper, UriFactory } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
@@ -45,9 +46,9 @@ export class Database {
    *
    * Note: the intention is to get this object from {@link CosmosClient} via `client.databsae(id)`, not to instaniate it yourself.
    */
-  constructor(public readonly client: CosmosClient, public readonly id: string) {
-    this.containers = new Containers(this);
-    this.users = new Users(this);
+  constructor(public readonly client: CosmosClient, public readonly id: string, private clientContext: ClientContext) {
+    this.containers = new Containers(this, this.clientContext);
+    this.users = new Users(this, this.clientContext);
   }
 
   /**
@@ -61,7 +62,7 @@ export class Database {
    * ```
    */
   public container(id: string): Container {
-    return new Container(this, id);
+    return new Container(this, id, this.clientContext);
   }
 
   /**
@@ -70,12 +71,14 @@ export class Database {
    * Use `.users` for creating new users, or querying/reading all users.
    */
   public user(id: string): User {
-    return new User(this, id);
+    return new User(this, id, this.clientContext);
   }
 
   /** Read the definition of the given Database. */
   public async read(options?: RequestOptions): Promise<DatabaseResponse> {
-    const response = await this.client.documentClient.readDatabase(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+    const response = await this.clientContext.read(path, "dbs", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,
@@ -86,7 +89,9 @@ export class Database {
 
   /** Delete the given Database. */
   public async delete(options?: RequestOptions): Promise<DatabaseResponse> {
-    const response = await this.client.documentClient.deleteDatabase(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+    const response = await this.clientContext.delete(path, "dbs", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,

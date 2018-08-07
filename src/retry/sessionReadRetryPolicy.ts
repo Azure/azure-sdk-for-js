@@ -1,6 +1,5 @@
 ﻿import * as url from "url";
-import { Base } from "../base";
-import { Constants, StatusCodes, SubStatusCodes } from "../common";
+import { Constants } from "../common";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { ErrorResponse } from "../request/request";
 
@@ -52,10 +51,7 @@ export class SessionReadRetryPolicy {
         } else {
           // TODO: tracing
           // console.log("Clear the the token for named base request");
-          if (Base.isLinkNameBased(this.request.path)) {
-            // console.log("Clear the the token for named base request");
-            this.request.client.clearSessionToken(this.request.path);
-          }
+          this.request.client.clearSessionToken(this.request.path);
           return false;
         }
       }

@@ -1,5 +1,5 @@
-import { UriFactory } from "../../common";
-import { DocumentClient } from "../../documentclient";
+import { ClientContext } from "../../ClientContext";
+import { Helper, UriFactory } from "../../common";
 import { CosmosResponse, RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
@@ -11,7 +11,6 @@ import { StoredProcedureResponse } from "./StoredProcedureResponse";
  * For operations to create, upsert, read all, or query Stored Procedures,
  */
 export class StoredProcedure {
-  private client: DocumentClient;
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
@@ -24,16 +23,21 @@ export class StoredProcedure {
    * @param id The id of the given {@link StoredProcedure}.
    * @hidden
    */
-  constructor(public readonly container: Container, public readonly id: string) {
-    this.client = this.container.database.client.documentClient;
-  }
+  constructor(
+    public readonly container: Container,
+    public readonly id: string,
+    private readonly clientContext: ClientContext
+  ) {}
 
   /**
    * Read the {@link StoredProcedureDefinition} for the given {@link StoredProcedure}.
    * @param options
    */
   public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
-    const response = await this.client.readStoredProcedure(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+    const response = await this.clientContext.read(path, "sprocs", id, undefined, options);
+
     return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
   }
 
@@ -43,7 +47,20 @@ export class StoredProcedure {
    * @param options
    */
   public async replace(body: StoredProcedureDefinition, options?: RequestOptions): Promise<StoredProcedureResponse> {
-    const response = await this.client.replaceStoredProcedure(this.url, body, options);
+    if (body.body) {
+      body.body = body.body.toString();
+    }
+
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.replace(body, path, "sprocs", id, undefined, options);
+
     return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
   }
 
@@ -52,7 +69,10 @@ export class StoredProcedure {
    * @param options
    */
   public async delete(options?: RequestOptions): Promise<StoredProcedureResponse> {
-    const response = await this.client.deleteStoredProcedure(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.delete(path, "sprocs", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
   }
 
@@ -73,7 +93,7 @@ export class StoredProcedure {
    */
   public async execute<T>(params?: any[], options?: RequestOptions): Promise<CosmosResponse<T, StoredProcedure>>;
   public async execute<T>(params?: any[], options?: RequestOptions): Promise<CosmosResponse<T, StoredProcedure>> {
-    const response = await this.client.executeStoredProcedure(this.url, params, options);
+    const response = await this.clientContext.execute<T>(this.url, params, options);
     return { body: response.result, headers: response.headers, ref: this };
   }
 }

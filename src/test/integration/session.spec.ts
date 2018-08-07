@@ -1,10 +1,13 @@
 import * as assert from "assert";
 import * as sinon from "sinon";
-import { Constants, CosmosClient, IHeaders } from "../../";
-import { Base } from "../../base";
+import { Constants, CosmosClient, IHeaders } from "../..";
+import { ClientContext } from "../../ClientContext";
+import { Helper } from "../../common";
 import { ConsistencyLevel, PartitionKind } from "../../documents";
-import { endpoint, masterKey } from "./../common/_testConfig";
-import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
+import { RequestHandler } from "../../request";
+import { SessionContainer } from "../../sessionContainer";
+import { endpoint, masterKey } from "../common/_testConfig";
+import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 // TODO: there is alot of "any" types for tokens here
 // TODO: there is alot of leaky document client stuff here that will make removing document client hard
@@ -26,10 +29,14 @@ describe("Session Token", function() {
   };
   const containerOptions = { offerThroughput: 10100 };
 
-  const getSpy = sinon.spy(client.documentClient, "get");
-  const postSpy = sinon.spy(client.documentClient, "post");
-  const putSpy = sinon.spy(client.documentClient, "put");
-  const deleteSpy = sinon.spy(client.documentClient, "delete");
+  const clientContext: ClientContext = (client as any).clientContext;
+  const requestHandler: RequestHandler = (clientContext as any).requestHandler;
+  const sessionContainer: SessionContainer = (clientContext as any).sessionContainer;
+
+  const getSpy = sinon.spy(requestHandler, "get");
+  const postSpy = sinon.spy(requestHandler, "post");
+  const putSpy = sinon.spy(requestHandler, "put");
+  const deleteSpy = sinon.spy(requestHandler, "delete");
 
   const getToken = function(tokens: any) {
     const newToken: any = {};
@@ -68,12 +75,12 @@ describe("Session Token", function() {
     const container = database.container(createdContainerDef.id);
     assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], undefined);
     // TODO: testing implementation detail by looking at containerResourceIdToSesssionTokens
-    assert.deepEqual(client.documentClient.sessionContainer.collectionResourceIdToSessionTokens, {});
+    assert.deepEqual(sessionContainer.collectionResourceIdToSessionTokens, {});
 
     const { body: document1 } = await container.items.create({ id: "1" });
     assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], undefined);
 
-    let tokens = getToken(client.documentClient.sessionContainer.collectionResourceIdToSessionTokens);
+    let tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
     index1 = getIndex(tokens);
     assert.notEqual(tokens[index1], undefined);
     let firstPartitionLSN = tokens[index1];
@@ -81,10 +88,10 @@ describe("Session Token", function() {
     const { body: document2 } = await container.items.create({ id: "2" });
     assert.equal(
       postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
-      client.documentClient.sessionContainer.getCombinedSessionToken(tokens)
+      sessionContainer.getCombinedSessionToken(tokens)
     );
 
-    tokens = getToken(client.documentClient.sessionContainer.collectionResourceIdToSessionTokens);
+    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
     index2 = getIndex(tokens, index1);
     assert.equal(tokens[index1], firstPartitionLSN);
     assert.notEqual(tokens[index2], undefined);
@@ -94,18 +101,18 @@ describe("Session Token", function() {
 
     assert.equal(
       getSpy.lastCall.args[2][Constants.HttpHeaders.SessionToken],
-      client.documentClient.sessionContainer.getCombinedSessionToken(tokens)
+      sessionContainer.getCombinedSessionToken(tokens)
     );
-    tokens = getToken(client.documentClient.sessionContainer.collectionResourceIdToSessionTokens);
+    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
     assert.equal(tokens[index1], firstPartitionLSN);
     assert.equal(tokens[index2], secondPartitionLSN);
 
     const { body: document13 } = await container.items.upsert({ id: "1", operation: "upsert" }, { partitionKey: "1" });
     assert.equal(
       postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
-      client.documentClient.sessionContainer.getCombinedSessionToken(tokens)
+      sessionContainer.getCombinedSessionToken(tokens)
     );
-    tokens = getToken(client.documentClient.sessionContainer.collectionResourceIdToSessionTokens);
+    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
     assert.equal(tokens[index1], (Number(firstPartitionLSN) + 1).toString());
     assert.equal(tokens[index2], secondPartitionLSN);
     firstPartitionLSN = tokens[index1];
@@ -114,9 +121,9 @@ describe("Session Token", function() {
 
     assert.equal(
       deleteSpy.lastCall.args[2][Constants.HttpHeaders.SessionToken],
-      client.documentClient.sessionContainer.getCombinedSessionToken(tokens)
+      sessionContainer.getCombinedSessionToken(tokens)
     );
-    tokens = getToken(client.documentClient.sessionContainer.collectionResourceIdToSessionTokens);
+    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
     assert.equal(tokens[index1], firstPartitionLSN);
     assert.equal(tokens[index2], (Number(secondPartitionLSN) + 1).toString());
     secondPartitionLSN = tokens[index2];
@@ -124,9 +131,9 @@ describe("Session Token", function() {
     await container.item(document13.id).replace({ id: "1", operation: "replace" }, { partitionKey: "1" });
     assert.equal(
       putSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
-      client.documentClient.sessionContainer.getCombinedSessionToken(tokens)
+      sessionContainer.getCombinedSessionToken(tokens)
     );
-    tokens = getToken(client.documentClient.sessionContainer.collectionResourceIdToSessionTokens);
+    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
     assert.equal(tokens[index1], (Number(firstPartitionLSN) + 1).toString());
     assert.equal(tokens[index2], secondPartitionLSN);
     firstPartitionLSN = tokens[index1];
@@ -138,18 +145,18 @@ describe("Session Token", function() {
     await queryIterator.toArray();
     assert.equal(
       postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
-      client.documentClient.sessionContainer.getCombinedSessionToken(tokens)
+      sessionContainer.getCombinedSessionToken(tokens)
     );
-    tokens = getToken(client.documentClient.sessionContainer.collectionResourceIdToSessionTokens);
+    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
     assert.equal(tokens[index1], firstPartitionLSN);
     assert.equal(tokens[index2], secondPartitionLSN);
 
     await container.delete();
     assert.equal(
       deleteSpy.lastCall.args[2][Constants.HttpHeaders.SessionToken],
-      client.documentClient.sessionContainer.getCombinedSessionToken(tokens)
+      sessionContainer.getCombinedSessionToken(tokens)
     );
-    assert.deepEqual(client.documentClient.sessionContainer.collectionResourceIdToSessionTokens, {});
+    assert.deepEqual(sessionContainer.collectionResourceIdToSessionTokens, {});
 
     getSpy.restore();
     postSpy.restore();
@@ -178,17 +185,17 @@ describe("Session Token", function() {
     const container = database.container(containerDefinition.id);
     await container.items.create({ id: "1" });
     const callbackSpy = sinon.spy(function(pat: string, reqHeaders: IHeaders) {
-      const oldTokens = client.documentClient.sessionContainer.collectionResourceIdToSessionTokens;
+      const oldTokens = sessionContainer.collectionResourceIdToSessionTokens;
       reqHeaders[Constants.HttpHeaders.SessionToken] = increaseLSN(oldTokens);
     });
-    const applySessionTokenStub = sinon.stub(client.documentClient, "applySessionToken").callsFake(callbackSpy);
+    const applySessionTokenStub = sinon.stub(clientContext as any, "applySessionToken").callsFake(callbackSpy);
     try {
       await container.item("1").read({ partitionKey: "1" });
       assert.fail("readDocument must throw");
     } catch (err) {
       assert.equal(err.substatus, 1002, "Substatus should indicate the LSN didn't catchup.");
       assert.equal(callbackSpy.callCount, 1);
-      assert.equal(Base._trimSlashes(callbackSpy.lastCall.args[0]), containerLink + "/docs/1");
+      assert.equal(Helper.trimSlashes(callbackSpy.lastCall.args[0]), containerLink + "/docs/1");
       applySessionTokenStub.restore();
     }
     await container.item("1").read({ partitionKey: "1" });
@@ -198,27 +205,26 @@ describe("Session Token", function() {
   // We never had a name based version of this test. Looks like we fail to set the session token
   // because OwnerId is missing on the header. This only happens for name based.
   it.skip("client should not have session token of a container created by another client", async function() {
-    // const client2 = new CosmosClient({
-    //   endpoint,
-    //   auth: { masterKey },
-    //   consistencyLevel: ConsistencyLevel.Session
-    // });
-    // const { body: databaseDef } = await client.databases.create(databaseBody);
-    // const database = client.database(databaseDef.id);
-    // await database.containers.create(containerDefinition, containerOptions);
-    // const container = database.container(containerDefinition.id);
-    // await container.read();
-    // await client2
-    //   .database(databaseDef.id)
-    //   .container(containerDefinition.id)
-    //   .delete();
-    // await client2.database(databaseDef.id).containers.create(containerDefinition, containerOptions);
-    // await client2
-    //   .database(databaseDef.id)
-    //   .container(containerDefinition.id)
-    //   .read();
-    // assert.equal(client.documentClient.getSessionToken(container.url), ""); // TODO: _self
-    // assert.notEqual(client2.documentClient.getSessionToken(container.url), "");
+    const client2 = new CosmosClient({
+      endpoint,
+      auth: { masterKey },
+      consistencyLevel: ConsistencyLevel.Session
+    });
+    const database = await getTestDatabase("clientshouldnothaveanotherclienttoken");
+    await database.containers.create(containerDefinition, containerOptions);
+    const container = database.container(containerDefinition.id);
+    await container.read();
+    await client2
+      .database(database.id)
+      .container(containerDefinition.id)
+      .delete();
+    await client2.database(database.id).containers.create(containerDefinition, containerOptions);
+    await client2
+      .database(database.id)
+      .container(containerDefinition.id)
+      .read();
+    assert.equal((client as any).clientContext.getSessionToken(container.url), ""); // TODO: _self
+    assert.notEqual((client2 as any).clientContext.getSessionToken(container.url), "");
   });
 
   it("validate session container update on 'Not found' with 'undefined' status code for non master resource", async function() {
@@ -242,7 +248,7 @@ describe("Session Token", function() {
       .container(createdContainerDef.id)
       .item(createdDocument.id)
       .delete(requestOptions);
-    const setSessionTokenSpy = sinon.spy(client.documentClient.sessionContainer, "setSessionToken");
+    const setSessionTokenSpy = sinon.spy(sessionContainer, "setSessionToken");
 
     try {
       await createdContainer.item(createdDocument.id).read(requestOptions);

@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { Container, ContainerDefinition, Database } from "../../client";
-import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
+import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 async function sleep(time: number) {
   return new Promise(resolve => {

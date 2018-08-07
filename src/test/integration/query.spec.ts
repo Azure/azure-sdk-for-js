@@ -1,7 +1,7 @@
 import * as assert from "assert";
-import { Constants, FeedOptions } from "../../";
+import { Constants, FeedOptions } from "../..";
 import { PartitionKind } from "../../documents";
-import { getTestContainer, getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
+import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 const doc = { id: "myId", pk: "pk" };
 

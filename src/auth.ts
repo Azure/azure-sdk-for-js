@@ -1,5 +1,6 @@
 import * as crypto from "crypto";
-import { DocumentClientBase } from "./DocumentClientBase";
+import { PermissionDefinition } from "./client";
+import { Helper } from "./common";
 import { IHeaders } from "./queryExecutionContext";
 
 /** @hidden */
@@ -16,34 +17,52 @@ export interface ITokenProvider {
   getToken: (requestInfo: IRequestInfo, callback?: (err: Error, token: string) => void) => Promise<string>;
 }
 
+export interface AuthOptions {
+  /** The authorization master key to use to create the client. */
+  masterKey?: string;
+  /** An object that contains resources tokens.
+   * Keys for the object are resource Ids and values are the resource tokens.
+   */
+  resourceTokens?: { [resourcePath: string]: string };
+  tokenProvider?: any; // TODO: any
+  /** An array of {@link Permission} objects. */
+  permissionFeed?: PermissionDefinition[]; // TODO: any
+}
+
 /** @hidden */
 export class AuthHandler {
-  // TODO: documentClient
   public static async getAuthorizationHeader(
-    documentClient: DocumentClientBase,
+    authOptions: AuthOptions,
     verb: string,
     path: string,
     resourceId: string,
     resourceType: string,
     headers: IHeaders
   ): Promise<string> {
-    if (documentClient.masterKey) {
+    if (authOptions.permissionFeed) {
+      authOptions.resourceTokens = {};
+      for (const permission of authOptions.permissionFeed) {
+        const id = Helper.getResourceIdFromPath(permission.resource);
+        if (!id) {
+          throw new Error(`authorization error: ${id} \
+                          is an invalid resourceId in permissionFeed`);
+        }
+
+        authOptions.resourceTokens[id] = (permission as any)._token; // TODO: any
+      }
+    }
+
+    if (authOptions.masterKey) {
       return encodeURIComponent(
-        AuthHandler.getAuthorizationTokenUsingMasterKey(
-          verb,
-          resourceId,
-          resourceType,
-          headers,
-          documentClient.masterKey
-        )
+        AuthHandler.getAuthorizationTokenUsingMasterKey(verb, resourceId, resourceType, headers, authOptions.masterKey)
       );
-    } else if (documentClient.resourceTokens) {
+    } else if (authOptions.resourceTokens) {
       return encodeURIComponent(
-        AuthHandler.getAuthorizationTokenUsingResourceTokens(documentClient.resourceTokens, path, resourceId)
+        AuthHandler.getAuthorizationTokenUsingResourceTokens(authOptions.resourceTokens, path, resourceId)
       );
-    } else if (documentClient.tokenProvider) {
+    } else if (authOptions.tokenProvider) {
       return encodeURIComponent(
-        await AuthHandler.getAuthorizationTokenUsingTokenProvider(documentClient.tokenProvider, {
+        await AuthHandler.getAuthorizationTokenUsingTokenProvider(authOptions.tokenProvider, {
           verb,
           path,
           resourceId,

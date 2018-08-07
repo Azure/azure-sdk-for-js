@@ -1,12 +1,12 @@
 import * as assert from "assert";
 import * as _ from "underscore";
 import * as util from "util";
-import { Constants } from "../../";
+import { Constants } from "../..";
 import { Container, ContainerDefinition } from "../../client";
 import { DataType, IndexKind, PartitionKind } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 describe("Cross Partition", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");

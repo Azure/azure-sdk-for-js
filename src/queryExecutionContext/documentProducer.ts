@@ -1,8 +1,8 @@
 import * as assert from "assert";
 import { FetchFunctionCallback, SqlQuerySpec } from ".";
-import { Base } from "../base";
-import { Constants, StatusCodes, SubStatusCodes } from "../common";
-import { DocumentClient } from "../documentclient";
+import { ClientContext } from "../ClientContext";
+import { Constants, Helper, StatusCodes, SubStatusCodes } from "../common";
+import { FeedOptions } from "../request";
 import { Response } from "../request/request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
@@ -23,7 +23,6 @@ export class DocumentProducer {
   // // Static Members
   // STATES: Object.freeze({ started: "started", inProgress: "inProgress", ended: "ended" })
   private static readonly STATES = DocumentProducerStates;
-  private documentclient: DocumentClient; // TODO: any documentclient
   private collectionLink: string;
   private query: string | SqlQuerySpec;
   public targetPartitionKeyRange: any; // TODO: any partitionkeyrange
@@ -39,21 +38,20 @@ export class DocumentProducer {
   /**
    * Provides the Target Partition Range Query Execution Context.
    * @constructor DocumentProducer
-   * @param {DocumentClient} documentclient        - The service endpoint to use to create the client.
+   * @param {ClientContext} clientContext        - The service endpoint to use to create the client.
    * @param {String} collectionLink                - Represents collection link
    * @param {SqlQuerySpec | string} query          - A SQL query.
    * @param {object} targetPartitionKeyRange       - Query Target Partition key Range
    * @ignore
    */
   constructor(
-    documentclient: DocumentClient, // TODO: any documentclient
+    private clientContext: ClientContext,
     collectionLink: string,
     query: SqlQuerySpec,
     targetPartitionKeyRange: any, // TODO: any partition key range
-    options: any
+    options: FeedOptions
   ) {
     // TODO: any options
-    this.documentclient = documentclient;
     this.collectionLink = collectionLink;
     this.query = query;
     this.targetPartitionKeyRange = targetPartitionKeyRange;
@@ -68,12 +66,7 @@ export class DocumentProducer {
     this.respHeaders = HeaderUtils.getInitialHeader();
 
     // tslint:disable-next-line:no-shadowed-variable
-    this.internalExecutionContext = new DefaultQueryExecutionContext(
-      documentclient,
-      query,
-      options,
-      this.fetchFunction
-    );
+    this.internalExecutionContext = new DefaultQueryExecutionContext(clientContext, query, options, this.fetchFunction);
     this.state = DocumentProducer.STATES.inProgress;
   }
   /**
@@ -101,17 +94,14 @@ export class DocumentProducer {
   }
 
   public fetchFunction: FetchFunctionCallback = async (options: any) => {
-    const isNameBased = Base.isLinkNameBased(this.collectionLink);
-    const path = this.documentclient.getPathFromLink(this.collectionLink, "docs", isNameBased);
-    const id = this.documentclient.getIdFromLink(this.collectionLink, isNameBased);
+    const path = Helper.getPathFromLink(this.collectionLink, "docs");
+    const id = Helper.getIdFromLink(this.collectionLink);
 
-    return this.documentclient.queryFeed(
-      this.documentclient,
+    return this.clientContext.queryFeed(
       path,
       "docs",
       id,
       (result: any) => result.Documents, // TODO: any
-      (parent: any, body: any) => body, // TODO: any
       this.query,
       options,
       this.targetPartitionKeyRange["id"]

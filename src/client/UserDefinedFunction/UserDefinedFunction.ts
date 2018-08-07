@@ -1,4 +1,5 @@
-import { UriFactory } from "../../common";
+import { ClientContext } from "../../ClientContext";
+import { Helper, UriFactory } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
@@ -23,7 +24,11 @@ export class UserDefinedFunction {
    * @param container The parent {@link Container}.
    * @param id The id of the given {@link UserDefinedFunction}.
    */
-  constructor(public readonly container: Container, public readonly id: string) {
+  constructor(
+    public readonly container: Container,
+    public readonly id: string,
+    private readonly clientContext: ClientContext
+  ) {
     this.client = this.container.database.client;
   }
 
@@ -32,7 +37,10 @@ export class UserDefinedFunction {
    * @param options
    */
   public async read(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
-    const response = await this.client.documentClient.readUserDefinedFunction(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.read(path, "udfs", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
   }
 
@@ -45,7 +53,19 @@ export class UserDefinedFunction {
     body: UserDefinedFunctionDefinition,
     options?: RequestOptions
   ): Promise<UserDefinedFunctionResponse> {
-    const response = await this.client.documentClient.replaceUserDefinedFunction(this.url, body, options);
+    if (body.body) {
+      body.body = body.body.toString();
+    }
+
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.replace(body, path, "udfs", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
   }
 
@@ -54,7 +74,10 @@ export class UserDefinedFunction {
    * @param options
    */
   public async delete(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
-    const response = await this.client.documentClient.deleteUserDefinedFunction(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.delete(path, "udfs", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
   }
 }

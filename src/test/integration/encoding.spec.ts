@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { IndexingMode } from "../../documents";
-import { getTestDatabase, removeAllDatabases } from "./../common/TestHelpers";
+import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 const testDoc = {
   id: "ABC",

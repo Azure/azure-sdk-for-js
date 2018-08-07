@@ -15,7 +15,7 @@
         "--colors",
         "${workspaceFolder}/lib/test/**/*.js",
         "-g",
-        ".*validate queryIterator asyncIterator.*"
+        ".*nativeApi Client Should execute request in error while the proxy setting is not correct.*"
       ],
       "internalConsoleOptions": "openOnSessionStart",
       "sourceMaps": true,

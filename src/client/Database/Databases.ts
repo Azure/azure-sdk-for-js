@@ -1,6 +1,7 @@
-import { StatusCodes } from "../../common";
+import { ClientContext } from "../../ClientContext";
+import { Helper, StatusCodes } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
-import { HeaderUtils, SqlQuerySpec } from "../../queryExecutionContext";
+import { FetchFunctionCallback, HeaderUtils, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Database } from "./Database";
@@ -18,7 +19,7 @@ import { DatabaseResponse } from "./DatabaseResponse";
  * do this once on application start up.
  */
 export class Databases {
-  constructor(private readonly client: CosmosClient) {}
+  constructor(private readonly client: CosmosClient, private readonly clientContext: ClientContext) {}
 
   // TODO: DatabaseResponse for QueryIterator?
   /**
@@ -38,7 +39,10 @@ export class Databases {
    * ```
    */
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<DatabaseDefinition> {
-    return this.client.documentClient.queryDatabases(query, options);
+    const cb: FetchFunctionCallback = innerOptions => {
+      return this.clientContext.queryFeed("/dbs", "dbs", "", result => result.Databases, query, innerOptions);
+    };
+    return new QueryIterator(this.clientContext, query, options, cb);
   }
 
   /**
@@ -56,8 +60,14 @@ export class Databases {
    * @param options Use to set options like response page size, continuation tokens, etc.
    */
   public async create(body: DatabaseDefinition, options?: RequestOptions): Promise<DatabaseResponse> {
-    const response = await this.client.documentClient.createDatabase(body, options);
-    const ref = new Database(this.client, body.id);
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = "/dbs"; // TODO: constant
+    const response = await this.clientContext.create(body, path, "dbs", undefined, undefined, options);
+    const ref = new Database(this.client, body.id, this.clientContext);
     return {
       body: response.result,
       headers: response.headers,
@@ -115,6 +125,6 @@ export class Databases {
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<DatabaseDefinition> {
-    return this.client.documentClient.readDatabases(options);
+    return this.query(undefined, options);
   }
 }

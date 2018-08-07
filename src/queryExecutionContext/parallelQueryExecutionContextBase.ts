@@ -9,13 +9,12 @@ import {
   IExecutionContext,
   IHeaders,
   PartitionedQueryExecutionContextInfo,
-  PartitionedQueryExecutionContextInfoParser,
-  SqlQuerySpec
+  PartitionedQueryExecutionContextInfoParser
 } from ".";
-import { Constants, StatusCodes, SubStatusCodes } from "../common";
-import { DocumentClient } from "../documentclient";
+import { ClientContext } from "../ClientContext";
+import { StatusCodes, SubStatusCodes } from "../common";
 import { Response } from "../request/request";
-import { InMemoryCollectionRoutingMap, PARITIONKEYRANGE, QueryRange, SmartRoutingMapProvider } from "../routing";
+import { PARITIONKEYRANGE, QueryRange, SmartRoutingMapProvider } from "../routing";
 
 /** @hidden */
 export enum ParallelQueryExecutionContextBaseStates {
@@ -47,20 +46,20 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
    * DocumentProcuder per target partition key range and aggregates the result of each.
    *
    * @constructor ParallelQueryExecutionContext
-   * @param {DocumentClient} documentclient        - The service endpoint to use to create the client.
+   * @param {ClientContext} clientContext        - The service endpoint to use to create the client.
    * @param {string} collectionLink                - The Collection Link
    * @param {FeedOptions} [options]                - Represents the feed options.
    * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
    * @ignore
    */
   constructor(
-    private documentclient: DocumentClient,
+    private clientContext: ClientContext,
     private collectionLink: string,
     private query: any, // TODO: any - It's not SQLQuerySpec
     private options: any,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionContextInfo
   ) {
-    this.documentclient = documentclient;
+    this.clientContext = clientContext;
     this.collectionLink = collectionLink;
     this.query = query;
     this.options = options;
@@ -68,7 +67,7 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
 
     this.err = undefined;
     this.state = ParallelQueryExecutionContextBase.STATES.started;
-    this.routingProvider = new SmartRoutingMapProvider(this.documentclient);
+    this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     this.sortOrders = PartitionedQueryExecutionContextInfoParser.parseOrderBy(this.partitionedQueryExecutionInfo);
 
     if (options === undefined || options["maxItemCount"] === undefined) {
@@ -246,10 +245,10 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
    * @instance
    */
   private async _getReplacementPartitionKeyRanges(documentProducer: DocumentProducer) {
-    const routingMapProvider = this.documentclient.partitionKeyDefinitionCache;
+    const routingMapProvider = this.clientContext.partitionKeyDefinitionCache;
     const partitionKeyRange = documentProducer.targetPartitionKeyRange;
     // Download the new routing map
-    this.routingProvider = new SmartRoutingMapProvider(this.documentclient);
+    this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     // Get the queryRange that relates to this partitionKeyRange
     const queryRange = QueryRange.parsePartitionKeyRange(partitionKeyRange);
     return this.routingProvider.getOverlappingRanges(this.collectionLink, [queryRange]);
@@ -573,6 +572,6 @@ export abstract class ParallelQueryExecutionContextBase implements IExecutionCon
     const options = JSON.parse(JSON.stringify(this.options));
     options.continuationToken = continuationToken;
 
-    return new DocumentProducer(this.documentclient, this.collectionLink, query, partitionKeyTargetRange, options);
+    return new DocumentProducer(this.clientContext, this.collectionLink, query, partitionKeyTargetRange, options);
   }
 }

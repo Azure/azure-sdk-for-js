@@ -1,6 +1,7 @@
 ﻿import * as assert from "assert";
+import { ClientContext } from "../../ClientContext";
 import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../routing";
-import { MockedDocumentClient } from "./../common/MockDocumentClient";
+import { MockedClientContext } from "../common/MockClientContext";
 
 describe("Smart Routing Map Provider OverlappingRanges", function() {
   const containerLink = "dbs/7JZZAA==/colls/7JZZAOS-JQA=/";
@@ -26,9 +27,9 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
     { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" }
   ];
 
-  const mockedDocumentClient = new MockedDocumentClient(partitionKeyRanges, containerId);
-  const smartRoutingMapProvider = new SmartRoutingMapProvider(mockedDocumentClient);
-  const partitionKeyRangeCache = new PartitionKeyRangeCache(mockedDocumentClient);
+  const mockedClientContext: ClientContext = new MockedClientContext(partitionKeyRanges, containerId) as any;
+  const smartRoutingMapProvider = new SmartRoutingMapProvider(mockedClientContext);
+  const partitionKeyRangeCache = new PartitionKeyRangeCache(mockedClientContext);
 
   describe("Test Full Range", function() {
     it('query ranges: ["", ""FF)', function() {

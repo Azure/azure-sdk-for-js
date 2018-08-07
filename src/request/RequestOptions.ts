@@ -34,7 +34,7 @@ export interface RequestOptions {
    */
   offerType?: string;
   /** Specifies a partition key definition for a particular path in the Azure Cosmos DB database service. */
-  partitionKey?: PartitionKey;
+  partitionKey?: PartitionKey | PartitionKey[];
   /** Enables/disables getting document container quota related stats for document container read requests. */
   populateQuotaInfo?: boolean;
   /** Indicates what is the post trigger to be invoked after the operation. */

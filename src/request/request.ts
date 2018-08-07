@@ -1,18 +1,18 @@
-import { Agent, ClientRequest, ClientResponse, OutgoingHttpHeaders, ServerResponse } from "http"; // TYPES ONLY
-import { RequestOptions } from "https"; // TYPES ONLY
+import { ClientRequest, ClientResponse } from "http"; // TYPES ONLY
+import * as httpsTypes from "https"; // TYPES ONLY
 import { Socket } from "net";
-import * as querystring from "querystring";
 import { Stream } from "stream";
 import * as url from "url";
-import { Constants } from "../common";
+import { Constants, Helper } from "../common";
 import { ConnectionPolicy, MediaReadMode } from "../documents";
-import { GlobalEndpointManager } from "../globalEndpointManager";
 import { IHeaders } from "../queryExecutionContext";
-import { Body, RetryUtility } from "../retry";
+import { Body } from "../retry";
 
 import { ErrorResponse } from "./ErrorResponse";
 export { ErrorResponse }; // Should refactor this out
 
+import { FeedOptions, MediaOptions, RequestOptions } from ".";
+import { AuthHandler, AuthOptions } from "../auth";
 import { Response } from "./Response";
 export { Response }; // Should refactor this out
 
@@ -40,7 +40,7 @@ function javaScriptFriendlyJSONStringify(s: object) {
 }
 
 /** @hidden */
-function bodyFromData(data: Stream | Buffer | string | object) {
+export function bodyFromData(data: Stream | Buffer | string | object) {
   if ((data as Stream).pipe) {
     return data;
   }
@@ -57,14 +57,14 @@ function bodyFromData(data: Stream | Buffer | string | object) {
 }
 
 /** @hidden */
-function parse(urlString: string) {
+export function parse(urlString: string) {
   return url.parse(urlString);
 }
 
 /** @hidden */
-function createRequestObject(
+export function createRequestObject(
   connectionPolicy: ConnectionPolicy,
-  requestOptions: RequestOptions,
+  requestOptions: httpsTypes.RequestOptions,
   body: Body
 ): Promise<Response<any>> {
   return new Promise<Response<any>>((resolve, reject) => {
@@ -168,119 +168,150 @@ function getErrorBody(response: ClientResponse, data: string, headers: IHeaders)
   return errorBody;
 }
 
-/** @hidden */
-export class RequestHandler {
-  public static async createRequestObjectStub(
-    connectionPolicy: ConnectionPolicy,
-    requestOptions: RequestOptions,
-    body: Body
-  ) {
-    return createRequestObject(connectionPolicy, requestOptions, body);
+export async function getHeaders(
+  authOptions: AuthOptions,
+  defaultHeaders: IHeaders,
+  verb: string,
+  path: string,
+  resourceId: string,
+  resourceType: string,
+  options: RequestOptions | FeedOptions | MediaOptions,
+  partitionKeyRangeId?: string
+): Promise<IHeaders> {
+  const headers: IHeaders = { ...defaultHeaders };
+  const opts: RequestOptions & FeedOptions & MediaOptions = (options || {}) as any; // TODO: this is dirty
+
+  if (opts.continuation) {
+    headers[Constants.HttpHeaders.Continuation] = opts.continuation;
   }
 
-  /**
-   *  Creates the request object, call the passed callback when the response is retrieved.
-   * @param {object} globalEndpointManager - an instance of GlobalEndpointManager class.
-   * @param {object} connectionPolicy - an instance of ConnectionPolicy that has the connection configs.
-   * @param {object} requestAgent - the https agent used for send request
-   * @param {string} method - the http request method ( 'get', 'post', 'put', .. etc ).
-   * @param {String} hostname - The base url for the endpoint.
-   * @param {string} path - the path of the requesed resource.
-   * @param {Object} data - the request body. It can be either string, buffer, stream or undefined.
-   * @param {Object} queryParams - query parameters for the request.
-   * @param {Object} headers - specific headers for the request.
-   * @param {function} callback - the callback that will be called when the response is retrieved and processed.
-   */
-  public static async request(
-    globalEndpointManager: GlobalEndpointManager,
-    connectionPolicy: ConnectionPolicy,
-    requestAgent: Agent,
-    method: string,
-    hostname: string,
-    request: string | { path: string },
-    data: string | Buffer | Stream,
-    queryParams: any, // TODO: any query params types
-    headers: IHeaders
-  ): Promise<Response<any>> {
-    // TODO: any
-    const path = (request as { path: string }).path === undefined ? request : (request as { path: string }).path;
-    let body: any; // TODO: any
+  if (opts.preTriggerInclude) {
+    headers[Constants.HttpHeaders.PreTriggerInclude] =
+      opts.preTriggerInclude.constructor === Array
+        ? (opts.preTriggerInclude as string[]).join(",")
+        : (opts.preTriggerInclude as string);
+  }
 
-    if (data) {
-      body = bodyFromData(data);
-      if (!body) {
-        return {
-          result: {
-            message: "parameter data must be a javascript object, string, Buffer, or stream"
-          },
-          headers: undefined
-        };
-      }
-    }
+  if (opts.postTriggerInclude) {
+    headers[Constants.HttpHeaders.PostTriggerInclude] =
+      opts.postTriggerInclude.constructor === Array
+        ? (opts.postTriggerInclude as string[]).join(",")
+        : (opts.postTriggerInclude as string);
+  }
 
-    let buffer;
-    let stream: Stream;
-    if (body) {
-      if (Buffer.isBuffer(body)) {
-        buffer = body;
-      } else if ((body as Stream).pipe) {
-        // it is a stream
-        stream = body;
-      } else if (typeof body === "string") {
-        buffer = new Buffer(body, "utf8");
-      } else {
-        return {
-          result: {
-            message: "body must be string, Buffer, or stream"
-          },
-          headers: undefined
-        };
-      }
-    }
+  if (opts.offerType) {
+    headers[Constants.HttpHeaders.OfferType] = opts.offerType;
+  }
 
-    const requestOptions: RequestOptions = parse(hostname);
-    requestOptions.method = method;
-    requestOptions.path += path;
-    requestOptions.headers = headers as OutgoingHttpHeaders;
-    requestOptions.agent = requestAgent;
-    requestOptions.secureProtocol = "TLSv1_client_method"; // TODO: Should be a constant
+  if (opts.offerThroughput) {
+    headers[Constants.HttpHeaders.OfferThroughput] = opts.offerThroughput;
+  }
 
-    if (connectionPolicy.DisableSSLVerification === true) {
-      requestOptions.rejectUnauthorized = false;
-    }
+  if (opts.maxItemCount) {
+    headers[Constants.HttpHeaders.PageSize] = opts.maxItemCount;
+  }
 
-    if (queryParams) {
-      requestOptions.path += "?" + querystring.stringify(queryParams);
-    }
-
-    if (buffer) {
-      requestOptions.headers[Constants.HttpHeaders.ContentLength] = buffer.length;
-      return RetryUtility.execute(
-        globalEndpointManager,
-        { buffer, stream: null },
-        this.createRequestObjectStub,
-        connectionPolicy,
-        requestOptions,
-        request
-      );
-    } else if (stream) {
-      return RetryUtility.execute(
-        globalEndpointManager,
-        { buffer: null, stream },
-        this.createRequestObjectStub,
-        connectionPolicy,
-        requestOptions,
-        request
-      );
+  if (opts.accessCondition) {
+    if (opts.accessCondition.type === "IfMatch") {
+      headers[Constants.HttpHeaders.IfMatch] = opts.accessCondition.condition;
     } else {
-      return RetryUtility.execute(
-        globalEndpointManager,
-        { buffer: null, stream: null },
-        this.createRequestObjectStub,
-        connectionPolicy,
-        requestOptions,
-        request
-      );
+      headers[Constants.HttpHeaders.IfNoneMatch] = opts.accessCondition.condition;
     }
   }
+
+  if (opts.a_im) {
+    headers[Constants.HttpHeaders.A_IM] = opts.a_im;
+  }
+
+  if (opts.indexingDirective) {
+    headers[Constants.HttpHeaders.IndexingDirective] = opts.indexingDirective;
+  }
+
+  // TODO: add consistency level validation.
+  if (opts.consistencyLevel) {
+    headers[Constants.HttpHeaders.ConsistencyLevel] = opts.consistencyLevel;
+  }
+
+  if (opts.resourceTokenExpirySeconds) {
+    headers[Constants.HttpHeaders.ResourceTokenExpiry] = opts.resourceTokenExpirySeconds;
+  }
+
+  // TODO: add session token automatic handling in case of session consistency.
+  if (opts.sessionToken) {
+    headers[Constants.HttpHeaders.SessionToken] = opts.sessionToken;
+  }
+
+  if (opts.enableScanInQuery) {
+    headers[Constants.HttpHeaders.EnableScanInQuery] = opts.enableScanInQuery;
+  }
+
+  if (opts.enableCrossPartitionQuery) {
+    headers[Constants.HttpHeaders.EnableCrossPartitionQuery] = opts.enableCrossPartitionQuery;
+  }
+
+  if (opts.populateQuotaInfo) {
+    headers[Constants.HttpHeaders.PopulateQuotaInfo] = opts.populateQuotaInfo;
+  }
+
+  if (opts.populateQueryMetrics) {
+    headers[Constants.HttpHeaders.PopulateQueryMetrics] = opts.populateQueryMetrics;
+  }
+
+  if (opts.maxDegreeOfParallelism !== undefined) {
+    headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] = true;
+  }
+
+  if (opts.populateQuotaInfo) {
+    headers[Constants.HttpHeaders.PopulateQuotaInfo] = true;
+  }
+
+  // If the user is not using partition resolver, we add options.partitonKey to the header for elastic containers
+  if (
+    authOptions &&
+    ((authOptions as any).partitionResolver === undefined || // TODO: paritionResolver does not exist
+      (authOptions as any).partitionResolver === null)
+  ) {
+    if (opts.partitionKey !== undefined) {
+      let partitionKey: string[] | string = opts.partitionKey;
+      if (partitionKey === null || !Array.isArray(partitionKey)) {
+        partitionKey = [partitionKey as string];
+      }
+      headers[Constants.HttpHeaders.PartitionKey] = Helper.jsonStringifyAndEscapeNonASCII(partitionKey);
+    }
+  }
+
+  if (authOptions.masterKey || authOptions.tokenProvider) {
+    headers[Constants.HttpHeaders.XDate] = new Date().toUTCString();
+  }
+
+  if (verb === "post" || verb === "put") {
+    if (!headers[Constants.HttpHeaders.ContentType]) {
+      headers[Constants.HttpHeaders.ContentType] = Constants.MediaTypes.Json;
+    }
+  }
+
+  if (!headers[Constants.HttpHeaders.Accept]) {
+    headers[Constants.HttpHeaders.Accept] = Constants.MediaTypes.Json;
+  }
+
+  if (partitionKeyRangeId !== undefined) {
+    headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
+  }
+
+  if (opts.enableScriptLogging) {
+    headers[Constants.HttpHeaders.EnableScriptLogging] = opts.enableScriptLogging;
+  }
+
+  if (opts.offerEnableRUPerMinuteThroughput) {
+    headers[Constants.HttpHeaders.OfferIsRUPerMinuteThroughputEnabled] = true;
+  }
+
+  if (opts.disableRUPerMinuteUsage) {
+    headers[Constants.HttpHeaders.DisableRUPerMinuteUsage] = true;
+  }
+  if (authOptions.masterKey || authOptions.resourceTokens || authOptions.tokenProvider || authOptions.permissionFeed) {
+    const token = await AuthHandler.getAuthorizationHeader(authOptions, verb, path, resourceId, resourceType, headers);
+    headers[Constants.HttpHeaders.Authorization] = token;
+  }
+  return headers;
 }

@@ -1,5 +1,8 @@
-import { Constants, UriFactory } from "../../common";
-import { RequestOptions, Response } from "../../request";
+import { PartitionKey } from "../..";
+import { ClientContext } from "../../ClientContext";
+import { Helper, UriFactory } from "../../common";
+import { PartitionKeyDefinition } from "../../documents";
+import { CosmosResponse, RequestOptions } from "../../request";
 import { Conflict } from "../Conflict";
 import { Database } from "../Database";
 import { Item, Items } from "../Item";
@@ -63,11 +66,15 @@ export class Container {
    * @param id The id of the given container.
    * @hidden
    */
-  constructor(public readonly database: Database, public readonly id: string) {
-    this.items = new Items(this);
-    this.storedProcedures = new StoredProcedures(this);
-    this.triggers = new Triggers(this);
-    this.userDefinedFunctions = new UserDefinedFunctions(this);
+  constructor(
+    public readonly database: Database,
+    public readonly id: string,
+    private readonly clientContext: ClientContext
+  ) {
+    this.items = new Items(this, this.clientContext);
+    this.storedProcedures = new StoredProcedures(this, this.clientContext);
+    this.triggers = new Triggers(this, this.clientContext);
+    this.userDefinedFunctions = new UserDefinedFunctions(this, this.clientContext);
   }
 
   /**
@@ -81,7 +88,7 @@ export class Container {
    * const {body: replacedItem} = await container.item("<item id>").replace({id: "<item id>", title: "Updated post", authorID: 5});
    */
   public item(id: string, partitionKey?: string): Item {
-    return new Item(this, id, partitionKey);
+    return new Item(this, id, partitionKey, this.clientContext);
   }
 
   /**
@@ -91,7 +98,7 @@ export class Container {
    * @param id The id of the {@link UserDefinedFunction}.
    */
   public userDefinedFunction(id: string): UserDefinedFunction {
-    return new UserDefinedFunction(this, id);
+    return new UserDefinedFunction(this, id, this.clientContext);
   }
 
   /**
@@ -101,7 +108,7 @@ export class Container {
    * @param id The id of the {@link Conflict}.
    */
   public conflict(id: string): Conflict {
-    return new Conflict(this, id);
+    return new Conflict(this, id, this.clientContext);
   }
 
   /**
@@ -111,7 +118,7 @@ export class Container {
    * @param id The id of the {@link StoredProcedure}.
    */
   public storedProcedure(id: string): StoredProcedure {
-    return new StoredProcedure(this, id);
+    return new StoredProcedure(this, id, this.clientContext);
   }
 
   /**
@@ -121,12 +128,16 @@ export class Container {
    * @param id The id of the {@link Trigger}.
    */
   public trigger(id: string): Trigger {
-    return new Trigger(this, id);
+    return new Trigger(this, id, this.clientContext);
   }
 
   /** Read the container's definition */
   public async read(options?: RequestOptions): Promise<ContainerResponse> {
-    const response = await this.database.client.documentClient.readCollection(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.read<ContainerDefinition>(path, "colls", id, undefined, options);
+    this.clientContext.partitionKeyDefinitionCache[this.url] = response.result.partitionKey;
     return {
       body: response.result,
       headers: response.headers,
@@ -137,7 +148,15 @@ export class Container {
 
   /** Replace the container's definition */
   public async replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse> {
-    const response = await this.database.client.documentClient.replaceCollection(this.url, body, options);
+    const err = {};
+    if (!Helper.isResourceValid(body, err)) {
+      throw err;
+    }
+
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.replace(body, path, "colls", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,
@@ -148,12 +167,67 @@ export class Container {
 
   /** Delete the container */
   public async delete(options?: RequestOptions): Promise<ContainerResponse> {
-    const response = await this.database.client.documentClient.deleteCollection(this.url, options);
+    const path = Helper.getPathFromLink(this.url);
+    const id = Helper.getIdFromLink(this.url);
+
+    const response = await this.clientContext.delete(path, "colls", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,
       ref: this,
       container: this
     };
+  }
+
+  /**
+   * Gets the partition key definition first by looking into the cache otherwise by reading the collection.
+   * @ignore
+   * @param {string} collectionLink   - Link to the collection whose partition key needs to be extracted.
+   * @param {function} callback       - \
+   * The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers
+   */
+  public async getPartitionKeyDefinition(): Promise<CosmosResponse<PartitionKeyDefinition, Container>> {
+    // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
+    // $ISSUE-felixfan-2016-03-17: Refresh partitionKeyDefinitionCache when necessary
+    if (this.url in this.clientContext.partitionKeyDefinitionCache) {
+      return {
+        body: this.clientContext.partitionKeyDefinitionCache[this.url],
+        ref: this
+      };
+    }
+
+    const { headers } = await this.read();
+    return {
+      body: this.clientContext.partitionKeyDefinitionCache[this.url],
+      headers,
+      ref: this
+    };
+  }
+
+  // TODO: The ParitionKey type is REALLY weird. Now that it's being exported, we should clean it up.
+  public extractPartitionKey(document: any, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[] {
+    // TODO: any
+    if (partitionKeyDefinition && partitionKeyDefinition.paths && partitionKeyDefinition.paths.length > 0) {
+      const partitionKey: PartitionKey[] = [];
+      partitionKeyDefinition.paths.forEach((path: string) => {
+        const pathParts = Helper.parsePath(path);
+
+        let obj = document;
+        for (const part of pathParts) {
+          if (!(typeof obj === "object" && part in obj)) {
+            obj = {};
+            break;
+          }
+
+          obj = obj[part];
+        }
+
+        partitionKey.push(obj);
+      });
+
+      return partitionKey;
+    }
+
+    return undefined;
   }
 }

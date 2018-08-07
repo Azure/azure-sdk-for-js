@@ -1,13 +1,13 @@
 import * as assert from "assert";
 import * as util from "util";
-import { QueryIterator } from "../../";
+import { QueryIterator } from "../..";
 import { Container, ContainerDefinition, Database } from "../../client";
 import { CosmosClient } from "../../CosmosClient";
 import { DataType, IndexKind, PartitionKind } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
-import { endpoint, masterKey } from "./../common/_testConfig";
-import { TestData } from "./../common/TestData";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "./../common/TestHelpers";
+import { endpoint, masterKey } from "../common/_testConfig";
+import { TestData } from "../common/TestData";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
