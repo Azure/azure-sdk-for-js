@@ -426,6 +426,7 @@ export class EventHubReceiver extends LinkEntity {
           this.isOpen(), this.isConnecting);
       }
     } catch (err) {
+      this.isConnecting = false;
       err = translate(err);
       debug("[%s] An error occured while creating the receiver '%s': %O",
         this._context.connectionId, this.name, err);

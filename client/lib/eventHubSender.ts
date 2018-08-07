@@ -337,13 +337,13 @@ export class EventHubSender extends LinkEntity {
    * @param message The message to be sent to EventHub.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(message: AmqpMessage, tag?: any, format?: number): Promise<Delivery> {
+  private _trySend(message: AmqpMessage, tag: any, format?: number): Promise<Delivery> {
     const sendEventPromise = () => new Promise<Delivery>((resolve, reject) => {
       debug("[%s] Sender '%s', credit: %d available: %d", this._context.connectionId, this.name,
         this._sender!.credit, this._sender!.session.outgoing.available());
       if (this._sender!.sendable()) {
         debug("[%s] Sender '%s', sending message with id '%s'.", this._context.connectionId,
-          this.name, message.message_id);
+          this.name, message.message_id || tag);
         let onRejected: Func<EventContext, void>;
         let onReleased: Func<EventContext, void>;
         let onModified: Func<EventContext, void>;
@@ -466,6 +466,7 @@ export class EventHubSender extends LinkEntity {
           this.isOpen(), this.isConnecting);
       }
     } catch (err) {
+      this.isConnecting = false;
       err = translate(err);
       debug("[%s] An error occurred while creating the sender %s",
         this._context.connectionId, this.name, err);

@@ -31,7 +31,7 @@ export enum ConditionStatusMapper {
 }
 
 /**
- * Maps the conditions to the Error names.
+ * Maps the amqp error conditions to the Error names.
  * @enum {ConditionErrorNameMapper}
  */
 export enum ConditionErrorNameMapper {
@@ -191,12 +191,17 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when the client sender does not have enough link credits to send the message.
    */
-  "client.sender:not-enough-link-credit" = "SenderBusyError" // Retryable
+  "client.sender:not-enough-link-credit" = "SenderBusyError", // Retryable
+  /**
+   * Error is thrown when a low level system error is thrown by node.js.
+   * {@link https://nodejs.org/dist/latest-v8.x/docs/api/all.html#errors_class_system_error}
+   */
+  "system:error" = "SystemError"
 
 }
 
 /**
- * Maps the conditions to the Error names.
+ * Maps the Error names to the amqp error conditions.
  * @enum {ErrorNameConditionMapper}
  */
 export enum ErrorNameConditionMapper {
@@ -348,7 +353,12 @@ export enum ErrorNameConditionMapper {
   /**
    * Error is thrown when the client sender does not have enough link credits to send the message.
    */
-  SenderBusyError = "client.sender:not-enough-link-credit" // Retryable
+  SenderBusyError = "client.sender:not-enough-link-credit", // Retryable
+  /**
+   * Error is thrown when a low level system error is thrown by node.js.
+   * {@link https://nodejs.org/dist/v8.11.3/docs/api/all.html#errors_class_system_error}
+   */
+  SystemError = "system:error"
 }
 
 /**
@@ -398,8 +408,49 @@ export const retryableErrors: string[] = [
   "TransferLimitExceededError"
 ];
 
+
 /**
- * Translates the AQMP error received at the protocol layer or a generic Error into an MessagingError.
+ * Maps some SytemErrors to amqp error conditions
+ * @enum SystemErrorConditionMapper
+ */
+export enum SystemErrorConditionMapper {
+  ENOTFOUND = "amqp:not-found",
+  EBUSY = "com.microsoft:server-busy",
+  ECONNREFUSED = "amqp:connection:forced",
+  ETIMEDOUT = "com.microsoft:timeout",
+  ECONNRESET = "com.microsoft:timeout",
+  ENETDOWN = "com.microsoft:timeout",
+  EHOSTDOWN = "com.microsoft:timeout",
+  ENETRESET = "com.microsoft:timeout",
+  ENETUNREACH = "com.microsoft:timeout",
+  ENONET = "com.microsoft:timeout"
+}
+
+/**
+ * Provides a list of retryable SystemErrors.
+ * "EBUSY", "ECONNREFUSED", "ETIMEDOUT", "ECONNRESET", "ENETDOWN", "EHOSTDOWN", "ENETRESET",
+ * "ENETUNREACH", "ENONET".
+ */
+export const retryableSystemErrors: string[] = [
+  "EBUSY", "ECONNREFUSED", "ETIMEDOUT", "ECONNRESET", "ENETDOWN", "EHOSTDOWN", "ENETRESET",
+  "ENETUNREACH", "ENONET"
+];
+
+export function isSystemError(err: any): boolean {
+  if (!err || typeof err !== "object") {
+    throw new Error("err is a required parameter and must be of type 'object'.");
+  }
+  let result: boolean = false;
+  if ((err.code && typeof err.code === "string") &&
+    (err.syscall && typeof err.syscall === "string") &&
+    (err.errno && (typeof err.errno === "string" || typeof err.errno === "number"))) {
+    result = true;
+  }
+  return result;
+}
+
+/**
+ * Translates the AQMP error received at the protocol layer or a generic Error into a MessagingError.
  *
  * @param {AmqpError} err The amqp error that was received.
  * @returns {MessagingError} MessagingError object.
@@ -423,6 +474,18 @@ export function translate(err: AmqpError | Error): MessagingError {
       error.name = "MessagingEntityNotFoundError";
     }
     if (retryableErrors.indexOf(error.name) === -1) { // not found
+      error.retryable = false;
+    }
+    return error;
+  } else if (isSystemError(err)) { // translate
+    const condition = (err as any).code;
+    const description = (err as Error).message;
+    const error = new MessagingError(description);
+    if (condition) {
+      error.name = SystemErrorConditionMapper[condition as any];
+    }
+    if (!error.name) error.name = "SystemError";
+    if (retryableSystemErrors.indexOf(error.name) === -1) { // not found
       error.retryable = false;
     }
     return error;
