@@ -356,7 +356,7 @@ export enum ErrorNameConditionMapper {
   SenderBusyError = "client.sender:not-enough-link-credit", // Retryable
   /**
    * Error is thrown when a low level system error is thrown by node.js.
-   * {@link https://nodejs.org/dist/v8.11.3/docs/api/all.html#errors_class_system_error}
+   * {@link https://nodejs.org/api/errors.html#errors_class_systemerror}
    */
   SystemError = "system:error"
 }
