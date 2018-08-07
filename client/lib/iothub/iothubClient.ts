@@ -4,10 +4,8 @@
 import { IotHubConnectionConfig } from "./iotHubConnectionConfig";
 import { ConnectionContext, ConnectionContextOptions } from "../connectionContext";
 import { IotSasTokenProvider } from "./iotSas";
-import * as debugModule from "debug";
+import * as log from "../log";
 import { translate, MessagingError } from "../amqp-common";
-import { } from "../rhea-promise";
-const debug = debugModule("azure:event-hubs:iothubClient");
 
 /**
  * @interface ParsedRedirectError
@@ -55,13 +53,13 @@ export class IotHubClient {
     options.managementSessionAddress = `/messages/events/$management`;
     const context = ConnectionContext.create(config, options);
     try {
-      debug("Getting the hub runtime info from the iothub connection string to get the redirect error.");
+      log.iotClient("Getting the hub runtime info from the iothub connection string to get the redirect error.");
       await context.managementSession!.getHubRuntimeInformation();
     } catch (err) {
       const error = translate(err);
-      debug("IotHubClient received the error: %O", error);
+      log.error("IotHubClient received the error: %O", error);
       const parsedInfo: ParsedRedirectError = this._parseRedirectError(err);
-      debug("Parsed info from redirect error is: %O", parsedInfo);
+      log.error("Parsed info from redirect error is: %O", parsedInfo);
       result = this._buildConnectionString({
         sharedAccessKey: config.sharedAccessKey,
         sharedAccessKeyName: config.sharedAccessKeyName,
@@ -69,7 +67,7 @@ export class IotHubClient {
         entityPath: parsedInfo.entityPath
       });
     }
-    debug("The EventHub ConnectionString is: '%s'.", result);
+    log.iotClient("The EventHub ConnectionString is: '%s'.", result);
     await this.close(context);
     return result;
   }
@@ -83,19 +81,19 @@ export class IotHubClient {
   async close(context: ConnectionContext): Promise<any> {
     try {
       if (context.connection.isOpen()) {
-        debug("Closing the IotHubClient connection...");
+        log.iotClient("Closing the IotHubClient connection...");
         // Close the cbs session;
         await context.cbsSession.close();
-        debug("IotHub cbs session closed.");
+        log.iotClient("IotHub cbs session closed.");
         // Close the management session
         await context.managementSession!.close();
-        debug("IotHub management client closed.");
+        log.iotClient("IotHub management client closed.");
         await context.connection.close();
-        debug("Closed the amqp connection '%s' on the iothub client.", context.connectionId);
+        log.iotClient("Closed the amqp connection '%s' on the iothub client.", context.connectionId);
       }
     } catch (err) {
       const msg = `An error occurred while closing the connection "${context.connectionId}": ${err.stack}`;
-      debug(msg);
+      log.error(msg);
     }
   }
 

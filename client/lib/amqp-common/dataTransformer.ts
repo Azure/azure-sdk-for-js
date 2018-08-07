@@ -2,10 +2,9 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as rhea from "rhea";
-import * as debugModule from "debug";
+import * as log from "./log";
 
 const isBuffer = require("is-buffer");
-const debug = debugModule("azure:amqp-common:datatransformer");
 
 /**
  * Describes the transformations that can be performed to encode/decode the data before sending it
@@ -44,7 +43,7 @@ export class DefaultDataTransformer implements DataTransformer {
    */
   encode(body: any): any {
     let result: any;
-    debug("[encode] The given message body that needs to be encoded is: ", body);
+    log.transformer("[encode] The given message body that needs to be encoded is: ", body);
     if (isBuffer(body)) {
       result = rhea.message.data_section(body);
     } else {
@@ -58,11 +57,11 @@ export class DefaultDataTransformer implements DataTransformer {
       } catch (err) {
         const msg = `An error occurred while executing JSON.stringify() on the given body ` + body
           + `${err ? err.stack : JSON.stringify(err)}`;
-        debug("[encode] " + msg);
+        log.error("[encode] " + msg);
         throw new Error(msg);
       }
     }
-    debug("[encode] The encoded message body is: %O.", result);
+    log.transformer("[encode] The encoded message body is: %O.", result);
     return result;
   }
 
@@ -77,7 +76,7 @@ export class DefaultDataTransformer implements DataTransformer {
   decode(body: any): any {
     let processedBody: any = body;
     try {
-      debug("[decode] Received message body for decoding is: %O", body);
+      log.transformer("[decode] Received message body for decoding is: %O", body);
       if (body.content && isBuffer(body.content)) {
         // This indicates that we are getting the AMQP described type. Let us try decoding it.
         processedBody = body.content;
@@ -88,13 +87,13 @@ export class DefaultDataTransformer implements DataTransformer {
         const bodyStr: string = processedBody.toString("utf8");
         processedBody = JSON.parse(bodyStr);
       } catch (err) {
-        debug("[decode] An error occurred while trying JSON.parse() on the received body. " +
+        log.error("[decode] An error occurred while trying JSON.parse() on the received body. " +
           "The error is %O", err);
       }
     } catch (err) {
-      debug("[decode] An error occurred while decoding the received message body. The error is: %O", err);
+      log.error("[decode] An error occurred while decoding the received message body. The error is: %O", err);
     }
-    debug("[decode] The decoded message body is: %O", processedBody);
+    log.transformer("[decode] The decoded message body is: %O", processedBody);
     return processedBody;
   }
 }
