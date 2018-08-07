@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as debugModule from "debug";
+import * as log from "./log";
 import { Delivery } from "./rhea-promise";
 import {
   ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
@@ -19,7 +19,6 @@ import { EventHubSender } from "./eventHubSender";
 import { StreamingReceiver, ReceiveHandler } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
 import { IotHubClient } from "./iothub/iothubClient";
-const debug = debugModule("azure:event-hubs:client");
 
 /**
  * Describes the options that one can set while receiving messages.
@@ -136,11 +135,11 @@ export class EventHubClient {
         await this._context.managementSession!.close();
         await this._context.connection.close();
         this._context.wasConnectionCloseCalled = true;
-        debug("Closed the amqp connection '%s' on the client.", this._context.connectionId);
+        log.client("Closed the amqp connection '%s' on the client.", this._context.connectionId);
       }
     } catch (err) {
       const msg = `An error occurred while closing the connection "${this._context.connectionId}": ${JSON.stringify(err)}`;
-      debug(msg);
+      log.error(msg);
       throw new Error(msg);
     }
   }
@@ -222,7 +221,7 @@ export class EventHubClient {
       result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
     } catch (err) {
       error = err;
-      debug("[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
+      log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
         this._context.connectionId, bReceiver.name, maxMessageCount, maxWaitTimeInSeconds, err);
     }
     try {
@@ -244,7 +243,7 @@ export class EventHubClient {
     try {
       return await this._context.managementSession!.getHubRuntimeInformation();
     } catch (err) {
-      debug("An error occurred while getting the hub runtime information: %O", err);
+      log.error("An error occurred while getting the hub runtime information: %O", err);
       throw err;
     }
   }
@@ -258,7 +257,7 @@ export class EventHubClient {
       const runtimeInfo = await this.getHubRuntimeInformation();
       return runtimeInfo.partitionIds;
     } catch (err) {
-      debug("An error occurred while getting the partition ids: %O", err);
+      log.error("An error occurred while getting the partition ids: %O", err);
       throw err;
     }
   }
@@ -275,7 +274,7 @@ export class EventHubClient {
     try {
       return await this._context.managementSession!.getPartitionInformation(partitionId);
     } catch (err) {
-      debug("An error occurred while getting the partition information: %O", err);
+      log.error("An error occurred while getting the partition information: %O", err);
       throw err;
     }
   }

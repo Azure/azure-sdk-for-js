@@ -3,8 +3,7 @@
 
 import { translate, MessagingError } from "./errors";
 import { delay } from ".";
-import * as debugModule from "debug";
-const debug = debugModule("azure:amqp-common:retry");
+import * as log from "./log";
 
 /**
  * Determines whether the object is a Delivery object.
@@ -108,14 +107,14 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   let success = false;
   for (let i = 0; i < config.times; i++) {
     const j = i + 1;
-    debug("[%s] Retry for '%s', attempt number: %d", config.connectionId, config.operationType, j);
+    log.retry("[%s] Retry for '%s', attempt number: %d", config.connectionId, config.operationType, j);
     try {
       result = await config.operation();
       success = true;
-      debug("[%s] Success for '%s', after attempt number: %d.", config.connectionId,
+      log.retry("[%s] Success for '%s', after attempt number: %d.", config.connectionId,
         config.operationType, j);
       if (result && !isDelivery(result)) {
-        debug("[%s] Success result for '%s': %O", config.connectionId, config.operationType, result);
+        log.retry("[%s] Success result for '%s': %O", config.connectionId, config.operationType, result);
       }
       break;
     } catch (err) {
@@ -123,10 +122,10 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         err = translate(err);
       }
       lastError = err;
-      debug("[%s] Error occured for '%s' in attempt number %d: %O", config.connectionId,
+      log.error("[%s] Error occured for '%s' in attempt number %d: %O", config.connectionId,
         config.operationType, j, err);
       if (lastError && lastError.retryable) {
-        debug("[%s] Sleeping for %d seconds for '%s'.", config.connectionId,
+        log.error("[%s] Sleeping for %d seconds for '%s'.", config.connectionId,
           config.delayInSeconds, config.operationType);
         await delay(config.delayInSeconds * 1000);
         continue;

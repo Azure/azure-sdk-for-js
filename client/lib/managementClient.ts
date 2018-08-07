@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as uuid from "uuid/v4";
-import * as debugModule from "debug";
 import * as rheaPromise from "./rhea-promise";
 import {
   RequestResponseLink, defaultLock, translate, Constants
@@ -10,9 +9,7 @@ import {
 import { Message } from "./rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-
-const debug = debugModule("azure:event-hubs:management");
-
+import * as log from "./log";
 /**
  * Describes the runtime information of an EventHub.
  * @interface EventHubRuntimeInformation
@@ -136,7 +133,7 @@ export class ManagementClient extends LinkEntity {
       partitionIds: info.partition_ids,
       type: info.type
     };
-    debug("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
+    log.mgmt("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
     return runtimeInfo;
   }
 
@@ -171,7 +168,7 @@ export class ManagementClient extends LinkEntity {
       partitionId: info.partition,
       type: info.type
     };
-    debug("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
+    log.mgmt("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
     return partitionInfo;
   }
 
@@ -188,11 +185,11 @@ export class ManagementClient extends LinkEntity {
         this._mgmtReqResLink = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         await mgmtLink!.close();
-        debug("Successfully closed the management session.");
+        log.mgmt("Successfully closed the management session.");
       }
     } catch (err) {
       const msg = `An error occurred while closing the management session: ${err}`;
-      debug(msg);
+      log.error(msg);
       throw new Error(msg);
     }
   }
@@ -206,10 +203,10 @@ export class ManagementClient extends LinkEntity {
         target: { address: this.replyTo }
       };
       const sropt: rheaPromise.SenderOptions = { target: { address: this.address } };
-      debug("Creating a session for $management endpoint");
+      log.mgmt("Creating a session for $management endpoint");
       this._mgmtReqResLink =
         await RequestResponseLink.create(this._context.connection, sropt, rxopt);
-      debug("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
+      log.mgmt("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
         this._context.connectionId, this._mgmtReqResLink.sender.name, this._mgmtReqResLink.receiver.name);
       await this._ensureTokenRenewal();
     }
@@ -240,12 +237,12 @@ export class ManagementClient extends LinkEntity {
       if (partitionId && type === Constants.partition) {
         request.application_properties!.partition = partitionId;
       }
-      debug("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
+      log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
       return await this._mgmtReqResLink!.sendRequest(request);
     } catch (err) {
       err = translate(err);
-      debug("An error occurred while making the request to $management endpoint: %O", err);
+      log.error("An error occurred while making the request to $management endpoint: %O", err);
       throw err;
     }
   }

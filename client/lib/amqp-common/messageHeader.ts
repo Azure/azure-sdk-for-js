@@ -2,8 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { MessageHeader as AmqpMessageHeader } from "../rhea-promise";
-import * as debugModule from "debug";
-const debug = debugModule("azure:amqp-common:messageHeader");
+import * as log from "./log";
 
 /**
  * Describes the defined set of standard header properties of the message.
@@ -55,7 +54,7 @@ export namespace MessageHeader {
       priority: props.priority,
       ttl: props.ttl
     };
-    debug("To AmqpMessageHeader: %O", amqpHeader);
+    log.msgHeader("To AmqpMessageHeader: %O", amqpHeader);
     return amqpHeader;
   }
 
@@ -73,7 +72,7 @@ export namespace MessageHeader {
       priority: props.priority,
       ttl: props.ttl
     };
-    debug("From AmqpMessageHeader: %O", msgHeader);
+    log.msgHeader("From AmqpMessageHeader: %O", msgHeader);
     return msgHeader;
   }
 }

@@ -2,11 +2,10 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as rhea from "rhea";
-import * as debugModule from "debug";
+import * as log from "./log";
 import { Session } from "./session";
 import { Connection } from "./connection";
 import { Func, ReceiverEvents } from ".";
-const debug = debugModule("rhea-promise:receiver");
 
 export interface ReceiverOptions extends rhea.ReceiverOptions {
   onMessage?: rhea.OnAmqpEvent;
@@ -83,21 +82,54 @@ export class Receiver {
   }
 
   /**
-   * Determines whether the close from the peer is a response to a locally initiated close request
-   * for the receiver.
-   * @returns {boolean} `true` if close was locally initiated, `false` otherwise.
+   * Determines whether both local and remote endpoint for link or it's underlying session
+   * or it's underlying connection are closed.
+   * Within the "receiver_close", "session_close" event handler, if this
+   * method returns `false` it means that the local end is still open. It can be useful to
+   * determine whether the close was initiated locally under such circumstances.
+   *
+   * @returns {boolean} `true` if closed, `false` otherwise.
    */
-  wasCloseInitiated(): boolean {
+  isClosed(): boolean {
     return this._receiver.is_closed();
   }
 
   /**
-   * Determines whether the close from the peer is a response to a locally initiated close request
-   * for the receiver's session.
-   * @returns {boolean} `true` if close was locally initiated, `false` otherwise.
+   * Determines whether both local and remote endpoint for just the link itself are closed.
+   * Within the "receiver_close" event handler, if this method returns `false` it
+   * means that the local end is still open. It can be useful to determine whether the close
+   * was initiated locally under such circumstances.
+   *
+   * @returns {boolean} `true` - closed, `false` otherwise.
    */
-  wasSessionCloseInitiated(): boolean {
-    return this._session.wasCloseInitiated();
+  isItselfClosed(): boolean {
+    return this._receiver.is_itself_closed();
+  }
+
+  /**
+   * Determines whether both local and remote endpoint for session or it's underlying
+   * connection are closed.
+   *
+   * Within the "session_close" event handler, if this method returns `false` it means that
+   * the local end is still open. It can be useful to determine whether the close
+   * was initiated locally under such circumstances.
+   *
+   * @returns {boolean} `true` - closed, `false` otherwise.
+   */
+  isSessionClosed(): boolean {
+    return this._session.isClosed();
+  }
+
+  /**
+   * Determines whether both local and remote endpoint for just the session itself are closed.
+   * Within the "session_close" event handler, if this method returns `false` it means that
+   * the local end is still open. It can be useful to determine whether the close
+   * was initiated locally under such circumstances.
+   *
+   * @returns {boolean} `true` - closed, `false` otherwise.
+   */
+  isSessionItselfClosed(): boolean {
+    return this._session.isItselfClosed();
   }
 
   /**
@@ -122,7 +154,7 @@ export class Receiver {
    */
   close(): Promise<void> {
     const receiverClose = new Promise<void>((resolve, reject) => {
-      debug("[%s] The receiver is open ? -> %s", this.connection.id, this.isOpen());
+      log.error("[%s] The receiver is open ? -> %s", this.connection.id, this.isOpen());
       if (this.isOpen()) {
         let onError: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
@@ -135,7 +167,7 @@ export class Receiver {
         onClose = (context: rhea.EventContext) => {
           removeListeners();
           process.nextTick(() => {
-            debug("[%s] Resolving the promise as the amqp receiver has been closed.",
+            log.receiver("[%s] Resolving the promise as the amqp receiver has been closed.",
               this.connection.id);
             resolve();
           });
@@ -143,7 +175,7 @@ export class Receiver {
 
         onError = (context: rhea.EventContext) => {
           removeListeners();
-          debug("[%s] Error occurred while closing amqp receiver. %O",
+          log.error("[%s] Error occurred while closing amqp receiver. %O",
             this.connection.id, context.session!.error);
           reject(context.session!.error);
         };
@@ -157,7 +189,7 @@ export class Receiver {
     });
 
     return receiverClose.then(() => {
-      debug("[%s] receiver has been closed, now closing it's session.", this.connection.id);
+      log.receiver("[%s] receiver has been closed, now closing it's session.", this.connection.id);
       return this._session.close();
     });
   }

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
+import * as log from "./log";
 import {
-  Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError, SessionEvents
+  Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError
 } from "./rhea-promise";
 import {
   translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig
@@ -14,8 +14,6 @@ import { ReceiveOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition } from './eventPosition';
-
-const debug = debugModule("azure:event-hubs:receiver");
 
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -214,7 +212,7 @@ export class EventHubReceiver extends LinkEntity {
         this.runtimeInfo.lastEnqueuedTimeUtc = evData.lastEnqueuedTime;
         this.runtimeInfo.lastEnqueuedOffset = evData.lastEnqueuedOffset;
         this.runtimeInfo.retrievalTime = evData.retrievalTime;
-        debug("[%s] RuntimeInfo of Receiver '%s' is %O", this._context.connectionId,
+        log.receiver("[%s] RuntimeInfo of Receiver '%s' is %O", this._context.connectionId,
           this.name, this.runtimeInfo);
       }
       this._onMessage!(evData);
@@ -224,9 +222,9 @@ export class EventHubReceiver extends LinkEntity {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const ehError = translate(receiverError);
-        debug("[%s] An error occurred for Receiver '%s': %O.",
+        log.error("[%s] An error occurred for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
-        if (!this._receiver!.wasCloseInitiated()) {
+        if (!this._receiver!.isClosed()) {
           this._onError!(ehError);
         }
       }
@@ -236,9 +234,9 @@ export class EventHubReceiver extends LinkEntity {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const ehError = translate(sessionError);
-        debug("[%s] An error occurred on the session for Receiver '%s': %O.",
+        log.error("[%s] An error occurred on the session for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
-        if (!this._receiver!.wasSessionCloseInitiated()) {
+        if (!this._receiver!.isSessionClosed()) {
           this._onError!(ehError);
         }
       }
@@ -247,25 +245,25 @@ export class EventHubReceiver extends LinkEntity {
     this._onAmqpClose = async (context: EventContext) => {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
-        debug("[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
+        log.error("[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
           "The associated error is: %O", this._context.connectionId, this.name,
           this.address, receiverError);
       }
-      if (this._receiver && !this._receiver.wasCloseInitiated()) {
+      if (this._receiver && !this._receiver.isClosed()) {
         if (!this.isConnecting) {
-          debug("[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
+          log.error("[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
             "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
             "detached from the _onAmqpClose() handler.", this._context.connectionId, this.name,
             this.address);
           await this.detached(receiverError);
         } else {
-          debug("[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
+          log.error("[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
             "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
             "Hence not calling detached from the _onAmqpClose() handler.",
             this._context.connectionId, this.name, this.address);
         }
       } else {
-        debug("[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
+        log.error("[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
           "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
           "() handler.", this._context.connectionId, this.name, this.address);
       }
@@ -274,25 +272,25 @@ export class EventHubReceiver extends LinkEntity {
     this._onSessionClose = async (context: EventContext) => {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        debug("[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
+        log.error("[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
           "The associated error is: %O", this._context.connectionId, this.name,
           this.address, sessionError);
       }
 
-      if (this._receiver && !this._receiver.wasSessionCloseInitiated()) {
+      if (this._receiver && !this._receiver.isSessionClosed()) {
         if (!this.isConnecting) {
-          debug("[%s] 'session_close' event occurred on the session of receiver '%s' with " +
+          log.error("[%s] 'session_close' event occurred on the session of receiver '%s' with " +
             "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
             "_onSessionClose() handler.", this._context.connectionId, this.name, this.address);
           await this.detached(sessionError);
         } else {
-          debug("[%s] 'session_close' event occurred on the session of receiver '%s' with " +
+          log.error("[%s] 'session_close' event occurred on the session of receiver '%s' with " +
             "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
             "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
             this._context.connectionId, this.name, this.address);
         }
       } else {
-        debug("[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
+        log.error("[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
           "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
           "() handler.", this._context.connectionId, this.name, this.address);
       }
@@ -306,47 +304,68 @@ export class EventHubReceiver extends LinkEntity {
    * @returns {Promise<void>} Promise<void>.
    */
   async detached(receiverError?: AmqpError | Error): Promise<void> {
-    // Clears the token renewal timer. Closes the link and its session if they are open.
-    // Removes the link and its session if they are present in the cache.
-    await this._closeLink(this._receiver);
-    // For session_close and receiver_close this should attempt to reopen
-    // only when the receiver(sdk) did not initiate the close) OR
-    // if an error is present and the error is retryable.
-    let shouldReopen = false;
-    if (receiverError && this._receiver && !this._receiver.wasCloseInitiated()) {
-      const translatedError = translate(receiverError);
-      if (translatedError.retryable) {
+    try {
+      const wasCloseInitiated = this._receiver && this._receiver.isClosed();
+      // Clears the token renewal timer. Closes the link and its session if they are open.
+      // Removes the link and its session if they are present in rhea's cache.
+      await this._closeLink(this._receiver);
+      // For session_close and receiver_close this should attempt to reopen
+      // only when the receiver(sdk) did not initiate the close) OR
+      // if an error is present and the error is retryable.
+      let shouldReopen = false;
+      if (receiverError && !wasCloseInitiated) {
+        const translatedError = translate(receiverError);
+        if (translatedError.retryable) {
+          shouldReopen = true;
+          log.error("[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
+            "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
+            "the sender link.", this._context.connectionId, this.name, this.address);
+        } else {
+          log.error("[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
+            "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
+            "the sender link.", this._context.connectionId, this.name, this.address);
+        }
+      } else if (!wasCloseInitiated) {
         shouldReopen = true;
+        log.error("[%s] close() method of Receiver '%s' with address '%s' was not called. " +
+          "There was no accompanying error as well. This is a candidate for re-establishing " +
+          "the receiver link.", this._context.connectionId, this.name, this.address);
+      } else {
+        const state: any = {
+          wasCloseInitiated: wasCloseInitiated,
+          receiverError: receiverError,
+          _receiver: this._receiver
+        };
+        log.error("[%s] Something is busted. State of Receiver '%s' with address '%s' is: %O",
+          this._context.connectionId, this.name, this.address, state);
       }
-    } else if (this._receiver && !this._receiver.wasCloseInitiated()) {
-      shouldReopen = true;
-      debug("[%s] close() method of Receiver '%s' with address '%s' was not called. " +
-        "There was no accompanying error as well. This is a candidate for re-establishing " +
-        "the receiver link.", this._context.connectionId, this.name, this.address);
-    }
-    if (shouldReopen) {
-      const rcvrOptions: CreateReceiverOptions = {
-        onMessage: this._onAmqpMessage,
-        onError: this._onAmqpError,
-        onClose: this._onAmqpClose,
-        onSessionError: this._onSessionError,
-        onSessionClose: this._onSessionClose,
-        newName: true // provide a new name to the link while re-connecting it. This ensures that
-        // the service does not send an error stating that the link is still open.
-      };
-      // reconnect the receiver link with sequenceNumber of the last received message as the offset
-      // if messages were received by the receiver before it got disconnected.
-      if (this._checkpoint.sequenceNumber > - 1) {
-        rcvrOptions.eventPosition = EventPosition.fromSequenceNumber(this._checkpoint.sequenceNumber);
+      if (shouldReopen) {
+        const rcvrOptions: CreateReceiverOptions = {
+          onMessage: this._onAmqpMessage,
+          onError: this._onAmqpError,
+          onClose: this._onAmqpClose,
+          onSessionError: this._onSessionError,
+          onSessionClose: this._onSessionClose,
+          newName: true // provide a new name to the link while re-connecting it. This ensures that
+          // the service does not send an error stating that the link is still open.
+        };
+        // reconnect the receiver link with sequenceNumber of the last received message as the offset
+        // if messages were received by the receiver before it got disconnected.
+        if (this._checkpoint.sequenceNumber > - 1) {
+          rcvrOptions.eventPosition = EventPosition.fromSequenceNumber(this._checkpoint.sequenceNumber);
+        }
+        const options: ReceiverOptions = this._createReceiverOptions(rcvrOptions);
+        // shall retry 3 times at an interval of 15 seconds and bail out.
+        const config: RetryConfig<void> = {
+          operation: () => this._init(options),
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.receiverLink
+        };
+        await retry<void>(config);
       }
-      const options: ReceiverOptions = this._createReceiverOptions(rcvrOptions);
-      // shall retry 3 times at an interval of 15 seconds and bail out.
-      const config: RetryConfig<void> = {
-        operation: () => this._init(options),
-        connectionId: this._context.connectionId,
-        operationType: RetryOperationType.receiverLink
-      };
-      await retry<void>(config);
+    } catch (err) {
+      log.error("[%s] An error occurred while processing detached() of Receiver '%s' with address " +
+        "'%s': %O", this._context.connectionId, this.name, this.address, err);
     }
   }
 
@@ -370,7 +389,7 @@ export class EventHubReceiver extends LinkEntity {
    */
   isOpen(): boolean {
     const result: boolean = this._receiver! && this._receiver!.isOpen();
-    debug("[%s] Receiver '%s' with address '%s' is open? -> %s", this._context.connectionId,
+    log.error("[%s] Receiver '%s' with address '%s' is open? -> %s", this._context.connectionId,
       this.name, this.address, result);
     return result;
   }
@@ -378,7 +397,7 @@ export class EventHubReceiver extends LinkEntity {
   protected _deleteFromCache(): void {
     this._receiver = undefined;
     delete this._context.receivers[this.name];
-    debug("[%s] Deleted the receiver '%s' from the client cache.",
+    log.error("[%s] Deleted the receiver '%s' from the client cache.",
       this._context.connectionId, this.name);
   }
 
@@ -390,7 +409,7 @@ export class EventHubReceiver extends LinkEntity {
   protected async _init(options?: ReceiverOptions): Promise<void> {
     try {
       if (!this.isOpen() && !this.isConnecting) {
-        debug("[%s] The receiver '%s' with address '%s' is not open and is not currently " +
+        log.error("[%s] The receiver '%s' with address '%s' is not open and is not currently " +
           "establishing itself. Hence let's try to connect.", this._context.connectionId,
           this.name, this.address);
         this.isConnecting = true;
@@ -404,31 +423,29 @@ export class EventHubReceiver extends LinkEntity {
             onSessionClose: this._onSessionClose,
           });
         }
-        debug("[%s] Trying to create receiver '%s' with options %O",
+        log.error("[%s] Trying to create receiver '%s' with options %O",
           this._context.connectionId, this.name, options);
 
         this._receiver = await this._context.connection.createReceiver(options);
         this.isConnecting = false;
-        debug("[%s] Receiver '%s' with address '%s' has established itself.",
+        log.error("[%s] Receiver '%s' with address '%s' has established itself.",
           this._context.connectionId, this.name, this.address);
-        this._receiver.registerSessionHandler(SessionEvents.sessionError, options.onSessionError!);
-        this._receiver.registerSessionHandler(SessionEvents.sessionClose, options.onSessionClose!);
-        debug("Promise to create the receiver resolved. Created receiver with name: ", this.name);
-        debug("[%s] Receiver '%s' created with receiver options: %O",
+        log.receiver("Promise to create the receiver resolved. Created receiver with name: ", this.name);
+        log.receiver("[%s] Receiver '%s' created with receiver options: %O",
           this._context.connectionId, this.name, options);
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
         if (!this._context.receivers[this.name]) this._context.receivers[this.name] = this;
         await this._ensureTokenRenewal();
       } else {
-        debug("[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
+        log.error("[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
           "-> %s. Hence not reconnecting.", this._context.connectionId, this.name, this.address,
           this.isOpen(), this.isConnecting);
       }
     } catch (err) {
       this.isConnecting = false;
       err = translate(err);
-      debug("[%s] An error occured while creating the receiver '%s': %O",
+      log.error("[%s] An error occured while creating the receiver '%s': %O",
         this._context.connectionId, this.name, err);
       throw err;
     }

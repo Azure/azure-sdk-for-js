@@ -3,8 +3,8 @@
 
 import * as os from "os";
 import * as process from "process";
-import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
+import * as log from "./log";
 import { packageJsonInfo } from "./util/constants";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
@@ -18,8 +18,6 @@ import {
   Connection, Dictionary, ConnectionOptions, OnAmqpEvent, EventContext, ConnectionEvents
 } from "./rhea-promise";
 import { connectionReconnectDelay } from "./amqp-common/util/constants";
-
-const debug = debugModule("azure:event-hubs:connectionContext");
 
 /**
  * @interface ConnectionContext
@@ -141,7 +139,7 @@ export namespace ConnectionContext {
     // register handlers on the connection.
     const onConnectionOpen: OnAmqpEvent = (context: EventContext) => {
       connectionContext.wasConnectionCloseCalled = false;
-      debug("[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
+      log.context("[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
         connectionContext.connection.id, connectionContext.wasConnectionCloseCalled);
     };
     connectionContext.connection.registerHandler(ConnectionEvents.connectionOpen, onConnectionOpen);
@@ -151,12 +149,12 @@ export namespace ConnectionContext {
         ? context.connection.error
         : undefined;
       if (connectionError) {
-        debug("[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+        log.error("[%s] Error (context.connection.error) occurred on the amqp connection: %O",
           connectionContext.connection.id, connectionError);
       }
       const contextError = context.error;
       if (contextError) {
-        debug("[%s] Error (context.error) occurred on the amqp connection: %O",
+        log.error("[%s] Error (context.error) occurred on the amqp connection: %O",
           connectionContext.connection.id, contextError);
       }
       // The connection should always be brought back up if the sdk did not call connection.close()
@@ -164,20 +162,20 @@ export namespace ConnectionContext {
       if (!connectionContext.wasConnectionCloseCalled &&
         (Object.keys(connectionContext.senders).length) ||
         Object.keys(connectionContext.receivers).length) {
-        debug("[%s] connection.close() was not called from the sdk and there were some " +
+        log.error("[%s] connection.close() was not called from the sdk and there were some " +
           "sender or receiver links or both. We should reconnect.", connectionContext.connection.id);
         await delay(connectionReconnectDelay);
         // reconnect senders if any
         for (const sender of Object.values(connectionContext.senders)) {
           if (!sender.isConnecting) {
-            debug("[%s] calling detached on sender '%s' with address '%s'.",
+            log.error("[%s] calling detached on sender '%s' with address '%s'.",
               connectionContext.connection.id, sender.name, sender.address);
             sender.detached().catch((err) => {
-              debug("[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
+              log.error("[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
                 connectionContext.connection.id, sender.name, sender.address, err);
             });
           } else {
-            debug("[%s] sender '%s' with address '%s' is already reconnecting. Hence not " +
+            log.error("[%s] sender '%s' with address '%s' is already reconnecting. Hence not " +
               "calling detached on the sender.", connectionContext.connection.id, sender.name,
               sender.address);
           }
@@ -185,14 +183,14 @@ export namespace ConnectionContext {
         // reconnect receivers if any
         for (const receiver of Object.values(connectionContext.receivers)) {
           if (!receiver.isConnecting) {
-            debug("[%s] calling detached on receiver '%s' with address '%s'.",
+            log.error("[%s] calling detached on receiver '%s' with address '%s'.",
               connectionContext.connection.id, receiver.name, receiver.address);
             receiver.detached().catch((err) => {
-              debug("[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
+              log.error("[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
                 connectionContext.connection.id, receiver.name, receiver.address, err);
             });
           } else {
-            debug("[%s] receiver '%s' with address '%s' is already reconnecting. Hence not " +
+            log.error("[%s] receiver '%s' with address '%s' is already reconnecting. Hence not " +
               "calling detached on the receiver.", connectionContext.connection.id, receiver.name,
               receiver.address);
           }
@@ -201,7 +199,7 @@ export namespace ConnectionContext {
     };
     connectionContext.connection.registerHandler(ConnectionEvents.disconnected, disconnected);
 
-    debug("Created connection context: %O", connectionContext);
+    log.context("Created connection context: %O", connectionContext);
     return connectionContext;
   }
 }

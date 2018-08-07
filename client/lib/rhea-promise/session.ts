@@ -2,13 +2,11 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as rhea from "rhea";
-import * as debugModule from "debug";
+import * as log from "./log";
 import { Connection } from "./connection";
 import { Receiver, ReceiverOptions } from "./receiver";
 import { Sender, SenderOptions } from "./sender";
 import { Func, SenderEvents, ReceiverEvents, SessionEvents } from ".";
-
-const debug = debugModule("rhea-promise:session");
 
 export class Session {
   private _session: rhea.Session;
@@ -39,8 +37,20 @@ export class Session {
    * Determines whether the close from the peer is a response to a locally initiated close request.
    * @returns {boolean} `true` if close was locally initiated, `false` otherwise.
    */
-  wasCloseInitiated(): boolean {
+  isClosed(): boolean {
     return this._session.is_closed();
+  }
+
+  /**
+   * Determines whether both local and remote endpoint for just the session itself are closed.
+   * Within the "session_close" event handler, if this method returns `false` it means that
+   * the local end is still open. It can be useful to determine whether the close
+   * was initiated locally under such circumstances.
+   *
+   * @returns {boolean} `true` - closed, `false` otherwise.
+   */
+  isItselfClosed(): boolean {
+    return this._session.is_itself_closed();
   }
 
   remove(): void {
@@ -64,7 +74,7 @@ export class Session {
    */
   close(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      debug("[%s] The session is open ? -> %s", this.connection.id, this.isOpen());
+      log.error("[%s] The session is open ? -> %s", this.connection.id, this.isOpen());
       if (this.isOpen()) {
         let onError: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
@@ -76,7 +86,7 @@ export class Session {
         onClose = (context: rhea.EventContext) => {
           removeListeners();
           process.nextTick(() => {
-            debug("[%s] Resolving the promise as the amqp session has been closed.",
+            log.session("[%s] Resolving the promise as the amqp session has been closed.",
               this.connection.id);
             resolve();
           });
@@ -84,14 +94,14 @@ export class Session {
 
         onError = (context: rhea.EventContext) => {
           removeListeners();
-          debug("[%s] Error occurred while closing amqp session.",
+          log.error("[%s] Error occurred while closing amqp session.",
             this.connection.id, context.session!.error);
           reject(context.session!.error);
         };
 
         this._session.once(SessionEvents.sessionClose, onClose);
         this._session.once(SessionEvents.sessionError, onError);
-        debug("[%s] Calling session.close()", this.connection.id);
+        log.session("[%s] Calling session.close()", this.connection.id);
         this._session.close();
       } else {
         resolve();
@@ -148,7 +158,7 @@ export class Session {
       onOpen = (context: rhea.EventContext) => {
         removeListeners();
         process.nextTick(() => {
-          debug("[%s] Resolving the promise with amqp receiver '%s'.",
+          log.session("[%s] Resolving the promise with amqp receiver '%s'.",
             this.connection.id, rheaReceiver.name);
           resolve(receiver);
         });
@@ -156,7 +166,7 @@ export class Session {
 
       onClose = (context: rhea.EventContext) => {
         removeListeners();
-        debug("[%s] Error occurred while creating a receiver over amqp connection: %O.",
+        log.error("[%s] Error occurred while creating a receiver over amqp connection: %O.",
           this.connection.id, context.receiver!.error);
         reject(context.receiver!.error);
       };
@@ -219,7 +229,7 @@ export class Session {
       onSendable = (context: rhea.EventContext) => {
         removeListeners();
         process.nextTick(() => {
-          debug("[%s] Resolving the promise with amqp sender '%s'.",
+          log.session("[%s] Resolving the promise with amqp sender '%s'.",
             this.connection.id, rheaSender.name);
           resolve(sender);
         });
@@ -227,7 +237,7 @@ export class Session {
 
       onClose = (context: rhea.EventContext) => {
         removeListeners();
-        debug("[%s] Error occurred while creating a sender over amqp connection: %O.",
+        log.error("[%s] Error occurred while creating a sender over amqp connection: %O.",
           this.connection.id, context.sender!.error);
         reject(context.sender!.error);
       };
