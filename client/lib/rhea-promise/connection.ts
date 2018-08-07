@@ -2,13 +2,11 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as rhea from "rhea";
-import * as debugModule from "debug";
+import * as log from "./log";
 import { Session } from "./session";
 import { Sender, SenderOptions } from "./sender";
 import { Receiver, ReceiverOptions } from "./receiver";
 import { Func, ConnectionEvents, SessionEvents } from ".";
-
-const debug = debugModule("rhea-promise:connection");
 
 export interface SenderOptionsWithSession extends SenderOptions {
   session?: Session;
@@ -61,7 +59,7 @@ export class Connection {
         onOpen = (context: rhea.EventContext) => {
           removeListeners();
           process.nextTick(() => {
-            debug("[%s] Resolving the promise with amqp connection.", this.id);
+            log.connection("[%s] Resolving the promise with amqp connection.", this.id);
             resolve(this);
           });
         };
@@ -69,7 +67,7 @@ export class Connection {
         onClose = (context: rhea.EventContext) => {
           removeListeners();
           const err = context.error || context.connection.error;
-          debug("[%s] Error occurred while establishing amqp connection: %O",
+          log.error("[%s] Error occurred while establishing amqp connection: %O",
             this.id, err);
           reject(err);
         };
@@ -94,7 +92,7 @@ export class Connection {
    */
   close(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      debug("[%s] The connection is open ? -> %s", this.id, this.isOpen());
+      log.error("[%s] The connection is open ? -> %s", this.id, this.isOpen());
       if (this.isOpen()) {
         let onClose: Func<rhea.EventContext, void>;
         let onError: Func<rhea.EventContext, void>;
@@ -107,7 +105,7 @@ export class Connection {
         onClose = (context: rhea.EventContext) => {
           removeListeners();
           process.nextTick(() => {
-            debug("[%s] Resolving the promise as the connection has been successfully closed.",
+            log.connection("[%s] Resolving the promise as the connection has been successfully closed.",
               this.id);
             resolve();
           });
@@ -115,7 +113,7 @@ export class Connection {
 
         onError = (context: rhea.EventContext) => {
           removeListeners();
-          debug("[%s] Error occurred while closing amqp connection: %O.",
+          log.error("[%s] Error occurred while closing amqp connection: %O.",
             this.id, context.connection.error);
           reject(context.connection.error);
         };
@@ -172,21 +170,21 @@ export class Connection {
       onOpen = (context: rhea.EventContext) => {
         removeListeners();
         process.nextTick(() => {
-          debug("[%s] Resolving the promise with amqp session.", this.id);
+          log.connection("[%s] Resolving the promise with amqp session.", this.id);
           resolve(session);
         });
       };
 
       onClose = (context: rhea.EventContext) => {
         removeListeners();
-        debug("[%s] Error occurred while establishing a session over amqp connection: %O.",
+        log.error("[%s] Error occurred while establishing a session over amqp connection: %O.",
           this.id, context.session!.error);
         reject(context.session!.error);
       };
 
       rheaSession.once(SessionEvents.sessionOpen, onOpen);
       rheaSession.once(SessionEvents.sessionClose, onClose);
-      debug("[%s] Calling amqp session.begin().", this.id);
+      log.connection("[%s] Calling amqp session.begin().", this.id);
       rheaSession.begin();
     });
   }
@@ -237,7 +235,7 @@ export class Connection {
     const session = providedSession || await this.createSession();
     const sender = await session.createSender(senderOptions);
     const receiver = await session.createReceiver(receiverOptions);
-    debug("[%s] Successfully created the sender and receiver links on the same session.", this.id);
+    log.connection("[%s] Successfully created the sender and receiver links on the same session.", this.id);
     return {
       session: session,
       sender: sender,

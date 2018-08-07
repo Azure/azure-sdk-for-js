@@ -3,15 +3,13 @@
 
 import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
-import * as debugModule from "debug";
 import { retry, RetryConfig, RetryOperationType } from "./retry";
 import {
   Session, Connection, Sender, Receiver, Message, EventContext, AmqpError, ReqResLink,
   SenderOptions, ReceiverOptions, ReceiverEvents
 } from "../rhea-promise";
 import { translate, ConditionStatusMapper } from "./errors";
-
-const debug = debugModule("azure:amqp-common:reqreslink");
+import * as log from "./log";
 
 /**
  * Describes the options that can be specified while sending a request.
@@ -102,17 +100,17 @@ export class RequestResponseLink implements ReqResLink {
         const desc: string = context.message!.application_properties![Constants.statusDescription];
         const errorCondition: string | undefined = context.message!.application_properties![Constants.errorCondition];
         const responseCorrelationId = context.message!.correlation_id;
-        debug("[%s] %s response: ", this.connection.id, request.to || "$management", context.message);
+        log.reqres("[%s] %s response: ", this.connection.id, request.to || "$management", context.message);
         if (code > 199 && code < 300) {
           if (request.message_id === responseCorrelationId || request.correlation_id === responseCorrelationId) {
             if (!timeOver) {
               clearTimeout(waitTimer);
             }
-            debug("[%s] request-messageId | '%s' == '%s' | response-correlationId.",
+            log.reqres("[%s] request-messageId | '%s' == '%s' | response-correlationId.",
               this.connection.id, request.message_id, responseCorrelationId);
             return resolve(context.message!.body);
           } else {
-            debug("[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
+            log.error("[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
               "Hence dropping this response and waiting for the next one.",
               this.connection.id, request.message_id, responseCorrelationId);
           }
@@ -122,7 +120,9 @@ export class RequestResponseLink implements ReqResLink {
             condition: condition,
             description: desc
           };
-          return reject(translate(e));
+          const error = translate(e);
+          log.error(error);
+          return reject(error);
         }
       };
 
@@ -141,7 +141,7 @@ export class RequestResponseLink implements ReqResLink {
 
       this.receiver.registerHandler(ReceiverEvents.message, messageCallback);
       waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
-      debug("[%s] %s request sent: %O", this.connection.id, request.to || "$managment", request);
+      log.reqres("[%s] %s request sent: %O", this.connection.id, request.to || "$managment", request);
       this.sender.send(request);
     });
     const config: RetryConfig<T> = {
@@ -187,7 +187,7 @@ export class RequestResponseLink implements ReqResLink {
     const session = await connection.createSession();
     const sender = await session.createSender(senderOptions);
     const receiver = await session.createReceiver(receiverOptions);
-    debug("[%s] Successfully created the sender and receiver links on the same session.", connection.id);
+    log.reqres("[%s] Successfully created the sender and receiver links on the same session.", connection.id);
     return new RequestResponseLink(session, sender, receiver);
   }
 }

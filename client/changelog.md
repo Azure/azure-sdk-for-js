@@ -1,11 +1,14 @@
-### 2018-08-06 0.2.6
-- Improved log statements
-- Minimum dependency on rhea: ^0.2.18
+### 2018-08-07 0.2.6
+- Improved log statements.
+- Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-event-hubs-node/tree/master/client#debug-logs).
+- Minimum dependency on `"rhea": "^0.2.18"`.
 - Fixed bugs in recovery logic
 - Added support to recover from session close for sender and receiver
 - Added a new property `isConnecting` that provides information whether a linkEntity is currently in the process of establishing itself.
 - Using `is_closed()` method of sender, receiver and session in rhea to determine whether the sdk initiated the close.
 - MessagingError is retryable by default.
+- Added support to translate node.js [`SystemError`](https://nodejs.org/api/errors.html#errors_class_systemerror) into AmqpError.
+- Added a new static method `createFromTokenProvider()` on the EventHubClient where customers can provide their own [TokenProvider](https://github.com/Azure/azure-event-hubs-node/blob/master/client/lib/amqp-common/auth/token.ts#L42).
 
 ### 2018-07-17 0.2.5
 - Improved log statements

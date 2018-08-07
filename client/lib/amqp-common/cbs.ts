@@ -7,12 +7,12 @@ import {
 } from "../rhea-promise";
 import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
-import * as debugModule from "debug";
+import * as log from "./log";
 import { translate } from "./errors";
 import { defaultLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";
 import { SenderOptions } from "rhea";
-const debug = debugModule("azure:amqp-common:cbs");
+
 
 /**
  * @class CbsClient
@@ -67,7 +67,7 @@ export class CbsClient {
     try {
       // Acquire the lock and establish an amqp connection if it does not exist.
       if (!this.connection.isOpen()) {
-        debug("The CBS client is trying to establish an AMQP connection.");
+        log.cbs("The CBS client is trying to establish an AMQP connection.");
         await defaultLock.acquire(this.connectionLock, () => { return this.connection.open(); });
       }
 
@@ -82,21 +82,21 @@ export class CbsClient {
         this._cbsSenderReceiverLink = await RequestResponseLink.create(this.connection, srOpt, rxOpt);
         this._cbsSenderReceiverLink.sender.registerHandler(SenderEvents.senderError, (context: EventContext) => {
           const ehError = translate(context.sender!.error!);
-          debug("An error occurred on the cbs sender link.. %O", ehError);
+          log.error("An error occurred on the cbs sender link.. %O", ehError);
         });
         this._cbsSenderReceiverLink.receiver.registerHandler(ReceiverEvents.receiverError, (context: EventContext) => {
           const ehError = translate(context.receiver!.error!);
-          debug("An error occurred on the cbs receiver link.. %O", ehError);
+          log.error("An error occurred on the cbs receiver link.. %O", ehError);
         });
-        debug("[%s] Successfully created the cbs sender '%s' and receiver '%s' links over cbs session.",
+        log.cbs("[%s] Successfully created the cbs sender '%s' and receiver '%s' links over cbs session.",
           this.connection.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
       } else {
-        debug("[%s] CBS session is already present. Reusing the cbs sender '%s' and receiver '%s' links over cbs session.",
+        log.cbs("[%s] CBS session is already present. Reusing the cbs sender '%s' and receiver '%s' links over cbs session.",
           this.connection.id, this._cbsSenderReceiverLink!.sender.name, this._cbsSenderReceiverLink!.receiver.name);
       }
     } catch (err) {
       err = translate(err);
-      debug("[%s] An error occured while establishing the cbs links: %O", this.connection.id, err);
+      log.error("[%s] An error occured while establishing the cbs links: %O", this.connection.id, err);
       throw err;
     }
   }
@@ -124,7 +124,7 @@ export class CbsClient {
       const response = await this._cbsSenderReceiverLink!.sendRequest(request);
       return response;
     } catch (err) {
-      debug("[%s] An error occurred while negotiating the cbs claim: %O", this.connection.id, err);
+      log.error("[%s] An error occurred while negotiating the cbs claim: %O", this.connection.id, err);
       throw err;
     }
   }
@@ -140,11 +140,11 @@ export class CbsClient {
         const cbsLink = this._cbsSenderReceiverLink;
         this._cbsSenderReceiverLink = undefined;
         await cbsLink!.close();
-        debug("[%s] Successfully closed the cbs session.", this.connection.id);
+        log.cbs("[%s] Successfully closed the cbs session.", this.connection.id);
       }
     } catch (err) {
       const msg = `An error occurred while closing the cbs link: ${err.stack || JSON.stringify(err)}.`;
-      debug("[%s] %s", this.connection.id, msg);
+      log.error("[%s] %s", this.connection.id, msg);
       throw new Error(msg);
     }
   }
