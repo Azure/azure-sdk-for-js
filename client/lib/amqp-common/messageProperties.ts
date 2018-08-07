@@ -2,8 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { MessageProperties as AmqpMessageProperties } from "../rhea-promise";
-import * as debugModule from "debug";
-const debug = debugModule("azure:amqp-common:messageProperties");
+import * as log from "./log";
 
 /**
  * Describes the defined set of standard properties of the message.
@@ -94,7 +93,7 @@ export namespace MessageProperties {
       to: props.to,
       user_id: props.userId
     };
-    debug("To AmqpMessageProperties: %O", amqpProperties);
+    log.msgProperties("To AmqpMessageProperties: %O", amqpProperties);
     return amqpProperties;
   }
 
@@ -119,7 +118,7 @@ export namespace MessageProperties {
       to: props.to,
       userId: props.user_id
     };
-    debug("From AmqpMessageProperties: %O", msgProperties);
+    log.msgProperties("From AmqpMessageProperties: %O", msgProperties);
     return msgProperties;
   }
 }

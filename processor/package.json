@@ -9,7 +9,7 @@
   "dependencies": {
     "async-lock": "^1.1.3",
     "azure-event-hubs": "^0.2.5",
-    "azure-storage": "^2.8.2",
+    "azure-storage": "^2.10.1",
     "debug": "^3.1.0",
     "ms-rest-azure": "^2.5.7",
     "tslib": "^1.9.3",

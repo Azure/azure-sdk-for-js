@@ -525,12 +525,16 @@ describe("EventHub Receiver", function () {
     it("should receive 'QuotaExceededError' when attempting to connect more than 5 receivers to a partition in a consumer group", function (done) {
       const partitionId = hubInfo.partitionIds[0];
       let rcvHndlrs: ReceiveHandler[] = [];
+      let rcvrs: any[] = [];
       debug(">>> Receivers length: ", rcvHndlrs.length);
       for (let i = 1; i <= 5; i++) {
         const rcvrId = `rcvr-${i}`;
         debug(rcvrId);
         const onMsg = (data) => {
-          debug("receiver id %s", rcvrId);
+          if (!rcvrs[i]) {
+            rcvrs[i] = rcvrId;
+            debug("receiver id %s", rcvrId);
+          }
         };
         const onError = (err) => {
           debug("@@@@ Error received by receiver %s", rcvrId);

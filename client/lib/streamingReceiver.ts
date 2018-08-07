@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as debugModule from "debug";
 import { Constants } from "./amqp-common";
 import { ReceiverEvents } from "./rhea-promise";
 import { ReceiveOptions } from "./eventHubClient";
 import { EventHubReceiver, ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
-
-const debug = debugModule("azure:event-hubs:receiverstreaming");
+import * as log from "./log";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers is
@@ -99,7 +97,7 @@ export class ReceiveHandler {
       try {
         await this._receiver.close();
       } catch (err) {
-        debug("An error occurred while stopping the receiver '%s' with address '%s': %O",
+        log.error("An error occurred while stopping the receiver '%s' with address '%s': %O",
           this._receiver.name, this._receiver.address, err);
       }
     }
@@ -161,13 +159,13 @@ export class StreamingReceiver extends EventHubReceiver {
       // It is possible that the receiver link has been established due to a previous receive() call. If that
       // is the case then add message and error event handlers to the receiver. When the receiver will be closed
       // these handlers will be automatically removed.
-      debug("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
+      log.streaming("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
         "Hence reusing it and attaching message and error handlers.", this._context.connectionId, this.name);
       this._receiver!.registerHandler(ReceiverEvents.message, this._onAmqpMessage);
       this._receiver!.registerHandler(ReceiverEvents.receiverError, this._onAmqpError);
       this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
-      debug("[%s] Receiver '%s', set the prefetch count to 1000 and " +
+      log.streaming("[%s] Receiver '%s', set the prefetch count to 1000 and " +
         "providing a credit of the same amount.", this._context.connectionId, this.name);
     }
   }
