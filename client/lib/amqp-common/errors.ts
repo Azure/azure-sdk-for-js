@@ -426,16 +426,6 @@ export enum SystemErrorConditionMapper {
   ENONET = "com.microsoft:timeout"
 }
 
-/**
- * Provides a list of retryable SystemErrors.
- * "EBUSY", "ECONNREFUSED", "ETIMEDOUT", "ECONNRESET", "ENETDOWN", "EHOSTDOWN", "ENETRESET",
- * "ENETUNREACH", "ENONET".
- */
-export const retryableSystemErrors: string[] = [
-  "EBUSY", "ECONNREFUSED", "ETIMEDOUT", "ECONNRESET", "ENETDOWN", "EHOSTDOWN", "ENETRESET",
-  "ENETUNREACH", "ENONET"
-];
-
 export function isSystemError(err: any): boolean {
   if (!err || typeof err !== "object") {
     throw new Error("err is a required parameter and must be of type 'object'.");
@@ -482,10 +472,11 @@ export function translate(err: AmqpError | Error): MessagingError {
     const description = (err as Error).message;
     const error = new MessagingError(description);
     if (condition) {
-      error.name = SystemErrorConditionMapper[condition as any];
+      const amqpErrorCondition = SystemErrorConditionMapper[condition as any];
+      error.name = ConditionErrorNameMapper[amqpErrorCondition as any];
     }
     if (!error.name) error.name = "SystemError";
-    if (retryableSystemErrors.indexOf(error.name) === -1) { // not found
+    if (retryableErrors.indexOf(error.name) === -1) { // not found
       error.retryable = false;
     }
     return error;
