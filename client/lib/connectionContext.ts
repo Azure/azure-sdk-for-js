@@ -199,7 +199,7 @@ export namespace ConnectionContext {
     };
     connectionContext.connection.registerHandler(ConnectionEvents.disconnected, disconnected);
 
-    log.context("Created connection context: %O", connectionContext);
+    log.context("[%s] Created connection context successfully.", connectionContext.connectionId);
     return connectionContext;
   }
 }
