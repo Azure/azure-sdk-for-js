@@ -36,13 +36,13 @@ helloCosmos().catch((err)=>{console.error(err)});
 ## Useful links
 
 - [Welcome to Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/community)
-- [Quick start](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-get-started)
-- [Tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-application)
-- [Samples](https://github.com/Azure/azure-documentdb-node/tree/master/samples)
+- [Quick start](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-get-started-preview)
+- [Tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-application-preview)
+- [Samples](https://github.com/Azure/azure-cosmos-js/tree/master/samples)
 - [Introduction to Resource Model of Azure Cosmos DB Service](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-resources)
 - [Introduction to SQL API of Azure Cosmos DB Service](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-sql-query)
 - [Partitioning](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-partition-data)
-- [API Documentation](http://azure.microsoft.com/en-us/develop/nodejs/)
+- [API Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/cosmos/?view=azure-node-latest)
 
 ## Installation
 
@@ -53,7 +53,7 @@ Install Node.js 6 or above and npm
 
 The SDK is not supported in Node v4 or below. Those Node.js versions are out of support and not recommended for production. Our support will only cover maintained versions of Node.js.
 
-To use the SDK, first [create an account](https://docs.microsoft.com/en-us/azure/cosmos-db/create-documentdb-nodejs) and follow [tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-nodejs-application).
+To use the SDK, first [create an account](https://docs.microsoft.com/en-us/azure/cosmos-db/create-sql-api-nodejs-preview) and follow [tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-nodejs-application-preview).
 
 #### Note:
 
@@ -110,4 +110,4 @@ Tweet us with #CosmosDB and we'll respond on Twitter. Be sure to check out the M
 
 If you would like to become an active contributor to this project please follow the instructions provided in [Azure Projects Contribution Guidelines](http://azure.github.io/guidelines.html).
 
-If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-documentdb-node/issues) section of the project.
+If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-cosmos-js/issues) section of the project.

@@ -166,7 +166,7 @@ export const Constants = {
   CurrentVersion: "2017-11-15",
 
   SDKName: "azure-cosmos-js",
-  SDKVersion: "2.0.0-3", // TODO: should pull this from package.json. Blocked by Tslint https://github.com/palantir/tslint/issues/3957
+  SDKVersion: "2.0.0-4", // TODO: should pull this from package.json. Blocked by Tslint https://github.com/palantir/tslint/issues/3957
 
   DefaultPrecisions: {
     DefaultNumberHashPrecision: 3,
