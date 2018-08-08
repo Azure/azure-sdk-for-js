@@ -107,8 +107,12 @@ export async function handler(argv: any): Promise<void> {
       for (let i = 0; i < iterationValue; i++) {
         const startTime = Date.now();
         for (let j = 0; j < msgCount; j++) {
-          log("[Client-%d] [iteration-%d] message number %d.", index, i, j + 1);
-          await sendMessage(client, index, msgToSend, partitionId);
+          try {
+            log("[Client-%d] [iteration-%d] message number %d.", index, i, j + 1);
+            await sendMessage(client, index, msgToSend, partitionId);
+          } catch (err) {
+            log("[Client-%d] [iteration-%d] message number %d not successful.", index, i, j + 1);
+          }
         }
         const totalTime = (Date.now() - startTime) / 1000;
         const totalMsgs = msgCount * msgGroup;

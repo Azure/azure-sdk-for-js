@@ -358,6 +358,7 @@ export class EventHubSender extends LinkEntity {
    */
   private _trySend(message: AmqpMessage, tag: any, format?: number): Promise<Delivery> {
     const sendEventPromise = () => new Promise<Delivery>((resolve, reject) => {
+      let waitTimer: any;
       log.sender("[%s] Sender '%s', credit: %d available: %d", this._context.connectionId, this.name,
         this._sender!.credit, this._sender!.session.outgoing.available());
       if (this._sender!.sendable()) {
@@ -368,6 +369,7 @@ export class EventHubSender extends LinkEntity {
         let onModified: Func<EventContext, void>;
         let onAccepted: Func<EventContext, void>;
         const removeListeners = (): void => {
+          clearTimeout(waitTimer);
           this._sender!.removeHandler(SenderEvents.rejected, onRejected);
           this._sender!.removeHandler(SenderEvents.accepted, onAccepted);
           this._sender!.removeHandler(SenderEvents.released, onReleased);
@@ -415,10 +417,25 @@ export class EventHubSender extends LinkEntity {
           log.error(err);
           reject(err);
         };
+
+        const actionAfterTimeout = () => {
+          removeListeners();
+          const desc: string = `[${this._context.connectionId}] Sender "${this.name}" with ` +
+            `address "${this.address}", was not able to send the message right now, due ` +
+            `to operation timeout.`;
+          log.error(desc);
+          const e: AmqpError = {
+            condition: ErrorNameConditionMapper.ServiceUnavailableError,
+            description: desc
+          };
+          return reject(translate(e));
+        };
+
         this._sender!.registerHandler(SenderEvents.accepted, onAccepted);
         this._sender!.registerHandler(SenderEvents.rejected, onRejected);
         this._sender!.registerHandler(SenderEvents.modified, onModified);
         this._sender!.registerHandler(SenderEvents.released, onReleased);
+        waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
         const delivery = this._sender!.send(message, tag, format);
         log.sender("[%s] Sender '%s', sent message with delivery id: %d and tag: %s",
           this._context.connectionId, this.name, delivery.id, delivery.tag.toString());
