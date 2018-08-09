@@ -55,7 +55,7 @@ describe("NodeJS CRUD Tests", function() {
       await databaseCRUDTest();
     });
 
-    describe("database.createIfNotExists", function() {
+    describe("databases.createIfNotExists", function() {
       it("should handle does not exist", async function() {
         const def: DatabaseDefinition = { id: addEntropy("does not exist") };
         const { database } = await client.databases.createIfNotExists(def);

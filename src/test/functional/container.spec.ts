@@ -426,11 +426,11 @@ describe("NodeJS CRUD Tests", function() {
   });
 });
 
-describe("container.createIfNotExists", function() {
+describe("containers.createIfNotExists", function() {
   let database: Database;
   before(async function() {
     // create database
-    database = await getTestDatabase("container.createIfNotExists");
+    database = await getTestDatabase("containers.createIfNotExists");
   });
 
   it("should handle container does not exist", async function() {

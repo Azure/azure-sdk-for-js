@@ -17,10 +17,10 @@ const collectionDefinition = { id: "sample collection" };
 const itemDefinition = { id: "hello world doc", content: "Hello World!" };
 
 async function helloCosmos() {
-    const { database: db } = await client.database.create(databaseDefinition);
+    const { database: db } = await client.databases.create(databaseDefinition);
     console.log('created db');
 
-    const { container } = await db.container.create(collectionDefinition);
+    const { container } = await db.containers.create(collectionDefinition);
     console.log('created collection');
 
     const { body } = await container.items.create(documentDefinition);
