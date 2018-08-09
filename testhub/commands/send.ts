@@ -30,7 +30,8 @@ export const builder: CommandBuilder = {
   },
   p: {
     alias: "partition-id",
-    describe: "The partitionId that the sender should send the event to.",
+    describe: "The partitionId that the sender should send the event to. It can be a " +
+      "specific partition '0' or an inclusive range '0-127'.",
     string: true,
   },
   w: {
@@ -72,12 +73,14 @@ export async function handler(argv: any): Promise<void> {
   const msgCount = argv.msgCount;
   const msgGroup = argv.msgGroup;
   const msgSize = argv.msgSize;
-  const partitionId = argv.partitionId;
+  const partitionId: string = argv.partitionId;
   const iterations = argv.iterations;
   const wait = argv.wait;
   const clientPool = argv.clientPool;
   const iterationValue = iterations < 1 ? Infinity : iterations;
+  let partitionIds: number[] = [];
   console.log("client pool                  - %d", clientPool);
+  console.log("partitionId                  - %s", partitionId);
   console.log("msg count                    - %d", msgCount);
   console.log("msg group (batch size)       - %d", msgGroup);
   console.log("msg size                     - %d", msgSize);
@@ -86,29 +89,38 @@ export async function handler(argv: any): Promise<void> {
   let clients: EventHubClient[] = [];
   for (let c = 0; c < clientPool; c++) {
     if (partitionId != undefined) {
-      log("[Client-%d] Sending messages to partitionId '%s'.", c, partitionId);
+      const partitionIdRange = partitionId.split("-").map((x) => Number.parseInt(x));
+      partitionIds = Array.from(
+        new Array(partitionIdRange[partitionIdRange.length - 1] - partitionIdRange[0] + 1),
+        (val, index) => index + partitionIdRange[0]);
+      log("[Client-%d] Sending messages to partitionId: ", c, partitionIds);
     } else {
       log("[Client-%d] Sending messages in a round robin fashion to all the partitions.", c);
     }
     clients.push(EventHubClient.createFromConnectionString(connectionString, argv.hub));
   }
-  const clientSendMessage = async (client: EventHubClient, index: number) => {
+  const msgBody = Buffer.from("Z".repeat(msgSize));
+  const obj: EventData = { body: msgBody };
+  let datas: EventData[] = [];
+  let count = 0;
+  if (msgGroup > 1) { // send batch
+    for (count = 0; count < msgGroup; count++) {
+      datas.push(obj);
+    }
+  }
+  const msgToSend: EventData | EventData[] = datas.length ? datas : obj;
+  const clientSendMessage = async (client: EventHubClient, partitionId: string | number, index: number) => {
     try {
-      const msgBody = Buffer.from("Z".repeat(msgSize));
-      const obj: EventData = { body: msgBody };
-      let datas: EventData[] = [];
-      let count = 0;
-      if (msgGroup > 1) { // send batch
-        for (count = 0; count < msgGroup; count++) {
-          datas.push(obj);
-        }
-      }
-      const msgToSend: EventData | EventData[] = datas.length ? datas : obj;
+
       for (let i = 0; i < iterationValue; i++) {
         const startTime = Date.now();
         for (let j = 0; j < msgCount; j++) {
-          log("[Client-%d] [iteration-%d] message number %d.", index, i, j + 1);
-          await sendMessage(client, index, msgToSend, partitionId);
+          try {
+            log("[Client-%d] [iteration-%d] [partition-%d] message number %d.", index, i, partitionId, j + 1);
+            await sendMessage(client, index, msgToSend, partitionId);
+          } catch (err) {
+            log("[Client-%d] [iteration-%d] [partition-%d] message number %d not successful.", index, i, partitionId, j + 1);
+          }
         }
         const totalTime = (Date.now() - startTime) / 1000;
         const totalMsgs = msgCount * msgGroup;
@@ -127,13 +139,14 @@ export async function handler(argv: any): Promise<void> {
       log(err);
     }
   }
-
-  for (let i = 0; i < clients.length; i++) {
-    clientSendMessage(clients[i], i);
+  for (let j = 0; j < partitionIds.length; j++) {
+    for (let i = 0; i < clients.length; i++) {
+      clientSendMessage(clients[i], partitionIds[j], i);
+    }
   }
 }
 
-async function sendMessage(client: EventHubClient, index: number, data: EventData | EventData[], partitionId?: string): Promise<any> {
+async function sendMessage(client: EventHubClient, index: number, data: EventData | EventData[], partitionId?: string | number): Promise<any> {
   if (Array.isArray(data)) {
     try {
       return await client.sendBatch(data, partitionId);

@@ -16,7 +16,7 @@ export const error = debugModule("azure:amqp-common:error");
  * @ignore
  * log statements for datatransformer
  */
-export const transformer = debugModule("azure:amqp-common:dataTransformer");
+export const transformer = debugModule("azure:amqp-common:datatransformer");
 /**
  * @ignore
  * log statements for messageHeader
