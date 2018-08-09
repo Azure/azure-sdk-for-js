@@ -41,7 +41,7 @@ describe("deserializationPolicy", () => {
       })
     };
 
-    const policy = deserializationPolicy()(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
     assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
   });
@@ -57,7 +57,7 @@ describe("deserializationPolicy", () => {
       })
     };
 
-    const policy = deserializationPolicy()(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
     assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
   });
@@ -73,7 +73,7 @@ describe("deserializationPolicy", () => {
       })
     };
 
-    const policy = deserializationPolicy()(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
     assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
   });
@@ -89,7 +89,7 @@ describe("deserializationPolicy", () => {
       })
     };
 
-    const policy = deserializationPolicy()(mockClient, new RequestPolicyOptions());
+    const policy = deserializationPolicy().create(mockClient, new RequestPolicyOptions());
     const response = await policy.sendRequest(request);
     assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
   });

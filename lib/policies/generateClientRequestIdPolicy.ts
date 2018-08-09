@@ -4,11 +4,13 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
 
-export function generateClientRequestIdPolicy(requestIdHeaderName = "x-ms-client-request-id"): RequestPolicyCreator {
-  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-    return new GenerateClientRequestIdPolicy(nextPolicy, options, requestIdHeaderName);
+export function generateClientRequestIdPolicy(requestIdHeaderName = "x-ms-client-request-id"): RequestPolicyFactory {
+  return {
+    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+      return new GenerateClientRequestIdPolicy(nextPolicy, options, requestIdHeaderName);
+    }
   };
 }
 

@@ -4,11 +4,13 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { URLBuilder } from "../url";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
 
-export function redirectPolicy(maximumRetries = 20): RequestPolicyCreator {
-  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-    return new RedirectPolicy(nextPolicy, options, maximumRetries);
+export function redirectPolicy(maximumRetries = 20): RequestPolicyFactory {
+  return {
+    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+      return new RedirectPolicy(nextPolicy, options, maximumRetries);
+    }
   };
 }
 

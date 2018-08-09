@@ -3,11 +3,13 @@
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
 
-export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyCreator {
-  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-    return new RPRegistrationPolicy(nextPolicy, options, retryTimeout);
+export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyFactory {
+  return {
+    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+      return new RPRegistrationPolicy(nextPolicy, options, retryTimeout);
+    }
   };
 }
 

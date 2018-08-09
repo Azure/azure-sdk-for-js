@@ -25,7 +25,7 @@ describe("ServiceClient", function () {
           return Promise.resolve({} as HttpOperationResponse);
         }
       },
-      requestPolicyCreators: []
+      requestPolicyFactories: []
     });
 
     await client.sendOperationRequest(
@@ -83,7 +83,7 @@ describe("ServiceClient", function () {
           return Promise.resolve({} as HttpOperationResponse);
         },
       },
-      requestPolicyCreators: [],
+      requestPolicyFactories: [],
     });
 
     await client.sendOperationRequest(
@@ -133,7 +133,7 @@ describe("ServiceClient", function () {
 
     const client1 = new ServiceClient(undefined, {
       httpClient,
-      requestPolicyCreators: []
+      requestPolicyFactories: []
     });
     await client1.sendOperationRequest(
       {},
@@ -148,7 +148,7 @@ describe("ServiceClient", function () {
 
     const client2 = new ServiceClient(undefined, {
       httpClient,
-      requestPolicyCreators: [],
+      requestPolicyFactories: [],
       withCredentials: true
     });
     await client2.sendOperationRequest(

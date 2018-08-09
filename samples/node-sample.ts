@@ -2,7 +2,7 @@
 
 import * as msRest from "../lib/msRest";
 const clientOptions: msRest.ServiceClientOptions = {
-  requestPolicyCreators: [msRest.logPolicy()]
+  requestPolicyFactories: [msRest.logPolicy()]
 };
 
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"] || "subscriptionId";

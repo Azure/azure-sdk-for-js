@@ -3,11 +3,13 @@
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
 
-export function logPolicy(logger: any = console.log): RequestPolicyCreator {
-  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-    return new LogPolicy(nextPolicy, options, logger);
+export function logPolicy(logger: any = console.log): RequestPolicyFactory {
+  return {
+    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+      return new LogPolicy(nextPolicy, options, logger);
+    }
   };
 }
 

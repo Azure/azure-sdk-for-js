@@ -7,13 +7,15 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
 import { isNode } from "../util/utils";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
 
 const HeaderConstants = Constants.HeaderConstants;
 
-export function msRestUserAgentPolicy(userAgentInfo: Array<string>): RequestPolicyCreator {
-  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-    return new MsRestUserAgentPolicy(nextPolicy, options, userAgentInfo);
+export function msRestUserAgentPolicy(userAgentInfo: Array<string>): RequestPolicyFactory {
+  return {
+    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+      return new MsRestUserAgentPolicy(nextPolicy, options, userAgentInfo);
+    }
   };
 }
 

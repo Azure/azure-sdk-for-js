@@ -1,3 +1,6 @@
+### 0.18.0 - 2018-08-08
+- Replaced RequestPolicyCreator function with RequestPolicyFactory interface with create() method.
+
 ### 0.5.0 - 2018-05-08
 - Replace BaseFilter type with RequestPolicy.
 - Remove ServiceClient.pipeline() in favor of ServiceClient.sendRequest().

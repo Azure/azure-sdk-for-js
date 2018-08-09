@@ -15,7 +15,7 @@ import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
 import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
 import { redirectPolicy } from "./policies/redirectPolicy";
-import { RequestPolicy, RequestPolicyCreator, RequestPolicyOptions } from "./policies/requestPolicy";
+import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./policies/requestPolicy";
 import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
 import { signingPolicy } from "./policies/signingPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
@@ -31,10 +31,10 @@ import { RequestPrepareOptions, WebResource, RequestOptionsBase } from "./webRes
  */
 export interface ServiceClientOptions {
   /**
-   * An array of functions that will be invoked to create the RequestPolicy pipeline that will be
+   * An array of factories which get called to create the RequestPolicy pipeline
    * used to send a HTTP request on the wire.
    */
-  requestPolicyCreators?: RequestPolicyCreator[];
+  requestPolicyFactories?: RequestPolicyFactory[];
   /**
    * The HttpClient that will be used to send HTTP requests.
    */
@@ -96,7 +96,7 @@ export class ServiceClient {
   private readonly _httpClient: HttpClient;
   private readonly _requestPolicyOptions: RequestPolicyOptions;
 
-  private readonly _requestPolicyCreators: RequestPolicyCreator[];
+  private readonly _requestPolicyFactories: RequestPolicyFactory[];
   private readonly _withCredentials: boolean;
 
   /**
@@ -128,7 +128,7 @@ export class ServiceClient {
     this._httpClient = options.httpClient || new DefaultHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
-    this._requestPolicyCreators = options.requestPolicyCreators || createDefaultRequestPolicyCreators(credentials, options, this.userAgentInfo.value);
+    this._requestPolicyFactories = options.requestPolicyFactories || createDefaultRequestPolicyFactories(credentials, options, this.userAgentInfo.value);
   }
 
   /**
@@ -164,9 +164,9 @@ export class ServiceClient {
     }
 
     let httpPipeline: RequestPolicy = this._httpClient;
-    if (this._requestPolicyCreators && this._requestPolicyCreators.length > 0) {
-      for (let i = this._requestPolicyCreators.length - 1; i >= 0; --i) {
-        httpPipeline = this._requestPolicyCreators[i](httpPipeline, this._requestPolicyOptions);
+    if (this._requestPolicyFactories && this._requestPolicyFactories.length > 0) {
+      for (let i = this._requestPolicyFactories.length - 1; i >= 0; --i) {
+        httpPipeline = this._requestPolicyFactories[i].create(httpPipeline, this._requestPolicyOptions);
       }
     }
     return httpPipeline.sendRequest(httpRequest);
@@ -350,32 +350,32 @@ export function serializeRequestBody(serviceClient: ServiceClient, httpRequest: 
   }
 }
 
-function createDefaultRequestPolicyCreators(credentials: ServiceClientCredentials | undefined, options: ServiceClientOptions, userAgentInfo: string[]): RequestPolicyCreator[] {
-  const defaultRequestPolicyCreators: RequestPolicyCreator[] = [];
+function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | undefined, options: ServiceClientOptions, userAgentInfo: string[]): RequestPolicyFactory[] {
+  const factories: RequestPolicyFactory[] = [];
 
   if (options.generateClientRequestIdHeader) {
-    defaultRequestPolicyCreators.push(generateClientRequestIdPolicy(options.clientRequestIdHeaderName));
+    factories.push(generateClientRequestIdPolicy(options.clientRequestIdHeaderName));
   }
 
   if (credentials) {
-    defaultRequestPolicyCreators.push(signingPolicy(credentials));
+    factories.push(signingPolicy(credentials));
   }
 
   if (utils.isNode) {
-    defaultRequestPolicyCreators.push(msRestUserAgentPolicy(userAgentInfo));
+    factories.push(msRestUserAgentPolicy(userAgentInfo));
   }
 
-  defaultRequestPolicyCreators.push(redirectPolicy());
-  defaultRequestPolicyCreators.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
+  factories.push(redirectPolicy());
+  factories.push(rpRegistrationPolicy(options.rpRegistrationRetryTimeout));
 
   if (!options.noRetryPolicy) {
-    defaultRequestPolicyCreators.push(exponentialRetryPolicy());
-    defaultRequestPolicyCreators.push(systemErrorRetryPolicy());
+    factories.push(exponentialRetryPolicy());
+    factories.push(systemErrorRetryPolicy());
   }
 
-  defaultRequestPolicyCreators.push(deserializationPolicy());
+  factories.push(deserializationPolicy());
 
-  return defaultRequestPolicyCreators;
+  return factories;
 }
 
 export type PropertyParent = { [propertyName: string]: any };

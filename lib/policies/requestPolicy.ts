@@ -7,9 +7,11 @@ import { HttpPipelineLogLevel } from "../httpPipelineLogLevel";
 import { WebResource } from "../webResource";
 
 /**
- * A function that creates a new RequestPolicy that uses the provided nextPolicy.
+ * Creates a new RequestPolicy per-request that uses the provided nextPolicy.
  */
-export type RequestPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => RequestPolicy;
+export type RequestPolicyFactory = {
+  create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy
+};
 
 export interface RequestPolicy {
   sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse>;

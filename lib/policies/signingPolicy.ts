@@ -4,11 +4,13 @@
 import { ServiceClientCredentials } from "../credentials/serviceClientCredentials";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
-import { BaseRequestPolicy, RequestPolicyCreator, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
+import { BaseRequestPolicy, RequestPolicyFactory, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
 
-export function signingPolicy(authenticationProvider: ServiceClientCredentials): RequestPolicyCreator {
-  return (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-    return new SigningPolicy(nextPolicy, options, authenticationProvider);
+export function signingPolicy(authenticationProvider: ServiceClientCredentials): RequestPolicyFactory {
+  return {
+    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
+      return new SigningPolicy(nextPolicy, options, authenticationProvider);
+    }
   };
 }
 
