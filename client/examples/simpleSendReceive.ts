@@ -13,7 +13,7 @@ async function main(): Promise<void> {
   const hub = await client.getHubRuntimeInformation();
   console.log(">>>> Hub: \n", hub);
   for (let i = 0; i < 1; i++) {
-    const onMessage: OnMessage = async (eventData: any) => {
+    const onMessage: OnMessage = (eventData: any) => {
       console.log(">>> EventDataObject: ", eventData);
       console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
     }
