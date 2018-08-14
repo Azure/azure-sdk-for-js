@@ -37,3 +37,11 @@ contribute.md
 .idea/
 changelog.md
 samples/
+typings/examples/
+dist/examples/
+docs/
+typedoc/
+
+# coverage #
+.nyc_output
+coverage
