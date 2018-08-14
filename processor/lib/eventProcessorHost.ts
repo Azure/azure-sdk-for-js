@@ -212,6 +212,8 @@ export class EventProcessorHost extends EventEmitter {
   /**
    * Provides information about the specified partition.
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
+   *
+   * @returns {EventHubPartitionRuntimeInformation} EventHubPartitionRuntimeInformation
    */
   async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
     return await this._eventHubClient.getPartitionInformation(partitionId);
@@ -394,7 +396,6 @@ export class EventProcessorHost extends EventEmitter {
 
   /**
    * Convenience method for generating unique host name.
-   * @static
    *
    * @param {string} [prefix] String to use as the beginning of the name. Default value: "js-host".
    * @return {string} A unique host name
@@ -406,7 +407,6 @@ export class EventProcessorHost extends EventEmitter {
 
   /**
    * Creates a new host to process events from an Event Hub.
-   * @static
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
    * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
@@ -419,6 +419,8 @@ export class EventProcessorHost extends EventEmitter {
    * SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param {ConnectionStringBasedOptions} [options] Optional parameters for creating an
    * EventProcessorHost.
+   *
+   * @returns {EventProcessorHost} EventProcessorHost
    */
   static createFromConnectionString(
     hostName: string,
@@ -437,7 +439,41 @@ export class EventProcessorHost extends EventEmitter {
 
   /**
    * Creates a new host to process events from an Event Hub.
-   * @static
+   *
+   * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
+   * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+   * `EventProcessorHost.createHostName("your-prefix")`; Default: `js-host-${uuid()}`.
+   * @param {string} storageConnectionString Connection string to Azure Storage account used for
+   * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
+   * AccountKey=<account-key>;EndpointSuffix=core.windows.net
+   * @param {string} namespace Fully qualified domain name for Event Hubs.
+   * Example: "{your-sb-namespace}.servicebus.windows.net"
+   * @param {string} eventHubPath The name of the EventHub.
+   * @param {TokenProvider} tokenProvider - Your token provider that implements the TokenProvider interface.
+   * @param {EventProcessorOptions} [options] Optional parameters for creating an
+   * EventProcessorHost.
+   *
+   * @returns {EventProcessorHost} EventProcessorHost
+   */
+  static createFromTokenProvider(
+    hostName: string,
+    storageConnectionString: string,
+    namespace: string,
+    eventHubPath: string,
+    tokenProvider: TokenProvider,
+    options?: EventProcessorOptions
+  ): EventProcessorHost {
+    if (!options) options = {};
+    const ehcOptions: ClientOptionsBase = {
+      dataTransformer: options.dataTransformer
+    };
+    return new EventProcessorHost(hostName, storageConnectionString,
+      EventHubClient.createFromTokenProvider(namespace, eventHubPath, tokenProvider, ehcOptions),
+      options);
+  }
+
+  /**
+   * Creates a new host to process events from an Event Hub.
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
    * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
@@ -451,8 +487,10 @@ export class EventProcessorHost extends EventEmitter {
    * @param {TokenCredentials} credentials - The AAD Token credentials. It can be one of the
    * following: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials
    * | MSITokenCredentials.
-   * @param {ConnectionStringBasedOptions} [options] Optional parameters for creating an
+   * @param {EventProcessorOptions} [options] Optional parameters for creating an
    * EventProcessorHost.
+   *
+   * @returns {EventProcessorHost} EventProcessorHost
    */
   static createFromAadTokenCredentials(
     hostName: string,
@@ -466,6 +504,7 @@ export class EventProcessorHost extends EventEmitter {
       dataTransformer: options.dataTransformer
     };
     return new EventProcessorHost(hostName, storageConnectionString,
-      EventHubClient.createFromAadTokenCredentials(namespace, eventHubPath, credentials, ehcOptions), options);
+      EventHubClient.createFromAadTokenCredentials(namespace, eventHubPath, credentials, ehcOptions),
+      options);
   }
 }

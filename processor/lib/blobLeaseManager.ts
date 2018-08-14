@@ -202,7 +202,7 @@ export class BlobLeaseManager extends EventEmitter implements LeaseManager {
           this.emit(BlobLeaseManager.renewed, lease);
         } catch (error) {
           if ((this.leases[lease.fullUri].expires as number) < Date.now() + renewPeriod) {
-            // We"ll expire before next renewal comes in.
+            // We'll expire before next renewal comes in.
             // Alert a lease loss, delay a bit, and then queue up a re-acquire.
             this._unmanage(lease);
             this.emit(BlobLeaseManager.lost, lease);

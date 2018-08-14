@@ -193,8 +193,8 @@ export class BlobLease implements Lease {
     }
     return new Promise((resolve, reject) => {
       if (!options) options = {};
-      if (!options.leaseId) options.leaseId = this.leaseId;
-      this.blobService.getBlobToText(this.containerName, this.blob, options, (error, text, result, response) => {
+      // if (!options.leaseId) options.leaseId = this.leaseId;
+      this.blobService.getBlobToText(this.containerName, this.blob, options, (error, text, result) => {
         if (error) {
           reject(error);
         } else {
@@ -206,9 +206,36 @@ export class BlobLease implements Lease {
     });
   }
 
+  changeLease(proposedLeaseId: string): Promise<BlobLease> {
+    return new Promise<BlobLease>((resolve, reject) => {
+      this.blobService.changeLease(this.containerName, this.blob, this.leaseId!, proposedLeaseId, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          this.leaseId = result.id;
+          debug("[%s] Changed lease with leaseId: '%s' and the result is: %O.",
+            this.hostName, this.leaseId, result);
+          resolve(this);
+        }
+      });
+    });
+  }
+
+  getBlobProperties(): Promise<BlobService.BlobResult> {
+    return new Promise<BlobService.BlobResult>((resolve, reject) => {
+      this.blobService.getBlobProperties(this.containerName, this.blob, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  }
+
   private _acquireLease(options: BlobService.AcquireLeaseRequestOptions): Promise<BlobLease> {
     return new Promise<BlobLease>((resolve, reject) => {
-      this.blobService.acquireLease(this.containerName, this.blob, options, (error, result, response) => {
+      this.blobService.acquireLease(this.containerName, this.blob, options, (error, result) => {
         if (error) {
           reject(error);
         } else {
@@ -249,7 +276,7 @@ export class BlobLease implements Lease {
       };
       debug("[%s] Ensuring that blob '%s' exists in container '%s'.",
         this.hostName, this.blob, this.containerName);
-      this.blobService.createBlockBlobFromText(this.containerName, this.blob, "", options, (error, result, response) => {
+      this.blobService.createBlockBlobFromText(this.containerName, this.blob, "", options, (error) => {
         if (error) {
           if ((error as any).statusCode === 412) {
             // Blob already exists.
