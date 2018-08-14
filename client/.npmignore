@@ -41,3 +41,7 @@ typings/examples/
 dist/examples/
 docs/
 typedoc/
+
+# coverage #
+.nyc_output
+coverage
