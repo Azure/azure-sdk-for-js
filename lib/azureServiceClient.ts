@@ -2,9 +2,9 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { HttpOperationResponse, RequestOptionsBase, RequestPrepareOptions, ServiceClient, ServiceClientCredentials, ServiceClientOptions, WebResource } from "ms-rest-js";
-import { HttpLongRunningOperationResponse, createHttpLongRunningOperationResponseFromInitialResponse, createHttpLongRunningOperationResponseFromMemento } from "./httpLongRunningOperationResponse";
+import { createLROPollerFromInitialResponse, createLROPollerFromPollState, LROPoller } from "./lroPoller";
+import { LROPollState } from "./lroPollStrategy";
 import * as Constants from "./util/constants";
-import { LROMemento } from "./lroPollStrategy";
 
 /**
  * Options to be provided while creating the client.
@@ -59,7 +59,7 @@ export class AzureServiceClient extends ServiceClient {
    * @returns {Promise<msRest.HttpOperationResponse>} The HttpOperationResponse containing the final polling request, response and the responseBody.
    */
   async sendLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
-    return this.beginLongRunningRequest(request, options).then((lroResponse: HttpLongRunningOperationResponse) => lroResponse.pollUntilFinished());
+    return this.beginLongRunningRequest(request, options).then((lroResponse: LROPoller) => lroResponse.pollUntilFinished());
   }
 
   /**
@@ -68,11 +68,11 @@ export class AzureServiceClient extends ServiceClient {
    * LRO is finished.
    * @param {msRest.RequestPrepareOptions|msRest.WebResource} request - The request object
    * @param {AzureRequestOptionsBase} [options] Additional options to be sent while making the request
-   * @returns {Promise<HttpLongRunningOperationResponse>} The HttpLongRunningOperationResponse
+   * @returns {Promise<LROPoller>} The HttpLongRunningOperationResponse
    * that provides methods for interacting with the LRO.
    */
-  async beginLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<HttpLongRunningOperationResponse> {
-    return this.sendRequest(request).then((initialResponse: HttpOperationResponse) => createHttpLongRunningOperationResponseFromInitialResponse(this, initialResponse, options));
+  async beginLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<LROPoller> {
+    return this.sendRequest(request).then((initialResponse: HttpOperationResponse) => createLROPollerFromInitialResponse(this, initialResponse, options));
   }
 
   /**
@@ -82,16 +82,16 @@ export class AzureServiceClient extends ServiceClient {
    * @returns {Promise<HttpOperationResponse>} The final response after polling is complete.
    */
   async getLongRunningOperationResult(initialResponse: HttpOperationResponse, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
-    const lroResponse: HttpLongRunningOperationResponse = createHttpLongRunningOperationResponseFromInitialResponse(this, initialResponse, options);
+    const lroResponse: LROPoller = createLROPollerFromInitialResponse(this, initialResponse, options);
     return lroResponse.pollUntilFinished();
   }
 
   /**
-   * Restore an HttpLongRunningOperationResponse from the provided LROMemento. This method can be
-   * used to recreate an HttpLongRunningOperationResponse on a different process or machine.
+   * Restore an LROPoller from the provided LROPollState. This method can be used to recreate an
+   * LROPoller on a different process or machine.
    */
-  restoreHttpLongRunningOperationResponse(lroMemento: LROMemento): HttpLongRunningOperationResponse {
-    return createHttpLongRunningOperationResponseFromMemento(this, lroMemento);
+  restoreLROPoller(lroPollState: LROPollState): LROPoller {
+    return createLROPollerFromPollState(this, lroPollState);
   }
 }
 

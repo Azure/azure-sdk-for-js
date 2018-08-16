@@ -3,14 +3,14 @@
 
 import { HttpOperationResponse, RequestOptionsBase } from "ms-rest-js";
 import { AzureServiceClient } from "./azureServiceClient";
-import { createLROPollStrategyFromInitialResponse, createLROPollStrategyFromMemento, LROMemento, LROPollStrategy } from "./lroPollStrategy";
+import { createLROPollStrategyFromInitialResponse, createLROPollStrategyFromPollState, LROPollState, LROPollStrategy } from "./lroPollStrategy";
 import { LongRunningOperationStates } from "./util/constants";
 
 /**
  * An HTTP operation response that provides special methods for interacting with LROs (long running
  * operations).
  */
-export class HttpLongRunningOperationResponse {
+export class LROPoller {
   /**
    * Create a new HttpLongRunningOperationResponse.
    * @param _lroPollStrategy The LROPollStrategy that this HttpLongRunningOperationResponse will
@@ -20,12 +20,41 @@ export class HttpLongRunningOperationResponse {
   }
 
   /**
+   * Get whether or not the LRO is finished.
+   * @returns Whether or not the LRO is finished.
+   */
+  public isFinished(): boolean {
+    const lroPollStrategy: LROPollStrategy | undefined = this._lroPollStrategy;
+    return !lroPollStrategy ? true : lroPollStrategy.isFinished();
+  }
+
+  /**
    * Get the current status of the LRO.
    * @returns The current status of the LRO.
    */
   public getOperationStatus(): LongRunningOperationStates {
     const lroPollStrategy: LROPollStrategy | undefined = this._lroPollStrategy;
     return !lroPollStrategy ? "Succeeded" : lroPollStrategy.getOperationStatus();
+  }
+
+  /**
+   * If the LRO is finished and in an acceptable state, then return the HttpOperationResponse. If
+   * the LRO is finished and not in an acceptable state, then throw the error that the LRO produced.
+   * If the LRO is not finished, then return undefined.
+   */
+  public getOperationResponse(): Promise<HttpOperationResponse | undefined> {
+    let result: Promise<HttpOperationResponse | undefined>;
+    const lroPollStrategy: LROPollStrategy | undefined = this._lroPollStrategy;
+    if (!lroPollStrategy) {
+      result = Promise.resolve(this._initialResponse);
+    } else if (!lroPollStrategy.isFinished()) {
+      result = Promise.resolve(undefined);
+    } else if (lroPollStrategy.finalStatusIsAcceptable()) {
+      result = lroPollStrategy.getOperationResponse();
+    } else {
+      throw lroPollStrategy.getRestError();
+    }
+    return result;
   }
 
   /**
@@ -67,22 +96,22 @@ export class HttpLongRunningOperationResponse {
   }
 
   /**
-   * Get an LROMemento object that can be used to poll this LRO in a different context (such as on a
-   * different process or a different machine). If the LRO couldn't produce an LRO polling strategy,
-   * then this will return undefined.
+   * Get an LROPollState object that can be used to poll this LRO in a different context (such as on
+   * a different process or a different machine). If the LRO couldn't produce an LRO polling
+   * strategy, then this will return undefined.
    */
-  public getMemento(): LROMemento | undefined {
+  public getPollState(): LROPollState | undefined {
     const lroPollStrategy: LROPollStrategy | undefined = this._lroPollStrategy;
-    return !lroPollStrategy ? undefined : lroPollStrategy.getMemento();
+    return !lroPollStrategy ? undefined : lroPollStrategy.getPollState();
   }
 }
 
-export function createHttpLongRunningOperationResponseFromInitialResponse(azureServiceClient: AzureServiceClient, initialResponse: HttpOperationResponse, options?: RequestOptionsBase): HttpLongRunningOperationResponse {
+export function createLROPollerFromInitialResponse(azureServiceClient: AzureServiceClient, initialResponse: HttpOperationResponse, options?: RequestOptionsBase): LROPoller {
   const lroPollStrategy: LROPollStrategy | undefined = createLROPollStrategyFromInitialResponse(initialResponse, azureServiceClient, options);
-  return new HttpLongRunningOperationResponse(lroPollStrategy, initialResponse);
+  return new LROPoller(lroPollStrategy, initialResponse);
 }
 
-export function createHttpLongRunningOperationResponseFromMemento(azureServiceClient: AzureServiceClient, lroMemento: LROMemento): HttpLongRunningOperationResponse {
-  const lroPollStrategy: LROPollStrategy | undefined = createLROPollStrategyFromMemento(azureServiceClient, lroMemento);
-  return new HttpLongRunningOperationResponse(lroPollStrategy, lroMemento.initialResponse);
+export function createLROPollerFromPollState(azureServiceClient: AzureServiceClient, lroMemento: LROPollState): LROPoller {
+  const lroPollStrategy: LROPollStrategy | undefined = createLROPollStrategyFromPollState(azureServiceClient, lroMemento);
+  return new LROPoller(lroPollStrategy, lroMemento.initialResponse);
 }
