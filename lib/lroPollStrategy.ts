@@ -49,7 +49,7 @@ export abstract class LROPollStrategy {
 
       await this.sendPollRequest();
     }
-    return this.finalStatusIsAcceptable();
+    return this.isFinalStatusAcceptable();
   }
 
   /**
@@ -58,7 +58,7 @@ export abstract class LROPollStrategy {
    */
   public abstract sendPollRequest(): Promise<void>;
 
-  public abstract finalStatusIsAcceptable(): boolean;
+  public abstract isFinalStatusAcceptable(): boolean;
 
   protected shouldDoFinalGetResourceRequest(): boolean {
     const initialRequestMethod: HttpMethods = this._pollState.initialResponse.request.method;
@@ -351,7 +351,7 @@ class LocationLROPollStrategy extends LROPollStrategy {
     });
   }
 
-  public finalStatusIsAcceptable(): boolean {
+  public isFinalStatusAcceptable(): boolean {
     const lroPollState: LROPollState = this._pollState;
     const initialResponse: HttpOperationResponse = lroPollState.initialResponse;
     const initialResponseStatusCode: number = initialResponse.status;
@@ -481,7 +481,7 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
     return this.updateState(getResourceRequestUrl);
   }
 
-  public finalStatusIsAcceptable(): boolean {
+  public isFinalStatusAcceptable(): boolean {
     const lroPollState: LROPollState = this._pollState;
     const initialResponse: HttpOperationResponse = lroPollState.initialResponse;
     const initialResponseStatusCode: number = initialResponse.status;
@@ -519,7 +519,7 @@ class GetResourceLROPollStrategy extends LROPollStrategy {
     });
   }
 
-  public finalStatusIsAcceptable(): boolean {
+  public isFinalStatusAcceptable(): boolean {
     return this._pollState.state === "Succeeded";
   }
 

@@ -21,7 +21,6 @@ export class LROPoller {
 
   /**
    * Get whether or not the LRO is finished.
-   * @returns Whether or not the LRO is finished.
    */
   public isFinished(): boolean {
     const lroPollStrategy: LROPollStrategy | undefined = this._lroPollStrategy;
@@ -29,8 +28,23 @@ export class LROPoller {
   }
 
   /**
+   * Get whether or not the LRO is finished and its final state is acceptable. If the LRO has not
+   * finished yet, then undefined will be returned. An "acceptable" final state is determined by the
+   * LRO strategy that the Azure service uses to perform long running operations.
+   */
+  public isFinalStatusAcceptable(): boolean | undefined {
+    let result: boolean | undefined;
+    const lroPollStrategy: LROPollStrategy | undefined = this._lroPollStrategy;
+    if (!lroPollStrategy) {
+      result = true;
+    } else if (lroPollStrategy.isFinished()) {
+      result = lroPollStrategy.isFinalStatusAcceptable();
+    }
+    return result;
+  }
+
+  /**
    * Get the current status of the LRO.
-   * @returns The current status of the LRO.
    */
   public getOperationStatus(): LongRunningOperationStates {
     const lroPollStrategy: LROPollStrategy | undefined = this._lroPollStrategy;
@@ -49,7 +63,7 @@ export class LROPoller {
       result = Promise.resolve(this._initialResponse);
     } else if (!lroPollStrategy.isFinished()) {
       result = Promise.resolve(undefined);
-    } else if (lroPollStrategy.finalStatusIsAcceptable()) {
+    } else if (lroPollStrategy.isFinalStatusAcceptable()) {
       result = lroPollStrategy.getOperationResponse();
     } else {
       throw lroPollStrategy.getRestError();
@@ -59,7 +73,6 @@ export class LROPoller {
 
   /**
    * Send a single poll request and return the LRO's state.
-   * @returns The LRO's state.
    */
   public poll(): Promise<LongRunningOperationStates> {
     let result: Promise<LongRunningOperationStates>;
@@ -76,7 +89,6 @@ export class LROPoller {
 
   /**
    * Send poll requests that check the LRO's status until it is determined that the LRO is finished.
-   * @returns Whether or not the LRO succeeded.
    */
   public async pollUntilFinished(): Promise<HttpOperationResponse> {
     let result: Promise<HttpOperationResponse>;
