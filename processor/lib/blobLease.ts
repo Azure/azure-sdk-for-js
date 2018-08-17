@@ -227,6 +227,7 @@ export class BlobLease implements Lease {
         if (error) {
           reject(error);
         } else {
+          result.lease!.state!
           resolve(result);
         }
       });
