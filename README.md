@@ -1,8 +1,8 @@
-# Azure Storage JavaScript Client Library for Blob Service
+# Azure Storage SDK for JavaScript
 
 ## Introduction
 
-This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Storage services.
+This project provides a SDK in JavaScript that makes it easy to consume Microsoft Azure Storage services.
 
 Please note that this version of the library is a compete overhaul of the current Azure Storage Node.js Client Library, and is based on the new Storage SDK architecture, also referred to as V10.
 
@@ -90,6 +90,7 @@ git clone <repo>
 2. npm install
 
 ```
+cd blob
 npm install
 ```
 
