@@ -142,3 +142,39 @@ export function executePromisesSequentially(promiseFactories: Array<any>, kickst
   });
   return result;
 }
+
+/**
+ * Provides a Dictionary like structure <Key, Value> of Type T.
+ * @interface Dictionary
+ */
+export interface Dictionary<T> {
+  [key: string]: T;
+}
+
+/**
+ * Validates the type and requiredness of a given parameter.
+ * @param paramName The name of the parameter.
+ * @param paramValue The parameter value
+ * @param type The type of the parameter
+ */
+export function validateType(paramName: string, paramValue: any, required: boolean,
+  type: "string" | "number" | "boolean" | "Array" | "object" | "Date" | "function"): void {
+  if (required && paramValue == undefined) {
+    throw new TypeError(`${paramName} is required. Hence cannot be null or undefined.`);
+  }
+  if (paramValue != undefined) {
+    if (type === "Array" && !Array.isArray(paramValue)) {
+      throw new TypeError(`${paramName} must be of type "${type}".`);
+    } else if (type === "Date" && !(paramValue instanceof Date)) {
+      throw new TypeError(`${paramName} must be of type "${type}".`);
+    } else if (type === "string" || type === "number" || type === "boolean"
+      || type === "object" || type === "function") {
+      if (typeof paramValue !== type) {
+        throw new TypeError(`${paramName} must be of type "${type}".`);
+      }
+    } else {
+      throw new Error(`Invalid argument. type "${type}" is not a valid type. Valid values are: ` +
+        `"string", "number", "boolean", "Array", "object", "Date", "function"`);
+    }
+  }
+}

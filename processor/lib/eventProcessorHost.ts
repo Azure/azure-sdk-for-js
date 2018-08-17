@@ -162,16 +162,8 @@ export class EventProcessorHost extends EventEmitter {
    */
   constructor(hostName: string, storageConnectionString: string, eventHubClient: EventHubClient, options?: EventProcessorOptions) {
     super();
-    function ensure(paramName: string, param: any, type: string): void {
-      if (!param) throw new Error(`${paramName} cannot be null or undefined.`);
-      if (param) {
-        if (typeof param !== type) {
-          throw new Error(`${paramName} must be of type ${type}.`);
-        }
-      }
-    }
-    ensure("storageConnectionString", storageConnectionString, "string");
-    ensure("eventHubClient", eventHubClient, "object");
+
+
 
     if (!options) options = {};
     this._eventHubClient = eventHubClient;
