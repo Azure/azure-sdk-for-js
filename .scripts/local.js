@@ -6,7 +6,8 @@ for (const localDependency of localDependencies) {
 }
 let refreshNodeModules = false;
 for (const localDependency of localDependencies) {
-  if (dependencies.updatePackageJsonDependency(localDependency, `file:../${localDependency}`)) {
+  const localRepositoryPath = dependencies.getLocalRepositoryPath(localDependency);
+  if (dependencies.updatePackageJsonDependency(localDependency, `file:${localRepositoryPath}`)) {
     refreshNodeModules = true;
   }
 }

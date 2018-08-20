@@ -3,6 +3,27 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 /**
+ * Get whether or not the node_modules folder should be refreshed based on the command line
+ * arguments.
+ * @param {string} argv The command line arguments that were provided.
+ * @returns {boolean} Whether or not the node_modules folder should be refreshed.
+ */
+function shouldForceRefresh(argv) {
+  let result = false;
+  if (argv) {
+    for (const arg of argv) {
+      const argLower = arg && arg.toLocaleLowerCase();
+      if (argLower === "-f" || argLower === "-force" || argLower === "--force") {
+        result = true;
+        break;
+      }
+    }
+  }
+  return result;
+}
+exports.shouldForceRefresh = shouldForceRefresh;
+
+/**
  * Replace all of the instances of searchValue in text with replaceValue.
  * @param {string} text The text to search and replace in.
  * @param {string} searchValue The value to search for in text.
@@ -58,6 +79,15 @@ function deleteFolder(folderPath) {
 }
 
 /**
+ * Read the contents of text file at the provided filePath.
+ * @param {string} filePath The path to the text file to read.
+ * @returns {string} The text contents of the text file at the provided filePath.
+ */
+function readTextFileContents(filePath) {
+  return fs.readFileSync(filePath, { encoding: "utf8" });
+}
+
+/**
  * Execute the provided command on the shell synchronously.
  * @param {string} command The command to execute.
  * @param {string} workingDirectory The working directory to execute the command in.
@@ -65,7 +95,7 @@ function deleteFolder(folderPath) {
  */
 function execute(command, workingDirectory) {
   console.log(`Running "${command}" in "${workingDirectory}"...`);
-  execSync(command, {cwd: workingDirectory, stdio:[0,1,2]});
+  execSync(command, { cwd: workingDirectory, stdio: [0, 1, 2] });
 }
 
 /**
@@ -92,6 +122,7 @@ function getPackageJsonFilePath() {
 function getLocalRepositoryPath(repoName) {
   return normalizePath(path.resolve(__dirname, "..", "..", repoName));
 }
+exports.getLocalRepositoryPath = getLocalRepositoryPath;
 
 /**
  * Get the package.json file contents parsed as a JSON object.
@@ -103,7 +134,7 @@ function getPackageJson(packageJsonFilePath) {
   if (!packageJsonFilePath) {
     packageJsonFilePath = getPackageJsonFilePath();
   }
-  return JSON.parse(fs.readFileSync(packageJsonFilePath));
+  return JSON.parse(readTextFileContents(packageJsonFilePath));
 }
 
 /**
@@ -151,7 +182,7 @@ exports.getDependenciesWithClonedRepositories = getDependenciesWithClonedReposit
  */
 function runLocalRepositoryNPMScript(repoName, scriptName) {
   const repoFolderPath = getLocalRepositoryPath(repoName);
-  const packageJsonFilePath = normalizePath(path.join(repoFolderPath, "package.json"));
+  const packageJsonFilePath = path.join(repoFolderPath, "package.json");
   const packageJson = getPackageJson(packageJsonFilePath);
   const repoScripts = packageJson.scripts;
   if (repoScripts && repoScripts[scriptName]) {
@@ -168,7 +199,7 @@ exports.runLocalRepositoryNPMScript = runLocalRepositoryNPMScript;
  * will be run for the changed dependency.
  * @param {string} dependencyName The name of the dependency to update.
  * @param {string} dependencyVersion The version to update the dependency to.
- * @returns {boolean} Whether or not the dependency needs to be installed.
+ * @returns {boolean} Whether or not the dependency changed.
  */
 function updatePackageJsonDependency(dependencyName, dependencyVersion) {
   let dependencyChanged = false;
@@ -183,19 +214,21 @@ function updatePackageJsonDependency(dependencyName, dependencyVersion) {
     packageJson.dependencies[dependencyName] = dependencyVersion;
 
     writePackageJson(packageJson, packageJsonFilePath);
-    
+
     dependencyChanged = true;
   }
-  
+
   return dependencyChanged;
 }
 exports.updatePackageJsonDependency = updatePackageJsonDependency;
 
 /**
  * Run NPM install in this repository
+ * @param {object} options
+ * @param {boolean} options.ignoreScripts whether to ignore scripts in npm install (skips dotnet build)
  * @returns {void}
  */
-function refreshNodeModules() {
+function refreshNodeModules(options) {
   const thisRepositoryFolderPath = getThisRepositoryFolderPath();
   const nodeModulesFolderPath = normalizePath(path.resolve(thisRepositoryFolderPath, "node_modules"));
   if (fs.existsSync(nodeModulesFolderPath)) {
@@ -209,7 +242,8 @@ function refreshNodeModules() {
     console.log(`Deleting "${nodeModulesFolderPath}"...`);
     deleteFolder(nodeModulesFolderPath);
   }
-  execute(`npm install`, getThisRepositoryFolderPath());
+  const ignoreScripts = options && options.ignoreScripts;
+  execute("npm install" + (ignoreScripts ? " --ignore-scripts" : ""), getThisRepositoryFolderPath());
 }
 exports.refreshNodeModules = refreshNodeModules;
 
@@ -240,7 +274,7 @@ function updatePackageJsonMain(mainValue) {
   } else {
     console.log(`Changing "main" to "${mainValue}" in "${packageJsonFilePath}"`)
     packageJson.main = mainValue;
-    
+
     writePackageJson(packageJson, packageJsonFilePath);
   }
 }
