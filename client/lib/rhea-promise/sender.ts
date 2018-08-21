@@ -6,6 +6,7 @@ import * as log from "./log";
 import { Session } from "./session";
 import { Connection } from "./connection";
 import { Func, SenderEvents } from ".";
+import { defaultOperationTimeoutInSeconds } from "./util/constants";
 
 export interface SenderOptions extends rhea.SenderOptions {
   onAccepted?: rhea.OnAmqpEvent;
@@ -165,8 +166,10 @@ export class Sender {
       if (this.isOpen()) {
         let onError: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
+        let waitTimer: any;
 
         const removeListeners = () => {
+          clearTimeout(waitTimer);
           this._sender.removeListener(SenderEvents.senderError, onError);
           this._sender.removeListener(SenderEvents.senderClose, onClose);
         };
@@ -187,8 +190,16 @@ export class Sender {
           reject(context.session!.error);
         };
 
+        const actionAfterTimeout = () => {
+          removeListeners();
+          const msg: string = `Unable to close the amqp sender ${this.name} due to operation timeout.`;
+          log.error("[%s] %s", this.connection.id, msg);
+          reject(new Error(msg));
+        };
+
         this._sender.once(SenderEvents.senderClose, onClose);
         this._sender.once(SenderEvents.senderError, onError);
+        waitTimer = setTimeout(actionAfterTimeout, defaultOperationTimeoutInSeconds * 1000);
         this._sender.close();
       } else {
         resolve();
