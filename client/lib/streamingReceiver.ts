@@ -89,6 +89,15 @@ export class ReceiveHandler {
   }
 
   /**
+   * @property {boolean} isReceiverOpen Indicates whether the receiver is connected/open.
+   * `true` - is open; `false` otherwise.
+   * @readonly
+   */
+  get isReceiverOpen(): boolean {
+    return this._receiver ? this._receiver.isOpen() : false;
+  }
+
+  /**
    * Stops the underlying EventHubReceiver from receiving more messages.
    * @return {Promise<void>} Promise<void>
    */
