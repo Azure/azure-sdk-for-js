@@ -30,7 +30,7 @@
   "types": "./typings/lib/msRestAzure.d.ts",
   "license": "MIT",
   "dependencies": {
-    "ms-rest-js": "~0.19.379",
+    "ms-rest-js": "~0.19.380",
     "tslib": "^1.9.2"
   },
   "devDependencies": {
@@ -85,9 +85,9 @@
     "test:tslint": "tslint -p . -c tslint.json --exclude test/**/*.ts",
     "prepare": "npm run build",
     "publish-preview": "npm test && shx rm -rf dist/test && node ./.scripts/publish",
-    "local": "node ./.scripts/local.js",
-    "preview": "node ./.scripts/preview.js",
-    "latest": "node ./.scripts/latest.js"
+    "local": "ts-node ./.scripts/local.ts",
+    "preview": "ts-node ./.scripts/preview.ts",
+    "latest": "ts-node ./.scripts/latest.ts"
   },
   "sideEffects": false
 }
