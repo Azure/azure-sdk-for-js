@@ -7,10 +7,6 @@ export interface PackageFolder {
   extraFilePaths?: string[];
 }
 
-export interface RefreshNodeModulesOptions {
-  ignoreScripts?: boolean;
-}
-
 function log(filePath: string, message: string): void {
   console.log(`[${filePath}] - ${message}`);
 }
@@ -140,9 +136,9 @@ function getPackageJson(packageJsonFilePath: string): any {
  * repositories into.
  * @returns {void}
  */
-function getClonedRepositories(dependencies: { [packageName: string]: string }): string[] {
+function getClonedRepositories(dependencies?: { [packageName: string]: string }): string[] {
   const clonedRepositoryNames: string[] = [];
-  if (clonedRepositoryNames && dependencies) {
+  if (dependencies) {
     for (const dependencyName in dependencies) {
       if (clonedRepositoryNames.indexOf(dependencyName) === -1) {
         const repoFolderPath = getLocalRepositoryPath(dependencyName);
