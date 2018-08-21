@@ -93,9 +93,9 @@
     "test:server": "ts-node testserver",
     "prepare": "npm run build",
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
-    "local": "node ./.scripts/local.js",
-    "preview": "node ./.scripts/preview.js",
-    "latest": "node ./.scripts/latest.js"
+    "local": "ts-node ./.scripts/local.ts",
+    "preview": "ts-node ./.scripts/preview.ts",
+    "latest": "ts-node ./.scripts/latest.ts"
   },
   "sideEffects": false
 }
