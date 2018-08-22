@@ -24,6 +24,14 @@ export interface HttpResponse {
   headers: HttpHeaders;
 }
 
+declare global {
+  /**
+   * Stub declaration of the browser-only Blob type.
+   * Full type information can be obtained by including "lib": ["dom"] in tsconfig.json.
+   */
+  interface Blob {}
+}
+
 /**
  * Wrapper object for http request and response. Deserialized object is stored in
  * the `parsedBody` property when the response body is received in JSON or XML.

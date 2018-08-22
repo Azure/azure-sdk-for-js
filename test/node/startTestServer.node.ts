@@ -7,7 +7,7 @@ import * as path from "path";
 let serverProcess: childProcess.ChildProcess;
 
 before(function(done) {
-    serverProcess = childProcess.spawn(path.join(__dirname, "../../node_modules/.bin/ts-node"), ["testserver", "--no-webpack"], { shell: true });
+    serverProcess = childProcess.spawn(path.join(__dirname, "../../node_modules/.bin/ts-node"), ["-T", "testserver", "--no-webpack"], { shell: true });
     const dataListener = () => {
         serverProcess.stdout.removeListener("data", dataListener);
         serverProcess.stderr.removeListener("data", dataListener);

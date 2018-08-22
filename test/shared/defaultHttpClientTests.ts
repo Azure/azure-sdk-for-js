@@ -232,4 +232,15 @@ describe("defaultHttpClient", () => {
       err.message.should.match(/timeout/);
     }
   });
+
+  it("should give a graceful error for nonexistent hosts", async function() {
+    const request = new WebResource(`http://foo.notawebsite/`);
+    const client = new DefaultHttpClient();
+    try {
+      await client.sendRequest(request);
+      throw new Error("request did not fail as expected");
+    } catch (err) {
+      err.code.should.equal("REQUEST_SEND_ERROR");
+    }
+  });
 });

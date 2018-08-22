@@ -26,6 +26,7 @@
     "clientruntime"
   ],
   "main": "./dist/lib/msRest.js",
+  "module": "./es/lib/msRest.js",
   "types": "./typings/lib/msRest.d.ts",
   "browser": {
     "./dist/lib/msRest.js": "./es/lib/msRest.js",
@@ -65,9 +66,9 @@
     "should": "5.2.0",
     "shx": "^0.2.2",
     "ts-loader": "^4.2.0",
-    "ts-node": "^5.0.1",
+    "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
-    "typescript": "^2.7.2",
+    "typescript": "^3.0.1",
     "uglify-es": "^3.1.0",
     "webpack": "^4.6.0",
     "webpack-cli": "^2.0.14",
@@ -92,7 +93,7 @@
     "test": "run-p test:tslint test:unit",
     "test:tslint": "tslint -p . -c tslint.json --exclude \"./test/**/*.ts\"",
     "test:unit": "node ./.scripts/unit",
-    "test:server": "ts-node testserver",
+    "test:server": "ts-node -T testserver",
     "prepare": "npm run build",
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
