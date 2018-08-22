@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as xml2js from "isomorphic-xml2js";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { OperationResponse } from "../operationResponse";
 import { OperationSpec } from "../operationSpec";
 import { RestError } from "../restError";
 import { Mapper, MapperType } from "../serializer";
 import * as utils from "../util/utils";
+import { parseXML } from "../util/xml";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
 
@@ -153,21 +153,12 @@ function parse(operationResponse: HttpOperationResponse): Promise<HttpOperationR
     const contentType = operationResponse.headers.get("Content-Type") || "";
     const contentComponents = contentType.split(";").map(component => component.toLowerCase());
     if (contentComponents.some(component => component === "application/xml" || component === "text/xml")) {
-      const xmlParser = new xml2js.Parser({
-        explicitArray: false,
-        explicitCharkey: false,
-        explicitRoot: false
-      });
-      return new Promise<HttpOperationResponse>(function (resolve, reject) {
-        xmlParser.parseString(text, function (err: any, result: any) {
-          if (err) {
-            reject(err);
-          } else {
-            operationResponse.parsedBody = result;
-            resolve(operationResponse);
-          }
-        });
-      }).catch(errorHandler);
+      return parseXML(text)
+        .then(body => {
+          operationResponse.parsedBody = body;
+          return operationResponse;
+        })
+        .catch(errorHandler);
     } else if (contentComponents.some(component => component === "application/json" || component === "text/json") || !contentType) {
       return new Promise<HttpOperationResponse>(resolve => {
         operationResponse.parsedBody = JSON.parse(text);

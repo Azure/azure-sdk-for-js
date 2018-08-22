@@ -24,6 +24,7 @@ import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } fro
 import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
+import { stringifyXML } from "./util/xml";
 import { RequestPrepareOptions, WebResource, RequestOptionsBase } from "./webResource";
 
 /**
@@ -326,10 +327,10 @@ export function serializeRequestBody(serviceClient: ServiceClient, httpRequest: 
         const isStream = typeName === MapperType.Stream;
         if (operationSpec.isXML) {
           if (typeName === MapperType.Sequence) {
-            httpRequest.body = utils.stringifyXML(utils.prepareXMLRootList(httpRequest.body, xmlElementName || xmlName || serializedName!), { rootName: xmlName || serializedName });
+            httpRequest.body = stringifyXML(utils.prepareXMLRootList(httpRequest.body, xmlElementName || xmlName || serializedName!), { rootName: xmlName || serializedName });
           }
           else if (!isStream) {
-            httpRequest.body = utils.stringifyXML(httpRequest.body, { rootName: xmlName || serializedName });
+            httpRequest.body = stringifyXML(httpRequest.body, { rootName: xmlName || serializedName });
           }
         } else if (!isStream) {
           httpRequest.body = JSON.stringify(httpRequest.body);
