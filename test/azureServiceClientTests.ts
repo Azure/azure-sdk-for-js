@@ -2,9 +2,10 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as assert from "assert";
-import { HttpHeaders, HttpOperationResponse, RequestOptionsBase, RestError, TokenCredentials, WebResource } from "ms-rest-js";
+import { HttpHeaders, HttpOperationResponse, RequestOptionsBase, RestError, TokenCredentials, WebResource, OperationArguments, OperationSpec, Serializer } from "ms-rest-js";
 import { AzureServiceClient, AzureServiceClientOptions, updateOptionsWithDefaultValues } from "../lib/azureServiceClient";
 import * as msAssert from "./msAssert";
+import { LROPoller } from "../lib/lroPoller";
 
 describe("AzureServiceClient", () => {
   describe("constructor", () => {
@@ -27,6 +28,72 @@ describe("AzureServiceClient", () => {
       assert.strictEqual(client.acceptLanguage, "en-us");
       assert.strictEqual(client.longRunningOperationRetryTimeout, 2);
       assert.deepStrictEqual(client.userAgentInfo, { value: ["ms-rest-js/0.1.0", "ms-rest-azure/0.1.0"] });
+    });
+  });
+
+  describe("sendLRORequest()", () => {
+    it("should include custom headers", async () => {
+      const serviceClient: AzureServiceClient = createServiceClient([
+        {
+          status: 201,
+          headers: new HttpHeaders({
+            "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2"
+          })
+        },
+        {
+          status: 200,
+          body: {
+            status: "Succeeded"
+          }
+        },
+        {
+          status: 200,
+          body: {
+            a: "A"
+          }
+        }
+      ]);
+
+      const requestId = "9C4D50EE-2D56-4CD3-8152-34347DC9F2B0";
+      const options: RequestOptionsBase = {
+        customHeaders: {
+          "x-ms-client-request-id": requestId
+        }
+      };
+      const operationArguments: OperationArguments = {
+        options
+      };
+      const operationSpec: OperationSpec = {
+        httpMethod: "PUT",
+        baseUrl: "https://fake.azure.com/",
+        path: "longRunningOperation",
+        responses: {
+          200: {}
+        },
+        serializer: new Serializer()
+      };
+
+      const lroPoller: LROPoller = await serviceClient.sendLRORequest(operationArguments, operationSpec, options);
+      assert.strictEqual(lroPoller.isFinished(), false);
+      assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
+      assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
+      assert.strictEqual(await lroPoller.getOperationResponse(), undefined);
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation");
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.headers.get("x-ms-client-request-id"), requestId);
+
+      assert.strictEqual(await lroPoller.poll(), "Succeeded");
+
+      assert.strictEqual(lroPoller.isFinished(), true);
+      assert.strictEqual(lroPoller.isFinalStatusAcceptable(), true);
+      assert.strictEqual(lroPoller.getOperationStatus(), "Succeeded");
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.headers.get("x-ms-client-request-id"), requestId);
+
+      const operationResponse: HttpOperationResponse = (await lroPoller.getOperationResponse()) as HttpOperationResponse;
+      assert(operationResponse);
+      assert.deepEqual(operationResponse.parsedBody, { a: "A" });
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation");
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.headers.get("x-ms-client-request-id"), requestId);
     });
   });
 
