@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import * as debugModule from "debug";
-const debug = debugModule("azure:event-hubs:eph:partition");
-import * as uuid from "uuid/v4";
-import { EventData } from "azure-event-hubs";
-import * as Constants from "./util/constants";
-import { BlobLease } from "./blobLease";
+import { EventData, EventPosition } from "azure-event-hubs";
+import { Lease } from "./lease";
 import { CheckpointInfo } from "./checkpointInfo";
+import * as log from "./log";
+import { ProcessorContext } from './processorContext';
+import { validateType } from "./util/utils";
 
 /**
  * Describes the Partition Context.
@@ -15,129 +14,144 @@ import { CheckpointInfo } from "./checkpointInfo";
  */
 export class PartitionContext {
   /**
-   * @property {string} partitionId The eventhub partition id.
+   * @property {Lease} lease The most recdent checkpointed lease with the partitionId.
    */
-  partitionId: string;
+  lease: Lease;
   /**
-   * @property {string} owner The name of the owner.
+   * @property {string} partitionId The eventhub partition id.
+   * @readonly
    */
-  lease: BlobLease;
-  private _token: string;
-  private _owner: string;
-  private _checkpointDetails: CheckpointInfo;
+  readonly partitionId: string;
+  /**
+   * @property {string} owner The host/owner of the partition.
+   * @readonly
+   */
+  get owner(): string {
+    return this.lease.owner;
+  }
+  /**
+   * @property {string} eventhubPath The path of the eventhub
+   * @readonly
+   */
+  get eventhubPath(): string {
+    return this._context.eventHubClient.eventhubName;
+  }
+  /**
+   * @property {string} consumerGroup The name of the consumer group.
+   * @readonly
+   */
+  get consumerGroup(): string {
+    return this._context.consumerGroup;
+  }
+
+  private _context: ProcessorContext;
+  private _offset: string = "-1";
+  private _sequenceNumber: number = 0;
 
   /**
    * Creates a new PartitionContext.
    * @param {string} partitionId The eventhub partition id.
    * @param {string} owner The name of the owner.
-   * @param {BlobLease} lease The lease object.
+   * @param {Lease} lease The lease object.
    */
-  constructor(partitionId: string, owner: string, lease: BlobLease) {
+  constructor(context: ProcessorContext, partitionId: string, lease: Lease) {
+    this._context = context;
     this.partitionId = partitionId;
-    this._owner = owner;
     this.lease = lease;
-    this._token = uuid();
-    this._checkpointDetails = {
-      partitionId: this.partitionId,
-      owner: this._owner,
-      token: this._token,
-      epoch: -1,
-      sequenceNumber: 0
-    };
   }
 
   /**
-   * Stores the checkpoint data into the appropriate blob, assuming the lease is held (otherwise, rejects).
+   * Sets the offset and sequence number of the partition context from the provided EventData.
+   * @param {EventData} eventData The event data `received` from the EventHubReceiver.
+   */
+  setOffsetAndSequenceNumber(eventData: EventData): void {
+    validateType("eventData", eventData, true, "object");
+    validateType("eventData.offset", eventData.offset, true, "string");
+    validateType("eventData.sequenceNumber", eventData.sequenceNumber, true, "number");
+    this._offset = eventData.offset!;
+    this._sequenceNumber = eventData.sequenceNumber!;
+  }
+
+  /**
+   * Writes the current offset and sequenceNumber to the checkpoint store via the checkpoint manager.
    *
    * The checkpoint data is structured as a JSON payload (example):
-   * `{ "PartitionId":"0","Owner":"ephtest","Token":"48e209e3-55f0-41b8-a8dd-d9c09ff6c35a",
-   * "Epoch":1,"Offset":"","SequenceNumber":0}`. The format and the casing of keys in the object
-   * is in sync with the .net sdk of EventHubs.
+   * `{ "partitionId":"0","owner":"ephtest","token":"48e209e3-55f0-41b8-a8dd-d9c09ff6c35a",
+   * "epoch":1,"offset":"","SequenceNumber":0 }`.
    *
-   * @return {Promise<CheckpointInfo | void>}
+   * @return {Promise<void>}
    */
-  async checkpoint(): Promise<CheckpointInfo | void> {
-    let leaseId: string = "";
-    try {
-      if (this.lease.isHeld) {
-        if (this._checkpointDetails.epoch > -1) {
-          leaseId = this.lease.leaseId!;
-          this._checkpointDetails.owner = this._owner; // We"re setting it, ensure we are the owner.
-          let checkpointDetailsAsString: string = "{}";
-          checkpointDetailsAsString = CheckpointInfo.serialize(this._checkpointDetails);
-          await this.lease.updateContent(checkpointDetailsAsString);
-          return this._checkpointDetails;
-        }
-      } else {
-        throw new Error("Lease is not held.");
-      }
-    } catch (err) {
-      debug("An error occurred while checkpointing info with lease id '%s' in the blob: %O",
-        leaseId, err);
-      throw err;
-    }
+  async checkpoint(): Promise<void> {
+    const capturedCheckpoint: CheckpointInfo = {
+      offset: this._offset,
+      partitionId: this.partitionId,
+      sequenceNumber: this._sequenceNumber
+    };
+    await this._persistCheckpoint(capturedCheckpoint);
   }
 
   /**
-   * Sets the checkpoint info.
-   * @param {string} owner Name of the owner.
-   * @param {string} token The token string.
-   * @param {number} epoch The epoch value.
-   * @param {string} offset The offset of the message in the event stream.
-   * @param {number} sequenceNumber The sequnce number of the message in the event stream
-   */
-  setCheckpointInfo(owner: string, token: string, epoch: number, offset: string, sequenceNumber: number): void {
-    this._checkpointDetails.owner = owner;
-    this._checkpointDetails.token = token;
-    this._checkpointDetails.epoch = epoch;
-    this._checkpointDetails.offset = offset;
-    this._checkpointDetails.sequenceNumber = sequenceNumber;
-  }
-
-  /**
-   * Updates the checkpoint data from the owned lease.
-   * @return {Promise<CheckpointInfo>}
-   */
-  async updateCheckpointInfoFromLease(): Promise<CheckpointInfo> {
-    try {
-      const contents: string = await this.lease.getContent();
-      if (contents) {
-        debug("Lease '%s' with content: %s", this.lease.fullUri, contents);
-        try {
-          const payload = CheckpointInfo.deserialize(contents);
-          if (payload) this._checkpointDetails = payload;
-        } catch (err) {
-          const msg = `Invalid payload "${contents}": ${JSON.stringify(err)}`;
-          debug(msg);
-          throw new Error(msg);
-        }
-      }
-      return this._checkpointDetails;
-    } catch (err) {
-      const msg = `An error occurred while updating the checkpoint data from lease: ${JSON.stringify(err)}.`;
-      debug(msg);
-      throw new Error(msg);
-    }
-  }
-
-  /**
-   * Updates data from the message, which should have an annotations field containing something like:
-   *   "x-opt-sequence-number":6,"x-opt-offset":"480","x-opt-enqueued-time":"2015-12-18T17:26:49.331Z"
+   * Writes the current offset and sequenceNumber to the checkpoint store via the checkpoint manager.
+   *
+   * The checkpoint data is structured as a JSON payload (example):
+   * `{ "partitionId":"0","owner":"ephtest","token":"48e209e3-55f0-41b8-a8dd-d9c09ff6c35a",
+   * "epoch":1,"offset":"","SequenceNumber":0 }`.
+   *
    * @param {EventData} eventData The event data received from the EventHubReceiver.
+   * @return {Promise<void>}
    */
-  updateCheckpointDataFromEventData(eventData: EventData): void {
-    if (eventData && eventData.annotations) {
-      const anno = eventData.annotations;
-      if (anno[Constants.enqueuedTime]) {
-        this._checkpointDetails.epoch = anno[Constants.enqueuedTime] as number;
+  async checkpointFromEventData(eventData: EventData): Promise<void> {
+    await this._persistCheckpoint(CheckpointInfo.createFromEventData(this.partitionId, eventData));
+  }
+
+  /**
+   * @ignore
+   */
+  async getInitialOffset(): Promise<EventPosition> {
+    const startingCheckpoint = await this._context.checkpointManager.getCheckpoint(this.partitionId);
+    let result: EventPosition;
+    if (!startingCheckpoint) {
+      log.partitionContext("[%s] User provided initial offset: %s",
+        this._context.hostName, this._context.initialOffset);
+      result = this._context.initialOffset || EventPosition.fromOffset(this._offset);
+    } else {
+      if (startingCheckpoint.offset != undefined) this._offset = startingCheckpoint.offset;
+      if (startingCheckpoint.sequenceNumber != undefined) this._sequenceNumber = startingCheckpoint.sequenceNumber;
+      result = EventPosition.fromOffset(this._offset);
+      log.partitionContext("[%s] Retrieved starting offset/sequence number: %s/%d",
+        this._context.hostName, this._offset, this._sequenceNumber);
+    }
+    log.partitionContext("[%s] Initial position provider offset: %s, sequenceNumber: %d, enqueuedTime: %d",
+      this._context.hostName, result.offset, result.sequenceNumber, result.enqueuedTime);
+    return result;
+  }
+
+  /**
+   * @ignore
+   */
+  private async _persistCheckpoint(checkpoint: CheckpointInfo): Promise<void> {
+    try {
+      const inStoreCheckpoint = await this._context.checkpointManager.getCheckpoint(checkpoint.partitionId);
+      if (inStoreCheckpoint == undefined || checkpoint.sequenceNumber >= inStoreCheckpoint.sequenceNumber) {
+        if (inStoreCheckpoint == undefined) {
+          await this._context.checkpointManager.createCheckpointIfNotExists(checkpoint.partitionId);
+        }
+        await this._context.checkpointManager.updateCheckpoint(this.lease, checkpoint);
+        this.lease.offset = checkpoint.offset;
+        this.lease.sequenceNumber = checkpoint.sequenceNumber;
+      } else {
+        const msg = `Ignoring out of date checkpoint with offset: '${checkpoint.offset}', ` +
+          `sequenceNumber: ${checkpoint.sequenceNumber} because currently persisted checkpoint ` +
+          ` has higher offset '${inStoreCheckpoint.offset}', sequenceNumber ` +
+          `${inStoreCheckpoint.sequenceNumber}.`;
+        log.error("[%s] %s", this._context.hostName, msg);
+        throw new Error(msg);
       }
-      if (anno[Constants.offset]) {
-        this._checkpointDetails.offset = anno[Constants.offset] as string;
-      }
-      if (anno[Constants.sequenceNumber]) {
-        this._checkpointDetails.sequenceNumber = anno[Constants.sequenceNumber] as number;
-      }
-      debug("Updated checkpoint data from event data is: %O", this._checkpointDetails);
+    } catch (err) {
+      const msg = `An error occurred while checkpointing info for partition ` +
+        `"${checkpoint.partitionId}": ${err ? err.stack : JSON.stringify(err)}.`;
+      log.error("[%s] %s", this._context.hostName, msg);
+      throw err;
     }
   }
 }

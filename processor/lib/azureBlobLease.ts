@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import * as debugModule from "debug";
 import { LeaseInfo, Lease } from "./lease";
 import { AzureBlob } from "./azureBlob";
-
-const debug = debugModule("azure:event-hubs:eph:bloblease");
+import * as log from "./log";
 
 export interface AzureBlobLeaseInfo extends LeaseInfo {
   /**
@@ -17,7 +15,7 @@ export interface AzureBlobLeaseInfo extends LeaseInfo {
 export class AzureBlobLease extends Lease implements AzureBlobLeaseInfo {
   /**
    * @property {AzureBlob} blob Reference to the azure blob.
-  */
+   */
   blob: AzureBlob;
 
   constructor(info: AzureBlobLeaseInfo) {
@@ -34,9 +32,15 @@ export class AzureBlobLease extends Lease implements AzureBlobLeaseInfo {
     try {
       const result = await this.blob.getBlobProperties();
       const currentState: string | undefined = result.lease ? result.lease.state : undefined;
+      log.azurebloblease("[%s] Current state for the lease '%s' for partitionId: '%s' is: '%s'.",
+        this.owner, this.token, this.partitionId, currentState);
       expired = currentState !== "leased";
+      log.azurebloblease("[%s] lease '%s' for partitionId: '%s' expired -> %s.",
+        this.owner, this.token, this.partitionId, expired);
     } catch (err) {
-      debug("An error occurred while determining whether the blob is expired: %O", err);
+      log.error("[%s] An error occurred while determining whether the blob " +
+        "is expired for lease '%s' for partitionId '%s': %O", this.owner, this.token,
+        this.partitionId, err);
     }
     return expired;
   }

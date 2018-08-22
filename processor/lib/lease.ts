@@ -1,6 +1,33 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import * as log from "./log";
+
+/**
+ * Represents an error that occurs when the service lease has been lost.
+ * @class LeaseLostError
+ */
+export class LeaseLostError extends Error {
+  /**
+   * @property {string} partitionId The partitionId where the error occurred.
+   * @readonly
+   */
+  readonly partitionId: string;
+  /**
+   * @property {Error} innerError The inner error from Azure Storage.
+   * @readonly
+   */
+  readonly innerError: Error;
+
+  constructor(id: string, message: string, error: Error) {
+    super(message);
+    this.partitionId = id;
+    this.name = "LeaseLostError";
+    this.innerError = error;
+  }
+}
+
+
 /**
  * Describes the properties of a generic Lease.
  * @interface LeaseInfo
@@ -102,7 +129,10 @@ export class Lease implements BaseLease {
    * @returns {Promise<boolean>} Promise<boolean> `true` - expired. `false` - not expired.
    */
   async isExpired(): Promise<boolean> {
-    return false;
+    const result = false;
+    log.lease("[%s] Lease '%s' with partitionId '%s' has expired -> %s.", this.owner,
+      this.token, this.partitionId, result);
+    return result;
   }
 
   /**
@@ -110,21 +140,34 @@ export class Lease implements BaseLease {
    * @returns {number} The incremented value of the epoch.
    */
   incrementEpoch(): number {
-    return ++this.epoch;
+    const result = ++this.epoch;
+    log.lease("[%s] Lease '%s' with partitionId '%s' new epoch is %s.", this.owner,
+      this.token, this.partitionId, result);
+    return result;
   }
 
+  /**
+   * Serializes the lease information.
+   * @returns {string} string The serialized lease info.
+   */
   serialize(): string {
     return JSON.stringify(this.getInfo());
   }
 
+  /**
+   * Gets the lease information.
+   * @returns {LeaseInfo} LeaseInfo.
+   */
   getInfo(): LeaseInfo {
-    return {
+    const info: LeaseInfo = {
       partitionId: this.partitionId,
       owner: this.owner,
       epoch: this.epoch,
       sequenceNumber: this.sequenceNumber,
       token: this.token,
       offset: this.offset
-    }
+    };
+    log.lease("[%s] Lease info is: %o", this.owner, info);
+    return info;
   }
 }

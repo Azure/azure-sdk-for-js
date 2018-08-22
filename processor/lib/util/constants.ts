@@ -10,3 +10,5 @@ export const sequenceNumberAnnotation = `amqp.annotation.${sequenceNumber}`;
 export const message = "message";
 export const error = "error";
 export const ensureContainerAndBlob = "ensureContainerAndBlob";
+export const minLeaseDurationInSeconds = 15;
+export const maxLeaseDurationInSeconds = 60;
