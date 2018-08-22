@@ -2,52 +2,70 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as uuid from "uuid/v4";
-import * as debugModule from "debug";
-import { BlobLeaseManager, LeaseManager } from "./blobLeaseManager";
-import { BlobLease, Lease } from "./blobLease";
-import { PartitionContext } from "./partitionContext";
-import { EventEmitter } from "events";
 import {
-  TokenProvider, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation,
-  ReceiveOptions, EventPosition, OnMessage, OnError, MessagingError, EventHubClient, ClientOptions,
-  Dictionary, EventData, ReceiveHandler, ClientOptionsBase
+  TokenProvider, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, EventPosition,
+  MessagingError, EventHubClient, ClientOptions, EventData, ClientOptionsBase
 } from "azure-event-hubs";
 import {
   ApplicationTokenCredentials, UserTokenCredentials,
   DeviceTokenCredentials, MSITokenCredentials
 } from "ms-rest-azure";
+import * as log from "./log";
+import { LeaseManager } from "./leaseManager";
+import { PartitionContext } from "./partitionContext";
+import { ProcessorContext } from "./processorContext";
+import { PartitionManager } from "./partitionManager";
+import { CheckpointManager } from "./checkpointManager";
 
-const debug = debugModule("azure:event-hubs:eph:host");
-
-/**
- * Describes the event handler signature for the "ephost:opened" event.
- */
-export type OnEphOpen = (context: PartitionContext) => void;
-
-/**
- * Describes the event handler signature for the "ephost:message" event.
- */
-export type OnEphMessage = (context: PartitionContext, eventData: EventData) => void;
 
 /**
- * Describes the event handler signature for the "ephost:closed" event.
+ * Provides information about internal errors that occur while managing partitions or leases for
+ * the partitions.
+ * @interface EPHDiagnosticInfo
  */
-export type OnEphClose = (context: PartitionContext, reason?: any) => void;
-
-/**
- * A function that takes a partition ID and return true/false for whether we should
- *  attempt to grab the lease and watch it.
- */
-export type PartitionFilter = (id: string | number) => boolean;
-
-export interface StartEPHOptions {
+export interface EPHDiagnosticInfo {
   /**
-   * @property {PartitionFilter} [partitionFilter] Predicate that takes a partition ID and return
-   * true/false for whether we should attempt to grab the lease and watch it.
-   * If not provided, all partitions will be tried.
+   * @property {string} hostName The name of the host that experienced the error. Allows
+   * distinguishing the error source if multiple hosts in a single process.
    */
-  partitionFilter?: PartitionFilter;
+  hostName: string;
+  /**
+   * @property {string} partitionId The partitionId that experienced the error. Allows
+   * distinguishing the error source if multiple hosts in a single process.
+   */
+  partitionId: string;
+  /**
+   * @property {string} action A short string that indicates what general activity threw the exception.
+   */
+  action: string;
+  /**
+   * @property {any} error The error that was thrown.
+   */
+  error: any;
 }
+
+/**
+ * Describes the error handler signature to receive notifcation for general errors.
+ *
+ * Errors which occur while processing events from a particular EventHub partition are delivered
+ * to the `onError` handler provided in the `start()` method. This handler is called on
+ * occasions when an error occurs while managing partitions or leases for the partitions.
+ * @function
+ */
+export type OnEphError = (error: EPHDiagnosticInfo) => void;
+
+/**
+ * Describes the message handler signature for messages received from an EventHub.
+ * @function
+ */
+export type OnReceivedMessage = (context: PartitionContext, eventData: EventData) => void;
+
+/**
+ * Describes the message handler signature for errors that occur while receiving messages from an
+ * EventHub.
+ * @function
+ */
+export type OnReceivedError = (error: MessagingError | Error) => void;
 
 /**
  * Describes the optional parameters that can be provided for creating an EventProcessorHost.
@@ -66,7 +84,13 @@ export interface EventProcessorOptions extends ClientOptionsBase {
    */
   consumerGroup?: string;
   /**
-   * @property {LeaseManager} [LeaseManager] A manager to manage leases. Default: BlobLeaseManager.
+   * @property {CheckpointManager} [checkpointManager] A manager to manage checkpoints other
+   * than Azure Storage. Default: `AzureStorageCheckpointLeaseManager`.
+   */
+  checkpointManager?: CheckpointManager;
+  /**
+   * @property {LeaseManager} [LeaseManager] A manager to manage leases. Default:
+   * `AzureStorageCheckpointLeaseManager`.
    */
   leaseManager?: LeaseManager;
   /**
@@ -79,10 +103,29 @@ export interface EventProcessorOptions extends ClientOptionsBase {
    */
   storageBlobPrefix?: string;
   /**
-   * @property {boolean} [autoCheckpoint] Automatically checkpoint the offset on behalf of the
-   * customer. Default value: `true`.
+   * @property {OnEphError} [onEphError] Error handler that can be provided to receive notifcation
+   * for general errors.
+   *
+   * Errors which occur while processing events from a particular EventHub partition are delivered
+   * to the `onError` handler provided in the `start()` method. This handler is called on
+   * occasions when an error occurs while managing partitions or leases for the partitions.
    */
-  autoCheckpoint?: boolean;
+  onEphError?: OnEphError;
+  /**
+   * @property {number} [leaseRenewInterval] The sleep interval **in seconds** between scans.
+   * Default: `10` seconds.
+   *
+   * Allows a lease manager implementation to specify to PartitionManager how often it should
+   * scan leases and renew them. In order to redistribute leases in a timely fashion after a host
+   * ceases operating, we recommend a relatively short interval, such as ten seconds. Obviously it
+   * should be less than half of the lease length, to prevent accidental expiration.
+   */
+  leaseRenewInterval?: number;
+  /**
+   * @property {number} [leaseDuration] Duration of a lease **in seconds** before it expires
+   * unless renewed. Default: `30` seconds.
+   */
+  leaseDuration?: number;
 }
 
 /**
@@ -108,45 +151,18 @@ export interface ConnectionStringBasedOptions extends EventProcessorOptions {
  * Describes the Event Processor Host to process events from an EventHub.
  * @class EventProcessorHost
  */
-export class EventProcessorHost extends EventEmitter {
+export class EventProcessorHost {
   /**
-   * Opened: Triggered whenever a partition obtains its lease. The PartitionContext is passed to
-   * the event listener.
+   * @property {ProcessorContextWithLeaseManager} _context The processor context.
+   * @private
    */
-  static opened: string = "ephost:opened";
+  private _context: ProcessorContext;
   /**
-   * Closed: Triggered whenever a partition loses its lease and has to stop receiving,
-   * or when the host is shut down. The PartitionContext and the closing reason is passed to the
-   * event listener.
+   * @property {PartitionManager} _partitionManager The partition manager responsible for managing
+   * receivers for different partitions within an EventHub.
+   * @private
    */
-  static closed: string = "ephost:closed";
-  /**
-   * Message: Triggered whenever a message comes in on a given partition. The PartitionContext and
-   * EventData is passed to the event listener.
-   */
-  static message: string = "ephost:message";
-
-  /**
-   * Error: Triggered when an error occurs on a given receiver. The EventHubsError or a generic
-   * Error object is passed the event listener.
-   */
-  static error: string = "ephost:error";
-  /**
-   * @property {boolean} autoCheckpoint Automatically checkpoint the offset on behalf of the
-   * customer. Default value: `true`.
-   */
-  autoCheckpoint: boolean = true;
-
-  private _hostName: string;
-  private _consumerGroup: string;
-  private _storageConnectionString: string;
-  private _eventHubClient: EventHubClient;
-  private _leaseManager: LeaseManager;
-  private _contextByPartition?: Dictionary<PartitionContext>;
-  private _receiverByPartition?: Dictionary<ReceiveHandler>;
-  private _initialOffset?: EventPosition;
-  private _leasecontainerName: string;
-  private _storageBlobPrefix?: string;
+  private _partitionManager: PartitionManager;
 
   /**
    * Creates a new host to process events from an Event Hub.
@@ -160,37 +176,26 @@ export class EventProcessorHost extends EventEmitter {
    * @param {EventProcessorOptions} [options] Optional parameters for creating an
    * EventProcessorHost.
    */
-  constructor(hostName: string, storageConnectionString: string, eventHubClient: EventHubClient, options?: EventProcessorOptions) {
-    super();
-
-
-
+  constructor(hostName: string, storageConnectionString: string, eventHubClient: EventHubClient,
+    options?: EventProcessorOptions) {
     if (!options) options = {};
-    this._eventHubClient = eventHubClient;
-    this._storageConnectionString = storageConnectionString;
-    this._hostName = hostName;
-    this._consumerGroup = options.consumerGroup || "$default";
-    this._leaseManager = options.leaseManager || new BlobLeaseManager(hostName);
-    this._leasecontainerName = options.leasecontainerName || this._hostName;
-    this._initialOffset = options.initialOffset;
-    this._contextByPartition = {};
-    this._receiverByPartition = {};
-    if (options.storageBlobPrefix) this._storageBlobPrefix = options.storageBlobPrefix;
-    if (options.autoCheckpoint === false) this.autoCheckpoint = false;
+    this._context = ProcessorContext.create(hostName, storageConnectionString,
+      eventHubClient, options);
+    this._partitionManager = new PartitionManager(this._context);
   }
 
   /**
    * Provides the host name for the Event processor host.
    */
   get hostName(): string {
-    return this._hostName;
+    return this._context.hostName;
   }
 
   /**
    * Provides the consumer group name for the Event processor host.
    */
   get consumerGroup(): string {
-    return this._consumerGroup;
+    return this._context.consumerGroup;
   }
 
   /**
@@ -198,7 +203,7 @@ export class EventProcessorHost extends EventEmitter {
    * @returns {Promise<EventHubRuntimeInformation>}
    */
   async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
-    return await this._eventHubClient.getHubRuntimeInformation();
+    return await this._context.eventHubClient.getHubRuntimeInformation();
   }
 
   /**
@@ -208,7 +213,7 @@ export class EventProcessorHost extends EventEmitter {
    * @returns {EventHubPartitionRuntimeInformation} EventHubPartitionRuntimeInformation
    */
   async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
-    return await this._eventHubClient.getPartitionInformation(partitionId);
+    return await this._context.eventHubClient.getPartitionInformation(partitionId);
   }
 
   /**
@@ -216,90 +221,22 @@ export class EventProcessorHost extends EventEmitter {
    * @returns {Promise<string[]>}
    */
   async getPartitionIds(): Promise<string[]> {
-    return this._eventHubClient.getPartitionIds();
+    return this._context.eventHubClient.getPartitionIds();
   }
 
   /**
-   * Starts the event processor host, fetching the list of partitions, (optionally) filtering
-   * them, and attempting to grab leases on the (filtered) set. For each successful lease, will
-   * get the details from the blob and start a receiver at the point where it left off previously.
+   * Starts the event processor host, fetching the list of partitions, and attempting to grab leases
+   * For each successful lease, it will get the details from the blob and start a receiver at the
+   * point where it left off previously.
    *
-   * @param {StartEPHOptions} [options] Optional parameters that can be provided while starting the
-   * EPH.
    * @return {Promise<void>}
    */
-  async start(options?: StartEPHOptions): Promise<void> {
+  async start(onMessage: OnReceivedMessage, onError: OnReceivedError): Promise<void> {
     try {
-      if (!options) options = {};
-      this._contextByPartition = {};
-      this._receiverByPartition = {};
-      this._leaseManager.reset();
-      // Acquired lease.
-      this._leaseManager.on(BlobLeaseManager.acquired, async (lease: Lease) => {
-        const id = lease.partitionId!;
-        try {
-          debug("Acquired lease on partitionId: '%s'.", id);
-          await this._attachReceiver(id as string);
-        } catch (err) {
-          debug("An error occurred while attaching the receiver for partition '%s': %O", id, err);
-        }
-      });
-      // Lost lease.
-      this._leaseManager.on(BlobLeaseManager.lost, async (lease: Lease) => {
-        const id = lease.partitionId!;
-        try {
-          debug("Lost lease on on partitionId: '%s'.", id);
-          await this._detachReceiver(id, "Lease lost.");
-        } catch (err) {
-          debug("An error occurred while detaching the receiver for partition '%s': %O", id, err);
-        }
-      });
-      // Released lease.
-      this._leaseManager.on(BlobLeaseManager.released, async (lease: Lease) => {
-        const id = lease.partitionId!;
-        try {
-          debug("Released lease on partitionId: '%s'.", lease.partitionId);
-          await this._detachReceiver(id, "Lease released.");
-        } catch (err) {
-          debug("An error occurred while detaching the receiver for partition '%s': %O", id, err);
-        }
-      });
-      // Renewed lease.
-      this._leaseManager.on(BlobLeaseManager.renewed, async (lease: Lease) => {
-        const id = lease.partitionId!;
-        try {
-          debug("Renewed lease on partitionId: '%s'.", id);
-          if (this.autoCheckpoint) {
-            debug("[EPH - %s] Autocheckpoint is enabled, hence checkpointing the event metadata.",
-              this._hostName);
-            const info = await this._contextByPartition![id].checkpoint();
-            debug(">>>> [EPH - %s] Successfully checkpointed info '%o' for partition '%s'.",
-              this._hostName, info, id);
-          }
-        } catch (err) {
-          debug("[EPH - %s] An error occurred while checkpointing information for partition '%s': %O",
-            this._hostName, id, err);
-        }
-      });
-
-      const ids = await this._eventHubClient.getPartitionIds();
-      for (let i = 0; i < ids.length; i++) {
-        const id = ids[i];
-        if (options.partitionFilter && !options.partitionFilter(id)) {
-          debug("Skipping partition id: '%s'.", id);
-          continue;
-        }
-        debug("Managing lease for partition id: '%s'", id);
-        const blobPath = this._storageBlobPrefix
-          ? `${this._storageBlobPrefix.trim()}${this._consumerGroup}/${id}`
-          : `${this._consumerGroup}/${id}`;
-        const lease = new BlobLease(this._hostName, this._storageConnectionString,
-          this._leasecontainerName, blobPath);
-        lease.partitionId = id;
-        this._contextByPartition![id] = new PartitionContext(id, this._hostName, lease);
-        this._leaseManager.manageLease(lease);
-      }
+      await this._partitionManager.start(onMessage, onError);
     } catch (err) {
+      log.error("[%s] An error occurred while starting the EPH: %O", this._context.hostName, err);
+      this._context.onEphError(err);
       throw err;
     }
   }
@@ -308,81 +245,13 @@ export class EventProcessorHost extends EventEmitter {
    * Stops the EventProcessorHost from processing messages.
    * @return {Promise<void>}
    */
-  stop(): Promise<void> {
-    const unmanage = (l: Lease) => { return this._leaseManager.unmanageLease(l); };
-    const releases: any = [];
-    for (const partitionId in this._contextByPartition!) {
-      if (!this._contextByPartition!.hasOwnProperty(partitionId)) continue;
-      const id = partitionId;
-      const context = this._contextByPartition![id];
-      releases.push(this._detachReceiver(id).then(unmanage.bind(undefined, context.lease)));
-    }
-    return Promise.all(releases).then(() => {
-      this._leaseManager.reset();
-      this._contextByPartition = {};
-      return this._eventHubClient.close();
-    }).catch((err) => {
-      debug("An error occurred while stopping the eph '%s': %O.", this._hostName, err);
-    });
-  }
-
-  private async _attachReceiver(partitionId: string): Promise<ReceiveHandler> {
-    const context = this._contextByPartition![partitionId];
-    if (!context) {
-      throw new Error(`Invalid state - missing context for partition "${partitionId}".`);
-    }
-    const checkpoint = await context.updateCheckpointInfoFromLease();
-    let eventPosition: EventPosition | undefined = undefined;
-    if (checkpoint && checkpoint.offset) {
-      eventPosition = EventPosition.fromOffset(checkpoint.offset);
-      debug("[%s] [EPH - '%s'] While creating the receiver, setting the event position " +
-        "to the offset: '%s'.", this._eventHubClient.connectionId, this._hostName,
-        eventPosition.getExpression());
-    } else if (this._initialOffset) {
-      // Since there is no checkpoint offset and the initial offset was provided we shall start
-      // receiving events from that position.
-      eventPosition = this._initialOffset;
-      debug("[%s] [EPH - '%s'] While creating the receiver, setting the event position to " +
-        "the provided initial offset: '%s'.", this._eventHubClient.connectionId,
-        this._hostName, eventPosition.getExpression());
-    }
-    let receiveHandler: ReceiveHandler;
-    const rcvrOptions: ReceiveOptions = {
-      consumerGroup: this._consumerGroup,
-      eventPosition: eventPosition
-    };
-    const onMessage: OnMessage = (eventData: EventData) => {
-      context.updateCheckpointDataFromEventData(eventData);
-      this.emit(EventProcessorHost.message, context, eventData);
-    };
-    const onError: OnError = (error: MessagingError | Error) => {
-      debug("[%s] [EPH - '%s'] Receiver '%s' received an error: %O.",
-        this._eventHubClient.connectionId, this._hostName, receiveHandler.name, error);
-      this.emit(EventProcessorHost.error, error);
-    };
-    receiveHandler = this._eventHubClient.receive(partitionId, onMessage, onError, rcvrOptions);
-    debug("[%s] [EPH - '%s'] Attaching receiver '%s' for partition '%s' with offset: %s",
-      this._eventHubClient.connectionId, this._hostName, receiveHandler.name,
-      partitionId, (checkpoint ? checkpoint.offset : "None"));
-    this.emit(EventProcessorHost.opened, context);
-    this._receiverByPartition![partitionId] = receiveHandler;
-    return receiveHandler;
-  }
-
-  private async _detachReceiver(partitionId: string, reason?: string): Promise<void> {
-    const receiveHandler = this._receiverByPartition![partitionId];
-    const context = this._contextByPartition![partitionId];
+  async stop(): Promise<void> {
     try {
-      if (receiveHandler) {
-        delete this._receiverByPartition![partitionId];
-        await receiveHandler.stop();
-        debug("[%s] [EPH - '%s'] Closed the receiver '%s'.", this._eventHubClient.connectionId,
-          this._hostName, receiveHandler.name);
-        this.emit(EventProcessorHost.closed, context, reason);
-      }
+      await this._partitionManager.stop();
     } catch (err) {
-      debug("[%s] [EPH - '%s'] Receiver '%s' received an error: %O.",
-        this._eventHubClient.connectionId, this._hostName, receiveHandler.name, err);
+      log.error("[%s] An error occurred while stopping the EPH: %O", this._context.hostName, err);
+      this._context.onEphError(err);
+      throw err;
     }
   }
 

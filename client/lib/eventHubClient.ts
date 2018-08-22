@@ -94,6 +94,15 @@ export class EventHubClient {
    * @property {string} [connectionId] The amqp connection id that uniquely identifies the connection within a process.
    */
   connectionId?: string;
+
+  /**
+   * @property {string} eventhubName The name of the Eventhub.
+   * @readonly
+   */
+  get eventhubName(): string {
+    return this._context.config.entityPath!;
+  }
+
   /**
    * @property {ConnectionContext} _context Describes the amqp connection context for the eventhub client.
    * @private
