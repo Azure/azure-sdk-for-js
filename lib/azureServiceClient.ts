@@ -41,6 +41,13 @@ export class AzureServiceClient extends ServiceClient {
   constructor(credentials: ServiceClientCredentials, options?: AzureServiceClientOptions) {
     super(credentials, options = updateOptionsWithDefaultValues(options));
 
+    // For convenience, if the credentials have an associated AzureEnvironment,
+    // automatically use the baseUri from that environment.
+    const env = (credentials as any).environment;
+    if (env && !this.baseUri) {
+      this.baseUri = env.resourceManagerEndpointUrl;
+    }
+
     if (options.acceptLanguage != undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
