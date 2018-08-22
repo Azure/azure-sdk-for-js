@@ -67,6 +67,10 @@ export abstract class LROPollStrategy {
 
   protected abstract doFinalGetResourceRequest(): Promise<void>;
 
+  public getMostRecentResponse(): HttpOperationResponse {
+    return this._pollState.mostRecentResponse;
+  }
+
   public async getOperationResponse(): Promise<HttpOperationResponse> {
     if (this.shouldDoFinalGetResourceRequest()) {
       await this.doFinalGetResourceRequest();
@@ -417,7 +421,7 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
       const statusCode: number = response.status;
       const parsedResponse: any = response.parsedBody;
       if (statusCode !== 200 && statusCode !== 201 && statusCode !== 202 && statusCode !== 204) {
-        const error = new RestError(`Invalid status code with response body "${response.bodyAsText}" occurred when polling for operation status.`);
+        const error = new RestError(`Invalid status code (${statusCode}) with response body "${response.bodyAsText}" occurred when polling for operation status.`);
         error.statusCode = statusCode;
         error.request = stripRequest(response.request);
         error.response = response;

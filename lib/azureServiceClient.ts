@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { HttpOperationResponse, RequestOptionsBase, RequestPrepareOptions, ServiceClient, ServiceClientCredentials, ServiceClientOptions, WebResource } from "ms-rest-js";
+import { HttpOperationResponse, OperationArguments, OperationSpec, RequestOptionsBase, RequestPrepareOptions, ServiceClient, ServiceClientCredentials, ServiceClientOptions, WebResource } from "ms-rest-js";
 import { createLROPollerFromInitialResponse, createLROPollerFromPollState, LROPoller } from "./lroPoller";
 import { LROPollState } from "./lroPollStrategy";
 import * as Constants from "./util/constants";
@@ -53,13 +53,27 @@ export class AzureServiceClient extends ServiceClient {
   }
 
   /**
+   * Send the initial request of a LRO (long running operation) and get back an
+   * LROPoller that provides methods for polling the LRO and checking if the LRO is finished.
+   * @param operationArguments The arguments to the operation.
+   * @param operationSpec The specification for the operation.
+   * @param options Additional options to be sent while making the request.
+   * @returns The LROPoller object that provides methods for interacting with the LRO.
+   */
+  sendLRORequest(operationArguments: OperationArguments, operationSpec: OperationSpec, options?: RequestOptionsBase): Promise<LROPoller> {
+    return this.sendOperationRequest(operationArguments, operationSpec)
+      .then((initialResponse: HttpOperationResponse) => createLROPollerFromInitialResponse(this, initialResponse, options));
+  }
+
+  /**
    * Provides a mechanism to make a request that will poll and provide the final result.
    * @param {msRest.RequestPrepareOptions|msRest.WebResource} request - The request object
    * @param {AzureRequestOptionsBase} [options] Additional options to be sent while making the request
    * @returns {Promise<msRest.HttpOperationResponse>} The HttpOperationResponse containing the final polling request, response and the responseBody.
    */
-  async sendLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
-    return this.beginLongRunningRequest(request, options).then((lroResponse: LROPoller) => lroResponse.pollUntilFinished());
+  sendLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
+    return this.beginLongRunningRequest(request, options)
+      .then((lroResponse: LROPoller) => lroResponse.pollUntilFinished());
   }
 
   /**
@@ -71,8 +85,9 @@ export class AzureServiceClient extends ServiceClient {
    * @returns {Promise<LROPoller>} The HttpLongRunningOperationResponse
    * that provides methods for interacting with the LRO.
    */
-  async beginLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<LROPoller> {
-    return this.sendRequest(request).then((initialResponse: HttpOperationResponse) => createLROPollerFromInitialResponse(this, initialResponse, options));
+  beginLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<LROPoller> {
+    return this.sendRequest(request)
+      .then((initialResponse: HttpOperationResponse) => createLROPollerFromInitialResponse(this, initialResponse, options));
   }
 
   /**
@@ -81,7 +96,7 @@ export class AzureServiceClient extends ServiceClient {
    * @param {AzureRequestOptionsBase} [options] - custom request options.
    * @returns {Promise<HttpOperationResponse>} The final response after polling is complete.
    */
-  async getLongRunningOperationResult(initialResponse: HttpOperationResponse, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
+  getLongRunningOperationResult(initialResponse: HttpOperationResponse, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
     const lroResponse: LROPoller = createLROPollerFromInitialResponse(this, initialResponse, options);
     return lroResponse.pollUntilFinished();
   }

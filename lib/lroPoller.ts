@@ -20,6 +20,21 @@ export class LROPoller {
   }
 
   /**
+   * Get the first response that the service sent back when the LRO was initiated.
+   */
+  public getInitialResponse(): HttpOperationResponse {
+    return this._initialResponse;
+  }
+
+  /**
+   * Get the most recent response that the service sent back during this LRO.
+   */
+  public getMostRecentResponse(): HttpOperationResponse {
+    const lroPollStrategy: LROPollStrategy | undefined = this._lroPollStrategy;
+    return !lroPollStrategy ? this._initialResponse : lroPollStrategy.getMostRecentResponse();
+  }
+
+  /**
    * Get whether or not the LRO is finished.
    */
   public isFinished(): boolean {
