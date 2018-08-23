@@ -11,18 +11,24 @@ const path = process.env[entityPath] || "";
 const storageCS = process.env[storageConnectionString];
 const ehCS = process.env[ehconnectionString];
 const leasecontainerName = "test-container";
-const ephName = "my-eph";
+const ephName1 = "eph-1";
+const ephName2 = "eph-2";
 
 /**
  * The main function that executes the sample.
  */
 async function main() {
-  // 1. Start eph.
-  const eph = await startEph(ephName);
-  // 2. Sleeeping for 90 seconds. This will give time for eph to receive messages.
+  // 1. Start eph-1.
+  const eph1 = await startEph(ephName1);
+  await sleep(20);
+  // 2. After 20 seconds start eph-2.
+  const eph2 = await startEph(ephName2);
   await sleep(90);
-  // 3. After 90 seconds stop eph.
-  await stopEph(eph);
+  // 3. Now, load will be evenly balanced between eph-1 and eph-2. After 90 seconds stop eph-1.
+  await stopEph(eph1);
+  await sleep(40);
+  // 4. Now, eph-1 will regain access to all the partitions and will close after 40 seconds.
+  await stopEph(eph2);
 }
 
 // calling the main().
@@ -47,7 +53,7 @@ async function sleep(timeInSeconds: number): Promise<void> {
 async function startEph(ephName: string): Promise<EventProcessorHost> {
   // Create the Event Processo Host
   const eph = EventProcessorHost.createFromConnectionString(
-    EventProcessorHost.createHostName(ephName),
+    ephName,
     storageCS!,
     ehCS!,
     {

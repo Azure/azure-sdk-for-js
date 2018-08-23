@@ -6,7 +6,9 @@ import { Dictionary, validateType } from "./util/utils";
 import { Lease } from "./lease";
 import { CheckpointInfo } from "./checkpointInfo";
 import { LeaseManager } from "./leaseManager";
-import { delay, ReceiveOptions, OnMessage, EventData, ReceiveHandler, OnError, MessagingError, EventPosition } from "azure-event-hubs";
+import {
+  delay, ReceiveOptions, OnMessage, EventData, ReceiveHandler, OnError, MessagingError, EventPosition
+} from "azure-event-hubs";
 import * as log from "./log";
 import { OnReceivedMessage, OnReceivedError, EPHDiagnosticInfo } from "./eventProcessorHost";
 import { PartitionContext } from "./partitionContext";
@@ -343,7 +345,8 @@ export class PartitionManager {
       log.partitionManager("[%s] Grab more leases if available and needed for load balancing.",
         this._context.hostName);
       if (leasesOwnedByOthers.length > 0) {
-        const stealThisLease: Lease | undefined = this._whichLeaseToSteal(leasesOwnedByOthers, ourLeaseCount);
+        const stealThisLease: Lease | undefined = this._whichLeaseToSteal(leasesOwnedByOthers,
+          ourLeaseCount);
         if (stealThisLease) {
           try {
             if (await leaseManager.acquireLease(stealThisLease)) {
@@ -476,8 +479,8 @@ export class PartitionManager {
       }
       if (reason !== CloseReason.leaseLost) {
         try {
-          log.partitionManager("[%s] Releasing lease after closing the receiver for partitionId '%s' " +
-            "due to reason '%s'.", this._context.hostName, partitionId, reason);
+          log.partitionManager("[%s] Releasing lease after closing the receiver for partitionId " +
+            "'%s' due to reason '%s'.", this._context.hostName, partitionId, reason);
           await this._context.leaseManager.releaseLease(partitionContext.lease);
         } catch (err) {
           const msg = `An error occurred while releasing the lease %s the receiver ` +
@@ -518,29 +521,33 @@ export class PartitionManager {
 
     let stealThisLease: Lease | undefined;
 
-    // If the number of leases is a multiple of the number of hosts, then the desired configuration is
-    // that all hosts own the name number of leases, and the difference between the "biggest" owner and
-    // any other is 0.
+    // If the number of leases is a multiple of the number of hosts, then the desired configuration
+    // is that all hosts own the name number of leases, and the difference between the "biggest"
+    // owner and any other is 0.
     //
-    // If the number of leases is not a multiple of the number of hosts, then the most even configuration
-    // possible is for some hosts to have (leases/hosts) leases and others to have ((leases/hosts) + 1).
-    // For example, for 16 partitions distributed over five hosts, the distribution would be 4, 3, 3, 3, 3,
-    // or any of the possible reorderings.
+    // If the number of leases is not a multiple of the number of hosts, then the most even
+    // configuration possible is for some hosts to have (leases/hosts) leases and others to have
+    // ((leases/hosts) + 1). For example, for 16 partitions distributed over five hosts, the
+    // distribution would be 4, 3, 3, 3, 3, or any of the possible reorderings.
     //
-    // In either case, if the difference between this host and the biggest owner is 2 or more, then the
-    // system is not in the most evenly-distributed configuration, so steal one lease from the biggest.
-    // If there is a tie for biggest, we pick whichever appears first in the list because
-    // it doesn't really matter which "biggest" is trimmed down.
+    // In either case, if the difference between this host and the biggest owner is 2 or more,
+    // then the system is not in the most evenly-distributed configuration, so steal one lease
+    // from the biggest. If there is a tie for biggest, we pick whichever appears first in the
+    // list because it doesn't really matter which "biggest" is trimmed down.
     //
-    // Stealing one at a time prevents flapping because it reduces the difference between the biggest and
-    // this host by two at a time. If the starting difference is two or greater, then the difference cannot
-    // end up below 0. This host may become tied for biggest, but it cannot become larger than the host that
-    // it is stealing from.
+    // Stealing one at a time prevents flapping because it reduces the difference between the
+    // biggest and this host by two at a time. If the starting difference is two or greater,
+    // then the difference cannot end up below 0. This host may become tied for biggest, but
+    // it cannot become larger than the host that it is stealing from.
+
     log.partitionManager("[%s] The biggest owner is: %o", this._context.hostName, biggestOwner);
     if ((biggestOwner[0][1] as number) - heaveLeaseCount >= 2) {
-      stealThisLease = stealableLeases.find((l) => { return l.owner === biggestOwner[0][0]; }) as Lease;
+      stealThisLease = stealableLeases.find((l) => {
+        return l.owner === biggestOwner[0][0];
+      }) as Lease;
     }
-    log.partitionManager("[%s] The lease to be stolen is: %O", this._context.hostName, stealThisLease);
+    log.partitionManager("[%s] The lease to be stolen is: %O", this._context.hostName,
+      stealThisLease ? stealThisLease.getInfo() : undefined);
     return stealThisLease;
   }
 
