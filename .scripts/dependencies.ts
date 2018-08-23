@@ -105,7 +105,7 @@ export function getThisRepositoryFolderPath(): string {
  * Get the absolute path to the package.json in this repository.
  * @returns {string} The absolute path to the package.json.
  */
-function getPackageJsonFilePath(packageFolder?: string): string {
+function getPackageJsonFilePath(packageFolder: string): string {
   return resolvePath(packageFolder, "package.json");
 }
 
@@ -244,7 +244,7 @@ function updateGeneratedPackageDependencyVersion(codeFilePath: string, dependenc
 
 function regularExpressionReplace(filePath: string, fileContents: string, dependencyName: string, regularExpression: RegExp, newValue: string, newDependencyVersion: string): string {
   let newFileContents: string = fileContents;
-  const match: RegExpMatchArray = fileContents.match(regularExpression);
+  const match: RegExpMatchArray | null = fileContents.match(regularExpression);
   if (match) {
     if (match[1] === newDependencyVersion) {
       log(filePath, `"${dependencyName}" is already set to "${newDependencyVersion}".`);
@@ -340,18 +340,18 @@ export function getLocalDependencyVersion(dependencyName: string): string {
   return `file:${getLocalRepositoryPath(dependencyName)}`;
 }
 
-export function getPreviewDependencyVersion(dependencyName: string): string {
-  let version: string = addTildePrefix(getNpmPackageVersion(dependencyName, "preview"));
+export function getPreviewDependencyVersion(dependencyName: string): string | undefined {
+  let version: string | undefined = addTildePrefix(getNpmPackageVersion(dependencyName, "preview"));
   if (!version) {
     version = getLatestDependencyVersion(dependencyName);
   }
   return version;
 }
 
-export function getLatestDependencyVersion(dependencyName: string): string {
+export function getLatestDependencyVersion(dependencyName: string): string | undefined {
   return addTildePrefix(getNpmPackageVersion(dependencyName, "latest"));
 }
 
-function addTildePrefix(version: string): string {
+function addTildePrefix(version: string | undefined): string | undefined {
   return version ? `~${version}` : version;
 }
