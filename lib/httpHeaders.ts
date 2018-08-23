@@ -88,7 +88,7 @@ export class HttpHeaders {
     const result: RawHttpHeaders = {};
     for (const headerKey in this._headersMap) {
       const header: HttpHeader = this._headersMap[headerKey];
-      result[header.name] = header.value;
+      result[header.name.toLowerCase()] = header.value;
     }
     return result;
   }
