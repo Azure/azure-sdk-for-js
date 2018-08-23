@@ -87,6 +87,7 @@ export class PartitionContext {
       partitionId: this.partitionId,
       sequenceNumber: this._sequenceNumber
     };
+    log.partitionContext("[%s] Checkpointing: %O", this._context.hostName, capturedCheckpoint);
     await this._persistCheckpoint(capturedCheckpoint);
   }
 
@@ -101,7 +102,9 @@ export class PartitionContext {
    * @return {Promise<void>}
    */
   async checkpointFromEventData(eventData: EventData): Promise<void> {
-    await this._persistCheckpoint(CheckpointInfo.createFromEventData(this.partitionId, eventData));
+    const data = CheckpointInfo.createFromEventData(this.partitionId, eventData);
+    log.partitionContext("[%s] Checkpointing from ED: %O", this._context.hostName, data);
+    await this._persistCheckpoint(data);
   }
 
   /**
@@ -136,6 +139,7 @@ export class PartitionContext {
         if (inStoreCheckpoint == undefined) {
           await this._context.checkpointManager.createCheckpointIfNotExists(checkpoint.partitionId);
         }
+        log.partitionContext("[%s] Persisting the checkpoint: %O.", this._context.hostName, checkpoint);
         await this._context.checkpointManager.updateCheckpoint(this.lease, checkpoint);
         this.lease.offset = checkpoint.offset;
         this.lease.sequenceNumber = checkpoint.sequenceNumber;
@@ -149,7 +153,7 @@ export class PartitionContext {
       }
     } catch (err) {
       const msg = `An error occurred while checkpointing info for partition ` +
-        `"${checkpoint.partitionId}": ${err ? err.stack : JSON.stringify(err)}.`;
+        `'${checkpoint.partitionId}': ${err ? err.stack : JSON.stringify(err)}.`;
       log.error("[%s] %s", this._context.hostName, msg);
       throw err;
     }

@@ -2,8 +2,9 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import { createBlobService, BlobService as StorageBlobService, ServiceResponse } from "azure-storage";
-import { validateType } from "./util/utils";
 import * as log from "./log";
+import { validateType, getStorageError } from "./util/utils";
+import { defaultMaximumExecutionTimeInMs } from "./util/constants";
 
 export interface CreateContainerResult {
   created: StorageBlobService.ContainerResult;
@@ -21,6 +22,7 @@ export class BlobService {
     this._hostName = hostName;
     this._connectionString = connectionString;
     this._storageBlobService = createBlobService(this._connectionString);
+    this._storageBlobService.defaultMaximumExecutionTimeInMs = defaultMaximumExecutionTimeInMs;
   }
 
   /**
@@ -44,11 +46,11 @@ export class BlobService {
     validateType("containerName", containerName, true, "string");
 
     return new Promise<CreateContainerResult>((resolve, reject) => {
-      log.blobService("[%s] Ensuring that the container '%s' exists.", containerName);
+      log.blobService("[%s] Ensuring that the container '%s' exists.", this._hostName, containerName);
       this._storageBlobService.createContainerIfNotExists(containerName, (error, result, response) => {
         if (error) {
           log.error("[%s] An error occurred while ensuring that the container '%s' exists: %O",
-            this._hostName, containerName, error);
+            this._hostName, containerName, getStorageError(error));
           reject(error);
         } else {
           const containerInfo = { created: result, details: response };
@@ -67,7 +69,7 @@ export class BlobService {
       this._storageBlobService.doesContainerExist(containerName, (error, result) => {
         if (error) {
           log.error("[%s] An error occurred while determining whether the container " +
-            "'%s' exists: % O.", this._hostName, containerName, error);
+            "'%s' exists: % O.", this._hostName, containerName, getStorageError(error));
           reject(error);
         } else {
           log.blobService("[%s] Does container '%s' exist -> %s.", this._hostName,
@@ -86,7 +88,7 @@ export class BlobService {
       this._storageBlobService.doesBlobExist(containerName, blobPath, (error, result) => {
         if (error) {
           log.error("[%s] An error occurred while determining whether the blob '%s' exists in " +
-            "container '%s': %O", this._hostName, blobPath, containerName, error);
+            "container '%s': %O", this._hostName, blobPath, containerName, getStorageError(error));
           reject(error);
         } else {
           log.blobService("[%s] Does blob '%s' exist in container '%s' -> %s.", this._hostName,
@@ -117,7 +119,7 @@ export class BlobService {
             resolve();
           } else {
             log.error("[%s] An error occurred while ensuring that blob '%s' exists in " +
-              "container '%s': %O", this._hostName, blobPath, containerName, error);
+              "container '%s': %O", this._hostName, blobPath, containerName, getStorageError(error));
             reject(error);
           }
         } else {
@@ -141,11 +143,11 @@ export class BlobService {
       this._storageBlobService.renewLease(containerName, blobPath, leaseId, options, (error, result) => {
         if (error) {
           log.error("[%s] An error occurred while renewing lease '%s' for blobPath '%s': %O.",
-            this._hostName, leaseId, blobPath, error);
+            this._hostName, leaseId, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Renewed lease with leaseId: '%s' and the result is: %O.",
-            this._hostName, leaseId, result);
+          log.blobService("[%s] Renewed lease with leaseId: '%s' for blobPath '%s'.",
+            this._hostName, leaseId, blobPath);
           resolve(result);
         }
       });
@@ -166,11 +168,11 @@ export class BlobService {
       this._storageBlobService.releaseLease(containerName, blobPath, leaseId, options, (error, result) => {
         if (error) {
           log.error("[%s] An error occurred while releasing lease '%s' for blobPath '%s': %O.",
-            this._hostName, leaseId, blobPath, error);
+            this._hostName, leaseId, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Released lease with leaseId: '%s' and the result is: %O.",
-            this._hostName, leaseId, result);
+          log.blobService("[%s] Released lease with leaseId: '%s' for blobPath '%s'.",
+            this._hostName, leaseId, blobPath);
           resolve(result);
         }
       });
@@ -197,10 +199,11 @@ export class BlobService {
       this._storageBlobService.createBlockBlobFromText(containerName, blobPath, text, options, (error, result) => {
         if (error) {
           log.error("[%s] An error occurred while updating content '%s' to blobPath '%s': %O.",
-            this._hostName, text, blobPath, error);
+            this._hostName, text, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Updated blob content '%s' and the result is %O.", this._hostName, text, result);
+          log.blobService("[%s] Updated blob content '%s' for blobPath '%s'.", this._hostName,
+            text, blobPath);
           resolve(result);
         }
       });
@@ -225,11 +228,11 @@ export class BlobService {
       this._storageBlobService.getBlobToText(containerName, blobPath, options, (error, text, result) => {
         if (error) {
           log.error("[%s] An error occurred while getting content from blobPath '%s': %O.",
-            this._hostName, blobPath, error);
+            this._hostName, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Fetched blob content '%s' for blobpath '%s' and the result is %O.",
-            this._hostName, text, result, blobPath);
+          log.blobService("[%s] Fetched blob content '%s' for blobPath '%s'.",
+            this._hostName, text, blobPath);
           resolve(text);
         }
       });
@@ -253,8 +256,8 @@ export class BlobService {
               "'%s': %O.", this._hostName, currentLeaseId, proposedLeaseId, blobPath, error);
             reject(error);
           } else {
-            log.blobService("[%s] Changed current lease '%s' with proposed lease '%s' and " +
-              "the result is: %O.", this._hostName, currentLeaseId, proposedLeaseId, result);
+            log.blobService("[%s] Changed current lease '%s' with proposed lease '%s' for blobPath '%s'.",
+              this._hostName, currentLeaseId, proposedLeaseId, blobPath);
             resolve(result);
           }
         });
@@ -271,7 +274,7 @@ export class BlobService {
       this._storageBlobService.getBlobProperties(containerName, blobPath, (error, result) => {
         if (error) {
           log.error("[%s] An error occurred while getting blob props for blobPath '%s': %O.",
-            this._hostName, blobPath, error);
+            this._hostName, blobPath, getStorageError(error));
           reject(error);
         } else {
           resolve(result);
@@ -293,11 +296,11 @@ export class BlobService {
       this._storageBlobService.acquireLease(containerName, blobPath, options, (error, result) => {
         if (error) {
           log.error("[%s] An error occurred while acquiring lease for blobPath '%s': %O.",
-            this._hostName, blobPath, error);
+            this._hostName, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Acquired lease and the result is: %O.",
-            this._hostName, result);
+          log.blobService("[%s] Acquired lease '%s' for blobPath '%s.",
+            this._hostName, result.id, blobPath);
           resolve(result);
         }
       });
@@ -314,7 +317,7 @@ export class BlobService {
       this._storageBlobService.deleteBlobIfExists(containerName, blobPath, (error, result) => {
         if (error) {
           log.error("[%s] An error occurred while deleting blob for blobPath '%s': %O.",
-            this._hostName, blobPath, error);
+            this._hostName, blobPath, getStorageError(error));
           reject(error);
         } else {
           log.blobService("[%s] Deleted blob '%s' ->  %s.", this._hostName, blobPath, result);
