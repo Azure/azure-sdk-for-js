@@ -7,19 +7,13 @@ import { CheckpointManager } from "./checkpointManager";
 import { LeaseManager } from "./leaseManager";
 import { BaseProcessorContext } from "./processorContext";
 import { AzureBlob } from "./azureBlob";
-import { validateType } from "./util/utils";
+import { validateType, getStorageError } from "./util/utils";
 import { Lease, LeaseInfo, LeaseLostError } from "./lease";
 import { AzureBlobLease, AzureBlobLeaseInfo } from "./azureBlobLease";
 import { BlobService as StorageBlobService, StorageError } from "azure-storage";
 import * as log from "./log";
+import { maximumExecutionTimeInMsForLeaseRenewal } from "./util/constants";
 
-/**
- * @ignore
- */
-export interface LeaseManagerOptions {
-  leaseRenewInterval?: number;
-  leaseDuration?: number;
-}
 
 /**
  * @ignore
@@ -29,11 +23,10 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
   leaseDuration: number;
   private _context: BaseProcessorContext;
 
-  constructor(context: BaseProcessorContext, options?: LeaseManagerOptions) {
-    if (!options) options = {};
+  constructor(context: BaseProcessorContext) {
     this._context = context;
-    this.leaseDuration = options.leaseDuration || 30;
-    this.leaseRenewInterval = options.leaseRenewInterval || 10;
+    this.leaseDuration = this._context.leaseDuration;
+    this.leaseRenewInterval = this._context.leaseRenewInterval;
   }
 
   getAzureBlob(partitionId: string): AzureBlob {
@@ -83,6 +76,8 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     validateType("partitionId", partitionId, true, "string");
     let result: Lease | undefined;
     const blob = this.getAzureBlob(partitionId);
+    log.checkpointLeaseMgr("[%s] Getting lease for partitionId '%s'.", this._context.hostName,
+      partitionId);
     if (await blob.doesBlobExist()) {
       result = await this.downloadLease(partitionId, blob);
     }
@@ -114,8 +109,6 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       };
       await blob.updateContent(jsonLease, options);
     } catch (error) {
-      log.error("[%s] An error occurred while creating lease if it does not exist: %O.",
-        this._context.hostName, error);
       const statusCode = (error as StorageError).statusCode;
       const code = (error as StorageError).code;
       // https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-error-codes
@@ -124,6 +117,8 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
         (statusCode === 409 && code && code.toLowerCase() === "blobalreadyexists")) {
         returnLease = <AzureBlobLease>await this.getLease(partitionId);
       } else {
+        log.error("[%s] An error occurred while creating lease if it does not exist: %O.",
+          this._context.hostName, error);
         throw error;
       }
     }
@@ -192,8 +187,8 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     const blobLease: AzureBlobLease = lease as AzureBlobLease;
     try {
       const options: StorageBlobService.LeaseRequestOptions = {
-        timeoutIntervalInMs: this.leaseRenewInterval,
-        maximumExecutionTimeInMs: 60000
+        timeoutIntervalInMs: this.leaseRenewInterval * 1000,
+        maximumExecutionTimeInMs: maximumExecutionTimeInMsForLeaseRenewal
       };
       await blobLease.blob.renewLease(lease.token, options);
     } catch (err) {
@@ -229,7 +224,9 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       return false;
     }
 
-    // First, renew the lease to make sure the update will go through.
+    log.checkpointLeaseMgr("[%s] Let us renew the lease to make sure the update with offset '%s'" +
+      "and sequence number %d will go through.", this._context.hostName, lease.offset,
+      lease.sequenceNumber);
     await this.renewLease(lease);
     try {
       const jsonToUpload = lease.serialize();
@@ -244,15 +241,19 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
   }
 
   async checkpointStoreExists(): Promise<boolean> {
+    log.checkpointLeaseMgr("[%s] Checking whether the checkpoint store exists.", this._context.hostName);
     return await this.leaseStoreExists();
   }
 
   async createCheckpointStoreIfNotExists(): Promise<boolean> {
+    log.checkpointLeaseMgr("[%s] Creating checkpointstore if not exist.", this._context.hostName);
     return this.createLeaseStoreIfNotExists();
   }
 
   async createCheckpointIfNotExists(partitionId: string): Promise<CheckpointInfo> {
     validateType("partitionId", partitionId, true, "string");
+    log.checkpointLeaseMgr("[%s] Creating checkpoint if not exist for partitionId '%s'.",
+      this._context.hostName, partitionId);
     const lease: AzureBlobLease = <AzureBlobLease>await this.createLeaseIfNotExists(partitionId);
     const checkpoint: CheckpointInfo = CheckpointInfo.createFromLease(lease.getInfo());
     return checkpoint;
@@ -261,6 +262,8 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
   async getCheckpoint(partitionId: string): Promise<CheckpointInfo | undefined> {
     validateType("partitionId", partitionId, true, "string");
     let result: CheckpointInfo | undefined;
+    log.checkpointLeaseMgr("[%s] Getting checkpoint for partitionId '%s'.", this._context.hostName,
+      partitionId);
     const lease: Lease | undefined = await this.getLease(partitionId);
     if (lease != undefined && lease.offset != undefined) {
       result = CheckpointInfo.createFromLease(lease.getInfo());
@@ -281,8 +284,8 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
   }
 
   private _handleStorageError(partitionId: string, err: StorageError): Error {
-    log.error("[%s] HandleStorageError -> partitionid: '%s', err: %O", this._context.hostName,
-      partitionId, err);
+    log.error("[%s] HandleStorageError -> partitionId: '%s', err: %O", this._context.hostName,
+      partitionId, getStorageError(err));
     const statusCode = err.statusCode;
     const code = err.code;
     // conflict OR precondition failed.

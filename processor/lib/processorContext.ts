@@ -8,9 +8,12 @@ import { EventProcessorOptions, OnEphError } from "./eventProcessorHost";
 import { validateType, Dictionary } from "./util/utils";
 import { BlobService } from "./blobService";
 import { AzureBlob } from "./azureBlob";
-import { AzureStorageCheckpointLeaseManager, LeaseManagerOptions } from "./azureStorageCheckpointLeaseManager";
+import { AzureStorageCheckpointLeaseManager } from "./azureStorageCheckpointLeaseManager";
 import { CheckpointManager } from "./checkpointManager";
-import { maxLeaseDurationInSeconds, minLeaseDurationInSeconds } from './util/constants';
+import {
+  maxLeaseDurationInSeconds, minLeaseDurationInSeconds, defaultLeaseRenewIntervalInSeconds,
+  defaultLeaseDurationInSeconds, defaultConsumerGroup
+} from './util/constants';
 
 /**
  * @ignore
@@ -86,6 +89,14 @@ export namespace ProcessorContext {
     const onEphErrorFunc: OnEphError = () => {
       // do nothing
     };
+
+    // set defaults
+    if (!options.consumerGroup) options.consumerGroup = defaultConsumerGroup;
+    if (!options.leasecontainerName) options.leasecontainerName = hostName;
+    if (!options.leaseRenewInterval) options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
+    if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
+    if (!options.onEphError) options.onEphError = onEphErrorFunc;
+
     const context: BaseProcessorContext = {
       hostName: hostName,
       storageConnectionString: storageConnectionString,
@@ -94,16 +105,16 @@ export namespace ProcessorContext {
       contextByPartition: {},
       receiverByPartition: {},
       blobReferenceByPartition: {},
-      consumerGroup: options.consumerGroup || "$default",
-      leasecontainerName: options.leasecontainerName || hostName,
-      leaseRenewInterval: options.leaseRenewInterval || 10,
-      leaseDuration: options.leaseDuration || 30,
+      consumerGroup: options.consumerGroup,
+      leasecontainerName: options.leasecontainerName,
+      leaseRenewInterval: options.leaseRenewInterval,
+      leaseDuration: options.leaseDuration,
       initialOffset: options.initialOffset,
       storageBlobPrefix: options.storageBlobPrefix,
       composedBlobPrefix: options.storageBlobPrefix
         ? `${options.storageBlobPrefix.trim()}${options.consumerGroup}/`
         : `${options.consumerGroup}/`,
-      onEphError: options.onEphError || onEphErrorFunc
+      onEphError: options.onEphError
     };
     _validateLeaseDurationAndRenewInterval(context.leaseDuration, context.leaseRenewInterval);
     _validateLeaseContainerName(context.leasecontainerName);
@@ -117,11 +128,7 @@ export namespace ProcessorContext {
     validateType("options.checkpointManager", options.checkpointManager, false, "object");
 
     const ctxt = _create(hostName, storageConnectionString, eventHubClient, options);
-    const lmo: LeaseManagerOptions = {
-      leaseDuration: ctxt.leaseDuration,
-      leaseRenewInterval: ctxt.leaseRenewInterval
-    };
-    const checkpointLeaseManager = new AzureStorageCheckpointLeaseManager(ctxt, lmo);
+    const checkpointLeaseManager = new AzureStorageCheckpointLeaseManager(ctxt);
     (ctxt as ProcessorContext).leaseManager = options.leaseManager || checkpointLeaseManager;
     (ctxt as ProcessorContext).checkpointManager = options.checkpointManager || checkpointLeaseManager;
 

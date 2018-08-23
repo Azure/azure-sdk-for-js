@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as AsyncLock from "async-lock";
+import { StorageError } from 'azure-storage';
 
 export interface AsyncLockOptions {
   /**
@@ -177,4 +178,28 @@ export function validateType(paramName: string, paramValue: any, required: boole
         `"string", "number", "boolean", "Array", "object", "Date", "function"`);
     }
   }
+}
+
+/**
+ * @ignore
+ */
+export interface StorageErrorInfo {
+  name: string;
+  message: string;
+  statusCode: number;
+  code: string;
+  requestId: string;
+}
+
+/**
+ * @ignore
+ */
+export function getStorageError(err: StorageError): StorageErrorInfo {
+  return {
+    name: err.name,
+    message: err.message,
+    statusCode: err.statusCode!,
+    code: err.code!,
+    requestId: err.requestId!
+  };
 }

@@ -6,7 +6,7 @@ import { Dictionary, validateType } from "./util/utils";
 import { Lease } from "./lease";
 import { CheckpointInfo } from "./checkpointInfo";
 import { LeaseManager } from "./leaseManager";
-import { delay, ReceiveOptions, OnMessage, EventData, ReceiveHandler, OnError, MessagingError } from "azure-event-hubs";
+import { delay, ReceiveOptions, OnMessage, EventData, ReceiveHandler, OnError, MessagingError, EventPosition } from "azure-event-hubs";
 import * as log from "./log";
 import { OnReceivedMessage, OnReceivedError, EPHDiagnosticInfo } from "./eventProcessorHost";
 import { PartitionContext } from "./partitionContext";
@@ -74,6 +74,8 @@ export class PartitionManager {
     if (this._runTask) {
       throw new Error("A partition manager cannot be started multiple times.");
     }
+    this._onMessage = onMessage;
+    this._onError = onError;
     await this._initializeStores();
     this._runTask = this._run();
   }
@@ -96,6 +98,20 @@ export class PartitionManager {
       }
     }
     this._runTask = undefined;
+  }
+
+  /**
+   * @ignore
+   */
+  private async _reset(): Promise<void> {
+    log.partitionManager("[%s] Resetting the partition manager.", this._context.hostName);
+    this._context.receiverByPartition = {};
+    this._context.contextByPartition = {};
+    this._context.blobReferenceByPartition = {};
+    this._onMessage = undefined;
+    this._onError = undefined;
+    log.partitionManager("[%s] Closing the event hub client.", this._context.hostName);
+    await this._context.eventHubClient.close();
   }
 
   /**
@@ -139,6 +155,8 @@ export class PartitionManager {
     this._isCancelRequested = false;
     this._context.contextByPartition = {};
     this._context.receiverByPartition = {};
+    validateType("this._onMessage", this._onMessage, true, "function");
+    validateType("this._onError", this._onError, true, "function");
     log.partitionManager("[%s] Ensuring that the lease store exists.", this._context.hostName);
     const leaseManager = this._context.leaseManager;
     const checkpointManager = this._context.checkpointManager;
@@ -374,7 +392,10 @@ export class PartitionManager {
           });
         }
       }
-      await delay(leaseManager.leaseRenewInterval);
+      log.partitionManager("[%s] Sleeping for %d seconds.", this._context.hostName,
+        leaseManager.leaseRenewInterval);
+      await delay(leaseManager.leaseRenewInterval * 1000);
+      log.partitionManager("[%s] Ready for next iteration...", this._context.hostName);
     }
   }
 
@@ -390,8 +411,8 @@ export class PartitionManager {
           this._context.hostName, receiveHandler.address, receiveHandler.epoch, isOpen);
         await this._removeReceiver(partitionId, CloseReason.shutdown);
       } else {
-        log.partitionManager("[%s] Updating lease for receiver '%s'.", this._context.hostName,
-          receiveHandler.address);
+        log.partitionManager("[%s] Updating lease for receiver '%s' since it is open -> %s.",
+          this._context.hostName, receiveHandler.address, isOpen);
         if (this._context.contextByPartition[partitionId]) {
           this._context.contextByPartition[partitionId].lease = lease;
         } else {
@@ -402,7 +423,8 @@ export class PartitionManager {
         }
       }
     } else {
-      // add a new receiver
+      log.partitionManager("[%s] Creating a new receiver for partitionId '%s' with lease %o.",
+        this._context.hostName, partitionId, lease.getInfo());
       await this._createNewReceiver(partitionId, lease);
     }
   }
@@ -413,7 +435,7 @@ export class PartitionManager {
   private async _createNewReceiver(partitionId: string, lease: Lease): Promise<void> {
     const partitionContext = new PartitionContext(this._context, partitionId, lease);
     this._context.contextByPartition[partitionId] = partitionContext;
-    const eventPosition = await partitionContext.getInitialOffset();
+    const eventPosition: EventPosition = await partitionContext.getInitialOffset();
     let receiveHandler: ReceiveHandler;
     const rcvrOptions: ReceiveOptions = {
       consumerGroup: this._context.consumerGroup,
@@ -440,9 +462,13 @@ export class PartitionManager {
     const partitionContext = this._context.contextByPartition[partitionId];
     if (receiveHandler) {
       try {
+        log.partitionManager("[%s] Removing receiver '%s' for partitionId '%s' due to reason '%s'.",
+          this._context.hostName, receiveHandler.name, partitionId, reason);
         delete this._context.receiverByPartition[partitionId];
         delete this._context.contextByPartition[partitionId];
         await receiveHandler.stop();
+        log.partitionManager("[%s] Successfully stopped the receiver '%s' for partitionId '%s' " +
+          "due to reason '%s'.", this._context.hostName, receiveHandler.name, partitionId, reason);
       } catch (err) {
         const msg = `An error occurred while closing the receiver '${receiveHandler.address}' : ` +
           `${err ? err.stack : JSON.stringify(err)}`;
@@ -450,6 +476,8 @@ export class PartitionManager {
       }
       if (reason !== CloseReason.leaseLost) {
         try {
+          log.partitionManager("[%s] Releasing lease after closing the receiver for partitionId '%s' " +
+            "due to reason '%s'.", this._context.hostName, partitionId, reason);
           await this._context.leaseManager.releaseLease(partitionContext.lease);
         } catch (err) {
           const msg = `An error occurred while releasing the lease %s the receiver ` +
@@ -474,19 +502,9 @@ export class PartitionManager {
     for (const id of Object.keys(this._context.receiverByPartition)) {
       tasks.push(this._removeReceiver(id, reason));
     }
+    log.partitionManager("[%s] Removing all the receivers due to reason %s.",
+      this._context.hostName, reason);
     await Promise.all(tasks);
-  }
-
-  /**
-   * @ignore
-   */
-  private async _reset(): Promise<void> {
-    this._context.receiverByPartition = {};
-    this._context.contextByPartition = {};
-    this._context.blobReferenceByPartition = {};
-    this._onMessage = undefined;
-    this._onError = undefined;
-    await this._context.eventHubClient.close();
   }
 
   /**
@@ -535,9 +553,8 @@ export class PartitionManager {
         result[l.owner] += 1;
       }
     }
-    log.partitionManager("[%s] Owner to lease count mapping.", this._context.hostName);
-    log.partitionManager("[%s] %O", result);
-    log.partitionManager("[%s] Total hosts: %d.", this._context.hostName, Object.keys(result));
+    log.partitionManager("[%s] Owner to lease count mapping: \n%O.", this._context.hostName, result);
+    log.partitionManager("[%s] Total hosts: %d.", this._context.hostName, Object.keys(result).length);
     return result;
   }
 }
