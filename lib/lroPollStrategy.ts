@@ -163,13 +163,7 @@ function getOperationResponse(operationSpec: OperationSpec, response: HttpOperat
   let result: OperationResponse | undefined = operationResponses[statusCode];
   if (!result) {
     if (statusCode === 200) {
-      for (const expectedStatusCode of [201, 202]) {
-        const operationResponse: OperationResponse | undefined = operationResponses[expectedStatusCode];
-        if (operationResponse) {
-          result = operationResponse;
-          break;
-        }
-      }
+      result = operationResponses[201] || operationResponses[202];
     } else if (201 <= statusCode && statusCode <= 299) {
       result = {};
     }
