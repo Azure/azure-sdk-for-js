@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { delay, HttpMethods, HttpOperationResponse, RequestOptionsBase, RequestPrepareOptions, RestError, stripRequest, WebResource } from "ms-rest-js";
+import { delay, HttpMethods, HttpOperationResponse, RequestOptionsBase, RestError, stripRequest, WebResource, OperationResponse, OperationSpec } from "ms-rest-js";
 import { AzureServiceClient } from "./azureServiceClient";
 import { LongRunningOperationStates } from "./util/constants";
 
@@ -114,8 +114,8 @@ export abstract class LROPollStrategy {
     return error;
   }
 
-  protected updateState(url: string): Promise<void> {
-    return this.updateOperationStatus(url).then(result => {
+  protected updateState(url: string, shouldDeserialize: boolean | ((response: HttpOperationResponse) => boolean)): Promise<void> {
+    return this.updateOperationStatus(url, shouldDeserialize).then(result => {
       this._pollState.state = getProvisioningState(result.parsedBody) || "Succeeded";
       this._pollState.mostRecentResponse = result;
       this._pollState.mostRecentRequest = result.request;
@@ -135,18 +135,18 @@ export abstract class LROPollStrategy {
    * Retrieves operation status by querying the operation URL.
    * @param {string} statusUrl URL used to poll operation result.
    */
-  protected updateOperationStatus(statusUrl: string): Promise<HttpOperationResponse> {
+  protected updateOperationStatus(statusUrl: string, shouldDeserialize: boolean | ((response: HttpOperationResponse) => boolean)): Promise<HttpOperationResponse> {
     const requestUrl: string = statusUrl.replace(" ", "%20");
-    const httpRequest: RequestPrepareOptions = {
-      method: "GET",
-      url: requestUrl,
-      headers: {}
-    };
-    const options: RequestOptionsBase | undefined = this._pollState.options;
+    const httpRequest = new WebResource(requestUrl, "GET");
+    const pollState: LROPollState = this._pollState;
+    httpRequest.operationSpec = pollState.mostRecentRequest.operationSpec;
+    httpRequest.shouldDeserialize = shouldDeserialize;
+    httpRequest.operationResponseGetter = getOperationResponse;
+    const options: RequestOptionsBase | undefined = pollState.options;
     if (options && options.customHeaders) {
       const customHeaders = options.customHeaders;
       for (const headerName of Object.keys(customHeaders)) {
-        httpRequest.headers![headerName] = customHeaders[headerName];
+        httpRequest.headers.set(headerName, customHeaders[headerName]);
       }
     }
     return this._azureServiceClient.sendRequest(httpRequest);
@@ -155,6 +155,20 @@ export abstract class LROPollStrategy {
   public getPollState(): LROPollState {
     return this._pollState;
   }
+}
+
+function getOperationResponse(operationSpec: OperationSpec, response: HttpOperationResponse): OperationResponse | undefined {
+  const statusCode: number = response.status;
+  const operationResponses: { [statusCode: string]: OperationResponse } = operationSpec.responses;
+  let result: OperationResponse | undefined = operationResponses[statusCode];
+  if (!result) {
+    if (statusCode === 200) {
+      result = operationResponses[201] || operationResponses[202];
+    } else if (201 <= statusCode && statusCode <= 299) {
+      result = {};
+    }
+  }
+  return result;
 }
 
 export function getDelayInSeconds(azureServiceClient: AzureServiceClient, previousResponse: HttpOperationResponse): number {
@@ -174,16 +188,24 @@ export function getDelayInSeconds(azureServiceClient: AzureServiceClient, previo
 }
 
 function getProvisioningState(responseBody: any): LongRunningOperationStates | undefined {
-  return responseBody && responseBody.properties && responseBody.properties.provisioningState;
+  let result: LongRunningOperationStates | undefined;
+  if (responseBody) {
+    if (responseBody.provisioningState) {
+      result = responseBody.provisioningState;
+    } else if (responseBody.properties) {
+      result = responseBody.properties.provisioningState;
+    }
+  }
+  return result;
 }
 
 function getResponseBody(response: HttpOperationResponse): any {
   let result: any;
   try {
-    if (response.bodyAsText && response.bodyAsText.length > 0) {
-      result = JSON.parse(response.bodyAsText);
-    } else {
+    if (response.parsedBody) {
       result = response.parsedBody;
+    } else if (response.bodyAsText && response.bodyAsText.length > 0) {
+      result = JSON.parse(response.bodyAsText);
     }
   } catch (error) {
     const deserializationError = new RestError(`Error "${error}" occurred in parsing the responseBody " +
@@ -315,6 +337,20 @@ function getLocationHeaderValue(response: HttpOperationResponse): string | undef
  * A long-running operation polling strategy that is based on the location header.
  */
 class LocationLROPollStrategy extends LROPollStrategy {
+  private locationStrategyShouldDeserialize(parsedResponse: HttpOperationResponse): boolean {
+    let shouldDeserialize = false;
+
+    const initialResponse: HttpOperationResponse = this._pollState.initialResponse;
+    const initialRequestMethod: HttpMethods = initialResponse.request.method;
+    const statusCode: number = parsedResponse.status;
+    if (statusCode === 200 ||
+      (statusCode === 201 && (initialRequestMethod === "PUT" || initialRequestMethod === "PATCH")) ||
+      (statusCode === 204 && (initialRequestMethod === "DELETE" || initialRequestMethod === "POST"))) {
+      shouldDeserialize = true;
+    }
+
+    return shouldDeserialize;
+  }
   /**
    * Retrieve PUT operation status by polling from "location" header.
    * @param {string} method - The HTTP method.
@@ -322,7 +358,7 @@ class LocationLROPollStrategy extends LROPollStrategy {
    */
   public sendPollRequest(): Promise<void> {
     const lroPollState: LROPollState = this._pollState;
-    return this.updateOperationStatus(lroPollState.locationHeaderValue!).then((result: HttpOperationResponse) => {
+    return this.updateOperationStatus(lroPollState.locationHeaderValue!, this.locationStrategyShouldDeserialize.bind(this)).then((result: HttpOperationResponse) => {
       const locationHeaderValue: string | undefined = getLocationHeaderValue(result);
       if (locationHeaderValue) {
         lroPollState.locationHeaderValue = locationHeaderValue;
@@ -398,7 +434,7 @@ class LocationLROPollStrategy extends LROPollStrategy {
     } else {
       getResourceRequestUrl = initialRequest.url;
     }
-    return this.updateState(getResourceRequestUrl);
+    return this.updateState(getResourceRequestUrl, true);
   }
 }
 
@@ -417,7 +453,7 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
    */
   public sendPollRequest(): Promise<void> {
     const lroPollState: LROPollState = this._pollState;
-    return this.updateOperationStatus(lroPollState.azureAsyncOperationHeaderValue!).then((response: HttpOperationResponse) => {
+    return this.updateOperationStatus(lroPollState.azureAsyncOperationHeaderValue!, false).then((response: HttpOperationResponse) => {
       const statusCode: number = response.status;
       const parsedResponse: any = response.parsedBody;
       if (statusCode !== 200 && statusCode !== 201 && statusCode !== 202 && statusCode !== 204) {
@@ -482,7 +518,7 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
         getResourceRequestUrl = locationHeaderValue;
       }
     }
-    return this.updateState(getResourceRequestUrl);
+    return this.updateState(getResourceRequestUrl, true);
   }
 
   public isFinalStatusAcceptable(): boolean {
@@ -500,7 +536,7 @@ class AzureAsyncOperationLROPollStrategy extends LROPollStrategy {
 class GetResourceLROPollStrategy extends LROPollStrategy {
   public sendPollRequest(): Promise<void> {
     const lroPollState: LROPollState = this._pollState;
-    return this.updateOperationStatus(lroPollState.initialResponse.request.url).then(result => {
+    return this.updateOperationStatus(lroPollState.initialResponse.request.url, false).then(result => {
       const statusCode: number = result.status;
       const responseBody: any = result.parsedBody;
       if (statusCode !== 200 && statusCode !== 201 && statusCode !== 202 && statusCode !== 204) {

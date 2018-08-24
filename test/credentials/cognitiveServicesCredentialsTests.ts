@@ -35,8 +35,8 @@ describe("CognitiveServicesCredentials", () => {
       const signedHttpRequest: WebResource = await credentials.signRequest(httpRequest);
       assert.strictEqual(signedHttpRequest, httpRequest);
       assert.deepEqual(signedHttpRequest.headers.rawHeaders(), {
-        "Ocp-Apim-Subscription-Key": "fake-subscription-key",
-        "X-BingApis-SDK-Client": "node-SDK"
+        "ocp-apim-subscription-key": "fake-subscription-key",
+        "x-bingapis-sdk-client": "node-SDK"
       });
     });
   });
