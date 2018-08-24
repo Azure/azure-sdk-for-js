@@ -30,9 +30,7 @@ export function responseToBody(httpOperationResponseMethod: (...args: any[]) => 
       .then(res => callback(null, res.parsedBody, res.request, res))
       .catch(err => callback(err));
   } else {
-    return httpOperationResponseMethod(...args).then((res: HttpOperationResponse) => {
-      return res.parsedBody;
-    });
+    return httpOperationResponseMethod(...args).then((res: HttpOperationResponse) => res.parsedBody);
   }
   return undefined; // optimized out
 }
