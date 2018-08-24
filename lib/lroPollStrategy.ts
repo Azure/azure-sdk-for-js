@@ -194,7 +194,15 @@ export function getDelayInSeconds(azureServiceClient: AzureServiceClient, previo
 }
 
 function getProvisioningState(responseBody: any): LongRunningOperationStates | undefined {
-  return responseBody && responseBody.properties && responseBody.properties.provisioningState;
+  let result: LongRunningOperationStates | undefined;
+  if (responseBody) {
+    if (responseBody.provisioningState) {
+      result = responseBody.provisioningState;
+    } else if (responseBody.properties) {
+      result = responseBody.properties.provisioningState;
+    }
+  }
+  return result;
 }
 
 function getResponseBody(response: HttpOperationResponse): any {
