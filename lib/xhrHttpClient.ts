@@ -113,13 +113,14 @@ function addProgressListener(xhr: XMLHttpRequestEventTarget, listener?: (progres
   }
 }
 
-function parseHeaders(xhr: XMLHttpRequest) {
+// exported locally for testing
+export function parseHeaders(xhr: XMLHttpRequest) {
   const responseHeaders = new HttpHeaders();
   const headerLines = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/);
   for (const line of headerLines) {
-    const parts = line.split(": ");
-    const headerName = parts.shift()!;
-    const headerValue = parts.join(": ");
+    const index = line.indexOf(":");
+    const headerName = line.slice(0, index);
+    const headerValue = line.slice(index + 2);
     responseHeaders.set(headerName, headerValue);
   }
   return responseHeaders;

@@ -13,69 +13,69 @@ export interface OperationSpec {
   /**
    * The serializer to use in this operation.
    */
-  serializer: Serializer;
+  readonly serializer: Serializer;
 
   /**
    * The HTTP method that should be used by requests for this operation.
    */
-  httpMethod: HttpMethods;
+  readonly httpMethod: HttpMethods;
 
   /**
    * The URL that was provided in the service's specification. This will still have all of the URL
    * template variables in it. If this is not provided when the OperationSpec is created, then it
    * will be populated by a "baseUri" property on the ServiceClient.
    */
-  baseUrl?: string;
+  readonly baseUrl?: string;
 
   /**
    * The fixed path for this operation's URL. This will still have all of the URL template variables
    * in it.
    */
-  path?: string;
+  readonly path?: string;
 
   /**
    * The content type of the request body. This value will be used as the "Content-Type" header if
    * it is provided.
    */
-  contentType?: string;
+  readonly contentType?: string;
 
   /**
    * The parameter that will be used to construct the HTTP request's body.
    */
-  requestBody?: OperationParameter;
+  readonly requestBody?: OperationParameter;
 
   /**
    * Whether or not this operation uses XML request and response bodies.
    */
-  isXML?: boolean;
+  readonly isXML?: boolean;
 
   /**
    * The parameters to the operation method that will be substituted into the constructed URL.
    */
-  urlParameters?: OperationURLParameter[];
+  readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
 
   /**
    * The parameters to the operation method that will be added to the constructed URL's query.
    */
-  queryParameters?: OperationQueryParameter[];
+  readonly queryParameters?: ReadonlyArray<OperationQueryParameter>;
 
   /**
    * The parameters to the operation method that will be converted to headers on the operation's
    * HTTP request.
    */
-  headerParameters?: OperationParameter[];
+  readonly headerParameters?: ReadonlyArray<OperationParameter>;
 
   /**
    * The parameters to the operation method that will be used to create a formdata body for the
    * operation's HTTP request.
    */
-  formDataParameters?: OperationParameter[];
+  readonly formDataParameters?: ReadonlyArray<OperationParameter>;
 
   /**
    * The different types of responses that this operation can return based on what status code is
    * returned.
    */
-  responses: { [responseCode: string]: OperationResponse };
+  readonly responses: { [responseCode: string]: OperationResponse };
 }
 
 export function isStreamOperation(operationSpec: OperationSpec): boolean {
