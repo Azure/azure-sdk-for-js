@@ -6,6 +6,7 @@ import { HttpHeaders, HttpOperationResponse, RequestOptionsBase, RestError, Toke
 import { AzureServiceClient, AzureServiceClientOptions, updateOptionsWithDefaultValues } from "../lib/azureServiceClient";
 import * as msAssert from "./msAssert";
 import { LROPoller } from "../lib/lroPoller";
+import { CloudErrorMapper } from "../lib/cloudError";
 
 describe("AzureServiceClient", () => {
   describe("constructor", () => {
@@ -32,7 +33,7 @@ describe("AzureServiceClient", () => {
   });
 
   describe("sendLRORequest()", () => {
-    it("should include custom headers", async () => {
+    it("with 201 (azure-asyncoperation header), 200 (status: Succeeded), and 200 (resource)", async () => {
       const serviceClient: AzureServiceClient = createServiceClient([
         {
           status: 201,
@@ -49,7 +50,7 @@ describe("AzureServiceClient", () => {
         {
           status: 200,
           body: {
-            a: "A"
+            date: "2015-01-01T00:00:00.000Z"
           }
         }
       ]);
@@ -68,7 +69,28 @@ describe("AzureServiceClient", () => {
         baseUrl: "https://fake.azure.com/",
         path: "longRunningOperation",
         responses: {
-          200: {}
+          200: {
+            bodyMapper: {
+              serializedName: "lroFinalResponseType",
+              required: true,
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  date: {
+                    serializedName: "date",
+                    required: true,
+                    type: {
+                      name: "DateTime"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          201: {},
+          default: {
+            bodyMapper: CloudErrorMapper
+          }
         },
         serializer: new Serializer()
       };
@@ -91,9 +113,229 @@ describe("AzureServiceClient", () => {
 
       const operationResponse: HttpOperationResponse = (await lroPoller.getOperationResponse()) as HttpOperationResponse;
       assert(operationResponse);
-      assert.deepEqual(operationResponse.parsedBody, { a: "A" });
+      assert.deepEqual(operationResponse.parsedBody, { date: new Date("2015-01-01") });
       assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation");
       assert.strictEqual(lroPoller.getMostRecentResponse().request.headers.get("x-ms-client-request-id"), requestId);
+    });
+
+    it("with 201 (location header) and 200 (resource)", async () => {
+      const serviceClient: AzureServiceClient = createServiceClient([
+        {
+          status: 201,
+          headers: new HttpHeaders({
+            "location": "https://fake.azure.com/longRunningOperation2"
+          })
+        },
+        {
+          status: 200,
+          body: {
+            date: "2015-01-02T00:00:00.000Z"
+          }
+        }
+      ]);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "PUT",
+        baseUrl: "https://fake.azure.com/",
+        path: "longRunningOperation",
+        responses: {
+          200: {
+            bodyMapper: {
+              serializedName: "lroFinalResponseType",
+              required: true,
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  date: {
+                    serializedName: "date",
+                    required: true,
+                    type: {
+                      name: "DateTime"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          201: {},
+          default: {
+            bodyMapper: CloudErrorMapper
+          }
+        },
+        serializer: new Serializer()
+      };
+
+      const lroPoller: LROPoller = await serviceClient.sendLRORequest({}, operationSpec);
+      assert.strictEqual(lroPoller.isFinished(), false);
+      assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
+      assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
+      assert.strictEqual(await lroPoller.getOperationResponse(), undefined);
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation");
+
+      assert.strictEqual(await lroPoller.poll(), "Succeeded");
+
+      assert.strictEqual(lroPoller.isFinished(), true);
+      assert.strictEqual(lroPoller.isFinalStatusAcceptable(), true);
+      assert.strictEqual(lroPoller.getOperationStatus(), "Succeeded");
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+
+      const operationResponse: HttpOperationResponse = (await lroPoller.getOperationResponse()) as HttpOperationResponse;
+      assert(operationResponse);
+      assert.deepEqual(operationResponse.parsedBody, { date: new Date("2015-01-02") });
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+    });
+
+    it("with 200 operation response and 202 (location header), 202 (no headers or body), and 200 (status: Succeeded, resource)", async () => {
+      const serviceClient: AzureServiceClient = createServiceClient([
+        {
+          status: 202,
+          headers: new HttpHeaders({
+            "location": "https://fake.azure.com/longRunningOperation2"
+          })
+        },
+        {
+          status: 202
+        },
+        {
+          status: 200,
+          body: {
+            date: "2015-01-03T00:00:00.000Z"
+          }
+        }
+      ]);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "PUT",
+        baseUrl: "https://fake.azure.com/",
+        path: "longRunningOperation",
+        responses: {
+          200: {
+            bodyMapper: {
+              serializedName: "lroFinalResponseType",
+              required: true,
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  date: {
+                    serializedName: "date",
+                    required: true,
+                    type: {
+                      name: "DateTime"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          202: {},
+          default: {
+            bodyMapper: CloudErrorMapper
+          }
+        },
+        serializer: new Serializer()
+      };
+
+      const lroPoller: LROPoller = await serviceClient.sendLRORequest({}, operationSpec);
+      assert.strictEqual(lroPoller.isFinished(), false);
+      assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
+      assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
+      assert.strictEqual(await lroPoller.getOperationResponse(), undefined);
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation");
+
+      assert.strictEqual(await lroPoller.poll(), "InProgress");
+
+      assert.strictEqual(lroPoller.isFinished(), false);
+      assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
+      assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+
+      assert.strictEqual(await lroPoller.poll(), "Succeeded");
+
+      assert.strictEqual(lroPoller.isFinished(), true);
+      assert.strictEqual(lroPoller.isFinalStatusAcceptable(), true);
+      assert.strictEqual(lroPoller.getOperationStatus(), "Succeeded");
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+
+      const operationResponse: HttpOperationResponse = (await lroPoller.getOperationResponse()) as HttpOperationResponse;
+      assert(operationResponse);
+      assert.deepEqual(operationResponse.parsedBody, { date: new Date("2015-01-03") });
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+    });
+
+    it("with 202 operation response and 202 (location header), 202 (no headers or body), and 200 (status: Succeeded, resource)", async () => {
+      const serviceClient: AzureServiceClient = createServiceClient([
+        {
+          status: 202,
+          headers: new HttpHeaders({
+            "location": "https://fake.azure.com/longRunningOperation2"
+          })
+        },
+        {
+          status: 202
+        },
+        {
+          status: 200,
+          body: {
+            date: "2015-01-03T00:00:00.000Z"
+          }
+        }
+      ]);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "PUT",
+        baseUrl: "https://fake.azure.com/",
+        path: "longRunningOperation",
+        responses: {
+          202: {
+            bodyMapper: {
+              serializedName: "lroFinalResponseType",
+              required: true,
+              type: {
+                name: "Composite",
+                modelProperties: {
+                  date: {
+                    serializedName: "date",
+                    required: true,
+                    type: {
+                      name: "DateTime"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          default: {
+            bodyMapper: CloudErrorMapper
+          }
+        },
+        serializer: new Serializer()
+      };
+
+      const lroPoller: LROPoller = await serviceClient.sendLRORequest({}, operationSpec);
+      assert.strictEqual(lroPoller.isFinished(), false);
+      assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
+      assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
+      assert.strictEqual(await lroPoller.getOperationResponse(), undefined);
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation");
+
+      assert.strictEqual(await lroPoller.poll(), "InProgress");
+
+      assert.strictEqual(lroPoller.isFinished(), false);
+      assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
+      assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+
+      assert.strictEqual(await lroPoller.poll(), "Succeeded");
+
+      assert.strictEqual(lroPoller.isFinished(), true);
+      assert.strictEqual(lroPoller.isFinalStatusAcceptable(), true);
+      assert.strictEqual(lroPoller.getOperationStatus(), "Succeeded");
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+
+      const operationResponse: HttpOperationResponse = (await lroPoller.getOperationResponse()) as HttpOperationResponse;
+      assert(operationResponse);
+      assert.deepEqual(operationResponse.parsedBody, { date: new Date("2015-01-03") });
+      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
     });
   });
 
