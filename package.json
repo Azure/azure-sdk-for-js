@@ -25,7 +25,7 @@
     "autorest",
     "clientruntime"
   ],
-  "main": "./lib/msRest.ts",
+  "main": "./dist/lib/msRest.js",
   "module": "./es/lib/msRest.js",
   "types": "./typings/lib/msRest.d.ts",
   "browser": {
