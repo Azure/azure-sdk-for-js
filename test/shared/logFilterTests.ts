@@ -18,7 +18,6 @@ describe("Log filter", () => {
 
   it("should log messages when a logger object is provided", (done) => {
     const expected = `>> Request: {
-  "rawResponse": false,
   "url": "https://foo.com",
   "method": "PUT",
   "headers": {

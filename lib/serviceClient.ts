@@ -8,8 +8,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { OperationArguments } from "./operationArguments";
 import { getPathStringFromParameter, getPathStringFromParameterPath, OperationParameter, ParameterPath } from "./operationParameter";
-import { OperationResponse } from "./operationResponse";
-import { OperationSpec } from "./operationSpec";
+import { isStreamOperation, OperationSpec } from "./operationSpec";
 import { deserializationPolicy } from "./policies/deserializationPolicy";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
@@ -25,7 +24,7 @@ import { URLBuilder } from "./url";
 import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
 import { stringifyXML } from "./util/xml";
-import { RequestPrepareOptions, WebResource, RequestOptionsBase } from "./webResource";
+import { RequestOptionsBase, RequestPrepareOptions, WebResource } from "./webResource";
 
 /**
  * Options to be provided while creating the client.
@@ -293,16 +292,8 @@ export class ServiceClient {
 
       serializeRequestBody(this, httpRequest, operationArguments, operationSpec);
 
-      if (operationSpec.responses) {
-        let rawResponse = false;
-        for (const responseStatusCode in operationSpec.responses) {
-          const responseSpec: OperationResponse = operationSpec.responses[responseStatusCode];
-          if (responseSpec.bodyMapper && responseSpec.bodyMapper.type.name === MapperType.Stream) {
-            rawResponse = true;
-            break;
-          }
-        }
-        httpRequest.rawResponse = rawResponse;
+      if (httpRequest.streamResponseBody == undefined) {
+        httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
       result = this.sendRequest(httpRequest);

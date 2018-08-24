@@ -9,9 +9,10 @@ export { HttpOperationResponse, HttpResponse } from "./httpOperationResponse";
 export { HttpPipelineLogger } from "./httpPipelineLogger";
 export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 export { RestError } from "./restError";
-export { OperationSpec } from "./operationSpec";
 export { OperationArguments } from "./operationArguments";
 export { OperationParameter, OperationQueryParameter, OperationURLParameter } from "./operationParameter";
+export { OperationResponse } from "./operationResponse";
+export { OperationSpec } from "./operationSpec";
 export { ServiceClient, ServiceClientOptions } from "./serviceClient";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
@@ -22,7 +23,7 @@ export { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 export { redirectPolicy } from "./policies/redirectPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
-export { deserializationPolicy } from "./policies/deserializationPolicy";
+export { deserializationPolicy, deserializeResponseBody } from "./policies/deserializationPolicy";
 export {
   MapperType, SimpleMapperType, CompositeMapperType, DictionaryMapperType, SequenceMapperType, EnumMapperType,
   Mapper, BaseMapper, CompositeMapper, SequenceMapper, DictionaryMapper, EnumMapper,

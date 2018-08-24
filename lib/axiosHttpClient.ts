@@ -129,7 +129,7 @@ export class AxiosHttpClient implements HttpClient {
         validateStatus: () => true,
         // Workaround for https://github.com/axios/axios/issues/1362
         maxContentLength: 1024 * 1024 * 1024 * 10,
-        responseType: httpRequest.rawResponse ? "stream" : "text",
+        responseType: httpRequest.streamResponseBody ? "stream" : "text",
         cancelToken,
         timeout: httpRequest.timeout
       };
@@ -174,8 +174,8 @@ export class AxiosHttpClient implements HttpClient {
       request: httpRequest,
       status: res.status,
       headers,
-      readableStreamBody: httpRequest.rawResponse ? responseBody as Readable : undefined,
-      bodyAsText: httpRequest.rawResponse ? undefined : responseBody as string
+      readableStreamBody: httpRequest.streamResponseBody ? responseBody as Readable : undefined,
+      bodyAsText: httpRequest.streamResponseBody ? undefined : responseBody as string
     };
 
     if (this.cookieJar) {
