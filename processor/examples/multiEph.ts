@@ -4,12 +4,15 @@ import {
 import * as dotenv from "dotenv";
 dotenv.config();
 
+// set the values from environment variables.
 const storageConnectionString = "STORAGE_CONNECTION_STRING";
 const ehconnectionString = "EVENTHUB_CONNECTION_STRING";
 const entityPath = "EVENTHUB_NAME";
 const path = process.env[entityPath] || "";
 const storageCS = process.env[storageConnectionString];
 const ehCS = process.env[ehconnectionString];
+
+// set the names of eph and the lease container.
 const leasecontainerName = "test-container";
 const ephName1 = "eph-1";
 const ephName2 = "eph-2";
@@ -51,7 +54,7 @@ async function sleep(timeInSeconds: number): Promise<void> {
  * @returns {Promise<EventProcessorHost>} Promise<EventProcessorHost>
  */
 async function startEph(ephName: string): Promise<EventProcessorHost> {
-  // Create the Event Processo Host
+  // Create the Event Processor Host
   const eph = EventProcessorHost.createFromConnectionString(
     ephName,
     storageCS!,
@@ -62,6 +65,9 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
       // a new container. It is important to provide the same container name across different EPH
       // instances for the paritions to be load balanced.
       leasecontainerName: leasecontainerName,
+      // This method will provide errors that occur during lease and partition management. The
+      // errors that occur while receiving messages will be provided in the onError handler
+      // provided in the eph.start() method.
       onEphError: (error) => {
         console.log(">>>>>>> [%s] Error: %O", ephName, error);
       }

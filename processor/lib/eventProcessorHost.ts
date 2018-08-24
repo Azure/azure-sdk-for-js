@@ -226,13 +226,13 @@ export class EventProcessorHost {
 
   /**
    * Provides a list of partitions the EPH is currently receiving messages from.
-   * 
+   *
    * The EPH will try to grab leases for more partitions during each scan that happens once every
    * (configured) lease renew seconds. The number of EPH instances that are being run
    * simultaneously to receive messages from the same consumer group within an event hub also
    * influences the number of partitions that this instance of EPH is actively receiving messages
    * from.
-   * 
+   *
    * @returns {Array<string>} Array<string> List of partitions that this EPH instance is currently
    * receiving messages from.
    */

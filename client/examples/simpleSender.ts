@@ -13,12 +13,13 @@ async function main(): Promise<void> {
   const data: EventData = {
     body: "Hello World!!"
   };
+  // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
+  // where the body is a JSON object/array.
+  // const data = { body: { "message": "Hello World" } };
   const delivery = await client.send(data);
   console.log(">>> Sent the message successfully: ", delivery.tag.toString());
   console.log(delivery);
-  console.log("Calling rhea-promise sender close directly. This should result in sender getting reconnected.");
-  await ((Object.values((client as any)._context.senders)[0] as any)._sender as any).close();
-  // await client.close();
+  await client.close();
 }
 
 main().catch((err) => {
