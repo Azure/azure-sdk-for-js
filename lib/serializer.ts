@@ -240,20 +240,19 @@ function base64UrlToByteArray(str: string): Uint8Array | undefined {
 
 function splitSerializeName(prop: string): Array<string> {
   const classes: Array<string> = [];
-  if (prop) {
-    let partialclass = "";
-    const subwords: string[] = prop.split(".");
+  let partialclass = "";
+  const subwords = prop.split(".");
 
-    for (const item of subwords) {
-      if (item.charAt(item.length - 1) === "\\") {
-        partialclass += item.substr(0, item.length - 1) + ".";
-      } else {
-        partialclass += item;
-        classes.push(partialclass);
-        partialclass = "";
-      }
+  for (const item of subwords) {
+    if (item.charAt(item.length - 1) === "\\") {
+      partialclass += item.substr(0, item.length - 1) + ".";
+    } else {
+      partialclass += item;
+      classes.push(partialclass);
+      partialclass = "";
     }
   }
+
   return classes;
 }
 
@@ -296,10 +295,10 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
     } else if (typeName.match(/^Stream$/ig) !== null) {
       const objectType = typeof value;
       if (objectType !== "string" &&
-        objectType !== "function" &&
-        !(value instanceof ArrayBuffer) &&
-        !ArrayBuffer.isView(value) &&
-        !(typeof Blob === "function" && value instanceof Blob)) {
+          objectType !== "function" &&
+          !(value instanceof ArrayBuffer) &&
+          !ArrayBuffer.isView(value) &&
+          !(typeof Blob === "function" && value instanceof Blob)) {
         throw new Error(`${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or a function returning NodeJS.ReadableStream.`);
       }
     }
@@ -736,19 +735,19 @@ export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapper
 
 export interface SimpleMapperType {
   name: "Base64Url"
-  | "Boolean"
-  | "ByteArray"
-  | "Date"
-  | "DateTime"
-  | "DateTimeRfc1123"
-  | "Object"
-  | "Stream"
-  | "String"
-  | "TimeSpan"
-  | "UnixTime"
-  | "Uuid"
-  | "Number"
-  | "any";
+    | "Boolean"
+    | "ByteArray"
+    | "Date"
+    | "DateTime"
+    | "DateTimeRfc1123"
+    | "Object"
+    | "Stream"
+    | "String"
+    | "TimeSpan"
+    | "UnixTime"
+    | "Uuid"
+    | "Number"
+    | "any";
 }
 
 export interface CompositeMapperType {
