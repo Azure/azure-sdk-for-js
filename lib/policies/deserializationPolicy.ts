@@ -10,7 +10,6 @@ import * as utils from "../util/utils";
 import { parseXML } from "../util/xml";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
-import { isBoolean } from "util";
 
 /**
  * Create a new serialization RequestPolicyCreator that will serialized HTTP request bodies as they
@@ -58,7 +57,7 @@ function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boole
   let result: boolean;
   if (shouldDeserialize === undefined) {
     result = true;
-  } else if (isBoolean(shouldDeserialize)) {
+  } else if (typeof shouldDeserialize === "boolean") {
     result = shouldDeserialize;
   } else {
     result = shouldDeserialize(parsedResponse);
