@@ -183,17 +183,15 @@ export class ServiceClient {
 
     let result: Promise<HttpOperationResponse>;
     try {
-      if (operationSpec.baseUrl == undefined) {
-        operationSpec.baseUrl = this.baseUri;
-        if (!operationSpec.baseUrl) {
-          throw new Error("If operationSpec.baseUrl is not specified, then the ServiceClient must have a baseUri string property that contains the base URL to use.");
-        }
+      if (operationSpec.baseUrl == undefined && this.baseUri == undefined) {
+        throw new Error("If operationSpec.baseUrl is not specified, then the ServiceClient must have a baseUri string property that contains the base URL to use.");
       }
 
       httpRequest.method = operationSpec.httpMethod;
       httpRequest.operationSpec = operationSpec;
 
-      const requestUrl: URLBuilder = URLBuilder.parse(operationSpec.baseUrl);
+      const baseUri: string = (operationSpec.baseUrl || this.baseUri) as string
+      const requestUrl: URLBuilder = URLBuilder.parse(baseUri);
       if (operationSpec.path) {
         requestUrl.setPath(operationSpec.path);
       }
