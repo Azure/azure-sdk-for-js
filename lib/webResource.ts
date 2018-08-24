@@ -5,6 +5,8 @@ import { HttpHeaders } from "./httpHeaders";
 import { OperationSpec } from "./operationSpec";
 import { Mapper, Serializer } from "./serializer";
 import { generateUuid } from "./util/utils";
+import { HttpOperationResponse } from "./httpOperationResponse";
+import { OperationResponse } from "./operationResponse";
 
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 export type HttpRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | (() => NodeJS.ReadableStream);
@@ -48,7 +50,21 @@ export class WebResource {
   method: HttpMethods;
   body?: any;
   headers: HttpHeaders;
-  rawResponse?: boolean;
+  /**
+   * Whether or not the body of the HttpOperationResponse should be treated as a stream.
+   */
+  streamResponseBody?: boolean;
+  /**
+   * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
+   * HttpOperationResponse should be deserialized.
+   */
+  shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
+  /**
+   * A function that returns the proper OperationResponse for the given OperationSpec and
+   * HttpOperationResponse combination. If this is undefined, then a simple status code lookup will
+   * be used.
+   */
+  operationResponseGetter?: (operationSpec: OperationSpec, response: HttpOperationResponse) => (undefined | OperationResponse);
   formData?: any;
   query?: { [key: string]: any; };
   operationSpec?: OperationSpec;
@@ -69,14 +85,14 @@ export class WebResource {
     body?: any,
     query?: { [key: string]: any; },
     headers?: { [key: string]: any; } | HttpHeaders,
-    rawResponse?: boolean,
+    streamResponseBody?: boolean,
     withCredentials?: boolean,
     abortSignal?: AbortSignalLike,
     timeout?: number,
     onUploadProgress?: (progress: TransferProgressEvent) => void,
     onDownloadProgress?: (progress: TransferProgressEvent) => void) {
 
-    this.rawResponse = rawResponse || false;
+    this.streamResponseBody = streamResponseBody;
     this.url = url || "";
     this.method = method || "GET";
     this.headers = (headers instanceof HttpHeaders ? headers : new HttpHeaders(headers));
@@ -290,7 +306,7 @@ export class WebResource {
       this.body,
       this.query,
       this.headers && this.headers.clone(),
-      this.rawResponse,
+      this.streamResponseBody,
       this.withCredentials,
       this.abortSignal,
       this.timeout,
@@ -298,6 +314,8 @@ export class WebResource {
       this.onDownloadProgress);
     result.formData = this.formData;
     result.operationSpec = this.operationSpec;
+    result.shouldDeserialize = this.shouldDeserialize;
+    result.operationResponseGetter = this.operationResponseGetter;
     return result;
   }
 }

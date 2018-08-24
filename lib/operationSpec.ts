@@ -3,7 +3,7 @@
 
 import { OperationParameter, OperationQueryParameter, OperationURLParameter } from "./operationParameter";
 import { OperationResponse } from "./operationResponse";
-import { Serializer } from "./serializer";
+import { MapperType, Serializer } from "./serializer";
 import { HttpMethods } from "./webResource";
 
 /**
@@ -76,4 +76,16 @@ export interface OperationSpec {
    * returned.
    */
   readonly responses: { [responseCode: string]: OperationResponse };
+}
+
+export function isStreamOperation(operationSpec: OperationSpec): boolean {
+  let result = false;
+  for (const statusCode in operationSpec.responses) {
+    const operationResponse: OperationResponse = operationSpec.responses[statusCode];
+    if (operationResponse.bodyMapper && operationResponse.bodyMapper.type.name === MapperType.Stream) {
+      result = true;
+      break;
+    }
+  }
+  return result;
 }

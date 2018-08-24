@@ -66,10 +66,10 @@ export class XhrHttpClient implements HttpClient {
     for (const header of request.headers.headersArray()) {
       xhr.setRequestHeader(header.name, header.value);
     }
-    xhr.responseType = request.rawResponse ? "blob" : "text";
+    xhr.responseType = request.streamResponseBody ? "blob" : "text";
     xhr.send(request.body);
 
-    if (request.rawResponse) {
+    if (request.streamResponseBody) {
       return new Promise((resolve, reject) => {
         xhr.addEventListener("readystatechange", () => {
           // Resolve as soon as headers are loaded
