@@ -45,7 +45,7 @@ export class PartitionContext {
   }
 
   private _context: ProcessorContext;
-  private _offset: string = "-1";
+  private _offset: string = EventPosition.startOfStream;
   private _sequenceNumber: number = 0;
 
   /**
@@ -114,8 +114,8 @@ export class PartitionContext {
     const startingCheckpoint = await this._context.checkpointManager.getCheckpoint(this.partitionId);
     let result: EventPosition;
     if (!startingCheckpoint) {
-      log.partitionContext("[%s] User provided initial offset: %s",
-        this._context.hostName, this._context.initialOffset);
+      log.partitionContext("[%s] User provided initial offset: %s", this._context.hostName,
+        this._context.initialOffset);
       result = this._context.initialOffset || EventPosition.fromOffset(this._offset);
     } else {
       if (startingCheckpoint.offset != undefined) this._offset = startingCheckpoint.offset;

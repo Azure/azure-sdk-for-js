@@ -34,6 +34,13 @@ async function main(): Promise<void> {
     datas.push(obj);
   }
   console.log("Sending batch message...");
+  // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
+  // where the body is a JSON object/array.
+  // const datas = [
+  //   { body: { "message": "Hello World 1" }, applicationProperties: { id: "Some id" }, partitionKey: "pk786" },
+  //   { body: { "message": "Hello World 2" } },
+  //   { body: { "message": "Hello World 3" } }
+  // ];
   await client.sendBatch(datas, "0");
   console.log("message sent");
 }

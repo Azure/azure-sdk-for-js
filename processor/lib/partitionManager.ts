@@ -223,8 +223,13 @@ export class PartitionManager {
       try {
         await config.operation();
         createdOK = true;
-        log.partitionManager("[%s] Retry attempt: %d. Action '%s' suceeded.", this._context.hostName,
-          retryCount, config.action);
+        if (config.partitionId) {
+          log.partitionManager("[%s] Retry attempt: %d. Action '%s' for partitionId: '%s' suceeded.",
+            this._context.hostName, retryCount, config.action, config.partitionId);
+        } else {
+          log.partitionManager("[%s] Retry attempt: %d. Action '%s' suceeded.",
+            this._context.hostName, retryCount, config.action);
+        }
       } catch (err) {
         if (config.partitionId) {
           log.error("[%s] An error occurred. Retry attempt: %d. PartitionId: '%s'. %s: %O",
@@ -455,8 +460,8 @@ export class PartitionManager {
       this._onError!(error);
     };
     receiveHandler = this._context.eventHubClient.receive(partitionId, onMessage, onError, rcvrOptions);
-    log.partitionManager("[%s] Attaching receiver '%s' for partition '%s' with offset: %s",
-      this._context.hostName, receiveHandler.name, partitionId, eventPosition.offset!);
+    log.partitionManager("[%s] Attaching receiver '%s' for partition '%s' with eventPosition: %s",
+      this._context.hostName, receiveHandler.name, partitionId, eventPosition.getExpression());
     this._context.receiverByPartition[partitionId] = receiveHandler;
   }
 
@@ -555,13 +560,14 @@ export class PartitionManager {
     const result: Dictionary<number> = {};
     for (const l of leases) {
       if (result[l.owner] == undefined) {
-        result[l.owner] = 0;
+        result[l.owner] = 1;
       } else {
         result[l.owner] += 1;
       }
     }
-    log.partitionManager("[%s] Owner to lease count mapping: \n%O.", this._context.hostName, result);
-    log.partitionManager("[%s] Total hosts: %d.", this._context.hostName, Object.keys(result).length);
+    log.partitionManager("[%s] Owner to lease count mapping: %O.", this._context.hostName, result);
+    log.partitionManager("[%s] Total hosts in list of stealable leases: %d.", this._context.hostName,
+      Object.keys(result).length);
     return result;
   }
 }

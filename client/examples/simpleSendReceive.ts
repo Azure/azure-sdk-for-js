@@ -21,11 +21,17 @@ async function main(): Promise<void> {
       console.log(">>>>> Error occurred: ", err);
     };
     //console.log(onMessage, onError);
-    client.receive(ids[i], onMessage, onError, { enableReceiverRuntimeMetric: true, eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
-    // giving some time for receiver setup to complete. This will make sure that the receiver can receive the newly sent
-    // message from now onwards.
+    client.receive(ids[i], onMessage, onError, {
+      enableReceiverRuntimeMetric: true,
+      eventPosition: EventPosition.fromEnqueuedTime(Date.now())
+    });
+    // giving some time for receiver setup to complete. This will make sure that the
+    // receiver can receive the newly sent message from now onwards.
     await delay(3000);
     console.log("***********Created receiver %d", i);
+    // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
+    // where the body is a JSON object/array.
+    // const data = { body: { "message": "Hello World" } };
     await client.send({ body: "Hello awesome world!!" + new Date().toString() }, ids[i]);
     console.log("***********Created sender %d and sent the message...", i);
     // Giving enough time for the receiver to receive the message...
