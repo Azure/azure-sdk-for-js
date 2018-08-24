@@ -58,13 +58,13 @@ export class WebResource {
    * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
    * HttpOperationResponse should be deserialized.
    */
-  shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean | Promise<boolean>);
+  shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
   /**
    * A function that returns the proper OperationResponse for the given OperationSpec and
    * HttpOperationResponse combination. If this is undefined, then a simple status code lookup will
    * be used.
    */
-  operationResponseGetter?: (operationSpec: OperationSpec, response: HttpOperationResponse) => (undefined | OperationResponse | Promise<undefined | OperationResponse>);
+  operationResponseGetter?: (operationSpec: OperationSpec, response: HttpOperationResponse) => (undefined | OperationResponse);
   formData?: any;
   query?: { [key: string]: any; };
   operationSpec?: OperationSpec;

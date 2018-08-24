@@ -38,42 +38,37 @@ export class DeserializationPolicy extends BaseRequestPolicy {
   }
 }
 
-async function getOperationResponse(parsedResponse: HttpOperationResponse): Promise<undefined | OperationResponse> {
+function getOperationResponse(parsedResponse: HttpOperationResponse): undefined | OperationResponse {
   let result: OperationResponse | undefined;
   const request: WebResource = parsedResponse.request;
   const operationSpec: OperationSpec | undefined = request.operationSpec;
   if (operationSpec) {
-    const operationResponseGetter: undefined | ((operationSpec: OperationSpec, response: HttpOperationResponse) => (undefined | OperationResponse | Promise<undefined | OperationResponse>)) = request.operationResponseGetter;
+    const operationResponseGetter: undefined | ((operationSpec: OperationSpec, response: HttpOperationResponse) => (undefined | OperationResponse)) = request.operationResponseGetter;
     if (!operationResponseGetter) {
       result = operationSpec.responses[parsedResponse.status];
     } else {
-      result = await Promise.resolve(operationResponseGetter(operationSpec, parsedResponse));
+      result = operationResponseGetter(operationSpec, parsedResponse);
     }
   }
   return result;
 }
 
-async function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): Promise<boolean> {
-  const shouldDeserialize: undefined | boolean | ((response: HttpOperationResponse) => boolean | Promise<boolean>) = parsedResponse.request.shouldDeserialize;
+function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boolean {
+  const shouldDeserialize: undefined | boolean | ((response: HttpOperationResponse) => boolean) = parsedResponse.request.shouldDeserialize;
   let result: boolean;
   if (shouldDeserialize === undefined) {
     result = true;
   } else if (isBoolean(shouldDeserialize)) {
     result = shouldDeserialize;
   } else {
-    const shouldDeserializeResult: boolean | Promise<boolean> = shouldDeserialize(parsedResponse);
-    if (isBoolean(shouldDeserializeResult)) {
-      result = shouldDeserializeResult;
-    } else {
-      result = await shouldDeserializeResult;
-    }
+    result = shouldDeserialize(parsedResponse);
   }
   return result;
 }
 
 export function deserializeResponseBody(response: HttpOperationResponse): Promise<HttpOperationResponse> {
-  return parse(response).then(async parsedResponse => {
-    const shouldDeserialize: boolean = await shouldDeserializeResponse(parsedResponse);
+  return parse(response).then(parsedResponse => {
+    const shouldDeserialize: boolean = shouldDeserializeResponse(parsedResponse);
     if (shouldDeserialize) {
       const operationSpec: OperationSpec | undefined = parsedResponse.request.operationSpec;
       if (operationSpec && operationSpec.responses) {
@@ -83,7 +78,7 @@ export function deserializeResponseBody(response: HttpOperationResponse): Promis
 
         const hasNoExpectedStatusCodes: boolean = (expectedStatusCodes.length === 0 || (expectedStatusCodes.length === 1 && expectedStatusCodes[0] === "default"));
 
-        const responseSpec: OperationResponse | undefined = await getOperationResponse(parsedResponse);
+        const responseSpec: OperationResponse | undefined = getOperationResponse(parsedResponse);
 
         const isExpectedStatusCode: boolean = hasNoExpectedStatusCodes ? (200 <= statusCode && statusCode < 300) : !!responseSpec;
         if (!isExpectedStatusCode) {
