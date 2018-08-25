@@ -20,6 +20,7 @@
     "testhub": "./dist/cli.js"
   },
   "scripts": {
-    "tsc": "tsc"
+    "build": "tsc",
+    "prepare": "npm run build"
   }
 }
