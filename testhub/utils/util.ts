@@ -5,12 +5,12 @@ export function log(message: string, ...args: any[]): void {
   console.log(`%s ${message}`, new Date().toISOString(), ...args);
 }
 
-let currentCommand: "send" | "receive" | "send-receive" | "testhub" = "testhub";
+let currentCommand: "send" | "receive" | "send-receive" | "testhub" | "eph" = "testhub";
 
-export function setCurrentCommand(cmd: "send" | "receive" | "send-receive"): void {
+export function setCurrentCommand(cmd: "send" | "receive" | "send-receive" | "eph"): void {
   currentCommand = cmd;
 }
 
-export function getCurrentCommand(): "send" | "receive" | "send-receive" | "testhub" {
+export function getCurrentCommand(): "send" | "receive" | "send-receive" | "testhub" | "eph" {
   return currentCommand;
 }
