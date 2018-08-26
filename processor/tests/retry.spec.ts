@@ -10,7 +10,7 @@ import * as debugModule from "debug";
 const should = chai.should();
 const debug = debugModule("azure:eph:retry-spec");
 
-describe.only("retry function", function () {
+describe("retry function", function () {
   it("should succeed if the operation succeeds.", async function () {
     let counter = 0;
     try {
