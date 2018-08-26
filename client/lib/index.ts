@@ -19,5 +19,5 @@ export {
   delay, Timeout, EventHubConnectionStringModel, parseConnectionString,
   IotHubConnectionStringModel, StorageConnectionStringModel, isIotHubConnectionString,
   ErrorNameConditionMapper, ConditionStatusMapper, ConditionErrorNameMapper, MessagingError,
-  DataTransformer, DefaultDataTransformer, ConnectionConfig
+  DataTransformer, DefaultDataTransformer, ConnectionConfig, randomNumberFromInterval
 } from "./amqp-common";
