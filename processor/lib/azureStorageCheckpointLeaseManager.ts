@@ -7,7 +7,7 @@ import { CheckpointManager } from "./checkpointManager";
 import { LeaseManager } from "./leaseManager";
 import { BaseProcessorContext } from "./processorContext";
 import { AzureBlob } from "./azureBlob";
-import { validateType, getStorageError } from "./util/utils";
+import { validateType, getStorageError, retry, RetryConfig, EPHActionStrings } from "./util/utils";
 import { Lease, LeaseInfo, LeaseLostError } from "./lease";
 import { AzureBlobLease, AzureBlobLeaseInfo } from "./azureBlobLease";
 import { BlobService as StorageBlobService, StorageError } from "azure-storage";
@@ -85,10 +85,22 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
   }
 
   async getAllLeases(): Promise<Array<Promise<Lease | undefined>>> {
-    const ids = await this._context.eventHubClient.getPartitionIds();
     const result: Array<Promise<Lease | undefined>> = [];
-    for (const id of ids) {
-      result.push(this.getLease(id));
+    const config: RetryConfig<string[]> = {
+      operation: () => this._context.eventHubClient.getPartitionIds(),
+      hostName: this._context.hostName,
+      action: EPHActionStrings.gettingAllLeases,
+      maxRetries: 5,
+      finalFailureMessage: "Failure getting all the partitions while getting all leases, retrying.",
+      retryMessage: "Out of retries for getting all the partitions while getting all leases."
+    };
+    try {
+      const ids = await retry<string[]>(config);
+      for (const id of ids) {
+        result.push(this.getLease(id));
+      }
+    } catch (err) {
+      this._context.onEphError(err);
     }
     return result;
   }
