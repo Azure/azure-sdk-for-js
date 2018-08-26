@@ -52,3 +52,9 @@ export const checkpointLeaseMgr = debugModule("azure:eph:checkpointLeaseMgr");
  * log statements for checkpointLeaseMgr
  */
 export const checkpoint = debugModule("azure:eph:checkpointInfo");
+
+/**
+ * @ignore
+ * log statements for checkpointLeaseMgr
+ */
+export const util = debugModule("azure:eph:util");

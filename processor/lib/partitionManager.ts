@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import { ProcessorContext } from "./processorContext";
-import { Dictionary, validateType } from "./util/utils";
+import { Dictionary, validateType, RetryConfig, retry, EPHActionStrings } from "./util/utils";
 import { Lease } from "./lease";
 import { CheckpointInfo } from "./checkpointInfo";
 import { LeaseManager } from "./leaseManager";
@@ -10,7 +10,7 @@ import {
   delay, ReceiveOptions, OnMessage, EventData, ReceiveHandler, OnError, MessagingError, EventPosition
 } from "azure-event-hubs";
 import * as log from "./log";
-import { OnReceivedMessage, OnReceivedError, EPHDiagnosticInfo } from "./eventProcessorHost";
+import { OnReceivedMessage, OnReceivedError } from "./eventProcessorHost";
 import { PartitionContext } from "./partitionContext";
 
 /**
@@ -19,37 +19,6 @@ import { PartitionContext } from "./partitionContext";
 enum CloseReason {
   leaseLost = "LeaseLost",
   shutdown = "ShutDown"
-}
-
-/**
- * @ignore
- */
-interface RetryConfig<T> {
-  operation: () => Promise<T>;
-  partitionId?: string;
-  retryMessage: string;
-  finalFailureMessage: string;
-  action: string;
-  maxRetries: number;
-}
-/**
- * @ignore
- */
-enum EPHActionStrings {
-  checkingLeases = "Checking Leases",
-  checkingExpiredLeases = "Checking Expired Leases",
-  renewingLease = "Renewing Lease",
-  renewingLeases = "Renewing Leases",
-  stealingLease = "Stealing Lease",
-  creatingLease = "Creating Lease",
-  creatingCheckpoint = "Creating Checkpoint",
-  creatingCheckpointStore = "Creating Checkpoint Store",
-  creatingEventProcessor = "Creating Event Processor",
-  creatingLeaseStore = "Creating Lease Store",
-  initializingStores = "Initializing Stores",
-  partitionManagerCleanup = "Partition Manager Cleanup",
-  partitionManagerMainLoop = "Partition Manager Main Loop",
-  partitionReceiverManagement = "Partition Receiver Management"
 }
 
 /**
@@ -164,96 +133,61 @@ export class PartitionManager {
     const checkpointManager = this._context.checkpointManager;
     if (!await leaseManager.leaseStoreExists()) {
       const config: RetryConfig<boolean> = {
+        hostName: this._context.hostName,
         operation: () => leaseManager.createLeaseStoreIfNotExists(),
         retryMessage: "Failure creating lease store for this Event Hub, retrying",
-        finalFailureMessage: "Out of retries creating lease store for this Event Hub",
+        finalFailureMessage: "Out of retries for creating lease store for this Event Hub",
         action: EPHActionStrings.creatingLeaseStore,
         maxRetries: 5
       };
-      await this._retry<boolean>(config);
+      await retry<boolean>(config);
     }
 
     log.partitionManager("[%s] Get the list of partition ids.", this._context.hostName);
     const partitionIds = await this._context.eventHubClient.getPartitionIds();
-
     log.partitionManager("[%s] Ensure that the leases exist.", this._context.hostName);
     for (const id of partitionIds) {
       const config: RetryConfig<Lease> = {
+        hostName: this._context.hostName,
         operation: () => leaseManager.createLeaseIfNotExists(id),
         retryMessage: "Failure creating lease for partition, retrying",
-        finalFailureMessage: "Out of retries creating lease for partition",
+        finalFailureMessage: "Out of retries for creating lease for partition",
         action: EPHActionStrings.creatingLease,
-        maxRetries: 5
+        maxRetries: 5,
+        partitionId: id
       };
-      await this._retry<Lease>(config);
+      await retry<Lease>(config);
     }
 
     log.partitionManager("[%s] Ensure the checkpointstore exists.", this._context.hostName);
-    if (! await checkpointManager.checkpointStoreExists()) {
+    if (!await checkpointManager.checkpointStoreExists()) {
       const config: RetryConfig<boolean> = {
+        hostName: this._context.hostName,
         operation: () => checkpointManager.createCheckpointStoreIfNotExists(),
         retryMessage: "Failure creating checkpoint store for this Event Hub, retrying",
-        finalFailureMessage: "Out of retries creating checkpoint store for this Event Hub",
+        finalFailureMessage: "Out of retries for creating checkpoint store for this Event Hub",
         action: EPHActionStrings.creatingCheckpointStore,
         maxRetries: 5
       };
-      await this._retry<boolean>(config);
+      await retry<boolean>(config);
     }
 
     log.partitionManager("[%s] Ensure that the checkpoint exists.", this._context.hostName);
     for (const id of partitionIds) {
       const config: RetryConfig<CheckpointInfo> = {
+        hostName: this._context.hostName,
         operation: () => checkpointManager.createCheckpointIfNotExists(id),
         retryMessage: "Failure creating checkpoint for partition, retrying",
-        finalFailureMessage: "Out of retries creating checkpoint blob for partition",
+        finalFailureMessage: "Out of retries for creating checkpoint for partition",
         action: EPHActionStrings.creatingCheckpoint,
-        maxRetries: 5
+        maxRetries: 5,
+        partitionId: id
       };
-      await this._retry<CheckpointInfo>(config);
+      await retry<CheckpointInfo>(config);
     }
   }
 
-  /**
-   * @ignore
-   */
-  private async _retry<T>(config: RetryConfig<T>): Promise<void> {
-    let createdOK: boolean = false;
-    let retryCount: number = 0;
-    do {
-      try {
-        await config.operation();
-        createdOK = true;
-        if (config.partitionId) {
-          log.partitionManager("[%s] Retry attempt: %d. Action '%s' for partitionId: '%s' suceeded.",
-            this._context.hostName, retryCount, config.action, config.partitionId);
-        } else {
-          log.partitionManager("[%s] Retry attempt: %d. Action '%s' suceeded.",
-            this._context.hostName, retryCount, config.action);
-        }
-      } catch (err) {
-        if (config.partitionId) {
-          log.error("[%s] An error occurred. Retry attempt: %d. PartitionId: '%s'. %s: %O",
-            this._context.hostName, config.partitionId, retryCount, config.retryMessage, err);
-        } else {
-          log.error("[%s] An error occurred. Retry attempt: %d. %s: %O", this._context.hostName,
-            retryCount, config.retryMessage, err);
-        }
-        retryCount++;
-      }
-    } while (!createdOK && (retryCount < config.maxRetries));
 
-    if (!createdOK) {
-      const msg = `${config.finalFailureMessage} while performing the action "${config.action}".`;
-      log.error("[%s] %s", this._context.hostName, msg);
-      const info: EPHDiagnosticInfo = {
-        action: config.action,
-        hostName: this._context.hostName,
-        partitionId: config.partitionId || "N/A",
-        error: new Error(msg)
-      };
-      throw info;
-    }
-  }
 
   /**
    * @ignore
