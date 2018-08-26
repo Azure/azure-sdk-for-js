@@ -8,7 +8,7 @@ import * as chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import * as debugModule from "debug";
 const should = chai.should();
-const debug = debugModule("azure:eph-spec");
+const debug = debugModule("azure:eph:eph-spec");
 import { EventHubClient, EventData, EventPosition, delay } from "azure-event-hubs";
 import * as dotenv from "dotenv";
 import { PartitionContext, OnReceivedMessage, EventProcessorHost, OnReceivedError } from "../lib";
@@ -82,7 +82,7 @@ describe("EPH", function () {
     });
   });
 
-  describe.only("multiple", function () {
+  describe("multiple", function () {
     it("should be able to run multiple eph successfully.", async function () {
       const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
       const containerName: string = `sharedhost-${uuid()}`;

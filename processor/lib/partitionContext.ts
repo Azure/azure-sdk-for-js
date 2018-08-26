@@ -70,6 +70,8 @@ export class PartitionContext {
     validateType("eventData.sequenceNumber", eventData.sequenceNumber, true, "number");
     this._offset = eventData.offset!;
     this._sequenceNumber = eventData.sequenceNumber!;
+    log.partitionContext("[%s] Event offset: %s, Event sequence number: %d set in partition context",
+      this._context.hostName, this._offset, this._sequenceNumber);
   }
 
   /**
