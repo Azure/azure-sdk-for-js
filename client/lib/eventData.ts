@@ -88,14 +88,14 @@ export namespace EventData {
     };
     if (msg.message_annotations) {
       data.annotations = msg.message_annotations;
-      if (msg.message_annotations[Constants.partitionKey]) data.partitionKey = msg.message_annotations[Constants.partitionKey];
-      if (msg.message_annotations[Constants.sequenceNumber]) data.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
-      if (msg.message_annotations[Constants.enqueuedTime]) data.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
-      if (msg.message_annotations[Constants.offset]) data.offset = msg.message_annotations[Constants.offset];
+      if (msg.message_annotations[Constants.partitionKey] != undefined) data.partitionKey = msg.message_annotations[Constants.partitionKey];
+      if (msg.message_annotations[Constants.sequenceNumber] != undefined) data.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
+      if (msg.message_annotations[Constants.enqueuedTime] != undefined) data.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
+      if (msg.message_annotations[Constants.offset] != undefined) data.offset = msg.message_annotations[Constants.offset];
     }
     // Since rhea expects message properties as top level properties we will look for them and unflatten them inside properties.
     for (const prop of messageProperties) {
-      if ((msg as any)[prop] !== undefined) {
+      if ((msg as any)[prop] != undefined) {
         if (!data.properties) {
           data.properties = {};
         }
@@ -104,7 +104,7 @@ export namespace EventData {
     }
     // Since rhea expects message headers as top level properties we will look for them and unflatten them inside header.
     for (const prop of messageHeader) {
-      if ((msg as any)[prop] !== undefined) {
+      if ((msg as any)[prop] != undefined) {
         if (!data.header) {
           data.header = {};
         }
@@ -150,7 +150,7 @@ export namespace EventData {
     if (data.applicationProperties) {
       msg.application_properties = data.applicationProperties;
     }
-    if (data.partitionKey) {
+    if (data.partitionKey != undefined) {
       msg.message_annotations[Constants.partitionKey] = data.partitionKey;
       // Event Hub service cannot route messages to a specific partition based on the partition key
       // if AMQP message header is an empty object. Hence we make sure that header is always present
@@ -160,7 +160,7 @@ export namespace EventData {
     if (data.sequenceNumber != undefined) {
       msg.message_annotations[Constants.sequenceNumber] = data.sequenceNumber;
     }
-    if (data.enqueuedTimeUtc) {
+    if (data.enqueuedTimeUtc != undefined) {
       msg.message_annotations[Constants.enqueuedTime] = data.enqueuedTimeUtc.getTime();
     }
     if (data.offset != undefined) {
@@ -172,10 +172,10 @@ export namespace EventData {
     if (data.lastSequenceNumber != undefined) {
       msg.delivery_annotations.last_enqueued_sequence_number = data.lastSequenceNumber;
     }
-    if (data.lastEnqueuedTime) {
+    if (data.lastEnqueuedTime != undefined) {
       msg.delivery_annotations.last_enqueued_time_utc = data.lastEnqueuedTime.getTime();
     }
-    if (data.retrievalTime) {
+    if (data.retrievalTime != undefined) {
       msg.delivery_annotations.runtime_info_retrieval_time_utc = data.retrievalTime.getTime();
     }
 
