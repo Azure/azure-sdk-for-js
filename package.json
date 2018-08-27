@@ -3,6 +3,7 @@
   "author": "Microsoft Corporation",
   "version": "0.1.0-preview",
   "description": "Microsoft Azure Client Libraries for JavaScript with TypeScript type definitions",
+  "private": true,
   "tags": [
     "node",
     "azure",
