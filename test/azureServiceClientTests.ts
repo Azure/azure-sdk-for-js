@@ -30,6 +30,16 @@ describe("AzureServiceClient", () => {
       assert.strictEqual(client.longRunningOperationRetryTimeout, 2);
       assert.deepStrictEqual(client.userAgentInfo, { value: ["ms-rest-js/0.1.0", "ms-rest-azure/0.1.0"] });
     });
+
+    it("should apply the resourceManagerEndpointUrl from credentials", async function() {
+      const creds = {
+        signRequest: (request: WebResource) => Promise.resolve(request),
+        environment: { resourceManagerEndpointUrl: "foo" }
+      };
+      const client = new AzureServiceClient(creds);
+      // accessing protected property by casting
+      assert.strictEqual((client as any).baseUri, "foo");
+    });
   });
 
   describe("sendLRORequest()", () => {
