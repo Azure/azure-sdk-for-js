@@ -1,0 +1,34 @@
+{
+  "name": "azure-sp",
+  "author": "Microsoft Corporation",
+  "contributors": [
+    "Zavery, Amar <amzavery@microsoft.com>"
+  ],
+  "private": true,
+  "version": "0.1.0",
+  "description": "Sample script for creating a service principal in Azure.",
+  "tags": [
+    "azure",
+    "sdk"
+  ],
+  "keywords": [
+    "node",
+    "azure"
+  ],
+  "main": "./spCreate.js",
+  "license": "MIT",
+  "dependencies": {
+    "ms-rest": "^1.15.0",
+    "ms-rest-azure": "^1.15.0",
+    "azure-graph": "1.1.1",
+    "azure-arm-authorization": "3.1.1"
+  },
+  "homepage": "http://github.com/Azure/azure-sdk-for-node",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Azure/azure-sdk-for-node.git"
+  },
+  "bugs": {
+    "url": "http://github.com/Azure/azure-sdk-for-node/issues"
+  }
+}

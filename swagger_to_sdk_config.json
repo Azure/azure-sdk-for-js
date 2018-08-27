@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "autorest_options": {
+      "typescript": "",
+      "license-header": "MICROSOFT_MIT_NO_VERSION",
+      "sdkrel:node-sdks-folder": ".",
+      "use": "@microsoft.azure/autorest.typescript@^2.0.0"
+    },
+    "repotag": "azure-sdk-for-js",
+    "version": "0.3.0"
+  }
+}
