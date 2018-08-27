@@ -1,0 +1,31 @@
+{
+  "name": "azure-sdk-for-js",
+  "author": "Microsoft Corporation",
+  "version": "0.1.0-preview",
+  "description": "Microsoft Azure Client Libraries for Javascript",
+  "tags": [
+    "node",
+    "azure",
+    "sdk",
+    "typescript",
+    "browser"
+  ],
+  "keywords": [
+    "node",
+    "azure",
+    "sdk",
+    "typescript",
+    "browser"
+  ],
+  "license": "MIT",
+  "homepage": "http://github.com/azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "http://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+  }
+}
