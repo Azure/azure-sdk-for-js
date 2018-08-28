@@ -12,6 +12,7 @@ import {
 import * as log from "./log";
 import { OnReceivedMessage, OnReceivedError } from "./eventProcessorHost";
 import { PartitionContext } from "./partitionContext";
+import { AzureStorageCheckpointLeaseManager } from './azureStorageCheckpointLeaseManager';
 
 /**
  * @ignore
@@ -126,14 +127,15 @@ export class PartitionManager {
     this._isCancelRequested = false;
     this._context.contextByPartition = {};
     this._context.receiverByPartition = {};
+    const hostName = this._context.hostName;
     validateType("this._onMessage", this._onMessage, true, "function");
     validateType("this._onError", this._onError, true, "function");
-    log.partitionManager("[%s] Ensuring that the lease store exists.", this._context.hostName);
+    log.partitionManager("[%s] Ensuring that the lease store exists.", hostName);
     const leaseManager = this._context.leaseManager;
     const checkpointManager = this._context.checkpointManager;
     if (!await leaseManager.leaseStoreExists()) {
       const config: RetryConfig<boolean> = {
-        hostName: this._context.hostName,
+        hostName: hostName,
         operation: () => leaseManager.createLeaseStoreIfNotExists(),
         retryMessage: "Failure creating lease store for this Event Hub, retrying",
         finalFailureMessage: "Out of retries for creating lease store for this Event Hub",
@@ -143,12 +145,14 @@ export class PartitionManager {
       await retry<boolean>(config);
     }
 
-    log.partitionManager("[%s] Get the list of partition ids.", this._context.hostName);
+    log.partitionManager("[%s] Get the list of partition ids.", hostName);
     const partitionIds = await this._context.eventHubClient.getPartitionIds();
-    log.partitionManager("[%s] Ensure that the leases exist.", this._context.hostName);
+    this._context.partitionIds = partitionIds;
+    log.partitionManager("[%s] Ensure that the leases exist.", hostName);
+    const leases: Promise<Lease>[] = [];
     for (const id of partitionIds) {
       const config: RetryConfig<Lease> = {
-        hostName: this._context.hostName,
+        hostName: hostName,
         operation: () => leaseManager.createLeaseIfNotExists(id),
         retryMessage: "Failure creating lease for partition, retrying",
         finalFailureMessage: "Out of retries for creating lease for partition",
@@ -156,38 +160,39 @@ export class PartitionManager {
         maxRetries: 5,
         partitionId: id
       };
-      await retry<Lease>(config);
+      leases.push(retry<Lease>(config));
     }
-
-    log.partitionManager("[%s] Ensure the checkpointstore exists.", this._context.hostName);
-    if (!await checkpointManager.checkpointStoreExists()) {
-      const config: RetryConfig<boolean> = {
-        hostName: this._context.hostName,
-        operation: () => checkpointManager.createCheckpointStoreIfNotExists(),
-        retryMessage: "Failure creating checkpoint store for this Event Hub, retrying",
-        finalFailureMessage: "Out of retries for creating checkpoint store for this Event Hub",
-        action: EPHActionStrings.creatingCheckpointStore,
-        maxRetries: 5
-      };
-      await retry<boolean>(config);
-    }
-
-    log.partitionManager("[%s] Ensure that the checkpoint exists.", this._context.hostName);
-    for (const id of partitionIds) {
-      const config: RetryConfig<CheckpointInfo> = {
-        hostName: this._context.hostName,
-        operation: () => checkpointManager.createCheckpointIfNotExists(id),
-        retryMessage: "Failure creating checkpoint for partition, retrying",
-        finalFailureMessage: "Out of retries for creating checkpoint for partition",
-        action: EPHActionStrings.creatingCheckpoint,
-        maxRetries: 5,
-        partitionId: id
-      };
-      await retry<CheckpointInfo>(config);
+    await Promise.all(leases);
+    if (!(this._context.checkpointManager instanceof AzureStorageCheckpointLeaseManager)) {
+      log.partitionManager("[%s] Ensure the checkpointstore exists.", hostName);
+      if (!await checkpointManager.checkpointStoreExists()) {
+        const config: RetryConfig<boolean> = {
+          hostName: hostName,
+          operation: () => checkpointManager.createCheckpointStoreIfNotExists(),
+          retryMessage: "Failure creating checkpoint store for this Event Hub, retrying",
+          finalFailureMessage: "Out of retries for creating checkpoint store for this Event Hub",
+          action: EPHActionStrings.creatingCheckpointStore,
+          maxRetries: 5
+        };
+        await retry<boolean>(config);
+      }
+      const checkpoints: Promise<CheckpointInfo>[] = [];
+      log.partitionManager("[%s] Ensure that the checkpoint exists.", hostName);
+      for (const id of partitionIds) {
+        const config: RetryConfig<CheckpointInfo> = {
+          hostName: hostName,
+          operation: () => checkpointManager.createCheckpointIfNotExists(id),
+          retryMessage: "Failure creating checkpoint for partition, retrying",
+          finalFailureMessage: "Out of retries for creating checkpoint for partition",
+          action: EPHActionStrings.creatingCheckpoint,
+          maxRetries: 5,
+          partitionId: id
+        };
+        checkpoints.push(retry<CheckpointInfo>(config));
+      }
+      await Promise.all(checkpoints);
     }
   }
-
-
 
   /**
    * @ignore
@@ -199,31 +204,44 @@ export class PartitionManager {
       const leasesOwnedByOthers: Lease[] = [];
       const renewLeasePromises: Array<Promise<void>> = [];
       let ourLeaseCount = 0;
-
+      const hostName = this._context.hostName;
+      let step = 0;
+      let subStep = 1;
+      log.partitionManager("[%s] Starting a new iteration of the loop to scan partitions.", hostName);
+      log.partitionManager("[%s] ourLeaseCount: %d", hostName, ourLeaseCount);
+      log.partitionManager("[%s] Step %d - Checking all the leases.", hostName, ++step);
       const gettingAllLeases = await leaseManager.getAllLeases();
       for (const getLeasePromise of gettingAllLeases) {
         try {
           const lease = await getLeasePromise;
           if (lease) {
             allLeases[lease.partitionId] = lease;
-            if (lease.owner === this._context.hostName) {
-              ourLeaseCount++;
+            if (lease.owner === hostName) {
+              log.partitionManager("[%s] Step %d.%d - Renewing lease '%s' for partitionId '%s' " +
+                "since we are the owner.", hostName, step, subStep, lease.token, lease.partitionId);
               const renewLeasePromise = leaseManager.renewLease(lease).then((renewResult) => {
-                if (!renewResult) {
-                  log.error("[%s] RenewResult: %s, PartitionId: '%s', Failed to renew lease.",
-                    this._context.hostName, renewResult, lease.partitionId);
+                if (renewResult) {
+                  ourLeaseCount++;
+                  log.error("[%s] Step %d.%d - result: %s, PartitionId: '%s', Successfully renewed lease.",
+                    hostName, step, subStep, renewResult, lease.partitionId);
+                  log.partitionManager("[%s] ourLeaseCount: %d", hostName, ourLeaseCount);
+                } else {
+                  log.error("[%s] Step %d.%d - result: %s, PartitionId: '%s', Failed to renew lease.",
+                    hostName, step, subStep, renewResult, lease.partitionId);
                   this._context.onEphError({
-                    hostName: this._context.hostName,
+                    hostName: hostName,
                     partitionId: lease.partitionId,
                     error: new Error("Failed to renew the lease."),
                     action: EPHActionStrings.renewingLease
                   });
                 }
               }).catch((err) => {
+                log.error("[%s] Step %d.%d - result: false, PartitionId: '%s', Failed to renew lease.",
+                  hostName, step, subStep, lease.partitionId);
                 log.error("[%s] PartitionId: '%s', Failed to renew lease. Error: %O",
-                  this._context.hostName, lease.partitionId, err);
+                  hostName, lease.partitionId, err);
                 this._context.onEphError({
-                  hostName: this._context.hostName,
+                  hostName: hostName,
                   partitionId: lease.partitionId,
                   error: err,
                   action: EPHActionStrings.renewingLease
@@ -231,13 +249,15 @@ export class PartitionManager {
               });
               renewLeasePromises.push(renewLeasePromise);
             } else {
+              log.partitionManager("[%s] Step %d.%d - lease for partitionId '%s' owned by '%s'.",
+                hostName, step, subStep, lease.partitionId, lease.owner);
               leasesOwnedByOthers.push(lease);
             }
           }
         } catch (err) {
-          log.error("[%s] Failure during checking lease. Error: %O", this._context.hostName, err);
+          log.error("[%s] Failure during checking lease. Error: %O", hostName, err);
           this._context.onEphError({
-            hostName: this._context.hostName,
+            hostName: hostName,
             partitionId: "N/A",
             error: err,
             action: EPHActionStrings.checkingLeases
@@ -246,34 +266,45 @@ export class PartitionManager {
       }
 
       try {
-        log.partitionManager("[%s] Waiting until we are done with renewing our own leases here.",
-          this._context.hostName);
+        log.partitionManager("[%s] Step %d.%d - Waiting until we are done with renewing " +
+          "our own %d leases here.", hostName, step, subStep++, renewLeasePromises.length);
         await Promise.all(renewLeasePromises);
-        log.error("[%s] Lease renewal is finished.", this._context.hostName);
+        log.partitionManager("[%s] Step %d.%d - Lease renewal is finished.", hostName, step, subStep);
       } catch (err) {
-        log.error("[%s] An error occurred while renewing leases: %O", this._context.hostName, err);
+        log.error("[%s] Step %d.%d - An error occurred while renewing leases: %O", hostName, step,
+          subStep, err);
         this._context.onEphError({
-          hostName: this._context.hostName,
+          hostName: hostName,
           partitionId: "N/A",
           error: err,
           action: EPHActionStrings.renewingLeases
         });
       }
 
-      log.partitionManager("[%s] Check any expired leases that can be grabbed.",
-        this._context.hostName);
+      log.partitionManager("[%s] Step %d - Check any expired leases that can be grabbed.",
+        hostName, ++step);
       for (const partitionId in allLeases) {
         const possibleLease = allLeases[partitionId];
         try {
-          if (await possibleLease.isExpired()) {
-            if (await leaseManager.acquireLease(possibleLease)) {
+          const isExpired = await possibleLease.isExpired();
+          if (isExpired) {
+            log.partitionManager("[%s] Step %d.%d - Lease '%s' with owner '%s' for partitionId '%s' is expired -> %s.",
+              hostName, step, subStep = 1, possibleLease.token, possibleLease.owner,
+              possibleLease.partitionId, isExpired);
+            const isAcquired = await leaseManager.acquireLease(possibleLease);
+            if (isAcquired) {
               ourLeaseCount++;
+              log.partitionManager("[%s] Step %d.%d - Lease '%s' with owner '%s' for partitionId '%s' is acquired -> %s.",
+                hostName, step, subStep++, possibleLease.token, possibleLease.owner,
+                possibleLease.partitionId, isAcquired);
+              log.partitionManager("[%s] ourLeaseCount: %d", hostName, ourLeaseCount);
             }
           }
         } catch (err) {
-          log.error("[%s] An error occurred while renewing leases: %O", this._context.hostName, err);
+          log.error("[%s] Step %d.%d - An error occurred while either checking for expiry or " +
+            "acquiring lease: %O", hostName, step, subStep, err);
           this._context.onEphError({
-            hostName: this._context.hostName,
+            hostName: hostName,
             partitionId: possibleLease.partitionId,
             error: err,
             action: EPHActionStrings.checkingExpiredLeases
@@ -281,26 +312,31 @@ export class PartitionManager {
         }
       }
 
-      log.partitionManager("[%s] Grab more leases if available and needed for load balancing.",
-        this._context.hostName);
+      log.partitionManager("[%s] Step %d - Grab more leases if available and needed for load balancing.",
+        hostName, ++step);
+      log.partitionManager("[%s] Step %d - Our lease count: %d v/s Lease owned by others count: %d.",
+        hostName, step, ourLeaseCount, leasesOwnedByOthers.length);
       if (leasesOwnedByOthers.length > 0) {
         const stealThisLease: Lease | undefined = this._whichLeaseToSteal(leasesOwnedByOthers,
           ourLeaseCount);
         if (stealThisLease) {
           try {
+            log.partitionManager("[%s] Step %d.%d - Trying to steal the lease '%s' for " +
+              "partitionId '%s' from owner '%s'.", hostName, step, subStep = 1, stealThisLease.token,
+              stealThisLease.partitionId, stealThisLease.owner);
             if (await leaseManager.acquireLease(stealThisLease)) {
-              log.partitionManager("[%s] Succeeded in stealing the lease: %O", this._context.hostName,
-                stealThisLease.getInfo());
+              log.partitionManager("[%s] Step %d.%d - Succeeded in stealing the lease: %O", hostName,
+                step, subStep, stealThisLease.getInfo());
             } else {
-              log.error("[%s] Failed in stealing the lease: %O", this._context.hostName,
-                stealThisLease.getInfo());
+              log.error("[%s] Step %d.%d - Failed in stealing the lease: %O", hostName,
+                step, subStep, stealThisLease.getInfo());
             }
           } catch (err) {
             const msg = `An error occurred while stealing the lease for partition ` +
               `'${stealThisLease.partitionId}': ${err ? err.stack : JSON.stringify(err)}`;
-            log.error("[%s] %s", this._context.hostName, msg);
+            log.error("[%s] Step %d.%d - %s", hostName, step, subStep, msg);
             this._context.onEphError({
-              hostName: this._context.hostName,
+              hostName: hostName,
               partitionId: stealThisLease.partitionId,
               error: err,
               action: EPHActionStrings.stealingLease
@@ -309,144 +345,39 @@ export class PartitionManager {
         }
       }
 
-      // update receiver with new state of lease
+      log.partitionManager("[%s] Step %d - Update receiver with new state of lease.", hostName, ++step);
       for (const partitionId of Object.keys(allLeases)) {
         try {
+          subStep = 1;
           const updatedLease: Lease = allLeases[partitionId];
-          log.partitionManager("[%s] Lease on partition '%s' owned by '%s'.", this._context.hostName,
-            updatedLease.partitionId, updatedLease.owner);
-          if (updatedLease.owner === this._context.hostName) {
-            // check and add receiver
+          log.partitionManager("[%s] Step %d - Lease on partition '%s' owned by '%s'.", hostName,
+            step, updatedLease.partitionId, updatedLease.owner);
+          if (updatedLease.owner === hostName) {
+            log.partitionManager("[%s] Step %d.%d - Check and add receiver for partitionId '%s'.",
+              hostName, step, subStep++, partitionId);
             await this._checkAndAddReceiver(partitionId, updatedLease);
           } else {
-            // remove receiver
+            log.partitionManager("[%s] Step %d.%d - Remove receiver for partitionId '%s' since " +
+              "lease is lost.", hostName, step, subStep, partitionId);
             await this._removeReceiver(partitionId, CloseReason.leaseLost);
           }
         } catch (err) {
           const msg = `An error occurred while adding/removing receivers on partition ` +
             `'${partitionId}': ${err ? err.stack : JSON.stringify(err)}`;
-          log.error("[%s] %s", this._context.hostName, msg);
+          log.error("[%s] Step %d.%d - %s", hostName, msg, step, subStep);
           this._context.onEphError({
-            hostName: this._context.hostName,
+            hostName: hostName,
             partitionId: partitionId,
             error: err,
             action: EPHActionStrings.partitionReceiverManagement
           });
         }
       }
-      log.partitionManager("[%s] Sleeping for %d seconds.", this._context.hostName,
+      log.partitionManager("[%s] Step %d - Sleeping for %d seconds.", hostName, ++step,
         leaseManager.leaseRenewInterval);
       await delay(leaseManager.leaseRenewInterval * 1000);
-      log.partitionManager("[%s] Ready for next iteration...", this._context.hostName);
+      log.partitionManager("[%s] Step %d - Ready for next iteration...", hostName, step);
     }
-  }
-
-  /**
-   * @ignore
-   */
-  private async _checkAndAddReceiver(partitionId: string, lease: Lease): Promise<void> {
-    const receiveHandler = this._context.receiverByPartition[partitionId];
-    if (receiveHandler) {
-      const isOpen: boolean = receiveHandler.isReceiverOpen;
-      if (!isOpen) {
-        log.error("[%s] The existing receiver with address '%s' and epoch %d is open -> %s.",
-          this._context.hostName, receiveHandler.address, receiveHandler.epoch, isOpen);
-        await this._removeReceiver(partitionId, CloseReason.shutdown);
-      } else {
-        log.partitionManager("[%s] Updating lease for receiver '%s' since it is open -> %s.",
-          this._context.hostName, receiveHandler.address, isOpen);
-        if (this._context.contextByPartition[partitionId]) {
-          this._context.contextByPartition[partitionId].lease = lease;
-        } else {
-          log.partitionManager("[%s] PartitionContext for partition '%s' was not found. " +
-            "Hence adding a new partition context.", this._context.hostName, partitionId);
-          this._context.contextByPartition[partitionId] = new PartitionContext(this._context,
-            partitionId, lease);
-        }
-      }
-    } else {
-      log.partitionManager("[%s] Creating a new receiver for partitionId '%s' with lease %o.",
-        this._context.hostName, partitionId, lease.getInfo());
-      await this._createNewReceiver(partitionId, lease);
-    }
-  }
-
-  /**
-   * @ignore
-   */
-  private async _createNewReceiver(partitionId: string, lease: Lease): Promise<void> {
-    const partitionContext = new PartitionContext(this._context, partitionId, lease);
-    this._context.contextByPartition[partitionId] = partitionContext;
-    const eventPosition: EventPosition = await partitionContext.getInitialOffset();
-    let receiveHandler: ReceiveHandler;
-    const rcvrOptions: ReceiveOptions = {
-      consumerGroup: this._context.consumerGroup,
-      eventPosition: eventPosition,
-      epoch: lease.epoch
-    };
-    const onMessage: OnMessage = (eventData: EventData) => {
-      partitionContext.setOffsetAndSequenceNumber(eventData);
-      this._onMessage!(partitionContext, eventData);
-    };
-    const onError: OnError = (error: MessagingError | Error) => {
-      log.error("[%s] Receiver '%s' received an error: %O.", this._context.hostName,
-        receiveHandler.name, error);
-      this._onError!(error);
-    };
-    receiveHandler = this._context.eventHubClient.receive(partitionId, onMessage, onError, rcvrOptions);
-    log.partitionManager("[%s] Attaching receiver '%s' for partition '%s' with eventPosition: %s",
-      this._context.hostName, receiveHandler.name, partitionId, eventPosition.getExpression());
-    this._context.receiverByPartition[partitionId] = receiveHandler;
-  }
-
-  private async _removeReceiver(partitionId: string, reason: CloseReason): Promise<void> {
-    const receiveHandler = this._context.receiverByPartition[partitionId];
-    const partitionContext = this._context.contextByPartition[partitionId];
-    if (receiveHandler) {
-      try {
-        log.partitionManager("[%s] Removing receiver '%s' for partitionId '%s' due to reason '%s'.",
-          this._context.hostName, receiveHandler.name, partitionId, reason);
-        delete this._context.receiverByPartition[partitionId];
-        delete this._context.contextByPartition[partitionId];
-        await receiveHandler.stop();
-        log.partitionManager("[%s] Successfully stopped the receiver '%s' for partitionId '%s' " +
-          "due to reason '%s'.", this._context.hostName, receiveHandler.name, partitionId, reason);
-      } catch (err) {
-        const msg = `An error occurred while closing the receiver '${receiveHandler.address}' : ` +
-          `${err ? err.stack : JSON.stringify(err)}`;
-        log.error("[%s] %s", this._context.hostName, msg);
-      }
-      if (reason !== CloseReason.leaseLost) {
-        try {
-          log.partitionManager("[%s] Releasing lease after closing the receiver for partitionId " +
-            "'%s' due to reason '%s'.", this._context.hostName, partitionId, reason);
-          await this._context.leaseManager.releaseLease(partitionContext.lease);
-        } catch (err) {
-          const msg = `An error occurred while releasing the lease %s the receiver ` +
-            `'${receiveHandler.address}' : ${err ? err.stack : JSON.stringify(err)} `;
-          log.error("[%s] %s", this._context.hostName, msg);
-          if (err.name && err.name !== "LeaseLostError") {
-            throw err;
-          }
-        }
-      }
-    } else {
-      log.partitionManager("[%s] No receiver was found to remove for partitionId '%s'",
-        this._context.hostName, partitionId);
-    }
-  }
-
-  /**
-   * @ignore
-   */
-  private async _removeAllReceivers(reason: CloseReason): Promise<void> {
-    const tasks: Promise<void>[] = [];
-    for (const id of Object.keys(this._context.receiverByPartition)) {
-      tasks.push(this._removeReceiver(id, reason));
-    }
-    log.partitionManager("[%s] Removing all the receivers due to reason %s.",
-      this._context.hostName, reason);
-    await Promise.all(tasks);
   }
 
   /**
@@ -490,6 +421,9 @@ export class PartitionManager {
     return stealThisLease;
   }
 
+  /**
+   * @ignore
+   */
   private _countLeasesByOwner(leases: Lease[]): Dictionary<number> {
     const result: Dictionary<number> = {};
     for (const l of leases) {
@@ -503,5 +437,121 @@ export class PartitionManager {
     log.partitionManager("[%s] Total hosts in list of stealable leases: %d.", this._context.hostName,
       Object.keys(result).length);
     return result;
+  }
+
+  /**
+   * @ignore
+   */
+  private async _checkAndAddReceiver(partitionId: string, lease: Lease): Promise<void> {
+    const receiveHandler = this._context.receiverByPartition[partitionId];
+    if (receiveHandler) {
+      const isOpen: boolean = receiveHandler.isReceiverOpen;
+      if (!isOpen) {
+        log.error("[%s] The existing receiver '%s' and epoch %d is open -> %s.",
+          this._context.hostName, receiveHandler.address, receiveHandler.epoch, isOpen);
+        await this._removeReceiver(partitionId, CloseReason.shutdown);
+      } else {
+        log.partitionManager("[%s] Updating lease for receiver '%s' since it is open -> %s.",
+          this._context.hostName, receiveHandler.address, isOpen);
+        if (this._context.contextByPartition[partitionId]) {
+          this._context.contextByPartition[partitionId].lease = lease;
+        } else {
+          log.partitionManager("[%s] PartitionContext for partition '%s' was not found. " +
+            "Hence adding a new partition context.", this._context.hostName, partitionId);
+          this._context.contextByPartition[partitionId] = new PartitionContext(this._context,
+            partitionId, lease);
+        }
+      }
+    } else {
+      log.partitionManager("[%s] Creating a new receiver for partitionId '%s' with lease %o.",
+        this._context.hostName, partitionId, lease.getInfo());
+      await this._createNewReceiver(partitionId, lease);
+    }
+  }
+
+  /**
+   * @ignore
+   */
+  private async _createNewReceiver(partitionId: string, lease: Lease): Promise<void> {
+    const partitionContext = new PartitionContext(this._context, partitionId, lease);
+    this._context.contextByPartition[partitionId] = partitionContext;
+    const eventPosition: EventPosition = await partitionContext.getInitialOffset();
+    let receiveHandler: ReceiveHandler;
+    const rcvrOptions: ReceiveOptions = {
+      consumerGroup: this._context.consumerGroup,
+      eventPosition: eventPosition,
+      epoch: lease.epoch
+    };
+    const onMessage: OnMessage = (eventData: EventData) => {
+      partitionContext.setOffsetAndSequenceNumber(eventData);
+      this._onMessage!(partitionContext, eventData);
+    };
+    const onError: OnError = async (error: MessagingError | Error) => {
+      log.error("[%s] Receiver '%s' received an error: %O.", this._context.hostName,
+        receiveHandler.address, error);
+      this._onError!(error);
+      try {
+        await this._removeReceiver(partitionId, CloseReason.shutdown);
+      } catch (err) {
+        log.error("[%s] Since we received an error %O on the error handler for receiver with " +
+          "address '%s', we tried closing it. However, an error occurred while closing it " +
+          "and it is: %O", this._context.hostName, error, receiveHandler.address, err);
+      }
+    };
+    receiveHandler = this._context.eventHubClient.receive(partitionId, onMessage, onError, rcvrOptions);
+    log.partitionManager("[%s] Attaching receiver '%s' for partition '%s' with eventPosition: %s",
+      this._context.hostName, receiveHandler.address, partitionId, eventPosition.getExpression());
+    this._context.receiverByPartition[partitionId] = receiveHandler;
+  }
+
+  private async _removeReceiver(partitionId: string, reason: CloseReason): Promise<void> {
+    const receiveHandler = this._context.receiverByPartition[partitionId];
+    const partitionContext = this._context.contextByPartition[partitionId];
+    if (receiveHandler && partitionContext) {
+      const leaseId = partitionContext.lease.token;
+      try {
+        log.partitionManager("[%s] Removing receiver '%s' for partitionId '%s' due to reason '%s'.",
+          this._context.hostName, receiveHandler.address, partitionId, reason);
+        delete this._context.receiverByPartition[partitionId];
+        delete this._context.contextByPartition[partitionId];
+        await receiveHandler.stop();
+        log.partitionManager("[%s] Successfully stopped the receiver '%s' for partitionId '%s' " +
+          "due to reason '%s'.", this._context.hostName, receiveHandler.address, partitionId, reason);
+      } catch (err) {
+        const msg = `An error occurred while closing the receiver '${receiveHandler.address}' : ` +
+          `${err ? err.stack : JSON.stringify(err)}`;
+        log.error("[%s] %s", this._context.hostName, msg);
+      }
+      if (reason !== CloseReason.leaseLost) {
+        try {
+          log.partitionManager("[%s] Releasing lease %s after closing the receiver '%s' due to " +
+            "reason '%s'.", this._context.hostName, leaseId, receiveHandler.address, reason);
+          await this._context.leaseManager.releaseLease(partitionContext.lease);
+        } catch (err) {
+          const msg = `An error occurred while releasing the lease ${leaseId} ` +
+            `the receiver '${receiveHandler.address}' : ${err ? err.stack : JSON.stringify(err)} `;
+          log.error("[%s] %s", this._context.hostName, msg);
+          if (err.name && err.name !== "LeaseLostError") {
+            throw err;
+          }
+        }
+      }
+    } else {
+      log.partitionManager("[%s] No receiver was found to remove for partitionId '%s'",
+        this._context.hostName, partitionId);
+    }
+  }
+
+  /**
+   * @ignore
+   */
+  private async _removeAllReceivers(reason: CloseReason): Promise<void> {
+    const tasks: Promise<void>[] = [];
+    for (const id of Object.keys(this._context.receiverByPartition)) {
+      tasks.push(this._removeReceiver(id, reason));
+    }
+    log.partitionManager("[%s] Removing all the receivers due to reason %s.",
+      this._context.hostName, reason);
+    await Promise.all(tasks);
   }
 }

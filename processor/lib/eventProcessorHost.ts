@@ -123,7 +123,7 @@ export interface EventProcessorOptions extends ClientOptionsBase {
   leaseRenewInterval?: number;
   /**
    * @property {number} [leaseDuration] Duration of a lease **in seconds** before it expires
-   * unless renewed. Default: `30` seconds.
+   * unless renewed. Default: `30` seconds, Min Value: `15` seconds, Max value: `60` seconds.
    */
   leaseDuration?: number;
 }

@@ -151,7 +151,7 @@ export async function handler(argv: any): Promise<void> {
   if (partitionIds.length) {
     for (let j = 0; j < partitionIds.length; j++) {
       for (let i = 0; i < clients.length; i++) {
-        clientSendMessage(clients[i], partitionIds[j], i);
+        clientSendMessage(clients[i], i, partitionIds[j]);
       }
     }
   } else {

@@ -86,22 +86,29 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
 
   async getAllLeases(): Promise<Array<Promise<Lease | undefined>>> {
     const result: Array<Promise<Lease | undefined>> = [];
-    const config: RetryConfig<string[]> = {
-      operation: () => this._context.eventHubClient.getPartitionIds(),
-      hostName: this._context.hostName,
-      action: EPHActionStrings.gettingAllLeases,
-      maxRetries: 5,
-      finalFailureMessage: "Failure getting all the partitions while getting all leases, retrying.",
-      retryMessage: "Out of retries for getting all the partitions while getting all leases."
-    };
     try {
-      const ids = await retry<string[]>(config);
+      let ids: string[] = this._context.partitionIds || [];
+
+      if (!ids.length) {
+        const config: RetryConfig<string[]> = {
+          operation: () => this._context.eventHubClient.getPartitionIds(),
+          hostName: this._context.hostName,
+          action: EPHActionStrings.gettingAllLeases,
+          maxRetries: 5,
+          finalFailureMessage: "Failure getting all the partitions while getting all leases, retrying.",
+          retryMessage: "Out of retries for getting all the partitions while getting all leases."
+        };
+        ids = await retry<string[]>(config);
+        this._context.partitionIds = ids;
+      }
       for (const id of ids) {
         result.push(this.getLease(id));
       }
     } catch (err) {
       this._context.onEphError(err);
     }
+    log.checkpointLeaseMgr("[%s] Promises of number of leases to get: %d", this._context.hostName,
+      result.length);
     return result;
   }
 

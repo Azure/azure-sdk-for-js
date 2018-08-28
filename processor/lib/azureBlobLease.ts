@@ -38,8 +38,8 @@ export class AzureBlobLease extends Lease implements AzureBlobLeaseInfo {
       log.azurebloblease("[%s] lease '%s' for partitionId: '%s' expired -> %s.",
         this.owner, this.token, this.partitionId, expired);
     } catch (err) {
-      log.error("[%s] An error occurred while determining whether the blob " +
-        "is expired for lease '%s' for partitionId '%s': %O", this.owner, this.token,
+      log.error("[%s] An error occurred while determining whether the lease '%s' is expired " +
+        "for partitionId '%s': %O", this.owner, this.token,
         this.partitionId, err);
     }
     return expired;
@@ -58,7 +58,8 @@ export class AzureBlobLease extends Lease implements AzureBlobLeaseInfo {
       sequenceNumber: 0,
       owner: "",
       token: "",
-      blob: blob
+      blob: blob,
+      offset: "-1"
     });
   }
 }

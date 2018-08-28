@@ -32,6 +32,7 @@ export interface BaseProcessorContext {
   onEphError: OnEphError;
   leaseRenewInterval: number;
   leaseDuration: number;
+  partitionIds: string[];
   initialOffset?: EventPosition;
   storageBlobPrefix?: string;
 }
@@ -105,6 +106,7 @@ export namespace ProcessorContext {
       contextByPartition: {},
       receiverByPartition: {},
       blobReferenceByPartition: {},
+      partitionIds: [],
       consumerGroup: options.consumerGroup,
       leasecontainerName: options.leasecontainerName,
       leaseRenewInterval: options.leaseRenewInterval,
