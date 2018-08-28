@@ -58,7 +58,7 @@ export interface LeaseInfo {
   /**
    * @property {string} offset The offset of the event to be checked in.
    */
-  offset?: string;
+  offset: string;
 }
 
 /**
@@ -108,7 +108,7 @@ export class Lease implements BaseLease {
   /**
    * @property {string} offset The offset of the event to be checked in.
    */
-  offset?: string;
+  offset: string;
 
   /**
    * Creates an instance of the Lease.
@@ -121,7 +121,7 @@ export class Lease implements BaseLease {
     this.epoch = info.epoch;
     this.token = info.token;
     this.sequenceNumber = info.sequenceNumber;
-    this.offset = info.offset;
+    this.offset = info.offset || "-1";
   }
 
   /**

@@ -70,8 +70,6 @@ export class PartitionContext {
     validateType("eventData.sequenceNumber", eventData.sequenceNumber, true, "number");
     this._offset = eventData.offset!;
     this._sequenceNumber = eventData.sequenceNumber!;
-    log.partitionContext("[%s] Event offset: %s, Event sequence number: %d set in partition context",
-      this._context.hostName, this._offset, this._sequenceNumber);
   }
 
   /**
@@ -116,8 +114,10 @@ export class PartitionContext {
     const startingCheckpoint = await this._context.checkpointManager.getCheckpoint(this.partitionId);
     let result: EventPosition;
     if (!startingCheckpoint) {
-      log.partitionContext("[%s] User provided initial offset: %s", this._context.hostName,
-        this._context.initialOffset);
+      if (this._context.initialOffset) {
+        log.partitionContext("[%s] User provided initial offset: %s", this._context.hostName,
+          this._context.initialOffset.getExpression());
+      }
       result = this._context.initialOffset || EventPosition.fromOffset(this._offset);
     } else {
       if (startingCheckpoint.offset != undefined) this._offset = startingCheckpoint.offset;

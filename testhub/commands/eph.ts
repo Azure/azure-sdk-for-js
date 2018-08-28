@@ -18,6 +18,12 @@ export const builder: CommandBuilder = {
     required: true,
     string: true
   },
+  p: {
+    alias: "host-prefix",
+    describe: "EPH name prefix",
+    string: true,
+    required: true
+  },
   g: {
     alias: "consumer",
     describe: "Consumer group name",
@@ -30,11 +36,29 @@ export const builder: CommandBuilder = {
     default: "-1",
     string: true
   },
-  e: {
+  t: {
     alias: "hosts",
     describe: "Number of hosts",
     default: 1,
     number: true
+  },
+  d: {
+    alias: "lease-duration",
+    number: true,
+    default: 30,
+    describe: "Lease duration in seconds."
+  },
+  r: {
+    alias: "lease-renew-interval",
+    number: true,
+    default: 10,
+    describe: "Lease renew interval in seconds."
+  },
+  l: {
+    alias: "lease-container-name",
+    describe: "The name of the lease container",
+    default: "my-container",
+    string: true
   }
 };
 
@@ -52,18 +76,6 @@ function validateArgs(argv: any) {
   }
 }
 
-// async function repeat<T>(inSeconds: number, task: () => Promise<T>): Promise<void> {
-//   while (true) {
-//     try {
-//       log("Performing the task every %d seconds..", inSeconds);
-//       await task;
-//     } catch (err) {
-//       log("An error occurred while performing the task: %O", err);
-//     }
-//     await delay(inSeconds * 1000);
-//   }
-// }
-
 export async function handler(argv: any): Promise<void> {
   setCurrentCommand(command);
   const ephCache: Dictionary<EventProcessorHost> = {};
@@ -75,7 +87,10 @@ export async function handler(argv: any): Promise<void> {
     const storageStr: string = argv.storageStr;
     const hub: string = argv.hub;
     const ephCount: number = argv.hosts;
-    const leaseContainerName = "test-container";
+    const leaseContainerName = argv.leaseContainerName;
+    const hostPrefix = argv.hostPrefix;
+    const leaseDuration = argv.leaseDuration;
+    const leaseRenewInterval = argv.leaseRenewInterval;
 
     if (!connectionString) {
       let address = argv.address;
@@ -90,11 +105,13 @@ export async function handler(argv: any): Promise<void> {
     log("Total number of partitions: %d", ids.length);
     log("Creating %d EPH(s).", ephCount);
     for (let i = 0; i < ephCount; i++) {
-      const hostName = `eph-${i + 1}`;
+      const hostName = `${hostPrefix}-${i + 1}`;
       ephCache[hostName] = EventProcessorHost.createFromConnectionString(hostName,
         storageStr,
         connectionString,
         {
+          leaseDuration: leaseDuration,
+          leaseRenewInterval: leaseRenewInterval,
           eventHubPath: hub,
           consumerGroup: consumerGroup,
           leasecontainerName: leaseContainerName,
@@ -110,14 +127,18 @@ export async function handler(argv: any): Promise<void> {
       let count: number = 0;
       const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
         count++;
-        log("##### [%s] %d - Rx message from partition '%s'.", eph.hostName, count, context.partitionId);
+        // log("##### [%s] %d - Rx message from partition '%s'.", eph.hostName, count, context.partitionId);
         // Checkpointing every 1000th event
         if (count % 1000 === 0) {
           try {
-            log("***** [%s] EPH is currently receiving messages from partitions: %O", eph.hostName,
-              eph.receivingFromPartitions);
+            log("##### [%s] %d - Checkpointing message from partition '%s', with offset " +
+              "'%s', sequenceNumber %d.", eph.hostName, count, context.partitionId, data.offset,
+              data.sequenceNumber);
+            log("***** [%s] EPH is currently receiving messages from partitions: %s, total number %d.",
+              eph.hostName, eph.receivingFromPartitions.toString(), eph.receivingFromPartitions.length);
             await context.checkpoint();
-            log("$$$$ [%s] Successfully checkpointed message number %d", eph.hostName, count);
+            log("$$$$ [%s] Successfully checkpointed message number %d for partition '%s'",
+              eph.hostName, count, context.partitionId);
           } catch (err) {
             log(">>>>>>> [%s] An error occurred while checkpointing msg number %d: %O",
               eph.hostName, count, err);
