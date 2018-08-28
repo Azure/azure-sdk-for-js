@@ -1,0 +1,4 @@
+{
+  "main": "testutils.node.ts",
+  "browser": "testutils.browser.ts"
+}

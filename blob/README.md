@@ -1,4 +1,4 @@
-# Azure Storage SDK V10 for JavaScript
+# Azure Storage SDK V10 for JavaScript - Blob
 
 ## Introduction
 
@@ -58,68 +58,66 @@ Download latest released JS bundles from links in the [release page](https://git
 ## SDK Architecture
 
 - The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
-  _ ServiceURL, ContainerURL and BlobURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
-  _ The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).
+  - ServiceURL, ContainerURL and BlobURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
+  - The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).
 
 ## Code Samples
 
 ```javascript
-const pipeline = StorageURL.newPipeline(
-  new SharedKeyCredential("account", "accountkey"),
-);
-
-// List containers
-const serviceURL = new ServiceURL(
-  "https://account.blob.core.windows.net",
-  pipeline,
-);
-
-let marker;
-do {
-  const listContainersResponse = await serviceURL.listContainersSegment(
-    Aborter.None,
-    marker,
+  const pipeline = StorageURL.newPipeline(
+    new SharedKeyCredential("account", "accountkey")
   );
 
-  marker = listContainersResponse.marker;
-  for (const container of listContainersResponse.containerItems) {
-    console.log(`Container: ${container.name}`);
-  }
-} while (marker);
+  // List containers
+  const serviceURL = new ServiceURL(
+    "https://account.blob.core.windows.net",
+    pipeline
+  );
 
-// Create a container
-const containerName = `newcontainer${new Date().getTime()}`;
-const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+  let marker;
+  do {
+    const listContainersResponse = await serviceURL.listContainersSegment(Aborter.None, marker);
 
-const createContainerResponse = await containerURL.create(Aborter.None);
-console.log(
-  `Create container ${containerName} successfully`,
-  createContainerResponse.requestId,
-);
+    marker = listContainersResponse.marker;
+    for (const container of listContainersResponse.containerItems) {
+      console.log(`Container: ${container.name}`);
+    }
+  } while (marker);
 
-// Create a blob
-const content = "hello";
-const blobName = "newblob" + new Date().getTime();
-const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-const uploadBlobResponse = await blockBlobURL.upload(
-  Aborter.None,
-  content,
-  content.length,
-);
-console.log(`Upload block blob ${blobName} successfully`);
+  // Create a container
+  const containerName = `newcontainer${new Date().getTime()}`;
+  const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
 
-// Get blob content in Node.js runtime
-const downloadBlockBlobResponse = await blobURL.download(Aborter.None, 0);
-console.log(
-  "Downloaded blob content",
-  downloadBlockBlobResponse.readableStreamBody.read(content.length).toString(),
-);
-console.log(`[headers]:${downloadBlockBlobResponse.headers}`);
+  const createContainerResponse = await containerURL.create(Aborter.None);
+  console.log(
+    `Create container ${containerName} successfully`,
+    createContainerResponse.requestId
+  );
 
-// Delete container
-await containerURL.delete(Aborter.None);
-console.log("deleted container");
+  // Create a blob
+  const content = "hello";
+  const blobName = "newblob" + new Date().getTime();
+  const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
+  const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  const uploadBlobResponse = await blockBlobURL.upload(Aborter.None, content, content.length);
+  console.log(
+    `Upload block blob ${blobName} successfully`
+  );
+
+  // Get blob content in Node.js runtime
+  const downloadBlockBlobResponse = await blobURL.download(Aborter.None, 0);
+  console.log(
+    "Downloaded blob content",
+    downloadBlockBlobResponse
+      .readableStreamBody!.read(content.length)
+      .toString()
+  );
+  console.log(`[headers]:${downloadBlockBlobResponse.headers}`);
+
+  // Delete container
+  await containerURL.delete(Aborter.None);
+
+  console.log("deleted container");
 ```
 
 ## Code Samples

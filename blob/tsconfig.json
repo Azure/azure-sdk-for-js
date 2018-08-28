@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "newLine": "LF",
+    "target": "es5",
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowJs": false,
+    "strict": true,
+    "strictNullChecks": true,
+    "module": "commonjs",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationDir": "./typings",
+    "lib": ["dom", "es5", "es6", "es7", "esnext"]
+  },
+  "compileOnSave": true,
+  "exclude": ["node_modules"],
+  "include": ["./lib/**/*.ts", "./samples/**/*.ts", "./test/**/*.ts"]
+}
