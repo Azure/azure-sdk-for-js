@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import { Database, DocumentBase } from "../..";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 

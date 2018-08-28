@@ -1,4 +1,4 @@
-﻿import * as assert from "assert";
+﻿import assert from "assert";
 import * as os from "os";
 import * as util from "util";
 import { Constants } from "../..";

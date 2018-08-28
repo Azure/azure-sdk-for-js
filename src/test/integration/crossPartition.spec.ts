@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import * as util from "util";
 import { Constants } from "../..";
 import { Container, ContainerDefinition } from "../../client";

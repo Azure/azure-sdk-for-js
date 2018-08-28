@@ -4,6 +4,8 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "outDir": "./lib",
     "preserveConstEnums": true,
     "removeComments": false,

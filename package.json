@@ -66,6 +66,7 @@
   "dependencies": {
     "big-integer": "^1.6.32",
     "binary-search-bounds": "2.0.3",
+    "create-hmac": "^1.1.7",
     "int64-buffer": "^0.1.9",
     "priorityqueuejs": "1.0.0",
     "semaphore": "1.0.5",

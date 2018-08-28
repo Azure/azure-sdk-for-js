@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import { Container } from "../..";
 import { UserDefinedFunctionDefinition } from "../../client";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";

@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import { DocumentBase } from "../..";
 import { PermissionDefinition } from "../../client";
 import {

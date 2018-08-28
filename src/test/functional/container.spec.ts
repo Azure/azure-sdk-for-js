@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import { Constants, DocumentBase } from "../..";
 import { ContainerDefinition, Database } from "../../client";
 import { DataType, Index, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../documents";

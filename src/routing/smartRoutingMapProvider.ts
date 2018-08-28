@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import { PartitionKeyRangeCache, QueryRange } from ".";
 import { ClientContext } from "../ClientContext";
 import { Constants } from "../common";

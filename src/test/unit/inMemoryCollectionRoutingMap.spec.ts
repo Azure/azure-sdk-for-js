@@ -1,4 +1,4 @@
-﻿import * as assert from "assert";
+﻿import assert from "assert";
 import { CollectionRoutingMapFactory, InMemoryCollectionRoutingMap, QueryRange } from "../../routing";
 
 describe("InMemoryCollectionRoutingMap Tests", function() {

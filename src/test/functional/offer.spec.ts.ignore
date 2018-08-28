@@ -2,7 +2,7 @@
 
 
 
-import * as assert from "assert";
+import assert from "assert";
 import { Base, Constants, CosmosClient } from "../../";
 import testConfig from "./../common/_testConfig";
 import { TestHelpers } from "./../common/TestHelpers";

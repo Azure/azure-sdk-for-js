@@ -1,4 +1,4 @@
-﻿// import * as assert from "assert";
+﻿// import assert from "assert";
 // import { execFileSync, spawnSync } from "child_process";
 // import * as Stream from "stream";
 // import * as _ from "underscore";

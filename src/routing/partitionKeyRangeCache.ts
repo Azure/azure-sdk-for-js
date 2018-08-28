@@ -1,4 +1,4 @@
-import * as semaphore from "semaphore";
+import semaphore from "semaphore";
 import { CollectionRoutingMapFactory, InMemoryCollectionRoutingMap, QueryRange } from ".";
 import { ClientContext } from "../ClientContext";
 import { Helper } from "../common";

@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import { Container, CosmosClient, DocumentBase } from "../..";
 import { Database } from "../../client";
 import { endpoint } from "../common/_testConfig";

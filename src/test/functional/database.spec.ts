@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import { CosmosClient, DatabaseDefinition } from "../..";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { addEntropy, removeAllDatabases } from "../common/TestHelpers";

@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import * as util from "util";
 import { QueryIterator } from "../..";
 import { Container, ContainerDefinition, Database } from "../../client";
