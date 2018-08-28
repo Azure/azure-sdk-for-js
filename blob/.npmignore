@@ -1,0 +1,47 @@
+!dist/lib/**/*.js
+!es6dist/lib/**/*.js
+!typings/lib/**/*.d.ts
+
+# git #
+.git*
+
+# Node #
+node_modules/
+
+# Test #
+test/
+dist/test
+es6dist/test
+typings/test
+
+# Samples #
+samples/
+dist/samples
+es6dist/samples
+typings/samples
+
+# Swagger #
+swagger/
+
+# lib #
+lib/
+
+# Browser #
+browser/
+
+# Others #
+.vscode/
+.idea/
+.travis.yml
+.gitignore
+gulpfile.js
+.git
+.DS_Store
+tsconfig.json
+tsconfig.es6.json
+tslint.json
+webpack.config.js
+webpack.config.test.js
+*.js.map
+package-lock.json
+karma.conf.js
