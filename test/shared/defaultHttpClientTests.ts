@@ -210,7 +210,7 @@ describe("defaultHttpClient", () => {
     const response = await client.sendRequest(request);
     const streamBody = response.readableStreamBody;
     if (response.blobBody) {
-      await response.blobBody();
+      await response.blobBody;
     } else if (streamBody) {
       streamBody.on('data', () => {});
       await new Promise((resolve, reject) => {

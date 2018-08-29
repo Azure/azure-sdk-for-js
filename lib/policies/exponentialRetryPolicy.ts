@@ -5,6 +5,7 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
+import { RestError } from "../restError";
 
 export interface RetryData {
   retryCount: number;
@@ -86,8 +87,8 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
  * @param {RetryData} retryData  The retry data.
  * @return {boolean} True if the operation qualifies for a retry; false otherwise.
  */
-function shouldRetry(policy: ExponentialRetryPolicy, statusCode: number, retryData: RetryData): boolean {
-  if ((statusCode < 500 && statusCode !== 408) || statusCode === 501 || statusCode === 505) {
+function shouldRetry(policy: ExponentialRetryPolicy, statusCode: number | undefined, retryData: RetryData): boolean {
+  if (statusCode == undefined || (statusCode < 500 && statusCode !== 408) || statusCode === 501 || statusCode === 505) {
     return false;
   }
 
@@ -138,18 +139,24 @@ function updateRetryData(policy: ExponentialRetryPolicy, retryData?: RetryData, 
   return retryData;
 }
 
-function retry(policy: ExponentialRetryPolicy, request: WebResource, response: HttpOperationResponse, retryData?: RetryData, requestError?: RetryError): Promise<HttpOperationResponse> {
+function retry(policy: ExponentialRetryPolicy, request: WebResource, response?: HttpOperationResponse, retryData?: RetryData, requestError?: RetryError): Promise<HttpOperationResponse> {
   retryData = updateRetryData(policy, retryData, requestError);
   const isAborted: boolean | undefined = request.abortSignal && request.abortSignal.aborted;
-  if (!isAborted && shouldRetry(policy, response.status, retryData)) {
+  if (!isAborted && shouldRetry(policy, response && response.status, retryData)) {
     return utils.delay(retryData.retryInterval)
       .then(() => policy._nextPolicy.sendRequest(request.clone()))
       .then(res => retry(policy, request, res, retryData, undefined))
       .catch(err => retry(policy, request, response, retryData, err));
-  } else if (isAborted || requestError != undefined) {
+  } else if (isAborted || requestError || !response) {
     // If the operation failed in the end, return all errors instead of just the last one
-    requestError = retryData.error;
-    return Promise.reject(requestError);
+    const err = retryData.error ||
+      new RestError(
+        "Failed to send the request.",
+        RestError.REQUEST_SEND_ERROR,
+        response && response.status,
+        response && response.request,
+        response);
+    return Promise.reject(err);
   } else {
     return Promise.resolve(response);
   }

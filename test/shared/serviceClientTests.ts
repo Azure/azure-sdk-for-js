@@ -1,11 +1,10 @@
 import * as assert from "assert";
 import { HttpClient } from "../../lib/httpClient";
-import { HttpOperationResponse } from "../../lib/httpOperationResponse";
 import { QueryCollectionFormat } from "../../lib/queryCollectionFormat";
 import { DictionaryMapper, MapperType, Serializer, Mapper } from "../../lib/serializer";
 import { serializeRequestBody, ServiceClient, getOperationArgumentValueFromParameterPath } from "../../lib/serviceClient";
 import { WebResource } from "../../lib/webResource";
-import { OperationArguments } from "../../lib/msRest";
+import { OperationArguments, HttpHeaders } from "../../lib/msRest";
 import { ParameterPath } from "../../lib/operationParameter";
 
 describe("ServiceClient", function () {
@@ -22,7 +21,7 @@ describe("ServiceClient", function () {
       httpClient: {
         sendRequest: req => {
           request = req;
-          return Promise.resolve({} as HttpOperationResponse);
+          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
         }
       },
       requestPolicyFactories: []
@@ -80,7 +79,7 @@ describe("ServiceClient", function () {
       httpClient: {
         sendRequest: req => {
           request = req;
-          return Promise.resolve({} as HttpOperationResponse);
+          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
         },
       },
       requestPolicyFactories: [],
@@ -127,7 +126,7 @@ describe("ServiceClient", function () {
     const httpClient: HttpClient = {
       sendRequest: req => {
         request = req;
-        return Promise.resolve({} as HttpOperationResponse);
+        return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
       }
     };
 

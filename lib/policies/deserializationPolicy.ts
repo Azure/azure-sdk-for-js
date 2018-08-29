@@ -147,6 +147,9 @@ export function deserializeResponseBody(response: HttpOperationResponse): Promis
               restError.response = utils.stripResponse(parsedResponse);
               return Promise.reject(restError);
             }
+          } else if (operationSpec.httpMethod === "HEAD") {
+            // head methods never have a body, but we return a boolean to indicate presence/absence of the resource
+            parsedResponse.parsedBody = response.status >= 200 && response.status < 300;
           }
 
           if (responseSpec.headersMapper) {
@@ -160,9 +163,9 @@ export function deserializeResponseBody(response: HttpOperationResponse): Promis
 }
 
 function parse(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
-  const errorHandler = (err: any) => {
+  const errorHandler = (err: Error & { code: string }) => {
     const msg = `Error "${err}" occurred while parsing the response body - ${operationResponse.bodyAsText}.`;
-    const errCode = err.code || "PARSE_ERROR";
+    const errCode = err.code || RestError.PARSE_ERROR;
     const e = new RestError(msg, errCode, operationResponse.status, operationResponse.request, operationResponse, operationResponse.bodyAsText);
     return Promise.reject(e);
   };

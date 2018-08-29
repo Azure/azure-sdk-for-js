@@ -80,7 +80,7 @@ export class AxiosHttpClient implements HttpClient {
 
     const abortSignal = httpRequest.abortSignal;
     if (abortSignal && abortSignal.aborted) {
-      throw new RestError("The request was aborted", "REQUEST_ABORTED_ERROR", undefined, httpRequest);
+      throw new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR, undefined, httpRequest);
     }
 
     let abortListener: (() => void) | undefined;
@@ -136,10 +136,10 @@ export class AxiosHttpClient implements HttpClient {
       res = await axiosClient(config);
     } catch (err) {
       if (err instanceof axios.Cancel) {
-        throw new RestError(err.message, "REQUEST_ABORTED_ERROR", undefined, httpRequest);
+        throw new RestError(err.message, RestError.REQUEST_SEND_ERROR, undefined, httpRequest);
       } else {
         const axiosErr = err as AxiosError;
-        throw new RestError(axiosErr.message, "REQUEST_SEND_ERROR", undefined, httpRequest);
+        throw new RestError(axiosErr.message, RestError.REQUEST_SEND_ERROR, undefined, httpRequest);
       }
     } finally {
       if (abortSignal && abortListener) {

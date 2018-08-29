@@ -5,6 +5,10 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResource } from "./webResource";
 
 export class RestError extends Error {
+  static readonly REQUEST_SEND_ERROR = "REQUEST_SEND_ERROR";
+  static readonly REQUEST_ABORTED_ERROR = "REQUEST_ABORTED_ERROR";
+  static readonly PARSE_ERROR = "PARSE_ERROR";
+
   code?: string;
   statusCode?: number;
   request?: WebResource;

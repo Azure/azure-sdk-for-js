@@ -5,7 +5,7 @@ export { WebResource, HttpRequestBody, RequestPrepareOptions, HttpMethods, Param
 export { DefaultHttpClient } from "./defaultHttpClient";
 export { HttpClient } from "./httpClient";
 export { HttpHeaders } from "./httpHeaders";
-export { HttpOperationResponse, HttpResponse } from "./httpOperationResponse";
+export { HttpOperationResponse, HttpResponse, RestResponse } from "./httpOperationResponse";
 export { HttpPipelineLogger } from "./httpPipelineLogger";
 export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";
 export { RestError } from "./restError";
@@ -13,7 +13,7 @@ export { OperationArguments } from "./operationArguments";
 export { OperationParameter, OperationQueryParameter, OperationURLParameter } from "./operationParameter";
 export { OperationResponse } from "./operationResponse";
 export { OperationSpec } from "./operationSpec";
-export { ServiceClient, ServiceClientOptions } from "./serviceClient";
+export { ServiceClient, ServiceClientOptions, flattenResponse } from "./serviceClient";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
 export { logPolicy } from "./policies/logPolicy";
@@ -33,7 +33,7 @@ export {
 export {
   stripRequest, stripResponse, delay,
   executePromisesSequentially, generateUuid, encodeUri, ServiceCallback,
-  promiseToCallback, responseToBody, promiseToServiceCallback, isValidUuid,
+  promiseToCallback, promiseToServiceCallback, isValidUuid,
   applyMixins, isNode, isDuration
 } from "./util/utils";
 export { URLBuilder, URLQuery } from "./url";

@@ -4,7 +4,7 @@
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
-import { HttpOperationResponse } from "./httpOperationResponse";
+import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { OperationArguments } from "./operationArguments";
 import { getPathStringFromParameter, getPathStringFromParameterPath, OperationParameter, ParameterPath } from "./operationParameter";
@@ -25,6 +25,8 @@ import { Constants } from "./util/constants";
 import * as utils from "./util/utils";
 import { stringifyXML } from "./util/xml";
 import { RequestOptionsBase, RequestPrepareOptions, WebResource } from "./webResource";
+import { OperationResponse } from "./operationResponse";
+import { ServiceCallback } from "./util/utils";
 
 /**
  * Options to be provided while creating the client.
@@ -176,11 +178,17 @@ export class ServiceClient {
    * Send an HTTP request that is populated using the provided OperationSpec.
    * @param {OperationArguments} operationArguments The arguments that the HTTP request's templated values will be populated from.
    * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
+   * @param {ServiceCallback} callback The callback to call when the response is received.
    */
-  sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<HttpOperationResponse> {
+  sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec, callback?: ServiceCallback<any>): Promise<RestResponse> {
+    if (typeof operationArguments.options === "function") {
+      callback = operationArguments.options;
+      operationArguments.options = undefined;
+    }
+
     const httpRequest = new WebResource();
 
-    let result: Promise<HttpOperationResponse>;
+    let result: Promise<RestResponse>;
     try {
       const baseUri: string | undefined = operationSpec.baseUrl || this.baseUri;
       if (!baseUri) {
@@ -294,10 +302,20 @@ export class ServiceClient {
         httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
-      result = this.sendRequest(httpRequest);
+      result = this.sendRequest(httpRequest)
+        .then(res => flattenResponse(res, operationSpec.responses[res.status]));
     } catch (error) {
       result = Promise.reject(error);
     }
+
+    const cb = callback;
+    if (cb) {
+      result
+        // tslint:disable-next-line:no-null-keyword
+        .then(res => cb(null, res._response.parsedBody, res._response.request, res._response))
+        .catch(err => cb(err));
+    }
+
     return result;
   }
 }
@@ -459,4 +477,54 @@ function getPropertyFromParameterPath(parent: { [parameterName: string]: any }, 
     result.propertyFound = true;
   }
   return result;
+}
+
+export function flattenResponse(_response: HttpOperationResponse, responseSpec: OperationResponse | undefined): RestResponse {
+  const parsedHeaders = _response.parsedHeaders;
+  const bodyMapper = responseSpec && responseSpec.bodyMapper;
+  if (bodyMapper) {
+    const typeName = bodyMapper.type.name;
+    if (typeName === "Stream") {
+      return {
+        ...parsedHeaders,
+        blobBody: _response.blobBody,
+        readableStreamBody: _response.readableStreamBody,
+        _response
+      };
+    }
+
+    if (typeName === "Sequence") {
+      const arrayResponse = [...(_response.parsedBody) || []] as RestResponse & any[];
+      if (parsedHeaders) {
+        for (const key of Object.keys(parsedHeaders)) {
+          arrayResponse[key] = parsedHeaders[key];
+        }
+      }
+      arrayResponse._response = _response;
+      return arrayResponse;
+    }
+
+    if (typeName === "Composite" || typeName === "Dictionary") {
+      return {
+        ...parsedHeaders,
+        ..._response.parsedBody,
+        _response
+      };
+    }
+  }
+
+  if (bodyMapper || _response.request.method === "HEAD") {
+    // primitive body types and HEAD booleans
+    return {
+      ...parsedHeaders,
+      body: _response.parsedBody,
+      _response
+    };
+  }
+
+  return {
+    ...parsedHeaders,
+    ..._response.parsedBody,
+    _response
+  };
 }
