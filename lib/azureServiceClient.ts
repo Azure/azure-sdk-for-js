@@ -69,7 +69,7 @@ export class AzureServiceClient extends ServiceClient {
    */
   sendLRORequest(operationArguments: OperationArguments, operationSpec: OperationSpec, options?: RequestOptionsBase): Promise<LROPoller> {
     return this.sendOperationRequest(operationArguments, operationSpec)
-      .then((initialResponse: HttpOperationResponse) => createLROPollerFromInitialResponse(this, initialResponse, options));
+      .then(initialResponse => createLROPollerFromInitialResponse(this, initialResponse._response, options));
   }
 
   /**
@@ -80,7 +80,8 @@ export class AzureServiceClient extends ServiceClient {
    */
   sendLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
     return this.beginLongRunningRequest(request, options)
-      .then((lroResponse: LROPoller) => lroResponse.pollUntilFinished());
+      .then((lroResponse: LROPoller) => lroResponse.pollUntilFinished())
+      .then(res => res._response);
   }
 
   /**
@@ -95,17 +96,6 @@ export class AzureServiceClient extends ServiceClient {
   beginLongRunningRequest(request: RequestPrepareOptions | WebResource, options?: RequestOptionsBase): Promise<LROPoller> {
     return this.sendRequest(request)
       .then((initialResponse: HttpOperationResponse) => createLROPollerFromInitialResponse(this, initialResponse, options));
-  }
-
-  /**
-   * Poll Azure long running PUT, PATCH, POST or DELETE operations.
-   * @param {HttpOperationResponse} initialResponse - response of the initial request which is a part of the asynchronous polling operation.
-   * @param {AzureRequestOptionsBase} [options] - custom request options.
-   * @returns {Promise<HttpOperationResponse>} The final response after polling is complete.
-   */
-  getLongRunningOperationResult(initialResponse: HttpOperationResponse, options?: RequestOptionsBase): Promise<HttpOperationResponse> {
-    const lroResponse: LROPoller = createLROPollerFromInitialResponse(this, initialResponse, options);
-    return lroResponse.pollUntilFinished();
   }
 
   /**

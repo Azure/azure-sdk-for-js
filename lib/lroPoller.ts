@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { HttpOperationResponse, RequestOptionsBase } from "ms-rest-js";
+import { HttpOperationResponse, RequestOptionsBase, RestResponse, flattenResponse } from "ms-rest-js";
 import { AzureServiceClient } from "./azureServiceClient";
 import { createLROPollStrategyFromInitialResponse, createLROPollStrategyFromPollState, LROPollState, LROPollStrategy } from "./lroPollStrategy";
 import { LongRunningOperationStates } from "./util/constants";
@@ -105,15 +105,16 @@ export class LROPoller {
   /**
    * Send poll requests that check the LRO's status until it is determined that the LRO is finished.
    */
-  public async pollUntilFinished(): Promise<HttpOperationResponse> {
-    let result: Promise<HttpOperationResponse>;
+  public async pollUntilFinished(): Promise<RestResponse> {
+    let result: Promise<RestResponse>;
     const lroPollStrategy: LROPollStrategy | undefined = this._lroPollStrategy;
+
     if (!lroPollStrategy) {
-      result = Promise.resolve(this._initialResponse);
+      result = Promise.resolve(flattenAzureResponse(this._initialResponse));
     } else {
       result = lroPollStrategy.pollUntilFinished().then((succeeded: boolean) => {
         if (succeeded) {
-          return lroPollStrategy.getOperationResponse();
+          return lroPollStrategy.getOperationResponse().then(flattenAzureResponse);
         } else {
           throw lroPollStrategy.getRestError();
         }
@@ -141,4 +142,9 @@ export function createLROPollerFromInitialResponse(azureServiceClient: AzureServ
 export function createLROPollerFromPollState(azureServiceClient: AzureServiceClient, lroMemento: LROPollState): LROPoller {
   const lroPollStrategy: LROPollStrategy | undefined = createLROPollStrategyFromPollState(azureServiceClient, lroMemento);
   return new LROPoller(lroPollStrategy, lroMemento.initialResponse);
+}
+
+function flattenAzureResponse(response: HttpOperationResponse): RestResponse {
+  const { operationResponseGetter, operationSpec } = response.request;
+  return flattenResponse(response, operationResponseGetter && operationSpec && operationResponseGetter(operationSpec, response));
 }
