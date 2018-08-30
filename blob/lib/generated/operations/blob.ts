@@ -867,7 +867,8 @@ const setTierOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.tier,
     Parameters.version,
-    Parameters.requestId
+    Parameters.requestId,
+    Parameters.leaseId0
   ],
   responses: {
     200: {

@@ -3005,6 +3005,14 @@ export const BlobSetTierOptionalParams: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      leaseAccessConditions: {
+        xmlName: "leaseAccessConditions",
+        serializedName: "",
+        type: {
+          name: "Composite",
+          className: "LeaseAccessConditions"
+        }
       }
     }
   }

@@ -118,6 +118,10 @@ export interface IBlobAbortCopyFromURLOptions {
 export declare type BlobAbortCopyFromURLResponse = ICommonResponse &
   Models.BlobAbortCopyFromURLHeaders;
 
+export interface IBlobSetTierOptions {
+  leaseAccessConditions?: Models.LeaseAccessConditions;
+}
+
 export declare type BlobSetTierResponse = ICommonResponse &
   Models.BlobSetTierHeaders;
 
@@ -625,15 +629,18 @@ export class BlobURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.AccessTier} tier
+   * @param {IBlobSetTierOptions} [options]
    * @returns {Promise<BlobsSetTierResponse>}
    * @memberof BlobURL
    */
   public async setTier(
     aborter: Aborter,
-    tier: Models.AccessTier
+    tier: Models.AccessTier,
+    options: IBlobSetTierOptions = {}
   ): Promise<BlobSetTierResponse> {
     const { parsedHeaders, ...result } = await this.blobContext.setTier(tier, {
-      abortSignal: aborter
+      abortSignal: aborter,
+      leaseAccessConditions: options.leaseAccessConditions
     });
     return { ...result, ...parsedHeaders };
   }
