@@ -13,7 +13,7 @@ import { EventData } from "./eventData";
 import { ReceiveOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { EventPosition } from './eventPosition';
+import { EventPosition } from "./eventPosition";
 
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -224,7 +224,7 @@ export class EventHubReceiver extends LinkEntity {
         const ehError = translate(receiverError);
         log.error("[%s] An error occurred for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
-        if (this._receiver && this._receiver.isClosed()) {
+        if (this._receiver && !this._receiver.isClosed()) {
           this._onError!(ehError);
         }
       }
@@ -236,7 +236,7 @@ export class EventHubReceiver extends LinkEntity {
         const ehError = translate(sessionError);
         log.error("[%s] An error occurred on the session for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
-        if (this._receiver && this._receiver.isSessionClosed()) {
+        if (this._receiver && !this._receiver.isSessionClosed()) {
           this._onError!(ehError);
         }
       }
@@ -355,11 +355,14 @@ export class EventHubReceiver extends LinkEntity {
           rcvrOptions.eventPosition = EventPosition.fromSequenceNumber(this._checkpoint.sequenceNumber);
         }
         const options: ReceiverOptions = this._createReceiverOptions(rcvrOptions);
-        // shall retry 3 times at an interval of 15 seconds and bail out.
+        // shall retry forever at an interval of 15 seconds if the error is a retryable error
+        // else bail out when the error is not retryable or the oepration succeeds.
         const config: RetryConfig<void> = {
           operation: () => this._init(options),
           connectionId: this._context.connectionId,
-          operationType: RetryOperationType.receiverLink
+          operationType: RetryOperationType.receiverLink,
+          times: Constants.defaultConnectionRetryAttempts,
+          delayInSeconds: 15
         };
         await retry<void>(config);
       }
