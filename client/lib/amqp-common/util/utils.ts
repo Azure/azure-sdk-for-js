@@ -110,7 +110,7 @@ export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
 /**
  * @constant {AsyncLock} defaultLock The async lock instance with default settings.
  */
-export const defaultLock: AsyncLock = new AsyncLock();
+export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
 
 /**
  * Describes a Timeout class that can wait for the specified amount of time and then resolve/reject

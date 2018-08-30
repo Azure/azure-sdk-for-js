@@ -4,6 +4,7 @@
 import { translate, MessagingError } from "./errors";
 import { delay } from ".";
 import * as log from "./log";
+import { defaultRetryAttempts, defaultDelayBetweenRetriesInSeconds } from "./util/constants";
 
 /**
  * Determines whether the object is a Delivery object.
@@ -100,8 +101,8 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
  */
 export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
-  if (!config.times) config.times = 3;
-  if (!config.delayInSeconds) config.delayInSeconds = 15;
+  if (config.times == undefined) config.times = defaultRetryAttempts;
+  if (config.delayInSeconds == undefined) config.delayInSeconds = defaultDelayBetweenRetriesInSeconds;
   let lastError: MessagingError | undefined;
   let result: any;
   let success = false;
