@@ -1,3 +1,9 @@
+### 2018-08-29 0.2.7
+- Improved logging statements to the connection context.
+- Added timeout to promisifed creation/closing of rhea sender, receiver, session, connection.
+- Fixed a bug in the EventData deserialization logic by checking for `!= undefined` check rather than the `!` check.
+- While handling disconnects we retry for 150 times at an interval of 15 seconds as long the error is `retryable`.
+
 ### 2018-08-07 0.2.6
 - Improved log statements.
 - Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-event-hubs-node/tree/master/client#debug-logs).

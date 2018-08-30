@@ -33,7 +33,7 @@ const testMessage: Message = {
 const testEventData = EventData.fromAmqpMessage(testMessage);
 const messageFromED = EventData.toAmqpMessage(testEventData);
 
-describe.only("EventData", function () {
+describe("EventData", function () {
   describe("fromAmqpMessage", function () {
     it("populates annotations with the message annotations", function () {
       testEventData.annotations!.should.equal(testAnnotations);

@@ -196,11 +196,14 @@ export class EventHubSender extends LinkEntity {
           const options: SenderOptions = this._createSenderOptions({
             newName: true
           });
-          // shall retry 3 times at an interval of 15 seconds and bail out.
+          // shall retry forever at an interval of 15 seconds if the error is a retryable error
+          // else bail out when the error is not retryable or the oepration succeeds.
           const config: RetryConfig<void> = {
             operation: () => this._init(options),
             connectionId: this._context.connectionId,
-            operationType: RetryOperationType.senderLink
+            operationType: RetryOperationType.senderLink,
+            times: Constants.defaultConnectionRetryAttempts,
+            delayInSeconds: 15
           };
           return retry<void>(config);
         });
@@ -458,7 +461,7 @@ export class EventHubSender extends LinkEntity {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
       times: Constants.defaultRetryAttempts,
-      delayInSeconds: Constants.defaultDelayBetweenRetriesInSeconds + jitterInSeconds
+      delayInSeconds: Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds
     };
     return retry<Delivery>(config);
   }
