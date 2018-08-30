@@ -1,9 +1,62 @@
+### 0.21.0 - 2018-08-30
+- Flatten response body properties, headers, etc. into one object for convenience
+
+### 0.20.0 - 2018-08-24
+- Fixed bug where operationSpec.baseUrl might get mutated
+- Fixed some edge cases in response headers parsing in browser
+- Refinements to support LRO work in ms-rest-azure-js
+
+### 0.19.0 - 2018-08-22
+- Improved type definitions of generated operation responses
+
 ### 0.18.0 - 2018-08-08
 - Replaced RequestPolicyCreator function with RequestPolicyFactory interface with create() method.
 
+### 0.17.0 - 2018-08-03
+- Refactored mappers interfaces
+- Added "sideEffects": false to package.json
+
+### 0.16.0 - 2018-07-26
+- Added timeout parameter to request options
+- Call onDownload/UploadProgress callbacks in nodejs
+
+### 0.15.0 - 2018-07-16
+- Support x-nullable in Swagger
+- Added architecture overview in docs/ folder
+- Added withCredentials flag to request options
+
+### 0.12.0, 0.13.0, 0.14.0 - 2018-06-25
+- Moved header deserialization to runtime
+- Using XhrHttpClient in browser
+- Miscellaneous internal breaking changes
+
+### 0.11.0 - 2018-06-21
+- Support x-ms-header-collection-prefix in Swagger
+
+### 0.10.0 - 2018-06-18
+- Export RequestPolicyOptions
+
+### 0.9.0 - 2018-06-14
+- Fix base64 encoding in browser
+- Add es6 module build
+- withCredentials fixes
+- Allow bundling individual operation groups instead of all operations
+
+### 0.8.0 - 2018-05-31
+- Add onDownloadProgress/onUploadProgress handlers for browser
+
+### 0.7.0 - 2018-05-25
+- Add parsed response headers support
+
+### 0.6.0 - 2018-05-22
+- Added URLBuilder to parse and build URLs
+- Removed fetch responses from public APIs
+- Added AbortSignal optional parameter to operations for cancellation
+
 ### 0.5.0 - 2018-05-08
-- Replace BaseFilter type with RequestPolicy.
-- Remove ServiceClient.pipeline() in favor of ServiceClient.sendRequest().
+- Replaced BaseFilter type with RequestPolicy.
+- Removed ServiceClient.pipeline() in favor of ServiceClient.sendRequest().
+- Started work on OperationSpecs to replace the imperative generated operations.
 
 ### 0.4.0 - 2018-05-03
 - Added isomorphic-xml2js dependency to reduce browser package size
