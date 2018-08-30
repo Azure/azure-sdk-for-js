@@ -2113,6 +2113,11 @@ export interface BlobSetTierOptionalParams extends msRest.RequestOptionsBase {
    * storage analytics logging is enabled.
    */
   requestId?: string;
+  /**
+   * @member {LeaseAccessConditions} [leaseAccessConditions] Additional
+   * parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
