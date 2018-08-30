@@ -27,6 +27,8 @@
   "bugs": {
     "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "scripts": {
+  "scripts": {},
+  "devDependencies": {
+    "lerna": "^2.11.0"
   }
 }
