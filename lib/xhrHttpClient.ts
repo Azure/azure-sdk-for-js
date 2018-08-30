@@ -107,8 +107,7 @@ export class XhrHttpClient implements HttpClient {
 function addProgressListener(xhr: XMLHttpRequestEventTarget, listener?: (progress: TransferProgressEvent) => void) {
   if (listener) {
     xhr.addEventListener("progress", rawEvent => listener({
-      loadedBytes: rawEvent.loaded,
-      totalBytes: rawEvent.lengthComputable ? rawEvent.total : undefined
+      loadedBytes: rawEvent.loaded
     }));
   }
 }

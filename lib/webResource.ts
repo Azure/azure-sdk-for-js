@@ -18,13 +18,7 @@ export type TransferProgressEvent = {
   /**
    * The number of bytes loaded so far.
    */
-  loadedBytes: number,
-
-  /**
-   * The total number of bytes that will be loaded.
-   * If the total number of bytes is unknown, this property will be undefined.
-   */
-  totalBytes?: number
+  loadedBytes: number
 };
 
 /**

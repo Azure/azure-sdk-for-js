@@ -101,12 +101,11 @@ export class AxiosHttpClient implements HttpClient {
 
     const onUploadProgress = httpRequest.onUploadProgress;
     if (onUploadProgress && axiosBody) {
-      const totalBytes = parseInt(httpRequest.headers.get("Content-Length")!) || undefined;
       let loadedBytes = 0;
       const uploadReportStream = new Transform({
         transform: (chunk: string | Buffer, _encoding, callback) => {
           loadedBytes += chunk.length;
-          onUploadProgress({ loadedBytes, totalBytes });
+          onUploadProgress({ loadedBytes });
           callback(undefined, chunk);
         }
       });
@@ -152,21 +151,23 @@ export class AxiosHttpClient implements HttpClient {
     const onDownloadProgress = httpRequest.onDownloadProgress;
     let responseBody: Readable | string = res.data;
     if (onDownloadProgress) {
-      const totalBytes = parseInt(headers.get("Content-Length")!) || (responseBody as string).length || undefined;
       if (isReadableStream(responseBody)) {
         let loadedBytes = 0;
         const downloadReportStream = new Transform({
           transform: (chunk: string | Buffer, _encoding, callback) => {
             loadedBytes += chunk.length;
-            onDownloadProgress({ loadedBytes, totalBytes });
+            onDownloadProgress({ loadedBytes });
             callback(undefined, chunk);
           }
         });
         responseBody.pipe(downloadReportStream);
         responseBody = downloadReportStream;
-      } else if (totalBytes) {
-        // Calling callback for non-stream response for consistency with browser
-        onDownloadProgress({ loadedBytes: totalBytes, totalBytes });
+      } else {
+        const length = parseInt(headers.get("Content-Length")!) || (responseBody as string).length || undefined;
+        if (length) {
+          // Calling callback for non-stream response for consistency with browser
+          onDownloadProgress({ loadedBytes: length });
+        }
       }
     }
 
