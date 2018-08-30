@@ -1,4 +1,4 @@
-import { EventHubClient, EventData } from "../lib";
+import { EventHubClient, EventData, EventPosition } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -10,7 +10,7 @@ const path = process.env[entityPath] || "";
 
 async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
-  const result: EventData[] = await client.receiveBatch("0", 10, 20);
+  const result: EventData[] = await client.receiveBatch("2", 10, 20, { eventPosition: EventPosition.fromStart() });
   console.log(">>> EventDataObjects: ", result);
   let i = 0;
   for (let data of result) {

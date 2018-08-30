@@ -2,14 +2,15 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 export {
-  PartitionFilter, EventProcessorHost, OnEphClose, OnEphMessage, OnEphOpen,
-  ConnectionStringBasedOptions, EventProcessorOptions, StartEPHOptions
+  EventProcessorHost, ConnectionStringBasedOptions, EventProcessorOptions, OnEphError,
+  OnReceivedError, OnReceivedMessage, EPHDiagnosticInfo
 } from "./eventProcessorHost";
 export { PartitionContext } from "./partitionContext";
 export { CheckpointInfo } from "./checkpointInfo";
-export { Lease } from "./blobLease";
-export { LeaseManager, LeaseWithDuration } from "./blobLeaseManager";
+export { Lease, LeaseInfo, BaseLease, LeaseLostError } from "./lease";
+export { LeaseManager } from "./leaseManager";
+export { CheckpointManager } from "./checkpointManager";
 export {
-  delay, EventData, OnError as OnEphError, EventPosition, EventHubPartitionRuntimeInformation,
-  EventHubRuntimeInformation, MessagingError, DataTransformer
+  delay, EventData, OnError, EventPosition, EventHubPartitionRuntimeInformation,
+  EventHubRuntimeInformation, MessagingError, DataTransformer, aadEventHubsAudience
 } from "azure-event-hubs";
