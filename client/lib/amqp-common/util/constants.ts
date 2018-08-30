@@ -70,4 +70,6 @@ export const maxAbsoluteExpiryTime = new Date("9999-12-31T07:59:59.000Z").getTim
 export const aadTokenValidityMarginSeconds = 5;
 export const connectionReconnectDelay = 300;
 export const defaultRetryAttempts = 3;
-export const defaultDelayBetweenRetriesInSeconds = 5;
+export const defaultConnectionRetryAttempts = 150;
+export const defaultDelayBetweenOperationRetriesInSeconds = 5;
+export const defaultDelayBetweenRetriesInSeconds = 15;
