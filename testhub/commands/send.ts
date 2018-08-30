@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import { CommandBuilder } from "yargs";
-import { EventHubClient, EventData, delay } from "../../client/lib";
+import { EventHubClient, EventData, delay } from "azure-event-hubs";
 import { log, setCurrentCommand } from "../utils/util";
 
 export const command = "send";
@@ -109,19 +109,28 @@ export async function handler(argv: any): Promise<void> {
     }
   }
   const msgToSend: EventData | EventData[] = datas.length ? datas : obj;
-  const clientSendMessage = async (client: EventHubClient, partitionId: string | number, index: number) => {
+  const clientSendMessage = async (client: EventHubClient, index: number, partitionId?: string | number) => {
     try {
 
       for (let i = 0; i < iterationValue; i++) {
         const startTime = Date.now();
         for (let j = 0; j < msgCount; j++) {
           try {
-            log("[Client-%d] [iteration-%d] [partition-%d] message number %d.", index, i, partitionId, j + 1);
+            if (partitionId) {
+              log("[Client-%d] [iteration-%d] [partition-%d] message number %d.", index, i, partitionId, j + 1);
+            } else {
+              log("[Client-%d] [iteration-%d] message number %d.", index, i, j + 1);
+            }
             await sendMessage(client, index, msgToSend, partitionId);
           } catch (err) {
-            log("[Client-%d] [iteration-%d] [partition-%d] message number %d not successful.", index, i, partitionId, j + 1);
+            if (partitionId) {
+              log("[Client-%d] [iteration-%d] [partition-%d] message number %d not successful.", index, i, partitionId, j + 1);
+            } else {
+              log("[Client-%d] [iteration-%d] message number %d not successful.", index, i, j + 1);
+            }
           }
         }
+
         const totalTime = (Date.now() - startTime) / 1000;
         const totalMsgs = msgCount * msgGroup;
         log("[Client-%d] [iteration-%d] total time in seconds: %d, number of messages sent: %d, messages sent/second: %d, size (in bytes) of each message: %d.", index, i,
@@ -139,9 +148,15 @@ export async function handler(argv: any): Promise<void> {
       log(err);
     }
   }
-  for (let j = 0; j < partitionIds.length; j++) {
+  if (partitionIds.length) {
+    for (let j = 0; j < partitionIds.length; j++) {
+      for (let i = 0; i < clients.length; i++) {
+        clientSendMessage(clients[i], i, partitionIds[j]);
+      }
+    }
+  } else {
     for (let i = 0; i < clients.length; i++) {
-      clientSendMessage(clients[i], partitionIds[j], i);
+      clientSendMessage(clients[i], i);
     }
   }
 }

@@ -7,6 +7,7 @@ import { Connection } from "./connection";
 import { Receiver, ReceiverOptions } from "./receiver";
 import { Sender, SenderOptions } from "./sender";
 import { Func, SenderEvents, ReceiverEvents, SessionEvents } from ".";
+import { defaultOperationTimeoutInSeconds } from "./util/constants";
 
 export class Session {
   private _session: rhea.Session;
@@ -78,7 +79,10 @@ export class Session {
       if (this.isOpen()) {
         let onError: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
+        let waitTimer: any;
+
         const removeListeners = () => {
+          clearTimeout(waitTimer);
           this._session.removeListener(SessionEvents.sessionError, onError);
           this._session.removeListener(SessionEvents.sessionClose, onClose);
         };
@@ -99,9 +103,17 @@ export class Session {
           reject(context.session!.error);
         };
 
+        const actionAfterTimeout = () => {
+          removeListeners();
+          const msg: string = `Unable to close the amqp session due to operation timeout.`;
+          log.error("[%s] %s", this.connection.id, msg);
+          reject(new Error(msg));
+        };
+
         this._session.once(SessionEvents.sessionClose, onClose);
         this._session.once(SessionEvents.sessionError, onError);
         log.session("[%s] Calling session.close()", this.connection.id);
+        waitTimer = setTimeout(actionAfterTimeout, defaultOperationTimeoutInSeconds * 1000);
         this._session.close();
       } else {
         resolve();
@@ -140,6 +152,7 @@ export class Session {
       const receiver = new Receiver(this, rheaReceiver, options);
       let onOpen: Func<rhea.EventContext, void>;
       let onClose: Func<rhea.EventContext, void>;
+      let waitTimer: any;
 
       if (handlersProvided) {
         rheaReceiver.on(ReceiverEvents.message, options!.onMessage!);
@@ -151,6 +164,7 @@ export class Session {
       }
 
       const removeListeners = () => {
+        clearTimeout(waitTimer);
         rheaReceiver.removeListener(ReceiverEvents.receiverOpen, onOpen);
         rheaReceiver.removeListener(ReceiverEvents.receiverClose, onClose);
       };
@@ -171,8 +185,17 @@ export class Session {
         reject(context.receiver!.error);
       };
 
+      const actionAfterTimeout = () => {
+        removeListeners();
+        const msg: string = `Unable to create the amqp receiver ${rheaReceiver.name} due to ` +
+          `operation timeout.`;
+        log.error("[%s] %s", this.connection.id, msg);
+        reject(new Error(msg));
+      };
+
       rheaReceiver.once(ReceiverEvents.receiverOpen, onOpen);
       rheaReceiver.once(ReceiverEvents.receiverClose, onClose);
+      waitTimer = setTimeout(actionAfterTimeout, defaultOperationTimeoutInSeconds * 1000);
     });
   }
 
@@ -199,6 +222,7 @@ export class Session {
       const sender = new Sender(this, rheaSender, options);
       let onSendable: Func<rhea.EventContext, void>;
       let onClose: Func<rhea.EventContext, void>;
+      let waitTimer: any;
 
       if (options) {
         if (options.onError) {
@@ -222,6 +246,7 @@ export class Session {
       }
 
       const removeListeners = () => {
+        clearTimeout(waitTimer);
         rheaSender.removeListener(SenderEvents.senderOpen, onSendable);
         rheaSender.removeListener(SenderEvents.senderClose, onClose);
       };
@@ -242,8 +267,17 @@ export class Session {
         reject(context.sender!.error);
       };
 
+      const actionAfterTimeout = () => {
+        removeListeners();
+        const msg: string = `Unable to create the amqp sender ${rheaSender.name} due to ` +
+          `operation timeout.`;
+        log.error("[%s] %s", this.connection.id, msg);
+        reject(new Error(msg));
+      };
+
       rheaSender.once(SenderEvents.sendable, onSendable);
       rheaSender.once(SenderEvents.senderClose, onClose);
+      waitTimer = setTimeout(actionAfterTimeout, defaultOperationTimeoutInSeconds * 1000);
     });
   }
 

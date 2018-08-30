@@ -6,6 +6,7 @@ import * as log from "./log";
 import { Session } from "./session";
 import { Connection } from "./connection";
 import { Func, ReceiverEvents } from ".";
+import { defaultOperationTimeoutInSeconds } from "./util/constants";
 
 export interface ReceiverOptions extends rhea.ReceiverOptions {
   onMessage?: rhea.OnAmqpEvent;
@@ -158,8 +159,10 @@ export class Receiver {
       if (this.isOpen()) {
         let onError: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
+        let waitTimer: any;
 
         const removeListeners = () => {
+          clearTimeout(waitTimer);
           this._receiver.removeListener(ReceiverEvents.receiverError, onError);
           this._receiver.removeListener(ReceiverEvents.receiverClose, onClose);
         };
@@ -180,8 +183,16 @@ export class Receiver {
           reject(context.session!.error);
         };
 
+        const actionAfterTimeout = () => {
+          removeListeners();
+          const msg: string = `Unable to close the amqp receiver ${this.name} due to operation timeout.`;
+          log.error("[%s] %s", this.connection.id, msg);
+          reject(new Error(msg));
+        };
+
         this._receiver.once(ReceiverEvents.receiverClose, onClose);
         this._receiver.once(ReceiverEvents.receiverError, onError);
+        waitTimer = setTimeout(actionAfterTimeout, defaultOperationTimeoutInSeconds * 1000);
         this._receiver.close();
       } else {
         resolve();

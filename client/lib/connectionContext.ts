@@ -157,11 +157,17 @@ export namespace ConnectionContext {
         log.error("[%s] Error (context.error) occurred on the amqp connection: %O",
           connectionContext.connection.id, contextError);
       }
+      const state: Readonly<{
+        wasConnectionCloseCalled: boolean; numSenders: number; numReceivers: number;
+      }> = {
+        wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
+        numSenders: Object.keys(connectionContext.senders).length,
+        numReceivers: Object.keys(connectionContext.receivers).length
+      };
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
-      if (!connectionContext.wasConnectionCloseCalled &&
-        (Object.keys(connectionContext.senders).length) ||
-        Object.keys(connectionContext.receivers).length) {
+      log.error("[%s] state: %O", connectionContext.connection.id, state);
+      if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
         log.error("[%s] connection.close() was not called from the sdk and there were some " +
           "sender or receiver links or both. We should reconnect.", connectionContext.connection.id);
         await delay(connectionReconnectDelay);

@@ -10,7 +10,7 @@ import { EventData, Message } from "../lib";
 const testAnnotations = {
   "x-opt-enqueued-time": Date.now(),
   "x-opt-offset": "42",
-  "x-opt-sequence-number": 1337,
+  "x-opt-sequence-number": 0,
   "x-opt-partition-key": "key"
 };
 
@@ -33,7 +33,7 @@ const testMessage: Message = {
 const testEventData = EventData.fromAmqpMessage(testMessage);
 const messageFromED = EventData.toAmqpMessage(testEventData);
 
-describe("EventData", function () {
+describe.only("EventData", function () {
   describe("fromAmqpMessage", function () {
     it("populates annotations with the message annotations", function () {
       testEventData.annotations!.should.equal(testAnnotations);

@@ -318,12 +318,12 @@ export class EventHubReceiver extends LinkEntity {
         if (translatedError.retryable) {
           shouldReopen = true;
           log.error("[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
-            "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
-            "the sender link.", this._context.connectionId, this.name, this.address);
+            "was an accompanying error and it is retryable. This is a candidate for re-establishing " +
+            "the receiver link.", this._context.connectionId, this.name, this.address);
         } else {
           log.error("[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
             "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-            "the sender link.", this._context.connectionId, this.name, this.address);
+            "the receiver link.", this._context.connectionId, this.name, this.address);
         }
       } else if (!wasCloseInitiated) {
         shouldReopen = true;

@@ -7,7 +7,7 @@ import { Session } from "./session";
 import { Sender, SenderOptions } from "./sender";
 import { Receiver, ReceiverOptions } from "./receiver";
 import { Func, ConnectionEvents, SessionEvents } from ".";
-
+import { defaultOperationTimeoutInSeconds } from "./util/constants";
 export interface SenderOptionsWithSession extends SenderOptions {
   session?: Session;
 }
@@ -49,8 +49,10 @@ export class Connection {
 
         let onOpen: Func<rhea.EventContext, void>;
         let onClose: Func<rhea.EventContext, void>;
+        let waitTimer: any;
 
         const removeListeners: Function = () => {
+          clearTimeout(waitTimer);
           this._connection.removeListener(ConnectionEvents.connectionOpen, onOpen);
           this._connection.removeListener(ConnectionEvents.connectionClose, onClose);
           this._connection.removeListener(ConnectionEvents.disconnected, onClose);
@@ -72,9 +74,17 @@ export class Connection {
           reject(err);
         };
 
+        const actionAfterTimeout = () => {
+          removeListeners();
+          const msg: string = `Unable to open the amqp connection "${this.id}" due to operation timeout.`;
+          log.error("[%s] %s", this.id, msg);
+          reject(new Error(msg));
+        };
+
         this._connection.once(ConnectionEvents.connectionOpen, onOpen);
         this._connection.once(ConnectionEvents.connectionClose, onClose);
         this._connection.once(ConnectionEvents.disconnected, onClose);
+        waitTimer = setTimeout(actionAfterTimeout, defaultOperationTimeoutInSeconds * 1000);
         this._connection.connect();
       } else {
         resolve(this);
@@ -96,8 +106,9 @@ export class Connection {
       if (this.isOpen()) {
         let onClose: Func<rhea.EventContext, void>;
         let onError: Func<rhea.EventContext, void>;
-
+        let waitTimer: any;
         const removeListeners = () => {
+          clearTimeout(waitTimer);
           this._connection.removeListener(ConnectionEvents.connectionError, onError);
           this._connection.removeListener(ConnectionEvents.connectionClose, onClose);
         };
@@ -118,8 +129,16 @@ export class Connection {
           reject(context.connection.error);
         };
 
+        const actionAfterTimeout = () => {
+          removeListeners();
+          const msg: string = `Unable to close the amqp connection "${this.id}" due to operation timeout.`;
+          log.error("[%s] %s", this.id, msg);
+          reject(new Error(msg));
+        };
+
         this._connection.once(ConnectionEvents.connectionClose, onClose);
         this._connection.once(ConnectionEvents.connectionError, onError);
+        waitTimer = setTimeout(actionAfterTimeout, defaultOperationTimeoutInSeconds * 1000);
         this._connection.close();
       } else {
         resolve();
@@ -161,8 +180,10 @@ export class Connection {
       const session = new Session(this, rheaSession);
       let onOpen: Func<rhea.EventContext, void>;
       let onClose: Func<rhea.EventContext, void>;
+      let waitTimer: any;
 
       const removeListeners = () => {
+        clearTimeout(waitTimer);
         rheaSession.removeListener(SessionEvents.sessionOpen, onOpen);
         rheaSession.removeListener(SessionEvents.sessionClose, onClose);
       };
@@ -182,9 +203,17 @@ export class Connection {
         reject(context.session!.error);
       };
 
+      const actionAfterTimeout = () => {
+        removeListeners();
+        const msg: string = `Unable to create the amqp session due to operation timeout.`;
+        log.error("[%s] %s", this.id, msg);
+        reject(new Error(msg));
+      };
+
       rheaSession.once(SessionEvents.sessionOpen, onOpen);
       rheaSession.once(SessionEvents.sessionClose, onClose);
       log.connection("[%s] Calling amqp session.begin().", this.id);
+      waitTimer = setTimeout(actionAfterTimeout, defaultOperationTimeoutInSeconds * 1000);
       rheaSession.begin();
     });
   }

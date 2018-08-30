@@ -145,6 +145,8 @@ const { EventHubClient, EventPosition } = require('azure-event-hubs');
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
 async function main() {
+  // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub where the body is a JSON object.
+  // const eventData = { body: { "message": "Hello World" }, partitionKey: "pk12345"};
   const eventData = { body: "Hello World", partitionKey: "pk12345"};
   const delivery = await client.send(eventData);
   console.log("message sent successfully.");
@@ -165,6 +167,8 @@ const { EventHubClient, EventPosition } = require('azure-event-hubs');
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
 async function main() {
+  // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub where the body is a JSON object/array.
+  // const eventData = { body: { "message": "Hello World" } };
   const data = { body: "Hello World 1", message_id: "343-0909-5454-23423-54543" };
   const delivery = await client.send(data, "1");
   console.log("message sent successfully.");
@@ -190,6 +194,13 @@ async function main() {
     { body: "Hello World 2" },
     { body: "Hello World 3" }
   ];
+  // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
+  // where the body is a JSON object/array.
+  // const datas = [
+  //   { body: { "message": "Hello World 1" }, applicationProperties: { id: "Some id" }, partitionKey: "pk786" },
+  //   { body: { "message": "Hello World 2" } },
+  //   { body: { "message": "Hello World 3" } }
+  // ];
   const delivery = await client.sendBatch(datas);
   console.log("message sent successfully.");
 }
