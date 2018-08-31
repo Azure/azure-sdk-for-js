@@ -62,11 +62,10 @@ export interface LeaseManager {
    * Create in the store the lease info for the given partition, if it does not exist. Do nothing
    * if it does exist in the store already.
    *
-   * @param {string} partitionId partition id to create the lease for.
-   * @returns {Promise<Lease>} Promise<Lease> The existing or newly-created lease info for the
-   * partition.
+   * @param {string[]} partitionIds ids of partitions to create lease info for
+   * @returns {Promise<void>} Promise<void> Promise<void> undefined on success, rejects on error.
    */
-  createLeaseIfNotExists(partitionId: string): Promise<Lease>;
+  createAllLeasesIfNotExists(partitionIds: string[]): Promise<void>;
   /**
    * Delete the lease info for the given partition from the store. If there is no stored lease for
    * the given partition, that is treated as success.

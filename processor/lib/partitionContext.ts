@@ -5,7 +5,7 @@ import { EventData, EventPosition } from "azure-event-hubs";
 import { Lease } from "./lease";
 import { CheckpointInfo } from "./checkpointInfo";
 import * as log from "./log";
-import { ProcessorContext } from './processorContext';
+import { HostContext } from './hostContext';
 import { validateType } from "./util/utils";
 
 /**
@@ -34,7 +34,7 @@ export class PartitionContext {
    * @readonly
    */
   get eventhubPath(): string {
-    return this._context.eventHubClient.eventhubName;
+    return this._context.eventHubPath;
   }
   /**
    * @property {string} consumerGroup The name of the consumer group.
@@ -44,7 +44,7 @@ export class PartitionContext {
     return this._context.consumerGroup;
   }
 
-  private _context: ProcessorContext;
+  private _context: HostContext;
   private _offset: string = EventPosition.startOfStream;
   private _sequenceNumber: number = 0;
 
@@ -54,7 +54,7 @@ export class PartitionContext {
    * @param {string} owner The name of the owner.
    * @param {Lease} lease The lease object.
    */
-  constructor(context: ProcessorContext, partitionId: string, lease: Lease) {
+  constructor(context: HostContext, partitionId: string, lease: Lease) {
     this._context = context;
     this.partitionId = partitionId;
     this.lease = lease;

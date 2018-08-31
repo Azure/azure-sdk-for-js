@@ -5,7 +5,7 @@ import * as uuid from "uuid/v4";
 import { CheckpointInfo } from "./checkpointInfo";
 import { CheckpointManager } from "./checkpointManager";
 import { LeaseManager } from "./leaseManager";
-import { BaseProcessorContext } from "./processorContext";
+import { BaseHostContext, HostContext } from "./hostContext";
 import { AzureBlob } from "./azureBlob";
 import { validateType, getStorageError, retry, RetryConfig, EPHActionStrings } from "./util/utils";
 import { Lease, LeaseInfo, LeaseLostError } from "./lease";
@@ -21,9 +21,9 @@ import { maximumExecutionTimeInMsForLeaseRenewal } from "./util/constants";
 export class AzureStorageCheckpointLeaseManager implements CheckpointManager, LeaseManager {
   leaseRenewInterval: number;
   leaseDuration: number;
-  private _context: BaseProcessorContext;
+  private _context: BaseHostContext;
 
-  constructor(context: BaseProcessorContext) {
+  constructor(context: BaseHostContext) {
     this._context = context;
     this.leaseDuration = this._context.leaseDuration;
     this.leaseRenewInterval = this._context.leaseRenewInterval;
@@ -34,7 +34,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     let result = this._context.blobReferenceByPartition[partitionId];
     if (!result) {
       const blobPath = `${this._context.composedBlobPrefix}${partitionId}`;
-      result = new AzureBlob(this._context.hostName, this._context.storageConnectionString,
+      result = new AzureBlob(this._context.hostName, this._context.storageConnectionString!,
         this._context.leasecontainerName, blobPath, this._context.blobService);
       this._context.blobReferenceByPartition[partitionId] = result;
     }
@@ -60,11 +60,11 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
   }
 
   async leaseStoreExists(): Promise<boolean> {
-    return await this._context.blobService.doesContainerExist(this._context.leasecontainerName);
+    return await this._context.blobService!.doesContainerExist(this._context.leasecontainerName);
   }
 
   async createLeaseStoreIfNotExists(): Promise<boolean> {
-    const result = await this._context.blobService.ensureContainerExists(this._context.leasecontainerName);
+    const result = await this._context.blobService!.ensureContainerExists(this._context.leasecontainerName);
     return result.created != undefined;
   }
 
@@ -91,7 +91,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
 
       if (!ids.length) {
         const config: RetryConfig<string[]> = {
-          operation: () => this._context.eventHubClient.getPartitionIds(),
+          operation: () => (this._context as HostContext).getPartitionIds(),
           hostName: this._context.hostName,
           action: EPHActionStrings.gettingAllLeases,
           maxRetries: 5,
@@ -142,6 +142,10 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       }
     }
     return returnLease;
+  }
+
+  async createAllLeasesIfNotExists(partitionIds: string[]): Promise<void> {
+
   }
 
   async deleteLease(lease: Lease): Promise<boolean> {
@@ -276,6 +280,13 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     const lease: AzureBlobLease = <AzureBlobLease>await this.createLeaseIfNotExists(partitionId);
     const checkpoint: CheckpointInfo = CheckpointInfo.createFromLease(lease.getInfo());
     return checkpoint;
+  }
+
+  async createAllCheckpointsIfNotExists(partitionIds: string[]): Promise<void> {
+    validateType("partitionIds", partitionIds, true, "Array");
+    // Because we control the caller, we know that this method will only be called after createAllLeasesIfNotExists.
+    // In this implementation checkpoints are in the same blobs as leases, so the blobs will already exist if execution reaches here.
+    return;
   }
 
   async getCheckpoint(partitionId: string): Promise<CheckpointInfo | undefined> {

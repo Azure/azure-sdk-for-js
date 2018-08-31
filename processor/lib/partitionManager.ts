@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import { ProcessorContext } from "./processorContext";
+import { HostContext } from "./hostContext";
 import { Dictionary, validateType, RetryConfig, retry, EPHActionStrings } from "./util/utils";
 import { Lease } from "./lease";
 import { CheckpointInfo } from "./checkpointInfo";
@@ -10,7 +10,7 @@ import {
   delay, ReceiveOptions, OnMessage, EventData, ReceiveHandler, OnError, MessagingError, EventPosition
 } from "azure-event-hubs";
 import * as log from "./log";
-import { OnReceivedMessage, OnReceivedError } from "./eventProcessorHost";
+import { OnReceivedMessage, OnReceivedError } from "./modelTypes";
 import { PartitionContext } from "./partitionContext";
 import { AzureStorageCheckpointLeaseManager } from './azureStorageCheckpointLeaseManager';
 
@@ -27,13 +27,13 @@ enum CloseReason {
  */
 export class PartitionManager {
 
-  private _context: ProcessorContext;
+  private _context: HostContext;
   private _isCancelRequested: boolean = false;
   private _runTask?: Promise<void>;
   private _onMessage?: OnReceivedMessage;
   private _onError?: OnReceivedError;
 
-  constructor(context: ProcessorContext) {
+  constructor(context: HostContext) {
     this._context = context;
   }
 
@@ -146,7 +146,7 @@ export class PartitionManager {
     }
 
     log.partitionManager("[%s] Get the list of partition ids.", hostName);
-    const partitionIds = await this._context.eventHubClient.getPartitionIds();
+    const partitionIds = await this._context.getPartitionIds();
     this._context.partitionIds = partitionIds;
     log.partitionManager("[%s] Ensure that the leases exist.", hostName);
     const leases: Promise<Lease>[] = [];

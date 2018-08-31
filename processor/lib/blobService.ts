@@ -3,7 +3,7 @@
 
 import { createBlobService, BlobService as StorageBlobService, ServiceResponse } from "azure-storage";
 import * as log from "./log";
-import { validateType, getStorageError } from "./util/utils";
+import { validateType, getStorageError, Dictionary } from "./util/utils";
 import { defaultMaximumExecutionTimeInMs } from "./util/constants";
 
 export interface CreateContainerResult {
@@ -272,6 +272,69 @@ export class BlobService {
       log.blobService("[%s] Attempting to get blob props for blobPath '%s'.", this._hostName,
         blobPath);
       this._storageBlobService.getBlobProperties(containerName, blobPath, (error, result) => {
+        if (error) {
+          log.error("[%s] An error occurred while getting blob props for blobPath '%s': %O.",
+            this._hostName, blobPath, getStorageError(error));
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  }
+
+  listBlobsSegmented(containerName: string,
+    options?: StorageBlobService.ListBlobsSegmentedRequestOptions): Promise<StorageBlobService.ListBlobsResult> {
+    validateType("containerName", containerName, true, "string");
+    if (!options) {
+      options = {
+        maxResults: 5000,
+        delimiter: "/"
+      }
+    };
+    return new Promise<StorageBlobService.ListBlobsResult>((resolve, reject) => {
+      log.blobService("[%s] Attempting to list blobs for container '%s'.", this._hostName,
+        containerName);
+      this._storageBlobService.listBlobsSegmented(containerName, undefined as any, options!, (error, result) => {
+        if (error) {
+          log.error("[%s] An error occurred while listing blobs for container '%s': %O.",
+            this._hostName, containerName, getStorageError(error));
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  }
+
+  getBlobMetadata(containerName: string, blobPath: string): Promise<StorageBlobService.BlobResult> {
+    validateType("containerName", containerName, true, "string");
+    validateType("blobPath", blobPath, true, "string");
+
+    return new Promise<StorageBlobService.BlobResult>((resolve, reject) => {
+      log.blobService("[%s] Attempting to get blob props for blobPath '%s'.", this._hostName,
+        blobPath);
+      this._storageBlobService.getBlobMetadata(containerName, blobPath, (error, result) => {
+        if (error) {
+          log.error("[%s] An error occurred while getting blob props for blobPath '%s': %O.",
+            this._hostName, blobPath, getStorageError(error));
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  }
+
+  setBlobMetadata(containerName: string, blobPath: string, metadata: Dictionary<string>): Promise<StorageBlobService.BlobResult> {
+    validateType("containerName", containerName, true, "string");
+    validateType("blobPath", blobPath, true, "string");
+    validateType("metadata", metadata, true, "object");
+
+    return new Promise<StorageBlobService.BlobResult>((resolve, reject) => {
+      log.blobService("[%s] Attempting to get blob props for blobPath '%s'.", this._hostName,
+        blobPath);
+      this._storageBlobService.setBlobMetadata(containerName, blobPath, metadata, (error, result) => {
         if (error) {
           log.error("[%s] An error occurred while getting blob props for blobPath '%s': %O.",
             this._hostName, blobPath, getStorageError(error));

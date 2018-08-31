@@ -37,6 +37,21 @@ export interface CheckpointManager {
    */
   createCheckpointIfNotExists(partitionId: string): Promise<CheckpointInfo>;
   /**
+    * Creates the checkpoint HOLDERs for the given partitions. Does nothing for any checkpoint
+    * HOLDERs that already exist.
+    *
+    * The semantics of this are complicated because it is possible to use the same store for both
+    * leases and checkpoints (the Azure Storage implementation does so) and it is required to
+    * have a lease for every partition but it is not required to have a checkpoint for a partition.
+    * It is a valid scenario to never use checkpoints at all, so it is important for the store to
+    * distinguish between creating the structure(s) that will hold a checkpoint and actually creating
+    * a checkpoint (storing an offset/sequence number pair in the structure).
+    *
+    * @param {string[]} partitionIds  List of partitions to create checkpoint HOLDERs for.
+    * @returns {Promise<void>} Promise<void> undefined on success, rejects on error.
+    */
+  createAllCheckpointsIfNotExists(partitionIds: string[]): Promise<void>;
+  /**
    * Get the checkpoint data associated with the given partition. Could return undefined if no
    * checkpoint has been created for that partition.
    * @param {string} partitionId The partitionId to get the checkpoint info for.
