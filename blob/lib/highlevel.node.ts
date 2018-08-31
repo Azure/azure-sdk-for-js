@@ -7,7 +7,7 @@ import { BlobURL } from "./BlobURL";
 import { BlockBlobURL } from "./BlockBlobURL";
 import { BlobHTTPHeaders } from "./generated/models";
 import {
-  BlobUploadCommonResponse,
+  IBlobUploadCommonResponse,
   IDownloadFromBlobOptions,
   IUploadToBlockBlobOptions
 } from "./highlevel.common";
@@ -38,14 +38,14 @@ import { streamToBuffer } from "./utils/utils.node";
  * @param {string} filePath Full path of local file
  * @param {BlockBlobURL} blockBlobURL BlockBlobURL
  * @param {IUploadToBlockBlobOptions} [options] IUploadToBlockBlobOptions
- * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
+ * @returns {(Promise<IBlobUploadCommonResponse>)} ICommonResponse
  */
 export async function UploadFileToBlockBlob(
   aborter: Aborter,
   filePath: string,
   blockBlobURL: BlockBlobURL,
   options?: IUploadToBlockBlobOptions
-): Promise<BlobUploadCommonResponse> {
+): Promise<IBlobUploadCommonResponse> {
   const size = fs.statSync(filePath).size;
   return UploadResetableStreamToBlockBlob(
     aborter,
@@ -80,7 +80,7 @@ export async function UploadFileToBlockBlob(
  * @param {number} size Size of the block blob
  * @param {BlockBlobURL} blockBlobURL BlockBlobURL
  * @param {IUploadToBlockBlobOptions} [options] IUploadToBlockBlobOptions
- * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
+ * @returns {(Promise<IBlobUploadCommonResponse>)} ICommonResponse
  */
 async function UploadResetableStreamToBlockBlob(
   aborter: Aborter,
@@ -88,7 +88,7 @@ async function UploadResetableStreamToBlockBlob(
   size: number,
   blockBlobURL: BlockBlobURL,
   options: IUploadToBlockBlobOptions = {}
-): Promise<BlobUploadCommonResponse> {
+): Promise<IBlobUploadCommonResponse> {
   if (!options.blockSize) {
     options.blockSize = 0;
   }
@@ -314,7 +314,7 @@ export interface IUploadStreamToBlockBlobOptions {
  * @param {number} maxBuffers Max buffers will allocate during uploading, positive correlation
  *                            with max uploading concurrency
  * @param {IUploadStreamToBlockBlobOptions} [options]
- * @returns {Promise<BlobUploadCommonResponse>}
+ * @returns {Promise<IBlobUploadCommonResponse>}
  */
 export async function UploadStreamToBlockBlob(
   aborter: Aborter,
@@ -323,7 +323,7 @@ export async function UploadStreamToBlockBlob(
   bufferSize: number,
   maxBuffers: number,
   options: IUploadStreamToBlockBlobOptions = {}
-): Promise<BlobUploadCommonResponse> {
+): Promise<IBlobUploadCommonResponse> {
   if (!options.blobHTTPHeaders) {
     options.blobHTTPHeaders = {};
   }

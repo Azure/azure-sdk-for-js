@@ -7,7 +7,7 @@
   "browser": "./dist/lib/index.browser.js",
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
-    "ms-rest-js": "0.19.388"
+    "ms-rest-js": "0.21.404"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
@@ -40,7 +40,7 @@
     "build:es6": "node ./node_modules/typescript/bin/tsc -p tsconfig.es6.json",
     "build:browser": "webpack && rimraf browser/typings",
     "build:browsertest": "webpack --config webpack.config.test.js && rimraf browser/test/typings",
-    "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.0.471",
+    "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.0.472",
     "prepare": "npm run build:node",
     "clean": "rimraf dist && rimraf browser && rimraf es6dist && rimraf typings && rimraf temp"
   },

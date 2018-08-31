@@ -8,7 +8,7 @@ import { PageBlob } from "./generated/operations";
 import { rangeToString } from "./IRange";
 import {
   IBlobAccessConditions,
-  ICommonResponse,
+  IMetadata,
   IPageBlobAccessConditions
 } from "./models";
 import { Pipeline } from "./Pipeline";
@@ -19,65 +19,40 @@ export interface IPageBlobCreateOptions {
   accessConditions?: IBlobAccessConditions;
   blobSequenceNumber?: number;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
-  metadata?: { [propertyName: string]: string };
+  metadata?: IMetadata;
 }
-
-export declare type PageBlobCreateResponse = ICommonResponse &
-  Models.PageBlobCreateHeaders;
 
 export interface IPageBlobUploadPagesOptions {
   accessConditions?: IPageBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
+  transactionalContentMD5?: Uint8Array;
 }
-
-export declare type PageBlobUploadPagesResponse = ICommonResponse &
-  Models.PageBlobUploadPagesHeaders;
 
 export interface IPageBlobClearPagesOptions {
   accessConditions?: IPageBlobAccessConditions;
 }
 
-export declare type PageBlobClearPagesResponse = ICommonResponse &
-  Models.PageBlobClearPagesHeaders;
-
 export interface IPageBlobGetPageRangesOptions {
   accessConditions?: IBlobAccessConditions;
 }
-
-export declare type PageBlobGetPageRangesResponse = ICommonResponse &
-  Models.PageBlobGetPageRangesHeaders &
-  Models.PageList;
 
 export interface IPageBlobGetPageRangesDiffOptions {
   accessConditions?: IBlobAccessConditions;
   range?: string;
 }
 
-export declare type PageBlobGetPageRangesDiffResponse = ICommonResponse &
-  Models.PageBlobGetPageRangesDiffHeaders &
-  Models.PageList;
-
 export interface IPageBlobResizeOptions {
   accessConditions?: IBlobAccessConditions;
 }
-
-export declare type PageBlobResizeResponse = ICommonResponse &
-  Models.PageBlobResizeHeaders;
 
 export interface IPageBlobUpdateSequenceNumberOptions {
   accessConditions?: IBlobAccessConditions;
 }
 
-export declare type PageBlobUpdateSequenceNumberResponse = ICommonResponse &
-  Models.PageBlobUpdateSequenceNumberHeaders;
-
 export interface IPageBlobStartCopyIncrementalOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
-  metadata?: { [propertyName: string]: string };
+  metadata?: IMetadata;
 }
-
-export declare type PageBlobStartCopyIncrementalResponse = ICommonResponse &
-  Models.PageBlobCopyIncrementalHeaders;
 
 /**
  * PageBlobURL defines a set of operations applicable to page blobs.
@@ -179,29 +154,24 @@ export class PageBlobURL extends BlobURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} size
    * @param {IPageBlobCreateOptions} [options]
-   * @returns {Promise<PageBlobCreateResponse>}
+   * @returns {Promise<Models.PageBlobCreateResponse>}
    * @memberof PageBlobURL
    */
   public async create(
     aborter: Aborter,
     size: number,
     options: IPageBlobCreateOptions = {}
-  ): Promise<PageBlobCreateResponse> {
+  ): Promise<Models.PageBlobCreateResponse> {
     options.accessConditions = options.accessConditions || {};
-    const { parsedHeaders, ...result } = await this.pageBlobContext.create(
-      0,
-      size,
-      {
-        abortSignal: aborter,
-        blobHTTPHeaders: options.blobHTTPHeaders,
-        blobSequenceNumber: options.blobSequenceNumber,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        metadata: options.metadata,
-        modifiedAccessConditions:
-          options.accessConditions.modifiedAccessConditions
-      }
-    );
-    return { ...result, ...parsedHeaders };
+    return this.pageBlobContext.create(0, size, {
+      abortSignal: aborter,
+      blobHTTPHeaders: options.blobHTTPHeaders,
+      blobSequenceNumber: options.blobSequenceNumber,
+      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+      metadata: options.metadata,
+      modifiedAccessConditions:
+        options.accessConditions.modifiedAccessConditions
+    });
   }
 
   /**
@@ -214,7 +184,7 @@ export class PageBlobURL extends BlobURL {
    * @param {number} offset Offset of destination page blob
    * @param {number} count Content length of body, also how many bytes to be uploaded
    * @param {IPageBlobUploadPagesOptions} [options]
-   * @returns {Promise<PageBlobsUploadPagesResponse>}
+   * @returns {Promise<Models.PageBlobsUploadPagesResponse>}
    * @memberof PageBlobURL
    */
   public async uploadPages(
@@ -223,23 +193,19 @@ export class PageBlobURL extends BlobURL {
     offset: number,
     count: number,
     options: IPageBlobUploadPagesOptions = {}
-  ): Promise<PageBlobUploadPagesResponse> {
+  ): Promise<Models.PageBlobUploadPagesResponse> {
     options.accessConditions = options.accessConditions || {};
-    const { parsedHeaders, ...result } = await this.pageBlobContext.uploadPages(
-      body,
-      count,
-      {
-        abortSignal: aborter,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions:
-          options.accessConditions.modifiedAccessConditions,
-        onUploadProgress: options.progress,
-        range: rangeToString({ offset, count }),
-        sequenceNumberAccessConditions:
-          options.accessConditions.sequenceNumberAccessConditions
-      }
-    );
-    return { ...result, ...parsedHeaders };
+    return this.pageBlobContext.uploadPages(body, count, {
+      abortSignal: aborter,
+      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+      modifiedAccessConditions:
+        options.accessConditions.modifiedAccessConditions,
+      onUploadProgress: options.progress,
+      range: rangeToString({ offset, count }),
+      sequenceNumberAccessConditions:
+        options.accessConditions.sequenceNumberAccessConditions,
+      transactionalContentMD5: options.transactionalContentMD5
+    });
   }
 
   /**
@@ -251,7 +217,7 @@ export class PageBlobURL extends BlobURL {
    * @param {number} offset
    * @param {number} count
    * @param {IPageBlobClearPagesOptions} [options]
-   * @returns {Promise<PageBlobClearPagesResponse>}
+   * @returns {Promise<Models.PageBlobClearPagesResponse>}
    * @memberof PageBlobURL
    */
   public async clearPages(
@@ -259,21 +225,17 @@ export class PageBlobURL extends BlobURL {
     offset: number,
     count: number,
     options: IPageBlobClearPagesOptions = {}
-  ): Promise<PageBlobClearPagesResponse> {
+  ): Promise<Models.PageBlobClearPagesResponse> {
     options.accessConditions = options.accessConditions || {};
-    const { parsedHeaders, ...result } = await this.pageBlobContext.clearPages(
-      0,
-      {
-        abortSignal: aborter,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions:
-          options.accessConditions.modifiedAccessConditions,
-        range: rangeToString({ offset, count }),
-        sequenceNumberAccessConditions:
-          options.accessConditions.sequenceNumberAccessConditions
-      }
-    );
-    return { ...result, ...parsedHeaders };
+    return this.pageBlobContext.clearPages(0, {
+      abortSignal: aborter,
+      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+      modifiedAccessConditions:
+        options.accessConditions.modifiedAccessConditions,
+      range: rangeToString({ offset, count }),
+      sequenceNumberAccessConditions:
+        options.accessConditions.sequenceNumberAccessConditions
+    });
   }
 
   /**
@@ -285,7 +247,7 @@ export class PageBlobURL extends BlobURL {
    * @param {number} offset
    * @param {number} count
    * @param {IPageBlobGetPageRangesOptions} [options]
-   * @returns {Promise<PageBlobGetPageRangesResponse>}
+   * @returns {Promise<Models.PageBlobGetPageRangesResponse>}
    * @memberof PageBlobURL
    */
   public async getPageRanges(
@@ -293,21 +255,15 @@ export class PageBlobURL extends BlobURL {
     offset: number,
     count: number,
     options: IPageBlobGetPageRangesOptions = {}
-  ): Promise<PageBlobGetPageRangesResponse> {
+  ): Promise<Models.PageBlobGetPageRangesResponse> {
     options.accessConditions = options.accessConditions || {};
-    const {
-      bodyAsText,
-      parsedBody,
-      parsedHeaders,
-      ...result
-    } = await this.pageBlobContext.getPageRanges({
+    return this.pageBlobContext.getPageRanges({
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions:
         options.accessConditions.modifiedAccessConditions,
       range: rangeToString({ offset, count })
     });
-    return { ...result, ...parsedHeaders, ...parsedBody };
   }
 
   /**
@@ -320,7 +276,7 @@ export class PageBlobURL extends BlobURL {
    * @param {number} count
    * @param {string} prevSnapshot
    * @param {IPageBlobGetPageRangesDiffOptions} [options]
-   * @returns {Promise<PageBlobGetPageRangesDiffResponse>}
+   * @returns {Promise<Models.PageBlobGetPageRangesDiffResponse>}
    * @memberof PageBlobURL
    */
   public async getPageRangesDiff(
@@ -329,14 +285,9 @@ export class PageBlobURL extends BlobURL {
     count: number,
     prevSnapshot: string,
     options: IPageBlobGetPageRangesDiffOptions = {}
-  ): Promise<PageBlobGetPageRangesDiffResponse> {
+  ): Promise<Models.PageBlobGetPageRangesDiffResponse> {
     options.accessConditions = options.accessConditions || {};
-    const {
-      bodyAsText,
-      parsedBody,
-      parsedHeaders,
-      ...result
-    } = await this.pageBlobContext.getPageRangesDiff({
+    return this.pageBlobContext.getPageRangesDiff({
       abortSignal: aborter,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions:
@@ -344,7 +295,6 @@ export class PageBlobURL extends BlobURL {
       prevsnapshot: prevSnapshot,
       range: rangeToString({ offset, count })
     });
-    return { ...result, ...parsedHeaders, ...parsedBody };
   }
 
   /**
@@ -355,25 +305,21 @@ export class PageBlobURL extends BlobURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} size
    * @param {IPageBlobResizeOptions} [options]
-   * @returns {Promise<PageBlobResizeResponse>}
+   * @returns {Promise<Models.PageBlobResizeResponse>}
    * @memberof PageBlobURL
    */
   public async resize(
     aborter: Aborter,
     size: number,
     options: IPageBlobResizeOptions = {}
-  ): Promise<PageBlobResizeResponse> {
+  ): Promise<Models.PageBlobResizeResponse> {
     options.accessConditions = options.accessConditions || {};
-    const { parsedHeaders, ...result } = await this.pageBlobContext.resize(
-      size,
-      {
-        abortSignal: aborter,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        modifiedAccessConditions:
-          options.accessConditions.modifiedAccessConditions
-      }
-    );
-    return { ...result, ...parsedHeaders };
+    return this.pageBlobContext.resize(size, {
+      abortSignal: aborter,
+      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+      modifiedAccessConditions:
+        options.accessConditions.modifiedAccessConditions
+    });
   }
 
   /**
@@ -385,7 +331,7 @@ export class PageBlobURL extends BlobURL {
    * @param {Models.SequenceNumberActionType} sequenceNumberAction
    * @param {number} [sequenceNumber] Required if sequenceNumberAction is max or update
    * @param {IPageBlobUpdateSequenceNumberOptions} [options]
-   * @returns {Promise<PageBlobUpdateSequenceNumberResponse>}
+   * @returns {Promise<Models.PageBlobUpdateSequenceNumberResponse>}
    * @memberof PageBlobURL
    */
   public async updateSequenceNumber(
@@ -393,19 +339,15 @@ export class PageBlobURL extends BlobURL {
     sequenceNumberAction: Models.SequenceNumberActionType,
     sequenceNumber?: number,
     options: IPageBlobUpdateSequenceNumberOptions = {}
-  ): Promise<PageBlobUpdateSequenceNumberResponse> {
+  ): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
     options.accessConditions = options.accessConditions || {};
-    const {
-      parsedHeaders,
-      ...result
-    } = await this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
+    return this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
       abortSignal: aborter,
       blobSequenceNumber: sequenceNumber,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions:
         options.accessConditions.modifiedAccessConditions
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -421,22 +363,18 @@ export class PageBlobURL extends BlobURL {
    * @param {string} copySource Specifies the name of the source page blob snapshot. For example,
    *                            https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
    * @param {IPageBlobStartCopyIncrementalOptions} [options]
-   * @returns {Promise<PageBlobStartCopyIncrementalResponse>}
+   * @returns {Promise<Models.PageBlobCopyIncrementalResponse>}
    * @memberof PageBlobURL
    */
   public async startCopyIncremental(
     aborter: Aborter,
     copySource: string,
     options: IPageBlobStartCopyIncrementalOptions = {}
-  ): Promise<PageBlobStartCopyIncrementalResponse> {
-    const {
-      parsedHeaders,
-      ...result
-    } = await this.pageBlobContext.copyIncremental(copySource, {
+  ): Promise<Models.PageBlobCopyIncrementalResponse> {
+    return this.pageBlobContext.copyIncremental(copySource, {
       abortSignal: aborter,
       metadata: options.metadata,
       modifiedAccessConditions: options.modifiedAccessConditions
     });
-    return { ...result, ...parsedHeaders };
   }
 }

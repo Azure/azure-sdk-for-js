@@ -779,7 +779,7 @@ export interface StorageServiceStats {
 export interface LeaseAccessConditions {
   /**
    * @member {string} [leaseId] If specified, the operation only succeeds if
-   * the container's lease is active and matches this ID.
+   * the resource's lease is active and matches this ID.
    */
   leaseId?: string;
 }
@@ -877,10 +877,10 @@ export interface SourceModifiedAccessConditions {
    */
   sourceIfUnmodifiedSince?: Date;
   /**
-   * @member {string} [sourceIfMatches] Specify an ETag value to operate only
-   * on blobs with a matching value.
+   * @member {string} [sourceIfMatch] Specify an ETag value to operate only on
+   * blobs with a matching value.
    */
-  sourceIfMatches?: string;
+  sourceIfMatch?: string;
   /**
    * @member {string} [sourceIfNoneMatch] Specify an ETag value to operate only
    * on blobs without a matching value.
@@ -2186,6 +2186,11 @@ export interface PageBlobCreateOptionalParams extends msRest.RequestOptionsBase 
  */
 export interface PageBlobUploadPagesOptionalParams extends msRest.RequestOptionsBase {
   /**
+   * @member {Uint8Array} [transactionalContentMD5] Specify the transactional
+   * md5 for the body, to be validated by the service.
+   */
+  transactionalContentMD5?: Uint8Array;
+  /**
    * @member {number} [timeout] The timeout parameter is expressed in seconds.
    * For more information, see <a
    * href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting
@@ -2544,6 +2549,11 @@ export interface AppendBlobAppendBlockOptionalParams extends msRest.RequestOptio
    */
   timeout?: number;
   /**
+   * @member {Uint8Array} [transactionalContentMD5] Specify the transactional
+   * md5 for the body, to be validated by the service.
+   */
+  transactionalContentMD5?: Uint8Array;
+  /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
    * storage analytics logging is enabled.
@@ -2624,6 +2634,11 @@ export interface BlockBlobUploadOptionalParams extends msRest.RequestOptionsBase
  * @extends RequestOptionsBase
  */
 export interface BlockBlobStageBlockOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {Uint8Array} [transactionalContentMD5] Specify the transactional
+   * md5 for the body, to be validated by the service.
+   */
+  transactionalContentMD5?: Uint8Array;
   /**
    * @member {number} [timeout] The timeout parameter is expressed in seconds.
    * For more information, see <a
@@ -5660,256 +5675,1014 @@ export enum AccountKind {
 /**
  * Contains response data for the setProperties operation.
  */
-export interface ServiceSetPropertiesResponse extends msRest.HttpResponse {
+export type ServiceSetPropertiesResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: ServiceSetPropertiesHeaders;
-}
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceSetPropertiesHeaders;
+    };
+};
 
 /**
  * Contains response data for the getProperties operation.
  */
-export interface ServiceGetPropertiesResponse extends msRest.HttpResponse {
+export type ServiceGetPropertiesResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: ServiceGetPropertiesHeaders;
+  requestId: string;
   /**
-   * The response body as text (string format)
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
    */
-  bodyAsText: string;
+  version: string;
+  errorCode: string;
+  logging: Logging;
+  hourMetrics: Metrics;
+  minuteMetrics: Metrics;
   /**
-   * The response body as parsed JSON or XML
+   * The set of CORS rules.
    */
-  parsedBody: StorageServiceProperties;
-}
+  cors: CorsRule[];
+  /**
+   * The default version to use for requests to the Blob service if an incoming request's version
+   * is not specified. Possible values include version 2008-10-27 and all more recent versions
+   */
+  defaultServiceVersion: string;
+  deleteRetentionPolicy: RetentionPolicy;
+  staticWebsite: StaticWebsite;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceGetPropertiesHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageServiceProperties;
+    };
+};
 
 /**
  * Contains response data for the getStatistics operation.
  */
-export interface ServiceGetStatisticsResponse extends msRest.HttpResponse {
+export type ServiceGetStatisticsResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: ServiceGetStatisticsHeaders;
+  requestId: string;
   /**
-   * The response body as text (string format)
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
    */
-  bodyAsText: string;
+  version: string;
   /**
-   * The response body as parsed JSON or XML
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
    */
-  parsedBody: StorageServiceStats;
-}
+  date: Date;
+  errorCode: string;
+  geoReplication: GeoReplication;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceGetStatisticsHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StorageServiceStats;
+    };
+};
 
 /**
  * Contains response data for the listContainersSegment operation.
  */
-export interface ServiceListContainersSegmentResponse extends msRest.HttpResponse {
+export type ServiceListContainersSegmentResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: ServiceListContainersSegmentHeaders;
+  requestId: string;
   /**
-   * The response body as text (string format)
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
    */
-  bodyAsText: string;
+  version: string;
+  errorCode: string;
+  serviceEndpoint: string;
+  prefix: string;
+  marker: string;
+  maxResults: number;
+  containerItems: ContainerItem[];
+  nextMarker: string;
   /**
-   * The response body as parsed JSON or XML
+   * The underlying HTTP response.
    */
-  parsedBody: ListContainersSegmentResponse;
-}
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceListContainersSegmentHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListContainersSegmentResponse;
+    };
+};
 
 /**
  * Contains response data for the getAccountInfo operation.
  */
-export interface ServiceGetAccountInfoResponse extends msRest.HttpResponse {
+export type ServiceGetAccountInfoResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: ServiceGetAccountInfoHeaders;
-}
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * Identifies the sku name of the account. Possible values include: 'Standard_LRS',
+   * 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS', 'Premium_LRS'
+   */
+  skuName: SkuName;
+  /**
+   * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2'
+   */
+  accountKind: AccountKind;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceGetAccountInfoHeaders;
+    };
+};
 
 /**
  * Contains response data for the create operation.
  */
-export interface ContainerCreateResponse extends msRest.HttpResponse {
+export type ContainerCreateResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: ContainerCreateHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerCreateHeaders;
+    };
+};
 
 /**
  * Contains response data for the getProperties operation.
  */
-export interface ContainerGetPropertiesResponse extends msRest.HttpResponse {
+export type ContainerGetPropertiesResponse = {
+  metadata: { [propertyName: string]: string };
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: ContainerGetPropertiesHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * When a blob is leased, specifies whether the lease is of infinite or fixed duration. Possible
+   * values include: 'infinite', 'fixed'
+   */
+  leaseDuration: LeaseDurationType;
+  /**
+   * Lease state of the blob. Possible values include: 'available', 'leased', 'expired',
+   * 'breaking', 'broken'
+   */
+  leaseState: LeaseStateType;
+  /**
+   * The current lease status of the blob. Possible values include: 'locked', 'unlocked'
+   */
+  leaseStatus: LeaseStatusType;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * Indicated whether data in the container may be accessed publicly and the level of access.
+   * Possible values include: 'container', 'blob'
+   */
+  blobPublicAccess: PublicAccessType;
+  /**
+   * Indicates whether the container has an immutability policy set on it.
+   */
+  hasImmutabilityPolicy: boolean;
+  /**
+   * Indicates whether the container has a legal hold.
+   */
+  hasLegalHold: boolean;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerGetPropertiesHeaders;
+    };
+};
 
 /**
  * Contains response data for the deleteMethod operation.
  */
-export interface ContainerDeleteResponse extends msRest.HttpResponse {
+export type ContainerDeleteResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: ContainerDeleteHeaders;
-}
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerDeleteHeaders;
+    };
+};
 
 /**
  * Contains response data for the setMetadata operation.
  */
-export interface ContainerSetMetadataResponse extends msRest.HttpResponse {
+export type ContainerSetMetadataResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: ContainerSetMetadataHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerSetMetadataHeaders;
+    };
+};
 
 /**
  * Contains response data for the getAccessPolicy operation.
  */
-export interface ContainerGetAccessPolicyResponse extends msRest.HttpResponse {
+export type ContainerGetAccessPolicyResponse = Array<SignedIdentifier> & {
   /**
-   * The parsed HTTP response headers.
+   * Indicated whether data in the container may be accessed publicly and the level of access.
+   * Possible values include: 'container', 'blob'
    */
-  parsedHeaders: ContainerGetAccessPolicyHeaders;
+  blobPublicAccess: PublicAccessType;
   /**
-   * The response body as text (string format)
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  bodyAsText: string;
+  eTag: string;
   /**
-   * The response body as parsed JSON or XML
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
    */
-  parsedBody: SignedIdentifier[];
-}
+  lastModified: Date;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignedIdentifier[];
+    };
+};
 
 /**
  * Contains response data for the setAccessPolicy operation.
  */
-export interface ContainerSetAccessPolicyResponse extends msRest.HttpResponse {
+export type ContainerSetAccessPolicyResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: ContainerSetAccessPolicyHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerSetAccessPolicyHeaders;
+    };
+};
 
 /**
  * Contains response data for the acquireLease operation.
  */
-export interface ContainerAcquireLeaseResponse extends msRest.HttpResponse {
+export type ContainerAcquireLeaseResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: ContainerAcquireLeaseHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * Uniquely identifies a container's lease
+   */
+  leaseId: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerAcquireLeaseHeaders;
+    };
+};
 
 /**
  * Contains response data for the releaseLease operation.
  */
-export interface ContainerReleaseLeaseResponse extends msRest.HttpResponse {
+export type ContainerReleaseLeaseResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: ContainerReleaseLeaseHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerReleaseLeaseHeaders;
+    };
+};
 
 /**
  * Contains response data for the renewLease operation.
  */
-export interface ContainerRenewLeaseResponse extends msRest.HttpResponse {
+export type ContainerRenewLeaseResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: ContainerRenewLeaseHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * Uniquely identifies a container's lease
+   */
+  leaseId: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerRenewLeaseHeaders;
+    };
+};
 
 /**
  * Contains response data for the breakLease operation.
  */
-export interface ContainerBreakLeaseResponse extends msRest.HttpResponse {
+export type ContainerBreakLeaseResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: ContainerBreakLeaseHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * Approximate time remaining in the lease period, in seconds.
+   */
+  leaseTime: number;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerBreakLeaseHeaders;
+    };
+};
 
 /**
  * Contains response data for the changeLease operation.
  */
-export interface ContainerChangeLeaseResponse extends msRest.HttpResponse {
+export type ContainerChangeLeaseResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: ContainerChangeLeaseHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * Uniquely identifies a container's lease
+   */
+  leaseId: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerChangeLeaseHeaders;
+    };
+};
 
 /**
  * Contains response data for the listBlobFlatSegment operation.
  */
-export interface ContainerListBlobFlatSegmentResponse extends msRest.HttpResponse {
+export type ContainerListBlobFlatSegmentResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The content type specified for the blob. The default content type is
+   * 'application/octet-stream'
    */
-  parsedHeaders: ContainerListBlobFlatSegmentHeaders;
+  contentType: string;
   /**
-   * The response body as text (string format)
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  bodyAsText: string;
+  requestId: string;
   /**
-   * The response body as parsed JSON or XML
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
    */
-  parsedBody: ListBlobsFlatSegmentResponse;
-}
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  serviceEndpoint: string;
+  containerName: string;
+  prefix: string;
+  marker: string;
+  maxResults: number;
+  delimiter: string;
+  segment: BlobFlatListSegment;
+  nextMarker: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerListBlobFlatSegmentHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListBlobsFlatSegmentResponse;
+    };
+};
 
 /**
  * Contains response data for the listBlobHierarchySegment operation.
  */
-export interface ContainerListBlobHierarchySegmentResponse extends msRest.HttpResponse {
+export type ContainerListBlobHierarchySegmentResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The content type specified for the blob. The default content type is
+   * 'application/octet-stream'
    */
-  parsedHeaders: ContainerListBlobHierarchySegmentHeaders;
+  contentType: string;
   /**
-   * The response body as text (string format)
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  bodyAsText: string;
+  requestId: string;
   /**
-   * The response body as parsed JSON or XML
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
    */
-  parsedBody: ListBlobsHierarchySegmentResponse;
-}
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  serviceEndpoint: string;
+  containerName: string;
+  prefix: string;
+  marker: string;
+  maxResults: number;
+  delimiter: string;
+  segment: BlobHierarchyListSegment;
+  nextMarker: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerListBlobHierarchySegmentHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListBlobsHierarchySegmentResponse;
+    };
+};
 
 /**
  * Contains response data for the getAccountInfo operation.
  */
-export interface ContainerGetAccountInfoResponse extends msRest.HttpResponse {
+export type ContainerGetAccountInfoResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: ContainerGetAccountInfoHeaders;
-}
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * Identifies the sku name of the account. Possible values include: 'Standard_LRS',
+   * 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS', 'Premium_LRS'
+   */
+  skuName: SkuName;
+  /**
+   * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2'
+   */
+  accountKind: AccountKind;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ContainerGetAccountInfoHeaders;
+    };
+};
 
 /**
  * Contains response data for the download operation.
  */
-export interface BlobDownloadResponse extends msRest.HttpResponse {
+export type BlobDownloadResponse = {
   /**
-   * The parsed HTTP response headers.
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
    */
-  parsedHeaders: BlobDownloadHeaders;
+  lastModified: Date;
+  metadata: { [propertyName: string]: string };
+  /**
+   * The number of bytes present in the response body.
+   */
+  contentLength: number;
+  /**
+   * The content type specified for the blob. The default content type is
+   * 'application/octet-stream'
+   */
+  contentType: string;
+  /**
+   * Indicates the range of bytes returned in the event that the client requested a subset of the
+   * blob by setting the 'Range' request header.
+   */
+  contentRange: string;
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
+   */
+  eTag: string;
+  /**
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
+   */
+  contentMD5: Uint8Array;
+  /**
+   * This header returns the value that was specified for the Content-Encoding request header
+   */
+  contentEncoding: string;
+  /**
+   * This header is returned if it was previously specified for the blob.
+   */
+  cacheControl: string;
+  /**
+   * This header returns the value that was specified for the 'x-ms-blob-content-disposition'
+   * header. The Content-Disposition response header field conveys additional information about how
+   * to process the response payload, and also can be used to attach additional metadata. For
+   * example, if set to attachment, it indicates that the user-agent should not display the
+   * response, but instead show a Save As dialog with a filename other than the blob name
+   * specified.
+   */
+  contentDisposition: string;
+  /**
+   * This header returns the value that was specified for the Content-Language request header.
+   */
+  contentLanguage: string;
+  /**
+   * The current sequence number for a page blob. This header is not returned for block blobs or
+   * append blobs
+   */
+  blobSequenceNumber: number;
+  /**
+   * The blob's type. Possible values include: 'BlockBlob', 'PageBlob', 'AppendBlob'
+   */
+  blobType: BlobType;
+  /**
+   * Conclusion time of the last attempted Copy Blob operation where this blob was the destination
+   * blob. This value can specify the time of a completed, aborted, or failed copy attempt. This
+   * header does not appear if a copy is pending, if this blob has never been the destination in a
+   * Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation
+   * using Set Blob Properties, Put Blob, or Put Block List.
+   */
+  copyCompletionTime: Date;
+  /**
+   * Only appears when x-ms-copy-status is failed or pending. Describes the cause of the last fatal
+   * or non-fatal copy operation failure. This header does not appear if this blob has never been
+   * the destination in a Copy Blob operation, or if this blob has been modified after a concluded
+   * Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List
+   */
+  copyStatusDescription: string;
+  /**
+   * String identifier for this copy operation. Use with Get Blob Properties to check the status of
+   * this copy operation, or pass to Abort Copy Blob to abort a pending copy.
+   */
+  copyId: string;
+  /**
+   * Contains the number of bytes copied and the total bytes in the source in the last attempted
+   * Copy Blob operation where this blob was the destination blob. Can show between 0 and
+   * Content-Length bytes copied. This header does not appear if this blob has never been the
+   * destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy
+   * Blob operation using Set Blob Properties, Put Blob, or Put Block List
+   */
+  copyProgress: string;
+  /**
+   * URL up to 2 KB in length that specifies the source blob or file used in the last attempted
+   * Copy Blob operation where this blob was the destination blob. This header does not appear if
+   * this blob has never been the destination in a Copy Blob operation, or if this blob has been
+   * modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put
+   * Block List.
+   */
+  copySource: string;
+  /**
+   * State of the copy operation identified by x-ms-copy-id. Possible values include: 'pending',
+   * 'success', 'aborted', 'failed'
+   */
+  copyStatus: CopyStatusType;
+  /**
+   * When a blob is leased, specifies whether the lease is of infinite or fixed duration. Possible
+   * values include: 'infinite', 'fixed'
+   */
+  leaseDuration: LeaseDurationType;
+  /**
+   * Lease state of the blob. Possible values include: 'available', 'leased', 'expired',
+   * 'breaking', 'broken'
+   */
+  leaseState: LeaseStateType;
+  /**
+   * The current lease status of the blob. Possible values include: 'locked', 'unlocked'
+   */
+  leaseStatus: LeaseStatusType;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * Indicates that the service supports requests for partial blob content.
+   */
+  acceptRanges: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * The number of committed blocks present in the blob. This header is returned only for append
+   * blobs.
+   */
+  blobCommittedBlockCount: number;
+  /**
+   * The value of this header is set to true if the blob data and application metadata are
+   * completely encrypted using the specified algorithm. Otherwise, the value is set to false (when
+   * the blob is unencrypted, or if only parts of the blob/application metadata are encrypted).
+   */
+  isServerEncrypted: boolean;
+  /**
+   * If the blob has a MD5 hash, and if request contains range header (Range or x-ms-range), this
+   * response header is returned with the value of the whole blob's MD5 value. This value may or
+   * may not be equal to the value returned in Content-MD5 header, with the latter calculated from
+   * the requested range
+   */
+  blobContentMD5: Uint8Array;
+  errorCode: string;
   /**
    * BROWSER ONLY
    *
    * The response body as a browser Blob.
    * Always undefined in node.js.
    */
-  blobBody?: () => Promise<Blob>;
+  blobBody?: Promise<Blob>;
   /**
    * NODEJS ONLY
    *
@@ -5917,328 +6690,1560 @@ export interface BlobDownloadResponse extends msRest.HttpResponse {
    * Always undefined in the browser.
    */
   readableStreamBody?: NodeJS.ReadableStream;
-}
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobDownloadHeaders;
+    };
+};
 
 /**
  * Contains response data for the getProperties operation.
  */
-export interface BlobGetPropertiesResponse extends msRest.HttpResponse {
+export type BlobGetPropertiesResponse = {
   /**
-   * The parsed HTTP response headers.
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
    */
-  parsedHeaders: BlobGetPropertiesHeaders;
-}
+  lastModified: Date;
+  /**
+   * Returns the date and time the blob was created.
+   */
+  creationTime: Date;
+  metadata: { [propertyName: string]: string };
+  /**
+   * The blob's type. Possible values include: 'BlockBlob', 'PageBlob', 'AppendBlob'
+   */
+  blobType: BlobType;
+  /**
+   * Conclusion time of the last attempted Copy Blob operation where this blob was the destination
+   * blob. This value can specify the time of a completed, aborted, or failed copy attempt. This
+   * header does not appear if a copy is pending, if this blob has never been the destination in a
+   * Copy Blob operation, or if this blob has been modified after a concluded Copy Blob operation
+   * using Set Blob Properties, Put Blob, or Put Block List.
+   */
+  copyCompletionTime: Date;
+  /**
+   * Only appears when x-ms-copy-status is failed or pending. Describes the cause of the last fatal
+   * or non-fatal copy operation failure. This header does not appear if this blob has never been
+   * the destination in a Copy Blob operation, or if this blob has been modified after a concluded
+   * Copy Blob operation using Set Blob Properties, Put Blob, or Put Block List
+   */
+  copyStatusDescription: string;
+  /**
+   * String identifier for this copy operation. Use with Get Blob Properties to check the status of
+   * this copy operation, or pass to Abort Copy Blob to abort a pending copy.
+   */
+  copyId: string;
+  /**
+   * Contains the number of bytes copied and the total bytes in the source in the last attempted
+   * Copy Blob operation where this blob was the destination blob. Can show between 0 and
+   * Content-Length bytes copied. This header does not appear if this blob has never been the
+   * destination in a Copy Blob operation, or if this blob has been modified after a concluded Copy
+   * Blob operation using Set Blob Properties, Put Blob, or Put Block List
+   */
+  copyProgress: string;
+  /**
+   * URL up to 2 KB in length that specifies the source blob or file used in the last attempted
+   * Copy Blob operation where this blob was the destination blob. This header does not appear if
+   * this blob has never been the destination in a Copy Blob operation, or if this blob has been
+   * modified after a concluded Copy Blob operation using Set Blob Properties, Put Blob, or Put
+   * Block List.
+   */
+  copySource: string;
+  /**
+   * State of the copy operation identified by x-ms-copy-id. Possible values include: 'pending',
+   * 'success', 'aborted', 'failed'
+   */
+  copyStatus: CopyStatusType;
+  /**
+   * Included if the blob is incremental copy blob.
+   */
+  isIncrementalCopy: boolean;
+  /**
+   * Included if the blob is incremental copy blob or incremental copy snapshot, if
+   * x-ms-copy-status is success. Snapshot time of the last successful incremental copy snapshot
+   * for this blob.
+   */
+  destinationSnapshot: string;
+  /**
+   * When a blob is leased, specifies whether the lease is of infinite or fixed duration. Possible
+   * values include: 'infinite', 'fixed'
+   */
+  leaseDuration: LeaseDurationType;
+  /**
+   * Lease state of the blob. Possible values include: 'available', 'leased', 'expired',
+   * 'breaking', 'broken'
+   */
+  leaseState: LeaseStateType;
+  /**
+   * The current lease status of the blob. Possible values include: 'locked', 'unlocked'
+   */
+  leaseStatus: LeaseStatusType;
+  /**
+   * The number of bytes present in the response body.
+   */
+  contentLength: number;
+  /**
+   * The content type specified for the blob. The default content type is
+   * 'application/octet-stream'
+   */
+  contentType: string;
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
+   */
+  eTag: string;
+  /**
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
+   */
+  contentMD5: Uint8Array;
+  /**
+   * This header returns the value that was specified for the Content-Encoding request header
+   */
+  contentEncoding: string;
+  /**
+   * This header returns the value that was specified for the 'x-ms-blob-content-disposition'
+   * header. The Content-Disposition response header field conveys additional information about how
+   * to process the response payload, and also can be used to attach additional metadata. For
+   * example, if set to attachment, it indicates that the user-agent should not display the
+   * response, but instead show a Save As dialog with a filename other than the blob name
+   * specified.
+   */
+  contentDisposition: string;
+  /**
+   * This header returns the value that was specified for the Content-Language request header.
+   */
+  contentLanguage: string;
+  /**
+   * This header is returned if it was previously specified for the blob.
+   */
+  cacheControl: string;
+  /**
+   * The current sequence number for a page blob. This header is not returned for block blobs or
+   * append blobs
+   */
+  blobSequenceNumber: number;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * Indicates that the service supports requests for partial blob content.
+   */
+  acceptRanges: string;
+  /**
+   * The number of committed blocks present in the blob. This header is returned only for append
+   * blobs.
+   */
+  blobCommittedBlockCount: number;
+  /**
+   * The value of this header is set to true if the blob data and application metadata are
+   * completely encrypted using the specified algorithm. Otherwise, the value is set to false (when
+   * the blob is unencrypted, or if only parts of the blob/application metadata are encrypted).
+   */
+  isServerEncrypted: boolean;
+  /**
+   * The tier of page blob on a premium storage account or tier of block blob on blob storage LRS
+   * accounts. For a list of allowed premium page blob tiers, see
+   * https://docs.microsoft.com/en-us/azure/virtual-machines/windows/premium-storage#features. For
+   * blob storage LRS accounts, valid values are Hot/Cool/Archive.
+   */
+  accessTier: string;
+  /**
+   * For page blobs on a premium storage account only. If the access tier is not explicitly set on
+   * the blob, the tier is inferred based on its content length and this header will be returned
+   * with true value.
+   */
+  accessTierInferred: boolean;
+  /**
+   * For blob storage LRS accounts, valid values are
+   * rehydrate-pending-to-hot/rehydrate-pending-to-cool. If the blob is being rehydrated and is not
+   * complete then this header is returned indicating that rehydrate is pending and also tells the
+   * destination tier.
+   */
+  archiveStatus: string;
+  /**
+   * The time the tier was changed on the object. This is only returned if the tier on the block
+   * blob was ever set.
+   */
+  accessTierChangeTime: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobGetPropertiesHeaders;
+    };
+};
 
 /**
  * Contains response data for the deleteMethod operation.
  */
-export interface BlobDeleteResponse extends msRest.HttpResponse {
+export type BlobDeleteResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: BlobDeleteHeaders;
-}
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobDeleteHeaders;
+    };
+};
 
 /**
  * Contains response data for the undelete operation.
  */
-export interface BlobUndeleteResponse extends msRest.HttpResponse {
+export type BlobUndeleteResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: BlobUndeleteHeaders;
-}
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated.
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobUndeleteHeaders;
+    };
+};
 
 /**
  * Contains response data for the setHTTPHeaders operation.
  */
-export interface BlobSetHTTPHeadersResponse extends msRest.HttpResponse {
+export type BlobSetHTTPHeadersResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: BlobSetHTTPHeadersHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * The current sequence number for a page blob. This header is not returned for block blobs or
+   * append blobs
+   */
+  blobSequenceNumber: number;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobSetHTTPHeadersHeaders;
+    };
+};
 
 /**
  * Contains response data for the setMetadata operation.
  */
-export interface BlobSetMetadataResponse extends msRest.HttpResponse {
+export type BlobSetMetadataResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: BlobSetMetadataHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted: boolean;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobSetMetadataHeaders;
+    };
+};
 
 /**
  * Contains response data for the acquireLease operation.
  */
-export interface BlobAcquireLeaseResponse extends msRest.HttpResponse {
+export type BlobAcquireLeaseResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: BlobAcquireLeaseHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the blob was last modified. Any operation that modifies the blob,
+   * including an update of the blob's metadata or properties, changes the last-modified time of
+   * the blob.
+   */
+  lastModified: Date;
+  /**
+   * Uniquely identifies a blobs's lease
+   */
+  leaseId: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobAcquireLeaseHeaders;
+    };
+};
 
 /**
  * Contains response data for the releaseLease operation.
  */
-export interface BlobReleaseLeaseResponse extends msRest.HttpResponse {
+export type BlobReleaseLeaseResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: BlobReleaseLeaseHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the blob was last modified. Any operation that modifies the blob,
+   * including an update of the blob's metadata or properties, changes the last-modified time of
+   * the blob.
+   */
+  lastModified: Date;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobReleaseLeaseHeaders;
+    };
+};
 
 /**
  * Contains response data for the renewLease operation.
  */
-export interface BlobRenewLeaseResponse extends msRest.HttpResponse {
+export type BlobRenewLeaseResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: BlobRenewLeaseHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the blob was last modified. Any operation that modifies the blob,
+   * including an update of the blob's metadata or properties, changes the last-modified time of
+   * the blob.
+   */
+  lastModified: Date;
+  /**
+   * Uniquely identifies a blobs's lease
+   */
+  leaseId: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobRenewLeaseHeaders;
+    };
+};
 
 /**
  * Contains response data for the changeLease operation.
  */
-export interface BlobChangeLeaseResponse extends msRest.HttpResponse {
+export type BlobChangeLeaseResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: BlobChangeLeaseHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the blob was last modified. Any operation that modifies the blob,
+   * including an update of the blob's metadata or properties, changes the last-modified time of
+   * the blob.
+   */
+  lastModified: Date;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Uniquely identifies a blobs's lease
+   */
+  leaseId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobChangeLeaseHeaders;
+    };
+};
 
 /**
  * Contains response data for the breakLease operation.
  */
-export interface BlobBreakLeaseResponse extends msRest.HttpResponse {
+export type BlobBreakLeaseResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: BlobBreakLeaseHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the blob was last modified. Any operation that modifies the blob,
+   * including an update of the blob's metadata or properties, changes the last-modified time of
+   * the blob.
+   */
+  lastModified: Date;
+  /**
+   * Approximate time remaining in the lease period, in seconds.
+   */
+  leaseTime: number;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobBreakLeaseHeaders;
+    };
+};
 
 /**
  * Contains response data for the createSnapshot operation.
  */
-export interface BlobCreateSnapshotResponse extends msRest.HttpResponse {
+export type BlobCreateSnapshotResponse = {
   /**
-   * The parsed HTTP response headers.
+   * Uniquely identifies the snapshot and indicates the snapshot version. It may be used in
+   * subsequent requests to access the snapshot
    */
-  parsedHeaders: BlobCreateSnapshotHeaders;
-}
+  snapshot: string;
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
+   */
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobCreateSnapshotHeaders;
+    };
+};
 
 /**
  * Contains response data for the startCopyFromURL operation.
  */
-export interface BlobStartCopyFromURLResponse extends msRest.HttpResponse {
+export type BlobStartCopyFromURLResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: BlobStartCopyFromURLHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * String identifier for this copy operation. Use with Get Blob Properties to check the status of
+   * this copy operation, or pass to Abort Copy Blob to abort a pending copy.
+   */
+  copyId: string;
+  /**
+   * State of the copy operation identified by x-ms-copy-id. Possible values include: 'pending',
+   * 'success', 'aborted', 'failed'
+   */
+  copyStatus: CopyStatusType;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobStartCopyFromURLHeaders;
+    };
+};
 
 /**
  * Contains response data for the abortCopyFromURL operation.
  */
-export interface BlobAbortCopyFromURLResponse extends msRest.HttpResponse {
+export type BlobAbortCopyFromURLResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: BlobAbortCopyFromURLHeaders;
-}
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobAbortCopyFromURLHeaders;
+    };
+};
 
 /**
  * Contains response data for the setTier operation.
  */
-export interface BlobSetTierResponse extends msRest.HttpResponse {
+export type BlobSetTierResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: BlobSetTierHeaders;
-}
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and newer.
+   */
+  version: string;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobSetTierHeaders;
+    };
+};
 
 /**
  * Contains response data for the getAccountInfo operation.
  */
-export interface BlobGetAccountInfoResponse extends msRest.HttpResponse {
+export type BlobGetAccountInfoResponse = {
   /**
-   * The parsed HTTP response headers.
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
    */
-  parsedHeaders: BlobGetAccountInfoHeaders;
-}
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * Identifies the sku name of the account. Possible values include: 'Standard_LRS',
+   * 'Standard_GRS', 'Standard_RAGRS', 'Standard_ZRS', 'Premium_LRS'
+   */
+  skuName: SkuName;
+  /**
+   * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2'
+   */
+  accountKind: AccountKind;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlobGetAccountInfoHeaders;
+    };
+};
 
 /**
  * Contains response data for the create operation.
  */
-export interface PageBlobCreateResponse extends msRest.HttpResponse {
+export type PageBlobCreateResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: PageBlobCreateHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
+   */
+  contentMD5: Uint8Array;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted: boolean;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobCreateHeaders;
+    };
+};
 
 /**
  * Contains response data for the uploadPages operation.
  */
-export interface PageBlobUploadPagesResponse extends msRest.HttpResponse {
+export type PageBlobUploadPagesResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: PageBlobUploadPagesHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
+   */
+  contentMD5: Uint8Array;
+  /**
+   * The current sequence number for the page blob.
+   */
+  blobSequenceNumber: number;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted: boolean;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobUploadPagesHeaders;
+    };
+};
 
 /**
  * Contains response data for the clearPages operation.
  */
-export interface PageBlobClearPagesResponse extends msRest.HttpResponse {
+export type PageBlobClearPagesResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: PageBlobClearPagesHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
+   */
+  contentMD5: Uint8Array;
+  /**
+   * The current sequence number for the page blob.
+   */
+  blobSequenceNumber: number;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobClearPagesHeaders;
+    };
+};
 
 /**
  * Contains response data for the getPageRanges operation.
  */
-export interface PageBlobGetPageRangesResponse extends msRest.HttpResponse {
+export type PageBlobGetPageRangesResponse = {
   /**
-   * The parsed HTTP response headers.
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
    */
-  parsedHeaders: PageBlobGetPageRangesHeaders;
+  lastModified: Date;
   /**
-   * The response body as text (string format)
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  bodyAsText: string;
+  eTag: string;
   /**
-   * The response body as parsed JSON or XML
+   * The size of the blob in bytes.
    */
-  parsedBody: PageList;
-}
+  blobContentLength: number;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  pageRange: PageRange[];
+  clearRange: ClearRange[];
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobGetPageRangesHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PageList;
+    };
+};
 
 /**
  * Contains response data for the getPageRangesDiff operation.
  */
-export interface PageBlobGetPageRangesDiffResponse extends msRest.HttpResponse {
+export type PageBlobGetPageRangesDiffResponse = {
   /**
-   * The parsed HTTP response headers.
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
    */
-  parsedHeaders: PageBlobGetPageRangesDiffHeaders;
+  lastModified: Date;
   /**
-   * The response body as text (string format)
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  bodyAsText: string;
+  eTag: string;
   /**
-   * The response body as parsed JSON or XML
+   * The size of the blob in bytes.
    */
-  parsedBody: PageList;
-}
+  blobContentLength: number;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  pageRange: PageRange[];
+  clearRange: ClearRange[];
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobGetPageRangesDiffHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PageList;
+    };
+};
 
 /**
  * Contains response data for the resize operation.
  */
-export interface PageBlobResizeResponse extends msRest.HttpResponse {
+export type PageBlobResizeResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: PageBlobResizeHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * The current sequence number for a page blob. This header is not returned for block blobs or
+   * append blobs
+   */
+  blobSequenceNumber: number;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobResizeHeaders;
+    };
+};
 
 /**
  * Contains response data for the updateSequenceNumber operation.
  */
-export interface PageBlobUpdateSequenceNumberResponse extends msRest.HttpResponse {
+export type PageBlobUpdateSequenceNumberResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: PageBlobUpdateSequenceNumberHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * The current sequence number for a page blob. This header is not returned for block blobs or
+   * append blobs
+   */
+  blobSequenceNumber: number;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobUpdateSequenceNumberHeaders;
+    };
+};
 
 /**
  * Contains response data for the copyIncremental operation.
  */
-export interface PageBlobCopyIncrementalResponse extends msRest.HttpResponse {
+export type PageBlobCopyIncrementalResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: PageBlobCopyIncrementalHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * String identifier for this copy operation. Use with Get Blob Properties to check the status of
+   * this copy operation, or pass to Abort Copy Blob to abort a pending copy.
+   */
+  copyId: string;
+  /**
+   * State of the copy operation identified by x-ms-copy-id. Possible values include: 'pending',
+   * 'success', 'aborted', 'failed'
+   */
+  copyStatus: CopyStatusType;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PageBlobCopyIncrementalHeaders;
+    };
+};
 
 /**
  * Contains response data for the create operation.
  */
-export interface AppendBlobCreateResponse extends msRest.HttpResponse {
+export type AppendBlobCreateResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: AppendBlobCreateHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
+   */
+  contentMD5: Uint8Array;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted: boolean;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AppendBlobCreateHeaders;
+    };
+};
 
 /**
  * Contains response data for the appendBlock operation.
  */
-export interface AppendBlobAppendBlockResponse extends msRest.HttpResponse {
+export type AppendBlobAppendBlockResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: AppendBlobAppendBlockHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
+   */
+  contentMD5: Uint8Array;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * This response header is returned only for append operations. It returns the offset at which
+   * the block was committed, in bytes.
+   */
+  blobAppendOffset: string;
+  /**
+   * The number of committed blocks present in the blob. This header is returned only for append
+   * blobs.
+   */
+  blobCommittedBlockCount: number;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AppendBlobAppendBlockHeaders;
+    };
+};
 
 /**
  * Contains response data for the upload operation.
  */
-export interface BlockBlobUploadResponse extends msRest.HttpResponse {
+export type BlockBlobUploadResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: BlockBlobUploadHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
+   */
+  contentMD5: Uint8Array;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted: boolean;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobUploadHeaders;
+    };
+};
 
 /**
  * Contains response data for the stageBlock operation.
  */
-export interface BlockBlobStageBlockResponse extends msRest.HttpResponse {
+export type BlockBlobStageBlockResponse = {
   /**
-   * The parsed HTTP response headers.
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
    */
-  parsedHeaders: BlockBlobStageBlockHeaders;
-}
+  contentMD5: Uint8Array;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted: boolean;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobStageBlockHeaders;
+    };
+};
 
 /**
  * Contains response data for the stageBlockFromURL operation.
  */
-export interface BlockBlobStageBlockFromURLResponse extends msRest.HttpResponse {
+export type BlockBlobStageBlockFromURLResponse = {
   /**
-   * The parsed HTTP response headers.
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
    */
-  parsedHeaders: BlockBlobStageBlockFromURLHeaders;
-}
+  contentMD5: Uint8Array;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted: boolean;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobStageBlockFromURLHeaders;
+    };
+};
 
 /**
  * Contains response data for the commitBlockList operation.
  */
-export interface BlockBlobCommitBlockListResponse extends msRest.HttpResponse {
+export type BlockBlobCommitBlockListResponse = {
   /**
-   * The parsed HTTP response headers.
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  parsedHeaders: BlockBlobCommitBlockListHeaders;
-}
+  eTag: string;
+  /**
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
+   */
+  lastModified: Date;
+  /**
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
+   */
+  contentMD5: Uint8Array;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted: boolean;
+  errorCode: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobCommitBlockListHeaders;
+    };
+};
 
 /**
  * Contains response data for the getBlockList operation.
  */
-export interface BlockBlobGetBlockListResponse extends msRest.HttpResponse {
+export type BlockBlobGetBlockListResponse = {
   /**
-   * The parsed HTTP response headers.
+   * Returns the date and time the container was last modified. Any operation that modifies the
+   * blob, including an update of the blob's metadata or properties, changes the last-modified time
+   * of the blob.
    */
-  parsedHeaders: BlockBlobGetBlockListHeaders;
+  lastModified: Date;
   /**
-   * The response body as text (string format)
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
    */
-  bodyAsText: string;
+  eTag: string;
   /**
-   * The response body as parsed JSON or XML
+   * The content type specified for the blob. The default content type is
+   * 'application/octet-stream'
    */
-  parsedBody: BlockList;
-}
+  contentType: string;
+  /**
+   * The size of the blob in bytes.
+   */
+  blobContentLength: number;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date: Date;
+  errorCode: string;
+  committedBlocks: Block[];
+  uncommittedBlocks: Block[];
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: BlockBlobGetBlockListHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlockList;
+    };
+};

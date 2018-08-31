@@ -1464,8 +1464,8 @@ export const SourceModifiedAccessConditions: msRest.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      sourceIfMatches: {
-        xmlName: "sourceIfMatches",
+      sourceIfMatch: {
+        xmlName: "sourceIfMatch",
         type: {
           name: "String"
         }
@@ -3098,6 +3098,13 @@ export const PageBlobUploadPagesOptionalParams: msRest.CompositeMapper = {
     name: "Composite",
     className: "PageBlobUploadPagesOptionalParams",
     modelProperties: {
+      transactionalContentMD5: {
+        xmlName: "transactionalContentMD5",
+        serializedName: "Content-MD5",
+        type: {
+          name: "ByteArray"
+        }
+      },
       timeout: {
         xmlName: "timeout",
         serializedName: "timeout",
@@ -3559,6 +3566,13 @@ export const AppendBlobAppendBlockOptionalParams: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      transactionalContentMD5: {
+        xmlName: "transactionalContentMD5",
+        serializedName: "Content-MD5",
+        type: {
+          name: "ByteArray"
+        }
+      },
       requestId: {
         xmlName: "requestId",
         serializedName: "x-ms-client-request-id",
@@ -3666,6 +3680,13 @@ export const BlockBlobStageBlockOptionalParams: msRest.CompositeMapper = {
     name: "Composite",
     className: "BlockBlobStageBlockOptionalParams",
     modelProperties: {
+      transactionalContentMD5: {
+        xmlName: "transactionalContentMD5",
+        serializedName: "Content-MD5",
+        type: {
+          name: "ByteArray"
+        }
+      },
       timeout: {
         xmlName: "timeout",
         serializedName: "timeout",

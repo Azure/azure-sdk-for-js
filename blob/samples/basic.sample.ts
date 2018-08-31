@@ -3,10 +3,8 @@ import { BlobURL } from "../lib/BlobURL";
 import { BlockBlobURL } from "../lib/BlockBlobURL";
 import { ContainerURL } from "../lib/ContainerURL";
 import { SharedKeyCredential } from "../lib/credentials/SharedKeyCredential";
-import {
-  ServiceListContainersSegmentResponse,
-  ServiceURL
-} from "../lib/ServiceURL";
+import { ServiceListContainersSegmentResponse } from "../lib/generated/models";
+import { ServiceURL } from "../lib/ServiceURL";
 import { StorageURL } from "../lib/StorageURL";
 
 // tslint:disable:no-console

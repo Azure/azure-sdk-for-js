@@ -8,7 +8,7 @@ import { AppendBlob } from "./generated/operations";
 import {
   IAppendBlobAccessConditions,
   IBlobAccessConditions,
-  ICommonResponse
+  IMetadata
 } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
@@ -17,18 +17,14 @@ import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 export interface IAppendBlobCreateOptions {
   accessConditions?: IBlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
-  metadata?: { [propertyName: string]: string };
+  metadata?: IMetadata;
 }
-
-export declare type AppendBlobCreateResponse = ICommonResponse &
-  Models.AppendBlobCreateHeaders;
 
 export interface IAppendBlobAppendBlockOptions {
   accessConditions?: IAppendBlobAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
+  transactionalContentMD5?: Uint8Array;
 }
-export declare type AppendBlobAppendBlockResponse = ICommonResponse &
-  Models.AppendBlobAppendBlockHeaders;
 
 /**
  * AppendBlobURL defines a set of operations applicable to append blobs.
@@ -128,26 +124,22 @@ export class AppendBlobURL extends BlobURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IAppendBlobCreateOptions} [options]
-   * @returns {Promise<AppendBlobsCreateResponse>}
+   * @returns {Promise<Models.AppendBlobsCreateResponse>}
    * @memberof AppendBlobURL
    */
   public async create(
     aborter: Aborter,
     options: IAppendBlobCreateOptions = {}
-  ): Promise<AppendBlobCreateResponse> {
+  ): Promise<Models.AppendBlobCreateResponse> {
     options.accessConditions = options.accessConditions || {};
-    const { parsedHeaders, ...result } = await this.appendBlobContext.create(
-      0,
-      {
-        abortSignal: aborter,
-        blobHTTPHeaders: options.blobHTTPHeaders,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        metadata: options.metadata,
-        modifiedAccessConditions:
-          options.accessConditions.modifiedAccessConditions
-      }
-    );
-    return { ...result, ...parsedHeaders };
+    return this.appendBlobContext.create(0, {
+      abortSignal: aborter,
+      blobHTTPHeaders: options.blobHTTPHeaders,
+      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+      metadata: options.metadata,
+      modifiedAccessConditions:
+        options.accessConditions.modifiedAccessConditions
+    });
   }
 
   /**
@@ -159,7 +151,7 @@ export class AppendBlobURL extends BlobURL {
    * @param {HttpRequestBody} body
    * @param {number} contentLength
    * @param {IAppendBlobAppendBlockOptions} [options]
-   * @returns {Promise<AppendBlobsAppendBlockResponse>}
+   * @returns {Promise<Models.AppendBlobsAppendBlockResponse>}
    * @memberof AppendBlobURL
    */
   public async appendBlock(
@@ -167,20 +159,17 @@ export class AppendBlobURL extends BlobURL {
     body: HttpRequestBody,
     contentLength: number,
     options: IAppendBlobAppendBlockOptions = {}
-  ): Promise<AppendBlobAppendBlockResponse> {
+  ): Promise<Models.AppendBlobAppendBlockResponse> {
     options.accessConditions = options.accessConditions || {};
-    const {
-      parsedHeaders,
-      ...result
-    } = await this.appendBlobContext.appendBlock(body, contentLength, {
+    return this.appendBlobContext.appendBlock(body, contentLength, {
       abortSignal: aborter,
       appendPositionAccessConditions:
         options.accessConditions.appendPositionAccessConditions,
       leaseAccessConditions: options.accessConditions.leaseAccessConditions,
       modifiedAccessConditions:
         options.accessConditions.modifiedAccessConditions,
-      onUploadProgress: options.progress
+      onUploadProgress: options.progress,
+      transactionalContentMD5: options.transactionalContentMD5
     });
-    return { ...result, ...parsedHeaders };
   }
 }

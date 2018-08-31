@@ -3,7 +3,7 @@ import { generateUuid } from "ms-rest-js";
 import { Aborter } from "./Aborter";
 import { BlockBlobURL } from "./BlockBlobURL";
 import {
-  BlobUploadCommonResponse,
+  IBlobUploadCommonResponse,
   IUploadToBlockBlobOptions
 } from "./highlevel.common";
 import { Batch } from "./utils/Batch";
@@ -30,14 +30,14 @@ import { generateBlockID } from "./utils/utils.common";
  * @param {Blob | File | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
  * @param {IUploadToBlockBlobOptions} [options]
- * @returns {Promise<BlobUploadCommonResponse>}
+ * @returns {Promise<IBlobUploadCommonResponse>}
  */
 export async function UploadBrowserDataToBlockBlob(
   aborter: Aborter,
   browserData: Blob | File | ArrayBuffer | ArrayBufferView,
   blockBlobURL: BlockBlobURL,
   options?: IUploadToBlockBlobOptions
-): Promise<BlobUploadCommonResponse> {
+): Promise<IBlobUploadCommonResponse> {
   const browserBlob = new Blob([browserData]);
   return UploadSeekableBlobToBlockBlob(
     aborter,
@@ -66,7 +66,7 @@ export async function UploadBrowserDataToBlockBlob(
  * @param {number} size
  * @param {BlockBlobURL} blockBlobURL
  * @param {IUploadToBlockBlobOptions} [options]
- * @returns {Promise<BlobUploadCommonResponse>}
+ * @returns {Promise<IBlobUploadCommonResponse>}
  */
 async function UploadSeekableBlobToBlockBlob(
   aborter: Aborter,
@@ -74,7 +74,7 @@ async function UploadSeekableBlobToBlockBlob(
   size: number,
   blockBlobURL: BlockBlobURL,
   options: IUploadToBlockBlobOptions = {}
-): Promise<BlobUploadCommonResponse> {
+): Promise<IBlobUploadCommonResponse> {
   if (!options.blockSize) {
     options.blockSize = 0;
   }

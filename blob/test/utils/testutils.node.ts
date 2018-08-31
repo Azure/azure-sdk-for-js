@@ -55,7 +55,7 @@ export function getAlternateBSU(): ServiceURL {
 export async function bodyToString(
   response: {
     readableStreamBody?: NodeJS.ReadableStream;
-    blobBody?: (() => Promise<Blob>);
+    blobBody?: Promise<Blob>;
   },
   length?: number
 ): Promise<string> {

@@ -38,12 +38,17 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  create(options?: Models.ContainerCreateOptionalParams): Promise<Models.ContainerCreateResponse> {
+  create(): Promise<Models.ContainerCreateResponse>;
+  create(options: Models.ContainerCreateOptionalParams): Promise<Models.ContainerCreateResponse>;
+  create(callback: msRest.ServiceCallback<void>): void;
+  create(options: Models.ContainerCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  create(options?: Models.ContainerCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerCreateResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      createOperationSpec) as Promise<Models.ContainerCreateResponse>;
+      createOperationSpec,
+      callback) as Promise<Models.ContainerCreateResponse>;
   }
 
   /**
@@ -58,12 +63,17 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  getProperties(options?: Models.ContainerGetPropertiesOptionalParams): Promise<Models.ContainerGetPropertiesResponse> {
+  getProperties(): Promise<Models.ContainerGetPropertiesResponse>;
+  getProperties(options: Models.ContainerGetPropertiesOptionalParams): Promise<Models.ContainerGetPropertiesResponse>;
+  getProperties(callback: msRest.ServiceCallback<void>): void;
+  getProperties(options: Models.ContainerGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  getProperties(options?: Models.ContainerGetPropertiesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getPropertiesOperationSpec) as Promise<Models.ContainerGetPropertiesResponse>;
+      getPropertiesOperationSpec,
+      callback) as Promise<Models.ContainerGetPropertiesResponse>;
   }
 
   /**
@@ -78,12 +88,17 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  deleteMethod(options?: Models.ContainerDeleteMethodOptionalParams): Promise<Models.ContainerDeleteResponse> {
+  deleteMethod(): Promise<Models.ContainerDeleteResponse>;
+  deleteMethod(options: Models.ContainerDeleteMethodOptionalParams): Promise<Models.ContainerDeleteResponse>;
+  deleteMethod(callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(options: Models.ContainerDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(options?: Models.ContainerDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      deleteMethodOperationSpec) as Promise<Models.ContainerDeleteResponse>;
+      deleteMethodOperationSpec,
+      callback) as Promise<Models.ContainerDeleteResponse>;
   }
 
   /**
@@ -97,12 +112,17 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  setMetadata(options?: Models.ContainerSetMetadataOptionalParams): Promise<Models.ContainerSetMetadataResponse> {
+  setMetadata(): Promise<Models.ContainerSetMetadataResponse>;
+  setMetadata(options: Models.ContainerSetMetadataOptionalParams): Promise<Models.ContainerSetMetadataResponse>;
+  setMetadata(callback: msRest.ServiceCallback<void>): void;
+  setMetadata(options: Models.ContainerSetMetadataOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  setMetadata(options?: Models.ContainerSetMetadataOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      setMetadataOperationSpec) as Promise<Models.ContainerSetMetadataResponse>;
+      setMetadataOperationSpec,
+      callback) as Promise<Models.ContainerSetMetadataResponse>;
   }
 
   /**
@@ -117,12 +137,17 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  getAccessPolicy(options?: Models.ContainerGetAccessPolicyOptionalParams): Promise<Models.ContainerGetAccessPolicyResponse> {
+  getAccessPolicy(): Promise<Models.ContainerGetAccessPolicyResponse>;
+  getAccessPolicy(options: Models.ContainerGetAccessPolicyOptionalParams): Promise<Models.ContainerGetAccessPolicyResponse>;
+  getAccessPolicy(callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
+  getAccessPolicy(options: Models.ContainerGetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<Models.SignedIdentifier[]>): void;
+  getAccessPolicy(options?: Models.ContainerGetAccessPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.SignedIdentifier[]>): Promise<Models.ContainerGetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getAccessPolicyOperationSpec) as Promise<Models.ContainerGetAccessPolicyResponse>;
+      getAccessPolicyOperationSpec,
+      callback) as Promise<Models.ContainerGetAccessPolicyResponse>;
   }
 
   /**
@@ -137,12 +162,17 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  setAccessPolicy(options?: Models.ContainerSetAccessPolicyOptionalParams): Promise<Models.ContainerSetAccessPolicyResponse> {
+  setAccessPolicy(): Promise<Models.ContainerSetAccessPolicyResponse>;
+  setAccessPolicy(options: Models.ContainerSetAccessPolicyOptionalParams): Promise<Models.ContainerSetAccessPolicyResponse>;
+  setAccessPolicy(callback: msRest.ServiceCallback<void>): void;
+  setAccessPolicy(options: Models.ContainerSetAccessPolicyOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  setAccessPolicy(options?: Models.ContainerSetAccessPolicyOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerSetAccessPolicyResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      setAccessPolicyOperationSpec) as Promise<Models.ContainerSetAccessPolicyResponse>;
+      setAccessPolicyOperationSpec,
+      callback) as Promise<Models.ContainerSetAccessPolicyResponse>;
   }
 
   /**
@@ -157,20 +187,24 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  acquireLease(options?: Models.ContainerAcquireLeaseOptionalParams): Promise<Models.ContainerAcquireLeaseResponse> {
+  acquireLease(): Promise<Models.ContainerAcquireLeaseResponse>;
+  acquireLease(options: Models.ContainerAcquireLeaseOptionalParams): Promise<Models.ContainerAcquireLeaseResponse>;
+  acquireLease(callback: msRest.ServiceCallback<void>): void;
+  acquireLease(options: Models.ContainerAcquireLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  acquireLease(options?: Models.ContainerAcquireLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerAcquireLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      acquireLeaseOperationSpec) as Promise<Models.ContainerAcquireLeaseResponse>;
+      acquireLeaseOperationSpec,
+      callback) as Promise<Models.ContainerAcquireLeaseResponse>;
   }
 
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration
    * can be 15 to 60 seconds, or can be infinite
    *
-   * @param {string} leaseId If specified, the operation only succeeds if the container's lease is
-   * active and matches this ID.
+   * @param {string} leaseId Specifies the current lease ID on the resource.
    *
    * @param {ContainerReleaseLeaseOptionalParams} [options] Optional Parameters.
    *
@@ -180,21 +214,25 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  releaseLease(leaseId: string, options?: Models.ContainerReleaseLeaseOptionalParams): Promise<Models.ContainerReleaseLeaseResponse> {
+  releaseLease(leaseId: string): Promise<Models.ContainerReleaseLeaseResponse>;
+  releaseLease(leaseId: string, options: Models.ContainerReleaseLeaseOptionalParams): Promise<Models.ContainerReleaseLeaseResponse>;
+  releaseLease(leaseId: string, callback: msRest.ServiceCallback<void>): void;
+  releaseLease(leaseId: string, options: Models.ContainerReleaseLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  releaseLease(leaseId: string, options?: Models.ContainerReleaseLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerReleaseLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         options
       },
-      releaseLeaseOperationSpec) as Promise<Models.ContainerReleaseLeaseResponse>;
+      releaseLeaseOperationSpec,
+      callback) as Promise<Models.ContainerReleaseLeaseResponse>;
   }
 
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration
    * can be 15 to 60 seconds, or can be infinite
    *
-   * @param {string} leaseId If specified, the operation only succeeds if the container's lease is
-   * active and matches this ID.
+   * @param {string} leaseId Specifies the current lease ID on the resource.
    *
    * @param {ContainerRenewLeaseOptionalParams} [options] Optional Parameters.
    *
@@ -204,13 +242,18 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  renewLease(leaseId: string, options?: Models.ContainerRenewLeaseOptionalParams): Promise<Models.ContainerRenewLeaseResponse> {
+  renewLease(leaseId: string): Promise<Models.ContainerRenewLeaseResponse>;
+  renewLease(leaseId: string, options: Models.ContainerRenewLeaseOptionalParams): Promise<Models.ContainerRenewLeaseResponse>;
+  renewLease(leaseId: string, callback: msRest.ServiceCallback<void>): void;
+  renewLease(leaseId: string, options: Models.ContainerRenewLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  renewLease(leaseId: string, options?: Models.ContainerRenewLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerRenewLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         options
       },
-      renewLeaseOperationSpec) as Promise<Models.ContainerRenewLeaseResponse>;
+      renewLeaseOperationSpec,
+      callback) as Promise<Models.ContainerRenewLeaseResponse>;
   }
 
   /**
@@ -225,20 +268,24 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  breakLease(options?: Models.ContainerBreakLeaseOptionalParams): Promise<Models.ContainerBreakLeaseResponse> {
+  breakLease(): Promise<Models.ContainerBreakLeaseResponse>;
+  breakLease(options: Models.ContainerBreakLeaseOptionalParams): Promise<Models.ContainerBreakLeaseResponse>;
+  breakLease(callback: msRest.ServiceCallback<void>): void;
+  breakLease(options: Models.ContainerBreakLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  breakLease(options?: Models.ContainerBreakLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerBreakLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      breakLeaseOperationSpec) as Promise<Models.ContainerBreakLeaseResponse>;
+      breakLeaseOperationSpec,
+      callback) as Promise<Models.ContainerBreakLeaseResponse>;
   }
 
   /**
    * [Update] establishes and manages a lock on a container for delete operations. The lock duration
    * can be 15 to 60 seconds, or can be infinite
    *
-   * @param {string} leaseId If specified, the operation only succeeds if the container's lease is
-   * active and matches this ID.
+   * @param {string} leaseId Specifies the current lease ID on the resource.
    *
    * @param {string} proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service
    * returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid
@@ -252,14 +299,19 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.ContainerChangeLeaseOptionalParams): Promise<Models.ContainerChangeLeaseResponse> {
+  changeLease(leaseId: string, proposedLeaseId: string): Promise<Models.ContainerChangeLeaseResponse>;
+  changeLease(leaseId: string, proposedLeaseId: string, options: Models.ContainerChangeLeaseOptionalParams): Promise<Models.ContainerChangeLeaseResponse>;
+  changeLease(leaseId: string, proposedLeaseId: string, callback: msRest.ServiceCallback<void>): void;
+  changeLease(leaseId: string, proposedLeaseId: string, options: Models.ContainerChangeLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.ContainerChangeLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerChangeLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         proposedLeaseId,
         options
       },
-      changeLeaseOperationSpec) as Promise<Models.ContainerChangeLeaseResponse>;
+      changeLeaseOperationSpec,
+      callback) as Promise<Models.ContainerChangeLeaseResponse>;
   }
 
   /**
@@ -273,12 +325,17 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  listBlobFlatSegment(options?: Models.ContainerListBlobFlatSegmentOptionalParams): Promise<Models.ContainerListBlobFlatSegmentResponse> {
+  listBlobFlatSegment(): Promise<Models.ContainerListBlobFlatSegmentResponse>;
+  listBlobFlatSegment(options: Models.ContainerListBlobFlatSegmentOptionalParams): Promise<Models.ContainerListBlobFlatSegmentResponse>;
+  listBlobFlatSegment(callback: msRest.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): void;
+  listBlobFlatSegment(options: Models.ContainerListBlobFlatSegmentOptionalParams, callback: msRest.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): void;
+  listBlobFlatSegment(options?: Models.ContainerListBlobFlatSegmentOptionalParams, callback?: msRest.ServiceCallback<Models.ListBlobsFlatSegmentResponse>): Promise<Models.ContainerListBlobFlatSegmentResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      listBlobFlatSegmentOperationSpec) as Promise<Models.ContainerListBlobFlatSegmentResponse>;
+      listBlobFlatSegmentOperationSpec,
+      callback) as Promise<Models.ContainerListBlobFlatSegmentResponse>;
   }
 
   /**
@@ -297,13 +354,18 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  listBlobHierarchySegment(delimiter: string, options?: Models.ContainerListBlobHierarchySegmentOptionalParams): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
+  listBlobHierarchySegment(delimiter: string): Promise<Models.ContainerListBlobHierarchySegmentResponse>;
+  listBlobHierarchySegment(delimiter: string, options: Models.ContainerListBlobHierarchySegmentOptionalParams): Promise<Models.ContainerListBlobHierarchySegmentResponse>;
+  listBlobHierarchySegment(delimiter: string, callback: msRest.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): void;
+  listBlobHierarchySegment(delimiter: string, options: Models.ContainerListBlobHierarchySegmentOptionalParams, callback: msRest.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): void;
+  listBlobHierarchySegment(delimiter: string, options?: Models.ContainerListBlobHierarchySegmentOptionalParams, callback?: msRest.ServiceCallback<Models.ListBlobsHierarchySegmentResponse>): Promise<Models.ContainerListBlobHierarchySegmentResponse> {
     return this.client.sendOperationRequest(
       {
         delimiter,
         options
       },
-      listBlobHierarchySegmentOperationSpec) as Promise<Models.ContainerListBlobHierarchySegmentResponse>;
+      listBlobHierarchySegmentOperationSpec,
+      callback) as Promise<Models.ContainerListBlobHierarchySegmentResponse>;
   }
 
   /**
@@ -317,12 +379,17 @@ export class Container {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  getAccountInfo(options?: msRest.RequestOptionsBase): Promise<Models.ContainerGetAccountInfoResponse> {
+  getAccountInfo(): Promise<Models.ContainerGetAccountInfoResponse>;
+  getAccountInfo(options: msRest.RequestOptionsBase): Promise<Models.ContainerGetAccountInfoResponse>;
+  getAccountInfo(callback: msRest.ServiceCallback<void>): void;
+  getAccountInfo(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  getAccountInfo(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ContainerGetAccountInfoResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getAccountInfoOperationSpec) as Promise<Models.ContainerGetAccountInfoResponse>;
+      getAccountInfoOperationSpec,
+      callback) as Promise<Models.ContainerGetAccountInfoResponse>;
   }
 
 }

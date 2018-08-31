@@ -42,14 +42,19 @@ export class PageBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  create(contentLength: number, blobContentLength: number, options?: Models.PageBlobCreateOptionalParams): Promise<Models.PageBlobCreateResponse> {
+  create(contentLength: number, blobContentLength: number): Promise<Models.PageBlobCreateResponse>;
+  create(contentLength: number, blobContentLength: number, options: Models.PageBlobCreateOptionalParams): Promise<Models.PageBlobCreateResponse>;
+  create(contentLength: number, blobContentLength: number, callback: msRest.ServiceCallback<void>): void;
+  create(contentLength: number, blobContentLength: number, options: Models.PageBlobCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  create(contentLength: number, blobContentLength: number, options?: Models.PageBlobCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         contentLength,
         blobContentLength,
         options
       },
-      createOperationSpec) as Promise<Models.PageBlobCreateResponse>;
+      createOperationSpec,
+      callback) as Promise<Models.PageBlobCreateResponse>;
   }
 
   /**
@@ -67,14 +72,19 @@ export class PageBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  uploadPages(body: msRest.HttpRequestBody, contentLength: number, options?: Models.PageBlobUploadPagesOptionalParams): Promise<Models.PageBlobUploadPagesResponse> {
+  uploadPages(body: msRest.HttpRequestBody, contentLength: number): Promise<Models.PageBlobUploadPagesResponse>;
+  uploadPages(body: msRest.HttpRequestBody, contentLength: number, options: Models.PageBlobUploadPagesOptionalParams): Promise<Models.PageBlobUploadPagesResponse>;
+  uploadPages(body: msRest.HttpRequestBody, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  uploadPages(body: msRest.HttpRequestBody, contentLength: number, options: Models.PageBlobUploadPagesOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  uploadPages(body: msRest.HttpRequestBody, contentLength: number, options?: Models.PageBlobUploadPagesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobUploadPagesResponse> {
     return this.client.sendOperationRequest(
       {
         body,
         contentLength,
         options
       },
-      uploadPagesOperationSpec) as Promise<Models.PageBlobUploadPagesResponse>;
+      uploadPagesOperationSpec,
+      callback) as Promise<Models.PageBlobUploadPagesResponse>;
   }
 
   /**
@@ -90,13 +100,18 @@ export class PageBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  clearPages(contentLength: number, options?: Models.PageBlobClearPagesOptionalParams): Promise<Models.PageBlobClearPagesResponse> {
+  clearPages(contentLength: number): Promise<Models.PageBlobClearPagesResponse>;
+  clearPages(contentLength: number, options: Models.PageBlobClearPagesOptionalParams): Promise<Models.PageBlobClearPagesResponse>;
+  clearPages(contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  clearPages(contentLength: number, options: Models.PageBlobClearPagesOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  clearPages(contentLength: number, options?: Models.PageBlobClearPagesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobClearPagesResponse> {
     return this.client.sendOperationRequest(
       {
         contentLength,
         options
       },
-      clearPagesOperationSpec) as Promise<Models.PageBlobClearPagesResponse>;
+      clearPagesOperationSpec,
+      callback) as Promise<Models.PageBlobClearPagesResponse>;
   }
 
   /**
@@ -111,12 +126,17 @@ export class PageBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  getPageRanges(options?: Models.PageBlobGetPageRangesOptionalParams): Promise<Models.PageBlobGetPageRangesResponse> {
+  getPageRanges(): Promise<Models.PageBlobGetPageRangesResponse>;
+  getPageRanges(options: Models.PageBlobGetPageRangesOptionalParams): Promise<Models.PageBlobGetPageRangesResponse>;
+  getPageRanges(callback: msRest.ServiceCallback<Models.PageList>): void;
+  getPageRanges(options: Models.PageBlobGetPageRangesOptionalParams, callback: msRest.ServiceCallback<Models.PageList>): void;
+  getPageRanges(options?: Models.PageBlobGetPageRangesOptionalParams, callback?: msRest.ServiceCallback<Models.PageList>): Promise<Models.PageBlobGetPageRangesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getPageRangesOperationSpec) as Promise<Models.PageBlobGetPageRangesResponse>;
+      getPageRangesOperationSpec,
+      callback) as Promise<Models.PageBlobGetPageRangesResponse>;
   }
 
   /**
@@ -131,12 +151,17 @@ export class PageBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  getPageRangesDiff(options?: Models.PageBlobGetPageRangesDiffOptionalParams): Promise<Models.PageBlobGetPageRangesDiffResponse> {
+  getPageRangesDiff(): Promise<Models.PageBlobGetPageRangesDiffResponse>;
+  getPageRangesDiff(options: Models.PageBlobGetPageRangesDiffOptionalParams): Promise<Models.PageBlobGetPageRangesDiffResponse>;
+  getPageRangesDiff(callback: msRest.ServiceCallback<Models.PageList>): void;
+  getPageRangesDiff(options: Models.PageBlobGetPageRangesDiffOptionalParams, callback: msRest.ServiceCallback<Models.PageList>): void;
+  getPageRangesDiff(options?: Models.PageBlobGetPageRangesDiffOptionalParams, callback?: msRest.ServiceCallback<Models.PageList>): Promise<Models.PageBlobGetPageRangesDiffResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getPageRangesDiffOperationSpec) as Promise<Models.PageBlobGetPageRangesDiffResponse>;
+      getPageRangesDiffOperationSpec,
+      callback) as Promise<Models.PageBlobGetPageRangesDiffResponse>;
   }
 
   /**
@@ -153,13 +178,18 @@ export class PageBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  resize(blobContentLength: number, options?: Models.PageBlobResizeOptionalParams): Promise<Models.PageBlobResizeResponse> {
+  resize(blobContentLength: number): Promise<Models.PageBlobResizeResponse>;
+  resize(blobContentLength: number, options: Models.PageBlobResizeOptionalParams): Promise<Models.PageBlobResizeResponse>;
+  resize(blobContentLength: number, callback: msRest.ServiceCallback<void>): void;
+  resize(blobContentLength: number, options: Models.PageBlobResizeOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  resize(blobContentLength: number, options?: Models.PageBlobResizeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobResizeResponse> {
     return this.client.sendOperationRequest(
       {
         blobContentLength,
         options
       },
-      resizeOperationSpec) as Promise<Models.PageBlobResizeResponse>;
+      resizeOperationSpec,
+      callback) as Promise<Models.PageBlobResizeResponse>;
   }
 
   /**
@@ -178,13 +208,18 @@ export class PageBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options?: Models.PageBlobUpdateSequenceNumberOptionalParams): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
+  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType): Promise<Models.PageBlobUpdateSequenceNumberResponse>;
+  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options: Models.PageBlobUpdateSequenceNumberOptionalParams): Promise<Models.PageBlobUpdateSequenceNumberResponse>;
+  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, callback: msRest.ServiceCallback<void>): void;
+  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options: Models.PageBlobUpdateSequenceNumberOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  updateSequenceNumber(sequenceNumberAction: Models.SequenceNumberActionType, options?: Models.PageBlobUpdateSequenceNumberOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobUpdateSequenceNumberResponse> {
     return this.client.sendOperationRequest(
       {
         sequenceNumberAction,
         options
       },
-      updateSequenceNumberOperationSpec) as Promise<Models.PageBlobUpdateSequenceNumberResponse>;
+      updateSequenceNumberOperationSpec,
+      callback) as Promise<Models.PageBlobUpdateSequenceNumberResponse>;
   }
 
   /**
@@ -207,13 +242,18 @@ export class PageBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  copyIncremental(copySource: string, options?: Models.PageBlobCopyIncrementalOptionalParams): Promise<Models.PageBlobCopyIncrementalResponse> {
+  copyIncremental(copySource: string): Promise<Models.PageBlobCopyIncrementalResponse>;
+  copyIncremental(copySource: string, options: Models.PageBlobCopyIncrementalOptionalParams): Promise<Models.PageBlobCopyIncrementalResponse>;
+  copyIncremental(copySource: string, callback: msRest.ServiceCallback<void>): void;
+  copyIncremental(copySource: string, options: Models.PageBlobCopyIncrementalOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  copyIncremental(copySource: string, options?: Models.PageBlobCopyIncrementalOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.PageBlobCopyIncrementalResponse> {
     return this.client.sendOperationRequest(
       {
         copySource,
         options
       },
-      copyIncrementalOperationSpec) as Promise<Models.PageBlobCopyIncrementalResponse>;
+      copyIncrementalOperationSpec,
+      callback) as Promise<Models.PageBlobCopyIncrementalResponse>;
   }
 
 }
@@ -273,6 +313,7 @@ const uploadPagesOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.contentLength,
+    Parameters.transactionalContentMD5,
     Parameters.range,
     Parameters.version,
     Parameters.requestId,

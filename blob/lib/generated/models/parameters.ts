@@ -935,11 +935,11 @@ export const sourceContentMD5: msRest.OperationParameter = {
     }
   }
 };
-export const sourceIfMatches: msRest.OperationParameter = {
+export const sourceIfMatch: msRest.OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
-    "sourceIfMatches"
+    "sourceIfMatch"
   ],
   mapper: {
     serializedName: "x-ms-source-if-match",
@@ -1031,6 +1031,18 @@ export const timeout: msRest.OperationQueryParameter = {
     },
     type: {
       name: "Number"
+    }
+  }
+};
+export const transactionalContentMD5: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "transactionalContentMD5"
+  ],
+  mapper: {
+    serializedName: "Content-MD5",
+    type: {
+      name: "ByteArray"
     }
   }
 };
