@@ -5,10 +5,7 @@ const parser = new DOMParser();
 export function parseXML(str: string): Promise<any> {
   try {
     const dom = parser.parseFromString(str, "application/xml");
-    const errorMessage = getErrorMessage(dom);
-    if (errorMessage) {
-      throw new Error(errorMessage);
-    }
+    throwIfError(dom);
 
     const obj = domToObject(dom.childNodes[0]);
     return Promise.resolve(obj);
@@ -17,13 +14,19 @@ export function parseXML(str: string): Promise<any> {
   }
 }
 
-const errorNS = parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0].namespaceURI!;
-function getErrorMessage(dom: Document): string | undefined {
-  const parserErrors = dom.getElementsByTagNameNS(errorNS, "parsererror");
-  if (parserErrors.length) {
-    return parserErrors.item(0).innerHTML;
-  } else {
-    return undefined;
+let errorNS = "";
+try {
+  errorNS = parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0].namespaceURI!;
+} catch (ignored) {
+  // Most browsers will return a document containing <parsererror>, but IE will throw.
+}
+
+function throwIfError(dom: Document) {
+  if (errorNS) {
+    const parserErrors = dom.getElementsByTagNameNS(errorNS, "parsererror");
+    if (parserErrors.length) {
+      throw new Error(parserErrors.item(0).innerHTML);
+    }
   }
 }
 
@@ -73,7 +76,7 @@ const doc = document.implementation.createDocument(null, null, null);
 const serializer = new XMLSerializer();
 
 export function stringifyXML(obj: any, opts?: { rootName?: string }) {
-  const rootName = (opts || {}).rootName || "root";
+  const rootName = opts && opts.rootName || "root";
   const dom = buildNode(obj, rootName)[0];
   return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom);
 }
