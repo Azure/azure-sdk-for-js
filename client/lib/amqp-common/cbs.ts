@@ -3,7 +3,7 @@
 
 import { TokenInfo } from "./auth/token";
 import {
-  EventContext, ReceiverOptions, Message, SenderEvents, ReceiverEvents, Connection
+  EventContext, ReceiverOptions, Message, SenderEvents, ReceiverEvents, Connection, SenderOptions
 } from "../rhea-promise";
 import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
@@ -11,7 +11,6 @@ import * as log from "./log";
 import { translate } from "./errors";
 import { defaultLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";
-import { SenderOptions } from "rhea";
 
 
 /**
@@ -76,27 +75,40 @@ export class CbsClient {
           source: {
             address: this.endpoint
           },
-          name: this.replyTo
+          name: this.replyTo,
+          onSessionError: (context: EventContext) => {
+            const id = context.connection.options.id;
+            const ehError = translate(context.session!.error!);
+            log.error("[%s] An error occurred on the session for request/response links " +
+              "for $cbs: %O", id, ehError);
+          }
         };
         const srOpt: SenderOptions = { target: { address: this.endpoint } };
+        log.cbs("[%s] Creating sender/receiver links on a session for $cbs endpoint.",
+          this.connection.id);
         this._cbsSenderReceiverLink = await RequestResponseLink.create(this.connection, srOpt, rxOpt);
         this._cbsSenderReceiverLink.sender.registerHandler(SenderEvents.senderError, (context: EventContext) => {
+          const id = context.connection.options.id;
           const ehError = translate(context.sender!.error!);
-          log.error("An error occurred on the cbs sender link.. %O", ehError);
+          log.error("[%s] An error occurred on the cbs sender link.. %O", id, ehError);
         });
         this._cbsSenderReceiverLink.receiver.registerHandler(ReceiverEvents.receiverError, (context: EventContext) => {
+          const id = context.connection.options.id;
           const ehError = translate(context.receiver!.error!);
-          log.error("An error occurred on the cbs receiver link.. %O", ehError);
+          log.error("[%s] An error occurred on the cbs receiver link.. %O", id, ehError);
         });
-        log.cbs("[%s] Successfully created the cbs sender '%s' and receiver '%s' links over cbs session.",
-          this.connection.id, this._cbsSenderReceiverLink.sender.name, this._cbsSenderReceiverLink.receiver.name);
+        log.cbs("[%s] Successfully created the cbs sender '%s' and receiver '%s' " +
+          "links over cbs session.", this.connection.id, this._cbsSenderReceiverLink.sender.name,
+          this._cbsSenderReceiverLink.receiver.name);
       } else {
-        log.cbs("[%s] CBS session is already present. Reusing the cbs sender '%s' and receiver '%s' links over cbs session.",
-          this.connection.id, this._cbsSenderReceiverLink!.sender.name, this._cbsSenderReceiverLink!.receiver.name);
+        log.cbs("[%s] CBS session is already present. Reusing the cbs sender '%s' " +
+          "and receiver '%s' links over cbs session.", this.connection.id,
+          this._cbsSenderReceiverLink!.sender.name, this._cbsSenderReceiverLink!.receiver.name);
       }
     } catch (err) {
       err = translate(err);
-      log.error("[%s] An error occured while establishing the cbs links: %O", this.connection.id, err);
+      log.error("[%s] An error occured while establishing the cbs links: %O",
+        this.connection.id, err);
       throw err;
     }
   }

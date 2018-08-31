@@ -10,14 +10,12 @@ export { ReceiveHandler } from "./streamingReceiver";
 export { EventHubClient, ReceiveOptions, ClientOptionsBase, ClientOptions } from "./eventHubClient";
 export { EventPosition } from "./eventPosition";
 export { EventHubPartitionRuntimeInformation, EventHubRuntimeInformation } from "./managementClient";
-export {
-  TokenType, TokenProvider, TokenInfo, EventHubDeliveryAnnotations, EventHubMessageAnnotations
-} from "./amqp-common";
 import { Constants } from "./amqp-common";
 export const aadEventHubsAudience = Constants.aadEventHubsAudience;
 export {
   delay, Timeout, EventHubConnectionStringModel, parseConnectionString,
   IotHubConnectionStringModel, StorageConnectionStringModel, isIotHubConnectionString,
   ErrorNameConditionMapper, ConditionStatusMapper, ConditionErrorNameMapper, MessagingError,
-  DataTransformer, DefaultDataTransformer, ConnectionConfig
+  DataTransformer, DefaultDataTransformer, ConnectionConfig, TokenType, TokenProvider, TokenInfo,
+  EventHubDeliveryAnnotations, EventHubMessageAnnotations, AadTokenProvider, SasTokenProvider
 } from "./amqp-common";
