@@ -15,7 +15,6 @@ describe("ServiceClient", function () {
       "unrelated": "42"
     };
 
-    // TODO: might make more sense to factor out a method in ServiceClient which returns the prepared request
     let request: WebResource;
     const client = new ServiceClient(undefined, {
       httpClient: {
@@ -69,6 +68,34 @@ describe("ServiceClient", function () {
 
     assert(request!);
     assert.deepStrictEqual(request!.headers.toJson(), expected);
+  });
+
+  it("responses should not show the _response property when serializing", async function () {
+    let request: WebResource;
+    const client = new ServiceClient(undefined, {
+      httpClient: {
+        sendRequest: req => {
+          request = req;
+          return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
+        }
+      },
+      requestPolicyFactories: []
+    });
+
+    const response = await client.sendOperationRequest(
+      {},
+      {
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        serializer: new Serializer(),
+        headerParameters: [],
+        responses: {
+          200: {}
+        }
+      });
+
+    assert(request!);
+    assert.strictEqual(JSON.stringify(response), "{}");
   });
 
   it("Should serialize collection:multi query parameters", async function () {
