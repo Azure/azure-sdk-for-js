@@ -6,7 +6,7 @@ import { BlobURL } from "./BlobURL";
 import { ContainerURL } from "./ContainerURL";
 import { BlockBlob } from "./generated/operations";
 import { IRange, rangeToString } from "./IRange";
-import { IBlobAccessConditions, ICommonResponse } from "./models";
+import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { URLConstants } from "./utils/constants";
 import { appendToURLPath, setURLParameter } from "./utils/utils.common";
@@ -14,20 +14,15 @@ import { appendToURLPath, setURLParameter } from "./utils/utils.common";
 export interface IBlockBlobUploadOptions {
   accessConditions?: IBlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
-  metadata?: { [propertyName: string]: string };
+  metadata?: IMetadata;
   progress?: (progress: TransferProgressEvent) => void;
 }
-
-export declare type BlockBlobUploadResponse = ICommonResponse &
-  Models.BlockBlobUploadHeaders;
 
 export interface IBlockBlobStageBlockOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
   progress?: (progress: TransferProgressEvent) => void;
+  transactionalContentMD5?: Uint8Array;
 }
-
-export declare type BlockBlobStageBlockResponse = ICommonResponse &
-  Models.BlockBlobStageBlockHeaders;
 
 export interface IBlockBlobStageBlockFromURLOptions {
   range?: IRange;
@@ -35,25 +30,15 @@ export interface IBlockBlobStageBlockFromURLOptions {
   sourceContentMD5?: Uint8Array;
 }
 
-export declare type BlockBlobStageBlockFromURLResponse = ICommonResponse &
-  Models.BlockBlobStageBlockFromURLHeaders;
-
 export interface IBlockBlobCommitBlockListOptions {
   accessConditions?: IBlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
-  metadata?: { [propertyName: string]: string };
+  metadata?: IMetadata;
 }
-
-export declare type BlockBlobCommitBlockListResponse = ICommonResponse &
-  Models.BlockBlobCommitBlockListHeaders;
 
 export interface IBlockBlobGetBlockListOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
-
-export declare type BlockBlobGetBlockListResponse = ICommonResponse &
-  Models.BlockBlobGetBlockListHeaders &
-  Models.BlockList;
 
 /**
  * BlockBlobURL defines a set of operations applicable to block blobs.
@@ -164,7 +149,7 @@ export class BlockBlobURL extends BlobURL {
    * @param {HttpRequestBody} body
    * @param {number} contentLength
    * @param {IBlockBlobUploadOptions} [options]
-   * @returns {Promise<BlockBlobUploadResponse>}
+   * @returns {Promise<Models.BlockBlobUploadResponse>}
    * @memberof BlockBlobURL
    */
   public async upload(
@@ -172,22 +157,17 @@ export class BlockBlobURL extends BlobURL {
     body: HttpRequestBody,
     contentLength: number,
     options: IBlockBlobUploadOptions = {}
-  ): Promise<BlockBlobUploadResponse> {
+  ): Promise<Models.BlockBlobUploadResponse> {
     options.accessConditions = options.accessConditions || {};
-    const { parsedHeaders, ...result } = await this.blockBlobContext.upload(
-      body,
-      contentLength,
-      {
-        abortSignal: aborter,
-        blobHTTPHeaders: options.blobHTTPHeaders,
-        leaseAccessConditions: options.accessConditions.leaseAccessConditions,
-        metadata: options.metadata,
-        modifiedAccessConditions:
-          options.accessConditions.modifiedAccessConditions,
-        onUploadProgress: options.progress
-      }
-    );
-    return { ...result, ...parsedHeaders };
+    return this.blockBlobContext.upload(body, contentLength, {
+      abortSignal: aborter,
+      blobHTTPHeaders: options.blobHTTPHeaders,
+      leaseAccessConditions: options.accessConditions.leaseAccessConditions,
+      metadata: options.metadata,
+      modifiedAccessConditions:
+        options.accessConditions.modifiedAccessConditions,
+      onUploadProgress: options.progress
+    });
   }
 
   /**
@@ -201,7 +181,7 @@ export class BlockBlobURL extends BlobURL {
    * @param {HttpRequestBody} body
    * @param {number} contentLength
    * @param {IBlockBlobStageBlockOptions} [options]
-   * @returns {Promise<BlockBlobStageBlockResponse>}
+   * @returns {Promise<Models.BlockBlobStageBlockResponse>}
    * @memberof BlockBlobURL
    */
   public async stageBlock(
@@ -210,18 +190,13 @@ export class BlockBlobURL extends BlobURL {
     body: HttpRequestBody,
     contentLength: number,
     options: IBlockBlobStageBlockOptions = {}
-  ): Promise<BlockBlobStageBlockResponse> {
-    const { parsedHeaders, ...result } = await this.blockBlobContext.stageBlock(
-      blockId,
-      contentLength,
-      body,
-      {
-        abortSignal: aborter,
-        leaseAccessConditions: options.leaseAccessConditions,
-        onUploadProgress: options.progress
-      }
-    );
-    return { ...result, ...parsedHeaders };
+  ): Promise<Models.BlockBlobStageBlockResponse> {
+    return this.blockBlobContext.stageBlock(blockId, contentLength, body, {
+      abortSignal: aborter,
+      leaseAccessConditions: options.leaseAccessConditions,
+      onUploadProgress: options.progress,
+      transactionalContentMD5: options.transactionalContentMD5
+    });
   }
 
   /**
@@ -245,7 +220,7 @@ export class BlockBlobURL extends BlobURL {
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {IBlockBlobStageBlockFromURLOptions} [options={}]
-   * @returns {Promise<BlockBlobStageBlockFromURLResponse>}
+   * @returns {Promise<Models.BlockBlobStageBlockFromURLResponse>}
    * @memberof BlockBlobURL
    */
   public async stageBlockFromURL(
@@ -255,18 +230,14 @@ export class BlockBlobURL extends BlobURL {
     offset: number,
     count?: number,
     options: IBlockBlobStageBlockFromURLOptions = {}
-  ): Promise<BlockBlobStageBlockFromURLResponse> {
-    const {
-      parsedHeaders,
-      ...result
-    } = await this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
+  ): Promise<Models.BlockBlobStageBlockFromURLResponse> {
+    return this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions,
       sourceContentMD5: options.sourceContentMD5,
       sourceRange:
         offset === 0 && !count ? undefined : rangeToString({ offset, count })
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -281,19 +252,16 @@ export class BlockBlobURL extends BlobURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
    * @param {IBlockBlobCommitBlockListOptions} [options]
-   * @returns {Promise<BlockBlobCommitBlockListResponse>}
+   * @returns {Promise<Models.BlockBlobCommitBlockListResponse>}
    * @memberof BlockBlobURL
    */
   public async commitBlockList(
     aborter: Aborter,
     blocks: string[],
     options: IBlockBlobCommitBlockListOptions = {}
-  ): Promise<BlockBlobCommitBlockListResponse> {
+  ): Promise<Models.BlockBlobCommitBlockListResponse> {
     options.accessConditions = options.accessConditions || {};
-    const {
-      parsedHeaders,
-      ...result
-    } = await this.blockBlobContext.commitBlockList(
+    return this.blockBlobContext.commitBlockList(
       { latest: blocks },
       {
         abortSignal: aborter,
@@ -304,7 +272,6 @@ export class BlockBlobURL extends BlobURL {
           options.accessConditions.modifiedAccessConditions
       }
     );
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -316,32 +283,27 @@ export class BlockBlobURL extends BlobURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.BlockListType} listType
    * @param {IBlockBlobGetBlockListOptions} [options]
-   * @returns {Promise<BlockBlobGetBlockListResponse>}
+   * @returns {Promise<Models.BlockBlobGetBlockListResponse>}
    * @memberof BlockBlobURL
    */
   public async getBlockList(
     aborter: Aborter,
     listType: Models.BlockListType,
     options: IBlockBlobGetBlockListOptions = {}
-  ): Promise<BlockBlobGetBlockListResponse> {
-    const {
-      bodyAsText,
-      parsedBody,
-      parsedHeaders,
-      ...result
-    } = await this.blockBlobContext.getBlockList(listType, {
+  ): Promise<Models.BlockBlobGetBlockListResponse> {
+    const res = await this.blockBlobContext.getBlockList(listType, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions
     });
 
-    if (!parsedBody.committedBlocks) {
-      parsedBody.committedBlocks = [];
+    if (!res.committedBlocks) {
+      res.committedBlocks = [];
     }
 
-    if (!parsedBody.uncommittedBlocks) {
-      parsedBody.uncommittedBlocks = [];
+    if (!res.uncommittedBlocks) {
+      res.uncommittedBlocks = [];
     }
 
-    return { ...result, ...parsedBody, ...parsedHeaders };
+    return res;
   }
 }

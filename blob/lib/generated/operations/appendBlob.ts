@@ -39,13 +39,18 @@ export class AppendBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams): Promise<Models.AppendBlobCreateResponse> {
+  create(contentLength: number): Promise<Models.AppendBlobCreateResponse>;
+  create(contentLength: number, options: Models.AppendBlobCreateOptionalParams): Promise<Models.AppendBlobCreateResponse>;
+  create(contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  create(contentLength: number, options: Models.AppendBlobCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  create(contentLength: number, options?: Models.AppendBlobCreateOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.AppendBlobCreateResponse> {
     return this.client.sendOperationRequest(
       {
         contentLength,
         options
       },
-      createOperationSpec) as Promise<Models.AppendBlobCreateResponse>;
+      createOperationSpec,
+      callback) as Promise<Models.AppendBlobCreateResponse>;
   }
 
   /**
@@ -65,14 +70,19 @@ export class AppendBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  appendBlock(body: msRest.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams): Promise<Models.AppendBlobAppendBlockResponse> {
+  appendBlock(body: msRest.HttpRequestBody, contentLength: number): Promise<Models.AppendBlobAppendBlockResponse>;
+  appendBlock(body: msRest.HttpRequestBody, contentLength: number, options: Models.AppendBlobAppendBlockOptionalParams): Promise<Models.AppendBlobAppendBlockResponse>;
+  appendBlock(body: msRest.HttpRequestBody, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  appendBlock(body: msRest.HttpRequestBody, contentLength: number, options: Models.AppendBlobAppendBlockOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  appendBlock(body: msRest.HttpRequestBody, contentLength: number, options?: Models.AppendBlobAppendBlockOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.AppendBlobAppendBlockResponse> {
     return this.client.sendOperationRequest(
       {
         body,
         contentLength,
         options
       },
-      appendBlockOperationSpec) as Promise<Models.AppendBlobAppendBlockResponse>;
+      appendBlockOperationSpec,
+      callback) as Promise<Models.AppendBlobAppendBlockResponse>;
   }
 
 }
@@ -130,6 +140,7 @@ const appendBlockOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.contentLength,
+    Parameters.transactionalContentMD5,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,

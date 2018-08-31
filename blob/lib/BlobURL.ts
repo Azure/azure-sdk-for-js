@@ -5,11 +5,7 @@ import { Aborter } from "./Aborter";
 import { ContainerURL } from "./ContainerURL";
 import { Blob } from "./generated/operations";
 import { rangeToString } from "./IRange";
-import {
-  IBlobAccessConditions,
-  ICommonResponse,
-  IDownloadResponse
-} from "./models";
+import { IBlobAccessConditions, IMetadata } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
 import { URLConstants } from "./utils/constants";
@@ -22,108 +18,63 @@ export interface IBlobDownloadOptions {
   progress?: (progress: TransferProgressEvent) => void;
 }
 
-export declare type BlobDownloadResponse = IDownloadResponse &
-  Models.BlobDownloadHeaders;
-
 export interface IBlobGetPropertiesOptions {
   blobAccessConditions?: IBlobAccessConditions;
 }
-
-export declare type BlobGetPropertiesResponse = ICommonResponse &
-  Models.BlobGetPropertiesHeaders;
 
 export interface IBlobDeleteOptions {
   blobAccessConditions?: IBlobAccessConditions;
   deleteSnapshots?: Models.DeleteSnapshotsOptionType;
 }
 
-export declare type BlobDeleteResponse = ICommonResponse &
-  Models.BlobDeleteHeaders;
-
-export declare type BlobUndeleteResponse = ICommonResponse &
-  Models.BlobUndeleteHeaders;
-
 export interface IBlobSetHTTPHeadersOptions {
   blobAccessConditions?: IBlobAccessConditions;
   blobHTTPHeaders?: Models.BlobHTTPHeaders;
 }
 
-export declare type BlobSetHTTPHeadersResponse = ICommonResponse &
-  Models.BlobSetHTTPHeadersHeaders;
-
 export interface IBlobSetMetadataOptions {
-  metadata?: { [propertyName: string]: string };
+  metadata?: IMetadata;
   blobAccessConditions?: IBlobAccessConditions;
 }
-
-export declare type BlobSetMetadataResponse = ICommonResponse &
-  Models.BlobSetMetadataHeaders;
 
 export interface IBlobAcquireLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export declare type BlobAcquireLeaseResponse = ICommonResponse &
-  Models.BlobAcquireLeaseHeaders;
-
 export interface IBlobReleaseLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
-
-export declare type BlobReleaseLeaseResponse = ICommonResponse &
-  Models.BlobReleaseLeaseHeaders;
 
 export interface IBlobRenewLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export declare type BlobRenewLeaseResponse = ICommonResponse &
-  Models.BlobRenewLeaseHeaders;
-
 export interface IBlobChangeLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
-
-export declare type BlobChangeLeaseResponse = ICommonResponse &
-  Models.BlobChangeLeaseHeaders;
 
 export interface IBlobBreakLeaseOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
 
-export declare type BlobBreakLeaseResponse = ICommonResponse &
-  Models.BlobBreakLeaseHeaders;
-
 export interface IBlobCreateSnapshotOptions {
-  metadata?: { [propertyName: string]: string };
+  metadata?: IMetadata;
   blobAccessConditions?: IBlobAccessConditions;
 }
 
-export declare type BlobCreateSnapshotResponse = ICommonResponse &
-  Models.BlobCreateSnapshotHeaders;
-
 export interface IBlobStartCopyFromURLOptions {
-  metadata?: { [propertyName: string]: string };
+  metadata?: IMetadata;
   blobAccessConditions?: IBlobAccessConditions;
   sourceModifiedAccessConditions?: Models.ModifiedAccessConditions;
 }
-
-export declare type BlobStartCopyFromURLResponse = ICommonResponse &
-  Models.BlobStartCopyFromURLHeaders;
 
 export interface IBlobAbortCopyFromURLOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
 
-export declare type BlobAbortCopyFromURLResponse = ICommonResponse &
-  Models.BlobAbortCopyFromURLHeaders;
-
 export interface IBlobSetTierOptions {
   leaseAccessConditions?: Models.LeaseAccessConditions;
 }
-
-export declare type BlobSetTierResponse = ICommonResponse &
-  Models.BlobSetTierHeaders;
 
 /**
  * A BlobURL represents a URL to an Azure Storage blob; the blob may be a block blob,
@@ -219,7 +170,7 @@ export class BlobURL extends StorageURL {
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {IBlobDownloadOptions} [options]
-   * @returns {Promise<BlobDownloadResponse>}
+   * @returns {Promise<Models.BlobDownloadResponse>}
    * @memberof BlobURL
    */
   public async download(
@@ -227,10 +178,10 @@ export class BlobURL extends StorageURL {
     offset: number,
     count?: number,
     options: IBlobDownloadOptions = {}
-  ): Promise<BlobDownloadResponse> {
+  ): Promise<Models.BlobDownloadResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
 
-    const { parsedHeaders, ...result } = await this.blobContext.download({
+    const res = await this.blobContext.download({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions:
@@ -241,7 +192,6 @@ export class BlobURL extends StorageURL {
       rangeGetContentMD5: options.rangeGetContentMD5,
       snapshot: options.snapshot
     });
-    const res = { ...result, ...parsedHeaders };
 
     // Default axios based HTTP client cannot abort download stream, manually pause/abort it
     // Currently, no error will be triggered when network error or abort during reading from response stream
@@ -265,21 +215,20 @@ export class BlobURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobGetPropertiesOptions} [options]
-   * @returns {Promise<BlobGetPropertiesResponse>}
+   * @returns {Promise<Models.BlobGetPropertiesResponse>}
    * @memberof BlobURL
    */
   public async getProperties(
     aborter: Aborter,
     options: IBlobGetPropertiesOptions = {}
-  ): Promise<BlobGetPropertiesResponse> {
+  ): Promise<Models.BlobGetPropertiesResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
-    const { parsedHeaders, ...result } = await this.blobContext.getProperties({
+    return this.blobContext.getProperties({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -292,22 +241,21 @@ export class BlobURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobDeleteOptions} [options]
-   * @returns {Promise<BlobDeleteResponse>}
+   * @returns {Promise<Models.BlobDeleteResponse>}
    * @memberof BlobURL
    */
   public async delete(
     aborter: Aborter,
     options: IBlobDeleteOptions = {}
-  ): Promise<BlobDeleteResponse> {
+  ): Promise<Models.BlobDeleteResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
-    const { parsedHeaders, ...result } = await this.blobContext.deleteMethod({
+    return this.blobContext.deleteMethod({
       abortSignal: aborter,
       deleteSnapshots: options.deleteSnapshots,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -318,14 +266,15 @@ export class BlobURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @returns {Promise<BlobUndeleteResponse>}
+   * @returns {Promise<Models.BlobUndeleteResponse>}
    * @memberof BlobURL
    */
-  public async undelete(aborter: Aborter): Promise<BlobUndeleteResponse> {
-    const { parsedHeaders, ...result } = await this.blobContext.undelete({
+  public async undelete(
+    aborter: Aborter
+  ): Promise<Models.BlobUndeleteResponse> {
+    return this.blobContext.undelete({
       abortSignal: aborter
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -338,22 +287,21 @@ export class BlobURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobSetHTTPHeadersOptions} [options]
-   * @returns {Promise<BlobSetHTTPHeadersResponse>}
+   * @returns {Promise<Models.BlobSetHTTPHeadersResponse>}
    * @memberof BlobURL
    */
   public async setHTTPHeaders(
     aborter: Aborter,
     options: IBlobSetHTTPHeadersOptions = {}
-  ): Promise<BlobSetHTTPHeadersResponse> {
+  ): Promise<Models.BlobSetHTTPHeadersResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
-    const { parsedHeaders, ...result } = await this.blobContext.setHTTPHeaders({
+    return this.blobContext.setHTTPHeaders({
       abortSignal: aborter,
       blobHTTPHeaders: options.blobHTTPHeaders,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -366,22 +314,21 @@ export class BlobURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobSetMetadataOptions} [options]
-   * @returns {Promise<BlobSetMetadataResponse>}
+   * @returns {Promise<Models.BlobSetMetadataResponse>}
    * @memberof BlobURL
    */
   public async setMetadata(
     aborter: Aborter,
     options: IBlobSetMetadataOptions = {}
-  ): Promise<BlobSetMetadataResponse> {
+  ): Promise<Models.BlobSetMetadataResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
-    const { parsedHeaders, ...result } = await this.blobContext.setMetadata({
+    return this.blobContext.setMetadata({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata: options.metadata,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -395,7 +342,7 @@ export class BlobURL extends StorageURL {
    * @param {string} proposedLeaseId Can be specified in any valid GUID string format
    * @param {number} duration The lock duration can be 15 to 60 seconds, or can be infinite
    * @param {IBlobAcquireLeaseOptions} [options]
-   * @returns {Promise<BlobAcquireLeaseResponse>}
+   * @returns {Promise<Models.BlobAcquireLeaseResponse>}
    * @memberof BlobURL
    */
   public async acquireLease(
@@ -403,14 +350,13 @@ export class BlobURL extends StorageURL {
     proposedLeaseId: string,
     duration: number,
     options: IBlobAcquireLeaseOptions = {}
-  ): Promise<BlobAcquireLeaseResponse> {
-    const { parsedHeaders, ...result } = await this.blobContext.acquireLease({
+  ): Promise<Models.BlobAcquireLeaseResponse> {
+    return this.blobContext.acquireLease({
       abortSignal: aborter,
       duration,
       modifiedAccessConditions: options.modifiedAccessConditions,
       proposedLeaseId
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -422,22 +368,18 @@ export class BlobURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {IBlobReleaseLeaseOptions} [options]
-   * @returns {Promise<BlobReleaseLeaseResponse>}
+   * @returns {Promise<Models.BlobReleaseLeaseResponse>}
    * @memberof BlobURL
    */
   public async releaseLease(
     aborter: Aborter,
     leaseId: string,
     options: IBlobReleaseLeaseOptions = {}
-  ): Promise<BlobReleaseLeaseResponse> {
-    const { parsedHeaders, ...result } = await this.blobContext.releaseLease(
-      leaseId,
-      {
-        abortSignal: aborter,
-        modifiedAccessConditions: options.modifiedAccessConditions
-      }
-    );
-    return { ...result, ...parsedHeaders };
+  ): Promise<Models.BlobReleaseLeaseResponse> {
+    return this.blobContext.releaseLease(leaseId, {
+      abortSignal: aborter,
+      modifiedAccessConditions: options.modifiedAccessConditions
+    });
   }
 
   /**
@@ -448,22 +390,18 @@ export class BlobURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {IBlobRenewLeaseOptions} [options]
-   * @returns {Promise<BlobRenewLeaseResponse>}
+   * @returns {Promise<Models.BlobRenewLeaseResponse>}
    * @memberof BlobURL
    */
   public async renewLease(
     aborter: Aborter,
     leaseId: string,
     options: IBlobRenewLeaseOptions = {}
-  ): Promise<BlobRenewLeaseResponse> {
-    const { parsedHeaders, ...result } = await this.blobContext.renewLease(
-      leaseId,
-      {
-        abortSignal: aborter,
-        modifiedAccessConditions: options.modifiedAccessConditions
-      }
-    );
-    return { ...result, ...parsedHeaders };
+  ): Promise<Models.BlobRenewLeaseResponse> {
+    return this.blobContext.renewLease(leaseId, {
+      abortSignal: aborter,
+      modifiedAccessConditions: options.modifiedAccessConditions
+    });
   }
 
   /**
@@ -475,7 +413,7 @@ export class BlobURL extends StorageURL {
    * @param {string} leaseId
    * @param {string} proposedLeaseId
    * @param {IBlobChangeLeaseOptions} [options]
-   * @returns {Promise<BlobChangeLeaseResponse>}
+   * @returns {Promise<Models.BlobChangeLeaseResponse>}
    * @memberof BlobURL
    */
   public async changeLease(
@@ -483,16 +421,11 @@ export class BlobURL extends StorageURL {
     leaseId: string,
     proposedLeaseId: string,
     options: IBlobChangeLeaseOptions = {}
-  ): Promise<BlobChangeLeaseResponse> {
-    const { parsedHeaders, ...result } = await this.blobContext.changeLease(
-      leaseId,
-      proposedLeaseId,
-      {
-        abortSignal: aborter,
-        modifiedAccessConditions: options.modifiedAccessConditions
-      }
-    );
-    return { ...result, ...parsedHeaders };
+  ): Promise<Models.BlobChangeLeaseResponse> {
+    return this.blobContext.changeLease(leaseId, proposedLeaseId, {
+      abortSignal: aborter,
+      modifiedAccessConditions: options.modifiedAccessConditions
+    });
   }
 
   /**
@@ -504,20 +437,19 @@ export class BlobURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} [breakPeriod]
    * @param {IBlobBreakLeaseOptions} [options]
-   * @returns {Promise<BlobBreakLeaseResponse>}
+   * @returns {Promise<Models.BlobBreakLeaseResponse>}
    * @memberof BlobURL
    */
   public async breakLease(
     aborter: Aborter,
     breakPeriod?: number,
     options: IBlobBreakLeaseOptions = {}
-  ): Promise<BlobBreakLeaseResponse> {
-    const { parsedHeaders, ...result } = await this.blobContext.breakLease({
+  ): Promise<Models.BlobBreakLeaseResponse> {
+    return this.blobContext.breakLease({
       abortSignal: aborter,
       breakPeriod,
       modifiedAccessConditions: options.modifiedAccessConditions
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -527,22 +459,21 @@ export class BlobURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobCreateSnapshotOptions} [options]
-   * @returns {Promise<BlobCreateSnapshotResponse>}
+   * @returns {Promise<Models.BlobCreateSnapshotResponse>}
    * @memberof BlobURL
    */
   public async createSnapshot(
     aborter: Aborter,
     options: IBlobCreateSnapshotOptions = {}
-  ): Promise<BlobCreateSnapshotResponse> {
+  ): Promise<Models.BlobCreateSnapshotResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
-    const { parsedHeaders, ...result } = await this.blobContext.createSnapshot({
+    return this.blobContext.createSnapshot({
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata: options.metadata,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -559,28 +490,26 @@ export class BlobURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copySource
    * @param {IBlobStartCopyFromURLOptions} [options]
-   * @returns {Promise<BlobStartCopyFromURLResponse>}
+   * @returns {Promise<Models.BlobStartCopyFromURLResponse>}
    * @memberof BlobURL
    */
   public async startCopyFromURL(
     aborter: Aborter,
     copySource: string,
     options: IBlobStartCopyFromURLOptions = {}
-  ): Promise<BlobStartCopyFromURLResponse> {
+  ): Promise<Models.BlobStartCopyFromURLResponse> {
     options.blobAccessConditions = options.blobAccessConditions || {};
     options.sourceModifiedAccessConditions =
       options.sourceModifiedAccessConditions || {};
-    const {
-      parsedHeaders,
-      ...result
-    } = await this.blobContext.startCopyFromURL(copySource, {
+
+    return this.blobContext.startCopyFromURL(copySource, {
       abortSignal: aborter,
       leaseAccessConditions: options.blobAccessConditions.leaseAccessConditions,
       metadata: options.metadata,
       modifiedAccessConditions:
         options.blobAccessConditions.modifiedAccessConditions,
       sourceModifiedAccessConditions: {
-        sourceIfMatches: options.sourceModifiedAccessConditions.ifMatch,
+        sourceIfMatch: options.sourceModifiedAccessConditions.ifMatch,
         sourceIfModifiedSince:
           options.sourceModifiedAccessConditions.ifModifiedSince,
         sourceIfNoneMatch: options.sourceModifiedAccessConditions.ifNoneMatch,
@@ -588,7 +517,6 @@ export class BlobURL extends StorageURL {
           options.sourceModifiedAccessConditions.ifUnmodifiedSince
       }
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -600,22 +528,18 @@ export class BlobURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copyId
    * @param {IBlobAbortCopyFromURLOptions} [options]
-   * @returns {Promise<BlobAbortCopyFromURLResponse>}
+   * @returns {Promise<Models.BlobAbortCopyFromURLResponse>}
    * @memberof BlobURL
    */
   public async abortCopyFromURL(
     aborter: Aborter,
     copyId: string,
     options: IBlobAbortCopyFromURLOptions = {}
-  ): Promise<BlobAbortCopyFromURLResponse> {
-    const {
-      parsedHeaders,
-      ...result
-    } = await this.blobContext.abortCopyFromURL(copyId, {
+  ): Promise<Models.BlobAbortCopyFromURLResponse> {
+    return this.blobContext.abortCopyFromURL(copyId, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -630,18 +554,17 @@ export class BlobURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.AccessTier} tier
    * @param {IBlobSetTierOptions} [options]
-   * @returns {Promise<BlobsSetTierResponse>}
+   * @returns {Promise<Models.BlobsSetTierResponse>}
    * @memberof BlobURL
    */
   public async setTier(
     aborter: Aborter,
     tier: Models.AccessTier,
     options: IBlobSetTierOptions = {}
-  ): Promise<BlobSetTierResponse> {
-    const { parsedHeaders, ...result } = await this.blobContext.setTier(tier, {
+  ): Promise<Models.BlobSetTierResponse> {
+    return await this.blobContext.setTier(tier, {
       abortSignal: aborter,
       leaseAccessConditions: options.leaseAccessConditions
     });
-    return { ...result, ...parsedHeaders };
   }
 }

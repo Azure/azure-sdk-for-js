@@ -40,13 +40,18 @@ export class Service {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  setProperties(storageServiceProperties: Models.StorageServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse> {
+  setProperties(storageServiceProperties: Models.StorageServiceProperties): Promise<Models.ServiceSetPropertiesResponse>;
+  setProperties(storageServiceProperties: Models.StorageServiceProperties, options: Models.ServiceSetPropertiesOptionalParams): Promise<Models.ServiceSetPropertiesResponse>;
+  setProperties(storageServiceProperties: Models.StorageServiceProperties, callback: msRest.ServiceCallback<void>): void;
+  setProperties(storageServiceProperties: Models.StorageServiceProperties, options: Models.ServiceSetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  setProperties(storageServiceProperties: Models.StorageServiceProperties, options?: Models.ServiceSetPropertiesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.ServiceSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         storageServiceProperties,
         options
       },
-      setPropertiesOperationSpec) as Promise<Models.ServiceSetPropertiesResponse>;
+      setPropertiesOperationSpec,
+      callback) as Promise<Models.ServiceSetPropertiesResponse>;
   }
 
   /**
@@ -61,12 +66,17 @@ export class Service {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  getProperties(options?: Models.ServiceGetPropertiesOptionalParams): Promise<Models.ServiceGetPropertiesResponse> {
+  getProperties(): Promise<Models.ServiceGetPropertiesResponse>;
+  getProperties(options: Models.ServiceGetPropertiesOptionalParams): Promise<Models.ServiceGetPropertiesResponse>;
+  getProperties(callback: msRest.ServiceCallback<Models.StorageServiceProperties>): void;
+  getProperties(options: Models.ServiceGetPropertiesOptionalParams, callback: msRest.ServiceCallback<Models.StorageServiceProperties>): void;
+  getProperties(options?: Models.ServiceGetPropertiesOptionalParams, callback?: msRest.ServiceCallback<Models.StorageServiceProperties>): Promise<Models.ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getPropertiesOperationSpec) as Promise<Models.ServiceGetPropertiesResponse>;
+      getPropertiesOperationSpec,
+      callback) as Promise<Models.ServiceGetPropertiesResponse>;
   }
 
   /**
@@ -82,12 +92,17 @@ export class Service {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams): Promise<Models.ServiceGetStatisticsResponse> {
+  getStatistics(): Promise<Models.ServiceGetStatisticsResponse>;
+  getStatistics(options: Models.ServiceGetStatisticsOptionalParams): Promise<Models.ServiceGetStatisticsResponse>;
+  getStatistics(callback: msRest.ServiceCallback<Models.StorageServiceStats>): void;
+  getStatistics(options: Models.ServiceGetStatisticsOptionalParams, callback: msRest.ServiceCallback<Models.StorageServiceStats>): void;
+  getStatistics(options?: Models.ServiceGetStatisticsOptionalParams, callback?: msRest.ServiceCallback<Models.StorageServiceStats>): Promise<Models.ServiceGetStatisticsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getStatisticsOperationSpec) as Promise<Models.ServiceGetStatisticsResponse>;
+      getStatisticsOperationSpec,
+      callback) as Promise<Models.ServiceGetStatisticsResponse>;
   }
 
   /**
@@ -102,12 +117,17 @@ export class Service {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  listContainersSegment(options?: Models.ServiceListContainersSegmentOptionalParams): Promise<Models.ServiceListContainersSegmentResponse> {
+  listContainersSegment(): Promise<Models.ServiceListContainersSegmentResponse>;
+  listContainersSegment(options: Models.ServiceListContainersSegmentOptionalParams): Promise<Models.ServiceListContainersSegmentResponse>;
+  listContainersSegment(callback: msRest.ServiceCallback<Models.ListContainersSegmentResponse>): void;
+  listContainersSegment(options: Models.ServiceListContainersSegmentOptionalParams, callback: msRest.ServiceCallback<Models.ListContainersSegmentResponse>): void;
+  listContainersSegment(options?: Models.ServiceListContainersSegmentOptionalParams, callback?: msRest.ServiceCallback<Models.ListContainersSegmentResponse>): Promise<Models.ServiceListContainersSegmentResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      listContainersSegmentOperationSpec) as Promise<Models.ServiceListContainersSegmentResponse>;
+      listContainersSegmentOperationSpec,
+      callback) as Promise<Models.ServiceListContainersSegmentResponse>;
   }
 
   /**
@@ -121,12 +141,17 @@ export class Service {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  getAccountInfo(options?: msRest.RequestOptionsBase): Promise<Models.ServiceGetAccountInfoResponse> {
+  getAccountInfo(): Promise<Models.ServiceGetAccountInfoResponse>;
+  getAccountInfo(options: msRest.RequestOptionsBase): Promise<Models.ServiceGetAccountInfoResponse>;
+  getAccountInfo(callback: msRest.ServiceCallback<void>): void;
+  getAccountInfo(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  getAccountInfo(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.ServiceGetAccountInfoResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getAccountInfoOperationSpec) as Promise<Models.ServiceGetAccountInfoResponse>;
+      getAccountInfoOperationSpec,
+      callback) as Promise<Models.ServiceGetAccountInfoResponse>;
   }
 
 }

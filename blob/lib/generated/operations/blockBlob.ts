@@ -45,14 +45,19 @@ export class BlockBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  upload(body: msRest.HttpRequestBody, contentLength: number, options?: Models.BlockBlobUploadOptionalParams): Promise<Models.BlockBlobUploadResponse> {
+  upload(body: msRest.HttpRequestBody, contentLength: number): Promise<Models.BlockBlobUploadResponse>;
+  upload(body: msRest.HttpRequestBody, contentLength: number, options: Models.BlockBlobUploadOptionalParams): Promise<Models.BlockBlobUploadResponse>;
+  upload(body: msRest.HttpRequestBody, contentLength: number, callback: msRest.ServiceCallback<void>): void;
+  upload(body: msRest.HttpRequestBody, contentLength: number, options: Models.BlockBlobUploadOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  upload(body: msRest.HttpRequestBody, contentLength: number, options?: Models.BlockBlobUploadOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlockBlobUploadResponse> {
     return this.client.sendOperationRequest(
       {
         body,
         contentLength,
         options
       },
-      uploadOperationSpec) as Promise<Models.BlockBlobUploadResponse>;
+      uploadOperationSpec,
+      callback) as Promise<Models.BlockBlobUploadResponse>;
   }
 
   /**
@@ -74,7 +79,11 @@ export class BlockBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  stageBlock(blockId: string, contentLength: number, body: msRest.HttpRequestBody, options?: Models.BlockBlobStageBlockOptionalParams): Promise<Models.BlockBlobStageBlockResponse> {
+  stageBlock(blockId: string, contentLength: number, body: msRest.HttpRequestBody): Promise<Models.BlockBlobStageBlockResponse>;
+  stageBlock(blockId: string, contentLength: number, body: msRest.HttpRequestBody, options: Models.BlockBlobStageBlockOptionalParams): Promise<Models.BlockBlobStageBlockResponse>;
+  stageBlock(blockId: string, contentLength: number, body: msRest.HttpRequestBody, callback: msRest.ServiceCallback<void>): void;
+  stageBlock(blockId: string, contentLength: number, body: msRest.HttpRequestBody, options: Models.BlockBlobStageBlockOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  stageBlock(blockId: string, contentLength: number, body: msRest.HttpRequestBody, options?: Models.BlockBlobStageBlockOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlockBlobStageBlockResponse> {
     return this.client.sendOperationRequest(
       {
         blockId,
@@ -82,7 +91,8 @@ export class BlockBlob {
         body,
         options
       },
-      stageBlockOperationSpec) as Promise<Models.BlockBlobStageBlockResponse>;
+      stageBlockOperationSpec,
+      callback) as Promise<Models.BlockBlobStageBlockResponse>;
   }
 
   /**
@@ -95,7 +105,7 @@ export class BlockBlob {
    *
    * @param {number} contentLength The length of the request.
    *
-   * @param {string} sourceUrl Specifiy an URL to the copy source.
+   * @param {string} sourceUrl Specify a URL to the copy source.
    *
    * @param {BlockBlobStageBlockFromURLOptionalParams} [options] Optional Parameters.
    *
@@ -105,7 +115,11 @@ export class BlockBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, options?: Models.BlockBlobStageBlockFromURLOptionalParams): Promise<Models.BlockBlobStageBlockFromURLResponse> {
+  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string): Promise<Models.BlockBlobStageBlockFromURLResponse>;
+  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, options: Models.BlockBlobStageBlockFromURLOptionalParams): Promise<Models.BlockBlobStageBlockFromURLResponse>;
+  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, callback: msRest.ServiceCallback<void>): void;
+  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, options: Models.BlockBlobStageBlockFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, options?: Models.BlockBlobStageBlockFromURLOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlockBlobStageBlockFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         blockId,
@@ -113,7 +127,8 @@ export class BlockBlob {
         sourceUrl,
         options
       },
-      stageBlockFromURLOperationSpec) as Promise<Models.BlockBlobStageBlockFromURLResponse>;
+      stageBlockFromURLOperationSpec,
+      callback) as Promise<Models.BlockBlobStageBlockFromURLResponse>;
   }
 
   /**
@@ -135,13 +150,18 @@ export class BlockBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  commitBlockList(blocks: Models.BlockLookupList, options?: Models.BlockBlobCommitBlockListOptionalParams): Promise<Models.BlockBlobCommitBlockListResponse> {
+  commitBlockList(blocks: Models.BlockLookupList): Promise<Models.BlockBlobCommitBlockListResponse>;
+  commitBlockList(blocks: Models.BlockLookupList, options: Models.BlockBlobCommitBlockListOptionalParams): Promise<Models.BlockBlobCommitBlockListResponse>;
+  commitBlockList(blocks: Models.BlockLookupList, callback: msRest.ServiceCallback<void>): void;
+  commitBlockList(blocks: Models.BlockLookupList, options: Models.BlockBlobCommitBlockListOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  commitBlockList(blocks: Models.BlockLookupList, options?: Models.BlockBlobCommitBlockListOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlockBlobCommitBlockListResponse> {
     return this.client.sendOperationRequest(
       {
         blocks,
         options
       },
-      commitBlockListOperationSpec) as Promise<Models.BlockBlobCommitBlockListResponse>;
+      commitBlockListOperationSpec,
+      callback) as Promise<Models.BlockBlobCommitBlockListResponse>;
   }
 
   /**
@@ -160,13 +180,18 @@ export class BlockBlob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  getBlockList(listType: Models.BlockListType, options?: Models.BlockBlobGetBlockListOptionalParams): Promise<Models.BlockBlobGetBlockListResponse> {
+  getBlockList(listType: Models.BlockListType): Promise<Models.BlockBlobGetBlockListResponse>;
+  getBlockList(listType: Models.BlockListType, options: Models.BlockBlobGetBlockListOptionalParams): Promise<Models.BlockBlobGetBlockListResponse>;
+  getBlockList(listType: Models.BlockListType, callback: msRest.ServiceCallback<Models.BlockList>): void;
+  getBlockList(listType: Models.BlockListType, options: Models.BlockBlobGetBlockListOptionalParams, callback: msRest.ServiceCallback<Models.BlockList>): void;
+  getBlockList(listType: Models.BlockListType, options?: Models.BlockBlobGetBlockListOptionalParams, callback?: msRest.ServiceCallback<Models.BlockList>): Promise<Models.BlockBlobGetBlockListResponse> {
     return this.client.sendOperationRequest(
       {
         listType,
         options
       },
-      getBlockListOperationSpec) as Promise<Models.BlockBlobGetBlockListResponse>;
+      getBlockListOperationSpec,
+      callback) as Promise<Models.BlockBlobGetBlockListResponse>;
   }
 
 }
@@ -236,6 +261,7 @@ const stageBlockOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.contentLength,
+    Parameters.transactionalContentMD5,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0

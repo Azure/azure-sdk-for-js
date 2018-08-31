@@ -2,23 +2,8 @@ import * as Models from "../lib/generated/models";
 import { Aborter } from "./Aborter";
 import { ListContainersIncludeType } from "./generated/models/index";
 import { Service } from "./generated/operations";
-import { ICommonResponse } from "./models";
 import { Pipeline } from "./Pipeline";
 import { StorageURL } from "./StorageURL";
-
-export declare type ServiceGetPropertiesResponse = ICommonResponse &
-  Models.ServiceGetPropertiesHeaders &
-  Models.StorageServiceProperties;
-
-export declare type ServiceSetPropertiesResponse = ICommonResponse &
-  Models.ServiceSetPropertiesHeaders;
-
-export declare type ServiceGetAccountInfoResponse = ICommonResponse &
-  Models.ServiceGetAccountInfoHeaders;
-
-export declare type ServiceGetStatisticsResponse = ICommonResponse &
-  Models.ServiceGetStatisticsHeaders &
-  Models.StorageServiceStats;
 
 export interface IServiceListContainersSegmentOptions {
   /**
@@ -53,10 +38,6 @@ export interface IServiceListContainersSegmentOptions {
    */
   include?: ListContainersIncludeType;
 }
-
-export declare type ServiceListContainersSegmentResponse = ICommonResponse &
-  Models.ServiceListContainersSegmentHeaders &
-  Models.ListContainersSegmentResponse;
 
 /**
  * A ServiceURL represents a URL to the Azure Storage Blob service allowing you
@@ -106,21 +87,15 @@ export class ServiceURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @returns {Promise<ServiceGetPropertiesResponse>}
+   * @returns {Promise<Models.ServiceGetPropertiesResponse>}
    * @memberof ServiceURL
    */
   public async getProperties(
     aborter: Aborter
-  ): Promise<ServiceGetPropertiesResponse> {
-    const {
-      bodyAsText,
-      parsedBody,
-      parsedHeaders,
-      ...result
-    } = await this.serviceContext.getProperties({
+  ): Promise<Models.ServiceGetPropertiesResponse> {
+    return this.serviceContext.getProperties({
       abortSignal: aborter
     });
-    return { ...result, ...parsedHeaders, ...parsedBody };
   }
 
   /**
@@ -131,20 +106,16 @@ export class ServiceURL extends StorageURL {
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.StorageServiceProperties} properties
-   * @returns {Promise<ServiceSetPropertiesResponse>}
+   * @returns {Promise<Models.ServiceSetPropertiesResponse>}
    * @memberof ServiceURL
    */
   public async setProperties(
     aborter: Aborter,
     properties: Models.StorageServiceProperties
-  ): Promise<ServiceSetPropertiesResponse> {
-    const {
-      parsedHeaders,
-      ...result
-    } = await this.serviceContext.setProperties(properties, {
+  ): Promise<Models.ServiceSetPropertiesResponse> {
+    return this.serviceContext.setProperties(properties, {
       abortSignal: aborter
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -155,21 +126,15 @@ export class ServiceURL extends StorageURL {
    *
    *  @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @returns {Promise<ServiceGetStatisticsResponse>}
+   * @returns {Promise<Models.ServiceGetStatisticsResponse>}
    * @memberof ServiceURL
    */
   public async getStatistics(
     aborter: Aborter
-  ): Promise<ServiceGetStatisticsResponse> {
-    const {
-      bodyAsText,
-      parsedBody,
-      parsedHeaders,
-      ...result
-    } = await this.serviceContext.getStatistics({
+  ): Promise<Models.ServiceGetStatisticsResponse> {
+    return this.serviceContext.getStatistics({
       abortSignal: aborter
     });
-    return { ...result, ...parsedHeaders, ...parsedBody };
   }
 
   /**
@@ -181,19 +146,15 @@ export class ServiceURL extends StorageURL {
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
-   * @returns {Promise<ServiceGetAccountInfoResponse>}
+   * @returns {Promise<Models.ServiceGetAccountInfoResponse>}
    * @memberof ServiceURL
    */
   public async getAccountInfo(
     aborter: Aborter
-  ): Promise<ServiceGetAccountInfoResponse> {
-    const {
-      parsedHeaders,
-      ...result
-    } = await this.serviceContext.getAccountInfo({
+  ): Promise<Models.ServiceGetAccountInfoResponse> {
+    return this.serviceContext.getAccountInfo({
       abortSignal: aborter
     });
-    return { ...result, ...parsedHeaders };
   }
 
   /**
@@ -204,24 +165,18 @@ export class ServiceURL extends StorageURL {
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker]
    * @param {IServiceListContainersSegmentOptions} [options]
-   * @returns {Promise<ServiceListContainersSegmentResponse>}
+   * @returns {Promise<Models.ServiceListContainersSegmentResponse>}
    * @memberof ServiceURL
    */
   public async listContainersSegment(
     aborter: Aborter,
     marker?: string,
     options: IServiceListContainersSegmentOptions = {}
-  ): Promise<ServiceListContainersSegmentResponse> {
-    const {
-      bodyAsText,
-      parsedBody,
-      parsedHeaders,
-      ...result
-    } = await this.serviceContext.listContainersSegment({
+  ): Promise<Models.ServiceListContainersSegmentResponse> {
+    return this.serviceContext.listContainersSegment({
       abortSignal: aborter,
       marker,
       ...options
     });
-    return { ...result, ...parsedHeaders, ...parsedBody };
   }
 }

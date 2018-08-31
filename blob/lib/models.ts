@@ -1,5 +1,3 @@
-import { HttpHeaders, WebResource } from "ms-rest-js";
-
 import * as Models from "./generated/models";
 
 export interface IMetadata {
@@ -22,32 +20,4 @@ export interface IPageBlobAccessConditions extends IBlobAccessConditions {
 
 export interface IAppendBlobAccessConditions extends IBlobAccessConditions {
   appendPositionAccessConditions?: Models.AppendPositionAccessConditions;
-}
-
-export interface ICommonResponse {
-  /**
-   * The raw request
-   */
-  request: WebResource;
-  /**
-   * The HTTP response status (e.g. 200)
-   */
-  status: number;
-  /**
-   * The HTTP response headers.
-   */
-  headers: HttpHeaders;
-}
-
-export interface IDownloadResponse extends ICommonResponse {
-  /**
-   * The response body as a Blob.
-   * Always undefined in node.js.
-   */
-  blobBody?: (() => Promise<Blob>);
-  /**
-   * The response body as a node.js Readable stream.
-   * Always undefined in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
 }

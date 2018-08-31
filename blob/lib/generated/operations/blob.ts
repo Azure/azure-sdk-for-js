@@ -38,12 +38,17 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  download(options?: Models.BlobDownloadOptionalParams): Promise<Models.BlobDownloadResponse> {
+  download(): Promise<Models.BlobDownloadResponse>;
+  download(options: Models.BlobDownloadOptionalParams): Promise<Models.BlobDownloadResponse>;
+  download(callback: msRest.ServiceCallback<void>): void;
+  download(options: Models.BlobDownloadOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  download(options?: Models.BlobDownloadOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobDownloadResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      downloadOperationSpec) as Promise<Models.BlobDownloadResponse>;
+      downloadOperationSpec,
+      callback) as Promise<Models.BlobDownloadResponse>;
   }
 
   /**
@@ -58,12 +63,17 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  getProperties(options?: Models.BlobGetPropertiesOptionalParams): Promise<Models.BlobGetPropertiesResponse> {
+  getProperties(): Promise<Models.BlobGetPropertiesResponse>;
+  getProperties(options: Models.BlobGetPropertiesOptionalParams): Promise<Models.BlobGetPropertiesResponse>;
+  getProperties(callback: msRest.ServiceCallback<void>): void;
+  getProperties(options: Models.BlobGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  getProperties(options?: Models.BlobGetPropertiesOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getPropertiesOperationSpec) as Promise<Models.BlobGetPropertiesResponse>;
+      getPropertiesOperationSpec,
+      callback) as Promise<Models.BlobGetPropertiesResponse>;
   }
 
   /**
@@ -88,12 +98,17 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  deleteMethod(options?: Models.BlobDeleteMethodOptionalParams): Promise<Models.BlobDeleteResponse> {
+  deleteMethod(): Promise<Models.BlobDeleteResponse>;
+  deleteMethod(options: Models.BlobDeleteMethodOptionalParams): Promise<Models.BlobDeleteResponse>;
+  deleteMethod(callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(options: Models.BlobDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(options?: Models.BlobDeleteMethodOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      deleteMethodOperationSpec) as Promise<Models.BlobDeleteResponse>;
+      deleteMethodOperationSpec,
+      callback) as Promise<Models.BlobDeleteResponse>;
   }
 
   /**
@@ -107,12 +122,17 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  undelete(options?: Models.BlobUndeleteOptionalParams): Promise<Models.BlobUndeleteResponse> {
+  undelete(): Promise<Models.BlobUndeleteResponse>;
+  undelete(options: Models.BlobUndeleteOptionalParams): Promise<Models.BlobUndeleteResponse>;
+  undelete(callback: msRest.ServiceCallback<void>): void;
+  undelete(options: Models.BlobUndeleteOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  undelete(options?: Models.BlobUndeleteOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobUndeleteResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      undeleteOperationSpec) as Promise<Models.BlobUndeleteResponse>;
+      undeleteOperationSpec,
+      callback) as Promise<Models.BlobUndeleteResponse>;
   }
 
   /**
@@ -126,12 +146,17 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  setHTTPHeaders(options?: Models.BlobSetHTTPHeadersOptionalParams): Promise<Models.BlobSetHTTPHeadersResponse> {
+  setHTTPHeaders(): Promise<Models.BlobSetHTTPHeadersResponse>;
+  setHTTPHeaders(options: Models.BlobSetHTTPHeadersOptionalParams): Promise<Models.BlobSetHTTPHeadersResponse>;
+  setHTTPHeaders(callback: msRest.ServiceCallback<void>): void;
+  setHTTPHeaders(options: Models.BlobSetHTTPHeadersOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  setHTTPHeaders(options?: Models.BlobSetHTTPHeadersOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobSetHTTPHeadersResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      setHTTPHeadersOperationSpec) as Promise<Models.BlobSetHTTPHeadersResponse>;
+      setHTTPHeadersOperationSpec,
+      callback) as Promise<Models.BlobSetHTTPHeadersResponse>;
   }
 
   /**
@@ -146,12 +171,17 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  setMetadata(options?: Models.BlobSetMetadataOptionalParams): Promise<Models.BlobSetMetadataResponse> {
+  setMetadata(): Promise<Models.BlobSetMetadataResponse>;
+  setMetadata(options: Models.BlobSetMetadataOptionalParams): Promise<Models.BlobSetMetadataResponse>;
+  setMetadata(callback: msRest.ServiceCallback<void>): void;
+  setMetadata(options: Models.BlobSetMetadataOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  setMetadata(options?: Models.BlobSetMetadataOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobSetMetadataResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      setMetadataOperationSpec) as Promise<Models.BlobSetMetadataResponse>;
+      setMetadataOperationSpec,
+      callback) as Promise<Models.BlobSetMetadataResponse>;
   }
 
   /**
@@ -166,20 +196,24 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  acquireLease(options?: Models.BlobAcquireLeaseOptionalParams): Promise<Models.BlobAcquireLeaseResponse> {
+  acquireLease(): Promise<Models.BlobAcquireLeaseResponse>;
+  acquireLease(options: Models.BlobAcquireLeaseOptionalParams): Promise<Models.BlobAcquireLeaseResponse>;
+  acquireLease(callback: msRest.ServiceCallback<void>): void;
+  acquireLease(options: Models.BlobAcquireLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  acquireLease(options?: Models.BlobAcquireLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobAcquireLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      acquireLeaseOperationSpec) as Promise<Models.BlobAcquireLeaseResponse>;
+      acquireLeaseOperationSpec,
+      callback) as Promise<Models.BlobAcquireLeaseResponse>;
   }
 
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
    * operations
    *
-   * @param {string} leaseId If specified, the operation only succeeds if the container's lease is
-   * active and matches this ID.
+   * @param {string} leaseId Specifies the current lease ID on the resource.
    *
    * @param {BlobReleaseLeaseOptionalParams} [options] Optional Parameters.
    *
@@ -189,21 +223,25 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  releaseLease(leaseId: string, options?: Models.BlobReleaseLeaseOptionalParams): Promise<Models.BlobReleaseLeaseResponse> {
+  releaseLease(leaseId: string): Promise<Models.BlobReleaseLeaseResponse>;
+  releaseLease(leaseId: string, options: Models.BlobReleaseLeaseOptionalParams): Promise<Models.BlobReleaseLeaseResponse>;
+  releaseLease(leaseId: string, callback: msRest.ServiceCallback<void>): void;
+  releaseLease(leaseId: string, options: Models.BlobReleaseLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  releaseLease(leaseId: string, options?: Models.BlobReleaseLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobReleaseLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         options
       },
-      releaseLeaseOperationSpec) as Promise<Models.BlobReleaseLeaseResponse>;
+      releaseLeaseOperationSpec,
+      callback) as Promise<Models.BlobReleaseLeaseResponse>;
   }
 
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
    * operations
    *
-   * @param {string} leaseId If specified, the operation only succeeds if the container's lease is
-   * active and matches this ID.
+   * @param {string} leaseId Specifies the current lease ID on the resource.
    *
    * @param {BlobRenewLeaseOptionalParams} [options] Optional Parameters.
    *
@@ -213,21 +251,25 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  renewLease(leaseId: string, options?: Models.BlobRenewLeaseOptionalParams): Promise<Models.BlobRenewLeaseResponse> {
+  renewLease(leaseId: string): Promise<Models.BlobRenewLeaseResponse>;
+  renewLease(leaseId: string, options: Models.BlobRenewLeaseOptionalParams): Promise<Models.BlobRenewLeaseResponse>;
+  renewLease(leaseId: string, callback: msRest.ServiceCallback<void>): void;
+  renewLease(leaseId: string, options: Models.BlobRenewLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  renewLease(leaseId: string, options?: Models.BlobRenewLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobRenewLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         options
       },
-      renewLeaseOperationSpec) as Promise<Models.BlobRenewLeaseResponse>;
+      renewLeaseOperationSpec,
+      callback) as Promise<Models.BlobRenewLeaseResponse>;
   }
 
   /**
    * [Update] The Lease Blob operation establishes and manages a lock on a blob for write and delete
    * operations
    *
-   * @param {string} leaseId If specified, the operation only succeeds if the container's lease is
-   * active and matches this ID.
+   * @param {string} leaseId Specifies the current lease ID on the resource.
    *
    * @param {string} proposedLeaseId Proposed lease ID, in a GUID string format. The Blob service
    * returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid
@@ -241,14 +283,19 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.BlobChangeLeaseOptionalParams): Promise<Models.BlobChangeLeaseResponse> {
+  changeLease(leaseId: string, proposedLeaseId: string): Promise<Models.BlobChangeLeaseResponse>;
+  changeLease(leaseId: string, proposedLeaseId: string, options: Models.BlobChangeLeaseOptionalParams): Promise<Models.BlobChangeLeaseResponse>;
+  changeLease(leaseId: string, proposedLeaseId: string, callback: msRest.ServiceCallback<void>): void;
+  changeLease(leaseId: string, proposedLeaseId: string, options: Models.BlobChangeLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  changeLease(leaseId: string, proposedLeaseId: string, options?: Models.BlobChangeLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobChangeLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         leaseId,
         proposedLeaseId,
         options
       },
-      changeLeaseOperationSpec) as Promise<Models.BlobChangeLeaseResponse>;
+      changeLeaseOperationSpec,
+      callback) as Promise<Models.BlobChangeLeaseResponse>;
   }
 
   /**
@@ -263,12 +310,17 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  breakLease(options?: Models.BlobBreakLeaseOptionalParams): Promise<Models.BlobBreakLeaseResponse> {
+  breakLease(): Promise<Models.BlobBreakLeaseResponse>;
+  breakLease(options: Models.BlobBreakLeaseOptionalParams): Promise<Models.BlobBreakLeaseResponse>;
+  breakLease(callback: msRest.ServiceCallback<void>): void;
+  breakLease(options: Models.BlobBreakLeaseOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  breakLease(options?: Models.BlobBreakLeaseOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobBreakLeaseResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      breakLeaseOperationSpec) as Promise<Models.BlobBreakLeaseResponse>;
+      breakLeaseOperationSpec,
+      callback) as Promise<Models.BlobBreakLeaseResponse>;
   }
 
   /**
@@ -282,12 +334,17 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  createSnapshot(options?: Models.BlobCreateSnapshotOptionalParams): Promise<Models.BlobCreateSnapshotResponse> {
+  createSnapshot(): Promise<Models.BlobCreateSnapshotResponse>;
+  createSnapshot(options: Models.BlobCreateSnapshotOptionalParams): Promise<Models.BlobCreateSnapshotResponse>;
+  createSnapshot(callback: msRest.ServiceCallback<void>): void;
+  createSnapshot(options: Models.BlobCreateSnapshotOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  createSnapshot(options?: Models.BlobCreateSnapshotOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobCreateSnapshotResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      createSnapshotOperationSpec) as Promise<Models.BlobCreateSnapshotResponse>;
+      createSnapshotOperationSpec,
+      callback) as Promise<Models.BlobCreateSnapshotResponse>;
   }
 
   /**
@@ -306,13 +363,18 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  startCopyFromURL(copySource: string, options?: Models.BlobStartCopyFromURLOptionalParams): Promise<Models.BlobStartCopyFromURLResponse> {
+  startCopyFromURL(copySource: string): Promise<Models.BlobStartCopyFromURLResponse>;
+  startCopyFromURL(copySource: string, options: Models.BlobStartCopyFromURLOptionalParams): Promise<Models.BlobStartCopyFromURLResponse>;
+  startCopyFromURL(copySource: string, callback: msRest.ServiceCallback<void>): void;
+  startCopyFromURL(copySource: string, options: Models.BlobStartCopyFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  startCopyFromURL(copySource: string, options?: Models.BlobStartCopyFromURLOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobStartCopyFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         copySource,
         options
       },
-      startCopyFromURLOperationSpec) as Promise<Models.BlobStartCopyFromURLResponse>;
+      startCopyFromURLOperationSpec,
+      callback) as Promise<Models.BlobStartCopyFromURLResponse>;
   }
 
   /**
@@ -330,13 +392,18 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  abortCopyFromURL(copyId: string, options?: Models.BlobAbortCopyFromURLOptionalParams): Promise<Models.BlobAbortCopyFromURLResponse> {
+  abortCopyFromURL(copyId: string): Promise<Models.BlobAbortCopyFromURLResponse>;
+  abortCopyFromURL(copyId: string, options: Models.BlobAbortCopyFromURLOptionalParams): Promise<Models.BlobAbortCopyFromURLResponse>;
+  abortCopyFromURL(copyId: string, callback: msRest.ServiceCallback<void>): void;
+  abortCopyFromURL(copyId: string, options: Models.BlobAbortCopyFromURLOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  abortCopyFromURL(copyId: string, options?: Models.BlobAbortCopyFromURLOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobAbortCopyFromURLResponse> {
     return this.client.sendOperationRequest(
       {
         copyId,
         options
       },
-      abortCopyFromURLOperationSpec) as Promise<Models.BlobAbortCopyFromURLResponse>;
+      abortCopyFromURLOperationSpec,
+      callback) as Promise<Models.BlobAbortCopyFromURLResponse>;
   }
 
   /**
@@ -357,13 +424,18 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  setTier(tier: Models.AccessTier, options?: Models.BlobSetTierOptionalParams): Promise<Models.BlobSetTierResponse> {
+  setTier(tier: Models.AccessTier): Promise<Models.BlobSetTierResponse>;
+  setTier(tier: Models.AccessTier, options: Models.BlobSetTierOptionalParams): Promise<Models.BlobSetTierResponse>;
+  setTier(tier: Models.AccessTier, callback: msRest.ServiceCallback<void>): void;
+  setTier(tier: Models.AccessTier, options: Models.BlobSetTierOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  setTier(tier: Models.AccessTier, options?: Models.BlobSetTierOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobSetTierResponse> {
     return this.client.sendOperationRequest(
       {
         tier,
         options
       },
-      setTierOperationSpec) as Promise<Models.BlobSetTierResponse>;
+      setTierOperationSpec,
+      callback) as Promise<Models.BlobSetTierResponse>;
   }
 
   /**
@@ -377,12 +449,17 @@ export class Blob {
    *
    * @reject {Error|ServiceError} The error object.
    */
-  getAccountInfo(options?: msRest.RequestOptionsBase): Promise<Models.BlobGetAccountInfoResponse> {
+  getAccountInfo(): Promise<Models.BlobGetAccountInfoResponse>;
+  getAccountInfo(options: msRest.RequestOptionsBase): Promise<Models.BlobGetAccountInfoResponse>;
+  getAccountInfo(callback: msRest.ServiceCallback<void>): void;
+  getAccountInfo(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  getAccountInfo(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<Models.BlobGetAccountInfoResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
-      getAccountInfoOperationSpec) as Promise<Models.BlobGetAccountInfoResponse>;
+      getAccountInfoOperationSpec,
+      callback) as Promise<Models.BlobGetAccountInfoResponse>;
   }
 
 }
@@ -805,7 +882,7 @@ const startCopyFromURLOperationSpec: msRest.OperationSpec = {
     Parameters.requestId,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,
-    Parameters.sourceIfMatches,
+    Parameters.sourceIfMatch,
     Parameters.sourceIfNoneMatch,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
