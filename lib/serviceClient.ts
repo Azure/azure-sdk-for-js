@@ -498,8 +498,17 @@ export function flattenResponse(_response: HttpOperationResponse, responseSpec: 
       });
     }
 
-    if (typeName === "Sequence") {
-      const arrayResponse = [...(_response.parsedBody) || []] as RestResponse & any[];
+    const modelProperties = typeName === "Composite" && (bodyMapper as CompositeMapper).type.modelProperties || {};
+    const isPageableResponse = Object.values(modelProperties).some(p => p.serializedName === "");
+    if (typeName === "Sequence" || isPageableResponse) {
+      const arrayResponse = [...(_response.parsedBody || [])] as RestResponse & any[];
+
+      for (const key of Object.keys(modelProperties)) {
+        if (modelProperties[key].serializedName) {
+          arrayResponse[key] = _response.parsedBody[key];
+        }
+      }
+
       if (parsedHeaders) {
         for (const key of Object.keys(parsedHeaders)) {
           arrayResponse[key] = parsedHeaders[key];
