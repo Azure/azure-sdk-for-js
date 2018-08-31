@@ -1,6 +1,5 @@
 projects/*
 targets/*
-packages/*
 test/data/test_package.zip
 
 # Visual Studio #
@@ -23,6 +22,12 @@ npm-debug.log.*
 azure_error
 checkstyle-result.xml
 test-result.xml
+
+# TypeScript build products
+*.js
+*.js.map
+*.d.ts
+*.d.ts.map
 
 # Mac OS #
 .DS_Store
@@ -48,12 +53,11 @@ child.conf.json
 # temporary test artifacts
 test/tmp/*
 
-# dotenv environment variables file 
+# dotenv environment variables file
 .env
 
 # Nuget packages and corresponding codegen sources
 .nuget
-packages
 
 # Coverage report
 coverage
