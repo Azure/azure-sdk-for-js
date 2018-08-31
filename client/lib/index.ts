@@ -17,5 +17,5 @@ export {
   IotHubConnectionStringModel, StorageConnectionStringModel, isIotHubConnectionString,
   ErrorNameConditionMapper, ConditionStatusMapper, ConditionErrorNameMapper, MessagingError,
   DataTransformer, DefaultDataTransformer, ConnectionConfig, TokenType, TokenProvider, TokenInfo,
-  EventHubDeliveryAnnotations, EventHubMessageAnnotations, AadTokenProvider
+  EventHubDeliveryAnnotations, EventHubMessageAnnotations, AadTokenProvider, SasTokenProvider
 } from "./amqp-common";
