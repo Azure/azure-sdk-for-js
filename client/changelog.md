@@ -1,3 +1,9 @@
+### 2018-08-31 0.2.8
+- Fixed [issue](https://github.com/Azure/azure-event-hubs-node/issues/135)
+  - Added error handlers to the $management sender/receiver links.
+  - Added error handlers to the amqp session of the $management and $cbs sender/receiver links.
+- Exported `AadTokenProvider` and `SasTokenProvider` from the client.
+
 ### 2018-08-29 0.2.7
 - Improved logging statements to the connection context.
 - Added timeout to promisifed creation/closing of rhea sender, receiver, session, connection.

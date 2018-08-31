@@ -6,7 +6,7 @@ import * as rheaPromise from "./rhea-promise";
 import {
   RequestResponseLink, defaultLock, translate, Constants
 } from "./amqp-common";
-import { Message } from "./rhea-promise";
+import { Message, EventContext, SenderEvents, ReceiverEvents } from "./rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
@@ -112,7 +112,9 @@ export class ManagementClient extends LinkEntity {
   constructor(context: ConnectionContext, options?: ManagementClientOptions) {
     super(context, {
       address: options && options.address ? options.address : Constants.management,
-      audience: options && options.audience ? options.audience : `${context.config.endpoint}${context.config.entityPath!}/$management`
+      audience: options && options.audience
+        ? options.audience
+        : `${context.config.endpoint}${context.config.entityPath!}/$management`
     });
     this._context = context;
     this.entityPath = context.config.entityPath as string;
@@ -155,8 +157,10 @@ export class ManagementClient extends LinkEntity {
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    */
   async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
-    if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
-      throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
+    if (!partitionId ||
+      (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
+      throw new Error("'partitionId' is a required parameter and must be of " +
+        "type: 'string' | 'number'.");
     }
     const info: any = await this._makeManagementRequest(Constants.partition, partitionId);
     const partitionInfo: EventHubPartitionRuntimeInformation = {
@@ -195,20 +199,45 @@ export class ManagementClient extends LinkEntity {
   }
 
   private async _init(): Promise<void> {
-    if (!this._isMgmtRequestResponseLinkOpen()) {
-      await this._negotiateClaim();
-      const rxopt: rheaPromise.ReceiverOptions = {
-        source: { address: this.address },
-        name: this.replyTo,
-        target: { address: this.replyTo }
-      };
-      const sropt: rheaPromise.SenderOptions = { target: { address: this.address } };
-      log.mgmt("Creating a session for $management endpoint");
-      this._mgmtReqResLink =
-        await RequestResponseLink.create(this._context.connection, sropt, rxopt);
-      log.mgmt("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
-        this._context.connectionId, this._mgmtReqResLink.sender.name, this._mgmtReqResLink.receiver.name);
-      await this._ensureTokenRenewal();
+    try {
+      if (!this._isMgmtRequestResponseLinkOpen()) {
+        await this._negotiateClaim();
+        const rxopt: rheaPromise.ReceiverOptions = {
+          source: { address: this.address },
+          name: this.replyTo,
+          target: { address: this.replyTo },
+          onSessionError: (context: EventContext) => {
+            const id = context.connection.options.id;
+            const ehError = translate(context.session!.error!);
+            log.error("[%s] An error occurred on the session for request/response links for " +
+              "$management: %O", id, ehError);
+          }
+        };
+        const sropt: rheaPromise.SenderOptions = { target: { address: this.address } };
+        log.mgmt("[%s] Creating sender/receiver links on a session for $management endpoint.",
+          this._context.connectionId);
+        this._mgmtReqResLink =
+          await RequestResponseLink.create(this._context.connection, sropt, rxopt);
+        this._mgmtReqResLink.sender.registerHandler(SenderEvents.senderError, (context: EventContext) => {
+          const id = context.connection.options.id;
+          const ehError = translate(context.sender!.error!);
+          log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
+        });
+        this._mgmtReqResLink.receiver.registerHandler(ReceiverEvents.receiverError, (context: EventContext) => {
+          const id = context.connection.options.id;
+          const ehError = translate(context.receiver!.error!);
+          log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
+        });
+        log.mgmt("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
+          this._context.connectionId, this._mgmtReqResLink.sender.name,
+          this._mgmtReqResLink.receiver.name);
+        await this._ensureTokenRenewal();
+      }
+    } catch (err) {
+      err = translate(err);
+      log.error("[%s] An error occured while establishing the $management links: %O",
+        this._context.connectionId, err);
+      throw err;
     }
   }
 
