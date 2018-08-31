@@ -3,8 +3,7 @@
 
 import * as uuid from "uuid/v4";
 import {
-  TokenProvider, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, EventPosition,
-  MessagingError, EventHubClient, ClientOptions, EventData, ClientOptionsBase
+  TokenProvider, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, AadTokenProvider, EventHubClient
 } from "azure-event-hubs";
 import {
   ApplicationTokenCredentials, UserTokenCredentials,
@@ -12,140 +11,13 @@ import {
 } from "ms-rest-azure";
 import * as log from "./log";
 import { LeaseManager } from "./leaseManager";
-import { PartitionContext } from "./partitionContext";
-import { ProcessorContext } from "./processorContext";
+import { HostContext } from "./hostContext";
 import { PartitionManager } from "./partitionManager";
 import { CheckpointManager } from "./checkpointManager";
+import { FromConnectionStringOptions, EventProcessorHostOptions, FromTokenProviderOptions, OnReceivedMessage, OnReceivedError } from "./modelTypes";
+import { validateType } from './util/utils';
 
 
-/**
- * Provides information about internal errors that occur while managing partitions or leases for
- * the partitions.
- * @interface EPHDiagnosticInfo
- */
-export interface EPHDiagnosticInfo {
-  /**
-   * @property {string} hostName The name of the host that experienced the error. Allows
-   * distinguishing the error source if multiple hosts in a single process.
-   */
-  hostName: string;
-  /**
-   * @property {string} partitionId The partitionId that experienced the error. Allows
-   * distinguishing the error source if multiple hosts in a single process.
-   */
-  partitionId: string;
-  /**
-   * @property {string} action A short string that indicates what general activity threw the exception.
-   */
-  action: string;
-  /**
-   * @property {any} error The error that was thrown.
-   */
-  error: any;
-}
-
-/**
- * Describes the error handler signature to receive notifcation for general errors.
- *
- * Errors which occur while processing events from a particular EventHub partition are delivered
- * to the `onError` handler provided in the `start()` method. This handler is called on
- * occasions when an error occurs while managing partitions or leases for the partitions.
- * @function
- */
-export type OnEphError = (error: EPHDiagnosticInfo) => void;
-
-/**
- * Describes the message handler signature for messages received from an EventHub.
- * @function
- */
-export type OnReceivedMessage = (context: PartitionContext, eventData: EventData) => void;
-
-/**
- * Describes the message handler signature for errors that occur while receiving messages from an
- * EventHub.
- * @function
- */
-export type OnReceivedError = (error: MessagingError | Error) => void;
-
-/**
- * Describes the optional parameters that can be provided for creating an EventProcessorHost.
- * @interface EventProcessorOptions
- */
-export interface EventProcessorOptions extends ClientOptionsBase {
-  /**
-   * @property {EventPosition} initialOffset This is only used when then receiver is being created
-   * for the very first time and there is no checkpoint data in the blob. For this option to be
-   * effective please make sure to provide a new hostName that was not used previously.
-   */
-  initialOffset?: EventPosition;
-  /**
-   * @property {string} [consumerGroup] The name of the consumer group within the Event Hub. Default
-   * value: "$default"
-   */
-  consumerGroup?: string;
-  /**
-   * @property {CheckpointManager} [checkpointManager] A manager to manage checkpoints other
-   * than Azure Storage. Default: `AzureStorageCheckpointLeaseManager`.
-   */
-  checkpointManager?: CheckpointManager;
-  /**
-   * @property {LeaseManager} [LeaseManager] A manager to manage leases. Default:
-   * `AzureStorageCheckpointLeaseManager`.
-   */
-  leaseManager?: LeaseManager;
-  /**
-   * @property {string} [leasecontainerName] Azure Storage container name for use by built-in
-   * lease and checkpoint manager.
-   */
-  leasecontainerName?: string;
-  /**
-   * @property {string} [storageBlobPrefix] Prefix used when naming blobs within the storage container.
-   */
-  storageBlobPrefix?: string;
-  /**
-   * @property {OnEphError} [onEphError] Error handler that can be provided to receive notifcation
-   * for general errors.
-   *
-   * Errors which occur while processing events from a particular EventHub partition are delivered
-   * to the `onError` handler provided in the `start()` method. This handler is called on
-   * occasions when an error occurs while managing partitions or leases for the partitions.
-   */
-  onEphError?: OnEphError;
-  /**
-   * @property {number} [leaseRenewInterval] The sleep interval **in seconds** between scans.
-   * Default: `10` seconds.
-   *
-   * Allows a lease manager implementation to specify to PartitionManager how often it should
-   * scan leases and renew them. In order to redistribute leases in a timely fashion after a host
-   * ceases operating, we recommend a relatively short interval, such as ten seconds. Obviously it
-   * should be less than half of the lease length, to prevent accidental expiration.
-   */
-  leaseRenewInterval?: number;
-  /**
-   * @property {number} [leaseDuration] Duration of a lease **in seconds** before it expires
-   * unless renewed. Default: `30` seconds, Min Value: `15` seconds, Max value: `60` seconds.
-   */
-  leaseDuration?: number;
-}
-
-/**
- * Describes the optional parameters that can be provided for creating an EventProcessorHost while
- * creating a client from the EventHub connectionstring.
- * @interface ConnectionStringBasedOptions
- * @extends EventProcessorOptions
- */
-export interface ConnectionStringBasedOptions extends EventProcessorOptions {
-  /**
-   * @property {string} [eventHubPath] The name of the EventHub. This is optional if the
-   * EventHub connection string contains ENTITY_PATH=hub-name else an Error will be thrown.
-   */
-  eventHubPath?: string;
-  /**
-   * @property {TokenProvider} [tokenProvider] An instance of the token provider interface that
-   * provides the token for authentication. Default value: SasTokenProvider.
-   */
-  tokenProvider?: TokenProvider;
-}
 
 /**
  * Describes the Event Processor Host to process events from an EventHub.
@@ -156,7 +28,7 @@ export class EventProcessorHost {
    * @property {ProcessorContextWithLeaseManager} _context The processor context.
    * @private
    */
-  private _context: ProcessorContext;
+  private _context: HostContext;
   /**
    * @property {PartitionManager} _partitionManager The partition manager responsible for managing
    * receivers for different partitions within an EventHub.
@@ -176,11 +48,9 @@ export class EventProcessorHost {
    * @param {EventProcessorOptions} [options] Optional parameters for creating an
    * EventProcessorHost.
    */
-  constructor(hostName: string, storageConnectionString: string, eventHubClient: EventHubClient,
-    options?: EventProcessorOptions) {
+  constructor(hostName: string, options?: EventProcessorHostOptions) {
     if (!options) options = {};
-    this._context = ProcessorContext.create(hostName, storageConnectionString,
-      eventHubClient, options);
+    this._context = HostContext.create(hostName, options);
     this._partitionManager = new PartitionManager(this._context);
   }
 
@@ -203,7 +73,7 @@ export class EventProcessorHost {
    * @returns {Promise<EventHubRuntimeInformation>}
    */
   async getHubRuntimeInformation(): Promise<EventHubRuntimeInformation> {
-    return await this._context.eventHubClient.getHubRuntimeInformation();
+    return await this._context.getHubRuntimeInformation();
   }
 
   /**
@@ -213,7 +83,7 @@ export class EventProcessorHost {
    * @returns {EventHubPartitionRuntimeInformation} EventHubPartitionRuntimeInformation
    */
   async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
-    return await this._context.eventHubClient.getPartitionInformation(partitionId);
+    return await this._context.getPartitionInformation(partitionId);
   }
 
   /**
@@ -221,7 +91,7 @@ export class EventProcessorHost {
    * @returns {Promise<string[]>}
    */
   async getPartitionIds(): Promise<string[]> {
-    return this._context.eventHubClient.getPartitionIds();
+    return this._context.getPartitionIds();
   }
 
   /**
@@ -294,7 +164,7 @@ export class EventProcessorHost {
    * @param {string} eventHubConnectionString Connection string for the Event Hub to receive from.
    * Example: 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;
    * SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {ConnectionStringBasedOptions} [options] Optional parameters for creating an
+   * @param {FromConnectionStringOptions} [options] Optional parameters for creating an
    * EventProcessorHost.
    *
    * @returns {EventProcessorHost} EventProcessorHost
@@ -303,19 +173,64 @@ export class EventProcessorHost {
     hostName: string,
     storageConnectionString: string,
     eventHubConnectionString: string,
-    options?: ConnectionStringBasedOptions): EventProcessorHost {
+    options?: FromConnectionStringOptions): EventProcessorHost {
     if (!options) options = {};
-    const ehCOptions: ClientOptions = {
-      tokenProvider: options.tokenProvider,
-      dataTransformer: options.dataTransformer
-    };
-    return new EventProcessorHost(hostName, storageConnectionString,
-      EventHubClient.createFromConnectionString(eventHubConnectionString, options.eventHubPath,
-        ehCOptions), options);
+
+    validateType("hostName", hostName, true, "string");
+    validateType("storageConnectionString", storageConnectionString, true, "string");
+    validateType("eventHubConnectionString", eventHubConnectionString, true, "string");
+    validateType("options", options, false, "object");
+
+    const ephOptions: EventProcessorHostOptions = {
+      ...options,
+      storageConnectionString: storageConnectionString,
+      eventHubConnectionString: eventHubConnectionString
+    }
+    return new EventProcessorHost(hostName, ephOptions);
   }
 
   /**
-   * Creates a new host to process events from an Event Hub.
+   * Creates an event processor host from the given connection string with the given checkpoint
+   * manager and lease manager.
+   *
+   * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
+   * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+   * `EventProcessorHost.createHostName("your-prefix")`; Default: `js-host-${uuid()}`.
+   * @param {string} eventHubConnectionString Connection string for the Event Hub to receive from.
+   * Example: 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;
+   * SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
+   * @param {CheckpointManager} checkpointManager A manager to manage checkpoints.
+   * @param {LeaseManager} leaseManager A manager to manage leases.
+   * @param {FromConnectionStringOptions} [options] Optional parameters for creating an
+   * EventProcessorHost.
+   *
+   * @returns {EventProcessorHost} EventProcessorHost
+   */
+  static createFromConnectionStringWithCustomCheckpointAndLeaseManager(
+    hostName: string,
+    eventHubConnectionString: string,
+    checkpointManager: CheckpointManager,
+    leaseManager: LeaseManager,
+    options?: FromConnectionStringOptions): EventProcessorHost {
+    if (!options) options = {};
+
+    validateType("hostName", hostName, true, "string");
+    validateType("eventHubConnectionString", eventHubConnectionString, true, "string");
+    validateType("checkpointManager", checkpointManager, true, "object");
+    validateType("leaseManager", leaseManager, true, "object");
+    validateType("options", options, false, "object");
+
+    const ephOptions: EventProcessorHostOptions = {
+      ...options,
+      eventHubConnectionString: eventHubConnectionString,
+      checkpointManager: checkpointManager,
+      leaseManager: leaseManager
+    };
+    return new EventProcessorHost(hostName, ephOptions);
+  }
+
+  /**
+   * Creates an event processor host from the given token provider.
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
    * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
@@ -327,7 +242,7 @@ export class EventProcessorHost {
    * Example: "{your-sb-namespace}.servicebus.windows.net"
    * @param {string} eventHubPath The name of the EventHub.
    * @param {TokenProvider} tokenProvider - Your token provider that implements the TokenProvider interface.
-   * @param {EventProcessorOptions} [options] Optional parameters for creating an
+   * @param {FromTokenProviderOptions} [options] Optional parameters for creating an
    * EventProcessorHost.
    *
    * @returns {EventProcessorHost} EventProcessorHost
@@ -338,19 +253,81 @@ export class EventProcessorHost {
     namespace: string,
     eventHubPath: string,
     tokenProvider: TokenProvider,
-    options?: EventProcessorOptions
-  ): EventProcessorHost {
+    options?: FromTokenProviderOptions): EventProcessorHost {
     if (!options) options = {};
-    const ehcOptions: ClientOptionsBase = {
-      dataTransformer: options.dataTransformer
+
+    validateType("hostName", hostName, true, "string");
+    validateType("storageConnectionString", storageConnectionString, true, "string");
+    validateType("namespace", namespace, true, "string");
+    validateType("eventHubPath", eventHubPath, true, "string");
+    validateType("tokenProvider", tokenProvider, true, "object");
+    validateType("options", options, false, "object");
+
+    if (!namespace.endsWith("/")) namespace += "/";
+    const connectionString = `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
+      `SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
+    const ephOptions: EventProcessorHostOptions = {
+      ...options,
+      tokenProvider: tokenProvider,
+      storageConnectionString: storageConnectionString,
+      eventHubPath: eventHubPath,
+      eventHubConnectionString: connectionString
     };
-    return new EventProcessorHost(hostName, storageConnectionString,
-      EventHubClient.createFromTokenProvider(namespace, eventHubPath, tokenProvider, ehcOptions),
-      options);
+    return new EventProcessorHost(hostName, ephOptions);
   }
 
   /**
-   * Creates a new host to process events from an Event Hub.
+   * Creates an event processor host from the given token provider with the given checkpoint manager
+   * and lease manager.
+   *
+   * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
+   * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+   * `EventProcessorHost.createHostName("your-prefix")`; Default: `js-host-${uuid()}`.
+   * @param {string} namespace Fully qualified domain name for Event Hubs.
+   * Example: "{your-sb-namespace}.servicebus.windows.net"
+   * @param {string} eventHubPath The name of the EventHub.
+   * @param {TokenProvider} tokenProvider - Your token provider that implements the TokenProvider interface.
+   * @param {CheckpointManager} checkpointManager A manager to manage checkpoints.
+   * @param {LeaseManager} leaseManager A manager to manage leases.
+   * @param {FromTokenProviderOptions} [options] Optional parameters for creating an
+   * EventProcessorHost.
+   *
+   * @returns {EventProcessorHost} EventProcessorHost
+   */
+  static createFromTokenProviderWithCustomCheckpointAndLeaseManager(
+    hostName: string,
+    namespace: string,
+    eventHubPath: string,
+    tokenProvider: TokenProvider,
+    checkpointManager: CheckpointManager,
+    leaseManager: LeaseManager,
+    options?: FromTokenProviderOptions): EventProcessorHost {
+    if (!options) options = {};
+
+    validateType("hostName", hostName, true, "string");
+    validateType("namespace", namespace, true, "string");
+    validateType("eventHubPath", eventHubPath, true, "string");
+    validateType("tokenProvider", tokenProvider, true, "object");
+    validateType("checkpointManager", checkpointManager, true, "object");
+    validateType("leaseManager", leaseManager, true, "object");
+    validateType("options", options, false, "object");
+
+    if (!namespace.endsWith("/")) namespace += "/";
+    const connectionString = `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
+      `SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
+    const ephOptions: EventProcessorHostOptions = {
+      ...options,
+      tokenProvider: tokenProvider,
+      eventHubPath: eventHubPath,
+      eventHubConnectionString: connectionString,
+      checkpointManager: checkpointManager,
+      leaseManager: leaseManager
+    };
+    return new EventProcessorHost(hostName, ephOptions);
+  }
+
+  /**
+   * Creates an event processor host from AAD token credentials.
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
    * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
@@ -364,7 +341,7 @@ export class EventProcessorHost {
    * @param {TokenCredentials} credentials - The AAD Token credentials. It can be one of the
    * following: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials
    * | MSITokenCredentials.
-   * @param {EventProcessorOptions} [options] Optional parameters for creating an
+   * @param {FromTokenProviderOptions} [options] Optional parameters for creating an
    * EventProcessorHost.
    *
    * @returns {EventProcessorHost} EventProcessorHost
@@ -375,13 +352,159 @@ export class EventProcessorHost {
     namespace: string,
     eventHubPath: string,
     credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
-    options?: EventProcessorOptions): EventProcessorHost {
+    options?: FromTokenProviderOptions): EventProcessorHost {
     if (!options) options = {};
-    const ehcOptions: ClientOptionsBase = {
-      dataTransformer: options.dataTransformer
+
+    validateType("hostName", hostName, true, "string");
+    validateType("storageConnectionString", storageConnectionString, true, "string");
+    validateType("namespace", namespace, true, "string");
+    validateType("eventHubPath", eventHubPath, true, "string");
+    validateType("credentials", credentials, true, "object");
+    validateType("options", options, false, "object");
+
+    if (!namespace.endsWith("/")) namespace += "/";
+    const connectionString = `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
+      `SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
+
+    const ephOptions: EventProcessorHostOptions = {
+      ...options,
+      tokenProvider: new AadTokenProvider(credentials),
+      storageConnectionString: storageConnectionString,
+      eventHubPath: eventHubPath,
+      eventHubConnectionString: connectionString
     };
-    return new EventProcessorHost(hostName, storageConnectionString,
-      EventHubClient.createFromAadTokenCredentials(namespace, eventHubPath, credentials, ehcOptions),
-      options);
+    return new EventProcessorHost(hostName, ephOptions);
+  }
+
+  /**
+   * Creates an event processor host from AAD token credentials with the given checkpoint manager
+   * and lease manager.
+   *
+   * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
+   * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+   * `EventProcessorHost.createHostName("your-prefix")`; Default: `js-host-${uuid()}`.
+   * @param {string} namespace Fully qualified domain name for Event Hubs.
+   * Example: "{your-sb-namespace}.servicebus.windows.net"
+   * @param {string} eventHubPath The name of the EventHub.
+   * @param {TokenCredentials} credentials - The AAD Token credentials. It can be one of the
+   * following: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials
+   * | MSITokenCredentials.
+   * @param {CheckpointManager} checkpointManager A manager to manage checkpoints.
+   * @param {LeaseManager} leaseManager A manager to manage leases.
+   * @param {FromTokenProviderOptions} [options] Optional parameters for creating an
+   * EventProcessorHost.
+   *
+   * @returns {EventProcessorHost} EventProcessorHost
+   */
+  static createFromAadTokenCredentialsWithCustomCheckpointAndLeaseManager(
+    hostName: string,
+    namespace: string,
+    eventHubPath: string,
+    credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
+    checkpointManager: CheckpointManager,
+    leaseManager: LeaseManager,
+    options?: FromTokenProviderOptions): EventProcessorHost {
+    if (!options) options = {};
+
+    validateType("hostName", hostName, true, "string");
+    validateType("namespace", namespace, true, "string");
+    validateType("eventHubPath", eventHubPath, true, "string");
+    validateType("credentials", credentials, true, "object");
+    validateType("checkpointManager", checkpointManager, true, "object");
+    validateType("leaseManager", leaseManager, true, "object");
+    validateType("options", options, false, "object");
+
+    if (!namespace.endsWith("/")) namespace += "/";
+    const connectionString = `Endpoint=sb://${namespace};SharedAccessKeyName=defaultKeyName;` +
+      `SharedAccessKey=defaultKeyValue;EntityPath=${eventHubPath}`;
+    const ephOptions: EventProcessorHostOptions = {
+      ...options,
+      tokenProvider: new AadTokenProvider(credentials),
+      eventHubPath: eventHubPath,
+      eventHubConnectionString: connectionString,
+      checkpointManager: checkpointManager,
+      leaseManager: leaseManager
+    };
+    return new EventProcessorHost(hostName, ephOptions);
+  }
+
+  /**
+   * Creates an event processor host from the Iothub connection string.
+   *
+   * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
+   * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+   * `EventProcessorHost.createHostName("your-prefix")`; Default: `js-host-${uuid()}`.
+   * @param {string} storageConnectionString Connection string to Azure Storage account used for
+   * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
+   * AccountKey=<account-key>;EndpointSuffix=core.windows.net
+   * @param {string} iotHubConnectionString Connection string for the IotHub.
+   * Example: 'Endpoint=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
+   * @param {FromConnectionStringOptions} [options] Optional parameters for creating an
+   * EventProcessorHost.
+   *
+   * @returns {EventProcessorHost} EventProcessorHost
+   */
+  static async  createFromIotHubConnectionString(
+    hostName: string,
+    storageConnectionString: string,
+    iotHubConnectionString: string,
+    options?: FromConnectionStringOptions): Promise<EventProcessorHost> {
+    if (!options) options = {};
+
+    validateType("hostName", hostName, true, "string");
+    validateType("storageConnectionString", storageConnectionString, true, "string");
+    validateType("iotHubConnectionString", iotHubConnectionString, true, "string");
+    validateType("options", options, false, "object");
+
+    const client = await EventHubClient.createFromIotHubConnectionString(iotHubConnectionString);
+    const eventHubConnectionString = client["_context"].config.connectionString;
+    const ephOptions: EventProcessorHostOptions = {
+      ...options,
+      storageConnectionString: storageConnectionString,
+      eventHubConnectionString: eventHubConnectionString
+    }
+    return new EventProcessorHost(hostName, ephOptions);
+  }
+
+  /**
+   * Creates an event processor host from the given iothub connection string with the given
+   * checkpoint manager and lease manager.
+   *
+   * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
+   * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+   * `EventProcessorHost.createHostName("your-prefix")`; Default: `js-host-${uuid()}`.
+   * @param {string} iotHubConnectionString Connection string for the IotHub.
+   * Example: 'Endpoint=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
+   * @param {CheckpointManager} checkpointManager A manager to manage checkpoints.
+   * @param {LeaseManager} leaseManager A manager to manage leases.
+   * @param {FromConnectionStringOptions} [options] Optional parameters for creating an
+   * EventProcessorHost.
+   *
+   * @returns {EventProcessorHost} EventProcessorHost
+   */
+  static async createFromIotHubConnectionStringWithCustomCheckpointAndLeaseManager(
+    hostName: string,
+    iotHubConnectionString: string,
+    checkpointManager: CheckpointManager,
+    leaseManager: LeaseManager,
+    options?: FromConnectionStringOptions): Promise<EventProcessorHost> {
+    if (!options) options = {};
+
+    validateType("hostName", hostName, true, "string");
+    validateType("iotHubConnectionString", iotHubConnectionString, true, "string");
+    validateType("checkpointManager", checkpointManager, true, "object");
+    validateType("leaseManager", leaseManager, true, "object");
+    validateType("options", options, false, "object");
+
+    const client = await EventHubClient.createFromIotHubConnectionString(iotHubConnectionString);
+    const eventHubConnectionString = client["_context"].config.connectionString;
+
+    const ephOptions: EventProcessorHostOptions = {
+      ...options,
+      eventHubConnectionString: eventHubConnectionString,
+      checkpointManager: checkpointManager,
+      leaseManager: leaseManager
+    };
+    return new EventProcessorHost(hostName, ephOptions);
   }
 }

@@ -292,3 +292,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   }
   return result;
 }
+
+export type Diff<T, U> = T extends U ? never : T
+
+export type Minus<T, U> = Pick<T, Diff<keyof T, keyof U>>;
