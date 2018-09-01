@@ -290,8 +290,8 @@ export class BlobService {
       options = {
         maxResults: 5000,
         delimiter: "/"
-      }
-    };
+      };
+    }
     return new Promise<StorageBlobService.ListBlobsResult>((resolve, reject) => {
       log.blobService("[%s] Attempting to list blobs for container '%s'.", this._hostName,
         containerName);

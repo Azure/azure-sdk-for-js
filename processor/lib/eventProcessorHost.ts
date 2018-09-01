@@ -153,7 +153,7 @@ export class EventProcessorHost {
   }
 
   /**
-   * Creates a new host to process events from an Event Hub.
+   * Creates an EventProcessorHost instance from the EventHub connection string.
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
    * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
@@ -185,13 +185,13 @@ export class EventProcessorHost {
       ...options,
       storageConnectionString: storageConnectionString,
       eventHubConnectionString: eventHubConnectionString
-    }
+    };
     return new EventProcessorHost(hostName, ephOptions);
   }
 
   /**
-   * Creates an event processor host from the given connection string with the given checkpoint
-   * manager and lease manager.
+   * Creates an EventProcessorHost instance from the EventHub connection string with the provided
+   * checkpoint manager and lease manager.
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
    * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
@@ -230,7 +230,7 @@ export class EventProcessorHost {
   }
 
   /**
-   * Creates an event processor host from the given token provider.
+   * Creates an EventProcessorHost instance from a TokenProvider.
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
    * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
@@ -277,7 +277,7 @@ export class EventProcessorHost {
   }
 
   /**
-   * Creates an event processor host from the given token provider with the given checkpoint manager
+   * Creates an EventProcessorHost instance from a TokenProvider with the provided checkpoint manager
    * and lease manager.
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
@@ -327,7 +327,7 @@ export class EventProcessorHost {
   }
 
   /**
-   * Creates an event processor host from AAD token credentials.
+   * Creates an EventProcessorHost instance from AAD token credentials.
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
    * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
@@ -377,7 +377,7 @@ export class EventProcessorHost {
   }
 
   /**
-   * Creates an event processor host from AAD token credentials with the given checkpoint manager
+   * Creates an EventProcessorHost instance from AAD token credentials with the given checkpoint manager
    * and lease manager.
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
@@ -429,7 +429,7 @@ export class EventProcessorHost {
   }
 
   /**
-   * Creates an event processor host from the Iothub connection string.
+   * Creates an EventProcessorHost instance from the IotHub connection string.
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
    * Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
@@ -444,7 +444,7 @@ export class EventProcessorHost {
    *
    * @returns {EventProcessorHost} EventProcessorHost
    */
-  static async  createFromIotHubConnectionString(
+  static async createFromIotHubConnectionString(
     hostName: string,
     storageConnectionString: string,
     iotHubConnectionString: string,
@@ -457,17 +457,18 @@ export class EventProcessorHost {
     validateType("options", options, false, "object");
 
     const client = await EventHubClient.createFromIotHubConnectionString(iotHubConnectionString);
+    /* tslint:disable:no-string-literal */
     const eventHubConnectionString = client["_context"].config.connectionString;
     const ephOptions: EventProcessorHostOptions = {
       ...options,
       storageConnectionString: storageConnectionString,
       eventHubConnectionString: eventHubConnectionString
-    }
+    };
     return new EventProcessorHost(hostName, ephOptions);
   }
 
   /**
-   * Creates an event processor host from the given iothub connection string with the given
+   * Creates an EventProcessorHost instance from the IotHub connection string with the given
    * checkpoint manager and lease manager.
    *
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
@@ -497,6 +498,7 @@ export class EventProcessorHost {
     validateType("options", options, false, "object");
 
     const client = await EventHubClient.createFromIotHubConnectionString(iotHubConnectionString);
+    /* tslint:disable:no-string-literal */
     const eventHubConnectionString = client["_context"].config.connectionString;
 
     const ephOptions: EventProcessorHostOptions = {

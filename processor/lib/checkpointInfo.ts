@@ -3,7 +3,7 @@
 
 import * as log from "./log";
 import { EventPosition, EventData } from "azure-event-hubs";
-import { LeaseInfo } from "./lease";
+import { LeaseInfo } from "./azureBlobLease";
 import { validateType } from "./util/utils";
 
 /**

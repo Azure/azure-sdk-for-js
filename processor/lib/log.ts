@@ -11,7 +11,12 @@ export const error = debugModule("azure:eph:error");
  * @ignore
  * log statements for lease
  */
-export const lease = debugModule("azure:eph:lease");
+export const baseLease = debugModule("azure:eph:baseLease");
+/**
+ * @ignore
+ * log statements for lease
+ */
+export const completeLease = debugModule("azure:eph:completeLease");
 /**
  * @ignore
  * log statements for azurebloblease

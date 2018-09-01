@@ -4,7 +4,7 @@
 export { EventProcessorHost } from "./eventProcessorHost";
 export { PartitionContext } from "./partitionContext";
 export { CheckpointInfo } from "./checkpointInfo";
-export { Lease, LeaseInfo, BaseLease, LeaseLostError } from "./lease";
+export { CompleteLease, CompleteLeaseInfo, BaseLeaseInfo, LeaseLostError } from "./completeLease";
 export { LeaseManager } from "./leaseManager";
 export { CheckpointManager } from "./checkpointManager";
 export {

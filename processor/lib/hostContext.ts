@@ -2,7 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import {
-  EventHubClient, ReceiveHandler, EventPosition, TokenProvider, DefaultDataTransformer, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, ConnectionConfig
+  EventHubClient, ReceiveHandler, EventPosition, TokenProvider, DefaultDataTransformer,
+  EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, ConnectionConfig
 } from "azure-event-hubs";
 import { PartitionContext } from "./partitionContext";
 import { LeaseManager } from "./leaseManager";
@@ -14,7 +15,9 @@ import { AzureStorageCheckpointLeaseManager } from "./azureStorageCheckpointLeas
 import { CheckpointManager } from "./checkpointManager";
 import {
   maxLeaseDurationInSeconds, minLeaseDurationInSeconds, defaultLeaseRenewIntervalInSeconds,
-  defaultLeaseDurationInSeconds, defaultConsumerGroup
+  defaultLeaseDurationInSeconds, defaultConsumerGroup, defaultStartupScanDelayInSeconds,
+  defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds,
+  defaultCheckpointTimeoutInSeconds
 } from './util/constants';
 
 /**
@@ -40,6 +43,10 @@ export interface BaseHostContext {
   receiverByPartition: Dictionary<ReceiveHandler>;
   blobReferenceByPartition: Dictionary<AzureBlob>;
   composedBlobPrefix: string;
+  startupScanDelay?: number;
+  fastScanInterval?: number;
+  slowScanInterval?: number;
+  checkpointTimeout?: number;
 }
 
 /**
@@ -140,6 +147,10 @@ export namespace HostContext {
     if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
     if (!options.onEphError) options.onEphError = onEphErrorFunc;
     if (!options.dataTransformer) options.dataTransformer = new DefaultDataTransformer();
+    if (!options.startupScanDelay) options.startupScanDelay = defaultStartupScanDelayInSeconds;
+    if (!options.fastScanInterval) options.fastScanInterval = defaultFastScanIntervalInSeconds;
+    if (!options.slowScanInterval) options.slowScanInterval = defaultSlowScanIntervalInSeconds;
+    if (!options.checkpointTimeout) options.checkpointTimeout = defaultCheckpointTimeoutInSeconds;
 
     const config = ConnectionConfig.create(options.eventHubConnectionString!, options.eventHubPath);
     const context: BaseHostContext = {
@@ -161,7 +172,11 @@ export namespace HostContext {
       composedBlobPrefix: options.storageBlobPrefix
         ? `${options.storageBlobPrefix.trim()}${options.consumerGroup}/`
         : `${options.consumerGroup}/`,
-      onEphError: options.onEphError
+      onEphError: options.onEphError,
+      startupScanDelay: options.startupScanDelay,
+      fastScanInterval: options.fastScanInterval,
+      slowScanInterval: options.slowScanInterval,
+      checkpointTimeout: options.checkpointTimeout
     };
 
     if (options.storageConnectionString) {

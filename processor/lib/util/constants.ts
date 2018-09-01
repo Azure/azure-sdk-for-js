@@ -17,3 +17,7 @@ export const defaultLeaseRenewIntervalInSeconds = 10;
 export const defaultConsumerGroup = "$default";
 export const defaultMaximumExecutionTimeInMs = 120000;
 export const maximumExecutionTimeInMsForLeaseRenewal = 60000;
+export const defaultCheckpointTimeoutInSeconds = 120;
+export const defaultStartupScanDelayInSeconds = 30;
+export const defaultFastScanIntervalInSeconds = 3;
+export const defaultSlowScanIntervalInSeconds = 5;

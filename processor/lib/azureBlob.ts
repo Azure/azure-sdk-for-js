@@ -3,6 +3,7 @@
 
 import { BlobService, CreateContainerResult } from "./blobService";
 import { BlobService as StorageBlobService } from "azure-storage";
+import { Dictionary } from "./util/utils";
 
 export class AzureBlob {
   private _blobService: BlobService;
@@ -67,6 +68,18 @@ export class AzureBlob {
 
   async getBlobProperties(): Promise<StorageBlobService.BlobResult> {
     return await this._blobService.getBlobProperties(this._containerName, this._blobPath);
+  }
+
+  async getBlobMetadata(): Promise<StorageBlobService.BlobResult> {
+    return await this._blobService.getBlobMetadata(this._containerName, this._blobPath);
+  }
+
+  async setBlobMetadata(metadata: Dictionary<string>): Promise<StorageBlobService.BlobResult> {
+    return await this._blobService.setBlobMetadata(this._containerName, this._blobPath, metadata);
+  }
+
+  async listBlobsSegmented(options?: StorageBlobService.ListBlobsSegmentedRequestOptions): Promise<StorageBlobService.ListBlobsResult> {
+    return await this._blobService.listBlobsSegmented(this._containerName, options);
   }
 
   async acquireLease(options: StorageBlobService.AcquireLeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
