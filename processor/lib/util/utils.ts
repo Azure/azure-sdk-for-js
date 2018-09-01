@@ -3,8 +3,8 @@
 
 import * as AsyncLock from "async-lock";
 import * as log from "../log";
-import { StorageError } from 'azure-storage';
-import { EPHDiagnosticInfo } from '../eventProcessorHost';
+import { StorageError } from "azure-storage";
+import { EPHDiagnosticInfo } from "../modelTypes";
 
 export interface AsyncLockOptions {
   /**
@@ -223,6 +223,7 @@ export interface RetryConfig<T> {
  * @ignore
  */
 export enum EPHActionStrings {
+  gettingPartitionIds = "Getting PartitionIds",
   gettingAllLeases = "Getting All Leases",
   checkingLeases = "Checking Leases",
   checkingExpiredLeases = "Checking Expired Leases",
@@ -292,7 +293,3 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   }
   return result;
 }
-
-export type Diff<T, U> = T extends U ? never : T
-
-export type Minus<T, U> = Pick<T, Diff<keyof T, keyof U>>;

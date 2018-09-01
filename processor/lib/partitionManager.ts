@@ -3,7 +3,7 @@
 
 import { HostContext } from "./hostContext";
 import { Dictionary, validateType, RetryConfig, retry, EPHActionStrings } from "./util/utils";
-import { Lease } from "./lease";
+import { CompleteLease } from "./completeLease";
 import { CheckpointInfo } from "./checkpointInfo";
 import { LeaseManager } from "./leaseManager";
 import {
@@ -123,18 +123,39 @@ export class PartitionManager {
   /**
    * @ignore
    */
+  private async _cachePartitionIds(): Promise<void> {
+    const hostName = this._context.hostName;
+    if (!this._context.partitionIds.length) {
+      log.partitionManager("[%s] Get the list of partition ids.", hostName);
+      const config: RetryConfig<string[]> = {
+        hostName: hostName,
+        operation: () => this._context.getPartitionIds(),
+        retryMessage: "Failure getting partition ids for this Event Hub, retrying",
+        finalFailureMessage: "Out of retries for getting partition ids for this Event Hub",
+        action: EPHActionStrings.gettingPartitionIds,
+        maxRetries: 5
+      };
+      await retry<string[]>(config);
+    }
+  }
+
+  /**
+   * @ignore
+   */
   private async _initializeStores(): Promise<void> {
     this._isCancelRequested = false;
     this._context.contextByPartition = {};
     this._context.receiverByPartition = {};
     const hostName = this._context.hostName;
+
     validateType("this._onMessage", this._onMessage, true, "function");
     validateType("this._onError", this._onError, true, "function");
+
     log.partitionManager("[%s] Ensuring that the lease store exists.", hostName);
     const leaseManager = this._context.leaseManager;
     const checkpointManager = this._context.checkpointManager;
     if (!await leaseManager.leaseStoreExists()) {
-      const config: RetryConfig<boolean> = {
+      const config: RetryConfig<void> = {
         hostName: hostName,
         operation: () => leaseManager.createLeaseStoreIfNotExists(),
         retryMessage: "Failure creating lease store for this Event Hub, retrying",
@@ -142,16 +163,13 @@ export class PartitionManager {
         action: EPHActionStrings.creatingLeaseStore,
         maxRetries: 5
       };
-      await retry<boolean>(config);
+      await retry<void>(config);
     }
 
-    log.partitionManager("[%s] Get the list of partition ids.", hostName);
-    const partitionIds = await this._context.getPartitionIds();
-    this._context.partitionIds = partitionIds;
     log.partitionManager("[%s] Ensure that the leases exist.", hostName);
-    const leases: Promise<Lease>[] = [];
+    const leases: Promise<CompleteLease>[] = [];
     for (const id of partitionIds) {
-      const config: RetryConfig<Lease> = {
+      const config: RetryConfig<CompleteLease> = {
         hostName: hostName,
         operation: () => leaseManager.createLeaseIfNotExists(id),
         retryMessage: "Failure creating lease for partition, retrying",
@@ -160,7 +178,7 @@ export class PartitionManager {
         maxRetries: 5,
         partitionId: id
       };
-      leases.push(retry<Lease>(config));
+      leases.push(retry<CompleteLease>(config));
     }
     await Promise.all(leases);
     if (!(this._context.checkpointManager instanceof AzureStorageCheckpointLeaseManager)) {
@@ -200,8 +218,8 @@ export class PartitionManager {
   private async _runLoop(): Promise<void> {
     while (!this._isCancelRequested) {
       const leaseManager: LeaseManager = this._context.leaseManager!;
-      const allLeases: Dictionary<Lease> = {};
-      const leasesOwnedByOthers: Lease[] = [];
+      const allLeases: Dictionary<CompleteLease> = {};
+      const leasesOwnedByOthers: CompleteLease[] = [];
       const renewLeasePromises: Array<Promise<void>> = [];
       let ourLeaseCount = 0;
       const hostName = this._context.hostName;
@@ -317,7 +335,7 @@ export class PartitionManager {
       log.partitionManager("[%s] Step %d - Our lease count: %d v/s Lease owned by others count: %d.",
         hostName, step, ourLeaseCount, leasesOwnedByOthers.length);
       if (leasesOwnedByOthers.length > 0) {
-        const stealThisLease: Lease | undefined = this._whichLeaseToSteal(leasesOwnedByOthers,
+        const stealThisLease: CompleteLease | undefined = this._whichLeaseToSteal(leasesOwnedByOthers,
           ourLeaseCount);
         if (stealThisLease) {
           try {
@@ -349,7 +367,7 @@ export class PartitionManager {
       for (const partitionId of Object.keys(allLeases)) {
         try {
           subStep = 1;
-          const updatedLease: Lease = allLeases[partitionId];
+          const updatedLease: CompleteLease = allLeases[partitionId];
           log.partitionManager("[%s] Step %d - Lease on partition '%s' owned by '%s'.", hostName,
             step, updatedLease.partitionId, updatedLease.owner);
           if (updatedLease.owner === hostName) {
@@ -383,13 +401,13 @@ export class PartitionManager {
   /**
    * @ignore
    */
-  private _whichLeaseToSteal(stealableLeases: Lease[], heaveLeaseCount: number): Lease | undefined {
+  private _whichLeaseToSteal(stealableLeases: CompleteLease[], heaveLeaseCount: number): CompleteLease | undefined {
     const countsByOwner: { [x: string]: number } = this._countLeasesByOwner(stealableLeases);
     const biggestOwner: (string | number)[][] = Object.keys(countsByOwner).map((key) => {
       return [key, countsByOwner[key]];
     }).sort((first, second) => { return (second[1] as number) - (first[1] as number); });
 
-    let stealThisLease: Lease | undefined;
+    let stealThisLease: CompleteLease | undefined;
 
     // If the number of leases is a multiple of the number of hosts, then the desired configuration
     // is that all hosts own the name number of leases, and the difference between the "biggest"
@@ -414,7 +432,7 @@ export class PartitionManager {
     if ((biggestOwner[0][1] as number) - heaveLeaseCount >= 2) {
       stealThisLease = stealableLeases.find((l) => {
         return l.owner === biggestOwner[0][0];
-      }) as Lease;
+      }) as CompleteLease;
     }
     log.partitionManager("[%s] The lease to be stolen is: %O", this._context.hostName,
       stealThisLease ? stealThisLease.getInfo() : undefined);
@@ -424,7 +442,7 @@ export class PartitionManager {
   /**
    * @ignore
    */
-  private _countLeasesByOwner(leases: Lease[]): Dictionary<number> {
+  private _countLeasesByOwner(leases: CompleteLease[]): Dictionary<number> {
     const result: Dictionary<number> = {};
     for (const l of leases) {
       if (result[l.owner] == undefined) {
@@ -442,7 +460,7 @@ export class PartitionManager {
   /**
    * @ignore
    */
-  private async _checkAndAddReceiver(partitionId: string, lease: Lease): Promise<void> {
+  private async _checkAndAddReceiver(partitionId: string, lease: CompleteLease): Promise<void> {
     const receiveHandler = this._context.receiverByPartition[partitionId];
     if (receiveHandler) {
       const isOpen: boolean = receiveHandler.isReceiverOpen;
@@ -472,7 +490,7 @@ export class PartitionManager {
   /**
    * @ignore
    */
-  private async _createNewReceiver(partitionId: string, lease: Lease): Promise<void> {
+  private async _createNewReceiver(partitionId: string, lease: CompleteLease): Promise<void> {
     const partitionContext = new PartitionContext(this._context, partitionId, lease);
     this._context.contextByPartition[partitionId] = partitionContext;
     const eventPosition: EventPosition = await partitionContext.getInitialOffset();

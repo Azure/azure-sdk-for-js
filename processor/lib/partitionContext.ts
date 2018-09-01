@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import { EventData, EventPosition } from "azure-event-hubs";
-import { Lease } from "./lease";
+import { CompleteLease } from "./completeLease";
 import { CheckpointInfo } from "./checkpointInfo";
 import * as log from "./log";
 import { HostContext } from './hostContext';
@@ -16,7 +16,7 @@ export class PartitionContext {
   /**
    * @property {Lease} lease The most recdent checkpointed lease with the partitionId.
    */
-  lease: Lease;
+  lease: CompleteLease;
   /**
    * @property {string} partitionId The eventhub partition id.
    * @readonly
@@ -52,9 +52,9 @@ export class PartitionContext {
    * Creates a new PartitionContext.
    * @param {string} partitionId The eventhub partition id.
    * @param {string} owner The name of the owner.
-   * @param {Lease} lease The lease object.
+   * @param {CompleteLease} lease The lease object.
    */
-  constructor(context: HostContext, partitionId: string, lease: Lease) {
+  constructor(context: HostContext, partitionId: string, lease: CompleteLease) {
     this._context = context;
     this.partitionId = partitionId;
     this.lease = lease;

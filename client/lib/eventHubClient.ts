@@ -202,8 +202,7 @@ export class EventHubClient {
     }
     const sReceiver = StreamingReceiver.create(this._context, partitionId, options);
     this._context.receivers[sReceiver.name] = sReceiver;
-    sReceiver.receive(onMessage, onError);
-    return new ReceiveHandler(sReceiver);
+    return sReceiver.receive(onMessage, onError);
   }
 
   /**

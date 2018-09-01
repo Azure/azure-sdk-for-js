@@ -122,27 +122,18 @@ export class ReceiveHandler {
  */
 export class StreamingReceiver extends EventHubReceiver {
 
+  receiveHandler: ReceiveHandler;
   /**
    * Instantiate a new receiver from the AMQP `Receiver`. Used by `EventHubClient`.
    * @ignore
    * @constructor
-   * @param {EventHubClient} client                            The EventHub client.
-   * @param {string} partitionId                               Partition ID from which to receive.
-   * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
-   * @param {string} [options.consumerGroup]                   Consumer group from which to receive.
-   * @param {number} [options.prefetchCount]                   The upper limit of events this receiver will
-   * actively receive regardless of whether a receive operation is pending.
-   * @param {boolean} [options.enableReceiverRuntimeMetric]    Provides the approximate receiver runtime information
-   * for a logical partition of an Event Hub if the value is true. Default false.
-   * @param {number} [options.epoch]                           The epoch value that this receiver is currently
-   * using for partition ownership. A value of undefined means this receiver is not an epoch-based receiver.
-   * @param {EventPosition} [options.eventPosition]            The position of EventData in the EventHub parition from
-   * where the receiver should start receiving. Only one of offset, sequenceNumber, enqueuedTime, customFilter can be specified.
-   * `EventPosition.withCustomFilter()` should be used if you want more fine-grained control of the filtering.
-   * See https://github.com/Azure/amqpnetlite/wiki/Azure%20Service%20Bus%20Event%20Hubs for details.
+   * @param {EventHubClient} client          The EventHub client.
+   * @param {string} partitionId             Partition ID from which to receive.
+   * @param {ReceiveOptions} [options]       Options for how you'd like to connect.
    */
   constructor(context: ConnectionContext, partitionId: string | number, options?: ReceiveOptions) {
     super(context, partitionId, options);
+    this.receiveHandler = new ReceiveHandler(this);
   }
 
   /**
@@ -151,7 +142,7 @@ export class StreamingReceiver extends EventHubReceiver {
    * @param {OnMessage} onMessage The message handler to receive event data objects.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
    */
-  receive(onMessage: OnMessage, onError: OnError): void {
+  receive(onMessage: OnMessage, onError: OnError): ReceiveHandler {
     if (!onMessage || typeof onMessage !== "function") {
       throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
     }
@@ -177,6 +168,7 @@ export class StreamingReceiver extends EventHubReceiver {
       log.streaming("[%s] Receiver '%s', set the prefetch count to 1000 and " +
         "providing a credit of the same amount.", this._context.connectionId, this.name);
     }
+    return this.receiveHandler;
   }
 
   /**
