@@ -73,6 +73,52 @@ export async function blobToString(blob: Blob): Promise<string> {
   });
 }
 
+export async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
+  const fileReader = new FileReader();
+  return new Promise<ArrayBuffer>((resolve, reject) => {
+    fileReader.onloadend = (ev: any) => {
+      resolve(ev.target!.result);
+    };
+    fileReader.onerror = reject;
+    fileReader.readAsArrayBuffer(blob);
+  });
+}
+
+export function arrayBufferEqual(
+  buf1: ArrayBuffer,
+  buf2: ArrayBuffer
+): boolean {
+  if (buf1.byteLength !== buf2.byteLength) {
+    return false;
+  }
+
+  const uint8Arr1 = new Uint8Array(buf1);
+  const uint8Arr2 = new Uint8Array(buf2);
+
+  for (let i = 0; i <= uint8Arr1.length; i++) {
+    if (uint8Arr1[i] !== uint8Arr2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function isIE(): boolean {
+  const sAgent = window.navigator.userAgent;
+  const Idx = sAgent.indexOf("MSIE");
+
+  // If IE, return version number.
+  if (Idx > 0) {
+    return true;
+  } else if (!!navigator.userAgent.match(/Trident\/7\./)) {
+    // IE 11
+    return true;
+  } else {
+    return false;
+  } // It is not IE
+}
+
 // Mock a Browser file with specified name and size
 export function getBrowserFile(name: string, size: number): File {
   const uint8Arr = new Uint8Array(size);

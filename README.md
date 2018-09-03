@@ -19,6 +19,16 @@ Please note that this version of the SDK is a compete overhaul of the current [A
   - HttpPipeline which enables a high degree of per-request configurability
   - 1-to-1 correlation with the Storage REST API for clarity and simplicity
 
+### Compatibility
+
+This SDK is compatible with Node.js and browsers, and validated against LTS Node.js versions and latest versions of Chrome, Firefox and Edge.
+
+#### Compatible with IE11
+
+This library depends on ES6+ feature(s) `Promise` which IE11 doesn't support.
+You need polyfills to make this library work with IE11. The easiest way is to using [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill).
+Or you can load separate polyfills for missed ES feature(s).
+
 ## Getting Started
 
 ### NPM
@@ -122,7 +132,7 @@ await containerURL.delete(Aborter.None);
 console.log("deleted container");
 ```
 
-## Code Samples
+## More Samples
 
 - [Blob Storage Examples](https://github.com/azure/azure-storage-js/tree/master/blob/samples)
 - [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/test/)

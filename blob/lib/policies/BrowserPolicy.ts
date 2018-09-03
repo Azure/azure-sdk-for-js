@@ -63,6 +63,9 @@ export class BrowserPolicy extends BaseRequestPolicy {
     request.headers.remove(HeaderConstants.COOKIE);
     request.headers.remove(HeaderConstants.CONTENT_LENGTH);
 
+    // IE11 will parse undefined body into string "undefined", pass null to fix
+    request.body = request.body || null;
+
     return this._nextPolicy.sendRequest(request);
   }
 }

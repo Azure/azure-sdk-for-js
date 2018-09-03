@@ -7,10 +7,11 @@
   "browser": "./dist/lib/index.browser.js",
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
-    "ms-rest-js": "0.21.404"
+    "ms-rest-js": "0.21.409"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
+    "es6-promise": "^4.2.4",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-edge-launcher": "^0.4.2",
@@ -34,14 +35,14 @@
     "test": "npm run test:node && npm run test:browser",
     "test:node": "mocha --no-timeouts -r ts-node/register test/*.ts test/node/*.ts",
     "test:browser": "npm run build:browsertest && karma start --single-run",
-    "build": "npm run build:node && npm run build:browser",
+    "build": "npm run build:node && npm run build:browser && npm run build:browsertest",
     "build:node": "npm run build:cjs && npm run build:es6",
     "build:cjs": "node ./node_modules/typescript/bin/tsc -p tsconfig.json",
     "build:es6": "node ./node_modules/typescript/bin/tsc -p tsconfig.es6.json",
     "build:browser": "webpack && rimraf browser/typings",
     "build:browsertest": "webpack --config webpack.config.test.js && rimraf browser/test/typings",
-    "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.0.472",
-    "prepare": "npm run build:node",
+    "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.0.476",
+    "prepare": "npm run build",
     "clean": "rimraf dist && rimraf browser && rimraf es6dist && rimraf typings && rimraf temp"
   },
   "repository": {
