@@ -1,6 +1,7 @@
 import { RestError } from "ms-rest-js";
 
 import * as Models from "../lib/generated/models";
+import "./utils/polyfills.browser";
 
 export * from "./Aborter";
 export * from "./AppendBlobURL";

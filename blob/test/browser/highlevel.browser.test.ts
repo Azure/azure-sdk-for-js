@@ -6,11 +6,14 @@ import { BlockBlobURL } from "../../lib/BlockBlobURL";
 import { ContainerURL } from "../../lib/ContainerURL";
 import { UploadBrowserDataToBlockBlob } from "../../lib/highlevel.browser";
 import {
+  arrayBufferEqual,
+  blobToArrayBuffer,
   blobToString,
   bodyToString,
   getBrowserFile,
   getBSU,
-  getUniqueName
+  getUniqueName,
+  isIE
 } from "../utils/testutils.browser";
 
 // tslint:disable:no-empty
@@ -45,32 +48,6 @@ describe("Highelvel", () => {
   });
 
   after(async () => {});
-
-  it("UploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await UploadBrowserDataToBlockBlob(Aborter.None, tempFile1, blockBlobURL, {
-      blockSize: 4 * 1024 * 1024,
-      parallelism: 2
-    });
-
-    const downloadResponse = await blockBlobURL.download(Aborter.None, 0);
-    const downloadedString = await bodyToString(downloadResponse);
-    const uploadedString = await blobToString(tempFile1);
-
-    assert.equal(uploadedString, downloadedString);
-  });
-
-  it("UploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await UploadBrowserDataToBlockBlob(Aborter.None, tempFile2, blockBlobURL, {
-      blockSize: 4 * 1024 * 1024,
-      parallelism: 2
-    });
-
-    const downloadResponse = await blockBlobURL.download(Aborter.None, 0);
-    const downloadedString = await bodyToString(downloadResponse);
-    const uploadedString = await blobToString(tempFile2);
-
-    assert.equal(uploadedString, downloadedString);
-  });
 
   it("UploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const aborter = Aborter.timeout(1);
@@ -134,5 +111,38 @@ describe("Highelvel", () => {
       });
     } catch (err) {}
     assert.ok(eventTriggered);
+  });
+
+  it("UploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    await UploadBrowserDataToBlockBlob(Aborter.None, tempFile2, blockBlobURL, {
+      blockSize: 4 * 1024 * 1024,
+      parallelism: 2
+    });
+
+    const downloadResponse = await blockBlobURL.download(Aborter.None, 0);
+    const downloadedString = await bodyToString(downloadResponse);
+    const uploadedString = await blobToString(tempFile2);
+
+    assert.equal(uploadedString, downloadedString);
+  });
+
+  it("UploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    if (isIE()) {
+      assert.ok(
+        true,
+        "Skip this case in IE11 which doesn't have enough memory for downloading validation"
+      );
+    }
+
+    await UploadBrowserDataToBlockBlob(Aborter.None, tempFile1, blockBlobURL, {
+      blockSize: 4 * 1024 * 1024,
+      parallelism: 2
+    });
+
+    const downloadResponse = await blockBlobURL.download(Aborter.None, 0);
+    const buf1 = await blobToArrayBuffer(await downloadResponse.blobBody!);
+    const buf2 = await blobToArrayBuffer(tempFile1);
+
+    assert.ok(arrayBufferEqual(buf1, buf2));
   });
 });
