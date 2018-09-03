@@ -1,3 +1,4 @@
+// import { AnonymousCredential, TokenCredential } from "../lib";
 import { Aborter } from "../lib/Aborter";
 import { BlobURL } from "../lib/BlobURL";
 import { BlockBlobURL } from "../lib/BlockBlobURL";
@@ -12,9 +13,17 @@ async function executeSample() {
   const account = "account";
   const accountKey = "accountkey";
 
-  const pipeline = StorageURL.newPipeline(
-    new SharedKeyCredential(account, accountKey)
-  );
+  // Use SharedKeyCredential with storage account and account key,
+  const credential = new SharedKeyCredential(account, accountKey);
+
+  // Use TokenCredential with OAuth token
+  // const credential = new TokenCredential("token");
+  // credential.token = "renewedToken";
+
+  // Use AnonymousCredential when url already includes a SAS signature
+  // const credential = new AnonymousCredential();
+
+  const pipeline = StorageURL.newPipeline(credential);
 
   // List containers
   const serviceURL = new ServiceURL(
@@ -60,7 +69,7 @@ async function executeSample() {
     uploadBlobResponse.requestId
   );
 
-  // Get blob content
+  // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
   const downloadBlockBlobResponse = await blobURL.download(Aborter.None, 0);

@@ -3,29 +3,9 @@ import { AccountSASResourceTypes } from "./AccountSASResourceTypes";
 import { AccountSASServices } from "./AccountSASServices";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
 import { IIPRange, ipRangeToString } from "./IIPRange";
-import { SASQueryParameters } from "./SASQueryParameters";
+import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
-
-/**
- * ONLY AVAILABLE IN NODE.JS RUNTIME.
- *
- * Protocols for generated SAS.
- *
- * @export
- * @enum {number}
- */
-export enum SASProtocol {
-  /**
-   * Protocol that allows HTTPS only
-   */
-  HTTPS = "https",
-
-  /**
-   * Protocol that allows both HTTPS and HTTP
-   */
-  HTTPSandHTTP = "https,http"
-}
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

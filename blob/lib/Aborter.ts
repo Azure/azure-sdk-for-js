@@ -14,24 +14,22 @@ import { AbortSignalLike, isNode } from "ms-rest-js";
  *
  * @example
  * // Abort without timeout
- * await containerURL.create(Aborter.None);
+ * await blockBlobURL.upload(Aborter.None, buf, buf.length);
  *
  * @example
  * // Abort container create in 1000ms
- * await containerURL.create(Aborter.timeout(1000));
+ * await blockBlobURL.upload(Aborter.timeout(1000), buf, buf.length);
  *
  * @example
- * // Share aborter cross multi operations
- * const aborter = Aborter.None;
- * containerURL1.create(aborter);
- * containerURL2.create(aborter);
- * aborter.abort();
- *
- * @example
- * // Abort multi operations in 30s
+ * // Share aborter cross multiple operations in 30s
  * const aborter = Aborter.timeout(30 * 1000);
- * containerURL1.create(aborter);
- * containerURL2.create(aborter);
+ * const promise1 = blockBlobURL.upload(aborter, buf, buf.length);
+ * const promise2 = blockBlobURL.upload(aborter, buf, buf.length);
+ *
+ * // Manually controlled abort with abort()
+ * // 2 operations will abort in 10s instead of 30s
+ * setTimeout(aborter.abort, 10 * 1000);
+ * Promise.all([promise1, promise2]);
  *
  * @example
  * // Cascaded aborting
@@ -39,8 +37,9 @@ import { AbortSignalLike, isNode } from "ms-rest-js";
  * // although it's own timeout is 60s.
  * const aborter1 = Aborter.timeout(30 * 1000);
  * const aborter2 = aborter1.withTimeout(60 * 1000);
- * containerURL1.create(aborter1);
- * containerURL2.create(aborter2);
+ * const promise1 = blockBlobURL.upload(aborter1, buf, buf.length);
+ * const promise2 = blockBlobURL.upload(aborter2, buf, buf.length);
+ * Promise.all([promise1, promise2]);
  *
  * @export
  * @class Aborter
@@ -71,15 +70,15 @@ export class Aborter implements AbortSignalLike {
   }
 
   /**
-   * Creates a new Aborter instance with timeout.
+   * Creates a new Aborter instance with timeout in million-seconds.
    * Set parameter timeout to 0 will not create a timer.
    *
    * @static
-   * @param {number} [timeout=0]
+   * @param {number} {timeout} in million-seconds
    * @returns {Aborter}
    * @memberof Aborter
    */
-  public static timeout(timeout: number = 0): Aborter {
+  public static timeout(timeout: number): Aborter {
     return new Aborter(undefined, timeout);
   }
 
@@ -145,11 +144,11 @@ export class Aborter implements AbortSignalLike {
    * When timeout parameter (in millisecond) is larger than 0, the abort event will be triggered when timeout.
    * Otherwise, call abort() method to manually abort.
    *
-   * @param {number} [timeout=0] Optional. Timeout in millisecond.
+   * @param {number} {timeout} Timeout in millisecond.
    * @returns {Aborter} The new Aborter instance created.
    * @memberof Aborter
    */
-  public withTimeout(timeout: number = 0): Aborter {
+  public withTimeout(timeout: number): Aborter {
     const childCancelContext = new Aborter(this, timeout);
     this.children.push(childCancelContext);
     return childCancelContext;
