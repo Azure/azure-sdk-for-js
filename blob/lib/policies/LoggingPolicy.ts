@@ -117,11 +117,7 @@ export class LoggingPolicy extends BaseRequestPolicy {
         const errorString = `REQUEST ERROR: HTTP request failed with status code: ${
           response.status
         }. `;
-        if (currentLevel === HttpPipelineLogLevel.WARNING) {
-          logMessage += errorString;
-        } else {
-          logMessage = errorString;
-        }
+        logMessage = errorString;
 
         currentLevel = HttpPipelineLogLevel.ERROR;
       }

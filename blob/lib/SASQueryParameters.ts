@@ -1,6 +1,23 @@
-import { SASProtocol } from "./IAccountSASSignatureValues";
 import { IIPRange, ipRangeToString } from "./IIPRange";
 import { truncatedISO8061Date } from "./utils/utils.common";
+
+/**
+ * Protocols for generated SAS.
+ *
+ * @export
+ * @enum {number}
+ */
+export enum SASProtocol {
+  /**
+   * Protocol that allows HTTPS only
+   */
+  HTTPS = "https",
+
+  /**
+   * Protocol that allows both HTTPS and HTTP
+   */
+  HTTPSandHTTP = "https,http"
+}
 
 /**
  * Represents the components that make up an Azure Storage SAS' query parameters. This type is not constructed directly

@@ -61,6 +61,8 @@ export class BrowserPolicy extends BaseRequestPolicy {
     }
 
     request.headers.remove(HeaderConstants.COOKIE);
+
+    // According to XHR standards, content-length should be fully controlled by browsers
     request.headers.remove(HeaderConstants.CONTENT_LENGTH);
 
     // IE11 will parse undefined body into string "undefined", pass null to fix

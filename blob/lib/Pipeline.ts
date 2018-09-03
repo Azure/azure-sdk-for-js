@@ -35,14 +35,25 @@ export interface IPipelineOptions {
 
 /**
  * A Pipeline class containing HTTP request policies.
+ * You can create a default Pipeline by calling StorageURL.newPipeline().
+ * Or you can create a Pipeline with your own policies by the constructor of Pipeline.
+ * Refer to StorageURL.newPipeline() and provided policies as reference before
+ * implementing your customized Pipeline.
  *
  * @export
  * @class Pipeline
  */
 export class Pipeline {
-  public factories: RequestPolicyFactory[];
-  public options: IPipelineOptions;
+  public readonly factories: RequestPolicyFactory[];
+  public readonly options: IPipelineOptions;
 
+  /**
+   * Creates an instance of Pipeline. Customize HTTPClient by implementing IHTTPClient interface.
+   *
+   * @param {RequestPolicyFactory[]} factories
+   * @param {IPipelineOptions} [options={}]
+   * @memberof Pipeline
+   */
   constructor(
     factories: RequestPolicyFactory[],
     options: IPipelineOptions = {}

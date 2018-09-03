@@ -1,8 +1,8 @@
 import { BlobSASPermissions } from "./BlobSASPermissions";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
 import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
-import { SASProtocol } from "./IAccountSASSignatureValues";
 import { IIPRange, ipRangeToString } from "./IIPRange";
+import { SASProtocol } from "./SASQueryParameters";
 import { SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
