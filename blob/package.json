@@ -4,7 +4,11 @@
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/lib/index.js",
   "module": "./es6dist/index.js",
-  "browser": "./dist/lib/index.browser.js",
+  "browser": {
+    "./dist/lib/index.js": "./dist/lib/index.browser.js",
+    "os": false,
+    "process": false
+  },
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
     "ms-rest-js": "0.21.409"
