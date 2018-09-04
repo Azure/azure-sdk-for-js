@@ -35,7 +35,7 @@ export class AccountSASResourceTypes {
           accountSASResourceTypes.object = true;
           break;
         default:
-          throw new Error(`Invalid resource type: ${c}`);
+          throw new RangeError(`Invalid resource type: ${c}`);
       }
     }
 

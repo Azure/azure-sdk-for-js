@@ -206,19 +206,19 @@ export class BufferScheduler {
     encoding?: string
   ) {
     if (bufferSize <= 0) {
-      throw new Error(
+      throw new RangeError(
         `bufferSize must be larger than 0, current is ${bufferSize}`
       );
     }
 
     if (maxBuffers <= 0) {
-      throw new Error(
+      throw new RangeError(
         `maxBuffers must be larger than 0, current is ${maxBuffers}`
       );
     }
 
     if (parallelism <= 0) {
-      throw new Error(
+      throw new RangeError(
         `parallelism must be larger than 0, current is ${parallelism}`
       );
     }

@@ -159,8 +159,8 @@ export function generateBlobSASQueryParameters(
     !blobSASSignatureValues.identifier &&
     (!blobSASSignatureValues.permissions && !blobSASSignatureValues.expiryTime)
   ) {
-    throw new Error(
-      "Must provide 'identifier' or 'permissions' with 'expiryTime' for Blob SAS generation."
+    throw new RangeError(
+      "Must provide 'permissions' and 'expiryTime' for Blob SAS generation when 'identifier' is not provided."
     );
   }
 

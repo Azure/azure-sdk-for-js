@@ -31,7 +31,7 @@ if (!String.prototype.repeat) {
       return "";
     }
     const arr: string[] = [];
-    while (count > 0) {
+    while (count-- > 0) {
       arr.push(str);
     }
     return arr.join("");
@@ -53,6 +53,24 @@ if (!String.prototype.padStart) {
         padString += padString.repeat(targetLength / padString.length);
       }
       return padString.slice(0, targetLength) + String(this);
+    }
+  };
+}
+
+/* String.prototype.includes */
+if (!String.prototype.includes) {
+  String.prototype.includes = function(
+    searchString: string,
+    position: number = 0
+  ): boolean {
+    if (typeof position !== "number") {
+      position = 0;
+    }
+
+    if (position + searchString.length > this.length) {
+      return false;
+    } else {
+      return -1 !== this.indexOf(searchString, position);
     }
   };
 }

@@ -76,8 +76,12 @@ export class AppendBlobURL extends BlobURL {
 
   /**
    * Creates an instance of AppendBlobURL.
-   * @param {string} url
-   * @param {Pipeline} pipeline
+   * @param {string} url A URL string pointing to Azure Storage append blob, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/appendblob". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/appendblob?sasString".
+   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   *                            pipeline, or provide a customized pipeline.
    * @memberof AppendBlobURL
    */
   constructor(url: string, pipeline: Pipeline) {
@@ -118,7 +122,7 @@ export class AppendBlobURL extends BlobURL {
   }
 
   /**
-   * Create creates a 0-length append blob. Call AppendBlock to append data to an append blob.
+   * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
    * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),

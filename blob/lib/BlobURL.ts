@@ -112,8 +112,12 @@ export class BlobURL extends StorageURL {
 
   /**
    * Creates an instance of BlobURL.
-   * @param {string} url
-   * @param {Pipeline} pipeline
+   * @param {string} url A URL string pointing to Azure Storage blob, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/blob". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString".
+   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   *                            pipeline, or provide a customized pipeline.
    * @memberof BlobURL
    */
   constructor(url: string, pipeline: Pipeline) {

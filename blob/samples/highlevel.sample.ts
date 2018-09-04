@@ -21,7 +21,12 @@ async function executeSample() {
   const accountSas = "accountSas";
   const localFilePath = "localFilePath";
 
-  const pipeline = StorageURL.newPipeline(new AnonymousCredential());
+  const pipeline = StorageURL.newPipeline(new AnonymousCredential(), {
+    // httpClient: MyHTTPClient, // A customized HTTP client implementing IHTTPClient interface
+    // logger: MyLogger, // A customized logger implementing IHTTPPipelineLogger interface
+    retryOptions: { maxTries: 10 }, // Retry options
+    telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
+  });
 
   const serviceURL = new ServiceURL(
     `https://${account}.blob.core.windows.net${accountSas}`,

@@ -49,7 +49,7 @@ export class AccountSASPermissions {
           accountSASPermissions.process = true;
           break;
         default:
-          throw new Error(`Invalid permission character: ${c}`);
+          throw new RangeError(`Invalid permission character: ${c}`);
       }
     }
 

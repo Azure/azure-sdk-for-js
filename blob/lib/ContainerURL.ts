@@ -159,8 +159,12 @@ export class ContainerURL extends StorageURL {
 
   /**
    * Creates an instance of ContainerURL.
-   * @param {string} url
-   * @param {Pipeline} pipeline
+   * @param {string} url A URL string pointing to Azure Storage blob container, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer". You can
+   *                     append a SAS if using AnonymousCredential, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer?sasString".
+   * @param {Pipeline} pipeline Call StorageURL.newPipeline() to create a default
+   *                            pipeline, or provide a customized pipeline.
    * @memberof ContainerURL
    */
   constructor(url: string, pipeline: Pipeline) {
@@ -263,7 +267,7 @@ export class ContainerURL extends StorageURL {
         options.containerAccessConditions.modifiedAccessConditions
           .ifNoneMatch !== ETagNone)
     ) {
-      throw new Error(
+      throw new RangeError(
         "the IfMatch and IfNoneMatch access conditions must have their default\
         values because they are ignored by the service"
       );
@@ -317,7 +321,7 @@ export class ContainerURL extends StorageURL {
         options.containerAccessConditions.modifiedAccessConditions
           .ifNoneMatch !== ETagNone)
     ) {
-      throw new Error(
+      throw new RangeError(
         "the IfUnmodifiedSince, IfMatch, and IfNoneMatch must have their default values\
         because they are ignored by the blob service"
       );

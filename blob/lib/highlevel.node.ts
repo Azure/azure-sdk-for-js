@@ -96,13 +96,13 @@ async function UploadResetableStreamToBlockBlob(
     options.blockSize < 0 ||
     options.blockSize > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
   ) {
-    throw new Error(
+    throw new RangeError(
       `blockSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}`
     );
   }
   if (options.blockSize === 0) {
     if (size > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES * BLOCK_BLOB_MAX_BLOCKS) {
-      throw new Error(`${size} is too larger to upload to a block blob.`);
+      throw new RangeError(`${size} is too larger to upload to a block blob.`);
     }
     if (size > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES) {
       options.blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
@@ -124,7 +124,7 @@ async function UploadResetableStreamToBlockBlob(
 
   const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
   if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
-    throw new Error(
+    throw new RangeError(
       `The buffer's size is too big or the BlockSize is too small;` +
         `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
     );
@@ -194,18 +194,18 @@ export async function DownloadBlobToBuffer(
     options.blockSize = 0;
   }
   if (options.blockSize < 0) {
-    throw new Error("blockSize option must be >= 0");
+    throw new RangeError("blockSize option must be >= 0");
   }
   if (options.blockSize === 0) {
     options.blockSize = BLOB_DEFAULT_DOWNLOAD_BLOCK_BYTES;
   }
 
   if (offset < 0) {
-    throw new Error("offset option must be >= 0");
+    throw new RangeError("offset option must be >= 0");
   }
 
   if (count && count <= 0) {
-    throw new Error("count option must be > 0");
+    throw new RangeError("count option must be > 0");
   }
 
   if (!options.blobAccessConditions) {
@@ -217,14 +217,14 @@ export async function DownloadBlobToBuffer(
     const response = await blobURL.getProperties(aborter, options);
     count = response.contentLength! - offset;
     if (count < 0) {
-      throw new Error(
+      throw new RangeError(
         `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`
       );
     }
   }
 
   if (buffer.length < count) {
-    throw new Error(
+    throw new RangeError(
       `The buffer's size should be equal to or larger than the request count of bytes: ${count}`
     );
   }
