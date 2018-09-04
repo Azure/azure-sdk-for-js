@@ -67,7 +67,9 @@ export class XhrHttpClient implements HttpClient {
       xhr.setRequestHeader(header.name, header.value);
     }
     xhr.responseType = request.streamResponseBody ? "blob" : "text";
-    xhr.send(request.body);
+
+    // tslint:disable-next-line:no-null-keyword
+    xhr.send(request.body === undefined ? null : request.body);
 
     if (request.streamResponseBody) {
       return new Promise((resolve, reject) => {

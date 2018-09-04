@@ -243,4 +243,11 @@ describe("defaultHttpClient", () => {
       err.code.should.equal("REQUEST_SEND_ERROR");
     }
   });
+
+  it("should interpret undefined as an empty body", async function () {
+    const request = new WebResource(`${baseURL}/expect-empty`, "PUT");
+    const client = new DefaultHttpClient();
+    const response = await client.sendRequest(request);
+    response.status.should.equal(200, response.bodyAsText!);
+  });
 });

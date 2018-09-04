@@ -37,6 +37,27 @@ app.get("/slow", function(req, res) {
     }, 2000);
 });
 
+app.put("/expect-empty", function (req, res) {
+    let bufs: Buffer[] = [];
+    req.on('data', (data: Buffer) => {
+        bufs.push(data);
+    });
+    req.on('end', () => {
+        const buf = Buffer.concat(bufs);
+        if (buf.length === 0) {
+            res.status(200);
+            res.end();
+        } else {
+            res.status(400);
+            res.end("Expected empty body but got " + buf.toString('utf-8'));
+        }
+    });
+    req.on('error', err => {
+        res.status(500);
+        res.end(err);
+    });
+});
+
 app.listen(port, function() {
     console.log(`ms-rest-js testserver listening on port ${port}...`);
 });
