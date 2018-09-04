@@ -82,13 +82,13 @@ async function UploadSeekableBlobToBlockBlob(
     options.blockSize < 0 ||
     options.blockSize > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
   ) {
-    throw new Error(
+    throw new RangeError(
       `blockSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}`
     );
   }
   if (options.blockSize === 0) {
     if (size > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES * BLOCK_BLOB_MAX_BLOCKS) {
-      throw new Error(`${size} is too larger to upload to a block blob.`);
+      throw new RangeError(`${size} is too larger to upload to a block blob.`);
     }
     if (size > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES) {
       options.blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
@@ -110,7 +110,7 @@ async function UploadSeekableBlobToBlockBlob(
 
   const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
   if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
-    throw new Error(
+    throw new RangeError(
       `The buffer's size is too big or the BlockSize is too small;` +
         `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
     );

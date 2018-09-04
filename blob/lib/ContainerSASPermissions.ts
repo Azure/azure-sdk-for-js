@@ -42,7 +42,7 @@ export class ContainerSASPermissions {
           containerSASPermissions.list = true;
           break;
         default:
-          throw new Error(`Invalid permission ${char}`);
+          throw new RangeError(`Invalid permission ${char}`);
       }
     }
 

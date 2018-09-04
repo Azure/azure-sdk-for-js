@@ -7,63 +7,67 @@ const version = require("./package.json").version;
 const zipFileName = `azurestoragejs.blob-${version}`;
 const banner = [
   `Azure Storage SDK for JavaScript - Blob, ${version}`,
-  "Copyright (c) Microsoft and contributors. All rights reserved.",
+  "Copyright (c) Microsoft and contributors. All rights reserved."
 ].join("\n");
 
 module.exports = {
   mode: "production",
   entry: {
     "azure-storage.blob": "./lib/index.browser.ts",
-    "azure-storage.blob.min": "./lib/index.browser.ts",
+    "azure-storage.blob.min": "./lib/index.browser.ts"
   },
   optimization: {
     minimize: true,
     minimizer: [
       new UglifyJsPlugin({
-        include: /\.min\.js$/,
-      }),
-    ],
+        include: /\.min\.js$/
+      })
+    ]
   },
   // devtool: "source-map",
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "browser"),
     libraryTarget: "umd",
-    library: "azblob",
+    library: "azblob"
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         loader: "ts-loader",
-        exclude: /(node_modules|samples)/,
-      },
-    ],
+        exclude: /(node_modules|samples)/
+      }
+    ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".tsx", ".ts", ".js"]
   },
   plugins: [
     new webpack.BannerPlugin({
       banner: banner,
-      raw: false,
+      raw: false
     }),
     new ZipPlugin({
       filename: zipFileName,
       pathPrefix: zipFileName,
-      include: ["azure-storage.blob.js", "azure-storage.blob.min.js"],
+      include: [
+        "azure-storage.blob.js",
+        "azure-storage.blob.min.js",
+        "ThirdPartyNotice.txt"
+      ],
       // OPTIONAL: see https://github.com/thejoshwolfe/yazl#addfilerealpath-metadatapath-options
       fileOptions: {
         mtime: new Date(),
         mode: 0o100664,
         compress: true,
-        forceZip64Format: false,
+        forceZip64Format: false
       },
       // OPTIONAL: see https://github.com/thejoshwolfe/yazl#endoptions-finalsizecallback
       zipOptions: {
-        forceZip64Format: false,
-      },
-    }),
+        forceZip64Format: false
+      }
+    })
   ],
   node: {
     fs: false,
@@ -73,11 +77,11 @@ module.exports = {
     tls: false,
     tty: false,
     v8: false,
-    Buffer: false,
+    Buffer: false
   },
   performance: {
     hints: "warning",
     maxAssetSize: 300 * 1024 * 1024,
-    maxEntrypointSize: 400 * 1024 * 1024,
-  },
+    maxEntrypointSize: 400 * 1024 * 1024
+  }
 };

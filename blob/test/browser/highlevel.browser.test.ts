@@ -132,6 +132,7 @@ describe("Highelvel", () => {
         true,
         "Skip this case in IE11 which doesn't have enough memory for downloading validation"
       );
+      return;
     }
 
     await UploadBrowserDataToBlockBlob(Aborter.None, tempFile1, blockBlobURL, {

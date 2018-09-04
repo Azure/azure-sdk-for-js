@@ -1,10 +1,12 @@
-# Azure Storage SDK V10 for JavaScript - Blob
+# Azure Storage SDK for JavaScript - Blob
+
+[![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
 
 ## Introduction
 
 This project provides a SDK in JavaScript that makes it easy to consume Microsoft Azure Storage services.
 
-Please note that this version of the SDK is a compete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture, also referred to as V10.
+Please note that this version of the SDK is a compete overhaul of the current [Azure Storage SDK for Node.js and JavaScript in Browsers](https://github.com/azure/azure-storage-node), and is based on the new Storage SDK architecture.
 
 ### Features
 
@@ -14,7 +16,7 @@ Please note that this version of the SDK is a compete overhaul of the current [A
   - Create/Read/List/Update/Delete Block Blobs
   - Create/Read/List/Update/Delete Page Blobs
   - Create/Read/List/Update/Delete Append Blobs
-- Features new to V10
+- Features new
   - Asynchronous I/O for all operations using the async methods
   - HttpPipeline which enables a high degree of per-request configurability
   - 1-to-1 correlation with the Storage REST API for clarity and simplicity
@@ -53,9 +55,9 @@ const Azure = require("@azure/storage-blob");
 
 ### JavaScript Bundle
 
-To use the SDK in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
+To use the SDK with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
 
-```
+```html
 <script src="https://mydomain/azure-storage.blob.min.js"></script>
 ```
 

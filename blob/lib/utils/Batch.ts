@@ -96,7 +96,7 @@ export class Batch {
    */
   public constructor(concurrency: number = 5) {
     if (concurrency < 1) {
-      throw new Error("concurrency must be larger than 0");
+      throw new RangeError("concurrency must be larger than 0");
     }
     this.concurrency = concurrency;
     this.emitter = new EventEmitter();

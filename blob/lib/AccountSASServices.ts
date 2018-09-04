@@ -38,7 +38,7 @@ export class AccountSASServices {
           accountSASServices.table = true;
           break;
         default:
-          throw new Error(`Invalid service character: ${c}`);
+          throw new RangeError(`Invalid service character: ${c}`);
       }
     }
 

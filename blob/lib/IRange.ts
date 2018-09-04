@@ -35,10 +35,10 @@ export interface IRange {
  */
 export function rangeToString(ipRange: IRange): string {
   if (ipRange.offset < 0) {
-    throw new Error(`IPRange.offset cannot be smaller than 0.`);
+    throw new RangeError(`IPRange.offset cannot be smaller than 0.`);
   }
   if (ipRange.count && ipRange.count <= 0) {
-    throw new Error(
+    throw new RangeError(
       `IPRange.count must be larger than 0. Leave it undefined if you want a range from offset to the end.`
     );
   }
