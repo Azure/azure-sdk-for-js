@@ -10,16 +10,16 @@ Please note that this version of the SDK is a compete overhaul of the current [A
 
 ### Features
 
-- Blob Storage
-  - Get/Set Blob Service Properties
-  - Create/List/Delete Containers
-  - Create/Read/List/Update/Delete Block Blobs
-  - Create/Read/List/Update/Delete Page Blobs
-  - Create/Read/List/Update/Delete Append Blobs
-- Features new
-  - Asynchronous I/O for all operations using the async methods
-  - HttpPipeline which enables a high degree of per-request configurability
-  - 1-to-1 correlation with the Storage REST API for clarity and simplicity
+* Blob Storage
+  * Get/Set Blob Service Properties
+  * Create/List/Delete Containers
+  * Create/Read/List/Update/Delete Block Blobs
+  * Create/Read/List/Update/Delete Page Blobs
+  * Create/Read/List/Update/Delete Append Blobs
+* Features new
+  * Asynchronous I/O for all operations using the async methods
+  * HttpPipeline which enables a high degree of per-request configurability
+  * 1-to-1 correlation with the Storage REST API for clarity and simplicity
 
 ### Compatibility
 
@@ -37,7 +37,7 @@ Or you can load separate polyfills for missed ES feature(s).
 
 The preferred way to install the Azure Storage SDK for JavaScript is to use the npm package manager. Simply type the following into a terminal window:
 
-```
+```bash
 npm install @azure/storage-blob
 ```
 
@@ -63,15 +63,17 @@ To use the SDK with JS bundle in the browsers, simply add a script tag to your H
 
 The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
 
-- `azblob`
+* `azblob`
 
 Download latest released JS bundles from links in the [release page](https://github.com/Azure/azure-storage-js/releases).
 
 ## SDK Architecture
 
-- The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
-  _ ServiceURL, ContainerURL and BlobURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
-  _ The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).
+The Azure Storage SDK for JavaScript provides low-level and high-level APIs. Take Blob SDK as example:
+
+* ServiceURL, ContainerURL and BlobURL objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
+
+* The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).
 
 ## Code Samples
 
