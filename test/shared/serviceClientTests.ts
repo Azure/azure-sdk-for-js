@@ -4,7 +4,7 @@ import { QueryCollectionFormat } from "../../lib/queryCollectionFormat";
 import { DictionaryMapper, MapperType, Serializer, Mapper } from "../../lib/serializer";
 import { serializeRequestBody, ServiceClient, getOperationArgumentValueFromParameterPath } from "../../lib/serviceClient";
 import { WebResource } from "../../lib/webResource";
-import { OperationArguments, HttpHeaders } from "../../lib/msRest";
+import { OperationArguments, HttpHeaders, deserializationPolicy } from "../../lib/msRest";
 import { ParameterPath } from "../../lib/operationParameter";
 
 describe("ServiceClient", function () {
@@ -186,6 +186,46 @@ describe("ServiceClient", function () {
         responses: { 200: {} }
       });
     assert.strictEqual(request!.withCredentials, true);
+  });
+
+  it("should deserialize response bodies", async function() {
+    let request: WebResource;
+    const httpClient: HttpClient = {
+      sendRequest: req => {
+        request = req;
+        return Promise.resolve({ request, status: 200, headers: new HttpHeaders(), bodyAsText: "[1,2,3]" });
+      }
+    };
+
+    const client1 = new ServiceClient(undefined, {
+      httpClient,
+      requestPolicyFactories: [deserializationPolicy()]
+    });
+
+    const res = await client1.sendOperationRequest(
+      {},
+      {
+        serializer: new Serializer(),
+        httpMethod: "GET",
+        baseUrl: "httpbin.org",
+        responses: {
+          200: {
+            bodyMapper: {
+            type: {
+              name: "Sequence",
+              element: {
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    assert.strictEqual(res._response.status, 200);
+    assert.deepStrictEqual(res.slice(), [1,2,3]);
   });
 
   describe("serializeRequestBody()", () => {
