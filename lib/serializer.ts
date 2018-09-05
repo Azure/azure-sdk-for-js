@@ -241,15 +241,17 @@ function base64UrlToByteArray(str: string): Uint8Array | undefined {
 function splitSerializeName(prop: string): Array<string> {
   const classes: Array<string> = [];
   let partialclass = "";
-  const subwords = prop.split(".");
+  if (prop) {
+    const subwords = prop.split(".");
 
-  for (const item of subwords) {
-    if (item.charAt(item.length - 1) === "\\") {
-      partialclass += item.substr(0, item.length - 1) + ".";
-    } else {
-      partialclass += item;
-      classes.push(partialclass);
-      partialclass = "";
+    for (const item of subwords) {
+      if (item.charAt(item.length - 1) === "\\") {
+        partialclass += item.substr(0, item.length - 1) + ".";
+      } else {
+        partialclass += item;
+        classes.push(partialclass);
+        partialclass = "";
+      }
     }
   }
 
@@ -533,7 +535,7 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
     const propertyMapper = modelProps[key];
     const { serializedName, xmlName, xmlElementName } = propertyMapper;
     let propertyObjectName = objectName;
-    if (serializedName !== "") {
+    if (serializedName !== "" && serializedName !== undefined) {
       propertyObjectName = objectName + "." + serializedName;
     }
 
