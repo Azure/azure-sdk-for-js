@@ -1,12 +1,12 @@
 {
+  "$schema": "https://raw.githubusercontent.com/lmazuel/swagger-to-sdk/master/swagger_to_sdk_config.schema.json",
   "meta": {
     "autorest_options": {
       "typescript": "",
       "license-header": "MICROSOFT_MIT_NO_VERSION",
       "sdkrel:node-sdks-folder": ".",
-      "use": "@microsoft.azure/autorest.typescript@^2.0.0"
+      "use": "@microsoft.azure/autorest.typescript@2.0.476"
     },
-    "repotag": "azure-sdk-for-js",
-    "version": "0.3.0"
+    "version": "0.2.0"
   }
 }
