@@ -22,12 +22,12 @@ function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot) {
   return glob.sync('**/readme.typescript.md', { absolute: true, cwd: specificationFolderPath });
 }
 
-function getPackageNameFromReadmeTypeScriptMdFileContents(readmeNodejsMdFileContents) {
-  return readmeNodejsMdFileContents.match(/package-name: (\S*)/)[1];
+function getPackageNameFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents) {
+  return readmeTypeScriptMdFileContents.match(/package-name: (\S*)/)[1];
 }
 
-function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeNodejsMdFileContents) {
-  return readmeNodejsMdFileContents.match(/output-folder: (\S*)/)[1];
+function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents) {
+  return readmeTypeScriptMdFileContents.match(/output-folder: (\S*)/)[1];
 }
 
 function npmInstall(packageFolderPath) {
