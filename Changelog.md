@@ -1,3 +1,6 @@
+### 0.22.0 - 2018-09-05
+- Added support for EventGrid TopicCredentials object.
+
 ### 0.21.0 - 2018-08-30
 - Flatten response body properties, headers, etc. into one object for convenience
 
