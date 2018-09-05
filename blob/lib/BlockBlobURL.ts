@@ -142,8 +142,8 @@ export class BlockBlobURL extends BlobURL {
    * overwritten with the new content. To perform a partial update of a block blob's,
    * use stageBlock and commitBlockList.
    *
-   * This is a non-parallel uploading method, please use UploadFileToBlockBlob(),
-   * UploadStreamToBlockBlob() or UploadBrowserDataToBlockBlob() for better performance
+   * This is a non-parallel uploading method, please use uploadFileToBlockBlob(),
+   * uploadStreamToBlockBlob() or uploadBrowserDataToBlockBlob() for better performance
    * with concurrency uploading.
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob

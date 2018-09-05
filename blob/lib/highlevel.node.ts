@@ -26,7 +26,7 @@ import { streamToBuffer } from "./utils/utils.node";
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * UploadFileToBlockBlob uploads a local file in blocks to a block blob.
+ * Uploads a local file in blocks to a block blob.
  *
  * When file size <= 256MB, this method will use 1 upload call to finish the upload.
  * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
@@ -40,14 +40,14 @@ import { streamToBuffer } from "./utils/utils.node";
  * @param {IUploadToBlockBlobOptions} [options] IUploadToBlockBlobOptions
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
-export async function UploadFileToBlockBlob(
+export async function uploadFileToBlockBlob(
   aborter: Aborter,
   filePath: string,
   blockBlobURL: BlockBlobURL,
   options?: IUploadToBlockBlobOptions
 ): Promise<BlobUploadCommonResponse> {
   const size = fs.statSync(filePath).size;
-  return UploadResetableStreamToBlockBlob(
+  return uploadResetableStreamToBlockBlob(
     aborter,
     (offset, count) =>
       fs.createReadStream(filePath, {
@@ -64,7 +64,7 @@ export async function UploadFileToBlockBlob(
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * UploadResetableStreamToBlockBlob accepts a Node.js Readable stream factory, and uploads in blocks to a block blob.
+ * Accepts a Node.js Readable stream factory, and uploads in blocks to a block blob.
  * The Readable stream factory must returns a Node.js Readable stream starting from the offset defined. The offset
  * is the offset in the block blob to be uploaded.
  *
@@ -82,7 +82,7 @@ export async function UploadFileToBlockBlob(
  * @param {IUploadToBlockBlobOptions} [options] IUploadToBlockBlobOptions
  * @returns {(Promise<BlobUploadCommonResponse>)} ICommonResponse
  */
-async function UploadResetableStreamToBlockBlob(
+async function uploadResetableStreamToBlockBlob(
   aborter: Aborter,
   streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
   size: number,
@@ -169,7 +169,7 @@ async function UploadResetableStreamToBlockBlob(
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * DownloadBlobToBuffer downloads an Azure Blob in parallel to a buffer.
+ * Downloads an Azure Blob in parallel to a buffer.
  * Offset and count are optional, pass 0 for both to download the entire blob.
  *
  * @export
@@ -182,7 +182,7 @@ async function UploadResetableStreamToBlockBlob(
  * @param {IDownloadFromBlobOptions} [options] IDownloadFromBlobOptions
  * @returns {Promise<void>}
  */
-export async function DownloadBlobToBuffer(
+export async function downloadBlobToBuffer(
   aborter: Aborter,
   buffer: Buffer,
   blobURL: BlobURL,
@@ -258,7 +258,7 @@ export async function DownloadBlobToBuffer(
 }
 
 /**
- * Option interface for UploadStreamToBlockBlob.
+ * Option interface for uploadStreamToBlockBlob.
  *
  * @export
  * @interface IUploadStreamToBlockBlobOptions
@@ -316,7 +316,7 @@ export interface IUploadStreamToBlockBlobOptions {
  * @param {IUploadStreamToBlockBlobOptions} [options]
  * @returns {Promise<BlobUploadCommonResponse>}
  */
-export async function UploadStreamToBlockBlob(
+export async function uploadStreamToBlockBlob(
   aborter: Aborter,
   stream: Readable,
   blockBlobURL: BlockBlobURL,

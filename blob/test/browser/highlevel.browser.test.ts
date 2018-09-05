@@ -4,7 +4,7 @@ import { Aborter } from "../../lib/Aborter";
 import { BlobURL } from "../../lib/BlobURL";
 import { BlockBlobURL } from "../../lib/BlockBlobURL";
 import { ContainerURL } from "../../lib/ContainerURL";
-import { UploadBrowserDataToBlockBlob } from "../../lib/highlevel.browser";
+import { uploadBrowserDataToBlockBlob } from "../../lib/highlevel.browser";
 import {
   arrayBufferEqual,
   blobToArrayBuffer,
@@ -49,11 +49,11 @@ describe("Highelvel", () => {
 
   after(async () => {});
 
-  it("UploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await UploadBrowserDataToBlockBlob(aborter, tempFile1, blockBlobURL, {
+      await uploadBrowserDataToBlockBlob(aborter, tempFile1, blockBlobURL, {
         blockSize: 4 * 1024 * 1024,
         parallelism: 2
       });
@@ -63,11 +63,11 @@ describe("Highelvel", () => {
     }
   });
 
-  it("UploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const aborter = Aborter.timeout(1);
 
     try {
-      await UploadBrowserDataToBlockBlob(aborter, tempFile2, blockBlobURL, {
+      await uploadBrowserDataToBlockBlob(aborter, tempFile2, blockBlobURL, {
         blockSize: 4 * 1024 * 1024,
         parallelism: 2
       });
@@ -77,12 +77,12 @@ describe("Highelvel", () => {
     }
   });
 
-  it("UploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
     const aborter = Aborter.None;
 
     try {
-      await UploadBrowserDataToBlockBlob(aborter, tempFile1, blockBlobURL, {
+      await uploadBrowserDataToBlockBlob(aborter, tempFile1, blockBlobURL, {
         blockSize: 4 * 1024 * 1024,
         parallelism: 2,
         progress: ev => {
@@ -95,12 +95,12 @@ describe("Highelvel", () => {
     assert.ok(eventTriggered);
   });
 
-  it("UploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
     const aborter = Aborter.None;
 
     try {
-      await UploadBrowserDataToBlockBlob(aborter, tempFile2, blockBlobURL, {
+      await uploadBrowserDataToBlockBlob(aborter, tempFile2, blockBlobURL, {
         blockSize: 4 * 1024 * 1024,
         parallelism: 2,
         progress: ev => {
@@ -113,8 +113,8 @@ describe("Highelvel", () => {
     assert.ok(eventTriggered);
   });
 
-  it("UploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await UploadBrowserDataToBlockBlob(Aborter.None, tempFile2, blockBlobURL, {
+  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+    await uploadBrowserDataToBlockBlob(Aborter.None, tempFile2, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 2
     });
@@ -126,7 +126,7 @@ describe("Highelvel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("UploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
+  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (isIE()) {
       assert.ok(
         true,
@@ -135,7 +135,7 @@ describe("Highelvel", () => {
       return;
     }
 
-    await UploadBrowserDataToBlockBlob(Aborter.None, tempFile1, blockBlobURL, {
+    await uploadBrowserDataToBlockBlob(Aborter.None, tempFile1, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 2
     });

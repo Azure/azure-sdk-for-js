@@ -32,7 +32,7 @@ import { generateBlockID } from "./utils/utils.common";
  * @param {IUploadToBlockBlobOptions} [options]
  * @returns {Promise<BlobUploadCommonResponse>}
  */
-export async function UploadBrowserDataToBlockBlob(
+export async function uploadBrowserDataToBlockBlob(
   aborter: Aborter,
   browserData: Blob | File | ArrayBuffer | ArrayBufferView,
   blockBlobURL: BlockBlobURL,
