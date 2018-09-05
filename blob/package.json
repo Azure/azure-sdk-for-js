@@ -10,6 +10,9 @@
     "process": false
   },
   "types": "./typings/lib/index.d.ts",
+  "engines": {
+    "node": ">=6.5.0"
+  },
   "dependencies": {
     "ms-rest-js": "0.21.410"
   },

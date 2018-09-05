@@ -1,13 +1,16 @@
 import { HttpPipelineLogLevel, IHTTPPipelineLogger } from "../../lib/Pipeline";
+import { padStart } from "../../lib/utils/utils.common";
 
 export function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
 
 export function getUniqueName(prefix: string): string {
-  return `${prefix}${new Date().getTime()}${Math.floor(Math.random() * 10000)
-    .toString()
-    .padStart(5, "00000")}`;
+  return `${prefix}${new Date().getTime()}${padStart(
+    Math.floor(Math.random() * 10000).toString(),
+    5,
+    "00000"
+  )}`;
 }
 
 export async function sleep(time: number): Promise<void> {

@@ -37,26 +37,6 @@ if (!String.prototype.repeat) {
     return arr.join("");
   };
 }
-
-/* String.prototype.padStart() */
-if (!String.prototype.padStart) {
-  String.prototype.padStart = function padStart(
-    targetLength: number,
-    padString: string = " "
-  ): string {
-    padString = padString || " ";
-    if (this.length > targetLength) {
-      return String(this);
-    } else {
-      targetLength = targetLength - this.length;
-      if (targetLength > padString.length) {
-        padString += padString.repeat(targetLength / padString.length);
-      }
-      return padString.slice(0, targetLength) + String(this);
-    }
-  };
-}
-
 /* String.prototype.includes */
 if (!String.prototype.includes) {
   String.prototype.includes = function(
