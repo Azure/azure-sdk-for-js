@@ -11,7 +11,7 @@
   },
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
-    "ms-rest-js": "0.21.409"
+    "ms-rest-js": "0.21.410"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
