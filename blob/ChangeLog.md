@@ -1,3 +1,3 @@
 2018.09 Version 10.0.0-preview
 
-- Initial Release. Please see the README for information on the new design.
+- Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.
