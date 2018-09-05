@@ -2,10 +2,10 @@ import * as fs from "fs";
 
 import {
   AnonymousCredential,
-  // UploadBrowserDataToBlockBlob,
-  DownloadBlobToBuffer,
-  UploadFileToBlockBlob,
-  UploadStreamToBlockBlob
+  // uploadBrowserDataToBlockBlob,
+  downloadBlobToBuffer,
+  uploadFileToBlockBlob,
+  uploadStreamToBlockBlob
 } from "../lib";
 import { Aborter } from "../lib/Aborter";
 import { BlobURL } from "../lib/BlobURL";
@@ -43,18 +43,18 @@ async function executeSample() {
   const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
   const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
 
-  // Parallel uploading with UploadFileToBlockBlob in Node.js runtime
-  // UploadFileToBlockBlob is only available in Node.js
-  await UploadFileToBlockBlob(Aborter.None, localFilePath, blockBlobURL, {
+  // Parallel uploading with uploadFileToBlockBlob in Node.js runtime
+  // uploadFileToBlockBlob is only available in Node.js
+  await uploadFileToBlockBlob(Aborter.None, localFilePath, blockBlobURL, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
   });
-  console.log("UploadFileToBlockBlob success");
+  console.log("uploadFileToBlockBlob success");
 
-  // Parallel uploading a Readable stream with UploadStreamToBlockBlob in Node.js runtime
-  // UploadStreamToBlockBlob is only available in Node.js
-  await UploadStreamToBlockBlob(
+  // Parallel uploading a Readable stream with uploadStreamToBlockBlob in Node.js runtime
+  // uploadStreamToBlockBlob is only available in Node.js
+  await uploadStreamToBlockBlob(
     Aborter.timeout(30 * 60 * 60 * 1000), // Abort uploading with timeout in 30mins
     fs.createReadStream(localFilePath),
     blockBlobURL,
@@ -64,13 +64,13 @@ async function executeSample() {
       progress: ev => console.log(ev)
     }
   );
-  console.log("UploadStreamToBlockBlob success");
+  console.log("uploadStreamToBlockBlob success");
 
-  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with UploadBrowserDataToBlockBlob
-  // UploadBrowserDataToBlockBlob is only available in browsers
+  // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with uploadBrowserDataToBlockBlob
+  // uploadBrowserDataToBlockBlob is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await UploadBrowserDataToBlockBlob(Aborter.None, browserFile, blockBlobURL, {
+  await uploadBrowserDataToBlockBlob(Aborter.None, browserFile, blockBlobURL, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -78,10 +78,10 @@ async function executeSample() {
   */
 
   // Parallel downloading a block blob into Node.js buffer
-  // DownloadBlobToBuffer is only available in Node.js
+  // downloadBlobToBuffer is only available in Node.js
   const fileSize = fs.statSync(localFilePath).size;
   const buffer = Buffer.alloc(fileSize);
-  await DownloadBlobToBuffer(
+  await downloadBlobToBuffer(
     Aborter.timeout(30 * 60 * 60 * 1000),
     buffer,
     blockBlobURL,
@@ -93,7 +93,7 @@ async function executeSample() {
       progress: ev => console.log(ev)
     }
   );
-  console.log("DownloadBlobToBuffer success");
+  console.log("downloadBlobToBuffer success");
 
   // Delete container
   await containerURL.delete(Aborter.None);

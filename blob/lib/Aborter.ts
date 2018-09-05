@@ -22,29 +22,25 @@ import { AbortSignalLike, isNode } from "ms-rest-js";
  *
  * @example
  * // Share aborter cross multiple operations in 30s
+ * // Upload the same data to 2 different data centers at the same time, abort another when any of them is finished
  * const aborter = Aborter.timeout(30 * 1000);
- * const promise1 = blockBlobURL.upload(aborter, buf, buf.length);
- * const promise2 = blockBlobURL.upload(aborter, buf, buf.length);
- *
- * // Manually controlled abort with abort()
- * // 2 operations will abort in 10s instead of 30s
- * setTimeout(aborter.abort, 10 * 1000);
- * Promise.all([promise1, promise2]);
+ * blockBlobURL1.upload(aborter, buf, buf.length).then(aborter.abort);
+ * blockBlobURL2.upload(aborter, buf, buf.length).then(aborter.abort);
  *
  * @example
  * // Cascaded aborting
- * // aborter2 will abort in 30s when aborter1 aborts in 30s,
- * // although it's own timeout is 60s.
- * const aborter1 = Aborter.timeout(30 * 1000);
- * const aborter2 = aborter1.withTimeout(60 * 1000);
- * const promise1 = blockBlobURL.upload(aborter1, buf, buf.length);
- * const promise2 = blockBlobURL.upload(aborter2, buf, buf.length);
- * Promise.all([promise1, promise2]);
+ * // All operations can't take more than 30 seconds
+ * const aborter = Aborter.timeout(30 * 1000);
+ *
+ * // Following 2 operations can't take more than 25 seconds
+ * await blockBlobURL.upload(aborter.withTimeout(25 * 1000), buf, buf.length);
+ * await blockBlobURL.upload(aborter.withTimeout(25 * 1000), buf, buf.length);
  *
  * @export
  * @class Aborter
  * @implements {AbortSignalLike}
  */
+
 export class Aborter implements AbortSignalLike {
   /**
    * Status of whether aborted or not.

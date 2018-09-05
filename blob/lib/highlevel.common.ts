@@ -4,7 +4,7 @@ import * as Models from "./generated/models";
 import { IBlobAccessConditions } from "./models";
 
 /**
- * Option interface for UploadFileToBlockBlob and UploadSeekableStreamToBlockBlob.
+ * Option interface for uploadFileToBlockBlob and uploadSeekableStreamToBlockBlob.
  *
  * @export
  * @interface IUploadToBlockBlobOptions
@@ -59,7 +59,7 @@ export interface IUploadToBlockBlobOptions {
 }
 
 /**
- * Type for UploadFileToBlockBlob, UploadStreamToBlockBlob and UploadBrowserDateToBlockBlob.
+ * Type for uploadFileToBlockBlob, uploadStreamToBlockBlob and uploadBrowserDateToBlockBlob.
  *
  * @export
  */

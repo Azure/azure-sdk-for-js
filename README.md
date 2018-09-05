@@ -25,11 +25,34 @@ Please note that this version of the SDK is a compete overhaul of the current [A
 
 This SDK is compatible with Node.js and browsers, and validated against LTS Node.js versions and latest versions of Chrome, Firefox and Edge.
 
+#### Differences between Node.js and browsers
+
+There are differences between Node.js and browsers runtime. When getting start with this SDK, pay attention to APIs or classes marked with *"ONLY AVAILABLE IN NODE.JS RUNTIME"* or *"ONLY AVAILABLE IN BROWSERS"*.
+
+##### Following features, interfaces, classes or functions are only available in Node.js
+
+* Shared Key Authorization based on account name and account key
+  * `SharedKeyCredential`
+* Shared Access Signature(SAS) generation
+  * `generateAccountSASQueryParameters()`
+  * `generateBlobSASQueryParameters()`
+* Parallel uploading and downloading
+  * `uploadFileToBlockBlob()`
+  * `uploadStreamToBlockBlob()`
+  * `downloadBlobToBuffer()`
+
+##### Following features, interfaces, classes or functions are only available in browsers
+
+* Parallel uploading and downloading
+  * `uploadBrowserDataToBlockBlob()`
+
 #### Compatible with IE11
 
-This library depends on ES6+ feature(s) `Promise` which IE11 doesn't support.
 You need polyfills to make this library work with IE11. The easiest way is to using [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill).
 Or you can load separate polyfills for missed ES feature(s).
+This library depends on following ES6+ feature(s) which needs external polyfills loaded.
+
+* `Promise`
 
 ## Getting Started
 

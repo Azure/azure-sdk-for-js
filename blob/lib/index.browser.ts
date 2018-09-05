@@ -24,6 +24,7 @@ export * from "./LoggingPolicyFactory";
 export * from "./TelemetryPolicyFactory";
 export * from "./policies/TokenCredentialPolicy";
 export * from "./UniqueRequestIDPolicyFactory";
+export * from "./SASQueryParameters";
 export * from "./ServiceURL";
 export * from "./StorageURL";
 export { Models, RestError };
