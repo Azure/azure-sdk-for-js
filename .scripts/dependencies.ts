@@ -266,7 +266,7 @@ function writePackageJson(packageJson: any, packageJsonFilePath: string): void {
   fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  ") + "\n");
 }
 
-export function updateLocalDependencies(packageFolders: PackageFolder[], localDependencyNPMScript: string, getNewDependencyVersion: (dependencyName: string) => string): void {
+export function updateLocalDependencies(packageFolders: PackageFolder[], localDependencyNPMScript: string, getNewDependencyVersion: (dependencyName: string) => string | undefined): void {
   const forceRefresh: boolean = shouldForceRefresh(process.argv);
 
   for (const packageFolder of packageFolders) {
@@ -309,8 +309,8 @@ export function updateLocalDependencies(packageFolders: PackageFolder[], localDe
   }
 }
 
-function updateLocalDependency(packageFolder: PackageFolder, dependencyName: string, getNewDependencyVersion: (dependencyName: string) => string): boolean {
-  const newDependencyVersion: string = getNewDependencyVersion(dependencyName);
+function updateLocalDependency(packageFolder: PackageFolder, dependencyName: string, getNewDependencyVersion: (dependencyName: string) => string | undefined): boolean {
+  const newDependencyVersion: string = getNewDependencyVersion(dependencyName) || "";
 
   const packageFolderPath: string = packageFolder.folderPath;
 
