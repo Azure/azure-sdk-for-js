@@ -74,7 +74,8 @@
     "all": true
   },
   "scripts": {
-    "build": "run-p build:node build:es build:browser",
+    "build": "run-p build:scripts build:node build:es build:browser",
+    "build:scripts": "tsc -p ./.scripts/",
     "build:node": "tsc",
     "build:es": "tsc -p tsconfig.es.json",
     "build:browser": "webpack && node node_modules/uglify-es/bin/uglifyjs --source-map -c -m -o msRestAzureBundle.min.js msRestAzureBundle.js",
