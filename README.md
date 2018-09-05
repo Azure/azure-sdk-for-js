@@ -1,4 +1,4 @@
-# Azure Storage SDK for JavaScript
+# Azure Storage SDK V10 for JavaScript
 
 * @azure/storage-blob [![npm version](https://badge.fury.io/js/%40azure%2Fstorage-blob.svg)](https://badge.fury.io/js/%40azure%2Fstorage-blob)
 
@@ -41,7 +41,7 @@ The preferred way to install the Azure Storage SDK for JavaScript is to use the 
 npm install @azure/storage-blob
 ```
 
-In your JavaScript or TypeScript file, import via following:
+In your TypeScript or JavaScript file, import via following:
 
 ```JavaScript
 import * as Azure from "@azure/storage-blob";
@@ -65,7 +65,11 @@ The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) stand
 
 * `azblob`
 
-Download latest released JS bundles from links in the [release page](https://github.com/Azure/azure-storage-js/releases).
+#### Download
+
+Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-storage-js/releases). Or from following links directly:
+
+* Blob [https://aka.ms/downloadazurestoragejsblob](https://aka.ms/downloadazurestoragejsblob)
 
 ## SDK Architecture
 
@@ -138,8 +142,8 @@ console.log("deleted container");
 
 ## More Samples
 
-- [Blob Storage Examples](https://github.com/azure/azure-storage-js/tree/master/blob/samples)
-- [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/test/)
+* [Blob Storage Examples](https://github.com/azure/azure-storage-js/tree/master/blob/samples)
+* [Blob Storage Examples - Test Cases](https://github.com/azure/azure-storage-js/tree/master/blob/test/)
 
 ## License
 
