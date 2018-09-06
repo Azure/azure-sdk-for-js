@@ -7,7 +7,9 @@ import {
 } from "azure-event-hubs";
 import { PartitionContext } from "./partitionContext";
 import { LeaseManager } from "./leaseManager";
-import { EventProcessorHostOptions, OnEphError } from "./modelTypes";
+import {
+  EventProcessorHostOptions, OnEphError, OnReceivedMessage, OnReceivedError
+} from "./modelTypes";
 import { validateType, Dictionary } from "./util/utils";
 import { BlobService } from "./blobService";
 import { AzureBlob } from "./azureBlob";
@@ -18,7 +20,7 @@ import {
   defaultLeaseDurationInSeconds, defaultConsumerGroup, defaultStartupScanDelayInSeconds,
   defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds,
   defaultCheckpointTimeoutInSeconds
-} from './util/constants';
+} from "./util/constants";
 
 /**
  * @ignore
@@ -33,16 +35,18 @@ export interface BaseHostContext {
   onEphError: OnEphError;
   leaseRenewInterval: number;
   leaseDuration: number;
+  partitionIds: string[];
+  contextByPartition: Dictionary<PartitionContext>;
+  receiverByPartition: Dictionary<ReceiveHandler>;
+  blobReferenceByPartition: Dictionary<AzureBlob>;
   storageConnectionString?: string;
   tokenProvider?: TokenProvider;
   initialOffset?: EventPosition;
   storageBlobPrefix?: string;
   blobService?: BlobService;
-  partitionIds: string[];
-  contextByPartition: Dictionary<PartitionContext>;
-  receiverByPartition: Dictionary<ReceiveHandler>;
-  blobReferenceByPartition: Dictionary<AzureBlob>;
   composedBlobPrefix: string;
+  onMessage?: OnReceivedMessage;
+  onError?: OnReceivedError;
   startupScanDelay?: number;
   fastScanInterval?: number;
   slowScanInterval?: number;

@@ -143,8 +143,6 @@ export class PartitionContext {
         }
         log.partitionContext("[%s] Persisting the checkpoint: %O.", this._context.hostName, checkpoint);
         await this._context.checkpointManager.updateCheckpoint(this.lease, checkpoint);
-        this.lease.offset = checkpoint.offset;
-        this.lease.sequenceNumber = checkpoint.sequenceNumber;
       } else {
         const msg = `Ignoring out of date checkpoint with offset: '${checkpoint.offset}', ` +
           `sequenceNumber: ${checkpoint.sequenceNumber} because currently persisted checkpoint ` +

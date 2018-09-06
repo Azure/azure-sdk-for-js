@@ -24,11 +24,23 @@ export class BaseLease implements BaseLeaseInfo {
 
   /**
    * Compares possibleOwner against this.owner
-   * 
+   *
    * @param {string} possibleOwner The owner name to check.
    * @returns {boolean} boolean - true if possibleOwner is the same as this.owner, false otherwise.
    */
   isOwnedBy(possibleOwner: string): boolean {
     return this.owner === possibleOwner;
+  }
+
+  /**
+   * Gets the lease information.
+   * @returns {CompleteLeaseInfo} CompleteLeaseInfo.
+   */
+  getInfo(): BaseLeaseInfo {
+    const info: BaseLeaseInfo = {
+      partitionId: this.partitionId,
+      owner: this.owner,
+    };
+    return info;
   }
 }

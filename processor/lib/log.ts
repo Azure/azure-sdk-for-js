@@ -34,6 +34,21 @@ export const leaseManager = debugModule("azure:eph:leaseManager");
 export const partitionManager = debugModule("azure:eph:partitionManager");
 /**
  * @ignore
+ * log statements for partitionManager
+ */
+export const partitionPump = debugModule("azure:eph:partitionPump");
+/**
+ * @ignore
+ * log statements for pumpManager
+ */
+export const pumpManager = debugModule("azure:eph:pumpManager");
+/**
+ * @ignore
+ * log statements for partitionScanner
+ */
+export const partitionScanner = debugModule("azure:eph:partitionScanner");
+/**
+ * @ignore
  * log statements for host
  */
 export const host = debugModule("azure:eph:host");

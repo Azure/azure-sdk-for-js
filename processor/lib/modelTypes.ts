@@ -9,6 +9,14 @@ import { CheckpointManager } from "./checkpointManager";
 import { LeaseManager } from "./leaseManager";
 
 /**
+ * @ignore
+ */
+export enum CloseReason {
+  leaseLost = "LeaseLost",
+  shutdown = "ShutDown"
+}
+
+/**
  * Provides information about internal errors that occur while managing partitions or leases for
  * the partitions.
  * @interface EPHDiagnosticInfo
