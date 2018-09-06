@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
+    "copy-webpack-plugin": "^4.5.2",
     "es6-promise": "^4.2.4",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",
@@ -50,7 +51,7 @@
     "build:browsertest": "webpack --config webpack.config.test.js && rimraf browser/test/typings",
     "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.0.476",
     "prepare": "npm run build",
-    "clean": "rimraf dist && rimraf browser && rimraf es6dist && rimraf typings && rimraf temp"
+    "clean": "rimraf dist && rimraf browser/test && rimraf browser/*.js && rimraf browser/*.zip && rimraf browser/*.log && rimraf es6dist && rimraf typings && rimraf temp"
   },
   "repository": {
     "type": "git",
