@@ -532,7 +532,6 @@ const copyIncrementalOperationSpec: msRest.OperationSpec = {
     Parameters.comp12
   ],
   headerParameters: [
-    Parameters.metadata,
     Parameters.copySource,
     Parameters.version,
     Parameters.requestId,

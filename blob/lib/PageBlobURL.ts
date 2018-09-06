@@ -51,7 +51,6 @@ export interface IPageBlobUpdateSequenceNumberOptions {
 
 export interface IPageBlobStartCopyIncrementalOptions {
   modifiedAccessConditions?: Models.ModifiedAccessConditions;
-  metadata?: IMetadata;
 }
 
 /**
@@ -377,7 +376,6 @@ export class PageBlobURL extends BlobURL {
   ): Promise<Models.PageBlobCopyIncrementalResponse> {
     return this.pageBlobContext.copyIncremental(copySource, {
       abortSignal: aborter,
-      metadata: options.metadata,
       modifiedAccessConditions: options.modifiedAccessConditions
     });
   }

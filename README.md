@@ -23,7 +23,7 @@ Please note that this version of the SDK is a compete overhaul of the current [A
 
 ### Compatibility
 
-This SDK is compatible with Node.js and browsers, and validated against LTS Node.js versions and latest versions of Chrome, Firefox and Edge.
+This SDK is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=6.5) and latest versions of Chrome, Firefox and Edge.
 
 #### Differences between Node.js and browsers
 

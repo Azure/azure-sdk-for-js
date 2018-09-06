@@ -32,7 +32,11 @@ describe("PageBlobURL", () => {
   });
 
   it("startCopyIncremental", async () => {
-    await pageBlobURL.create(Aborter.None, 1024);
+    await pageBlobURL.create(Aborter.None, 1024, {
+      metadata: {
+        sourcemeta: "val"
+      }
+    });
     await pageBlobURL.uploadPages(Aborter.None, "b".repeat(1024), 0, 1024);
 
     let snapshotResult = await pageBlobURL.createSnapshot(Aborter.None);
@@ -74,5 +78,10 @@ describe("PageBlobURL", () => {
     );
 
     assert.equal(listBlobResponse.segment.blobItems.length, 6);
+
+    const pageBlobProperties = await destPageBlobURL.getProperties(
+      Aborter.None
+    );
+    assert.equal(pageBlobProperties.metadata!.sourcemeta, "val");
   });
 });
