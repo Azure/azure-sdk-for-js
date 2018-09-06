@@ -48,6 +48,14 @@ export interface CheckpointManager {
    */
   createAllCheckpointsIfNotExists(partitionIds: string[]): Promise<void>;
   /**
+   * Create the checkpoint for the given partition if it doesn't exist. Do nothing if it does exist.
+   * The offset/sequenceNumber for a freshly-created checkpoint should be set to StartOfStream/0.
+   * @param {string} partitionId The partitionId to create the checkpoint info for.
+   * @returns {Promise<CheckpointInfo>} Promise<CheckpointInfo> The checkpoint for the given
+   * partition, whether newly created or already existing.
+   */
+  createCheckpointIfNotExists(partitionId: string): Promise<CheckpointInfo>;
+  /**
    * Gets the checkpoint info associated with the given partition. Could return undefined if no
    * checkpoint has been created for that partition.
    * @param {string} partitionId The partitionId to get the checkpoint info for.
@@ -59,9 +67,9 @@ export interface CheckpointManager {
    * Update the checkpoint in the store with the offset/sequenceNumber in the provided checkpoint.
    * @param {CompleteLease} lease Partition information against which to perform a checkpoint.
    * @param {CheckpointInfo} checkpoint offset/sequeceNumber to update the store with
-   * @returns {Promise<boolean>} Promise<boolean> `true` if successfully updated, `false` otherwise.
+   * @returns {Promise<boolean>} Promise<void> resolves with `undefined`; rejects with an `Error`.
    */
-  updateCheckpoint(lease: CompleteLease, checkpoint: CheckpointInfo): Promise<boolean>;
+  updateCheckpoint(lease: CompleteLease, checkpoint: CheckpointInfo): Promise<void>;
   /**
    * Delete the stored checkpoint for the given partition. If there is no stored checkpoint for the
    * given partition, that is treated as success. Deleting the checkpoint HOLDER is allowed

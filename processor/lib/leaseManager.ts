@@ -58,9 +58,9 @@ export interface LeaseManager {
    * lease is expired. An implementation is free to return CompleteLease or its own class derived
    * from CompleteLease, but it is important that getAllLeases run as fast as possible. If it is
    * faster to obtain only the information required for a BaseLease, we heavily recommend doing that.
-   * @returns {Promise<Array<BaseLease | undefined>>} Promise<Array<BaseLease | undefined>>
+   * @returns {Promise<BaseLease[]>} Promise<BaseLease[]>
    */
-  getAllLeases(): Promise<Array<BaseLease | undefined>>;
+  getAllLeases(): Promise<BaseLease[]>;
   /**
    * Create in the store the lease info for the given partition, if it does not exist. Do nothing
    * if it does exist in the store already.
@@ -83,7 +83,7 @@ export interface LeaseManager {
    *
    * Note that it is legal to acquire a lease that is already owned by another host.
    * Lease-stealing is how partitions are redistributed when additional hosts are started.
-   * 
+   *
    * The existing Azure Storage implementation can experience races between two host instances
    * attempting to acquire or steal the lease at the same time. To avoid situations where two host
    * instances both believe that they own the lease, acquisition can fail without errors by

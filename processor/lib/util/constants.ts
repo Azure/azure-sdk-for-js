@@ -21,3 +21,4 @@ export const defaultCheckpointTimeoutInSeconds = 120;
 export const defaultStartupScanDelayInSeconds = 30;
 export const defaultFastScanIntervalInSeconds = 3;
 export const defaultSlowScanIntervalInSeconds = 5;
+export const metadatOwnerName = "OWNINGHOST";

@@ -11,6 +11,38 @@ export interface CreateContainerResult {
   details: ServiceResponse;
 }
 
+export enum LeaseState {
+  /**
+   * The lease state is not specified.
+   */
+  unspecified = "unspecified",
+
+  /**
+   * The lease is in the "available" state.
+   */
+  available = "available",
+
+  /**
+   * The lease is in the "leased" state.
+   */
+  leased = "leased",
+
+  /**
+   * The lease is in the "expired" state.
+   */
+  expired = "expired",
+
+  /**
+   * The lease is in the "breaking" state.
+   */
+  breaking = "breaking",
+
+  /**
+   * The lease is in the "broken" state.
+   */
+  broken = "broken"
+}
+
 export class BlobService {
   private _hostName: string;
   private _connectionString: string;
@@ -289,7 +321,7 @@ export class BlobService {
     if (!options) {
       options = {
         maxResults: 5000,
-        delimiter: "/"
+        include: "metadata"
       };
     }
     return new Promise<StorageBlobService.ListBlobsResult>((resolve, reject) => {
@@ -370,11 +402,11 @@ export class BlobService {
     });
   }
 
-  async deleteBlobIfExists(containerName: string, blobPath: string): Promise<boolean> {
+  async deleteBlobIfExists(containerName: string, blobPath: string): Promise<void> {
     validateType("containerName", containerName, true, "string");
     validateType("blobPath", blobPath, true, "string");
 
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       log.blobService("[%s] Attempting to delete blob for blobPath '%s'.", this._hostName,
         blobPath);
       this._storageBlobService.deleteBlobIfExists(containerName, blobPath, (error, result) => {
@@ -384,7 +416,25 @@ export class BlobService {
           reject(error);
         } else {
           log.blobService("[%s] Deleted blob '%s' ->  %s.", this._hostName, blobPath, result);
-          resolve(result);
+          resolve();
+        }
+      });
+    });
+  }
+
+  async deleteContainerIfExists(containerName: string): Promise<void> {
+    validateType("containerName", containerName, true, "string");
+
+    return new Promise<void>((resolve, reject) => {
+      log.blobService("[%s] Attempting to delete container '%s'.", this._hostName, containerName);
+      this._storageBlobService.deleteContainerIfExists(containerName, (error, result) => {
+        if (error) {
+          log.error("[%s] An error occurred while deleting container '%s': %O.",
+            this._hostName, containerName, getStorageError(error));
+          reject(error);
+        } else {
+          log.blobService("[%s] Deleted container '%s' ->  %s.", this._hostName, containerName, result);
+          resolve();
         }
       });
     });

@@ -147,6 +147,15 @@ export function executePromisesSequentially(promiseFactories: Array<any>, kickst
 }
 
 /**
+ * Generates a random number between the given interval
+ * @param {number} min Min number of the range (inclusive).
+ * @param {number} max Max number of the range (inclusive).
+ */
+export function randomNumberFromInterval(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+/**
  * Provides a Dictionary like structure <Key, Value> of Type T.
  * @interface Dictionary
  */
@@ -223,22 +232,26 @@ export interface RetryConfig<T> {
  * @ignore
  */
 export enum EPHActionStrings {
+  acquireLease = "Acquire Lease",
   gettingPartitionIds = "Getting PartitionIds",
   gettingAllLeases = "Getting All Leases",
+  creatingAllLeases = "Creating All Leases",
+  scanningLeases = "Scanning leases",
   checkingLeases = "Checking Leases",
   checkingExpiredLeases = "Checking Expired Leases",
   renewingLease = "Renewing Lease",
-  renewingLeases = "Renewing Leases",
   stealingLease = "Stealing Lease",
   creatingLease = "Creating Lease",
   creatingCheckpoint = "Creating Checkpoint",
+  updatingCheckpoint = "Updating Checkpoint",
   creatingCheckpointStore = "Creating Checkpoint Store",
   creatingEventProcessor = "Creating Event Processor",
   creatingLeaseStore = "Creating Lease Store",
   initializingStores = "Initializing Stores",
   partitionManagerCleanup = "Partition Manager Cleanup",
   partitionManagerMainLoop = "Partition Manager Main Loop",
-  partitionReceiverManagement = "Partition Receiver Management"
+  partitionReceiverManagement = "Partition Receiver Management",
+  deletingLeaseStore = "Deleting Lease Store"
 }
 
 /**

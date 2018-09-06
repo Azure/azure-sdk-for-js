@@ -86,7 +86,7 @@ export class AzureBlob {
     return await this._blobService.acquireLease(this._containerName, this._blobPath, options);
   }
 
-  async deleteBlobIfExists(): Promise<boolean> {
+  async deleteBlobIfExists(): Promise<void> {
     return await this._blobService.deleteBlobIfExists(this._containerName, this._blobPath);
   }
 }
