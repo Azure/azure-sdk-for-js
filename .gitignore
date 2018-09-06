@@ -17,8 +17,10 @@ TestResults/*
 ./**/.vscode/*
 
 # Node #
+package-lock.json
 node_modules/
 npm-debug.log.*
+lerna-debug.log
 azure_error
 checkstyle-result.xml
 test-result.xml
@@ -28,6 +30,7 @@ test-result.xml
 *.js.map
 *.d.ts
 *.d.ts.map
+!webpack.config.js
 
 # Mac OS #
 .DS_Store

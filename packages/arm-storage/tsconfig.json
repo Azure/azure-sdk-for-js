@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "es6",
+    "sourceMap": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["es5"],
+    "declaration": true,
+    "composite": true
+  },
+  "references": [
+    { "path": "2016-01-01/tsconfig.json" },
+    { "path": "2016-01-01/tsconfig.esm.json" },
+    { "path": "2017-10-01/tsconfig.json" },
+    { "path": "2017-10-01/tsconfig.esm.json" },
+    { "path": "2018-02-01/tsconfig.json" },
+    { "path": "2018-02-01/tsconfig.esm.json" },
+    { "path": "2018-03-01-preview/tsconfig.json" },
+    { "path": "2018-03-01-preview/tsconfig.esm.json" }
+  ],
+  "include": []
+}

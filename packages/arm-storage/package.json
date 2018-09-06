@@ -1,0 +1,38 @@
+{
+  "name": "@azure/arm-storage",
+  "author": "Microsoft Corporation",
+  "description": "StorageManagementClient Library with typescript type definitions for node.js and browser.",
+  "version": "",
+  "dependencies": {
+    "ms-rest-azure-js": "~0.16.156"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./2018-02-01/cjs/lib/storageManagementClient.js",
+  "module": "./2018-02-01/esm/lib/storageManagementClient.js",
+  "types": "./2018-02-01/cjs/lib/storageManagementClient.d.ts",
+  "devDependencies": {
+    "ts-loader": "^4.4.2",
+    "tslib": "^1.9.3",
+    "typescript": "^3.0.3",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+    "build": "tsc -b && webpack"
+  }
+}
