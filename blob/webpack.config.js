@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const ZipPlugin = require("zip-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const version = require("./package.json").version;
 const zipFileName = `azurestoragejs.blob-${version}`;
@@ -44,6 +45,7 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"]
   },
   plugins: [
+    new CopyWebpackPlugin(["browser/ThirdPartyNotice.txt"]),
     new webpack.BannerPlugin({
       banner: banner,
       raw: false
@@ -52,9 +54,9 @@ module.exports = {
       filename: zipFileName,
       pathPrefix: zipFileName,
       include: [
+        "ThirdPartyNotice.txt",
         "azure-storage.blob.js",
-        "azure-storage.blob.min.js",
-        "ThirdPartyNotice.txt"
+        "azure-storage.blob.min.js"
       ],
       // OPTIONAL: see https://github.com/thejoshwolfe/yazl#addfilerealpath-metadatapath-options
       fileOptions: {
