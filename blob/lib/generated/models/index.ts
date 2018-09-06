@@ -2459,18 +2459,6 @@ export interface PageBlobCopyIncrementalOptionalParams extends msRest.RequestOpt
    */
   timeout?: number;
   /**
-   * @member {{ [propertyName: string]: string }} [metadata] Optional.
-   * Specifies a user-defined name-value pair associated with the blob. If no
-   * name-value pairs are specified, the operation will copy the metadata from
-   * the source blob or file to the destination blob. If one or more name-value
-   * pairs are specified, the destination blob is created with the specified
-   * metadata, and metadata is not copied from the source blob or file. Note
-   * that beginning with version 2009-09-19, metadata names must adhere to the
-   * naming rules for C# identifiers. See Naming and Referencing Containers,
-   * Blobs, and Metadata for more information.
-   */
-  metadata?: { [propertyName: string]: string };
-  /**
    * @member {string} [requestId] Provides a client-generated, opaque value
    * with a 1 KB character limit that is recorded in the analytics logs when
    * storage analytics logging is enabled.

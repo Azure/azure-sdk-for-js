@@ -14,7 +14,7 @@
     "node": ">=6.5.0"
   },
   "dependencies": {
-    "ms-rest-js": "0.21.410"
+    "ms-rest-js": "0.21.413"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
