@@ -45,7 +45,7 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"]
   },
   plugins: [
-    new CopyWebpackPlugin(["browser/ThirdPartyNotice.txt"]),
+    new CopyWebpackPlugin(["browser/ThirdPartyNotices.txt"]),
     new webpack.BannerPlugin({
       banner: banner,
       raw: false
@@ -54,7 +54,7 @@ module.exports = {
       filename: zipFileName,
       pathPrefix: zipFileName,
       include: [
-        "ThirdPartyNotice.txt",
+        "ThirdPartyNotices.txt",
         "azure-storage.blob.js",
         "azure-storage.blob.min.js"
       ],
