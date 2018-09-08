@@ -2,25 +2,29 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import {
-  EventHubClient, ReceiveHandler, EventPosition, TokenProvider, DefaultDataTransformer,
+  EventHubClient, EventPosition, TokenProvider, DefaultDataTransformer,
   EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, ConnectionConfig
 } from "azure-event-hubs";
-import { PartitionContext } from "./partitionContext";
 import { LeaseManager } from "./leaseManager";
-import {
-  EventProcessorHostOptions, OnEphError, OnReceivedMessage, OnReceivedError
-} from "./modelTypes";
-import { validateType, Dictionary } from "./util/utils";
+import { PumpManager } from "./pumpManager";
+import { PartitionManager } from "./partitionManager";
+import { PartitionScanner } from "./partitionScanner";
 import { BlobService } from "./blobService";
 import { AzureBlob } from "./azureBlob";
 import { AzureStorageCheckpointLeaseManager } from "./azureStorageCheckpointLeaseManager";
 import { CheckpointManager } from "./checkpointManager";
+import { validateType, Dictionary } from "./util/utils";
+import {
+  EventProcessorHostOptions, OnEphError, OnReceivedMessage, OnReceivedError
+} from "./modelTypes";
 import {
   maxLeaseDurationInSeconds, minLeaseDurationInSeconds, defaultLeaseRenewIntervalInSeconds,
   defaultLeaseDurationInSeconds, defaultConsumerGroup, defaultStartupScanDelayInSeconds,
   defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds,
   defaultCheckpointTimeoutInSeconds
 } from "./util/constants";
+import { PartitionContext } from './partitionContext';
+import { BaseLease } from './baseLease';
 
 /**
  * @ignore
@@ -36,8 +40,6 @@ export interface BaseHostContext {
   leaseRenewInterval: number;
   leaseDuration: number;
   partitionIds: string[];
-  contextByPartition: Dictionary<PartitionContext>;
-  receiverByPartition: Dictionary<ReceiveHandler>;
   blobReferenceByPartition: Dictionary<AzureBlob>;
   storageConnectionString?: string;
   tokenProvider?: TokenProvider;
@@ -51,18 +53,29 @@ export interface BaseHostContext {
   fastScanInterval?: number;
   slowScanInterval?: number;
   checkpointTimeout?: number;
+  withHost(msg: string): string;
+  withHostAndPartition(partition: string | { partitionId: string }, msg: string): string;
 }
 
 /**
  * @ignore
  */
-export interface HostContext extends BaseHostContext {
+export interface HostContextWithCheckpointLeaseManager extends BaseHostContext {
   leaseManager: LeaseManager;
   checkpointManager: CheckpointManager;
   getEventHubClient(): EventHubClient;
   getHubRuntimeInformation(): Promise<EventHubRuntimeInformation>;
   getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation>;
   getPartitionIds(): Promise<string[]>;
+}
+
+export interface HostContextWithPumpManager extends HostContextWithCheckpointLeaseManager {
+  pumpManager: PumpManager;
+}
+
+export interface HostContext extends HostContextWithPumpManager {
+  partitionManager: PartitionManager;
+  partitionScanner: PartitionScanner;
 }
 
 /**
@@ -124,21 +137,8 @@ export namespace HostContext {
     }
   }
 
-  function _create(hostName: string, options: EventProcessorHostOptions): BaseHostContext {
+  function _createBase(hostName: string, options: EventProcessorHostOptions): BaseHostContext {
     validateType("hostName", hostName, true, "string");
-    validateType("options", options, true, "object");
-    validateType("options.eventHubPath", options.eventHubPath, true, "string");
-    validateType("options.eventHubConnectionString", options.eventHubConnectionString, true, "string");
-    validateType("options.storageConnectionString", options.storageConnectionString, false, "string");
-    validateType("options.initialOffset", options.initialOffset, false, "object");
-    validateType("options.consumerGroup", options.consumerGroup, false, "string");
-    validateType("options.leasecontainerName", options.leasecontainerName, false, "string");
-    validateType("options.storageBlobPrefix", options.storageBlobPrefix, false, "string");
-    validateType("options.onEphError", options.onEphError, false, "function");
-    validateType("options.leaseRenewInterval", options.leaseRenewInterval, false, "number");
-    validateType("options.leaseDuration", options.leaseDuration, false, "number");
-    _eitherStorageConnectionStringOrCheckpointLeaseManager(options);
-    _eitherLeaseManagerOrleaseDurationAndRenewal(options);
 
     const onEphErrorFunc: OnEphError = () => {
       // do nothing
@@ -156,6 +156,20 @@ export namespace HostContext {
     if (!options.slowScanInterval) options.slowScanInterval = defaultSlowScanIntervalInSeconds;
     if (!options.checkpointTimeout) options.checkpointTimeout = defaultCheckpointTimeoutInSeconds;
 
+    validateType("options", options, true, "object");
+    validateType("options.eventHubPath", options.eventHubPath, true, "string");
+    validateType("options.eventHubConnectionString", options.eventHubConnectionString, true, "string");
+    validateType("options.storageConnectionString", options.storageConnectionString, false, "string");
+    validateType("options.initialOffset", options.initialOffset, false, "object");
+    validateType("options.consumerGroup", options.consumerGroup, false, "string");
+    validateType("options.leasecontainerName", options.leasecontainerName, false, "string");
+    validateType("options.storageBlobPrefix", options.storageBlobPrefix, false, "string");
+    validateType("options.onEphError", options.onEphError, false, "function");
+    validateType("options.leaseRenewInterval", options.leaseRenewInterval, false, "number");
+    validateType("options.leaseDuration", options.leaseDuration, false, "number");
+    _eitherStorageConnectionStringOrCheckpointLeaseManager(options);
+    _eitherLeaseManagerOrleaseDurationAndRenewal(options);
+
     const config = ConnectionConfig.create(options.eventHubConnectionString!, options.eventHubPath);
     const context: BaseHostContext = {
       hostName: hostName,
@@ -163,8 +177,6 @@ export namespace HostContext {
       connectionConfig: config,
       eventHubPath: options.eventHubPath!,
       tokenProvider: options.tokenProvider,
-      contextByPartition: {},
-      receiverByPartition: {},
       blobReferenceByPartition: {},
       partitionIds: [],
       consumerGroup: options.consumerGroup,
@@ -180,7 +192,19 @@ export namespace HostContext {
       startupScanDelay: options.startupScanDelay,
       fastScanInterval: options.fastScanInterval,
       slowScanInterval: options.slowScanInterval,
-      checkpointTimeout: options.checkpointTimeout
+      checkpointTimeout: options.checkpointTimeout,
+      withHost: (msg: string) => {
+        return `[${hostName}] ${msg}`;
+      },
+      withHostAndPartition: (partition: string | PartitionContext | BaseLease, msg: string) => {
+        let id: string = "N/A";
+        if (typeof partition === "string") {
+          id = partition;
+        } else if (typeof partition === "object") {
+          id = partition.partitionId;
+        }
+        return `[${hostName}] [${id}] ${msg}`;
+      }
     };
 
     if (options.storageConnectionString) {
@@ -193,12 +217,14 @@ export namespace HostContext {
     return context;
   }
 
-  export function create(hostName: string, options: EventProcessorHostOptions): HostContext {
-    const ctxt = _create(hostName, options);
+  function _createWithCheckpointLeaseManager(hostName: string,
+    options: EventProcessorHostOptions): HostContextWithCheckpointLeaseManager {
+    const ctxt = _createBase(hostName, options);
+    const childContext = ctxt as HostContextWithCheckpointLeaseManager;
     const checkpointLeaseManager = new AzureStorageCheckpointLeaseManager(ctxt);
-    (ctxt as HostContext).leaseManager = options.leaseManager || checkpointLeaseManager;
-    (ctxt as HostContext).checkpointManager = options.checkpointManager || checkpointLeaseManager;
-    (ctxt as HostContext).getEventHubClient = () => {
+    childContext.leaseManager = options.leaseManager || checkpointLeaseManager;
+    childContext.checkpointManager = options.checkpointManager || checkpointLeaseManager;
+    childContext.getEventHubClient = () => {
       if (ctxt.tokenProvider) {
         return EventHubClient.createFromTokenProvider(ctxt.connectionConfig.host,
           ctxt.eventHubPath, ctxt.tokenProvider);
@@ -206,26 +232,41 @@ export namespace HostContext {
         return EventHubClient.createFromConnectionString(ctxt.eventHubConnectionString, ctxt.eventHubPath);
       }
     };
-    (ctxt as HostContext).getHubRuntimeInformation = async () => {
-      const client = (ctxt as HostContext).getEventHubClient();
+    childContext.getHubRuntimeInformation = async () => {
+      const client = childContext.getEventHubClient();
       const result = await client.getHubRuntimeInformation();
       client.close().catch(/* do nothing */);
       return result;
     };
-    (ctxt as HostContext).getPartitionInformation = async (id: string) => {
-      const client = (ctxt as HostContext).getEventHubClient();
+    childContext.getPartitionInformation = async (id: string) => {
+      const client = childContext.getEventHubClient();
       const result = await client.getPartitionInformation(id);
       client.close().catch(/* do nothing */);
       return result;
     };
-    (ctxt as HostContext).getPartitionIds = async () => {
+    childContext.getPartitionIds = async () => {
       if (!ctxt.partitionIds.length) {
-        const client = (ctxt as HostContext).getEventHubClient();
+        const client = childContext.getEventHubClient();
         ctxt.partitionIds = await client.getPartitionIds();
         client.close().catch(/* do nothing */);
       }
       return ctxt.partitionIds;
     };
-    return (ctxt as HostContext);
+    return childContext;
+  }
+
+  function _createWithPumpManager(hostName: string, options: EventProcessorHostOptions): HostContextWithPumpManager {
+    const context = _createWithCheckpointLeaseManager(hostName, options);
+    const contextWithPumpManager = context as HostContextWithPumpManager;
+    contextWithPumpManager.pumpManager = new PumpManager(context);
+    return contextWithPumpManager;
+  }
+
+  export function create(hostName: string, options: EventProcessorHostOptions): HostContext {
+    const context = _createWithPumpManager(hostName, options);
+    const hostContext = context as HostContext;
+    hostContext.partitionManager = new PartitionManager(context);
+    hostContext.partitionScanner = new PartitionScanner(context);
+    return hostContext;
   }
 }

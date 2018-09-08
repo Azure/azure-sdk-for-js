@@ -12,10 +12,12 @@ import {
 import * as log from "./log";
 import { LeaseManager } from "./leaseManager";
 import { HostContext } from "./hostContext";
-import { PartitionManager } from "./partitionManager";
 import { CheckpointManager } from "./checkpointManager";
-import { FromConnectionStringOptions, EventProcessorHostOptions, FromTokenProviderOptions, OnReceivedMessage, OnReceivedError } from "./modelTypes";
 import { validateType } from './util/utils';
+import {
+  FromConnectionStringOptions, EventProcessorHostOptions, FromTokenProviderOptions,
+  OnReceivedMessage, OnReceivedError
+} from "./modelTypes";
 
 
 
@@ -29,13 +31,6 @@ export class EventProcessorHost {
    * @private
    */
   private _context: HostContext;
-  /**
-   * @property {PartitionManager} _partitionManager The partition manager responsible for managing
-   * receivers for different partitions within an EventHub.
-   * @private
-   */
-  private _partitionManager: PartitionManager;
-
   /**
    * Creates a new host to process events from an Event Hub.
    * @param {string} hostName Name of the processor host. MUST BE UNIQUE.
@@ -51,7 +46,6 @@ export class EventProcessorHost {
   constructor(hostName: string, options?: EventProcessorHostOptions) {
     if (!options) options = {};
     this._context = HostContext.create(hostName, options);
-    this._partitionManager = new PartitionManager(this._context);
   }
 
   /**
@@ -107,7 +101,7 @@ export class EventProcessorHost {
    * receiving messages from.
    */
   get receivingFromPartitions(): string[] {
-    return Object.keys(this._context.receiverByPartition);
+    return Array.from(this._context.pumpManager.pumps.keys());
   }
 
   /**
@@ -119,9 +113,9 @@ export class EventProcessorHost {
    */
   async start(onMessage: OnReceivedMessage, onError: OnReceivedError): Promise<void> {
     try {
-      await this._partitionManager.start(onMessage, onError);
+      await this._context.partitionManager.start(onMessage, onError);
     } catch (err) {
-      log.error("[%s] An error occurred while starting the EPH: %O", this._context.hostName, err);
+      log.error(this._context.withHost("An error occurred while starting the EPH: %O"), err);
       this._context.onEphError(err);
       throw err;
     }
@@ -133,9 +127,9 @@ export class EventProcessorHost {
    */
   async stop(): Promise<void> {
     try {
-      await this._partitionManager.stop();
+      await this._context.partitionManager.stop();
     } catch (err) {
-      log.error("[%s] An error occurred while stopping the EPH: %O", this._context.hostName, err);
+      log.error(this._context.withHost("An error occurred while stopping the EPH: %O"), err);
       this._context.onEphError(err);
       throw err;
     }

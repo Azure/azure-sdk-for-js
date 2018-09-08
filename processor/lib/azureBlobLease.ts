@@ -50,7 +50,7 @@ export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo 
   constructor(info: AzureBlobLeaseInfo) {
     super(info);
     this.offset = info.offset;
-    this.sequenceNumber = info.sequenceNumber || 0;
+    this.sequenceNumber = info.sequenceNumber != undefined ? info.sequenceNumber : 0;
     this.token = info.token || "";
     this.blob = info.blob;
   }
@@ -64,15 +64,14 @@ export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo 
     try {
       const result = await this.blob.getBlobProperties();
       const currentState: string | undefined = result.lease ? result.lease.state : undefined;
-      log.azurebloblease("[%s] Current state for the lease '%s' for partitionId: '%s' is: '%s'.",
-        this.owner, this.token, this.partitionId, currentState);
+      log.azurebloblease("[%s] [%s] Current state for the lease '%s' is: '%s'.",
+        this.owner, this.partitionId, this.token, this.partitionId, currentState);
       expired = currentState !== "leased";
-      log.azurebloblease("[%s] lease '%s' for partitionId: '%s' expired -> %s.",
-        this.owner, this.token, this.partitionId, expired);
+      log.azurebloblease("[%s] [%s] lease '%s' expired -> %s.",
+        this.owner, this.partitionId, this.token, this.partitionId, expired);
     } catch (err) {
-      log.error("[%s] An error occurred while determining whether the lease '%s' is expired " +
-        "for partitionId '%s': %O", this.owner, this.token,
-        this.partitionId, err);
+      log.error("[%s] [%s] An error occurred while determining whether the lease '%s' is expired " +
+        "for partitionId '%s': %O", this.owner, this.partitionId, this.token, err);
     }
     return expired;
   }
@@ -88,7 +87,7 @@ export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo 
       token: this.token,
       offset: this.offset
     };
-    log.completeLease("[%s] Lease info is: %o", this.owner, info);
+    log.azurebloblease("[%s] [%s] Lease info is: %o", this.owner, this.partitionId, info);
     return info;
   }
 

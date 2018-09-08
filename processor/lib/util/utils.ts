@@ -175,10 +175,14 @@ export function validateType(paramName: string, paramValue: any, required: boole
     throw new TypeError(`${paramName} is required. Given value: ${paramValue}. Hence it cannot be null or undefined.`);
   }
   if (paramValue != undefined) {
-    if (type === "Array" && !Array.isArray(paramValue)) {
-      throw new TypeError(`${paramName} must be of type "${type}".`);
-    } else if (type === "Date" && !(paramValue instanceof Date)) {
-      throw new TypeError(`${paramName} must be of type "${type}".`);
+    if (type === "Array") {
+      if (!Array.isArray(paramValue)) {
+        throw new TypeError(`${paramName} must be of type "${type}".`);
+      }
+    } else if (type === "Date") {
+      if (!(paramValue instanceof Date)) {
+        throw new TypeError(`${paramName} must be of type "${type}".`);
+      }
     } else if (type === "string" || type === "number" || type === "boolean"
       || type === "object" || type === "function") {
       if (typeof paramValue !== type) {

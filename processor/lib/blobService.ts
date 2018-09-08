@@ -5,6 +5,7 @@ import { createBlobService, BlobService as StorageBlobService, ServiceResponse }
 import * as log from "./log";
 import { validateType, getStorageError, Dictionary } from "./util/utils";
 import { defaultMaximumExecutionTimeInMs } from "./util/constants";
+const path = require("path-browserify");
 
 export interface CreateContainerResult {
   created: StorageBlobService.ContainerResult;
@@ -47,7 +48,6 @@ export class BlobService {
   private _hostName: string;
   private _connectionString: string;
   private _storageBlobService: StorageBlobService;
-
   private _beginningOfTime: string = new Date(1990, 0, 1).toUTCString();
 
   constructor(hostName: string, connectionString: string) {
@@ -63,13 +63,14 @@ export class BlobService {
   async ensureContainerAndBlobExist(containerName: string, blobPath: string): Promise<void> {
     validateType("containerName", containerName, true, "string");
     validateType("blobPath", blobPath, true, "string");
+    const partitionId = path.basename(blobPath);
     try {
       await this.ensureContainerExists(containerName);
       await this.ensureBlobExists(containerName, blobPath, "{}");
     } catch (err) {
       const msg = `An error occurred while ensuring that the container and blob exists. ` +
         `It is: \n${err ? err.stack : JSON.stringify(err)}`;
-      log.error(msg);
+      log.error("[%s] [%s] %s", this._hostName, partitionId, msg);
       throw new Error(msg);
     }
   }
@@ -115,16 +116,18 @@ export class BlobService {
   doesBlobExist(containerName: string, blobPath: string): Promise<boolean> {
     validateType("containerName", containerName, true, "string");
     validateType("blobPath", blobPath, true, "string");
+    const partitionId = path.basename(blobPath);
 
     return new Promise<boolean>((resolve, reject) => {
       this._storageBlobService.doesBlobExist(containerName, blobPath, (error, result) => {
         if (error) {
-          log.error("[%s] An error occurred while determining whether the blob '%s' exists in " +
-            "container '%s': %O", this._hostName, blobPath, containerName, getStorageError(error));
+          log.error("[%s] [%s] An error occurred while determining whether the blob '%s' exists in " +
+            "container '%s': %O", this._hostName, partitionId, blobPath, containerName,
+            getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Does blob '%s' exist in container '%s' -> %s.", this._hostName,
-            blobPath, containerName, result.exists);
+          log.blobService("[%s] [%s] Does blob '%s' exist in container '%s' -> %s.", this._hostName,
+            partitionId, blobPath, containerName, result.exists);
           resolve(result.exists);
         }
       });
@@ -135,6 +138,7 @@ export class BlobService {
     validateType("containerName", containerName, true, "string");
     validateType("blobPath", blobPath, true, "string");
     validateType("text", text, true, "string");
+    const partitionId = path.basename(blobPath);
 
     return new Promise<void>((resolve, reject) => {
       const options: StorageBlobService.CreateBlobRequestOptions = {
@@ -142,16 +146,17 @@ export class BlobService {
           DateUnModifiedSince: this._beginningOfTime
         }
       };
-      log.blobService("[%s] Ensuring that blob '%s' exists in container '%s'.",
-        this._hostName, blobPath, containerName);
+      log.blobService("[%s] [%s] Ensuring that blob '%s' exists in container '%s'.",
+        this._hostName, partitionId, blobPath, containerName);
       this._storageBlobService.createBlockBlobFromText(containerName, blobPath, text, options, (error) => {
         if (error) {
           if ((error as any).statusCode === 412) {
             // Blob already exists.
             resolve();
           } else {
-            log.error("[%s] An error occurred while ensuring that blob '%s' exists in " +
-              "container '%s': %O", this._hostName, blobPath, containerName, getStorageError(error));
+            log.error("[%s] [%s] An error occurred while ensuring that blob '%s' exists in " +
+              "container '%s': %O", this._hostName, partitionId, blobPath, containerName,
+              getStorageError(error));
             reject(error);
           }
         } else {
@@ -167,19 +172,20 @@ export class BlobService {
     validateType("blobPath", blobPath, true, "string");
     validateType("leaseId", leaseId, true, "string");
     validateType("options", options, false, "object");
+    const partitionId = path.basename(blobPath);
 
     return new Promise<StorageBlobService.LeaseResult>((resolve, reject) => {
       if (!options) options = {};
-      log.blobService("[%s] Attempting to renew lease '%s' for blobPath '%s'.", this._hostName,
-        leaseId, blobPath);
+      log.blobService("[%s] [%s] Attempting to renew lease '%s' for blobPath '%s'.", this._hostName,
+        partitionId, leaseId, blobPath);
       this._storageBlobService.renewLease(containerName, blobPath, leaseId, options, (error, result) => {
         if (error) {
-          log.error("[%s] An error occurred while renewing lease '%s' for blobPath '%s': %O.",
-            this._hostName, leaseId, blobPath, getStorageError(error));
+          log.error("[%s] [%s] An error occurred while renewing lease '%s' for blobPath '%s': %O.",
+            this._hostName, partitionId, leaseId, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Renewed lease with leaseId: '%s' for blobPath '%s'.",
-            this._hostName, leaseId, blobPath);
+          log.blobService("[%s] [%s] Successfully, renewed lease with leaseId: '%s' for blobPath '%s'.",
+            this._hostName, partitionId, leaseId, blobPath);
           resolve(result);
         }
       });
@@ -192,19 +198,20 @@ export class BlobService {
     validateType("blobPath", blobPath, true, "string");
     validateType("leaseId", leaseId, true, "string");
     validateType("options", options, false, "object");
+    const partitionId = path.basename(blobPath);
 
     return new Promise<StorageBlobService.LeaseResult>((resolve, reject) => {
       if (!options) options = {};
-      log.blobService("[%s] Attempting to release lease '%s' for blobPath '%s'.", this._hostName,
-        leaseId, blobPath);
+      log.blobService("[%s] [%s] Attempting to release lease '%s' for blobPath '%s'.", this._hostName,
+        partitionId, leaseId, blobPath);
       this._storageBlobService.releaseLease(containerName, blobPath, leaseId, options, (error, result) => {
         if (error) {
-          log.error("[%s] An error occurred while releasing lease '%s' for blobPath '%s': %O.",
-            this._hostName, leaseId, blobPath, getStorageError(error));
+          log.error("[%s] [%s] An error occurred while releasing lease '%s' for blobPath '%s': %O.",
+            this._hostName, partitionId, leaseId, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Released lease with leaseId: '%s' for blobPath '%s'.",
-            this._hostName, leaseId, blobPath);
+          log.blobService("[%s] [%s] Successfully, released lease with leaseId: '%s' for blobPath '%s'.",
+            this._hostName, partitionId, leaseId, blobPath);
           resolve(result);
         }
       });
@@ -223,19 +230,20 @@ export class BlobService {
     validateType("blobPath", blobPath, true, "string");
     validateType("text", text, true, "string");
     validateType("options", options, false, "object");
+    const partitionId = path.basename(blobPath);
 
     return new Promise<StorageBlobService.BlobResult>((resolve, reject) => {
       if (!options) options = {};
-      log.blobService("[%s] Updating content '%s' in the container '%s' of the blob '%s' .",
-        this._hostName, text, containerName, blobPath);
+      log.blobService("[%s] [%s] Updating content '%s' in the container '%s' of the blob '%s' .",
+        this._hostName, partitionId, text, containerName, blobPath);
       this._storageBlobService.createBlockBlobFromText(containerName, blobPath, text, options, (error, result) => {
         if (error) {
-          log.error("[%s] An error occurred while updating content '%s' to blobPath '%s': %O.",
-            this._hostName, text, blobPath, getStorageError(error));
+          log.error("[%s] [%s] An error occurred while updating content '%s' to blobPath '%s': %O.",
+            this._hostName, partitionId, text, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Updated blob content '%s' for blobPath '%s'.", this._hostName,
-            text, blobPath);
+          log.blobService("[%s] [%s] Successfully, updated blob content '%s' for blobPath '%s'.",
+            this._hostName, partitionId, text, blobPath);
           resolve(result);
         }
       });
@@ -252,19 +260,20 @@ export class BlobService {
     validateType("containerName", containerName, true, "string");
     validateType("blobPath", blobPath, true, "string");
     validateType("options", options, false, "object");
+    const partitionId = path.basename(blobPath);
 
     return new Promise((resolve, reject) => {
       if (!options) options = {};
-      log.blobService("[%s] Attempting to getcontent from blobPath '%s'.", this._hostName,
-        blobPath);
+      log.blobService("[%s] [%s] Attempting to getcontent from blobPath '%s'.", this._hostName,
+        partitionId, blobPath);
       this._storageBlobService.getBlobToText(containerName, blobPath, options, (error, text, result) => {
         if (error) {
-          log.error("[%s] An error occurred while getting content from blobPath '%s': %O.",
-            this._hostName, blobPath, getStorageError(error));
+          log.error("[%s] [%s] An error occurred while getting content from blobPath '%s': %O.",
+            this._hostName, partitionId, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Fetched blob content '%s' for blobPath '%s'.",
-            this._hostName, text, blobPath);
+          log.blobService("[%s] [%s] Successfully, fetched blob content '%s' for blobPath '%s'.",
+            this._hostName, partitionId, text, blobPath);
           resolve(text);
         }
       });
@@ -277,19 +286,22 @@ export class BlobService {
     validateType("blobPath", blobPath, true, "string");
     validateType("currentLeaseId", currentLeaseId, true, "string");
     validateType("proposedLeaseId", proposedLeaseId, true, "string");
+    const partitionId = path.basename(blobPath);
 
     return new Promise<StorageBlobService.LeaseResult>((resolve, reject) => {
-      log.blobService("[%s] Attempting to change lease '%s' for blobPath '%s' with new lease '%s'.",
-        this._hostName, currentLeaseId, blobPath, proposedLeaseId);
+      log.blobService("[%s] [%s] Attempting to change lease '%s' for blobPath '%s' with new lease '%s'.",
+        this._hostName, partitionId, currentLeaseId, blobPath, proposedLeaseId);
       this._storageBlobService.changeLease(containerName, blobPath, currentLeaseId,
         proposedLeaseId, (error, result) => {
           if (error) {
-            log.error("[%s] An error occurred while changing lease '%s' to '%s' for blobPath " +
-              "'%s': %O.", this._hostName, currentLeaseId, proposedLeaseId, blobPath, error);
+            log.error("[%s] [%s] An error occurred while changing lease '%s' to '%s' for blobPath " +
+              "'%s': %O.", this._hostName, partitionId, currentLeaseId, proposedLeaseId, blobPath,
+              error);
             reject(error);
           } else {
-            log.blobService("[%s] Changed current lease '%s' with proposed lease '%s' for blobPath '%s'.",
-              this._hostName, currentLeaseId, proposedLeaseId, blobPath);
+            log.blobService("[%s] [%s] Successfully, changed current lease '%s' with proposed lease " +
+              "'%s' for blobPath '%s'.", this._hostName, partitionId, currentLeaseId,
+              proposedLeaseId, blobPath);
             resolve(result);
           }
         });
@@ -299,16 +311,19 @@ export class BlobService {
   getBlobProperties(containerName: string, blobPath: string): Promise<StorageBlobService.BlobResult> {
     validateType("containerName", containerName, true, "string");
     validateType("blobPath", blobPath, true, "string");
+    const partitionId = path.basename(blobPath);
 
     return new Promise<StorageBlobService.BlobResult>((resolve, reject) => {
-      log.blobService("[%s] Attempting to get blob props for blobPath '%s'.", this._hostName,
-        blobPath);
+      log.blobService("[%s] [%s] Attempting to get blob props for blobPath '%s'.", this._hostName,
+        partitionId, blobPath);
       this._storageBlobService.getBlobProperties(containerName, blobPath, (error, result) => {
         if (error) {
-          log.error("[%s] An error occurred while getting blob props for blobPath '%s': %O.",
-            this._hostName, blobPath, getStorageError(error));
+          log.error("[%s] [%s] An error occurred while getting blob props for blobPath '%s': %O.",
+            this._hostName, partitionId, blobPath, getStorageError(error));
           reject(error);
         } else {
+          log.blobService("[%s] [%s] Successfully, got blob props for blobPath '%s'.",
+            this._hostName, partitionId, blobPath);
           resolve(result);
         }
       });
@@ -333,6 +348,9 @@ export class BlobService {
             this._hostName, containerName, getStorageError(error));
           reject(error);
         } else {
+          log.blobService("[%s] Successfully, received the list of blobs for container '%s'.",
+            this._hostName, containerName);
+          resolve(result);
           resolve(result);
         }
       });
@@ -342,36 +360,46 @@ export class BlobService {
   getBlobMetadata(containerName: string, blobPath: string): Promise<StorageBlobService.BlobResult> {
     validateType("containerName", containerName, true, "string");
     validateType("blobPath", blobPath, true, "string");
+    const partitionId = path.basename(blobPath);
 
     return new Promise<StorageBlobService.BlobResult>((resolve, reject) => {
-      log.blobService("[%s] Attempting to get blob props for blobPath '%s'.", this._hostName,
-        blobPath);
+      log.blobService("[%s] [%s] Attempting to get blob metadata for blobPath '%s'.", this._hostName,
+        partitionId, blobPath);
       this._storageBlobService.getBlobMetadata(containerName, blobPath, (error, result) => {
         if (error) {
-          log.error("[%s] An error occurred while getting blob props for blobPath '%s': %O.",
-            this._hostName, blobPath, getStorageError(error));
+          log.error("[%s] [%s] An error occurred while getting blob metadata for blobPath '%s': %O.",
+            this._hostName, partitionId, blobPath, getStorageError(error));
           reject(error);
         } else {
+          log.blobService("[%s] [%s] Successfully, got the blob metadata for blobPath '%s'.",
+            this._hostName, partitionId, blobPath);
+          resolve(result);
           resolve(result);
         }
       });
     });
   }
 
-  setBlobMetadata(containerName: string, blobPath: string, metadata: Dictionary<string>): Promise<StorageBlobService.BlobResult> {
+  setBlobMetadata(containerName: string, blobPath: string, metadata: Dictionary<string>,
+    options?: StorageBlobService.BlobRequestOptions): Promise<StorageBlobService.BlobResult> {
+    if (!options) options = {};
     validateType("containerName", containerName, true, "string");
     validateType("blobPath", blobPath, true, "string");
     validateType("metadata", metadata, true, "object");
+    validateType("options", options, true, "object");
+    const partitionId = path.basename(blobPath);
 
     return new Promise<StorageBlobService.BlobResult>((resolve, reject) => {
-      log.blobService("[%s] Attempting to get blob props for blobPath '%s'.", this._hostName,
-        blobPath);
-      this._storageBlobService.setBlobMetadata(containerName, blobPath, metadata, (error, result) => {
+      log.blobService("[%s] [%s] Attempting to set blob metadata for blobPath '%s'.", this._hostName,
+        partitionId, blobPath);
+      this._storageBlobService.setBlobMetadata(containerName, blobPath, metadata, options!, (error, result) => {
         if (error) {
-          log.error("[%s] An error occurred while getting blob props for blobPath '%s': %O.",
-            this._hostName, blobPath, getStorageError(error));
+          log.error("[%s] [%s] An error occurred while setting blob metadata for blobPath '%s': %O.",
+            this._hostName, partitionId, blobPath, getStorageError(error));
           reject(error);
         } else {
+          log.blobService("[%s] [%s] Successfully, set the blob metadata for blobPath '%s'.",
+            this._hostName, partitionId, blobPath);
           resolve(result);
         }
       });
@@ -383,19 +411,20 @@ export class BlobService {
     validateType("containerName", containerName, true, "string");
     validateType("blobPath", blobPath, true, "string");
     validateType("options", options, false, "object");
+    const partitionId = path.basename(blobPath);
 
     return new Promise<StorageBlobService.LeaseResult>((resolve, reject) => {
       if (!options) options = {};
-      log.blobService("[%s] Attempting to acquire lease for blobPath '%s'.", this._hostName,
-        blobPath);
+      log.blobService("[%s] [%s] Attempting to acquire lease for blobPath '%s'.", this._hostName,
+        partitionId, blobPath);
       this._storageBlobService.acquireLease(containerName, blobPath, options, (error, result) => {
         if (error) {
-          log.error("[%s] An error occurred while acquiring lease for blobPath '%s': %O.",
-            this._hostName, blobPath, getStorageError(error));
+          log.error("[%s] [%s] An error occurred while acquiring lease for blobPath '%s': %O.",
+            this._hostName, partitionId, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Acquired lease '%s' for blobPath '%s.",
-            this._hostName, result.id, blobPath);
+          log.blobService("[%s] [%s] Acquired lease '%s' for blobPath '%s.",
+            this._hostName, partitionId, result.id, blobPath);
           resolve(result);
         }
       });
@@ -405,17 +434,19 @@ export class BlobService {
   async deleteBlobIfExists(containerName: string, blobPath: string): Promise<void> {
     validateType("containerName", containerName, true, "string");
     validateType("blobPath", blobPath, true, "string");
+    const partitionId = path.basename(blobPath);
 
     return new Promise<void>((resolve, reject) => {
       log.blobService("[%s] Attempting to delete blob for blobPath '%s'.", this._hostName,
-        blobPath);
+        partitionId, blobPath);
       this._storageBlobService.deleteBlobIfExists(containerName, blobPath, (error, result) => {
         if (error) {
           log.error("[%s] An error occurred while deleting blob for blobPath '%s': %O.",
-            this._hostName, blobPath, getStorageError(error));
+            this._hostName, partitionId, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] Deleted blob '%s' ->  %s.", this._hostName, blobPath, result);
+          log.blobService("[%s] [%s] Deleted blob '%s' ->  %s.", this._hostName, partitionId,
+            partitionId, blobPath, result);
           resolve();
         }
       });

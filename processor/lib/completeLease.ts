@@ -59,7 +59,7 @@ export class CompleteLease extends BaseLease {
    */
   constructor(info: CompleteLeaseInfo) {
     super(info);
-    this.epoch = info.epoch || -1;
+    this.epoch = info.epoch != undefined ? info.epoch : -1;
   }
 
   /**
@@ -68,8 +68,7 @@ export class CompleteLease extends BaseLease {
    */
   incrementEpoch(): number {
     const result = ++this.epoch;
-    log.completeLease("[%s] New epoch for lease with partitionId '%s' is %s.", this.owner,
-      this.partitionId, result);
+    log.completeLease("[%s] [%s] New epoch for lease is %s.", this.owner, this.partitionId, result);
     return result;
   }
 
@@ -82,7 +81,7 @@ export class CompleteLease extends BaseLease {
       ...super.getInfo(),
       epoch: this.epoch
     };
-    log.completeLease("[%s] Lease info is: %o", this.owner, info);
+    log.completeLease("[%s] [%s] Lease info is: %o", this.owner, this.partitionId, info);
     return info;
   }
 }
