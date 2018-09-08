@@ -21,7 +21,7 @@ export class ConcurrentMap<K, V> {
   private _maxPending: number;
   private _map: Map<K, V>;
   private _timeout: number;
-  private _lockIdentifier = `ConcurrentMap-${uuid}`;
+  private _lockIdentifier: string = `ConcurrentMap-${uuid}`;
   constructor(entries?: ReadonlyArray<[K, V]> | null, options?: ConcurrentMapOptions) {
     if (!options) options = {};
 
@@ -34,7 +34,7 @@ export class ConcurrentMap<K, V> {
     const lockOptions: AsyncLockOptions = {
       maxPending: this._maxPending,
       timeout: this._timeout
-    }
+    };
     this._lock = new AsyncLock(lockOptions);
   }
 

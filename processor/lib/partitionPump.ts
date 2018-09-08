@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as log from "./log";
-import { HostContext } from "./hostContext";
+import { HostContextWithCheckpointLeaseManager } from "./hostContext";
 import { CompleteLease } from "./completeLease";
 import {
   ReceiveHandler, EventHubClient, EventPosition, ReceiveOptions, EventData, MessagingError,
@@ -14,7 +14,7 @@ import { AzureBlobLease } from './azureBlobLease';
 import { EPHActionStrings } from './util/utils';
 
 export class PartitionPump {
-  private _context: HostContext;
+  private _context: HostContextWithCheckpointLeaseManager;
   private _lease: CompleteLease;
   private _partitionContext: PartitionContext;
   private _onMessage: OnReceivedMessage;
@@ -23,16 +23,18 @@ export class PartitionPump {
   private _receiveHandler?: ReceiveHandler;
   private _leaseRenewalTimer?: NodeJS.Timer;
 
-  constructor(context: HostContext, lease: CompleteLease, onMessage: OnReceivedMessage,
-    onError: OnReceivedError) {
+  constructor(context: HostContextWithCheckpointLeaseManager, lease: CompleteLease,
+    onMessage: OnReceivedMessage, onError: OnReceivedError) {
     this._context = context;
     this._lease = lease;
+    this._partitionContext = new PartitionContext(this._context, lease.partitionId, lease);
     this._onMessage = onMessage;
     this._onError = onError;
-    this._partitionContext = new PartitionContext(this._context, this._lease.partitionId,
-      this._lease);
   }
 
+  get lease(): CompleteLease {
+    return this._lease;
+  }
   set lease(newLease: CompleteLease) {
     this._lease = newLease;
     if (this._partitionContext) {
@@ -49,10 +51,11 @@ export class PartitionPump {
   }
 
   async start(): Promise<void> {
+    const withHostAndPartition = this._context.withHostAndPartition;
     await this._createNewReceiver();
     await this._scheduleLeaseRenewer();
-    log.partitionPump("[%s] Successfully started the receiver for partitionId '%s' and scheduled " +
-      "lease renewer.", this._context.hostName, this._lease.partitionId);
+    log.partitionPump(withHostAndPartition(this._lease,
+      "Successfully started the receiver and scheduled lease renewer."));
   }
 
   async stop(reason: CloseReason): Promise<void> {
@@ -60,16 +63,16 @@ export class PartitionPump {
   }
 
   private async _createNewReceiver(): Promise<void> {
-    const hostName = this._context.hostName;
     const partitionId = this._partitionContext.partitionId;
+    const withHostAndPartition = this._context.withHostAndPartition;
     try {
       this._client = this._context.getEventHubClient();
     } catch (err) {
-      log.error("[%s] An error occurred while creating the eventhub client for partitionId '%s': %O.",
-        hostName, partitionId, err);
+      log.error(withHostAndPartition(partitionId, "An error occurred while creating " +
+        "the eventhub client: %O."), err);
       throw err;
     }
-    log.partitionPump("[%s] Getting the initial offset for partitionId '%s'.", hostName, partitionId);
+    log.partitionPump(withHostAndPartition(partitionId, "Getting the initial offset."));
     const eventPosition: EventPosition = await this._partitionContext.getInitialOffset();
     let receiveHandler: ReceiveHandler;
     const rcvrOptions: ReceiveOptions = {
@@ -82,30 +85,36 @@ export class PartitionPump {
       this._onMessage(this._partitionContext, eventData);
     };
     const onError: OnError = async (error: MessagingError | Error) => {
-      log.error("[%s] Receiver '%s' received an error: %O.", hostName, receiveHandler.address, error);
+      log.error(withHostAndPartition(partitionId, "Receiver '%s' received an error: %O."),
+        receiveHandler.address, error);
       this._onError!(error);
       try {
         await this._removeReceiver(CloseReason.shutdown);
       } catch (err) {
-        log.error("[%s] Since we received an error %O on the error handler for receiver with " +
-          "address '%s', we tried closing it. However, an error occurred while closing it " +
-          "and it is: %O", hostName, error, receiveHandler.address, err);
+        log.error(withHostAndPartition(partitionId, "Since we received an error %O " +
+          "on the error handler for receiver with address '%s', we tried closing it. However, " +
+          "error occurred while closing it and it is: %O."), error, receiveHandler.address, err);
       }
     };
+    log.partitionPump(withHostAndPartition(partitionId, "Trying to create receiver in " +
+      "consumergroup: '%s' with epoch %d from offset: %s."), rcvrOptions.consumerGroup,
+      rcvrOptions.epoch, eventPosition.getExpression());
     receiveHandler = this._client.receive(partitionId, onMessage, onError, rcvrOptions);
     this._receiveHandler = receiveHandler;
-    log.partitionPump("[%s] Attaching receiver '%s' for partition '%s' with eventPosition: %s",
-      hostName, receiveHandler.address, partitionId, eventPosition.getExpression());
+    log.partitionPump(withHostAndPartition(partitionId, "Created receiver '%s' with eventPosition: %s"),
+      receiveHandler.address, eventPosition.getExpression());
   }
 
   private async _leaseRenewer(): Promise<void> {
+    const withHostAndPartition = this._context.withHostAndPartition;
     let result: boolean = true;
     let error: Error | undefined;
+    log.partitionPump(withHostAndPartition(this._lease, "Lease renewer is active after " +
+      "%d seconds. Trying to renew the lease"), this._context.leaseRenewInterval);
     try {
       result = await this._context.leaseManager.renewLease(this._lease);
       if (result) {
-        log.partitionPump("[%s] Successfully renewed the lease for partitionId '%s'.",
-          this._context.hostName, this._lease.partitionId);
+        log.partitionPump(withHostAndPartition(this._lease, "Successfully renewed the lease."));
       }
     } catch (err) {
       const msg = `An error occurred while renewing the lease for partitionId ` +
@@ -117,62 +126,72 @@ export class PartitionPump {
         error: error,
         action: EPHActionStrings.renewingLease
       });
-      log.error("[%s] %s", this._context.hostName, msg);
+      log.error(withHostAndPartition(this._lease, msg));
     }
     if (!result) {
-      log.error("[%s] Failed to renew the lease for partitionId '%s', result: %s. " +
-        "Shutting down the receiver.", this._context.hostName, this._lease.partitionId, result);
-      this._removeReceiver(CloseReason.leaseLost);
+      log.error(withHostAndPartition(this._lease, "Failed to renew the lease, result: %s. " +
+        "Shutting down the receiver."), result);
+      await this._removeReceiver(CloseReason.leaseLost);
     } else {
       this._scheduleLeaseRenewer();
     }
   }
 
-  private async _scheduleLeaseRenewer() {
+  private _scheduleLeaseRenewer(): void {
+    const withHostAndPartition = this._context.withHostAndPartition;
     const renewalTime = this._context.leaseRenewInterval * 1000;
-    log.partitionPump("[%s] Scheduling lease renewal for partitionId '%s' in %d seconds.",
-      this._context.hostName, this._lease.partitionId, renewalTime);
-    this._leaseRenewalTimer = setTimeout(this._leaseRenewer, renewalTime);
+    log.partitionPump(withHostAndPartition(this._lease, "Scheduling lease renewal in %d seconds."),
+      this._context.leaseRenewInterval);
+    this._leaseRenewalTimer = setTimeout(async () => {
+      try {
+        await this._leaseRenewer();
+      } catch (err) {
+        log.error(withHostAndPartition(this._lease, "An error occurred in the _leaseRenewer(): %O"),
+          err);
+      }
+    }, renewalTime);
   }
 
   private async _removeReceiver(reason: CloseReason): Promise<void> {
-    const hostName = this._context.hostName;
     const receiveHandler = this._receiveHandler;
     const partitionContext = this._partitionContext;
     const partitionId = partitionContext.partitionId;
     const leaseId = (this._lease as AzureBlobLease).token;
+    const withHostAndPartition = this._context.withHostAndPartition;
+
     if (receiveHandler && this._client) {
       try {
         clearTimeout(this._leaseRenewalTimer as NodeJS.Timer);
-        log.partitionManager("[%s] Removing receiver '%s' for partitionId '%s' due to reason '%s'.",
-          hostName, receiveHandler.address, partitionId, reason);
+        log.partitionPump(withHostAndPartition(partitionId,
+          "Removing receiver '%s', due to reason '%s'."), receiveHandler.address, partitionId, reason);
         await this._client.close();
-        log.partitionManager("[%s] Successfully stopped the receiver '%s' for partitionId '%s' " +
-          "due to reason '%s'.", hostName, receiveHandler.address, partitionId, reason);
+        log.partitionPump(withHostAndPartition(partitionId,
+          "Successfully stopped the receiver '%s' for partitionId '%s' due to reason '%s'."),
+          receiveHandler.address, partitionId, reason);
       } catch (err) {
         const msg = `An error occurred while closing the receiver '${receiveHandler.address}' : ` +
           `${err ? err.stack : JSON.stringify(err)}`;
-        log.error("[%s] %s", hostName, msg);
+        log.error(withHostAndPartition(partitionId, "%s"), msg);
       }
       this._receiveHandler = undefined;
       this._client = undefined;
       if (reason !== CloseReason.leaseLost) {
         try {
-          log.partitionManager("[%s] Releasing lease %s after closing the receiver '%s' due to " +
-            "reason '%s'.", hostName, leaseId, receiveHandler.address, reason);
+          log.partitionPump(withHostAndPartition(partitionContext,
+            "Releasing lease %s after closing the receiver '%s' due to reason '%s'."), leaseId,
+            receiveHandler.address, reason);
           await this._context.leaseManager.releaseLease(partitionContext.lease);
         } catch (err) {
           const msg = `An error occurred while releasing the lease ${leaseId} ` +
             `the receiver '${receiveHandler.address}' : ${err ? err.stack : JSON.stringify(err)} `;
-          log.error("[%s] %s", hostName, msg);
+          log.error(withHostAndPartition(partitionId, "%s"), msg);
           if (err.name && err.name !== "LeaseLostError") {
             throw err;
           }
         }
       }
     } else {
-      log.partitionManager("[%s] No receiver was found to remove for partitionId '%s'",
-        hostName, partitionId);
+      log.partitionPump(withHostAndPartition(partitionId, "No receiver was found to remove."));
     }
   }
 }

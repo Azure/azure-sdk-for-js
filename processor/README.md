@@ -22,15 +22,15 @@ or any other IDE that provides better intellisense and exposes the full power of
 
 You can set the following environment variable to get the debug logs.
 
-- Getting debug logs from the Event Processor Host SDK
+- Getting debug logs **only** from the Event Processor Host SDK
 ```bash
 export DEBUG=azure:eph*
 ```
-- Getting debug logs from the Event Processor Host SDK and the protocol level library.
+- Getting debug logs from the Event Processor Host SDK **and** the protocol level library.
 ```bash
 export DEBUG=azure:eph*,rhea*
 ```
-- Getting debug logs from the Event Processor Host SDK, the Event Hub SDK and the protocol level library.
+- Getting debug logs from the **Event Processor Host SDK, the Event Hub SDK and the protocol level library.**
 ```bash
 export DEBUG=azure*,rhea*
 ```
@@ -40,7 +40,7 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransfo
 ```
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
 ```bash
-export DEBUG=azure:eph:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:eph:error,azure:event-hubs:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 #### Logging to a file

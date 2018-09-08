@@ -5,7 +5,7 @@ import { EventData, EventPosition } from "azure-event-hubs";
 import { CompleteLease } from "./completeLease";
 import { CheckpointInfo } from "./checkpointInfo";
 import * as log from "./log";
-import { HostContext } from './hostContext';
+import { HostContextWithCheckpointLeaseManager } from './hostContext';
 import { validateType } from "./util/utils";
 
 /**
@@ -44,7 +44,7 @@ export class PartitionContext {
     return this._context.consumerGroup;
   }
 
-  private _context: HostContext;
+  private _context: HostContextWithCheckpointLeaseManager;
   private _offset: string = EventPosition.startOfStream;
   private _sequenceNumber: number = 0;
 
@@ -54,7 +54,7 @@ export class PartitionContext {
    * @param {string} owner The name of the owner.
    * @param {CompleteLease} lease The lease object.
    */
-  constructor(context: HostContext, partitionId: string, lease: CompleteLease) {
+  constructor(context: HostContextWithCheckpointLeaseManager, partitionId: string, lease: CompleteLease) {
     this._context = context;
     this.partitionId = partitionId;
     this.lease = lease;
@@ -87,7 +87,8 @@ export class PartitionContext {
       partitionId: this.partitionId,
       sequenceNumber: this._sequenceNumber
     };
-    log.partitionContext("[%s] Checkpointing: %O", this._context.hostName, capturedCheckpoint);
+    const withHostAndPartiton = this._context.withHostAndPartition;
+    log.partitionContext(withHostAndPartiton(this, "Checkpointing: %O"), capturedCheckpoint);
     await this._persistCheckpoint(capturedCheckpoint);
   }
 
@@ -103,7 +104,8 @@ export class PartitionContext {
    */
   async checkpointFromEventData(eventData: EventData): Promise<void> {
     const data = CheckpointInfo.createFromEventData(this.partitionId, eventData);
-    log.partitionContext("[%s] Checkpointing from ED: %O", this._context.hostName, data);
+    const withHostAndPartiton = this._context.withHostAndPartition;
+    log.partitionContext(withHostAndPartiton(this, "Checkpointing from ED: %O"), data);
     await this._persistCheckpoint(data);
   }
 
@@ -112,10 +114,11 @@ export class PartitionContext {
    */
   async getInitialOffset(): Promise<EventPosition> {
     const startingCheckpoint = await this._context.checkpointManager.getCheckpoint(this.partitionId);
+    const withHostAndPartiton = this._context.withHostAndPartition;
     let result: EventPosition;
     if (!startingCheckpoint) {
       if (this._context.initialOffset) {
-        log.partitionContext("[%s] User provided initial offset: %s", this._context.hostName,
+        log.partitionContext(withHostAndPartiton(this, "User provided initial offset: %s"),
           this._context.initialOffset.getExpression());
       }
       result = this._context.initialOffset || EventPosition.fromOffset(this._offset);
@@ -123,11 +126,12 @@ export class PartitionContext {
       if (startingCheckpoint.offset != undefined) this._offset = startingCheckpoint.offset;
       if (startingCheckpoint.sequenceNumber != undefined) this._sequenceNumber = startingCheckpoint.sequenceNumber;
       result = EventPosition.fromOffset(this._offset);
-      log.partitionContext("[%s] Retrieved starting offset/sequence number: %s/%d",
-        this._context.hostName, this._offset, this._sequenceNumber);
+      log.partitionContext(withHostAndPartiton(this, "Retrieved starting offset/sequence " +
+        "number: %s/%d"),
+        this._offset, this._sequenceNumber);
     }
-    log.partitionContext("[%s] Initial position provider offset: %s, sequenceNumber: %d, enqueuedTime: %d",
-      this._context.hostName, result.offset, result.sequenceNumber, result.enqueuedTime);
+    log.partitionContext(withHostAndPartiton(this, "Initial position provider offset: %s, " +
+      "sequenceNumber: %d, enqueuedTime: %d"), result.offset, result.sequenceNumber, result.enqueuedTime);
     return result;
   }
 
@@ -135,26 +139,27 @@ export class PartitionContext {
    * @ignore
    */
   private async _persistCheckpoint(checkpoint: CheckpointInfo): Promise<void> {
+    const withHostAndPartiton = this._context.withHostAndPartition;
     try {
       const inStoreCheckpoint = await this._context.checkpointManager.getCheckpoint(checkpoint.partitionId);
       if (inStoreCheckpoint == undefined || checkpoint.sequenceNumber >= inStoreCheckpoint.sequenceNumber) {
         if (inStoreCheckpoint == undefined) {
           await this._context.checkpointManager.createCheckpointIfNotExists(checkpoint.partitionId);
         }
-        log.partitionContext("[%s] Persisting the checkpoint: %O.", this._context.hostName, checkpoint);
+        log.partitionContext(withHostAndPartiton(this, "Persisting the checkpoint: %O."), checkpoint);
         await this._context.checkpointManager.updateCheckpoint(this.lease, checkpoint);
       } else {
         const msg = `Ignoring out of date checkpoint with offset: '${checkpoint.offset}', ` +
           `sequenceNumber: ${checkpoint.sequenceNumber} because currently persisted checkpoint ` +
           ` has higher offset '${inStoreCheckpoint.offset}', sequenceNumber ` +
           `${inStoreCheckpoint.sequenceNumber}.`;
-        log.error("[%s] %s", this._context.hostName, msg);
+        log.error(withHostAndPartiton(this, "%s"), msg);
         throw new Error(msg);
       }
     } catch (err) {
       const msg = `An error occurred while checkpointing info for partition ` +
         `'${checkpoint.partitionId}': ${err ? err.stack : JSON.stringify(err)}.`;
-      log.error("[%s] %s", this._context.hostName, msg);
+      log.error(withHostAndPartiton(this, "%s"), msg);
       throw err;
     }
   }

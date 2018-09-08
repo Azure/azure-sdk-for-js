@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 import {
   EventProcessorHost, OnReceivedError, OnReceivedMessage, EventData, PartitionContext, delay
 } from "../lib";
@@ -74,21 +77,24 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     }
   );
   // Message handler
-  let count: number = 0;
+  let partionCount: { [x: string]: number } = {};
   const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
-    count++;
-    console.log("##### [%s] %d - Rx message from '%s': '%s'", ephName, count, context.partitionId,
-      data.body);
+    (!partionCount[context.partitionId])
+      ? partionCount[context.partitionId] = 1
+      : partionCount[context.partitionId]++;
+    console.log("##### [%s] %d - Rx message from partition: '%s', offset: '%s'", ephName,
+      partionCount[context.partitionId], context.partitionId, data.offset);
     // Checkpointing every 200th event
-    if (count % 200 === 0) {
+    if (partionCount[context.partitionId] % 5 === 0) {
       try {
         console.log("***** [%s] EPH is currently receiving messages from partitions: %O", ephName,
           eph.receivingFromPartitions);
         await context.checkpoint();
-        console.log("$$$$ [%s] Successfully checkpointed message number %d", ephName, count);
+        console.log("$$$$ [%s] Successfully checkpointed message number %d", ephName,
+          partionCount[context.partitionId]);
       } catch (err) {
         console.log(">>>>>>> [%s] An error occurred while checkpointing msg number %d: %O",
-          ephName, count, err);
+          ephName, partionCount[context.partitionId], err);
       }
     }
   };

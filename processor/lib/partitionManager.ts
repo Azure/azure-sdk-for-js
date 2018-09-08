@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import { HostContext } from "./hostContext";
+import { HostContextWithPumpManager } from "./hostContext";
 import { validateType, RetryConfig, retry, EPHActionStrings } from "./util/utils";
 import { delay } from "azure-event-hubs";
 import * as log from "./log";
 import { OnReceivedMessage, OnReceivedError, CloseReason } from "./modelTypes";
-import { PumpManager } from "./pumpManager";
 import { PartitionScanner } from './partitionScanner';
 
 /**
@@ -14,16 +13,14 @@ import { PartitionScanner } from './partitionScanner';
  */
 export class PartitionManager {
 
-  private _context: HostContext;
-  private _pumpManager: PumpManager;
+  private _context: HostContextWithPumpManager;
   private _partitionScanner: PartitionScanner;
   private _isCancelRequested: boolean = false;
   private _runTask?: Promise<void>;
 
-  constructor(context: HostContext) {
+  constructor(context: HostContextWithPumpManager) {
     this._context = context;
-    this._pumpManager = new PumpManager(this._context);
-    this._partitionScanner = new PartitionScanner(this._context, this._pumpManager);
+    this._partitionScanner = new PartitionScanner(this._context);
   }
 
   /**
@@ -46,6 +43,7 @@ export class PartitionManager {
    * @ignore
    */
   async stop(): Promise<void> {
+    const withHost = this._context.withHost;
     this._isCancelRequested = true;
     const localRunTask = this._runTask;
     if (localRunTask) {
@@ -54,7 +52,7 @@ export class PartitionManager {
       } catch (err) {
         const msg = `An error occurred while stopping the run task: ` +
           `${err ? err.stack : JSON.stringify(err)}.`;
-        log.error("[%s] %s", this._context.hostName, msg);
+        log.error(withHost("%s"), msg);
       } finally {
         await this._reset();
       }
@@ -66,9 +64,8 @@ export class PartitionManager {
    * @ignore
    */
   private async _reset(): Promise<void> {
-    log.partitionManager("[%s] Resetting the partition manager.", this._context.hostName);
-    this._context.receiverByPartition = {};
-    this._context.contextByPartition = {};
+    const withHost = this._context.withHost;
+    log.partitionManager(withHost("Resetting the partition manager."));
     this._context.blobReferenceByPartition = {};
     this._context.onMessage = undefined;
     this._context.onError = undefined;
@@ -78,12 +75,13 @@ export class PartitionManager {
    * @ignore
    */
   private async _run(): Promise<void> {
+    const withHost = this._context.withHost;
     try {
       await this._scan(true);
     } catch (err) {
       const msg = `An error occurred in the main loop of the partition ` +
         `manager: ${err ? err.stack : JSON.stringify(err)}. Hence shutting down.`;
-      log.error("[%s] %s", this._context.hostName, msg);
+      log.error(withHost("%s"), msg);
       this._context.onEphError({
         hostName: this._context.hostName,
         partitionId: "N/A",
@@ -93,12 +91,12 @@ export class PartitionManager {
     }
     try {
       // clean up
-      log.partitionManager("[%s] Shutting down all the receivers.", this._context.hostName);
-      await this._pumpManager.removeAllPumps(CloseReason.shutdown);
+      log.partitionManager(withHost("Shutting down all the receivers."));
+      await this._context.pumpManager.removeAllPumps(CloseReason.shutdown);
     } catch (err) {
       const msg = `An error occurred while shutting down the partition ` +
         `manager: ${err ? err.stack : JSON.stringify(err)}.`;
-      log.error("[%s] %s", this._context.hostName, msg);
+      log.error(withHost("%s"), msg);
       this._context.onEphError({
         hostName: this._context.hostName,
         partitionId: "N/A",
@@ -113,8 +111,9 @@ export class PartitionManager {
    */
   private async _cachePartitionIds(): Promise<void> {
     const hostName = this._context.hostName;
+    const withHost = this._context.withHost;
     if (!this._context.partitionIds.length) {
-      log.partitionManager("[%s] Get the list of partition ids.", hostName);
+      log.partitionManager(withHost("Get the list of partition ids."));
       const config: RetryConfig<string[]> = {
         hostName: hostName,
         operation: () => this._context.getPartitionIds(),
@@ -132,13 +131,11 @@ export class PartitionManager {
    */
   private async _initializeStores(): Promise<void> {
     this._isCancelRequested = false;
-    this._context.contextByPartition = {};
-    this._context.receiverByPartition = {};
     const hostName = this._context.hostName;
-
+    const withHost = this._context.withHost;
     validateType("this._context.onMessage", this._context.onMessage, true, "function");
     validateType("this._context.onError", this._context.onError, true, "function");
-    log.partitionManager("[%s] Ensuring that the lease store exists.", hostName);
+    log.partitionManager(withHost("Ensuring that the lease store exists."));
     const leaseManager = this._context.leaseManager;
     const checkpointManager = this._context.checkpointManager;
     if (!await leaseManager.leaseStoreExists()) {
@@ -153,7 +150,7 @@ export class PartitionManager {
       await retry<void>(config);
     }
 
-    log.partitionManager("[%s] Ensure the checkpointstore exists.", hostName);
+    log.partitionManager(withHost("Ensure the checkpointstore exists."));
     if (!await checkpointManager.checkpointStoreExists()) {
       const config: RetryConfig<void> = {
         hostName: hostName,
@@ -166,7 +163,7 @@ export class PartitionManager {
       await retry<void>(config);
     }
 
-    log.partitionManager("[%s] Ensure that the leases exist.", hostName);
+    log.partitionManager(withHost("Ensure that the leases exist."));
     const leaseConfig: RetryConfig<void> = {
       hostName: hostName,
       operation: () => leaseManager.createAllLeasesIfNotExists(this._context.partitionIds),
@@ -177,7 +174,7 @@ export class PartitionManager {
     };
     await retry<void>(leaseConfig);
 
-    log.partitionManager("[%s] Ensure that the checkpoint exists.", hostName);
+    log.partitionManager(withHost("Ensure that the checkpoint exists."));
     const checkpointConfig: RetryConfig<void> = {
       hostName: hostName,
       operation: () => checkpointManager.createAllCheckpointsIfNotExists(this._context.partitionIds),
@@ -193,13 +190,19 @@ export class PartitionManager {
    * @ignore
    */
   private async _scan(isFirst: boolean): Promise<void> {
+    const withHost = this._context.withHost;
     while (!this._isCancelRequested) {
+      if (isFirst) {
+        log.partitionManager(withHost("Starting the first scan."));
+      }
       const didSteal = await this._partitionScanner.scan(isFirst);
+      log.partitionManager(withHost("Did we steal any leases in this scan: %s."), didSteal);
       let seconds: number = didSteal ? this._context.fastScanInterval! : this._context.slowScanInterval!;
       if (isFirst) {
         seconds = this._context.startupScanDelay!;
         isFirst = false;
       }
+      log.partitionManager(withHost("Sleeping for %d seconds before starting the next scan."), seconds);
       await delay(seconds * 1000);
     }
   }
