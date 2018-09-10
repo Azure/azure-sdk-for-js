@@ -238,8 +238,8 @@ function base64UrlToByteArray(str: string): Uint8Array | undefined {
   return base64.decodeString(str);
 }
 
-function splitSerializeName(prop: string): Array<string> {
-  const classes: Array<string> = [];
+function splitSerializeName(prop: string | undefined): string[] {
+  const classes: string[] = [];
   let partialclass = "";
   if (prop) {
     const subwords = prop.split(".");
@@ -398,7 +398,6 @@ function serializeSequenceType(serializer: Serializer, mapper: SequenceMapper, o
 }
 
 function serializeDictionaryType(serializer: Serializer, mapper: DictionaryMapper, object: any, objectName: string) {
-
   if (typeof object !== "object") {
     throw new Error(`${objectName} must be of type object.`);
   }
@@ -414,44 +413,47 @@ function serializeDictionaryType(serializer: Serializer, mapper: DictionaryMappe
   return tempDictionary;
 }
 
+/**
+ * Resolves a composite mapper's modelProperties.
+ * @param serializer the serializer containing the entire set of mappers
+ * @param mapper the composite mapper to resolve
+ */
+function resolveModelProperties(serializer: Serializer, mapper: CompositeMapper, objectName: string): { [propertyName: string]: Mapper } {
+  let modelProps = mapper.type.modelProperties;
+  if (!modelProps) {
+    const className = mapper.type.className;
+    if (!className) {
+      throw new Error(`Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(mapper, undefined, 2)}".`);
+    }
+
+    const modelMapper = serializer.modelMappers[className];
+    if (!modelMapper) {
+      throw new Error(`mapper() cannot be null or undefined for model "${className}".`);
+    }
+    modelProps = modelMapper.type.modelProperties;
+    if (!modelProps) {
+      throw new Error(`modelProperties cannot be null or undefined in the ` +
+        `mapper "${JSON.stringify(modelMapper)}" of type "${className}" for object "${objectName}".`);
+    }
+  }
+
+  return modelProps;
+}
+
 function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper, object: any, objectName: string) {
   // check for polymorphic discriminator
   if (mapper.type.polymorphicDiscriminator) {
     mapper = getPolymorphicMapper(serializer, mapper, object, objectName, "serialize");
   }
 
-  const payload: any = {};
-  let modelMapper: CompositeMapper = {
-    required: false,
-    serializedName: "serializedName",
-    type: {
-      name: "Composite",
-      className: "className",
-      modelProperties: {}
-    }
-  };
   if (object != undefined) {
-    let modelProps = mapper.type.modelProperties;
-    if (!modelProps) {
-      const className = mapper.type.className;
-      if (!className) {
-        throw new Error(`Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(mapper, undefined, 2)}".`);
-      }
-      // get the mapper if modelProperties of the CompositeType is not present and
-      // then get the modelProperties from it.
-      modelMapper = (serializer.modelMappers as { [key: string]: any })[className];
-      if (!modelMapper) {
-        throw new Error(`mapper() cannot be null or undefined for model "${className}".`);
-      }
-      modelProps = modelMapper.type.modelProperties;
-      if (!modelProps) {
-        throw new Error(`modelProperties cannot be null or undefined in the ` +
-          `mapper "${JSON.stringify(modelMapper)}" of type "${className}" for object "${objectName}".`);
-      }
-    }
-
+    const payload: any = {};
+    const modelProps = resolveModelProperties(serializer, mapper, objectName);
     for (const key of Object.keys(modelProps)) {
       const propertyMapper = modelProps[key];
+      if (propertyMapper.readOnly) {
+        continue;
+      }
 
       let propName: string | undefined;
       let parentObject: any = payload;
@@ -472,11 +474,6 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
           }
           parentObject = parentObject[pathName];
         }
-      }
-
-      // make sure that readOnly properties are not sent on the wire
-      if (propertyMapper.readOnly) {
-        continue;
       }
 
       if (parentObject != undefined) {
@@ -500,36 +497,29 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
         }
       }
     }
+
+    const additionalPropertiesMapper = mapper.type.additionalProperties;
+    if (additionalPropertiesMapper) {
+      const propNames = Object.keys(modelProps);
+      for (const clientPropName in object) {
+        const isAdditionalProperty = propNames.every(pn => pn !== clientPropName);
+        if (isAdditionalProperty) {
+          payload[clientPropName] = serializer.serialize(additionalPropertiesMapper, object[clientPropName], objectName + '["' + clientPropName + '"]');
+        }
+      }
+    }
+
     return payload;
   }
   return object;
 }
 
 function deserializeCompositeType(serializer: Serializer, mapper: CompositeMapper, responseBody: any, objectName: string): any {
-  /*jshint validthis: true */
   if (mapper.type.polymorphicDiscriminator) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, objectName, "deserialize");
   }
 
-  responseBody = responseBody || {};
-  let modelProps = mapper.type.modelProperties;
-  if (!modelProps) {
-    if (!mapper.type.className) {
-      throw new Error(`Class name for model "${objectName}" is not provided in the mapper "${JSON.stringify(mapper)}"`);
-    }
-    // get the mapper if modelProperties of the CompositeType is not present and
-    // then get the modelProperties from it.
-    const modelMapper: CompositeMapper = serializer.modelMappers[mapper.type.className];
-    if (!modelMapper) {
-      throw new Error(`mapper() cannot be null or undefined for model "${mapper.type.className}"`);
-    }
-    modelProps = modelMapper.type.modelProperties;
-    if (!modelProps) {
-      throw new Error(`modelProperties cannot be null or undefined in the ` +
-        `mapper "${JSON.stringify(modelMapper)}" of type "${mapper.type.className}" for responseBody "${objectName}".`);
-    }
-  }
-
+  const modelProps = resolveModelProperties(serializer, mapper, objectName);
   let instance: { [key: string]: any } = {};
   for (const key of Object.keys(modelProps)) {
     const propertyMapper = modelProps[key];
@@ -557,8 +547,9 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
         if (propertyMapper.xmlIsWrapped) {
           unwrappedProperty = responseBody[xmlName!];
           unwrappedProperty = unwrappedProperty && unwrappedProperty[xmlElementName!];
-          if (unwrappedProperty === undefined) {
-            // undefined means a wrapped list was empty
+
+          const isEmptyWrappedList = unwrappedProperty === undefined;
+          if (isEmptyWrappedList) {
             unwrappedProperty = [];
           }
         }
@@ -586,6 +577,26 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
       }
     }
   }
+
+  const additionalPropertiesMapper = mapper.type.additionalProperties;
+  if (additionalPropertiesMapper) {
+    const isAdditionalProperty = (responsePropName: string) => {
+      for (const clientPropName in modelProps) {
+        const paths = splitSerializeName(modelProps[clientPropName].serializedName);
+        if (paths[0] === responsePropName) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    for (const responsePropName in responseBody) {
+      if (isAdditionalProperty(responsePropName)) {
+        instance[responsePropName] = serializer.deserialize(additionalPropertiesMapper, responseBody[responsePropName], objectName + '["' + responsePropName + '"]');
+      }
+    }
+  }
+
   return instance;
 }
 
@@ -757,9 +768,11 @@ export interface CompositeMapperType {
 
   // Only one of the two below properties should be present.
   // Use className to reference another type definition,
-  // and use modelProperties when the reference to the other type has been resolved.
+  // and use modelProperties/additionalProperties when the reference to the other type has been resolved.
   className?: string;
+
   modelProperties?: { [propertyName: string]: Mapper };
+  additionalProperties?: Mapper;
 
   uberParent?: string;
   polymorphicDiscriminator?: string | PolymorphicDiscriminator;
