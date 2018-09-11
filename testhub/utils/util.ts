@@ -14,3 +14,12 @@ export function setCurrentCommand(cmd: "send" | "receive" | "send-receive" | "ep
 export function getCurrentCommand(): "send" | "receive" | "send-receive" | "testhub" | "eph" {
   return currentCommand;
 }
+
+/**
+ * Generates a random number between the given interval
+ * @param {number} min Min number of the range (inclusive).
+ * @param {number} max Max number of the range (inclusive).
+ */
+export function randomNumberFromInterval(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
