@@ -134,6 +134,7 @@ export async function handler(argv: any): Promise<void> {
             log("##### [%s] %d - Checkpointing message from partition '%s', with offset " +
               "'%s', sequenceNumber %d.", eph.hostName, count, context.partitionId, data.offset,
               data.sequenceNumber);
+            log("***** [%s] Number of partitions: %O", eph.hostName, eph.receivingFromPartitions.length);
             log("***** [%s] EPH is currently receiving messages from partitions: %s, total number %d.",
               eph.hostName, eph.receivingFromPartitions.toString(), eph.receivingFromPartitions.length);
             await context.checkpoint();

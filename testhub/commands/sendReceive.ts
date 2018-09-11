@@ -2,8 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 import { CommandBuilder } from "yargs";
 import { EventHubClient, EventPosition, EventData, delay } from "azure-event-hubs";
-import { randomNumberFromInterval } from "azure-event-hubs";
-import { log, setCurrentCommand } from "../utils/util";
+import { log, setCurrentCommand, randomNumberFromInterval } from "../utils/util";
 import * as uuid from "uuid/v4";
 
 export const command = "send-receive";
