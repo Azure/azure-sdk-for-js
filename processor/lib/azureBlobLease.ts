@@ -32,7 +32,7 @@ export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo 
   /**
    * @property {string} offset The offset of the event to be checked in.
    */
-  offset?: string;
+  offset: string;
   /**
    * @property {string} sequenceNumber The sequence number of the event to be checked in.
    */
@@ -49,7 +49,7 @@ export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo 
 
   constructor(info: AzureBlobLeaseInfo) {
     super(info);
-    this.offset = info.offset;
+    this.offset = info.offset || "-1";
     this.sequenceNumber = info.sequenceNumber != undefined ? info.sequenceNumber : 0;
     this.token = info.token || "";
     this.blob = info.blob;
@@ -81,14 +81,12 @@ export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo 
    * @returns {LeaseInfo} LeaseInfo.
    */
   getInfo(): LeaseInfo {
-    const info: LeaseInfo = {
-      ...super.getInfo(),
-      sequenceNumber: this.sequenceNumber,
-      token: this.token,
-      offset: this.offset
-    };
+    const info = super.getInfo();
+    (info as LeaseInfo).sequenceNumber = this.sequenceNumber;
+    (info as LeaseInfo).token = this.token;
+    (info as LeaseInfo).offset = this.offset;
     log.azurebloblease("[%s] [%s] Lease info is: %o", this.owner, this.partitionId, info);
-    return info;
+    return (info as LeaseInfo);
   }
 
   /**

@@ -84,8 +84,8 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
       : partionCount[context.partitionId]++;
     console.log("##### [%s] %d - Rx message from partition: '%s', offset: '%s'", ephName,
       partionCount[context.partitionId], context.partitionId, data.offset);
-    // Checkpointing every 200th event
-    if (partionCount[context.partitionId] % 5 === 0) {
+    // Checkpointing every 100th event
+    if (partionCount[context.partitionId] % 100 === 0) {
       try {
         console.log("***** [%s] EPH is currently receiving messages from partitions: %O", ephName,
           eph.receivingFromPartitions);

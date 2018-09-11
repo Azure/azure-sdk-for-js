@@ -142,13 +142,7 @@ export class PartitionContext {
     const withHostAndPartiton = this._context.withHostAndPartition;
     try {
       const inStoreCheckpoint = await this._context.checkpointManager.getCheckpoint(checkpoint.partitionId);
-      if (inStoreCheckpoint == undefined || checkpoint.sequenceNumber >= inStoreCheckpoint.sequenceNumber) {
-        if (inStoreCheckpoint == undefined) {
-          await this._context.checkpointManager.createCheckpointIfNotExists(checkpoint.partitionId);
-        }
-        log.partitionContext(withHostAndPartiton(this, "Persisting the checkpoint: %O."), checkpoint);
-        await this._context.checkpointManager.updateCheckpoint(this.lease, checkpoint);
-      } else {
+      if (inStoreCheckpoint && inStoreCheckpoint.sequenceNumber >= checkpoint.sequenceNumber) {
         const msg = `Ignoring out of date checkpoint with offset: '${checkpoint.offset}', ` +
           `sequenceNumber: ${checkpoint.sequenceNumber} because currently persisted checkpoint ` +
           ` has higher offset '${inStoreCheckpoint.offset}', sequenceNumber ` +
@@ -156,6 +150,10 @@ export class PartitionContext {
         log.error(withHostAndPartiton(this, "%s"), msg);
         throw new Error(msg);
       }
+      log.partitionContext(withHostAndPartiton(this, "Persisting the checkpoint: %O."), checkpoint);
+      await this._context.checkpointManager.updateCheckpoint(this.lease, checkpoint);
+      log.partitionContext(withHostAndPartiton(this, "Successfully persisted the checkpoint: %O."),
+        checkpoint);
     } catch (err) {
       const msg = `An error occurred while checkpointing info for partition ` +
         `'${checkpoint.partitionId}': ${err ? err.stack : JSON.stringify(err)}.`;

@@ -351,7 +351,6 @@ export class BlobService {
           log.blobService("[%s] Successfully, received the list of blobs for container '%s'.",
             this._hostName, containerName);
           resolve(result);
-          resolve(result);
         }
       });
     });
@@ -371,9 +370,8 @@ export class BlobService {
             this._hostName, partitionId, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] [%s] Successfully, got the blob metadata for blobPath '%s'.",
-            this._hostName, partitionId, blobPath);
-          resolve(result);
+          log.blobService("[%s] [%s] Successfully, got the blob metadata %o for blobPath '%s'.",
+            this._hostName, partitionId, result, blobPath);
           resolve(result);
         }
       });
@@ -390,16 +388,17 @@ export class BlobService {
     const partitionId = path.basename(blobPath);
 
     return new Promise<StorageBlobService.BlobResult>((resolve, reject) => {
-      log.blobService("[%s] [%s] Attempting to set blob metadata for blobPath '%s'.", this._hostName,
-        partitionId, blobPath);
+      log.blobService("[%s] [%s] Attempting to set blob metadata %o for blobPath '%s'.",
+        this._hostName, partitionId, metadata, blobPath);
       this._storageBlobService.setBlobMetadata(containerName, blobPath, metadata, options!, (error, result) => {
         if (error) {
           log.error("[%s] [%s] An error occurred while setting blob metadata for blobPath '%s': %O.",
             this._hostName, partitionId, blobPath, getStorageError(error));
           reject(error);
         } else {
-          log.blobService("[%s] [%s] Successfully, set the blob metadata for blobPath '%s'.",
-            this._hostName, partitionId, blobPath);
+          log.blobService("[%s] [%s] Successfully, set the blob metadata for blobPath '%s'. " +
+            "The result is: name: %s, metadata: %o, lease: %o", this._hostName, partitionId,
+            blobPath, result.name, result.metadata, result.lease);
           resolve(result);
         }
       });
