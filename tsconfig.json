@@ -3,6 +3,7 @@
     "declaration": true,
     "module": "commonjs",
     "moduleResolution": "node",
+    "importHelpers": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
