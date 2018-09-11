@@ -33,7 +33,7 @@ export class PartitionScanner {
       log.partitionScanner(withHost("Our lease count: %d."), ourLeasesCount);
       const attemptToAcquire: number = this._desiredCount - ourLeasesCount;
       log.partitionScanner(withHost("Attempting to acquire %d leases in parallel starting from " +
-        "position 0."), ourLeasesCount);
+        "position 0."), attemptToAcquire);
       const remainingNeeded = await this._acquireExpiredInParallel(0, attemptToAcquire);
       log.partitionScanner(withHost("Looking to steal: %d."), remainingNeeded);
       if (remainingNeeded > 0) {
@@ -141,6 +141,7 @@ export class PartitionScanner {
       this._desiredCount);
     log.partitionScanner(withHost("our leases count: %d v/s leases owned by others: %d."),
       ourLeasesCount, this._leaseOwnedByOthers.size);
+    log.partitionScanner(withHost("Total number of pumps: %d."), this._context.pumpManager.pumps.size);
     return ourLeasesCount;
   }
 
@@ -225,7 +226,7 @@ export class PartitionScanner {
           log.error(withHost("%s"), msg);
         }).then(() => {
           log.partitionScanner(withHost("Calling _acquireExpiredInParallel with startAt %d, " +
-            "needed %d."), startAt, needed);
+            "needed %d."), endAt, runningNeeded);
           return this._acquireExpiredInParallel(endAt, runningNeeded);
         });
       });

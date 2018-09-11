@@ -59,6 +59,8 @@ export class PumpManager {
       const capturedPump = this.pumps.get(partitionId);
       if (capturedPump) {
         log.pumpManager(withHostAndPartition(partitionId, "Stopping the pump."));
+        this.pumps.delete(partitionId);
+        log.pumpManager(withHostAndPartition(partitionId, "Deleted the pump from internal map."));
         await capturedPump.stop(reason);
       } else {
         log.pumpManager(withHostAndPartition(partitionId, "No pump was found, to remove."));

@@ -77,11 +77,9 @@ export class CompleteLease extends BaseLease {
    * @returns {CompleteLeaseInfo} CompleteLeaseInfo.
    */
   getInfo(): CompleteLeaseInfo {
-    const info: CompleteLeaseInfo = {
-      ...super.getInfo(),
-      epoch: this.epoch
-    };
+    const info = super.getInfo();
+    (info as CompleteLeaseInfo).epoch = this.epoch;
     log.completeLease("[%s] [%s] Lease info is: %o", this.owner, this.partitionId, info);
-    return info;
+    return (info as CompleteLeaseInfo);
   }
 }
