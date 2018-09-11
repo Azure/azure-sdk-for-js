@@ -144,8 +144,8 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
         const lease = new BaseLease(leaseInfo);
         lease.isOwned = (lbi.lease && lbi.lease.state === LeaseState.leased) || false;
         result.push(lease);
-        log.checkpointLeaseMgr(withHostAndPartition(partitionId, "BlobResult item from the " +
-          "list of blobs is: %O."), lbi);
+        log.checkpointLeaseMgr(withHostAndPartition(partitionId, "BlobResult item from the list " +
+          "of blobs is: name: %s, lease: %o, metadata: %o."), lbi.name, lbi.lease, lbi.metadata);
       }
     } catch (err) {
       const info: EPHDiagnosticInfo = {
@@ -460,32 +460,16 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     const jsonToUpload = lease.serialize();
     if (!options) {
       options = {
-        leaseId: lease.token
+        leaseId: lease.token,
       };
     }
+    if (!options.metadata) options.metadata = {};
+    if (activity !== UploadActivity.release) {
+      options.metadata[metadataOwnerName] = lease.owner;
+    }
     log.checkpointLeaseMgr(withHostAndPartition(lease, "Trying to upload raw JSON for activity " +
-      "'%s': %s"), activity, jsonToUpload);
-    await (<AzureBlobLease>lease).blob.updateContent(jsonToUpload, options);
-    if ((activity === UploadActivity.acquire) || (activity === UploadActivity.release)) {
-      let metadata = (await blob.getBlobMetadata()).metadata;
-      if (!metadata) metadata = {};
-      log.checkpointLeaseMgr(withHostAndPartition(lease, "Found metadata for the blob is %O."),
-        metadata);
-      switch (activity) {
-        case UploadActivity.acquire:
-          metadata[metadataOwnerName] = lease.owner;
-          break;
-        case UploadActivity.release:
-          delete metadata[metadataOwnerName];
-          break;
-        default:
-          break;
-      }
-      log.checkpointLeaseMgr(withHostAndPartition(lease, "The new metadata for the blob is: %O."),
-        metadata);
-      await blob.setBlobMetadata(metadata, { leaseId: lease.token });
-    } // else do not touch the blob metadata.
-
+      "'%s': %s, with options: %o"), activity, jsonToUpload, options);
+    await blob.updateContent(jsonToUpload, options);
   }
 
   private _wasLeaseLost(partitionId: string, err: StorageError): boolean {
