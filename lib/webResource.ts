@@ -12,7 +12,7 @@ export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" |
 export type HttpRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | (() => NodeJS.ReadableStream);
 
 /**
- * Fired in response to upload or download progress (browser only).
+ * Fired in response to upload or download progress.
  */
 export type TransferProgressEvent = {
   /**
@@ -67,10 +67,10 @@ export class WebResource {
 
   abortSignal?: AbortSignalLike;
 
-  /** Callback which fires upon upload progress. Only used in the browser. */
+  /** Callback which fires upon upload progress. */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
 
-  /** Callback which fires upon download progress. Only used in the browser. */
+  /** Callback which fires upon download progress. */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
   constructor(
@@ -434,12 +434,12 @@ export interface RequestOptionsBase {
   timeout?: number;
 
   /**
-   * Callback which fires upon upload progress. Only used in the browser.
+   * Callback which fires upon upload progress.
    */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Callback which fires upon download progress. Only used in the browser.
+   * Callback which fires upon download progress.
    */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
