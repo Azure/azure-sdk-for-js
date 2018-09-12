@@ -7,7 +7,7 @@ all the partitions. It will checkpoint metadata about the received messages at r
 Azure Storage Blob. This makes it easy to continue receiving messages from where you left at a later time.
 
 #### Conceptual Overview
-![alt tag](./eph.png)
+![alt tag](https://github.com/Azure/azure-event-hubs-node/blob/master/processor/eph.png)
 
 More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host).
 
