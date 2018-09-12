@@ -1,3 +1,6 @@
+### 2018-09-11 0.2.10
+- Added support to provide custom user-agent string that will be appended to the default user agent string.
+
 ### 2018-09-11 0.2.9
 - Updated examples and content in README.md
 

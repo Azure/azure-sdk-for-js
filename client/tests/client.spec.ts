@@ -3,12 +3,16 @@
 
 import "mocha";
 import * as chai from "chai";
+import * as os from "os";
 const should = chai.should();
 import * as chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
 import * as debugModule from "debug";
+import * as dotenv from "dotenv";
+dotenv.config();
+chai.use(chaiAsPromised);
 const debug = debugModule("azure:event-hubs:client-spec");
 import { EventHubClient } from "../lib";
+import { packageJsonInfo } from "../lib/util/constants";
 
 function testFalsyValues(testFn: Function) {
   [null, undefined, "", 0].forEach(function (value) {
@@ -84,6 +88,47 @@ describe("EventHubClient on ", function () {
       await client.close();
     }
   });
+
+  describe("user-agent", function () {
+    it("should correctly populate the default user agent", function (done) {
+      client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+      const packageVersion = packageJsonInfo.version;
+      const properties = client["_context"].connection.options.properties;
+      should.equal(properties["user-agent"], "/js-event-hubs");
+      should.equal(properties.product, "MSJSClient");
+      should.equal(properties.version, packageVersion);
+      should.equal(properties.framework, `Node/${process.version}`);
+      should.equal(properties.platform, `(${os.arch()}-${os.type()}-${os.release()})`);
+      done();
+    });
+
+    it("should correctly populate the custom user agent", function (done) {
+      const customua = "/js-event-processor-host=0.2.0";
+      client = EventHubClient.createFromConnectionString(service.connectionString!, service.path,
+        { userAgent: customua });
+      const packageVersion = packageJsonInfo.version;
+      const properties = client["_context"].connection.options.properties;
+      should.equal(properties["user-agent"], `/js-event-hubs,${customua}`);
+      should.equal(properties.product, "MSJSClient");
+      should.equal(properties.version, packageVersion);
+      should.equal(properties.framework, `Node/${process.version}`);
+      should.equal(properties.platform, `(${os.arch()}-${os.type()}-${os.release()})`);
+      done();
+    });
+
+    it("should throw an error if the user-agent string is greater than 128 characters in length", function (done) {
+      const customua = "/js-event-processor-host=0.2.0zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
+      try {
+        client = EventHubClient.createFromConnectionString(service.connectionString!, service.path,
+          { userAgent: customua });
+      } catch (err) {
+        err.message.should.match(/The user-agent string cannot be more than 128 characters in length.*/ig)
+        done();
+      }
+
+    });
+  });
+
 
   describe("#close", function () {
     it("is a no-op when the connection is already closed", function () {

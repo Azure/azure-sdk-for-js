@@ -9,6 +9,9 @@ chai.use(chaiAsPromised);
 import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
 import { EventHubClient, EventData } from "../lib";
+import * as dotenv from "dotenv";
+dotenv.config();
+
 describe("EventHub Sender", function () {
   this.timeout(20000);
   const service = { connectionString: process.env.EVENTHUB_CONNECTION_STRING, path: process.env.EVENTHUB_NAME };

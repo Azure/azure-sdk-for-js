@@ -8,6 +8,8 @@ import { delay, MessagingError } from "../lib";
 import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:retry-spec");
 const should = chai.should();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 describe("retry function", function () {
 

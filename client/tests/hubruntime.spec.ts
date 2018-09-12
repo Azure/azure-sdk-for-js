@@ -8,6 +8,8 @@ import * as chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:hubruntime-spec");
+import * as dotenv from "dotenv";
+dotenv.config();
 
 import { EventHubClient } from "../lib";
 describe("RuntimeInformation", function () {
@@ -31,7 +33,8 @@ describe("RuntimeInformation", function () {
   }
 
   it("gets the hub runtime information", async function () {
-    client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+    client = EventHubClient.createFromConnectionString(service.connectionString!, service.path,
+      { userAgent: "/js-event-processor-host=0.2.0" });
     const hubRuntimeInfo = await client.getHubRuntimeInformation();
     debug(hubRuntimeInfo);
     hubRuntimeInfo.path.should.equal(service.path);

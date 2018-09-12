@@ -17,7 +17,7 @@ import { ClientOptions } from "./eventHubClient";
 import {
   Connection, Dictionary, ConnectionOptions, OnAmqpEvent, EventContext, ConnectionEvents
 } from "./rhea-promise";
-import { connectionReconnectDelay } from "./amqp-common/util/constants";
+import { connectionReconnectDelay, maxUserAgentLength } from "./amqp-common/util/constants";
 
 /**
  * @interface ConnectionContext
@@ -89,11 +89,17 @@ export interface ConnectionContextOptions extends ClientOptions {
 }
 
 export namespace ConnectionContext {
-  /**
-   * @property {string} userAgent The user agent string for the event hub client. Constant value: "/js-event-hubs".
-   * @ignore
-   */
-  export const userAgent: string = "/js-event-hubs";
+
+  const userAgent: string = "/js-event-hubs";
+
+  export function getUserAgent(options: ConnectionContextOptions): string {
+    const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;
+    if (finalUserAgent.length > maxUserAgentLength) {
+      throw new Error(`The user-agent string cannot be more than 128 characters in length.` +
+        `The given user-agent string is: ${finalUserAgent} with length: ${finalUserAgent.length}`);
+    }
+    return finalUserAgent;
+  }
 
   export function create(config: ConnectionConfig, options?: ConnectionContextOptions): ConnectionContext {
     if (!options) options = {};
@@ -111,7 +117,7 @@ export namespace ConnectionContext {
         version: packageVersion,
         platform: `(${os.arch()}-${os.type()}-${os.release()})`,
         framework: `Node/${process.version}`,
-        "user-agent": userAgent
+        "user-agent": getUserAgent(options)
       }
     };
     const connection = new Connection(connectionOptions);
