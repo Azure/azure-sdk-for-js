@@ -1,6 +1,6 @@
 {
   "name": "azure-event-hubs",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Azure Event Hubs SDK for Node.js",
   "author": "Microsoft Corporation",
   "license": "MIT",

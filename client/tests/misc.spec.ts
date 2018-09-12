@@ -11,6 +11,8 @@ import * as debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
 import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation } from "../lib";
 import { BatchingReceiver } from "../lib/batchingReceiver";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 describe("Misc tests", function () {
   this.timeout(60000);
