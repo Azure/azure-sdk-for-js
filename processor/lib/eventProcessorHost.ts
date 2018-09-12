@@ -156,6 +156,8 @@ export class EventProcessorHost {
    * @param {string} storageConnectionString Connection string to Azure Storage account used for
    * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net
+   * @param {string} storageContainerName Azure Storage container name for use by built-in lease
+   * and checkpoint manager.
    * @param {string} eventHubConnectionString Connection string for the Event Hub to receive from.
    * Example: 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;
    * SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
@@ -167,18 +169,21 @@ export class EventProcessorHost {
   static createFromConnectionString(
     hostName: string,
     storageConnectionString: string,
+    storageContainerName: string,
     eventHubConnectionString: string,
     options?: FromConnectionStringOptions): EventProcessorHost {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");
     validateType("storageConnectionString", storageConnectionString, true, "string");
+    validateType("storageContainerName", storageContainerName, true, "string");
     validateType("eventHubConnectionString", eventHubConnectionString, true, "string");
     validateType("options", options, false, "object");
 
     const ephOptions: EventProcessorHostOptions = {
       ...options,
       storageConnectionString: storageConnectionString,
+      storageContainerName: storageContainerName,
       eventHubConnectionString: eventHubConnectionString
     };
     return new EventProcessorHost(hostName, ephOptions);
@@ -233,6 +238,8 @@ export class EventProcessorHost {
    * @param {string} storageConnectionString Connection string to Azure Storage account used for
    * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net
+   * @param {string} storageContainerName Azure Storage container name for use by built-in lease
+   * and checkpoint manager.
    * @param {string} namespace Fully qualified domain name for Event Hubs.
    * Example: "{your-sb-namespace}.servicebus.windows.net"
    * @param {string} eventHubPath The name of the EventHub.
@@ -245,6 +252,7 @@ export class EventProcessorHost {
   static createFromTokenProvider(
     hostName: string,
     storageConnectionString: string,
+    storageContainerName: string,
     namespace: string,
     eventHubPath: string,
     tokenProvider: TokenProvider,
@@ -253,6 +261,7 @@ export class EventProcessorHost {
 
     validateType("hostName", hostName, true, "string");
     validateType("storageConnectionString", storageConnectionString, true, "string");
+    validateType("storageContainerName", storageContainerName, true, "string");
     validateType("namespace", namespace, true, "string");
     validateType("eventHubPath", eventHubPath, true, "string");
     validateType("tokenProvider", tokenProvider, true, "object");
@@ -265,6 +274,7 @@ export class EventProcessorHost {
       ...options,
       tokenProvider: tokenProvider,
       storageConnectionString: storageConnectionString,
+      storageContainerName: storageContainerName,
       eventHubPath: eventHubPath,
       eventHubConnectionString: connectionString
     };
@@ -330,6 +340,8 @@ export class EventProcessorHost {
    * @param {string} storageConnectionString Connection string to Azure Storage account used for
    * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net
+   * @param {string} storageContainerName Azure Storage container name for use by built-in lease
+   * and checkpoint manager.
    * @param {string} namespace Fully qualified domain name for Event Hubs.
    * Example: "{your-sb-namespace}.servicebus.windows.net"
    * @param {string} eventHubPath The name of the EventHub.
@@ -344,6 +356,7 @@ export class EventProcessorHost {
   static createFromAadTokenCredentials(
     hostName: string,
     storageConnectionString: string,
+    storageContainerName: string,
     namespace: string,
     eventHubPath: string,
     credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
@@ -352,6 +365,7 @@ export class EventProcessorHost {
 
     validateType("hostName", hostName, true, "string");
     validateType("storageConnectionString", storageConnectionString, true, "string");
+    validateType("storageContainerName", storageContainerName, true, "string");
     validateType("namespace", namespace, true, "string");
     validateType("eventHubPath", eventHubPath, true, "string");
     validateType("credentials", credentials, true, "object");
@@ -365,6 +379,7 @@ export class EventProcessorHost {
       ...options,
       tokenProvider: new AadTokenProvider(credentials),
       storageConnectionString: storageConnectionString,
+      storageContainerName: storageContainerName,
       eventHubPath: eventHubPath,
       eventHubConnectionString: connectionString
     };
@@ -432,6 +447,8 @@ export class EventProcessorHost {
    * @param {string} storageConnectionString Connection string to Azure Storage account used for
    * leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net
+   * @param {string} storageContainerName Azure Storage container name for use by built-in lease
+   * and checkpoint manager.
    * @param {string} iotHubConnectionString Connection string for the IotHub.
    * Example: 'Endpoint=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param {FromIotHubConnectionStringOptions} [options] Optional parameters for creating an
@@ -442,12 +459,14 @@ export class EventProcessorHost {
   static async createFromIotHubConnectionString(
     hostName: string,
     storageConnectionString: string,
+    storageContainerName: string,
     iotHubConnectionString: string,
     options?: FromIotHubConnectionStringOptions): Promise<EventProcessorHost> {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");
     validateType("storageConnectionString", storageConnectionString, true, "string");
+    validateType("storageContainerName", storageContainerName, true, "string");
     validateType("iotHubConnectionString", iotHubConnectionString, true, "string");
     validateType("options", options, false, "object");
 
@@ -457,6 +476,7 @@ export class EventProcessorHost {
     const ephOptions: EventProcessorHostOptions = {
       ...options,
       storageConnectionString: storageConnectionString,
+      storageContainerName: storageContainerName,
       eventHubConnectionString: eventHubConnectionString,
       eventHubPath: client.eventhubName
     };

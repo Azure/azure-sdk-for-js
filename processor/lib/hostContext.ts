@@ -33,7 +33,7 @@ export interface BaseHostContext {
   hostName: string;
   consumerGroup: string;
   eventHubPath: string;
-  leasecontainerName: string;
+  storageContainerName?: string;
   eventHubConnectionString: string;
   connectionConfig: ConnectionConfig;
   onEphError: OnEphError;
@@ -99,7 +99,7 @@ export namespace HostContext {
     }
   }
 
-  function _validateLeaseContainerName(name: string): void {
+  function _validatestorageContainerName(name: string): void {
     if (!name || name.match(/^[a-z0-9](([a-z0-9\-[^\-])){1,61}[a-z0-9]$/ig) === null) {
       throw new Error(`Azure Storage lease container name "${name}" is invalid. Please check ` +
         `naming conventions at https://msdn.microsoft.com/en-us/library/azure/dd135715.aspx`);
@@ -147,7 +147,6 @@ export namespace HostContext {
 
     // set defaults
     if (!options.consumerGroup) options.consumerGroup = defaultConsumerGroup;
-    if (!options.leasecontainerName) options.leasecontainerName = hostName;
     if (!options.leaseRenewInterval) options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
     if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
     if (!options.onEphError) options.onEphError = onEphErrorFunc;
@@ -162,7 +161,7 @@ export namespace HostContext {
     validateType("options.storageConnectionString", options.storageConnectionString, false, "string");
     validateType("options.initialOffset", options.initialOffset, false, "object");
     validateType("options.consumerGroup", options.consumerGroup, false, "string");
-    validateType("options.leasecontainerName", options.leasecontainerName, false, "string");
+    validateType("options.storageContainerName", options.storageContainerName, false, "string");
     validateType("options.storageBlobPrefix", options.storageBlobPrefix, false, "string");
     validateType("options.onEphError", options.onEphError, false, "function");
     validateType("options.leaseRenewInterval", options.leaseRenewInterval, false, "number");
@@ -181,7 +180,7 @@ export namespace HostContext {
       partitionIds: [],
       pumps: new Map<string, PartitionPump>(),
       consumerGroup: options.consumerGroup,
-      leasecontainerName: options.leasecontainerName,
+      storageContainerName: options.storageContainerName,
       leaseRenewInterval: options.leaseRenewInterval,
       leaseDuration: options.leaseDuration,
       initialOffset: options.initialOffset,
@@ -214,7 +213,7 @@ export namespace HostContext {
     }
 
     _validateLeaseDurationAndRenewInterval(context.leaseDuration, context.leaseRenewInterval);
-    _validateLeaseContainerName(context.leasecontainerName);
+    if (context.storageContainerName) _validatestorageContainerName(context.storageContainerName);
     return context;
   }
 

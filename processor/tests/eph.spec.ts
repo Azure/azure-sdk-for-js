@@ -36,6 +36,7 @@ describe("EPH", function () {
       host = EventProcessorHost.createFromConnectionString(
         EventProcessorHost.createHostName(),
         storageConnString!,
+        "test-container",
         ehConnString!,
         {
           eventHubPath: hubName!
@@ -56,6 +57,7 @@ describe("EPH", function () {
       host = EventProcessorHost.createFromConnectionString(
         EventProcessorHost.createHostName(),
         storageConnString!,
+        "test-container",
         ehConnString!,
         {
           eventHubPath: hubName!,
@@ -83,6 +85,7 @@ describe("EPH", function () {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
           storageConnString!,
+          EventProcessorHost.createHostName("single"),
           ehConnString!,
           {
             eventHubPath: hubName!,
@@ -148,9 +151,9 @@ describe("EPH", function () {
       host = EventProcessorHost.createFromConnectionString(
         "my-eph-1",
         storageConnString!,
+        leasecontainerName,
         ehConnString!,
         {
-          leasecontainerName: leasecontainerName,
           eventHubPath: hubName!,
           initialOffset: EventPosition.fromEnqueuedTime(Date.now()),
           startupScanDelay: 15,
@@ -259,11 +262,11 @@ describe("EPH", function () {
         hostByName[hostName] = EventProcessorHost.createFromConnectionString(
           hostName,
           storageConnString!,
+          containerName,
           ehConnString!,
           {
             eventHubPath: hubName!,
             initialOffset: EventPosition.fromEnqueuedTime(now),
-            leasecontainerName: containerName
           }
         );
 
