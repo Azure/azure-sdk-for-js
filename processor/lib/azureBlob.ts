@@ -3,14 +3,19 @@
 
 import { BlobService, CreateContainerResult } from "./blobService";
 import { BlobService as StorageBlobService } from "azure-storage";
+import { Dictionary } from "./util/utils";
 
+/**
+ * @ignore
+ */
 export class AzureBlob {
   private _blobService: BlobService;
   private _containerName: string;
   private _blobPath: string;
   private _containerAndBlobExist: boolean = false;
 
-  constructor(hostName: string, connectionString: string, containerName: string, blob: string, blobService?: BlobService) {
+  constructor(hostName: string, connectionString: string, containerName: string,
+    blob: string, blobService?: BlobService) {
     this._blobPath = blob;
     this._containerName = containerName;
     this._blobService = blobService || BlobService.create(hostName, connectionString);
@@ -45,15 +50,18 @@ export class AzureBlob {
     return await this._blobService.ensureBlobExists(this._containerName, this._blobPath, text);
   }
 
-  async renewLease(leaseId: string, options: StorageBlobService.LeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
+  async renewLease(leaseId: string,
+    options: StorageBlobService.LeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
     return await this._blobService.renewLease(this._containerName, this._blobPath, leaseId, options);
   }
 
-  async releaseLease(leaseId: string, options?: StorageBlobService.LeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
+  async releaseLease(leaseId: string,
+    options?: StorageBlobService.LeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
     return await this._blobService.releaseLease(this._containerName, this._blobPath, leaseId, options);
   }
 
-  async updateContent(text: string, options?: StorageBlobService.CreateBlobRequestOptions): Promise<StorageBlobService.BlobResult> {
+  async updateContent(text: string,
+    options?: StorageBlobService.CreateBlobRequestOptions): Promise<StorageBlobService.BlobResult> {
     return await this._blobService.updateContent(this._containerName, this._blobPath, text, options);
   }
 
@@ -61,19 +69,37 @@ export class AzureBlob {
     return await this._blobService.getContent(this._containerName, this._blobPath, options);
   }
 
-  async changeLease(currentLeaseId: string, proposedLeaseId: string): Promise<StorageBlobService.LeaseResult> {
-    return await this._blobService.changeLease(this._containerName, this._blobPath, currentLeaseId, proposedLeaseId);
+  async changeLease(currentLeaseId: string,
+    proposedLeaseId: string): Promise<StorageBlobService.LeaseResult> {
+    return await this._blobService.changeLease(this._containerName,
+      this._blobPath, currentLeaseId, proposedLeaseId);
   }
 
   async getBlobProperties(): Promise<StorageBlobService.BlobResult> {
     return await this._blobService.getBlobProperties(this._containerName, this._blobPath);
   }
 
-  async acquireLease(options: StorageBlobService.AcquireLeaseRequestOptions): Promise<StorageBlobService.LeaseResult> {
+  async getBlobMetadata(): Promise<StorageBlobService.BlobResult> {
+    return await this._blobService.getBlobMetadata(this._containerName, this._blobPath);
+  }
+
+  async setBlobMetadata(metadata: Dictionary<string>,
+    options?: StorageBlobService.BlobRequestOptions): Promise<StorageBlobService.BlobResult> {
+    return await this._blobService.setBlobMetadata(this._containerName, this._blobPath,
+      metadata, options);
+  }
+
+  async listBlobsSegmented(options?: StorageBlobService.ListBlobsSegmentedRequestOptions):
+    Promise<StorageBlobService.ListBlobsResult> {
+    return await this._blobService.listBlobsSegmented(this._containerName, options);
+  }
+
+  async acquireLease(options: StorageBlobService.AcquireLeaseRequestOptions):
+    Promise<StorageBlobService.LeaseResult> {
     return await this._blobService.acquireLease(this._containerName, this._blobPath, options);
   }
 
-  async deleteBlobIfExists(): Promise<boolean> {
+  async deleteBlobIfExists(): Promise<void> {
     return await this._blobService.deleteBlobIfExists(this._containerName, this._blobPath);
   }
 }

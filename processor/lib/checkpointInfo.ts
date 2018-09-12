@@ -2,8 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as log from "./log";
-import { EventPosition, EventData } from "azure-event-hubs";
-import { LeaseInfo } from "./lease";
+import { EventData } from "azure-event-hubs";
+import { LeaseInfo } from "./azureBlobLease";
 import { validateType } from "./util/utils";
 
 /**
@@ -43,7 +43,7 @@ export namespace CheckpointInfo {
     validateType("sequenceNumber", sequenceNumber, false, "number");
     const checkpoint: CheckpointInfo = {
       partitionId: partitionId,
-      offset: offset || EventPosition.startOfStream,
+      offset: offset || "-1",
       sequenceNumber: sequenceNumber != undefined ? sequenceNumber : 0
     };
     log.checkpoint("The created CheckpointInfo is: %o", checkpoint);
@@ -58,7 +58,7 @@ export namespace CheckpointInfo {
   export function createFromLease(lease: LeaseInfo): CheckpointInfo {
     validateType("lease", lease, true, "object");
     const checkpoint: CheckpointInfo = {
-      offset: lease.offset || EventPosition.startOfStream,
+      offset: lease.offset || "-1",
       partitionId: lease.partitionId,
       sequenceNumber: lease.sequenceNumber
     };

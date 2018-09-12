@@ -54,7 +54,7 @@
             "type": "node",
             "request": "launch",
             "name": "EPH Example",
-            "program": "${workspaceFolder}/processor/examples/eph.ts",
+            "program": "${workspaceFolder}/processor/examples/singleEph.ts",
             "outFiles": [
                 "${workspaceFolder}/processor/dist/**/*.js"
             ],

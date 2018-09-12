@@ -7,34 +7,22 @@ import {
 import * as dotenv from "dotenv";
 dotenv.config();
 
-// set the values from environment variables.
-const storageConnectionString = "STORAGE_CONNECTION_STRING";
-const ehconnectionString = "EVENTHUB_CONNECTION_STRING";
-const entityPath = "EVENTHUB_NAME";
-const path = process.env[entityPath] || "";
-const storageCS = process.env[storageConnectionString];
-const ehCS = process.env[ehconnectionString];
-
-// set the names of eph and the lease container.
-const leasecontainerName = "test-container";
-const ephName1 = "eph-1";
-const ephName2 = "eph-2";
+const storageCS = process.env.STORAGE_CONNECTION_STRING;
+const ehCS = process.env.EVENTHUB_CONNECTION_STRING;
+const leasecontainerName = "iothub-test-container";
+const ephName = "my-iothub-eph";
 
 /**
  * The main function that executes the sample.
  */
 async function main() {
-  // 1. Start eph-1.
-  const eph1 = await startEph(ephName1);
-  await sleep(20);
-  // 2. After 20 seconds start eph-2.
-  const eph2 = await startEph(ephName2);
+  // 1. Start eph.
+  const eph = await startEph(ephName);
+  // 2. Sleeeping for 90 seconds. This will give time for eph to receive messages.
   await sleep(90);
-  // 3. Now, load will be evenly balanced between eph-1 and eph-2. After 90 seconds stop eph-1.
-  await stopEph(eph1);
-  await sleep(40);
-  // 4. Now, eph-1 will regain access to all the partitions and will close after 40 seconds.
-  await stopEph(eph2);
+  // 3. After 90 seconds stop eph. This sample illustrates, how to start and stop the EPH.
+  // You can decide to stop the EPH, based on your business requirements.
+  await stopEph(eph);
 }
 
 // calling the main().
@@ -57,20 +45,16 @@ async function sleep(timeInSeconds: number): Promise<void> {
  * @returns {Promise<EventProcessorHost>} Promise<EventProcessorHost>
  */
 async function startEph(ephName: string): Promise<EventProcessorHost> {
-  // Create the Event Processor Host
-  const eph = EventProcessorHost.createFromConnectionString(
+  // Create the Event Processo Host from an IotHub ConnectionString
+  const eph = await EventProcessorHost.createFromIotHubConnectionString(
     ephName,
     storageCS!,
     ehCS!,
     {
-      eventHubPath: path,
       // If the lease container name is not provided, then the EPH will use it's name to create
       // a new container. It is important to provide the same container name across different EPH
       // instances for the paritions to be load balanced.
       leasecontainerName: leasecontainerName,
-      // This method will provide errors that occur during lease and partition management. The
-      // errors that occur while receiving messages will be provided in the onError handler
-      // provided in the eph.start() method.
       onEphError: (error) => {
         console.log(">>>>>>> [%s] Error: %O", ephName, error);
       }
@@ -87,8 +71,9 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     // Checkpointing every 100th event
     if (partionCount[context.partitionId] % 100 === 0) {
       try {
-        console.log("***** [%s] EPH is currently receiving messages from partitions: %O", ephName,
-          eph.receivingFromPartitions);
+        console.log("***** [%s] Number of partitions: %O", ephName, eph.receivingFromPartitions.length);
+        console.log("***** [%s] EPH is currently receiving messages from partitions: %s", ephName,
+          eph.receivingFromPartitions.toString());
         await context.checkpoint();
         console.log("$$$$ [%s] Successfully checkpointed message number %d", ephName,
           partionCount[context.partitionId]);

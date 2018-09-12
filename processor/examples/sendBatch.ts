@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { EventHubClient, EventData, EventPosition, OnMessage, OnError, MessagingError } from "../lib";
+import { EventHubClient, EventData, delay } from "azure-event-hubs";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -15,22 +15,9 @@ async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(str, path);
   console.log("Created EH client from connection string");
   console.log("Created Sender for partition 0.");
-  let count = 0;
-  const onMessage: OnMessage = (eventData: any) => {
-    console.log(">>> EventDataObject: ", eventData);
-    console.log("### Actual message:", eventData.body ? eventData.body.toString() : null);
-    count++;
-    if (count >= 5) {
-      client.close();
-    }
-  }
-  const onError: OnError = (err: MessagingError | Error) => {
-    console.log(">>>>> Error occurred: ", err);
-  };
-  client.receive("0", onMessage, onError, { eventPosition: EventPosition.fromEnqueuedTime(Date.now()) });
-  console.log("Created Receiver for partition 0 and CG $default.");
 
-  const messageCount = 5;
+  const partitionIds = await client.getPartitionIds();
+  const messageCount = 300;
   let datas: EventData[] = [];
   for (let i = 0; i < messageCount; i++) {
     let obj: EventData = { body: `Hello foo ${i}` };
@@ -44,8 +31,16 @@ async function main(): Promise<void> {
   //   { body: { "message": "Hello World 2" } },
   //   { body: { "message": "Hello World 3" } }
   // ];
-  await client.sendBatch(datas, "0");
-  console.log("message sent");
+  const sendPromises: Promise<any>[] = [];
+  for (let id of partitionIds) {
+    sendPromises.push(client.sendBatch(datas, id));
+  }
+
+  // Will concurrently send batched messages to all the partitions.
+  await Promise.all(sendPromises);
+  // Giving some more time, just in case.
+  await delay(5000);
+  await client.close();
 }
 
 main().catch((err) => {

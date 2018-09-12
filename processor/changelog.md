@@ -1,10 +1,10 @@
-## 2018-08-27 0.2.0
+## 2018-09-12 0.2.0
 - Added support to automatically balance the load od receiving messages across multiple partitions.
 - Changed the overall design of EPH.
 - Instead of attaching handlers on `eph:message` and `eph:error`, now the handlers need to be passed
 as arguments to the `start()` method on EPH.
 - Removed an optional property `autoCheckpoint` and added optional properties
-   -  `checkpointManager`
+   - `checkpointManager`
    - `onEphError`
    - `leaseRenewInterval`
    - `leaseDuration`

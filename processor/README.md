@@ -1,14 +1,18 @@
 azure-event-processor-host
 ================
 
-_This SDK is currently in preview._
-
 Azure Event Processor Host helps you efficiently receive events from an EventHub. It will create EventHub Receivers
-across all the partitions in the consumer group of an EventHub and provide you messages received across
+across all the partitions in the provided consumer group of an EventHub and provide you messages received across
 all the partitions. It will checkpoint metadata about the received messages at regular interval in an
 Azure Storage Blob. This makes it easy to continue receiving messages from where you left at a later time.
 
-- **Node.js version: 8.x or higher.** We would encourage you to install the latest available LTS version from https://nodejs.org.
+#### Conceptual Overview
+![alt tag](./eph.png)
+
+More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host).
+
+## Pre-requisite ##
+- **Node.js version: 8.x or higher.** We would encourage you to install the latest available LTS version at any given time from https://nodejs.org. **Please do not use older LTS versions of node.js.**
 
 ## Installation ##
 ```bash
@@ -22,15 +26,15 @@ or any other IDE that provides better intellisense and exposes the full power of
 
 You can set the following environment variable to get the debug logs.
 
-- Getting debug logs from the Event Processor Host SDK
+- Getting debug logs **only** from the Event Processor Host SDK
 ```bash
 export DEBUG=azure:eph*
 ```
-- Getting debug logs from the Event Processor Host SDK and the protocol level library.
+- Getting debug logs from the Event Processor Host SDK **and** the protocol level library.
 ```bash
 export DEBUG=azure:eph*,rhea*
 ```
-- Getting debug logs from the Event Processor Host SDK, the Event Hub SDK and the protocol level library.
+- Getting debug logs from the **Event Processor Host SDK, the Event Hub SDK and the protocol level library.**
 ```bash
 export DEBUG=azure*,rhea*
 ```
@@ -40,7 +44,7 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransfo
 ```
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
 ```bash
-export DEBUG=azure:eph:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:eph:error,azure:event-hubs:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 #### Logging to a file
@@ -63,17 +67,22 @@ export DEBUG=azure:eph:error,azure-amqp-common:error,rhea-promise:error,rhea:eve
 
 ## Usage
 
+### NOTE
+The following samples focus on EPH (Event Processor Host) which is responsible for receiving messages.
+For sending messages to the EventHub, please use the `azure-event-hubs` package from npm. More
+information about the event hub client can be found over [here](https://github.com/Azure/azure-event-hubs-node/tree/master/client).
+You can also use [this example](https://github.com/Azure/azure-event-hubs-node/tree/master/processor/examples/sendBatch.ts) that sends
+multiple messages batched together. You should be able to run the `send` example from one terminal window and see those messages
+being received in the `singleEph` or `multipleEph` example being run in the second terminal window.
+
 ### Single EPH instance.
 
 ```js
 const { EventProcessorHost, delay } = require("azure-event-processor-host");
 
-const storageConnectionString = "STORAGE_CONNECTION_STRING";
-const ehconnectionString = "EVENTHUB_CONNECTION_STRING";
-const entityPath = "EVENTHUB_NAME";
-const path = process.env[entityPath] || "";
-const storageCS = process.env[storageConnectionString];
-const ehCS = process.env[ehconnectionString];
+const path = process.env.EVENTHUB_NAME;
+const storageCS = process.env.STORAGE_CONNECTION_STRING;
+const ehCS = process.env.EVENTHUB_CONNECTION_STRING];
 const leasecontainerName = "test-container";
 
 async function main() {
@@ -85,12 +94,21 @@ async function main() {
     {
       eventHubPath: path,
       leasecontainerName: leasecontainerName
+    },
+    onEphError: (error) => {
+      console.log("This handler will notify you of any internal errors that happen " +
+      "during partition and lease management: %O", error);
     }
   );
+  let count = 0;
   // Message event handler
-  const onMessage = (context/*PartitionContext*/, data /*EventData*/) => {
+  const onMessage = async (context/*PartitionContext*/, data /*EventData*/) => {
     console.log(">>>>> Rx message from '%s': '%s'", context.partitionId, data.body);
-    return context.checkpoint();
+    count++;
+    // let us checkpoint every 100th message that is received across all the partitions.
+    if (count % 100 === 0) {
+      return await context.checkpoint();
+    }
   };
   // Error event handler
   const onError = (error) => {
@@ -110,17 +128,16 @@ main().catch((err) => {
 ```
 
 ### Multiple EPH instances in the same process.
+This example creates 2 instances of EPH in the same process. It is also perfectly fine to create
+multiple EPH instances in different processes on the same or different machine.
 
 ```js
 const { EventProcessorHost, delay } = require("azure-event-processor-host");
 
 // set the values from environment variables.
-const storageConnectionString = "STORAGE_CONNECTION_STRING";
-const ehconnectionString = "EVENTHUB_CONNECTION_STRING";
-const entityPath = "EVENTHUB_NAME";
-const path = process.env[entityPath] || "";
-const storageCS = process.env[storageConnectionString];
-const ehCS = process.env[ehconnectionString];
+const path = process.env.EVENTHUB_NAME || "";
+const storageCS = process.env.STORAGE_CONNECTION_STRING;
+const ehCS = process.env.EVENTHUB_CONNECTION_STRING];
 
 // set the names of eph and the lease container.
 const leasecontainerName = "test-container";
@@ -189,7 +206,7 @@ async function startEph(ephName /**string**/) {
     count++;
     console.log("##### [%s] %d - Rx message from '%s': '%s'", ephName, count, context.partitionId,
       data.body);
-    // Checkpointing every 200th event
+    // Checkpointing every 200th event that is received acrosss all the partitions.
     if (count % 200 === 0) {
       try {
         console.log("***** [%s] EPH is currently receiving messages from partitions: %O", ephName,
@@ -221,6 +238,54 @@ async function stopEph(eph /**EventProcessorHost**/) {
   await eph.stop();
   console.log(">>>>>> Successfully stopped the EPH - '%s'.", eph.hostName);
 }
+```
+
+### EPH with IotHub connection string
+
+```js
+const { EventProcessorHost, delay } = require("azure-event-processor-host");
+
+const path = process.env.EVENTHUB_NAME || "";
+const storageCS = process.env.STORAGE_CONNECTION_STRING;
+const iothubCS = process.env.IOTHUB_CONNECTION_STRING];
+const leasecontainerName = "test-container";
+
+async function main() {
+  // Create the Event Processo Host
+  const eph = await EventProcessorHost.createFromIotHubConnectionString(
+    EventProcessorHost.createHostName("my-host"),
+    storageCS,
+    iothubCS,
+    {
+      eventHubPath: path,
+      leasecontainerName: leasecontainerName
+    }
+  );
+  let count = 0;
+  // Message event handler
+  const onMessage = async (context/*PartitionContext*/, data /*EventData*/) => {
+    console.log(">>>>> Rx message from '%s': '%s'", context.partitionId, data.body);
+    count++;
+    // let us checkpoint every 100th message that is received across all the partitions.
+    if (count % 100 === 0) {
+      return await context.checkpoint();
+    }
+  };
+  // Error event handler
+  const onError = (error) => {
+    console.log(">>>>> Received Error: %O", error);
+  };
+  // start the EPH
+  await eph.start(onMessage, onError);
+  // After some time let' say 2 minutes
+  await delay(120000);
+  // This will stop the EPH.
+  await eph.stop();
+}
+
+main().catch((err) => {
+  console.log(err);
+});
 ```
 
 ## AMQP Dependencies ##

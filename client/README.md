@@ -1,9 +1,12 @@
 azure-event-hubs
 ================
 
-_This SDK is currently in preview._
+Azure Event Hubs is a scalable event processing service that ingests and processes large volumes of events and data, with low latency and high reliability. More information about Azure Event Hubs can be found over [here](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-features).
 
-- **Node.js version: 8.x or higher.** We would encourage you to install the latest available LTS version from https://nodejs.org.
+This sdk provides a convenient way to interact with the Azure Event Hubs service.
+
+## Pre-requisite ##
+- **Node.js version: 8.x or higher.** We would encourage you to install the latest available LTS version at any given time from https://nodejs.org. **Please do not use older LTS versions of node.js.**
 
 ## Installation ##
 ```bash
@@ -18,12 +21,22 @@ The simplest usage is to use the static factory method `EventHubClient.createFro
 - You can even batch multiple events together using `client.sendBatch()` method.
 
 ### Receiving events
-- You can use `await client.receiveBatch(...)` to receive desired number of events for specified amount of time. **Note this is a blocking call**. 
-That is it will return an array of EventData objects once it receives the desired number of events or the max wait time occurs (which ever happens first). 
-This is very useful when you want to know how the received events look like or for testing/debugging purposes.
-- For production we would expect customers would simply want to receive events and process them. Hence we have a `client.receive(. . .)` method on the receiver.
+There are two ways to receive events using the EventHub Client.
+
+#### Streaming receiver
+The `EventHubClient` has a `client.receive(. . .)` method on the receiver.
 This message takes the `messageHandler()` and the `errorHandler()` amongst other parameters and registers them to the receiver. 
 This method returns a `ReceiverHandler` that can be used to stop receiving further events `await receiverHandler.stop()`
+This mechanism can be useful in a scenario, where you want to continuously receive events/messages at a high speed.
+
+#### Batching receiver
+You can use `await client.receiveBatch(...)` to receive desired number of events for specified amount of time.
+It will return an array of EventData objects once it receives the desired number of events or the max wait time occurs (which ever happens first). This mechanism can be useful when you want to receive events/messages in a batch. If your in a scenario where you
+would like to receive some messages and process them (since message processing is time consuming), and later get some more messages,
+then this mechanism will suite your needs better.
+
+**Note:** For scalable and efficient receiving, please take a look at [azure-event-processor-host](https://github.com/Azure/azure-event-hubs-node/tree/master/processor). The Event Processor host, internally uses the streaming receiver
+to receive messages.
 
 ## IDE ##
 This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) 

@@ -11,7 +11,12 @@ export const error = debugModule("azure:eph:error");
  * @ignore
  * log statements for lease
  */
-export const lease = debugModule("azure:eph:lease");
+export const baseLease = debugModule("azure:eph:baseLease");
+/**
+ * @ignore
+ * log statements for lease
+ */
+export const completeLease = debugModule("azure:eph:completeLease");
 /**
  * @ignore
  * log statements for azurebloblease
@@ -27,6 +32,21 @@ export const leaseManager = debugModule("azure:eph:leaseManager");
  * log statements for partitionManager
  */
 export const partitionManager = debugModule("azure:eph:partitionManager");
+/**
+ * @ignore
+ * log statements for partitionManager
+ */
+export const partitionPump = debugModule("azure:eph:partitionPump");
+/**
+ * @ignore
+ * log statements for pumpManager
+ */
+export const pumpManager = debugModule("azure:eph:pumpManager");
+/**
+ * @ignore
+ * log statements for partitionScanner
+ */
+export const partitionScanner = debugModule("azure:eph:partitionScanner");
 /**
  * @ignore
  * log statements for host
