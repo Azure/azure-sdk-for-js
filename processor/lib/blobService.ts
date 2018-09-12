@@ -6,12 +6,17 @@ import * as log from "./log";
 import { validateType, getStorageError, Dictionary } from "./util/utils";
 import { defaultMaximumExecutionTimeInMs } from "./util/constants";
 const path = require("path-browserify");
-
+/**
+ * @ignore
+ */
 export interface CreateContainerResult {
   created: StorageBlobService.ContainerResult;
   details: ServiceResponse;
 }
 
+/**
+ * @ignore
+ */
 export enum LeaseState {
   /**
    * The lease state is not specified.
@@ -44,6 +49,9 @@ export enum LeaseState {
   broken = "broken"
 }
 
+/**
+ * @ignore
+ */
 export class BlobService {
   private _hostName: string;
   private _connectionString: string;
@@ -218,12 +226,6 @@ export class BlobService {
     });
   }
 
-  /**
-   * Updates content from the Azure Storage Blob.
-   * @param {string} text The text to be written
-   * @param {StorageBlobService.CreateBlobRequestOptions} options The options that can be provided
-   * while writing content to the blob.
-   */
   updateContent(containerName: string, blobPath: string, text: string,
     options?: StorageBlobService.CreateBlobRequestOptions): Promise<StorageBlobService.BlobResult> {
     validateType("containerName", containerName, true, "string");
@@ -250,11 +252,6 @@ export class BlobService {
     });
   }
 
-  /**
-   * Gets content from the Azure Storage Blob.
-   * @param {StorageBlobService.GetBlobRequestOptions} options Options to be passed while getting
-   * content from the blob.
-   */
   getContent(containerName: string, blobPath: string,
     options?: StorageBlobService.GetBlobRequestOptions): Promise<string> {
     validateType("containerName", containerName, true, "string");

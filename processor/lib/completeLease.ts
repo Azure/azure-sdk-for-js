@@ -4,30 +4,6 @@
 import * as log from "./log";
 import { BaseLease, BaseLeaseInfo } from "./baseLease";
 
-/**
- * Represents an error that occurs when the service lease has been lost.
- * @class LeaseLostError
- */
-export class LeaseLostError extends Error {
-  /**
-   * @property {string} partitionId The partitionId where the error occurred.
-   * @readonly
-   */
-  readonly partitionId: string;
-  /**
-   * @property {Error} innerError The inner error from Azure Storage.
-   * @readonly
-   */
-  readonly innerError: Error;
-
-  constructor(id: string, message: string, error: Error) {
-    super(message);
-    this.partitionId = id;
-    this.name = "LeaseLostError";
-    this.innerError = error;
-  }
-}
-
 
 /**
  * Describes the properties of a Complete Lease.

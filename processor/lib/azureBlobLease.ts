@@ -5,6 +5,10 @@ import { CompleteLeaseInfo, CompleteLease } from "./completeLease";
 import { AzureBlob } from "./azureBlob";
 import * as log from "./log";
 
+/**
+ * Describes the properties of a lease.
+ * @interface LeaseInfo
+ */
 export interface LeaseInfo extends CompleteLeaseInfo {
   /**
    * @property {string} token The lease token that manages concurrency between hosts. You can use
@@ -21,6 +25,10 @@ export interface LeaseInfo extends CompleteLeaseInfo {
   offset?: string;
 }
 
+/**
+ * Describes the properties of a lease representing an Azure Blob.
+ * @interface AzureBlobLeaseInfo
+ */
 export interface AzureBlobLeaseInfo extends LeaseInfo {
   /**
    * @property {AzureBlob} blob Reference to the azure blob.
@@ -28,11 +36,21 @@ export interface AzureBlobLeaseInfo extends LeaseInfo {
   blob: AzureBlob;
 }
 
+/**
+ * Describes the lease used with an Azure Blob for storing the checkpoint information.
+ */
 export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo {
+
+  // It is important to keep the offset optional. While getting the startingCheckpoint in
+  // PartitionContext.getInitialOffset(), we internally call leaseManager.getCheckpoint() which will
+  // return undefined, if the offset is undefined. At that time, if the user had provided
+  // initialOffset using the EPHOptions then that will be used. Thus not initializing the offset
+  // with default value of "-1" is crucial to ensure that user provided initial offset is honored
+  // when a new lease container is used.
   /**
    * @property {string} offset The offset of the event to be checked in.
    */
-  offset: string;
+  offset?: string;
   /**
    * @property {string} sequenceNumber The sequence number of the event to be checked in.
    */
@@ -49,31 +67,10 @@ export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo 
 
   constructor(info: AzureBlobLeaseInfo) {
     super(info);
-    this.offset = info.offset || "-1";
+    this.offset = info.offset;
     this.sequenceNumber = info.sequenceNumber != undefined ? info.sequenceNumber : 0;
     this.token = info.token || "";
     this.blob = info.blob;
-  }
-
-  /**
-   * Determines whether the lease is expired.
-   * @returns {Promise<boolean>} Promise<boolean> `true` - expired. `false` - not expired.
-   */
-  async isExpired(): Promise<boolean> {
-    let expired: boolean = false;
-    try {
-      const result = await this.blob.getBlobProperties();
-      const currentState: string | undefined = result.lease ? result.lease.state : undefined;
-      log.azurebloblease("[%s] [%s] Current state for the lease '%s' is: '%s'.",
-        this.owner, this.partitionId, this.token, this.partitionId, currentState);
-      expired = currentState !== "leased";
-      log.azurebloblease("[%s] [%s] lease '%s' expired -> %s.",
-        this.owner, this.partitionId, this.token, this.partitionId, expired);
-    } catch (err) {
-      log.error("[%s] [%s] An error occurred while determining whether the lease '%s' is expired " +
-        "for partitionId '%s': %O", this.owner, this.partitionId, this.token, err);
-    }
-    return expired;
   }
 
   /**

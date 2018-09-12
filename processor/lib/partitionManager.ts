@@ -6,7 +6,7 @@ import { validateType, RetryConfig, retry, EPHActionStrings } from "./util/utils
 import { delay } from "azure-event-hubs";
 import * as log from "./log";
 import { OnReceivedMessage, OnReceivedError, CloseReason } from "./modelTypes";
-import { PartitionScanner } from './partitionScanner';
+import { PartitionScanner } from "./partitionScanner";
 
 /**
  * @ignore
@@ -16,6 +16,7 @@ export class PartitionManager {
   private _context: HostContextWithPumpManager;
   private _partitionScanner: PartitionScanner;
   private _isCancelRequested: boolean = false;
+  private _isRunning: boolean = false;
   private _runTask?: Promise<void>;
 
   constructor(context: HostContextWithPumpManager) {
@@ -29,14 +30,22 @@ export class PartitionManager {
   async start(onMessage: OnReceivedMessage, onError: OnReceivedError): Promise<void> {
     validateType("onMessage", onMessage, true, "function");
     validateType("onError", onError, true, "function");
-    if (this._runTask) {
+    if (this._isRunning) {
       throw new Error("A partition manager cannot be started multiple times.");
     }
-    this._context.onMessage = onMessage;
-    this._context.onError = onError;
-    await this._cachePartitionIds();
-    await this._initializeStores();
-    this._runTask = this._run();
+
+    try {
+      this._reset();
+      this._isRunning = true;
+      this._context.onMessage = onMessage;
+      this._context.onError = onError;
+      await this._cachePartitionIds();
+      await this._initializeStores();
+      this._runTask = this._run();
+    } catch (err) {
+      this._isRunning = false;
+      throw err;
+    }
   }
 
   /**
@@ -54,21 +63,33 @@ export class PartitionManager {
           `${err ? err.stack : JSON.stringify(err)}.`;
         log.error(withHost("%s"), msg);
       } finally {
-        await this._reset();
+        this._isRunning = false;
       }
     }
-    this._runTask = undefined;
   }
 
   /**
    * @ignore
    */
-  private async _reset(): Promise<void> {
+  shouldStop(): boolean {
+    if (this._isCancelRequested) {
+      log.partitionManager(this._context.withHost("Cancellation was requested -> %s. " +
+        "Hence stopping further execution."), this._isCancelRequested);
+    }
+    return this._isCancelRequested;
+  }
+
+  /**
+   * @ignore
+   */
+  private _reset(): void {
     const withHost = this._context.withHost;
     log.partitionManager(withHost("Resetting the partition manager."));
     this._context.blobReferenceByPartition = {};
     this._context.onMessage = undefined;
     this._context.onError = undefined;
+    this._isRunning = false;
+    this._isCancelRequested = false;
   }
 
   /**
@@ -130,14 +151,15 @@ export class PartitionManager {
    * @ignore
    */
   private async _initializeStores(): Promise<void> {
-    this._isCancelRequested = false;
     const hostName = this._context.hostName;
     const withHost = this._context.withHost;
-    validateType("this._context.onMessage", this._context.onMessage, true, "function");
-    validateType("this._context.onError", this._context.onError, true, "function");
-    log.partitionManager(withHost("Ensuring that the lease store exists."));
     const leaseManager = this._context.leaseManager;
     const checkpointManager = this._context.checkpointManager;
+
+    validateType("this._context.onMessage", this._context.onMessage, true, "function");
+    validateType("this._context.onError", this._context.onError, true, "function");
+
+    log.partitionManager(withHost("Ensuring that the lease store exists."));
     if (!await leaseManager.leaseStoreExists()) {
       const config: RetryConfig<void> = {
         hostName: hostName,
@@ -149,6 +171,8 @@ export class PartitionManager {
       };
       await retry<void>(config);
     }
+
+    if (this.shouldStop()) return;
 
     log.partitionManager(withHost("Ensure the checkpointstore exists."));
     if (!await checkpointManager.checkpointStoreExists()) {
@@ -163,6 +187,8 @@ export class PartitionManager {
       await retry<void>(config);
     }
 
+    if (this.shouldStop()) return;
+
     log.partitionManager(withHost("Ensure that the leases exist."));
     const leaseConfig: RetryConfig<void> = {
       hostName: hostName,
@@ -174,6 +200,8 @@ export class PartitionManager {
     };
     await retry<void>(leaseConfig);
 
+    if (this.shouldStop()) return;
+
     log.partitionManager(withHost("Ensure that the checkpoint exists."));
     const checkpointConfig: RetryConfig<void> = {
       hostName: hostName,
@@ -184,6 +212,8 @@ export class PartitionManager {
       maxRetries: 5
     };
     await retry<void>(checkpointConfig);
+
+    if (this.shouldStop()) return;
   }
 
   /**
@@ -191,7 +221,7 @@ export class PartitionManager {
    */
   private async _scan(isFirst: boolean): Promise<void> {
     const withHost = this._context.withHost;
-    while (!this._isCancelRequested) {
+    while (!this.shouldStop()) {
       if (isFirst) {
         log.partitionManager(withHost("Starting the first scan."));
       }

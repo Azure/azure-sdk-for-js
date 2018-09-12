@@ -3,7 +3,8 @@
 
 import * as uuid from "uuid/v4";
 import {
-  TokenProvider, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, AadTokenProvider, EventHubClient
+  TokenProvider, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation,
+  AadTokenProvider, EventHubClient
 } from "azure-event-hubs";
 import {
   ApplicationTokenCredentials, UserTokenCredentials,
@@ -13,10 +14,10 @@ import * as log from "./log";
 import { LeaseManager } from "./leaseManager";
 import { HostContext } from "./hostContext";
 import { CheckpointManager } from "./checkpointManager";
-import { validateType } from './util/utils';
+import { validateType } from "./util/utils";
 import {
   FromConnectionStringOptions, EventProcessorHostOptions, FromTokenProviderOptions,
-  OnReceivedMessage, OnReceivedError
+  OnReceivedMessage, OnReceivedError, FromIotHubConnectionStringOptions
 } from "./modelTypes";
 
 
@@ -101,7 +102,7 @@ export class EventProcessorHost {
    * receiving messages from.
    */
   get receivingFromPartitions(): string[] {
-    return Array.from(this._context.pumpManager.pumps.keys());
+    return Array.from(this._context.pumps.keys());
   }
 
   /**
@@ -433,7 +434,7 @@ export class EventProcessorHost {
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net
    * @param {string} iotHubConnectionString Connection string for the IotHub.
    * Example: 'Endpoint=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {FromConnectionStringOptions} [options] Optional parameters for creating an
+   * @param {FromIotHubConnectionStringOptions} [options] Optional parameters for creating an
    * EventProcessorHost.
    *
    * @returns {EventProcessorHost} EventProcessorHost
@@ -442,7 +443,7 @@ export class EventProcessorHost {
     hostName: string,
     storageConnectionString: string,
     iotHubConnectionString: string,
-    options?: FromConnectionStringOptions): Promise<EventProcessorHost> {
+    options?: FromIotHubConnectionStringOptions): Promise<EventProcessorHost> {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");
@@ -456,7 +457,8 @@ export class EventProcessorHost {
     const ephOptions: EventProcessorHostOptions = {
       ...options,
       storageConnectionString: storageConnectionString,
-      eventHubConnectionString: eventHubConnectionString
+      eventHubConnectionString: eventHubConnectionString,
+      eventHubPath: client.eventhubName
     };
     return new EventProcessorHost(hostName, ephOptions);
   }
@@ -472,7 +474,7 @@ export class EventProcessorHost {
    * Example: 'Endpoint=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param {CheckpointManager} checkpointManager A manager to manage checkpoints.
    * @param {LeaseManager} leaseManager A manager to manage leases.
-   * @param {FromConnectionStringOptions} [options] Optional parameters for creating an
+   * @param {FromIotHubConnectionStringOptions} [options] Optional parameters for creating an
    * EventProcessorHost.
    *
    * @returns {EventProcessorHost} EventProcessorHost
@@ -482,7 +484,7 @@ export class EventProcessorHost {
     iotHubConnectionString: string,
     checkpointManager: CheckpointManager,
     leaseManager: LeaseManager,
-    options?: FromConnectionStringOptions): Promise<EventProcessorHost> {
+    options?: FromIotHubConnectionStringOptions): Promise<EventProcessorHost> {
     if (!options) options = {};
 
     validateType("hostName", hostName, true, "string");
@@ -499,7 +501,8 @@ export class EventProcessorHost {
       ...options,
       eventHubConnectionString: eventHubConnectionString,
       checkpointManager: checkpointManager,
-      leaseManager: leaseManager
+      leaseManager: leaseManager,
+      eventHubPath: client.eventhubName
     };
     return new EventProcessorHost(hostName, ephOptions);
   }

@@ -5,6 +5,9 @@ import { BlobService, CreateContainerResult } from "./blobService";
 import { BlobService as StorageBlobService } from "azure-storage";
 import { Dictionary } from "./util/utils";
 
+/**
+ * @ignore
+ */
 export class AzureBlob {
   private _blobService: BlobService;
   private _containerName: string;

@@ -5,7 +5,7 @@ import { EventData, EventPosition } from "azure-event-hubs";
 import { CompleteLease } from "./completeLease";
 import { CheckpointInfo } from "./checkpointInfo";
 import * as log from "./log";
-import { HostContextWithCheckpointLeaseManager } from './hostContext';
+import { HostContextWithCheckpointLeaseManager } from "./hostContext";
 import { validateType } from "./util/utils";
 
 /**

@@ -12,12 +12,18 @@ import { CompleteLease } from "./completeLease";
 import { AzureBlobLease, AzureBlobLeaseInfo, LeaseInfo } from "./azureBlobLease";
 import { BlobService as StorageBlobService, StorageError } from "azure-storage";
 import { LeaseState } from "./blobService";
-import * as log from "./log";
-import { maximumExecutionTimeInMsForLeaseRenewal, metadataOwnerName } from "./util/constants";
 import { BaseLease, BaseLeaseInfo } from "./baseLease";
 import { EPHDiagnosticInfo } from "./modelTypes";
+import {
+  maximumExecutionTimeInMsForLeaseRenewal, metadataOwnerName, leaseLost,
+  leaseIdMismatchWithLeaseOperation, leaseIdMismatchWithBlobOperation
+} from "./util/constants";
+import * as log from "./log";
 const path = require("path-browserify");
 
+/**
+ * @ignore
+ */
 enum UploadActivity {
   create = "create",
   acquire = "acquire",
@@ -184,6 +190,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
         partitionId: "N/A"
       };
       this._context.onEphError(info);
+      throw err;
     }
   }
 
@@ -359,15 +366,6 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     return;
   }
 
-  async createCheckpointIfNotExists(partitionId: string): Promise<CheckpointInfo> {
-    validateType("partitionId", partitionId, true, "string");
-    const withHostAndPartition = this._context.withHostAndPartition;
-    log.checkpointLeaseMgr(withHostAndPartition(partitionId, "Creating checkpoint if it does not exist."));
-    const lease: AzureBlobLease = <AzureBlobLease>await this.createLeaseIfNotExists(partitionId);
-    const checkpoint: CheckpointInfo = CheckpointInfo.createFromLease(lease.getInfo());
-    return checkpoint;
-  }
-
   async createAllCheckpointsIfNotExists(partitionIds: string[]): Promise<void> {
     validateType("partitionIds", partitionIds, true, "Array");
     // Because we control the caller, we know that this method will only be called after
@@ -464,8 +462,18 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       };
     }
     if (!options.metadata) options.metadata = {};
-    if (activity !== UploadActivity.release) {
-      options.metadata[metadataOwnerName] = lease.owner;
+    // - For "acquire" and "update" activities, the metadata must be set, since that is the time
+    // when the host actually owns the lease. If metadata is not set for update activity
+    // (i.e. while checkpointing), then the metadata is wiped off (over-written).
+    // This causes problems for the partition scanner while trying to determine the lease owner.
+    // - For "release" activity the metadata needs to be deleted/unset, since the intention is to
+    // not own the lease anymore (due to lease being lost or the receiver shutting down). Hence,
+    // setting the metadata as an empty object.
+    // - For "create" activity, the intention is to create a lease if it does not exist, but not own
+    // it. The lease state will be available and the status will be unlocked. Hence setting the
+    // metadata as an empty object.
+    if (activity === UploadActivity.acquire || activity === UploadActivity.update) {
+      options.metadata[metadataOwnerName] = lease.owner || this._context.hostName;
     }
     log.checkpointLeaseMgr(withHostAndPartition(lease, "Trying to upload raw JSON for activity " +
       "'%s': %s, with options: %o"), activity, jsonToUpload, options);
@@ -480,9 +488,9 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     // conflict OR precondition failed.
     if (statusCode && statusCode === 409 || statusCode === 412) {
       if (!code || (code &&
-        (code.toLowerCase() === "leaselost" ||
-          code.toLowerCase() === "leaseidmismatchwithleaseoperation" ||
-          code.toLowerCase() === "leaseidmismatchwithbloboperation"))) {
+        (code.toLowerCase() === leaseLost ||
+          code.toLowerCase() === leaseIdMismatchWithLeaseOperation ||
+          code.toLowerCase() === leaseIdMismatchWithBlobOperation))) {
         result = true;
       }
     }

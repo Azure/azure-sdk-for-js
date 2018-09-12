@@ -8,8 +8,10 @@ import { CompleteLease } from "./completeLease";
 import { CloseReason } from "./modelTypes";
 import { EPHActionStrings } from "./util/utils";
 
+/**
+ * @ignore
+ */
 export class PumpManager {
-  pumps: Map<string, PartitionPump> = new Map<string, PartitionPump>();
   private _context: HostContextWithCheckpointLeaseManager;
 
   constructor(context: HostContextWithCheckpointLeaseManager) {
@@ -21,7 +23,7 @@ export class PumpManager {
     const partitionId = lease.partitionId;
     const withHostAndPartition = this._context.withHostAndPartition;
     try {
-      const capturedPump = this.pumps.get(partitionId);
+      const capturedPump = this._context.pumps.get(partitionId);
       if (capturedPump) {
         const isOpen = capturedPump.isOpen();
         if (!isOpen) {
@@ -38,7 +40,6 @@ export class PumpManager {
         const pump = new PartitionPump(this._context, lease, this._context.onMessage!,
           this._context.onError!);
         await pump.start();
-        this.pumps.set(partitionId, pump);
       }
     } catch (err) {
       const msg = `An error occurred while adding/updating a pump for partitionId ` +
@@ -56,11 +57,9 @@ export class PumpManager {
   async removePump(partitionId: string, reason: CloseReason): Promise<void> {
     const withHostAndPartition = this._context.withHostAndPartition;
     try {
-      const capturedPump = this.pumps.get(partitionId);
+      const capturedPump = this._context.pumps.get(partitionId);
       if (capturedPump) {
         log.pumpManager(withHostAndPartition(partitionId, "Stopping the pump."));
-        this.pumps.delete(partitionId);
-        log.pumpManager(withHostAndPartition(partitionId, "Deleted the pump from internal map."));
         await capturedPump.stop(reason);
       } else {
         log.pumpManager(withHostAndPartition(partitionId, "No pump was found, to remove."));
@@ -81,7 +80,7 @@ export class PumpManager {
   async removeAllPumps(reason: CloseReason): Promise<void> {
     const withHost = this._context.withHost;
     const tasks: Promise<void>[] = [];
-    for (const id of this.pumps.keys()) {
+    for (const id of this._context.pumps.keys()) {
       tasks.push(this.removePump(id, reason));
     }
     log.partitionManager(withHost("Removing all the pumps due to reason %s."), reason);

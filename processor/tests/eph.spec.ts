@@ -80,6 +80,106 @@ describe("EPH", function () {
         done(err);
       });
     });
+
+    it("should be able to receive messages from the checkpointed offset.", async function () {
+      const msgId = uuid();
+      const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
+      const leasecontainerName = EventProcessorHost.createHostName("tc");
+      debug(">>>>> Lease container name: %s", leasecontainerName);
+      async function sendAcrossAllPartitions(ehc: EventHubClient, ids: string[]): Promise<Dictionary<EventData>> {
+        const result: Promise<any>[] = [];
+        const idMessage: Dictionary<EventData> = {};
+        for (const id of ids) {
+          const data = { body: "Test Message - " + id, properties: { message_id: msgId } };
+          idMessage[id] = data;
+          result.push(ehc.send(data, id));
+        }
+        await Promise.all(result);
+        debug(">>>> Successfully finished sending messages.. %O", idMessage);
+        return idMessage;
+      }
+
+      const ids = await ehc.getPartitionIds();
+      debug(">>> Received partition ids: ", ids);
+      host = EventProcessorHost.createFromConnectionString(
+        "my-eph-1",
+        storageConnString!,
+        ehConnString!,
+        {
+          leasecontainerName: leasecontainerName,
+          eventHubPath: hubName!,
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now()),
+          startupScanDelay: 15,
+          leaseRenewInterval: 5,
+          leaseDuration: 15
+        }
+      );
+      await delay(1000);
+      debug(">>>>> Sending the first set of test messages...");
+      const firstSend = await sendAcrossAllPartitions(ehc, ids);
+      let count = 0;
+      const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
+        const partitionId = context.partitionId
+        debug(">>>>> Rx message from '%s': '%o'", partitionId, data);
+        if (data.properties!.message_id === firstSend[partitionId].properties!.message_id) {
+          debug(">>>> Checkpointing the received message...");
+          await context.checkpoint();
+          count++;
+        } else {
+          const msg = `Sent message id '${data.properties!.message_id}' did not match the ` +
+            `received message id '${firstSend[partitionId].properties!.message_id}' for ` +
+            `partitionId '${partitionId}'.`
+          throw new Error(msg);
+        }
+      };
+      const onError: OnReceivedError = (err) => {
+        debug("An error occurred while receiving the message: %O", err);
+        throw err;
+      };
+      debug(">>>> Starting my-eph-1");
+      await host.start(onMessage, onError);
+      while (count < ids.length) {
+        await delay(10000);
+        debug(">>>> number of partitionIds: %d, count: %d", ids.length, count);
+      }
+      await host.stop();
+
+      debug(">>>> Restarting the same host. This time the initial offset should be ignored, and " +
+        "the EventPosition should be from the checkpointed offset..");
+      debug(">>>>> Sending the second set of test messages...");
+      const secondSend = await sendAcrossAllPartitions(ehc, ids);
+      let count2 = 0;
+      const onMessage2: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
+        const partitionId = context.partitionId
+        debug(">>>>> Rx message from '%s': '%s'", partitionId, data);
+        if (data.properties!.message_id === secondSend[partitionId].properties!.message_id) {
+          debug(">>>> Checkpointing the received message...");
+          await context.checkpoint();
+          count2++;
+        } else {
+          const msg = `Sent message id '${data.properties!.message_id}' did not match the ` +
+            `received message id '${secondSend[partitionId].properties!.message_id}' for ` +
+            `partitionId '${partitionId}'.`
+          throw new Error(msg);
+        }
+      };
+      const onError2: OnReceivedError = (err) => {
+        debug("An error occurred while receiving the message: %O", err);
+        throw err;
+      };
+      debug(">>>> Starting my-eph-2");
+      await host.start(onMessage2, onError2);
+      while (count2 < ids.length) {
+        await delay(10000);
+        debug(">>>> number of partitionIds: %d, count: %d", ids.length, count);
+      }
+      debug(">>>>>> sleeping for 10 more seconds....");
+      await delay(10000);
+      await host.stop();
+      if (count2 > 3) {
+        throw new Error("We received more messages than we were expecting...");
+      }
+    });
   });
 
   describe("multiple", function () {

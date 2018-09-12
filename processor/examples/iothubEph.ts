@@ -7,23 +7,21 @@ import {
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const path = process.env.EVENTHUB_NAME;
 const storageCS = process.env.STORAGE_CONNECTION_STRING;
 const ehCS = process.env.EVENTHUB_CONNECTION_STRING;
-const leasecontainerName = "test-container";
-const ephName = "my-eph";
+const leasecontainerName = "iothub-test-container";
+const ephName = "my-iothub-eph";
 
 /**
  * The main function that executes the sample.
  */
 async function main() {
-  // Please feel free to use the `./sendBatch.ts` sample to send messages to an EventHub.
-  // Post that you can run this sample to start the EPH and see it in action.
   // 1. Start eph.
   const eph = await startEph(ephName);
   // 2. Sleeeping for 90 seconds. This will give time for eph to receive messages.
   await sleep(90);
-  // 3. After 90 seconds stop eph.
+  // 3. After 90 seconds stop eph. This sample illustrates, how to start and stop the EPH.
+  // You can decide to stop the EPH, based on your business requirements.
   await stopEph(eph);
 }
 
@@ -47,13 +45,12 @@ async function sleep(timeInSeconds: number): Promise<void> {
  * @returns {Promise<EventProcessorHost>} Promise<EventProcessorHost>
  */
 async function startEph(ephName: string): Promise<EventProcessorHost> {
-  // Create the Event Processo Host
-  const eph = EventProcessorHost.createFromConnectionString(
-    EventProcessorHost.createHostName(ephName),
+  // Create the Event Processo Host from an IotHub ConnectionString
+  const eph = await EventProcessorHost.createFromIotHubConnectionString(
+    ephName,
     storageCS!,
     ehCS!,
     {
-      eventHubPath: path,
       // If the lease container name is not provided, then the EPH will use it's name to create
       // a new container. It is important to provide the same container name across different EPH
       // instances for the paritions to be load balanced.
@@ -71,7 +68,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
       : partionCount[context.partitionId]++;
     console.log("##### [%s] %d - Rx message from partition: '%s', offset: '%s'", ephName,
       partionCount[context.partitionId], context.partitionId, data.offset);
-    // Checkpointing every 100th event received for a given partition.
+    // Checkpointing every 100th event
     if (partionCount[context.partitionId] % 100 === 0) {
       try {
         console.log("***** [%s] Number of partitions: %O", ephName, eph.receivingFromPartitions.length);
