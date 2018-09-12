@@ -21,5 +21,7 @@ export class RestError extends Error {
     this.request = request;
     this.response = response;
     this.body = body;
+
+    Object.setPrototypeOf(this, RestError.prototype);
   }
 }
