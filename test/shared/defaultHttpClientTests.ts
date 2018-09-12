@@ -3,6 +3,7 @@
 import * as assert from "assert";
 import * as should from "should";
 import { DefaultHttpClient } from "../../lib/defaultHttpClient";
+import { RestError } from "../../lib/restError";
 import { isNode } from "../../lib/util/utils";
 import { WebResource, HttpRequestBody } from "../../lib/webResource";
 import { baseURL } from "../testUtils";
@@ -240,6 +241,7 @@ describe("defaultHttpClient", () => {
       await client.sendRequest(request);
       throw new Error("request did not fail as expected");
     } catch (err) {
+      err.should.be.instanceof(RestError);
       err.code.should.equal("REQUEST_SEND_ERROR");
     }
   });
