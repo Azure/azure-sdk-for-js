@@ -70,6 +70,11 @@ export interface ClientOptionsBase {
    * option needs to be used only for specialized scenarios.
    */
   dataTransformer?: DataTransformer;
+  /**
+   * @property {string} [userAgent] The user agent that needs to be appended to the built in
+   * user agent string.
+   */
+  userAgent?: string;
 }
 
 /**
