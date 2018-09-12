@@ -1,15 +1,15 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 import {
   EventProcessorHost, OnReceivedError, OnReceivedMessage, EventData, PartitionContext, delay
 } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const storageConnectionString = "STORAGE_CONNECTION_STRING";
-const ehconnectionString = "EVENTHUB_CONNECTION_STRING";
-const entityPath = "EVENTHUB_NAME";
-const path = process.env[entityPath] || "";
-const storageCS = process.env[storageConnectionString];
-const ehCS = process.env[ehconnectionString];
+const path = process.env.EVENTHUB_NAME;
+const storageCS = process.env.STORAGE_CONNECTION_STRING;
+const ehCS = process.env.EVENTHUB_CONNECTION_STRING;
 const leasecontainerName = "test-container";
 const ephName = "my-eph";
 
@@ -17,6 +17,8 @@ const ephName = "my-eph";
  * The main function that executes the sample.
  */
 async function main() {
+  // Please feel free to use the `./sendBatch.ts` sample to send messages to an EventHub.
+  // Post that you can run this sample to start the EPH and see it in action.
   // 1. Start eph.
   const eph = await startEph(ephName);
   // 2. Sleeeping for 90 seconds. This will give time for eph to receive messages.
@@ -62,21 +64,25 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
     }
   );
   // Message handler
-  let count: number = 0;
+  let partionCount: { [x: string]: number } = {};
   const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
-    count++;
-    console.log("##### [%s] %d - Rx message from '%s': '%s'", ephName, count, context.partitionId,
-      data.body);
-    // Checkpointing every 200th event
-    if (count % 200 === 0) {
+    (!partionCount[context.partitionId])
+      ? partionCount[context.partitionId] = 1
+      : partionCount[context.partitionId]++;
+    console.log("##### [%s] %d - Rx message from partition: '%s', offset: '%s'", ephName,
+      partionCount[context.partitionId], context.partitionId, data.offset);
+    // Checkpointing every 100th event received for a given partition.
+    if (partionCount[context.partitionId] % 100 === 0) {
       try {
-        console.log("***** [%s] EPH is currently receiving messages from partitions: %O", ephName,
-          eph.receivingFromPartitions);
+        console.log("***** [%s] Number of partitions: %O", ephName, eph.receivingFromPartitions.length);
+        console.log("***** [%s] EPH is currently receiving messages from partitions: %s", ephName,
+          eph.receivingFromPartitions.toString());
         await context.checkpoint();
-        console.log("$$$$ [%s] Successfully checkpointed message number %d", ephName, count);
+        console.log("$$$$ [%s] Successfully checkpointed message number %d", ephName,
+          partionCount[context.partitionId]);
       } catch (err) {
         console.log(">>>>>>> [%s] An error occurred while checkpointing msg number %d: %O",
-          ephName, count, err);
+          ephName, partionCount[context.partitionId], err);
       }
     }
   };

@@ -5,15 +5,31 @@ import * as uuid from "uuid/v4";
 import { CheckpointInfo } from "./checkpointInfo";
 import { CheckpointManager } from "./checkpointManager";
 import { LeaseManager } from "./leaseManager";
-import { BaseProcessorContext } from "./processorContext";
+import { BaseHostContext } from "./hostContext";
 import { AzureBlob } from "./azureBlob";
-import { validateType, getStorageError, retry, RetryConfig, EPHActionStrings } from "./util/utils";
-import { Lease, LeaseInfo, LeaseLostError } from "./lease";
-import { AzureBlobLease, AzureBlobLeaseInfo } from "./azureBlobLease";
+import { validateType, getStorageError, EPHActionStrings } from "./util/utils";
+import { CompleteLease } from "./completeLease";
+import { AzureBlobLease, AzureBlobLeaseInfo, LeaseInfo } from "./azureBlobLease";
 import { BlobService as StorageBlobService, StorageError } from "azure-storage";
+import { LeaseState } from "./blobService";
+import { BaseLease, BaseLeaseInfo } from "./baseLease";
+import { EPHDiagnosticInfo } from "./modelTypes";
+import {
+  maximumExecutionTimeInMsForLeaseRenewal, metadataOwnerName, leaseLost,
+  leaseIdMismatchWithLeaseOperation, leaseIdMismatchWithBlobOperation
+} from "./util/constants";
 import * as log from "./log";
-import { maximumExecutionTimeInMsForLeaseRenewal } from "./util/constants";
+const path = require("path-browserify");
 
+/**
+ * @ignore
+ */
+enum UploadActivity {
+  create = "create",
+  acquire = "acquire",
+  release = "release",
+  update = "update"
+}
 
 /**
  * @ignore
@@ -21,9 +37,10 @@ import { maximumExecutionTimeInMsForLeaseRenewal } from "./util/constants";
 export class AzureStorageCheckpointLeaseManager implements CheckpointManager, LeaseManager {
   leaseRenewInterval: number;
   leaseDuration: number;
-  private _context: BaseProcessorContext;
+  private _context: BaseHostContext;
+  private _latestCheckpoint: Map<string, CheckpointInfo> = new Map<string, CheckpointInfo>();
 
-  constructor(context: BaseProcessorContext) {
+  constructor(context: BaseHostContext) {
     this._context = context;
     this.leaseDuration = this._context.leaseDuration;
     this.leaseRenewInterval = this._context.leaseRenewInterval;
@@ -34,7 +51,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     let result = this._context.blobReferenceByPartition[partitionId];
     if (!result) {
       const blobPath = `${this._context.composedBlobPrefix}${partitionId}`;
-      result = new AzureBlob(this._context.hostName, this._context.storageConnectionString,
+      result = new AzureBlob(this._context.hostName, this._context.storageConnectionString!,
         this._context.leasecontainerName, blobPath, this._context.blobService);
       this._context.blobReferenceByPartition[partitionId] = result;
     }
@@ -54,79 +71,138 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       const msg = `An error occurred while downloading the lease for blobPath ` +
         `"${this._context.composedBlobPrefix}${partitionId}". It is: \n` +
         `${err ? err.stack : JSON.stringify(err)}`;
-      log.error(msg);
+      log.error(this._context.withHost(msg));
       throw new Error(msg);
     }
   }
 
   async leaseStoreExists(): Promise<boolean> {
-    return await this._context.blobService.doesContainerExist(this._context.leasecontainerName);
+    return await this._context.blobService!.doesContainerExist(this._context.leasecontainerName);
   }
 
-  async createLeaseStoreIfNotExists(): Promise<boolean> {
-    const result = await this._context.blobService.ensureContainerExists(this._context.leasecontainerName);
-    return result.created != undefined;
+  async createLeaseStoreIfNotExists(): Promise<void> {
+    await this._context.blobService!.ensureContainerExists(this._context.leasecontainerName);
+    return;
   }
 
-  async deleteLeaseStore(): Promise<boolean> {
-    return true;
-  }
-
-  async getLease(partitionId: string): Promise<Lease | undefined> {
-    validateType("partitionId", partitionId, true, "string");
-    let result: Lease | undefined;
-    const blob = this.getAzureBlob(partitionId);
-    log.checkpointLeaseMgr("[%s] Getting lease for partitionId '%s'.", this._context.hostName,
-      partitionId);
-    if (await blob.doesBlobExist()) {
-      result = await this.downloadLease(partitionId, blob);
-    }
-    return result;
-  }
-
-  async getAllLeases(): Promise<Array<Promise<Lease | undefined>>> {
-    const result: Array<Promise<Lease | undefined>> = [];
+  async deleteLeaseStore(): Promise<void> {
+    const blobService = this._context.blobService;
+    const leasecontainerName = this._context.leasecontainerName;
     try {
-      let ids: string[] = this._context.partitionIds || [];
-
-      if (!ids.length) {
-        const config: RetryConfig<string[]> = {
-          operation: () => this._context.eventHubClient.getPartitionIds(),
-          hostName: this._context.hostName,
-          action: EPHActionStrings.gettingAllLeases,
-          maxRetries: 5,
-          finalFailureMessage: "Failure getting all the partitions while getting all leases, retrying.",
-          retryMessage: "Out of retries for getting all the partitions while getting all leases."
-        };
-        ids = await retry<string[]>(config);
-        this._context.partitionIds = ids;
-      }
-      for (const id of ids) {
-        result.push(this.getLease(id));
+      if (blobService) {
+        const listResult = await blobService.listBlobsSegmented(leasecontainerName);
+        const deleteBlobs: Promise<void>[] = [];
+        for (const blob of listResult.entries) {
+          deleteBlobs.push(blobService.deleteBlobIfExists(leasecontainerName, blob.name));
+        }
+        await Promise.all(deleteBlobs);
+        await blobService.deleteContainerIfExists(leasecontainerName);
+      } else {
+        throw new Error("'blobService' is not defined in the 'hostContext', hence cannot " +
+          "list all the blobs.");
       }
     } catch (err) {
-      this._context.onEphError(err);
+      const msg = `An error occurred while deleting the lease store '${leasecontainerName}': %O` +
+        `${err ? err.stack : JSON.stringify(err)}`;
+      log.error(this._context.withHost(msg));
+      const info: EPHDiagnosticInfo = {
+        error: new Error(msg),
+        hostName: this._context.hostName,
+        partitionId: "N/A",
+        action: EPHActionStrings.deletingLeaseStore
+      };
+      this._context.onEphError(info);
     }
-    log.checkpointLeaseMgr("[%s] Promises of number of leases to get: %d", this._context.hostName,
-      result.length);
+  }
+
+  async getLease(partitionId: string): Promise<AzureBlobLease | undefined> {
+    validateType("partitionId", partitionId, true, "string");
+    let result: AzureBlobLease | undefined;
+    const blob = this.getAzureBlob(partitionId);
+    const withHostAndPartition = this._context.withHostAndPartition;
+    log.checkpointLeaseMgr(withHostAndPartition(partitionId, "Getting lease."));
+    try {
+      if (await blob.doesBlobExist()) {
+        result = await this.downloadLease(partitionId, blob);
+      }
+    } catch (err) {
+      const msg = `An error occurred while getting lease for partitionId '${partitionId}': \n` +
+        `${err ? err.stack : JSON.stringify(err)}`;
+      log.error(withHostAndPartition(partitionId, msg));
+      throw new Error(msg);
+    }
     return result;
   }
 
-  async createLeaseIfNotExists(partitionId: string): Promise<Lease> {
+  async getAllLeases(): Promise<BaseLease[]> {
+    const result: BaseLease[] = [];
+    const withHost = this._context.withHost;
+    const withHostAndPartition = this._context.withHostAndPartition;
+    try {
+      const leaseBlobs: StorageBlobService.BlobResult[] = await this._listBlobs();
+      for (const lbi of leaseBlobs) {
+        const name = lbi.name;
+        const partitionId = path.basename(name);
+        const leaseInfo: BaseLeaseInfo = {
+          partitionId: partitionId,
+          owner: lbi.metadata![metadataOwnerName]
+        };
+        const lease = new BaseLease(leaseInfo);
+        lease.isOwned = (lbi.lease && lbi.lease.state === LeaseState.leased) || false;
+        result.push(lease);
+        log.checkpointLeaseMgr(withHostAndPartition(partitionId, "BlobResult item from the list " +
+          "of blobs is: name: %s, lease: %o, metadata: %o."), lbi.name, lbi.lease, lbi.metadata);
+      }
+    } catch (err) {
+      const info: EPHDiagnosticInfo = {
+        error: err,
+        action: EPHActionStrings.gettingAllLeases,
+        hostName: this._context.hostName,
+        partitionId: "N/A"
+      };
+      this._context.onEphError(info);
+    }
+    log.checkpointLeaseMgr(withHost("Number of leases: %d"), result.length);
+    return result;
+  }
+
+  async createAllLeasesIfNotExists(partitionIds: string[]): Promise<void> {
+    try {
+      const withHost = this._context.withHost;
+      const leaseBlobs = await this._listBlobs();
+      if (leaseBlobs.length === partitionIds.length) {
+        log.checkpointLeaseMgr(withHost("Number of blobs %d === Number of partitionIds %d. " +
+          "Hence no need to create leases."), leaseBlobs.length, partitionIds.length);
+        return;
+      } else {
+        const createPromises: Promise<CompleteLease>[] = [];
+        for (const id of partitionIds) {
+          const createPromise: Promise<CompleteLease> = this.createLeaseIfNotExists(id);
+          createPromises.push(createPromise);
+        }
+        await Promise.all(createPromises);
+      }
+    } catch (err) {
+      const info: EPHDiagnosticInfo = {
+        error: err,
+        action: EPHActionStrings.creatingAllLeases,
+        hostName: this._context.hostName,
+        partitionId: "N/A"
+      };
+      this._context.onEphError(info);
+      throw err;
+    }
+  }
+
+  async createLeaseIfNotExists(partitionId: string): Promise<CompleteLease> {
     validateType("partitionId", partitionId, true, "string");
-    log.checkpointLeaseMgr("[%s] createLeaseIfNotExists for partitionId '%s'.",
-      this._context.hostName, partitionId);
+    const withHostAndPartition = this._context.withHostAndPartition;
+    log.checkpointLeaseMgr(withHostAndPartition(partitionId, "createLeaseIfNotExists."));
     let returnLease: AzureBlobLease;
     try {
       const blob = this.getAzureBlob(partitionId);
       returnLease = AzureBlobLease.createFromPartitionId(partitionId, blob);
-      const jsonLease: string = returnLease.serialize();
-      const options: StorageBlobService.CreateBlobRequestOptions = {
-        accessConditions: {
-          EtagNonMatch: "*"
-        }
-      };
-      await blob.updateContent(jsonLease, options);
+      await this._uploadLease(returnLease, UploadActivity.create);
     } catch (error) {
       const statusCode = (error as StorageError).statusCode;
       const code = (error as StorageError).code;
@@ -136,28 +212,36 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
         (statusCode === 409 && code && code.toLowerCase() === "blobalreadyexists")) {
         returnLease = <AzureBlobLease>await this.getLease(partitionId);
       } else {
-        log.error("[%s] An error occurred while creating lease if it does not exist: %O.",
-          this._context.hostName, error);
+        log.error(withHostAndPartition(partitionId, "An error occurred while creating lease if " +
+          "it does not exist: %O."), error);
         throw error;
       }
     }
     return returnLease;
   }
 
-  async deleteLease(lease: Lease): Promise<boolean> {
-    return await (<AzureBlobLease>lease).blob.deleteBlobIfExists();
+  async deleteLease(lease: AzureBlobLease): Promise<void> {
+    try {
+      return await (lease).blob.deleteBlobIfExists();
+    } catch (err) {
+      const msg = `An error occurred while deleting the lease for blobPath ` +
+        `"${this._context.composedBlobPrefix}${lease.partitionId}". It is: \n` +
+        `${err ? err.stack : JSON.stringify(err)}`;
+      log.error(this._context.withHostAndPartition(lease, msg));
+      throw new Error(msg);
+    }
   }
 
-  async acquireLease(lease: Lease): Promise<boolean> {
-    const blobLease: AzureBlobLease = lease as AzureBlobLease;
-    const result: boolean = true;
+  async acquireLease(lease: AzureBlobLease): Promise<boolean> {
+    let result: boolean = true;
     const newLeaseId: string = uuid();
+    const withHostAndPartition = this._context.withHostAndPartition;
     try {
       // TODO: We are initializing newToken to empty string.
       let newToken: string = "";
-      const blobResult = await blobLease.blob.getBlobProperties();
+      const blobResult = await lease.blob.getBlobProperties();
       if (blobResult.lease && blobResult.lease.state && blobResult.lease.state === "leased") {
-        if (!blobLease.token) {
+        if (!lease.token) {
           // We reach here in a race condition: when this instance of EventProcessorHost scanned the
           // lease blobs, this partition was unowned (token is empty) but between then and now, another
           // instance of EPH has established a lease (getLeaseState() is LEASED). We normally enforce
@@ -167,9 +251,9 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
           // rebalancing will take care of that quickly enough.
           return false;
         }
-        log.checkpointLeaseMgr("[%s] Need to change lease '%s' -> '%s' for partitionId '%s'.",
-          this._context.hostName, blobLease.token, newLeaseId, blobLease.partitionId);
-        const changeLeaseResult = await blobLease.blob.changeLease(blobLease.token, newLeaseId);
+        log.checkpointLeaseMgr(withHostAndPartition(lease, "Need to change lease '%s' -> '%s' " +
+          "for partitionId '%s'."), lease.token, newLeaseId, lease.partitionId);
+        const changeLeaseResult = await lease.blob.changeLease(lease.token, newLeaseId);
         newToken = changeLeaseResult.id;
       } else {
         try {
@@ -177,7 +261,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
             leaseDuration: this.leaseDuration,
             proposedLeaseId: newLeaseId
           };
-          const acquireResult = await blobLease.blob.acquireLease(options);
+          const acquireResult = await lease.blob.acquireLease(options);
           newToken = acquireResult.id;
         } catch (err) {
           const statusCode = err && (err as StorageError).statusCode;
@@ -188,53 +272,58 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
           }
         }
       }
-      blobLease.token = newToken;
-      blobLease.owner = this._context.hostName;
+      lease.token = newToken;
+      lease.owner = this._context.hostName;
       // Increment epoch each time lease is acquired or stolen by a new host
       lease.incrementEpoch();
-      const options: StorageBlobService.CreateBlobRequestOptions = {
-        leaseId: lease.token
-      };
-      await blobLease.blob.updateContent(blobLease.serialize(), options);
+      await this._uploadLease(lease, UploadActivity.acquire);
     } catch (err) {
-      throw this._handleStorageError(lease.partitionId, err);
+      if (this._wasLeaseLost(lease.partitionId, err)) {
+        result = false;
+      } else {
+        throw err;
+      }
     }
     return result;
   }
 
-  async renewLease(lease: Lease): Promise<boolean> {
-    const blobLease: AzureBlobLease = lease as AzureBlobLease;
+  async renewLease(lease: AzureBlobLease): Promise<boolean> {
+    let result: boolean = false;
     try {
       const options: StorageBlobService.LeaseRequestOptions = {
         timeoutIntervalInMs: this.leaseRenewInterval * 1000,
         maximumExecutionTimeInMs: maximumExecutionTimeInMsForLeaseRenewal
       };
-      await blobLease.blob.renewLease(lease.token, options);
+      await lease.blob.renewLease(lease.token, options);
+      result = true;
     } catch (err) {
-      throw this._handleStorageError(lease.partitionId, err);
+      if (!this._wasLeaseLost(lease.partitionId, err)) {
+        throw err;
+      }
     }
-    return true;
+    return result;
   }
 
-  async releaseLease(lease: Lease): Promise<boolean> {
-    const blobLease: AzureBlobLease = lease as AzureBlobLease;
+  async releaseLease(lease: AzureBlobLease): Promise<void> {
+    const withHostAndPartition = this._context.withHostAndPartition;
     try {
-      const leaseId: string = blobLease.token;
-      const releasedCopy = new AzureBlobLease({ ...blobLease.getInfo(), blob: blobLease.blob });
+      const leaseId: string = lease.token;
+      log.checkpointLeaseMgr(withHostAndPartition(lease, "Trying to release the lease."));
+      const releasedCopy = new AzureBlobLease({ ...lease.getInfo(), blob: lease.blob });
       releasedCopy.owner = "";
       releasedCopy.token = "";
-      const options: StorageBlobService.CreateBlobRequestOptions = {
-        leaseId: leaseId
-      };
-      await blobLease.blob.updateContent(releasedCopy.serialize(), options);
-      await blobLease.blob.releaseLease(leaseId);
+      await this._uploadLease(lease, UploadActivity.release);
+      await lease.blob.releaseLease(leaseId);
     } catch (err) {
-      throw this._handleStorageError(lease.partitionId, err);
+      if (!this._wasLeaseLost(lease.partitionId, err)) {
+        throw err;
+      }
     }
-    return true;
+    return;
   }
 
-  async updateLease(lease: Lease): Promise<boolean> {
+  async updateLease(lease: AzureBlobLease): Promise<boolean> {
+    const withHostAndPartition = this._context.withHostAndPartition;
     if (lease == undefined) {
       return false;
     }
@@ -243,58 +332,84 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       return false;
     }
 
-    log.checkpointLeaseMgr("[%s] Let us renew the lease to make sure the update with offset '%s'" +
-      "and sequence number %d will go through.", this._context.hostName, lease.offset,
+    log.checkpointLeaseMgr(withHostAndPartition(lease, "Let us renew the lease to make sure the " +
+      "update with offset '%s' and sequence number %d will go through."), lease.offset,
       lease.sequenceNumber);
-    await this.renewLease(lease);
-    try {
-      const jsonToUpload = lease.serialize();
-      const options: StorageBlobService.CreateBlobRequestOptions = {
-        leaseId: lease.token
-      };
-      await (<AzureBlobLease>lease).blob.updateContent(jsonToUpload, options);
-    } catch (err) {
-      throw this._handleStorageError(lease.partitionId, err);
+    let result = await this.renewLease(lease);
+    if (result) {
+      try {
+        await this._uploadLease(lease, UploadActivity.update);
+      } catch (err) {
+        if (this._wasLeaseLost(lease.partitionId, err)) {
+          result = false;
+        } else {
+          throw err;
+        }
+      }
     }
-    return true;
+    // else could not renew lease due to lease loss. Result is already false, so pass it unchanged
+    return result;
   }
 
   async checkpointStoreExists(): Promise<boolean> {
-    log.checkpointLeaseMgr("[%s] Checking whether the checkpoint store exists.", this._context.hostName);
+    log.checkpointLeaseMgr(this._context.withHost("Checking whether the checkpoint store exists."));
     return await this.leaseStoreExists();
   }
 
-  async createCheckpointStoreIfNotExists(): Promise<boolean> {
-    log.checkpointLeaseMgr("[%s] Creating checkpointstore if not exist.", this._context.hostName);
-    return this.createLeaseStoreIfNotExists();
+  async deleteCheckpointStore(): Promise<void> {
+    return this.deleteLeaseStore();
   }
 
-  async createCheckpointIfNotExists(partitionId: string): Promise<CheckpointInfo> {
-    validateType("partitionId", partitionId, true, "string");
-    log.checkpointLeaseMgr("[%s] Creating checkpoint if not exist for partitionId '%s'.",
-      this._context.hostName, partitionId);
-    const lease: AzureBlobLease = <AzureBlobLease>await this.createLeaseIfNotExists(partitionId);
-    const checkpoint: CheckpointInfo = CheckpointInfo.createFromLease(lease.getInfo());
-    return checkpoint;
+  async createCheckpointStoreIfNotExists(): Promise<void> {
+    // This is a no-op since this method will be called only creating the lease store.
+    // The lease store and the checkpoint store are the same thing.
+    return;
+  }
+
+  async createAllCheckpointsIfNotExists(partitionIds: string[]): Promise<void> {
+    validateType("partitionIds", partitionIds, true, "Array");
+    // Because we control the caller, we know that this method will only be called after
+    // createAllLeasesIfNotExists. In this implementation checkpoints are in the same
+    // blobs as leases, so the blobs will already exist if execution reaches here.
+    return;
   }
 
   async getCheckpoint(partitionId: string): Promise<CheckpointInfo | undefined> {
     validateType("partitionId", partitionId, true, "string");
+    const withHostAndPartition = this._context.withHostAndPartition;
     let result: CheckpointInfo | undefined;
-    log.checkpointLeaseMgr("[%s] Getting checkpoint for partitionId '%s'.", this._context.hostName,
-      partitionId);
-    const lease: Lease | undefined = await this.getLease(partitionId);
-    if (lease != undefined && lease.offset != undefined) {
+    log.checkpointLeaseMgr(withHostAndPartition(partitionId, "Getting checkpoint."));
+    const lease: AzureBlobLease | undefined = await this.getLease(partitionId);
+    if (lease != undefined && lease.offset) {
       result = CheckpointInfo.createFromLease(lease.getInfo());
     }
     return result;
   }
 
-  async updateCheckpoint(lease: Lease, checkpoint: CheckpointInfo): Promise<boolean> {
-    // TODO: check if owner, epoch, token also get updated properly.
+  async updateCheckpoint(lease: AzureBlobLease, checkpoint: CheckpointInfo): Promise<void> {
+    const withHostAndPartition = this._context.withHostAndPartition;
+    log.checkpointLeaseMgr(withHostAndPartition(checkpoint, "Checkpoint at offset '%s' and seqno %d."),
+      checkpoint.offset, checkpoint.sequenceNumber);
     lease.offset = checkpoint.offset;
     lease.sequenceNumber = checkpoint.sequenceNumber;
-    return await this.updateLease(lease);
+    try {
+      if (await this.updateLease(lease)) {
+        return;
+      } else {
+        const msg = `Lease lost while updating the checkpoint for partitionId ` +
+          `'${checkpoint.partitionId}'.Hence could not update it.`;
+        log.error(withHostAndPartition(lease, msg));
+        throw new Error(msg);
+      }
+    } catch (err) {
+      const info: EPHDiagnosticInfo = {
+        action: EPHActionStrings.updatingCheckpoint,
+        error: err,
+        hostName: this._context.hostName,
+        partitionId: checkpoint.partitionId
+      };
+      this._context.onEphError(info);
+    }
   }
 
   async deleteCheckpoint(partitionId: string): Promise<void> {
@@ -302,20 +417,85 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     // This is a no-op to avoid deleting leases accidentally.
   }
 
-  private _handleStorageError(partitionId: string, err: StorageError): Error {
-    log.error("[%s] HandleStorageError -> partitionId: '%s', err: %O", this._context.hostName,
-      partitionId, getStorageError(err));
+  private async _listBlobs(): Promise<StorageBlobService.BlobResult[]> {
+    const blobService = this._context.blobService;
+    const withHost = this._context.withHost;
+    if (blobService) {
+      const listResult = await blobService.listBlobsSegmented(this._context.leasecontainerName);
+      log.checkpointLeaseMgr(withHost("Number of blobs: %d"), listResult.entries.length);
+      return listResult.entries;
+    } else {
+      throw new Error("'blobService' is not defined in the 'hostContext', hence cannot " +
+        "list all the blobs.");
+    }
+  }
+
+  private async _uploadLease(lease: AzureBlobLease, activity: UploadActivity,
+    options?: StorageBlobService.CreateBlobRequestOptions): Promise<void> {
+    const partitionId = lease.partitionId;
+    const blob = lease.blob;
+    const withHostAndPartition = this._context.withHostAndPartition;
+    if (activity !== UploadActivity.create) {
+      // It is possible for AzureBlobLease objects in memory to have stale offset/sequence number
+      // fields if a checkpoint was written but PartitionManager hasn't done its ten-second sweep
+      // which downloads new copies of all the leases. This can happen because we're trying to
+      // maintain the fiction that checkpoints and leases are separate -- which they can be in
+      // other implementations -- even though they are completely intertwined in this
+      // implementation. To prevent writing stale checkpoint data to the store, merge the
+      // checkpoint data from the most recently written checkpoint into this write, if needed.
+      if (this._latestCheckpoint.has(partitionId)) {
+        const cached: CheckpointInfo = this._latestCheckpoint.get(partitionId)!;
+        if (cached.sequenceNumber > lease.sequenceNumber || lease.offset == undefined) {
+          lease.offset = cached.offset,
+            lease.sequenceNumber = cached.sequenceNumber;
+          log.checkpointLeaseMgr(withHostAndPartition(lease, "Updating stale offset/seqno with " +
+            "new values %s/%d while uploading lease."), lease.offset, lease.sequenceNumber);
+        } else if (lease.offset != undefined) {
+          this._latestCheckpoint.set(partitionId, CheckpointInfo.createFromLease(lease.getInfo()));
+        }
+      }
+    }
+    const jsonToUpload = lease.serialize();
+    if (!options) {
+      options = {
+        leaseId: lease.token,
+      };
+    }
+    if (!options.metadata) options.metadata = {};
+    // - For "acquire" and "update" activities, the metadata must be set, since that is the time
+    // when the host actually owns the lease. If metadata is not set for update activity
+    // (i.e. while checkpointing), then the metadata is wiped off (over-written).
+    // This causes problems for the partition scanner while trying to determine the lease owner.
+    // - For "release" activity the metadata needs to be deleted/unset, since the intention is to
+    // not own the lease anymore (due to lease being lost or the receiver shutting down). Hence,
+    // setting the metadata as an empty object.
+    // - For "create" activity, the intention is to create a lease if it does not exist, but not own
+    // it. The lease state will be available and the status will be unlocked. Hence setting the
+    // metadata as an empty object.
+    if (activity === UploadActivity.acquire || activity === UploadActivity.update) {
+      options.metadata[metadataOwnerName] = lease.owner || this._context.hostName;
+    }
+    log.checkpointLeaseMgr(withHostAndPartition(lease, "Trying to upload raw JSON for activity " +
+      "'%s': %s, with options: %o"), activity, jsonToUpload, options);
+    await blob.updateContent(jsonToUpload, options);
+  }
+
+  private _wasLeaseLost(partitionId: string, err: StorageError): boolean {
+    let result: boolean = false;
     const statusCode = err.statusCode;
     const code = err.code;
+    const withHostAndPartition = this._context.withHostAndPartition;
     // conflict OR precondition failed.
     if (statusCode && statusCode === 409 || statusCode === 412) {
       if (!code || (code &&
-        (code.toLowerCase() === "leaselost" ||
-          code.toLowerCase() === "leaseidmismatchwithleaseoperation" ||
-          code.toLowerCase() === "leaseidmismatchwithbloboperation"))) {
-        return new LeaseLostError(partitionId, `Lease for partitionId "${partitionId}" lost.`, err);
+        (code.toLowerCase() === leaseLost ||
+          code.toLowerCase() === leaseIdMismatchWithLeaseOperation ||
+          code.toLowerCase() === leaseIdMismatchWithBlobOperation))) {
+        result = true;
       }
     }
-    return err;
+    log.error(withHostAndPartition(partitionId, "Was lease lost -> %s, err: %O."),
+      result, getStorageError(err));
+    return result;
   }
 }

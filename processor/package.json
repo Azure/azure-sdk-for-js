@@ -13,7 +13,8 @@
     "debug": "^3.1.0",
     "ms-rest-azure": "^2.5.7",
     "tslib": "^1.9.3",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "path-browserify": "^1.0.0"
   },
   "devDependencies": {
     "@types/async-lock": "^1.1.0",

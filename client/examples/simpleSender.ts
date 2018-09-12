@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 import { EventHubClient, EventData } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -16,7 +19,7 @@ async function main(): Promise<void> {
   // NOTE: For receiving events from Azure Stream Analytics, please send Events to an EventHub
   // where the body is a JSON object/array.
   // const data = { body: { "message": "Hello World" } };
-  const delivery = await client.send(data);
+  const delivery = await client.send(data, "0");
   console.log(">>> Sent the message successfully: ", delivery.tag.toString());
   console.log(delivery);
   await client.close();

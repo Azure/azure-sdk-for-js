@@ -45,3 +45,6 @@ typedoc/
 # coverage #
 .nyc_output
 coverage
+*.jpg
+*.jpeg
+*.png

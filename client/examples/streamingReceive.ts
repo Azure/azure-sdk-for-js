@@ -1,4 +1,9 @@
-import { EventHubClient, EventPosition, OnMessage, OnError, MessagingError, ReceiveOptions } from "../lib";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
+import {
+  EventHubClient, EventPosition, OnMessage, OnError, MessagingError, ReceiveOptions, delay
+} from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -18,11 +23,16 @@ async function main(): Promise<void> {
     console.log(">>>>> Error occurred: ", err);
   };
   const options: ReceiveOptions = {
-    eventPosition: EventPosition.fromEnqueuedTime(Date.now()),
+    // Receive messages starting from the last 1 hour.
+    eventPosition: EventPosition.fromEnqueuedTime(Date.now() - (60 * 60 * 1000)),
     enableReceiverRuntimeMetric: true
   }
   const rcvHandler = client.receive("0", onMessage, onError, options);
   console.log("rcvHandler: ", rcvHandler.name);
+  await delay(10000);
+  // await rcvHandler.stop();
+  console.log("Closed the receiver after receiving messages for 10 seconds.");
+  await client.close();
 }
 
 main().catch((err) => {
