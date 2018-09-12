@@ -441,9 +441,8 @@ function resolveModelProperties(serializer: Serializer, mapper: CompositeMapper,
 }
 
 function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper, object: any, objectName: string) {
-  // check for polymorphic discriminator
   if (mapper.type.polymorphicDiscriminator) {
-    mapper = getPolymorphicMapper(serializer, mapper, object, objectName, "clientName");
+    mapper = getPolymorphicMapper(serializer, mapper, object, "clientName");
   }
 
   if (object != undefined) {
@@ -481,7 +480,13 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
           ? objectName + "." + propertyMapper.serializedName
           : objectName;
 
-        const serializedValue = serializer.serialize(propertyMapper, object[key], propertyObjectName);
+        let toSerialize = object[key];
+        const polymorphicDiscriminator = mapper.type.polymorphicDiscriminator;
+        if (polymorphicDiscriminator && polymorphicDiscriminator.clientName === key && toSerialize == undefined) {
+          toSerialize = mapper.serializedName;
+        }
+
+        const serializedValue = serializer.serialize(propertyMapper, toSerialize, propertyObjectName);
         if (serializedValue !== undefined && propName != undefined) {
           if (propertyMapper.xmlIsAttribute) {
             // $ is the key attributes are kept under in xml2js.
@@ -516,7 +521,7 @@ function serializeCompositeType(serializer: Serializer, mapper: CompositeMapper,
 
 function deserializeCompositeType(serializer: Serializer, mapper: CompositeMapper, responseBody: any, objectName: string): any {
   if (mapper.type.polymorphicDiscriminator) {
-    mapper = getPolymorphicMapper(serializer, mapper, responseBody, objectName, "serializedName");
+    mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
   }
 
   const modelProps = resolveModelProperties(serializer, mapper, objectName);
@@ -566,6 +571,11 @@ function deserializeCompositeType(serializer: Serializer, mapper: CompositeMappe
         res = res[item];
       }
       propertyInstance = res;
+      const polymorphicDiscriminator = mapper.type.polymorphicDiscriminator;
+      if (polymorphicDiscriminator && propertyMapper.serializedName === polymorphicDiscriminator.serializedName && propertyInstance == undefined) {
+        propertyInstance = mapper.serializedName;
+      }
+
       let serializedValue;
       // paging
       if (Array.isArray(responseBody[key]) && modelProps[key].serializedName === "") {
@@ -639,27 +649,20 @@ function deserializeSequenceType(serializer: Serializer, mapper: SequenceMapper,
   return responseBody;
 }
 
-function getPolymorphicMapper(serializer: Serializer, mapper: CompositeMapper, object: any, objectName: string, polymorphicPropertyName: "clientName" | "serializedName"): CompositeMapper {
+function getPolymorphicMapper(serializer: Serializer, mapper: CompositeMapper, object: any, polymorphicPropertyName: "clientName" | "serializedName"): CompositeMapper {
   const polymorphicDiscriminator = mapper.type.polymorphicDiscriminator;
   if (polymorphicDiscriminator) {
-    const discriminatorAsObject: PolymorphicDiscriminator = mapper.type.polymorphicDiscriminator as PolymorphicDiscriminator;
-    if (discriminatorAsObject && discriminatorAsObject[polymorphicPropertyName] != undefined) {
-      if (object == undefined) {
-        throw new Error(`${objectName}" cannot be null or undefined. ` +
-          `"${discriminatorAsObject[polymorphicPropertyName]}" is the ` +
-          `polymorphicDiscriminator is a required property.`);
-      }
-      if (object[discriminatorAsObject[polymorphicPropertyName]] == undefined) {
-        throw new Error(`No discriminator field "${discriminatorAsObject[polymorphicPropertyName]}" was found in "${objectName}".`);
-      }
-      let indexDiscriminator = undefined;
-      if (object[discriminatorAsObject[polymorphicPropertyName]] === mapper.type.uberParent) {
-        indexDiscriminator = object[discriminatorAsObject[polymorphicPropertyName]];
-      } else {
-        indexDiscriminator = mapper.type.uberParent + "." + object[discriminatorAsObject[polymorphicPropertyName]];
-      }
-      if (serializer.modelMappers && serializer.modelMappers.discriminators[indexDiscriminator]) {
-        mapper = serializer.modelMappers.discriminators[indexDiscriminator];
+    const discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
+    if (discriminatorName != undefined) {
+      const discriminatorValue = object[discriminatorName];
+      if (discriminatorValue != undefined) {
+        const indexDiscriminator = discriminatorValue === mapper.type.uberParent
+          ? discriminatorValue
+          : mapper.type.uberParent + "." + discriminatorValue;
+        const polymorphicMapper = serializer.modelMappers.discriminators[indexDiscriminator];
+        if (polymorphicMapper) {
+          mapper = polymorphicMapper;
+        }
       }
     }
   }
