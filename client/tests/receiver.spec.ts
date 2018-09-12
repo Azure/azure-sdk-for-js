@@ -12,6 +12,8 @@ const debug = debugModule("azure:event-hubs:receiver-spec");
 import { EventPosition, EventHubClient, EventData, EventHubRuntimeInformation, delay } from "../lib";
 import { BatchingReceiver } from "../lib/batchingReceiver"
 import { ReceiveHandler } from "../lib/streamingReceiver";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 describe("EventHub Receiver", function () {
   this.timeout(60000);
