@@ -61,13 +61,10 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
   const eph = EventProcessorHost.createFromConnectionString(
     ephName,
     storageCS!,
+    leasecontainerName,
     ehCS!,
     {
       eventHubPath: path,
-      // If the lease container name is not provided, then the EPH will use it's name to create
-      // a new container. It is important to provide the same container name across different EPH
-      // instances for the paritions to be load balanced.
-      leasecontainerName: leasecontainerName,
       // This method will provide errors that occur during lease and partition management. The
       // errors that occur while receiving messages will be provided in the onError handler
       // provided in the eph.start() method.

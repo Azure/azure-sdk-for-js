@@ -49,12 +49,9 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
   const eph = await EventProcessorHost.createFromIotHubConnectionString(
     ephName,
     storageCS!,
+    leasecontainerName,
     ehCS!,
     {
-      // If the lease container name is not provided, then the EPH will use it's name to create
-      // a new container. It is important to provide the same container name across different EPH
-      // instances for the paritions to be load balanced.
-      leasecontainerName: leasecontainerName,
       onEphError: (error) => {
         console.log(">>>>>>> [%s] Error: %O", ephName, error);
       }

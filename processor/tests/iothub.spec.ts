@@ -31,6 +31,7 @@ describe("EPH with iothub connection string", function () {
       host = await EventProcessorHost.createFromIotHubConnectionString(
         hostName,
         storageConnString!,
+        EventProcessorHost.createHostName("iot"),
         iothubConnString!,
         {
           initialOffset: EventPosition.fromEnqueuedTime(Date.now()),
