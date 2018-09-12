@@ -23,7 +23,7 @@ import {
 import {
   maxLeaseDurationInSeconds, minLeaseDurationInSeconds, defaultLeaseRenewIntervalInSeconds,
   defaultLeaseDurationInSeconds, defaultConsumerGroup, defaultStartupScanDelayInSeconds,
-  defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds,
+  defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds, packageInfo, userAgentPrefix,
 } from "./util/constants";
 
 /**
@@ -53,6 +53,7 @@ export interface BaseHostContext {
   fastScanInterval?: number;
   slowScanInterval?: number;
   pumps: Map<string, PartitionPump>;
+  userAgent: string;
   withHost(msg: string): string;
   withHostAndPartition(partition: string | { partitionId: string }, msg: string): string;
 }
@@ -192,6 +193,7 @@ export namespace HostContext {
       startupScanDelay: options.startupScanDelay,
       fastScanInterval: options.fastScanInterval,
       slowScanInterval: options.slowScanInterval,
+      userAgent: getUserAgent(options),
       withHost: (msg: string) => {
         return `[${hostName}] ${msg}`;
       },
@@ -226,9 +228,10 @@ export namespace HostContext {
     childContext.getEventHubClient = () => {
       if (ctxt.tokenProvider) {
         return EventHubClient.createFromTokenProvider(ctxt.connectionConfig.host,
-          ctxt.eventHubPath, ctxt.tokenProvider);
+          ctxt.eventHubPath, ctxt.tokenProvider, { userAgent: ctxt.userAgent });
       } else {
-        return EventHubClient.createFromConnectionString(ctxt.eventHubConnectionString, ctxt.eventHubPath);
+        return EventHubClient.createFromConnectionString(
+          ctxt.eventHubConnectionString, ctxt.eventHubPath, { userAgent: ctxt.userAgent });
       }
     };
     childContext.getHubRuntimeInformation = async () => {
@@ -259,6 +262,12 @@ export namespace HostContext {
     const contextWithPumpManager = context as HostContextWithPumpManager;
     contextWithPumpManager.pumpManager = new PumpManager(context);
     return contextWithPumpManager;
+  }
+
+  export function getUserAgent(options: EventProcessorHostOptions): string {
+    const userAgentForEPH = `${userAgentPrefix}=${packageInfo.version}`;
+    const finalUserAgent = options.userAgent ? `${userAgentForEPH},${options.userAgent}` : userAgentForEPH;
+    return finalUserAgent;
   }
 
   /**
