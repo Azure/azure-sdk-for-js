@@ -14,6 +14,9 @@ import { AzureBlob } from "./azureBlob";
 import { AzureStorageCheckpointLeaseManager } from "./azureStorageCheckpointLeaseManager";
 import { CheckpointManager } from "./checkpointManager";
 import { validateType, Dictionary } from "./util/utils";
+import { PartitionContext } from "./partitionContext";
+import { BaseLease } from "./baseLease";
+import { PartitionPump } from "./partitionPump";
 import {
   EventProcessorHostOptions, OnEphError, OnReceivedMessage, OnReceivedError
 } from "./modelTypes";
@@ -21,10 +24,7 @@ import {
   maxLeaseDurationInSeconds, minLeaseDurationInSeconds, defaultLeaseRenewIntervalInSeconds,
   defaultLeaseDurationInSeconds, defaultConsumerGroup, defaultStartupScanDelayInSeconds,
   defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds,
-  defaultCheckpointTimeoutInSeconds
 } from "./util/constants";
-import { PartitionContext } from './partitionContext';
-import { BaseLease } from './baseLease';
 
 /**
  * @ignore
@@ -52,7 +52,7 @@ export interface BaseHostContext {
   startupScanDelay?: number;
   fastScanInterval?: number;
   slowScanInterval?: number;
-  checkpointTimeout?: number;
+  pumps: Map<string, PartitionPump>;
   withHost(msg: string): string;
   withHostAndPartition(partition: string | { partitionId: string }, msg: string): string;
 }
@@ -154,7 +154,6 @@ export namespace HostContext {
     if (!options.startupScanDelay) options.startupScanDelay = defaultStartupScanDelayInSeconds;
     if (!options.fastScanInterval) options.fastScanInterval = defaultFastScanIntervalInSeconds;
     if (!options.slowScanInterval) options.slowScanInterval = defaultSlowScanIntervalInSeconds;
-    if (!options.checkpointTimeout) options.checkpointTimeout = defaultCheckpointTimeoutInSeconds;
 
     validateType("options", options, true, "object");
     validateType("options.eventHubPath", options.eventHubPath, true, "string");
@@ -179,6 +178,7 @@ export namespace HostContext {
       tokenProvider: options.tokenProvider,
       blobReferenceByPartition: {},
       partitionIds: [],
+      pumps: new Map<string, PartitionPump>(),
       consumerGroup: options.consumerGroup,
       leasecontainerName: options.leasecontainerName,
       leaseRenewInterval: options.leaseRenewInterval,
@@ -192,7 +192,6 @@ export namespace HostContext {
       startupScanDelay: options.startupScanDelay,
       fastScanInterval: options.fastScanInterval,
       slowScanInterval: options.slowScanInterval,
-      checkpointTimeout: options.checkpointTimeout,
       withHost: (msg: string) => {
         return `[${hostName}] ${msg}`;
       },
@@ -262,6 +261,9 @@ export namespace HostContext {
     return contextWithPumpManager;
   }
 
+  /**
+   * @ignore
+   */
   export function create(hostName: string, options: EventProcessorHostOptions): HostContext {
     const context = _createWithPumpManager(hostName, options);
     const hostContext = context as HostContext;

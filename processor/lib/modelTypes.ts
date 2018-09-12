@@ -68,6 +68,13 @@ export type OnReceivedError = (error: MessagingError | Error) => void;
 
 /**
  * Describes the optional parameters that can be provided for creating an EventProcessorHost while
+ * creating from an iothub connectionstring.
+ * @interface FromIotHubConnectionStringOptions
+ */
+export type FromIotHubConnectionStringOptions = FromTokenProviderOptions;
+
+/**
+ * Describes the optional parameters that can be provided for creating an EventProcessorHost while
  * creating from the given token provider
  * @interface FromTokenProviderOptions
  */
@@ -118,11 +125,6 @@ export interface FromTokenProviderOptions extends ClientOptionsBase {
    * Max value: **`60` seconds**.
    */
   leaseDuration?: number;
-  /**
-   * @property {number} [checkpointTimeout] The timeout for checkpoint operations **`in seconds`**.
-   * Default: **`120` seconds**.
-   */
-  checkpointTimeout?: number;
   /**
    * @property {number} [startupScanDelay] The delay time **`in seconds`** between the first scan
    * for available partitions and the second. This is part of a startup optimization which allows

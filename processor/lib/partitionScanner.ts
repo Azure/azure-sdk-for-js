@@ -8,6 +8,9 @@ import { randomNumberFromInterval, EPHActionStrings } from "./util/utils";
 import * as log from "./log";
 import { EPHDiagnosticInfo } from "./modelTypes";
 
+/**
+ * @ignore
+ */
 export class PartitionScanner {
   private _context: HostContextWithPumpManager;
   private _allLeaseStates: BaseLease[] = [];
@@ -25,7 +28,7 @@ export class PartitionScanner {
     let didSteal = false;
     try {
       this._reset();
-      log.partitionScanner(withHost("Stating a new iteration to scan partitions."));
+      log.partitionScanner(withHost("Starting a new iteration to scan partitions."));
       log.partitionScanner(withHost("Getting lease states to find out who owns what."));
       await this._getAllLeaseStates();
       log.partitionScanner(withHost("Sorting leases to find out the desired partition count."));
@@ -126,7 +129,7 @@ export class PartitionScanner {
       }
       startingPoint = countPerHost * hostOrdinal;
     }
-    // rotate this._allLeaseStates.
+    // rotate this._allLeaseStates
     log.partitionScanner(withHost("Host ordinal: %d. Rotating leases to start at: %d."),
       hostOrdinal, startingPoint);
     if (startingPoint !== 0) {
@@ -141,7 +144,7 @@ export class PartitionScanner {
       this._desiredCount);
     log.partitionScanner(withHost("our leases count: %d v/s leases owned by others: %d."),
       ourLeasesCount, this._leaseOwnedByOthers.size);
-    log.partitionScanner(withHost("Total number of pumps: %d."), this._context.pumpManager.pumps.size);
+    log.partitionScanner(withHost("Total number of pumps: %d."), this._context.pumps.size);
     return ourLeasesCount;
   }
 

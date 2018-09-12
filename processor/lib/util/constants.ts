@@ -22,3 +22,6 @@ export const defaultStartupScanDelayInSeconds = 30;
 export const defaultFastScanIntervalInSeconds = 3;
 export const defaultSlowScanIntervalInSeconds = 5;
 export const metadataOwnerName = "owninghost";
+export const leaseLost = "leaselost";
+export const leaseIdMismatchWithLeaseOperation = "leaseidmismatchwithleaseoperation";
+export const leaseIdMismatchWithBlobOperation = "leaseidmismatchwithbloboperation";

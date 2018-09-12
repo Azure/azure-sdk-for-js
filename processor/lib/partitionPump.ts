@@ -10,9 +10,12 @@ import {
 } from "azure-event-hubs";
 import { PartitionContext } from "./partitionContext";
 import { CloseReason, OnReceivedMessage, OnReceivedError } from "./modelTypes";
-import { AzureBlobLease } from './azureBlobLease';
-import { EPHActionStrings } from './util/utils';
+import { AzureBlobLease } from "./azureBlobLease";
+import { EPHActionStrings } from "./util/utils";
 
+/**
+ * @ignore
+ */
 export class PartitionPump {
   private _context: HostContextWithCheckpointLeaseManager;
   private _lease: CompleteLease;
@@ -74,6 +77,8 @@ export class PartitionPump {
     }
     log.partitionPump(withHostAndPartition(partitionId, "Getting the initial offset."));
     const eventPosition: EventPosition = await this._partitionContext.getInitialOffset();
+    this._context.pumps.set(partitionId, this);
+    log.partitionPump(withHostAndPartition(partitionId, "Added the pump to the internal map."));
     let receiveHandler: ReceiveHandler;
     const rcvrOptions: ReceiveOptions = {
       consumerGroup: this._context.consumerGroup,
@@ -161,6 +166,8 @@ export class PartitionPump {
 
     if (receiveHandler && this._client) {
       try {
+        this._context.pumps.delete(partitionId);
+        log.partitionPump(withHostAndPartition(partitionId, "Deleted the pump from internal map."));
         clearTimeout(this._leaseRenewalTimer as NodeJS.Timer);
         log.partitionPump(withHostAndPartition(partitionId,
           "Removing receiver '%s', due to reason '%s'."), receiveHandler.address, partitionId, reason);
@@ -175,6 +182,7 @@ export class PartitionPump {
       }
       this._receiveHandler = undefined;
       this._client = undefined;
+      // Release the lease if it was not lost.
       if (reason !== CloseReason.leaseLost) {
         try {
           log.partitionPump(withHostAndPartition(partitionContext,
@@ -185,9 +193,7 @@ export class PartitionPump {
           const msg = `An error occurred while releasing the lease ${leaseId} ` +
             `the receiver '${receiveHandler.address}' : ${err ? err.stack : JSON.stringify(err)} `;
           log.error(withHostAndPartition(partitionId, "%s"), msg);
-          if (err.name && err.name !== "LeaseLostError") {
-            throw err;
-          }
+          throw err;
         }
       }
     } else {
