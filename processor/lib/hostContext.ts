@@ -219,12 +219,11 @@ export namespace HostContext {
 
   function _createWithCheckpointLeaseManager(hostName: string,
     options: EventProcessorHostOptions): HostContextWithCheckpointLeaseManager {
-    const ctxt = _createBase(hostName, options);
-    const childContext = ctxt as HostContextWithCheckpointLeaseManager;
+    const ctxt = _createBase(hostName, options) as HostContextWithCheckpointLeaseManager;
     const checkpointLeaseManager = new AzureStorageCheckpointLeaseManager(ctxt);
-    childContext.leaseManager = options.leaseManager || checkpointLeaseManager;
-    childContext.checkpointManager = options.checkpointManager || checkpointLeaseManager;
-    childContext.getEventHubClient = () => {
+    ctxt.leaseManager = options.leaseManager || checkpointLeaseManager;
+    ctxt.checkpointManager = options.checkpointManager || checkpointLeaseManager;
+    ctxt.getEventHubClient = () => {
       if (ctxt.tokenProvider) {
         return EventHubClient.createFromTokenProvider(ctxt.connectionConfig.host,
           ctxt.eventHubPath, ctxt.tokenProvider, { userAgent: ctxt.userAgent });
@@ -233,36 +232,38 @@ export namespace HostContext {
           ctxt.eventHubConnectionString, ctxt.eventHubPath, { userAgent: ctxt.userAgent });
       }
     };
-    childContext.getHubRuntimeInformation = async () => {
-      const client = childContext.getEventHubClient();
+    ctxt.getHubRuntimeInformation = async () => {
+      const client = ctxt.getEventHubClient();
       const result = await client.getHubRuntimeInformation();
       client.close().catch(/* do nothing */);
       return result;
     };
-    childContext.getPartitionInformation = async (id: string) => {
-      const client = childContext.getEventHubClient();
+    ctxt.getPartitionInformation = async (id: string) => {
+      const client = ctxt.getEventHubClient();
       const result = await client.getPartitionInformation(id);
       client.close().catch(/* do nothing */);
       return result;
     };
-    childContext.getPartitionIds = async () => {
+    ctxt.getPartitionIds = async () => {
       if (!ctxt.partitionIds.length) {
-        const client = childContext.getEventHubClient();
+        const client = ctxt.getEventHubClient();
         ctxt.partitionIds = await client.getPartitionIds();
         client.close().catch(/* do nothing */);
       }
       return ctxt.partitionIds;
     };
-    return childContext;
+    return ctxt;
   }
 
   function _createWithPumpManager(hostName: string, options: EventProcessorHostOptions): HostContextWithPumpManager {
-    const context = _createWithCheckpointLeaseManager(hostName, options);
-    const contextWithPumpManager = context as HostContextWithPumpManager;
-    contextWithPumpManager.pumpManager = new PumpManager(context);
-    return contextWithPumpManager;
+    const context = _createWithCheckpointLeaseManager(hostName, options) as HostContextWithPumpManager;
+    context.pumpManager = new PumpManager(context);
+    return context;
   }
 
+  /**
+   * @ignore
+   */
   export function getUserAgent(options: EventProcessorHostOptions): string {
     const userAgentForEPH = `${userAgentPrefix}=${packageInfo.version}`;
     const finalUserAgent = options.userAgent ? `${userAgentForEPH},${options.userAgent}` : userAgentForEPH;

@@ -78,10 +78,10 @@ export class AzureBlobLease extends CompleteLease implements AzureBlobLeaseInfo 
    * @returns {LeaseInfo} LeaseInfo.
    */
   getInfo(): LeaseInfo {
-    const info = super.getInfo();
-    (info as LeaseInfo).sequenceNumber = this.sequenceNumber;
-    (info as LeaseInfo).token = this.token;
-    (info as LeaseInfo).offset = this.offset;
+    const info = super.getInfo() as LeaseInfo;
+    info.sequenceNumber = this.sequenceNumber;
+    info.token = this.token;
+    info.offset = this.offset;
     log.azurebloblease("[%s] [%s] Lease info is: %o", this.owner, this.partitionId, info);
     return (info as LeaseInfo);
   }
