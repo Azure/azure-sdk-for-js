@@ -1,14 +1,18 @@
 azure-event-processor-host
 ================
 
-_This SDK is currently in preview._
-
 Azure Event Processor Host helps you efficiently receive events from an EventHub. It will create EventHub Receivers
 across all the partitions in the provided consumer group of an EventHub and provide you messages received across
 all the partitions. It will checkpoint metadata about the received messages at regular interval in an
 Azure Storage Blob. This makes it easy to continue receiving messages from where you left at a later time.
 
-- **Node.js version: 8.x or higher.** We would encourage you to install the latest available LTS version at any given time from https://nodejs.org.
+#### Conceptual Overview
+![alt tag](./eph.png)
+
+More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host).
+
+## Pre-requisite ##
+- **Node.js version: 8.x or higher.** We would encourage you to install the latest available LTS version at any given time from https://nodejs.org. **Please do not use older LTS versions of node.js.**
 
 ## Installation ##
 ```bash
@@ -63,12 +67,20 @@ export DEBUG=azure:eph:error,azure:event-hubs:error,azure-amqp-common:error,rhea
 
 ## Usage
 
+### NOTE
+The following samples focus on EPH (Event Processor Host) which is responsible for receiving messages.
+For sending messages to the EventHub, please use the `azure-event-hubs` package from npm. More
+information about the event hub client can be found over [here](https://github.com/Azure/azure-event-hubs-node/tree/master/client).
+You can also use [this example](https://github.com/Azure/azure-event-hubs-node/tree/master/processor/examples/sendBatch.ts) that sends
+multiple messages batched together. You should be able to run the `send` example from one terminal window and see those messages
+being received in the `singleEph` or `multipleEph` example being run in the second terminal window.
+
 ### Single EPH instance.
 
 ```js
 const { EventProcessorHost, delay } = require("azure-event-processor-host");
 
-const path = process.env.EVENTHUB_NAME || "";
+const path = process.env.EVENTHUB_NAME;
 const storageCS = process.env.STORAGE_CONNECTION_STRING;
 const ehCS = process.env.EVENTHUB_CONNECTION_STRING];
 const leasecontainerName = "test-container";
@@ -116,6 +128,8 @@ main().catch((err) => {
 ```
 
 ### Multiple EPH instances in the same process.
+This example creates 2 instances of EPH in the same process. It is also perfectly fine to create
+multiple EPH instances in different processes on the same or different machine.
 
 ```js
 const { EventProcessorHost, delay } = require("azure-event-processor-host");
