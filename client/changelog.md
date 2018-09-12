@@ -1,3 +1,6 @@
+### 2018-09-11 0.2.9
+- Updated examples and content in README.md
+
 ### 2018-08-31 0.2.8
 - Fixed [issue](https://github.com/Azure/azure-event-hubs-node/issues/135)
   - Added error handlers to the $management sender/receiver links.
