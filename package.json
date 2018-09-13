@@ -30,12 +30,13 @@
   "types": "./typings/lib/msRestAzure.d.ts",
   "license": "MIT",
   "dependencies": {
-    "ms-rest-js": "~0.22.416",
+    "ms-rest-js": "~0.22.422",
     "tslib": "^1.9.2"
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.1",
+    "@types/node": "^10.9.4",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
     "npm-run-all": "^4.1.2",
@@ -44,7 +45,7 @@
     "ts-loader": "^2.3.7",
     "ts-node": "^5.0.1",
     "tslint": "^5.7.0",
-    "typescript": "^2.5.2",
+    "typescript": "^3.0.3",
     "uglify-es": "^3.1.0",
     "webpack": "^3.6.0",
     "yarn": "^1.6.0"
