@@ -15,4 +15,4 @@ export {
 export {
   delay, EventData, OnError, EventPosition, EventHubPartitionRuntimeInformation,
   EventHubRuntimeInformation, MessagingError, DataTransformer, aadEventHubsAudience
-} from "azure-event-hubs";
+} from "@azure/event-hubs";

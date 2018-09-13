@@ -5,7 +5,7 @@ import * as uuid from "uuid/v4";
 import {
   TokenProvider, EventHubRuntimeInformation, EventHubPartitionRuntimeInformation,
   AadTokenProvider, EventHubClient
-} from "azure-event-hubs";
+} from "@azure/event-hubs";
 import {
   ApplicationTokenCredentials, UserTokenCredentials,
   DeviceTokenCredentials, MSITokenCredentials

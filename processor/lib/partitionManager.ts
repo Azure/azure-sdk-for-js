@@ -3,7 +3,7 @@
 
 import { HostContextWithPumpManager } from "./hostContext";
 import { validateType, RetryConfig, retry, EPHActionStrings } from "./util/utils";
-import { delay } from "azure-event-hubs";
+import { delay } from "@azure/event-hubs";
 import * as log from "./log";
 import { OnReceivedMessage, OnReceivedError, CloseReason } from "./modelTypes";
 import { PartitionScanner } from "./partitionScanner";

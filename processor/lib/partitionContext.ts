@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import { EventData, EventPosition } from "azure-event-hubs";
+import { EventData, EventPosition } from "@azure/event-hubs";
 import { CompleteLease } from "./completeLease";
 import { CheckpointInfo } from "./checkpointInfo";
 import * as log from "./log";
