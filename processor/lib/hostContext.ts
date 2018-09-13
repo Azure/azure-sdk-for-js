@@ -4,7 +4,7 @@
 import {
   EventHubClient, EventPosition, TokenProvider, DefaultDataTransformer,
   EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, ConnectionConfig
-} from "azure-event-hubs";
+} from "@azure/event-hubs";
 import { LeaseManager } from "./leaseManager";
 import { PumpManager } from "./pumpManager";
 import { PartitionManager } from "./partitionManager";

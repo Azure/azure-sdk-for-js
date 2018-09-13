@@ -85,7 +85,7 @@ Please take a look at the [examples](https://github.com/Azure/azure-event-hubs-n
 ## Example 1 - Get the partition IDs.
 
 ```js
-const { EventHubClient } = require('azure-event-hubs');
+const { EventHubClient } = require('@azure/event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
@@ -103,7 +103,7 @@ This mechanism is useful for receiving events for a longer duration.
 
 Receive events from partition ID 1 after the current time.
 ```js
-const { EventHubClient, EventPosition } = require('azure-event-hubs');
+const { EventHubClient, EventPosition } = require('@azure/event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
@@ -134,7 +134,7 @@ This mechanism is useful when you want to see how the received events look like.
 
 Receive events from partitionId `"1"` after the current time.
 ```js
-const { EventHubClient, EventPosition } = require('azure-event-hubs');
+const { EventHubClient, EventPosition } = require('@azure/event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
@@ -153,7 +153,7 @@ main().catch((err) => {
 Send an event with a given "partition-key" which is then hashed to a partition ID (so all events with the same key will go to the same ID, but load is balanced between partitions). 
 
 ```js
-const { EventHubClient, EventPosition } = require('azure-event-hubs');
+const { EventHubClient, EventPosition } = require('@azure/event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
@@ -175,7 +175,7 @@ main().catch((err) => {
 Send an event to a specific partition ID if needed. If not specified then EventHub will store the events in the partition in a round-robin pattern.
 
 ```js
-const { EventHubClient, EventPosition } = require('azure-event-hubs');
+const { EventHubClient, EventPosition } = require('@azure/event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
@@ -197,7 +197,7 @@ main().catch((err) => {
 Send multiple events grouped together.
 
 ```js
-const { EventHubClient, EventPosition } = require('azure-event-hubs');
+const { EventHubClient, EventPosition } = require('@azure/event-hubs');
 
 const client = EventHubClient.createFromConnectionString(process.env["EVENTHUB_CONNECTION_STRING"], process.env["EVENTHUB_NAME"]);
 
@@ -236,7 +236,7 @@ talks to the IotHub endpoint to get a redirect error which contains the EventHub
 It then constructs the right EventHub connection string based on the information in the redirect error
 and returns an instance of the EventHubClient that you can play with.
 ```js
-const { EventHubClient } = require('azure-event-hubs');
+const { EventHubClient } = require('@azure/event-hubs');
 
 async function main() {
   const client = await EventHubClient.createFromIotHubConnectionString(process.env["IOTHUB_CONNECTION_STRING"]);
