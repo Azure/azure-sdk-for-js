@@ -15,8 +15,11 @@ const path = process.env[entityPath] || "";
 const storageCS = process.env[storageConnectionString];
 const ehCS = process.env[ehconnectionString];
 
-// set the names of eph and the lease container.
-const leasecontainerName = "test-container";
+// set the names of eph and the storage container.
+// creates a unique storageContainer name for every run
+// if you wish to keep the name same between different runs then use the following then that is fine as well.
+const storageContainerName = EventProcessorHost.createHostName("test-container");
+console.log(">>>> The storage container name is: %s.", storageContainerName);
 const ephName1 = "eph-1";
 const ephName2 = "eph-2";
 
@@ -61,7 +64,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
   const eph = EventProcessorHost.createFromConnectionString(
     ephName,
     storageCS!,
-    leasecontainerName,
+    storageContainerName,
     ehCS!,
     {
       eventHubPath: path,

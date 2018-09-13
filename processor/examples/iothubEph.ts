@@ -8,8 +8,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const storageCS = process.env.STORAGE_CONNECTION_STRING;
-const ehCS = process.env.EVENTHUB_CONNECTION_STRING;
-const leasecontainerName = "iothub-test-container";
+const iotCS = process.env.IOTHUB_CONNECTION_STRING;
+// creates a unique storageContainer name for every run
+// if you wish to keep the name same between different runs then use the following then that is fine as well.
+const storageContainerName = EventProcessorHost.createHostName("iothub-container");
 const ephName = "my-iothub-eph";
 
 /**
@@ -49,8 +51,8 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
   const eph = await EventProcessorHost.createFromIotHubConnectionString(
     ephName,
     storageCS!,
-    leasecontainerName,
-    ehCS!,
+    storageContainerName,
+    iotCS!,
     {
       onEphError: (error) => {
         console.log(">>>>>>> [%s] Error: %O", ephName, error);
