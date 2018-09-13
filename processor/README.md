@@ -1,16 +1,5 @@
-#### azure-event-processor-host
-
-
-Deprecation warning
+@azure/event-processor-host
 ================
-
-**This package has been deprecated.Please use [@azure/event-processor-host](https://www.npmjs.com/package/@azure/event-processor-host) instead.**
-
-Please install:
-
-```
-npm i @azure/event-processor-host
-```
 
 Azure Event Processor Host helps you efficiently receive events from an EventHub. It will create EventHub Receivers
 across all the partitions in the provided consumer group of an EventHub and provide you messages received across
@@ -27,7 +16,7 @@ More information about Azure Event Processor Host can be found over [here](https
 
 ## Installation ##
 ```bash
-npm install azure-event-processor-host
+npm install @azure/event-processor-host
 ```
 ## IDE ##
 This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) 
@@ -94,14 +83,14 @@ const { EventProcessorHost, delay } = require("azure-event-processor-host");
 const path = process.env.EVENTHUB_NAME;
 const storageCS = process.env.STORAGE_CONNECTION_STRING;
 const ehCS = process.env.EVENTHUB_CONNECTION_STRING];
-const leasecontainerName = "test-container";
+const storageContainerName = "test-container";
 
 async function main() {
   // Create the Event Processo Host
   const eph = EventProcessorHost.createFromConnectionString(
     EventProcessorHost.createHostName("my-host"),
     storageCS,
-    leasecontainerName,
+    storageContainerName,
     ehCS,
     {
       eventHubPath: path
@@ -151,7 +140,7 @@ const storageCS = process.env.STORAGE_CONNECTION_STRING;
 const ehCS = process.env.EVENTHUB_CONNECTION_STRING];
 
 // set the names of eph and the lease container.
-const leasecontainerName = "test-container";
+const storageContainerName = "test-container";
 const ephName1 = "eph-1";
 const ephName2 = "eph-2";
 
@@ -196,7 +185,7 @@ async function startEph(ephName /**string**/) {
   const eph = EventProcessorHost.createFromConnectionString(
     ephName,
     storageCS,
-    leasecontainerName,
+    storageContainerName,
     ehCS,
     {
       eventHubPath: path,
@@ -256,14 +245,14 @@ const { EventProcessorHost, delay } = require("azure-event-processor-host");
 const path = process.env.EVENTHUB_NAME || "";
 const storageCS = process.env.STORAGE_CONNECTION_STRING;
 const iothubCS = process.env.IOTHUB_CONNECTION_STRING];
-const leasecontainerName = "test-container";
+const storageContainerName = "test-container";
 
 async function main() {
   // Create the Event Processo Host
   const eph = await EventProcessorHost.createFromIotHubConnectionString(
     EventProcessorHost.createHostName("my-host"),
     storageCS,
-    leasecontainerName,
+    storageContainerName,
     iothubCS,
     {
       eventHubPath: path
