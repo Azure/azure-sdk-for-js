@@ -7,7 +7,7 @@ import { CompleteLease } from "./completeLease";
 import {
   ReceiveHandler, EventHubClient, EventPosition, ReceiveOptions, EventData, MessagingError,
   OnMessage, OnError
-} from "azure-event-hubs";
+} from "@azure/event-hubs";
 import { PartitionContext } from "./partitionContext";
 import { CloseReason, OnReceivedMessage, OnReceivedError } from "./modelTypes";
 import { AzureBlobLease } from "./azureBlobLease";

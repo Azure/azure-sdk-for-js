@@ -1,6 +1,6 @@
 {
   "name": "@azure/event-hubs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",

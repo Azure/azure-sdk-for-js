@@ -78,7 +78,7 @@ being received in the `singleEph` or `multipleEph` example being run in the seco
 ### Single EPH instance.
 
 ```js
-const { EventProcessorHost, delay } = require("azure-event-processor-host");
+const { EventProcessorHost, delay } = require("@azure/event-processor-host");
 
 const path = process.env.EVENTHUB_NAME;
 const storageCS = process.env.STORAGE_CONNECTION_STRING;
@@ -132,7 +132,7 @@ This example creates 2 instances of EPH in the same process. It is also perfectl
 multiple EPH instances in different processes on the same or different machine.
 
 ```js
-const { EventProcessorHost, delay } = require("azure-event-processor-host");
+const { EventProcessorHost, delay } = require("@azure/event-processor-host");
 
 // set the values from environment variables.
 const path = process.env.EVENTHUB_NAME || "";
@@ -240,7 +240,7 @@ async function stopEph(eph /**EventProcessorHost**/) {
 ### EPH with IotHub connection string
 
 ```js
-const { EventProcessorHost, delay } = require("azure-event-processor-host");
+const { EventProcessorHost, delay } = require("@azure/event-processor-host");
 
 const path = process.env.EVENTHUB_NAME || "";
 const storageCS = process.env.STORAGE_CONNECTION_STRING;

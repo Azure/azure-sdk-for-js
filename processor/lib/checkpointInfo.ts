@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as log from "./log";
-import { EventData } from "azure-event-hubs";
+import { EventData } from "@azure/event-hubs";
 import { LeaseInfo } from "./azureBlobLease";
 import { validateType } from "./util/utils";
 
