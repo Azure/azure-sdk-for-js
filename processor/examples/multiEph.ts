@@ -15,8 +15,11 @@ const path = process.env[entityPath] || "";
 const storageCS = process.env[storageConnectionString];
 const ehCS = process.env[ehconnectionString];
 
-// set the names of eph and the lease container.
-const leasecontainerName = "test-container";
+// set the names of eph and the storage container.
+// creates a unique storageContainer name for every run
+// if you wish to keep the name same between different runs then use the following then that is fine as well.
+const storageContainerName = EventProcessorHost.createHostName("test-container");
+console.log(">>>> The storage container name is: %s.", storageContainerName);
 const ephName1 = "eph-1";
 const ephName2 = "eph-2";
 
@@ -61,13 +64,10 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
   const eph = EventProcessorHost.createFromConnectionString(
     ephName,
     storageCS!,
+    storageContainerName,
     ehCS!,
     {
       eventHubPath: path,
-      // If the lease container name is not provided, then the EPH will use it's name to create
-      // a new container. It is important to provide the same container name across different EPH
-      // instances for the paritions to be load balanced.
-      leasecontainerName: leasecontainerName,
       // This method will provide errors that occur during lease and partition management. The
       // errors that occur while receiving messages will be provided in the onError handler
       // provided in the eph.start() method.

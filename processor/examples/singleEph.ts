@@ -10,7 +10,9 @@ dotenv.config();
 const path = process.env.EVENTHUB_NAME;
 const storageCS = process.env.STORAGE_CONNECTION_STRING;
 const ehCS = process.env.EVENTHUB_CONNECTION_STRING;
-const leasecontainerName = "test-container";
+// creates a unique storageContainer name for every run
+// if you wish to keep the name same between different runs then use the following then that is fine as well.
+const storageContainerName = EventProcessorHost.createHostName("test-container");
 const ephName = "my-eph";
 
 /**
@@ -51,13 +53,10 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
   const eph = EventProcessorHost.createFromConnectionString(
     EventProcessorHost.createHostName(ephName),
     storageCS!,
+    storageContainerName,
     ehCS!,
     {
       eventHubPath: path,
-      // If the lease container name is not provided, then the EPH will use it's name to create
-      // a new container. It is important to provide the same container name across different EPH
-      // instances for the paritions to be load balanced.
-      leasecontainerName: leasecontainerName,
       onEphError: (error) => {
         console.log(">>>>>>> [%s] Error: %O", ephName, error);
       }

@@ -32,6 +32,7 @@ describe("negative", function () {
     host = EventProcessorHost.createFromConnectionString(
       hostName,
       storageConnString!,
+      EventProcessorHost.createHostName("tc"),
       ehConnString!,
       {
         eventHubPath: hubName!,
@@ -62,6 +63,7 @@ describe("negative", function () {
     host = EventProcessorHost.createFromConnectionString(
       hostName,
       storageConnString!,
+      EventProcessorHost.createHostName("tc"),
       ehConnString!,
       {
         eventHubPath: "HeloooooooFooooooo",
@@ -88,6 +90,7 @@ describe("negative", function () {
     host = EventProcessorHost.createFromConnectionString(
       hostName,
       storageConnString!,
+      EventProcessorHost.createHostName("tc"),
       "Endpoint=sb://HelooFooo.servicebus.windows.net/;SharedAccessKeyName=Foo;SharedAccessKey=Bar",
       {
         eventHubPath: hubName!,
@@ -115,6 +118,7 @@ describe("negative", function () {
       host = EventProcessorHost.createFromConnectionString(
         hostName,
         "Hello World"!,
+        EventProcessorHost.createHostName("tc"),
         ehConnString!,
         {
           eventHubPath: hubName!,

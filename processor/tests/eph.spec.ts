@@ -30,7 +30,53 @@ describe("EPH", function () {
   const hubName = process.env.EVENTHUB_NAME;
   let host: EventProcessorHost;
 
+  describe("user-agent", function () {
+
+    it("should be populated correctly as a part of the connection property", function (done) {
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        "test-container",
+        ehConnString!,
+        {
+          eventHubPath: hubName!
+        }
+      );
+      const context = host["_context"];
+      const ua = "/js-event-processor-host=0.2.0";
+      context.userAgent.should.equal(ua);
+      const ehc: EventHubClient = context.getEventHubClient();
+      const properties = ehc["_context"].connection.options.properties;
+      should.equal(properties["user-agent"], `/js-event-hubs,${ua}`);
+      should.equal(properties.product, "MSJSClient");
+      done();
+    });
+
+    it("should support appending custom user-agent", function (done) {
+      const customua = "my-custom-string";
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        "test-container",
+        ehConnString!,
+        {
+          eventHubPath: hubName!,
+          userAgent: customua
+        }
+      );
+      const context = host["_context"];
+      const ua = "/js-event-processor-host=0.2.0";
+      context.userAgent.should.equal(`${ua},${customua}`);
+      const ehc: EventHubClient = context.getEventHubClient();
+      const properties = ehc["_context"].connection.options.properties;
+      should.equal(properties["user-agent"], `/js-event-hubs,${ua},${customua}`);
+      should.equal(properties.product, "MSJSClient");
+      done();
+    });
+  });
+
   describe("single", function () {
+
     it("should checkpoint a single received event.", function (done) {
       const msgId = uuid();
       const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
@@ -39,6 +85,7 @@ describe("EPH", function () {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
           storageConnString!,
+          EventProcessorHost.createHostName("single"),
           ehConnString!,
           {
             eventHubPath: hubName!,
@@ -104,9 +151,9 @@ describe("EPH", function () {
       host = EventProcessorHost.createFromConnectionString(
         "my-eph-1",
         storageConnString!,
+        leasecontainerName,
         ehConnString!,
         {
-          leasecontainerName: leasecontainerName,
           eventHubPath: hubName!,
           initialOffset: EventPosition.fromEnqueuedTime(Date.now()),
           startupScanDelay: 15,
@@ -215,11 +262,11 @@ describe("EPH", function () {
         hostByName[hostName] = EventProcessorHost.createFromConnectionString(
           hostName,
           storageConnString!,
+          containerName,
           ehConnString!,
           {
             eventHubPath: hubName!,
             initialOffset: EventPosition.fromEnqueuedTime(now),
-            leasecontainerName: containerName
           }
         );
 

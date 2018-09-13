@@ -52,7 +52,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     if (!result) {
       const blobPath = `${this._context.composedBlobPrefix}${partitionId}`;
       result = new AzureBlob(this._context.hostName, this._context.storageConnectionString!,
-        this._context.leasecontainerName, blobPath, this._context.blobService);
+        this._context.storageContainerName!, blobPath, this._context.blobService);
       this._context.blobReferenceByPartition[partitionId] = result;
     }
     return result;
@@ -77,32 +77,32 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
   }
 
   async leaseStoreExists(): Promise<boolean> {
-    return await this._context.blobService!.doesContainerExist(this._context.leasecontainerName);
+    return await this._context.blobService!.doesContainerExist(this._context.storageContainerName!);
   }
 
   async createLeaseStoreIfNotExists(): Promise<void> {
-    await this._context.blobService!.ensureContainerExists(this._context.leasecontainerName);
+    await this._context.blobService!.ensureContainerExists(this._context.storageContainerName!);
     return;
   }
 
   async deleteLeaseStore(): Promise<void> {
     const blobService = this._context.blobService;
-    const leasecontainerName = this._context.leasecontainerName;
+    const storageContainerName = this._context.storageContainerName!;
     try {
       if (blobService) {
-        const listResult = await blobService.listBlobsSegmented(leasecontainerName);
+        const listResult = await blobService.listBlobsSegmented(storageContainerName);
         const deleteBlobs: Promise<void>[] = [];
         for (const blob of listResult.entries) {
-          deleteBlobs.push(blobService.deleteBlobIfExists(leasecontainerName, blob.name));
+          deleteBlobs.push(blobService.deleteBlobIfExists(storageContainerName, blob.name));
         }
         await Promise.all(deleteBlobs);
-        await blobService.deleteContainerIfExists(leasecontainerName);
+        await blobService.deleteContainerIfExists(storageContainerName);
       } else {
         throw new Error("'blobService' is not defined in the 'hostContext', hence cannot " +
           "list all the blobs.");
       }
     } catch (err) {
-      const msg = `An error occurred while deleting the lease store '${leasecontainerName}': %O` +
+      const msg = `An error occurred while deleting the lease store '${storageContainerName}': %O` +
         `${err ? err.stack : JSON.stringify(err)}`;
       log.error(this._context.withHost(msg));
       const info: EPHDiagnosticInfo = {
@@ -421,7 +421,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     const blobService = this._context.blobService;
     const withHost = this._context.withHost;
     if (blobService) {
-      const listResult = await blobService.listBlobsSegmented(this._context.leasecontainerName);
+      const listResult = await blobService.listBlobsSegmented(this._context.storageContainerName!);
       log.checkpointLeaseMgr(withHost("Number of blobs: %d"), listResult.entries.length);
       return listResult.entries;
     } else {

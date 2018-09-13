@@ -90,10 +90,10 @@ async function main() {
   const eph = EventProcessorHost.createFromConnectionString(
     EventProcessorHost.createHostName("my-host"),
     storageCS,
+    leasecontainerName,
     ehCS,
     {
-      eventHubPath: path,
-      leasecontainerName: leasecontainerName
+      eventHubPath: path
     },
     onEphError: (error) => {
       console.log("This handler will notify you of any internal errors that happen " +
@@ -185,13 +185,10 @@ async function startEph(ephName /**string**/) {
   const eph = EventProcessorHost.createFromConnectionString(
     ephName,
     storageCS,
+    leasecontainerName,
     ehCS,
     {
       eventHubPath: path,
-      // If the lease container name is not provided, then the EPH will use it's name to create
-      // a new container. It is important to provide the same container name across different EPH
-      // instances for the paritions to be load balanced.
-      leasecontainerName: leasecontainerName,
       // This method will provide errors that occur during lease and partition management. The
       // errors that occur while receiving messages will be provided in the onError handler
       // provided in the eph.start() method.
@@ -255,10 +252,10 @@ async function main() {
   const eph = await EventProcessorHost.createFromIotHubConnectionString(
     EventProcessorHost.createHostName("my-host"),
     storageCS,
+    leasecontainerName,
     iothubCS,
     {
-      eventHubPath: path,
-      leasecontainerName: leasecontainerName
+      eventHubPath: path
     }
   );
   let count = 0;

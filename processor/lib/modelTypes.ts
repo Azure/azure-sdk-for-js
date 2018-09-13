@@ -91,11 +91,6 @@ export interface FromTokenProviderOptions extends ClientOptionsBase {
    */
   consumerGroup?: string;
   /**
-   * @property {string} [leasecontainerName] Azure Storage container name for use by built-in
-   * lease and checkpoint manager.
-   */
-  leasecontainerName?: string;
-  /**
    * @property {string} [storageBlobPrefix] Prefix used when naming blobs within the storage
    * container.
    */
@@ -178,6 +173,11 @@ export interface EventProcessorHostOptions extends FromConnectionStringOptions {
    * AccountKey=<account-key>;EndpointSuffix=core.windows.net"
    */
   storageConnectionString?: string;
+  /**
+   * @property {string} [storageContainerName] Azure Storage container name for use by built-in
+   * lease and checkpoint manager.
+   */
+  storageContainerName?: string;
   /**
    * @property {CheckpointManager} [checkpointManager] A manager to manage checkpoints.
    * Default: **`AzureStorageCheckpointLeaseManager`**.
