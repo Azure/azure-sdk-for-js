@@ -1,13 +1,20 @@
 ## 2018-09-12 0.2.0
-- Added support to automatically balance the load od receiving messages across multiple partitions.
+- Added support to automatically balance the load of receiving messages across multiple partitions.
+- Added static method to create an EPH from an `IotHubConnectionString`
+- Added user-agent to the underlying amqp-connection. This would help in tracking usage of EPH.
 - Changed the overall design of EPH.
 - Instead of attaching handlers on `eph:message` and `eph:error`, now the handlers need to be passed
 as arguments to the `start()` method on EPH.
-- Removed an optional property `autoCheckpoint` and added optional properties
+- Apart from that an additional handler/method can be passed as an optional property `onEphError`
+to EPH. This handler will receive notifications from EPH regarding any errors that occur during
+partition management.
+- Removed optional property `leasecontainerName` and replaced it with a required parameter `storageContainerName` wherever applicable in all the static methods on `EventProcessorHost`.
+- Removed optional property `autoCheckpoint` and added optional properties
    - `checkpointManager`
    - `onEphError`
    - `leaseRenewInterval`
    - `leaseDuration`
+- Please take a look at the [examples](https://github.com/Azure/azure-event-hubs-node/tree/master/processor/examples) for more details.
 
 ## 2018-07-16 0.1.4
 - Added an option `autoCheckpoint: false` to not checkpoint the received messages by default.

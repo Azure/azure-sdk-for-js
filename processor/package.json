@@ -7,7 +7,7 @@
   "main": "./dist/lib/index.js",
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
-    "azure-event-hubs": "^0.2.9",
+    "azure-event-hubs": "^0.2.10",
     "azure-storage": "^2.10.1",
     "debug": "^3.1.0",
     "ms-rest-azure": "^2.5.7",

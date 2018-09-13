@@ -23,7 +23,7 @@ import {
 import {
   maxLeaseDurationInSeconds, minLeaseDurationInSeconds, defaultLeaseRenewIntervalInSeconds,
   defaultLeaseDurationInSeconds, defaultConsumerGroup, defaultStartupScanDelayInSeconds,
-  defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds,
+  defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds, packageInfo, userAgentPrefix,
 } from "./util/constants";
 
 /**
@@ -33,7 +33,7 @@ export interface BaseHostContext {
   hostName: string;
   consumerGroup: string;
   eventHubPath: string;
-  leasecontainerName: string;
+  storageContainerName?: string;
   eventHubConnectionString: string;
   connectionConfig: ConnectionConfig;
   onEphError: OnEphError;
@@ -53,6 +53,7 @@ export interface BaseHostContext {
   fastScanInterval?: number;
   slowScanInterval?: number;
   pumps: Map<string, PartitionPump>;
+  userAgent: string;
   withHost(msg: string): string;
   withHostAndPartition(partition: string | { partitionId: string }, msg: string): string;
 }
@@ -98,7 +99,7 @@ export namespace HostContext {
     }
   }
 
-  function _validateLeaseContainerName(name: string): void {
+  function _validatestorageContainerName(name: string): void {
     if (!name || name.match(/^[a-z0-9](([a-z0-9\-[^\-])){1,61}[a-z0-9]$/ig) === null) {
       throw new Error(`Azure Storage lease container name "${name}" is invalid. Please check ` +
         `naming conventions at https://msdn.microsoft.com/en-us/library/azure/dd135715.aspx`);
@@ -146,7 +147,6 @@ export namespace HostContext {
 
     // set defaults
     if (!options.consumerGroup) options.consumerGroup = defaultConsumerGroup;
-    if (!options.leasecontainerName) options.leasecontainerName = hostName;
     if (!options.leaseRenewInterval) options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
     if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
     if (!options.onEphError) options.onEphError = onEphErrorFunc;
@@ -161,7 +161,7 @@ export namespace HostContext {
     validateType("options.storageConnectionString", options.storageConnectionString, false, "string");
     validateType("options.initialOffset", options.initialOffset, false, "object");
     validateType("options.consumerGroup", options.consumerGroup, false, "string");
-    validateType("options.leasecontainerName", options.leasecontainerName, false, "string");
+    validateType("options.storageContainerName", options.storageContainerName, false, "string");
     validateType("options.storageBlobPrefix", options.storageBlobPrefix, false, "string");
     validateType("options.onEphError", options.onEphError, false, "function");
     validateType("options.leaseRenewInterval", options.leaseRenewInterval, false, "number");
@@ -180,7 +180,7 @@ export namespace HostContext {
       partitionIds: [],
       pumps: new Map<string, PartitionPump>(),
       consumerGroup: options.consumerGroup,
-      leasecontainerName: options.leasecontainerName,
+      storageContainerName: options.storageContainerName,
       leaseRenewInterval: options.leaseRenewInterval,
       leaseDuration: options.leaseDuration,
       initialOffset: options.initialOffset,
@@ -192,6 +192,7 @@ export namespace HostContext {
       startupScanDelay: options.startupScanDelay,
       fastScanInterval: options.fastScanInterval,
       slowScanInterval: options.slowScanInterval,
+      userAgent: getUserAgent(options),
       withHost: (msg: string) => {
         return `[${hostName}] ${msg}`;
       },
@@ -212,53 +213,61 @@ export namespace HostContext {
     }
 
     _validateLeaseDurationAndRenewInterval(context.leaseDuration, context.leaseRenewInterval);
-    _validateLeaseContainerName(context.leasecontainerName);
+    if (context.storageContainerName) _validatestorageContainerName(context.storageContainerName);
     return context;
   }
 
   function _createWithCheckpointLeaseManager(hostName: string,
     options: EventProcessorHostOptions): HostContextWithCheckpointLeaseManager {
-    const ctxt = _createBase(hostName, options);
-    const childContext = ctxt as HostContextWithCheckpointLeaseManager;
+    const ctxt = _createBase(hostName, options) as HostContextWithCheckpointLeaseManager;
     const checkpointLeaseManager = new AzureStorageCheckpointLeaseManager(ctxt);
-    childContext.leaseManager = options.leaseManager || checkpointLeaseManager;
-    childContext.checkpointManager = options.checkpointManager || checkpointLeaseManager;
-    childContext.getEventHubClient = () => {
+    ctxt.leaseManager = options.leaseManager || checkpointLeaseManager;
+    ctxt.checkpointManager = options.checkpointManager || checkpointLeaseManager;
+    ctxt.getEventHubClient = () => {
       if (ctxt.tokenProvider) {
         return EventHubClient.createFromTokenProvider(ctxt.connectionConfig.host,
-          ctxt.eventHubPath, ctxt.tokenProvider);
+          ctxt.eventHubPath, ctxt.tokenProvider, { userAgent: ctxt.userAgent });
       } else {
-        return EventHubClient.createFromConnectionString(ctxt.eventHubConnectionString, ctxt.eventHubPath);
+        return EventHubClient.createFromConnectionString(
+          ctxt.eventHubConnectionString, ctxt.eventHubPath, { userAgent: ctxt.userAgent });
       }
     };
-    childContext.getHubRuntimeInformation = async () => {
-      const client = childContext.getEventHubClient();
+    ctxt.getHubRuntimeInformation = async () => {
+      const client = ctxt.getEventHubClient();
       const result = await client.getHubRuntimeInformation();
       client.close().catch(/* do nothing */);
       return result;
     };
-    childContext.getPartitionInformation = async (id: string) => {
-      const client = childContext.getEventHubClient();
+    ctxt.getPartitionInformation = async (id: string) => {
+      const client = ctxt.getEventHubClient();
       const result = await client.getPartitionInformation(id);
       client.close().catch(/* do nothing */);
       return result;
     };
-    childContext.getPartitionIds = async () => {
+    ctxt.getPartitionIds = async () => {
       if (!ctxt.partitionIds.length) {
-        const client = childContext.getEventHubClient();
+        const client = ctxt.getEventHubClient();
         ctxt.partitionIds = await client.getPartitionIds();
         client.close().catch(/* do nothing */);
       }
       return ctxt.partitionIds;
     };
-    return childContext;
+    return ctxt;
   }
 
   function _createWithPumpManager(hostName: string, options: EventProcessorHostOptions): HostContextWithPumpManager {
-    const context = _createWithCheckpointLeaseManager(hostName, options);
-    const contextWithPumpManager = context as HostContextWithPumpManager;
-    contextWithPumpManager.pumpManager = new PumpManager(context);
-    return contextWithPumpManager;
+    const context = _createWithCheckpointLeaseManager(hostName, options) as HostContextWithPumpManager;
+    context.pumpManager = new PumpManager(context);
+    return context;
+  }
+
+  /**
+   * @ignore
+   */
+  export function getUserAgent(options: EventProcessorHostOptions): string {
+    const userAgentForEPH = `${userAgentPrefix}=${packageInfo.version}`;
+    const finalUserAgent = options.userAgent ? `${userAgentForEPH},${options.userAgent}` : userAgentForEPH;
+    return finalUserAgent;
   }
 
   /**
