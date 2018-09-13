@@ -1,3 +1,6 @@
+## 2018-09-12 1.0.0
+- Stable version of the library.
+
 ## 2018-09-12 0.2.0
 - Added support to automatically balance the load of receiving messages across multiple partitions.
 - Added static method to create an EPH from an `IotHubConnectionString`
