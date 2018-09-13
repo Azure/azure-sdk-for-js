@@ -27,6 +27,6 @@ export const leaseIdMismatchWithLeaseOperation = "leaseidmismatchwithleaseoperat
 export const leaseIdMismatchWithBlobOperation = "leaseidmismatchwithbloboperation";
 export const userAgentPrefix = "/js-event-processor-host";
 export const packageInfo = {
-  name: "azure-event-processor-host",
-  version: "0.2.0"
+  name: "@azure/event-processor-host",
+  version: "1.0.0"
 };

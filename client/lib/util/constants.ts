@@ -2,6 +2,6 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 export const packageJsonInfo = {
-  name: "azure-event-hubs",
-  version: "0.2.9"
+  name: "@azure/event-hubs",
+  version: "1.0.1"
 };
