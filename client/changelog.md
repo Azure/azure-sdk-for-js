@@ -1,3 +1,6 @@
+#### 2018-09-12 1.0.0
+- Stable version of the libray.
+
 ### 2018-09-11 0.2.10
 - Added support to provide custom user-agent string that will be appended to the default user agent string.
 
