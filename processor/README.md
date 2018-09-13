@@ -1,5 +1,16 @@
-azure-event-processor-host
+#### azure-event-processor-host
+
+
+Deprecation warning
 ================
+
+**This package has been deprecated.Please use [@azure/event-processor-host](https://www.npmjs.com/package/@azure/event-processor-host) instead.**
+
+Please install:
+
+```
+npm i @azure/event-processor-host
+```
 
 Azure Event Processor Host helps you efficiently receive events from an EventHub. It will create EventHub Receivers
 across all the partitions in the provided consumer group of an EventHub and provide you messages received across
@@ -7,7 +18,7 @@ all the partitions. It will checkpoint metadata about the received messages at r
 Azure Storage Blob. This makes it easy to continue receiving messages from where you left at a later time.
 
 #### Conceptual Overview
-![alt tag](https://github.com/Azure/azure-event-hubs-node/blob/master/processor/eph.png)
+![overview](https://raw.githubusercontent.com/Azure/azure-event-hubs-node/master/processor/eph.png)
 
 More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host).
 
