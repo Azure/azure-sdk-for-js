@@ -151,7 +151,7 @@ export interface FromTokenProviderOptions extends ClientOptionsBase {
 export interface FromConnectionStringOptions extends FromTokenProviderOptions {
   /**
    * @property {string} [eventHubPath] The name of the EventHub. This is optional if the
-   * EventHub connection string contains ENTITY_PATH=hub-name else an Error will be thrown.
+   * EventHub connection string contains EntityPath=hub-name else an Error will be thrown.
    */
   eventHubPath?: string;
 }

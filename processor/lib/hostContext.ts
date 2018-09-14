@@ -144,9 +144,11 @@ export namespace HostContext {
     const onEphErrorFunc: OnEphError = () => {
       // do nothing
     };
+    const config = ConnectionConfig.create(options.eventHubConnectionString!, options.eventHubPath);
 
     // set defaults
     if (!options.consumerGroup) options.consumerGroup = defaultConsumerGroup;
+    if (!options.eventHubPath) options.eventHubPath = config.entityPath;
     if (!options.leaseRenewInterval) options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
     if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
     if (!options.onEphError) options.onEphError = onEphErrorFunc;
@@ -169,7 +171,7 @@ export namespace HostContext {
     _eitherStorageConnectionStringOrCheckpointLeaseManager(options);
     _eitherLeaseManagerOrleaseDurationAndRenewal(options);
 
-    const config = ConnectionConfig.create(options.eventHubConnectionString!, options.eventHubPath);
+
     const context: BaseHostContext = {
       hostName: hostName,
       eventHubConnectionString: options.eventHubConnectionString!,
@@ -238,7 +240,7 @@ export namespace HostContext {
       client.close().catch(/* do nothing */);
       return result;
     };
-    ctxt.getPartitionInformation = async (id: string) => {
+    ctxt.getPartitionInformation = async (id: string | number) => {
       const client = ctxt.getEventHubClient();
       const result = await client.getPartitionInformation(id);
       client.close().catch(/* do nothing */);

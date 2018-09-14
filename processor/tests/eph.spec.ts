@@ -299,4 +299,170 @@ describe("EPH", function () {
       }
     });
   });
+
+  describe("runtimeInfo", function () {
+    it("should get hub runtime info correctly", async function () {
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        EventProcessorHost.createHostName("single"),
+        ehConnString!,
+        {
+          eventHubPath: hubName!,
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+        }
+      );
+      const hubRuntimeInfo = await host.getHubRuntimeInformation();
+      should.equal(Array.isArray(hubRuntimeInfo.partitionIds), true);
+      should.equal(typeof hubRuntimeInfo.partitionCount, "number");
+    });
+
+    it("should get partition runtime info correctly with partitionId as string", async function () {
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        EventProcessorHost.createHostName("single"),
+        ehConnString!,
+        {
+          eventHubPath: hubName!,
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+        }
+      );
+      const partitionInfo = await host.getPartitionInformation("0");
+      debug(">>> partitionInfo: %o", partitionInfo);
+      partitionInfo.partitionId.should.equal("0");
+      partitionInfo.type.should.equal("com.microsoft:partition");
+      partitionInfo.hubPath.should.equal(hubName);
+      partitionInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+      should.exist(partitionInfo.lastSequenceNumber);
+      should.exist(partitionInfo.lastEnqueuedOffset);
+    });
+
+    it("should get partition runtime info correctly with partitionId as number", async function () {
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        EventProcessorHost.createHostName("single"),
+        ehConnString!,
+        {
+          eventHubPath: hubName!,
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+        }
+      );
+      const partitionInfo = await host.getPartitionInformation(0);
+      partitionInfo.partitionId.should.equal("0");
+      partitionInfo.type.should.equal("com.microsoft:partition");
+      partitionInfo.hubPath.should.equal(hubName);
+      partitionInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+      should.exist(partitionInfo.lastSequenceNumber);
+      should.exist(partitionInfo.lastEnqueuedOffset);
+    });
+
+    it("should fail getting partition information when partitionId is not a string or number", async function () {
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        EventProcessorHost.createHostName("single"),
+        ehConnString!,
+        {
+          eventHubPath: hubName!,
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+        }
+      );
+      try {
+        await host.getPartitionInformation(false as any);
+      } catch (err) {
+        err.message.should.equal("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
+      }
+    });
+
+    it("should fail getting partition information when partitionId is empty string", async function () {
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        EventProcessorHost.createHostName("single"),
+        ehConnString!,
+        {
+          eventHubPath: hubName!,
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+        }
+      );
+      try {
+        await host.getPartitionInformation("");
+      } catch (err) {
+        err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
+      }
+    });
+
+    it("should fail getting partition information when partitionId is a negative number", async function () {
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        EventProcessorHost.createHostName("single"),
+        ehConnString!,
+        {
+          eventHubPath: hubName!,
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+        }
+      );
+      try {
+        await host.getPartitionInformation(-1);
+      } catch (err) {
+        err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
+      }
+    });
+  });
+
+  describe("options", function () {
+    it("should throw an error if the event hub name is neither provided in the connection string and nor in the options object", function () {
+      try {
+        const ehc = "Endpoint=sb://foo.bar.baz.net/;SharedAccessKeyName=somekey;SharedAccessKey=somesecret"
+        EventProcessorHost.createFromConnectionString(
+          EventProcessorHost.createHostName(),
+          storageConnString!,
+          EventProcessorHost.createHostName("single"),
+          ehc,
+          {
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+          }
+        );
+      } catch (err) {
+        should.exist(err);
+        err.message.match(/.*Either provide "path" or the "connectionString": "Endpoint=sb:\/\/foo\.bar\.baz\.net\/;SharedAccessKeyName=somekey;SharedAccessKey=somesecret", must contain EntityPath="<path-to-the-entity>.*"/ig);
+      }
+    });
+
+    it("should get hub runtime info correctly when eventhub name is present in connection string but not as an option in the options object.", async function () {
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        EventProcessorHost.createHostName("single"),
+        `${ehConnString!};EntityPath=${hubName!}`,
+        {
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+        }
+      );
+      const hubRuntimeInfo = await host.getHubRuntimeInformation();
+      hubRuntimeInfo.path.should.equal(hubName);
+      should.equal(Array.isArray(hubRuntimeInfo.partitionIds), true);
+      should.equal(typeof hubRuntimeInfo.partitionCount, "number");
+    });
+
+    it("when eventhub name is present in connection string and in the options object, the one in options object is selected.", async function () {
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        EventProcessorHost.createHostName("single"),
+        `${ehConnString!};EntityPath=foo`,
+        {
+          eventHubPath: hubName,
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+        }
+      );
+      const hubRuntimeInfo = await host.getHubRuntimeInformation();
+      hubRuntimeInfo.path.should.equal(hubName);
+      should.equal(Array.isArray(hubRuntimeInfo.partitionIds), true);
+      should.equal(typeof hubRuntimeInfo.partitionCount, "number");
+    });
+  });
 });
