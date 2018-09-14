@@ -157,8 +157,7 @@ export class ManagementClient extends LinkEntity {
    * @param {(string|number)} partitionId Partition ID for which partition information is required.
    */
   async getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation> {
-    if (!partitionId ||
-      (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
+    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of " +
         "type: 'string' | 'number'.");
     }
@@ -249,7 +248,7 @@ export class ManagementClient extends LinkEntity {
    * @param {string | number} [partitionId] - The partitionId. Required only when type is "partition".
    */
   private async _makeManagementRequest(type: "eventhub" | "partition", partitionId?: string | number): Promise<any> {
-    if (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number") {
+    if (partitionId != undefined && (typeof partitionId !== "string" && typeof partitionId !== "number")) {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     try {
@@ -263,8 +262,8 @@ export class ManagementClient extends LinkEntity {
           type: `${Constants.vendorString}:${type}`
         }
       };
-      if (partitionId && type === Constants.partition) {
-        request.application_properties!.partition = partitionId;
+      if (partitionId != undefined && type === Constants.partition) {
+        request.application_properties!.partition = `${partitionId}`;
       }
       log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });

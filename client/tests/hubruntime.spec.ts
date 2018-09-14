@@ -44,7 +44,7 @@ describe("RuntimeInformation", function () {
     hubRuntimeInfo.createdAt.should.be.instanceof(Date);
   });
 
-  it("gets the partition runtime information", async function () {
+  it("gets the partition runtime information with partitionId as a string", async function () {
     client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
     const partitionRuntimeInfo = await client.getPartitionInformation("0");
     debug(partitionRuntimeInfo);
@@ -54,5 +54,44 @@ describe("RuntimeInformation", function () {
     partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
     should.exist(partitionRuntimeInfo.lastSequenceNumber);
     should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
+  });
+
+  it("gets the partition runtime information with partitionId as a number", async function () {
+    client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+    const partitionRuntimeInfo = await client.getPartitionInformation(0);
+    debug(partitionRuntimeInfo);
+    partitionRuntimeInfo.partitionId.should.equal("0");
+    partitionRuntimeInfo.type.should.equal("com.microsoft:partition");
+    partitionRuntimeInfo.hubPath.should.equal(service.path);
+    partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+    should.exist(partitionRuntimeInfo.lastSequenceNumber);
+    should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
+  });
+
+  it("should fail the partition runtime information when partitionId is not a number or string", async function () {
+    client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+    try {
+      const partitionRuntimeInfo = await client.getPartitionInformation(true as any);
+    } catch (err) {
+      err.message.should.equal("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
+    }
+  });
+
+  it("should fail the partition runtime information when partitionId is empty string", async function () {
+    client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+    try {
+      const partitionRuntimeInfo = await client.getPartitionInformation("");
+    } catch (err) {
+      err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
+    }
+  });
+
+  it("should fail the partition runtime information when partitionId is a negative number", async function () {
+    client = EventHubClient.createFromConnectionString(service.connectionString!, service.path);
+    try {
+      const partitionRuntimeInfo = await client.getPartitionInformation(-1);
+    } catch (err) {
+      err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
+    }
   });
 });
