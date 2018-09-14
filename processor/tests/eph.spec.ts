@@ -412,4 +412,57 @@ describe("EPH", function () {
       }
     });
   });
+
+  describe("options", function () {
+    it("should throw an error if the event hub name is neither provided in the connection string and nor in the options object", function () {
+      try {
+        const ehc = "Endpoint=sb://foo.bar.baz.net/;SharedAccessKeyName=somekey;SharedAccessKey=somesecret"
+        EventProcessorHost.createFromConnectionString(
+          EventProcessorHost.createHostName(),
+          storageConnString!,
+          EventProcessorHost.createHostName("single"),
+          ehc,
+          {
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+          }
+        );
+      } catch (err) {
+        should.exist(err);
+        err.message.match(/.*Either provide "path" or the "connectionString": "Endpoint=sb:\/\/foo\.bar\.baz\.net\/;SharedAccessKeyName=somekey;SharedAccessKey=somesecret", must contain EntityPath="<path-to-the-entity>.*"/ig);
+      }
+    });
+
+    it("should get hub runtime info correctly when eventhub name is present in connection string but not as an option in the options object.", async function () {
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        EventProcessorHost.createHostName("single"),
+        `${ehConnString!};EntityPath=${hubName!}`,
+        {
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+        }
+      );
+      const hubRuntimeInfo = await host.getHubRuntimeInformation();
+      hubRuntimeInfo.path.should.equal(hubName);
+      should.equal(Array.isArray(hubRuntimeInfo.partitionIds), true);
+      should.equal(typeof hubRuntimeInfo.partitionCount, "number");
+    });
+
+    it("when eventhub name is present in connection string and in the options object, the one in options object is selected.", async function () {
+      host = EventProcessorHost.createFromConnectionString(
+        EventProcessorHost.createHostName(),
+        storageConnString!,
+        EventProcessorHost.createHostName("single"),
+        `${ehConnString!};EntityPath=foo`,
+        {
+          eventHubPath: hubName,
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+        }
+      );
+      const hubRuntimeInfo = await host.getHubRuntimeInformation();
+      hubRuntimeInfo.path.should.equal(hubName);
+      should.equal(Array.isArray(hubRuntimeInfo.partitionIds), true);
+      should.equal(typeof hubRuntimeInfo.partitionCount, "number");
+    });
+  });
 });
