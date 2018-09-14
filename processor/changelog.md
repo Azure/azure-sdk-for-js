@@ -1,3 +1,7 @@
+### 2018-09-14 1.0.1
+- `eph.getPartitionInformation()` should works as expected when partitionId is of type `number | string`.
+- updated documentation for `eventHubPath` optional property in the `FromConnectionStringOptions` object.
+
 ## 2018-09-12 1.0.0
 - Stable version of the library.
 

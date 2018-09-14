@@ -238,7 +238,7 @@ export namespace HostContext {
       client.close().catch(/* do nothing */);
       return result;
     };
-    ctxt.getPartitionInformation = async (id: string) => {
+    ctxt.getPartitionInformation = async (id: string | number) => {
       const client = ctxt.getEventHubClient();
       const result = await client.getPartitionInformation(id);
       client.close().catch(/* do nothing */);

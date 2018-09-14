@@ -1,4 +1,7 @@
-#### 2018-09-12 1.0.1
+### 2018-09-14 1.0.2
+- `client.getPartitionInformation()` should works as expected when partitionId is of type `number | string`.
+
+### 2018-09-12 1.0.1
 - Stable version of the libray.
 
 ### 2018-09-11 0.2.10
