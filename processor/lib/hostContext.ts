@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import * as uuid from "uuid/v4";
 import {
   EventHubClient, EventPosition, TokenProvider, DefaultDataTransformer,
   EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, ConnectionConfig
@@ -31,6 +32,7 @@ import {
  */
 export interface BaseHostContext {
   hostName: string;
+  checkpointLock: string;
   consumerGroup: string;
   eventHubPath: string;
   storageContainerName?: string;
@@ -174,6 +176,7 @@ export namespace HostContext {
 
     const context: BaseHostContext = {
       hostName: hostName,
+      checkpointLock: `checkpoint-${uuid()}`,
       eventHubConnectionString: options.eventHubConnectionString!,
       connectionConfig: config,
       eventHubPath: options.eventHubPath!,
