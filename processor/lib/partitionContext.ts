@@ -6,7 +6,7 @@ import { CompleteLease } from "./completeLease";
 import { CheckpointInfo } from "./checkpointInfo";
 import * as log from "./log";
 import { HostContextWithCheckpointLeaseManager } from "./hostContext";
-import { validateType } from "./util/utils";
+import { validateType, defaultLock } from "./util/utils";
 
 /**
  * Describes the Partition Context.
@@ -89,7 +89,9 @@ export class PartitionContext {
     };
     const withHostAndPartiton = this._context.withHostAndPartition;
     log.partitionContext(withHostAndPartiton(this, "Checkpointing: %O"), capturedCheckpoint);
-    await this._persistCheckpoint(capturedCheckpoint);
+    await defaultLock.acquire(this._context.checkpointLock, () => {
+      return this._persistCheckpoint(capturedCheckpoint);
+    });
   }
 
   /**
@@ -106,7 +108,9 @@ export class PartitionContext {
     const data = CheckpointInfo.createFromEventData(this.partitionId, eventData);
     const withHostAndPartiton = this._context.withHostAndPartition;
     log.partitionContext(withHostAndPartiton(this, "Checkpointing from ED: %O"), data);
-    await this._persistCheckpoint(data);
+    await defaultLock.acquire(this._context.checkpointLock, () => {
+      return this._persistCheckpoint(data);
+    });
   }
 
   /**

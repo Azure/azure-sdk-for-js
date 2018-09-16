@@ -43,7 +43,7 @@ describe("EPH", function () {
         }
       );
       const context = host["_context"];
-      const ua = "/js-event-processor-host=1.0.0";
+      const ua = "/js-event-processor-host=1.0.2";
       context.userAgent.should.equal(ua);
       const ehc: EventHubClient = context.getEventHubClient();
       const properties = ehc["_context"].connection.options.properties;
@@ -65,7 +65,7 @@ describe("EPH", function () {
         }
       );
       const context = host["_context"];
-      const ua = "/js-event-processor-host=1.0.0";
+      const ua = "/js-event-processor-host=1.0.2";
       context.userAgent.should.equal(`${ua},${customua}`);
       const ehc: EventHubClient = context.getEventHubClient();
       const properties = ehc["_context"].connection.options.properties;
@@ -76,6 +76,69 @@ describe("EPH", function () {
   });
 
   describe("single", function () {
+    it("should checkpoint messages in order", function (done) {
+      const func = async () => {
+        host = EventProcessorHost.createFromConnectionString(
+          EventProcessorHost.createHostName(),
+          storageConnString!,
+          EventProcessorHost.createHostName("single"),
+          ehConnString!,
+          {
+            eventHubPath: hubName!,
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+          }
+        );
+        const messageCount = 100;
+        let datas: EventData[] = [];
+        for (let i = 0; i < messageCount; i++) {
+          let obj: EventData = { body: `Hello foo ${i}` };
+          datas.push(obj);
+        }
+        const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
+        await ehc.sendBatch(datas, "0");
+        debug("Sent batch message successfully");
+        let num = 0;
+        let offset = "0";
+        let sequence = 0;
+        let doneCheckpointing = false;
+        const onMessage = async (context: PartitionContext, data: EventData) => {
+          ++num;
+          debug("num: %d", num);
+          if (num % 10 === 0) {
+            const cpointNum = num;
+            try {
+              await context.checkpoint();
+              debug("Done checkpointing: %d", cpointNum);
+              if (num === 100) {
+                offset = data.offset as string;
+                sequence = data.sequenceNumber as number;
+                doneCheckpointing = true;
+              }
+            } catch (err) {
+              debug(">>>>>>> An error occurred while checkpointing msg number %d: %O", num, err);
+            }
+          }
+        };
+        const onError: OnReceivedError = (err) => {
+          debug("An error occurred while receiving the message: %O", err);
+          throw err;
+        };
+        await host.start(onMessage, onError);
+        while (!doneCheckpointing) {
+          debug("Not done checkpointing -> %s, sleeping for 10 more seconds.", doneCheckpointing);
+          await delay(10000);
+        }
+        debug("sleeping for 10 more seconds..");
+        await delay(10000);
+        const stringContent = await host["_context"].blobReferenceByPartition["0"].getContent();
+        const content = JSON.parse(stringContent);
+        debug("Fetched content from blob is: %o", content);
+        content.offset.should.equal(offset);
+        content.sequenceNumber.should.equal(sequence);
+        await host.stop();
+      }
+      func().then(() => { done(); }).catch((err) => { done(err); });
+    });
 
     it("should checkpoint a single received event.", function (done) {
       const msgId = uuid();
@@ -223,7 +286,7 @@ describe("EPH", function () {
       debug(">>>>>> sleeping for 10 more seconds....");
       await delay(10000);
       await host.stop();
-      if (count2 > 3) {
+      if (count2 > ids.length) {
         throw new Error("We received more messages than we were expecting...");
       }
     });
