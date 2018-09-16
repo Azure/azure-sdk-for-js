@@ -1,4 +1,7 @@
-### 2018-09-14 1.0.1
+## 2018-09-15 1.0.2
+- Ensures that messages are checkpointed in order.
+
+## 2018-09-14 1.0.1
 - `eph.getPartitionInformation()` should works as expected when partitionId is of type `number | string`.
 - updated documentation for `eventHubPath` optional property in the `FromConnectionStringOptions` object.
 
