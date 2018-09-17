@@ -72,16 +72,16 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
       partionCount[context.partitionId], context.partitionId, data.offset);
     // Checkpointing every 100th event received for a given partition.
     if (partionCount[context.partitionId] % 100 === 0) {
+      const num = partionCount[context.partitionId];
       try {
         console.log("***** [%s] Number of partitions: %O", ephName, eph.receivingFromPartitions.length);
         console.log("***** [%s] EPH is currently receiving messages from partitions: %s", ephName,
           eph.receivingFromPartitions.toString());
+        console.log("$$$$ [%s] Attempting to checkpoint message number %d", ephName, num);
         await context.checkpoint();
-        console.log("$$$$ [%s] Successfully checkpointed message number %d", ephName,
-          partionCount[context.partitionId]);
+        console.log("$$$$ [%s] Successfully checkpointed message number %d", ephName, num);
       } catch (err) {
-        console.log(">>>>>>> [%s] An error occurred while checkpointing msg number %d: %O",
-          ephName, partionCount[context.partitionId], err);
+        console.log(">>>>> [%s] An error occurred while checkpointing msg number %d: %O", ephName, num, err);
       }
     }
   };

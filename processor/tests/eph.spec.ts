@@ -77,7 +77,7 @@ describe("EPH", function () {
 
   describe("single", function () {
     it("should checkpoint messages in order", function (done) {
-      const func = async () => {
+      const test = async () => {
         host = EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
           storageConnString!,
@@ -96,6 +96,7 @@ describe("EPH", function () {
         }
         const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
         await ehc.sendBatch(datas, "0");
+        await ehc.close();
         debug("Sent batch message successfully");
         let num = 0;
         let offset = "0";
@@ -137,7 +138,7 @@ describe("EPH", function () {
         content.sequenceNumber.should.equal(sequence);
         await host.stop();
       }
-      func().then(() => { done(); }).catch((err) => { done(err); });
+      test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
     it("should checkpoint a single received event.", function (done) {
@@ -191,293 +192,321 @@ describe("EPH", function () {
       });
     });
 
-    it("should be able to receive messages from the checkpointed offset.", async function () {
-      const msgId = uuid();
-      const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
-      const leasecontainerName = EventProcessorHost.createHostName("tc");
-      debug(">>>>> Lease container name: %s", leasecontainerName);
-      async function sendAcrossAllPartitions(ehc: EventHubClient, ids: string[]): Promise<Dictionary<EventData>> {
-        const result: Promise<any>[] = [];
-        const idMessage: Dictionary<EventData> = {};
-        for (const id of ids) {
-          const data = { body: "Test Message - " + id, properties: { message_id: msgId } };
-          idMessage[id] = data;
-          result.push(ehc.send(data, id));
+    it("should be able to receive messages from the checkpointed offset.", function (done) {
+      const test = async () => {
+        const msgId = uuid();
+        const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
+        const leasecontainerName = EventProcessorHost.createHostName("tc");
+        debug(">>>>> Lease container name: %s", leasecontainerName);
+        async function sendAcrossAllPartitions(ehc: EventHubClient, ids: string[]): Promise<Dictionary<EventData>> {
+          const result: Promise<any>[] = [];
+          const idMessage: Dictionary<EventData> = {};
+          for (const id of ids) {
+            const data = { body: "Test Message - " + id, properties: { message_id: msgId } };
+            idMessage[id] = data;
+            result.push(ehc.send(data, id));
+          }
+          await Promise.all(result);
+          debug(">>>> Successfully finished sending messages.. %O", idMessage);
+          return idMessage;
         }
-        await Promise.all(result);
-        debug(">>>> Successfully finished sending messages.. %O", idMessage);
-        return idMessage;
-      }
 
-      const ids = await ehc.getPartitionIds();
-      debug(">>> Received partition ids: ", ids);
-      host = EventProcessorHost.createFromConnectionString(
-        "my-eph-1",
-        storageConnString!,
-        leasecontainerName,
-        ehConnString!,
-        {
-          eventHubPath: hubName!,
-          initialOffset: EventPosition.fromEnqueuedTime(Date.now()),
-          startupScanDelay: 15,
-          leaseRenewInterval: 5,
-          leaseDuration: 15
+        const ids = await ehc.getPartitionIds();
+        debug(">>> Received partition ids: ", ids);
+        host = EventProcessorHost.createFromConnectionString(
+          "my-eph-1",
+          storageConnString!,
+          leasecontainerName,
+          ehConnString!,
+          {
+            eventHubPath: hubName!,
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now()),
+            startupScanDelay: 15,
+            leaseRenewInterval: 5,
+            leaseDuration: 15
+          }
+        );
+        await delay(1000);
+        debug(">>>>> Sending the first set of test messages...");
+        const firstSend = await sendAcrossAllPartitions(ehc, ids);
+        let count = 0;
+        const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
+          const partitionId = context.partitionId
+          debug(">>>>> Rx message from '%s': '%o'", partitionId, data);
+          if (data.properties!.message_id === firstSend[partitionId].properties!.message_id) {
+            debug(">>>> Checkpointing the received message...");
+            await context.checkpoint();
+            count++;
+          } else {
+            const msg = `Sent message id '${data.properties!.message_id}' did not match the ` +
+              `received message id '${firstSend[partitionId].properties!.message_id}' for ` +
+              `partitionId '${partitionId}'.`
+            throw new Error(msg);
+          }
+        };
+        const onError: OnReceivedError = (err) => {
+          debug("An error occurred while receiving the message: %O", err);
+          throw err;
+        };
+        debug(">>>> Starting my-eph-1");
+        await host.start(onMessage, onError);
+        while (count < ids.length) {
+          await delay(10000);
+          debug(">>>> number of partitionIds: %d, count: %d", ids.length, count);
         }
-      );
-      await delay(1000);
-      debug(">>>>> Sending the first set of test messages...");
-      const firstSend = await sendAcrossAllPartitions(ehc, ids);
-      let count = 0;
-      const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
-        const partitionId = context.partitionId
-        debug(">>>>> Rx message from '%s': '%o'", partitionId, data);
-        if (data.properties!.message_id === firstSend[partitionId].properties!.message_id) {
-          debug(">>>> Checkpointing the received message...");
-          await context.checkpoint();
-          count++;
-        } else {
-          const msg = `Sent message id '${data.properties!.message_id}' did not match the ` +
-            `received message id '${firstSend[partitionId].properties!.message_id}' for ` +
-            `partitionId '${partitionId}'.`
-          throw new Error(msg);
-        }
-      };
-      const onError: OnReceivedError = (err) => {
-        debug("An error occurred while receiving the message: %O", err);
-        throw err;
-      };
-      debug(">>>> Starting my-eph-1");
-      await host.start(onMessage, onError);
-      while (count < ids.length) {
-        await delay(10000);
-        debug(">>>> number of partitionIds: %d, count: %d", ids.length, count);
-      }
-      await host.stop();
+        await host.stop();
 
-      debug(">>>> Restarting the same host. This time the initial offset should be ignored, and " +
-        "the EventPosition should be from the checkpointed offset..");
-      debug(">>>>> Sending the second set of test messages...");
-      const secondSend = await sendAcrossAllPartitions(ehc, ids);
-      let count2 = 0;
-      const onMessage2: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
-        const partitionId = context.partitionId
-        debug(">>>>> Rx message from '%s': '%s'", partitionId, data);
-        if (data.properties!.message_id === secondSend[partitionId].properties!.message_id) {
-          debug(">>>> Checkpointing the received message...");
-          await context.checkpoint();
-          count2++;
-        } else {
-          const msg = `Sent message id '${data.properties!.message_id}' did not match the ` +
-            `received message id '${secondSend[partitionId].properties!.message_id}' for ` +
-            `partitionId '${partitionId}'.`
-          throw new Error(msg);
+        debug(">>>> Restarting the same host. This time the initial offset should be ignored, and " +
+          "the EventPosition should be from the checkpointed offset..");
+        debug(">>>>> Sending the second set of test messages...");
+        const secondSend = await sendAcrossAllPartitions(ehc, ids);
+        let count2 = 0;
+        const onMessage2: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
+          const partitionId = context.partitionId
+          debug(">>>>> Rx message from '%s': '%s'", partitionId, data);
+          if (data.properties!.message_id === secondSend[partitionId].properties!.message_id) {
+            debug(">>>> Checkpointing the received message...");
+            await context.checkpoint();
+            count2++;
+          } else {
+            const msg = `Sent message id '${data.properties!.message_id}' did not match the ` +
+              `received message id '${secondSend[partitionId].properties!.message_id}' for ` +
+              `partitionId '${partitionId}'.`
+            throw new Error(msg);
+          }
+        };
+        const onError2: OnReceivedError = (err) => {
+          debug("An error occurred while receiving the message: %O", err);
+          throw err;
+        };
+        debug(">>>> Starting my-eph-2");
+        await host.start(onMessage2, onError2);
+        while (count2 < ids.length) {
+          await delay(10000);
+          debug(">>>> number of partitionIds: %d, count: %d", ids.length, count);
+        }
+        debug(">>>>>> sleeping for 10 more seconds....");
+        await delay(10000);
+        await host.stop();
+        await ehc.close();
+        if (count2 > ids.length) {
+          throw new Error("We received more messages than we were expecting...");
         }
       };
-      const onError2: OnReceivedError = (err) => {
-        debug("An error occurred while receiving the message: %O", err);
-        throw err;
-      };
-      debug(">>>> Starting my-eph-2");
-      await host.start(onMessage2, onError2);
-      while (count2 < ids.length) {
-        await delay(10000);
-        debug(">>>> number of partitionIds: %d, count: %d", ids.length, count);
-      }
-      debug(">>>>>> sleeping for 10 more seconds....");
-      await delay(10000);
-      await host.stop();
-      if (count2 > ids.length) {
-        throw new Error("We received more messages than we were expecting...");
-      }
+      test().then(() => { done(); }).catch((err) => { done(err); });
     });
   });
 
   describe("multiple", function () {
-    it("should be able to run multiple eph successfully.", async function () {
-      const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
-      const containerName: string = `sharedhost-${uuid()}`;
-      const now = Date.now();
-      const hostByName: Dictionary<EventProcessorHost> = {};
-      const sendDataByPartition: Dictionary<EventData> = {};
-      const getReceivingFromPartitionsForAllEph = (): Dictionary<string[]> => {
-        const receivingPartitionsByHost: Dictionary<string[]> = {};
-        for (const hostName in hostByName) {
-          receivingPartitionsByHost[hostName] = hostByName[hostName].receivingFromPartitions;
-        }
-        debug(">>> EPH -> Partitions: \n%O", receivingPartitionsByHost);
-        return receivingPartitionsByHost;
-      };
+    it("should be able to run multiple eph successfully.", function (done) {
+      const test = async () => {
+        const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
+        const containerName: string = `sharedhost-${uuid()}`;
+        const now = Date.now();
+        const hostByName: Dictionary<EventProcessorHost> = {};
+        const sendDataByPartition: Dictionary<EventData> = {};
+        const getReceivingFromPartitionsForAllEph = (): Dictionary<string[]> => {
+          const receivingPartitionsByHost: Dictionary<string[]> = {};
+          for (const hostName in hostByName) {
+            receivingPartitionsByHost[hostName] = hostByName[hostName].receivingFromPartitions;
+          }
+          debug(">>> EPH -> Partitions: \n%O", receivingPartitionsByHost);
+          return receivingPartitionsByHost;
+        };
 
-      const sendEvents = async (ids: string[]) => {
+        const sendEvents = async (ids: string[]) => {
+          for (let i = 0; i < ids.length; i++) {
+            const data: EventData = {
+              body: `Hello World - ${ids[i]}!!`
+            }
+            sendDataByPartition[ids[i]] = data;
+            await ehc.send(data, ids[i]);
+            debug(">>> Sent data to partition: %s", ids[i]);
+          }
+        };
+
+        const ids = await ehc.getPartitionIds();
         for (let i = 0; i < ids.length; i++) {
-          const data: EventData = {
-            body: `Hello World - ${ids[i]}!!`
-          }
-          sendDataByPartition[ids[i]] = data;
-          await ehc.send(data, ids[i]);
-          debug(">>> Sent data to partition: %s", ids[i]);
+          const hostName = `host-${i}`;
+          hostByName[hostName] = EventProcessorHost.createFromConnectionString(
+            hostName,
+            storageConnString!,
+            containerName,
+            ehConnString!,
+            {
+              eventHubPath: hubName!,
+              initialOffset: EventPosition.fromEnqueuedTime(now),
+            }
+          );
+
+          const onError: OnReceivedError = (error: Error) => {
+            debug(`>>> [%s] Received error: %O`, hostName, error);
+            throw error;
+          };
+          const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
+            debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
+            should.equal(sendDataByPartition[context.partitionId].body, data.body);
+          };
+          hostByName[hostName].start(onMessage, onError);
+          debug(">>> Sleeping for 8 seconds after starting %s.", hostName);
+          await delay(8000);
+          debug(">>> [%s] currently receiving messages from partitions : %o", hostName,
+            hostByName[hostName].receivingFromPartitions);
+        }
+        debug(">>> Sleeping for another 15 seconds.")
+        await delay(15000);
+        const hostToPartition = getReceivingFromPartitionsForAllEph();
+        for (const host in hostToPartition) {
+          should.equal(Array.isArray(hostToPartition[host]), true);
+          hostToPartition[host].length.should.eql(1);
+        }
+        await sendEvents(ids);
+        await delay(5000);
+        await ehc.close();
+        for (const host in hostByName) {
+          await hostByName[host].stop();
         }
       };
-
-      const ids = await ehc.getPartitionIds();
-      for (let i = 0; i < ids.length; i++) {
-        const hostName = `host-${i}`;
-        hostByName[hostName] = EventProcessorHost.createFromConnectionString(
-          hostName,
-          storageConnString!,
-          containerName,
-          ehConnString!,
-          {
-            eventHubPath: hubName!,
-            initialOffset: EventPosition.fromEnqueuedTime(now),
-          }
-        );
-
-        const onError: OnReceivedError = (error: Error) => {
-          debug(`>>> [%s] Received error: %O`, hostName, error);
-          throw error;
-        };
-        const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
-          debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
-          should.equal(sendDataByPartition[context.partitionId].body, data.body);
-        };
-        hostByName[hostName].start(onMessage, onError);
-        debug(">>> Sleeping for 8 seconds after starting %s.", hostName);
-        await delay(8000);
-        debug(">>> [%s] currently receiving messages from partitions : %o", hostName,
-          hostByName[hostName].receivingFromPartitions);
-      }
-      debug(">>> Sleeping for another 15 seconds.")
-      await delay(15000);
-      const hostToPartition = getReceivingFromPartitionsForAllEph();
-      for (const host in hostToPartition) {
-        should.equal(Array.isArray(hostToPartition[host]), true);
-        hostToPartition[host].length.should.eql(1);
-      }
-      await sendEvents(ids);
-      await delay(5000);
-      await ehc.close();
-      for (const host in hostByName) {
-        await hostByName[host].stop();
-      }
+      test().then(() => { done(); }).catch((err) => { done(err); });
     });
   });
 
   describe("runtimeInfo", function () {
-    it("should get hub runtime info correctly", async function () {
-      host = EventProcessorHost.createFromConnectionString(
-        EventProcessorHost.createHostName(),
-        storageConnString!,
-        EventProcessorHost.createHostName("single"),
-        ehConnString!,
-        {
-          eventHubPath: hubName!,
-          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
-        }
-      );
-      const hubRuntimeInfo = await host.getHubRuntimeInformation();
-      should.equal(Array.isArray(hubRuntimeInfo.partitionIds), true);
-      should.equal(typeof hubRuntimeInfo.partitionCount, "number");
+    it("should get hub runtime info correctly", function (done) {
+      const test = async () => {
+        host = EventProcessorHost.createFromConnectionString(
+          EventProcessorHost.createHostName(),
+          storageConnString!,
+          EventProcessorHost.createHostName("single"),
+          ehConnString!,
+          {
+            eventHubPath: hubName!,
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+          }
+        );
+        const hubRuntimeInfo = await host.getHubRuntimeInformation();
+        should.equal(Array.isArray(hubRuntimeInfo.partitionIds), true);
+        should.equal(typeof hubRuntimeInfo.partitionCount, "number");
+        await host.stop();
+      };
+      test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("should get partition runtime info correctly with partitionId as string", async function () {
-      host = EventProcessorHost.createFromConnectionString(
-        EventProcessorHost.createHostName(),
-        storageConnString!,
-        EventProcessorHost.createHostName("single"),
-        ehConnString!,
-        {
-          eventHubPath: hubName!,
-          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
-        }
-      );
-      const partitionInfo = await host.getPartitionInformation("0");
-      debug(">>> partitionInfo: %o", partitionInfo);
-      partitionInfo.partitionId.should.equal("0");
-      partitionInfo.type.should.equal("com.microsoft:partition");
-      partitionInfo.hubPath.should.equal(hubName);
-      partitionInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
-      should.exist(partitionInfo.lastSequenceNumber);
-      should.exist(partitionInfo.lastEnqueuedOffset);
+    it("should get partition runtime info correctly with partitionId as string", function (done) {
+      const test = async () => {
+        host = EventProcessorHost.createFromConnectionString(
+          EventProcessorHost.createHostName(),
+          storageConnString!,
+          EventProcessorHost.createHostName("single"),
+          ehConnString!,
+          {
+            eventHubPath: hubName!,
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+          }
+        );
+        const partitionInfo = await host.getPartitionInformation("0");
+        debug(">>> partitionInfo: %o", partitionInfo);
+        partitionInfo.partitionId.should.equal("0");
+        partitionInfo.type.should.equal("com.microsoft:partition");
+        partitionInfo.hubPath.should.equal(hubName);
+        partitionInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+        should.exist(partitionInfo.lastSequenceNumber);
+        should.exist(partitionInfo.lastEnqueuedOffset);
+        await host.stop();
+      };
+      test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("should get partition runtime info correctly with partitionId as number", async function () {
-      host = EventProcessorHost.createFromConnectionString(
-        EventProcessorHost.createHostName(),
-        storageConnString!,
-        EventProcessorHost.createHostName("single"),
-        ehConnString!,
-        {
-          eventHubPath: hubName!,
-          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
-        }
-      );
-      const partitionInfo = await host.getPartitionInformation(0);
-      partitionInfo.partitionId.should.equal("0");
-      partitionInfo.type.should.equal("com.microsoft:partition");
-      partitionInfo.hubPath.should.equal(hubName);
-      partitionInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
-      should.exist(partitionInfo.lastSequenceNumber);
-      should.exist(partitionInfo.lastEnqueuedOffset);
+    it("should get partition runtime info correctly with partitionId as number", function (done) {
+      const test = async () => {
+        host = EventProcessorHost.createFromConnectionString(
+          EventProcessorHost.createHostName(),
+          storageConnString!,
+          EventProcessorHost.createHostName("single"),
+          ehConnString!,
+          {
+            eventHubPath: hubName!,
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+          }
+        );
+        const partitionInfo = await host.getPartitionInformation(0);
+        partitionInfo.partitionId.should.equal("0");
+        partitionInfo.type.should.equal("com.microsoft:partition");
+        partitionInfo.hubPath.should.equal(hubName);
+        partitionInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+        should.exist(partitionInfo.lastSequenceNumber);
+        should.exist(partitionInfo.lastEnqueuedOffset);
+        await host.stop();
+      };
+      test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("should fail getting partition information when partitionId is not a string or number", async function () {
-      host = EventProcessorHost.createFromConnectionString(
-        EventProcessorHost.createHostName(),
-        storageConnString!,
-        EventProcessorHost.createHostName("single"),
-        ehConnString!,
-        {
-          eventHubPath: hubName!,
-          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+    it("should fail getting partition information when partitionId is not a string or number", function (done) {
+      const test = async () => {
+        host = EventProcessorHost.createFromConnectionString(
+          EventProcessorHost.createHostName(),
+          storageConnString!,
+          EventProcessorHost.createHostName("single"),
+          ehConnString!,
+          {
+            eventHubPath: hubName!,
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+          }
+        );
+        try {
+          await host.getPartitionInformation(false as any);
+        } catch (err) {
+          err.message.should.equal("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
         }
-      );
-      try {
-        await host.getPartitionInformation(false as any);
-      } catch (err) {
-        err.message.should.equal("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
-      }
+      };
+      test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("should fail getting partition information when partitionId is empty string", async function () {
-      host = EventProcessorHost.createFromConnectionString(
-        EventProcessorHost.createHostName(),
-        storageConnString!,
-        EventProcessorHost.createHostName("single"),
-        ehConnString!,
-        {
-          eventHubPath: hubName!,
-          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+    it("should fail getting partition information when partitionId is empty string", function (done) {
+      const test = async () => {
+        host = EventProcessorHost.createFromConnectionString(
+          EventProcessorHost.createHostName(),
+          storageConnString!,
+          EventProcessorHost.createHostName("single"),
+          ehConnString!,
+          {
+            eventHubPath: hubName!,
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+          }
+        );
+        try {
+          await host.getPartitionInformation("");
+        } catch (err) {
+          err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
         }
-      );
-      try {
-        await host.getPartitionInformation("");
-      } catch (err) {
-        err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
-      }
+      };
+      test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("should fail getting partition information when partitionId is a negative number", async function () {
-      host = EventProcessorHost.createFromConnectionString(
-        EventProcessorHost.createHostName(),
-        storageConnString!,
-        EventProcessorHost.createHostName("single"),
-        ehConnString!,
-        {
-          eventHubPath: hubName!,
-          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+    it("should fail getting partition information when partitionId is a negative number", function (done) {
+      const test = async () => {
+        host = EventProcessorHost.createFromConnectionString(
+          EventProcessorHost.createHostName(),
+          storageConnString!,
+          EventProcessorHost.createHostName("single"),
+          ehConnString!,
+          {
+            eventHubPath: hubName!,
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+          }
+        );
+        try {
+          await host.getPartitionInformation(-1);
+        } catch (err) {
+          err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
         }
-      );
-      try {
-        await host.getPartitionInformation(-1);
-      } catch (err) {
-        err.message.should.match(/.*The specified partition is invalid for an EventHub partition sender or receiver.*/ig);
-      }
+      };
+      test().then(() => { done(); }).catch((err) => { done(err); });
     });
   });
 
   describe("options", function () {
-    it("should throw an error if the event hub name is neither provided in the connection string and nor in the options object", function () {
+    it("should throw an error if the event hub name is neither provided in the connection string and nor in the options object", function (done) {
       try {
         const ehc = "Endpoint=sb://foo.bar.baz.net/;SharedAccessKeyName=somekey;SharedAccessKey=somesecret"
         EventProcessorHost.createFromConnectionString(
@@ -492,40 +521,49 @@ describe("EPH", function () {
       } catch (err) {
         should.exist(err);
         err.message.match(/.*Either provide "path" or the "connectionString": "Endpoint=sb:\/\/foo\.bar\.baz\.net\/;SharedAccessKeyName=somekey;SharedAccessKey=somesecret", must contain EntityPath="<path-to-the-entity>.*"/ig);
+        done();
       }
     });
 
-    it("should get hub runtime info correctly when eventhub name is present in connection string but not as an option in the options object.", async function () {
-      host = EventProcessorHost.createFromConnectionString(
-        EventProcessorHost.createHostName(),
-        storageConnString!,
-        EventProcessorHost.createHostName("single"),
-        `${ehConnString!};EntityPath=${hubName!}`,
-        {
-          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
-        }
-      );
-      const hubRuntimeInfo = await host.getHubRuntimeInformation();
-      hubRuntimeInfo.path.should.equal(hubName);
-      should.equal(Array.isArray(hubRuntimeInfo.partitionIds), true);
-      should.equal(typeof hubRuntimeInfo.partitionCount, "number");
+    it("should get hub runtime info correctly when eventhub name is present in connection string but not as an option in the options object.", function (done) {
+      const test = async () => {
+        host = EventProcessorHost.createFromConnectionString(
+          EventProcessorHost.createHostName(),
+          storageConnString!,
+          EventProcessorHost.createHostName("single"),
+          `${ehConnString!};EntityPath=${hubName!}`,
+          {
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+          }
+        );
+        const hubRuntimeInfo = await host.getHubRuntimeInformation();
+        hubRuntimeInfo.path.should.equal(hubName);
+        should.equal(Array.isArray(hubRuntimeInfo.partitionIds), true);
+        should.equal(typeof hubRuntimeInfo.partitionCount, "number");
+        await host.stop();
+      };
+      test().then(() => { done(); }).catch((err) => { done(err); });
     });
 
-    it("when eventhub name is present in connection string and in the options object, the one in options object is selected.", async function () {
-      host = EventProcessorHost.createFromConnectionString(
-        EventProcessorHost.createHostName(),
-        storageConnString!,
-        EventProcessorHost.createHostName("single"),
-        `${ehConnString!};EntityPath=foo`,
-        {
-          eventHubPath: hubName,
-          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
-        }
-      );
-      const hubRuntimeInfo = await host.getHubRuntimeInformation();
-      hubRuntimeInfo.path.should.equal(hubName);
-      should.equal(Array.isArray(hubRuntimeInfo.partitionIds), true);
-      should.equal(typeof hubRuntimeInfo.partitionCount, "number");
+    it("when eventhub name is present in connection string and in the options object, the one in options object is selected.", function (done) {
+      const test = async () => {
+        host = EventProcessorHost.createFromConnectionString(
+          EventProcessorHost.createHostName(),
+          storageConnString!,
+          EventProcessorHost.createHostName("single"),
+          `${ehConnString!};EntityPath=foo`,
+          {
+            eventHubPath: hubName,
+            initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+          }
+        );
+        const hubRuntimeInfo = await host.getHubRuntimeInformation();
+        hubRuntimeInfo.path.should.equal(hubName);
+        should.equal(Array.isArray(hubRuntimeInfo.partitionIds), true);
+        should.equal(typeof hubRuntimeInfo.partitionCount, "number");
+        await host.stop();
+      };
+      test().then(() => { done(); }).catch((err) => { done(err); });
     });
   });
 });
