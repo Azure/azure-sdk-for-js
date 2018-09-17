@@ -9,7 +9,8 @@ Azure Storage Blob. This makes it easy to continue receiving messages from where
 #### Conceptual Overview
 ![overview](https://raw.githubusercontent.com/Azure/azure-event-hubs-node/master/processor/eph.png)
 
-More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host).
+- More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host).
+- General overview of how the Event Processor Host SDK works internally can be found over [here](https://raw.githubusercontent.com/Azure/azure-event-hubs-node/master/processor/overview.md).
 
 ## Pre-requisite ##
 - **Node.js version: 8.x or higher.** We would encourage you to install the latest available LTS version at any given time from https://nodejs.org. **Please do not use older LTS versions of node.js.**
