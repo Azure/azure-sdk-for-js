@@ -5,7 +5,7 @@
       "typescript": "",
       "license-header": "MICROSOFT_MIT_NO_VERSION",
       "sdkrel:node-sdks-folder": ".",
-      "use": "@microsoft.azure/autorest.typescript@2.0.502"
+      "use": "@microsoft.azure/autorest.typescript@2.0.514"
     },
     "version": "0.2.0"
   }
