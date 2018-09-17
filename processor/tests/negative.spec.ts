@@ -28,35 +28,38 @@ describe("negative", function () {
   const hubName = process.env.EVENTHUB_NAME;
   const hostName = EventProcessorHost.createHostName();
   let host: EventProcessorHost;
-  it("should fail when trying to start an EPH that is already started.", async function () {
-    host = EventProcessorHost.createFromConnectionString(
-      hostName,
-      storageConnString!,
-      EventProcessorHost.createHostName("tc"),
-      ehConnString!,
-      {
-        eventHubPath: hubName!,
-        initialOffset: EventPosition.fromEnqueuedTime(Date.now())
-      }
-    );
-    const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
-      debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
-    };
-    const onError: OnReceivedError = (err) => {
-      debug("An error occurred while receiving the message: %O", err);
-      throw err;
-    };
-    await host.start(onMessage, onError);
-    try {
-      debug(">>> [%s] Trying to start second time.", hostName);
+  it("should fail when trying to start an EPH that is already started.", function (done) {
+    const test = async () => {
+      host = EventProcessorHost.createFromConnectionString(
+        hostName,
+        storageConnString!,
+        EventProcessorHost.createHostName("tc"),
+        ehConnString!,
+        {
+          eventHubPath: hubName!,
+          initialOffset: EventPosition.fromEnqueuedTime(Date.now())
+        }
+      );
+      const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
+        debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
+      };
+      const onError: OnReceivedError = (err) => {
+        debug("An error occurred while receiving the message: %O", err);
+        throw err;
+      };
       await host.start(onMessage, onError);
-      throw new Error("The second call to start() should have failed.");
-    } catch (err) {
-      err.message.should.match(/A partition manager cannot be started multiple times/ig);
-    } finally {
-      await host.stop();
-      should.equal(host["_context"]["partitionManager"]["_isCancelRequested"], true);
-    }
+      try {
+        debug(">>> [%s] Trying to start second time.", hostName);
+        await host.start(onMessage, onError);
+        throw new Error("The second call to start() should have failed.");
+      } catch (err) {
+        err.message.should.match(/A partition manager cannot be started multiple times/ig);
+      } finally {
+        await host.stop();
+        should.equal(host["_context"]["partitionManager"]["_isCancelRequested"], true);
+      }
+    };
+    test().then(() => { done(); }).catch((err) => { done(err); });
   });
 
   it("should fail when the eventhub name is incorrect.", function (done) {
