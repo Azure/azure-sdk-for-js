@@ -43,8 +43,8 @@ function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFil
   return readmeTypeScriptMdFileContents.match(/output-folder: (\S*)/)[1];
 }
 
-function npmInstall(packageFolderPath: string): any {
-  return execSync(`npm install`, { cwd: packageFolderPath, stdio: ['ignore', 'ignore', 'pipe'] });
+function npmInstall(packageFolderPath: string): void {
+  execSync(`npm install`, { cwd: packageFolderPath, stdio: ['ignore', 'ignore', 'pipe'] });
 }
 
 function getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents: string): string {
