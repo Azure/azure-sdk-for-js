@@ -1,0 +1,25 @@
+import * as msRest from "ms-rest-js";
+export declare const CloudError: msRest.CompositeMapper;
+export declare const BaseResource: msRest.CompositeMapper;
+export declare const ARecord: msRest.CompositeMapper;
+export declare const AaaaRecord: msRest.CompositeMapper;
+export declare const MxRecord: msRest.CompositeMapper;
+export declare const NsRecord: msRest.CompositeMapper;
+export declare const PtrRecord: msRest.CompositeMapper;
+export declare const SrvRecord: msRest.CompositeMapper;
+export declare const TxtRecord: msRest.CompositeMapper;
+export declare const CnameRecord: msRest.CompositeMapper;
+export declare const SoaRecord: msRest.CompositeMapper;
+export declare const CaaRecord: msRest.CompositeMapper;
+export declare const SubResource: msRest.CompositeMapper;
+export declare const RecordSet: msRest.CompositeMapper;
+export declare const RecordSetUpdateParameters: msRest.CompositeMapper;
+export declare const Resource: msRest.CompositeMapper;
+export declare const Zone: msRest.CompositeMapper;
+export declare const ZoneUpdate: msRest.CompositeMapper;
+export declare const DnsResourceReferenceRequest: msRest.CompositeMapper;
+export declare const DnsResourceReference: msRest.CompositeMapper;
+export declare const DnsResourceReferenceResult: msRest.CompositeMapper;
+export declare const RecordSetListResult: msRest.CompositeMapper;
+export declare const ZoneListResult: msRest.CompositeMapper;
+//# sourceMappingURL=mappers.d.ts.map
