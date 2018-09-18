@@ -18,6 +18,13 @@ TestResults/*
 
 # Node #
 **/node_modules/
+**/cjs/
+**/esm/
+**/lib/**/*.js
+**/lib/**/*.js.map
+**/*Bundle.js
+**/*Bundle.js.map
+**/package-lock.json
 npm-debug.log.*
 azure_error
 checkstyle-result.xml
