@@ -7,6 +7,9 @@
       "sdkrel:node-sdks-folder": ".",
       "use": "@microsoft.azure/autorest.typescript@2.0.514"
     },
+    "advanced_options": {
+      "clone_dir": "./azure-sdk-for-js"
+    },
     "version": "0.2.0"
   }
 }
