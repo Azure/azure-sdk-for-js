@@ -1,2 +1,0 @@
-export { DnsResourceReferenceRequest, SubResource, DnsResourceReferenceResult, DnsResourceReference, CloudError } from "../models/mappers";
-//# sourceMappingURL=dnsResourceReferenceOperationsMappers.d.ts.map
