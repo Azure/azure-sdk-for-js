@@ -1,6 +1,5 @@
 projects/*
 targets/*
-packages/*
 test/data/test_package.zip
 
 # Visual Studio #
@@ -18,7 +17,7 @@ TestResults/*
 ./**/.vscode/*
 
 # Node #
-node_modules/
+**/node_modules/
 npm-debug.log.*
 azure_error
 checkstyle-result.xml
@@ -50,10 +49,6 @@ test/tmp/*
 
 # dotenv environment variables file 
 .env
-
-# Nuget packages and corresponding codegen sources
-.nuget
-packages
 
 # Coverage report
 coverage
