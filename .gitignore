@@ -51,10 +51,6 @@ test/tmp/*
 # dotenv environment variables file 
 .env
 
-# Nuget packages and corresponding codegen sources
-.nuget
-packages
-
 # Coverage report
 coverage
 .nyc_output
