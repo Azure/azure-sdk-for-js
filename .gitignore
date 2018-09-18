@@ -18,6 +18,8 @@ TestResults/*
 
 # Node #
 **/node_modules/
+**/cjs/
+**/esm/
 npm-debug.log.*
 azure_error
 checkstyle-result.xml
