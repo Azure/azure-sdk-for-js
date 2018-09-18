@@ -1,2 +1,0 @@
-export { RunCommandListResult, RunCommandDocumentBase, CloudError, RunCommandDocument, RunCommandParameterDefinition } from "../models/mappers";
-//# sourceMappingURL=virtualMachineRunCommandsMappers.d.ts.map
