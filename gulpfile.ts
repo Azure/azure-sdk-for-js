@@ -18,16 +18,16 @@ const use: string = argv['use'];
 const whatif: boolean = argv['whatif'];
 
 function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot: string): string[] {
-  console.log(`Looking for "readme.typescript.md" files in "${azureRestAPISpecsRoot}"...`);
+  // console.log(`Looking for "readme.typescript.md" files in "${azureRestAPISpecsRoot}"...`);
   const specificationFolderPath: string = path.resolve(azureRestAPISpecsRoot, 'specification');
   const readmeTypeScriptMdFilePaths: string[] = glob.sync('**/readme.typescript.md', { absolute: true, cwd: specificationFolderPath });
   if (readmeTypeScriptMdFilePaths) {
     for (let i = 0; i < readmeTypeScriptMdFilePaths.length; ++i) {
       const readmeTypeScriptMdFilePath: string = readmeTypeScriptMdFilePaths[i];
-      console.log(`  Found "${readmeTypeScriptMdFilePath}".`);
+      // console.log(`  Found "${readmeTypeScriptMdFilePath}".`);
       if (readmeTypeScriptMdFilePath && !startsWith(readmeTypeScriptMdFilePath, specificationFolderPath)) {
         const resolvedReadmeTypeScriptMdFilePath: string = path.resolve(specificationFolderPath, readmeTypeScriptMdFilePath);
-        console.log(`    Updating to "${resolvedReadmeTypeScriptMdFilePath}".`);
+        // console.log(`    Updating to "${resolvedReadmeTypeScriptMdFilePath}".`);
         readmeTypeScriptMdFilePaths[i] = resolvedReadmeTypeScriptMdFilePath;
       }
     }
@@ -58,7 +58,7 @@ function startsWith(value: string, prefix: string): boolean {
 }
 
 function endsWith(value: string, suffix: string): boolean {
-  return value && suffix && value.lastIndexOf(suffix) === value.length - suffix.length;
+  return value && suffix && value.length >= suffix.length && value.lastIndexOf(suffix) === value.length - suffix.length;
 }
 
 gulp.task('default', () => {
@@ -110,7 +110,7 @@ gulp.task("install", () => {
   }
 });
 
-//This task is used to generate libraries based on the mappings specified above.
+// This task is used to generate libraries based on the mappings specified above.
 gulp.task('codegen', () => {
   const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
 
@@ -119,7 +119,7 @@ gulp.task('codegen', () => {
 
     const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
     const packageName: string = getPackageNameFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-    console.log(`In "${typeScriptReadmeFilePath}", found package name "${packageName}".`);
+    // console.log(`In "${typeScriptReadmeFilePath}", found package name "${packageName}".`);
 
     if (!packageArg || packageArg === packageName || endsWith(packageName, `-${packageArg}`)) {
       console.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageName}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
