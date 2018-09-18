@@ -1,0 +1,2 @@
+export { Zone, Resource, BaseResource, SubResource, CloudError, ZoneUpdate, ZoneListResult, RecordSet, ARecord, AaaaRecord, MxRecord, NsRecord, PtrRecord, SrvRecord, TxtRecord, CnameRecord, SoaRecord, CaaRecord } from "../models/mappers";
+//# sourceMappingURL=zonesMappers.d.ts.map
