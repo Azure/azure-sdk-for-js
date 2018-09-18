@@ -1,2 +1,0 @@
-export { RecordSet, BaseResource, SubResource, ARecord, AaaaRecord, MxRecord, NsRecord, PtrRecord, SrvRecord, TxtRecord, CnameRecord, SoaRecord, CaaRecord, CloudError, RecordSetListResult, Resource, Zone } from "../models/mappers";
-//# sourceMappingURL=recordSetsMappers.d.ts.map
