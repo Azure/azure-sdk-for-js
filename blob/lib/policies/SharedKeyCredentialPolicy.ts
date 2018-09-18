@@ -176,7 +176,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
    * @memberof SharedKeyCredentialPolicy
    */
   private getCanonicalizedResourceString(request: WebResource): string {
-    const path = getURLPath(request.url) ? getURLPath(request.url) : "/";
+    const path = encodeURI(getURLPath(request.url) || "/");
 
     let canonicalizedResourceString: string = "";
     canonicalizedResourceString += `/${this.factory.accountName}${path}`;
