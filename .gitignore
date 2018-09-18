@@ -17,7 +17,7 @@ TestResults/*
 ./**/.vscode/*
 
 # Node #
-node_modules/
+**/node_modules/
 npm-debug.log.*
 azure_error
 checkstyle-result.xml
