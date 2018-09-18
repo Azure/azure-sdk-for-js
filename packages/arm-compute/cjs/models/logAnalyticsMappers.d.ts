@@ -1,0 +1,2 @@
+export { RequestRateByIntervalInput, LogAnalyticsInputBase, LogAnalyticsOperationResult, LogAnalyticsOutput, CloudError, ThrottledRequestsInput } from "../models/mappers";
+//# sourceMappingURL=logAnalyticsMappers.d.ts.map
