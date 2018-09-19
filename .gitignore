@@ -29,6 +29,8 @@ npm-debug.log.*
 azure_error
 checkstyle-result.xml
 test-result.xml
+**/cjs/
+**/esm/
 
 # Mac OS #
 .DS_Store
