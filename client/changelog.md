@@ -1,6 +1,7 @@
-### 2018-09-14 1.0.3
+### 2018-09-19 1.0.3
 - `EventPosition.fromSequenceNumber()` accepts `0` as a valid argument.
 - `client.receive()` and `client.receiveBatch()` accept partitionId as a `string | number`.
+- User's error handler in `client.receive()` will only be notified if the user did not close the receiver and the error is not retryable.
 
 ### 2018-09-14 1.0.2
 - `client.getPartitionInformation()` should works as expected when partitionId is of type `number | string`.

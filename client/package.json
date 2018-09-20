@@ -1,6 +1,6 @@
 {
   "name": "@azure/event-hubs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "tsc": "tsc",
     "build": "npm run tslint && npm run tsc",
     "test": "npm run build",
-    "unit": "nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts --abort-on-uncaught-exception",
+    "unit": "nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts --exit",
     "prepare": "npm run build"
   },
   "homepage": "https://github.com/Azure/azure-event-hubs-node/tree/master/client",
