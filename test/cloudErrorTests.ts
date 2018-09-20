@@ -4,7 +4,7 @@ import { expect } from "chai";
 
 
 describe("CloudError", () => {
-    const serializer = new Serializer({"CloudError": CloudErrorMapper});
+    const serializer = new Serializer({ "CloudError": CloudErrorMapper });
 
     describe("serialization", () => {
         it("serializes properly required properties", () => {
@@ -30,7 +30,7 @@ describe("CloudError", () => {
                 code: "200",
                 message: "test message",
                 target: "my target",
-                details: [ { name: "error", code: "404", message: "not found" }, { name: "error", code: "500", message: "Internal error" } ],
+                details: [{ name: "error", code: "404", message: "not found" }, { name: "error", code: "500", message: "Internal error" }],
                 innerError: new Error("Resource not found"),
                 stack: "call stack"
             };
@@ -73,7 +73,7 @@ describe("CloudError", () => {
                 code: "200",
                 message: "test message",
                 target: "my target",
-                details: [ { code: "404", message: "not found" }, { code: "500", message: "Internal error" } ],
+                details: [{ code: "404", message: "not found" }, { code: "500", message: "Internal error" }],
                 innererror: new Error("Resource not found"),
                 stack: "call stack"
             };
@@ -84,6 +84,36 @@ describe("CloudError", () => {
             expect(deserializedCloudError.details).to.be.deep.equal(cloudError.details);
             expect(deserializedCloudError.innerError).to.be.equal(cloudError.innererror);
             expect(deserializedCloudError.stack).to.not.exist;
+        });
+
+        it("should correctly deserialize additionalInfo", function (done) {
+            const errorBody = {
+              "code": "BadArgument",
+              "message": "The provided database ‘foo’ has an invalid username.",
+              "target": "query",
+              "details": [{
+                "code": "301",
+                "target": "$search",
+                "message": "$search query option not supported",
+                "additionalInfo": {
+                  "type": "SomeErrorType",
+                  "info": {
+                    "someProperty": "SomeValue"
+                  }
+                }
+              }]
+            };
+
+            const deserializedError = serializer.deserialize(CloudErrorMapper, errorBody, "deserializedCloudError");
+
+            expect(deserializedError.code).to.equal("BadArgument");
+            expect(deserializedError.message).to.equal("The provided database ‘foo’ has an invalid username.");
+            expect(deserializedError.target).to.equal("query");
+            expect(deserializedError.details.length).to.equal(1);
+            expect(deserializedError.details![0].code).to.equal("301");
+            expect(deserializedError.details![0].additionalInfo.type).to.equal("SomeErrorType");
+            expect(deserializedError.details![0].additionalInfo.info.someProperty).to.equal("SomeValue");
+            done();
         });
     });
 });

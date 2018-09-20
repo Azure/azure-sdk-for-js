@@ -28,6 +28,26 @@ export interface CloudError extends Error {
    * @property {any} [innerError] The inner error parsed from the body of the http error response
    */
   innerError?: any;
+  /**
+   * @property {AdditionalInfoElement} [innerError] The additional error information
+   */
+  additionalInfo?: AdditionalInfoElement;
+}
+
+/**
+ * @interface
+ * Additional data for an instance of CloudError.
+ */
+export interface AdditionalInfoElement {
+  /**
+   * @property {string} [type] Type of the data.
+   */
+  type?: string;
+
+  /**
+   * @property {string} [info] Additional info.
+   */
+  info?: string;
 }
 
 export const CloudErrorMapper: CompositeMapper = {
@@ -74,6 +94,30 @@ export const CloudErrorMapper: CompositeMapper = {
         serializedName: "innererror",
         type: {
           name: "Object"
+        }
+      },
+      additionalInfo: {
+        required: false,
+        serializedName: "additionalInfo",
+        type: {
+          name: "Composite",
+          className: "AdditionalInfoElement",
+          modelProperties: {
+            type: {
+              required: true,
+              serializedName: "type",
+              type: {
+                name: "String"
+              }
+            },
+            info: {
+              required: false,
+              serializedName: "info",
+              type: {
+                name: "Object"
+              }
+            }
+          }
         }
       }
     }
