@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
-import * as assert from "assert";
-import * as should from "should";
+import assert from "assert";
+import should from "should";
 import { DefaultHttpClient } from "../../lib/defaultHttpClient";
 import { RestError } from "../../lib/restError";
 import { isNode } from "../../lib/util/utils";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as assert from "assert";
+import assert from "assert";
 import { HttpHeaders } from "../../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../../lib/httpOperationResponse";
 import { HttpClient } from "../../../lib/msRest";

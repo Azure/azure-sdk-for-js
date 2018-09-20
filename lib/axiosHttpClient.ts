@@ -3,7 +3,7 @@
 
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Transform, Readable } from "stream";
-import * as FormData from "form-data";
+import FormData from "form-data";
 import * as tough from "tough-cookie";
 import { HttpClient } from "./httpClient";
 import { HttpHeaders } from "./httpHeaders";

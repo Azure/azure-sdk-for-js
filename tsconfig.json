@@ -13,6 +13,8 @@
     "declaration": true,
     "declarationDir": "./typings",
     "importHelpers": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "dom",
       "dom.iterable",

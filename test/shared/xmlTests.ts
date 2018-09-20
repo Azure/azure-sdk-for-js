@@ -1,5 +1,5 @@
 import { parseXML } from "../../lib/util/xml";
-import * as assert from "assert";
+import assert from "assert";
 
 describe("XML serializer", function () {
   it("should parse basic XML", async function() {

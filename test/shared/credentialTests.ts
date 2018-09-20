@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as should from "should";
+import should from "should";
 import * as msRest from "../../lib/msRest";
 import * as base64 from "../../lib/util/base64";
 const TokenCredentials = msRest.TokenCredentials;

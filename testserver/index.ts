@@ -1,5 +1,5 @@
-import * as path from "path";
-import * as webpackMiddleware from "webpack-dev-middleware";
+import path = require("path");
+import webpackMiddleware = require("webpack-dev-middleware");
 import webpack = require("webpack");
 import express = require("express");
 import testconfig = require("../webpack.testconfig");
