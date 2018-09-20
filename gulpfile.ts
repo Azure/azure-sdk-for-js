@@ -16,6 +16,7 @@ const azureRestAPISpecsRoot: string = argv['azure-rest-api-specs-root'] || path.
 const packageArg: string = argv['package'];
 const use: string = argv['use'];
 const whatif: boolean = argv['whatif'];
+const useDebugger: boolean = argv["debugger"];
 
 function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot: string): string[] {
   // console.log(`Looking for "readme.typescript.md" files in "${azureRestAPISpecsRoot}"...`);
@@ -137,15 +138,18 @@ gulp.task('codegen', () => {
         }
       }
 
+      if (useDebugger) {
+        cmd += `  --typescript.debugger`;
+      }
+
       try {
         console.log('Executing command:');
         console.log('------------------------------------------------------------');
         console.log(cmd);
         console.log('------------------------------------------------------------');
-        const result = execSync(cmd, { encoding: 'utf8' });
-        console.log('Output:');
-        console.log(result);
-
+        
+        execSync(cmd, { encoding: "utf8", stdio: "inherit" });
+        
         console.log('Installing dependencies...');
         const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
         npmInstall(packageFolderPath);
