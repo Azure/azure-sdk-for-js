@@ -139,7 +139,7 @@ gulp.task('codegen', () => {
       }
 
       if (useDebugger) {
-        cmd += `  --typescript.debugger`;
+        cmd += ` --typescript.debugger`;
       }
 
       try {
