@@ -62,18 +62,10 @@ export function stripResponse(response: HttpOperationResponse): any {
  * @return {WebResource} The stripped version of Http Request.
  */
 export function stripRequest(request: WebResource): WebResource {
-  let strippedRequest = new WebResource();
-  try {
-    strippedRequest = request.clone();
-    if (strippedRequest.headers) {
-      strippedRequest.headers.remove("authorization");
-    }
-  } catch (err) {
-    const errMsg = err.message;
-    err.message = `Error - "${errMsg}" occured while creating a stripped version of the request object - "${request}".`;
-    return err;
+  const strippedRequest = request.clone();
+  if (strippedRequest.headers) {
+    strippedRequest.headers.remove("authorization");
   }
-
   return strippedRequest;
 }
 
