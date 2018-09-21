@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "sideEffects": false,
+  "main": "./cjs/lib/networkManagementClient.js",
+  "module": "./esm/lib/networkManagementClient.js",
+  "types": "./esm/lib/networkManagementClient.d.ts"
+}

@@ -1,0 +1,9 @@
+{
+    "extends": "../tsconfig",
+    "include": [
+        "./lib/**/*.ts"
+    ],
+    "compilerOptions": {
+        "outDir": "./cjs"
+    }
+}
