@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es5"],
+    "lib": ["es6"],
     "declaration": true,
     "composite": true
   },

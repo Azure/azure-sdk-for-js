@@ -7,24 +7,13 @@ const path = require('path');
  */
 const config = {
   mode: 'production',
-  entry: './2018-02-01/lib/storageManagementClient.ts',
+  entry: './2018-02-01/esm/lib/storageManagementClient.js',
   devtool: 'source-map',
   output: {
     filename: 'storageManagementClientBundle.js',
     path: __dirname,
     libraryTarget: 'var',
     library: 'storageManagementClient'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        options: {
-          configFile: path.join(__dirname, '2018-02-01/tsconfig.esm.json'),
-        }
-      }
-    ]
   },
   // "ms-rest-js" and "ms-rest-azure-js" are dependencies of this library.
   // Customer is expected to import/include this library in browser javascript

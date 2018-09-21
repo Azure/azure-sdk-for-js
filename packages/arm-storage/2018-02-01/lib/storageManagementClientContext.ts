@@ -8,7 +8,7 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-storage";
-const packageVersion = "";
+const packageVersion = "1.0.0";
 
 export class StorageManagementClientContext extends msRestAzure.AzureServiceClient {
 
