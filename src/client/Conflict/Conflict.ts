@@ -32,7 +32,7 @@ export class Conflict {
    * @param options
    */
   public async read(options?: RequestOptions): Promise<ConflictResponse> {
-    const path = Helper.getPathFromLink(this.url);
+    const path = Helper.getPathFromLink(this.url, "conflicts");
     const id = Helper.getIdFromLink(this.url);
 
     const response = await this.clientContext.read(path, "users", id, undefined, options);

@@ -27,7 +27,7 @@
     "docs": "typedoc --excludePrivate --exclude \"**/test/**\" --mode file --out ./lib/docs ./src",
     "pack": "webpack",
     "build": "npm run clean && npm run check-format && npm run lint && npm run compile && npm run docs && npm run pack",
-    "test": "mocha -r ./src/test/common/setup.ts ./lib/test/ --recursive --timeout 100000 -i -g .*ignore.js",
+    "test": "mocha -r ./src/test/common/setup.ts ./lib/test/ --recursive --timeout 100000 --retry 2 -i -g .*ignore.js",
     "test-ts": "mocha -r ts-node/register -r ./src/test/common/setup.ts ./src/test/**/*.spec.ts --recursive --timeout 100000 -i -g .*ignore.js",
     "test-browser": "karma start ./karma.config.js --single-run",
     "tslint-check": "tslint-config-prettier-check ./tslint.json"

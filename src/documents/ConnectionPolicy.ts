@@ -1,4 +1,5 @@
 import { ConnectionMode, MediaReadMode } from ".";
+import { Constants } from "..";
 import { RetryOptions } from "../retry";
 /**
  * Represents the Connection policy associated with a CosmosClient in the Azure Cosmos DB database service.
@@ -29,4 +30,9 @@ export class ConnectionPolicy {
   public DisableSSLVerification = false;
   /** Http/Https proxy url */
   public ProxyUrl = "";
+  /**
+   * The flag that enables writes on any locations (regions) for geo-replicated database accounts in the Azure Cosmos DB service.
+   * Default is `false`.
+   */
+  public UseMultipleWriteLocations: boolean = false;
 }

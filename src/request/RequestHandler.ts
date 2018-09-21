@@ -7,6 +7,7 @@ import { ConnectionPolicy } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { Body, RetryUtility } from "../retry";
 import { bodyFromData, createRequestObject, parse, Response } from "./request";
+import { RequestContext } from "./RequestContext";
 
 /** @hidden */
 export class RequestHandler {
@@ -42,7 +43,7 @@ export class RequestHandler {
     requestAgent: Agent,
     method: string,
     hostname: string,
-    request: string | { path: string },
+    request: RequestContext,
     data: string | Buffer | Stream,
     queryParams: any, // TODO: any query params types
     headers: IHeaders
@@ -130,7 +131,7 @@ export class RequestHandler {
   }
 
   /** @ignore */
-  public get(urlString: string, request: any, headers: IHeaders) {
+  public get(urlString: string, request: RequestContext, headers: IHeaders) {
     // TODO: any
     return RequestHandler.request(
       this.globalEndpointManager,
@@ -146,7 +147,7 @@ export class RequestHandler {
   }
 
   /** @ignore */
-  public post(urlString: string, request: any, body: any, headers: IHeaders) {
+  public post(urlString: string, request: RequestContext, body: any, headers: IHeaders) {
     // TODO: any
     return RequestHandler.request(
       this.globalEndpointManager,
@@ -162,7 +163,7 @@ export class RequestHandler {
   }
 
   /** @ignore */
-  public put(urlString: string, request: any, body: any, headers: IHeaders) {
+  public put(urlString: string, request: RequestContext, body: any, headers: IHeaders) {
     // TODO: any
     return RequestHandler.request(
       this.globalEndpointManager,
@@ -194,7 +195,7 @@ export class RequestHandler {
   }
 
   /** @ignore */
-  public delete(urlString: string, request: any, headers: IHeaders) {
+  public delete(urlString: string, request: RequestContext, headers: IHeaders) {
     return RequestHandler.request(
       this.globalEndpointManager,
       this.connectionPolicy,

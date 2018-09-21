@@ -4,7 +4,7 @@ import { endpoint, masterKey } from "../common/_testConfig";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   beforeEach(async function() {
     await removeAllDatabases();
   });

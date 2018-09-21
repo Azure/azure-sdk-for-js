@@ -15,7 +15,7 @@ export class Conflicts {
   constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
 
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<ConflictDefinition> {
-    const path = Helper.getPathFromLink(this.container.url);
+    const path = Helper.getPathFromLink(this.container.url, "conflicts");
     const id = Helper.getIdFromLink(this.container.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {

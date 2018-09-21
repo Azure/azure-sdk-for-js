@@ -1,5 +1,6 @@
 ﻿import { Constants } from ".";
 import { IHeaders } from "..";
+import { RequestContext } from "../request/RequestContext";
 
 /** @hidden */
 const Regexes = Constants.RegularExpressions;
@@ -64,6 +65,21 @@ export class Helper {
     };
 
     return result;
+  }
+
+  public static isReadRequest(request: RequestContext): boolean {
+    return (
+      request.operationType === Constants.OperationTypes.Read ||
+      request.operationType === Constants.OperationTypes.Query
+    );
+  }
+
+  public static sleep(time: number): Promise<void> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    });
   }
 
   public static getContainerLink(link: string) {

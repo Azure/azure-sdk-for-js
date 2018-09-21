@@ -3,7 +3,7 @@ import { ClientContext } from "../../ClientContext";
 import { Helper, UriFactory } from "../../common";
 import { PartitionKeyDefinition } from "../../documents";
 import { CosmosResponse, RequestOptions } from "../../request";
-import { Conflict } from "../Conflict";
+import { Conflict, Conflicts } from "../Conflict";
 import { Database } from "../Database";
 import { Item, Items } from "../Item";
 import { StoredProcedure, StoredProcedures } from "../StoredProcedure";
@@ -53,6 +53,8 @@ export class Container {
    */
   public readonly userDefinedFunctions: UserDefinedFunctions;
 
+  public readonly conflicts: Conflicts;
+
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
@@ -75,6 +77,7 @@ export class Container {
     this.storedProcedures = new StoredProcedures(this, this.clientContext);
     this.triggers = new Triggers(this, this.clientContext);
     this.userDefinedFunctions = new UserDefinedFunctions(this, this.clientContext);
+    this.conflicts = new Conflicts(this, this.clientContext);
   }
 
   /**
