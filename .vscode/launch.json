@@ -1,0 +1,83 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "EPH Tests",
+            "program": "${workspaceFolder}/processor/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "-r",
+                "ts-node/register",
+                "-t",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/processor/tests/eph.spec.ts"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "envFile": "${workspaceFolder}/processor/.env" // You can take a look at the sample.env file for supported environment variables.
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Client Tests",
+            "program": "${workspaceFolder}/client/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "-r",
+                "ts-node/register",
+                "-t",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/client/tests/client.spec.ts"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "envFile": "${workspaceFolder}/client/.env" // You can take a look at the sample.env file for supported environment variables.
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Client Example",
+            "program": "${workspaceFolder}/client/examples/simpleSender.ts",
+            "outFiles": [
+                "${workspaceFolder}/client/dist/**/*.js"
+            ],
+            "envFile": "${workspaceFolder}/client/.env" // You can take a look at the sample.env file for supported environment variables.
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "EPH Example",
+            "program": "${workspaceFolder}/processor/examples/eph.ts",
+            "outFiles": [
+                "${workspaceFolder}/processor/dist/**/*.js"
+            ],
+            "envFile": "${workspaceFolder}/processor/.env" // You can take a look at the sample.env file for supported environment variables.
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "testhub",
+            "program": "${workspaceFolder}/testhub/dist/testhub/cli.js",
+            "args": [
+                "send",
+                "-n",
+                "test1",
+                "-c",
+                "Endpoint= . . . ",
+                "-b",
+                "1",
+                "-s",
+                "300",
+                "-p",
+                "0"
+            ]
+        }
+    ]
+}
