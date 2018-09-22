@@ -46,7 +46,7 @@ async function main(): Promise<void> {
    *     - **ManagementClient**
    *         - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/$management"`.
    */
-  const audience: string = `${config.endpoint}${path}`; //Audience is for an EvenntHub or ServiceBus sender.
+  const audience: string = `${config.endpoint}${path}`; //Audience is for an EventHub or ServiceBus sender.
   await context.cbsSession.init();
   const tokenObject = await context.tokenProvider.getToken(audience);
   const result = await context.cbsSession.negotiateClaim(audience, tokenObject);
