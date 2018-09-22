@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Tests",
+            "program": "${workspaceFolder}/processor/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-u",
+                "tdd",
+                "-r",
+                "ts-node/register",
+                "-t",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/processor/tests/config.spec.ts"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "envFile": "${workspaceFolder}/processor/.env" // You can take a look at the sample.env file for supported environment variables.
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Example",
+            "program": "${workspaceFolder}/examples/cbsAuth.ts",
+            "outFiles": [
+                "${workspaceFolder}/dist/**/*.js"
+            ],
+            "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
+        }
+    ]
+}
