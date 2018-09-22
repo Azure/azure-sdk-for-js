@@ -19,4 +19,15 @@ describe("ConnectionConfig", function () {
     const config = ConnectionConfig.create("Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak", "abc");
     config.should.have.property("entityPath").that.equals("abc");
   });
+
+  it("should fail if connection config does not contain path and the connectionstring also does not contain EntityPath", function (done) {
+    const connectionString = "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak";
+    try {
+      ConnectionConfig.create(connectionString);
+      done(new Error("Should not have reached here."));
+    } catch (err) {
+      err.message.should.match(/Either provide "path" or the "connectionString".*/ig);
+    }
+    done();
+  });
 });

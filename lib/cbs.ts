@@ -3,7 +3,8 @@
 
 import { TokenInfo } from "./auth/token";
 import {
-  EventContext, ReceiverOptions, Message, SenderEvents, ReceiverEvents, Connection, SenderOptions
+  EventContext, ReceiverOptions, Message as AmqpMessage, SenderEvents, ReceiverEvents,
+  Connection, SenderOptions
 } from "rhea-promise";
 import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
@@ -12,6 +13,15 @@ import { translate } from "./errors";
 import { defaultLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";
 
+/**
+ * Describes the CBS Response.
+ * @interface CbsResponse
+ */
+export interface CbsResponse {
+  correlationId: string;
+  statusCode: string;
+  satusDescription: string;
+}
 
 /**
  * @class CbsClient
@@ -115,14 +125,39 @@ export class CbsClient {
 
   /**
    * Negotiates the CBS claim with the EventHub/ServiceBus Service.
-   * @param {string} audience The audience for which the token is requested.
+   * @param {string} audience The entity token audience for which the token is requested in one
+   * of the following forms:
+   *
+   * - **ServiceBus**
+   *    - **Sender**
+   *        - `"sb://<yournamespace>.servicebus.windows.net/<queue-name>"`
+   *        - `"sb://<yournamespace>.servicebus.windows.net/<topic-name>"`
+   *
+   *    - **Receiver**
+   *         - `"sb://<yournamespace>.servicebus.windows.net/<queue-name>"`
+   *         - `"sb://<yournamespace>.servicebus.windows.net/<topic-name>"`
+   *
+   *    - **ManagementClient**
+   *         - `"sb://<your-namespace>.servicebus.windows.net/<queue-name>/$management"`.
+   *         - `"sb://<your-namespace>.servicebus.windows.net/<topic-name>/$management"`.
+   *
+   * - **EventHubs**
+   *     - **Sender**
+   *          - `"sb://<yournamespace>.servicebus.windows.net/<hubName>"`
+   *          - `"sb://<yournamespace>.servicebus.windows.net/<hubName>/Partitions/<partitionId>"`.
+   *
+   *     - **Receiver**
+   *         - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`.
+   *
+   *     - **ManagementClient**
+   *         - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/$management"`.
    * @param {TokenInfo} tokenObject The token object that needs to be sent in the put-token request.
    * @return {Promise<any>} Returns a Promise that resolves when $cbs authentication is successful
    * and rejects when an error occurs during $cbs authentication.
    */
-  async negotiateClaim(audience: string, tokenObject: TokenInfo): Promise<any> {
+  async negotiateClaim(audience: string, tokenObject: TokenInfo): Promise<CbsResponse> {
     try {
-      const request: Message = {
+      const request: AmqpMessage = {
         body: tokenObject.token,
         message_id: uuid(),
         reply_to: this.replyTo,
@@ -133,8 +168,9 @@ export class CbsClient {
           type: tokenObject.tokenType
         }
       };
-      const response = await this._cbsSenderReceiverLink!.sendRequest(request);
-      return response;
+      const responseMessage = await this._cbsSenderReceiverLink!.sendRequest(request);
+      log.cbs("[%s] The CBS response is: %O", this.connection.id, responseMessage);
+      return this._fromAmqpMessageResponse(responseMessage);
     } catch (err) {
       log.error("[%s] An error occurred while negotiating the cbs claim: %O", this.connection.id, err);
       throw err;
@@ -168,5 +204,15 @@ export class CbsClient {
    */
   private _isCbsSenderReceiverLinkOpen(): boolean {
     return this._cbsSenderReceiverLink! && this._cbsSenderReceiverLink!.isOpen();
+  }
+
+  private _fromAmqpMessageResponse(msg: AmqpMessage): CbsResponse {
+    const cbsResponse = {
+      correlationId: msg.correlation_id! as string,
+      statusCode: msg.application_properties ? msg.application_properties["status-code"] : "",
+      satusDescription: msg.application_properties ? msg.application_properties["status-description"] : ""
+    };
+    log.cbs("[%s] The deserialized CBS response is: %o", this.connection.id, cbsResponse);
+    return cbsResponse;
   }
 }

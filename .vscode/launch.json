@@ -21,6 +21,16 @@
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "envFile": "${workspaceFolder}/processor/.env" // You can take a look at the sample.env file for supported environment variables.
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Example",
+            "program": "${workspaceFolder}/examples/cbsAuth.ts",
+            "outFiles": [
+                "${workspaceFolder}/dist/**/*.js"
+            ],
+            "envFile": "${workspaceFolder}/.env" // You can take a look at the sample.env file for supported environment variables.
         }
     ]
 }

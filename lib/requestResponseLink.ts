@@ -5,8 +5,8 @@ import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
 import { retry, RetryConfig, RetryOperationType } from "./retry";
 import {
-  Session, Connection, Sender, Receiver, Message, EventContext, AmqpError, ReqResLink,
-  SenderOptions, ReceiverOptions, ReceiverEvents
+  Session, Connection, Sender, Receiver, Message as AmqpMessage, EventContext, AmqpError,
+  SenderOptions, ReceiverOptions, ReceiverEvents, ReqResLink
 } from "rhea-promise";
 import { translate, ConditionStatusMapper } from "./errors";
 import * as log from "./log";
@@ -72,11 +72,11 @@ export class RequestResponseLink implements ReqResLink {
    * linearly for the provided number of times `default: 3` with the provided delay in seconds
    * `default: 15` between each attempt.
    *
-   * @param {Message} request The AMQP message.
+   * @param {Message} request The AMQP (request) message.
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
-   * @returns {Promise<T>} Promise<T>
+   * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
    */
-  sendRequest<T>(request: Message, options?: SendRequestOptions): Promise<T> {
+  sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage> {
     if (!request) {
       throw new Error("request is a required parameter and must be of type 'object'.");
     }
@@ -89,7 +89,7 @@ export class RequestResponseLink implements ReqResLink {
       options.timeoutInSeconds = 10;
     }
 
-    const sendRequestPromise: Promise<T> = new Promise((resolve: any, reject: any) => {
+    const sendRequestPromise: Promise<AmqpMessage> = new Promise<AmqpMessage>((resolve: any, reject: any) => {
       let waitTimer: any;
       let timeOver: boolean = false;
 
@@ -108,7 +108,7 @@ export class RequestResponseLink implements ReqResLink {
             }
             log.reqres("[%s] request-messageId | '%s' == '%s' | response-correlationId.",
               this.connection.id, request.message_id, responseCorrelationId);
-            return resolve(context.message!.body);
+            return resolve(context.message);
           } else {
             log.error("[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
               "Hence dropping this response and waiting for the next one.",
@@ -144,7 +144,7 @@ export class RequestResponseLink implements ReqResLink {
       log.reqres("[%s] %s request sent: %O", this.connection.id, request.to || "$managment", request);
       this.sender.send(request);
     });
-    const config: RetryConfig<T> = {
+    const config: RetryConfig<AmqpMessage> = {
       operation: () => sendRequestPromise,
       connectionId: this.connection.id,
       operationType: request.to && request.to === Constants.cbsEndpoint
@@ -153,7 +153,7 @@ export class RequestResponseLink implements ReqResLink {
       delayInSeconds: options.delayInSeconds,
       times: options.times
     };
-    return retry<T>(config);
+    return retry<AmqpMessage>(config);
   }
 
   /**
