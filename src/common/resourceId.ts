@@ -218,7 +218,7 @@ export class ResourceId {
   }
 
   public static fromBase64String(s: string) {
-    return new Buffer(s.replace("-", "/"), "base64");
+    return Buffer.from(s.replace("-", "/"), "base64");
   }
 
   public static toBase64String(buffer: Buffer) {
@@ -354,8 +354,7 @@ export class ResourceId {
       len = len + 4;
     }
 
-    const buffer = new Buffer(len);
-    buffer.fill(0);
+    const buffer = Buffer.alloc(len); // Does not require fill(0)
 
     if (this.offer !== EMPTY) {
       buffer.writeIntLE(Number(this.offer), 0, this.offerIdLength);

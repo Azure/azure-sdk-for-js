@@ -11,7 +11,7 @@ export class Platform {
   }
 
   public static getDecodedDataLength(encodedData: string): number {
-    const buffer = new Buffer(encodedData, "base64");
+    const buffer = Buffer.from(encodedData, "base64");
     return buffer.length;
   }
 

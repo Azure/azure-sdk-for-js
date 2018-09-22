@@ -73,7 +73,7 @@ export class RequestHandler {
         // it is a stream
         stream = body;
       } else if (typeof body === "string") {
-        buffer = new Buffer(body, "utf8");
+        buffer = Buffer.from(body, "utf8");
       } else {
         return {
           result: {

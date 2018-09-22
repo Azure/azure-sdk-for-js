@@ -23,7 +23,7 @@ export class ClientContext {
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager
   ) {
-    this.connectionPolicy = cosmosClientOptions.connectionPolicy || new ConnectionPolicy();
+    this.connectionPolicy = Helper.parseConnectionPolicy(cosmosClientOptions.connectionPolicy);
     this.sessionContainer = new SessionContainer();
     this.requestHandler = new RequestHandler(
       globalEndpointManager,

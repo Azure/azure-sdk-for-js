@@ -5,9 +5,9 @@ import { Constants, RequestOptions } from ".";
 import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
 import { ClientContext } from "./ClientContext";
-import { Platform } from "./common";
+import { Helper, Platform } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
-import { ConnectionPolicy, DatabaseAccount } from "./documents";
+import { DatabaseAccount } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { CosmosResponse } from "./request";
 
@@ -57,7 +57,7 @@ export class CosmosClient {
   constructor(private options: CosmosClientOptions) {
     options.auth = options.auth || {};
 
-    options.connectionPolicy = options.connectionPolicy || new ConnectionPolicy();
+    options.connectionPolicy = Helper.parseConnectionPolicy(options.connectionPolicy);
 
     options.defaultHeaders = options.defaultHeaders || {};
     options.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
