@@ -136,12 +136,12 @@ export class EventHubClient {
     try {
       if (this._context.connection.isOpen()) {
         // Close all the senders.
-        for (const sender of Object.values(this._context.senders)) {
-          await sender.close();
+        for (const senderName of Object.keys(this._context.senders)) {
+          await this._context.senders[senderName].close();
         }
         // Close all the receivers.
-        for (const receiver of Object.values(this._context.receivers)) {
-          await receiver.close();
+        for (const receiverName of Object.keys(this._context.receivers)) {
+          await this._context.receivers[receiverName].close();
         }
         // Close the cbs session;
         await this._context.cbsSession.close();
