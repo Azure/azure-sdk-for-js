@@ -224,11 +224,30 @@ export class EventHubReceiver extends LinkEntity {
         const ehError = translate(receiverError);
         log.error("[%s] An error occurred for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
-        if (this._receiver && !this._receiver.isClosed() && !ehError.retryable) {
-          log.error("[%s] Since the user did not close the receiver and the error is not " +
-            "retryable, we let the user know about it by calling the user's error handler.",
-            this._context.connectionId);
-          this._onError!(ehError);
+        if (!ehError.retryable) {
+          if (this._receiver) {
+            if (!this._receiver.isClosed()) {
+              log.error("[%s] Since the user did not close the receiver and the error is not " +
+                "retryable, we let the user know about it by calling the user's error handler.",
+                this._context.connectionId);
+              this._onError!(ehError);
+            } else {
+              log.error("[%s] The received error is not retryable. However, the receiver was " +
+                "closed by the user. Hence not notifying the user's error handler.",
+                this._context.connectionId);
+            }
+          } else {
+            log.error("[%s] The received error is not retryable. However, we still do not " +
+              "have a reference to the internal receiver. This means that we received the " +
+              "'receiver_error' event before the promise to create the receiver could be " +
+              "resolved or rejected. We shall still notify the user about it, as there is no " +
+              "way to conclude whether the user closed the receiver or not.",
+              this._context.connectionId);
+            this._onError!(ehError);
+          }
+        } else {
+          log.error("[%s] Since received error is retryable, we will not notify the user's " +
+            "error handler.", this._context.connectionId);
         }
       }
     };
