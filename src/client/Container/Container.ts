@@ -159,7 +159,7 @@ export class Container {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace(body, path, "colls", id, undefined, options);
+    const response = await this.clientContext.replace<ContainerDefinition>(body, path, "colls", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,
@@ -173,7 +173,7 @@ export class Container {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete(path, "colls", id, undefined, options);
+    const response = await this.clientContext.delete<ContainerDefinition>(path, "colls", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,

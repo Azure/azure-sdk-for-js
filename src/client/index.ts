@@ -8,3 +8,4 @@ export * from "./StoredProcedure";
 export * from "./Trigger";
 export * from "./User";
 export * from "./UserDefinedFunction";
+export * from "./Resource";

@@ -5,11 +5,11 @@ import {
   ItemDefinition,
   ItemResponse,
   PermissionResponse,
+  Resource,
   TriggerResponse,
   User,
   UserDefinedFunctionResponse
 } from "../../client";
-import { ItemBody } from "../../client/Item/ItemBody";
 import { StoredProcedureResponse } from "../../client/StoredProcedure/StoredProcedureResponse";
 import { UserResponse } from "../../client/User/UserResponse";
 import { endpoint, masterKey } from "./_testConfig";
@@ -70,7 +70,7 @@ export async function getTestContainer(
 export async function bulkInsertItems(
   container: Container,
   documents: any[]
-): Promise<Array<ItemDefinition & ItemBody>> {
+): Promise<Array<ItemDefinition & Resource>> {
   const returnedDocuments = [];
   for (const doc of documents) {
     try {

@@ -1,6 +1,5 @@
 import { ClientContext } from "../../ClientContext";
 import { Helper, UriFactory } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
@@ -18,7 +17,6 @@ export class UserDefinedFunction {
   public get url() {
     return UriFactory.createUserDefinedFunctionUri(this.container.database.id, this.container.id, this.id);
   }
-  private client: CosmosClient;
   /**
    * @hidden
    * @param container The parent {@link Container}.
@@ -28,9 +26,7 @@ export class UserDefinedFunction {
     public readonly container: Container,
     public readonly id: string,
     private readonly clientContext: ClientContext
-  ) {
-    this.client = this.container.database.client;
-  }
+  ) {}
 
   /**
    * Read the {@link UserDefinedFunctionDefinition} for the given {@link UserDefinedFunction}.
@@ -40,7 +36,7 @@ export class UserDefinedFunction {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.read(path, "udfs", id, undefined, options);
+    const response = await this.clientContext.read<UserDefinedFunctionDefinition>(path, "udfs", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
   }
 
@@ -65,7 +61,14 @@ export class UserDefinedFunction {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace(body, path, "udfs", id, undefined, options);
+    const response = await this.clientContext.replace<UserDefinedFunctionDefinition>(
+      body,
+      path,
+      "udfs",
+      id,
+      undefined,
+      options
+    );
     return { body: response.result, headers: response.headers, ref: this, userDefinedFunction: this, udf: this };
   }
 

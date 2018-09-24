@@ -1,10 +1,10 @@
 import { ClientContext } from "../../ClientContext";
 import { Helper } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, Response } from "../../request";
+import { FeedOptions, RequestOptions } from "../../request";
 import { Container } from "../Container";
+import { Resource } from "../Resource";
 import { UserDefinedFunction } from "./UserDefinedFunction";
 import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
 import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
@@ -15,21 +15,25 @@ import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
  * @see {@link UserDefinedFunction} to read, replace, or delete a given User Defined Function by id.
  */
 export class UserDefinedFunctions {
-  private client: CosmosClient;
   /**
    * @hidden
    * @param container The parent {@link Container}.
    */
-  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {
-    this.client = this.container.database.client;
-  }
+  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
 
   /**
    * Query all User Defined Functions.
    * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options
    */
-  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<UserDefinedFunctionDefinition> {
+  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
+  /**
+   * Query all User Defined Functions.
+   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options
+   */
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = Helper.getPathFromLink(this.container.url, "udfs");
     const id = Helper.getIdFromLink(this.container.url);
 
@@ -46,8 +50,8 @@ export class UserDefinedFunctions {
    * const {body: udfList} = await container.userDefinedFunctions.readAll().toArray();
    * ```
    */
-  public readAll(options?: FeedOptions): QueryIterator<UserDefinedFunctionDefinition> {
-    return this.query(undefined, options);
+  public readAll(options?: FeedOptions): QueryIterator<UserDefinedFunctionDefinition & Resource> {
+    return this.query<UserDefinedFunctionDefinition & Resource>(undefined, options);
   }
 
   /**
@@ -74,7 +78,14 @@ export class UserDefinedFunctions {
     const path = Helper.getPathFromLink(this.container.url, "udfs");
     const id = Helper.getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create(body, path, "udfs", id, undefined, options);
+    const response = await this.clientContext.create<UserDefinedFunctionDefinition>(
+      body,
+      path,
+      "udfs",
+      id,
+      undefined,
+      options
+    );
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, userDefinedFunction: ref, udf: ref };
   }
@@ -103,7 +114,14 @@ export class UserDefinedFunctions {
     const path = Helper.getPathFromLink(this.container.url, "udfs");
     const id = Helper.getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.upsert(body, path, "udfs", id, undefined, options);
+    const response = await this.clientContext.upsert<UserDefinedFunctionDefinition>(
+      body,
+      path,
+      "udfs",
+      id,
+      undefined,
+      options
+    );
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, userDefinedFunction: ref, udf: ref };
   }

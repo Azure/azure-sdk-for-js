@@ -4,6 +4,7 @@ import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
 import { User, Users } from "../User";
+import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseResponse } from "./DatabaseResponse";
 
 /**
@@ -78,7 +79,7 @@ export class Database {
   public async read(options?: RequestOptions): Promise<DatabaseResponse> {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
-    const response = await this.clientContext.read(path, "dbs", id, undefined, options);
+    const response = await this.clientContext.read<DatabaseDefinition>(path, "dbs", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,
@@ -91,7 +92,7 @@ export class Database {
   public async delete(options?: RequestOptions): Promise<DatabaseResponse> {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
-    const response = await this.clientContext.delete(path, "dbs", id, undefined, options);
+    const response = await this.clientContext.delete<DatabaseDefinition>(path, "dbs", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,

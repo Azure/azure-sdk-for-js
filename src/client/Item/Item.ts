@@ -1,9 +1,8 @@
 import { ClientContext } from "../../ClientContext";
 import { Helper, UriFactory } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
-import { RequestOptions, Response } from "../../request";
+import { RequestOptions } from "../../request";
 import { Container } from "../Container";
-import { ItemBody } from "./ItemBody";
+import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 
@@ -75,10 +74,10 @@ export class Item {
     }
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
-    const response = await this.clientContext.read(path, "docs", id, undefined, options);
+    const response = await this.clientContext.read<T>(path, "docs", id, undefined, options);
 
     return {
-      body: response.result as T & ItemBody,
+      body: response.result,
       headers: response.headers,
       ref: this,
       item: this
@@ -124,7 +123,7 @@ export class Item {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace<T & ItemBody>(body, path, "docs", id, undefined, options);
+    const response = await this.clientContext.replace<T>(body, path, "docs", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,
@@ -155,7 +154,7 @@ export class Item {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete<T & ItemBody>(path, "docs", id, undefined, options);
+    const response = await this.clientContext.delete<T>(path, "docs", id, undefined, options);
     return {
       body: response.result,
       headers: response.headers,

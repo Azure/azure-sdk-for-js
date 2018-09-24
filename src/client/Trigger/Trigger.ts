@@ -1,7 +1,7 @@
 import { ClientContext } from "../../ClientContext";
 import { Helper, UriFactory } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
-import { RequestOptions, Response } from "../../request";
+import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { TriggerDefinition } from "./TriggerDefinition";
 import { TriggerResponse } from "./TriggerResponse";
@@ -84,9 +84,7 @@ export class Trigger {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = (await this.clientContext.delete(path, "triggers", id, undefined, options)) as Response<
-      TriggerDefinition
-    >; // TODO: casting
+    const response = await this.clientContext.delete<TriggerDefinition>(path, "triggers", id, undefined, options);
 
     return { body: response.result, headers: response.headers, ref: this, trigger: this };
   }

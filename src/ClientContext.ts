@@ -1,4 +1,5 @@
 import { Constants, CosmosClientOptions, IHeaders, QueryIterator, RequestOptions, Response, SqlQuerySpec } from ".";
+import { Resource } from "./client/Resource";
 import { Helper, StatusCodes, SubStatusCodes } from "./common";
 import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, QueryCompatibilityMode } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
@@ -39,7 +40,7 @@ export class ClientContext {
     id: string,
     initialHeaders: IHeaders,
     options?: RequestOptions
-  ): Promise<Response<T>> {
+  ): Promise<Response<T & Resource>> {
     try {
       const requestHeaders = await getHeaders(
         this.cosmosClientOptions.auth,
@@ -72,7 +73,7 @@ export class ClientContext {
     }
   }
 
-  public async queryFeed(
+  public async queryFeed<T>(
     path: string,
     type: string, // TODO: code smell: enum?
     id: string,
@@ -80,7 +81,7 @@ export class ClientContext {
     query: SqlQuerySpec | string,
     options: FeedOptions,
     partitionKeyRangeId?: string
-  ): Promise<Response<any>> {
+  ): Promise<Response<T & Resource>> {
     // Query operations will use ReadEndpoint even though it uses
     // GET(for queryFeed) and POST(for regular query operations)
 
@@ -163,7 +164,7 @@ export class ClientContext {
     id: string,
     initialHeaders: IHeaders,
     options?: RequestOptions
-  ): Promise<Response<T>> {
+  ): Promise<Response<T & Resource>> {
     try {
       const reqHeaders = await getHeaders(
         this.cosmosClientOptions.auth,
@@ -200,6 +201,7 @@ export class ClientContext {
     }
   }
 
+  // Most cases, things return the defintion + the system resource props
   public async create<T>(
     body: T,
     path: string,
@@ -207,7 +209,25 @@ export class ClientContext {
     id: string,
     initialHeaders: IHeaders,
     options?: RequestOptions
-  ): Promise<Response<T>> {
+  ): Promise<Response<T & Resource>>;
+
+  // But a few cases, like permissions, there is additional junk added to the response that isn't in system resource props
+  public async create<T, U>(
+    body: T,
+    path: string,
+    type: string,
+    id: string,
+    initialHeaders: IHeaders,
+    options?: RequestOptions
+  ): Promise<Response<T & U & Resource>>;
+  public async create<T, U>(
+    body: T,
+    path: string,
+    type: string,
+    id: string,
+    initialHeaders: IHeaders,
+    options?: RequestOptions
+  ): Promise<Response<T & U & Resource>> {
     try {
       const requestHeaders = await getHeaders(
         this.cosmosClientOptions.auth,
@@ -285,7 +305,7 @@ export class ClientContext {
     id: string,
     initialHeaders: IHeaders,
     options?: RequestOptions
-  ): Promise<Response<T>> {
+  ): Promise<Response<T & Resource>> {
     try {
       const reqHeaders = await getHeaders(
         this.cosmosClientOptions.auth,
@@ -326,7 +346,23 @@ export class ClientContext {
     id: string,
     initialHeaders: IHeaders,
     options?: RequestOptions
-  ): Promise<Response<T>> {
+  ): Promise<Response<T & Resource>>;
+  public async upsert<T, U>(
+    body: T,
+    path: string,
+    type: string,
+    id: string,
+    initialHeaders: IHeaders,
+    options?: RequestOptions
+  ): Promise<Response<T & U & Resource>>;
+  public async upsert<T>(
+    body: T,
+    path: string,
+    type: string,
+    id: string,
+    initialHeaders: IHeaders,
+    options?: RequestOptions
+  ): Promise<Response<T & Resource>> {
     try {
       const requestHeaders = await getHeaders(
         this.cosmosClientOptions.auth,

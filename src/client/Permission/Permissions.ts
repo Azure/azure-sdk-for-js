@@ -1,9 +1,9 @@
 import { ClientContext } from "../../ClientContext";
 import { Helper } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
+import { Resource } from "../Resource";
 import { User } from "../User";
 import { Permission } from "./Permission";
 import { PermissionBody } from "./PermissionBody";
@@ -27,7 +27,14 @@ export class Permissions {
    * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options
    */
-  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<PermissionDefinition> {
+  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
+  /**
+   * Query all permissions.
+   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options
+   */
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = Helper.getPathFromLink(this.user.url, "permissions");
     const id = Helper.getIdFromLink(this.user.url);
 
@@ -44,7 +51,7 @@ export class Permissions {
    * const {body: permissionList} = await user.permissions.readAll().toArray();
    * ```
    */
-  public readAll(options?: FeedOptions): QueryIterator<PermissionDefinition> {
+  public readAll(options?: FeedOptions): QueryIterator<PermissionDefinition & Resource> {
     return this.query(undefined, options);
   }
 
@@ -64,10 +71,17 @@ export class Permissions {
     const path = Helper.getPathFromLink(this.user.url, "permissions");
     const id = Helper.getIdFromLink(this.user.url);
 
-    const response = await this.clientContext.create(body, path, "permissions", id, undefined, options);
+    const response = await this.clientContext.create<PermissionDefinition, PermissionBody>(
+      body,
+      path,
+      "permissions",
+      id,
+      undefined,
+      options
+    );
     const ref = new Permission(this.user, response.result.id, this.clientContext);
     return {
-      body: response.result as PermissionDefinition & PermissionBody,
+      body: response.result,
       headers: response.headers,
       ref,
       permission: ref
@@ -89,10 +103,17 @@ export class Permissions {
     const path = Helper.getPathFromLink(this.user.url, "permissions");
     const id = Helper.getIdFromLink(this.user.url);
 
-    const response = await this.clientContext.upsert(body, path, "permissions", id, undefined, options);
+    const response = await this.clientContext.upsert<PermissionDefinition, PermissionBody>(
+      body,
+      path,
+      "permissions",
+      id,
+      undefined,
+      options
+    );
     const ref = new Permission(this.user, response.result.id, this.clientContext);
     return {
-      body: response.result as PermissionDefinition & PermissionBody,
+      body: response.result,
       headers: response.headers,
       ref,
       permission: ref

@@ -4,6 +4,7 @@ import { HeaderUtils, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Database } from "../Database";
+import { Resource } from "../Resource";
 import { Container } from "./Container";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerResponse } from "./ContainerResponse";
@@ -37,12 +38,37 @@ export class Containers {
    * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).toArray();
    * ```
    */
-  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<ContainerDefinition> {
+  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
+  /**
+   * Queries all containers.
+   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options Use to set options like response page size, continuation tokens, etc.
+   * @returns {@link QueryIterator} Allows you to return specific contaienrs in an array or iterate over them one at a time.
+   * @example Read all containers to array.
+   * ```typescript
+   * const querySpec: SqlQuerySpec = {
+   *   query: "SELECT * FROM root r WHERE r.id = @container",
+   *   parameters: [
+   *     {name: "@container", value: "Todo"}
+   *   ]
+   * };
+   * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).toArray();
+   * ```
+   */
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = Helper.getPathFromLink(this.database.url, "colls");
     const id = Helper.getIdFromLink(this.database.url);
 
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed(path, "colls", id, result => result.DocumentCollections, query, innerOptions);
+      return this.clientContext.queryFeed<ContainerDefinition>(
+        path,
+        "colls",
+        id,
+        result => result.DocumentCollections,
+        query,
+        innerOptions
+      );
     });
   }
 
@@ -71,7 +97,7 @@ export class Containers {
     const path = Helper.getPathFromLink(this.database.url, "colls");
     const id = Helper.getIdFromLink(this.database.url);
 
-    const response = await this.clientContext.create(body, path, "colls", id, undefined, options);
+    const response = await this.clientContext.create<ContainerDefinition>(body, path, "colls", id, undefined, options);
     const ref = new Container(this.database, response.result.id, this.clientContext);
     return {
       body: response.result,
@@ -132,7 +158,7 @@ export class Containers {
    * const {body: containerList} = await client.database("<db id>").containers.readAll().toArray();
    * ```
    */
-  public readAll(options?: FeedOptions): QueryIterator<ContainerDefinition> {
+  public readAll(options?: FeedOptions): QueryIterator<ContainerDefinition & Resource> {
     return this.query(undefined, options);
   }
 }
