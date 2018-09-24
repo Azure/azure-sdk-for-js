@@ -1,4 +1,4 @@
-import * as BigInt from "big-integer";
+import BigInt from "big-integer";
 import { isNumber } from "util";
 
 /**
