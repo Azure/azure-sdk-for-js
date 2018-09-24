@@ -1,4 +1,4 @@
-﻿import * as assert from "assert";
+﻿import assert from "assert";
 import { ClientContext } from "../../ClientContext";
 import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../routing";
 import { MockedClientContext } from "../common/MockClientContext";

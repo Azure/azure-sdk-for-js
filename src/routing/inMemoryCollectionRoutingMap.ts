@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import * as bs from "binary-search-bounds"; // TODO: missing types
 import { Constants } from "../common";
 import { Range } from "../range";

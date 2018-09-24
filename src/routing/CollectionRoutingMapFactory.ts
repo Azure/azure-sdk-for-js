@@ -1,6 +1,17 @@
-import * as _ from "underscore";
 import { InMemoryCollectionRoutingMap } from ".";
 import { Constants } from "../common";
+
+function compareRanges(a: any, b: any) {
+  const aVal = a[0][Constants.PartitionKeyRange.MinInclusive];
+  const bVal = b[0][Constants.PartitionKeyRange.MinInclusive];
+  if (aVal > bVal) {
+    return 1;
+  }
+  if (aVal < bVal) {
+    return -1;
+  }
+  return 0;
+}
 
 /** @hidden */
 export class CollectionRoutingMapFactory {
@@ -17,9 +28,7 @@ export class CollectionRoutingMapFactory {
       sortedRanges.push(r);
     }
 
-    sortedRanges = _.sortBy(sortedRanges, r => {
-      return r[0][Constants.PartitionKeyRange.MinInclusive];
-    });
+    sortedRanges = sortedRanges.sort(compareRanges);
     const partitionKeyOrderedRange = sortedRanges.map(r => r[0]);
     const orderedPartitionInfo = sortedRanges.map(r => r[1]);
 

@@ -24,13 +24,15 @@
     "format": "prettier --write --config .prettierrc.json \"src/**/*.ts\"",
     "check-format": "prettier --list-different --config .prettierrc.json \"src/**/*.ts\"",
     "compile": "echo Using TypeScript && tsc --version && tsc --pretty",
+    "compile-prod": "echo Using TypeScript && tsc --version && tsc -p tsconfig.prod.json --pretty",
     "docs": "typedoc --excludePrivate --exclude \"**/test/**\" --mode file --out ./lib/docs ./src",
-    "pack": "webpack",
+    "pack": "webpack -d",
+    "pack-prod": "webpack -p",
     "build": "npm run clean && npm run check-format && npm run lint && npm run compile && npm run docs && npm run pack",
-    "test": "mocha -r ./src/test/common/setup.ts ./lib/test/ --recursive --timeout 100000 --retry 2 -i -g .*ignore.js",
+    "build-prod": "npm run clean && npm run check-format && npm run lint && npm run compile-prod && npm run docs && npm run pack-prod",
+    "test": "mocha -r ./src/test/common/setup.ts ./lib/test/ --recursive --timeout 100000 -i -g .*ignore.js",
     "test-ts": "mocha -r ts-node/register -r ./src/test/common/setup.ts ./src/test/**/*.spec.ts --recursive --timeout 100000 -i -g .*ignore.js",
-    "test-browser": "karma start ./karma.config.js --single-run",
-    "tslint-check": "tslint-config-prettier-check ./tslint.json"
+    "test-browser": "karma start ./karma.config.js --single-run"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
@@ -66,12 +68,13 @@
   "dependencies": {
     "big-integer": "^1.6.32",
     "binary-search-bounds": "2.0.3",
+    "create-hmac": "^1.1.7",
     "int64-buffer": "^0.1.9",
     "priorityqueuejs": "1.0.0",
     "semaphore": "1.0.5",
     "stream-http": "^2.8.3",
-    "tunnel": "0.0.5",
-    "underscore": "1.8.3"
+    "tslib": "^1.9.3",
+    "tunnel": "0.0.5"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,4 @@
-import * as crypto from "crypto";
+import createHmac from "create-hmac";
 import { PermissionDefinition } from "./client";
 import { Helper } from "./common";
 import { IHeaders } from "./queryExecutionContext";
@@ -95,8 +95,7 @@ export class AuthHandler {
       "\n";
 
     const body = Buffer.from(text, "utf8");
-    const signature = crypto
-      .createHmac("sha256", key)
+    const signature = createHmac("sha256", key)
       .update(body)
       .digest("base64");
     const MasterToken = "master";

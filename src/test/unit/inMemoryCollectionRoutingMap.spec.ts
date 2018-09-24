@@ -1,5 +1,4 @@
-﻿import * as assert from "assert";
-import * as _ from "underscore";
+﻿import assert from "assert";
 import { CollectionRoutingMapFactory, InMemoryCollectionRoutingMap, QueryRange } from "../../routing";
 
 describe("InMemoryCollectionRoutingMap Tests", function() {
@@ -137,19 +136,19 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
     it("validate getOverlappingRanges", function() {
       const completeRange = new QueryRange("", "FF", true, false);
 
-      const getKey = function(r: any) {
+      const compareId = function(a: any, b: any) {
         // TODO: any
-        return r["id"];
+        return a["id"] - b["id"];
       };
 
-      const overlappingRanges = _.sortBy(collectionRoutingMap.getOverlappingRanges([completeRange]), getKey);
+      const overlappingRanges = collectionRoutingMap.getOverlappingRanges([completeRange]).sort(compareId);
       assert.equal(4, overlappingRanges.length);
 
       let onlyParitionRanges = partitionRangeWithInfo.map(function(item) {
         return item[0];
       });
 
-      onlyParitionRanges = _.sortBy(onlyParitionRanges, getKey);
+      onlyParitionRanges = onlyParitionRanges.sort(compareId);
       assert.deepEqual(overlappingRanges, onlyParitionRanges);
 
       const noPoint = new QueryRange("", "", false, false);
@@ -165,7 +164,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
         new QueryRange("0000000045", "0000000046", true, true),
         new QueryRange("0000000046", "0000000050", true, true)
       ];
-      overlappingPartitionKeyRanges = _.sortBy(collectionRoutingMap.getOverlappingRanges(ranges), getKey);
+      overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(ranges).sort(compareId);
 
       assert.equal(2, overlappingPartitionKeyRanges.length);
       assert.equal("1", overlappingPartitionKeyRanges[0].id);

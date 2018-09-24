@@ -1,4 +1,4 @@
-﻿import * as assert from "assert";
+import assert from "assert";
 import { Constants } from "../../common";
 import { IHeaders } from "../../queryExecutionContext/IHeaders";
 import { SessionContainer } from "../../session/sessionContainer";

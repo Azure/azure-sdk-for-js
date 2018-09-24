@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import { IndexingMode } from "../../documents";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 

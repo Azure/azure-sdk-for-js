@@ -5,32 +5,36 @@ Database Service](https://azure.microsoft.com/en-us/services/cosmos-db/). This p
 
 [![latest npm badge](https://img.shields.io/npm/v/%40azure%2Fcosmos/latest.svg)](https://www.npmjs.com/package/@azure/cosmos)
 
-```ts
-import { CosmosClient } from "@azure/cosmos"
+```js
+// JavaScript
+const cosmos = require('@azure/cosmos');
+const CosmosClient = cosmos.CosmosClient;
 
-const endpoint = "[hostendpoint]";                     // Add your endpoint
+const endpoint = "[hostendpoint]";                 // Add your endpoint
 const masterKey = "[database account masterkey]";  // Add the masterkey of the endpoint
-const client = new CosmosClient({endpoint, auth: { masterKey }});
+const client = new CosmosClient({ endpoint, auth: { masterKey } });
 
-const databaseDefinition = { id: "sample database" };
-const collectionDefinition = { id: "sample collection" };
-const itemDefinition = { id: "hello world doc", content: "Hello World!" };
+const databaseDefinition = { id: 'sample database' };
+const collectionDefinition = { id: 'sample collection' };
+const documentDefinition = { id: 'hello world doc', content: 'Hello World!' };
 
 async function helloCosmos() {
-    const { database: db } = await client.database.create(databaseDefinition);
-    console.log('created db');
+  const { database: db } = await client.databases.create(databaseDefinition);
+  console.log('created db');
 
-    const { container } = await db.container.create(collectionDefinition);
-    console.log('created collection');
+  const { container } = await db.containers.create(collectionDefinition);
+  console.log('created collection');
 
-    const { body } = await container.items.create(documentDefinition);
-    console.log('Created item with content: ', body.content);
+  const { body } = await container.items.create(documentDefinition);
+  console.log('Created item with content: ', body.content);
 
-    await db.delete();
-    console.log("Deleted database");
+  await db.delete();
+  console.log('Deleted database');
+}
+
+helloCosmos().catch(err => {
+  console.error(err);
 });
-
-helloCosmos().catch((err)=>{console.error(err)});
 ```
 
 ## Useful links

@@ -160,6 +160,23 @@ async function run() {
   }
 
   //6.
+  const upsertSource = itemDefList[1];
+  console.log(`6. Upserting person ${upsertSource.id} with _rid ${upsertSource._rid}...`);
+
+  // a non-identity change will cause an update on upsert
+  upsertSource.foo = "baz";
+  const { body: upsertedPerson1 } = await container.items.upsert(upsertSource);
+  console.log(`Upserted ${upsertedPerson1.id} to _rid ${upsertedPerson1._rid}.`);
+
+  // an identity change will cause an insert on upsert
+  upsertSource.id = "HazzardFamily";
+  const { body: upsertedPerson2 } = await container.items.upsert(upsertSource);
+  console.log(`Upserted ${upsertedPerson2.id} to _rid ${upsertedPerson2._rid}.`);
+
+  if (upsertedPerson1._rid === upsertedPerson2._rid)
+    throw new Error("These two upserted records should have different resource IDs.");
+
+  //7.
   console.log("\n6. delete item '" + item.id + "'");
   await item.delete();
 

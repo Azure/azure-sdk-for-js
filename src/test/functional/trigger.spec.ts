@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import { DocumentBase } from "../..";
 import { Container, TriggerDefinition } from "../../client";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";

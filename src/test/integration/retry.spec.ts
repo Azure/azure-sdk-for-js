@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import { AzureDocuments, Constants, CosmosClient, RetryOptions } from "../..";
 import * as request from "../../request";
 

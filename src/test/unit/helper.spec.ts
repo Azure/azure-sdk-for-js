@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import assert from "assert";
 import { IHeaders } from "../..";
 import { Constants, Helper } from "../../common";
 
