@@ -40,6 +40,11 @@ function getPackageNameFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFile
   return readmeTypeScriptMdFileContents.match(/package-name: (\S*)/)[1];
 }
 
+function getPackageNamesFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string[] {
+  const matches: RegExpMatchArray = readmeTypeScriptMdFileContents.match(/package-name: (\S*)/);
+  return matches[1];
+}
+
 function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string {
   return readmeTypeScriptMdFileContents.match(/output-folder: (\S*)/)[1];
 }
