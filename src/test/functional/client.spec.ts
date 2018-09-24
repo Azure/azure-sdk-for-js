@@ -4,10 +4,7 @@ import { endpoint, masterKey } from "../common/_testConfig";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("NodeJS CRUD Tests", function() {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function() {
-    await removeAllDatabases();
-  });
+  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   // TODO: disabled tests need to get fixed or deleted
   describe("Validate client request timeout", function() {
@@ -24,6 +21,19 @@ describe("NodeJS CRUD Tests", function() {
       } catch (err) {
         assert.equal(err.code, "ECONNRESET", "client should throw exception");
       }
+    });
+  });
+
+  describe("Constructor", function() {
+    it("Should work with a non-class based Connection Policy", function() {
+      const client = new CosmosClient({
+        endpoint: "https://faaaaaake.com",
+        auth: { masterKey: "" },
+        connectionPolicy: {
+          RequestTimeout: 10000
+        }
+      });
+      assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
     });
   });
 });

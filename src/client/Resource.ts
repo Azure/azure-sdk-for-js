@@ -1,4 +1,4 @@
-export interface ItemBody {
+export interface Resource {
   /** Required. User settable property. Unique name that identifies the item, that is, no two items share the same ID within a database. The id must not exceed 255 characters. */
   id: string;
   /** System generated property. The resource ID (_rid) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the item resource. */
@@ -10,5 +10,4 @@ export interface ItemBody {
   /** System generated property. Represents the resource etag required for optimistic concurrency control. */
   _etag: string;
   /** System generated property. Specifies the addressable path for the attachments resource. */
-  _attachments: string;
 }

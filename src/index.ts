@@ -10,7 +10,7 @@ export {
   IndexingMode,
   IndexingPolicy,
   IndexKind,
-  LocationsType,
+  Location,
   MediaReadMode,
   PartitionKey,
   PartitionKeyDefinition,

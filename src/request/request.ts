@@ -148,7 +148,7 @@ function getErrorBody(response: ClientResponse, data: string, headers: IHeaders)
     code: response.statusCode,
     body: data,
     headers
-  }; // TODO: any Error
+  };
 
   if (Constants.HttpHeaders.ActivityId in response.headers) {
     errorBody.activityId = response.headers[Constants.HttpHeaders.ActivityId] as string;
@@ -176,10 +176,15 @@ export async function getHeaders(
   resourceId: string,
   resourceType: string,
   options: RequestOptions | FeedOptions | MediaOptions,
-  partitionKeyRangeId?: string
+  partitionKeyRangeId?: string,
+  useMultipleWriteLocations?: boolean
 ): Promise<IHeaders> {
   const headers: IHeaders = { ...defaultHeaders };
   const opts: RequestOptions & FeedOptions & MediaOptions = (options || {}) as any; // TODO: this is dirty
+
+  if (useMultipleWriteLocations) {
+    headers[Constants.HttpHeaders.ALLOW_MULTIPLE_WRITES] = true;
+  }
 
   if (opts.continuation) {
     headers[Constants.HttpHeaders.Continuation] = opts.continuation;
@@ -227,7 +232,6 @@ export async function getHeaders(
     headers[Constants.HttpHeaders.IndexingDirective] = opts.indexingDirective;
   }
 
-  // TODO: add consistency level validation.
   if (opts.consistencyLevel) {
     headers[Constants.HttpHeaders.ConsistencyLevel] = opts.consistencyLevel;
   }
@@ -236,7 +240,6 @@ export async function getHeaders(
     headers[Constants.HttpHeaders.ResourceTokenExpiry] = opts.resourceTokenExpirySeconds;
   }
 
-  // TODO: add session token automatic handling in case of session consistency.
   if (opts.sessionToken) {
     headers[Constants.HttpHeaders.SessionToken] = opts.sessionToken;
   }
@@ -265,19 +268,12 @@ export async function getHeaders(
     headers[Constants.HttpHeaders.PopulateQuotaInfo] = true;
   }
 
-  // If the user is not using partition resolver, we add options.partitonKey to the header for elastic containers
-  if (
-    authOptions &&
-    ((authOptions as any).partitionResolver === undefined || // TODO: paritionResolver does not exist
-      (authOptions as any).partitionResolver === null)
-  ) {
-    if (opts.partitionKey !== undefined) {
-      let partitionKey: string[] | string = opts.partitionKey;
-      if (partitionKey === null || !Array.isArray(partitionKey)) {
-        partitionKey = [partitionKey as string];
-      }
-      headers[Constants.HttpHeaders.PartitionKey] = Helper.jsonStringifyAndEscapeNonASCII(partitionKey);
+  if (opts.partitionKey !== undefined) {
+    let partitionKey: string[] | string = opts.partitionKey;
+    if (partitionKey === null || !Array.isArray(partitionKey)) {
+      partitionKey = [partitionKey as string];
     }
+    headers[Constants.HttpHeaders.PartitionKey] = Helper.jsonStringifyAndEscapeNonASCII(partitionKey);
   }
 
   if (authOptions.masterKey || authOptions.tokenProvider) {

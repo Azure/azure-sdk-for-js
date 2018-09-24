@@ -9,7 +9,7 @@ const testDoc = {
 };
 
 describe("Create And Read Validation", function() {
-  this.timeout(10000);
+  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   const dateTime = new Date();
   const databaseId = "encodingTestDB";

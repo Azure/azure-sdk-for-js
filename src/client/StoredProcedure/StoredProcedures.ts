@@ -1,10 +1,10 @@
 import { ClientContext } from "../../ClientContext";
 import { Helper } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Container } from "../Container";
+import { Resource } from "../Resource";
 import { StoredProcedure } from "./StoredProcedure";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
 import { StoredProcedureResponse } from "./StoredProcedureResponse";
@@ -36,7 +36,24 @@ export class StoredProcedures {
    * const {body: sprocList} = await containers.storedProcedures.query(querySpec).toArray();
    * ```
    */
-  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<StoredProcedureDefinition> {
+  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
+  /**
+   * Query all Stored Procedures.
+   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options
+   * @example Read all stored procedures to array.
+   * ```typescript
+   * const querySpec: SqlQuerySpec = {
+   *   query: "SELECT * FROM root r WHERE r.id = @sproc",
+   *   parameters: [
+   *     {name: "@sproc", value: "Todo"}
+   *   ]
+   * };
+   * const {body: sprocList} = await containers.storedProcedures.query(querySpec).toArray();
+   * ```
+   */
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = Helper.getPathFromLink(this.container.url, "sprocs");
     const id = Helper.getIdFromLink(this.container.url);
 
@@ -53,8 +70,8 @@ export class StoredProcedures {
    * const {body: sprocList} = await containers.storedProcedures.readAll().toArray();
    * ```
    */
-  public readAll(options?: FeedOptions): QueryIterator<StoredProcedureDefinition> {
-    return this.query(undefined, options);
+  public readAll(options?: FeedOptions): QueryIterator<StoredProcedureDefinition & Resource> {
+    return this.query<StoredProcedureDefinition & Resource>(undefined, options);
   }
 
   /**
@@ -79,7 +96,14 @@ export class StoredProcedures {
     const path = Helper.getPathFromLink(this.container.url, "sprocs");
     const id = Helper.getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create(body, path, "sprocs", id, undefined, options);
+    const response = await this.clientContext.create<StoredProcedureDefinition>(
+      body,
+      path,
+      "sprocs",
+      id,
+      undefined,
+      options
+    );
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, storedProcedure: ref, sproc: ref };
   }
@@ -107,7 +131,14 @@ export class StoredProcedures {
     const path = Helper.getPathFromLink(this.container.url, "sprocs");
     const id = Helper.getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.upsert(body, path, "sprocs", id, undefined, options);
+    const response = await this.clientContext.upsert<StoredProcedureDefinition>(
+      body,
+      path,
+      "sprocs",
+      id,
+      undefined,
+      options
+    );
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, storedProcedure: ref, sproc: ref };
   }

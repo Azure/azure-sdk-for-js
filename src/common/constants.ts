@@ -150,7 +150,10 @@ export const Constants = {
 
     // StoredProcedure related headers
     EnableScriptLogging: "x-ms-documentdb-script-enable-logging",
-    ScriptLogResults: "x-ms-documentdb-script-log-results"
+    ScriptLogResults: "x-ms-documentdb-script-log-results",
+
+    // Multi-Region Write
+    ALLOW_MULTIPLE_WRITES: "x-ms-cosmos-allow-tentative-writes"
   },
 
   // GlobalDB related constants
@@ -159,14 +162,20 @@ export const Constants = {
   Name: "name",
   DatabaseAccountEndpoint: "databaseAccountEndpoint",
 
+  // ServiceDocument Resource
+  ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",
+
+  // Background refresh time
+  DefaultUnavailableLocationExpirationTimeMS: 5 * 60 * 1000,
+
   // Client generated retry count response header
   ThrottleRetryCount: "x-ms-throttle-retry-count",
   ThrottleRetryWaitTimeInMs: "x-ms-throttle-retry-wait-time-ms",
 
-  CurrentVersion: "2017-11-15",
+  CurrentVersion: "2018-06-18",
 
   SDKName: "azure-cosmos-js",
-  SDKVersion: "2.0.0-4", // TODO: should pull this from package.json. Blocked by Tslint https://github.com/palantir/tslint/issues/3957
+  SDKVersion: "2.0.0",
 
   DefaultPrecisions: {
     DefaultNumberHashPrecision: 3,
@@ -213,7 +222,8 @@ export const Constants = {
     Upsert: "upsert",
     Delete: "delete",
     Read: "read",
-    Query: "query"
+    Query: "query",
+    Execute: "execute"
   },
 
   PartitionKeyRange: {
@@ -235,3 +245,16 @@ export const Constants = {
     MaximumExclusiveEffectivePartitionKey: "FF"
   }
 };
+
+export enum ResourceType {
+  database = "dbs",
+  offer = "offers",
+  user = "users",
+  permission = "permissions",
+  container = "colls",
+  conflicts = "conflicts",
+  sproc = "sprocs",
+  udf = "udfs",
+  trigger = "triggers",
+  item = "docs"
+}

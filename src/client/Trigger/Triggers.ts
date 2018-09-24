@@ -1,10 +1,10 @@
 import { ClientContext } from "../../ClientContext";
 import { Helper } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Container } from "../Container";
+import { Resource } from "../Resource";
 import { Trigger } from "./Trigger";
 import { TriggerDefinition } from "./TriggerDefinition";
 import { TriggerResponse } from "./TriggerResponse";
@@ -15,21 +15,25 @@ import { TriggerResponse } from "./TriggerResponse";
  * Use `container.triggers` to read, replace, or delete a {@link Trigger}.
  */
 export class Triggers {
-  private client: CosmosClient;
   /**
    * @hidden
    * @param container The parent {@link Container}.
    */
-  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {
-    this.client = this.container.database.client;
-  }
+  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {}
 
   /**
    * Query all Triggers.
    * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options
    */
-  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<TriggerDefinition> {
+  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
+  /**
+   * Query all Triggers.
+   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options
+   */
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = Helper.getPathFromLink(this.container.url, "triggers");
     const id = Helper.getIdFromLink(this.container.url);
 
@@ -46,8 +50,8 @@ export class Triggers {
    * const {body: triggerList} = await container.triggers.readAll().toArray();
    * ```
    */
-  public readAll(options?: FeedOptions): QueryIterator<TriggerDefinition> {
-    return this.query(undefined, options);
+  public readAll(options?: FeedOptions): QueryIterator<TriggerDefinition & Resource> {
+    return this.query<TriggerDefinition & Resource>(undefined, options);
   }
   /**
    * Create a trigger.
@@ -72,7 +76,7 @@ export class Triggers {
     const path = Helper.getPathFromLink(this.container.url, "triggers");
     const id = Helper.getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create(body, path, "triggers", id, undefined, options);
+    const response = await this.clientContext.create<TriggerDefinition>(body, path, "triggers", id, undefined, options);
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, trigger: ref };
   }
@@ -100,7 +104,7 @@ export class Triggers {
     const path = Helper.getPathFromLink(this.container.url, "triggers");
     const id = Helper.getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.upsert(body, path, "triggers", id, undefined, options);
+    const response = await this.clientContext.upsert<TriggerDefinition>(body, path, "triggers", id, undefined, options);
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return { body: response.result, headers: response.headers, ref, trigger: ref };
   }

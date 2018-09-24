@@ -1,3 +1,11 @@
+## Changes in 2.0.0
+
+- Multi-region Write support
+- Shared resource response properties added to responses
+- Changed query to allow for customer types for all Resource types
+- Modified items.query to allow for cross partition query
+- Misc fixes/doc updates
+
 ## Changes in 2.0.0-3
 
 - New object model

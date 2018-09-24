@@ -36,7 +36,7 @@ export class StoredProcedure {
   public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
-    const response = await this.clientContext.read(path, "sprocs", id, undefined, options);
+    const response = await this.clientContext.read<StoredProcedureDefinition>(path, "sprocs", id, undefined, options);
 
     return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
   }
@@ -59,7 +59,14 @@ export class StoredProcedure {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace(body, path, "sprocs", id, undefined, options);
+    const response = await this.clientContext.replace<StoredProcedureDefinition>(
+      body,
+      path,
+      "sprocs",
+      id,
+      undefined,
+      options
+    );
 
     return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
   }
@@ -72,7 +79,7 @@ export class StoredProcedure {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete(path, "sprocs", id, undefined, options);
+    const response = await this.clientContext.delete<StoredProcedureDefinition>(path, "sprocs", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, storedProcedure: this, sproc: this };
   }
 

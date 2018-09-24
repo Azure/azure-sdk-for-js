@@ -1,6 +1,5 @@
 import { ClientContext } from "../../ClientContext";
 import { Helper, UriFactory } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request/RequestOptions";
 import { User } from "../User";
 import { PermissionBody } from "./PermissionBody";
@@ -34,9 +33,15 @@ export class Permission {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.read<PermissionDefinition>(path, "permissions", id, undefined, options);
+    const response = await this.clientContext.read<PermissionDefinition & PermissionBody>(
+      path,
+      "permissions",
+      id,
+      undefined,
+      options
+    );
     return {
-      body: response.result as PermissionDefinition & PermissionBody,
+      body: response.result,
       headers: response.headers,
       ref: this,
       permission: this
@@ -57,9 +62,16 @@ export class Permission {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace(body, path, "permissions", id, undefined, options);
+    const response = await this.clientContext.replace<PermissionDefinition & PermissionBody>(
+      body,
+      path,
+      "permissions",
+      id,
+      undefined,
+      options
+    );
     return {
-      body: response.result as PermissionDefinition & PermissionBody,
+      body: response.result,
       headers: response.headers,
       ref: this,
       permission: this
@@ -74,9 +86,15 @@ export class Permission {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete(path, "permissions", id, undefined, options);
+    const response = await this.clientContext.delete<PermissionDefinition & PermissionBody>(
+      path,
+      "permissions",
+      id,
+      undefined,
+      options
+    );
     return {
-      body: response.result as PermissionDefinition & PermissionBody,
+      body: response.result,
       headers: response.headers,
       ref: this,
       permission: this

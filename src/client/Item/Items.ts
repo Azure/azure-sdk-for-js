@@ -4,8 +4,8 @@ import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Container } from "../Container";
+import { Resource } from "../Resource";
 import { Item } from "./Item";
-import { ItemBody } from "./ItemBody";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 
@@ -34,10 +34,10 @@ export class Items {
    *     {name: "@lastName", value: "Hendricks"}
    *   ]
    * };
-   * const {body: containerList} = await items.query.toArray();
+   * const {result: items} = await items.query(querySpec).toArray();
    * ```
    */
-  public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<ItemDefinition>;
+  public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Queries all items.
    * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
@@ -45,16 +45,16 @@ export class Items {
    * @example Read all items to array.
    * ```typescript
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
+   *   query: "SELECT firstname FROM Families f WHERE f.lastName = @lastName",
    *   parameters: [
    *     {name: "@lastName", value: "Hendricks"}
    *   ]
    * };
-   * const {body: containerList} = await items.query.toArray();
+   * const {result: items} = await items.query<{firstName: string}>(querySpec).toArray();
    * ```
    */
-  public query<T extends ItemDefinition>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
-  public query<T extends ItemDefinition>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
+  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
+  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const path = Helper.getPathFromLink(this.container.url, "docs");
     const id = Helper.getIdFromLink(this.container.url);
 
@@ -144,7 +144,7 @@ export class Items {
     const path = Helper.getPathFromLink(this.container.url, "docs");
     const id = Helper.getIdFromLink(this.container.url);
 
-    const response = await this.clientContext.create(body, path, "docs", id, undefined, options);
+    const response = await this.clientContext.create<T>(body, path, "docs", id, undefined, options);
 
     const ref = new Item(
       this.container,
@@ -153,7 +153,7 @@ export class Items {
       this.clientContext
     );
     return {
-      body: response.result as T & ItemBody,
+      body: response.result,
       headers: response.headers,
       ref,
       item: ref
@@ -201,7 +201,7 @@ export class Items {
     const path = Helper.getPathFromLink(this.container.url, "docs");
     const id = Helper.getIdFromLink(this.container.url);
 
-    const response = (await this.clientContext.upsert<T>(body, path, "docs", id, undefined, options)) as T & ItemBody;
+    const response = (await this.clientContext.upsert<T>(body, path, "docs", id, undefined, options)) as T & Resource;
 
     const ref = new Item(
       this.container,

@@ -3,6 +3,7 @@ import { CosmosClient } from "../../CosmosClient";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions } from "../../request";
+import { Resource } from "../Resource";
 import { OfferDefinition } from "./OfferDefinition";
 
 /**
@@ -13,7 +14,7 @@ import { OfferDefinition } from "./OfferDefinition";
 export class Offers {
   /**
    * @hidden
-   * @param client The parent {@link CosmosClient} for the Database Account.
+   * @param client The parent {@link CosmosClient} for the offers.
    */
   constructor(public readonly client: CosmosClient, private readonly clientContext: ClientContext) {}
 
@@ -22,9 +23,16 @@ export class Offers {
    * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options
    */
-  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<OfferDefinition> {
+  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
+  /**
+   * Query all offers.
+   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options
+   */
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
+  public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     return new QueryIterator(this.clientContext, query, options, innerOptions => {
-      return this.clientContext.queryFeed("/offers", "offers", "", result => result.Offers, query, innerOptions);
+      return this.clientContext.queryFeed<T>("/offers", "offers", "", result => result.Offers, query, innerOptions);
     });
   }
 
@@ -36,7 +44,7 @@ export class Offers {
    * const {body: offerList} = await client.offers.readAll().toArray();
    * ```
    */
-  public readAll(options?: FeedOptions): QueryIterator<OfferDefinition> {
-    return this.query(undefined, options);
+  public readAll(options?: FeedOptions): QueryIterator<OfferDefinition & Resource> {
+    return this.query<OfferDefinition & Resource>(undefined, options);
   }
 }

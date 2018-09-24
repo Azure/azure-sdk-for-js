@@ -1,6 +1,5 @@
 import { ClientContext } from "../../ClientContext";
 import { Helper, UriFactory } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Database } from "../Database";
 import { Permission, Permissions } from "../Permission";
@@ -27,7 +26,6 @@ export class User {
   public get url() {
     return UriFactory.createUserUri(this.database.id, this.id);
   }
-  private client: CosmosClient;
   /**
    * @hidden
    * @param database The parent {@link Database}.
@@ -38,7 +36,6 @@ export class User {
     public readonly id: string,
     private readonly clientContext: ClientContext
   ) {
-    this.client = this.database.client;
     this.permissions = new Permissions(this, this.clientContext);
   }
 
@@ -59,7 +56,7 @@ export class User {
   public async read(options?: RequestOptions): Promise<UserResponse> {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
-    const response = await this.clientContext.read(path, "users", id, undefined, options);
+    const response = await this.clientContext.read<UserDefinition>(path, "users", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 
@@ -77,7 +74,7 @@ export class User {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.replace(body, path, "users", id, undefined, options);
+    const response = await this.clientContext.replace<UserDefinition>(body, path, "users", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 
@@ -89,7 +86,7 @@ export class User {
     const path = Helper.getPathFromLink(this.url);
     const id = Helper.getIdFromLink(this.url);
 
-    const response = await this.clientContext.delete(path, "users", id, undefined, options);
+    const response = await this.clientContext.delete<UserDefinition>(path, "users", id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, user: this };
   }
 }

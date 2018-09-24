@@ -33,7 +33,7 @@ export class Offer {
    * @param options
    */
   public async read(options?: RequestOptions): Promise<OfferResponse> {
-    const response = await this.clientContext.read(this.url, "offers", this.id, undefined, options);
+    const response = await this.clientContext.read<OfferDefinition>(this.url, "offers", this.id, undefined, options);
     return { body: response.result, headers: response.headers, ref: this, offer: this };
   }
 
@@ -47,7 +47,14 @@ export class Offer {
     if (!Helper.isResourceValid(body, err)) {
       throw err;
     }
-    const response = await this.clientContext.replace(body, this.url, "offers", this.id, undefined, options);
+    const response = await this.clientContext.replace<OfferDefinition>(
+      body,
+      this.url,
+      "offers",
+      this.id,
+      undefined,
+      options
+    );
     return { body: response.result, headers: response.headers, ref: this, offer: this };
   }
 }

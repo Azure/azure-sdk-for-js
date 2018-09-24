@@ -1,5 +1,6 @@
 import assert from "assert";
 import { Container, DocumentBase } from "../..";
+import { ItemDefinition } from "../../client";
 import {
   bulkDeleteItems,
   bulkInsertItems,
@@ -163,7 +164,7 @@ describe("NodeJS CRUD Tests", function() {
         assert.equal(err.code, badRequestErrorCode, "response should return error code " + badRequestErrorCode);
       }
       const { result: results } = await container.items
-        .query(querySpec, { enableScanInQuery: true, enableCrossPartitionQuery: true })
+        .query<ItemDefinition>(querySpec, { enableScanInQuery: true, enableCrossPartitionQuery: true })
         .toArray();
       assert(results !== undefined, "error querying documents");
       results.sort(function(doc1, doc2) {

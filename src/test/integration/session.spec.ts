@@ -5,7 +5,8 @@ import { ClientContext } from "../../ClientContext";
 import { Helper } from "../../common";
 import { ConsistencyLevel, PartitionKind } from "../../documents";
 import { RequestHandler } from "../../request";
-import { SessionContainer } from "../../sessionContainer";
+import { SessionContainer } from "../../session/sessionContainer";
+import { VectorSessionToken } from "../../session/VectorSessionToken";
 import { endpoint, masterKey } from "../common/_testConfig";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
@@ -17,6 +18,10 @@ const client = new CosmosClient({
   auth: { masterKey },
   consistencyLevel: ConsistencyLevel.Session
 });
+
+function getCollection2TokenMap(sessionContainer: SessionContainer): Map<string, Map<string, VectorSessionToken>> {
+  return (sessionContainer as any).collectionResourceIdToSessionTokens;
+}
 
 describe("Session Token", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
@@ -38,125 +43,222 @@ describe("Session Token", function() {
   const putSpy = sinon.spy(requestHandler, "put");
   const deleteSpy = sinon.spy(requestHandler, "delete");
 
-  const getToken = function(tokens: any) {
-    const newToken: any = {};
-    for (const coll in tokens) {
-      if (tokens.hasOwnProperty(coll)) {
-        for (const k in tokens[coll]) {
-          if (tokens[coll].hasOwnProperty(k)) {
-            newToken[k] = tokens[coll][k];
-          }
-        }
-        return newToken;
-      }
-    }
-  };
-
-  const getIndex = function(tokens: any, index1?: any) {
-    const keys = Object.keys(tokens);
-    if (typeof index1 === "undefined") {
-      return keys[0];
-    } else {
-      return keys[1];
-    }
-  };
-
   beforeEach(async function() {
     await removeAllDatabases();
   });
 
   it("validate session tokens for sequence of opearations", async function() {
-    let index1;
-    let index2;
-
     const database = await getTestDatabase("session test", client);
 
     const { body: createdContainerDef } = await database.containers.create(containerDefinition, containerOptions);
     const container = database.container(createdContainerDef.id);
     assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], undefined);
     // TODO: testing implementation detail by looking at containerResourceIdToSesssionTokens
-    assert.deepEqual(sessionContainer.collectionResourceIdToSessionTokens, {});
+    let collRid2SessionToken: Map<string, Map<string, VectorSessionToken>> = (sessionContainer as any)
+      .collectionResourceIdToSessionTokens;
+    assert.equal(collRid2SessionToken.size, 0, "Should have no tokens in container");
 
     const { body: document1 } = await container.items.create({ id: "1" });
-    assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], undefined);
-
-    let tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
-    index1 = getIndex(tokens);
-    assert.notEqual(tokens[index1], undefined);
-    let firstPartitionLSN = tokens[index1];
-
-    const { body: document2 } = await container.items.create({ id: "2" });
     assert.equal(
       postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
-      sessionContainer.getCombinedSessionToken(tokens)
+      undefined,
+      "Initial create token should be qual"
     );
 
-    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
-    index2 = getIndex(tokens, index1);
-    assert.equal(tokens[index1], firstPartitionLSN);
-    assert.notEqual(tokens[index2], undefined);
-    let secondPartitionLSN = tokens[index2];
+    collRid2SessionToken = getCollection2TokenMap(sessionContainer);
+    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    const containerRid = collRid2SessionToken.keys().next().value;
+    let containerTokens = collRid2SessionToken.get(containerRid);
+    assert.equal(containerTokens.size, 1, "Should only have one partition in container");
+    const firstPartition = containerTokens.keys().next().value;
+    let firstPartitionToken = containerTokens.get(firstPartition);
+    assert.notEqual(firstPartitionToken, "Should have a token for first partition");
 
-    await container.item(document1.id, "1").read();
+    const token = sessionContainer.get({
+      isNameBased: true,
+      operationType: "create",
+      resourceAddress: container.url,
+      resourceType: "docs",
+      resourceId: "2"
+    });
+    const { body: document2 } = await container.items.create({ id: "2" });
+    assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], token, "create token should be equal");
 
+    collRid2SessionToken = getCollection2TokenMap(sessionContainer);
+    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    containerTokens = collRid2SessionToken.get(containerRid);
+    assert.equal(containerTokens.size, 2, "Should have two partitions in container");
+    const keysIterator = containerTokens.keys();
+    keysIterator.next(); // partition 1
+    const secondPartition = keysIterator.next().value;
     assert.equal(
-      getSpy.lastCall.args[2][Constants.HttpHeaders.SessionToken],
-      sessionContainer.getCombinedSessionToken(tokens)
+      containerTokens.get(firstPartition).toString(),
+      firstPartitionToken.toString(),
+      "First partition token should still match after create"
     );
-    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
-    assert.equal(tokens[index1], firstPartitionLSN);
-    assert.equal(tokens[index2], secondPartitionLSN);
+    let secondPartitionToken = containerTokens.get(secondPartition);
+    assert(secondPartitionToken, "Should have a LSN for second partition");
 
+    const readToken = sessionContainer.get({
+      isNameBased: true,
+      operationType: "read",
+      resourceAddress: container.url,
+      resourceType: "docs",
+      resourceId: "1"
+    });
+    await container.item(document1.id, "1").read();
+    assert.equal(getSpy.lastCall.args[2][Constants.HttpHeaders.SessionToken], readToken, "read token should be equal");
+
+    collRid2SessionToken = getCollection2TokenMap(sessionContainer);
+    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    containerTokens = collRid2SessionToken.get(containerRid);
+    assert.equal(containerTokens.size, 2, "Should have two partitions in container");
+    assert.equal(
+      containerTokens.get(firstPartition).toString(),
+      firstPartitionToken.toString(),
+      "First partition token should still match after read"
+    );
+    assert.equal(
+      containerTokens.get(secondPartition).toString(),
+      secondPartitionToken.toString(),
+      "Second partition token should still match after read"
+    );
+
+    const upsertToken = sessionContainer.get({
+      isNameBased: true,
+      operationType: "upsert",
+      resourceAddress: container.url,
+      resourceType: "docs",
+      resourceId: "1"
+    });
     const { body: document13 } = await container.items.upsert({ id: "1", operation: "upsert" }, { partitionKey: "1" });
     assert.equal(
       postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
-      sessionContainer.getCombinedSessionToken(tokens)
+      upsertToken,
+      "upsert token should be equal"
     );
-    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
-    assert.equal(tokens[index1], (Number(firstPartitionLSN) + 1).toString());
-    assert.equal(tokens[index2], secondPartitionLSN);
-    firstPartitionLSN = tokens[index1];
 
+    collRid2SessionToken = getCollection2TokenMap(sessionContainer);
+    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    containerTokens = collRid2SessionToken.get(containerRid);
+    assert.equal(containerTokens.size, 2, "Should have two partitions in container");
+    // TODO: should validate the LSN only increased by 1...
+    assert.notEqual(
+      containerTokens.get(firstPartition).toString(),
+      firstPartitionToken.toString(),
+      "First partition token should no longer match after upsert"
+    );
+    assert.equal(
+      containerTokens.get(secondPartition).toString(),
+      secondPartitionToken.toString(),
+      "Second partition token should still match after upsert"
+    );
+    firstPartitionToken = containerTokens.get(firstPartition);
+
+    const deleteToken = sessionContainer.get({
+      isNameBased: true,
+      operationType: "delete",
+      resourceAddress: container.url,
+      resourceType: "docs",
+      resourceId: "2"
+    });
     await container.item(document2.id, "2").delete();
-
     assert.equal(
       deleteSpy.lastCall.args[2][Constants.HttpHeaders.SessionToken],
-      sessionContainer.getCombinedSessionToken(tokens)
+      deleteToken,
+      "delete token should be equal"
     );
-    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
-    assert.equal(tokens[index1], firstPartitionLSN);
-    assert.equal(tokens[index2], (Number(secondPartitionLSN) + 1).toString());
-    secondPartitionLSN = tokens[index2];
 
+    collRid2SessionToken = getCollection2TokenMap(sessionContainer);
+    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    containerTokens = collRid2SessionToken.get(containerRid);
+    assert.equal(containerTokens.size, 2, "Should have two partitions in container");
+    assert.equal(
+      containerTokens.get(firstPartition).toString(),
+      firstPartitionToken.toString(),
+      "First partition token should still match delete"
+    );
+    // TODO: should validate the LSN only increased by 1...
+    assert.notEqual(
+      containerTokens.get(secondPartition).toString(),
+      secondPartitionToken.toString(),
+      "Second partition token should not match after delete"
+    );
+    secondPartitionToken = containerTokens.get(secondPartition);
+
+    const replaceToken = sessionContainer.get({
+      isNameBased: true,
+      operationType: "replace",
+      resourceAddress: container.url,
+      resourceType: "docs",
+      resourceId: "1"
+    });
     await container.item(document13.id).replace({ id: "1", operation: "replace" }, { partitionKey: "1" });
     assert.equal(
       putSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
-      sessionContainer.getCombinedSessionToken(tokens)
+      replaceToken,
+      "replace token should be equal"
     );
-    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
-    assert.equal(tokens[index1], (Number(firstPartitionLSN) + 1).toString());
-    assert.equal(tokens[index2], secondPartitionLSN);
-    firstPartitionLSN = tokens[index1];
+    collRid2SessionToken = getCollection2TokenMap(sessionContainer);
+    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    containerTokens = collRid2SessionToken.get(containerRid);
+    assert.equal(containerTokens.size, 2, "Should have two partitions in container");
+    // TODO: should validate the LSN only increased by 1...
+    assert.notEqual(
+      containerTokens.get(firstPartition).toString(),
+      firstPartitionToken.toString(),
+      "First partition token should no longer match after replace"
+    );
+    assert.equal(
+      containerTokens.get(secondPartition).toString(),
+      secondPartitionToken.toString(),
+      "Second partition token should still match after replace"
+    );
+    firstPartitionToken = containerTokens.get(firstPartition);
 
     const query = "SELECT * from " + containerId;
     const queryOptions = { partitionKey: "1" };
     const queryIterator = container.items.query(query, queryOptions);
 
+    const queryToken = sessionContainer.get({
+      isNameBased: true,
+      operationType: "query",
+      resourceAddress: container.url,
+      resourceType: "docs"
+    });
     await queryIterator.toArray();
-    assert.equal(
-      postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken],
-      sessionContainer.getCombinedSessionToken(tokens)
-    );
-    tokens = getToken(sessionContainer.collectionResourceIdToSessionTokens);
-    assert.equal(tokens[index1], firstPartitionLSN);
-    assert.equal(tokens[index2], secondPartitionLSN);
+    assert.equal(postSpy.lastCall.args[3][Constants.HttpHeaders.SessionToken], queryToken);
 
+    collRid2SessionToken = getCollection2TokenMap(sessionContainer);
+    assert.equal(collRid2SessionToken.size, 1, "Should only have one container in the sessioncontainer");
+    containerTokens = collRid2SessionToken.get(containerRid);
+    assert.equal(containerTokens.size, 2, "Should have two partitions in container");
+    assert.equal(
+      containerTokens.get(firstPartition).toString(),
+      firstPartitionToken.toString(),
+      "First partition token should still match after query"
+    );
+    assert.equal(
+      containerTokens.get(secondPartition).toString(),
+      secondPartitionToken.toString(),
+      "Second partition token should still match after query"
+    );
+
+    const deleteContainerToken = sessionContainer.get({
+      isNameBased: true,
+      operationType: "delete",
+      resourceAddress: container.url,
+      resourceType: "container",
+      resourceId: container.id
+    });
     await container.delete();
     assert.equal(
       deleteSpy.lastCall.args[2][Constants.HttpHeaders.SessionToken],
-      sessionContainer.getCombinedSessionToken(tokens)
+      deleteContainerToken,
+      "delete container token should match"
     );
-    assert.deepEqual(sessionContainer.collectionResourceIdToSessionTokens, {});
+    collRid2SessionToken = getCollection2TokenMap(sessionContainer);
+    assert.equal(collRid2SessionToken.size, 0, "collRid map should be empty on container delete");
 
     getSpy.restore();
     postSpy.restore();
@@ -168,24 +270,22 @@ describe("Session Token", function() {
     const database = await getTestDatabase("session test", client);
 
     const containerLink = "dbs/" + database.id + "/colls/" + containerId;
-    const increaseLSN = function(oldTokens: any) {
-      for (const coll in oldTokens) {
-        if (oldTokens.hasOwnProperty(coll)) {
-          for (const token in oldTokens[coll]) {
-            if (oldTokens[coll].hasOwnProperty(token)) {
-              const newVal = (Number(oldTokens[coll][token]) + 2000).toString();
-              return token + ":" + newVal;
-            }
-          }
+    const increaseLSN = function(oldTokens: Map<string, Map<string, VectorSessionToken>>) {
+      for (const [coll, tokens] of oldTokens.entries()) {
+        for (const [pk, token] of tokens.entries()) {
+          (token as any).globalLsn = (token as any).version + 200;
+          const newToken = token.merge(token);
+          return `0:${newToken.toString()}`;
         }
       }
+      throw new Error("No valid token found to increase");
     };
 
     await database.containers.create(containerDefinition, containerOptions);
     const container = database.container(containerDefinition.id);
-    await container.items.create({ id: "1" });
-    const callbackSpy = sinon.spy(function(pat: string, reqHeaders: IHeaders) {
-      const oldTokens = sessionContainer.collectionResourceIdToSessionTokens;
+    const { headers } = await container.items.create({ id: "1" });
+    const callbackSpy = sinon.spy(function(path: string, reqHeaders: IHeaders) {
+      const oldTokens = getCollection2TokenMap(sessionContainer);
       reqHeaders[Constants.HttpHeaders.SessionToken] = increaseLSN(oldTokens);
     });
     const applySessionTokenStub = sinon.stub(clientContext as any, "applySessionToken").callsFake(callbackSpy);
@@ -196,6 +296,7 @@ describe("Session Token", function() {
       assert.equal(err.substatus, 1002, "Substatus should indicate the LSN didn't catchup.");
       assert.equal(callbackSpy.callCount, 1);
       assert.equal(Helper.trimSlashes(callbackSpy.lastCall.args[0]), containerLink + "/docs/1");
+    } finally {
       applySessionTokenStub.restore();
     }
     await container.item("1").read({ partitionKey: "1" });
@@ -248,7 +349,7 @@ describe("Session Token", function() {
       .container(createdContainerDef.id)
       .item(createdDocument.id)
       .delete(requestOptions);
-    const setSessionTokenSpy = sinon.spy(sessionContainer, "setSessionToken");
+    const setSessionTokenSpy = sinon.spy(sessionContainer, "set");
 
     try {
       await createdContainer.item(createdDocument.id).read(requestOptions);
@@ -257,6 +358,7 @@ describe("Session Token", function() {
       assert.equal(err.code, 404, "expecting 404 (Not found)");
       assert.equal(err.substatus, undefined, "expecting substatus code to be undefined");
       assert.equal(setSessionTokenSpy.callCount, 1, "unexpected number of calls to sesSessionToken");
+    } finally {
       setSessionTokenSpy.restore();
     }
   });

@@ -4,6 +4,7 @@ import { CosmosClient } from "../../CosmosClient";
 import { FetchFunctionCallback, HeaderUtils, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
+import { Resource } from "../Resource";
 import { Database } from "./Database";
 import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseResponse } from "./DatabaseResponse";
@@ -19,9 +20,12 @@ import { DatabaseResponse } from "./DatabaseResponse";
  * do this once on application start up.
  */
 export class Databases {
-  constructor(private readonly client: CosmosClient, private readonly clientContext: ClientContext) {}
+  /**
+   * @hidden
+   * @param client The parent {@link CosmosClient} for the Database.
+   */
+  constructor(public readonly client: CosmosClient, private readonly clientContext: ClientContext) {}
 
-  // TODO: DatabaseResponse for QueryIterator?
   /**
    * Queries all databases.
    * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
@@ -38,7 +42,25 @@ export class Databases {
    * const {body: databaseList} = await client.databases.query(querySpec).toArray();
    * ```
    */
-  public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<DatabaseDefinition> {
+  public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
+  /**
+   * Queries all databases.
+   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options Use to set options like response page size, continuation tokens, etc.
+   * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
+   * @example Read all databases to array.
+   * ```typescript
+   * const querySpec: SqlQuerySpec = {
+   *   query: "SELECT * FROM root r WHERE r.id = @db",
+   *   parameters: [
+   *     {name: "@db", value: "Todo"}
+   *   ]
+   * };
+   * const {body: databaseList} = await client.databases.query(querySpec).toArray();
+   * ```
+   */
+  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
+  public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
     const cb: FetchFunctionCallback = innerOptions => {
       return this.clientContext.queryFeed("/dbs", "dbs", "", result => result.Databases, query, innerOptions);
     };
@@ -66,7 +88,14 @@ export class Databases {
     }
 
     const path = "/dbs"; // TODO: constant
-    const response = await this.clientContext.create(body, path, "dbs", undefined, undefined, options);
+    const response = await this.clientContext.create<DatabaseDefinition>(
+      body,
+      path,
+      "dbs",
+      undefined,
+      undefined,
+      options
+    );
     const ref = new Database(this.client, body.id, this.clientContext);
     return {
       body: response.result,
@@ -124,7 +153,7 @@ export class Databases {
    * const {body: databaseList} = await client.databases.readAll().toArray();
    * ```
    */
-  public readAll(options?: FeedOptions): QueryIterator<DatabaseDefinition> {
-    return this.query(undefined, options);
+  public readAll(options?: FeedOptions): QueryIterator<DatabaseDefinition & Resource> {
+    return this.query<DatabaseDefinition & Resource>(undefined, options);
   }
 }

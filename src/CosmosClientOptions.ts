@@ -11,7 +11,7 @@ export interface CosmosClientOptions {
   /** An instance of {@link ConnectionPolicy} class.
    * This parameter is optional and the default connectionPolicy will be used if omitted.
    */
-  connectionPolicy?: ConnectionPolicy;
+  connectionPolicy?: ConnectionPolicy | { [P in keyof ConnectionPolicy]?: ConnectionPolicy[P] };
   /** An optional parameter that represents the consistency level.
    * It can take any value from {@link ConsistencyLevel}.
    */

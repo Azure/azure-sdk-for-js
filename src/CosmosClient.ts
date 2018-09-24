@@ -5,9 +5,9 @@ import { Constants, RequestOptions } from ".";
 import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
 import { ClientContext } from "./ClientContext";
-import { Platform } from "./common";
+import { Helper, Platform } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
-import { ConnectionPolicy, DatabaseAccount } from "./documents";
+import { DatabaseAccount } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { CosmosResponse } from "./request";
 
@@ -21,7 +21,7 @@ import { CosmosResponse } from "./request";
  * ```
  * @example Instantiate a client with custom Connection Policy
  * ```typescript
- * const connectionPolicy = new DocumentBase.ConnectionPolicy();
+ * const connectionPolicy = new ConnectionPolicy();
  * connectionPolicy.RequestTimeout = 10000;
  * const client = new CosmosClient({
  *    endpoint: "<URL HERE>",
@@ -57,7 +57,7 @@ export class CosmosClient {
   constructor(private options: CosmosClientOptions) {
     options.auth = options.auth || {};
 
-    options.connectionPolicy = options.connectionPolicy || new ConnectionPolicy();
+    options.connectionPolicy = Helper.parseConnectionPolicy(options.connectionPolicy);
 
     options.defaultHeaders = options.defaultHeaders || {};
     options.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
@@ -117,6 +117,24 @@ export class CosmosClient {
   public async getDatabaseAccount(options?: RequestOptions): Promise<CosmosResponse<DatabaseAccount, CosmosClient>> {
     const response = await this.clientContext.getDatabaseAccount(options);
     return { body: response.result, headers: response.headers, ref: this };
+  }
+
+  /**
+   * Gets the currently used write endpoint url. Useful for troubleshooting purposes.
+   *
+   * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
+   */
+  public getWriteEndpoint(): Promise<string> {
+    return this.clientContext.getWriteEndpoint();
+  }
+
+  /**
+   * Gets the currently used read endpoint. Useful for troubleshooting purposes.
+   *
+   * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
+   */
+  public getReadEndpoitn(): Promise<string> {
+    return this.clientContext.getReadEndpoint();
   }
 
   /**

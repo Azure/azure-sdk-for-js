@@ -80,7 +80,7 @@ export class AuthHandler {
     headers: IHeaders,
     masterKey: string
   ) {
-    const key = new Buffer(masterKey, "base64");
+    const key = Buffer.from(masterKey, "base64");
 
     const text =
       (verb || "").toLowerCase() +
@@ -94,7 +94,7 @@ export class AuthHandler {
       ((headers["date"] as string) || "").toLowerCase() +
       "\n";
 
-    const body = new Buffer(text, "utf8");
+    const body = Buffer.from(text, "utf8");
     const signature = createHmac("sha256", key)
       .update(body)
       .digest("base64");
