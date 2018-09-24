@@ -20,4 +20,4 @@ export { SubscriptionClient } from "./subscription/subscriptionClient";
 export { ResourceManagementClient } from "./resource/resourceManagementClient";
 export { PolicyClient } from "./policy/policyClient";
 export { ManagementLinkClient } from "./link/managementLinkClient";
-export { ManagementGroupsClient } from "./management/managementGroupsClient";
+export { ManagedApplicationClient } from "./managedapplications/managedApplicationClient";

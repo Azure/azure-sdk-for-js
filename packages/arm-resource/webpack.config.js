@@ -7,13 +7,12 @@ const path = require('path');
  */
 const config = {
   mode: 'production',
-  entry: './esm/managedApplicationClient.js',
+  entry: './esm/resource.js',
   devtool: 'source-map',
   output: {
-    filename: 'managedApplicationClientBundle.js',
+    filename: 'resource.js',
     path: __dirname,
-    libraryTarget: 'var',
-    library: 'managedApplicationClient'
+    libraryTarget: 'var'
   },
   // "ms-rest-js" and "ms-rest-azure-js" are dependencies of this library.
   // Customer is expected to import/include this library in browser javascript

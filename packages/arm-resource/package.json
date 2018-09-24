@@ -23,15 +23,12 @@
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0"
   },
-  "homepage": "http://github.com/Azure/azure-sdk-for-js/tree/master/lib/services/resourceManagement",
+  "homepage": "http://github.com/Azure/azure-sdk-for-js/tree/master/packages/arm-resource",
   "repository": {
     "type": "git",
-    "url": "git@github.com:Azure/azure-sdk-for-node.git"
+    "url": "git@github.com:Azure/azure-sdk-for-js.git"
   },
   "bugs": {
     "url": "http://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "scripts": {
-    "test": "npm -s run-script jshint"
   }
 }
