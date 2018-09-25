@@ -36,10 +36,14 @@ export class EndpointDiscoveryRetryPolicy implements IRetryPolicy {
    */
   public async shouldRetry(
     err: ErrorResponse,
-    retryContext: RetryContext,
-    locationEndpoint: string
+    retryContext?: RetryContext,
+    locationEndpoint?: string
   ): Promise<boolean | [boolean, string]> {
     if (!err) {
+      return false;
+    }
+
+    if (!retryContext || !locationEndpoint) {
       return false;
     }
 
