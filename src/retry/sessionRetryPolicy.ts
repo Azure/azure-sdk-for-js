@@ -34,8 +34,12 @@ export class SessionRetryPolicy implements IRetryPolicy {
    * @param {function} callback - The callback function which takes bool argument which specifies whether the request\
    * will be retried or not.
    */
-  public async shouldRetry(err: ErrorResponse, retryContext: RetryContext): Promise<boolean> {
+  public async shouldRetry(err: ErrorResponse, retryContext?: RetryContext): Promise<boolean> {
     if (!err) {
+      return false;
+    }
+
+    if (!retryContext) {
       return false;
     }
 
