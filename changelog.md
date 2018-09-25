@@ -1,3 +1,7 @@
+## Changes in 2.0.1
+
+- Fix type issue (See #141)
+
 ## Changes in 2.0.0
 
 - Multi-region Write support
