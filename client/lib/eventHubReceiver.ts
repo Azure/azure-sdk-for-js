@@ -5,10 +5,10 @@ import * as uuid from "uuid/v4";
 import * as log from "./log";
 import {
   Receiver, OnAmqpEvent, EventContext, ReceiverOptions, types, AmqpError
-} from "./rhea-promise";
+} from "rhea-promise";
 import {
   translate, Constants, MessagingError, retry, RetryOperationType, RetryConfig
-} from "./amqp-common";
+} from "@azure/amqp-common";
 import { EventData } from "./eventData";
 import { ReceiveOptions } from "./eventHubClient";
 import { ConnectionContext } from "./connectionContext";

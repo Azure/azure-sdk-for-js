@@ -6,11 +6,11 @@ import * as log from "./log";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
   message, AmqpError
-} from "./rhea-promise";
+} from "rhea-promise";
 import {
   defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper,
-  randomNumberFromInterval, RetryConfig, RetryOperationType, Constants
-} from "./amqp-common";
+  RetryConfig, RetryOperationType, Constants,
+} from "@azure/amqp-common";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";

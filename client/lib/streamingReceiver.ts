@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { Constants } from "./amqp-common";
-import { ReceiverEvents } from "./rhea-promise";
+import { Constants } from "@azure/amqp-common";
+import { ReceiverEvents } from "rhea-promise";
 import { ReceiveOptions } from "./eventHubClient";
 import { EventHubReceiver, ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
