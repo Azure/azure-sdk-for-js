@@ -9,7 +9,7 @@ import {
 } from "rhea-promise";
 import {
   defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper,
-  RetryConfig, RetryOperationType, Constants,
+  RetryConfig, RetryOperationType, Constants, randomNumberFromInterval
 } from "@azure/amqp-common";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
@@ -373,10 +373,10 @@ export class EventHubSender extends LinkEntity {
         let onAccepted: Func<EventContext, void>;
         const removeListeners = (): void => {
           clearTimeout(waitTimer);
-          this._sender!.removeHandler(SenderEvents.rejected, onRejected);
-          this._sender!.removeHandler(SenderEvents.accepted, onAccepted);
-          this._sender!.removeHandler(SenderEvents.released, onReleased);
-          this._sender!.removeHandler(SenderEvents.modified, onModified);
+          this._sender!.removeListener(SenderEvents.rejected, onRejected);
+          this._sender!.removeListener(SenderEvents.accepted, onAccepted);
+          this._sender!.removeListener(SenderEvents.released, onReleased);
+          this._sender!.removeListener(SenderEvents.modified, onModified);
         };
 
         onAccepted = (context: EventContext) => {
@@ -434,10 +434,10 @@ export class EventHubSender extends LinkEntity {
           return reject(translate(e));
         };
 
-        this._sender!.registerHandler(SenderEvents.accepted, onAccepted);
-        this._sender!.registerHandler(SenderEvents.rejected, onRejected);
-        this._sender!.registerHandler(SenderEvents.modified, onModified);
-        this._sender!.registerHandler(SenderEvents.released, onReleased);
+        this._sender!.on(SenderEvents.accepted, onAccepted);
+        this._sender!.on(SenderEvents.rejected, onRejected);
+        this._sender!.on(SenderEvents.modified, onModified);
+        this._sender!.on(SenderEvents.released, onReleased);
         waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
         const delivery = this._sender!.send(message, tag, format);
         log.sender("[%s] Sender '%s', sent message with delivery id: %d and tag: %s",

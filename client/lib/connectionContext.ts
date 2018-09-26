@@ -147,7 +147,7 @@ export namespace ConnectionContext {
       log.context("[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
         connectionContext.connection.id, connectionContext.wasConnectionCloseCalled);
     };
-    connectionContext.connection.registerHandler(ConnectionEvents.connectionOpen, onConnectionOpen);
+    connectionContext.connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
       const connectionError = context.connection && context.connection.error
@@ -210,7 +210,7 @@ export namespace ConnectionContext {
         }
       }
     };
-    connectionContext.connection.registerHandler(ConnectionEvents.disconnected, disconnected);
+    connectionContext.connection.on(ConnectionEvents.disconnected, disconnected);
 
     log.context("[%s] Created connection context successfully.", connectionContext.connectionId);
     return connectionContext;
