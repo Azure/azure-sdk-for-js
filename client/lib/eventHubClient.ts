@@ -2,14 +2,14 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as log from "./log";
-import { Delivery } from "./rhea-promise";
+import { Delivery } from "rhea-promise";
 import {
   ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
 } from "ms-rest-azure";
 import {
   ConnectionConfig, MessagingError, DataTransformer, TokenProvider,
   AadTokenProvider
-} from "./amqp-common";
+} from "@azure/amqp-common";
 import { OnMessage, OnError } from "./eventHubReceiver";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";

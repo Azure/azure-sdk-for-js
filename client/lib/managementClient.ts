@@ -2,11 +2,12 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as uuid from "uuid/v4";
-import * as rheaPromise from "./rhea-promise";
 import {
   RequestResponseLink, defaultLock, translate, Constants
-} from "./amqp-common";
-import { Message, EventContext, SenderEvents, ReceiverEvents } from "./rhea-promise";
+} from "@azure/amqp-common";
+import {
+  Message, EventContext, SenderEvents, ReceiverEvents, SenderOptions, ReceiverOptions
+} from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
@@ -201,7 +202,7 @@ export class ManagementClient extends LinkEntity {
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {
         await this._negotiateClaim();
-        const rxopt: rheaPromise.ReceiverOptions = {
+        const rxopt: ReceiverOptions = {
           source: { address: this.address },
           name: this.replyTo,
           target: { address: this.replyTo },
@@ -212,7 +213,7 @@ export class ManagementClient extends LinkEntity {
               "$management: %O", id, ehError);
           }
         };
-        const sropt: rheaPromise.SenderOptions = { target: { address: this.address } };
+        const sropt: SenderOptions = { target: { address: this.address } };
         log.mgmt("[%s] Creating sender/receiver links on a session for $management endpoint.",
           this._context.connectionId);
         this._mgmtReqResLink =

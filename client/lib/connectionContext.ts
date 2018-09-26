@@ -11,13 +11,12 @@ import { EventHubSender } from "./eventHubSender";
 import {
   TokenProvider, CbsClient, DataTransformer, DefaultDataTransformer, SasTokenProvider,
   Constants, ConnectionConfig, delay
-} from "./amqp-common";
+} from "@azure/amqp-common";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { ClientOptions } from "./eventHubClient";
 import {
   Connection, Dictionary, ConnectionOptions, OnAmqpEvent, EventContext, ConnectionEvents
-} from "./rhea-promise";
-import { connectionReconnectDelay, maxUserAgentLength } from "./amqp-common/util/constants";
+} from "rhea-promise";
 
 /**
  * @interface ConnectionContext
@@ -94,7 +93,7 @@ export namespace ConnectionContext {
 
   export function getUserAgent(options: ConnectionContextOptions): string {
     const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;
-    if (finalUserAgent.length > maxUserAgentLength) {
+    if (finalUserAgent.length > Constants.maxUserAgentLength) {
       throw new Error(`The user-agent string cannot be more than 128 characters in length.` +
         `The given user-agent string is: ${finalUserAgent} with length: ${finalUserAgent.length}`);
     }
@@ -176,7 +175,7 @@ export namespace ConnectionContext {
       if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
         log.error("[%s] connection.close() was not called from the sdk and there were some " +
           "sender or receiver links or both. We should reconnect.", connectionContext.connection.id);
-        await delay(connectionReconnectDelay);
+        await delay(Constants.connectionReconnectDelay);
         // reconnect senders if any
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
