@@ -218,12 +218,12 @@ export class ManagementClient extends LinkEntity {
           this._context.connectionId);
         this._mgmtReqResLink =
           await RequestResponseLink.create(this._context.connection, sropt, rxopt);
-        this._mgmtReqResLink.sender.registerHandler(SenderEvents.senderError, (context: EventContext) => {
+        this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.sender!.error!);
           log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
         });
-        this._mgmtReqResLink.receiver.registerHandler(ReceiverEvents.receiverError, (context: EventContext) => {
+        this._mgmtReqResLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.receiver!.error!);
           log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);

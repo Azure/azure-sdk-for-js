@@ -161,8 +161,8 @@ export class StreamingReceiver extends EventHubReceiver {
       // these handlers will be automatically removed.
       log.streaming("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
         "Hence reusing it and attaching message and error handlers.", this._context.connectionId, this.name);
-      this._receiver!.registerHandler(ReceiverEvents.message, this._onAmqpMessage);
-      this._receiver!.registerHandler(ReceiverEvents.receiverError, this._onAmqpError);
+      this._receiver!.on(ReceiverEvents.message, this._onAmqpMessage);
+      this._receiver!.on(ReceiverEvents.receiverError, this._onAmqpError);
       this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
       log.streaming("[%s] Receiver '%s', set the prefetch count to 1000 and " +
