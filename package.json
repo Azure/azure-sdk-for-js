@@ -1,6 +1,6 @@
 {
   "name": "@azure/amqp-common",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -11,9 +11,8 @@
     "debug": "^3.1.0",
     "is-buffer": "^2.0.2",
     "jssha": "^2.3.1",
-    "ms-rest": "^2.3.6",
-    "ms-rest-azure": "^2.5.7",
-    "rhea-promise": "^0.1.2",
+    "ms-rest-azure": "^2.5.9",
+    "rhea-promise": "^0.1.4",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2"
   },
