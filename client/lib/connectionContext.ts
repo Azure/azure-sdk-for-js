@@ -178,7 +178,8 @@ export namespace ConnectionContext {
           "sender or receiver links or both. We should reconnect.", connectionContext.connection.id);
         await delay(connectionReconnectDelay);
         // reconnect senders if any
-        for (const sender of Object.values(connectionContext.senders)) {
+        for (const senderName of Object.keys(connectionContext.senders)) {
+          const sender = connectionContext.senders[senderName];
           if (!sender.isConnecting) {
             log.error("[%s] calling detached on sender '%s' with address '%s'.",
               connectionContext.connection.id, sender.name, sender.address);
@@ -193,7 +194,8 @@ export namespace ConnectionContext {
           }
         }
         // reconnect receivers if any
-        for (const receiver of Object.values(connectionContext.receivers)) {
+        for (const receiverName of Object.keys(connectionContext.receivers)) {
+          const receiver = connectionContext.receivers[receiverName];
           if (!receiver.isConnecting) {
             log.error("[%s] calling detached on receiver '%s' with address '%s'.",
               connectionContext.connection.id, receiver.name, receiver.address);

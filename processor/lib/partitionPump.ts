@@ -6,7 +6,7 @@ import { HostContextWithCheckpointLeaseManager } from "./hostContext";
 import { CompleteLease } from "./completeLease";
 import {
   ReceiveHandler, EventHubClient, EventPosition, ReceiveOptions, EventData, MessagingError,
-  OnMessage, OnError
+  OnMessage, OnError, ErrorNameConditionMapper
 } from "@azure/event-hubs";
 import { PartitionContext } from "./partitionContext";
 import { CloseReason, OnReceivedMessage, OnReceivedError } from "./modelTypes";
@@ -92,7 +92,14 @@ export class PartitionPump {
     const onError: OnError = async (error: MessagingError | Error) => {
       log.error(withHostAndPartition(partitionId, "Receiver '%s' received an error: %O."),
         receiveHandler.address, error);
-      this._onError!(error);
+      // Let the user know about the error only if it is not ReceiverDisconnectedError.
+      // This error happens when another instance of EPH connects a receiver with a higher epoch
+      // value to a partition in the same consumer group that this receiver was connected to.
+      // This happens due to lease being stolen or current lease expiring, which is expected.
+      // Hence not reporting suxh errors to the user will try to make it less confusing for the user.
+      if (!this._isReceiverDisconnectedError(error)) {
+        this._onError!(error);
+      }
       try {
         await this._removeReceiver(CloseReason.shutdown);
       } catch (err) {
@@ -199,5 +206,22 @@ export class PartitionPump {
     } else {
       log.partitionPump(withHostAndPartition(partitionId, "No receiver was found to remove."));
     }
+  }
+
+  private _isReceiverDisconnectedError(error: MessagingError | Error): boolean {
+    const partitionId = this._partitionContext.partitionId;
+    const withHostAndPartition = this._context.withHostAndPartition;
+    let result = false;
+    if (error) {
+      // condition is "amqp:link:stolen"
+      if ((error as MessagingError).condition === ErrorNameConditionMapper.ReceiverDisconnectedError) {
+        result = true;
+      } else if (error.message.match(/.*New receiver with higher epoch.*/i) !== null) {
+        result = true;
+        log.error(withHostAndPartition(partitionId, "It looks like the error should have " +
+          "been a 'ReceiverDisconnectedError', however it was not translated correctly: %O."), error);
+      }
+    }
+    return result;
   }
 }

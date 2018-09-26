@@ -99,18 +99,18 @@ export class EventPosition {
   getExpression(): string {
     let result;
     // order of preference
-    if (this.offset) {
+    if (this.offset != undefined) {
       result = this.isInclusive ?
         `${Constants.offsetAnnotation} >= '${this.offset}'` :
         `${Constants.offsetAnnotation} > '${this.offset}'`;
-    } else if (this.sequenceNumber) {
+    } else if (this.sequenceNumber != undefined) {
       result = this.isInclusive ?
         `${Constants.sequenceNumberAnnotation} >= '${this.sequenceNumber}'` :
         `${Constants.sequenceNumberAnnotation} > '${this.sequenceNumber}'`;
-    } else if (this.enqueuedTime) {
+    } else if (this.enqueuedTime != undefined) {
       const time = (this.enqueuedTime instanceof Date) ? this.enqueuedTime.getTime() : this.enqueuedTime;
       result = `${Constants.enqueuedTimeAnnotation} > '${time}'`;
-    } else if (this.customFilter) {
+    } else if (this.customFilter != undefined) {
       result = this.customFilter;
     }
 
@@ -133,6 +133,9 @@ export class EventPosition {
    * @return {EventPosition} EventPosition
    */
   static fromOffset(offset: string, isInclusive?: boolean): EventPosition {
+    if (!offset || typeof offset !== "string") {
+      throw new Error("'offset' is a required parameter and must be a non-empty string.");
+    }
     return new EventPosition({ offset: offset, isInclusive: isInclusive });
   }
 
@@ -144,6 +147,9 @@ export class EventPosition {
    * @return {EventPosition} EventPosition
    */
   static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition {
+    if (sequenceNumber == undefined || typeof sequenceNumber !== "number") {
+      throw new Error("'sequenceNumber' is a required parameter and must be of type 'number'.");
+    }
     return new EventPosition({ sequenceNumber: sequenceNumber, isInclusive: isInclusive });
   }
 
@@ -154,6 +160,9 @@ export class EventPosition {
    * @return {EventPosition} EventPosition
    */
   static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition {
+    if (enqueuedTime == undefined || (typeof enqueuedTime !== "number" && !(enqueuedTime instanceof Date))) {
+      throw new Error("'enqueuedTime' is a required parameter and must be an instance of 'Date' or of type 'number'.");
+    }
     return new EventPosition({ enqueuedTime: enqueuedTime });
   }
 
@@ -164,6 +173,9 @@ export class EventPosition {
    * your scenario.
    */
   static withCustomFilter(customFilter: string): EventPosition {
+    if (!customFilter || typeof customFilter !== "string") {
+      throw new Error("'customFilter' is a required parameter and must be a non-empty string.");
+    }
     return new EventPosition({ customFilter: customFilter });
   }
 
