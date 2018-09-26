@@ -85,7 +85,7 @@ const { EventProcessorHost, delay } = require("@azure/event-processor-host");
 
 const path = process.env.EVENTHUB_NAME;
 const storageCS = process.env.STORAGE_CONNECTION_STRING;
-const ehCS = process.env.EVENTHUB_CONNECTION_STRING];
+const ehCS = process.env.EVENTHUB_CONNECTION_STRING;
 const storageContainerName = "test-container";
 
 async function main() {
@@ -140,7 +140,7 @@ const { EventProcessorHost, delay } = require("@azure/event-processor-host");
 // set the values from environment variables.
 const path = process.env.EVENTHUB_NAME || "";
 const storageCS = process.env.STORAGE_CONNECTION_STRING;
-const ehCS = process.env.EVENTHUB_CONNECTION_STRING];
+const ehCS = process.env.EVENTHUB_CONNECTION_STRING;
 
 // set the names of eph and the lease container.
 const storageContainerName = "test-container";
@@ -247,7 +247,7 @@ const { EventProcessorHost, delay } = require("@azure/event-processor-host");
 
 const path = process.env.EVENTHUB_NAME || "";
 const storageCS = process.env.STORAGE_CONNECTION_STRING;
-const iothubCS = process.env.IOTHUB_CONNECTION_STRING];
+const iothubCS = process.env.IOTHUB_CONNECTION_STRING;
 const storageContainerName = "test-container";
 
 async function main() {
