@@ -1,3 +1,7 @@
+## 2018-09-25 1.0.3
+- Ensures that amqp:link-stolen errors are not notified to the customer, since they are expected errors that
+happen during lease stealing or expiration as a part of load balancing.
+
 ## 2018-09-15 1.0.2
 - Ensures that messages are checkpointed in order.
 

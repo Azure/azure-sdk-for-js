@@ -64,6 +64,9 @@ export DEBUG=azure:eph:error,azure:event-hubs:error,azure-amqp-common:error,rhea
     ```bash
       node your-test-script.js &> out.log
     ```
+## Recommendation
+- You will find the sample provided below demonstrates a multi eph instance in the same process. Since node.js is single threaded, it has to load balance between managing(renew, steal, acquire, update) leases and receive messages across all the partitions. It is better to 
+create each instance in a separate process or a separate machine. This should provide better results.
 
 ## Examples
 - Examples can be found over [here](https://github.com/Azure/azure-event-hubs-node/tree/master/processor/examples).
