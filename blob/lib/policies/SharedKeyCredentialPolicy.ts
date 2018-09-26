@@ -1,6 +1,4 @@
 import { RequestPolicy, RequestPolicyOptions, WebResource } from "ms-rest-js";
-import { HttpHeader } from "ms-rest-js/typings/lib/httpHeaders";
-
 import { SharedKeyCredential } from "../credentials/SharedKeyCredential";
 import { HeaderConstants } from "../utils/constants";
 import { getURLPath, getURLQueries } from "../utils/utils.common";
@@ -136,35 +134,31 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
    * @memberof SharedKeyCredentialPolicy
    */
   private getCanonicalizedHeadersString(request: WebResource): string {
-    let headersArray: HttpHeader[] = request.headers
-      .headersArray()
-      .filter((value: HttpHeader) => {
-        return value.name
-          .toLowerCase()
-          .startsWith(HeaderConstants.PREFIX_FOR_STORAGE);
-      });
+    let headersArray = request.headers.headersArray().filter(value => {
+      return value.name
+        .toLowerCase()
+        .startsWith(HeaderConstants.PREFIX_FOR_STORAGE);
+    });
 
     headersArray.sort(
-      (a: HttpHeader, b: HttpHeader): number => {
+      (a, b): number => {
         return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
       }
     );
 
     // Remove duplicate headers
-    headersArray = headersArray.filter(
-      (value: HttpHeader, index: number, array: HttpHeader[]) => {
-        if (
-          index > 0 &&
-          value.name.toLowerCase() === array[index - 1].name.toLowerCase()
-        ) {
-          return false;
-        }
-        return true;
+    headersArray = headersArray.filter((value, index, array) => {
+      if (
+        index > 0 &&
+        value.name.toLowerCase() === array[index - 1].name.toLowerCase()
+      ) {
+        return false;
       }
-    );
+      return true;
+    });
 
     let canonicalizedHeadersStringToSign: string = "";
-    headersArray.forEach((header: HttpHeader) => {
+    headersArray.forEach(header => {
       canonicalizedHeadersStringToSign += `${header.name
         .toLowerCase()
         .trimRight()}:${header.value.trimLeft()}\n`;
