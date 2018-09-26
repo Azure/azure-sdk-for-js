@@ -1,12 +1,12 @@
-import { AnonymousCredential } from "../../lib/credentials/AnonymousCredential";
-import { ServiceURL } from "../../lib/ServiceURL";
-import { StorageURL } from "../../lib/StorageURL";
+import { AnonymousCredential } from '../../lib/credentials/AnonymousCredential';
+import { ServiceURL } from '../../lib/ServiceURL';
+import { StorageURL } from '../../lib/StorageURL';
 
-export * from "./testutils.common";
+export * from './testutils.common';
 
 export function getGenericBSU(
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = ''
 ): ServiceURL {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -16,14 +16,14 @@ export function getGenericBSU(
   accountName = (window as any).__env__[accountNameEnvVar];
   accountSAS = (window as any).__env__[accountSASEnvVar];
 
-  if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
+  if (!accountName || !accountSAS || accountName === '' || accountSAS === '') {
     throw new Error(
       `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`
     );
   }
 
   if (accountSAS) {
-    accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
+    accountSAS = accountSAS.startsWith('?') ? accountSAS : `?${accountSAS}`;
   }
 
   const credentials = new AnonymousCredential();
@@ -36,11 +36,11 @@ export function getGenericBSU(
 }
 
 export function getBSU(): ServiceURL {
-  return getGenericBSU("");
+  return getGenericBSU('');
 }
 
 export function getAlternateBSU(): ServiceURL {
-  return getGenericBSU("SECONDARY_", "-secondary");
+  return getGenericBSU('SECONDARY_', '-secondary');
 }
 
 /**
@@ -106,7 +106,7 @@ export function arrayBufferEqual(
 
 export function isIE(): boolean {
   const sAgent = window.navigator.userAgent;
-  const Idx = sAgent.indexOf("MSIE");
+  const Idx = sAgent.indexOf('MSIE');
 
   // If IE, return version number.
   if (Idx > 0) {

@@ -1,9 +1,10 @@
-import * as assert from "assert";
+import * as assert from 'assert';
 
-import { Aborter } from "../lib/Aborter";
-import { BlobURL } from "../lib/BlobURL";
-import { BlockBlobURL } from "../lib/BlockBlobURL";
-import { ContainerURL } from "../lib/ContainerURL";
+import { isNode } from 'ms-rest-js';
+import { Aborter } from '../lib/Aborter';
+import { BlobURL } from '../lib/BlobURL';
+import { BlockBlobURL } from '../lib/BlockBlobURL';
+import { ContainerURL } from '../lib/ContainerURL';
 import {
   AccessTier,
   BlobType,
@@ -11,23 +12,23 @@ import {
   LeaseStateType,
   LeaseStatusType,
   ListBlobsIncludeItem
-} from "../lib/generated/models";
-import { bodyToString, getBSU, getUniqueName, sleep } from "./utils";
+} from '../lib/generated/models';
+import { bodyToString, getBSU, getUniqueName, sleep } from './utils';
 
-describe("BlobURL", () => {
+describe('BlobURL', () => {
   const serviceURL = getBSU();
-  let containerName: string = getUniqueName("container");
+  let containerName: string = getUniqueName('container');
   let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName: string = getUniqueName("blob");
+  let blobName: string = getUniqueName('blob');
   let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
   let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-  const content = "Hello World";
+  const content = 'Hello World';
 
   beforeEach(async () => {
-    containerName = getUniqueName("container");
+    containerName = getUniqueName('container');
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.None);
-    blobName = getUniqueName("blob");
+    blobName = getUniqueName('blob');
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
     await blockBlobURL.upload(Aborter.None, content, content.length);
@@ -37,32 +38,32 @@ describe("BlobURL", () => {
     await containerURL.delete(Aborter.None);
   });
 
-  it("download with with default parameters", async () => {
+  it('download with with default parameters', async () => {
     const result = await blobURL.download(Aborter.None, 0);
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 
-  it("download all parameters set", async () => {
+  it('download all parameters set', async () => {
     const result = await blobURL.download(Aborter.None, 0, 1, {
       rangeGetContentMD5: true
     });
     assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
   });
 
-  it("setMetadata with new metadata set", async () => {
+  it('setMetadata with new metadata set', async () => {
     const metadata = {
-      a: "a",
-      b: "b"
+      a: 'a',
+      b: 'b'
     };
     await blobURL.setMetadata(Aborter.None, { metadata });
     const result = await blobURL.getProperties(Aborter.None);
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it("setMetadata with cleaning up metadata", async () => {
+  it('setMetadata with cleaning up metadata', async () => {
     const metadata = {
-      a: "a",
-      b: "b"
+      a: 'a',
+      b: 'b'
     };
     await blobURL.setMetadata(Aborter.None, { metadata });
     const result = await blobURL.getProperties(Aborter.None);
@@ -73,7 +74,7 @@ describe("BlobURL", () => {
     assert.deepStrictEqual(result2.metadata, {});
   });
 
-  it("setHTTPHeaders with default parameters", async () => {
+  it('setHTTPHeaders with default parameters', async () => {
     await blobURL.setHTTPHeaders(Aborter.None, {});
     const result = await blobURL.getProperties(Aborter.None);
 
@@ -88,17 +89,16 @@ describe("BlobURL", () => {
     assert.ok(!result.contentDisposition);
   });
 
-  it("setHTTPHeaders with all parameters set", async () => {
+  it('setHTTPHeaders with all parameters set', async () => {
     const headers = {
-      blobCacheControl: "blobCacheControl",
-      blobContentDisposition: "blobContentDisposition",
-      blobContentEncoding: "blobContentEncoding",
-      blobContentLanguage: "blobContentLanguage",
-      blobContentMD5:
-        typeof Buffer === "undefined"
-          ? new Uint8Array([1, 2, 3, 4])
-          : Buffer.from([1, 2, 3, 4]),
-      blobContentType: "blobContentType"
+      blobCacheControl: 'blobCacheControl',
+      blobContentDisposition: 'blobContentDisposition',
+      blobContentEncoding: 'blobContentEncoding',
+      blobContentLanguage: 'blobContentLanguage',
+      blobContentMD5: isNode
+        ? Buffer.from([1, 2, 3, 4])
+        : new Uint8Array([1, 2, 3, 4]),
+      blobContentType: 'blobContentType'
     };
     await blobURL.setHTTPHeaders(Aborter.None, {
       blobHTTPHeaders: headers
@@ -118,8 +118,8 @@ describe("BlobURL", () => {
     );
   });
 
-  it("acquireLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
+  it('acquireLease', async () => {
+    const guid = 'ca761232ed4211cebacd00aa0057b223';
     const duration = 30;
     await blobURL.acquireLease(Aborter.None, guid, duration);
 
@@ -131,8 +131,8 @@ describe("BlobURL", () => {
     await blobURL.releaseLease(Aborter.None, guid);
   });
 
-  it("releaseLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
+  it('releaseLease', async () => {
+    const guid = 'ca761232ed4211cebacd00aa0057b223';
     const duration = -1;
     await blobURL.acquireLease(Aborter.None, guid, duration);
 
@@ -144,8 +144,8 @@ describe("BlobURL", () => {
     await blobURL.releaseLease(Aborter.None, guid);
   });
 
-  it("renewLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
+  it('renewLease', async () => {
+    const guid = 'ca761232ed4211cebacd00aa0057b223';
     const duration = 15;
     await blobURL.acquireLease(Aborter.None, guid, duration);
 
@@ -169,8 +169,8 @@ describe("BlobURL", () => {
     await blobURL.releaseLease(Aborter.None, guid);
   });
 
-  it("changeLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
+  it('changeLease', async () => {
+    const guid = 'ca761232ed4211cebacd00aa0057b223';
     const duration = 15;
     await blobURL.acquireLease(Aborter.None, guid, duration);
 
@@ -179,15 +179,15 @@ describe("BlobURL", () => {
     assert.equal(result.leaseState, LeaseStateType.Leased);
     assert.equal(result.leaseStatus, LeaseStatusType.Locked);
 
-    const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
+    const newGuid = '3c7e72ebb4304526bc53d8ecef03798f';
     await blobURL.changeLease(Aborter.None, guid, newGuid);
 
     await blobURL.getProperties(Aborter.None);
     await blobURL.releaseLease(Aborter.None, newGuid);
   });
 
-  it("breakLease", async () => {
-    const guid = "ca761232ed4211cebacd00aa0057b223";
+  it('breakLease', async () => {
+    const guid = 'ca761232ed4211cebacd00aa0057b223';
     const duration = 15;
     await blobURL.acquireLease(Aborter.None, guid, duration);
 
@@ -211,12 +211,12 @@ describe("BlobURL", () => {
     assert.equal(result3.leaseStatus, LeaseStatusType.Unlocked);
   });
 
-  it("delete", async () => {
+  it('delete', async () => {
     await blobURL.delete(Aborter.None);
   });
 
   // The following code illustrates deleting a snapshot after creating one
-  it("delete snapshot", async () => {
+  it('delete snapshot', async () => {
     const result = await blobURL.createSnapshot(Aborter.None);
     assert.ok(result.snapshot);
 
@@ -238,7 +238,7 @@ describe("BlobURL", () => {
     assert.equal(result2.segment.blobItems!.length, 0);
   });
 
-  it("createSnapshot", async () => {
+  it('createSnapshot', async () => {
     const result = await blobURL.createSnapshot(Aborter.None);
     assert.ok(result.snapshot);
 
@@ -274,7 +274,7 @@ describe("BlobURL", () => {
     );
   });
 
-  it("undelete", async () => {
+  it('undelete', async () => {
     const properties = await serviceURL.getProperties(Aborter.None);
     if (!properties.deleteRetentionPolicy!.enabled) {
       await serviceURL.setProperties(Aborter.None, {
@@ -308,10 +308,10 @@ describe("BlobURL", () => {
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
-  it("startCopyFromURL", async () => {
+  it('startCopyFromURL', async () => {
     const newBlobURL = BlobURL.fromContainerURL(
       containerURL,
-      getUniqueName("copiedblob")
+      getUniqueName('copiedblob')
     );
     const result = await newBlobURL.startCopyFromURL(Aborter.None, blobURL.url);
     assert.ok(result.copyId);
@@ -323,10 +323,10 @@ describe("BlobURL", () => {
     assert.deepStrictEqual(properties2.copySource, blobURL.url);
   });
 
-  it("abortCopyFromURL should failed for a completed copy operation", async () => {
+  it('abortCopyFromURL should failed for a completed copy operation', async () => {
     const newBlobURL = BlobURL.fromContainerURL(
       containerURL,
-      getUniqueName("copiedblob")
+      getUniqueName('copiedblob')
     );
     const result = await newBlobURL.startCopyFromURL(Aborter.None, blobURL.url);
     assert.ok(result.copyId);
@@ -335,30 +335,30 @@ describe("BlobURL", () => {
     try {
       await newBlobURL.abortCopyFromURL(Aborter.None, result.copyId!);
       assert.fail(
-        "AbortCopyFromURL should be failed and throw exception for an completed copy operation."
+        'AbortCopyFromURL should be failed and throw exception for an completed copy operation.'
       );
     } catch (err) {
       assert.ok(true);
     }
   });
 
-  it("setTier set default to cool", async () => {
+  it('setTier set default to cool', async () => {
     await blockBlobURL.setTier(Aborter.None, AccessTier.Cool);
     const properties = await blockBlobURL.getProperties(Aborter.None);
-    assert.equal(properties.accessTier!.toLowerCase(), "cool");
+    assert.equal(properties.accessTier!.toLowerCase(), 'cool');
   });
 
-  it("setTier set archive to hot", async () => {
+  it('setTier set archive to hot', async () => {
     await blockBlobURL.setTier(Aborter.None, AccessTier.Archive);
     let properties = await blockBlobURL.getProperties(Aborter.None);
-    assert.equal(properties.accessTier!.toLowerCase(), "archive");
+    assert.equal(properties.accessTier!.toLowerCase(), 'archive');
 
     await blockBlobURL.setTier(Aborter.None, AccessTier.Hot);
     properties = await blockBlobURL.getProperties(Aborter.None);
     if (properties.archiveStatus) {
       assert.equal(
         properties.archiveStatus.toLowerCase(),
-        "rehydrate-pending-to-hot"
+        'rehydrate-pending-to-hot'
       );
     }
   });
