@@ -2,7 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import { CommandBuilder } from "yargs";
-import { EventHubClient, EventData, delay } from "azure-event-hubs";
+import { EventHubClient, EventData, delay } from "@azure/event-hubs";
 import { log, setCurrentCommand } from "../utils/util";
 
 export const command = "send";
