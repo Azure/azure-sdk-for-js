@@ -1,5 +1,5 @@
-!dist/lib/**/*.js
-!es6dist/lib/**/*.js
+!dist/**/*.js
+!dist-esm/lib/**/*.js
 !typings/lib/**/*.d.ts
 
 # git #
@@ -17,17 +17,11 @@ typings/test
 # Samples #
 samples/
 dist/samples
-es6dist/samples
+dist-esm/samples
 typings/samples
 
 # Swagger #
 swagger/
-
-# lib #
-lib/
-
-# Browser #
-browser/
 
 # Others #
 .vscode/
@@ -38,10 +32,7 @@ gulpfile.js
 .git
 .DS_Store
 tsconfig.json
-tsconfig.es6.json
 tslint.json
-webpack.config.js
-webpack.config.test.js
 *.js.map
 package-lock.json
 karma.conf.js

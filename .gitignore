@@ -55,7 +55,7 @@ typings/
 /blob/dist/
 /blob/typings/
 /blob/browser/
-/blob/es6dist/
+/blob/dist-*/
 
 # Visual Studio Code
 .vscode/
