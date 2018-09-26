@@ -40,6 +40,33 @@ describe("EventHub Receiver", function () {
     }
   });
 
+  describe("with partitionId 0 as number", function () {
+    it("should work for receiveBatch", async function () {
+      const result = await client.receiveBatch(0, 10, 20, { eventPosition: EventPosition.fromSequenceNumber(0) });
+      should.equal(true, Array.isArray(result));
+    });
+
+    it("should work for receive", function (done) {
+      let rcvHandler;
+      let stopCalled = false;
+      const onError = (error) => {
+        debug(">>>> An error occurred: %O", error);
+      }
+      const onMsg = (data) => {
+        debug(">>>> Received Data: %O", data);
+        if (!stopCalled) {
+          stopCalled = true;
+          rcvHandler.stop().then(() => {
+            done();
+          }).catch(() => {
+            done();
+          });
+        }
+      };
+      rcvHandler = client.receive(0, onMsg, onError, { epoch: 1, eventPosition: EventPosition.fromOffset("0") });
+    });
+  });
+
   describe("with EventPosition specified as", function () {
     it("'from end of stream' should receive messages correctly", async function () {
       const partitionId = hubInfo.partitionIds[0];
@@ -76,7 +103,7 @@ describe("EventHub Receiver", function () {
       const partitionId = hubInfo.partitionIds[0];
       const pInfo = await client.getPartitionInformation(partitionId);
       debug(`Creating new receiver with last enqueued offset: "${pInfo.lastEnqueuedOffset}".`);
-      breceiver = BatchingReceiver.create((client as any)._context, partitionId, { eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset) });
+      breceiver = BatchingReceiver.create((client as any)._context, parseInt(partitionId), { eventPosition: EventPosition.fromOffset(pInfo.lastEnqueuedOffset) });
       debug("Establishing the receiver link...");
       const d = await breceiver.receive(10, 5);
       d.length.should.equal(0);
@@ -432,97 +459,6 @@ describe("EventHub Receiver", function () {
         });
       });
     });
-
-    // it("should throw 'MessagingEntityNotFoundError' if a message is received after the receiver is closed.", async function () {
-    //   receiver = client.createReceiver("0", { eventPosition: EventPosition.fromEnd() });
-    //   receiver.should.be.instanceof(EventHubReceiver);
-    //   await receiver.receive(10, 3);
-    //   await receiver.close();
-    //   debug("closed receiver.");
-    //   try {
-    //     await receiver.receive(10, 3);
-    //   } catch (err) {
-    //     should.exist(err);
-    //     should.equal(err.name, "MessagingEntityNotFoundError");
-    //   }
-    // });
-
-    // it("should throw 'InvalidOperationError' if the receiver has already started receiving messages and someone calls start again.", function (done) {
-    //   receiver = client.createReceiver("0", { eventPosition: EventPosition.fromEnd() });
-    //   receiver.should.be.instanceof(EventHubReceiver);
-    //   const onErr = (err) => {
-    //     debug("An error occurred while receiving messages from the EventHub.");
-    //     throw err;
-    //   };
-    //   const onMsg = (data) => {
-    //   };
-    //   receiver.start(onMsg, onErr);
-    //   try {
-    //     receiver.start(onMsg, onErr);
-    //   } catch (err) {
-    //     // debug(">>>> Eexpected error: ", err);
-    //     should.exist(err);
-    //     should.equal(err.name, "InvalidOperationError");
-    //     done();
-    //   }
-    // });
-
-    // it("should throw 'InvalidOperationError' if receiver.receive() is called after receiver.start().", async function () {
-    //   receiver = client.createReceiver("0", { eventPosition: EventPosition.fromEnd() });
-    //   receiver.should.be.instanceof(EventHubReceiver);
-    //   const onErr = (err) => {
-    //     debug("An error occurred while receiving messages from the EventHub.");
-    //     throw err;
-    //   };
-    //   const onMsg = (data) => {
-    //   };
-    //   receiver.start(onMsg, onErr);
-    //   try {
-    //     await receiver.receive(10, 3);
-    //   } catch (err) {
-    //     // debug(">>>> Eexpected error: ", err);
-    //     should.exist(err);
-    //     should.equal(err.name, "InvalidOperationError");
-    //   }
-    // });
-
-    // it("should throw 'InvalidOperationError' if receiver.start() is called while receiver.receive() is executing.", async function () {
-    //   receiver = client.createReceiver("0", { eventPosition: EventPosition.fromEnd() });
-    //   receiver.should.be.instanceof(EventHubReceiver);
-    //   const onErr = (err) => {
-    //     debug("An error occurred while receiving messages from the EventHub.");
-    //     throw err;
-    //   };
-    //   const onMsg = (data) => {
-    //   };
-    //   try {
-    //     receiver.receive(10, 3);
-    //     receiver.start(onMsg, onErr);
-    //   } catch (err) {
-    //     debug(">>>> Eexpected error: ", err);
-    //     should.exist(err);
-    //     should.equal(err.name, "InvalidOperationError");
-    //   }
-    // });
-
-    // it("should throw 'InvalidOperationError' if receiver.receive() is called while previous receiver.receive() is executing.", async function () {
-    //   receiver = client.createReceiver("0", { eventPosition: EventPosition.fromEnd() });
-    //   receiver.should.be.instanceof(EventHubReceiver);
-    //   const onErr = (err) => {
-    //     debug("An error occurred while receiving messages from the EventHub.");
-    //     throw err;
-    //   };
-    //   const onMsg = (data) => {
-    //   };
-    //   try {
-    //     receiver.receive(10, 3);
-    //     receiver.receive(5, 5);
-    //   } catch (err) {
-    //     debug(">>>> Eexpected error: ", err);
-    //     should.exist(err);
-    //     should.equal(err.name, "InvalidOperationError");
-    //   }
-    // });
 
     it("should receive 'QuotaExceededError' when attempting to connect more than 5 receivers to a partition in a consumer group", function (done) {
       const partitionId = hubInfo.partitionIds[0];

@@ -136,12 +136,12 @@ export class EventHubClient {
     try {
       if (this._context.connection.isOpen()) {
         // Close all the senders.
-        for (const sender of Object.values(this._context.senders)) {
-          await sender.close();
+        for (const senderName of Object.keys(this._context.senders)) {
+          await this._context.senders[senderName].close();
         }
         // Close all the receivers.
-        for (const receiver of Object.values(this._context.receivers)) {
-          await receiver.close();
+        for (const receiverName of Object.keys(this._context.receivers)) {
+          await this._context.receivers[receiverName].close();
         }
         // Close the cbs session;
         await this._context.cbsSession.close();
@@ -202,7 +202,7 @@ export class EventHubClient {
    * @returns {ReceiveHandler} ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
    */
   receive(partitionId: string | number, onMessage: OnMessage, onError: OnError, options?: ReceiveOptions): ReceiveHandler {
-    if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
+    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     const sReceiver = StreamingReceiver.create(this._context, partitionId, options);
@@ -223,7 +223,7 @@ export class EventHubClient {
    * @returns {Promise<Array<EventData>>} Promise<Array<EventData>>.
    */
   async receiveBatch(partitionId: string | number, maxMessageCount: number, maxWaitTimeInSeconds?: number, options?: ReceiveOptions): Promise<EventData[]> {
-    if (!partitionId || (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number")) {
+    if (typeof partitionId !== "string" && typeof partitionId !== "number") {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     const bReceiver = BatchingReceiver.create(this._context, partitionId, options);
