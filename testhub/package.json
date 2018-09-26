@@ -15,8 +15,8 @@
     "rhea": "amqp/rhea",
     "tslib": "^1.9.2",
     "uuid": "^3.2.1",
-    "azure-event-processor-host": "../processor",
-    "azure-event-hubs": "../client"
+    "@azure/event-processor-host": "../processor",
+    "@azure/event-hubs": "../client"
   },
   "bin": {
     "testhub": "./dist/cli.js"

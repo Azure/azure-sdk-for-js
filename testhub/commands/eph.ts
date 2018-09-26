@@ -3,9 +3,9 @@
 import { CommandBuilder } from "yargs";
 import {
   EventProcessorHost, OnReceivedMessage, PartitionContext, OnReceivedError
-} from "azure-event-processor-host";
+} from "@azure/event-processor-host";
 import { log, setCurrentCommand } from "../utils/util";
-import { EventHubClient, EventPosition, EventData, Dictionary } from "azure-event-hubs";
+import { EventHubClient, EventPosition, EventData, Dictionary } from "@azure/event-hubs";
 
 export const command = "eph";
 
@@ -108,13 +108,13 @@ export async function handler(argv: any): Promise<void> {
       const hostName = `${hostPrefix}-${i + 1}`;
       ephCache[hostName] = EventProcessorHost.createFromConnectionString(hostName,
         storageStr,
+        leaseContainerName,
         connectionString,
         {
           leaseDuration: leaseDuration,
           leaseRenewInterval: leaseRenewInterval,
           eventHubPath: hub,
           consumerGroup: consumerGroup,
-          leasecontainerName: leaseContainerName,
           initialOffset: offset === "-1" ? EventPosition.fromOffset("-1") : undefined,
           onEphError: (error) => {
             log(">>>>>>> [%s] Error: %O", hostName, error);
@@ -122,8 +122,9 @@ export async function handler(argv: any): Promise<void> {
         });
     }
     const startedEphs: Array<Promise<void>> = [];
-    for (let eph of Object.values(ephCache)) {
+    for (let ephName of Object.keys(ephCache)) {
       // Message handler
+      const eph = ephCache[ephName];
       let count: number = 0;
       const onMessage: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
         count++;
@@ -132,7 +133,7 @@ export async function handler(argv: any): Promise<void> {
         if (count % 1000 === 0) {
           try {
             log("##### [%s] %d - Checkpointing message from partition '%s', with offset " +
-              "'%s', sequenceNumber %d.", eph.hostName, count, context.partitionId, data.offset,
+              "'%s', sequenceNumber %d.", eph, count, context.partitionId, data.offset,
               data.sequenceNumber);
             log("***** [%s] Number of partitions: %O", eph.hostName, eph.receivingFromPartitions.length);
             log("***** [%s] EPH is currently receiving messages from partitions: %s, total number %d.",
@@ -158,9 +159,10 @@ export async function handler(argv: any): Promise<void> {
 
     setInterval(() => {
       log("Performing the task every 60 seconds..");
-      const ephs = Object.values(ephCache);
-      log(">>> Total number of ephs: %d", ephs.length);
-      for (let eph of ephs) {
+      const ephNames = Object.keys(ephCache);
+      log(">>> Total number of ephs: %d", ephNames.length);
+      for (let ephName of ephNames) {
+        const eph = ephCache[ephName];
         const partitions = eph.receivingFromPartitions;
         log("[%s] Currently receiving from partitions: %s", eph.hostName, partitions.toString());
         log("[%s] Number of partitions: %d", eph.hostName, partitions.length);
