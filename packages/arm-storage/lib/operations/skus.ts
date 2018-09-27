@@ -28,18 +28,18 @@ export class Skus {
 
   /**
    * Lists the available SKUs supported by Microsoft.Storage for given subscription.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SkusListResponse>
    */
-  list(): Promise<Models.SkusListResponse>;
-  list(options: msRest.RequestOptionsBase): Promise<Models.SkusListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.SkusListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.StorageSkuListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageSkuListResult>): void;
   list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageSkuListResult>): Promise<Models.SkusListResponse> {
     return this.client.sendOperationRequest(
@@ -49,7 +49,6 @@ export class Skus {
       listOperationSpec,
       callback) as Promise<Models.SkusListResponse>;
   }
-
 }
 
 // Operation Specifications

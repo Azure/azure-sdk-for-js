@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "ms-rest-azure-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
 import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
@@ -1756,6 +1756,18 @@ export interface ManagementPoliciesCreateOrUpdateOptionalParams extends msRest.R
    * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
    */
   policy?: any;
+}
+
+/**
+ * @interface
+ * An interface representing StorageManagementClientOptions.
+ * @extends AzureServiceClientOptions
+ */
+export interface StorageManagementClientOptions extends AzureServiceClientOptions {
+  /**
+   * @member {string} [baseUri]
+   */
+  baseUri?: string;
 }
 
 /**
