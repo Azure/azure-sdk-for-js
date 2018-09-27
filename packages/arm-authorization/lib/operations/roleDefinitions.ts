@@ -28,22 +28,24 @@ export class RoleDefinitions {
 
   /**
    * Deletes a role definition.
-   *
-   * @param {string} scope The scope of the role definition.
-   *
-   * @param {string} roleDefinitionId The ID of the role definition to delete.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param scope The scope of the role definition.
+   * @param roleDefinitionId The ID of the role definition to delete.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleDefinitionsDeleteMethodResponse>
    */
-  deleteMethod(scope: string, roleDefinitionId: string): Promise<Models.RoleDefinitionsDeleteMethodResponse>;
-  deleteMethod(scope: string, roleDefinitionId: string, options: msRest.RequestOptionsBase): Promise<Models.RoleDefinitionsDeleteMethodResponse>;
+  deleteMethod(scope: string, roleDefinitionId: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleDefinitionsDeleteMethodResponse>;
+  /**
+   * @param scope The scope of the role definition.
+   * @param roleDefinitionId The ID of the role definition to delete.
+   * @param callback The callback
+   */
   deleteMethod(scope: string, roleDefinitionId: string, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
+  /**
+   * @param scope The scope of the role definition.
+   * @param roleDefinitionId The ID of the role definition to delete.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(scope: string, roleDefinitionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
   deleteMethod(scope: string, roleDefinitionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
@@ -58,22 +60,24 @@ export class RoleDefinitions {
 
   /**
    * Get role definition by name (GUID).
-   *
-   * @param {string} scope The scope of the role definition.
-   *
-   * @param {string} roleDefinitionId The ID of the role definition.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param scope The scope of the role definition.
+   * @param roleDefinitionId The ID of the role definition.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleDefinitionsGetResponse>
    */
-  get(scope: string, roleDefinitionId: string): Promise<Models.RoleDefinitionsGetResponse>;
-  get(scope: string, roleDefinitionId: string, options: msRest.RequestOptionsBase): Promise<Models.RoleDefinitionsGetResponse>;
+  get(scope: string, roleDefinitionId: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleDefinitionsGetResponse>;
+  /**
+   * @param scope The scope of the role definition.
+   * @param roleDefinitionId The ID of the role definition.
+   * @param callback The callback
+   */
   get(scope: string, roleDefinitionId: string, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
+  /**
+   * @param scope The scope of the role definition.
+   * @param roleDefinitionId The ID of the role definition.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   get(scope: string, roleDefinitionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
   get(scope: string, roleDefinitionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
@@ -88,24 +92,27 @@ export class RoleDefinitions {
 
   /**
    * Creates or updates a role definition.
-   *
-   * @param {string} scope The scope of the role definition.
-   *
-   * @param {string} roleDefinitionId The ID of the role definition.
-   *
-   * @param {RoleDefinition} roleDefinition The values for the role definition.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param scope The scope of the role definition.
+   * @param roleDefinitionId The ID of the role definition.
+   * @param roleDefinition The values for the role definition.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleDefinitionsCreateOrUpdateResponse>
    */
-  createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: Models.RoleDefinition): Promise<Models.RoleDefinitionsCreateOrUpdateResponse>;
-  createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: Models.RoleDefinition, options: msRest.RequestOptionsBase): Promise<Models.RoleDefinitionsCreateOrUpdateResponse>;
+  createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: Models.RoleDefinition, options?: msRest.RequestOptionsBase): Promise<Models.RoleDefinitionsCreateOrUpdateResponse>;
+  /**
+   * @param scope The scope of the role definition.
+   * @param roleDefinitionId The ID of the role definition.
+   * @param roleDefinition The values for the role definition.
+   * @param callback The callback
+   */
   createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: Models.RoleDefinition, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
+  /**
+   * @param scope The scope of the role definition.
+   * @param roleDefinitionId The ID of the role definition.
+   * @param roleDefinition The values for the role definition.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: Models.RoleDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
   createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: Models.RoleDefinition, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -121,20 +128,21 @@ export class RoleDefinitions {
 
   /**
    * Get all role definitions that are applicable at scope and above.
-   *
-   * @param {string} scope The scope of the role definition.
-   *
-   * @param {RoleDefinitionsListOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param scope The scope of the role definition.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleDefinitionsListResponse>
    */
-  list(scope: string): Promise<Models.RoleDefinitionsListResponse>;
-  list(scope: string, options: Models.RoleDefinitionsListOptionalParams): Promise<Models.RoleDefinitionsListResponse>;
+  list(scope: string, options?: Models.RoleDefinitionsListOptionalParams): Promise<Models.RoleDefinitionsListResponse>;
+  /**
+   * @param scope The scope of the role definition.
+   * @param callback The callback
+   */
   list(scope: string, callback: msRest.ServiceCallback<Models.RoleDefinitionListResult>): void;
+  /**
+   * @param scope The scope of the role definition.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(scope: string, options: Models.RoleDefinitionsListOptionalParams, callback: msRest.ServiceCallback<Models.RoleDefinitionListResult>): void;
   list(scope: string, options?: Models.RoleDefinitionsListOptionalParams, callback?: msRest.ServiceCallback<Models.RoleDefinitionListResult>): Promise<Models.RoleDefinitionsListResponse> {
     return this.client.sendOperationRequest(
@@ -148,24 +156,33 @@ export class RoleDefinitions {
 
   /**
    * Gets a role definition by ID.
-   *
-   * @param {string} roleId The fully qualified role definition ID. Use the format,
+   * @param roleId The fully qualified role definition ID. Use the format,
    * /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for
    * subscription level role definitions, or
    * /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role
    * definitions.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleDefinitionsGetByIdResponse>
    */
-  getById(roleId: string): Promise<Models.RoleDefinitionsGetByIdResponse>;
-  getById(roleId: string, options: msRest.RequestOptionsBase): Promise<Models.RoleDefinitionsGetByIdResponse>;
+  getById(roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleDefinitionsGetByIdResponse>;
+  /**
+   * @param roleId The fully qualified role definition ID. Use the format,
+   * /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for
+   * subscription level role definitions, or
+   * /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role
+   * definitions.
+   * @param callback The callback
+   */
   getById(roleId: string, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
+  /**
+   * @param roleId The fully qualified role definition ID. Use the format,
+   * /subscriptions/{guid}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for
+   * subscription level role definitions, or
+   * /providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId} for tenant level role
+   * definitions.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getById(roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleDefinition>): void;
   getById(roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleDefinition>): Promise<Models.RoleDefinitionsGetByIdResponse> {
     return this.client.sendOperationRequest(
@@ -179,20 +196,21 @@ export class RoleDefinitions {
 
   /**
    * Get all role definitions that are applicable at scope and above.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleDefinitionsListNextResponse>
    */
-  listNext(nextPageLink: string): Promise<Models.RoleDefinitionsListNextResponse>;
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.RoleDefinitionsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleDefinitionsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RoleDefinitionListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleDefinitionListResult>): void;
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleDefinitionListResult>): Promise<Models.RoleDefinitionsListNextResponse> {
     return this.client.sendOperationRequest(
@@ -203,7 +221,6 @@ export class RoleDefinitions {
       listNextOperationSpec,
       callback) as Promise<Models.RoleDefinitionsListNextResponse>;
   }
-
 }
 
 // Operation Specifications

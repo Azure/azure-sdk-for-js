@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "ms-rest-azure-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
 import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
@@ -301,17 +301,156 @@ export interface RoleAssignmentCreateParameters {
    */
   principalId: string;
   /**
-   * @member {PrincipalType} [principalType] The principal type of the assigned
-   * principal ID. Possible values include: 'User', 'Group',
-   * 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup',
-   * 'Application', 'MSI', 'DirectoryObjectOrGroup', 'Everyone'
-   */
-  principalType?: PrincipalType;
-  /**
    * @member {boolean} [canDelegate] The delgation flag used for creating a
    * role assignment
    */
   canDelegate?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing DenyAssignmentFilter.
+ * Deny Assignments filter
+ *
+ */
+export interface DenyAssignmentFilter {
+  /**
+   * @member {string} [denyAssignmentName] Return deny assignment with
+   * specified name.
+   */
+  denyAssignmentName?: string;
+  /**
+   * @member {string} [principalId] Return all deny assignments where the
+   * specified principal is listed in the principals list of deny assignments.
+   */
+  principalId?: string;
+  /**
+   * @member {string} [gdprExportPrincipalId] Return all deny assignments where
+   * the specified principal is listed either in the principals list or exclude
+   * principals list of deny assignments.
+   */
+  gdprExportPrincipalId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DenyAssignmentPermission.
+ * Deny assignment permissions.
+ *
+ */
+export interface DenyAssignmentPermission {
+  /**
+   * @member {string[]} [actions] Actions to which the deny assignment does not
+   * grant access.
+   */
+  actions?: string[];
+  /**
+   * @member {string[]} [notActions] Actions to exclude from that the deny
+   * assignment does not grant access.
+   */
+  notActions?: string[];
+  /**
+   * @member {string[]} [dataActions] Data actions to which the deny assignment
+   * does not grant access.
+   */
+  dataActions?: string[];
+  /**
+   * @member {string[]} [notDataActions] Data actions to exclude from that the
+   * deny assignment does not grant access.
+   */
+  notDataActions?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing Principal.
+ * Deny assignment principal.
+ *
+ */
+export interface Principal {
+  /**
+   * @member {string} [id] Object ID of the Azure AD principal (user, group, or
+   * service principal) to which the deny assignment applies. An empty guid
+   * '00000000-0000-0000-0000-000000000000' as principal id and principal type
+   * as 'Everyone' represents all users, groups and service principals.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [type] Type of object represented by principal id (user,
+   * group, or service principal). An empty guid
+   * '00000000-0000-0000-0000-000000000000' as principal id and principal type
+   * as 'Everyone' represents all users, groups and service principals.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DenyAssignment.
+ * Deny Assignment
+ *
+ */
+export interface DenyAssignment {
+  /**
+   * @member {string} [id] The deny assignment ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [name] The deny assignment name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly name?: string;
+  /**
+   * @member {string} [type] The deny assignment type.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: string;
+  /**
+   * @member {string} [denyAssignmentName] The display name of the deny
+   * assignment.
+   */
+  denyAssignmentName?: string;
+  /**
+   * @member {string} [description] The description of the deny assignment.
+   */
+  description?: string;
+  /**
+   * @member {DenyAssignmentPermission[]} [permissions] An array of permissions
+   * that are denied by the deny assignment.
+   */
+  permissions?: DenyAssignmentPermission[];
+  /**
+   * @member {string} [scope] The deny assignment scope.
+   */
+  scope?: string;
+  /**
+   * @member {boolean} [doNotApplyToChildScopes] Determines if the deny
+   * assignment applies to child scopes. Default value is false.
+   */
+  doNotApplyToChildScopes?: boolean;
+  /**
+   * @member {Principal[]} [principals] Array of principals to which the deny
+   * assignment applies.
+   */
+  principals?: Principal[];
+  /**
+   * @member {Principal[]} [excludePrincipals] Array of principals to which the
+   * deny assignment does not apply.
+   */
+  excludePrincipals?: Principal[];
+  /**
+   * @member {boolean} [isSystemProtected] Specifies whether this deny
+   * assignment was created by Azure and cannot be edited or deleted.
+   */
+  isSystemProtected?: boolean;
 }
 
 /**
@@ -427,6 +566,122 @@ export interface RoleDefinitionsListOptionalParams extends msRest.RequestOptions
   filter?: string;
 }
 
+/**
+ * @interface
+ * An interface representing DenyAssignmentsListForResourceOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface DenyAssignmentsListForResourceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] The filter to apply on the operation. Use
+   * $filter=atScope() to return all deny assignments at or above the scope.
+   * Use $filter=denyAssignmentName eq '{name}' to search deny assignments by
+   * name at specified scope. Use $filter=principalId eq '{id}' to return all
+   * deny assignments at, above and below the scope for the specified
+   * principal. Use $filter=gdprExportPrincipalId eq '{id}' to return all deny
+   * assignments at, above and below the scope for the specified principal.
+   * This filter is different from the principalId filter as it returns not
+   * only those deny assignments that contain the specified principal is the
+   * Principals list but also those deny assignments that contain the specified
+   * principal is the ExcludePrincipals list. Additionally, when
+   * gdprExportPrincipalId filter is used, only the deny assignment name and
+   * description properties are returned.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DenyAssignmentsListForResourceGroupOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface DenyAssignmentsListForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] The filter to apply on the operation. Use
+   * $filter=atScope() to return all deny assignments at or above the scope.
+   * Use $filter=denyAssignmentName eq '{name}' to search deny assignments by
+   * name at specified scope. Use $filter=principalId eq '{id}' to return all
+   * deny assignments at, above and below the scope for the specified
+   * principal. Use $filter=gdprExportPrincipalId eq '{id}' to return all deny
+   * assignments at, above and below the scope for the specified principal.
+   * This filter is different from the principalId filter as it returns not
+   * only those deny assignments that contain the specified principal is the
+   * Principals list but also those deny assignments that contain the specified
+   * principal is the ExcludePrincipals list. Additionally, when
+   * gdprExportPrincipalId filter is used, only the deny assignment name and
+   * description properties are returned.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DenyAssignmentsListOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface DenyAssignmentsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] The filter to apply on the operation. Use
+   * $filter=atScope() to return all deny assignments at or above the scope.
+   * Use $filter=denyAssignmentName eq '{name}' to search deny assignments by
+   * name at specified scope. Use $filter=principalId eq '{id}' to return all
+   * deny assignments at, above and below the scope for the specified
+   * principal. Use $filter=gdprExportPrincipalId eq '{id}' to return all deny
+   * assignments at, above and below the scope for the specified principal.
+   * This filter is different from the principalId filter as it returns not
+   * only those deny assignments that contain the specified principal is the
+   * Principals list but also those deny assignments that contain the specified
+   * principal is the ExcludePrincipals list. Additionally, when
+   * gdprExportPrincipalId filter is used, only the deny assignment name and
+   * description properties are returned.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DenyAssignmentsListForScopeOptionalParams.
+ * Optional Parameters.
+ *
+ * @extends RequestOptionsBase
+ */
+export interface DenyAssignmentsListForScopeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * @member {string} [filter] The filter to apply on the operation. Use
+   * $filter=atScope() to return all deny assignments at or above the scope.
+   * Use $filter=denyAssignmentName eq '{name}' to search deny assignments by
+   * name at specified scope. Use $filter=principalId eq '{id}' to return all
+   * deny assignments at, above and below the scope for the specified
+   * principal. Use $filter=gdprExportPrincipalId eq '{id}' to return all deny
+   * assignments at, above and below the scope for the specified principal.
+   * This filter is different from the principalId filter as it returns not
+   * only those deny assignments that contain the specified principal is the
+   * Principals list but also those deny assignments that contain the specified
+   * principal is the ExcludePrincipals list. Additionally, when
+   * gdprExportPrincipalId filter is used, only the deny assignment name and
+   * description properties are returned.
+   */
+  filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AuthorizationManagementClientOptions.
+ * @extends AzureServiceClientOptions
+ */
+export interface AuthorizationManagementClientOptions extends AzureServiceClientOptions {
+  /**
+   * @member {string} [baseUri]
+   */
+  baseUri?: string;
+}
+
 
 /**
  * @interface
@@ -504,29 +759,18 @@ export interface RoleDefinitionListResult extends Array<RoleDefinition> {
 }
 
 /**
- * Defines values for PrincipalType.
- * Possible values include: 'User', 'Group', 'ServicePrincipal', 'Unknown',
- * 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI',
- * 'DirectoryObjectOrGroup', 'Everyone'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: PrincipalType =
- * <PrincipalType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
+ * @interface
+ * An interface representing the DenyAssignmentListResult.
+ * Deny assignment list operation result.
+ *
+ * @extends Array<DenyAssignment>
  */
-export enum PrincipalType {
-  User = 'User',
-  Group = 'Group',
-  ServicePrincipal = 'ServicePrincipal',
-  Unknown = 'Unknown',
-  DirectoryRoleTemplate = 'DirectoryRoleTemplate',
-  ForeignGroup = 'ForeignGroup',
-  Application = 'Application',
-  MSI = 'MSI',
-  DirectoryObjectOrGroup = 'DirectoryObjectOrGroup',
-  Everyone = 'Everyone',
+export interface DenyAssignmentListResult extends Array<DenyAssignment> {
+  /**
+   * @member {string} [nextLink] The URL to use for getting the next set of
+   * results.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -1077,5 +1321,195 @@ export type RoleDefinitionsListNextResponse = RoleDefinitionListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: RoleDefinitionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResource operation.
+ */
+export type DenyAssignmentsListForResourceResponse = DenyAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DenyAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceGroup operation.
+ */
+export type DenyAssignmentsListForResourceGroupResponse = DenyAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DenyAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type DenyAssignmentsListResponse = DenyAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DenyAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DenyAssignmentsGetResponse = DenyAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DenyAssignment;
+    };
+};
+
+/**
+ * Contains response data for the getById operation.
+ */
+export type DenyAssignmentsGetByIdResponse = DenyAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DenyAssignment;
+    };
+};
+
+/**
+ * Contains response data for the listForScope operation.
+ */
+export type DenyAssignmentsListForScopeResponse = DenyAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DenyAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceNext operation.
+ */
+export type DenyAssignmentsListForResourceNextResponse = DenyAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DenyAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceGroupNext operation.
+ */
+export type DenyAssignmentsListForResourceGroupNextResponse = DenyAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DenyAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type DenyAssignmentsListNextResponse = DenyAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DenyAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForScopeNext operation.
+ */
+export type DenyAssignmentsListForScopeNextResponse = DenyAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DenyAssignmentListResult;
     };
 };
