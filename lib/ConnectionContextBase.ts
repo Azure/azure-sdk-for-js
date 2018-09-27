@@ -145,7 +145,7 @@ export module ConnectionContextBase {
       properties: {
         product: parameters.connectionProperties.product,
         version: parameters.connectionProperties.version,
-        userAgent: userAgent,
+        "user-agent": userAgent,
         platform: `(${os.arch()}-${os.type()}-${os.release()})`,
         framework: `Node/${process.version}`
       }
