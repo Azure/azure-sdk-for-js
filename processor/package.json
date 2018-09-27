@@ -1,13 +1,13 @@
 {
   "name": "@azure/event-processor-host",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Azure Event Processor Host (Event Hubs) SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "main": "./dist/lib/index.js",
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
-    "@azure/event-hubs": "^1.0.3",
+    "@azure/event-hubs": "^1.0.4",
     "azure-storage": "^2.10.1",
     "async-lock": "^1.1.3",
     "debug": "^3.1.0",
@@ -38,7 +38,7 @@
     "tsc": "tsc",
     "build": "npm run tslint && npm run tsc",
     "test": "npm run build",
-    "unit": "mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts --abort-on-uncaught-exception",
+    "unit": "mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts --exit",
     "prepare": "npm run build"
   },
   "homepage": "https://github.com/Azure/azure-event-hubs-node/tree/master/processor",
