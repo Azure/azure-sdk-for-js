@@ -28,28 +28,33 @@ export class RoleAssignments {
 
   /**
    * Gets role assignments for a resource.
-   *
-   * @param {string} resourceGroupName The name of the resource group.
-   *
-   * @param {string} resourceProviderNamespace The namespace of the resource provider.
-   *
-   * @param {string} parentResourcePath The parent resource identity.
-   *
-   * @param {string} resourceType The resource type of the resource.
-   *
-   * @param {string} resourceName The name of the resource to get role assignments for.
-   *
-   * @param {RoleAssignmentsListForResourceOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param resourceName The name of the resource to get role assignments for.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsListForResourceResponse>
    */
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string): Promise<Models.RoleAssignmentsListForResourceResponse>;
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: Models.RoleAssignmentsListForResourceOptionalParams): Promise<Models.RoleAssignmentsListForResourceResponse>;
+  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.RoleAssignmentsListForResourceOptionalParams): Promise<Models.RoleAssignmentsListForResourceResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param resourceName The name of the resource to get role assignments for.
+   * @param callback The callback
+   */
   listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param resourceName The name of the resource to get role assignments for.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: Models.RoleAssignmentsListForResourceOptionalParams, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
   listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.RoleAssignmentsListForResourceOptionalParams, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListForResourceResponse> {
     return this.client.sendOperationRequest(
@@ -67,20 +72,21 @@ export class RoleAssignments {
 
   /**
    * Gets role assignments for a resource group.
-   *
-   * @param {string} resourceGroupName The name of the resource group.
-   *
-   * @param {RoleAssignmentsListForResourceGroupOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsListForResourceGroupResponse>
    */
-  listForResourceGroup(resourceGroupName: string): Promise<Models.RoleAssignmentsListForResourceGroupResponse>;
-  listForResourceGroup(resourceGroupName: string, options: Models.RoleAssignmentsListForResourceGroupOptionalParams): Promise<Models.RoleAssignmentsListForResourceGroupResponse>;
+  listForResourceGroup(resourceGroupName: string, options?: Models.RoleAssignmentsListForResourceGroupOptionalParams): Promise<Models.RoleAssignmentsListForResourceGroupResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param callback The callback
+   */
   listForResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResourceGroup(resourceGroupName: string, options: Models.RoleAssignmentsListForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
   listForResourceGroup(resourceGroupName: string, options?: Models.RoleAssignmentsListForResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
@@ -94,22 +100,24 @@ export class RoleAssignments {
 
   /**
    * Deletes a role assignment.
-   *
-   * @param {string} scope The scope of the role assignment to delete.
-   *
-   * @param {string} roleAssignmentName The name of the role assignment to delete.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param scope The scope of the role assignment to delete.
+   * @param roleAssignmentName The name of the role assignment to delete.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsDeleteMethodResponse>
    */
-  deleteMethod(scope: string, roleAssignmentName: string): Promise<Models.RoleAssignmentsDeleteMethodResponse>;
-  deleteMethod(scope: string, roleAssignmentName: string, options: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsDeleteMethodResponse>;
+  deleteMethod(scope: string, roleAssignmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsDeleteMethodResponse>;
+  /**
+   * @param scope The scope of the role assignment to delete.
+   * @param roleAssignmentName The name of the role assignment to delete.
+   * @param callback The callback
+   */
   deleteMethod(scope: string, roleAssignmentName: string, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  /**
+   * @param scope The scope of the role assignment to delete.
+   * @param roleAssignmentName The name of the role assignment to delete.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(scope: string, roleAssignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
   deleteMethod(scope: string, roleAssignmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
@@ -124,30 +132,42 @@ export class RoleAssignments {
 
   /**
    * Creates a role assignment.
-   *
-   * @param {string} scope The scope of the role assignment to create. The scope can be any REST
-   * resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
+   * @param scope The scope of the role assignment to create. The scope can be any REST resource
+   * instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
    * '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group,
    * and
    * '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
    * for a resource.
-   *
-   * @param {string} roleAssignmentName The name of the role assignment to create. It can be any
-   * valid GUID.
-   *
-   * @param {RoleAssignmentCreateParameters} parameters Parameters for the role assignment.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
+   * @param parameters Parameters for the role assignment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsCreateResponse>
    */
-  create(scope: string, roleAssignmentName: string, parameters: Models.RoleAssignmentCreateParameters): Promise<Models.RoleAssignmentsCreateResponse>;
-  create(scope: string, roleAssignmentName: string, parameters: Models.RoleAssignmentCreateParameters, options: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsCreateResponse>;
+  create(scope: string, roleAssignmentName: string, parameters: Models.RoleAssignmentCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsCreateResponse>;
+  /**
+   * @param scope The scope of the role assignment to create. The scope can be any REST resource
+   * instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
+   * '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group,
+   * and
+   * '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
+   * for a resource.
+   * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
+   * @param parameters Parameters for the role assignment.
+   * @param callback The callback
+   */
   create(scope: string, roleAssignmentName: string, parameters: Models.RoleAssignmentCreateParameters, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  /**
+   * @param scope The scope of the role assignment to create. The scope can be any REST resource
+   * instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
+   * '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group,
+   * and
+   * '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
+   * for a resource.
+   * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
+   * @param parameters Parameters for the role assignment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   create(scope: string, roleAssignmentName: string, parameters: Models.RoleAssignmentCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
   create(scope: string, roleAssignmentName: string, parameters: Models.RoleAssignmentCreateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsCreateResponse> {
     return this.client.sendOperationRequest(
@@ -163,22 +183,24 @@ export class RoleAssignments {
 
   /**
    * Get the specified role assignment.
-   *
-   * @param {string} scope The scope of the role assignment.
-   *
-   * @param {string} roleAssignmentName The name of the role assignment to get.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param scope The scope of the role assignment.
+   * @param roleAssignmentName The name of the role assignment to get.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsGetResponse>
    */
-  get(scope: string, roleAssignmentName: string): Promise<Models.RoleAssignmentsGetResponse>;
-  get(scope: string, roleAssignmentName: string, options: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsGetResponse>;
+  get(scope: string, roleAssignmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsGetResponse>;
+  /**
+   * @param scope The scope of the role assignment.
+   * @param roleAssignmentName The name of the role assignment to get.
+   * @param callback The callback
+   */
   get(scope: string, roleAssignmentName: string, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  /**
+   * @param scope The scope of the role assignment.
+   * @param roleAssignmentName The name of the role assignment to get.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   get(scope: string, roleAssignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
   get(scope: string, roleAssignmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
@@ -193,20 +215,21 @@ export class RoleAssignments {
 
   /**
    * Deletes a role assignment.
-   *
-   * @param {string} roleId The ID of the role assignment to delete.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param roleId The ID of the role assignment to delete.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsDeleteByIdResponse>
    */
-  deleteById(roleId: string): Promise<Models.RoleAssignmentsDeleteByIdResponse>;
-  deleteById(roleId: string, options: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsDeleteByIdResponse>;
+  deleteById(roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsDeleteByIdResponse>;
+  /**
+   * @param roleId The ID of the role assignment to delete.
+   * @param callback The callback
+   */
   deleteById(roleId: string, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  /**
+   * @param roleId The ID of the role assignment to delete.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteById(roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
   deleteById(roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsDeleteByIdResponse> {
     return this.client.sendOperationRequest(
@@ -220,22 +243,24 @@ export class RoleAssignments {
 
   /**
    * Creates a role assignment by ID.
-   *
-   * @param {string} roleId The ID of the role assignment to create.
-   *
-   * @param {RoleAssignmentCreateParameters} parameters Parameters for the role assignment.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param roleId The ID of the role assignment to create.
+   * @param parameters Parameters for the role assignment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsCreateByIdResponse>
    */
-  createById(roleId: string, parameters: Models.RoleAssignmentCreateParameters): Promise<Models.RoleAssignmentsCreateByIdResponse>;
-  createById(roleId: string, parameters: Models.RoleAssignmentCreateParameters, options: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsCreateByIdResponse>;
+  createById(roleId: string, parameters: Models.RoleAssignmentCreateParameters, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsCreateByIdResponse>;
+  /**
+   * @param roleId The ID of the role assignment to create.
+   * @param parameters Parameters for the role assignment.
+   * @param callback The callback
+   */
   createById(roleId: string, parameters: Models.RoleAssignmentCreateParameters, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  /**
+   * @param roleId The ID of the role assignment to create.
+   * @param parameters Parameters for the role assignment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createById(roleId: string, parameters: Models.RoleAssignmentCreateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
   createById(roleId: string, parameters: Models.RoleAssignmentCreateParameters, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsCreateByIdResponse> {
     return this.client.sendOperationRequest(
@@ -250,20 +275,21 @@ export class RoleAssignments {
 
   /**
    * Gets a role assignment by ID.
-   *
-   * @param {string} roleId The ID of the role assignment to get.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param roleId The ID of the role assignment to get.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsGetByIdResponse>
    */
-  getById(roleId: string): Promise<Models.RoleAssignmentsGetByIdResponse>;
-  getById(roleId: string, options: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsGetByIdResponse>;
+  getById(roleId: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsGetByIdResponse>;
+  /**
+   * @param roleId The ID of the role assignment to get.
+   * @param callback The callback
+   */
   getById(roleId: string, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
+  /**
+   * @param roleId The ID of the role assignment to get.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getById(roleId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignment>): void;
   getById(roleId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignment>): Promise<Models.RoleAssignmentsGetByIdResponse> {
     return this.client.sendOperationRequest(
@@ -277,18 +303,18 @@ export class RoleAssignments {
 
   /**
    * Gets all role assignments for the subscription.
-   *
-   * @param {RoleAssignmentsListOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsListResponse>
    */
-  list(): Promise<Models.RoleAssignmentsListResponse>;
-  list(options: Models.RoleAssignmentsListOptionalParams): Promise<Models.RoleAssignmentsListResponse>;
+  list(options?: Models.RoleAssignmentsListOptionalParams): Promise<Models.RoleAssignmentsListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: Models.RoleAssignmentsListOptionalParams, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
   list(options?: Models.RoleAssignmentsListOptionalParams, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListResponse> {
     return this.client.sendOperationRequest(
@@ -301,20 +327,21 @@ export class RoleAssignments {
 
   /**
    * Gets role assignments for a scope.
-   *
-   * @param {string} scope The scope of the role assignments.
-   *
-   * @param {RoleAssignmentsListForScopeOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param scope The scope of the role assignments.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsListForScopeResponse>
    */
-  listForScope(scope: string): Promise<Models.RoleAssignmentsListForScopeResponse>;
-  listForScope(scope: string, options: Models.RoleAssignmentsListForScopeOptionalParams): Promise<Models.RoleAssignmentsListForScopeResponse>;
+  listForScope(scope: string, options?: Models.RoleAssignmentsListForScopeOptionalParams): Promise<Models.RoleAssignmentsListForScopeResponse>;
+  /**
+   * @param scope The scope of the role assignments.
+   * @param callback The callback
+   */
   listForScope(scope: string, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
+  /**
+   * @param scope The scope of the role assignments.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForScope(scope: string, options: Models.RoleAssignmentsListForScopeOptionalParams, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
   listForScope(scope: string, options?: Models.RoleAssignmentsListForScopeOptionalParams, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListForScopeResponse> {
     return this.client.sendOperationRequest(
@@ -328,20 +355,21 @@ export class RoleAssignments {
 
   /**
    * Gets role assignments for a resource.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsListForResourceNextResponse>
    */
-  listForResourceNext(nextPageLink: string): Promise<Models.RoleAssignmentsListForResourceNextResponse>;
-  listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsListForResourceNextResponse>;
+  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsListForResourceNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listForResourceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
   listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
@@ -355,20 +383,21 @@ export class RoleAssignments {
 
   /**
    * Gets role assignments for a resource group.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsListForResourceGroupNextResponse>
    */
-  listForResourceGroupNext(nextPageLink: string): Promise<Models.RoleAssignmentsListForResourceGroupNextResponse>;
-  listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsListForResourceGroupNextResponse>;
+  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsListForResourceGroupNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listForResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
   listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
@@ -382,20 +411,21 @@ export class RoleAssignments {
 
   /**
    * Gets all role assignments for the subscription.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsListNextResponse>
    */
-  listNext(nextPageLink: string): Promise<Models.RoleAssignmentsListNextResponse>;
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
@@ -409,20 +439,21 @@ export class RoleAssignments {
 
   /**
    * Gets role assignments for a scope.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.RoleAssignmentsListForScopeNextResponse>
    */
-  listForScopeNext(nextPageLink: string): Promise<Models.RoleAssignmentsListForScopeNextResponse>;
-  listForScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsListForScopeNextResponse>;
+  listForScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.RoleAssignmentsListForScopeNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listForScopeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForScopeNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RoleAssignmentListResult>): void;
   listForScopeNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.RoleAssignmentListResult>): Promise<Models.RoleAssignmentsListForScopeNextResponse> {
     return this.client.sendOperationRequest(
@@ -433,7 +464,6 @@ export class RoleAssignments {
       listForScopeNextOperationSpec,
       callback) as Promise<Models.RoleAssignmentsListForScopeNextResponse>;
   }
-
 }
 
 // Operation Specifications

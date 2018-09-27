@@ -28,20 +28,21 @@ export class ProviderOperationsMetadataOperations {
 
   /**
    * Gets provider operations metadata for the specified resource provider.
-   *
-   * @param {string} resourceProviderNamespace The namespace of the resource provider.
-   *
-   * @param {ProviderOperationsMetadataGetOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ProviderOperationsMetadataGetResponse>
    */
-  get(resourceProviderNamespace: string): Promise<Models.ProviderOperationsMetadataGetResponse>;
-  get(resourceProviderNamespace: string, options: Models.ProviderOperationsMetadataGetOptionalParams): Promise<Models.ProviderOperationsMetadataGetResponse>;
+  get(resourceProviderNamespace: string, options?: Models.ProviderOperationsMetadataGetOptionalParams): Promise<Models.ProviderOperationsMetadataGetResponse>;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param callback The callback
+   */
   get(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.ProviderOperationsMetadata>): void;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   get(resourceProviderNamespace: string, options: Models.ProviderOperationsMetadataGetOptionalParams, callback: msRest.ServiceCallback<Models.ProviderOperationsMetadata>): void;
   get(resourceProviderNamespace: string, options?: Models.ProviderOperationsMetadataGetOptionalParams, callback?: msRest.ServiceCallback<Models.ProviderOperationsMetadata>): Promise<Models.ProviderOperationsMetadataGetResponse> {
     return this.client.sendOperationRequest(
@@ -55,18 +56,18 @@ export class ProviderOperationsMetadataOperations {
 
   /**
    * Gets provider operations metadata for all resource providers.
-   *
-   * @param {ProviderOperationsMetadataListOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ProviderOperationsMetadataListResponse>
    */
-  list(): Promise<Models.ProviderOperationsMetadataListResponse>;
-  list(options: Models.ProviderOperationsMetadataListOptionalParams): Promise<Models.ProviderOperationsMetadataListResponse>;
+  list(options?: Models.ProviderOperationsMetadataListOptionalParams): Promise<Models.ProviderOperationsMetadataListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: Models.ProviderOperationsMetadataListOptionalParams, callback: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): void;
   list(options?: Models.ProviderOperationsMetadataListOptionalParams, callback?: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): Promise<Models.ProviderOperationsMetadataListResponse> {
     return this.client.sendOperationRequest(
@@ -79,20 +80,21 @@ export class ProviderOperationsMetadataOperations {
 
   /**
    * Gets provider operations metadata for all resource providers.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ProviderOperationsMetadataListNextResponse>
    */
-  listNext(nextPageLink: string): Promise<Models.ProviderOperationsMetadataListNextResponse>;
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.ProviderOperationsMetadataListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ProviderOperationsMetadataListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): void;
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ProviderOperationsMetadataListResult>): Promise<Models.ProviderOperationsMetadataListNextResponse> {
     return this.client.sendOperationRequest(
@@ -103,7 +105,6 @@ export class ProviderOperationsMetadataOperations {
       listNextOperationSpec,
       callback) as Promise<Models.ProviderOperationsMetadataListNextResponse>;
   }
-
 }
 
 // Operation Specifications

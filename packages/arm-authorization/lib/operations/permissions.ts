@@ -28,20 +28,21 @@ export class Permissions {
 
   /**
    * Gets all permissions the caller has for a resource group.
-   *
-   * @param {string} resourceGroupName The name of the resource group.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PermissionsListForResourceGroupResponse>
    */
-  listForResourceGroup(resourceGroupName: string): Promise<Models.PermissionsListForResourceGroupResponse>;
-  listForResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase): Promise<Models.PermissionsListForResourceGroupResponse>;
+  listForResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsListForResourceGroupResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param callback The callback
+   */
   listForResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
   listForResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
@@ -55,28 +56,33 @@ export class Permissions {
 
   /**
    * Gets all permissions the caller has for a resource.
-   *
-   * @param {string} resourceGroupName The name of the resource group.
-   *
-   * @param {string} resourceProviderNamespace The namespace of the resource provider.
-   *
-   * @param {string} parentResourcePath The parent resource identity.
-   *
-   * @param {string} resourceType The resource type of the resource.
-   *
-   * @param {string} resourceName The name of the resource to get the permissions for.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param resourceName The name of the resource to get the permissions for.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PermissionsListForResourceResponse>
    */
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string): Promise<Models.PermissionsListForResourceResponse>;
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: msRest.RequestOptionsBase): Promise<Models.PermissionsListForResourceResponse>;
+  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsListForResourceResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param resourceName The name of the resource to get the permissions for.
+   * @param callback The callback
+   */
   listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param resourceName The name of the resource to get the permissions for.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
   listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceResponse> {
     return this.client.sendOperationRequest(
@@ -94,20 +100,21 @@ export class Permissions {
 
   /**
    * Gets all permissions the caller has for a resource group.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PermissionsListForResourceGroupNextResponse>
    */
-  listForResourceGroupNext(nextPageLink: string): Promise<Models.PermissionsListForResourceGroupNextResponse>;
-  listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.PermissionsListForResourceGroupNextResponse>;
+  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsListForResourceGroupNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listForResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
   listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
@@ -121,20 +128,21 @@ export class Permissions {
 
   /**
    * Gets all permissions the caller has for a resource.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PermissionsListForResourceNextResponse>
    */
-  listForResourceNext(nextPageLink: string): Promise<Models.PermissionsListForResourceNextResponse>;
-  listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.PermissionsListForResourceNextResponse>;
+  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PermissionsListForResourceNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listForResourceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PermissionGetResult>): void;
   listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PermissionGetResult>): Promise<Models.PermissionsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
@@ -145,7 +153,6 @@ export class Permissions {
       listForResourceNextOperationSpec,
       callback) as Promise<Models.PermissionsListForResourceNextResponse>;
   }
-
 }
 
 // Operation Specifications

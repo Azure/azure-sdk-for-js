@@ -38,11 +38,44 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-09-01-preview',
+    defaultValue: '2018-01-01-preview',
     type: {
       name: "String"
     }
   }
+};
+export const apiVersion2: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2018-07-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const denyAssignmentId0: msRest.OperationURLParameter = {
+  parameterPath: "denyAssignmentId",
+  mapper: {
+    required: true,
+    serializedName: "denyAssignmentId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const denyAssignmentId1: msRest.OperationURLParameter = {
+  parameterPath: "denyAssignmentId",
+  mapper: {
+    required: true,
+    serializedName: "denyAssignmentId",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 export const expand: msRest.OperationQueryParameter = {
   parameterPath: [

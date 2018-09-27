@@ -8,9 +8,11 @@
  * regenerated.
  */
 
-export * from "./classicAdministrators";
-export * from "./providerOperationsMetadataOperations";
-export * from "./permissions";
-export * from "./roleAssignments";
-export * from "./roleDefinitions";
-export * from "./denyAssignments";
+export {
+  DenyAssignmentListResult,
+  DenyAssignment,
+  DenyAssignmentPermission,
+  Principal,
+  CloudError
+} from "../models/mappers";
+

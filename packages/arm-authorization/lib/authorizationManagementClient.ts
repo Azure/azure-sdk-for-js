@@ -9,7 +9,6 @@
  */
 
 import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -23,41 +22,22 @@ class AuthorizationManagementClient extends AuthorizationManagementClientContext
   permissions: operations.Permissions;
   roleAssignments: operations.RoleAssignments;
   roleDefinitions: operations.RoleDefinitions;
+  denyAssignments: operations.DenyAssignments;
 
   /**
-   * @class
    * Initializes a new instance of the AuthorizationManagementClient class.
-   * @constructor
-   *
-   * @param {msRest.ServiceClientCredentials} credentials - Credentials needed for the client to connect to Azure.
-   *
-   * @param {string} subscriptionId - The ID of the target subscription.
-   *
-   * @param {string} [baseUri] - The base URI of the service.
-   *
-   * @param {object} [options] - The parameter options
-   *
-   * @param {Array} [options.filters] - Filters to be added to the request pipeline
-   *
-   * @param {object} [options.requestOptions] - The request options. Detailed info can be found at
-   * {@link https://github.github.io/fetch/#Request Options doc}
-   *
-   * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
-   *
-   * @param {string} [options.acceptLanguage] - The preferred language for the response.
-   *
-   * @param {number} [options.longRunningOperationRetryTimeout] - The retry timeout in seconds for Long Running Operations. Default value is 30.
-   *
-   * @param {boolean} [options.generateClientRequestId] - Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
-   *
+   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param subscriptionId The ID of the target subscription.
+   * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, baseUri?: string, options?: msRestAzure.AzureServiceClientOptions) {
-    super(credentials, subscriptionId, baseUri, options);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AuthorizationManagementClientOptions) {
+    super(credentials, subscriptionId, options);
     this.classicAdministrators = new operations.ClassicAdministrators(this);
     this.providerOperationsMetadata = new operations.ProviderOperationsMetadataOperations(this);
     this.permissions = new operations.Permissions(this);
     this.roleAssignments = new operations.RoleAssignments(this);
     this.roleDefinitions = new operations.RoleDefinitions(this);
+    this.denyAssignments = new operations.DenyAssignments(this);
   }
 }
 
