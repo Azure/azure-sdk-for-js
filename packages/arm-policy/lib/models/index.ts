@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "ms-rest-azure-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
 import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
@@ -338,6 +338,18 @@ export interface PolicyAssignmentsListOptionalParams extends msRest.RequestOptio
    * If $filter is not provided, no filtering is performed.
    */
   filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PolicyClientOptions.
+ * @extends AzureServiceClientOptions
+ */
+export interface PolicyClientOptions extends AzureServiceClientOptions {
+  /**
+   * @member {string} [baseUri]
+   */
+  baseUri?: string;
 }
 
 

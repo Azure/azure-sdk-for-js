@@ -28,18 +28,18 @@ export class Tenants {
 
   /**
    * Gets the tenants for your account.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TenantsListResponse>
    */
-  list(): Promise<Models.TenantsListResponse>;
-  list(options: msRest.RequestOptionsBase): Promise<Models.TenantsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.TenantsListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.TenantListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantListResult>): void;
   list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TenantListResult>): Promise<Models.TenantsListResponse> {
     return this.client.sendOperationRequest(
@@ -52,20 +52,21 @@ export class Tenants {
 
   /**
    * Gets the tenants for your account.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TenantsListNextResponse>
    */
-  listNext(nextPageLink: string): Promise<Models.TenantsListNextResponse>;
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.TenantsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TenantListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TenantListResult>): void;
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TenantListResult>): Promise<Models.TenantsListNextResponse> {
     return this.client.sendOperationRequest(
@@ -76,7 +77,6 @@ export class Tenants {
       listNextOperationSpec,
       callback) as Promise<Models.TenantsListNextResponse>;
   }
-
 }
 
 // Operation Specifications

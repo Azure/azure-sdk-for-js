@@ -29,22 +29,24 @@ export class Appliances {
 
   /**
    * Gets the appliance.
-   *
-   * @param {string} resourceGroupName The name of the resource group. The name is case insensitive.
-   *
-   * @param {string} applianceName The name of the appliance.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applianceName The name of the appliance.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppliancesGetResponse>
    */
-  get(resourceGroupName: string, applianceName: string): Promise<Models.AppliancesGetResponse>;
-  get(resourceGroupName: string, applianceName: string, options: msRest.RequestOptionsBase): Promise<Models.AppliancesGetResponse>;
+  get(resourceGroupName: string, applianceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesGetResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applianceName The name of the appliance.
+   * @param callback The callback
+   */
   get(resourceGroupName: string, applianceName: string, callback: msRest.ServiceCallback<Models.Appliance>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applianceName The name of the appliance.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   get(resourceGroupName: string, applianceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Appliance>): void;
   get(resourceGroupName: string, applianceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesGetResponse> {
     return this.client.sendOperationRequest(
@@ -57,69 +59,52 @@ export class Appliances {
       callback) as Promise<Models.AppliancesGetResponse>;
   }
 
-
   /**
    * Deletes the appliance.
-   *
-   * @param {string} resourceGroupName The name of the resource group. The name is case insensitive.
-   *
-   * @param {string} applianceName The name of the appliance.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applianceName The name of the appliance.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
    */
   deleteMethod(resourceGroupName: string, applianceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName, applianceName, options)
+    return this.beginDeleteMethod(resourceGroupName,applianceName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
-
   /**
    * Creates a new appliance.
-   *
-   * @param {string} resourceGroupName The name of the resource group. The name is case insensitive.
-   *
-   * @param {string} applianceName The name of the appliance.
-   *
-   * @param {Appliance} parameters Parameters supplied to the create or update an appliance.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applianceName The name of the appliance.
+   * @param parameters Parameters supplied to the create or update an appliance.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppliancesCreateOrUpdateResponse>
    */
   createOrUpdate(resourceGroupName: string, applianceName: string, parameters: Models.Appliance, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName, applianceName, parameters, options)
+    return this.beginCreateOrUpdate(resourceGroupName,applianceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AppliancesCreateOrUpdateResponse>;
   }
 
   /**
    * Updates an existing appliance. The only value that can be updated via PATCH currently is the
    * tags.
-   *
-   * @param {string} resourceGroupName The name of the resource group. The name is case insensitive.
-   *
-   * @param {string} applianceName The name of the appliance.
-   *
-   * @param {AppliancesUpdateOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applianceName The name of the appliance.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppliancesUpdateResponse>
    */
-  update(resourceGroupName: string, applianceName: string): Promise<Models.AppliancesUpdateResponse>;
-  update(resourceGroupName: string, applianceName: string, options: Models.AppliancesUpdateOptionalParams): Promise<Models.AppliancesUpdateResponse>;
+  update(resourceGroupName: string, applianceName: string, options?: Models.AppliancesUpdateOptionalParams): Promise<Models.AppliancesUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applianceName The name of the appliance.
+   * @param callback The callback
+   */
   update(resourceGroupName: string, applianceName: string, callback: msRest.ServiceCallback<Models.Appliance>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applianceName The name of the appliance.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   update(resourceGroupName: string, applianceName: string, options: Models.AppliancesUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Appliance>): void;
   update(resourceGroupName: string, applianceName: string, options?: Models.AppliancesUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -134,20 +119,21 @@ export class Appliances {
 
   /**
    * Gets all the appliances within a resource group.
-   *
-   * @param {string} resourceGroupName The name of the resource group. The name is case insensitive.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppliancesListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string): Promise<Models.AppliancesListByResourceGroupResponse>;
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase): Promise<Models.AppliancesListByResourceGroupResponse>;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesListByResourceGroupResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param callback The callback
+   */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
   listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
@@ -161,18 +147,18 @@ export class Appliances {
 
   /**
    * Gets all the appliances within a subscription.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppliancesListBySubscriptionResponse>
    */
-  listBySubscription(): Promise<Models.AppliancesListBySubscriptionResponse>;
-  listBySubscription(options: msRest.RequestOptionsBase): Promise<Models.AppliancesListBySubscriptionResponse>;
+  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.AppliancesListBySubscriptionResponse>;
+  /**
+   * @param callback The callback
+   */
   listBySubscription(callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
   listBySubscription(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
@@ -185,22 +171,27 @@ export class Appliances {
 
   /**
    * Gets the appliance.
-   *
-   * @param {string} applianceId The fully qualified ID of the appliance, including the appliance
-   * name and the appliance resource type. Use the format,
+   * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
+   * appliance resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppliancesGetByIdResponse>
    */
-  getById(applianceId: string): Promise<Models.AppliancesGetByIdResponse>;
-  getById(applianceId: string, options: msRest.RequestOptionsBase): Promise<Models.AppliancesGetByIdResponse>;
+  getById(applianceId: string, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesGetByIdResponse>;
+  /**
+   * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
+   * appliance resource type. Use the format,
+   * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
+   * @param callback The callback
+   */
   getById(applianceId: string, callback: msRest.ServiceCallback<Models.Appliance>): void;
+  /**
+   * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
+   * appliance resource type. Use the format,
+   * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getById(applianceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Appliance>): void;
   getById(applianceId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesGetByIdResponse> {
     return this.client.sendOperationRequest(
@@ -212,69 +203,57 @@ export class Appliances {
       callback) as Promise<Models.AppliancesGetByIdResponse>;
   }
 
-
   /**
    * Deletes the appliance.
-   *
-   * @param {string} applianceId The fully qualified ID of the appliance, including the appliance
-   * name and the appliance resource type. Use the format,
+   * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
+   * appliance resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
    */
   deleteById(applianceId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteById(applianceId, options)
+    return this.beginDeleteById(applianceId,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
-
   /**
    * Creates a new appliance.
-   *
-   * @param {string} applianceId The fully qualified ID of the appliance, including the appliance
-   * name and the appliance resource type. Use the format,
+   * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
+   * appliance resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
-   *
-   * @param {Appliance} parameters Parameters supplied to the create or update an appliance.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param parameters Parameters supplied to the create or update an appliance.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppliancesCreateOrUpdateByIdResponse>
    */
   createOrUpdateById(applianceId: string, parameters: Models.Appliance, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesCreateOrUpdateByIdResponse> {
-    return this.beginCreateOrUpdateById(applianceId, parameters, options)
+    return this.beginCreateOrUpdateById(applianceId,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AppliancesCreateOrUpdateByIdResponse>;
   }
 
   /**
    * Updates an existing appliance. The only value that can be updated via PATCH currently is the
    * tags.
-   *
-   * @param {string} applianceId The fully qualified ID of the appliance, including the appliance
-   * name and the appliance resource type. Use the format,
+   * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
+   * appliance resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
-   *
-   * @param {AppliancesUpdateByIdOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppliancesUpdateByIdResponse>
    */
-  updateById(applianceId: string): Promise<Models.AppliancesUpdateByIdResponse>;
-  updateById(applianceId: string, options: Models.AppliancesUpdateByIdOptionalParams): Promise<Models.AppliancesUpdateByIdResponse>;
+  updateById(applianceId: string, options?: Models.AppliancesUpdateByIdOptionalParams): Promise<Models.AppliancesUpdateByIdResponse>;
+  /**
+   * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
+   * appliance resource type. Use the format,
+   * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
+   * @param callback The callback
+   */
   updateById(applianceId: string, callback: msRest.ServiceCallback<Models.Appliance>): void;
+  /**
+   * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
+   * appliance resource type. Use the format,
+   * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   updateById(applianceId: string, options: Models.AppliancesUpdateByIdOptionalParams, callback: msRest.ServiceCallback<Models.Appliance>): void;
   updateById(applianceId: string, options?: Models.AppliancesUpdateByIdOptionalParams, callback?: msRest.ServiceCallback<Models.Appliance>): Promise<Models.AppliancesUpdateByIdResponse> {
     return this.client.sendOperationRequest(
@@ -288,18 +267,10 @@ export class Appliances {
 
   /**
    * Deletes the appliance.
-   *
-   * @param {string} resourceGroupName The name of the resource group. The name is case insensitive.
-   *
-   * @param {string} applianceName The name of the appliance.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applianceName The name of the appliance.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
    */
   beginDeleteMethod(resourceGroupName: string, applianceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
@@ -314,20 +285,11 @@ export class Appliances {
 
   /**
    * Creates a new appliance.
-   *
-   * @param {string} resourceGroupName The name of the resource group. The name is case insensitive.
-   *
-   * @param {string} applianceName The name of the appliance.
-   *
-   * @param {Appliance} parameters Parameters supplied to the create or update an appliance.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applianceName The name of the appliance.
+   * @param parameters Parameters supplied to the create or update an appliance.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
    */
   beginCreateOrUpdate(resourceGroupName: string, applianceName: string, parameters: Models.Appliance, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
@@ -343,18 +305,11 @@ export class Appliances {
 
   /**
    * Deletes the appliance.
-   *
-   * @param {string} applianceId The fully qualified ID of the appliance, including the appliance
-   * name and the appliance resource type. Use the format,
+   * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
+   * appliance resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
    */
   beginDeleteById(applianceId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
@@ -368,20 +323,12 @@ export class Appliances {
 
   /**
    * Creates a new appliance.
-   *
-   * @param {string} applianceId The fully qualified ID of the appliance, including the appliance
-   * name and the appliance resource type. Use the format,
+   * @param applianceId The fully qualified ID of the appliance, including the appliance name and the
+   * appliance resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/appliances/{appliance-name}
-   *
-   * @param {Appliance} parameters Parameters supplied to the create or update an appliance.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param parameters Parameters supplied to the create or update an appliance.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
    */
   beginCreateOrUpdateById(applianceId: string, parameters: Models.Appliance, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
@@ -396,20 +343,21 @@ export class Appliances {
 
   /**
    * Gets all the appliances within a resource group.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppliancesListByResourceGroupNextResponse>
    */
-  listByResourceGroupNext(nextPageLink: string): Promise<Models.AppliancesListByResourceGroupNextResponse>;
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.AppliancesListByResourceGroupNextResponse>;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesListByResourceGroupNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
   listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
@@ -423,20 +371,21 @@ export class Appliances {
 
   /**
    * Gets all the appliances within a subscription.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppliancesListBySubscriptionNextResponse>
    */
-  listBySubscriptionNext(nextPageLink: string): Promise<Models.AppliancesListBySubscriptionNextResponse>;
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.AppliancesListBySubscriptionNextResponse>;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppliancesListBySubscriptionNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplianceListResult>): void;
   listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplianceListResult>): Promise<Models.AppliancesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
@@ -447,7 +396,6 @@ export class Appliances {
       listBySubscriptionNextOperationSpec,
       callback) as Promise<Models.AppliancesListBySubscriptionNextResponse>;
   }
-
 }
 
 // Operation Specifications

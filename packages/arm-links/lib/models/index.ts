@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "ms-rest-azure-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
 import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
@@ -73,10 +73,60 @@ export interface ResourceLink extends BaseResource {
    */
   readonly name?: string;
   /**
+   * @member {any} [type] The resource link object.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly type?: any;
+  /**
    * @member {ResourceLinkProperties} [properties] Properties for resource
    * link.
    */
   properties?: ResourceLinkProperties;
+}
+
+/**
+ * @interface
+ * An interface representing OperationDisplay.
+ * The object that represents the operation.
+ *
+ */
+export interface OperationDisplay {
+  /**
+   * @member {string} [provider] Service provider: Microsoft.Resources
+   */
+  provider?: string;
+  /**
+   * @member {string} [resource] Resource on which the operation is performed:
+   * Profile, endpoint, etc.
+   */
+  resource?: string;
+  /**
+   * @member {string} [operation] Operation type: Read, write, delete, etc.
+   */
+  operation?: string;
+  /**
+   * @member {string} [description] Description of the operation.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Operation.
+ * Microsoft.Resources operation
+ *
+ */
+export interface Operation {
+  /**
+   * @member {string} [name] Operation name: {provider}/{resource}/{operation}
+   */
+  name?: string;
+  /**
+   * @member {OperationDisplay} [display] The object that represents the
+   * operation.
+   */
+  display?: OperationDisplay;
 }
 
 /**
@@ -111,6 +161,34 @@ export interface ResourceLinksListAtSourceScopeOptionalParams extends msRest.Req
   filter?: string;
 }
 
+/**
+ * @interface
+ * An interface representing ManagementLinkClientOptions.
+ * @extends AzureServiceClientOptions
+ */
+export interface ManagementLinkClientOptions extends AzureServiceClientOptions {
+  /**
+   * @member {string} [baseUri]
+   */
+  baseUri?: string;
+}
+
+
+/**
+ * @interface
+ * An interface representing the OperationListResult.
+ * Result of the request to list Microsoft.Resources operations. It contains a
+ * list of operations and a URL link to get the next set of results.
+ *
+ * @extends Array<Operation>
+ */
+export interface OperationListResult extends Array<Operation> {
+  /**
+   * @member {string} [nextLink] URL to get the next set of operation list
+   * results if there are any.
+   */
+  nextLink?: string;
+}
 
 /**
  * @interface
@@ -138,6 +216,44 @@ export interface ResourceLinkResult extends Array<ResourceLink> {
 export enum Filter {
   AtScope = 'atScope()',
 }
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OperationsListResponse = OperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type OperationsListNextResponse = OperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
+};
 
 /**
  * Contains response data for the createOrUpdate operation.

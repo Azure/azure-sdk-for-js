@@ -16,7 +16,7 @@ npm install arm-subscriptions
 
 ## How to use
 
-### nodejs - Authentication, client creation and listLocations subscriptions as an example written in TypeScript.
+### nodejs - Authentication, client creation and list operations as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
@@ -27,8 +27,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new SubscriptionClient(creds, subscriptionId);
-  const subscriptionId = "testsubscriptionId";
-  client.subscriptions.listLocations(subscriptionId).then((result) => {
+  client.operations.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -37,7 +36,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and listLocations subscriptions as an example written in javascript.
+### browser - Authentication, client creation and list operations as an example written in javascript.
 
 - index.html
 ```html
@@ -53,8 +52,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
       const token = "<access_token>";
       const creds = new msRest.TokenCredentials(token);
       const client = new SubscriptionClient(creds, undefined, subscriptionId);
-      const subscriptionId = "testsubscriptionId";
-      client.subscriptions.listLocations(subscriptionId).then((result) => {
+      client.operations.list().then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {

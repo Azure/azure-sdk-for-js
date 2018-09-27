@@ -9,7 +9,6 @@
  */
 
 import * as msRest from "ms-rest-js";
-import * as msRestAzure from "ms-rest-azure-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -23,53 +22,31 @@ class ManagedApplicationClient extends ManagedApplicationClientContext {
   applianceDefinitions: operations.ApplianceDefinitions;
 
   /**
-   * @class
    * Initializes a new instance of the ManagedApplicationClient class.
-   * @constructor
-   *
-   * @param {msRest.ServiceClientCredentials} credentials - Credentials needed for the client to connect to Azure.
-   *
-   * @param {string} subscriptionId - The ID of the target subscription.
-   *
-   * @param {string} [baseUri] - The base URI of the service.
-   *
-   * @param {object} [options] - The parameter options
-   *
-   * @param {Array} [options.filters] - Filters to be added to the request pipeline
-   *
-   * @param {object} [options.requestOptions] - The request options. Detailed info can be found at
-   * {@link https://github.github.io/fetch/#Request Options doc}
-   *
-   * @param {boolean} [options.noRetryPolicy] - If set to true, turn off default retry policy
-   *
-   * @param {string} [options.acceptLanguage] - The preferred language for the response.
-   *
-   * @param {number} [options.longRunningOperationRetryTimeout] - The retry timeout in seconds for Long Running Operations. Default value is 30.
-   *
-   * @param {boolean} [options.generateClientRequestId] - Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
-   *
+   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param subscriptionId The ID of the target subscription.
+   * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, baseUri?: string, options?: msRestAzure.AzureServiceClientOptions) {
-    super(credentials, subscriptionId, baseUri, options);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ManagedApplicationClientOptions) {
+    super(credentials, subscriptionId, options);
     this.appliances = new operations.Appliances(this);
     this.applianceDefinitions = new operations.ApplianceDefinitions(this);
   }
-  // methods on the client.
 
   /**
    * Lists all of the available Microsoft.Solutions REST API operations.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ListOperationsResponse>
    */
-  listOperations(): Promise<Models.ListOperationsResponse>;
-  listOperations(options: msRest.RequestOptionsBase): Promise<Models.ListOperationsResponse>;
+  listOperations(options?: msRest.RequestOptionsBase): Promise<Models.ListOperationsResponse>;
+  /**
+   * @param callback The callback
+   */
   listOperations(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
   listOperations(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.ListOperationsResponse> {
     return this.sendOperationRequest(
@@ -79,24 +56,24 @@ class ManagedApplicationClient extends ManagedApplicationClientContext {
       listOperationsOperationSpec,
       callback) as Promise<Models.ListOperationsResponse>;
   }
-  // methods on the client.
 
   /**
    * Lists all of the available Microsoft.Solutions REST API operations.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ListOperationsNextResponse>
    */
-  listOperationsNext(nextPageLink: string): Promise<Models.ListOperationsNextResponse>;
-  listOperationsNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.ListOperationsNextResponse>;
+  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ListOperationsNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listOperationsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listOperationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
   listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.ListOperationsNextResponse> {
     return this.sendOperationRequest(

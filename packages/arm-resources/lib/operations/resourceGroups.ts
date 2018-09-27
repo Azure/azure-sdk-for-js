@@ -29,21 +29,21 @@ export class ResourceGroups {
 
   /**
    * Checks whether a resource group exists.
-   *
-   * @param {string} resourceGroupName The name of the resource group to check. The name is case
-   * insensitive.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group to check. The name is case insensitive.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ResourceGroupsCheckExistenceResponse>
    */
-  checkExistence(resourceGroupName: string): Promise<Models.ResourceGroupsCheckExistenceResponse>;
-  checkExistence(resourceGroupName: string, options: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsCheckExistenceResponse>;
+  checkExistence(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsCheckExistenceResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group to check. The name is case insensitive.
+   * @param callback The callback
+   */
   checkExistence(resourceGroupName: string, callback: msRest.ServiceCallback<boolean>): void;
+  /**
+   * @param resourceGroupName The name of the resource group to check. The name is case insensitive.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   checkExistence(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
   checkExistence(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourceGroupsCheckExistenceResponse> {
     return this.client.sendOperationRequest(
@@ -57,22 +57,24 @@ export class ResourceGroups {
 
   /**
    * Creates or updates a resource group.
-   *
-   * @param {string} resourceGroupName The name of the resource group to create or update.
-   *
-   * @param {ResourceGroup} parameters Parameters supplied to the create or update a resource group.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group to create or update.
+   * @param parameters Parameters supplied to the create or update a resource group.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ResourceGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup): Promise<Models.ResourceGroupsCreateOrUpdateResponse>;
-  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsCreateOrUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group to create or update.
+   * @param parameters Parameters supplied to the create or update a resource group.
+   * @param callback The callback
+   */
   createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
+  /**
+   * @param resourceGroupName The name of the resource group to create or update.
+   * @param parameters Parameters supplied to the create or update a resource group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
   createOrUpdate(resourceGroupName: string, parameters: Models.ResourceGroup, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -85,46 +87,36 @@ export class ResourceGroups {
       callback) as Promise<Models.ResourceGroupsCreateOrUpdateResponse>;
   }
 
-
   /**
-   * @summary Deletes a resource group.
-   *
    * When you delete a resource group, all of its resources are also deleted. Deleting a resource
    * group deletes all of its template deployments and currently stored operations.
-   *
-   * @param {string} resourceGroupName The name of the resource group to delete. The name is case
-   * insensitive.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Deletes a resource group.
+   * @param resourceGroupName The name of the resource group to delete. The name is case insensitive.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
    */
   deleteMethod(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName, options)
+    return this.beginDeleteMethod(resourceGroupName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
    * Gets a resource group.
-   *
-   * @param {string} resourceGroupName The name of the resource group to get. The name is case
-   * insensitive.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ResourceGroupsGetResponse>
    */
-  get(resourceGroupName: string): Promise<Models.ResourceGroupsGetResponse>;
-  get(resourceGroupName: string, options: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsGetResponse>;
+  get(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsGetResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
+   * @param callback The callback
+   */
   get(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
+  /**
+   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   get(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
   get(resourceGroupName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsGetResponse> {
     return this.client.sendOperationRequest(
@@ -137,28 +129,28 @@ export class ResourceGroups {
   }
 
   /**
-   * @summary Updates a resource group.
-   *
    * Resource groups can be updated through a simple PATCH operation to a group address. The format
    * of the request is the same as that for creating a resource group. If a field is unspecified, the
    * current value is retained.
-   *
-   * @param {string} resourceGroupName The name of the resource group to update. The name is case
-   * insensitive.
-   *
-   * @param {ResourceGroupPatchable} parameters Parameters supplied to update a resource group.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Updates a resource group.
+   * @param resourceGroupName The name of the resource group to update. The name is case insensitive.
+   * @param parameters Parameters supplied to update a resource group.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ResourceGroupsUpdateResponse>
    */
-  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable): Promise<Models.ResourceGroupsUpdateResponse>;
-  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsUpdateResponse>;
+  update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group to update. The name is case insensitive.
+   * @param parameters Parameters supplied to update a resource group.
+   * @param callback The callback
+   */
   update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
+  /**
+   * @param resourceGroupName The name of the resource group to update. The name is case insensitive.
+   * @param parameters Parameters supplied to update a resource group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroup>): void;
   update(resourceGroupName: string, parameters: Models.ResourceGroupPatchable, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceGroup>): Promise<Models.ResourceGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -173,22 +165,24 @@ export class ResourceGroups {
 
   /**
    * Captures the specified resource group as a template.
-   *
-   * @param {string} resourceGroupName The name of the resource group to export as a template.
-   *
-   * @param {ExportTemplateRequest} parameters Parameters for exporting the template.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group to export as a template.
+   * @param parameters Parameters for exporting the template.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ResourceGroupsExportTemplateResponse>
    */
-  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest): Promise<Models.ResourceGroupsExportTemplateResponse>;
-  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsExportTemplateResponse>;
+  exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsExportTemplateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group to export as a template.
+   * @param parameters Parameters for exporting the template.
+   * @param callback The callback
+   */
   exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, callback: msRest.ServiceCallback<Models.ResourceGroupExportResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group to export as a template.
+   * @param parameters Parameters for exporting the template.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroupExportResult>): void;
   exportTemplate(resourceGroupName: string, parameters: Models.ExportTemplateRequest, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceGroupExportResult>): Promise<Models.ResourceGroupsExportTemplateResponse> {
     return this.client.sendOperationRequest(
@@ -203,18 +197,18 @@ export class ResourceGroups {
 
   /**
    * Gets all the resource groups for a subscription.
-   *
-   * @param {ResourceGroupsListOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ResourceGroupsListResponse>
    */
-  list(): Promise<Models.ResourceGroupsListResponse>;
-  list(options: Models.ResourceGroupsListOptionalParams): Promise<Models.ResourceGroupsListResponse>;
+  list(options?: Models.ResourceGroupsListOptionalParams): Promise<Models.ResourceGroupsListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.ResourceGroupListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: Models.ResourceGroupsListOptionalParams, callback: msRest.ServiceCallback<Models.ResourceGroupListResult>): void;
   list(options?: Models.ResourceGroupsListOptionalParams, callback?: msRest.ServiceCallback<Models.ResourceGroupListResult>): Promise<Models.ResourceGroupsListResponse> {
     return this.client.sendOperationRequest(
@@ -226,21 +220,12 @@ export class ResourceGroups {
   }
 
   /**
-   * @summary Deletes a resource group.
-   *
    * When you delete a resource group, all of its resources are also deleted. Deleting a resource
    * group deletes all of its template deployments and currently stored operations.
-   *
-   * @param {string} resourceGroupName The name of the resource group to delete. The name is case
-   * insensitive.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Deletes a resource group.
+   * @param resourceGroupName The name of the resource group to delete. The name is case insensitive.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
    */
   beginDeleteMethod(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
@@ -254,20 +239,21 @@ export class ResourceGroups {
 
   /**
    * Gets all the resource groups for a subscription.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ResourceGroupsListNextResponse>
    */
-  listNext(nextPageLink: string): Promise<Models.ResourceGroupsListNextResponse>;
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGroupsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceGroupListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGroupListResult>): void;
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ResourceGroupListResult>): Promise<Models.ResourceGroupsListNextResponse> {
     return this.client.sendOperationRequest(
@@ -278,7 +264,6 @@ export class ResourceGroups {
       listNextOperationSpec,
       callback) as Promise<Models.ResourceGroupsListNextResponse>;
   }
-
 }
 
 // Operation Specifications

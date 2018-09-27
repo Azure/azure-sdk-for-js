@@ -8,5 +8,10 @@
  * regenerated.
  */
 
-export * from "./operations";
-export * from "./resourceLinks";
+export {
+  OperationListResult,
+  Operation,
+  OperationDisplay,
+  CloudError
+} from "../models/mappers";
+
