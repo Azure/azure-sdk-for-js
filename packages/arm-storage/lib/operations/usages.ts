@@ -29,20 +29,21 @@ export class Usages {
   /**
    * Gets the current usage count and the limit for the resources of the location under the
    * subscription.
-   *
-   * @param {string} location The location of the Azure Storage resource.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param location The location of the Azure Storage resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.UsagesListByLocationResponse>
    */
-  listByLocation(location: string): Promise<Models.UsagesListByLocationResponse>;
-  listByLocation(location: string, options: msRest.RequestOptionsBase): Promise<Models.UsagesListByLocationResponse>;
+  listByLocation(location: string, options?: msRest.RequestOptionsBase): Promise<Models.UsagesListByLocationResponse>;
+  /**
+   * @param location The location of the Azure Storage resource.
+   * @param callback The callback
+   */
   listByLocation(location: string, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
+  /**
+   * @param location The location of the Azure Storage resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listByLocation(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
   listByLocation(location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageListResult>): Promise<Models.UsagesListByLocationResponse> {
     return this.client.sendOperationRequest(
@@ -53,7 +54,6 @@ export class Usages {
       listByLocationOperationSpec,
       callback) as Promise<Models.UsagesListByLocationResponse>;
   }
-
 }
 
 // Operation Specifications

@@ -28,25 +28,33 @@ export class ManagementPolicies {
 
   /**
    * Gets the data policy rules associated with the specified storage account.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ManagementPoliciesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string): Promise<Models.ManagementPoliciesGetResponse>;
-  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase): Promise<Models.ManagementPoliciesGetResponse>;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementPoliciesGetResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param callback The callback
+   */
   get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): void;
   get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): Promise<Models.ManagementPoliciesGetResponse> {
     return this.client.sendOperationRequest(
@@ -61,25 +69,33 @@ export class ManagementPolicies {
 
   /**
    * Sets the data policy rules associated with the specified storage account.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {ManagementPoliciesCreateOrUpdateOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ManagementPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string): Promise<Models.ManagementPoliciesCreateOrUpdateResponse>;
-  createOrUpdate(resourceGroupName: string, accountName: string, options: Models.ManagementPoliciesCreateOrUpdateOptionalParams): Promise<Models.ManagementPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, accountName: string, options?: Models.ManagementPoliciesCreateOrUpdateOptionalParams): Promise<Models.ManagementPoliciesCreateOrUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param callback The callback
+   */
   createOrUpdate(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createOrUpdate(resourceGroupName: string, accountName: string, options: Models.ManagementPoliciesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): void;
   createOrUpdate(resourceGroupName: string, accountName: string, options?: Models.ManagementPoliciesCreateOrUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.StorageAccountManagementPolicies>): Promise<Models.ManagementPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -94,25 +110,33 @@ export class ManagementPolicies {
 
   /**
    * Deletes the data policy rules associated with the specified storage account.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string): Promise<msRest.RestResponse>;
-  deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param callback The callback
+   */
   deleteMethod(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
   deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
@@ -124,7 +148,6 @@ export class ManagementPolicies {
       deleteMethodOperationSpec,
       callback);
   }
-
 }
 
 // Operation Specifications

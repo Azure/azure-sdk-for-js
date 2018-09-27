@@ -29,25 +29,33 @@ export class BlobContainers {
   /**
    * Lists all containers and does not support a prefix like data plane. Also SRP today does not
    * return continuation token.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersListResponse>
    */
-  list(resourceGroupName: string, accountName: string): Promise<Models.BlobContainersListResponse>;
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase): Promise<Models.BlobContainersListResponse>;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersListResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param callback The callback
+   */
   list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListContainerItems>): void;
   list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ListContainerItems>): Promise<Models.BlobContainersListResponse> {
     return this.client.sendOperationRequest(
@@ -64,30 +72,45 @@ export class BlobContainers {
    * Creates a new container under the specified account as described by request body. The container
    * resource includes metadata and properties for that container. It does not include a list of the
    * blobs contained by the container.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {string} containerName The name of the blob container within the specified storage
-   * account. Blob container names must be between 3 and 63 characters in length and use numbers,
-   * lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and
-   * followed by a letter or number.
-   *
-   * @param {BlobContainersCreateOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersCreateResponse>
    */
-  create(resourceGroupName: string, accountName: string, containerName: string): Promise<Models.BlobContainersCreateResponse>;
-  create(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersCreateOptionalParams): Promise<Models.BlobContainersCreateResponse>;
+  create(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersCreateOptionalParams): Promise<Models.BlobContainersCreateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param callback The callback
+   */
   create(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   create(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersCreateOptionalParams, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
   create(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersCreateOptionalParams, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersCreateResponse> {
     return this.client.sendOperationRequest(
@@ -104,30 +127,45 @@ export class BlobContainers {
   /**
    * Updates container properties as specified in request body. Properties not mentioned in the
    * request will be unchanged. Update fails if the specified container doesn't already exist.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {string} containerName The name of the blob container within the specified storage
-   * account. Blob container names must be between 3 and 63 characters in length and use numbers,
-   * lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and
-   * followed by a letter or number.
-   *
-   * @param {BlobContainersUpdateOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, containerName: string): Promise<Models.BlobContainersUpdateResponse>;
-  update(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersUpdateOptionalParams): Promise<Models.BlobContainersUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersUpdateOptionalParams): Promise<Models.BlobContainersUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param callback The callback
+   */
   update(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   update(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersUpdateOptionalParams, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
   update(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersUpdateOptionalParams, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -143,30 +181,45 @@ export class BlobContainers {
 
   /**
    * Gets properties of a specified container.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {string} containerName The name of the blob container within the specified storage
-   * account. Blob container names must be between 3 and 63 characters in length and use numbers,
-   * lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and
-   * followed by a letter or number.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, containerName: string): Promise<Models.BlobContainersGetResponse>;
-  get(resourceGroupName: string, accountName: string, containerName: string, options: msRest.RequestOptionsBase): Promise<Models.BlobContainersGetResponse>;
+  get(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersGetResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param callback The callback
+   */
   get(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   get(resourceGroupName: string, accountName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobContainer>): void;
   get(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.BlobContainer>): Promise<Models.BlobContainersGetResponse> {
     return this.client.sendOperationRequest(
@@ -182,30 +235,45 @@ export class BlobContainers {
 
   /**
    * Deletes specified container under its account.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {string} containerName The name of the blob container within the specified storage
-   * account. Blob container names must be between 3 and 63 characters in length and use numbers,
-   * lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and
-   * followed by a letter or number.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, containerName: string): Promise<msRest.RestResponse>;
-  deleteMethod(resourceGroupName: string, accountName: string, containerName: string, options: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param callback The callback
+   */
   deleteMethod(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(resourceGroupName: string, accountName: string, containerName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
   deleteMethod(resourceGroupName: string, accountName: string, containerName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
@@ -223,33 +291,51 @@ export class BlobContainers {
    * Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold
    * follows an append pattern and does not clear out the existing tags that are not specified in the
    * request.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {string} containerName The name of the blob container within the specified storage
-   * account. Blob container names must be between 3 and 63 characters in length and use numbers,
-   * lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and
-   * followed by a letter or number.
-   *
-   * @param {string[]} tags Each tag should be 3 to 23 alphanumeric characters and is normalized to
-   * lower case at SRP.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case
+   * at SRP.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersSetLegalHoldResponse>
    */
-  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[]): Promise<Models.BlobContainersSetLegalHoldResponse>;
-  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: msRest.RequestOptionsBase): Promise<Models.BlobContainersSetLegalHoldResponse>;
+  setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersSetLegalHoldResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case
+   * at SRP.
+   * @param callback The callback
+   */
   setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], callback: msRest.ServiceCallback<Models.LegalHold>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case
+   * at SRP.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LegalHold>): void;
   setLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersSetLegalHoldResponse> {
     return this.client.sendOperationRequest(
@@ -267,33 +353,51 @@ export class BlobContainers {
   /**
    * Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent
    * operation. ClearLegalHold clears out only the specified tags in the request.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {string} containerName The name of the blob container within the specified storage
-   * account. Blob container names must be between 3 and 63 characters in length and use numbers,
-   * lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and
-   * followed by a letter or number.
-   *
-   * @param {string[]} tags Each tag should be 3 to 23 alphanumeric characters and is normalized to
-   * lower case at SRP.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case
+   * at SRP.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersClearLegalHoldResponse>
    */
-  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[]): Promise<Models.BlobContainersClearLegalHoldResponse>;
-  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: msRest.RequestOptionsBase): Promise<Models.BlobContainersClearLegalHoldResponse>;
+  clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersClearLegalHoldResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case
+   * at SRP.
+   * @param callback The callback
+   */
   clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], callback: msRest.ServiceCallback<Models.LegalHold>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param tags Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case
+   * at SRP.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LegalHold>): void;
   clearLegalHold(resourceGroupName: string, accountName: string, containerName: string, tags: string[], options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LegalHold>): Promise<Models.BlobContainersClearLegalHoldResponse> {
     return this.client.sendOperationRequest(
@@ -311,34 +415,51 @@ export class BlobContainers {
   /**
    * Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not
    * required for this operation.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {string} containerName The name of the blob container within the specified storage
-   * account. Blob container names must be between 3 and 63 characters in length and use numbers,
-   * lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and
-   * followed by a letter or number.
-   *
-   * @param {number} immutabilityPeriodSinceCreationInDays The immutability period for the blobs in
-   * the container since the policy creation, in days.
-   *
-   * @param {BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams} [options] Optional
-   * Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
+   * container since the policy creation, in days.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>
    */
-  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>;
-  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, options: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>;
+  createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, options?: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
+   * container since the policy creation, in days.
+   * @param callback The callback
+   */
   createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
+   * container since the policy creation, in days.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, options: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
   createOrUpdateImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, immutabilityPeriodSinceCreationInDays: number, options?: Models.BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersCreateOrUpdateImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
@@ -356,30 +477,45 @@ export class BlobContainers {
   /**
    * Gets the existing immutability policy along with the corresponding ETag in response headers and
    * body.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {string} containerName The name of the blob container within the specified storage
-   * account. Blob container names must be between 3 and 63 characters in length and use numbers,
-   * lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and
-   * followed by a letter or number.
-   *
-   * @param {BlobContainersGetImmutabilityPolicyOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersGetImmutabilityPolicyResponse>
    */
-  getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string): Promise<Models.BlobContainersGetImmutabilityPolicyResponse>;
-  getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersGetImmutabilityPolicyOptionalParams): Promise<Models.BlobContainersGetImmutabilityPolicyResponse>;
+  getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersGetImmutabilityPolicyOptionalParams): Promise<Models.BlobContainersGetImmutabilityPolicyResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param callback The callback
+   */
   getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options: Models.BlobContainersGetImmutabilityPolicyOptionalParams, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
   getImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, options?: Models.BlobContainersGetImmutabilityPolicyOptionalParams, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersGetImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
@@ -398,34 +534,54 @@ export class BlobContainers {
    * immutabilityPeriodSinceCreationInDays set to 0. ETag in If-Match is required for this operation.
    * Deleting a locked immutability policy is not allowed, only way is to delete the container after
    * deleting all blobs inside the container.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {string} containerName The name of the blob container within the specified storage
-   * account. Blob container names must be between 3 and 63 characters in length and use numbers,
-   * lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and
-   * followed by a letter or number.
-   *
-   * @param {string} ifMatch The entity state (ETag) version of the immutability policy to update. A
-   * value of "*" can be used to apply the operation only if the immutability policy already exists.
-   * If omitted, this operation will always be applied.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
+   * "*" can be used to apply the operation only if the immutability policy already exists. If
+   * omitted, this operation will always be applied.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse>
    */
-  deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string): Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse>;
-  deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options: msRest.RequestOptionsBase): Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse>;
+  deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
+   * "*" can be used to apply the operation only if the immutability policy already exists. If
+   * omitted, this operation will always be applied.
+   * @param callback The callback
+   */
   deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
+   * "*" can be used to apply the operation only if the immutability policy already exists. If
+   * omitted, this operation will always be applied.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
   deleteImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersDeleteImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
@@ -443,34 +599,54 @@ export class BlobContainers {
   /**
    * Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is
    * ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {string} containerName The name of the blob container within the specified storage
-   * account. Blob container names must be between 3 and 63 characters in length and use numbers,
-   * lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and
-   * followed by a letter or number.
-   *
-   * @param {string} ifMatch The entity state (ETag) version of the immutability policy to update. A
-   * value of "*" can be used to apply the operation only if the immutability policy already exists.
-   * If omitted, this operation will always be applied.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
+   * "*" can be used to apply the operation only if the immutability policy already exists. If
+   * omitted, this operation will always be applied.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersLockImmutabilityPolicyResponse>
    */
-  lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string): Promise<Models.BlobContainersLockImmutabilityPolicyResponse>;
-  lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options: msRest.RequestOptionsBase): Promise<Models.BlobContainersLockImmutabilityPolicyResponse>;
+  lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersLockImmutabilityPolicyResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
+   * "*" can be used to apply the operation only if the immutability policy already exists. If
+   * omitted, this operation will always be applied.
+   * @param callback The callback
+   */
   lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
+   * "*" can be used to apply the operation only if the immutability policy already exists. If
+   * omitted, this operation will always be applied.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
   lockImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersLockImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
@@ -489,37 +665,60 @@ export class BlobContainers {
    * Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only
    * action allowed on a Locked policy will be this action. ETag in If-Match is required for this
    * operation.
-   *
-   * @param {string} resourceGroupName The name of the resource group within the user's subscription.
-   * The name is case insensitive.
-   *
-   * @param {string} accountName The name of the storage account within the specified resource group.
-   * Storage account names must be between 3 and 24 characters in length and use numbers and
-   * lower-case letters only.
-   *
-   * @param {string} containerName The name of the blob container within the specified storage
-   * account. Blob container names must be between 3 and 63 characters in length and use numbers,
-   * lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and
-   * followed by a letter or number.
-   *
-   * @param {string} ifMatch The entity state (ETag) version of the immutability policy to update. A
-   * value of "*" can be used to apply the operation only if the immutability policy already exists.
-   * If omitted, this operation will always be applied.
-   *
-   * @param {number} immutabilityPeriodSinceCreationInDays The immutability period for the blobs in
-   * the container since the policy creation, in days.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
+   * "*" can be used to apply the operation only if the immutability policy already exists. If
+   * omitted, this operation will always be applied.
+   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
+   * container since the policy creation, in days.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>
    */
-  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>;
-  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, options: msRest.RequestOptionsBase): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>;
+  extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, options?: msRest.RequestOptionsBase): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
+   * "*" can be used to apply the operation only if the immutability policy already exists. If
+   * omitted, this operation will always be applied.
+   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
+   * container since the policy creation, in days.
+   * @param callback The callback
+   */
   extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param containerName The name of the blob container within the specified storage account. Blob
+   * container names must be between 3 and 63 characters in length and use numbers, lower-case
+   * letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by
+   * a letter or number.
+   * @param ifMatch The entity state (ETag) version of the immutability policy to update. A value of
+   * "*" can be used to apply the operation only if the immutability policy already exists. If
+   * omitted, this operation will always be applied.
+   * @param immutabilityPeriodSinceCreationInDays The immutability period for the blobs in the
+   * container since the policy creation, in days.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImmutabilityPolicy>): void;
   extendImmutabilityPolicy(resourceGroupName: string, accountName: string, containerName: string, ifMatch: string, immutabilityPeriodSinceCreationInDays: number, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ImmutabilityPolicy>): Promise<Models.BlobContainersExtendImmutabilityPolicyResponse> {
     return this.client.sendOperationRequest(
@@ -534,7 +733,6 @@ export class BlobContainers {
       extendImmutabilityPolicyOperationSpec,
       callback) as Promise<Models.BlobContainersExtendImmutabilityPolicyResponse>;
   }
-
 }
 
 // Operation Specifications
