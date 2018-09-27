@@ -43,7 +43,7 @@ describe("EPH", function () {
         }
       );
       const context = host["_context"];
-      const ua = "/js-event-processor-host=1.0.2";
+      const ua = "/js-event-processor-host=1.0.4";
       context.userAgent.should.equal(ua);
       const ehc: EventHubClient = context.getEventHubClient();
       const properties = ehc["_context"].connection.options.properties;
@@ -65,7 +65,7 @@ describe("EPH", function () {
         }
       );
       const context = host["_context"];
-      const ua = "/js-event-processor-host=1.0.2";
+      const ua = "/js-event-processor-host=1.0.4";
       context.userAgent.should.equal(`${ua},${customua}`);
       const ehc: EventHubClient = context.getEventHubClient();
       const properties = ehc["_context"].connection.options.properties;
