@@ -268,7 +268,7 @@ export class ManagementClient extends LinkEntity {
       }
       log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
-      return await this._mgmtReqResLink!.sendRequest(request);
+      return (await this._mgmtReqResLink!.sendRequest(request)).body;
     } catch (err) {
       err = translate(err);
       log.error("An error occurred while making the request to $management endpoint: %O", err);

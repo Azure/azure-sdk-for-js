@@ -61,8 +61,10 @@ export class BatchingReceiver extends EventHubReceiver {
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = (timeOver: boolean, data?: EventData) => {
         // Resetting the mode. Now anyone can call start() or receive() again.
-        this._receiver!.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.removeListener(ReceiverEvents.message, onReceiveMessage);
+        if (this._receiver) {
+          this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        }
         if (!data) {
           data = eventDatas.length ? eventDatas[eventDatas.length - 1] : undefined;
         }
