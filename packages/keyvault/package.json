@@ -4,7 +4,9 @@
   "description": "KeyVaultClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0",
   "dependencies": {
-    "ms-rest-azure-js": "~0.17.164"
+    "ms-rest-azure-js": "~0.17.164",
+    "url": "^0.11.0",
+    "util": "^0.11.0"
   },
   "keywords": [
     "node",
