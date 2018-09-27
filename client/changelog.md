@@ -1,3 +1,6 @@
+### 2018-09-26 1.0.4
+- update the version of ms-rest-azure to "2.5.9"
+
 ### 2018-09-19 1.0.3
 - `EventPosition.fromSequenceNumber()` accepts `0` as a valid argument.
 - `client.receive()` and `client.receiveBatch()` accept partitionId as a `string | number`.
