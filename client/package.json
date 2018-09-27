@@ -1,6 +1,6 @@
 {
   "name": "@azure/event-hubs",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -11,8 +11,7 @@
     "debug": "^3.1.0",
     "is-buffer": "2.0.2",
     "jssha": "^2.3.1",
-    "ms-rest": "^2.3.6",
-    "ms-rest-azure": "^2.5.7",
+    "ms-rest-azure": "^2.5.9",
     "rhea": "^0.3.1",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2"
