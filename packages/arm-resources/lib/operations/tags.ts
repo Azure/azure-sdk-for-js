@@ -28,22 +28,24 @@ export class Tags {
 
   /**
    * Deletes a tag value.
-   *
-   * @param {string} tagName The name of the tag.
-   *
-   * @param {string} tagValue The value of the tag to delete.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param tagName The name of the tag.
+   * @param tagValue The value of the tag to delete.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
    */
-  deleteValue(tagName: string, tagValue: string): Promise<msRest.RestResponse>;
-  deleteValue(tagName: string, tagValue: string, options: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param tagName The name of the tag.
+   * @param tagValue The value of the tag to delete.
+   * @param callback The callback
+   */
   deleteValue(tagName: string, tagValue: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param tagName The name of the tag.
+   * @param tagValue The value of the tag to delete.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteValue(tagName: string, tagValue: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
   deleteValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
@@ -58,22 +60,24 @@ export class Tags {
 
   /**
    * Creates a tag value. The name of the tag must already exist.
-   *
-   * @param {string} tagName The name of the tag.
-   *
-   * @param {string} tagValue The value of the tag to create.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param tagName The name of the tag.
+   * @param tagValue The value of the tag to create.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagsCreateOrUpdateValueResponse>
    */
-  createOrUpdateValue(tagName: string, tagValue: string): Promise<Models.TagsCreateOrUpdateValueResponse>;
-  createOrUpdateValue(tagName: string, tagValue: string, options: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateValueResponse>;
+  createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateValueResponse>;
+  /**
+   * @param tagName The name of the tag.
+   * @param tagValue The value of the tag to create.
+   * @param callback The callback
+   */
   createOrUpdateValue(tagName: string, tagValue: string, callback: msRest.ServiceCallback<Models.TagValue>): void;
+  /**
+   * @param tagName The name of the tag.
+   * @param tagValue The value of the tag to create.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createOrUpdateValue(tagName: string, tagValue: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagValue>): void;
   createOrUpdateValue(tagName: string, tagValue: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagValue>): Promise<Models.TagsCreateOrUpdateValueResponse> {
     return this.client.sendOperationRequest(
@@ -87,25 +91,25 @@ export class Tags {
   }
 
   /**
-   * @summary Creates a tag in the subscription.
-   *
    * The tag name can have a maximum of 512 characters and is case insensitive. Tag names created by
    * Azure have prefixes of microsoft, azure, or windows. You cannot create tags with one of these
    * prefixes.
-   *
-   * @param {string} tagName The name of the tag to create.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Creates a tag in the subscription.
+   * @param tagName The name of the tag to create.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagsCreateOrUpdateResponse>
    */
-  createOrUpdate(tagName: string): Promise<Models.TagsCreateOrUpdateResponse>;
-  createOrUpdate(tagName: string, options: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateResponse>;
+  createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateResponse>;
+  /**
+   * @param tagName The name of the tag to create.
+   * @param callback The callback
+   */
   createOrUpdate(tagName: string, callback: msRest.ServiceCallback<Models.TagDetails>): void;
+  /**
+   * @param tagName The name of the tag to create.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createOrUpdate(tagName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagDetails>): void;
   createOrUpdate(tagName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagDetails>): Promise<Models.TagsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -118,23 +122,23 @@ export class Tags {
   }
 
   /**
-   * @summary Deletes a tag from the subscription.
-   *
    * You must remove all values from a resource tag before you can delete it.
-   *
-   * @param {string} tagName The name of the tag.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Deletes a tag from the subscription.
+   * @param tagName The name of the tag.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(tagName: string): Promise<msRest.RestResponse>;
-  deleteMethod(tagName: string, options: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(tagName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param tagName The name of the tag.
+   * @param callback The callback
+   */
   deleteMethod(tagName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param tagName The name of the tag.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(tagName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
   deleteMethod(tagName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
@@ -148,18 +152,18 @@ export class Tags {
 
   /**
    * Gets the names and values of all resource tags that are defined in a subscription.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagsListResponse>
    */
-  list(): Promise<Models.TagsListResponse>;
-  list(options: msRest.RequestOptionsBase): Promise<Models.TagsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.TagsListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.TagsListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
   list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListResponse> {
     return this.client.sendOperationRequest(
@@ -172,20 +176,21 @@ export class Tags {
 
   /**
    * Gets the names and values of all resource tags that are defined in a subscription.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagsListNextResponse>
    */
-  listNext(nextPageLink: string): Promise<Models.TagsListNextResponse>;
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.TagsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsListResult>): void;
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.TagsListResult>): Promise<Models.TagsListNextResponse> {
     return this.client.sendOperationRequest(
@@ -196,7 +201,6 @@ export class Tags {
       listNextOperationSpec,
       callback) as Promise<Models.TagsListNextResponse>;
   }
-
 }
 
 // Operation Specifications

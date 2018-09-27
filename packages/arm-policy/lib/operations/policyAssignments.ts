@@ -27,31 +27,40 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Deletes a policy assignment.
-   *
    * This operation deletes a policy assignment, given its name and the scope it was created in. The
    * scope of a policy assignment is the part of its ID preceding
    * '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
-   *
-   * @param {string} scope The scope of the policy assignment. Valid scopes are: management group
-   * (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription
-   * (format: '/subscriptions/{subscriptionId}'), resource group (format:
+   * @summary Deletes a policy assignment.
+   * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
+   * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   * '/subscriptions/{subscriptionId}'), resource group (format:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
-   *
-   * @param {string} policyAssignmentName The name of the policy assignment to delete.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param policyAssignmentName The name of the policy assignment to delete.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsDeleteMethodResponse>
    */
-  deleteMethod(scope: string, policyAssignmentName: string): Promise<Models.PolicyAssignmentsDeleteMethodResponse>;
-  deleteMethod(scope: string, policyAssignmentName: string, options: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsDeleteMethodResponse>;
+  deleteMethod(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsDeleteMethodResponse>;
+  /**
+   * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
+   * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   * '/subscriptions/{subscriptionId}'), resource group (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyAssignmentName The name of the policy assignment to delete.
+   * @param callback The callback
+   */
   deleteMethod(scope: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  /**
+   * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
+   * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   * '/subscriptions/{subscriptionId}'), resource group (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyAssignmentName The name of the policy assignment to delete.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(scope: string, policyAssignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
   deleteMethod(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteMethodResponse> {
     return this.client.sendOperationRequest(
@@ -65,33 +74,43 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Creates or updates a policy assignment.
-   *
    * This operation creates or updates a policy assignment with the given scope and name. Policy
    * assignments apply to all resources contained within their scope. For example, when you assign a
    * policy at resource group scope, that policy applies to all resources in the group.
-   *
-   * @param {string} scope The scope of the policy assignment. Valid scopes are: management group
-   * (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription
-   * (format: '/subscriptions/{subscriptionId}'), resource group (format:
+   * @summary Creates or updates a policy assignment.
+   * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
+   * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   * '/subscriptions/{subscriptionId}'), resource group (format:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
-   *
-   * @param {string} policyAssignmentName The name of the policy assignment.
-   *
-   * @param {PolicyAssignment} parameters Parameters for the policy assignment.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param policyAssignmentName The name of the policy assignment.
+   * @param parameters Parameters for the policy assignment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsCreateResponse>
    */
-  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment): Promise<Models.PolicyAssignmentsCreateResponse>;
-  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsCreateResponse>;
+  create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsCreateResponse>;
+  /**
+   * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
+   * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   * '/subscriptions/{subscriptionId}'), resource group (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyAssignmentName The name of the policy assignment.
+   * @param parameters Parameters for the policy assignment.
+   * @param callback The callback
+   */
   create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  /**
+   * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
+   * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   * '/subscriptions/{subscriptionId}'), resource group (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyAssignmentName The name of the policy assignment.
+   * @param parameters Parameters for the policy assignment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
   create(scope: string, policyAssignmentName: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateResponse> {
     return this.client.sendOperationRequest(
@@ -106,30 +125,39 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Retrieves a policy assignment.
-   *
    * This operation retrieves a single policy assignment, given its name and the scope it was created
    * at.
-   *
-   * @param {string} scope The scope of the policy assignment. Valid scopes are: management group
-   * (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription
-   * (format: '/subscriptions/{subscriptionId}'), resource group (format:
+   * @summary Retrieves a policy assignment.
+   * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
+   * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   * '/subscriptions/{subscriptionId}'), resource group (format:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
-   *
-   * @param {string} policyAssignmentName The name of the policy assignment to get.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param policyAssignmentName The name of the policy assignment to get.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsGetResponse>
    */
-  get(scope: string, policyAssignmentName: string): Promise<Models.PolicyAssignmentsGetResponse>;
-  get(scope: string, policyAssignmentName: string, options: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsGetResponse>;
+  get(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsGetResponse>;
+  /**
+   * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
+   * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   * '/subscriptions/{subscriptionId}'), resource group (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyAssignmentName The name of the policy assignment to get.
+   * @param callback The callback
+   */
   get(scope: string, policyAssignmentName: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  /**
+   * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
+   * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   * '/subscriptions/{subscriptionId}'), resource group (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyAssignmentName The name of the policy assignment to get.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   get(scope: string, policyAssignmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
   get(scope: string, policyAssignmentName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
@@ -143,8 +171,6 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Retrieves all policy assignments that apply to a resource group.
-   *
    * This operation retrieves the list of all policy assignments associated with the given resource
    * group in the given subscription that match the optional given $filter. Valid values for $filter
    * are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, the
@@ -156,21 +182,22 @@ export class PolicyAssignments {
    * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
    * assignments that apply to the resource group and assign the policy definition whose id is
    * {value}.
-   *
-   * @param {string} resourceGroupName The name of the resource group that contains policy
-   * assignments.
-   *
-   * @param {PolicyAssignmentsListForResourceGroupOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves all policy assignments that apply to a resource group.
+   * @param resourceGroupName The name of the resource group that contains policy assignments.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsListForResourceGroupResponse>
    */
-  listForResourceGroup(resourceGroupName: string): Promise<Models.PolicyAssignmentsListForResourceGroupResponse>;
-  listForResourceGroup(resourceGroupName: string, options: Models.PolicyAssignmentsListForResourceGroupOptionalParams): Promise<Models.PolicyAssignmentsListForResourceGroupResponse>;
+  listForResourceGroup(resourceGroupName: string, options?: Models.PolicyAssignmentsListForResourceGroupOptionalParams): Promise<Models.PolicyAssignmentsListForResourceGroupResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group that contains policy assignments.
+   * @param callback The callback
+   */
   listForResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group that contains policy assignments.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResourceGroup(resourceGroupName: string, options: Models.PolicyAssignmentsListForResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   listForResourceGroup(resourceGroupName: string, options?: Models.PolicyAssignmentsListForResourceGroupOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
@@ -183,8 +210,6 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Retrieves all policy assignments that apply to a resource.
-   *
    * This operation retrieves the list of all policy assignments associated with the specified
    * resource in the given resource group and subscription that match the optional given $filter.
    * Valid values for $filter are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is
@@ -207,30 +232,40 @@ export class PolicyAssignments {
    * is to provide both in the {resourceType} parameter, format: ({resourceProviderNamespace} == '',
    * {parentResourcePath} == '', {resourceType} == 'Microsoft.Web/sites', {resourceName} ==
    * 'MyWebApp').
-   *
-   * @param {string} resourceGroupName The name of the resource group containing the resource.
-   *
-   * @param {string} resourceProviderNamespace The namespace of the resource provider. For example,
-   * the namespace of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
-   *
-   * @param {string} parentResourcePath The parent resource path. Use empty string if there is none.
-   *
-   * @param {string} resourceType The resource type name. For example the type name of a web app is
-   * 'sites' (from Microsoft.Web/sites).
-   *
-   * @param {string} resourceName The name of the resource.
-   *
-   * @param {PolicyAssignmentsListForResourceOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves all policy assignments that apply to a resource.
+   * @param resourceGroupName The name of the resource group containing the resource.
+   * @param resourceProviderNamespace The namespace of the resource provider. For example, the
+   * namespace of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
+   * @param parentResourcePath The parent resource path. Use empty string if there is none.
+   * @param resourceType The resource type name. For example the type name of a web app is 'sites'
+   * (from Microsoft.Web/sites).
+   * @param resourceName The name of the resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsListForResourceResponse>
    */
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string): Promise<Models.PolicyAssignmentsListForResourceResponse>;
-  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: Models.PolicyAssignmentsListForResourceOptionalParams): Promise<Models.PolicyAssignmentsListForResourceResponse>;
+  listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.PolicyAssignmentsListForResourceOptionalParams): Promise<Models.PolicyAssignmentsListForResourceResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group containing the resource.
+   * @param resourceProviderNamespace The namespace of the resource provider. For example, the
+   * namespace of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
+   * @param parentResourcePath The parent resource path. Use empty string if there is none.
+   * @param resourceType The resource type name. For example the type name of a web app is 'sites'
+   * (from Microsoft.Web/sites).
+   * @param resourceName The name of the resource.
+   * @param callback The callback
+   */
   listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group containing the resource.
+   * @param resourceProviderNamespace The namespace of the resource provider. For example, the
+   * namespace of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
+   * @param parentResourcePath The parent resource path. Use empty string if there is none.
+   * @param resourceType The resource type name. For example the type name of a web app is 'sites'
+   * (from Microsoft.Web/sites).
+   * @param resourceName The name of the resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: Models.PolicyAssignmentsListForResourceOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: Models.PolicyAssignmentsListForResourceOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceResponse> {
     return this.client.sendOperationRequest(
@@ -247,8 +282,6 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Retrieves all policy assignments that apply to a subscription.
-   *
    * This operation retrieves the list of all policy assignments associated with the given
    * subscription that match the optional given $filter. Valid values for $filter are: 'atScope()' or
    * 'policyDefinitionId eq '{value}''. If $filter is not provided, the unfiltered list includes all
@@ -259,18 +292,19 @@ export class PolicyAssignments {
    * list except those applied to objects contained within the subscription. If
    * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
    * assignments that apply to the subscription and assign the policy definition whose id is {value}.
-   *
-   * @param {PolicyAssignmentsListOptionalParams} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves all policy assignments that apply to a subscription.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsListResponse>
    */
-  list(): Promise<Models.PolicyAssignmentsListResponse>;
-  list(options: Models.PolicyAssignmentsListOptionalParams): Promise<Models.PolicyAssignmentsListResponse>;
+  list(options?: Models.PolicyAssignmentsListOptionalParams): Promise<Models.PolicyAssignmentsListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: Models.PolicyAssignmentsListOptionalParams, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   list(options?: Models.PolicyAssignmentsListOptionalParams, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListResponse> {
     return this.client.sendOperationRequest(
@@ -282,8 +316,6 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Deletes a policy assignment.
-   *
    * This operation deletes the policy with the given ID. Policy assignment IDs have this format:
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid
    * formats for {scope} are: '/providers/Microsoft.Management/managementGroups/{managementGroup}'
@@ -291,21 +323,25 @@ export class PolicyAssignments {
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' (resource group), or
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * (resource).
-   *
-   * @param {string} policyAssignmentId The ID of the policy assignment to delete. Use the format
+   * @summary Deletes a policy assignment.
+   * @param policyAssignmentId The ID of the policy assignment to delete. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsDeleteByIdResponse>
    */
-  deleteById(policyAssignmentId: string): Promise<Models.PolicyAssignmentsDeleteByIdResponse>;
-  deleteById(policyAssignmentId: string, options: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsDeleteByIdResponse>;
+  deleteById(policyAssignmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsDeleteByIdResponse>;
+  /**
+   * @param policyAssignmentId The ID of the policy assignment to delete. Use the format
+   * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
+   * @param callback The callback
+   */
   deleteById(policyAssignmentId: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  /**
+   * @param policyAssignmentId The ID of the policy assignment to delete. Use the format
+   * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteById(policyAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
   deleteById(policyAssignmentId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsDeleteByIdResponse> {
     return this.client.sendOperationRequest(
@@ -318,8 +354,6 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Creates or updates a policy assignment.
-   *
    * This operation creates or updates the policy assignment with the given ID. Policy assignments
    * made on a scope apply to all resources contained in that scope. For example, when you assign a
    * policy to a resource group that policy applies to all resources in the group. Policy assignment
@@ -330,23 +364,28 @@ export class PolicyAssignments {
    * '/subscriptions/{subscriptionId}'), resource group (format:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
-   *
-   * @param {string} policyAssignmentId The ID of the policy assignment to create. Use the format
+   * @summary Creates or updates a policy assignment.
+   * @param policyAssignmentId The ID of the policy assignment to create. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
-   *
-   * @param {PolicyAssignment} parameters Parameters for policy assignment.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param parameters Parameters for policy assignment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsCreateByIdResponse>
    */
-  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment): Promise<Models.PolicyAssignmentsCreateByIdResponse>;
-  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsCreateByIdResponse>;
+  createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsCreateByIdResponse>;
+  /**
+   * @param policyAssignmentId The ID of the policy assignment to create. Use the format
+   * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
+   * @param parameters Parameters for policy assignment.
+   * @param callback The callback
+   */
   createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  /**
+   * @param policyAssignmentId The ID of the policy assignment to create. Use the format
+   * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
+   * @param parameters Parameters for policy assignment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
   createById(policyAssignmentId: string, parameters: Models.PolicyAssignment, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsCreateByIdResponse> {
     return this.client.sendOperationRequest(
@@ -360,8 +399,6 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Retrieves the policy assignment with the given ID.
-   *
    * The operation retrieves the policy assignment with the given ID. Policy assignment IDs have this
    * format: '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
    * Valid scopes are: management group (format:
@@ -369,21 +406,25 @@ export class PolicyAssignments {
    * '/subscriptions/{subscriptionId}'), resource group (format:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
-   *
-   * @param {string} policyAssignmentId The ID of the policy assignment to get. Use the format
+   * @summary Retrieves the policy assignment with the given ID.
+   * @param policyAssignmentId The ID of the policy assignment to get. Use the format
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsGetByIdResponse>
    */
-  getById(policyAssignmentId: string): Promise<Models.PolicyAssignmentsGetByIdResponse>;
-  getById(policyAssignmentId: string, options: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsGetByIdResponse>;
+  getById(policyAssignmentId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsGetByIdResponse>;
+  /**
+   * @param policyAssignmentId The ID of the policy assignment to get. Use the format
+   * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
+   * @param callback The callback
+   */
   getById(policyAssignmentId: string, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
+  /**
+   * @param policyAssignmentId The ID of the policy assignment to get. Use the format
+   * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getById(policyAssignmentId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignment>): void;
   getById(policyAssignmentId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignment>): Promise<Models.PolicyAssignmentsGetByIdResponse> {
     return this.client.sendOperationRequest(
@@ -396,8 +437,6 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Retrieves all policy assignments that apply to a resource group.
-   *
    * This operation retrieves the list of all policy assignments associated with the given resource
    * group in the given subscription that match the optional given $filter. Valid values for $filter
    * are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, the
@@ -409,20 +448,22 @@ export class PolicyAssignments {
    * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
    * assignments that apply to the resource group and assign the policy definition whose id is
    * {value}.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves all policy assignments that apply to a resource group.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>
    */
-  listForResourceGroupNext(nextPageLink: string): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>;
-  listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>;
+  listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listForResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   listForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
@@ -435,8 +476,6 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Retrieves all policy assignments that apply to a resource.
-   *
    * This operation retrieves the list of all policy assignments associated with the specified
    * resource in the given resource group and subscription that match the optional given $filter.
    * Valid values for $filter are: 'atScope()' or 'policyDefinitionId eq '{value}''. If $filter is
@@ -459,20 +498,22 @@ export class PolicyAssignments {
    * is to provide both in the {resourceType} parameter, format: ({resourceProviderNamespace} == '',
    * {parentResourcePath} == '', {resourceType} == 'Microsoft.Web/sites', {resourceName} ==
    * 'MyWebApp').
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves all policy assignments that apply to a resource.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsListForResourceNextResponse>
    */
-  listForResourceNext(nextPageLink: string): Promise<Models.PolicyAssignmentsListForResourceNextResponse>;
-  listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForResourceNextResponse>;
+  listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListForResourceNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listForResourceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   listForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
@@ -485,8 +526,6 @@ export class PolicyAssignments {
   }
 
   /**
-   * @summary Retrieves all policy assignments that apply to a subscription.
-   *
    * This operation retrieves the list of all policy assignments associated with the given
    * subscription that match the optional given $filter. Valid values for $filter are: 'atScope()' or
    * 'policyDefinitionId eq '{value}''. If $filter is not provided, the unfiltered list includes all
@@ -497,20 +536,22 @@ export class PolicyAssignments {
    * list except those applied to objects contained within the subscription. If
    * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes only policy
    * assignments that apply to the subscription and assign the policy definition whose id is {value}.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves all policy assignments that apply to a subscription.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicyAssignmentsListNextResponse>
    */
-  listNext(nextPageLink: string): Promise<Models.PolicyAssignmentsListNextResponse>;
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyAssignmentsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): void;
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicyAssignmentListResult>): Promise<Models.PolicyAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
@@ -521,7 +562,6 @@ export class PolicyAssignments {
       listNextOperationSpec,
       callback) as Promise<Models.PolicyAssignmentsListNextResponse>;
   }
-
 }
 
 // Operation Specifications

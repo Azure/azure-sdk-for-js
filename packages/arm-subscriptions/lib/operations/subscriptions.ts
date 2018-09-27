@@ -27,24 +27,24 @@ export class Subscriptions {
   }
 
   /**
-   * @summary Gets all available geo-locations.
-   *
    * This operation provides all the locations that are available for resource providers; however,
    * each resource provider may support a subset of this list.
-   *
-   * @param {string} subscriptionId The ID of the target subscription.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Gets all available geo-locations.
+   * @param subscriptionId The ID of the target subscription.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsListLocationsResponse>
    */
-  listLocations(subscriptionId: string): Promise<Models.SubscriptionsListLocationsResponse>;
-  listLocations(subscriptionId: string, options: msRest.RequestOptionsBase): Promise<Models.SubscriptionsListLocationsResponse>;
+  listLocations(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsListLocationsResponse>;
+  /**
+   * @param subscriptionId The ID of the target subscription.
+   * @param callback The callback
+   */
   listLocations(subscriptionId: string, callback: msRest.ServiceCallback<Models.LocationListResult>): void;
+  /**
+   * @param subscriptionId The ID of the target subscription.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listLocations(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocationListResult>): void;
   listLocations(subscriptionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.LocationListResult>): Promise<Models.SubscriptionsListLocationsResponse> {
     return this.client.sendOperationRequest(
@@ -58,20 +58,21 @@ export class Subscriptions {
 
   /**
    * Gets details about a specified subscription.
-   *
-   * @param {string} subscriptionId The ID of the target subscription.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param subscriptionId The ID of the target subscription.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsGetResponse>
    */
-  get(subscriptionId: string): Promise<Models.SubscriptionsGetResponse>;
-  get(subscriptionId: string, options: msRest.RequestOptionsBase): Promise<Models.SubscriptionsGetResponse>;
+  get(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsGetResponse>;
+  /**
+   * @param subscriptionId The ID of the target subscription.
+   * @param callback The callback
+   */
   get(subscriptionId: string, callback: msRest.ServiceCallback<Models.Subscription>): void;
+  /**
+   * @param subscriptionId The ID of the target subscription.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   get(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Subscription>): void;
   get(subscriptionId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.Subscription>): Promise<Models.SubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
@@ -85,18 +86,18 @@ export class Subscriptions {
 
   /**
    * Gets all subscriptions for a tenant.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsListResponse>
    */
-  list(): Promise<Models.SubscriptionsListResponse>;
-  list(options: msRest.RequestOptionsBase): Promise<Models.SubscriptionsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.SubscriptionListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionListResult>): void;
   list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionListResult>): Promise<Models.SubscriptionsListResponse> {
     return this.client.sendOperationRequest(
@@ -109,20 +110,21 @@ export class Subscriptions {
 
   /**
    * Gets all subscriptions for a tenant.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsListNextResponse>
    */
-  listNext(nextPageLink: string): Promise<Models.SubscriptionsListNextResponse>;
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.SubscriptionsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SubscriptionListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionListResult>): void;
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionListResult>): Promise<Models.SubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
@@ -133,7 +135,6 @@ export class Subscriptions {
       listNextOperationSpec,
       callback) as Promise<Models.SubscriptionsListNextResponse>;
   }
-
 }
 
 // Operation Specifications

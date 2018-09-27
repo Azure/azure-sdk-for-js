@@ -10,28 +10,28 @@
 
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/authorizationOperationsMappers";
+import * as Mappers from "../models/operationsMappers";
 import * as Parameters from "../models/parameters";
-import { ManagementLockClientContext } from "../managementLockClientContext";
+import { SubscriptionClientContext } from "../subscriptionClientContext";
 
-/** Class representing a AuthorizationOperations. */
-export class AuthorizationOperations {
-  private readonly client: ManagementLockClientContext;
+/** Class representing a Operations. */
+export class Operations {
+  private readonly client: SubscriptionClientContext;
 
   /**
-   * Create a AuthorizationOperations.
-   * @param {ManagementLockClientContext} client Reference to the service client.
+   * Create a Operations.
+   * @param {SubscriptionClientContext} client Reference to the service client.
    */
-  constructor(client: ManagementLockClientContext) {
+  constructor(client: SubscriptionClientContext) {
     this.client = client;
   }
 
   /**
-   * Lists all of the available Microsoft.Authorization REST API operations.
+   * Lists all of the available Microsoft.Resources REST API operations.
    * @param [options] The optional parameters
-   * @returns Promise<Models.AuthorizationOperationsListResponse>
+   * @returns Promise<Models.OperationsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationOperationsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
   /**
    * @param callback The callback
    */
@@ -41,22 +41,22 @@ export class AuthorizationOperations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.AuthorizationOperationsListResponse> {
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AuthorizationOperationsListResponse>;
+      callback) as Promise<Models.OperationsListResponse>;
   }
 
   /**
-   * Lists all of the available Microsoft.Authorization REST API operations.
+   * Lists all of the available Microsoft.Resources REST API operations.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.AuthorizationOperationsListNextResponse>
+   * @returns Promise<Models.OperationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationOperationsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -68,14 +68,14 @@ export class AuthorizationOperations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.AuthorizationOperationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AuthorizationOperationsListNextResponse>;
+      callback) as Promise<Models.OperationsListNextResponse>;
   }
 }
 
@@ -83,7 +83,7 @@ export class AuthorizationOperations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Authorization/operations",
+  path: "providers/Microsoft.Resources/operations",
   queryParameters: [
     Parameters.apiVersion
   ],

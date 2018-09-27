@@ -27,26 +27,27 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Creates or updates a policy set definition.
-   *
    * This operation creates or updates a policy set definition in the given subscription with the
    * given name.
-   *
-   * @param {string} policySetDefinitionName The name of the policy set definition to create.
-   *
-   * @param {PolicySetDefinition} parameters The policy set definition properties.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Creates or updates a policy set definition.
+   * @param policySetDefinitionName The name of the policy set definition to create.
+   * @param parameters The policy set definition properties.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse>
    */
-  createOrUpdate(policySetDefinitionName: string, parameters: Models.PolicySetDefinition): Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse>;
-  createOrUpdate(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, options: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse>;
+  createOrUpdate(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse>;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to create.
+   * @param parameters The policy set definition properties.
+   * @param callback The callback
+   */
   createOrUpdate(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to create.
+   * @param parameters The policy set definition properties.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createOrUpdate(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
   createOrUpdate(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicySetDefinition>): Promise<Models.PolicySetDefinitionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -60,23 +61,23 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Deletes a policy set definition.
-   *
    * This operation deletes the policy set definition in the given subscription with the given name.
-   *
-   * @param {string} policySetDefinitionName The name of the policy set definition to delete.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Deletes a policy set definition.
+   * @param policySetDefinitionName The name of the policy set definition to delete.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(policySetDefinitionName: string): Promise<msRest.RestResponse>;
-  deleteMethod(policySetDefinitionName: string, options: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(policySetDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to delete.
+   * @param callback The callback
+   */
   deleteMethod(policySetDefinitionName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to delete.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteMethod(policySetDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
   deleteMethod(policySetDefinitionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
@@ -89,24 +90,24 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Retrieves a policy set definition.
-   *
    * This operation retrieves the policy set definition in the given subscription with the given
    * name.
-   *
-   * @param {string} policySetDefinitionName The name of the policy set definition to get.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves a policy set definition.
+   * @param policySetDefinitionName The name of the policy set definition to get.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicySetDefinitionsGetResponse>
    */
-  get(policySetDefinitionName: string): Promise<Models.PolicySetDefinitionsGetResponse>;
-  get(policySetDefinitionName: string, options: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsGetResponse>;
+  get(policySetDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsGetResponse>;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to get.
+   * @param callback The callback
+   */
   get(policySetDefinitionName: string, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to get.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   get(policySetDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
   get(policySetDefinitionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicySetDefinition>): Promise<Models.PolicySetDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
@@ -119,23 +120,23 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Retrieves a built in policy set definition.
-   *
    * This operation retrieves the built-in policy set definition with the given name.
-   *
-   * @param {string} policySetDefinitionName The name of the policy set definition to get.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves a built in policy set definition.
+   * @param policySetDefinitionName The name of the policy set definition to get.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicySetDefinitionsGetBuiltInResponse>
    */
-  getBuiltIn(policySetDefinitionName: string): Promise<Models.PolicySetDefinitionsGetBuiltInResponse>;
-  getBuiltIn(policySetDefinitionName: string, options: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsGetBuiltInResponse>;
+  getBuiltIn(policySetDefinitionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsGetBuiltInResponse>;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to get.
+   * @param callback The callback
+   */
   getBuiltIn(policySetDefinitionName: string, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to get.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getBuiltIn(policySetDefinitionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
   getBuiltIn(policySetDefinitionName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicySetDefinition>): Promise<Models.PolicySetDefinitionsGetBuiltInResponse> {
     return this.client.sendOperationRequest(
@@ -148,21 +149,20 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Retrieves the policy set definitions for a subscription.
-   *
    * This operation retrieves a list of all the policy set definitions in the given subscription.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves the policy set definitions for a subscription.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicySetDefinitionsListResponse>
    */
-  list(): Promise<Models.PolicySetDefinitionsListResponse>;
-  list(options: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
   list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListResponse> {
     return this.client.sendOperationRequest(
@@ -174,21 +174,20 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Retrieves built-in policy set definitions.
-   *
    * This operation retrieves a list of all the built-in policy set definitions.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves built-in policy set definitions.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicySetDefinitionsListBuiltInResponse>
    */
-  listBuiltIn(): Promise<Models.PolicySetDefinitionsListBuiltInResponse>;
-  listBuiltIn(options: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListBuiltInResponse>;
+  listBuiltIn(options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListBuiltInResponse>;
+  /**
+   * @param callback The callback
+   */
   listBuiltIn(callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listBuiltIn(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
   listBuiltIn(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListBuiltInResponse> {
     return this.client.sendOperationRequest(
@@ -200,28 +199,30 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Creates or updates a policy set definition.
-   *
    * This operation creates or updates a policy set definition in the given management group with the
    * given name.
-   *
-   * @param {string} policySetDefinitionName The name of the policy set definition to create.
-   *
-   * @param {PolicySetDefinition} parameters The policy set definition properties.
-   *
-   * @param {string} managementGroupId The ID of the management group.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Creates or updates a policy set definition.
+   * @param policySetDefinitionName The name of the policy set definition to create.
+   * @param parameters The policy set definition properties.
+   * @param managementGroupId The ID of the management group.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse>
    */
-  createOrUpdateAtManagementGroup(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, managementGroupId: string): Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse>;
-  createOrUpdateAtManagementGroup(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, managementGroupId: string, options: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse>;
+  createOrUpdateAtManagementGroup(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, managementGroupId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse>;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to create.
+   * @param parameters The policy set definition properties.
+   * @param managementGroupId The ID of the management group.
+   * @param callback The callback
+   */
   createOrUpdateAtManagementGroup(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, managementGroupId: string, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to create.
+   * @param parameters The policy set definition properties.
+   * @param managementGroupId The ID of the management group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   createOrUpdateAtManagementGroup(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
   createOrUpdateAtManagementGroup(policySetDefinitionName: string, parameters: Models.PolicySetDefinition, managementGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicySetDefinition>): Promise<Models.PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
@@ -236,26 +237,27 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Deletes a policy set definition.
-   *
    * This operation deletes the policy set definition in the given management group with the given
    * name.
-   *
-   * @param {string} policySetDefinitionName The name of the policy set definition to delete.
-   *
-   * @param {string} managementGroupId The ID of the management group.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Deletes a policy set definition.
+   * @param policySetDefinitionName The name of the policy set definition to delete.
+   * @param managementGroupId The ID of the management group.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
    */
-  deleteAtManagementGroup(policySetDefinitionName: string, managementGroupId: string): Promise<msRest.RestResponse>;
-  deleteAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to delete.
+   * @param managementGroupId The ID of the management group.
+   * @param callback The callback
+   */
   deleteAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to delete.
+   * @param managementGroupId The ID of the management group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   deleteAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
   deleteAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
@@ -269,26 +271,27 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Retrieves a policy set definition.
-   *
    * This operation retrieves the policy set definition in the given management group with the given
    * name.
-   *
-   * @param {string} policySetDefinitionName The name of the policy set definition to get.
-   *
-   * @param {string} managementGroupId The ID of the management group.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves a policy set definition.
+   * @param policySetDefinitionName The name of the policy set definition to get.
+   * @param managementGroupId The ID of the management group.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse>
    */
-  getAtManagementGroup(policySetDefinitionName: string, managementGroupId: string): Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse>;
-  getAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse>;
+  getAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse>;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to get.
+   * @param managementGroupId The ID of the management group.
+   * @param callback The callback
+   */
   getAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
+  /**
+   * @param policySetDefinitionName The name of the policy set definition to get.
+   * @param managementGroupId The ID of the management group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   getAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinition>): void;
   getAtManagementGroup(policySetDefinitionName: string, managementGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicySetDefinition>): Promise<Models.PolicySetDefinitionsGetAtManagementGroupResponse> {
     return this.client.sendOperationRequest(
@@ -302,24 +305,24 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Retrieves all policy set definitions in management group.
-   *
    * This operation retrieves a list of all the a policy set definition in the given management
    * group.
-   *
-   * @param {string} managementGroupId The ID of the management group.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves all policy set definitions in management group.
+   * @param managementGroupId The ID of the management group.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicySetDefinitionsListByManagementGroupResponse>
    */
-  listByManagementGroup(managementGroupId: string): Promise<Models.PolicySetDefinitionsListByManagementGroupResponse>;
-  listByManagementGroup(managementGroupId: string, options: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListByManagementGroupResponse>;
+  listByManagementGroup(managementGroupId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListByManagementGroupResponse>;
+  /**
+   * @param managementGroupId The ID of the management group.
+   * @param callback The callback
+   */
   listByManagementGroup(managementGroupId: string, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  /**
+   * @param managementGroupId The ID of the management group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listByManagementGroup(managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
   listByManagementGroup(managementGroupId: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListByManagementGroupResponse> {
     return this.client.sendOperationRequest(
@@ -332,23 +335,23 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Retrieves the policy set definitions for a subscription.
-   *
    * This operation retrieves a list of all the policy set definitions in the given subscription.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves the policy set definitions for a subscription.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicySetDefinitionsListNextResponse>
    */
-  listNext(nextPageLink: string): Promise<Models.PolicySetDefinitionsListNextResponse>;
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListNextResponse> {
     return this.client.sendOperationRequest(
@@ -361,23 +364,23 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Retrieves built-in policy set definitions.
-   *
    * This operation retrieves a list of all the built-in policy set definitions.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves built-in policy set definitions.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicySetDefinitionsListBuiltInNextResponse>
    */
-  listBuiltInNext(nextPageLink: string): Promise<Models.PolicySetDefinitionsListBuiltInNextResponse>;
-  listBuiltInNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListBuiltInNextResponse>;
+  listBuiltInNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListBuiltInNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listBuiltInNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listBuiltInNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
   listBuiltInNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListBuiltInNextResponse> {
     return this.client.sendOperationRequest(
@@ -390,24 +393,24 @@ export class PolicySetDefinitions {
   }
 
   /**
-   * @summary Retrieves all policy set definitions in management group.
-   *
    * This operation retrieves a list of all the a policy set definition in the given management
    * group.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @summary Retrieves all policy set definitions in management group.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse>
    */
-  listByManagementGroupNext(nextPageLink: string): Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse>;
-  listByManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse>;
+  listByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listByManagementGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listByManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): void;
   listByManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PolicySetDefinitionListResult>): Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
@@ -418,7 +421,6 @@ export class PolicySetDefinitions {
       listByManagementGroupNextOperationSpec,
       callback) as Promise<Models.PolicySetDefinitionsListByManagementGroupNextResponse>;
   }
-
 }
 
 // Operation Specifications

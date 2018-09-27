@@ -28,18 +28,18 @@ export class Features {
 
   /**
    * Gets all the preview features that are available through AFEC for the subscription.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesListAllResponse>
    */
-  listAll(): Promise<Models.FeaturesListAllResponse>;
-  listAll(options: msRest.RequestOptionsBase): Promise<Models.FeaturesListAllResponse>;
+  listAll(options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListAllResponse>;
+  /**
+   * @param callback The callback
+   */
   listAll(callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listAll(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
   listAll(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllResponse> {
     return this.client.sendOperationRequest(
@@ -53,21 +53,21 @@ export class Features {
   /**
    * Gets all the preview features in a provider namespace that are available through AFEC for the
    * subscription.
-   *
-   * @param {string} resourceProviderNamespace The namespace of the resource provider for getting
-   * features.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceProviderNamespace The namespace of the resource provider for getting features.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesListResponse>
    */
-  list(resourceProviderNamespace: string): Promise<Models.FeaturesListResponse>;
-  list(resourceProviderNamespace: string, options: msRest.RequestOptionsBase): Promise<Models.FeaturesListResponse>;
+  list(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListResponse>;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider for getting features.
+   * @param callback The callback
+   */
   list(resourceProviderNamespace: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider for getting features.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(resourceProviderNamespace: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
   list(resourceProviderNamespace: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListResponse> {
     return this.client.sendOperationRequest(
@@ -81,22 +81,24 @@ export class Features {
 
   /**
    * Gets the preview feature with the specified name.
-   *
-   * @param {string} resourceProviderNamespace The resource provider namespace for the feature.
-   *
-   * @param {string} featureName The name of the feature to get.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceProviderNamespace The resource provider namespace for the feature.
+   * @param featureName The name of the feature to get.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesGetResponse>
    */
-  get(resourceProviderNamespace: string, featureName: string): Promise<Models.FeaturesGetResponse>;
-  get(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase): Promise<Models.FeaturesGetResponse>;
+  get(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesGetResponse>;
+  /**
+   * @param resourceProviderNamespace The resource provider namespace for the feature.
+   * @param featureName The name of the feature to get.
+   * @param callback The callback
+   */
   get(resourceProviderNamespace: string, featureName: string, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  /**
+   * @param resourceProviderNamespace The resource provider namespace for the feature.
+   * @param featureName The name of the feature to get.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   get(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
   get(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesGetResponse> {
     return this.client.sendOperationRequest(
@@ -111,22 +113,24 @@ export class Features {
 
   /**
    * Registers the preview feature for the subscription.
-   *
-   * @param {string} resourceProviderNamespace The namespace of the resource provider.
-   *
-   * @param {string} featureName The name of the feature to register.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param featureName The name of the feature to register.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesRegisterResponse>
    */
-  register(resourceProviderNamespace: string, featureName: string): Promise<Models.FeaturesRegisterResponse>;
-  register(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase): Promise<Models.FeaturesRegisterResponse>;
+  register(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesRegisterResponse>;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param featureName The name of the feature to register.
+   * @param callback The callback
+   */
   register(resourceProviderNamespace: string, featureName: string, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
+  /**
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param featureName The name of the feature to register.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   register(resourceProviderNamespace: string, featureName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureResult>): void;
   register(resourceProviderNamespace: string, featureName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureResult>): Promise<Models.FeaturesRegisterResponse> {
     return this.client.sendOperationRequest(
@@ -141,20 +145,21 @@ export class Features {
 
   /**
    * Gets all the preview features that are available through AFEC for the subscription.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesListAllNextResponse>
    */
-  listAllNext(nextPageLink: string): Promise<Models.FeaturesListAllNextResponse>;
-  listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.FeaturesListAllNextResponse>;
+  listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListAllNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listAllNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listAllNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
   listAllNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListAllNextResponse> {
     return this.client.sendOperationRequest(
@@ -169,20 +174,21 @@ export class Features {
   /**
    * Gets all the preview features in a provider namespace that are available through AFEC for the
    * subscription.
-   *
-   * @param {string} nextPageLink The NextLink from the previous successful call to List operation.
-   *
-   * @param {RequestOptionsBase} [options] Optional Parameters.
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse} The deserialized result object.
-   *
-   * @reject {Error|ServiceError} The error object.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FeaturesListNextResponse>
    */
-  listNext(nextPageLink: string): Promise<Models.FeaturesListNextResponse>;
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase): Promise<Models.FeaturesListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FeaturesListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FeatureOperationsListResult>): void;
   listNext(nextPageLink: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.FeatureOperationsListResult>): Promise<Models.FeaturesListNextResponse> {
     return this.client.sendOperationRequest(
@@ -193,7 +199,6 @@ export class Features {
       listNextOperationSpec,
       callback) as Promise<Models.FeaturesListNextResponse>;
   }
-
 }
 
 // Operation Specifications

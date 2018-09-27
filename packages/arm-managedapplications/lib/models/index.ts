@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "ms-rest-azure-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
 import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
@@ -472,6 +472,18 @@ export interface AppliancesUpdateByIdOptionalParams extends msRest.RequestOption
    * appliance.
    */
   parameters?: Appliance;
+}
+
+/**
+ * @interface
+ * An interface representing ManagedApplicationClientOptions.
+ * @extends AzureServiceClientOptions
+ */
+export interface ManagedApplicationClientOptions extends AzureServiceClientOptions {
+  /**
+   * @member {string} [baseUri]
+   */
+  baseUri?: string;
 }
 
 

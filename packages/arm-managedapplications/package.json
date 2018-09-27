@@ -4,7 +4,7 @@
   "description": "ManagedApplicationClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0-preview",
   "dependencies": {
-    "ms-rest-azure-js": "~0.17.164"
+    "ms-rest-azure-js": "~0.17.165"
   },
   "keywords": [
     "node",

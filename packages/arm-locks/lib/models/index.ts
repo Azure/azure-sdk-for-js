@@ -8,7 +8,7 @@
  * regenerated.
  */
 
-import { BaseResource, CloudError } from "ms-rest-azure-js";
+import { BaseResource, CloudError, AzureServiceClientOptions } from "ms-rest-azure-js";
 import * as msRest from "ms-rest-js";
 
 export { BaseResource, CloudError };
@@ -153,6 +153,18 @@ export interface ManagementLocksListAtSubscriptionLevelOptionalParams extends ms
    * @member {string} [filter] The filter to apply on the operation.
    */
   filter?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ManagementLockClientOptions.
+ * @extends AzureServiceClientOptions
+ */
+export interface ManagementLockClientOptions extends AzureServiceClientOptions {
+  /**
+   * @member {string} [baseUri]
+   */
+  baseUri?: string;
 }
 
 
