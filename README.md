@@ -78,7 +78,13 @@ You can run the examples by cloning the repo or copy pasting the below sample in
 - ts-node ./examples/cbsAuth.ts
 ```
 
-## Example 1 - CBS Authentication
+The samples below are generic for EventHubs and Servicebus. You can find EventHub specific examples,
+in the [examples](https://github.com/Azure/amqp-common-js/tree/master/examples) directory.
+
+## Example 1 - CBS (Claims Based Authorization Specification) example
+You can find more information about cbs authorization over [here](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide#claims-based-authorization).
+
+NOTE: The code block below has been later referred to as "./cbsAuth".
 
 ```js
 const { ConnectionContextBase, ConnectionConfig, CbsResponse }  = require("@azure/amqp-common");
@@ -129,7 +135,7 @@ export async function authenticate(audience, closeConnection = false) {
   await connectionContext.cbsSession.init();
   const tokenObject = await connectionContext.tokenProvider.getToken(audience);
   const result = await connectionContext.cbsSession.negotiateClaim(audience, tokenObject);
-  console.log("Result is: %O", result);
+  console.log(`Result is: ${result}`);
   if (closeConnection) {
     await connectionContext.connection.close();
     console.log("Successfully closed the connection.");

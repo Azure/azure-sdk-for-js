@@ -3,6 +3,7 @@
 - `"rhea-promise"` will be a peer dependency rather than a direct dependency. This ensures,
 that only one copy of `"rhea-promise"` is present and avoids type encoding issues.
 - Added examples for send and receive along with cbs authentication.
+- Added `EventHubConnectionConfig` to make it easy for customers to get sender/receiver audience/address.
 
 ### 2018-09-26 0.1.1
 - Update min versions of dependencies "rhea-promise", "ms-rest-azure" and remove "ms-rest" from dependencies.
