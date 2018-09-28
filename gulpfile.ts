@@ -56,10 +56,6 @@ function npmInstall(packageFolderPath: string): void {
   execSync(`npm install`, { cwd: packageFolderPath, stdio: ['ignore', 'ignore', 'pipe'] });
 }
 
-function npmRunBuild(packageFolderPath: string): void {
-  execSync(`npm run build`, { cwd: packageFolderPath, stdio: ['ignore', 'ignore', 'pipe'] });
-}
-
 function getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents: string): string {
   const outputFolderPath: string = getOutputFolderFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
   const outputFolderPathRelativeToAzureSDKForJSRepoRoot: string = outputFolderPath.substring('$(typescript-sdks-folder)/'.length);
@@ -170,7 +166,6 @@ gulp.task('codegen', () => {
         console.log('Installing dependencies...');
         const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
         npmInstall(packageFolderPath);
-        npmRunBuild(packageFolderPath);
       } catch (err) {
         console.log('Error:');
         console.log(`An error occurred while generating client for packages: "${packageNamesString}":\n Stderr: "${err.stderr}"`);
