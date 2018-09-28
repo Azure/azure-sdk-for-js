@@ -23,7 +23,7 @@ export interface IotHubConnectionConfig {
   /**
    * @property {string} entityPath - The name/path of the entity to which the connection needs to happen.
    */
-  entityPath?: string;
+  entityPath: string;
   /**
    * @property {string} sharedAccessKeyName - The name of the access key.
    */
