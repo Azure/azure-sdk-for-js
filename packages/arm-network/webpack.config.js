@@ -7,13 +7,13 @@ const path = require('path');
  */
 const config = {
   mode: 'production',
-  entry: './2018-07-01/esm/lib/networkManagementClient.js',
+  entry: './index.js',
   devtool: 'source-map',
   output: {
     filename: 'networkManagementClientBundle.js',
     path: __dirname,
     libraryTarget: 'var',
-    library: 'networkManagementClient'
+    library: 'armNetwork'
   },
   // "ms-rest-js" and "ms-rest-azure-js" are dependencies of this library.
   // Customer is expected to import/include this library in browser javascript
