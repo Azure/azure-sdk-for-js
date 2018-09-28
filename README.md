@@ -17,9 +17,12 @@ Some of the common functionalities include:
 - Installing node.js on **Windows or macOS** is very simple with available installers on the [node.js website](https://nodejs.org). If you are using a **linux based OS**, then you can find easy to follow, one step installation instructions over [here](https://nodejs.org/en/download/package-manager/).
 
 ## Installation ##
+- Installing this library
 ```bash
 npm install @azure/amqp-common
 ```
+- [`rhea-romise`](https://github.com/amqp/rhea-promise) is a peer dependency. You need to explicitly install this library as a dependency
+in your application.
 
 ## IDE ##
 This sdk has been developed in [TypeScript](https://typescriptlang.org) and has good source code documentation. It is highly recommended to use [vscode](https://code.visualstudio.com) 
@@ -78,64 +81,169 @@ You can run the examples by cloning the repo or copy pasting the below sample in
 ## Example 1 - CBS Authentication
 
 ```js
-const { ConnectionContextBase, CreateConnectionContextBaseParameters, ConnectionConfig } = require("@azure/amqp-common");
-// Using dotenv package is optional and should be used only when .env file is used. 
-// Please take a look at [sample.env](https://github.com/Azure/amqp-common-js/tree/master/sample.env) 
-// file to see how environment variables can be specified.
-import * as dotenv from "dotenv"; 
-dotenv.config();
+const { ConnectionContextBase, ConnectionConfig, CbsResponse }  = require("@azure/amqp-common");
+const dotenv = require("dotenv");
+dotenv.config(); // Optional for loading environment configuration from a .env (config) file
 
-const str = process.env.CONNECTION_STRING || "";
-const path = process.env.ENTITY_PATH;
+export const str = process.env.CONNECTION_STRING || "";
+export const path = process.env.ENTITY_PATH;
+export const connectionConfig = ConnectionConfig.create(str, path);
+const parameters = {
+  config: connectionConfig,
+  connectionProperties: {
+    product: "MSJSClient",
+    userAgent: "/js-amqp-common",
+    version: "0.1.0"
+  }
+};
+export const connectionContext = ConnectionContextBase.create(parameters);
 
-async function main() {
-  const config = ConnectionConfig.create(str, path);
-  const parameters = {
-    config: config,
-    connectionProperties: {
-      product: "MSJSClient",
-      userAgent: "/js-amqp-common",
-      version: "0.1.0"
-    }
-  };
-  const context = ConnectionContextBase.create(parameters);
-  /**
-   * The entity token audience in one of the following forms:
-   *
-   * - **ServiceBus**
-   *    - **Sender**
-   *        - `"sb://<yournamespace>.servicebus.windows.net/<queue-name>"`
-   *        - `"sb://<yournamespace>.servicebus.windows.net/<topic-name>"`
-   *
-   *    - **Receiver**
-   *         - `"sb://<yournamespace>.servicebus.windows.net/<queue-name>"`
-   *         - `"sb://<yournamespace>.servicebus.windows.net/<topic-name>"`
-   *
-   *    - **ManagementClient**
-   *         - `"sb://<your-namespace>.servicebus.windows.net/<queue-name>/$management"`.
-   *         - `"sb://<your-namespace>.servicebus.windows.net/<topic-name>/$management"`.
-   * 
-   * - **EventHubs**
-   *     - **Sender**
-   *          - `"sb://<yournamespace>.servicebus.windows.net/<hubName>"`
-   *          - `"sb://<yournamespace>.servicebus.windows.net/<hubName>/Partitions/<partitionId>"`.
-   *
-   *     - **Receiver**
-   *         - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`.
-   *
-   *     - **ManagementClient**
-   *         - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/$management"`.
-   */
-  const audience = `${config.endpoint}${path}`; // In this example we are providing the audience for an EventHub or ServiceBus sender.
-  await context.cbsSession.init();
-  const tokenObject = await context.tokenProvider.getToken(audience);
-  const result = await context.cbsSession.negotiateClaim(audience, tokenObject);
+/**
+ * audience The entity token audience in one of the following forms:
+ *
+ * - **ServiceBus**
+ *    - **Sender**
+ *        - `"sb://<yournamespace>.servicebus.windows.net/<queue-name>"`
+ *        - `"sb://<yournamespace>.servicebus.windows.net/<topic-name>"`
+ *
+ *    - **Receiver**
+ *         - `"sb://<yournamespace>.servicebus.windows.net/<queue-name>"`
+ *         - `"sb://<yournamespace>.servicebus.windows.net/<topic-name>"`
+ *
+ *    - **ManagementClient**
+ *         - `"sb://<your-namespace>.servicebus.windows.net/<queue-name>/$management"`.
+ *         - `"sb://<your-namespace>.servicebus.windows.net/<topic-name>/$management"`.
+ * 
+ * - **EventHubs**
+ *     - **Sender**
+ *          - `"sb://<yournamespace>.servicebus.windows.net/<hubName>"`
+ *          - `"sb://<yournamespace>.servicebus.windows.net/<hubName>/Partitions/<partitionId>"`.
+ *
+ *     - **Receiver**
+ *         - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`.
+ *
+ *     - **ManagementClient**
+ *         - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/$management"`.
+ */
+export async function authenticate(audience, closeConnection = false) {
+  await connectionContext.cbsSession.init();
+  const tokenObject = await connectionContext.tokenProvider.getToken(audience);
+  const result = await connectionContext.cbsSession.negotiateClaim(audience, tokenObject);
   console.log("Result is: %O", result);
-  await context.connection.close();
-  console.log("Successfully closed the connection.");
+  if (closeConnection) {
+    await connectionContext.connection.close();
+    console.log("Successfully closed the connection.");
+  }
+  return result;
 }
 
-main().catch((err) => { console.log(err); });
+//Audience is for an EventHub or ServiceBus sender.
+// You can uncomment the following line and just run this sample, if required.
+// authenticate(`${config.endpoint}${path}`).catch((err) => console.log(err));
+```
+
+## Example 2 - Send a message
+Building on the above mentioned cbs auth sample, after authentication, we can send a message to EventHub or ServiceBus.
+
+```js
+const dotenv = require("dotenv");
+dotenv.config(); // Optional for loading environment configuration from a .env (config) file
+const { Sender, SenderOptions, EventContext, Message, Delivery } = require("rhea-promise");
+const { authenticate, connectionContext, connectionConfig, path } =  require("./cbsAuth");
+
+async function main() {
+  await authenticate(`${connectionConfig.endpoint}${path}`);
+  const senderName = "sender-1";
+  const senderOptions = {
+    name: senderName,
+    target: {
+      // Address for EventHub Sender, it can be "<EventHubName>" or "<EventHubName>/Partitions/<PartitionId>"
+      // For ServiceBus Queue, it will be "<QueueName>"
+      address: `${path}`
+    },
+    onError: (context) => {
+      const senderError = context.sender && context.sender.error;
+      if (senderError) {
+        console.log(">>>>> [%s] An error occurred for sender '%s': %O.",
+          connectionContext.connection.id, senderName, senderError);
+      }
+    },
+    onSessionError: (context) => {
+      const sessionError = context.session && context.session.error;
+      if (sessionError) {
+        console.log(">>>>> [%s] An error occurred for session of sender '%s': %O.",
+          connectionContext.connection.id, senderName, sessionError);
+      }
+    }
+  };
+
+  const sender = await connectionContext.connection.createSender(senderOptions);
+  const message = {
+    body: "Hello World!!",
+    message_id: "12343434343434"
+  };
+
+  const delivery = await sender.send(message);
+  console.log(">>>>>[%s] Delivery id: ", connectionContext.connection.id, delivery.id);
+
+  await sender.close();
+  await connectionContext.connection.close();
+}
+
+main().catch(err => console.log(err));
+```
+## Example 3 - Receiving a message
+
+Building on the auth sample, post authentication we can receive messages from an EventHub or ServiceBus.
+```js
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
+const dotenv = require("dotenv");
+dotenv.config(); // Optional for loading environment configuration from a .env (config) file
+const { Receiver, ReceiverOptions, EventContext, ReceiverEvents, delay, types } = require("rhea-promise");
+const { authenticate, connectionContext, connectionConfig, path } = require("./cbsAuth");
+
+async function main() {
+  await authenticate(`${connectionConfig.endpoint}${path}`);
+  const receiverName = "receiver-1";
+  const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() - 3600 * 1000}'`; // Get messages from the past hour
+  const receiverAddress = `${path}/ConsumerGroups/$default/Partitions/0`; // For ServiceBus "<QueueName>"
+  const receiverOptions = {
+    name: receiverName,
+    source: {
+      address: receiverAddress,
+      filter: { // May not be required for ServiceBus. The current example is for EventHubs.
+        "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468C00000004)
+      }
+    },
+    onSessionError: (context) => {
+      const sessionError = context.session && context.session.error;
+      if (sessionError) {
+        console.log(">>>>> [%s] An error occurred for session of receiver '%s': %O.",
+          connectionContext.connection.id, receiverName, sessionError);
+      }
+    }
+  };
+
+  const receiver = await connectionContext.connection.createReceiver(receiverOptions);
+  receiver.on(ReceiverEvents.message, (context) => {
+    console.log("Received message: %O", context.message);
+  });
+  receiver.on(ReceiverEvents.receiverError, (context) => {
+    const receiverError = context.receiver && context.receiver.error;
+    if (receiverError) {
+      console.log(">>>>> [%s] An error occurred for receiver '%s': %O.",
+        connectionContext.connection.id, receiverName, receiverError);
+    }
+  });
+  // sleeping for 2 mins to let the receiver receive messages and then closing it.
+  await delay(120000);
+  await receiver.close();
+  await connectionContext.connection.close();
+}
+
+main().catch(err => console.log(err));
 ```
 
 # Contributing

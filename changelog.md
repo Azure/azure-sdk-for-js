@@ -1,9 +1,8 @@
-### 2018-09-26 0.1.3
+### 2018-09-28 0.1.2
+- connection property should be "user-agent".
 - `"rhea-promise"` will be a peer dependency rather than a direct dependency. This ensures,
 that only one copy of `"rhea-promise"` is present and avoids type encoding issues.
-
-### 2018-09-26 0.1.2
-- connection property should be "user-agent".
+- Added examples for send and receive along with cbs authentication.
 
 ### 2018-09-26 0.1.1
 - Update min versions of dependencies "rhea-promise", "ms-rest-azure" and remove "ms-rest" from dependencies.
