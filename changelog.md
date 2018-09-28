@@ -1,3 +1,7 @@
+### 2018-09-26 0.1.3
+- `"rhea-promise"` will be a peer dependency rather than a direct dependency. This ensures,
+that only one copy of `"rhea-promise"` is present and avoids type encoding issues.
+
 ### 2018-09-26 0.1.2
 - connection property should be "user-agent".
 
