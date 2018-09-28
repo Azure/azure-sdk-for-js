@@ -2,7 +2,7 @@ import { Aborter } from "../../lib/Aborter";
 import { BlobURL } from "../../lib/BlobURL";
 import { BlockBlobURL } from "../../lib/BlockBlobURL";
 import { ContainerURL } from "../../lib/ContainerURL";
-import { getBSU, getUniqueName } from "../utils/testutils.node";
+import { getBSU, getUniqueName } from "../utils/index";
 
 describe("SharedKeyCredentialPolicy Node.js only", () => {
   const serviceURL = getBSU();

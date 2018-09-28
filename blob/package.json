@@ -1,11 +1,11 @@
 {
   "name": "@azure/storage-blob",
-  "version": "10.0.0-preview",
+  "version": "10.1.0-preview",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/lib/index.js",
   "browser": {
-    "./dist/index.js": "./dist/index.browser.js",
+    "./dist/index.js": "./browser/azure-storage.blob.min.js",
     "./dist-esm/lib/index.js": "./dist-esm/src/index.browser.js",
     "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
     "os": false,
@@ -16,14 +16,16 @@
     "node": ">=6.5.0"
   },
   "dependencies": {
-    "events": "^3.0.0",
-    "ms-rest-js": "0.21.413",
+    "events": "3.0.0",
+    "ms-rest-js": "0.22.425",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
     "assert": "^1.4.1",
     "es6-promise": "^4.2.4",
+    "gulp": "^3.9.1",
+    "gulp-zip": "^4.2.0",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-edge-launcher": "^0.4.2",
@@ -45,15 +47,16 @@
   },
   "scripts": {
     "test": "npm run test:node && npm run test:browser",
-    "test:node": "npm run build:es6 && npm run build:nodebrowser && mocha --no-timeouts dist-esm/test/*.js dist-esm/test/node/*.js",
-    "test:browser": "npm run build:es6 && npm run build:test && karma start --single-run",
-    "build": "npm run build:es6 && npm run build:nodebrowser",
+    "test:node": "npm run build:test && mocha --no-timeouts dist-test/index.js",
+    "test:browser": "npm run build:test && karma start --single-run",
+    "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip",
     "build:test": "rollup -c rollup.test.config.js",
     "build:nodebrowser": "rollup -c",
-    "build:es6": "node ./node_modules/typescript/bin/tsc -p tsconfig.json",
+    "build:es6": "tsc -p tsconfig.json",
     "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.0.476",
+    "build:browserzip": "gulp zip",
     "prepare": "npm run build",
-    "clean": "rimraf dist && rimraf dist-esm && rimraf typings && rimraf temp"
+    "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip"
   },
   "repository": {
     "type": "git",

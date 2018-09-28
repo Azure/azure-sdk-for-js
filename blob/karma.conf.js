@@ -1,27 +1,24 @@
 module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: './',
+    basePath: "./",
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha'],
+    frameworks: ["mocha"],
 
     plugins: [
-      'karma-mocha',
-      'karma-mocha-reporter',
-      'karma-chrome-launcher',
-      'karma-edge-launcher',
-      'karma-firefox-launcher',
-      'karma-ie-launcher',
-      'karma-env-preprocessor'
+      "karma-mocha",
+      "karma-mocha-reporter",
+      "karma-chrome-launcher",
+      "karma-edge-launcher",
+      "karma-firefox-launcher",
+      "karma-ie-launcher",
+      "karma-env-preprocessor"
     ],
 
     // list of files / patterns to load in the browser
-    files: [
-      'node_modules/ms-rest-js/msRestBundle.js',
-      'dist-test/index.browser.js'
-    ],
+    files: ["dist-test/index.browser.js"],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -29,18 +26,18 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      '**/*.js': ['env']
+      "**/*.js": ["env"]
     },
 
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ['ACCOUNT_NAME', 'ACCOUNT_SAS'],
+    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha'],
+    reporters: ["mocha"],
 
     // web server port
     port: 9876,
@@ -58,7 +55,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ['Chrome'],
+    browsers: ["Chrome"],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -73,8 +70,8 @@ module.exports = function(config) {
     client: {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
-        reporter: 'html',
-        timeout: '600000'
+        reporter: "html",
+        timeout: "600000"
       }
     }
   });
