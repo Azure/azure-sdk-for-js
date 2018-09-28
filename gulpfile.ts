@@ -36,8 +36,16 @@ function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot: string): string[
   return readmeTypeScriptMdFilePaths;
 }
 
-function getPackageNameFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string {
-  return readmeTypeScriptMdFileContents.match(/package-name: (\S*)/)[1];
+function getPackageNamesFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string[] {
+  const packageNamePattern: RegExp = /package-name: (\S*)/g;
+  const matches: string[] = readmeTypeScriptMdFileContents.match(packageNamePattern) || [];
+  // console.log(`"package-name" matches: ${JSON.stringify(matches)}`);
+  for (let i = 0; i < matches.length; ++i)
+  {
+    matches[i] = matches[i].substring("package-name: ".length);
+  }
+  // console.log(`"package-name" matches trimmed: ${JSON.stringify(matches)}`);
+  return matches;
 }
 
 function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string {
@@ -46,6 +54,10 @@ function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFil
 
 function npmInstall(packageFolderPath: string): void {
   execSync(`npm install`, { cwd: packageFolderPath, stdio: ['ignore', 'ignore', 'pipe'] });
+}
+
+function npmRunBuild(packageFolderPath: string): void {
+  execSync(`npm run build`, { cwd: packageFolderPath, stdio: ['ignore', 'ignore', 'pipe'] });
 }
 
 function getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents: string): string {
@@ -60,6 +72,10 @@ function startsWith(value: string, prefix: string): boolean {
 
 function endsWith(value: string, suffix: string): boolean {
   return value && suffix && value.length >= suffix.length && value.lastIndexOf(suffix) === value.length - suffix.length;
+}
+
+function contains(values: string[], searchString: string): boolean {
+  return values.indexOf(searchString) !== -1;
 }
 
 gulp.task('default', () => {
@@ -94,9 +110,9 @@ gulp.task("install", () => {
       const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
 
       const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
-      const packageName: string = getPackageNameFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-
-      if (packageArg === packageName || endsWith(packageName, `-${packageArg}`)) {
+      const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
+      
+      if (contains(packageNames, packageArg)) {
         foundPackage = true;
 
         const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
@@ -119,11 +135,12 @@ gulp.task('codegen', () => {
     const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
 
     const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
-    const packageName: string = getPackageNameFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-    // console.log(`In "${typeScriptReadmeFilePath}", found package name "${packageName}".`);
+    const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
+    const packageNamesString: string = JSON.stringify(packageNames);
+    // console.log(`In "${typeScriptReadmeFilePath}", found package names "${packageNamesString}".`);
 
-    if (!packageArg || packageArg === packageName || endsWith(packageName, `-${packageArg}`)) {
-      console.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageName}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
+    if (!packageArg || contains(packageNames, packageArg)) {
+      console.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
 
       const readmeFilePath: string = path.resolve(path.dirname(typeScriptReadmeFilePath), 'readme.md');
 
@@ -153,12 +170,13 @@ gulp.task('codegen', () => {
         console.log('Installing dependencies...');
         const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
         npmInstall(packageFolderPath);
+        npmRunBuild(packageFolderPath);
       } catch (err) {
         console.log('Error:');
-        console.log(`An error occurred while generating client for package: "${packageName}":\n Stderr: "${err.stderr}"`);
+        console.log(`An error occurred while generating client for packages: "${packageNamesString}":\n Stderr: "${err.stderr}"`);
       }
 
-      console.log(`>>>>>>>>>>>>>>>>>>> End: "${packageName}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
+      console.log(`>>>>>>>>>>>>>>>>>>> End: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
       console.log();
     }
   }
