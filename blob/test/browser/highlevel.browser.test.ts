@@ -1,10 +1,10 @@
-import * as assert from 'assert';
+import * as assert from "assert";
 
-import { Aborter } from '../../lib/Aborter';
-import { BlobURL } from '../../lib/BlobURL';
-import { BlockBlobURL } from '../../lib/BlockBlobURL';
-import { ContainerURL } from '../../lib/ContainerURL';
-import { uploadBrowserDataToBlockBlob } from '../../lib/highlevel.browser';
+import { Aborter } from "../../lib/Aborter";
+import { BlobURL } from "../../lib/BlobURL";
+import { BlockBlobURL } from "../../lib/BlockBlobURL";
+import { ContainerURL } from "../../lib/ContainerURL";
+import { uploadBrowserDataToBlockBlob } from "../../lib/highlevel.browser";
 import {
   arrayBufferEqual,
   blobToArrayBuffer,
@@ -14,14 +14,14 @@ import {
   getBSU,
   getUniqueName,
   isIE
-} from '../utils/index.browser';
+} from "../utils/index.browser";
 
 // tslint:disable:no-empty
-describe('Highelvel', () => {
+describe("Highelvel", () => {
   const serviceURL = getBSU();
-  let containerName = getUniqueName('container');
+  let containerName = getUniqueName("container");
   let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName = getUniqueName('blob');
+  let blobName = getUniqueName("blob");
   let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
   let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   let tempFile1: File;
@@ -30,10 +30,10 @@ describe('Highelvel', () => {
   const tempFile2Length: number = 1 * 1024 * 1024 - 1;
 
   beforeEach(async () => {
-    containerName = getUniqueName('container');
+    containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.None);
-    blobName = getUniqueName('blob');
+    blobName = getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   });
@@ -43,13 +43,13 @@ describe('Highelvel', () => {
   });
 
   before(async () => {
-    tempFile1 = getBrowserFile(getUniqueName('browserfile'), tempFile1Length);
-    tempFile2 = getBrowserFile(getUniqueName('browserfile'), tempFile2Length);
+    tempFile1 = getBrowserFile(getUniqueName("browserfile"), tempFile1Length);
+    tempFile2 = getBrowserFile(getUniqueName("browserfile"), tempFile2Length);
   });
 
   after(async () => {});
 
-  it('uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const aborter = Aborter.timeout(1);
 
     try {
@@ -59,11 +59,11 @@ describe('Highelvel', () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes('abort'));
+      assert.ok((err.code as string).toLowerCase().includes("abort"));
     }
   });
 
-  it('uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadBrowserDataToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const aborter = Aborter.timeout(1);
 
     try {
@@ -73,11 +73,11 @@ describe('Highelvel', () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes('abort'));
+      assert.ok((err.code as string).toLowerCase().includes("abort"));
     }
   });
 
-  it('uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadBrowserDataToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
     const aborter = Aborter.None;
 
@@ -95,7 +95,7 @@ describe('Highelvel', () => {
     assert.ok(eventTriggered);
   });
 
-  it('uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadBrowserDataToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
     const aborter = Aborter.None;
 
@@ -113,7 +113,7 @@ describe('Highelvel', () => {
     assert.ok(eventTriggered);
   });
 
-  it('uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     await uploadBrowserDataToBlockBlob(Aborter.None, tempFile2, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 2
@@ -126,7 +126,7 @@ describe('Highelvel', () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it('uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     if (isIE()) {
       assert.ok(
         true,

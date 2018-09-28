@@ -1,27 +1,34 @@
-!dist/**/*.js
-!dist-esm/lib/**/*.js
-!typings/lib/**/*.d.ts
+# browser #
+browser/azure-storage.blob.js
+browser/azure-storage.blob.js.map
 
-# git #
-.git*
+# dist-esm #
+!dist-esm/lib/**/*.js
+dist-esm/test
+dist-esm/samples
+
+# dist-test #
+dist-test/
 
 # Node #
 node_modules/
 
-# Test #
-test/
-dist/test
-es6dist/test
-typings/test
-
 # Samples #
 samples/
-dist/samples
-dist-esm/samples
-typings/samples
 
 # Swagger #
 swagger/
+
+# typings #
+!typings/lib/**/*.d.ts
+typings/test
+typings/samples
+
+# git #
+.git*
+
+# Test #
+test/
 
 # Others #
 .vscode/
@@ -36,3 +43,8 @@ tslint.json
 *.js.map
 package-lock.json
 karma.conf.js
+temp
+gulpfile.js
+rollup.config.js
+rollup.test.config.js
+*.html

@@ -1,40 +1,40 @@
-import * as assert from 'assert';
-import * as fs from 'fs';
-import * as path from 'path';
-import { Aborter } from '../../lib/Aborter';
+import * as assert from "assert";
+import * as fs from "fs";
+import * as path from "path";
+import { Aborter } from "../../lib/Aborter";
 import {
   downloadBlobToBuffer,
   uploadFileToBlockBlob,
   uploadStreamToBlockBlob
-} from '../../lib/highlevel.node';
+} from "../../lib/highlevel.node";
 import {
   createRandomLocalFile,
   getBSU,
   getUniqueName,
   readStreamToLocalFile
-} from '../utils/index';
+} from "../utils/index";
 
-import { BlobURL, BlockBlobURL, ContainerURL } from '../../lib';
+import { BlobURL, BlockBlobURL, ContainerURL } from "../../lib";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
   const serviceURL = getBSU();
-  let containerName = getUniqueName('container');
+  let containerName = getUniqueName("container");
   let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  let blobName = getUniqueName('blob');
+  let blobName = getUniqueName("blob");
   let blobURL = BlobURL.fromContainerURL(containerURL, blobName);
   let blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   let tempFileSmall: string;
   let tempFileSmallLength: number;
   let tempFileLarge: string;
   let tempFileLargeLength: number;
-  const tempFolderPath = 'temp';
+  const tempFolderPath = "temp";
 
   beforeEach(async () => {
-    containerName = getUniqueName('container');
+    containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
     await containerURL.create(Aborter.None);
-    blobName = getUniqueName('blob');
+    blobName = getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   });
@@ -66,7 +66,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(tempFileSmall);
   });
 
-  it('uploadFileToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadFileToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     await uploadFileToBlockBlob(Aborter.None, tempFileLarge, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 20
@@ -75,7 +75,7 @@ describe("Highlevel", () => {
     const downloadResponse = await blockBlobURL.download(Aborter.None, 0);
     const downloadedFile = path.join(
       tempFolderPath,
-      getUniqueName('downloadfile.')
+      getUniqueName("downloadfile.")
     );
     await readStreamToLocalFile(
       downloadResponse.readableStreamBody!,
@@ -89,7 +89,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it('uploadFileToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadFileToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     await uploadFileToBlockBlob(Aborter.None, tempFileSmall, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 20
@@ -98,7 +98,7 @@ describe("Highlevel", () => {
     const downloadResponse = await blockBlobURL.download(Aborter.None, 0);
     const downloadedFile = path.join(
       tempFolderPath,
-      getUniqueName('downloadfile.')
+      getUniqueName("downloadfile.")
     );
     await readStreamToLocalFile(
       downloadResponse.readableStreamBody!,
@@ -112,7 +112,7 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it('uploadFileToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadFileToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const aborter = Aborter.timeout(1);
 
     try {
@@ -122,11 +122,11 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes('abort'));
+      assert.ok((err.code as string).toLowerCase().includes("abort"));
     }
   });
 
-  it('uploadFileToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadFileToBlockBlob should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     const aborter = Aborter.timeout(1);
 
     try {
@@ -136,11 +136,11 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes('abort'));
+      assert.ok((err.code as string).toLowerCase().includes("abort"));
     }
   });
 
-  it('uploadFileToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadFileToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
     const aborter = Aborter.None;
 
@@ -158,7 +158,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
-  it('uploadFileToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES', async () => {
+  it("uploadFileToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
     const aborter = Aborter.None;
 
@@ -176,7 +176,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
-  it('uploadStreamToBlockBlob should success', async () => {
+  it("uploadStreamToBlockBlob should success", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     await uploadStreamToBlockBlob(
       Aborter.None,
@@ -188,7 +188,7 @@ describe("Highlevel", () => {
 
     const downloadResponse = await blockBlobURL.download(Aborter.None, 0);
 
-    const downloadFilePath = path.join('./', getUniqueName('downloadFile'));
+    const downloadFilePath = path.join("./", getUniqueName("downloadFile"));
     await readStreamToLocalFile(
       downloadResponse.readableStreamBody!,
       downloadFilePath
@@ -201,7 +201,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadFilePath);
   });
 
-  it('uploadStreamToBlockBlob should abort', async () => {
+  it("uploadStreamToBlockBlob should abort", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = Aborter.timeout(1);
 
@@ -215,11 +215,11 @@ describe("Highlevel", () => {
       );
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes('abort'));
+      assert.ok((err.code as string).toLowerCase().includes("abort"));
     }
   });
 
-  it('uploadStreamToBlockBlob should update progress event', async () => {
+  it("uploadStreamToBlockBlob should update progress event", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
 
@@ -239,7 +239,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
-  it('downloadBlobToBuffer should success', async () => {
+  it("downloadBlobToBuffer should success", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     await uploadStreamToBlockBlob(
       Aborter.None,
@@ -259,7 +259,7 @@ describe("Highlevel", () => {
     assert.ok(localFileContent.equals(buf));
   });
 
-  it('downloadBlobToBuffer should abort', async () => {
+  it("downloadBlobToBuffer should abort", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     await uploadStreamToBlockBlob(
       Aborter.None,
@@ -284,11 +284,11 @@ describe("Highlevel", () => {
       );
       assert.fail();
     } catch (err) {
-      assert.ok((err.code as string).toLowerCase().includes('abort'));
+      assert.ok((err.code as string).toLowerCase().includes("abort"));
     }
   });
 
-  it('downloadBlobToBuffer should update progress event', async () => {
+  it("downloadBlobToBuffer should update progress event", async () => {
     const rs = fs.createReadStream(tempFileSmall);
     await uploadStreamToBlockBlob(
       Aborter.None,
