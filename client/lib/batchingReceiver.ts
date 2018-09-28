@@ -102,9 +102,11 @@ export class BatchingReceiver extends EventHubReceiver {
 
       // Action to be taken when an error is received.
       onReceiveError = (context: EventContext) => {
-        this._receiver!.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.removeListener(ReceiverEvents.message, onReceiveMessage);
-        this._receiver!.session.removeListener(SessionEvents.sessionError, onSessionError);
+        const receiver = this._receiver || context.receiver!;
+        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        receiver!.session.removeListener(SessionEvents.sessionError, onSessionError);
+
         const receiverError = context.receiver && context.receiver.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (receiverError) {
@@ -135,9 +137,10 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       onSessionError = (context: EventContext) => {
-        this._receiver!.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.removeListener(ReceiverEvents.message, onReceiveMessage);
-        this._receiver!.session.removeListener(SessionEvents.sessionError, onReceiveError);
+        const receiver = this._receiver || context.receiver!;
+        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        receiver.session.removeListener(SessionEvents.sessionError, onReceiveError);
         const sessionError = context.session && context.session.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (sessionError) {

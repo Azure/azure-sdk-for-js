@@ -219,46 +219,38 @@ export class EventHubReceiver extends LinkEntity {
     };
 
     this._onAmqpError = (context: EventContext) => {
+      const receiver = this._receiver || context.receiver!;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const ehError = translate(receiverError);
         log.error("[%s] An error occurred for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
         if (!ehError.retryable) {
-          if (this._receiver) {
-            if (!this._receiver.isClosed()) {
-              log.error("[%s] Since the user did not close the receiver and the error is not " +
-                "retryable, we let the user know about it by calling the user's error handler.",
-                this._context.connectionId);
-              this._onError!(ehError);
-            } else {
-              log.error("[%s] The received error is not retryable. However, the receiver was " +
-                "closed by the user. Hence not notifying the user's error handler.",
-                this._context.connectionId);
-            }
-          } else {
-            log.error("[%s] The received error is not retryable. However, we still do not " +
-              "have a reference to the internal receiver. This means that we received the " +
-              "'receiver_error' event before the promise to create the receiver could be " +
-              "resolved or rejected. We shall still notify the user about it, as there is no " +
-              "way to conclude whether the user closed the receiver or not.",
+          if (receiver && !receiver.isClosed()) {
+            log.error("[%s] Since the user did not close the receiver and the error is not " +
+              "retryable, we let the user know about it by calling the user's error handler.",
               this._context.connectionId);
             this._onError!(ehError);
+          } else {
+            log.error("[%s] The received error is not retryable. However, the receiver was " +
+              "closed by the user. Hence not notifying the user's error handler.",
+              this._context.connectionId);
           }
         } else {
-          log.error("[%s] Since received error is retryable, we will not notify the user's " +
+          log.error("[%s] Since received error is retryable, we will NOT notify the user's " +
             "error handler.", this._context.connectionId);
         }
       }
     };
 
     this._onSessionError = (context: EventContext) => {
+      const receiver = this._receiver || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const ehError = translate(sessionError);
         log.error("[%s] An error occurred on the session for Receiver '%s': %O.",
           this._context.connectionId, this.name, ehError);
-        if (this._receiver && !this._receiver.isSessionClosed() && !ehError.retryable) {
+        if (receiver && !receiver.isSessionClosed() && !ehError.retryable) {
           log.error("[%s] Since the user did not close the receiver and the session error is not " +
             "retryable, we let the user know about it by calling the user's error handler.",
             this._context.connectionId);
@@ -269,12 +261,13 @@ export class EventHubReceiver extends LinkEntity {
 
     this._onAmqpClose = async (context: EventContext) => {
       const receiverError = context.receiver && context.receiver.error;
+      const receiver = this._receiver || context.receiver!;
       if (receiverError) {
         log.error("[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
           "The associated error is: %O", this._context.connectionId, this.name,
           this.address, receiverError);
       }
-      if (this._receiver && !this._receiver.isClosed()) {
+      if (receiver && !receiver.isClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
             "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
@@ -295,6 +288,7 @@ export class EventHubReceiver extends LinkEntity {
     };
 
     this._onSessionClose = async (context: EventContext) => {
+      const receiver = this._receiver || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         log.error("[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
@@ -302,7 +296,7 @@ export class EventHubReceiver extends LinkEntity {
           this.address, sessionError);
       }
 
-      if (this._receiver && !this._receiver.isSessionClosed()) {
+      if (receiver && !receiver.isSessionClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'session_close' event occurred on the session of receiver '%s' with " +
             "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
