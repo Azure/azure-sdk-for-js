@@ -33,6 +33,9 @@ describe("ConnectionContextBase", function () {
     context.wasConnectionCloseCalled.should.equal(false);
     context.tokenProvider.should.instanceOf(SasTokenProvider);
     context.connection.should.instanceOf(Connection);
+    context.connection.options.properties!.product.should.equal("MSJSClient");
+    context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
+    context.connection.options.properties!.version.should.equal("1.0.0");
     context.cbsSession.should.instanceOf(CbsClient);
     context.dataTransformer.should.instanceOf(DefaultDataTransformer);
     done();

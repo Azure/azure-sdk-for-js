@@ -9,6 +9,7 @@ export { SasTokenProvider } from "./auth/sas";
 export { IotSasTokenProvider } from "./auth/iotSas";
 export { AadTokenProvider } from "./auth/aad";
 export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig";
+export { EventHubConnectionConfig } from "./eventhubConnectionConfig";
 export { CbsClient, CbsResponse } from "./cbs";
 import * as Constants from "./util/constants";
 export { Constants };

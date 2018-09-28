@@ -38,7 +38,7 @@ export interface ConnectionConfig {
    * @property {string} entityPath - The name/path of the entity (hub name) to which the
    * connection needs to happen.
    */
-  entityPath?: string;
+  entityPath: string;
   /**
    * @property {string} sharedAccessKeyName - The name of the access key.
    */
@@ -71,11 +71,12 @@ export namespace ConnectionConfig {
       throw new Error(`Either provide "path" or the "connectionString": "${connectionString}", ` +
         `must contain EntityPath="<path-to-the-entity>".`);
     }
+    if (!parsedCS.Endpoint.endsWith("/")) parsedCS.Endpoint += "/";
     const result: ConnectionConfig = {
       connectionString: connectionString,
       endpoint: parsedCS.Endpoint,
       host: (parsedCS && parsedCS.Endpoint) ? (parsedCS.Endpoint.match('sb://([^/]*)') || [])[1] : "",
-      entityPath: path || parsedCS.EntityPath,
+      entityPath: path! || parsedCS.EntityPath!,
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
       sharedAccessKey: parsedCS.SharedAccessKey
     };
@@ -101,10 +102,12 @@ export namespace ConnectionConfig {
     if (options.isEntityPathRequired && !config.entityPath) {
       throw new Error("'entityPath' is a required property of ConnectionConfig.");
     }
-    if (!config.sharedAccessKeyName || (config.sharedAccessKeyName && typeof config.sharedAccessKeyName !== "string")) {
+    if (!config.sharedAccessKeyName ||
+      (config.sharedAccessKeyName && typeof config.sharedAccessKeyName !== "string")) {
       throw new Error("'sharedAccessKeyName' is a required property of ConnectionConfig.");
     }
-    if (!config.sharedAccessKey || (config.sharedAccessKey && typeof config.sharedAccessKey !== "string")) {
+    if (!config.sharedAccessKey ||
+      (config.sharedAccessKey && typeof config.sharedAccessKey !== "string")) {
       throw new Error("'sharedAccessKey' is a required property of ConnectionConfig.");
     }
   }
