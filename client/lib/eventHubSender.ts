@@ -96,13 +96,14 @@ export class EventHubSender extends LinkEntity {
     };
 
     this._onAmqpClose = async (context: EventContext) => {
+      const sender = this._sender || context.sender!;
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         log.error("[%s] 'sender_close' event occurred for sender '%s' with address '%s'. " +
           "The associated error is: %O", this._context.connectionId, this.name,
           this.address, senderError);
       }
-      if (this._sender && !this._sender.isClosed()) {
+      if (sender && !sender.isClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
             "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
@@ -123,13 +124,14 @@ export class EventHubSender extends LinkEntity {
     };
 
     this._onSessionClose = async (context: EventContext) => {
+      const sender = this._sender || context.sender!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         log.error("[%s] 'session_close' event occurred for sender '%s' with address '%s'. " +
           "The associated error is: %O", this._context.connectionId, this.name,
           this.address, sessionError);
       }
-      if (this._sender && !this._sender.isSessionClosed()) {
+      if (sender && !sender.isSessionClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'session_close' event occurred on the session of sender '%s' with " +
             "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
