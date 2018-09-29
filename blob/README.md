@@ -37,12 +37,6 @@ This library depends on following ES6 features which need external polyfills loa
 * `String.prototype.repeat`
 * `String.prototype.includes`
 
-* `Promise`
-* `String.prototype.startsWith`
-* `String.prototype.endsWith`
-* `String.prototype.repeat`
-* `String.prototype.includes`
-
 #### Differences between Node.js and browsers
 
 There are differences between Node.js and browsers runtime. When getting start with this SDK, pay attention to APIs or classes marked with *"ONLY AVAILABLE IN NODE.JS RUNTIME"* or *"ONLY AVAILABLE IN BROWSERS"*.
@@ -103,6 +97,18 @@ The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) stand
 Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-storage-js/releases). Or from following links directly:
 
 * Blob [https://aka.ms/downloadazurestoragejsblob](https://aka.ms/downloadazurestoragejsblob)
+
+### CORS
+
+You need to set up CORS rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+
+For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
+
+* Allowed origins: *
+* Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
+* Allowed headers: *
+* Exposed headers: *
+* Maximum age (seconds): 86400
 
 ## SDK Architecture
 
