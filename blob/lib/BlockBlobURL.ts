@@ -148,7 +148,7 @@ export class BlockBlobURL extends BlobURL {
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body
    * @param {number} contentLength
@@ -179,7 +179,7 @@ export class BlockBlobURL extends BlobURL {
    * committed by a call to commitBlockList.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} blockId A 64-byte value that is base64-encoded
    * @param {HttpRequestBody} body
@@ -209,7 +209,7 @@ export class BlockBlobURL extends BlobURL {
    * This API is available starting in version 2018-03-28.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-block-from-url
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} blockId A 64-byte value that is base64-encoded
    * @param {string} sourceURL Specifies the URL of the blob. The value
@@ -252,7 +252,7 @@ export class BlockBlobURL extends BlobURL {
    * blocks together. Any blocks not specified in the block list and permanently deleted.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block-list
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
    * @param {IBlockBlobCommitBlockListOptions} [options]
@@ -283,7 +283,7 @@ export class BlockBlobURL extends BlobURL {
    * using the specified block list filter.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-block-list
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.BlockListType} listType
    * @param {IBlockBlobGetBlockListOptions} [options]

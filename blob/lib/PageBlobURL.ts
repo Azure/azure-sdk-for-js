@@ -153,7 +153,7 @@ export class PageBlobURL extends BlobURL {
    * data to a page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} size
    * @param {IPageBlobCreateOptions} [options]
@@ -181,7 +181,7 @@ export class PageBlobURL extends BlobURL {
    * Writes 1 or more pages to the page blob. The start and end offsets must be a multiple of 512.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-page
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {HttpRequestBody} body
    * @param {number} offset Offset of destination page blob
@@ -215,7 +215,7 @@ export class PageBlobURL extends BlobURL {
    * Frees the specified pages from the page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-page
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} offset
    * @param {number} count
@@ -245,7 +245,7 @@ export class PageBlobURL extends BlobURL {
    * Returns the list of valid page ranges for a page blob or snapshot of a page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} offset
    * @param {number} count
@@ -273,7 +273,7 @@ export class PageBlobURL extends BlobURL {
    * Gets the collection of page ranges that differ between a specified snapshot and this page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} offset
    * @param {number} count
@@ -304,7 +304,7 @@ export class PageBlobURL extends BlobURL {
    * Resizes the page blob to the specified size (which must be a multiple of 512).
    * @see https://docs.microsoft.com/rest/api/storageservices/set-blob-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} size
    * @param {IPageBlobResizeOptions} [options]
@@ -329,7 +329,7 @@ export class PageBlobURL extends BlobURL {
    * Sets a page blob's sequence number.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.SequenceNumberActionType} sequenceNumberAction
    * @param {number} [sequenceNumber] Required if sequenceNumberAction is max or update
@@ -361,7 +361,7 @@ export class PageBlobURL extends BlobURL {
    * @see https://docs.microsoft.com/rest/api/storageservices/incremental-copy-blob
    * @see https://docs.microsoft.com/en-us/azure/virtual-machines/windows/incremental-snapshots
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copySource Specifies the name of the source page blob snapshot. For example,
    *                            https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>

@@ -189,7 +189,7 @@ export class ContainerURL extends StorageURL {
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IContainerCreateOptions} [options]
    * @returns {Promise<Models.ContainerCreateResponse>}
@@ -212,7 +212,7 @@ export class ContainerURL extends StorageURL {
    * container. The data returned does not include the container's list of blobs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IContainersGetPropertiesOptions} [options]
    * @returns {Promise<Models.ContainerGetPropertiesResponse>}
@@ -237,7 +237,7 @@ export class ContainerURL extends StorageURL {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.ContainersDeleteMethodOptionalParams} [options]
    * @returns {Promise<Models.ContainerDeleteResponse>}
@@ -289,7 +289,7 @@ export class ContainerURL extends StorageURL {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IContainerSetMetadataOptions} [options]
    * @returns {Promise<Models.ContainerSetMetadataResponse>}
@@ -346,7 +346,7 @@ export class ContainerURL extends StorageURL {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-container-acl
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IContainerGetAccessPolicyOptions} [options]
    * @returns {Promise<ContainerGetAccessPolicyResponse>}
@@ -400,7 +400,7 @@ export class ContainerURL extends StorageURL {
    * removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {PublicAccessType} [access]
    * @param {ISignedIdentifier[]} [containerAcl]
@@ -443,7 +443,7 @@ export class ContainerURL extends StorageURL {
    * The lock duration can be 15 to 60 seconds, or can be infinite.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} proposedLeaseId Can be specified in any valid GUID string format
    * @param {number} duration Must be between 15 to 60 seconds, or infinite (-1)
@@ -470,7 +470,7 @@ export class ContainerURL extends StorageURL {
    * immediately acquire a lease against the container.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {IContainerReleaseLeaseOptions} [options]
@@ -492,7 +492,7 @@ export class ContainerURL extends StorageURL {
    * To renew an existing lease.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {IContainerRenewLeaseOptions} [options]
@@ -515,7 +515,7 @@ export class ContainerURL extends StorageURL {
    * until the current lease period has expired.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} period break period
    * @param {IContainerBreakLeaseOptions} [options]
@@ -538,7 +538,7 @@ export class ContainerURL extends StorageURL {
    * To change the ID of an existing lease.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-container
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {string} proposedLeaseId
@@ -565,7 +565,7 @@ export class ContainerURL extends StorageURL {
    * (passing the the previously-returned Marker) to get the next segment.
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker]
    * @param {IContainerListBlobsSegmentOptions} [options]
@@ -591,7 +591,7 @@ export class ContainerURL extends StorageURL {
    * again (passing the the previously-returned Marker) to get the next segment.
    * @see https://docs.microsoft.com/rest/api/storageservices/list-blobs
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} delimiter
    * @param {IContainerListBlobsSegmentOptions} [options]

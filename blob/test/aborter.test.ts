@@ -16,11 +16,11 @@ describe("Aborter", () => {
   });
 
   it("Should not abort after calling abort()", async () => {
-    await containerURL.create(Aborter.None);
+    await containerURL.create(Aborter.none);
   });
 
   it("Should abort when calling abort() before request finishes", async () => {
-    const aborter = Aborter.None;
+    const aborter = Aborter.none;
     const response = containerURL.create(aborter);
     aborter.abort();
     try {
@@ -30,7 +30,7 @@ describe("Aborter", () => {
   });
 
   it("Should not abort when calling abort() after request finishes", async () => {
-    const aborter = Aborter.None;
+    const aborter = Aborter.none;
     await containerURL.create(aborter);
     aborter.abort();
   });
@@ -44,7 +44,7 @@ describe("Aborter", () => {
 
   it("Should abort after father aborter calls abort()", async () => {
     try {
-      const aborter = Aborter.None;
+      const aborter = Aborter.none;
       const response = containerURL.create(aborter.withTimeout(10 * 60 * 1000));
       aborter.abort();
       await response;

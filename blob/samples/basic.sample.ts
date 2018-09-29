@@ -34,7 +34,7 @@ async function executeSample() {
   let marker;
   do {
     const listContainersResponse: ServiceListContainersSegmentResponse = await serviceURL.listContainersSegment(
-      Aborter.None,
+      Aborter.none,
       marker
     );
 
@@ -48,7 +48,7 @@ async function executeSample() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
 
-  const createContainerResponse = await containerURL.create(Aborter.None);
+  const createContainerResponse = await containerURL.create(Aborter.none);
   console.log(
     `Create container ${containerName} successfully`,
     createContainerResponse.requestId
@@ -60,7 +60,7 @@ async function executeSample() {
   const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
   const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   const uploadBlobResponse = await blockBlobURL.upload(
-    Aborter.None,
+    Aborter.none,
     content,
     content.length
   );
@@ -72,7 +72,7 @@ async function executeSample() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobURL.download(Aborter.None, 0);
+  const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
   console.log(
     "Downloaded blob content",
     downloadBlockBlobResponse
@@ -81,7 +81,7 @@ async function executeSample() {
   );
 
   // Delete container
-  await containerURL.delete(Aborter.None);
+  await containerURL.delete(Aborter.none);
 
   console.log("deleted container");
 }

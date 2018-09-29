@@ -36,7 +36,7 @@ async function executeSample() {
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-  await containerURL.create(Aborter.None);
+  await containerURL.create(Aborter.none);
 
   // Create a blob
   const blobName = "newblob" + new Date().getTime();
@@ -45,7 +45,7 @@ async function executeSample() {
 
   // Parallel uploading with uploadFileToBlockBlob in Node.js runtime
   // uploadFileToBlockBlob is only available in Node.js
-  await uploadFileToBlockBlob(Aborter.None, localFilePath, blockBlobURL, {
+  await uploadFileToBlockBlob(Aborter.none, localFilePath, blockBlobURL, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -70,7 +70,7 @@ async function executeSample() {
   // uploadBrowserDataToBlockBlob is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
-  await uploadBrowserDataToBlockBlob(Aborter.None, browserFile, blockBlobURL, {
+  await uploadBrowserDataToBlockBlob(Aborter.none, browserFile, blockBlobURL, {
     blockSize: 4 * 1024 * 1024, // 4MB block size
     parallelism: 20, // 20 concurrency
     progress: ev => console.log(ev)
@@ -96,7 +96,7 @@ async function executeSample() {
   console.log("downloadBlobToBuffer success");
 
   // Delete container
-  await containerURL.delete(Aborter.None);
+  await containerURL.delete(Aborter.none);
   console.log("deleted container");
 }
 

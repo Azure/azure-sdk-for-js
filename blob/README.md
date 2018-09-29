@@ -127,7 +127,7 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
 
   let marker;
   do {
-    const listContainersResponse = await serviceURL.listContainersSegment(Aborter.None, marker);
+    const listContainersResponse = await serviceURL.listContainersSegment(Aborter.none, marker);
 
     marker = listContainersResponse.marker;
     for (const container of listContainersResponse.containerItems) {
@@ -139,7 +139,7 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
 
-  const createContainerResponse = await containerURL.create(Aborter.None);
+  const createContainerResponse = await containerURL.create(Aborter.none);
   console.log(
     `Create container ${containerName} successfully`,
     createContainerResponse.requestId
@@ -150,13 +150,13 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
   const blobName = "newblob" + new Date().getTime();
   const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
   const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-  const uploadBlobResponse = await blockBlobURL.upload(Aborter.None, content, content.length);
+  const uploadBlobResponse = await blockBlobURL.upload(Aborter.none, content, content.length);
   console.log(
     `Upload block blob ${blobName} successfully`
   );
 
   // Get blob content in Node.js runtime
-  const downloadBlockBlobResponse = await blobURL.download(Aborter.None, 0);
+  const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
   console.log(
     "Downloaded blob content",
     downloadBlockBlobResponse
@@ -166,7 +166,7 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs.
   console.log(`[headers]:${downloadBlockBlobResponse.headers}`);
 
   // Delete container
-  await containerURL.delete(Aborter.None);
+  await containerURL.delete(Aborter.none);
 
   console.log("deleted container");
 ```
