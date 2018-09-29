@@ -3,6 +3,7 @@ import { uglify } from "rollup-plugin-uglify";
 import replace from "rollup-plugin-replace";
 import commonjs from "rollup-plugin-commonjs";
 import shim from "rollup-plugin-shim";
+import visualizer from "rollup-plugin-visualizer";
 
 const version = require("./package.json").version;
 const banner = [
@@ -73,6 +74,10 @@ const browserRollupConfigFactory = isProduction => {
         output: {
           preamble: banner
         }
+      }),
+      visualizer({
+        filename: "./statistics.html",
+        sourcemap: true
       })
     );
   }

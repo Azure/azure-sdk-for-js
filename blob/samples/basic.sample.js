@@ -19,7 +19,7 @@ async function main() {
   const account = "account";
   const accountKey = "accountkey";
 
-  // Use SharedKeyCredential with storage account and account key,
+  // Use SharedKeyCredential with storage account and account key
   const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use TokenCredential with OAuth token
@@ -27,12 +27,14 @@ async function main() {
   tokenCredential.token = "renewedToken";
 
   // Use AnonymousCredential when url already includes a SAS signature
-  const anonymousCredential = new AnonymousCredential();
+  const tokenCredential = new AnonymousCredential();
 
+  // Use sharedKeyCredential, tokenCredential or tokenCredential to create a pipeline
   const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
   // List containers
   const serviceURL = new ServiceURL(
+    // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net`,
     pipeline
   );
