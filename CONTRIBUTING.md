@@ -1,3 +1,5 @@
+# Contribution Guideline
+
 Hello! Thank you for being interested in contributing to our project!
 
 Please make sure you've followed the instructions provided in the [Azure Projects Contribution Guidelines](http://azure.github.io/guidelines/).
@@ -8,7 +10,7 @@ The Azure Storage development team uses Visual Studio Code. However, any preferr
 
 ### Install
 
-- Node.js valid LTS versions
+- Node.js valid LTS versions (>=6.5.0)
 - Browsers like Chrome, Edge or Firefox
 - Clone the source code from GitHub
 
@@ -18,17 +20,35 @@ The Azure Storage development team uses Visual Studio Code. However, any preferr
 
 The only step to configure testing is to set the appropriate environment variables. Create environment variables named "ACCOUNT_NAME", "ACCOUNT_KEY" or "ACCOUNT_SAS". The first two will be used for most requests. The "ACCOUNT_SAS" will only be used for tests in browsers.
 
+You can generate a valid account SAS from Azure portal or tools like Azure Storage Explorer. A SAS starts with "?". And if you are using Windows CMD, you may need quotes to escape special characters like following:
+
+```bash
+set "ACCOUNT_SAS=<YOUR_SAS>"
+```
+
+#### CORS
+
+You need to set up CORS rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+
+For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
+
+- Allowed origins: *
+- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
+- Allowed headers: *
+- Exposed headers: *
+- Maximum age (seconds): 86400
+
 ### Building
 
-This project is based on TypeScript. For Node.js, generate commonJS module formats, build with:
+This project is based on TypeScript. For Node.js, generate commonJS module formats, build with:
 
-```
+```bash
 npm run build:cjs
 ```
 
 Generate JavaScript bundles for browsers:
 
-```
+```bash
 npm run build:browser
 ```
 
@@ -36,14 +56,14 @@ npm run build:browser
 
 To actually run tests in Node.js:
 
-```
+```bash
 npm install
 npm run test:node
 ```
 
 Run tests in Browsers. After installed Chrome, the default testing browser:
 
-```
+```bash
 npm install
 npm test:browser
 ```
@@ -66,8 +86,8 @@ The following are the minimum requirements for any pull request that must be met
   - Clean, well-commented, well-designed code
   - Try to limit the number of commits for a feature to 1-2. If you end up having too many we may ask you to squash your changes into fewer commits.
 
-* ChangeLog.md needs to be updated describing the new change
-* Thoroughly test your feature
+- ChangeLog.md needs to be updated describing the new change
+- Thoroughly test your feature
 
 ### Branching Policy
 

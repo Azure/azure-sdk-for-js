@@ -98,6 +98,18 @@ Download latest released JS bundles from links in the [GitHub release page](http
 
 * Blob [https://aka.ms/downloadazurestoragejsblob](https://aka.ms/downloadazurestoragejsblob)
 
+### CORS
+
+You need to set up CORS rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+
+For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
+
+* Allowed origins: *
+* Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
+* Allowed headers: *
+* Exposed headers: *
+* Maximum age (seconds): 86400
+
 ## SDK Architecture
 
 The Azure Storage SDK for JavaScript provides low-level and high-level APIs. Take Blob SDK as example:
