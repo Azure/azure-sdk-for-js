@@ -15,18 +15,18 @@ describe("AppendBlobURL", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.None);
+    await containerURL.create(Aborter.none);
     blobName = getUniqueName("blob");
     appendBlobURL = AppendBlobURL.fromContainerURL(containerURL, blobName);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.None);
+    await containerURL.delete(Aborter.none);
   });
 
   it("create with default parameters", async () => {
-    await appendBlobURL.create(Aborter.None);
-    await appendBlobURL.download(Aborter.None, 0);
+    await appendBlobURL.create(Aborter.none);
+    await appendBlobURL.download(Aborter.none, 0);
   });
 
   it("create with parameters configured", async () => {
@@ -43,8 +43,8 @@ describe("AppendBlobURL", () => {
         key2: "valb"
       }
     };
-    await appendBlobURL.create(Aborter.None, options);
-    const properties = await appendBlobURL.getProperties(Aborter.None);
+    await appendBlobURL.create(Aborter.none, options);
+    const properties = await appendBlobURL.getProperties(Aborter.none);
     assert.equal(
       properties.cacheControl,
       options.blobHTTPHeaders.blobCacheControl
@@ -70,12 +70,12 @@ describe("AppendBlobURL", () => {
   });
 
   it("appendBlock", async () => {
-    await appendBlobURL.create(Aborter.None);
+    await appendBlobURL.create(Aborter.none);
 
     const content = "Hello World!";
-    await appendBlobURL.appendBlock(Aborter.None, content, content.length);
+    await appendBlobURL.appendBlock(Aborter.none, content, content.length);
 
-    const downloadResponse = await appendBlobURL.download(Aborter.None, 0);
+    const downloadResponse = await appendBlobURL.download(Aborter.none, 0);
     assert.equal(await bodyToString(downloadResponse, content.length), content);
     assert.equal(downloadResponse.contentLength!, content.length);
   });

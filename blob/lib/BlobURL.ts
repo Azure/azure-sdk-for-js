@@ -169,7 +169,7 @@ export class BlobURL extends StorageURL {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} offset From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
@@ -216,7 +216,7 @@ export class BlobURL extends StorageURL {
    * for the blob. It does not return the content of the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobGetPropertiesOptions} [options]
    * @returns {Promise<Models.BlobGetPropertiesResponse>}
@@ -242,7 +242,7 @@ export class BlobURL extends StorageURL {
    * Blob operation.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobDeleteOptions} [options]
    * @returns {Promise<Models.BlobDeleteResponse>}
@@ -268,7 +268,7 @@ export class BlobURL extends StorageURL {
    * or later.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.BlobUndeleteResponse>}
    * @memberof BlobURL
@@ -288,7 +288,7 @@ export class BlobURL extends StorageURL {
    * these blob HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobSetHTTPHeadersOptions} [options]
    * @returns {Promise<Models.BlobSetHTTPHeadersResponse>}
@@ -315,7 +315,7 @@ export class BlobURL extends StorageURL {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobSetMetadataOptions} [options]
    * @returns {Promise<Models.BlobSetMetadataResponse>}
@@ -341,7 +341,7 @@ export class BlobURL extends StorageURL {
    * In versions prior to 2012-02-12, the lock duration is 60 seconds.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} proposedLeaseId Can be specified in any valid GUID string format
    * @param {number} duration The lock duration can be 15 to 60 seconds, or can be infinite
@@ -368,7 +368,7 @@ export class BlobURL extends StorageURL {
    * acquire a lease against the blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {IBlobReleaseLeaseOptions} [options]
@@ -390,7 +390,7 @@ export class BlobURL extends StorageURL {
    * To renew an existing lease.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {IBlobRenewLeaseOptions} [options]
@@ -412,7 +412,7 @@ export class BlobURL extends StorageURL {
    * To change the ID of an existing lease.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} leaseId
    * @param {string} proposedLeaseId
@@ -437,7 +437,7 @@ export class BlobURL extends StorageURL {
    * until the current lease period has expired.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {number} [breakPeriod]
    * @param {IBlobBreakLeaseOptions} [options]
@@ -460,7 +460,7 @@ export class BlobURL extends StorageURL {
    * Creates a read-only snapshot of a blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {IBlobCreateSnapshotOptions} [options]
    * @returns {Promise<Models.BlobCreateSnapshotResponse>}
@@ -490,7 +490,7 @@ export class BlobURL extends StorageURL {
    * operation to copy from another storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copySource
    * @param {IBlobStartCopyFromURLOptions} [options]
@@ -528,7 +528,7 @@ export class BlobURL extends StorageURL {
    * length and full metadata. Version 2012-02-12 and newer.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} copyId
    * @param {IBlobAbortCopyFromURLOptions} [options]
@@ -554,7 +554,7 @@ export class BlobURL extends StorageURL {
    * storage type. This operation does not update the blob's ETag.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.AccessTier} tier
    * @param {IBlobSetTierOptions} [options]

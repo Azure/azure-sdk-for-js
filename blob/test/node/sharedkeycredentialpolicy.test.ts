@@ -13,8 +13,8 @@ describe("SharedKeyCredentialPolicy Node.js only", () => {
   const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
 
   it("SharedKeyCredentialPolicy should work with special container and blob names", async () => {
-    await containerURL.create(Aborter.None);
-    await blockBlobURL.upload(Aborter.None, "A", 1);
-    await containerURL.delete(Aborter.None);
+    await containerURL.create(Aborter.none);
+    await blockBlobURL.upload(Aborter.none, "A", 1);
+    await containerURL.delete(Aborter.none);
   });
 });
