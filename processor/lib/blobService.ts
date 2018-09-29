@@ -3,8 +3,9 @@
 
 import { createBlobService, BlobService as StorageBlobService, ServiceResponse } from "azure-storage";
 import * as log from "./log";
-import { validateType, getStorageError, Dictionary } from "./util/utils";
+import { validateType, getStorageError } from "./util/utils";
 import { defaultMaximumExecutionTimeInMs } from "./util/constants";
+import { Dictionary } from "@azure/amqp-common";
 const path = require("path-browserify");
 /**
  * @ignore

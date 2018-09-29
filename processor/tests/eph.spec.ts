@@ -12,7 +12,7 @@ const debug = debugModule("azure:eph:eph-spec");
 import { EventHubClient, EventData, EventPosition, delay } from "@azure/event-hubs";
 import * as dotenv from "dotenv";
 import { PartitionContext, OnReceivedMessage, EventProcessorHost, OnReceivedError } from "../lib";
-import { Dictionary } from "../lib/util/utils";
+import { Dictionary } from "@azure/amqp-common";
 dotenv.config();
 
 describe("EPH", function () {
@@ -43,7 +43,7 @@ describe("EPH", function () {
         }
       );
       const context = host["_context"];
-      const ua = "/js-event-processor-host=1.0.4";
+      const ua = "/js-event-processor-host=1.0.5";
       context.userAgent.should.equal(ua);
       const ehc: EventHubClient = context.getEventHubClient();
       const properties = ehc["_context"].connection.options.properties;
@@ -65,7 +65,7 @@ describe("EPH", function () {
         }
       );
       const context = host["_context"];
-      const ua = "/js-event-processor-host=1.0.4";
+      const ua = "/js-event-processor-host=1.0.5";
       context.userAgent.should.equal(`${ua},${customua}`);
       const ehc: EventHubClient = context.getEventHubClient();
       const properties = ehc["_context"].connection.options.properties;
