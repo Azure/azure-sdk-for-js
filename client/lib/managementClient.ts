@@ -115,7 +115,7 @@ export class ManagementClient extends LinkEntity {
       address: options && options.address ? options.address : Constants.management,
       audience: options && options.audience
         ? options.audience
-        : `${context.config.endpoint}${context.config.entityPath!}/$management`
+        : context.config.getEventHubManagementAudience()
     });
     this._context = context;
     this.entityPath = context.config.entityPath as string;

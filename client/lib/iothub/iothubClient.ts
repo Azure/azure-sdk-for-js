@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { translate, MessagingError, IotSasTokenProvider } from "@azure/amqp-common";
-import { IotHubConnectionConfig } from "./iotHubConnectionConfig";
+import { IotHubConnectionConfig } from "@azure/amqp-common";
 import { ConnectionContext, ConnectionContextOptions } from "../connectionContext";
 import * as log from "../log";
 

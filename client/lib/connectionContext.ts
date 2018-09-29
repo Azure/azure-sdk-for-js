@@ -6,7 +6,8 @@ import { packageJsonInfo } from "./util/constants";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
 import {
-  Constants, ConnectionConfig, delay, ConnectionContextBase, CreateConnectionContextBaseParameters
+  Constants, delay, ConnectionContextBase, CreateConnectionContextBaseParameters,
+  EventHubConnectionConfig
 } from "@azure/amqp-common";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { ClientOptions } from "./eventHubClient";
@@ -19,6 +20,11 @@ import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-pr
  * tokenProvider, senders, receivers, etc. about the EventHub client.
  */
 export interface ConnectionContext extends ConnectionContextBase {
+  /**
+   * @property {EventHubConnectionConfig} config The EventHub connection config that is created after
+   * parsing the connection string.
+   */
+  readonly config: EventHubConnectionConfig;
   /**
    * @property {boolean} wasConnectionCloseCalled Indicates whether the close() method was
    * called on theconnection object.
@@ -57,7 +63,7 @@ export namespace ConnectionContext {
     return finalUserAgent;
   }
 
-  export function create(config: ConnectionConfig, options?: ConnectionContextOptions): ConnectionContext {
+  export function create(config: EventHubConnectionConfig, options?: ConnectionContextOptions): ConnectionContext {
     if (!options) options = {};
 
     const parameters: CreateConnectionContextBaseParameters = {
