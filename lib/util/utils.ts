@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as AsyncLock from "async-lock";
-
+export { AsyncLock };
 /**
  * Describes the options that can be provided to create an async lock.
  * @interface AsyncLockOptions
