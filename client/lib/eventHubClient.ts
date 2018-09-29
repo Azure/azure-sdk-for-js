@@ -7,8 +7,7 @@ import {
   ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
 } from "ms-rest-azure";
 import {
-  ConnectionConfig, MessagingError, DataTransformer, TokenProvider,
-  AadTokenProvider
+  MessagingError, DataTransformer, TokenProvider, EventHubConnectionConfig, AadTokenProvider
 } from "@azure/amqp-common";
 import { OnMessage, OnError } from "./eventHubReceiver";
 import { EventData } from "./eventData";
@@ -122,7 +121,7 @@ export class EventHubClient {
    * @param {ClientOptions} options - The optional parameters that can be provided to the EventHub
    * Client constructor.
    */
-  constructor(config: ConnectionConfig, options?: ClientOptions) {
+  constructor(config: EventHubConnectionConfig, options?: ClientOptions) {
     if (!options) options = {};
     this._context = ConnectionContext.create(config, options);
   }
@@ -303,7 +302,7 @@ export class EventHubClient {
     if (!connectionString || (connectionString && typeof connectionString !== "string")) {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
-    const config = ConnectionConfig.create(connectionString, path);
+    const config = EventHubConnectionConfig.create(connectionString, path);
 
     if (!config.entityPath) {
       throw new Error(`Either the connectionString must have "EntityPath=<path-to-entity>" or ` +
