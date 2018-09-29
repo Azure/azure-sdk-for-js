@@ -1,3 +1,9 @@
+### 2018-09-29 0.1.3
+- Added a new method `EventHubConnectionConfig.createFromConnectionConfig()` to create an 
+eventhub connection config from the base connection config.
+- Added `IotHubConnectionConfig` that parses an iothub connection string and provided an 
+iothub connection config.
+
 ### 2018-09-28 0.1.2
 - connection property should be "user-agent".
 - `"rhea-promise"` will be a peer dependency rather than a direct dependency. This ensures,

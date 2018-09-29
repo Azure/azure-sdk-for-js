@@ -72,58 +72,73 @@ export module EventHubConnectionConfig {
    * @returns {EventHubConnectionConfig} EventHubConnectionConfig
    */
   export function create(connectionString: string, path?: string): EventHubConnectionConfig {
-    const config = ConnectionConfig.create(connectionString, path) as EventHubConnectionConfig;
-    config.getEventHubManagementAudience = () => {
+    const config = ConnectionConfig.create(connectionString, path);
+    return createFromConnectionConfig(config);
+  }
+
+  /**
+   * Creates an EventHubConnectionConfig from the provided base ConnectionConfig.
+   * @param config The base connection config from which the EventHubConnectionConfig needs to be
+   * created.
+   * @returns EventHubConnectionConfig
+   */
+  export function createFromConnectionConfig(config: ConnectionConfig): EventHubConnectionConfig {
+    ConnectionConfig.validate(config, { isEntityPathRequired: true });
+
+    (config as EventHubConnectionConfig).getEventHubManagementAudience = () => {
       return `${config.endpoint}${config.entityPath}/$management`;
     };
-    config.getEventHubManagementAddress = () => {
+    (config as EventHubConnectionConfig).getEventHubManagementAddress = () => {
       return `${config.entityPath}/$management`;
     };
 
-    config.getEventHubSenderAudience = (partitionId?: string | number) => {
-      if (partitionId != undefined) {
-        if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-          throw new TypeError("'partitionId' must be of type 'string' or 'number'.");
+    (config as EventHubConnectionConfig).getEventHubSenderAudience =
+      (partitionId?: string | number) => {
+        if (partitionId != undefined) {
+          if (typeof partitionId !== "string" && typeof partitionId !== "number") {
+            throw new TypeError("'partitionId' must be of type 'string' or 'number'.");
+          }
+          return `${config.endpoint}${config.entityPath}/Partitions/${partitionId}`;
+        } else {
+          return `${config.endpoint}${config.entityPath}`;
         }
-        return `${config.endpoint}${config.entityPath}/Partitions/${partitionId}`;
-      } else {
-        return `${config.endpoint}${config.entityPath}`;
-      }
-    };
+      };
 
-    config.getEventHubSenderAddress = (partitionId?: string | number) => {
-      if (partitionId != undefined) {
-        if (typeof partitionId !== "string" && typeof partitionId !== "number") {
-          throw new TypeError("'partitionId' must be of type 'string' or 'number'.");
+    (config as EventHubConnectionConfig).getEventHubSenderAddress =
+      (partitionId?: string | number) => {
+        if (partitionId != undefined) {
+          if (typeof partitionId !== "string" && typeof partitionId !== "number") {
+            throw new TypeError("'partitionId' must be of type 'string' or 'number'.");
+          }
+          return `${config.entityPath}/Partitions/${partitionId}`;
+        } else {
+          return `${config.entityPath}`;
         }
-        return `${config.entityPath}/Partitions/${partitionId}`;
-      } else {
-        return `${config.entityPath}`;
-      }
-    };
+      };
 
-    config.getEventHubReceiverAudience = (partitionId: string | number, consumergroup?: string) => {
-      if (partitionId == undefined ||
-        (typeof partitionId !== "string" && typeof partitionId !== "number")) {
-        throw new TypeError(`'partitionId' is a required parameter and must be of ` +
-          `type 'string' or 'number'`);
-      }
-      if (!consumergroup) consumergroup = "$default";
-      return `${config.endpoint}${config.entityPath}/ConsumerGroups/${consumergroup}/` +
-        `Partitions/${partitionId}`;
-    };
+    (config as EventHubConnectionConfig).getEventHubReceiverAudience =
+      (partitionId: string | number, consumergroup?: string) => {
+        if (partitionId == undefined ||
+          (typeof partitionId !== "string" && typeof partitionId !== "number")) {
+          throw new TypeError(`'partitionId' is a required parameter and must be of ` +
+            `type 'string' or 'number'`);
+        }
+        if (!consumergroup) consumergroup = "$default";
+        return `${config.endpoint}${config.entityPath}/ConsumerGroups/${consumergroup}/` +
+          `Partitions/${partitionId}`;
+      };
 
-    config.getEventHubReceiverAddress = (partitionId: string | number, consumergroup?: string) => {
-      if (partitionId == undefined ||
-        (typeof partitionId !== "string" && typeof partitionId !== "number")) {
-        throw new TypeError(`'partitionId' is a required parameter and must be of ` +
-          `type 'string' or 'number'`);
-      }
-      if (!consumergroup) consumergroup = "$default";
-      return `${config.entityPath}/ConsumerGroups/${consumergroup}/Partitions/${partitionId}`;
-    };
-
-    return config;
+    (config as EventHubConnectionConfig).getEventHubReceiverAddress =
+      (partitionId: string | number, consumergroup?: string) => {
+        if (partitionId == undefined ||
+          (typeof partitionId !== "string" && typeof partitionId !== "number")) {
+          throw new TypeError(`'partitionId' is a required parameter and must be of ` +
+            `type 'string' or 'number'`);
+        }
+        if (!consumergroup) consumergroup = "$default";
+        return `${config.entityPath}/ConsumerGroups/${consumergroup}/Partitions/${partitionId}`;
+      };
+    return (config as EventHubConnectionConfig);
   }
 
   /**

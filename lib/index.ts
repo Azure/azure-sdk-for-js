@@ -8,8 +8,9 @@ export { TokenType, TokenProvider, TokenInfo } from "./auth/token";
 export { SasTokenProvider } from "./auth/sas";
 export { IotSasTokenProvider } from "./auth/iotSas";
 export { AadTokenProvider } from "./auth/aad";
-export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig";
-export { EventHubConnectionConfig } from "./eventhubConnectionConfig";
+export {
+  ConnectionConfig, ConnectionConfigOptions, EventHubConnectionConfig, IotHubConnectionConfig
+} from "./connectionConfig";
 export { CbsClient, CbsResponse } from "./cbs";
 import * as Constants from "./util/constants";
 export { Constants };
