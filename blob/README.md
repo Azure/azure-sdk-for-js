@@ -25,6 +25,24 @@ Please note that this version of the SDK is a compete overhaul of the current [A
 
 This SDK is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=6.5) and latest versions of Chrome, Firefox and Edge.
 
+#### Compatible with IE11
+
+You need polyfills to make this library work with IE11. The easiest way is to use [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill), or [polyfill service](https://polyfill.io/v2/docs/).
+Or you can load separate polyfills for missed ES feature(s).
+This library depends on following ES6 features which need external polyfills loaded.
+
+* `Promise`
+* `String.prototype.startsWith`
+* `String.prototype.endsWith`
+* `String.prototype.repeat`
+* `String.prototype.includes`
+
+* `Promise`
+* `String.prototype.startsWith`
+* `String.prototype.endsWith`
+* `String.prototype.repeat`
+* `String.prototype.includes`
+
 #### Differences between Node.js and browsers
 
 There are differences between Node.js and browsers runtime. When getting start with this SDK, pay attention to APIs or classes marked with *"ONLY AVAILABLE IN NODE.JS RUNTIME"* or *"ONLY AVAILABLE IN BROWSERS"*.
@@ -45,14 +63,6 @@ There are differences between Node.js and browsers runtime. When getting start w
 
 * Parallel uploading and downloading
   * `uploadBrowserDataToBlockBlob()`
-
-#### Compatible with IE11
-
-You need polyfills to make this library work with IE11. The easiest way is to using [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill).
-Or you can load separate polyfills for missed ES feature(s).
-This library depends on following ES6+ feature(s) which needs external polyfills loaded.
-
-* `Promise`
 
 ## Getting Started
 
