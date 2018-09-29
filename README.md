@@ -121,62 +121,115 @@ The Azure Storage SDK for JavaScript provides low-level and high-level APIs. Tak
 ## Code Samples
 
 ```javascript
-const pipeline = StorageURL.newPipeline(
-  new SharedKeyCredential("account", "accountkey"),
-);
+const {
+  Aborter,
+  BlobURL,
+  BlockBlobURL,
+  ContainerURL,
+  ServiceURL,
+  StorageURL,
+  SharedKeyCredential,
+  AnonymousCredential,
+  TokenCredential
+} = require("@azure/storage-blob");
 
-// List containers
-const serviceURL = new ServiceURL(
-  "https://account.blob.core.windows.net",
-  pipeline,
-);
+async function main() {
+  // Enter your storage account name and shared key
+  const account = "account";
+  const accountKey = "accountkey";
 
-let marker;
-do {
-  const listContainersResponse = await serviceURL.listContainersSegment(
-    Aborter.none,
-    marker,
+  // Use SharedKeyCredential with storage account and account key,
+  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
+
+  // Use TokenCredential with OAuth token
+  const tokenCredential = new TokenCredential("token");
+  tokenCredential.token = "renewedToken";
+
+  // Use AnonymousCredential when url already includes a SAS signature
+  const anonymousCredential = new AnonymousCredential();
+
+  const pipeline = StorageURL.newPipeline(sharedKeyCredential);
+
+  // List containers
+  const serviceURL = new ServiceURL(
+    `https://${account}.blob.core.windows.net`,
+    pipeline
   );
 
-  marker = listContainersResponse.marker;
-  for (const container of listContainersResponse.containerItems) {
-    console.log(`Container: ${container.name}`);
-  }
-} while (marker);
+  let marker;
+  do {
+    const listContainersResponse = await serviceURL.listContainersSegment(
+      Aborter.none,
+      marker
+    );
 
-// Create a container
-const containerName = `newcontainer${new Date().getTime()}`;
-const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
+    marker = listContainersResponse.marker;
+    for (const container of listContainersResponse.containerItems) {
+      console.log(`Container: ${container.name}`);
+    }
+  } while (marker);
 
-const createContainerResponse = await containerURL.create(Aborter.none);
-console.log(
-  `Create container ${containerName} successfully`,
-  createContainerResponse.requestId,
-);
+  // Create a container
+  const containerName = `newcontainer${new Date().getTime()}`;
+  const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
 
-// Create a blob
-const content = "hello";
-const blobName = "newblob" + new Date().getTime();
-const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
-const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-const uploadBlobResponse = await blockBlobURL.upload(
-  Aborter.none,
-  content,
-  content.length,
-);
-console.log(`Upload block blob ${blobName} successfully`);
+  const createContainerResponse = await containerURL.create(Aborter.none);
+  console.log(
+    `Create container ${containerName} successfully`,
+    createContainerResponse.requestId
+  );
 
-// Get blob content in Node.js runtime
-const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
-console.log(
-  "Downloaded blob content",
-  downloadBlockBlobResponse.readableStreamBody.read(content.length).toString(),
-);
-console.log(`[headers]:${downloadBlockBlobResponse.headers}`);
+  // Create a blob
+  const content = "hello";
+  const blobName = "newblob" + new Date().getTime();
+  const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
+  const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
+  const uploadBlobResponse = await blockBlobURL.upload(
+    Aborter.none,
+    content,
+    content.length
+  );
+  console.log(
+    `Upload block blob ${blobName} successfully`,
+    uploadBlobResponse.requestId
+  );
 
-// Delete container
-await containerURL.delete(Aborter.none);
-console.log("deleted container");
+  // List blobs
+  do {
+    const listBlobsResponse = await containerURL.listBlobFlatSegment(
+      Aborter.none,
+      marker
+    );
+
+    marker = listBlobsResponse.marker;
+    for (const blob of listBlobsResponse.segment.blobItems) {
+      console.log(`Blob: ${blob.name}`);
+    }
+  } while (marker);
+
+  // Get blob content from position 0 to the end
+  // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
+  // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
+  const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
+  console.log(
+    "Downloaded blob content",
+    downloadBlockBlobResponse.readableStreamBody.read(content.length).toString()
+  );
+
+  // Delete container
+  await containerURL.delete(Aborter.none);
+
+  console.log("deleted container");
+}
+
+// An async method returns a Promise object, which is compatible with then().catch() coding style.
+main()
+  .then(() => {
+    console.log("Successfully executed sample.");
+  })
+  .catch(err => {
+    console.log(err.message);
+  });
 ```
 
 ## More Samples

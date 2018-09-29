@@ -21,5 +21,5 @@
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],
-  "include": ["./lib/**/*.ts", "./samples/**/*.ts", "./test/**/*.ts"]
+  "include": ["./lib/**/*.ts", "./test/**/*.ts"]
 }
