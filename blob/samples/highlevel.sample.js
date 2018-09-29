@@ -1,21 +1,23 @@
-import * as fs from "fs";
+// Steps to run this sample
+// 1. npm install
+// 2. Enter your storage account name, SAS and a path pointing to local file in main()
 
-import {
+const fs = require("fs");
+const {
   AnonymousCredential,
-  // uploadBrowserDataToBlockBlob,
+  uploadBrowserDataToBlockBlob,
   downloadBlobToBuffer,
   uploadFileToBlockBlob,
-  uploadStreamToBlockBlob
-} from "../lib";
-import { Aborter } from "../lib/Aborter";
-import { BlobURL } from "../lib/BlobURL";
-import { BlockBlobURL } from "../lib/BlockBlobURL";
-import { ContainerURL } from "../lib/ContainerURL";
-import { ServiceURL } from "../lib/ServiceURL";
-import { StorageURL } from "../lib/StorageURL";
+  uploadStreamToBlockBlob,
+  Aborter,
+  BlobURL,
+  BlockBlobURL,
+  ContainerURL,
+  ServiceURL,
+  StorageURL
+} = require(".."); // Change to "@azure/storage-blob" in your package
 
-// tslint:disable:no-console
-async function executeSample() {
+async function main() {
   // Fill in following settings before running this sample
   const account = "account";
   const accountSas = "accountSas";
@@ -24,7 +26,7 @@ async function executeSample() {
   const pipeline = StorageURL.newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHTTPClient interface
     // logger: MyLogger, // A customized logger implementing IHTTPPipelineLogger interface
-    retryOptions: { maxTries: 10 }, // Retry options
+    retryOptions: { maxTries: 4 }, // Retry options
     telemetry: { value: "HighLevelSample V1.0.0" } // Customized telemetry string
   });
 
@@ -67,7 +69,7 @@ async function executeSample() {
   console.log("uploadStreamToBlockBlob success");
 
   // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with uploadBrowserDataToBlockBlob
-  // uploadBrowserDataToBlockBlob is only available in browsers
+  // Uncomment following code in browsers because uploadBrowserDataToBlockBlob is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
   await uploadBrowserDataToBlockBlob(Aborter.none, browserFile, blockBlobURL, {
@@ -101,7 +103,7 @@ async function executeSample() {
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
-executeSample()
+main()
   .then(() => {
     console.log("Successfully executed sample.");
   })
