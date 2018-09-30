@@ -3,8 +3,8 @@ import { AbortSignalLike, isNode } from "ms-rest-js";
 /**
  * An aborter instance implements AbortSignal interface, can abort HTTP requests.
  *
- * - Call Abort.None to create a new Aborter instance without timeout.
- * - Call Abort.timeout() to create a new Aborter instance with timeout.
+ * - Call Aborter.none to create a new Aborter instance without timeout.
+ * - Call Aborter.timeout() to create a new Aborter instance with timeout.
  *
  * For an existing instance aborter:
  * - Call aborter.withTimeout() to create and return a child Aborter instance with timeout.
@@ -14,7 +14,7 @@ import { AbortSignalLike, isNode } from "ms-rest-js";
  *
  * @example
  * // Abort without timeout
- * await blockBlobURL.upload(Aborter.None, buf, buf.length);
+ * await blockBlobURL.upload(Aborter.none, buf, buf.length);
  *
  * @example
  * // Abort container create in 1000ms
@@ -61,7 +61,7 @@ export class Aborter implements AbortSignalLike {
    * @type {Aborter}
    * @memberof Aborter
    */
-  public static get None(): Aborter {
+  public static get none(): Aborter {
     return new Aborter(undefined, 0);
   }
 

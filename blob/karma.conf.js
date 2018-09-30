@@ -18,7 +18,11 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to load in the browser
-    files: ["browser/test/browser.test.js"],
+    files: [
+      // polyfill service supporting IE11 missing features
+      "https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes",
+      "dist-test/index.browser.js"
+    ],
 
     // list of files / patterns to exclude
     exclude: [],

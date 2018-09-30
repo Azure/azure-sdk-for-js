@@ -1,11 +1,13 @@
 {
   "name": "@azure/storage-blob",
-  "version": "10.0.0-preview",
+  "version": "10.1.0-preview",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
-  "main": "./dist/lib/index.js",
-  "module": "./es6dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist-esm/lib/index.js",
   "browser": {
-    "./dist/lib/index.js": "./dist/lib/index.browser.js",
+    "./dist/index.js": "./browser/azure-storage.blob.min.js",
+    "./dist-esm/lib/index.js": "./dist-esm/lib/index.browser.js",
+    "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
     "os": false,
     "process": false
   },
@@ -14,12 +16,16 @@
     "node": ">=6.5.0"
   },
   "dependencies": {
-    "ms-rest-js": "0.21.413"
+    "events": "3.0.0",
+    "ms-rest-js": "0.22.425",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
-    "copy-webpack-plugin": "^4.5.2",
+    "assert": "^1.4.1",
     "es6-promise": "^4.2.4",
+    "gulp": "^3.9.1",
+    "gulp-zip": "^4.2.0",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-edge-launcher": "^0.4.2",
@@ -30,28 +36,28 @@
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^5.2.0",
     "rimraf": "^2.6.2",
-    "ts-loader": "^4.5.0",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
-    "typescript": "^3.0.1",
-    "uglifyjs-webpack-plugin": "^1.3.0",
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0",
-    "zip-webpack-plugin": "^3.0.0"
+    "rollup": "^0.65.2",
+    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-multi-entry": "^2.0.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-shim": "^1.0.0",
+    "rollup-plugin-uglify": "^5.0.2",
+    "rollup-plugin-visualizer": "^0.9.0",
+    "typescript": "^3.0.1"
   },
   "scripts": {
     "test": "npm run test:node && npm run test:browser",
-    "test:node": "mocha --no-timeouts -r ts-node/register test/*.ts test/node/*.ts",
-    "test:browser": "npm run build:browsertest && karma start --single-run",
-    "build": "npm run build:node && npm run build:browser && npm run build:browsertest",
-    "build:node": "npm run build:cjs && npm run build:es6",
-    "build:cjs": "node ./node_modules/typescript/bin/tsc -p tsconfig.json",
-    "build:es6": "node ./node_modules/typescript/bin/tsc -p tsconfig.es6.json",
-    "build:browser": "webpack && rimraf browser/typings",
-    "build:browsertest": "webpack --config webpack.config.test.js && rimraf browser/test/typings",
+    "test:node": "npm run build:test && mocha --no-timeouts dist-test/index.js",
+    "test:browser": "npm run build:test && karma start --single-run",
+    "build": "npm run build:es6 && npm run build:nodebrowser && npm run build:browserzip",
+    "build:test": "rollup -c rollup.test.config.js",
+    "build:nodebrowser": "rollup -c",
+    "build:es6": "tsc -p tsconfig.json",
     "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.0.476",
+    "build:browserzip": "gulp zip",
     "prepare": "npm run build",
-    "clean": "rimraf dist && rimraf browser/test && rimraf browser/*.js && rimraf browser/*.zip && rimraf browser/*.log && rimraf es6dist && rimraf typings && rimraf temp"
+    "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html"
   },
   "repository": {
     "type": "git",
@@ -71,5 +77,6 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-storage-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-storage-js#readme"
+  "homepage": "https://github.com/Azure/azure-storage-js#readme",
+  "sideEffects": false
 }

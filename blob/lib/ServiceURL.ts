@@ -88,7 +88,7 @@ export class ServiceURL extends StorageURL {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties}
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetPropertiesResponse>}
    * @memberof ServiceURL
@@ -106,7 +106,7 @@ export class ServiceURL extends StorageURL {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties}
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {Models.StorageServiceProperties} properties
    * @returns {Promise<Models.ServiceSetPropertiesResponse>}
@@ -127,7 +127,7 @@ export class ServiceURL extends StorageURL {
    * replication is enabled for the storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats}
    *
-   *  @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   *  @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetStatisticsResponse>}
    * @memberof ServiceURL
@@ -147,7 +147,7 @@ export class ServiceURL extends StorageURL {
    * with version 2018-03-28.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @returns {Promise<Models.ServiceGetAccountInfoResponse>}
    * @memberof ServiceURL
@@ -164,7 +164,7 @@ export class ServiceURL extends StorageURL {
    * Returns a list of the containers under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
-   * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+   * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
    *                          goto documents of Aborter for more examples about request cancellation
    * @param {string} [marker]
    * @param {IServiceListContainersSegmentOptions} [options]
