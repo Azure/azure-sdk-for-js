@@ -33,7 +33,7 @@ import { streamToBuffer } from "./utils/utils.node";
  * to commit the block list.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {string} filePath Full path of local file
  * @param {BlockBlobURL} blockBlobURL BlockBlobURL
@@ -73,7 +73,7 @@ export async function uploadFileToBlockBlob(
  * to commit the block list.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {(offset: number) => NodeJS.ReadableStream} streamFactory Returns a Node.js Readable stream starting
  *                                                                  from the offset defined
@@ -173,7 +173,7 @@ async function uploadResetableStreamToBlockBlob(
  * Offset and count are optional, pass 0 for both to download the entire blob.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {Buffer} buffer Buffer to be fill, must have length larger than count
  * @param {BlobURL} blobURL A BlobURL object
@@ -306,7 +306,7 @@ export interface IUploadStreamToBlockBlobOptions {
  *    parameter, which will avoid Buffer.concat() operations.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {Readable} stream Node.js Readable stream
  * @param {BlockBlobURL} blockBlobURL A BlockBlobURL instance

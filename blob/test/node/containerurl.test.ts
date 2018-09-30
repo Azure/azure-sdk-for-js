@@ -13,15 +13,15 @@ describe("ContainerURL", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.None);
+    await containerURL.create(Aborter.none);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.None);
+    await containerURL.delete(Aborter.none);
   });
 
   it("getAccessPolicy", async () => {
-    const result = await containerURL.getAccessPolicy(Aborter.None);
+    const result = await containerURL.getAccessPolicy(Aborter.none);
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(result.requestId);
@@ -42,8 +42,8 @@ describe("ContainerURL", () => {
       }
     ];
 
-    await containerURL.setAccessPolicy(Aborter.None, access, containerAcl);
-    const result = await containerURL.getAccessPolicy(Aborter.None);
+    await containerURL.setAccessPolicy(Aborter.none, access, containerAcl);
+    const result = await containerURL.getAccessPolicy(Aborter.none);
     assert.deepEqual(result.signedIdentifiers, containerAcl);
     assert.deepEqual(result.blobPublicAccess, access);
   });

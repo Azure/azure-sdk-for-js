@@ -21,11 +21,11 @@ describe("ContainerURL", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.None);
+    await containerURL.create(Aborter.none);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.None);
+    await containerURL.delete(Aborter.none);
   });
 
   it("setMetadata", async () => {
@@ -34,16 +34,16 @@ describe("ContainerURL", () => {
       keya: "vala",
       keyb: "valb"
     };
-    await containerURL.setMetadata(Aborter.None, {
+    await containerURL.setMetadata(Aborter.none, {
       metadata
     });
 
-    const result = await containerURL.getProperties(Aborter.None);
+    const result = await containerURL.getProperties(Aborter.none);
     assert.deepEqual(result.metadata, metadata);
   });
 
   it("getProperties", async () => {
-    const result = await containerURL.getProperties(Aborter.None);
+    const result = await containerURL.getProperties(Aborter.none);
     assert.ok(result.eTag!.length > 0);
     assert.ok(result.lastModified);
     assert.ok(!result.leaseDuration);
@@ -67,8 +67,8 @@ describe("ContainerURL", () => {
     );
     const metadata = { key: "value" };
     const access = PublicAccessType.Container;
-    await cURL.create(Aborter.None, { metadata, access });
-    const result = await cURL.getProperties(Aborter.None);
+    await cURL.create(Aborter.none, { metadata, access });
+    const result = await cURL.getProperties(Aborter.none);
     assert.deepEqual(result.blobPublicAccess, access);
     assert.deepEqual(result.metadata, metadata);
   });
@@ -81,91 +81,91 @@ describe("ContainerURL", () => {
   it("acquireLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 30;
-    await containerURL.acquireLease(Aborter.None, guid, duration);
+    await containerURL.acquireLease(Aborter.none, guid, duration);
 
-    const result = await containerURL.getProperties(Aborter.None);
+    const result = await containerURL.getProperties(Aborter.none);
     assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
     assert.equal(result.leaseState, LeaseStateType.Leased);
     assert.equal(result.leaseStatus, LeaseStatusType.Locked);
 
-    await containerURL.releaseLease(Aborter.None, guid);
+    await containerURL.releaseLease(Aborter.none, guid);
   });
 
   it("releaseLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = -1;
-    await containerURL.acquireLease(Aborter.None, guid, duration);
+    await containerURL.acquireLease(Aborter.none, guid, duration);
 
-    const result = await containerURL.getProperties(Aborter.None);
+    const result = await containerURL.getProperties(Aborter.none);
     assert.equal(result.leaseDuration, LeaseDurationType.Infinite);
     assert.equal(result.leaseState, LeaseStateType.Leased);
     assert.equal(result.leaseStatus, LeaseStatusType.Locked);
 
-    await containerURL.releaseLease(Aborter.None, guid);
+    await containerURL.releaseLease(Aborter.none, guid);
   });
 
   it("renewLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
-    await containerURL.acquireLease(Aborter.None, guid, duration);
+    await containerURL.acquireLease(Aborter.none, guid, duration);
 
-    const result = await containerURL.getProperties(Aborter.None);
+    const result = await containerURL.getProperties(Aborter.none);
     assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
     assert.equal(result.leaseState, LeaseStateType.Leased);
     assert.equal(result.leaseStatus, LeaseStatusType.Locked);
 
     await sleep(16 * 1000);
-    const result2 = await containerURL.getProperties(Aborter.None);
+    const result2 = await containerURL.getProperties(Aborter.none);
     assert.ok(!result2.leaseDuration);
     assert.equal(result2.leaseState, LeaseStateType.Expired);
     assert.equal(result2.leaseStatus, LeaseStatusType.Unlocked);
 
-    await containerURL.renewLease(Aborter.None, guid);
-    const result3 = await containerURL.getProperties(Aborter.None);
+    await containerURL.renewLease(Aborter.none, guid);
+    const result3 = await containerURL.getProperties(Aborter.none);
     assert.equal(result3.leaseDuration, LeaseDurationType.Fixed);
     assert.equal(result3.leaseState, LeaseStateType.Leased);
     assert.equal(result3.leaseStatus, LeaseStatusType.Locked);
 
-    await containerURL.releaseLease(Aborter.None, guid);
+    await containerURL.releaseLease(Aborter.none, guid);
   });
 
   it("changeLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
-    await containerURL.acquireLease(Aborter.None, guid, duration);
+    await containerURL.acquireLease(Aborter.none, guid, duration);
 
-    const result = await containerURL.getProperties(Aborter.None);
+    const result = await containerURL.getProperties(Aborter.none);
     assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
     assert.equal(result.leaseState, LeaseStateType.Leased);
     assert.equal(result.leaseStatus, LeaseStatusType.Locked);
 
     const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
-    await containerURL.changeLease(Aborter.None, guid, newGuid);
+    await containerURL.changeLease(Aborter.none, guid, newGuid);
 
-    await containerURL.getProperties(Aborter.None);
-    await containerURL.releaseLease(Aborter.None, newGuid);
+    await containerURL.getProperties(Aborter.none);
+    await containerURL.releaseLease(Aborter.none, newGuid);
   });
 
   it("breakLease", async () => {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const duration = 15;
-    await containerURL.acquireLease(Aborter.None, guid, duration);
+    await containerURL.acquireLease(Aborter.none, guid, duration);
 
-    const result = await containerURL.getProperties(Aborter.None);
+    const result = await containerURL.getProperties(Aborter.none);
     assert.equal(result.leaseDuration, LeaseDurationType.Fixed);
     assert.equal(result.leaseState, LeaseStateType.Leased);
     assert.equal(result.leaseStatus, LeaseStatusType.Locked);
 
-    await containerURL.breakLease(Aborter.None, 3);
+    await containerURL.breakLease(Aborter.none, 3);
 
-    const result2 = await containerURL.getProperties(Aborter.None);
+    const result2 = await containerURL.getProperties(Aborter.none);
     assert.ok(!result2.leaseDuration);
     assert.equal(result2.leaseState, LeaseStateType.Breaking);
     assert.equal(result2.leaseStatus, LeaseStatusType.Locked);
 
     await sleep(3 * 1000);
 
-    const result3 = await containerURL.getProperties(Aborter.None);
+    const result3 = await containerURL.getProperties(Aborter.none);
     assert.ok(!result3.leaseDuration);
     assert.equal(result3.leaseState, LeaseStateType.Broken);
     assert.equal(result3.leaseStatus, LeaseStatusType.Unlocked);
@@ -179,11 +179,11 @@ describe("ContainerURL", () => {
         getUniqueName(`blockblob/${i}`)
       );
       const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-      await blockBlobURL.upload(Aborter.None, "", 0);
+      await blockBlobURL.upload(Aborter.none, "", 0);
       blobURLs.push(blobURL);
     }
 
-    const result = await containerURL.listBlobFlatSegment(Aborter.None);
+    const result = await containerURL.listBlobFlatSegment(Aborter.none);
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerURL.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.nextMarker, "");
@@ -191,7 +191,7 @@ describe("ContainerURL", () => {
     assert.ok(blobURLs[0].url.indexOf(result.segment.blobItems![0].name));
 
     for (const blob of blobURLs) {
-      await blob.delete(Aborter.None);
+      await blob.delete(Aborter.none);
     }
   });
 
@@ -208,14 +208,14 @@ describe("ContainerURL", () => {
         getUniqueName(`${prefix}/${i}`)
       );
       const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-      await blockBlobURL.upload(Aborter.None, "", 0, {
+      await blockBlobURL.upload(Aborter.none, "", 0, {
         metadata
       });
       blobURLs.push(blobURL);
     }
 
     const result = await containerURL.listBlobFlatSegment(
-      Aborter.None,
+      Aborter.none,
       undefined,
       {
         include: [
@@ -236,7 +236,7 @@ describe("ContainerURL", () => {
     assert.deepStrictEqual(result.segment.blobItems![0].metadata, metadata);
 
     const result2 = await containerURL.listBlobFlatSegment(
-      Aborter.None,
+      Aborter.none,
       result.nextMarker,
       {
         include: [
@@ -258,7 +258,7 @@ describe("ContainerURL", () => {
     assert.deepStrictEqual(result2.segment.blobItems![0].metadata, metadata);
 
     for (const blob of blobURLs) {
-      await blob.delete(Aborter.None);
+      await blob.delete(Aborter.none);
     }
   });
 
@@ -270,13 +270,13 @@ describe("ContainerURL", () => {
         getUniqueName(`blockblob${i}/${i}`)
       );
       const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-      await blockBlobURL.upload(Aborter.None, "", 0);
+      await blockBlobURL.upload(Aborter.none, "", 0);
       blobURLs.push(blobURL);
     }
 
     const delimiter = "/";
     const result = await containerURL.listBlobHierarchySegment(
-      Aborter.None,
+      Aborter.none,
       delimiter
     );
     assert.ok(result.serviceEndpoint.length > 0);
@@ -294,7 +294,7 @@ describe("ContainerURL", () => {
     }
 
     for (const blob of blobURLs) {
-      await blob.delete(Aborter.None);
+      await blob.delete(Aborter.none);
     }
   });
 
@@ -312,14 +312,14 @@ describe("ContainerURL", () => {
         getUniqueName(`${prefix}${i}${delimiter}${i}`)
       );
       const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
-      await blockBlobURL.upload(Aborter.None, "", 0, {
+      await blockBlobURL.upload(Aborter.none, "", 0, {
         metadata
       });
       blobURLs.push(blobURL);
     }
 
     const result = await containerURL.listBlobHierarchySegment(
-      Aborter.None,
+      Aborter.none,
       delimiter,
       undefined,
       {
@@ -340,7 +340,7 @@ describe("ContainerURL", () => {
     assert.ok(blobURLs[0].url.indexOf(result.segment.blobPrefixes![0].name));
 
     const result2 = await containerURL.listBlobHierarchySegment(
-      Aborter.None,
+      Aborter.none,
       delimiter,
       result.nextMarker,
       {
@@ -361,7 +361,7 @@ describe("ContainerURL", () => {
     assert.ok(blobURLs[0].url.indexOf(result2.segment.blobPrefixes![0].name));
 
     const result3 = await containerURL.listBlobHierarchySegment(
-      Aborter.None,
+      Aborter.none,
       delimiter,
       undefined,
       {
@@ -384,7 +384,7 @@ describe("ContainerURL", () => {
     assert.ok(blobURLs[0].url.indexOf(result3.segment.blobItems![0].name));
 
     for (const blob of blobURLs) {
-      await blob.delete(Aborter.None);
+      await blob.delete(Aborter.none);
     }
   });
 });

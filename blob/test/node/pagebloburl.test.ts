@@ -21,25 +21,25 @@ describe("PageBlobURL", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.None);
+    await containerURL.create(Aborter.none);
     blobName = getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     pageBlobURL = PageBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.None);
+    await containerURL.delete(Aborter.none);
   });
 
   it("startCopyIncremental", async () => {
-    await pageBlobURL.create(Aborter.None, 1024, {
+    await pageBlobURL.create(Aborter.none, 1024, {
       metadata: {
         sourcemeta: "val"
       }
     });
-    await pageBlobURL.uploadPages(Aborter.None, "b".repeat(1024), 0, 1024);
+    await pageBlobURL.uploadPages(Aborter.none, "b".repeat(1024), 0, 1024);
 
-    let snapshotResult = await pageBlobURL.createSnapshot(Aborter.None);
+    let snapshotResult = await pageBlobURL.createSnapshot(Aborter.none);
     assert.ok(snapshotResult.snapshot);
 
     const destPageBlobURL = PageBlobURL.fromContainerURL(
@@ -48,13 +48,13 @@ describe("PageBlobURL", () => {
     );
 
     await containerURL.setAccessPolicy(
-      Aborter.None,
+      Aborter.none,
       PublicAccessType.Container
     );
     let copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
-    await destPageBlobURL.startCopyIncremental(Aborter.None, copySource);
+    await destPageBlobURL.startCopyIncremental(Aborter.none, copySource);
     let listBlobResponse = await containerURL.listBlobFlatSegment(
-      Aborter.None,
+      Aborter.none,
       undefined,
       {
         include: [ListBlobsIncludeItem.Copy, ListBlobsIncludeItem.Snapshots]
@@ -63,14 +63,14 @@ describe("PageBlobURL", () => {
 
     assert.equal(listBlobResponse.segment.blobItems.length, 4);
 
-    await pageBlobURL.uploadPages(Aborter.None, "c".repeat(1024), 0, 1024);
-    snapshotResult = await pageBlobURL.createSnapshot(Aborter.None);
+    await pageBlobURL.uploadPages(Aborter.none, "c".repeat(1024), 0, 1024);
+    snapshotResult = await pageBlobURL.createSnapshot(Aborter.none);
     assert.ok(snapshotResult.snapshot);
     copySource = pageBlobURL.withSnapshot(snapshotResult.snapshot!).url;
-    await destPageBlobURL.startCopyIncremental(Aborter.None, copySource);
+    await destPageBlobURL.startCopyIncremental(Aborter.none, copySource);
 
     listBlobResponse = await containerURL.listBlobFlatSegment(
-      Aborter.None,
+      Aborter.none,
       undefined,
       {
         include: [ListBlobsIncludeItem.Copy, ListBlobsIncludeItem.Snapshots]
@@ -80,7 +80,7 @@ describe("PageBlobURL", () => {
     assert.equal(listBlobResponse.segment.blobItems.length, 6);
 
     const pageBlobProperties = await destPageBlobURL.getProperties(
-      Aborter.None
+      Aborter.none
     );
     assert.equal(pageBlobProperties.metadata!.sourcemeta, "val");
   });

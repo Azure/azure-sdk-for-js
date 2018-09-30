@@ -1,40 +1,48 @@
-// import { AnonymousCredential, TokenCredential } from "../lib";
-import { Aborter } from "../lib/Aborter";
-import { BlobURL } from "../lib/BlobURL";
-import { BlockBlobURL } from "../lib/BlockBlobURL";
-import { ContainerURL } from "../lib/ContainerURL";
-import { SharedKeyCredential } from "../lib/credentials/SharedKeyCredential";
-import { ServiceListContainersSegmentResponse } from "../lib/generated/models";
-import { ServiceURL } from "../lib/ServiceURL";
-import { StorageURL } from "../lib/StorageURL";
+// Steps to run this sample
+// 1. npm install
+// 2. Enter your storage account name and shared key in main()
 
-// tslint:disable:no-console
-async function executeSample() {
+const {
+  Aborter,
+  BlobURL,
+  BlockBlobURL,
+  ContainerURL,
+  ServiceURL,
+  StorageURL,
+  SharedKeyCredential,
+  AnonymousCredential,
+  TokenCredential
+} = require(".."); // Change to "@azure/storage-blob" in your package
+
+async function main() {
+  // Enter your storage account name and shared key
   const account = "account";
   const accountKey = "accountkey";
 
-  // Use SharedKeyCredential with storage account and account key,
-  const credential = new SharedKeyCredential(account, accountKey);
+  // Use SharedKeyCredential with storage account and account key
+  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
 
   // Use TokenCredential with OAuth token
-  // const credential = new TokenCredential("token");
-  // credential.token = "renewedToken";
+  const tokenCredential = new TokenCredential("token");
+  tokenCredential.token = "renewedToken";
 
   // Use AnonymousCredential when url already includes a SAS signature
-  // const credential = new AnonymousCredential();
+  const tokenCredential = new AnonymousCredential();
 
-  const pipeline = StorageURL.newPipeline(credential);
+  // Use sharedKeyCredential, tokenCredential or tokenCredential to create a pipeline
+  const pipeline = StorageURL.newPipeline(sharedKeyCredential);
 
   // List containers
   const serviceURL = new ServiceURL(
+    // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net`,
     pipeline
   );
 
   let marker;
   do {
-    const listContainersResponse: ServiceListContainersSegmentResponse = await serviceURL.listContainersSegment(
-      Aborter.None,
+    const listContainersResponse = await serviceURL.listContainersSegment(
+      Aborter.none,
       marker
     );
 
@@ -48,7 +56,7 @@ async function executeSample() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
 
-  const createContainerResponse = await containerURL.create(Aborter.None);
+  const createContainerResponse = await containerURL.create(Aborter.none);
   console.log(
     `Create container ${containerName} successfully`,
     createContainerResponse.requestId
@@ -60,7 +68,7 @@ async function executeSample() {
   const blobURL = BlobURL.fromContainerURL(containerURL, blobName);
   const blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   const uploadBlobResponse = await blockBlobURL.upload(
-    Aborter.None,
+    Aborter.none,
     content,
     content.length
   );
@@ -69,25 +77,36 @@ async function executeSample() {
     uploadBlobResponse.requestId
   );
 
+  // List blobs
+  do {
+    const listBlobsResponse = await containerURL.listBlobFlatSegment(
+      Aborter.none,
+      marker
+    );
+
+    marker = listBlobsResponse.marker;
+    for (const blob of listBlobsResponse.segment.blobItems) {
+      console.log(`Blob: ${blob.name}`);
+    }
+  } while (marker);
+
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse = await blobURL.download(Aborter.None, 0);
+  const downloadBlockBlobResponse = await blobURL.download(Aborter.none, 0);
   console.log(
     "Downloaded blob content",
-    downloadBlockBlobResponse
-      .readableStreamBody!.read(content.length)
-      .toString()
+    downloadBlockBlobResponse.readableStreamBody.read(content.length).toString()
   );
 
   // Delete container
-  await containerURL.delete(Aborter.None);
+  await containerURL.delete(Aborter.none);
 
   console.log("deleted container");
 }
 
 // An async method returns a Promise object, which is compatible with then().catch() coding style.
-executeSample()
+main()
   .then(() => {
     console.log("Successfully executed sample.");
   })

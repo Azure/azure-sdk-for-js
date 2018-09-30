@@ -25,7 +25,7 @@ import { generateBlockID } from "./utils/utils.common";
  * to commit the block list.
  *
  * @export
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {Blob | File | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
  * @param {BlockBlobURL} blockBlobURL
@@ -60,7 +60,7 @@ export async function uploadBrowserDataToBlockBlob(
  * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
  * to commit the block list.
  *
- * @param {Aborter} aborter Create a new Aborter instance with Aborter.None or Aborter.timeout(),
+ * @param {Aborter} aborter Create a new Aborter instance with Aborter.none or Aborter.timeout(),
  *                          goto documents of Aborter for more examples about request cancellation
  * @param {(offset: number, size: number) => Blob} blobFactory
  * @param {number} size

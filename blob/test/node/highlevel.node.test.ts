@@ -12,12 +12,12 @@ import {
   getBSU,
   getUniqueName,
   readStreamToLocalFile
-} from "../utils/testutils.node";
+} from "../utils/index";
 
 import { BlobURL, BlockBlobURL, ContainerURL } from "../../lib";
 
 // tslint:disable:no-empty
-describe("Highelvel", () => {
+describe("Highlevel", () => {
   const serviceURL = getBSU();
   let containerName = getUniqueName("container");
   let containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
@@ -33,14 +33,14 @@ describe("Highelvel", () => {
   beforeEach(async () => {
     containerName = getUniqueName("container");
     containerURL = ContainerURL.fromServiceURL(serviceURL, containerName);
-    await containerURL.create(Aborter.None);
+    await containerURL.create(Aborter.none);
     blobName = getUniqueName("blob");
     blobURL = BlobURL.fromContainerURL(containerURL, blobName);
     blockBlobURL = BlockBlobURL.fromBlobURL(blobURL);
   });
 
   afterEach(async () => {
-    await containerURL.delete(Aborter.None);
+    await containerURL.delete(Aborter.none);
   });
 
   before(async () => {
@@ -67,12 +67,12 @@ describe("Highelvel", () => {
   });
 
   it("uploadFileToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await uploadFileToBlockBlob(Aborter.None, tempFileLarge, blockBlobURL, {
+    await uploadFileToBlockBlob(Aborter.none, tempFileLarge, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 20
     });
 
-    const downloadResponse = await blockBlobURL.download(Aborter.None, 0);
+    const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
     const downloadedFile = path.join(
       tempFolderPath,
       getUniqueName("downloadfile.")
@@ -90,12 +90,12 @@ describe("Highelvel", () => {
   });
 
   it("uploadFileToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
-    await uploadFileToBlockBlob(Aborter.None, tempFileSmall, blockBlobURL, {
+    await uploadFileToBlockBlob(Aborter.none, tempFileSmall, blockBlobURL, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 20
     });
 
-    const downloadResponse = await blockBlobURL.download(Aborter.None, 0);
+    const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
     const downloadedFile = path.join(
       tempFolderPath,
       getUniqueName("downloadfile.")
@@ -142,7 +142,7 @@ describe("Highelvel", () => {
 
   it("uploadFileToBlockBlob should update progress when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
-    const aborter = Aborter.None;
+    const aborter = Aborter.none;
 
     try {
       await uploadFileToBlockBlob(aborter, tempFileLarge, blockBlobURL, {
@@ -160,7 +160,7 @@ describe("Highelvel", () => {
 
   it("uploadFileToBlockBlob should update progress when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     let eventTriggered = false;
-    const aborter = Aborter.None;
+    const aborter = Aborter.none;
 
     try {
       await uploadFileToBlockBlob(aborter, tempFileSmall, blockBlobURL, {
@@ -179,14 +179,14 @@ describe("Highelvel", () => {
   it("uploadStreamToBlockBlob should success", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     await uploadStreamToBlockBlob(
-      Aborter.None,
+      Aborter.none,
       rs,
       blockBlobURL,
       4 * 1024 * 1024,
       20
     );
 
-    const downloadResponse = await blockBlobURL.download(Aborter.None, 0);
+    const downloadResponse = await blockBlobURL.download(Aborter.none, 0);
 
     const downloadFilePath = path.join("./", getUniqueName("downloadFile"));
     await readStreamToLocalFile(
@@ -224,7 +224,7 @@ describe("Highelvel", () => {
     let eventTriggered = false;
 
     await uploadStreamToBlockBlob(
-      Aborter.None,
+      Aborter.none,
       rs,
       blockBlobURL,
       4 * 1024 * 1024,
@@ -242,7 +242,7 @@ describe("Highelvel", () => {
   it("downloadBlobToBuffer should success", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     await uploadStreamToBlockBlob(
-      Aborter.None,
+      Aborter.none,
       rs,
       blockBlobURL,
       4 * 1024 * 1024,
@@ -250,7 +250,7 @@ describe("Highelvel", () => {
     );
 
     const buf = Buffer.alloc(tempFileLargeLength);
-    await downloadBlobToBuffer(Aborter.None, buf, blockBlobURL, 0, undefined, {
+    await downloadBlobToBuffer(Aborter.none, buf, blockBlobURL, 0, undefined, {
       blockSize: 4 * 1024 * 1024,
       parallelism: 20
     });
@@ -262,7 +262,7 @@ describe("Highelvel", () => {
   it("downloadBlobToBuffer should abort", async () => {
     const rs = fs.createReadStream(tempFileLarge);
     await uploadStreamToBlockBlob(
-      Aborter.None,
+      Aborter.none,
       rs,
       blockBlobURL,
       4 * 1024 * 1024,
@@ -291,7 +291,7 @@ describe("Highelvel", () => {
   it("downloadBlobToBuffer should update progress event", async () => {
     const rs = fs.createReadStream(tempFileSmall);
     await uploadStreamToBlockBlob(
-      Aborter.None,
+      Aborter.none,
       rs,
       blockBlobURL,
       4 * 1024 * 1024,
@@ -300,7 +300,7 @@ describe("Highelvel", () => {
 
     let eventTriggered = false;
     const buf = Buffer.alloc(tempFileSmallLength);
-    const aborter = Aborter.None;
+    const aborter = Aborter.none;
     try {
       await downloadBlobToBuffer(aborter, buf, blockBlobURL, 0, undefined, {
         blockSize: 1 * 1024,

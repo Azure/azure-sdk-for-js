@@ -3,8 +3,7 @@ This file is based on or incorporates material from the projects listed below (T
 **********
 
 uuid 3.2.2, Copyright (c) 2010-2016 Robert Kieffer and other contributors
-process 0.11.10, Copyright (c) 2013 Roman Shtylman <shtylman@gmail.com>
-events 1.1.1, Copyright Joyent, Inc. and other Node contributors.
+events 3.0.0, Copyright Joyent, Inc. and other Node contributors.
 
 
 The MIT License (MIT)
