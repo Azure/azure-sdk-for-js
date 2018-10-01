@@ -34,12 +34,12 @@ async function authenticate(audience: string, closeConnection = false): Promise<
 }
 
 async function main(): Promise<void> {
-  await authenticate(ehConnectionConfig.getEventHubSenderAudience());
+  await authenticate(ehConnectionConfig.getSenderAudience());
   const senderName = "sender-1";
   const senderOptions: SenderOptions = {
     name: senderName,
     target: {
-      address: ehConnectionConfig.getEventHubSenderAddress()
+      address: ehConnectionConfig.getSenderAddress()
     },
     onError: (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
