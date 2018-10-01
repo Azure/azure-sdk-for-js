@@ -9,11 +9,11 @@
 import { WebResource, RestError, stripRequest, generateUuid, stripResponse, HttpHeaders, HttpOperationResponse, ServiceClient } from "ms-rest-js";
 import { KeyVaultCredentials } from "./keyVaultCredentials";
 
-const models = require('./models');
+import * as models from "./models";
 
 /** Identifier of the resource on which Key Vault users and service principals must authenticate.
  */
-exports.RESOURCE_ID = 'https://vault.azure.net';
+export const RESOURCE_ID  = 'https://vault.azure.net';
 
 // The internal client is too low level, so we wrap it instead of exposing it directly.
 import { KeyVaultClient as KeyVaultClientBase } from "./keyVaultClient"
