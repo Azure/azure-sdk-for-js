@@ -567,6 +567,192 @@ describe("URLBuilder", () => {
       assert.strictEqual(urlBuilder.getPath(), "test/path.html");
       assert.strictEqual(urlBuilder.toString(), "/test/path.html");
     });
+
+    it(`from "/test" to "/more/path.html"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setHost("https://www.example.com/test");
+      assert.strictEqual(urlBuilder.getPath(), "/test");
+      urlBuilder.setPath("/more/path.html");
+      assert.strictEqual(urlBuilder.getPath(), "/more/path.html");
+      assert.strictEqual(urlBuilder.toString(), "https://www.example.com/more/path.html");
+    });
+  });
+
+  describe("appendPath()", () => {
+    it(`with undefined and undefined`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.appendPath(undefined);
+      assert.strictEqual(urlBuilder.getPath(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`with undefined and ""`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.appendPath("");
+      assert.strictEqual(urlBuilder.getPath(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`with undefined and "/"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.appendPath("/");
+      assert.strictEqual(urlBuilder.getPath(), "/");
+      assert.strictEqual(urlBuilder.toString(), "/");
+    });
+
+    it(`with undefined and "cats"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.appendPath("cats");
+      assert.strictEqual(urlBuilder.getPath(), "cats");
+      assert.strictEqual(urlBuilder.toString(), "/cats");
+    });
+
+    it(`with undefined and "/cats"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.appendPath("/cats");
+      assert.strictEqual(urlBuilder.getPath(), "/cats");
+      assert.strictEqual(urlBuilder.toString(), "/cats");
+    });
+
+    it(`with "" and undefined`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("");
+      urlBuilder.appendPath(undefined);
+      assert.strictEqual(urlBuilder.getPath(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`with "" and ""`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("");
+      urlBuilder.appendPath("");
+      assert.strictEqual(urlBuilder.getPath(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`with "" and "/"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("");
+      urlBuilder.appendPath("/");
+      assert.strictEqual(urlBuilder.getPath(), "/");
+      assert.strictEqual(urlBuilder.toString(), "/");
+    });
+
+    it(`with "" and "cats"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("");
+      urlBuilder.appendPath("cats");
+      assert.strictEqual(urlBuilder.getPath(), "cats");
+      assert.strictEqual(urlBuilder.toString(), "/cats");
+    });
+
+    it(`with "" and "/cats"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("");
+      urlBuilder.appendPath("/cats");
+      assert.strictEqual(urlBuilder.getPath(), "/cats");
+      assert.strictEqual(urlBuilder.toString(), "/cats");
+    });
+
+    it(`with "/" and undefined`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/");
+      urlBuilder.appendPath(undefined);
+      assert.strictEqual(urlBuilder.getPath(), "/");
+      assert.strictEqual(urlBuilder.toString(), "/");
+    });
+
+    it(`with "/" and ""`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/");
+      urlBuilder.appendPath("");
+      assert.strictEqual(urlBuilder.getPath(), "/");
+      assert.strictEqual(urlBuilder.toString(), "/");
+    });
+
+    it(`with "/" and "/"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/");
+      urlBuilder.appendPath("/");
+      assert.strictEqual(urlBuilder.getPath(), "/");
+      assert.strictEqual(urlBuilder.toString(), "/");
+    });
+
+    it(`with "/" and "cats"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/");
+      urlBuilder.appendPath("cats");
+      assert.strictEqual(urlBuilder.getPath(), "/cats");
+      assert.strictEqual(urlBuilder.toString(), "/cats");
+    });
+
+    it(`with "/" and "/cats"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/");
+      urlBuilder.appendPath("/cats");
+      assert.strictEqual(urlBuilder.getPath(), "/cats");
+      assert.strictEqual(urlBuilder.toString(), "/cats");
+    });
+
+    it(`with "/dogs" and undefined`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/dogs");
+      urlBuilder.appendPath(undefined);
+      assert.strictEqual(urlBuilder.getPath(), "/dogs");
+      assert.strictEqual(urlBuilder.toString(), "/dogs");
+    });
+
+    it(`with "/dogs" and ""`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/dogs");
+      urlBuilder.appendPath("");
+      assert.strictEqual(urlBuilder.getPath(), "/dogs");
+      assert.strictEqual(urlBuilder.toString(), "/dogs");
+    });
+
+    it(`with "/dogs" and "/"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/dogs");
+      urlBuilder.appendPath("/");
+      assert.strictEqual(urlBuilder.getPath(), "/dogs/");
+      assert.strictEqual(urlBuilder.toString(), "/dogs/");
+    });
+
+    it(`with "/dogs" and "cats"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/dogs");
+      urlBuilder.appendPath("cats");
+      assert.strictEqual(urlBuilder.getPath(), "/dogs/cats");
+      assert.strictEqual(urlBuilder.toString(), "/dogs/cats");
+    });
+
+    it(`with "/dogs" and "/cats"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/dogs");
+      urlBuilder.appendPath("/cats");
+      assert.strictEqual(urlBuilder.getPath(), "/dogs/cats");
+      assert.strictEqual(urlBuilder.toString(), "/dogs/cats");
+    });
+
+    it(`with "/dogs/" and undefined`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/dogs/");
+      urlBuilder.appendPath(undefined);
+      assert.strictEqual(urlBuilder.getPath(), "/dogs/");
+      assert.strictEqual(urlBuilder.toString(), "/dogs/");
+    });
+
+    it(`with "/dogs/" and ""`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/dogs/");
+      urlBuilder.appendPath("");
+      assert.strictEqual(urlBuilder.getPath(), "/dogs/");
+      assert.strictEqual(urlBuilder.toString(), "/dogs/");
+    });
+
+    it(`with "/dogs/" and "/"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/dogs/");
+      urlBuilder.appendPath("/");
+      assert.strictEqual(urlBuilder.getPath(), "/dogs/");
+      assert.strictEqual(urlBuilder.toString(), "/dogs/");
+    });
+
+    it(`with "/dogs/" and "cats"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/dogs/");
+      urlBuilder.appendPath("cats");
+      assert.strictEqual(urlBuilder.getPath(), "/dogs/cats");
+      assert.strictEqual(urlBuilder.toString(), "/dogs/cats");
+    });
+
+    it(`with "/dogs/" and "/cats"`, () => {
+      const urlBuilder: URLBuilder = URLBuilder.parse("/dogs/");
+      urlBuilder.appendPath("/cats");
+      assert.strictEqual(urlBuilder.getPath(), "/dogs/cats");
+      assert.strictEqual(urlBuilder.toString(), "/dogs/cats");
+    });
   });
 
   describe("setQuery()", () => {

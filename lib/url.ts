@@ -228,6 +228,28 @@ export class URLBuilder {
   }
 
   /**
+   * Append the provided path to this URL's existing path. If the provided path contains a query,
+   * then it will be added to this URL as well.
+   */
+  public appendPath(path: string | undefined): void {
+    if (path) {
+      let currentPath: string | undefined = this.getPath();
+      if (currentPath) {
+        if (!currentPath.endsWith("/")) {
+          currentPath += "/";
+        }
+
+        if (path.startsWith("/")) {
+          path = path.substring(1);
+        }
+
+        path = currentPath + path;
+      }
+      this.set(path, URLTokenizerState.PATH);
+    }
+  }
+
+  /**
    * Get the path that has been set in this URL.
    */
   public getPath(): string | undefined {
