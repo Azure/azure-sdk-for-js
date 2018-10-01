@@ -200,7 +200,7 @@ export class ServiceClient {
 
       const requestUrl: URLBuilder = URLBuilder.parse(baseUri);
       if (operationSpec.path) {
-        requestUrl.setPath(operationSpec.path);
+        requestUrl.appendPath(operationSpec.path);
       }
       if (operationSpec.urlParameters && operationSpec.urlParameters.length > 0) {
         for (const urlParameter of operationSpec.urlParameters) {
