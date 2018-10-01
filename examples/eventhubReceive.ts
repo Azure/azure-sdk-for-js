@@ -34,11 +34,11 @@ async function authenticate(audience: string, closeConnection = false): Promise<
 }
 
 async function main(): Promise<void> {
-  await authenticate(ehConnectionConfig.getEventHubReceiverAudience("0"));
+  await authenticate(ehConnectionConfig.getReceiverAudience("0"));
   const receiverName = "receiver-1";
   // Get messages from the past hour
   const filterClause = `amqp.annotation.x-opt-enqueued-time > '${Date.now() - 3600 * 1000}'`;
-  const receiverAddress = ehConnectionConfig.getEventHubReceiverAddress("0");
+  const receiverAddress = ehConnectionConfig.getReceiverAddress("0");
   const receiverOptions: ReceiverOptions = {
     name: receiverName,
     source: {
