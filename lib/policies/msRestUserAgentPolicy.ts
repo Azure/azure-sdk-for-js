@@ -40,9 +40,9 @@ export class MsRestUserAgentPolicy extends BaseRequestPolicy {
         this.userAgentInfo.unshift(runtimeInfo);
       }
 
-      const nodeSDKSignature = `Azure-SDK-For-Node`;
+      const nodeSDKSignature = `Azure-SDK-For-JS`;
       if (this.userAgentInfo.indexOf(nodeSDKSignature) === -1) {
-        const azureRuntime = `ms-rest-azure`;
+        const azureRuntime = `ms-rest-azure-js`;
 
         let insertIndex = this.userAgentInfo.indexOf(azureRuntime);
         // insert after azureRuntime, otherwise, insert last.
