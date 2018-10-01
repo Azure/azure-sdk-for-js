@@ -26,7 +26,7 @@ describe("ms-rest user agent filter (nodejs only)", () => {
     userAgentFilter.addUserAgentHeader(resource);
     should.ok(resource);
     should(resource.headers.get(userAgentHeader)).containEql("Node");
-    should(resource.headers.get(userAgentHeader)).containEql("Azure-SDK-For-Node");
+    should(resource.headers.get(userAgentHeader)).containEql("azure-sdk-for-js");
     done();
   });
 
@@ -52,7 +52,7 @@ describe("ms-rest user agent filter (nodejs only)", () => {
   it("should insert azure-sdk-for-node at right position", function (done) {
     const genericRuntime = "ms-rest";
     const azureRuntime = "ms-rest-azure";
-    const azureSDK = "Azure-SDK-For-Node";
+    const azureSDK = "azure-sdk-for-js";
     const userAgentArray = [`${genericRuntime}/v1.0.0`, `${azureRuntime}/v1.0.0`];
     const userAgentFilter = new MsRestUserAgentPolicy(emptyRequestPolicy, new RequestPolicyOptions(), userAgentArray);
     const resource = new WebResource();
