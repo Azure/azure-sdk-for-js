@@ -7,7 +7,7 @@ const path = require('path');
  */
 const config = {
   mode: 'production',
-  entry: './esm/index.js',
+  entry: './esm/storageManagementClient.js',
   devtool: 'source-map',
   output: {
     filename: 'storageManagementClientBundle.js',

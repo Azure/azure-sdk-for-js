@@ -1,7 +1,0 @@
-{
-  "private": true,
-  "sideEffects": false,
-  "main": "./cjs/lib/storageManagementClient.js",
-  "module": "./esm/lib/storageManagementClient.js",
-  "types": "./esm/lib/storageManagementClient.d.ts"
-}
