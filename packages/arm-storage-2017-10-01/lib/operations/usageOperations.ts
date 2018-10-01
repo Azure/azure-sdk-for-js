@@ -24,14 +24,18 @@ export class UsageOperations {
 
   /**
    * Gets the current usage count and the limit for the resources under the subscription.
-   *
-   * @param [options] Optional Parameters.
-   *
-   * @returns A promise is returned
+   * @param [options] The optional parameters
+   * @returns Promise<Models.UsageListResponse>
    */
-  list(): Promise<Models.UsageListResponse>;
-  list(options: msRest.RequestOptionsBase): Promise<Models.UsageListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.UsageListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.UsageListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
   list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageListResult>): Promise<Models.UsageListResponse> {
     return this.client.sendOperationRequest(
@@ -41,7 +45,6 @@ export class UsageOperations {
       listOperationSpec,
       callback) as Promise<Models.UsageListResponse>;
   }
-
 }
 
 // Operation Specifications

@@ -24,14 +24,18 @@ export class Operations {
 
   /**
    * Lists all of the available Storage Rest API operations.
-   *
-   * @param [options] Optional Parameters.
-   *
-   * @returns A promise is returned
+   * @param [options] The optional parameters
+   * @returns Promise<Models.OperationsListResponse>
    */
-  list(): Promise<Models.OperationsListResponse>;
-  list(options: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
   list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
@@ -41,7 +45,6 @@ export class Operations {
       listOperationSpec,
       callback) as Promise<Models.OperationsListResponse>;
   }
-
 }
 
 // Operation Specifications

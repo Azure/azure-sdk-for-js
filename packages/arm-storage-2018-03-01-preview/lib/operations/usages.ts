@@ -24,14 +24,18 @@ export class Usages {
 
   /**
    * Gets the current usage count and the limit for the resources under the subscription.
-   *
-   * @param [options] Optional Parameters.
-   *
-   * @returns A promise is returned
+   * @param [options] The optional parameters
+   * @returns Promise<Models.UsagesListResponse>
    */
-  list(): Promise<Models.UsagesListResponse>;
-  list(options: msRest.RequestOptionsBase): Promise<Models.UsagesListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.UsagesListResponse>;
+  /**
+   * @param callback The callback
+   */
   list(callback: msRest.ServiceCallback<Models.UsageListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
   list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageListResult>): Promise<Models.UsagesListResponse> {
     return this.client.sendOperationRequest(
@@ -45,16 +49,21 @@ export class Usages {
   /**
    * Gets the current usage count and the limit for the resources of the location under the
    * subscription.
-   *
    * @param location The location of the Azure Storage resource.
-   *
-   * @param [options] Optional Parameters.
-   *
-   * @returns A promise is returned
+   * @param [options] The optional parameters
+   * @returns Promise<Models.UsagesListByLocationResponse>
    */
-  listByLocation(location: string): Promise<Models.UsagesListByLocationResponse>;
-  listByLocation(location: string, options: msRest.RequestOptionsBase): Promise<Models.UsagesListByLocationResponse>;
+  listByLocation(location: string, options?: msRest.RequestOptionsBase): Promise<Models.UsagesListByLocationResponse>;
+  /**
+   * @param location The location of the Azure Storage resource.
+   * @param callback The callback
+   */
   listByLocation(location: string, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
+  /**
+   * @param location The location of the Azure Storage resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
   listByLocation(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UsageListResult>): void;
   listByLocation(location: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.UsageListResult>): Promise<Models.UsagesListByLocationResponse> {
     return this.client.sendOperationRequest(
@@ -65,7 +74,6 @@ export class Usages {
       listByLocationOperationSpec,
       callback) as Promise<Models.UsagesListByLocationResponse>;
   }
-
 }
 
 // Operation Specifications
