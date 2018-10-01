@@ -3,6 +3,7 @@
 eventhub connection config from the base connection config.
 - Added `IotHubConnectionConfig` that parses an iothub connection string and provided an 
 iothub connection config.
+- Exported `AsyncLock` from the package.
 
 ### 2018-09-28 0.1.2
 - connection property should be "user-agent".

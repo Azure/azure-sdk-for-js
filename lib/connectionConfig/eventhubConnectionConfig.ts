@@ -17,7 +17,7 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
    *
    * @param partitionId The partitionId in the EventHub to which messages will be sent.
    */
-  getEventHubSenderAddress(partitionId?: string | number): string;
+  getSenderAddress(partitionId?: string | number): string;
   /**
    * Provides the EventHub Sender audience in one of the following forms based on the input:
    * - `"sb://<yournamespace>.servicebus.windows.net/<hubName>"`
@@ -25,7 +25,7 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
    *
    * @param partitionId The partitionId in the EventHub to which messages will be sent.
    */
-  getEventHubSenderAudience(partitionId?: string | number): string;
+  getSenderAudience(partitionId?: string | number): string;
   /**
    * Provides the EventHub Receiver address:
    * - `"<hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`
@@ -34,7 +34,7 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
    * @param consumergroup The consumergoup in the EventHub from which the messages will
    * be received. Default: `$default`.
    */
-  getEventHubReceiverAddress(partitionId: string | number, consumergroup?: string): string;
+  getReceiverAddress(partitionId: string | number, consumergroup?: string): string;
   /**
    * Provides the EventHub Receiver audience.
    * - `"sb://<your-namespace>.servicebus.windows.net/<hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`
@@ -43,17 +43,17 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
    * @param consumergroup The consumergoup in the EventHub from which the messages will
    * be received. Default: `$default`.
    */
-  getEventHubReceiverAudience(partitionId: string | number, consumergroup?: string): string;
+  getReceiverAudience(partitionId: string | number, consumergroup?: string): string;
   /**
    * Provides the EventHub Management address.
    * - `"<hub-name>/$management"`
    */
-  getEventHubManagementAddress(): string;
+  getManagementAddress(): string;
   /**
    * Provides the EventHub Management audience.
    * - `"sb://<your-namespace>.servicebus.windows.net/<hub-name>/$management"`
    */
-  getEventHubManagementAudience(): string;
+  getManagementAudience(): string;
 }
 
 /**
@@ -85,14 +85,14 @@ export module EventHubConnectionConfig {
   export function createFromConnectionConfig(config: ConnectionConfig): EventHubConnectionConfig {
     ConnectionConfig.validate(config, { isEntityPathRequired: true });
 
-    (config as EventHubConnectionConfig).getEventHubManagementAudience = () => {
+    (config as EventHubConnectionConfig).getManagementAudience = () => {
       return `${config.endpoint}${config.entityPath}/$management`;
     };
-    (config as EventHubConnectionConfig).getEventHubManagementAddress = () => {
+    (config as EventHubConnectionConfig).getManagementAddress = () => {
       return `${config.entityPath}/$management`;
     };
 
-    (config as EventHubConnectionConfig).getEventHubSenderAudience =
+    (config as EventHubConnectionConfig).getSenderAudience =
       (partitionId?: string | number) => {
         if (partitionId != undefined) {
           if (typeof partitionId !== "string" && typeof partitionId !== "number") {
@@ -104,7 +104,7 @@ export module EventHubConnectionConfig {
         }
       };
 
-    (config as EventHubConnectionConfig).getEventHubSenderAddress =
+    (config as EventHubConnectionConfig).getSenderAddress =
       (partitionId?: string | number) => {
         if (partitionId != undefined) {
           if (typeof partitionId !== "string" && typeof partitionId !== "number") {
@@ -116,7 +116,7 @@ export module EventHubConnectionConfig {
         }
       };
 
-    (config as EventHubConnectionConfig).getEventHubReceiverAudience =
+    (config as EventHubConnectionConfig).getReceiverAudience =
       (partitionId: string | number, consumergroup?: string) => {
         if (partitionId == undefined ||
           (typeof partitionId !== "string" && typeof partitionId !== "number")) {
@@ -128,7 +128,7 @@ export module EventHubConnectionConfig {
           `Partitions/${partitionId}`;
       };
 
-    (config as EventHubConnectionConfig).getEventHubReceiverAddress =
+    (config as EventHubConnectionConfig).getReceiverAddress =
       (partitionId: string | number, consumergroup?: string) => {
         if (partitionId == undefined ||
           (typeof partitionId !== "string" && typeof partitionId !== "number")) {
