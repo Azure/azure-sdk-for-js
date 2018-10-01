@@ -25,7 +25,7 @@ function throwIfError(dom: Document) {
   if (errorNS) {
     const parserErrors = dom.getElementsByTagNameNS(errorNS, "parsererror");
     if (parserErrors.length) {
-      throw new Error(parserErrors.item(0).innerHTML);
+      throw new Error(parserErrors.item(0)!.innerHTML);
     }
   }
 }
