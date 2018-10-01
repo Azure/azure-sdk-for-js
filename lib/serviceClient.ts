@@ -358,7 +358,11 @@ export function serializeRequestBody(serviceClient: ServiceClient, httpRequest: 
   }
 }
 
-function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | undefined, options: ServiceClientOptions, userAgentInfo: string[]): RequestPolicyFactory[] {
+function isRequestPolicyFactory(instance: any): instance is RequestPolicyFactory {
+  return typeof instance.create === "function";
+}
+
+function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentials | RequestPolicyFactory | undefined, options: ServiceClientOptions, userAgentInfo: string[]): RequestPolicyFactory[] {
   const factories: RequestPolicyFactory[] = [];
 
   if (options.generateClientRequestIdHeader) {
@@ -366,7 +370,11 @@ function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentia
   }
 
   if (credentials) {
-    factories.push(signingPolicy(credentials));
+    if (isRequestPolicyFactory(credentials)) {
+      factories.push(credentials);
+    } else {
+      factories.push(signingPolicy(credentials));
+    }
   }
 
   if (utils.isNode) {
