@@ -6,17 +6,16 @@
 
 'use strict';
 
-import { WebResource, RestError, stripRequest, generateUuid, stripResponse, HttpHeaders, HttpOperationResponse, ServiceClient } from "ms-rest-js";
+import { WebResource, RestError, stripRequest, generateUuid, stripResponse, HttpHeaders, HttpOperationResponse, ServiceClient, Serializer } from "ms-rest-js";
 import { KeyVaultCredentials } from "./keyVaultCredentials";
+import { KeyVaultError } from "./models/mappers";
 
-import * as models from "./models";
+// The internal client is too low level, so we wrap it instead of exposing it directly.
+import { KeyVaultClient as KeyVaultClientBase } from "./keyVaultClient"
 
 /** Identifier of the resource on which Key Vault users and service principals must authenticate.
  */
 export const RESOURCE_ID  = 'https://vault.azure.net';
-
-// The internal client is too low level, so we wrap it instead of exposing it directly.
-import { KeyVaultClient as KeyVaultClientBase } from "./keyVaultClient"
 
 /**
  * @class
@@ -190,9 +189,8 @@ export class KeyVaultClient extends KeyVaultClientBase {
                 error.message = internalError ? internalError.message : parsedErrorResponse.message;
             }
             if (parsedErrorResponse !== null && parsedErrorResponse !== undefined) {
-                //let resultMapper = new this.models['KeyVaultError']().mapper();
-                //let resultMapper = new Mapper()
-                //error.body = this.deserialize(resultMapper, parsedErrorResponse, 'error.body');
+                const serializer = new Serializer();
+                error.body = serializer.deserialize(KeyVaultError, parsedErrorResponse, "response.body");
             }
         } catch (defaultError) {
             error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody ` +
