@@ -1,9 +1,0 @@
-{
-    "extends": "../tsconfig.esm",
-    "include": [
-        "./lib/**/*.ts"
-    ],
-    "compilerOptions": {
-        "outDir": "./esm"
-    }
-}

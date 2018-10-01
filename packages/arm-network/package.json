@@ -4,7 +4,9 @@
   "description": "NetworkManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0",
   "dependencies": {
-    "ms-rest-azure-js": "~0.17.164"
+    "ms-rest-azure-js": "~0.17.165",
+    "ms-rest-js": "~0.22.426",
+    "@azure/arm-network-2018-07-01": "^1.0.0"
   },
   "keywords": [
     "node",
@@ -14,16 +16,10 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./index.node.js",
-  "module": "./index.js",
-  "types": "./index.d.ts",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "types": "./cjs/index.d.ts",
   "devDependencies": {
-    "rollup": "^0.66.2",
-    "rollup-plugin-commonjs": "^9.1.8",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-shim": "^1.0.0",
-    "rollup-plugin-uglify": "^6.0.0",
     "tslib": "^1.9.3",
     "typescript": "^3.0.3",
     "webpack": "^4.17.2",
@@ -38,7 +34,7 @@
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
   "scripts": {
-    "build": "tsc -b && webpack",
+    "build": "tsc && tsc -p tsconfig.esm.json && webpack",
     "prepare": "npm run build"
   }
 }
