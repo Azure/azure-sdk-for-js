@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { parse } from "url";
+import { URLBuilder } from "ms-rest-js"
 
 export class ObjectIdentifier {
     /** The vault URI.
@@ -75,12 +75,12 @@ export class ObjectIdentifier {
 
         var baseUri;
         try {
-            baseUri = parse(vault, true, true);
+            baseUri = URLBuilder.parse(vault);
         } catch (e) {
             throw new Error(`Invalid ${collection} identifier: ${vault}. Not a valid URI`);
         }
 
-        var vault = `${baseUri.protocol}//${baseUri.host}`;
+        var vault = `${baseUri.getScheme()}//${baseUri.getHost()}`;
         return new ObjectIdentifier(collection, vault, name, version);
     }
 
@@ -95,13 +95,13 @@ export class ObjectIdentifier {
 
         var baseUri;
         try {
-            baseUri = parse(identifier, true, true);
+            baseUri = URLBuilder.parse(identifier);
         } catch (e) {
             throw new Error(`Invalid ${collection} identifier: ${identifier}. Not a valid URI`);
         }
 
         // Path is of the form "/collection/name[/version]"
-        var segments = baseUri.pathname!.split("/");
+        var segments = baseUri.getPath()!.split("/");
         if (segments.length !== 3 && segments.length !== 4) {
             throw new Error(`Invalid ${collection} identifier: ${identifier}. Bad number of segments: ${segments.length}`);
         }
@@ -110,7 +110,7 @@ export class ObjectIdentifier {
             throw new Error(`Invalid ${collection} identifier: ${identifier}. segment [1] should be "${collection}", found "${segments[1]}"`);
         }
 
-        var vault = `${baseUri.protocol}//${baseUri.host}`;
+        var vault = `${baseUri.getScheme()}//${baseUri.getHost()}`;
         var name = segments[2];
         var version = segments.length === 4 ? segments[3] : undefined;
         return new ObjectIdentifier(collection, vault, name, version);
@@ -210,13 +210,13 @@ export function createIssuerIdentifier(vault: string, name: string): ObjectIdent
 export function parseIssuerIdentifier(identifier: string): ObjectIdentifier {
     var baseUri;
     try {
-        baseUri = parse(identifier, true, true);
+        baseUri = URLBuilder.parse(identifier);
     } catch (e) {
         throw new Error(`Invalid issuer identifier: ${identifier}. Not a valid URI`);
     }
 
     // Path is of the form "/certificate/issuer/name"
-    var segments = baseUri.pathname!.split("/");
+    var segments = baseUri.getPath()!.split("/");
     if (segments.length !== 4) {
         throw new Error(`Invalid issuer identifier: ${identifier}. Bad number of segments: ${segments.length}`);
     }
@@ -229,7 +229,7 @@ export function parseIssuerIdentifier(identifier: string): ObjectIdentifier {
         throw new Error(`Invalid issuer identifier: ${identifier}. segment [2] should be "issuers", found "${segments[1]}"`);
     }
 
-    var vault = `${baseUri.protocol}//${baseUri.host}`;
+    var vault = `${baseUri.getScheme()}//${baseUri.getHost()}`;
     var name = segments[3];
     return new ObjectIdentifier("certificates/issuers", vault, name, undefined);
 };
