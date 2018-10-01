@@ -1,18 +1,18 @@
-# Microsoft Azure SDK for isomorphic javascript - StorageManagementClient
-This project provides an isomorphic javascript package for accessing Azure. Right now it supports:
-- node.js version 6.x.x or higher
-- browser javascript
+# Azure StorageManagementClient SDK for JavaScript
+This package contains API version 2018-02-01 of StorageManagementClient.
+
+The latest API version, as well as a listing of all available API versions, can be found at https://npmjs.com/@azure/arm-storage.
+
+Currently supported environments:
+- Node.js version 6.x.x or higher
+- Browser JavaScript
 
 ## How to Install
 
-- nodejs
 ```
-npm install @azure/arm-storage
+npm install @azure/arm-storage-2018-02-01
 ```
-- browser
-```html
-<script type="text/javascript" src="https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/lib/services/@azure/arm-storage/storageManagementClientBundle.js"></script>
-```
+
 
 ## How to use
 
@@ -36,7 +36,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and list operations as an example written in javascript.
+### browser - Authentication, client creation and list operations as an example written in JavaScript.
 
 - index.html
 ```html
@@ -44,10 +44,10 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 <html lang="en">
   <head>
     <title>@azure/arm-storage sample</title>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/ms-rest-js/master/msRestBundle.js"></script>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/ms-rest-js/master/msRestAzureBundle.js"></script>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/lib/services/@azure/arm-storage/storageManagementClientBundle.js"></script>
-    <script type="text/javascript">
+    <script src="node_modules/ms-rest-js/master/msRestBundle.js"></script>
+    <script src="node_modules/ms-rest-azure-js/master/msRestAzureBundle.js"></script>
+    <script src="node_modules/@azure/arm-storage-2018-02-01/storageManagementClientBundle.js"></script>
+    <script>
       const subscriptionId = "<Subscription_Id>";
       const token = "<access_token>";
       const creds = new msRest.TokenCredentials(token);
