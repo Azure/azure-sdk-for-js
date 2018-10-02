@@ -1,3 +1,9 @@
+### 2018-10-01 1.0.5
+- Moved `lib/amqp-common` to `"@azure/amqp-common"` package and took a dependency on it.
+- Moved `lib/rhea-promise` to `"rhea-promise"` package and took a dependency on it.
+- Fixed issues where the private instance of `rhea receiver or sender` were undefined when `*_open`
+and `*_close` events happened instantaneously.
+
 ### 2018-09-26 1.0.4
 - update the version of ms-rest-azure to "2.5.9"
 
