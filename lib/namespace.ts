@@ -48,8 +48,8 @@ export class Namespace {
    *
    * @constructor
    * @param {ConnectionConfig} config - The connection configuration to create the Namespace.
-   * @param {TokenProvider} [tokenProvider] - The token provider that provides the token for authentication.
-   * Default value: SasTokenProvider.
+   * @param {TokenProvider} [tokenProvider] - The token provider that provides the token for
+   * authentication. Default value: `SasTokenProvider`.
    */
   constructor(config: ConnectionConfig, options?: NamespaceOptions) {
     if (!options) options = {};
@@ -92,12 +92,19 @@ export class Namespace {
     try {
       if (this._context.connection && this._context.connection.isOpen()) {
         // Close all the senders.
-        for (const client of Object.values(this._context.clients)) {
+        for (const id of Object.keys(this._context.clients)) {
+          const client = this._context.clients[id];
           await client.close();
         }
         // Close the cbs session
         if (this._context.cbsSession) {
           await this._context.cbsSession!.close();
+        }
+
+        // Close management sessions
+        for (const id of Object.keys(this._context.clients)) {
+          const client = this._context.clients[id];
+          await (client as any)._context.managementSession!.close();
         }
 
         await this._context.connection.close();
@@ -114,12 +121,13 @@ export class Namespace {
 
   /**
    * Creates a Namespace from connection string.
-   * @param {string} connectionString - Connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
+   * @param {string} connectionString - Connection string of the form
+   * 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
    * @param {NamespaceOptions} [options] Options that can be provided during namespace creation.
    * @returns {Namespace} - An instance of the Namespace.
    */
   static createFromConnectionString(connectionString: string, options?: NamespaceOptions): Namespace {
-    if (!connectionString || (connectionString && typeof connectionString !== "string")) {
+    if (!connectionString || typeof connectionString !== "string") {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
     const config = ConnectionConfig.create(connectionString);
@@ -140,20 +148,19 @@ export class Namespace {
     host: string,
     credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials,
     options?: NamespaceOptions): Namespace {
-    if (!host || (host && typeof host !== "string")) {
+    if (!host || typeof host !== "string") {
       throw new Error("'host' is a required parameter and must be of type: 'string'.");
     }
 
-    if (!credentials ||
-      !(credentials instanceof ApplicationTokenCredentials ||
-        credentials instanceof UserTokenCredentials ||
-        credentials instanceof DeviceTokenCredentials ||
-        credentials instanceof MSITokenCredentials)) {
-      throw new Error("'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.");
+    if (typeof credentials !== "object") {
+      throw new Error("'credentials' is a required parameter and must be an instance of " +
+        "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
+        "MSITokenCredentials.");
     }
 
     if (!host.endsWith("/")) host += "/";
-    const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue`;
+    const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
+      `SharedAccessKey=defaultKeyValue`;
     if (!options) options = {};
     const clientOptions: NamespaceOptions = options;
     clientOptions.tokenProvider = new AadTokenProvider(credentials);

@@ -54,4 +54,6 @@ obj/*
 .env
 typings/
 dist/
+out/
 output/
+typedoc

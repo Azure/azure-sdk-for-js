@@ -171,8 +171,8 @@ export class Connection {
 
       onClose = (context: rhea.EventContext) => {
         removeListeners();
-        debug(`Error occurred while establishing a session over amqp connection.`, context.session.error);
-        reject(context.session.error);
+        debug(`Error occurred while establishing a session over amqp connection.`, context.session!.error);
+        reject(context.session!.error);
       };
 
       rheaSession.once("session_open", onOpen);

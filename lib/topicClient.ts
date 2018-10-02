@@ -5,7 +5,7 @@ import * as debugModule from "debug";
 import { Delivery } from "./rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { MessageSender } from "./messageSender";
-import { SBMessage } from "./message";
+import { ServiceBusMessage } from "./message";
 import { Client } from "./client";
 const debug = debugModule("azure:service-bus:topic-client");
 
@@ -37,8 +37,6 @@ export class TopicClient extends Client {
         if (this._context.sender) {
           await this._context.sender.close();
         }
-        // Close the management session
-        await this._context.managementSession!.close();
         debug("Closed the topic client '%s'.", this.id);
       }
     } catch (err) {
@@ -55,7 +53,7 @@ export class TopicClient extends Client {
    * @param {any} data  Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
-  async send(data: SBMessage): Promise<Delivery> {
+  async send(data: ServiceBusMessage): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.send(data);
   }
@@ -70,7 +68,7 @@ export class TopicClient extends Client {
    *
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: SBMessage[]): Promise<Delivery> {
+  async sendBatch(datas: ServiceBusMessage[]): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.sendBatch(datas);
   }

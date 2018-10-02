@@ -10,7 +10,7 @@ import {
   message
 } from "./rhea-promise";
 import { defaultLock, Func, retry, translate, AmqpMessage } from "./amqp-common";
-import { SBMessage } from "./message";
+import { ServiceBusMessage } from "./message";
 
 const debug = debugModule("azure:service-bus:sender");
 
@@ -51,10 +51,10 @@ export class MessageSender extends LinkEntity {
     if (this._sender) {
       try {
         await this._sender.close();
+        this._sender = undefined;
         this._context.sender = undefined;
         debug("[%s] Deleted the sender '%s' with address '%s' from the client entity context.",
           this._context.namespace.connectionId, this.id, this.address);
-        this._sender = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         debug("[%s]Sender '%s' closed.", this._context.namespace.connectionId, this.id);
       } catch (err) {
@@ -70,7 +70,7 @@ export class MessageSender extends LinkEntity {
    * @param {any} data Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
-  async send(data: SBMessage): Promise<Delivery> {
+  async send(data: ServiceBusMessage): Promise<Delivery> {
     try {
       if (!data || (data && typeof data !== "object")) {
         throw new Error("data is required and it must be of type object.");
@@ -81,7 +81,7 @@ export class MessageSender extends LinkEntity {
           "possibly the connection.", this.senderLock);
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
-      const message = SBMessage.toAmqpMessage(data);
+      const message = ServiceBusMessage.toAmqpMessage(data);
       message.body = this._context.namespace.dataTransformer.encode(data.body);
       return await this._trySend(message);
     } catch (err) {
@@ -98,7 +98,7 @@ export class MessageSender extends LinkEntity {
    * Batch message.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: SBMessage[]): Promise<Delivery> {
+  async sendBatch(datas: ServiceBusMessage[]): Promise<Delivery> {
     try {
       if (!datas || (datas && !Array.isArray(datas))) {
         throw new Error("data is required and it must be an Array.");
@@ -114,7 +114,7 @@ export class MessageSender extends LinkEntity {
       const messages: AmqpMessage[] = [];
       // Convert Message to AmqpMessage.
       for (let i = 0; i < datas.length; i++) {
-        const message = SBMessage.toAmqpMessage(datas[i]);
+        const message = ServiceBusMessage.toAmqpMessage(datas[i]);
         message.body = this._context.namespace.dataTransformer.encode(datas[i].body);
         messages[i] = message;
       }
@@ -157,7 +157,7 @@ export class MessageSender extends LinkEntity {
    * @param message The message to be sent to ServiceBus.
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(message: SBMessage, tag?: any, format?: number): Promise<Delivery> {
+  private _trySend(message: ServiceBusMessage, tag?: any, format?: number): Promise<Delivery> {
     const sendEventPromise = new Promise<Delivery>((resolve, reject) => {
       debug("[%s] Sender '%s', credit: %d available: %d", this._context.namespace.connectionId,
         this.id, this._sender!.credit, this._sender!.session.outgoing.available());

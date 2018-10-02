@@ -5,6 +5,11 @@ import * as uuid from "uuid/v4";
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
 
+/**
+ * Describes the base class for a client.
+ * @abstract
+ * @class Client
+ */
 export abstract class Client {
   /**
    * @property {string} name The name of the entity (queue, topic, subscription, etc.)
@@ -34,19 +39,21 @@ export abstract class Client {
     this.id = `${name}/${uuid()}`;
     this._context = ClientEntityContext.create(name, context);
   }
+
+  /**
+   * Closes the client. This is an abstract method.
+   */
+  abstract async close(): Promise<void>;
+
   /**
    * Provides the current type of the Client.
    * @return {string} The entity type.
    */
-  get type(): string {
+  protected get _type(): string {
     let result = "Client";
     if ((this as any).constructor && (this as any).constructor.name) {
       result = (this as any).constructor.name;
     }
     return result;
   }
-  /**
-   * Closes the client. This is an abstract method.
-   */
-  abstract async close(): Promise<void>;
 }

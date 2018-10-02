@@ -9,8 +9,10 @@ export {
 export {
   AmqpError, Delivery, Dictionary, MessageProperties, MessageHeader
 } from "./rhea-promise";
-export { Message, ReceivedSBMessage, SBMessage } from "./message";
+export { Message, ReceivedSBMessage, ServiceBusMessage } from "./message";
 export { ReceiveHandler } from "./streamingReceiver";
-export { ReceiveOptions, OnError, OnMessage } from "./messageReceiver";
-export { QueueClientOptions, QueueClient, ReceiveMode } from "./queueClient";
+export { ReceiveOptions, OnError, OnMessage, ReceiveMode } from "./messageReceiver";
+export { QueueClientOptions, QueueClient } from "./queueClient";
 export { Namespace, NamespaceOptions } from "./namespace";
+export { TopicClient } from "./topicClient";
+export { SubscriptionClient, SubscriptionClientOptions } from "./subscriptionClient";

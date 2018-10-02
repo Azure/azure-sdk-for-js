@@ -7,6 +7,7 @@ node_modules/
 # Test folder #
 tests/
 testhub/
+test/
 
 # coverage #
 .nyc_output
@@ -35,6 +36,7 @@ examples/
 .vscode/
 .env
 sample.env
+.travis*
 
 # misc #
 contribute.md
@@ -47,3 +49,7 @@ changelog.md
 samples/
 typings/examples/
 dist/examples/
+docs/
+typedoc/
+out/
+*.log

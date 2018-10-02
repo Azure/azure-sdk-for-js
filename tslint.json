@@ -40,7 +40,6 @@
     "no-switch-case-fall-through": true,
     "no-unsafe-finally": true,
     "no-unused-expression": true,
-    "no-unused-variable": true,
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-floating-promises": true,
@@ -101,14 +100,6 @@
       "check-module",
       "check-seperator",
       "check-type"
-    ]
-  },
-  "cliOptions": {
-    "exclude": [
-      "examples",
-      "tests",
-      "testhub/*.ts",
-      "processor"
     ]
   }
 }

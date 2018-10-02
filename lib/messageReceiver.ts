@@ -6,9 +6,26 @@ import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "./clientEntityContext";
 import { MessagingError, translate } from "./amqp-common";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions } from "./rhea-promise";
-import { ReceiveMode, Message } from ".";
+import { Message } from "./message";
 
 const debug = debugModule("azure:service-bus:receiver");
+
+/**
+ * The mode in which messages should be received
+ */
+export enum ReceiveMode {
+  /**
+   * Peek the message and lock it until it is settled or times out.
+   * @type {Number}
+   */
+  peekLock = 1,
+
+  /**
+   * Remove the message from the service bus upon delivery.
+   * @type {Number}
+   */
+  receiveAndDelete = 2
+}
 
 export enum ReceiverType {
   batching = "batching",
@@ -115,12 +132,12 @@ export class MessageReceiver extends LinkEntity {
     this.audience = `${this._context.namespace.config.endpoint}${this._context.entityPath}`;
     this.maxConcurrentCalls = options.maxConcurrentCalls != undefined ?
       options.maxConcurrentCalls : 1;
-    this.autoComplete = options.autoComplete != undefined ? options.autoComplete : false;
+    this.autoComplete = !!options.autoComplete;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     this._onAmqpMessage = async (context: EventContext) => {
-      const bMessage = new Message(context.message!, context.delivery!);
-      bMessage.body = this._context.namespace.dataTransformer.decode(context.message!.body);
+      const bMessage: Message = new Message(context.message!, context.delivery!);
       try {
+        bMessage.body = this._context.namespace.dataTransformer.decode(context.message!.body);
         await this._onMessage!(bMessage);
         if (this.autoComplete) {
           debug("[%s] Auto completing the message with id '%s' on the receiver '%s'.",
@@ -149,7 +166,7 @@ export class MessageReceiver extends LinkEntity {
    * @returns {boolean} boolean
    */
   isOpen(): boolean {
-    return this._receiver! && this._receiver!.isOpen();
+    return this._receiver ? this._receiver.isOpen() : false;
   }
 
   /**
@@ -160,9 +177,14 @@ export class MessageReceiver extends LinkEntity {
     if (this._receiver) {
       try {
         await this._receiver.close();
+        this._receiver = undefined;
+        if (this.receiverType === ReceiverType.batching) {
+          this._context.batchingReceiver = undefined;
+        } else if (this.receiverType === ReceiverType.streaming) {
+          this._context.streamingReceiver = undefined;
+        }
         debug("[%s] Deleted the receiver '%s' from the client entity context.",
           this._context.namespace.connectionId, this.id);
-        this._receiver = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         debug("[%s] Receiver '%s', has been closed.",
           this._context.namespace.connectionId, this.id);
@@ -197,7 +219,11 @@ export class MessageReceiver extends LinkEntity {
           this._context.namespace.connectionId, this.id, rcvrOptions);
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
-        if (!this._context.streamingReceiver) this._context.streamingReceiver = this as any;
+        if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
+          this._context.streamingReceiver = this as any;
+        } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
+          this._context.batchingReceiver = this as any;
+        }
         await this._ensureTokenRenewal();
       }
     } catch (err) {

@@ -67,8 +67,8 @@ export class Session {
 
         const onError = (context: rhea.EventContext) => {
           this._session.removeListener("session_error", onError);
-          debug(`Error occurred while closing amqp session.`, context.session.error);
-          reject(context.session.error);
+          debug(`Error occurred while closing amqp session.`, context.session!.error);
+          reject(context.session!.error);
         };
 
         this._session.once("session_close", onClose);

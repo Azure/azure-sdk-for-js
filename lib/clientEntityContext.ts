@@ -82,9 +82,9 @@ export namespace ClientEntityContext {
 // Multiple Queue clients for the same queue should be using the same management client.
 function getManagementSession(clients: Dictionary<Client>, name: string): ManagementClient | undefined {
   let result: ManagementClient | undefined;
-  for (const client of Object.values(clients)) {
-    if (client.name === name) {
-      result = (client as any)._context.managementSession;
+  for (const id of Object.keys(clients)) {
+    if (clients[id].name === name) {
+      result = (clients[id] as any)._context.managementSession;
       break;
     }
   }

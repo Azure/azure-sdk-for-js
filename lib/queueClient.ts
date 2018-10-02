@@ -2,33 +2,17 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
-import { MessagingError } from "./amqp-common";
 import { Delivery } from "./rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { MessageSender } from "./messageSender";
 import { ReceiveOptions, OnError, OnMessage } from ".";
 import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
-import { Message, SBMessage } from "./message";
+import { Message, ServiceBusMessage } from "./message";
 import { Client } from "./client";
+import { ReceiveMode } from "./messageReceiver";
+
 const debug = debugModule("azure:service-bus:queue-client");
-
-/**
- * The mode in which messages should be received
- */
-export enum ReceiveMode {
-  /**
-   * Peek the message and lock it until it is settled or times out.
-   * @type {Number}
-   */
-  peekLock = 1,
-
-  /**
-   * Remove the message from the service bus upon delivery.
-   * @type {Number}
-   */
-  receiveAndDelete = 2
-}
 
 /**
  * Describes the options that can be provided while creating the QueueClient.
@@ -93,8 +77,6 @@ export class QueueClient extends Client {
         if (this._context.streamingReceiver) {
           await this._context.streamingReceiver.close();
         }
-        // Close the management session
-        await this._context.managementSession!.close();
         debug("Closed the client '%s'.", this.id);
       }
     } catch (err) {
@@ -111,7 +93,7 @@ export class QueueClient extends Client {
    * @param {any} data  Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
-  async send(data: SBMessage): Promise<Delivery> {
+  async send(data: ServiceBusMessage): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.send(data);
   }
@@ -125,7 +107,7 @@ export class QueueClient extends Client {
    *
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: SBMessage[]): Promise<Delivery> {
+  async sendBatch(datas: ServiceBusMessage[]): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.sendBatch(datas);
   }
@@ -143,8 +125,7 @@ export class QueueClient extends Client {
    * receiving more messages.
    */
   receive(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): ReceiveHandler {
-    if (!this._context.streamingReceiver ||
-      (this._context.streamingReceiver && !this._context.streamingReceiver.isOpen())) {
+    if (!this._context.streamingReceiver || !this._context.streamingReceiver.isOpen()) {
       if (!options) options = {};
       const rcvOptions: ReceiveOptions = {
         maxConcurrentCalls: this.maxConcurrentCalls,
@@ -184,19 +165,14 @@ export class QueueClient extends Client {
       };
       const bReceiver: BatchingReceiver = BatchingReceiver.create(this._context, options);
       this._context.batchingReceiver = bReceiver;
-      let error: MessagingError | undefined;
-      let result: Message[] = [];
       try {
-        result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
+        return await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
       } catch (err) {
-        error = err;
-        debug("[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
-          this._context.namespace.connectionId, bReceiver.id, maxMessageCount, maxWaitTimeInSeconds, err);
+        debug("[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
+          "max time:\n %O", this._context.namespace.connectionId, bReceiver.id, maxMessageCount,
+          maxWaitTimeInSeconds, err);
+        throw err;
       }
-      if (error) {
-        throw error;
-      }
-      return result;
     } else {
       const rcvr = this._context.batchingReceiver;
       const msg = `A "${rcvr.receiverType}" receiver with id "${rcvr.id}" has already been ` +
