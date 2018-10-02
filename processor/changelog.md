@@ -1,3 +1,7 @@
+## 2018-10-01 1.0.5
+- Bumping minimum version of @azure/event-hubs to "1.0.5".
+- Taking a dependency on "@azure/amqp-common" for reusing the common parts.
+
 ## 2018-09-25 1.0.4
 - Bumping minimum version of @azure/event-hubs to "1.0.4".
 

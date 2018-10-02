@@ -1,14 +1,14 @@
 {
   "name": "@azure/event-processor-host",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Azure Event Processor Host (Event Hubs) SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "main": "./dist/lib/index.js",
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
-    "@azure/event-hubs": "../client",
-    "@azure/amqp-common": "amarzavery/amqp-common-js#init",
+    "@azure/event-hubs": "^1.0.5",
+    "@azure/amqp-common": "^0.1.3",
     "rhea-promise": "^0.1.6",
     "azure-storage": "^2.10.1",
     "async-lock": "^1.1.3",
