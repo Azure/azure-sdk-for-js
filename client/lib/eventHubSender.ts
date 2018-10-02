@@ -71,8 +71,8 @@ export class EventHubSender extends LinkEntity {
    */
   constructor(context: ConnectionContext, partitionId?: string | number, name?: string) {
     super(context, { name: name, partitionId: partitionId });
-    this.address = context.config.getEventHubSenderAddress(partitionId);
-    this.audience = context.config.getEventHubSenderAudience(partitionId);
+    this.address = context.config.getSenderAddress(partitionId);
+    this.audience = context.config.getSenderAudience(partitionId);
 
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;

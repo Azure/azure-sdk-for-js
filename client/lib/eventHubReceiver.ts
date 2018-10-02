@@ -184,8 +184,8 @@ export class EventHubReceiver extends LinkEntity {
     super(context, { partitionId: partitionId, name: options ? options.name : undefined });
     if (!options) options = {};
     this.consumerGroup = options.consumerGroup ? options.consumerGroup : Constants.defaultConsumerGroup;
-    this.address = context.config.getEventHubReceiverAddress(partitionId, this.consumerGroup);
-    this.audience = context.config.getEventHubReceiverAudience(partitionId, this.consumerGroup);
+    this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
+    this.audience = context.config.getReceiverAudience(partitionId, this.consumerGroup);
     this.prefetchCount = options.prefetchCount != undefined ? options.prefetchCount : Constants.defaultPrefetchCount;
     this.epoch = options.epoch;
     this.identifier = options.identifier;
