@@ -13,7 +13,7 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "arm-batch";
-const packageVersion = "3.0.0";
+const packageVersion = "1.0.0";
 
 export class BatchManagementClientContext extends msRestAzure.AzureServiceClient {
 
