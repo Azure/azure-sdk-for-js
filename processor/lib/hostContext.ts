@@ -6,6 +6,7 @@ import {
   EventHubClient, EventPosition, TokenProvider, DefaultDataTransformer,
   EventHubRuntimeInformation, EventHubPartitionRuntimeInformation, ConnectionConfig
 } from "@azure/event-hubs";
+import { Constants, Dictionary, getNewAsyncLock, AsyncLock } from "@azure/amqp-common";
 import { LeaseManager } from "./leaseManager";
 import { PumpManager } from "./pumpManager";
 import { PartitionManager } from "./partitionManager";
@@ -14,7 +15,7 @@ import { BlobService } from "./blobService";
 import { AzureBlob } from "./azureBlob";
 import { AzureStorageCheckpointLeaseManager } from "./azureStorageCheckpointLeaseManager";
 import { CheckpointManager } from "./checkpointManager";
-import { validateType, Dictionary } from "./util/utils";
+import { validateType } from "./util/utils";
 import { PartitionContext } from "./partitionContext";
 import { BaseLease } from "./baseLease";
 import { PartitionPump } from "./partitionPump";
@@ -23,8 +24,8 @@ import {
 } from "./modelTypes";
 import {
   maxLeaseDurationInSeconds, minLeaseDurationInSeconds, defaultLeaseRenewIntervalInSeconds,
-  defaultLeaseDurationInSeconds, defaultConsumerGroup, defaultStartupScanDelayInSeconds,
-  defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds, packageInfo, userAgentPrefix,
+  defaultLeaseDurationInSeconds, defaultStartupScanDelayInSeconds, packageInfo, userAgentPrefix,
+  defaultFastScanIntervalInSeconds, defaultSlowScanIntervalInSeconds
 } from "./util/constants";
 
 /**
@@ -32,7 +33,8 @@ import {
  */
 export interface BaseHostContext {
   hostName: string;
-  checkpointLock: string;
+  checkpointLock: AsyncLock;
+  checkpointLockId: string;
   consumerGroup: string;
   eventHubPath: string;
   storageContainerName?: string;
@@ -149,7 +151,7 @@ export namespace HostContext {
     const config = ConnectionConfig.create(options.eventHubConnectionString!, options.eventHubPath);
 
     // set defaults
-    if (!options.consumerGroup) options.consumerGroup = defaultConsumerGroup;
+    if (!options.consumerGroup) options.consumerGroup = Constants.defaultConsumerGroup;
     if (!options.eventHubPath) options.eventHubPath = config.entityPath;
     if (!options.leaseRenewInterval) options.leaseRenewInterval = defaultLeaseRenewIntervalInSeconds;
     if (!options.leaseDuration) options.leaseDuration = defaultLeaseDurationInSeconds;
@@ -176,7 +178,8 @@ export namespace HostContext {
 
     const context: BaseHostContext = {
       hostName: hostName,
-      checkpointLock: `checkpoint-${uuid()}`,
+      checkpointLock: getNewAsyncLock({ maxPending: 100000 }),
+      checkpointLockId: `checkpoint-${uuid()}`,
       eventHubConnectionString: options.eventHubConnectionString!,
       connectionConfig: config,
       eventHubPath: options.eventHubPath!,

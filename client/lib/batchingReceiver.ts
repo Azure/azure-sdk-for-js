@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "./rhea-promise";
+import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
+import { translate, Func, Constants, MessagingError } from "@azure/amqp-common";
 import { EventData } from "./eventData";
 import { ReceiveOptions } from "./eventHubClient";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
-import { translate, Func, Constants, MessagingError } from "./amqp-common";
 import * as log from "./log";
 
 /**
@@ -61,8 +61,10 @@ export class BatchingReceiver extends EventHubReceiver {
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = (timeOver: boolean, data?: EventData) => {
         // Resetting the mode. Now anyone can call start() or receive() again.
-        this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
+        if (this._receiver) {
+          this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        }
         if (!data) {
           data = eventDatas.length ? eventDatas[eventDatas.length - 1] : undefined;
         }
@@ -100,9 +102,11 @@ export class BatchingReceiver extends EventHubReceiver {
 
       // Action to be taken when an error is received.
       onReceiveError = (context: EventContext) => {
-        this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
-        this._receiver!.removeSessionHandler(SessionEvents.sessionError, onSessionError);
+        const receiver = this._receiver || context.receiver!;
+        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+
         const receiverError = context.receiver && context.receiver.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (receiverError) {
@@ -133,9 +137,10 @@ export class BatchingReceiver extends EventHubReceiver {
       };
 
       onSessionError = (context: EventContext) => {
-        this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
-        this._receiver!.removeSessionHandler(SessionEvents.sessionError, onReceiveError);
+        const receiver = this._receiver || context.receiver!;
+        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        receiver.session.removeListener(SessionEvents.sessionError, onReceiveError);
         const sessionError = context.session && context.session.error;
         let error = new MessagingError("An error occuured while receiving messages.");
         if (sessionError) {
@@ -172,9 +177,9 @@ export class BatchingReceiver extends EventHubReceiver {
         this._init(rcvrOptions).then(() => addCreditAndSetTimer()).catch(reject);
       } else {
         addCreditAndSetTimer(true);
-        this._receiver!.registerHandler(ReceiverEvents.message, onReceiveMessage);
-        this._receiver!.registerHandler(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.registerSessionHandler(SessionEvents.sessionError, onReceiveError);
+        this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
+        this._receiver!.on(ReceiverEvents.receiverError, onReceiveError);
+        this._receiver!.session.on(SessionEvents.sessionError, onReceiveError);
       }
     });
   }
