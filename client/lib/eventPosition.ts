@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { translate, Constants, ErrorNameConditionMapper } from "./amqp-common";
+import { translate, Constants, ErrorNameConditionMapper } from "@azure/amqp-common";
 
 /**
  * Describes the options that can be set while creating an EventPosition.

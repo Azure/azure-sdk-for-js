@@ -30,7 +30,7 @@ async function main(): Promise<void> {
   const rcvHandler = client.receive("0", onMessage, onError, options);
   console.log("rcvHandler: ", rcvHandler.name);
   await delay(10000);
-  // await rcvHandler.stop();
+  await rcvHandler.stop();
   console.log("Closed the receiver after receiving messages for 10 seconds.");
   await client.close();
 }

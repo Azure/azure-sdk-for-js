@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import { randomNumberFromInterval } from "@azure/amqp-common";
 import { HostContextWithPumpManager } from "./hostContext";
 import { CompleteLease } from "./completeLease";
 import { BaseLease } from "./baseLease";
-import { randomNumberFromInterval, EPHActionStrings } from "./util/utils";
+import { EPHActionStrings } from "./util/utils";
 import * as log from "./log";
 import { EPHDiagnosticInfo } from "./modelTypes";
 

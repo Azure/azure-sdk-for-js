@@ -6,11 +6,11 @@ import * as log from "./log";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
   message, AmqpError
-} from "./rhea-promise";
+} from "rhea-promise";
 import {
   defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper,
-  randomNumberFromInterval, RetryConfig, RetryOperationType, Constants
-} from "./amqp-common";
+  RetryConfig, RetryOperationType, Constants, randomNumberFromInterval
+} from "@azure/amqp-common";
 import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
@@ -71,11 +71,8 @@ export class EventHubSender extends LinkEntity {
    */
   constructor(context: ConnectionContext, partitionId?: string | number, name?: string) {
     super(context, { name: name, partitionId: partitionId });
-    this.address = this._context.config.entityPath as string;
-    if (this.partitionId != undefined) {
-      this.address += `/Partitions/${this.partitionId}`;
-    }
-    this.audience = `${this._context.config.endpoint}${this.address}`;
+    this.address = context.config.getSenderAddress(partitionId);
+    this.audience = context.config.getSenderAudience(partitionId);
 
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
@@ -96,13 +93,14 @@ export class EventHubSender extends LinkEntity {
     };
 
     this._onAmqpClose = async (context: EventContext) => {
+      const sender = this._sender || context.sender!;
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         log.error("[%s] 'sender_close' event occurred for sender '%s' with address '%s'. " +
           "The associated error is: %O", this._context.connectionId, this.name,
           this.address, senderError);
       }
-      if (this._sender && !this._sender.isClosed()) {
+      if (sender && !sender.isClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
             "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
@@ -123,13 +121,14 @@ export class EventHubSender extends LinkEntity {
     };
 
     this._onSessionClose = async (context: EventContext) => {
+      const sender = this._sender || context.sender!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         log.error("[%s] 'session_close' event occurred for sender '%s' with address '%s'. " +
           "The associated error is: %O", this._context.connectionId, this.name,
           this.address, sessionError);
       }
-      if (this._sender && !this._sender.isSessionClosed()) {
+      if (sender && !sender.isSessionClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'session_close' event occurred on the session of sender '%s' with " +
             "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
@@ -373,10 +372,10 @@ export class EventHubSender extends LinkEntity {
         let onAccepted: Func<EventContext, void>;
         const removeListeners = (): void => {
           clearTimeout(waitTimer);
-          this._sender!.removeHandler(SenderEvents.rejected, onRejected);
-          this._sender!.removeHandler(SenderEvents.accepted, onAccepted);
-          this._sender!.removeHandler(SenderEvents.released, onReleased);
-          this._sender!.removeHandler(SenderEvents.modified, onModified);
+          this._sender!.removeListener(SenderEvents.rejected, onRejected);
+          this._sender!.removeListener(SenderEvents.accepted, onAccepted);
+          this._sender!.removeListener(SenderEvents.released, onReleased);
+          this._sender!.removeListener(SenderEvents.modified, onModified);
         };
 
         onAccepted = (context: EventContext) => {
@@ -434,10 +433,10 @@ export class EventHubSender extends LinkEntity {
           return reject(translate(e));
         };
 
-        this._sender!.registerHandler(SenderEvents.accepted, onAccepted);
-        this._sender!.registerHandler(SenderEvents.rejected, onRejected);
-        this._sender!.registerHandler(SenderEvents.modified, onModified);
-        this._sender!.registerHandler(SenderEvents.released, onReleased);
+        this._sender!.on(SenderEvents.accepted, onAccepted);
+        this._sender!.on(SenderEvents.rejected, onRejected);
+        this._sender!.on(SenderEvents.modified, onModified);
+        this._sender!.on(SenderEvents.released, onReleased);
         waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
         const delivery = this._sender!.send(message, tag, format);
         log.sender("[%s] Sender '%s', sent message with delivery id: %d and tag: %s",

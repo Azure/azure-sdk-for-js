@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { Constants } from "./amqp-common";
-import { ReceiverEvents } from "./rhea-promise";
+import { Constants } from "@azure/amqp-common";
+import { ReceiverEvents } from "rhea-promise";
 import { ReceiveOptions } from "./eventHubClient";
 import { EventHubReceiver, ReceiverRuntimeInfo, OnMessage, OnError } from "./eventHubReceiver";
 import { ConnectionContext } from "./connectionContext";
@@ -161,8 +161,8 @@ export class StreamingReceiver extends EventHubReceiver {
       // these handlers will be automatically removed.
       log.streaming("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
         "Hence reusing it and attaching message and error handlers.", this._context.connectionId, this.name);
-      this._receiver!.registerHandler(ReceiverEvents.message, this._onAmqpMessage);
-      this._receiver!.registerHandler(ReceiverEvents.receiverError, this._onAmqpError);
+      this._receiver!.on(ReceiverEvents.message, this._onAmqpMessage);
+      this._receiver!.on(ReceiverEvents.receiverError, this._onAmqpError);
       this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
       log.streaming("[%s] Receiver '%s', set the prefetch count to 1000 and " +

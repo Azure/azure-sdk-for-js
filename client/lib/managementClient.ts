@@ -2,11 +2,12 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as uuid from "uuid/v4";
-import * as rheaPromise from "./rhea-promise";
 import {
   RequestResponseLink, defaultLock, translate, Constants
-} from "./amqp-common";
-import { Message, EventContext, SenderEvents, ReceiverEvents } from "./rhea-promise";
+} from "@azure/amqp-common";
+import {
+  Message, EventContext, SenderEvents, ReceiverEvents, SenderOptions, ReceiverOptions
+} from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
@@ -114,7 +115,7 @@ export class ManagementClient extends LinkEntity {
       address: options && options.address ? options.address : Constants.management,
       audience: options && options.audience
         ? options.audience
-        : `${context.config.endpoint}${context.config.entityPath!}/$management`
+        : context.config.getManagementAudience()
     });
     this._context = context;
     this.entityPath = context.config.entityPath as string;
@@ -201,7 +202,7 @@ export class ManagementClient extends LinkEntity {
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {
         await this._negotiateClaim();
-        const rxopt: rheaPromise.ReceiverOptions = {
+        const rxopt: ReceiverOptions = {
           source: { address: this.address },
           name: this.replyTo,
           target: { address: this.replyTo },
@@ -212,17 +213,17 @@ export class ManagementClient extends LinkEntity {
               "$management: %O", id, ehError);
           }
         };
-        const sropt: rheaPromise.SenderOptions = { target: { address: this.address } };
+        const sropt: SenderOptions = { target: { address: this.address } };
         log.mgmt("[%s] Creating sender/receiver links on a session for $management endpoint.",
           this._context.connectionId);
         this._mgmtReqResLink =
           await RequestResponseLink.create(this._context.connection, sropt, rxopt);
-        this._mgmtReqResLink.sender.registerHandler(SenderEvents.senderError, (context: EventContext) => {
+        this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.sender!.error!);
           log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
         });
-        this._mgmtReqResLink.receiver.registerHandler(ReceiverEvents.receiverError, (context: EventContext) => {
+        this._mgmtReqResLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.receiver!.error!);
           log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
@@ -267,7 +268,7 @@ export class ManagementClient extends LinkEntity {
       }
       log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
-      return await this._mgmtReqResLink!.sendRequest(request);
+      return (await this._mgmtReqResLink!.sendRequest(request)).body;
     } catch (err) {
       err = translate(err);
       log.error("An error occurred while making the request to $management endpoint: %O", err);
