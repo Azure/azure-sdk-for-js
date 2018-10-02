@@ -105,7 +105,7 @@ export class BatchingReceiver extends EventHubReceiver {
         const receiver = this._receiver || context.receiver!;
         receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
         receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver!.session.removeListener(SessionEvents.sessionError, onSessionError);
+        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
 
         const receiverError = context.receiver && context.receiver.error;
         let error = new MessagingError("An error occuured while receiving messages.");
