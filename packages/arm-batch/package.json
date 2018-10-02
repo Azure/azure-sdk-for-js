@@ -2,7 +2,7 @@
   "name": "arm-batch",
   "author": "Microsoft Corporation",
   "description": "BatchManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "3.0.0",
+  "version": "1.0.0",
   "dependencies": {
     "ms-rest-azure-js": "~0.17.165"
   },
