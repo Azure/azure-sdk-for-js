@@ -28,7 +28,8 @@
     "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
   "scripts": {
-    "prepare": "lerna bootstrap --hoist"
+    "prepare": "lerna bootstrap --hoist --ignore-scripts",
+    "build": "lerna run build"
   },
   "devDependencies": {
     "lerna": "^2.11.0"
