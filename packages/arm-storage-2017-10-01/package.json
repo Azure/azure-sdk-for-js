@@ -5,7 +5,8 @@
   "version": "1.0.0",
   "dependencies": {
     "ms-rest-azure-js": "~0.17.165",
-    "ms-rest-js": "~0.22.434"
+    "ms-rest-js": "~0.22.434",
+    "tslib": "^1.9.3"
   },
   "keywords": [
     "node",
@@ -19,11 +20,8 @@
   "module": "./esm/storageManagementClient.js",
   "types": "./esm/storageManagementClient.d.ts",
   "devDependencies": {
-    "tslib": "^1.9.3",
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
-    "rollup-plugin-commonjs": "^9.1.8",
-    "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.9"
   },
@@ -38,5 +36,6 @@
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && uglifyjs ./dist/arm-storage-2017-10-01.js -c -m -o ./dist/arm-storage-2017-10-01.min.js",
     "prepare": "npm run build"
-  }
+  },
+  "sideEffects": false
 }
