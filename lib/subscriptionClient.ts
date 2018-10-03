@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
-import { MessagingError } from "./amqp-common";
+import { MessagingError } from "@azure/amqp-common";
 import { ConnectionContext } from "./connectionContext";
 import { ReceiveOptions, OnError, OnMessage } from ".";
 import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";

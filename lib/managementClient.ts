@@ -3,8 +3,8 @@
 
 import * as uuid from "uuid/v4";
 import * as debugModule from "debug";
-import { Message, ReceiverOptions, SenderOptions } from "./rhea-promise";
-import { defaultLock, translate, Constants, RequestResponseLink } from "./amqp-common";
+import { Message, ReceiverOptions, SenderOptions } from "rhea-promise";
+import { defaultLock, translate, Constants, RequestResponseLink } from "@azure/amqp-common";
 import { ClientEntityContext } from "./clientEntityContext";
 import { LinkEntity } from "./linkEntity";
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
-import { Delivery } from "./rhea-promise";
+import { Delivery } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { MessageSender } from "./messageSender";
 import { ServiceBusMessage } from "./message";

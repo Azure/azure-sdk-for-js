@@ -4,7 +4,7 @@
 import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
 import { ClientEntityContext } from "./clientEntityContext";
-import { defaultLock } from "./amqp-common";
+import { defaultLock } from "@azure/amqp-common";
 const debug = debugModule("azure:service-bus:clientEntity");
 
 export interface LinkEntityOptions {

@@ -3,10 +3,10 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
-import { Constants } from "./amqp-common";
+import { Constants } from "@azure/amqp-common";
 import { MessageReceiver, ReceiveOptions, OnMessage, OnError, ReceiverType } from "./messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
-import { ReceiverEvents } from "./rhea-promise";
+import { ReceiverEvents } from "rhea-promise";
 const debug = debugModule("azure:service-bus:receiverstreaming");
 
 export class ReceiveHandler {
@@ -105,8 +105,8 @@ export class StreamingReceiver extends MessageReceiver {
       debug("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
         "Hence reusing it and attaching message and error handlers.",
         this._context.namespace.connectionId, this.id);
-      this._receiver!.registerHandler(ReceiverEvents.message, this._onAmqpMessage);
-      this._receiver!.registerHandler(ReceiverEvents.receiverError, this._onAmqpError);
+      this._receiver!.on(ReceiverEvents.message, this._onAmqpMessage);
+      this._receiver!.on(ReceiverEvents.receiverError, this._onAmqpError);
       this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
       debug("[%s] Receiver '%s', set the prefetch count to 1000 and " +

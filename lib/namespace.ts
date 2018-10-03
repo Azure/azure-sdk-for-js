@@ -8,7 +8,9 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { QueueClientOptions, QueueClient } from "./queueClient";
 import { TopicClient } from "./topicClient";
-import { ConnectionConfig, DataTransformer, TokenProvider, AadTokenProvider } from "./amqp-common";
+import {
+  ConnectionConfig, DataTransformer, TokenProvider, AadTokenProvider
+} from "@azure/amqp-common";
 
 
 const debug = debugModule("azure:service-bus:namespace");

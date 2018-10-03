@@ -5,9 +5,9 @@ import * as uuid from "uuid/v4";
 import {
   DataTransformer, DefaultDataTransformer, SasTokenProvider, CbsClient, TokenProvider,
   ConnectionConfig, Constants
-} from "./amqp-common";
+} from "@azure/amqp-common";
 
-import { Connection, Dictionary } from "./rhea-promise";
+import { Connection, Dictionary } from "rhea-promise";
 import { NamespaceOptions } from "./namespace";
 import { Client } from "./client";
 
@@ -87,7 +87,7 @@ export namespace ConnectionContext {
       dataTransformer: options.dataTransformer || new DefaultDataTransformer(),
       clients: {}
     };
-    context.cbsSession = new CbsClient(config, userAgent);
+    // context.cbsSession = new CbsClient(config, userAgent);
     return context;
   }
 }

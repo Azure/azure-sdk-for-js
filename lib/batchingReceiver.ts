@@ -2,8 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as debugModule from "debug";
-import { Func, Constants, translate } from "./amqp-common";
-import { ReceiverEvents, EventContext, OnAmqpEvent } from "./rhea-promise";
+import { Func, Constants, translate } from "@azure/amqp-common";
+import { ReceiverEvents, EventContext, OnAmqpEvent } from "rhea-promise";
 import { Message } from "./message";
 import { MessageReceiver, ReceiveOptions, ReceiverType } from "./messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
@@ -70,8 +70,8 @@ export class BatchingReceiver extends MessageReceiver {
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = (timeOver: boolean, data?: Message) => {
         // Resetting the mode. Now anyone can call start() or receive() again.
-        this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
+        this._receiver!.removeListener(ReceiverEvents.receiverError, onReceiveError);
+        this._receiver!.removeListener(ReceiverEvents.message, onReceiveMessage);
         if (!data) {
           data = brokeredMessages.length ? brokeredMessages[brokeredMessages.length - 1] : undefined;
         }
@@ -103,8 +103,8 @@ export class BatchingReceiver extends MessageReceiver {
 
       // Action to be taken when an error is received.
       onReceiveError = (context: EventContext) => {
-        this._receiver!.removeHandler(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.removeHandler(ReceiverEvents.message, onReceiveMessage);
+        this._receiver!.removeListener(ReceiverEvents.receiverError, onReceiveError);
+        this._receiver!.removeListener(ReceiverEvents.message, onReceiveMessage);
         const error = translate(context.receiver!.error!);
         debug("[%s] Receiver '%s' received an error:\n%O",
           this._context.namespace.connectionId, this.id, error);
@@ -133,8 +133,8 @@ export class BatchingReceiver extends MessageReceiver {
         this._init(onReceiveMessage, onReceiveError).then(() => addCreditAndSetTimer()).catch(reject);
       } else {
         addCreditAndSetTimer(true);
-        this._receiver!.registerHandler(ReceiverEvents.message, onReceiveMessage);
-        this._receiver!.registerHandler(ReceiverEvents.receiverError, onReceiveError);
+        this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
+        this._receiver!.on(ReceiverEvents.receiverError, onReceiveError);
       }
     });
   }

@@ -6,7 +6,7 @@ import { StreamingReceiver } from "./streamingReceiver";
 import { MessageSender } from "./messageSender";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { ConnectionContext } from "./connectionContext";
-import { Dictionary } from "./rhea-promise";
+import { Dictionary } from "rhea-promise";
 import { Client } from "./client";
 import { BatchingReceiver } from "./batchingReceiver";
 

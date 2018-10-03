@@ -8,8 +8,8 @@ import { ClientEntityContext } from "./clientEntityContext";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
   message
-} from "./rhea-promise";
-import { defaultLock, Func, retry, translate, AmqpMessage } from "./amqp-common";
+} from "rhea-promise";
+import { defaultLock, Func, retry, translate, AmqpMessage, RetryConfig, RetryOperationType, Constants, randomNumberFromInterval } from "@azure/amqp-common";
 import { ServiceBusMessage } from "./message";
 
 const debug = debugModule("azure:service-bus:sender");
@@ -158,7 +158,7 @@ export class MessageSender extends LinkEntity {
    * @return {Promise<Delivery>} Promise<Delivery>
    */
   private _trySend(message: ServiceBusMessage, tag?: any, format?: number): Promise<Delivery> {
-    const sendEventPromise = new Promise<Delivery>((resolve, reject) => {
+    const sendEventPromise = () => new Promise<Delivery>((resolve, reject) => {
       debug("[%s] Sender '%s', credit: %d available: %d", this._context.namespace.connectionId,
         this.id, this._sender!.credit, this._sender!.session.outgoing.available());
       if (this._sender!.sendable()) {
@@ -168,10 +168,10 @@ export class MessageSender extends LinkEntity {
         let onModified: Func<EventContext, void>;
         let onAccepted: Func<EventContext, void>;
         const removeListeners = (): void => {
-          this._sender!.removeHandler(SenderEvents.rejected, onRejected);
-          this._sender!.removeHandler(SenderEvents.accepted, onAccepted);
-          this._sender!.removeHandler(SenderEvents.released, onReleased);
-          this._sender!.removeHandler(SenderEvents.modified, onModified);
+          this._sender!.removeListener(SenderEvents.rejected, onRejected);
+          this._sender!.removeListener(SenderEvents.accepted, onAccepted);
+          this._sender!.removeListener(SenderEvents.released, onReleased);
+          this._sender!.removeListener(SenderEvents.modified, onModified);
         };
 
         onAccepted = (context: EventContext) => {
@@ -215,10 +215,10 @@ export class MessageSender extends LinkEntity {
           }
           reject(err);
         };
-        this._sender!.registerHandler(SenderEvents.accepted, onAccepted);
-        this._sender!.registerHandler(SenderEvents.rejected, onRejected);
-        this._sender!.registerHandler(SenderEvents.modified, onModified);
-        this._sender!.registerHandler(SenderEvents.released, onReleased);
+        this._sender!.on(SenderEvents.accepted, onAccepted);
+        this._sender!.on(SenderEvents.rejected, onRejected);
+        this._sender!.on(SenderEvents.modified, onModified);
+        this._sender!.on(SenderEvents.released, onReleased);
         const delivery = this._sender!.send(message, tag, format);
         debug("[%s] Sender '%s', sent message with delivery id: %d",
           this._context.namespace.connectionId, this.id, delivery.id);
@@ -230,7 +230,16 @@ export class MessageSender extends LinkEntity {
       }
     });
 
-    return retry<Delivery>(() => sendEventPromise);
+    const jitterInSeconds = randomNumberFromInterval(1, 4);
+    const config: RetryConfig<Delivery> = {
+      operation: sendEventPromise,
+      connectionId: this._context.namespace.connectionId!,
+      operationType: RetryOperationType.sendMessage,
+      times: Constants.defaultRetryAttempts,
+      delayInSeconds: Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds
+    };
+
+    return retry<Delivery>(config);
   }
 
   /**

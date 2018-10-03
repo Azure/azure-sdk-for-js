@@ -4,8 +4,8 @@
 import * as debugModule from "debug";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "./clientEntityContext";
-import { MessagingError, translate } from "./amqp-common";
-import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions } from "./rhea-promise";
+import { MessagingError, translate } from "@azure/amqp-common";
+import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions } from "rhea-promise";
 import { Message } from "./message";
 
 const debug = debugModule("azure:service-bus:receiver");
