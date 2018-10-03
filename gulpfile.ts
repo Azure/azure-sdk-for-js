@@ -10,6 +10,7 @@ import * as glob from "glob";
 import * as gulp from "gulp";
 import * as path from "path";
 import { argv } from "yargs";
+import { findAzureRestApiSpecsRepository, getCommandLineParameterValue, findSdkDirectory, findMissingSdks } from "./generate-sdks";
 
 const azureSDKForJSRepoRoot: string = __dirname;
 const azureRestAPISpecsRoot: string = argv['azure-rest-api-specs-root'] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
@@ -250,4 +251,13 @@ gulp.task('publish', () => {
   console.log(`Up to date packages:        ${upToDatePackages}`);
   console.log(`Published packages:         ${publishedPackages}`);
   console.log(`Published packages skipped: ${publishedPackagesSkipped}`);
+});
+
+gulp.task("find-missing-sdks", () => {
+  console.log(`Passed arguments: ${process.argv}`);
+
+  const azureRestApiSpecsRepository = findAzureRestApiSpecsRepository();
+  console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
+
+  findMissingSdks(azureRestApiSpecsRepository);
 });
