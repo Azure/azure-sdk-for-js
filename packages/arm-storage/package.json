@@ -38,6 +38,6 @@
   },
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && uglifyjs ./dist/arm-storage.js -c -m -o ./dist/arm-storage.min.js",
-    "prepack": "npm run build"
+    "prepare": "npm run build"
   }
 }
