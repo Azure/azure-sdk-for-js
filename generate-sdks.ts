@@ -45,15 +45,6 @@ function containsDirectory(directoryName: string, parentPath: string): boolean {
     return fs.existsSync(path.resolve(parentPath, directoryName));
 }
 
-export function getCommandLineParameterValue(parameterName: string, args: string[]): string {
-    const parameterIndex = args.indexOf(`--${parameterName}`);
-    if (parameterIndex < 0) {
-        throw `Parameter ${parameterName} not found`;
-    }
-
-    return args[parameterIndex + 1];
-}
-
 export function findSdkDirectory(azureRestApiSpecsRepository: string, packageName: string, sdkType: string): string {
     const sdkSegment = sdkType === "arm" ? "resource-manager" : "data-plane";
     const sdkPath = path.resolve(azureRestApiSpecsRepository, specificationsSegment, packageName, sdkSegment);

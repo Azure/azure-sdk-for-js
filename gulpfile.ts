@@ -10,7 +10,7 @@ import * as glob from "glob";
 import * as gulp from "gulp";
 import * as path from "path";
 import { argv } from "yargs";
-import { findAzureRestApiSpecsRepository, getCommandLineParameterValue, findSdkDirectory, findMissingSdks } from "./generate-sdks";
+import { findAzureRestApiSpecsRepository, findSdkDirectory, findMissingSdks } from "./generate-sdks";
 
 const azureSDKForJSRepoRoot: string = __dirname;
 const azureRestAPISpecsRoot: string = argv['azure-rest-api-specs-root'] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
