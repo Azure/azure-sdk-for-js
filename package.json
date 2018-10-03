@@ -32,6 +32,11 @@
     "build": "lerna run build"
   },
   "devDependencies": {
-    "lerna": "^2.11.0"
+    "@types/node": "^10.10.1",
+    "gulp": "^3.9.1",
+    "lerna": "^3.4.0",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.0.3",
+    "yargs": "^12.0.2"
   }
 }
