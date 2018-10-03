@@ -1,3 +1,9 @@
+### 2018-10-03 0.1.4
+- `ConnectionConfig.entityPath` is optional. Hence, `ConnectionConfig.create()` and
+`ConnectionConfig.validate()` will not throw an error if `entityPath` is not defined. However,
+other connection configs (EventHubConnectionConfig) that extend the base `ConnectionConfig` can have
+`entityPath` as a required property.
+
 ### 2018-09-29 0.1.3
 - Added a new method `EventHubConnectionConfig.createFromConnectionConfig()` to create an 
 eventhub connection config from the base connection config.
@@ -6,7 +12,7 @@ iothub connection config.
 - Exported `AsyncLock` from the package.
 
 ### 2018-09-28 0.1.2
-- connection property should be "user-agent".
+- connection property should be "user-agent" and not "userAgent".
 - `"rhea-promise"` will be a peer dependency rather than a direct dependency. This ensures,
 that only one copy of `"rhea-promise"` is present and avoids type encoding issues.
 - Added examples for send and receive along with cbs authentication.

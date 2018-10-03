@@ -35,10 +35,10 @@ export interface ConnectionConfig {
    */
   connectionString: string;
   /**
-   * @property {string} entityPath - The name/path of the entity (hub name) to which the
+   * @property {string} entityPath - The name/path of the entity (hub/queue/topic name) to which the
    * connection needs to happen.
    */
-  entityPath: string;
+  entityPath?: string;
   /**
    * @property {string} sharedAccessKeyName - The name of the access key.
    */
@@ -59,7 +59,8 @@ export namespace ConnectionConfig {
    * @param {string} connectionString - The connection string for a given service like
    * EventHub/ServiceBus.
    * @param {string} [path]           - The name/path of the entity (hub name) to which the
-   * connection needs to happen.
+   * connection needs to happen. This will override the EntityPath in the connectionString
+   * if present.
    * @returns {ConnectionConfig} ConnectionConfig
    */
   export function create(connectionString: string, path?: string): ConnectionConfig {
@@ -67,19 +68,15 @@ export namespace ConnectionConfig {
       throw new Error("'connectionString' is a required parameter and must be of type: 'string'.");
     }
     const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
-    if (!path && !parsedCS.EntityPath) {
-      throw new Error(`Either provide "path" or the "connectionString": "${connectionString}", ` +
-        `must contain EntityPath="<path-to-the-entity>".`);
-    }
     if (!parsedCS.Endpoint.endsWith("/")) parsedCS.Endpoint += "/";
     const result: ConnectionConfig = {
       connectionString: connectionString,
       endpoint: parsedCS.Endpoint,
       host: (parsedCS && parsedCS.Endpoint) ? (parsedCS.Endpoint.match('sb://([^/]*)') || [])[1] : "",
-      entityPath: path! || parsedCS.EntityPath!,
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
       sharedAccessKey: parsedCS.SharedAccessKey
     };
+    if (path || parsedCS.EntityPath) result.entityPath = path || parsedCS.EntityPath;
     return result;
   }
 

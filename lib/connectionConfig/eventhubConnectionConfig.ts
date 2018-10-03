@@ -11,6 +11,11 @@ import { ConnectionConfig } from "./connectionConfig";
  */
 export interface EventHubConnectionConfig extends ConnectionConfig {
   /**
+   * @property {string} entityPath - The name/path of the entity (event hub name) to which the
+   * connection needs to happen.
+   */
+  entityPath: string;
+  /**
    * Provides the EventHub Sender address in one of the following forms based on the input:
    * - `"<hubName>"`
    * - `"<hubName>/Partitions/<partitionId>"`
@@ -68,11 +73,16 @@ export module EventHubConnectionConfig {
    * @param {string} connectionString - The connection string for a given service like
    * EventHub/ServiceBus.
    * @param {string} [path]           - The name/path of the entity (hub name) to which the
-   * connection needs to happen.
+   * connection needs to happen. This will override the EntityPath in the connectionString
+   * if present.
    * @returns {EventHubConnectionConfig} EventHubConnectionConfig
    */
   export function create(connectionString: string, path?: string): EventHubConnectionConfig {
     const config = ConnectionConfig.create(connectionString, path);
+    if (!config.entityPath) {
+      throw new Error(`Either provide "path" or the "connectionString": "${connectionString}", ` +
+        `must contain EntityPath="<path-to-the-entity>".`);
+    }
     return createFromConnectionConfig(config);
   }
 

@@ -4,7 +4,7 @@
 import "mocha";
 import { ConnectionConfig, EventHubConnectionConfig, IotHubConnectionConfig } from "../lib";
 import * as chai from "chai";
-chai.should();
+const should = chai.should();
 
 describe("ConnectionConfig", function () {
   describe("Base", function () {
@@ -23,19 +23,27 @@ describe("ConnectionConfig", function () {
       done();
     });
 
+    it("should create a connection config when path is not provided and the connectionstring also does not contain EntityPath", function (done) {
+      const connectionString = "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak";
+      const config = ConnectionConfig.create(connectionString);
+      should.not.exist(config.entityPath);
+      done();
+    });
+  });
+
+  describe("EventHub", function () {
+
     it("should fail if connection config does not contain path and the connectionstring also does not contain EntityPath", function (done) {
       const connectionString = "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak";
       try {
-        ConnectionConfig.create(connectionString);
+        EventHubConnectionConfig.create(connectionString);
         done(new Error("Should not have reached here."));
       } catch (err) {
         err.message.should.match(/Either provide "path" or the "connectionString".*/ig);
       }
       done();
     });
-  });
 
-  describe("EventHub", function () {
     it("should correctly populate config properties from an EventHubs connection string and the helper methods should work as expected", function (done) {
       const config = EventHubConnectionConfig.create("Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep");
       config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
