@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as debugModule from "debug";
 import * as uuid from "uuid/v4";
-import { ClientEntityContext } from "./clientEntityContext";
 import { defaultLock } from "@azure/amqp-common";
-const debug = debugModule("azure:service-bus:clientEntity");
+import { ClientEntityContext } from "./clientEntityContext";
+
+import * as log from "./log";
+import { MessageSender } from './messageSender';
+import { MessageReceiver } from './messageReceiver';
 
 export interface LinkEntityOptions {
   /**
-   * @property {string | number} [partitionId] The partitionId associated with the client entity.
+   * @property {string} [name] The unique name for the entity. If not provided then a guid will be
+   * assigned.
    */
-  partitionId?: string | number;
+  name?: string;
   /**
    * @property {string} address The client entity address in one of the following forms:
    */
@@ -64,6 +67,11 @@ export class LinkEntity {
    */
   audience: string;
   /**
+   * @property {boolean} isConnecting Indicates whether the link is in the process of connecting
+   * (establishing) itself. Default value: `false`.
+   */
+  isConnecting: boolean = false;
+  /**
    * @property {ClientEntityContext} _context Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    * @protected
@@ -82,23 +90,12 @@ export class LinkEntity {
    * @param {ClientEntityContext} context The connection context.
    * @param {LinkEntityOptions} [options] Options that can be provided while creating the LinkEntity.
    */
-  constructor(name: string, context: ClientEntityContext, options?: LinkEntityOptions) {
+  constructor(context: ClientEntityContext, options?: LinkEntityOptions) {
     if (!options) options = {};
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
     this.id = `${name}/${uuid()}`;
-  }
-  /**
-   * Provides the current type of the ClientEntity.
-   * @return {string} The entity type.
-   */
-  get type(): string {
-    let result = "LinkEntity";
-    if ((this as any).constructor && (this as any).constructor.name) {
-      result = (this as any).constructor.name;
-    }
-    return result;
   }
 
   /**
@@ -112,10 +109,10 @@ export class LinkEntity {
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
     // cbs session, since we want to have exactly 1 cbs session per connection).
-    debug("[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
+    log.link("[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
       "'%s' with address: '%s'.", this._context.namespace.connectionId,
       this._context.namespace.cbsSession!.cbsLock,
-      this.type, this.id, this.address);
+      this._type, this.id, this.address);
     await defaultLock.acquire(this._context.namespace.cbsSession!.cbsLock,
       () => { return this._context.namespace.cbsSession!.init(); });
     const tokenObject = await this._context.namespace.tokenProvider.getToken(this.audience);
@@ -123,17 +120,17 @@ export class LinkEntity {
       this._context.namespace.connection = this._context.namespace.cbsSession!.connection;
       this._context.namespace.connectionId = this._context.namespace.cbsSession!.connection!.id;
     }
-    debug("[%s] %s: calling negotiateClaim for audience '%s'.",
-      this._context.namespace.connectionId, this.type, this.audience);
+    log.link("[%s] %s: calling negotiateClaim for audience '%s'.",
+      this._context.namespace.connectionId, this._type, this.audience);
     // Acquire the lock to negotiate the CBS claim.
-    debug("[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
+    log.link("[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
       this._context.namespace.connectionId, this._context.namespace.negotiateClaimLock,
-      this.type, this.id, this.address);
+      this._type, this.id, this.address);
     await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
       return this._context.namespace.cbsSession!.negotiateClaim(this.audience, tokenObject);
     });
-    debug("[%s] Negotiated claim for %s '%s' with with address: %s",
-      this._context.namespace.connectionId, this.type, this.id, this.address);
+    log.link("[%s] Negotiated claim for %s '%s' with with address: %s",
+      this._context.namespace.connectionId, this._type, this.id, this.address);
     if (setTokenRenewal) {
       await this._ensureTokenRenewal();
     }
@@ -153,12 +150,47 @@ export class LinkEntity {
         await this._negotiateClaim(true);
       } catch (err) {
         // TODO: May be add some retries over here before emitting the error.
-        debug("[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
-          this._context.namespace.connectionId, this.type, this.id, this.address, err);
+        log.error("[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
+          this._context.namespace.connectionId, this._type, this.id, this.address, err);
       }
     }, nextRenewalTimeout);
-    debug("[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
-      this._context.namespace.connectionId, this.type, this.id, this.address, nextRenewalTimeout / 1000,
+    log.link("[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
+      this._context.namespace.connectionId, this._type, this.id, this.address, nextRenewalTimeout / 1000,
       new Date(Date.now() + nextRenewalTimeout).toString());
+  }
+
+  /**
+   * Closes the Sender|Receiver link and it's underlying session and also removes it from the
+   * internal map.
+   * @ignore
+   * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be closed and
+   * removed.
+   */
+  protected async _closeLink(link?: MessageSender | MessageReceiver): Promise<void> {
+    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+    if (link) {
+      try {
+        // This should take care of closing the link and it's underlying session. This should also
+        // remove them from the internal map.
+        await link.close();
+        log.link("[%s] %s '%s' with address '%s' closed.", this._context.namespace.connectionId,
+          this._type, this.id, this.address);
+      } catch (err) {
+        log.error("[%s] An error occurred while closing the %s '%s': %O",
+          this._context.namespace.connectionId, this._type, this.id, this.address, err);
+      }
+    }
+  }
+
+  /**
+   * Provides the current type of the ClientEntity.
+   * @return {string} The entity type.
+   */
+  private get _type(): string {
+    let result = "LinkEntity";
+    if ((this as any).constructor && (this as any).constructor.name) {
+      result = (this as any).constructor.name;
+    }
+    return result;
   }
 }

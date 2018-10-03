@@ -2,13 +2,13 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as uuid from "uuid/v4";
-import * as debugModule from "debug";
-import { Message, ReceiverOptions, SenderOptions } from "rhea-promise";
+import {
+  Message, EventContext, SenderEvents, ReceiverEvents, SenderOptions, ReceiverOptions
+} from "rhea-promise";
 import { defaultLock, translate, Constants, RequestResponseLink } from "@azure/amqp-common";
 import { ClientEntityContext } from "./clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-
-const debug = debugModule("azure:service-bus:management");
+import * as log from "./log";
 
 export interface ManagementClientOptions {
   address?: string;
@@ -46,7 +46,8 @@ export class ManagementClient extends LinkEntity {
    * `/messages/events/$management`.
    */
   constructor(context: ClientEntityContext, options?: ManagementClientOptions) {
-    super(`${context.entityPath}/$management`, context, {
+    super(context, {
+      name: `${context.entityPath}/$management`,
       address: options && options.address ? options.address : Constants.management,
       audience: options && options.audience ? options.audience :
         `${context.namespace.config.endpoint}${context.entityPath}/$management`
@@ -63,27 +64,27 @@ export class ManagementClient extends LinkEntity {
   async close(): Promise<void> {
     try {
       if (this._isMgmtRequestResponseLinkOpen()) {
-        await this._mgmtReqResLink!.close();
-        debug("Successfully closed the management session.");
+        const mgmtLink = this._mgmtReqResLink;
         this._mgmtReqResLink = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+        await mgmtLink!.close();
+        log.mgmt("Successfully closed the management session.");
       }
     } catch (err) {
       const msg = `An error occurred while closing the management session: ${err}`;
-      debug(msg);
+      log.error(msg);
       throw new Error(msg);
     }
   }
 
   /**
-   * @private
    * Helper method to make the management request
    * @param {Connection} connection - The established amqp connection
    * @param {string} type - The type of entity requested for. Valid values are "eventhub", "partition"
    * @param {string | number} [partitionId] - The partitionId. Required only when type is "partition".
    */
   async _makeManagementRequest(type: "eventhub" | "partition", partitionId?: string | number): Promise<any> {
-    if (partitionId && typeof partitionId !== "string" && typeof partitionId !== "number") {
+    if (partitionId != undefined && (typeof partitionId !== "string" && typeof partitionId !== "number")) {
       throw new Error("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
     }
     try {
@@ -97,34 +98,60 @@ export class ManagementClient extends LinkEntity {
           type: `${Constants.vendorString}:${type}`
         }
       };
-      if (partitionId && type === Constants.partition) {
-        request.application_properties!.partition = partitionId;
+      if (partitionId != undefined && type === Constants.partition) {
+        request.application_properties!.partition = `${partitionId}`;
       }
+      log.mgmt("[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
-      return await this._mgmtReqResLink!.sendRequest(request);
+      return (await this._mgmtReqResLink!.sendRequest(request)).body;
     } catch (err) {
       err = translate(err);
-      debug("An error occurred while making the request to $management endpoint: %O", err);
+      log.error("An error occurred while making the request to $management endpoint: %O", err);
       throw err;
     }
   }
 
   private async _init(): Promise<void> {
-    if (!this._isMgmtRequestResponseLinkOpen()) {
-      await this._negotiateClaim();
-      const rxopt: ReceiverOptions = {
-        source: { address: this.address },
-        name: this.replyTo,
-        target: { address: this.replyTo }
-      };
-      const sropt: SenderOptions = { target: { address: this.address } };
-      debug("Creating a session for $management endpoint");
-      this._mgmtReqResLink =
-        await RequestResponseLink.create(this._context.namespace.connection!, sropt, rxopt);
-      debug("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
-        this._context.namespace.connectionId, this._mgmtReqResLink.sender.name,
-        this._mgmtReqResLink.receiver.name);
-      await this._ensureTokenRenewal();
+    try {
+      if (!this._isMgmtRequestResponseLinkOpen()) {
+        await this._negotiateClaim();
+        const rxopt: ReceiverOptions = {
+          source: { address: this.address },
+          name: this.replyTo,
+          target: { address: this.replyTo },
+          onSessionError: (context: EventContext) => {
+            const id = context.connection.options.id;
+            const ehError = translate(context.session!.error!);
+            log.error("[%s] An error occurred on the session for request/response links for " +
+              "$management: %O", id, ehError);
+          }
+        };
+        const sropt: SenderOptions = { target: { address: this.address } };
+        log.mgmt("[%s] Creating sender/receiver links on a session for $management endpoint.",
+          this._context.namespace.connectionId);
+        this._mgmtReqResLink =
+          await RequestResponseLink.create(this._context.namespace.connection!, sropt, rxopt);
+        this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
+          const id = context.connection.options.id;
+          const ehError = translate(context.sender!.error!);
+          log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
+        });
+        this._mgmtReqResLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
+          const id = context.connection.options.id;
+          const ehError = translate(context.receiver!.error!);
+          log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
+        });
+        log.mgmt("[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
+          this._context.namespace.connectionId, this._mgmtReqResLink.sender.name,
+          this._mgmtReqResLink.receiver.name);
+        await this._ensureTokenRenewal();
+      }
+    } catch (err) {
+      err = translate(err);
+      log.error("[%s] An error occured while establishing the $management links: %O",
+        this._context.namespace.connectionId, err);
+      throw err;
     }
   }
 

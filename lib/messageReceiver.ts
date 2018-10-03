@@ -125,7 +125,7 @@ export class MessageReceiver extends LinkEntity {
   protected _onAmqpError: OnAmqpEvent;
 
   constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
-    super(`${context.entityPath}`, context);
+    super(context, { name: `${context.entityPath}` });
     if (!options) options = {};
     this.receiverType = receiverType;
     this.address = `${this._context.entityPath}`;

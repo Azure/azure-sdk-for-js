@@ -9,7 +9,10 @@ import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
   message
 } from "rhea-promise";
-import { defaultLock, Func, retry, translate, AmqpMessage, RetryConfig, RetryOperationType, Constants, randomNumberFromInterval } from "@azure/amqp-common";
+import {
+  defaultLock, Func, retry, translate, AmqpMessage,
+  RetryConfig, RetryOperationType, Constants, randomNumberFromInterval
+} from "@azure/amqp-common";
 import { ServiceBusMessage } from "./message";
 
 const debug = debugModule("azure:service-bus:sender");
@@ -37,7 +40,7 @@ export class MessageSender extends LinkEntity {
    * @param {ClientEntityContext} context The client entity context.
    */
   constructor(context: ClientEntityContext) {
-    super(`${context.entityPath}`, context);
+    super(context, { name: `${context.entityPath}` });
     this.address = this._context.entityPath as string;
     this.audience = `${this._context.namespace.config.endpoint}${this.address}`;
   }
