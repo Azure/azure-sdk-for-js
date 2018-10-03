@@ -1,12 +1,11 @@
 {
-  "name": "@azure/arm-storage",
+  "name": "@azure/arm-storage-2018-02-01",
   "author": "Microsoft Corporation",
   "description": "StorageManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.0.0-preview",
+  "version": "1.0.0",
   "dependencies": {
     "ms-rest-azure-js": "~0.17.165",
-    "ms-rest-js": "~0.22.434",
-    "@azure/arm-storage-2018-03-01-preview": "^1.0.0-preview"
+    "ms-rest-js": "~0.22.434"
   },
   "keywords": [
     "node",
@@ -16,9 +15,9 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/arm-storage.js",
-  "module": "./esm/index.js",
-  "types": "./esm/index.d.ts",
+  "main": "./dist/arm-storage-2018-02-01.js",
+  "module": "./esm/storageManagementClient.js",
+  "types": "./esm/storageManagementClient.d.ts",
   "devDependencies": {
     "tslib": "^1.9.3",
     "typescript": "^3.1.1",
@@ -28,7 +27,7 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/arm-storage",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/arm-storage-2018-02-01",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -37,7 +36,7 @@
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && uglifyjs ./dist/arm-storage.js -c -m -o ./dist/arm-storage.min.js",
+    "build": "tsc && rollup -c rollup.config.js && uglifyjs ./dist/arm-storage-2018-02-01.js -c -m -o ./dist/arm-storage-2018-02-01.min.js",
     "prepack": "npm run build"
   }
 }
