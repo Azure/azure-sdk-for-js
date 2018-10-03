@@ -17,20 +17,21 @@ TestResults/*
 ./**/.vscode/*
 
 # Node #
-**/node_modules/
-**/cjs/
-**/esm/
-**/lib/**/*.js
-**/lib/**/*.js.map
-**/*Bundle.js
-**/*Bundle.js.map
-**/package-lock.json
+package-lock.json
+node_modules/
 npm-debug.log.*
+lerna-debug.log
 azure_error
 checkstyle-result.xml
 test-result.xml
-**/cjs/
-**/esm/
+
+# TypeScript build products
+*.js
+*.js.map
+*.d.ts
+*.d.ts.map
+!webpack.config.js
+!rollup.config.js
 
 # Mac OS #
 .DS_Store
@@ -56,8 +57,11 @@ child.conf.json
 # temporary test artifacts
 test/tmp/*
 
-# dotenv environment variables file 
+# dotenv environment variables file
 .env
+
+# Nuget packages and corresponding codegen sources
+.nuget
 
 # Coverage report
 coverage

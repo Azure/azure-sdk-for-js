@@ -27,12 +27,10 @@
   "bugs": {
     "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "scripts": {
+    "prepare": "lerna bootstrap --hoist"
+  },
   "devDependencies": {
-    "@types/node": "^10.10.1",
-    "gulp": "^3.9.1",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.0.3",
-    "webpack": "^4.19.0",
-    "yargs": "^12.0.2"
+    "lerna": "^2.11.0"
   }
 }
