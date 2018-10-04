@@ -37,7 +37,7 @@ export namespace ConnectionContext {
       config: config,
       tokenProvider: options.tokenProvider,
       dataTransformer: options.dataTransformer,
-      isEntityPathRequired: true,
+      isEntityPathRequired: false,
       connectionProperties: {
         product: "MSJSClient",
         userAgent: userAgent,
