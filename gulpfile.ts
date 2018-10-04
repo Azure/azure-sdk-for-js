@@ -41,8 +41,7 @@ function getPackageNamesFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFil
   const packageNamePattern: RegExp = /package-name: (\S*)/g;
   const matches: string[] = readmeTypeScriptMdFileContents.match(packageNamePattern) || [];
   // console.log(`"package-name" matches: ${JSON.stringify(matches)}`);
-  for (let i = 0; i < matches.length; ++i)
-  {
+  for (let i = 0; i < matches.length; ++i) {
     matches[i] = matches[i].substring("package-name: ".length);
   }
   // console.log(`"package-name" matches trimmed: ${JSON.stringify(matches)}`);
@@ -108,7 +107,7 @@ gulp.task("install", () => {
 
       const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
       const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-      
+
       if (contains(packageNames, packageArg)) {
         foundPackage = true;
 
@@ -254,23 +253,32 @@ gulp.task('publish', () => {
 });
 
 gulp.task("find-missing-sdks", async () => {
-  console.log(`Passed arguments: ${process.argv}`);
+  try {
+    console.log(`Passed arguments: ${process.argv}`);
 
-  const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepository();
-  console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
+    const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepository();
+    console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
 
-  await findMissingSdks(azureRestApiSpecsRepository);
+    await findMissingSdks(azureRestApiSpecsRepository);
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 gulp.task("generate-ts-readme", async () => {
-  console.log(`Passed arguments: ${process.argv}`);
+  try {
+    console.log(`Passed arguments: ${process.argv}`);
 
-  const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepository();
-  console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
+    const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepository();
+    console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
 
-  const sdkPath = await findSdkDirectory(azureRestApiSpecsRepository);
-  console.log(`Found specification in ${sdkPath}`);
+    const sdkPath = await findSdkDirectory(azureRestApiSpecsRepository);
+    console.log(`Found specification in ${sdkPath}`);
 
-  copyExistingNodeJsReadme(sdkPath);
-  console.log(`Copied readme file successfully`);
+    await copyExistingNodeJsReadme(sdkPath);
+    console.log(`Copied readme file successfully`);
+  }
+  catch (error) {
+    console.error(error);
+  }
 });

@@ -5,8 +5,8 @@
  */
 
 import * as colors from "colors";
-import { promises as fs } from "fs";
 import * as fssync from "fs";
+import { promises as fs } from "fs";
 import * as path from "path";
 import * as minimist from "minimist";
 
@@ -35,11 +35,19 @@ const args = minimist(process.argv.slice(2), {
         d: "debug",
         package: "packageName",
         v: "version",
+    },
+    default: {
+        type: "arm"
     }
 }) as CommandLineOptions;
 
 function contains<T>(array: T[], el: T): boolean {
     return array.indexOf(el) != -1
+}
+
+async function isDirectory(directoryPath: string): Promise<boolean> {
+    const stats = await fs.lstat(directoryPath);
+    return stats.isDirectory();
 }
 
 async function exists(path: string): Promise<boolean> {
@@ -89,7 +97,7 @@ export async function findSdkDirectory(azureRestApiSpecsRepository: string): Pro
     const sdkSegment = args.getSdkType() === SdkType.ResourceManager ? "resource-manager" : "data-plane";
     const sdkPath = path.resolve(azureRestApiSpecsRepository, specificationsSegment, args.packageName, sdkSegment);
 
-    if (await exists(sdkPath)) {
+    if (await !exists(sdkPath)) {
         throw new Error(`${sdkPath} SDK specs don't exist`);
     }
 
@@ -104,21 +112,34 @@ export async function findMissingSdks(azureRestApiSpecsRepository: string): Prom
 
     for (const serviceDirectory of serviceSpecs) {
         const fullServicePath = path.resolve(specsDirectory, serviceDirectory);
+        if (!(await !isDirectory(fullServicePath))) {
+            continue;
+        }
 
-        for (const sdkTypeDirectory of await fs.readdir(fullServicePath)) {
+        const sdkTypeDirectories = await fs.readdir(fullServicePath);
+
+        for (const sdkTypeDirectory of sdkTypeDirectories) {
             const fullSdkPath = path.resolve(fullServicePath, sdkTypeDirectory);
-            const readmeFiles = (await fs.readdir(fullSdkPath)).filter(file => /^readme/.test(file));
-            const fullSpecName = `${serviceDirectory} [${sdkTypeDirectory}]`
-
-            if (readmeFiles.length <= 1) {
-                // Only "readme.md" so we don't expect readme.nodejs.md to exist
+            if (!(await isDirectory(fullSdkPath))) {
                 continue;
             }
 
-            if (contains(readmeFiles, "readme.nodejs.md")) {
+            const readmeFiles = (await fs.readdir(fullSdkPath)).filter(file => /^readme/.test(file));
+            const fullSpecName = `${serviceDirectory} [${sdkTypeDirectory}]`
+
+            if (readmeFiles.length <= 0) {
+                // No readme.md
+                continue;
+            } else if (readmeFiles.length == 1) {
+                const readmeMdPath = readmeFiles[0];
+                if (await doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath)) {
+                    console.log(colors.red(fullSpecName))
+                } else {
+                    console.log(colors.green(fullSpecName))
+                }
+            } else if (contains(readmeFiles, "readme.nodejs.md")) {
                 if (!contains(readmeFiles, "readme.typescript.md")) {
                     missingSdks.push(fullSdkPath);
-
                     console.log(colors.red(fullSpecName))
                 } else if (args.debug) {
                     console.log(colors.green(fullSpecName))
@@ -130,7 +151,7 @@ export async function findMissingSdks(azureRestApiSpecsRepository: string): Prom
     return missingSdks;
 }
 
-async function doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath: string) {
+async function doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath: string): Promise<boolean> {
     const readmeMdBuffer = await fs.readFile(readmeMdPath);
     const sectionBeginning = "``` yaml $(swagger-to-sdk)"
     const sectionEnd = "```"
@@ -141,10 +162,14 @@ async function doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath: string) {
     const endIndex = trimmedBuffer.indexOf(sectionEnd);
     const sectionBuffer = trimmedBuffer.slice(0, endIndex);
 
-    console.log(sectionBuffer.toString());
+    if (sectionBuffer.includes("azure-sdk-for-js")) {
+        return true;
+    }
+
+    return false;
 }
 
-export async function copyExistingNodeJsReadme(sdkPath: string) {
+export async function copyExistingNodeJsReadme(sdkPath: string): Promise<void> {
     const nodeJsReadmePath = path.resolve(sdkPath, "readme.nodejs.md");
     const typescriptReadmePath = path.resolve(sdkPath, "readme.typescript.md");
 
@@ -152,8 +177,8 @@ export async function copyExistingNodeJsReadme(sdkPath: string) {
         console.log(`Copying ${nodeJsReadmePath} to ${typescriptReadmePath}`)
     }
 
-    if (exists(typescriptReadmePath)) {
-        throw new Error(`Typescript readme file already exists in ${sdkPath}`)
+    if (await exists(typescriptReadmePath)) {
+        throw new Error(`${typescriptReadmePath} file already exists`)
     }
 
     await fs.copyFile(nodeJsReadmePath, typescriptReadmePath);
