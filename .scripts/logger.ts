@@ -4,25 +4,49 @@
  * license information.
  */
 
+import * as colors from "colors";
 import { CommandLineOptions } from "./commandLineOptions";
 
+export enum Color {
+    Red,
+    Green
+}
+
  export class Logger {
+    private _colorsMap = {
+        [Color.Red]: colors.red,
+        [Color.Green]: colors.green
+    }
+
     constructor(private _options: CommandLineOptions) {
     }
 
-    log(text: string): void {
-        console.log(text);
+    log(text: string, color?: Color): void {
+        if (color !== undefined) {
+            const coloredText = this._colorsMap[color](text);
+            console.log(coloredText);
+        } else {
+            console.log(text);
+        }
      }
 
-     logVerbose(text: string): void {
+     logRed(text: string): void {
+         this.log(text, Color.Red)
+     }
+
+     logGreen(text: string): void {
+        this.log(text, Color.Green)
+    }
+
+     logVerbose(text: string, color?: Color): void {
          if (this._options.verbose) {
-             console.log(text);
+             this.log(text, color);
          }
      }
 
-     logDebug(text: string): void {
+     logDebug(text: string, color?: Color): void {
          if (this._options.debug) {
-             console.log(text);
+             this.log(text, color);
          }
      }
  }

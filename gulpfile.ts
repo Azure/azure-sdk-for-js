@@ -10,7 +10,7 @@ import * as glob from "glob";
 import * as gulp from "gulp";
 import * as path from "path";
 import { argv } from "yargs";
-import { findAzureRestApiSpecsRepository, findSdkDirectory, findMissingSdks, copyExistingNodeJsReadme } from "./.scripts/generate-sdks";
+import { findAzureRestApiSpecsRepository, findSdkDirectory, findMissingSdks, copyExistingNodeJsReadme, updateTypeScriptReadmeFile, saveContentToFile } from "./.scripts/generate-sdks";
 
 const azureSDKForJSRepoRoot: string = __dirname;
 const azureRestAPISpecsRoot: string = argv['azure-rest-api-specs-root'] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
@@ -269,14 +269,20 @@ gulp.task("generate-ts-readme", async () => {
   try {
     console.log(`Passed arguments: ${process.argv}`);
 
-    const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepository();
+    const azureRestApiSpecsRepository: string = await findAzureRestApiSpecsRepository();
     console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
 
-    const sdkPath = await findSdkDirectory(azureRestApiSpecsRepository);
+    const sdkPath: string = await findSdkDirectory(azureRestApiSpecsRepository);
     console.log(`Found specification in ${sdkPath}`);
 
-    await copyExistingNodeJsReadme(sdkPath);
+    const typescriptReadmePath: string = await copyExistingNodeJsReadme(sdkPath);
     console.log(`Copied readme file successfully`);
+
+    const newContent: string = await updateTypeScriptReadmeFile(typescriptReadmePath);
+    console.log(`Generated content of the new readme file successfully`);
+
+    await saveContentToFile(typescriptReadmePath, newContent);
+    console.log(`Content saved successfully to ${typescriptReadmePath}`);
   }
   catch (error) {
     console.error(error);
