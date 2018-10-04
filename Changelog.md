@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0 - 2018-10-04
+
+- Moved to Rollup for node and browser bundles
+- Moved browser bundle from ./msRestBundle.js to ./dist/msRest.browser.js.
+
 ## 0.22.1 - 2018-09-27
 
 - Added Authenticator type

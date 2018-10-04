@@ -4,7 +4,7 @@ import webpack = require("webpack");
 import express = require("express");
 import testconfig = require("../webpack.testconfig");
 
-const port = parseInt(process.env.PORT) || 3001;
+const port = parseInt(process.env.PORT!) || 3001;
 const app = express();
 
 if (process.argv.indexOf("--no-webpack") === -1) {
@@ -20,17 +20,17 @@ app.post("/fileupload", function(req, res) {
     req.pipe(res);
 });
 
-app.get("/set-cookie", function(req, res) {
+app.get("/set-cookie", function(_req, res) {
     res.setHeader("Set-Cookie", "data=123456");
     res.end();
 });
 
 app.get("/cookie", function(req, res) {
-    res.setHeader("Cookie", req.header("Cookie"));
+    res.setHeader("Cookie", req.header("Cookie")!);
     res.end();
 });
 
-app.get("/slow", function(req, res) {
+app.get("/slow", function(_req, res) {
     setTimeout(() => {
         res.status(200);
         res.end();
