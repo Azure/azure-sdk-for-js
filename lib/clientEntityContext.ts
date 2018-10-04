@@ -74,11 +74,11 @@ export namespace ClientEntityContext {
       const sender = entityContext.sender;
       if (sender && !sender.isConnecting) {
         try {
-          log.error("[%s] calling detached on sender '%s'.", connectionId, sender.id);
+          log.error("[%s] calling detached on sender '%s'.", connectionId, sender.name);
           await sender.detached();
         } catch (err) {
           log.error("[%s] An error occurred while reconnecting the sender '%s': %O.",
-            connectionId, sender.id, err);
+            connectionId, sender.name, err);
         }
       }
       // reconnect the batching receiver if present
@@ -86,11 +86,11 @@ export namespace ClientEntityContext {
       if (batchingReceiver && !batchingReceiver.isConnecting) {
         try {
           log.error("[%s] calling detached on batching receiver '%s'.",
-            connectionId, batchingReceiver.id);
+            connectionId, batchingReceiver.name);
           await batchingReceiver.detached(error);
         } catch (err) {
           log.error("[%s] An error occurred while reconnecting the sender '%s': %O.",
-            connectionId, batchingReceiver.id, err);
+            connectionId, batchingReceiver.name, err);
         }
       }
       // reconnect the streaming receiver if present
@@ -98,11 +98,11 @@ export namespace ClientEntityContext {
       if (streamingReceiver && !streamingReceiver.isConnecting) {
         try {
           log.error("[%s] calling detached on streaming receiver '%s'.",
-            connectionId, streamingReceiver.id);
+            connectionId, streamingReceiver.name);
           await streamingReceiver.detached(error);
         } catch (err) {
           log.error("[%s] An error occurred while reconnecting the sender '%s': %O.",
-            connectionId, streamingReceiver.id, err);
+            connectionId, streamingReceiver.name, err);
         }
       }
     };

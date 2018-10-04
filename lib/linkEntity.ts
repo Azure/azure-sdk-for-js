@@ -1,19 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as uuid from "uuid/v4";
 import { defaultLock } from "@azure/amqp-common";
 import { ClientEntityContext } from "./clientEntityContext";
-
 import * as log from "./log";
 import { Sender, Receiver } from "rhea-promise";
+import { getUniqueName } from "./util/utils";
 
 export interface LinkEntityOptions {
-  /**
-   * @property {string} [name] The unique name for the entity. If not provided then a guid will be
-   * assigned.
-   */
-  name?: string;
   /**
    * @property {string} address The client entity address in one of the following forms:
    */
@@ -30,10 +24,10 @@ export interface LinkEntityOptions {
  */
 export class LinkEntity {
   /**
-   * @property {string} [id] The unique name for the entity in the format:
+   * @property {string} id The unique name for the entity in the format:
    * `${name of the entity}-${guid}`.
    */
-  id: string;
+  name: string;
   /**
    * @property {string} address The client entity address in one of the following forms:
    *
@@ -88,12 +82,12 @@ export class LinkEntity {
    * @param {ClientEntityContext} context The connection context.
    * @param {LinkEntityOptions} [options] Options that can be provided while creating the LinkEntity.
    */
-  constructor(context: ClientEntityContext, options?: LinkEntityOptions) {
+  constructor(name: string, context: ClientEntityContext, options?: LinkEntityOptions) {
     if (!options) options = {};
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
-    this.id = `${options.name}/${uuid()}`;
+    this.name = getUniqueName(name);
   }
 
   /**
@@ -110,7 +104,7 @@ export class LinkEntity {
     log.link("[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
       "'%s' with address: '%s'.", this._context.namespace.connectionId,
       this._context.namespace.cbsSession.cbsLock,
-      this._type, this.id, this.address);
+      this._type, this.name, this.address);
     await defaultLock.acquire(this._context.namespace.cbsSession.cbsLock,
       () => { return this._context.namespace.cbsSession.init(); });
     const tokenObject = await this._context.namespace.tokenProvider.getToken(this.audience);
@@ -119,12 +113,12 @@ export class LinkEntity {
     // Acquire the lock to negotiate the CBS claim.
     log.link("[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
       this._context.namespace.connectionId, this._context.namespace.negotiateClaimLock,
-      this._type, this.id, this.address);
+      this._type, this.name, this.address);
     await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
       return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject);
     });
     log.link("[%s] Negotiated claim for %s '%s' with with address: %s",
-      this._context.namespace.connectionId, this._type, this.id, this.address);
+      this._context.namespace.connectionId, this._type, this.name, this.address);
     if (setTokenRenewal) {
       await this._ensureTokenRenewal();
     }
@@ -145,11 +139,11 @@ export class LinkEntity {
       } catch (err) {
         // TODO: May be add some retries over here before emitting the error.
         log.error("[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
-          this._context.namespace.connectionId, this._type, this.id, this.address, err);
+          this._context.namespace.connectionId, this._type, this.name, this.address, err);
       }
     }, nextRenewalTimeout);
     log.link("[%s] %s '%s' with address %s, has next token renewal in %d seconds @(%s).",
-      this._context.namespace.connectionId, this._type, this.id, this.address, nextRenewalTimeout / 1000,
+      this._context.namespace.connectionId, this._type, this.name, this.address, nextRenewalTimeout / 1000,
       new Date(Date.now() + nextRenewalTimeout).toString());
   }
 
@@ -168,10 +162,10 @@ export class LinkEntity {
         // remove them from the internal map.
         await link.close();
         log.link("[%s] %s '%s' with address '%s' closed.", this._context.namespace.connectionId,
-          this._type, this.id, this.address);
+          this._type, this.name, this.address);
       } catch (err) {
         log.error("[%s] An error occurred while closing the %s '%s': %O",
-          this._context.namespace.connectionId, this._type, this.id, this.address, err);
+          this._context.namespace.connectionId, this._type, this.name, this.address, err);
       }
     }
   }

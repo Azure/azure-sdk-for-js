@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as uuid from "uuid/v4";
 import * as log from "./log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "./clientEntityContext";
@@ -10,6 +9,7 @@ import {
 } from "@azure/amqp-common";
 import { Receiver, OnAmqpEvent, EventContext, ReceiverOptions, AmqpError } from "rhea-promise";
 import { Message } from "./message";
+import { getUniqueName } from "./util/utils";
 
 /**
  * @interface CreateReceiverOptions
@@ -157,11 +157,13 @@ export class MessageReceiver extends LinkEntity {
   protected _onAmqpError: OnAmqpEvent;
 
   constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
-    super(context, { name: `${context.entityPath}` });
+    super(context.entityPath, context, {
+      address: context.entityPath,
+      audience: `${context.namespace.config.endpoint}${context.entityPath}`
+    });
     if (!options) options = {};
     this.receiverType = receiverType;
-    this.address = `${this._context.entityPath}`;
-    this.audience = `${this._context.namespace.config.endpoint}${this._context.entityPath}`;
+
     this.maxConcurrentCalls = options.maxConcurrentCalls != undefined ?
       options.maxConcurrentCalls : 1;
     this.autoComplete = !!options.autoComplete;
@@ -174,12 +176,12 @@ export class MessageReceiver extends LinkEntity {
         await this._onMessage!(bMessage);
         if (this.autoComplete) {
           log[this.receiverType]("[%s] Auto completing the message with id '%s' on the receiver '%s'.",
-            connectionId, bMessage.messageId, this.id);
+            connectionId, bMessage.messageId, this.name);
           bMessage.complete();
         }
       } catch (err) {
         log.error("[%s] Abandoning the message with id '%s' on the receiver '%s' since an error " +
-          "occured: %O.", connectionId, bMessage.messageId, this.id);
+          "occured: %O.", connectionId, bMessage.messageId, this.name);
         bMessage.abandon();
       }
     };
@@ -190,7 +192,7 @@ export class MessageReceiver extends LinkEntity {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translate(receiverError);
-        log.error("[%s] An error occurred for Receiver '%s': %O.", connectionId, this.id, sbError);
+        log.error("[%s] An error occurred for Receiver '%s': %O.", connectionId, this.name, sbError);
         if (!sbError.retryable) {
           if (receiver && !receiver.isClosed()) {
             log.error("[%s] Since the user did not close the receiver and the error is not " +
@@ -216,7 +218,7 @@ export class MessageReceiver extends LinkEntity {
       if (sessionError) {
         const sbError = translate(sessionError);
         log.error("[%s] An error occurred on the session for Receiver '%s': %O.",
-          connectionId, this.id, sbError);
+          connectionId, this.name, sbError);
         if (receiver && !receiver.isSessionClosed() && !sbError.retryable) {
           log.error("[%s] Since the user did not close the receiver and the session error is not " +
             "retryable, we let the user know about it by calling the user's error handler.",
@@ -232,26 +234,26 @@ export class MessageReceiver extends LinkEntity {
       const receiver = this._receiver || context.receiver!;
       if (receiverError) {
         log.error("[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
-          "The associated error is: %O", connectionId, this.id,
+          "The associated error is: %O", connectionId, this.name,
           this.address, receiverError);
       }
       if (receiver && !receiver.isClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
             "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
-            "detached from the _onAmqpClose() handler.", connectionId, this.id,
+            "detached from the _onAmqpClose() handler.", connectionId, this.name,
             this.address);
           await this.detached(receiverError);
         } else {
           log.error("[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
             "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
             "Hence not calling detached from the _onAmqpClose() handler.",
-            connectionId, this.id, this.address);
+            connectionId, this.name, this.address);
         }
       } else {
         log.error("[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
           "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
-          "() handler.", connectionId, this.id, this.address);
+          "() handler.", connectionId, this.name, this.address);
       }
     };
 
@@ -261,7 +263,7 @@ export class MessageReceiver extends LinkEntity {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         log.error("[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
-          "The associated error is: %O", connectionId, this.id,
+          "The associated error is: %O", connectionId, this.name,
           this.address, sessionError);
       }
 
@@ -269,18 +271,18 @@ export class MessageReceiver extends LinkEntity {
         if (!this.isConnecting) {
           log.error("[%s] 'session_close' event occurred on the session of receiver '%s' with " +
             "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-            "_onSessionClose() handler.", connectionId, this.id, this.address);
+            "_onSessionClose() handler.", connectionId, this.name, this.address);
           await this.detached(sessionError);
         } else {
           log.error("[%s] 'session_close' event occurred on the session of receiver '%s' with " +
             "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
             "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
-            connectionId, this.id, this.address);
+            connectionId, this.name, this.address);
         }
       } else {
         log.error("[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
           "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
-          "() handler.", connectionId, this.id, this.address);
+          "() handler.", connectionId, this.name, this.address);
       }
     };
   }
@@ -308,17 +310,17 @@ export class MessageReceiver extends LinkEntity {
           shouldReopen = true;
           log.error("[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
             "was an accompanying error and it is retryable. This is a candidate for re-establishing " +
-            "the receiver link.", connectionId, this.id, this.address);
+            "the receiver link.", connectionId, this.name, this.address);
         } else {
           log.error("[%s] close() method of Receiver '%s' with address '%s' was not called. There " +
             "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-            "the receiver link.", connectionId, this.id, this.address);
+            "the receiver link.", connectionId, this.name, this.address);
         }
       } else if (!wasCloseInitiated) {
         shouldReopen = true;
         log.error("[%s] close() method of Receiver '%s' with address '%s' was not called. " +
           "There was no accompanying error as well. This is a candidate for re-establishing " +
-          "the receiver link.", connectionId, this.id, this.address);
+          "the receiver link.", connectionId, this.name, this.address);
       } else {
         const state: any = {
           wasCloseInitiated: wasCloseInitiated,
@@ -326,7 +328,7 @@ export class MessageReceiver extends LinkEntity {
           _receiver: this._receiver
         };
         log.error("[%s] Something is busted. State of Receiver '%s' with address '%s' is: %O",
-          connectionId, this.id, this.address, state);
+          connectionId, this.name, this.address, state);
       }
       if (shouldReopen) {
         const rcvrOptions: CreateReceiverOptions = {
@@ -352,7 +354,7 @@ export class MessageReceiver extends LinkEntity {
       }
     } catch (err) {
       log.error("[%s] An error occurred while processing detached() of Receiver '%s': %O ",
-        connectionId, this.id, this.address, err);
+        connectionId, this.name, this.address, err);
     }
   }
 
@@ -376,7 +378,7 @@ export class MessageReceiver extends LinkEntity {
   isOpen(): boolean {
     const result: boolean = this._receiver! && this._receiver!.isOpen();
     log.error("[%s] Receiver '%s' with address '%s' is open? -> %s",
-      this._context.namespace.connectionId, this.id, this.address, result);
+      this._context.namespace.connectionId, this.name, this.address, result);
     return result;
   }
 
@@ -388,7 +390,7 @@ export class MessageReceiver extends LinkEntity {
       this._context.batchingReceiver = undefined;
     }
     log.error("[%s] Deleted the receiver '%s' from the client cache.",
-      this._context.namespace.connectionId, this.id);
+      this._context.namespace.connectionId, this.name);
   }
 
   /**
@@ -402,7 +404,7 @@ export class MessageReceiver extends LinkEntity {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         log.error("[%s] The receiver '%s' with address '%s' is not open and is not currently " +
-          "establishing itself. Hence let's try to connect.", connectionId, this.id, this.address);
+          "establishing itself. Hence let's try to connect.", connectionId, this.name, this.address);
         this.isConnecting = true;
         await this._negotiateClaim();
         if (!options) {
@@ -415,16 +417,16 @@ export class MessageReceiver extends LinkEntity {
           });
         }
         log.error("[%s] Trying to create receiver '%s' with options %O",
-          connectionId, this.id, options);
+          connectionId, this.name, options);
 
         this._receiver = await this._context.namespace.connection.createReceiver(options);
         this.isConnecting = false;
         log.error("[%s] Receiver '%s' with address '%s' has established itself.",
-          connectionId, this.id, this.address);
+          connectionId, this.name, this.address);
         log[this.receiverType]("Promise to create the receiver resolved. " +
-          "Created receiver with name: ", this.id);
+          "Created receiver with name: ", this.name);
         log[this.receiverType]("[%s] Receiver '%s' created with receiver options: %O",
-          connectionId, this.id, options);
+          connectionId, this.name, options);
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
         if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
@@ -435,14 +437,14 @@ export class MessageReceiver extends LinkEntity {
         await this._ensureTokenRenewal();
       } else {
         log.error("[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
-          "-> %s. Hence not reconnecting.", connectionId, this.id, this.address,
+          "-> %s. Hence not reconnecting.", connectionId, this.name, this.address,
           this.isOpen(), this.isConnecting);
       }
     } catch (err) {
       this.isConnecting = false;
       err = translate(err);
       log.error("[%s] An error occured while creating the receiver '%s': %O",
-        this._context.namespace.connectionId, this.id, err);
+        this._context.namespace.connectionId, this.name, err);
       throw err;
     }
   }
@@ -452,9 +454,9 @@ export class MessageReceiver extends LinkEntity {
    * @ignore
    */
   protected _createReceiverOptions(options: CreateReceiverOptions): ReceiverOptions {
-    if (options.newName) this.id = `${this._context.entityPath}${uuid()}`;
+    if (options.newName) this.name = getUniqueName(this._context.entityPath);
     const rcvrOptions: ReceiverOptions = {
-      name: this.id,
+      name: this.name,
       autoaccept: false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
       rcv_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1,

@@ -136,7 +136,7 @@ export class QueueClient extends Client {
       return new ReceiveHandler(sReceiver);
     } else {
       const rcvr = this._context.streamingReceiver;
-      const msg = `A "${rcvr.receiverType}" receiver with id "${rcvr.id}" has already been ` +
+      const msg = `A "${rcvr.receiverType}" receiver with id "${rcvr.name}" has already been ` +
         `created for the Queue "${this.name}". Another receive() call cannot be made while the ` +
         `previous one is active. Please stop the previous receive() by calling ` +
         `"receiveHandler.stop()".`;
@@ -167,13 +167,13 @@ export class QueueClient extends Client {
         return await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
       } catch (err) {
         log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
-          "max time:\n %O", this._context.namespace.connectionId, bReceiver.id, maxMessageCount,
+          "max time:\n %O", this._context.namespace.connectionId, bReceiver.name, maxMessageCount,
           maxWaitTimeInSeconds, err);
         throw err;
       }
     } else {
       const rcvr = this._context.batchingReceiver;
-      const msg = `A "${rcvr.receiverType}" receiver with id "${rcvr.id}" has already been ` +
+      const msg = `A "${rcvr.receiverType}" receiver with id "${rcvr.name}" has already been ` +
         `created for the Queue "${this.name}". Another receiveBatch() call cannot be made while the ` +
         `previous one is active. Please wait for the previous receiveBatch() to complete and ` +
         `then call receiveBatch() again.`;

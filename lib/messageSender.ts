@@ -14,6 +14,7 @@ import {
 import { ServiceBusMessage } from "./message";
 import { ClientEntityContext } from "./clientEntityContext";
 import { LinkEntity } from "./linkEntity";
+import { getUniqueName } from "./util/utils";
 
 /**
  * @ignore
@@ -69,16 +70,16 @@ export class MessageSender extends LinkEntity {
    * @param {ClientEntityContext} context The client entity context.
    */
   constructor(context: ClientEntityContext) {
-    super(context, { name: `${context.entityPath}` });
-    this.address = this._context.entityPath as string;
-    this.audience = `${this._context.namespace.config.endpoint}${this.address}`;
-
+    super(context.entityPath, context, {
+      address: context.entityPath,
+      audience: `${context.namespace.config.endpoint}${context.entityPath}`
+    });
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         const err = translate(senderError);
         log.error("[%s] An error occurred for sender '%s': %O.",
-          this._context.namespace.connectionId, this.id, err);
+          this._context.namespace.connectionId, this.name, err);
       }
     };
 
@@ -87,7 +88,7 @@ export class MessageSender extends LinkEntity {
       if (sessionError) {
         const err = translate(sessionError);
         log.error("[%s] An error occurred on the session of sender '%s': %O.",
-          this._context.namespace.connectionId, this.id, err);
+          this._context.namespace.connectionId, this.name, err);
       }
     };
 
@@ -96,7 +97,7 @@ export class MessageSender extends LinkEntity {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         log.error("[%s] 'sender_close' event occurred for sender '%s' with address '%s'. " +
-          "The associated error is: %O", this._context.namespace.connectionId, this.id,
+          "The associated error is: %O", this._context.namespace.connectionId, this.name,
           this.address, senderError);
       }
       if (sender && !sender.isClosed()) {
@@ -104,18 +105,18 @@ export class MessageSender extends LinkEntity {
           log.error("[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
             "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
             "detached from the _onAmqpClose() handler.", this._context.namespace.connectionId,
-            this.id, this.address);
+            this.name, this.address);
           await this.detached(senderError);
         } else {
           log.error("[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
             "and the sdk did not initate this. Moreover the sender is already re-connecting. " +
             "Hence not calling detached from the _onAmqpClose() handler.",
-            this._context.namespace.connectionId, this.id, this.address);
+            this._context.namespace.connectionId, this.name, this.address);
         }
       } else {
         log.error("[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
           "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
-          "() handler.", this._context.namespace.connectionId, this.id, this.address);
+          "() handler.", this._context.namespace.connectionId, this.name, this.address);
       }
     };
 
@@ -124,25 +125,25 @@ export class MessageSender extends LinkEntity {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         log.error("[%s] 'session_close' event occurred for sender '%s' with address '%s'. " +
-          "The associated error is: %O", this._context.namespace.connectionId, this.id,
+          "The associated error is: %O", this._context.namespace.connectionId, this.name,
           this.address, sessionError);
       }
       if (sender && !sender.isSessionClosed()) {
         if (!this.isConnecting) {
           log.error("[%s] 'session_close' event occurred on the session of sender '%s' with " +
             "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-            "_onSessionClose() handler.", this._context.namespace.connectionId, this.id, this.address);
+            "_onSessionClose() handler.", this._context.namespace.connectionId, this.name, this.address);
           await this.detached(sessionError);
         } else {
           log.error("[%s] 'session_close' event occurred on the session of sender '%s' with " +
             "address '%s' and the sdk did not initiate this. Moreover the sender is already " +
             "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
-            this._context.namespace.connectionId, this.id, this.address);
+            this._context.namespace.connectionId, this.name, this.address);
         }
       } else {
         log.error("[%s] 'session_close' event occurred on the session of sender '%s' with address " +
           "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
-          "() handler.", this._context.namespace.connectionId, this.id, this.address);
+          "() handler.", this._context.namespace.connectionId, this.name, this.address);
       }
     };
   }
@@ -169,17 +170,17 @@ export class MessageSender extends LinkEntity {
           shouldReopen = true;
           log.error("[%s] close() method of Sender '%s' with address '%s' was not called. There " +
             "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
-            "the sender link.", this._context.namespace.connectionId, this.id, this.address);
+            "the sender link.", this._context.namespace.connectionId, this.name, this.address);
         } else {
           log.error("[%s] close() method of Sender '%s' with address '%s' was not called. There " +
             "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-            "the sender link.", this._context.namespace.connectionId, this.id, this.address);
+            "the sender link.", this._context.namespace.connectionId, this.name, this.address);
         }
       } else if (!wasCloseInitiated) {
         shouldReopen = true;
         log.error("[%s] close() method of Sender '%s' with address '%s' was not called. There " +
           "was no accompanying error as well. This is a candidate for re-establishing " +
-          "the sender link.", this._context.namespace.connectionId, this.id, this.address);
+          "the sender link.", this._context.namespace.connectionId, this.name, this.address);
       } else {
         const state: any = {
           wasCloseInitiated: wasCloseInitiated,
@@ -187,7 +188,7 @@ export class MessageSender extends LinkEntity {
           _sender: this._sender
         };
         log.error("[%s] Something is busted. State of sender '%s' with address '%s' is: %O",
-          this._context.namespace.connectionId, this.id, this.address, state);
+          this._context.namespace.connectionId, this.name, this.address, state);
       }
       if (shouldReopen) {
         await defaultLock.acquire(this.senderLock, () => {
@@ -208,7 +209,7 @@ export class MessageSender extends LinkEntity {
       }
     } catch (err) {
       log.error("[%s] An error occurred while processing detached() of Sender '%s' with address " +
-        "'%s': %O", this._context.namespace.connectionId, this.id, this.address, err);
+        "'%s': %O", this._context.namespace.connectionId, this.name, this.address, err);
     }
   }
 
@@ -233,7 +234,7 @@ export class MessageSender extends LinkEntity {
   isOpen(): boolean {
     const result: boolean = this._sender! && this._sender!.isOpen();
     log.error("[%s] Sender '%s' with address '%s' is open? -> %s", this._context.namespace.connectionId,
-      this.id, this.address, result);
+      this.name, this.address, result);
     return result;
   }
 
@@ -283,7 +284,7 @@ export class MessageSender extends LinkEntity {
         await defaultLock.acquire(this.senderLock, () => { return this._init(); });
       }
       log.sender("[%s] Sender '%s', trying to send Message[]: %O",
-        this._context.namespace.connectionId, this.id, datas);
+        this._context.namespace.connectionId, this.name, datas);
       const messages: AmqpMessage[] = [];
       // Convert Message to AmqpMessage.
       for (let i = 0; i < datas.length; i++) {
@@ -312,7 +313,7 @@ export class MessageSender extends LinkEntity {
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = message.encode(batchMessage);
       log.sender("[%s]Sender '%s', sending encoded batch message.",
-        this._context.namespace.connectionId, this.id, encodedBatchMessage);
+        this._context.namespace.connectionId, this.name, encodedBatchMessage);
       return await this._trySend(encodedBatchMessage, undefined, 0x80013700);
     } catch (err) {
       log.error("An error occurred while sending the batch message %O", err);
@@ -324,13 +325,13 @@ export class MessageSender extends LinkEntity {
     this._sender = undefined;
     delete this._context.sender;
     log.error("[%s] Deleted the sender '%s' with address '%s' from the client cache.",
-      this._context.namespace.connectionId, this.id, this.address);
+      this._context.namespace.connectionId, this.name, this.address);
   }
 
   private _createSenderOptions(options: CreateSenderOptions): SenderOptions {
-    if (options.newName) this.id = `${this._context.entityPath}/${uuid()}`;
+    if (options.newName) this.name = getUniqueName(this._context.entityPath);
     const srOptions: SenderOptions = {
-      name: this.id,
+      name: this.name,
       target: {
         address: this.address
       },
@@ -357,9 +358,9 @@ export class MessageSender extends LinkEntity {
     const sendEventPromise = () => new Promise<Delivery>((resolve, reject) => {
       let waitTimer: any;
       log.sender("[%s] Sender '%s', credit: %d available: %d", this._context.namespace.connectionId,
-        this.id, this._sender!.credit, this._sender!.session.outgoing.available());
+        this.name, this._sender!.credit, this._sender!.session.outgoing.available());
       if (this._sender!.sendable()) {
-        log.sender("[%s] Sender '%s', sending message: %O", this._context.namespace.connectionId, this.id, message);
+        log.sender("[%s] Sender '%s', sending message: %O", this._context.namespace.connectionId, this.name, message);
         let onRejected: Func<EventContext, void>;
         let onReleased: Func<EventContext, void>;
         let onModified: Func<EventContext, void>;
@@ -378,13 +379,13 @@ export class MessageSender extends LinkEntity {
           // This will ensure duplicate listeners are not added for the same event.
           removeListeners();
           log.sender("[%s] Sender '%s', got event accepted.",
-            this._context.namespace.connectionId, this.id);
+            this._context.namespace.connectionId, this.name);
           resolve(context.delivery);
         };
         onRejected = (context: EventContext) => {
           removeListeners();
           log.error("[%s] Sender '%s', got event rejected.",
-            this._context.namespace.connectionId, this.id);
+            this._context.namespace.connectionId, this.name);
           const err = translate(context!.delivery!.remote_state!.error);
           log.error(err);
           reject(err);
@@ -392,12 +393,12 @@ export class MessageSender extends LinkEntity {
         onReleased = (context: EventContext) => {
           removeListeners();
           log.error("[%s] Sender '%s', got event released.",
-            this._context.namespace.connectionId, this.id);
+            this._context.namespace.connectionId, this.name);
           let err: Error;
           if (context!.delivery!.remote_state!.error) {
             err = translate(context!.delivery!.remote_state!.error);
           } else {
-            err = new Error(`[${this._context.namespace.connectionId}]Sender '${this.id}', ` +
+            err = new Error(`[${this._context.namespace.connectionId}]Sender '${this.name}', ` +
               `received a release disposition.Hence we are rejecting the promise.`);
           }
           log.error(err);
@@ -406,12 +407,12 @@ export class MessageSender extends LinkEntity {
         onModified = (context: EventContext) => {
           removeListeners();
           log.error("[%s] Sender '%s', got event modified.",
-            this._context.namespace.connectionId, this.id);
+            this._context.namespace.connectionId, this.name);
           let err: Error;
           if (context!.delivery!.remote_state!.error) {
             err = translate(context!.delivery!.remote_state!.error);
           } else {
-            err = new Error(`[${this._context.namespace.connectionId}]Sender "${this.id}", ` +
+            err = new Error(`[${this._context.namespace.connectionId}]Sender "${this.name}", ` +
               `received a modified disposition.Hence we are rejecting the promise.`);
           }
           log.error(err);
@@ -420,7 +421,7 @@ export class MessageSender extends LinkEntity {
 
         const actionAfterTimeout = () => {
           removeListeners();
-          const desc: string = `[${this._context.namespace.connectionId}] Sender "${this.id}" ` +
+          const desc: string = `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
             `with address "${this.address}", was not able to send the message right now, due ` +
             `to operation timeout.`;
           log.error(desc);
@@ -438,10 +439,10 @@ export class MessageSender extends LinkEntity {
         waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInSeconds * 1000);
         const delivery = this._sender!.send(message, tag, format);
         log.sender("[%s] Sender '%s', sent message with delivery id: %d",
-          this._context.namespace.connectionId, this.id, delivery.id);
+          this._context.namespace.connectionId, this.name, delivery.id);
       } else {
         // let us retry to send the message after some time.
-        const msg = `[${this._context.namespace.connectionId}] Sender "${this.id}", ` +
+        const msg = `[${this._context.namespace.connectionId}] Sender "${this.name}", ` +
           `cannot send the message right now. Please try later.`;
         log.error(msg);
         const amqpError: AmqpError = {
@@ -477,23 +478,23 @@ export class MessageSender extends LinkEntity {
       if (!this.isOpen()) {
         log.error("[%s] The sender '%s' with address '%s' is not open and is not currently " +
           "establishing itself. Hence let's try to connect.", this._context.namespace.connectionId,
-          this.id, this.address);
+          this.name, this.address);
         this.isConnecting = true;
         await this._negotiateClaim();
         log.error("[%s] Trying to create sender '%s'...", this._context.namespace.connectionId,
-          this.id);
+          this.name);
         if (!options) {
           options = this._createSenderOptions({});
         }
         this._sender = await this._context.namespace.connection.createSender(options);
         this.isConnecting = false;
         log.error("[%s] Sender '%s' with address '%s' has established itself.",
-          this._context.namespace.connectionId, this.id, this.address);
+          this._context.namespace.connectionId, this.name, this.address);
         this._sender.setMaxListeners(1000);
         log.error("[%s] Promise to create the sender resolved. Created sender with name: %s",
-          this._context.namespace.connectionId, this.id);
+          this._context.namespace.connectionId, this.name);
         log.error("[%s] Sender '%s' created with sender options: %O",
-          this._context.namespace.connectionId, this.id, options);
+          this._context.namespace.connectionId, this.name, options);
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
         if (!this._sender) this._context.sender = this;
@@ -502,7 +503,7 @@ export class MessageSender extends LinkEntity {
     } catch (err) {
       err = translate(err);
       log.error("[%s] An error occurred while creating the sender %s",
-        this._context.namespace.connectionId, this.id, err);
+        this._context.namespace.connectionId, this.name, err);
       throw err;
     }
   }

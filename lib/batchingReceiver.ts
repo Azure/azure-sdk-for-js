@@ -90,7 +90,7 @@ export class BatchingReceiver extends MessageReceiver {
       actionAfterWaitTimeout = () => {
         timeOver = true;
         log.batching("[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
-          this._context.namespace.connectionId, this.id, maxWaitTimeInSeconds);
+          this._context.namespace.connectionId, this.name, maxWaitTimeInSeconds);
         return finalAction(timeOver);
       };
 
@@ -119,7 +119,7 @@ export class BatchingReceiver extends MessageReceiver {
         if (receiverError) {
           error = translate(receiverError);
           log.error("[%s] Receiver '%s' received an error:\n%O",
-            this._context.namespace.connectionId, this.id, error);
+            this._context.namespace.connectionId, this.name, error);
         }
         if (waitTimer) {
           clearTimeout(waitTimer);
@@ -141,7 +141,7 @@ export class BatchingReceiver extends MessageReceiver {
         const sessionError = context.session && context.session.error;
         if (sessionError) {
           log.error("[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
-            this._context.namespace.connectionId, this.id, sessionError);
+            this._context.namespace.connectionId, this.name, sessionError);
         }
       };
 
@@ -156,7 +156,7 @@ export class BatchingReceiver extends MessageReceiver {
         if (sessionError) {
           error = translate(sessionError);
           log.error("[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
-            this._context.namespace.connectionId, this.id, error);
+            this._context.namespace.connectionId, this.name, error);
         }
         if (waitTimer) {
           clearTimeout(waitTimer);
@@ -166,17 +166,17 @@ export class BatchingReceiver extends MessageReceiver {
 
       const addCreditAndSetTimer = (reuse?: boolean) => {
         log.batching("[%s] Receiver '%s', adding credit for receiving %d messages.",
-          this._context.namespace.connectionId, this.id, maxMessageCount);
+          this._context.namespace.connectionId, this.name, maxMessageCount);
         this._receiver!.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.id);
+        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.name);
         waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
       };
 
       if (!this.isOpen()) {
         log.batching("[%s] Receiver '%s', setting max concurrent calls to 0.",
-          this._context.namespace.connectionId, this.id);
+          this._context.namespace.connectionId, this.name);
         this.maxConcurrentCalls = 0;
         const rcvrOptions = this._createReceiverOptions({
           onMessage: onReceiveMessage,

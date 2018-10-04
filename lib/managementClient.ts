@@ -46,8 +46,7 @@ export class ManagementClient extends LinkEntity {
    * `/messages/events/$management`.
    */
   constructor(context: ClientEntityContext, options?: ManagementClientOptions) {
-    super(context, {
-      name: `${context.entityPath}/$management`,
+    super(`${context.entityPath}/$management`, context, {
       address: options && options.address ? options.address : Constants.management,
       audience: options && options.audience ? options.audience :
         `${context.namespace.config.endpoint}${context.entityPath}/$management`

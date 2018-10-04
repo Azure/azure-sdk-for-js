@@ -36,7 +36,7 @@ export class ReceiveHandler {
    */
   constructor(receiver: MessageReceiver) {
     this._receiver = receiver;
-    this.name = receiver ? receiver.id : "ReceiveHandler";
+    this.name = receiver ? receiver.name : "ReceiveHandler";
   }
 
   /**
@@ -83,7 +83,7 @@ export class ReceiveHandler {
         await this._receiver.close();
       } catch (err) {
         log.error("An error occurred while stopping the receiver '%s' with address '%s': %O",
-          this._receiver.id, this._receiver.address, err);
+          this._receiver.name, this._receiver.address, err);
       }
     }
   }
@@ -147,14 +147,14 @@ export class StreamingReceiver extends MessageReceiver {
       // these handlers will be automatically removed.
       log.streaming("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
         "Hence reusing it and attaching message and error handlers.",
-        this._context.namespace.connectionId, this.id);
+        this._context.namespace.connectionId, this.name);
       this._receiver!.on(ReceiverEvents.message, this._onAmqpMessage);
       this._receiver!.on(ReceiverEvents.receiverError, this._onAmqpError);
       this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
       log.streaming("[%s] Receiver '%s', set the prefetch count to 1000 and " +
         "providing a credit of the same amount.",
-        this._context.namespace.connectionId, this.id);
+        this._context.namespace.connectionId, this.name);
     }
   }
 
