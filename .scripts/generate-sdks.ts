@@ -4,19 +4,33 @@
  * license information.
  */
 
-import * as colors from "colors";
 import * as fssync from "fs";
 import { promises as fs } from "fs";
 import * as path from "path";
 import * as minimist from "minimist";
+import * as yaml from "js-yaml";
 import { CommandLineOptions, SdkType } from "./commandLineOptions";
 import { Logger } from "./logger";
+
+interface readmeSettings {
+    "nodejs": {
+        "azure-arm": boolean;
+        "license-header": string;
+        "payload-flattening-threshold": number;
+        "package-name": string;
+        "output-folder": string;
+        "generate-license-txt": boolean | undefined;
+        "generate-package-json": boolean | undefined;
+        "generate-readme-md": boolean | undefined;
+        "generate-metadata": boolean | undefined;
+    } | undefined;
+}
 
 const repositoryName = "azure-rest-api-specs";
 const specificationsSegment = "specification";
 
 const args = minimist(process.argv.slice(2), {
-    string: [ "package", "type" ],
+    string: ["package", "type"],
     boolean: ["debug", "verbose"],
     alias: {
         d: "debug",
@@ -28,7 +42,11 @@ const args = minimist(process.argv.slice(2), {
     }
 }) as CommandLineOptions;
 
-const logger = new Logger(args);
+const _logger = new Logger(args);
+
+if (!fs) {
+    throw new Error("This script has to be run on Node.js 10.0+");
+}
 
 function contains<T>(array: T[], el: T): boolean {
     return array.indexOf(el) != -1
@@ -47,9 +65,9 @@ async function exists(path: string): Promise<boolean> {
     });
 }
 
-args.getSdkType = function() {
-    const resourceManagerStrings = [ "arm", "rm", "resourcemanager" ]
-    const dataPlaneStrings = [ "dp", "data", "dataplane" ]
+args.getSdkType = function () {
+    const resourceManagerStrings = ["arm", "rm", "resourcemanager"]
+    const dataPlaneStrings = ["dp", "data", "dataplane"]
 
     const type = this.type.toLowerCase().replace("-", "");
     if (contains(resourceManagerStrings, type)) {
@@ -57,7 +75,7 @@ args.getSdkType = function() {
     } else if (contains(dataPlaneStrings, type)) {
         return SdkType.DataPlane;
     } else {
-        throw new Error("Uknown SDK type");
+        throw new Error("Unknown SDK type");
     }
 }
 
@@ -101,7 +119,7 @@ export async function findMissingSdks(azureRestApiSpecsRepository: string): Prom
 
     for (const serviceDirectory of serviceSpecs) {
         const fullServicePath = path.resolve(specsDirectory, serviceDirectory);
-        if (!(await !isDirectory(fullServicePath))) {
+        if (!(await isDirectory(fullServicePath))) {
             continue;
         }
 
@@ -122,16 +140,17 @@ export async function findMissingSdks(azureRestApiSpecsRepository: string): Prom
             } else if (readmeFiles.length == 1) {
                 const readmeMdPath = readmeFiles[0];
                 if (await doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath)) {
-                    console.log(colors.red(fullSpecName))
-                } else {
-                    console.log(colors.green(fullSpecName))
+                    missingSdks.push(fullSdkPath);
+                    _logger.logRed(`${fullSpecName}`);
+                } else if (args.debug) {
+                    _logger.logGreen(fullSpecName);
                 }
             } else if (contains(readmeFiles, "readme.nodejs.md")) {
                 if (!contains(readmeFiles, "readme.typescript.md")) {
                     missingSdks.push(fullSdkPath);
-                    console.log(colors.red(fullSpecName))
+                    _logger.logRed(`${fullSpecName}`);
                 } else if (args.debug) {
-                    console.log(colors.green(fullSpecName))
+                    _logger.logGreen(fullSpecName);
                 }
             }
         }
@@ -140,16 +159,19 @@ export async function findMissingSdks(azureRestApiSpecsRepository: string): Prom
     return missingSdks;
 }
 
+async function getYamlSection(buffer: Buffer, sectionBeginning: string, sectionEnd: string): Promise<Buffer> {
+    const beginningIndex = buffer.indexOf(sectionBeginning);
+    const trimmedBuffer = buffer.slice(beginningIndex + (sectionBeginning.length));
+
+    const endIndex = trimmedBuffer.indexOf(sectionEnd, 3);
+    const sectionBuffer = trimmedBuffer.slice(0, endIndex);
+
+    return sectionBuffer;
+}
+
 async function doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath: string): Promise<boolean> {
     const readmeMdBuffer = await fs.readFile(readmeMdPath);
-    const sectionBeginning = "``` yaml $(swagger-to-sdk)"
-    const sectionEnd = "```"
-
-    const beginningIndex = readmeMdBuffer.indexOf(sectionBeginning);
-    const trimmedBuffer = readmeMdBuffer.slice(beginningIndex);
-
-    const endIndex = trimmedBuffer.indexOf(sectionEnd);
-    const sectionBuffer = trimmedBuffer.slice(0, endIndex);
+    const sectionBuffer = await getYamlSection(readmeMdBuffer, "``` yaml $(swagger-to-sdk)", "```");
 
     if (sectionBuffer.includes("azure-sdk-for-js")) {
         return true;
@@ -158,12 +180,12 @@ async function doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath: string): Pro
     return false;
 }
 
-export async function copyExistingNodeJsReadme(sdkPath: string): Promise<void> {
+export async function copyExistingNodeJsReadme(sdkPath: string): Promise<string> {
     const nodeJsReadmePath = path.resolve(sdkPath, "readme.nodejs.md");
     const typescriptReadmePath = path.resolve(sdkPath, "readme.typescript.md");
 
     if (args.verbose) {
-        console.log(`Copying ${nodeJsReadmePath} to ${typescriptReadmePath}`)
+        _logger.log(`Copying ${nodeJsReadmePath} to ${typescriptReadmePath}`)
     }
 
     if (await exists(typescriptReadmePath)) {
@@ -171,4 +193,64 @@ export async function copyExistingNodeJsReadme(sdkPath: string): Promise<void> {
     }
 
     await fs.copyFile(nodeJsReadmePath, typescriptReadmePath);
+    return typescriptReadmePath;
+}
+
+async function updatePackageName(settings: readmeSettings): Promise<readmeSettings> {
+    const packageName = settings.nodejs["package-name"]
+    if (packageName.startsWith("arm") || !packageName.startsWith("azure-")) {
+        return settings;
+    }
+
+    settings.nodejs["package-name"] = packageName.replace("azure-", "");
+    return settings;
+}
+
+async function updateMetadataFields(settings: readmeSettings): Promise<readmeSettings> {
+    settings.nodejs["generate-metadata"] = true;
+    delete settings.nodejs["generate-license-txt"]
+    delete settings.nodejs["generate-package-json"]
+    delete settings.nodejs["generate-readme-md"];
+
+    return settings;
+}
+
+async function updateOutputFolder(settings: readmeSettings): Promise<readmeSettings> {
+    settings.nodejs["output-folder"] = `$(typescript-sdks-folder)/packages/${settings.nodejs["package-name"]}`;
+    return settings;
+}
+
+async function updateYamlSection(sectionText: string): Promise<string> {
+    const section = yaml.safeLoad(sectionText);
+    await updatePackageName(section);
+    await updateMetadataFields(section);
+     await updateOutputFolder(section);
+    section["typescript"] = section.nodejs;
+    delete section.nodejs;
+
+    return yaml.safeDump(section).trim();
+}
+
+export async function updateTypeScriptReadmeFile(typescriptReadmePath: string): Promise<string> {
+    const readmeBuffer: Buffer = await fs.readFile(typescriptReadmePath);
+    const readme: string = readmeBuffer.toString();
+    let outputReadme = readme;
+
+    const yamlSection = await getYamlSection(readmeBuffer, "``` yaml $(nodejs)", "```");
+    const sectionText = yamlSection.toString().trim();
+    const updatedYamlSection = await updateYamlSection(sectionText);
+
+    outputReadme = outputReadme.replace(sectionText, updatedYamlSection);
+    outputReadme = outputReadme.replace("azure-sdk-for-node", "azure-sdk-for-js");
+    outputReadme = outputReadme.replace("Node.js", "TypeScript");
+    outputReadme = outputReadme.replace("$(nodejs)", "$(typescript)");
+    outputReadme = outputReadme.replace("nodejs", "typescript");
+    outputReadme = outputReadme.replace("Node", "TypeScript");
+    outputReadme = outputReadme.replace("node", "typescript");
+
+    return outputReadme;
+}
+
+export async function saveContentToFile(filePath: string, content: string): Promise<void> {
+    await fs.writeFile(filePath, content);
 }
