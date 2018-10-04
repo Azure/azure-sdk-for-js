@@ -28,6 +28,18 @@
   "main": "./dist/msRest.node.js",
   "module": "./es/lib/msRest.js",
   "types": "./es/lib/msRest.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "es/lib/**/*.js",
+    "es/lib/**/*.js.map",
+    "es/lib/**/*.d.ts",
+    "es/lib/**/*.d.ts.map",
+    "lib/**/*.ts",
+    "LICENSE",
+    "README.md",
+    "ThirdPartyNotices.txt"
+  ],
   "browser": {
     "./es/lib/policies/msRestUserAgentPolicy.js": "./es/lib/policies/msRestUserAgentPolicy.stub.js",
     "./es/lib/util/base64.js": "./es/lib/util/base64.browser.js",
