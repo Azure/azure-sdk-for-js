@@ -161,9 +161,9 @@ gulp.task('codegen', () => {
         console.log('------------------------------------------------------------');
         console.log(cmd);
         console.log('------------------------------------------------------------');
-        
+
         execSync(cmd, { encoding: "utf8", stdio: "inherit" });
-        
+
         console.log('Installing dependencies...');
         const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
         npmInstall(packageFolderPath);
@@ -253,22 +253,22 @@ gulp.task('publish', () => {
   console.log(`Published packages skipped: ${publishedPackagesSkipped}`);
 });
 
-gulp.task("find-missing-sdks", () => {
+gulp.task("find-missing-sdks", async () => {
   console.log(`Passed arguments: ${process.argv}`);
 
-  const azureRestApiSpecsRepository = findAzureRestApiSpecsRepository();
+  const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepository();
   console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
 
-  findMissingSdks(azureRestApiSpecsRepository);
+  await findMissingSdks(azureRestApiSpecsRepository);
 });
 
-gulp.task("generate-ts-readme", () => {
+gulp.task("generate-ts-readme", async () => {
   console.log(`Passed arguments: ${process.argv}`);
 
-  const azureRestApiSpecsRepository = findAzureRestApiSpecsRepository();
+  const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepository();
   console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
 
-  const sdkPath = findSdkDirectory(azureRestApiSpecsRepository);
+  const sdkPath = await findSdkDirectory(azureRestApiSpecsRepository);
   console.log(`Found specification in ${sdkPath}`);
 
   copyExistingNodeJsReadme(sdkPath);
