@@ -12,7 +12,6 @@
     "allowJs": false,
     "noUnusedLocals":true,
     "strict": true,
-    "strictPropertyInitialization": true,
     "declaration": true,
     "declarationDir": "./typings",
     "declarationMap": true
