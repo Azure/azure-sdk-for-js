@@ -2,8 +2,10 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import * as uuid from "uuid/v4";
+import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
+import { AmqpError } from "rhea-promise";
 
 /**
  * Describes the base class for a client.
@@ -44,6 +46,20 @@ export abstract class Client {
    * Closes the client. This is an abstract method.
    */
   abstract async close(): Promise<void>;
+
+  /**
+   * Will reconnect the client if neccessary.
+   * @ignore
+   * @param error Error if any
+   */
+  async detached(error?: AmqpError | Error): Promise<void> {
+    try {
+      await this._context.detached(error);
+    } catch (err) {
+      log.error("[%s] [%s] An error occurred while reconnecting the client: %O.",
+        this._context.namespace.connectionId, this.id, err);
+    }
+  }
 
   /**
    * Provides the current type of the Client.

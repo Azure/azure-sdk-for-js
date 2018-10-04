@@ -14,7 +14,8 @@
     "strict": true,
     "strictPropertyInitialization": true,
     "declaration": true,
-    "declarationDir": "./typings"
+    "declarationDir": "./typings",
+    "declarationMap": true
   },
   "compileOnSave": true,
   "exclude": [

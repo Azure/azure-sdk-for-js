@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as debugModule from "debug";
+import * as log from "./log";
 import { Delivery } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { MessageSender } from "./messageSender";
 import { ServiceBusMessage } from "./message";
 import { Client } from "./client";
-const debug = debugModule("azure:service-bus:topic-client");
 
 
 
@@ -37,12 +36,12 @@ export class TopicClient extends Client {
         if (this._context.sender) {
           await this._context.sender.close();
         }
-        debug("Closed the topic client '%s'.", this.id);
+        log.topicClient("Closed the topic client '%s'.", this.id);
       }
     } catch (err) {
       const msg = `An error occurred while closing the topic client ` +
         `"${this.id}": ${JSON.stringify(err)} `;
-      debug(msg);
+      log.error(msg);
       throw new Error(msg);
     }
   }

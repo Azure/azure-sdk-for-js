@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as debugModule from "debug";
+import * as log from "./log";
 import { MessagingError } from "@azure/amqp-common";
 import { ConnectionContext } from "./connectionContext";
 import { ReceiveOptions, OnError, OnMessage } from ".";
@@ -10,8 +10,6 @@ import { BatchingReceiver } from "./batchingReceiver";
 import { Message } from "./message";
 import { Client } from "./client";
 import { ReceiveMode } from "./messageReceiver";
-
-const debug = debugModule("azure:service-bus:subscription-client");
 
 /**
  * Describes the options that can be provided while creating the SubscriptionClient.
@@ -84,12 +82,12 @@ export class SubscriptionClient extends Client {
         if (this._context.streamingReceiver) {
           await this._context.streamingReceiver.close();
         }
-        debug("Closed the subscription client '%s'.", this.id);
+        log.subscriptionClient("Closed the subscription client '%s'.", this.id);
       }
     } catch (err) {
       const msg = `An error occurred while closing the subscription client ` +
         `"${this.id}": ${JSON.stringify(err)} `;
-      debug(msg);
+      log.error(msg);
       throw new Error(msg);
     }
   }
@@ -156,7 +154,7 @@ export class SubscriptionClient extends Client {
         result = await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
       } catch (err) {
         error = err;
-        debug("[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
+        log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d max time:\n %O",
           this._context.namespace.connectionId, bReceiver.id, maxMessageCount, maxWaitTimeInSeconds, err);
       }
       if (error) {

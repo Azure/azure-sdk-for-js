@@ -6,8 +6,7 @@ import { defaultLock } from "@azure/amqp-common";
 import { ClientEntityContext } from "./clientEntityContext";
 
 import * as log from "./log";
-import { MessageSender } from './messageSender';
-import { MessageReceiver } from './messageReceiver';
+import { Sender, Receiver } from "rhea-promise";
 
 export interface LinkEntityOptions {
   /**
@@ -86,7 +85,6 @@ export class LinkEntity {
   /**
    * Creates a new ClientEntity instance.
    * @constructor
-   * @param {string} name The name of the entity.
    * @param {ClientEntityContext} context The connection context.
    * @param {LinkEntityOptions} [options] Options that can be provided while creating the LinkEntity.
    */
@@ -95,7 +93,7 @@ export class LinkEntity {
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
-    this.id = `${name}/${uuid()}`;
+    this.id = `${options.name}/${uuid()}`;
   }
 
   /**
@@ -111,15 +109,11 @@ export class LinkEntity {
     // cbs session, since we want to have exactly 1 cbs session per connection).
     log.link("[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
       "'%s' with address: '%s'.", this._context.namespace.connectionId,
-      this._context.namespace.cbsSession!.cbsLock,
+      this._context.namespace.cbsSession.cbsLock,
       this._type, this.id, this.address);
-    await defaultLock.acquire(this._context.namespace.cbsSession!.cbsLock,
-      () => { return this._context.namespace.cbsSession!.init(); });
+    await defaultLock.acquire(this._context.namespace.cbsSession.cbsLock,
+      () => { return this._context.namespace.cbsSession.init(); });
     const tokenObject = await this._context.namespace.tokenProvider.getToken(this.audience);
-    if (!this._context.namespace.connection) {
-      this._context.namespace.connection = this._context.namespace.cbsSession!.connection;
-      this._context.namespace.connectionId = this._context.namespace.cbsSession!.connection!.id;
-    }
     log.link("[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.namespace.connectionId, this._type, this.audience);
     // Acquire the lock to negotiate the CBS claim.
@@ -127,7 +121,7 @@ export class LinkEntity {
       this._context.namespace.connectionId, this._context.namespace.negotiateClaimLock,
       this._type, this.id, this.address);
     await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
-      return this._context.namespace.cbsSession!.negotiateClaim(this.audience, tokenObject);
+      return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject);
     });
     log.link("[%s] Negotiated claim for %s '%s' with with address: %s",
       this._context.namespace.connectionId, this._type, this.id, this.address);
@@ -166,7 +160,7 @@ export class LinkEntity {
    * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be closed and
    * removed.
    */
-  protected async _closeLink(link?: MessageSender | MessageReceiver): Promise<void> {
+  protected async _closeLink(link?: Sender | Receiver): Promise<void> {
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     if (link) {
       try {

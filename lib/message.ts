@@ -5,9 +5,7 @@ import {
   Delivery, uuid_to_string, AmqpError, MessageAnnotations, DeliveryAnnotations
 } from "rhea-promise";
 import { Constants, Dictionary, AmqpMessage } from "@azure/amqp-common";
-import * as debugModule from "debug";
-
-const debug = debugModule("azure:service-bus:message");
+import * as log from "./log";
 
 /**
  * Describes the delivery annotations for ServiceBus.
@@ -286,7 +284,7 @@ export module ServiceBusMessage {
     if (msg.partitionKey) amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
     if (msg.viaPartitionKey) amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
     if (msg.scheduledEnqueueTimeUtc) amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
-    debug("SBMessage to AmqpMessage: %O", amqpMsg);
+    log.message("SBMessage to AmqpMessage: %O", amqpMsg);
     return amqpMsg;
   }
 
@@ -314,7 +312,7 @@ export module ServiceBusMessage {
       if (msg.message_annotations[Constants.viaPartitionKey]) sbmsg.viaPartitionKey = msg.message_annotations[Constants.viaPartitionKey];
       if (msg.message_annotations[Constants.scheduledEnqueueTime]) sbmsg.scheduledEnqueueTimeUtc = msg.message_annotations[Constants.scheduledEnqueueTime];
     }
-    debug("AmqpMessage to SBMessage: %O", sbmsg);
+    log.message("AmqpMessage to SBMessage: %O", sbmsg);
     return sbmsg;
   }
 }
@@ -463,7 +461,7 @@ export namespace ReceivedSBMessage {
     if (msg.sequenceNumber) amqpMsg.message_annotations[Constants.sequenceNumber] = msg.sequenceNumber;
     if (msg.enqueuedTimeUtc) amqpMsg.message_annotations[Constants.enqueuedTime] = msg.enqueuedTimeUtc;
     if (msg.lockedUntilUtc) amqpMsg.message_annotations[Constants.lockedUntil] = msg.lockedUntilUtc;
-    debug("ReceivedSBMessage to AmqpMessage: %O", amqpMsg);
+    log.message("ReceivedSBMessage to AmqpMessage: %O", amqpMsg);
     return amqpMsg;
   }
 
@@ -494,7 +492,7 @@ export namespace ReceivedSBMessage {
       ...props
     };
 
-    debug("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
+    log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
     return rcvdsbmsg;
   }
 }

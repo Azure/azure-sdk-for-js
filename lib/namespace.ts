@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as debugModule from "debug";
+import * as log from "./log";
 import {
   ApplicationTokenCredentials, DeviceTokenCredentials, UserTokenCredentials, MSITokenCredentials
 } from "ms-rest-azure";
@@ -13,9 +13,11 @@ import {
 } from "@azure/amqp-common";
 
 
-const debug = debugModule("azure:service-bus:namespace");
-
-export interface NamespaceOptions {
+/**
+ * Describes the base namesapce options.
+ * @interface NamespaceOptionsBase
+ */
+export interface NamespaceOptionsBase {
   /**
    * @property {DataTransformer} [dataTransformer] The data transformer that will be used to encode
    * and decode the sent and received messages respectively. If not provided then we will use the
@@ -23,6 +25,13 @@ export interface NamespaceOptions {
    * option needs to be used only for specialized scenarios.
    */
   dataTransformer?: DataTransformer;
+}
+
+/**
+ * Describes the options that can be provided while creating the Namespace.
+ * @interface NamespaceOptions
+ */
+export interface NamespaceOptions extends NamespaceOptionsBase {
   /**
    * @property {TokenProvider} [tokenProvider] - The token provider that provides the token
    * for authentication. Default value: SasTokenProvider.
@@ -69,7 +78,7 @@ export class Namespace {
   createQueueClient(queueName: string, options?: QueueClientOptions): QueueClient {
     const client = new QueueClient(queueName, this._context, options);
     this._context.clients[client.id] = client;
-    debug("Created the QueueClient for Queue: %s", queueName);
+    log.ns("Created the QueueClient for Queue: %s", queueName);
     return client;
   }
 
@@ -82,7 +91,7 @@ export class Namespace {
   createTopicClient(topicName: string): TopicClient {
     const client = new TopicClient(topicName, this._context);
     this._context.clients[client.id] = client;
-    debug("Created the TopicClient for Topic: %s", topicName);
+    log.ns("Created the TopicClient for Topic: %s", topicName);
     return client;
   }
 
@@ -92,31 +101,28 @@ export class Namespace {
    */
   async close(): Promise<any> {
     try {
-      if (this._context.connection && this._context.connection.isOpen()) {
+      if (this._context.connection.isOpen()) {
         // Close all the senders.
         for (const id of Object.keys(this._context.clients)) {
           const client = this._context.clients[id];
           await client.close();
         }
-        // Close the cbs session
-        if (this._context.cbsSession) {
-          await this._context.cbsSession!.close();
-        }
+        await this._context.cbsSession.close();
 
         // Close management sessions
         for (const id of Object.keys(this._context.clients)) {
           const client = this._context.clients[id];
-          await (client as any)._context.managementSession!.close();
+          await (client as any)._context.managementSession.close();
         }
 
         await this._context.connection.close();
-        debug("Closed the amqp connection '%s' on the client.", this._context.connectionId);
-        this._context.connection = undefined;
+        this._context.wasConnectionCloseCalled = true;
+        log.ns("Closed the amqp connection '%s' on the client.", this._context.connectionId);
       }
     } catch (err) {
       const msg = `An error occurred while closing the connection ` +
         `"${this._context.connectionId}": ${JSON.stringify(err)}`;
-      debug(msg);
+      log.error(msg);
       throw new Error(msg);
     }
   }
@@ -137,13 +143,40 @@ export class Namespace {
   }
 
   /**
+   * Creates a Namespace from a generic token provider.
+   * @param {string} host - Fully qualified domain name for Servicebus. Most likely,
+   * `<yournamespace>.servicebus.windows.net`.
+   * @param {TokenProvider} tokenProvider - Your token provider that implements the TokenProvider interface.
+   * @param {NamespaceOptionsBase} options - The options that can be provided during namespace creation.
+   * @returns {Namespace} An instance of the Namespace.
+   */
+  static createFromTokenProvider(
+    host: string,
+    tokenProvider: TokenProvider,
+    options?: NamespaceOptionsBase): Namespace {
+    if (!host || (host && typeof host !== "string")) {
+      throw new Error("'host' is a required parameter and must be of type: 'string'.");
+    }
+    if (!tokenProvider || (tokenProvider && typeof tokenProvider !== "object")) {
+      throw new Error("'tokenProvider' is a required parameter and must be of type: 'object'.");
+    }
+    if (!host.endsWith("/")) host += "/";
+    const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
+      `SharedAccessKey=defaultKeyValue`;
+    if (!options) options = {};
+    const nsOptions: NamespaceOptions = options;
+    nsOptions.tokenProvider = tokenProvider;
+    return Namespace.createFromConnectionString(connectionString, nsOptions);
+  }
+
+  /**
    * Creates a Namespace from AADTokenCredentials.
    * @param {string} host - Fully qualified domain name for ServiceBus.
    * Most likely, {yournamespace}.servicebus.windows.net
    * @param {TokenCredentials} credentials - The AAD Token credentials.
    * It can be one of the following: ApplicationTokenCredentials | UserTokenCredentials |
    * DeviceTokenCredentials | MSITokenCredentials.
-   * @param {NamespaceOptions} options - The options that can be provided during namespace creation.
+   * @param {NamespaceOptionsBase} options - The options that can be provided during namespace creation.
    * @returns {Namespace} An instance of the Namespace.
    */
   static createFromAadTokenCredentials(
@@ -159,13 +192,7 @@ export class Namespace {
         "ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | " +
         "MSITokenCredentials.");
     }
-
-    if (!host.endsWith("/")) host += "/";
-    const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
-      `SharedAccessKey=defaultKeyValue`;
-    if (!options) options = {};
-    const clientOptions: NamespaceOptions = options;
-    clientOptions.tokenProvider = new AadTokenProvider(credentials);
-    return Namespace.createFromConnectionString(connectionString, clientOptions);
+    const tokenProvider = new AadTokenProvider(credentials);
+    return Namespace.createFromTokenProvider(host, tokenProvider, options);
   }
 }

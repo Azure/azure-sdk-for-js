@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as debugModule from "debug";
-import { Func, Constants, translate } from "@azure/amqp-common";
-import { ReceiverEvents, EventContext, OnAmqpEvent } from "rhea-promise";
+import * as log from "./log";
+import { Func, Constants, translate, MessagingError } from "@azure/amqp-common";
+import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents } from "rhea-promise";
 import { Message } from "./message";
 import { MessageReceiver, ReceiveOptions, ReceiverType } from "./messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
-
-const debug = debugModule("azure:service-bus:receiverbatching");
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -61,6 +59,9 @@ export class BatchingReceiver extends MessageReceiver {
     return new Promise<Message[]>((resolve, reject) => {
       let onReceiveMessage: OnAmqpEvent;
       let onReceiveError: OnAmqpEvent;
+      let onReceiveClose: OnAmqpEvent;
+      let onSessionError: OnAmqpEvent;
+      let onSessionClose: OnAmqpEvent;
       let waitTimer: any;
       let actionAfterWaitTimeout: Func<void, void>;
       const resetCreditWindow = () => {
@@ -70,8 +71,10 @@ export class BatchingReceiver extends MessageReceiver {
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = (timeOver: boolean, data?: Message) => {
         // Resetting the mode. Now anyone can call start() or receive() again.
-        this._receiver!.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.removeListener(ReceiverEvents.message, onReceiveMessage);
+        if (this._receiver) {
+          this._receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        }
         if (!data) {
           data = brokeredMessages.length ? brokeredMessages[brokeredMessages.length - 1] : undefined;
         }
@@ -86,6 +89,8 @@ export class BatchingReceiver extends MessageReceiver {
       // Action to be performed after the max wait time is over.
       actionAfterWaitTimeout = () => {
         timeOver = true;
+        log.batching("[%s] Batching Receiver '%s'  max wait time in seconds %d over.",
+          this._context.namespace.connectionId, this.id, maxWaitTimeInSeconds);
         return finalAction(timeOver);
       };
 
@@ -103,38 +108,89 @@ export class BatchingReceiver extends MessageReceiver {
 
       // Action to be taken when an error is received.
       onReceiveError = (context: EventContext) => {
-        this._receiver!.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        this._receiver!.removeListener(ReceiverEvents.message, onReceiveMessage);
-        const error = translate(context.receiver!.error!);
-        debug("[%s] Receiver '%s' received an error:\n%O",
-          this._context.namespace.connectionId, this.id, error);
+        this.isReceivingMessages = false;
+        const receiver = this._receiver || context.receiver!;
+        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+
+        const receiverError = context.receiver && context.receiver.error;
+        let error = new MessagingError("An error occuured while receiving messages.");
+        if (receiverError) {
+          error = translate(receiverError);
+          log.error("[%s] Receiver '%s' received an error:\n%O",
+            this._context.namespace.connectionId, this.id, error);
+        }
         if (waitTimer) {
           clearTimeout(waitTimer);
         }
-        resetCreditWindow();
+        reject(error);
+      };
+
+      onReceiveClose = async (context: EventContext) => {
         this.isReceivingMessages = false;
+        const receiverError = context.receiver && context.receiver.error;
+        if (receiverError) {
+          log.error("[%s] 'receiver_close' event occurred. The associated error is: %O",
+            this._context.namespace.connectionId, receiverError);
+        }
+      };
+
+      onSessionClose = async (context: EventContext) => {
+        this.isReceivingMessages = false;
+        const sessionError = context.session && context.session.error;
+        if (sessionError) {
+          log.error("[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
+            this._context.namespace.connectionId, this.id, sessionError);
+        }
+      };
+
+      onSessionError = (context: EventContext) => {
+        this.isReceivingMessages = false;
+        const receiver = this._receiver || context.receiver!;
+        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
+        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+        receiver.session.removeListener(SessionEvents.sessionError, onReceiveError);
+        const sessionError = context.session && context.session.error;
+        let error = new MessagingError("An error occuured while receiving messages.");
+        if (sessionError) {
+          error = translate(sessionError);
+          log.error("[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
+            this._context.namespace.connectionId, this.id, error);
+        }
+        if (waitTimer) {
+          clearTimeout(waitTimer);
+        }
         reject(error);
       };
 
       const addCreditAndSetTimer = (reuse?: boolean) => {
-        debug("[%s] Receiver '%s', adding credit for receiving %d messages.",
+        log.batching("[%s] Receiver '%s', adding credit for receiving %d messages.",
           this._context.namespace.connectionId, this.id, maxMessageCount);
         this._receiver!.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
-        debug(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.id);
+        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInSeconds, this.id);
         waitTimer = setTimeout(actionAfterWaitTimeout, (maxWaitTimeInSeconds as number) * 1000);
       };
 
       if (!this.isOpen()) {
-        debug("[%s] Receiver '%s', setting the prefetch count to 0.",
+        log.batching("[%s] Receiver '%s', setting max concurrent calls to 0.",
           this._context.namespace.connectionId, this.id);
         this.maxConcurrentCalls = 0;
-        this._init(onReceiveMessage, onReceiveError).then(() => addCreditAndSetTimer()).catch(reject);
+        const rcvrOptions = this._createReceiverOptions({
+          onMessage: onReceiveMessage,
+          onError: onReceiveError,
+          onClose: onReceiveClose,
+          onSessionError: onSessionError,
+          onSessionClose: onSessionClose
+        });
+        this._init(rcvrOptions).then(() => addCreditAndSetTimer()).catch(reject);
       } else {
         addCreditAndSetTimer(true);
         this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
         this._receiver!.on(ReceiverEvents.receiverError, onReceiveError);
+        this._receiver!.session.on(SessionEvents.sessionError, onReceiveError);
       }
     });
   }

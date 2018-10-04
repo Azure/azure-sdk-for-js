@@ -2,13 +2,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as debugModule from "debug";
 import { Constants } from "@azure/amqp-common";
-import { MessageReceiver, ReceiveOptions, OnMessage, OnError, ReceiverType } from "./messageReceiver";
-import { ClientEntityContext } from "./clientEntityContext";
 import { ReceiverEvents } from "rhea-promise";
-const debug = debugModule("azure:service-bus:receiverstreaming");
+import {
+  MessageReceiver, ReceiveOptions, OnMessage, OnError, ReceiverType, ReceiveMode
+} from "./messageReceiver";
+import { ClientEntityContext } from "./clientEntityContext";
 
+import * as log from "./log";
+
+/**
+ * Describes the receive handler object that is returned from the receive() method with handlers is
+ * called. The ReceiveHandler is used to stop receiving more messages.
+ * @class ReceiveHandler
+ */
 export class ReceiveHandler {
   /**
    * @property {string} name The Receiver handler name.
@@ -41,12 +48,43 @@ export class ReceiveHandler {
   }
 
   /**
+   * @property {boolean} isReceiverOpen Indicates whether the receiver is connected/open.
+   * `true` - is open; `false` otherwise.
+   * @readonly
+   */
+  get isReceiverOpen(): boolean {
+    return this._receiver ? this._receiver.isOpen() : false;
+  }
+
+  /**
+   * @property {boolean} [autoComplete] Indicates whether `Message.complete()` should be called
+   * automatically after the message processing is complete while receiving messages with handlers
+   * or while messages are received using receiveBatch(). Default: false.
+   */
+  get autoComplete(): boolean {
+    return this._receiver.autoComplete;
+  }
+
+  /**
+   * @property {number} [receiveMode] The mode in which messages should be received.
+   * Default: ReceiveMode.peekLock
+   */
+  get receiveMode(): ReceiveMode {
+    return this._receiver.receiveMode;
+  }
+
+  /**
    * Stops the underlying EventHubReceiver from receiving more messages.
    * @return {Promise<void>} Promise<void>
    */
   async stop(): Promise<void> {
     if (this._receiver) {
-      await this._receiver.close();
+      try {
+        await this._receiver.close();
+      } catch (err) {
+        log.error("An error occurred while stopping the receiver '%s' with address '%s': %O",
+          this._receiver.id, this._receiver.address, err);
+      }
     }
   }
 }
@@ -67,7 +105,11 @@ export interface MessageHandlerOptions {
  * @extends MessageReceiver
  */
 export class StreamingReceiver extends MessageReceiver {
-
+  /**
+   * @property {ReceiveHandler} receiveHandler The receive handler associated with this receivever
+   * that provides a mechanism to stop receiving messages.
+   */
+  receiveHandler: ReceiveHandler;
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
@@ -77,6 +119,7 @@ export class StreamingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.streaming, options);
+    this.receiveHandler = new ReceiveHandler(this);
   }
 
   /**
@@ -102,14 +145,14 @@ export class StreamingReceiver extends MessageReceiver {
       // It is possible that the receiver link has been established due to a previous receive() call. If that
       // is the case then add message and error event handlers to the receiver. When the receiver will be closed
       // these handlers will be automatically removed.
-      debug("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
+      log.streaming("[%s] Receiver link is already present for '%s' due to previous receive() calls. " +
         "Hence reusing it and attaching message and error handlers.",
         this._context.namespace.connectionId, this.id);
       this._receiver!.on(ReceiverEvents.message, this._onAmqpMessage);
       this._receiver!.on(ReceiverEvents.receiverError, this._onAmqpError);
       this._receiver!.setCreditWindow(Constants.defaultPrefetchCount);
       this._receiver!.addCredit(Constants.defaultPrefetchCount);
-      debug("[%s] Receiver '%s', set the prefetch count to 1000 and " +
+      log.streaming("[%s] Receiver '%s', set the prefetch count to 1000 and " +
         "providing a credit of the same amount.",
         this._context.namespace.connectionId, this.id);
     }

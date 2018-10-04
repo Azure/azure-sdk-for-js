@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as debugModule from "debug";
+import * as log from "./log";
 import { Delivery } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { MessageSender } from "./messageSender";
@@ -11,8 +11,6 @@ import { BatchingReceiver } from "./batchingReceiver";
 import { Message, ServiceBusMessage } from "./message";
 import { Client } from "./client";
 import { ReceiveMode } from "./messageReceiver";
-
-const debug = debugModule("azure:service-bus:queue-client");
 
 /**
  * Describes the options that can be provided while creating the QueueClient.
@@ -77,12 +75,12 @@ export class QueueClient extends Client {
         if (this._context.streamingReceiver) {
           await this._context.streamingReceiver.close();
         }
-        debug("Closed the client '%s'.", this.id);
+        log.qClient("Closed the client '%s'.", this.id);
       }
     } catch (err) {
       const msg = `An error occurred while closing the queue client ` +
         `"${this.id}": ${JSON.stringify(err)} `;
-      debug(msg);
+      log.error(msg);
       throw new Error(msg);
     }
   }
@@ -168,7 +166,7 @@ export class QueueClient extends Client {
       try {
         return await bReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
       } catch (err) {
-        debug("[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
+        log.error("[%s] Receiver '%s', an error occurred while receiving %d messages for %d " +
           "max time:\n %O", this._context.namespace.connectionId, bReceiver.id, maxMessageCount,
           maxWaitTimeInSeconds, err);
         throw err;

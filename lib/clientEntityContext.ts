@@ -1,23 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as debugModule from "debug";
+import * as log from "./log";
 import { StreamingReceiver } from "./streamingReceiver";
 import { MessageSender } from "./messageSender";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { ConnectionContext } from "./connectionContext";
-import { Dictionary } from "rhea-promise";
+import { Dictionary, AmqpError } from "rhea-promise";
 import { Client } from "./client";
 import { BatchingReceiver } from "./batchingReceiver";
-
-const debug = debugModule("azure:service-bus:ClientEntityContext");
 
 /**
  * @interface ClientEntityContext
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenProvider, senders, receivers, etc. about the ServiceBus client.
  */
-export interface ClientEntityContext {
+export interface ClientEntityContextBase {
   /**
    * @property {ConnectionContext} namespace Describes the context with common properties at
    * the namespace level.
@@ -45,6 +43,10 @@ export interface ClientEntityContext {
   sender?: MessageSender;
 }
 
+export interface ClientEntityContext extends ClientEntityContextBase {
+  detached(error?: AmqpError | Error): Promise<void>;
+}
+
 export interface ClientEntityContextOptions {
   managementSessionAddress?: string;
   managementSessionAudience?: string;
@@ -61,9 +63,48 @@ export namespace ClientEntityContext {
       throw new Error("'context' is a required parameter and must be of type 'object'.");
     }
     if (!options) options = {};
-    const clientEntityContext: ClientEntityContext = {
+    const entityContext: ClientEntityContextBase = {
       namespace: context,
       entityPath: entityPath
+    };
+
+    (entityContext as ClientEntityContext).detached = async (error?: AmqpError | Error) => {
+      const connectionId = entityContext.namespace.connectionId;
+      // reconnect the sender if present
+      const sender = entityContext.sender;
+      if (sender && !sender.isConnecting) {
+        try {
+          log.error("[%s] calling detached on sender '%s'.", connectionId, sender.id);
+          await sender.detached();
+        } catch (err) {
+          log.error("[%s] An error occurred while reconnecting the sender '%s': %O.",
+            connectionId, sender.id, err);
+        }
+      }
+      // reconnect the batching receiver if present
+      const batchingReceiver = entityContext.batchingReceiver;
+      if (batchingReceiver && !batchingReceiver.isConnecting) {
+        try {
+          log.error("[%s] calling detached on batching receiver '%s'.",
+            connectionId, batchingReceiver.id);
+          await batchingReceiver.detached(error);
+        } catch (err) {
+          log.error("[%s] An error occurred while reconnecting the sender '%s': %O.",
+            connectionId, batchingReceiver.id, err);
+        }
+      }
+      // reconnect the streaming receiver if present
+      const streamingReceiver = entityContext.batchingReceiver;
+      if (streamingReceiver && !streamingReceiver.isConnecting) {
+        try {
+          log.error("[%s] calling detached on streaming receiver '%s'.",
+            connectionId, streamingReceiver.id);
+          await streamingReceiver.detached(error);
+        } catch (err) {
+          log.error("[%s] An error occurred while reconnecting the sender '%s': %O.",
+            connectionId, streamingReceiver.id, err);
+        }
+      }
     };
     let managementSession = getManagementSession(context.clients, entityPath);
     if (!managementSession) {
@@ -71,11 +112,11 @@ export namespace ClientEntityContext {
         address: options.managementSessionAddress,
         audience: options.managementSessionAudience
       };
-      managementSession = new ManagementClient(clientEntityContext, mOptions);
+      managementSession = new ManagementClient(entityContext as ClientEntityContext, mOptions);
     }
-    clientEntityContext.managementSession = managementSession;
-    debug("Created client entity context: %O", clientEntityContext);
-    return clientEntityContext;
+    entityContext.managementSession = managementSession;
+    log.entityCtxt("Created client entity context: %O", entityContext);
+    return entityContext as ClientEntityContext;
   }
 }
 
