@@ -198,12 +198,8 @@ export async function copyExistingNodeJsReadme(sdkPath: string): Promise<string>
 
 async function updatePackageName(settings: readmeSettings): Promise<readmeSettings> {
     const packageName = settings.nodejs["package-name"]
-    if (packageName.startsWith("arm")) {
+    if (packageName.startsWith("arm") || !packageName.startsWith("azure-")) {
         return settings;
-    }
-
-    if (!packageName.startsWith("azure-")) {
-        throw new Error("Unrecognized package name. Please update manually.");
     }
 
     settings.nodejs["package-name"] = packageName.replace("azure-", "");
@@ -226,18 +222,18 @@ async function updateOutputFolder(settings: readmeSettings): Promise<readmeSetti
 
 async function updateYamlSection(sectionText: string): Promise<string> {
     const section = yaml.safeLoad(sectionText);
-    let updatedSection = await updatePackageName(section);
-    updatedSection = await updateMetadataFields(updatedSection);
-    updatedSection = await updateOutputFolder(updatedSection);
-    updatedSection["typescript"] = updatedSection.nodejs;
-    delete updatedSection.nodejs;
+    await updatePackageName(section);
+    await updateMetadataFields(section);
+     await updateOutputFolder(section);
+    section["typescript"] = section.nodejs;
+    delete section.nodejs;
 
-    return yaml.safeDump(updatedSection).trim();
+    return yaml.safeDump(section).trim();
 }
 
 export async function updateTypeScriptReadmeFile(typescriptReadmePath: string): Promise<string> {
-    const readmeBuffer = await fs.readFile(typescriptReadmePath);
-    const readme = readmeBuffer.toString();
+    const readmeBuffer: Buffer = await fs.readFile(typescriptReadmePath);
+    const readme: string = readmeBuffer.toString();
     let outputReadme = readme;
 
     const yamlSection = await getYamlSection(readmeBuffer, "``` yaml $(nodejs)", "```");
