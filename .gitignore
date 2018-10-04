@@ -87,7 +87,11 @@ output/*
 .nyc_output/
 coverage/
 dist/
-typings/
+*.d.ts
+*.d.ts.map
 *.js
 *.js.map
 
+# Rollup
+!rollup.config.js
+*-stats.html

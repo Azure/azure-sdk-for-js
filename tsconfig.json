@@ -12,8 +12,10 @@
     "outDir": "dist",
     "strict": true,
     "declaration": true,
-    "declarationDir": "./typings",
+    "declarationMap": true,
     "importHelpers": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "dom",
       "dom.iterable",
