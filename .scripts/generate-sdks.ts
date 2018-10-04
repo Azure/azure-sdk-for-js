@@ -12,17 +12,48 @@ import * as minimist from "minimist";
 const repositoryName = "azure-rest-api-specs";
 const specificationsSegment = "specification";
 
-const contains = function (array, el) {
-    return array.indexOf(el) != -1
+interface CommandLineOptions extends minimist.ParsedArgs {
+    package: string,
+    type: string,
+    debug: boolean,
+    d: boolean,
+    verbose: boolean,
+    b: boolean,
+    getSdkType(): SdkType;
+}
+
+enum SdkType {
+    ResourceManager,
+    DataPlane
 }
 
 const args = minimist(process.argv.slice(2), {
+    string: [ "package", "type" ],
     boolean: ["debug", "verbose"],
     alias: {
         d: "debug",
-        v: "version"
+        package: "packageName",
+        v: "version",
     }
-})
+}) as CommandLineOptions;
+
+function contains (array, el) {
+    return array.indexOf(el) != -1
+}
+
+args.getSdkType = function() {
+    const resourceManagerStrings = [ "arm", "rm", "resourcemanager" ]
+    const dataPlaneStrings = [ "dp", "data", "dataplane" ]
+
+    const type = this.type.toLowerCase().replace("-", "");
+    if (contains(resourceManagerStrings, type)) {
+        return SdkType.ResourceManager;
+    } else if (contains(dataPlaneStrings, type)) {
+        return SdkType.DataPlane;
+    } else {
+        throw new Error("Uknown SDK type");
+    }
+}
 
 export function findAzureRestApiSpecsRepository(): string {
     let currentDirectory = __dirname;
@@ -38,19 +69,19 @@ export function findAzureRestApiSpecsRepository(): string {
 
     } while (currentDirectory != rootDirectory);
 
-    throw `${repositoryName} not found!`
+    throw new Error(`${repositoryName} not found!`)
 }
 
 function containsDirectory(directoryName: string, parentPath: string): boolean {
     return fs.existsSync(path.resolve(parentPath, directoryName));
 }
 
-export function findSdkDirectory(azureRestApiSpecsRepository: string, packageName: string, sdkType: string): string {
-    const sdkSegment = sdkType === "arm" ? "resource-manager" : "data-plane";
-    const sdkPath = path.resolve(azureRestApiSpecsRepository, specificationsSegment, packageName, sdkSegment);
+export function findSdkDirectory(azureRestApiSpecsRepository: string): string {
+    const sdkSegment = args.getSdkType() === SdkType.ResourceManager ? "resource-manager" : "data-plane";
+    const sdkPath = path.resolve(azureRestApiSpecsRepository, specificationsSegment, args.packageName, sdkSegment);
 
     if (!fs.existsSync(sdkPath)) {
-        throw `SDK specs don't exist`;
+        throw new Error(`${sdkPath} SDK specs don't exist`);
     }
 
     return sdkPath;
@@ -79,9 +110,7 @@ export function findMissingSdks(azureRestApiSpecsRepository: string) {
                 if (!contains(readmeFiles, "readme.typescript.md")) {
                     missingSdks.push(fullSdkPath);
 
-                    if (args.verbose) {
-                        console.log(colors.red(fullSpecName))
-                    }
+                    console.log(colors.red(fullSpecName))
                 } else if (args.debug) {
                     console.log(colors.green(fullSpecName))
                 }
@@ -90,4 +119,33 @@ export function findMissingSdks(azureRestApiSpecsRepository: string) {
     }
 
     return missingSdks;
+}
+
+function doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath: string) {
+    const readmeMdBuffer = fs.readFileSync(readmeMdPath);
+    const sectionBeginning = "``` yaml $(swagger-to-sdk)"
+    const sectionEnd = "```"
+
+    const beginningIndex = readmeMdBuffer.indexOf(sectionBeginning);
+    const trimmedBuffer = readmeMdBuffer.slice(beginningIndex);
+
+    const endIndex = trimmedBuffer.indexOf(sectionEnd);
+    const sectionBuffer = trimmedBuffer.slice(0, endIndex);
+
+    console.log(sectionBuffer.toString());
+}
+
+export function copyExistingNodeJsReadme(sdkPath: string) {
+    const nodeJsReadmePath = path.resolve(sdkPath, "readme.nodejs.md");
+    const typescriptReadmePath = path.resolve(sdkPath, "readme.typescript.md");
+
+    if (args.verbose) {
+        console.log(`Copying ${nodeJsReadmePath} to ${typescriptReadmePath}`)
+    }
+
+    if (fs.existsSync(typescriptReadmePath)) {
+        throw new Error(`Typescript readme file already exists in ${sdkPath}`)
+    }
+
+    fs.copyFileSync(nodeJsReadmePath, typescriptReadmePath);
 }

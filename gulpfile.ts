@@ -10,7 +10,7 @@ import * as glob from "glob";
 import * as gulp from "gulp";
 import * as path from "path";
 import { argv } from "yargs";
-import { findAzureRestApiSpecsRepository, findSdkDirectory, findMissingSdks } from "./generate-sdks";
+import { findAzureRestApiSpecsRepository, findSdkDirectory, findMissingSdks, copyExistingNodeJsReadme } from "./.scripts/generate-sdks";
 
 const azureSDKForJSRepoRoot: string = __dirname;
 const azureRestAPISpecsRoot: string = argv['azure-rest-api-specs-root'] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
@@ -260,4 +260,17 @@ gulp.task("find-missing-sdks", () => {
   console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
 
   findMissingSdks(azureRestApiSpecsRepository);
+});
+
+gulp.task("generate-ts-readme", () => {
+  console.log(`Passed arguments: ${process.argv}`);
+
+  const azureRestApiSpecsRepository = findAzureRestApiSpecsRepository();
+  console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
+
+  const sdkPath = findSdkDirectory(azureRestApiSpecsRepository);
+  console.log(`Found specification in ${sdkPath}`);
+
+  copyExistingNodeJsReadme(sdkPath);
+  console.log(`Copied readme file successfully`);
 });
