@@ -75,7 +75,7 @@ args.getSdkType = function () {
     } else if (contains(dataPlaneStrings, type)) {
         return SdkType.DataPlane;
     } else {
-        throw new Error("Uknown SDK type");
+        throw new Error("Unknown SDK type");
     }
 }
 
