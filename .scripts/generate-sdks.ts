@@ -9,24 +9,11 @@ import * as fssync from "fs";
 import { promises as fs } from "fs";
 import * as path from "path";
 import * as minimist from "minimist";
+import { CommandLineOptions, SdkType } from "./commandLineOptions";
+import { Logger } from "./logger";
 
 const repositoryName = "azure-rest-api-specs";
 const specificationsSegment = "specification";
-
-interface CommandLineOptions extends minimist.ParsedArgs {
-    package: string,
-    type: string,
-    debug: boolean,
-    d: boolean,
-    verbose: boolean,
-    b: boolean,
-    getSdkType(): SdkType;
-}
-
-enum SdkType {
-    ResourceManager,
-    DataPlane
-}
 
 const args = minimist(process.argv.slice(2), {
     string: [ "package", "type" ],
@@ -40,6 +27,8 @@ const args = minimist(process.argv.slice(2), {
         type: "arm"
     }
 }) as CommandLineOptions;
+
+const logger = new Logger(args);
 
 function contains<T>(array: T[], el: T): boolean {
     return array.indexOf(el) != -1
