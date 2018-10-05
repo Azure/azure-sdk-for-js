@@ -1,7 +1,7 @@
 @azure/service-bus
 ================
 
-This sdk provides a convenient way to interact with the Azure Event Hubs service.
+This sdk provides a convenient way to interact with the Azure Service Bus.
 
 ## Pre-requisite ##
 - **Node.js version: 6.x or higher.** 
@@ -21,11 +21,11 @@ or any other IDE that provides better intellisense and exposes the full power of
 
 You can set the following environment variable to get the debug logs.
 
-- Getting debug logs from the Event Hub SDK
+- Getting debug logs from the Service Bus SDK
 ```bash
 export DEBUG=azure*
 ```
-- Getting debug logs from the Event Hub SDK and the protocol level library.
+- Getting debug logs from the Service Bus SDK and the protocol level library.
 ```bash
 export DEBUG=azure*,rhea*
 ```
@@ -58,4 +58,4 @@ export DEBUG=azure:service-bus:error,azure-amqp-common:error,rhea-promise:error,
 Please take a look at the [examples](https://github.com/Azure/azure-service-bus-node/tree/master/client/examples) directory for detailed examples.
 
 ## AMQP Dependencies ##
-It depends on [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
+It depends on [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
