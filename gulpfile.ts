@@ -10,6 +10,7 @@ import * as glob from "glob";
 import * as gulp from "gulp";
 import * as path from "path";
 import { argv } from "yargs";
+import { findAzureRestApiSpecsRepository, findSdkDirectory, findMissingSdks, copyExistingNodeJsReadme, updateTypeScriptReadmeFile, saveContentToFile } from "./.scripts/generate-sdks";
 
 const azureSDKForJSRepoRoot: string = __dirname;
 const azureRestAPISpecsRoot: string = argv['azure-rest-api-specs-root'] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
@@ -40,8 +41,7 @@ function getPackageNamesFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFil
   const packageNamePattern: RegExp = /package-name: (\S*)/g;
   const matches: string[] = readmeTypeScriptMdFileContents.match(packageNamePattern) || [];
   // console.log(`"package-name" matches: ${JSON.stringify(matches)}`);
-  for (let i = 0; i < matches.length; ++i)
-  {
+  for (let i = 0; i < matches.length; ++i) {
     matches[i] = matches[i].substring("package-name: ".length);
   }
   // console.log(`"package-name" matches trimmed: ${JSON.stringify(matches)}`);
@@ -52,8 +52,20 @@ function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFil
   return readmeTypeScriptMdFileContents.match(/output-folder: (\S*)/)[1];
 }
 
+function execute(command: string, packageFolderPath: string): void {
+  if (!fs.existsSync(packageFolderPath)) {
+    log(packageFolderPath, "Folder not found.");
+  } else {
+    execSync(command, { cwd: packageFolderPath, stdio: "inherit" });
+  }
+}
+
+function npmRunBuild(packageFolderPath: string): void {
+  execute("npm run build", packageFolderPath);
+}
+
 function npmInstall(packageFolderPath: string): void {
-  execSync(`npm install`, { cwd: packageFolderPath, stdio: ['ignore', 'ignore', 'pipe'] });
+  execute("npm install", packageFolderPath);
 }
 
 function getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents: string): string {
@@ -74,7 +86,46 @@ function contains(values: string[], searchString: string): boolean {
   return values.indexOf(searchString) !== -1;
 }
 
+function getPackgeFolderPathFromPackageArgument(packageArgument: string | undefined): string | undefined {
+  let packageFolderPath: string | undefined;
+
+  if (!packageArg) {
+    console.log(`No --package specified.`);
+  } else {
+    const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
+
+    let foundPackage = false;
+
+    for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
+      const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
+
+      const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
+      const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
+
+      if (contains(packageNames, packageArg)) {
+        foundPackage = true;
+
+        packageFolderPath = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
+      }
+    }
+
+    if (!foundPackage) {
+      console.log(`No package found with the name "${packageArg}".`);
+    }
+  }
+
+  return packageFolderPath;
+}
+
+function log(path: string, message: string): void {
+  console.log(`[${path}]> ${message}`);
+}
+
 gulp.task('default', () => {
+  console.log('gulp build --package <package-name>');
+  console.log('  --package');
+  console.log('    NPM package to run "npm run build" on.');
+  console.log();
   console.log('gulp install --package <package name>');
   console.log('  --package');
   console.log('    NPM package to run "npm install" on.');
@@ -95,33 +146,29 @@ gulp.task('default', () => {
 });
 
 gulp.task("install", () => {
-  if (!packageArg) {
-    console.log(`No --package specified to run "npm install" on.`);
-  } else {
-    const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
-
-    let foundPackage = false;
-
-    for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
-      const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
-
-      const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
-      const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-      
-      if (contains(packageNames, packageArg)) {
-        foundPackage = true;
-
-        const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
-        console.log(`[${packageFolderPath}]> npm install`);
-        npmInstall(packageFolderPath);
-      }
-    }
-
-    if (!foundPackage) {
-      console.log(`No package found with the name "${packageArg}".`);
-    }
+  const packageFolderPath: string | undefined = getPackgeFolderPathFromPackageArgument(packageArg);
+  if (packageFolderPath) {
+    log(packageFolderPath, "npm install");
+    npmInstall(packageFolderPath);
   }
 });
+
+gulp.task("build", () => {
+  const packageFolderPath: string | undefined = getPackgeFolderPathFromPackageArgument(packageArg);
+  if (packageFolderPath) {
+    log(packageFolderPath, "npm run build");
+    npmRunBuild(packageFolderPath);
+  }
+});
+
+function containsPackageName(packageNames: string[], packageName: string): boolean {
+  return contains(packageNames, packageName) ||
+    contains(packageNames, `@azure/${packageName}`) ||
+    contains(packageNames, `"${packageName}"`) ||
+    contains(packageNames, `"@azure/${packageName}"`) ||
+    contains(packageNames, `'${packageName}'`) ||
+    contains(packageNames, `'@azure/${packageName}'`);
+}
 
 // This task is used to generate libraries based on the mappings specified above.
 gulp.task('codegen', () => {
@@ -135,7 +182,7 @@ gulp.task('codegen', () => {
     const packageNamesString: string = JSON.stringify(packageNames);
     // console.log(`In "${typeScriptReadmeFilePath}", found package names "${packageNamesString}".`);
 
-    if (!packageArg || contains(packageNames, packageArg)) {
+    if (!packageArg || containsPackageName(packageNames, packageArg)) {
       console.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
 
       const readmeFilePath: string = path.resolve(path.dirname(typeScriptReadmeFilePath), 'readme.md');
@@ -160,9 +207,9 @@ gulp.task('codegen', () => {
         console.log('------------------------------------------------------------');
         console.log(cmd);
         console.log('------------------------------------------------------------');
-        
+
         execSync(cmd, { encoding: "utf8", stdio: "inherit" });
-        
+
         console.log('Installing dependencies...');
         const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
         npmInstall(packageFolderPath);
@@ -250,4 +297,41 @@ gulp.task('publish', () => {
   console.log(`Up to date packages:        ${upToDatePackages}`);
   console.log(`Published packages:         ${publishedPackages}`);
   console.log(`Published packages skipped: ${publishedPackagesSkipped}`);
+});
+
+gulp.task("find-missing-sdks", async () => {
+  try {
+    console.log(`Passed arguments: ${process.argv}`);
+
+    const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepository();
+    console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
+
+    await findMissingSdks(azureRestApiSpecsRepository);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+gulp.task("generate-ts-readme", async () => {
+  try {
+    console.log(`Passed arguments: ${process.argv}`);
+
+    const azureRestApiSpecsRepository: string = await findAzureRestApiSpecsRepository();
+    console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
+
+    const sdkPath: string = await findSdkDirectory(azureRestApiSpecsRepository);
+    console.log(`Found specification in ${sdkPath}`);
+
+    const typescriptReadmePath: string = await copyExistingNodeJsReadme(sdkPath);
+    console.log(`Copied readme file successfully`);
+
+    const newContent: string = await updateTypeScriptReadmeFile(typescriptReadmePath);
+    console.log(`Generated content of the new readme file successfully`);
+
+    await saveContentToFile(typescriptReadmePath, newContent);
+    console.log(`Content saved successfully to ${typescriptReadmePath}`);
+  }
+  catch (error) {
+    console.error(error);
+  }
 });
