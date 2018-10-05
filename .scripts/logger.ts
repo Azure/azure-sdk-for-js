@@ -12,7 +12,19 @@ export enum Color {
     Green
 }
 
- export class Logger {
+colors.setTheme({
+    positive: "green",
+    negative: "red",
+});
+
+declare global {
+    interface String {
+        positive: string;
+        negative: string;
+    }
+}
+
+export class Logger {
     private _colorsMap = {
         [Color.Red]: colors.red,
         [Color.Green]: colors.green
@@ -28,25 +40,25 @@ export enum Color {
         } else {
             console.log(text);
         }
-     }
+    }
 
-     logRed(text: string): void {
-         this.log(text, Color.Red)
-     }
+    logRed(text: string): void {
+        this.log(text, Color.Red)
+    }
 
-     logGreen(text: string): void {
+    logGreen(text: string): void {
         this.log(text, Color.Green)
     }
 
-     logVerbose(text: string, color?: Color): void {
-         if (this._options.verbose) {
-             this.log(text, color);
-         }
-     }
+    logVerbose(text: string, color?: Color): void {
+        if (this._options.verbose) {
+            this.log(text, color);
+        }
+    }
 
-     logDebug(text: string, color?: Color): void {
-         if (this._options.debug) {
-             this.log(text, color);
-         }
-     }
- }
+    logDebug(text: string, color?: Color): void {
+        if (this._options.debug) {
+            this.log(text, color);
+        }
+    }
+}
