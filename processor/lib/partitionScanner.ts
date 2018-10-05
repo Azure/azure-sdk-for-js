@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import { randomNumberFromInterval } from "@azure/amqp-common";
+import { randomNumberFromInterval } from "./util/utils";
 import { HostContextWithPumpManager } from "./hostContext";
 import { CompleteLease } from "./completeLease";
 import { BaseLease } from "./baseLease";

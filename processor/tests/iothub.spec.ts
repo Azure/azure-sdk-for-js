@@ -12,7 +12,7 @@ const debug = debugModule("azure:eph:iothub-spec");
 import {
   EventPosition, OnReceivedError, PartitionContext, EventData, OnReceivedMessage, EventProcessorHost
 } from "../lib";
-import { delay } from "@azure/amqp-common";
+import { delay } from "@azure/event-hubs";
 dotenv.config();
 
 describe("EPH with iothub connection string", function () {
