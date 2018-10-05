@@ -4,8 +4,8 @@
   "description": "StorageManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0-preview",
   "dependencies": {
-    "ms-rest-azure-js": "~0.17.165",
-    "ms-rest-js": "~0.22.434",
+    "ms-rest-azure-js": "^1.0.166",
+    "ms-rest-js": "^1.0.439",
     "tslib": "^1.9.3",
     "@azure/arm-storage-2018-03-01-preview": "^1.0.0-preview"
   },
@@ -35,7 +35,8 @@
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && uglifyjs ./dist/arm-storage.js -c -m -o ./dist/arm-storage.min.js",
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-storage.js.map'\" -o ./dist/arm-storage.min.js ./dist/arm-storage.js",
     "prepare": "npm run build"
   },
   "sideEffects": false
