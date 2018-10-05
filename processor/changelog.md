@@ -1,3 +1,10 @@
+## 2018-10-05 1.0.6
+- Remove `@azure/amqp-common` and `rhea-promise` as dependencies, since we use very little from 
+those libraries and there is a risk of having two instances of rhea in the dependency chain which 
+can cause problems while encoding types for filters.
+- `HostContext.connectionConfig` is now of type `EventHubConnectionConfig`.
+- Minimum dependency on `@azure/event-hubs: "^1.0.6"`.
+
 ## 2018-10-01 1.0.5
 - Bumping minimum version of @azure/event-hubs to "1.0.5".
 - Taking a dependency on "@azure/amqp-common" for reusing the common parts.
