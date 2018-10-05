@@ -9,9 +9,10 @@
  */
 
 export {
-  OperationListResult,
-  Operation,
-  OperationDisplay,
+  SubscriptionCreationParameters,
+  AdPrincipal,
+  SubscriptionCreationResult,
+  SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders,
   ErrorResponse
 } from "../models/mappers";
 
