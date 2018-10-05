@@ -167,6 +167,10 @@ export class BatchingReceiver extends MessageReceiver {
       const addCreditAndSetTimer = (reuse?: boolean) => {
         log.batching("[%s] Receiver '%s', adding credit for receiving %d messages.",
           this._context.namespace.connectionId, this.name, maxMessageCount);
+        // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
+        // number of messages concurrently. We will return the user an array of messages that can
+        // be of size upto maxMessageCount. Then the user needs to accordingly dispose
+        // (complete,/abandon/defer/deadletter) the messages from the array.
         this._receiver!.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
@@ -177,6 +181,9 @@ export class BatchingReceiver extends MessageReceiver {
       if (!this.isOpen()) {
         log.batching("[%s] Receiver '%s', setting max concurrent calls to 0.",
           this._context.namespace.connectionId, this.name);
+        // while creating the receiver link for batching receiver the max concurrent calls
+        // i.e. the credit_window on the link is set to zero. After the link is created
+        // successfully, we add credit which is the maxMessageCount specified by the user.
         this.maxConcurrentCalls = 0;
         const rcvrOptions = this._createReceiverOptions({
           onMessage: onReceiveMessage,

@@ -118,7 +118,7 @@ export class MessageReceiver extends LinkEntity {
    * inside _onAmqpMessage.
    * @protected
    */
-  protected _onMessage?: OnMessage;
+  protected _onMessage!: OnMessage;
   /**
    * @property {OnMessage} _onMessage The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
@@ -163,7 +163,6 @@ export class MessageReceiver extends LinkEntity {
     });
     if (!options) options = {};
     this.receiverType = receiverType;
-
     this.maxConcurrentCalls = options.maxConcurrentCalls != undefined ?
       options.maxConcurrentCalls : 1;
     this.autoComplete = !!options.autoComplete;
@@ -173,7 +172,7 @@ export class MessageReceiver extends LinkEntity {
       const bMessage: Message = new Message(context.message!, context.delivery!);
       try {
         bMessage.body = this._context.namespace.dataTransformer.decode(context.message!.body);
-        await this._onMessage!(bMessage);
+        await this._onMessage(bMessage);
         if (this.autoComplete) {
           log[this.receiverType]("[%s] Auto completing the message with id '%s' on the receiver '%s'.",
             connectionId, bMessage.messageId, this.name);

@@ -96,6 +96,13 @@ export interface MessageHandlerOptions {
    * or while messages are received using receiveBatch(). Default: true.
    */
   autoComplete?: boolean;
+  /**
+   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
+   * processed concurrently while in peek lock mode. Once this limit has been reached, more
+   * messages will not be received until messages currently being processed have been settled.
+   * Default: 1
+   */
+  maxConcurrentCalls?: number;
 }
 
 /**
@@ -128,7 +135,7 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {OnMessage} onMessage The message handler to receive event data objects.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
    */
-  receive(onMessage: OnMessage, onError: OnError): void {
+  receive(onMessage: OnMessage, onError: OnError): ReceiveHandler {
     if (!onMessage || typeof onMessage !== "function") {
       throw new Error("'onMessage' is a required parameter and must be of type 'function'.");
     }
@@ -156,6 +163,7 @@ export class StreamingReceiver extends MessageReceiver {
         "providing a credit of the same amount.",
         this._context.namespace.connectionId, this.name);
     }
+    return this.receiveHandler;
   }
 
   /**

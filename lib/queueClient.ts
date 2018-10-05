@@ -22,13 +22,6 @@ export interface QueueClientOptions {
    * Default: ReceiveMode.peekLock
    */
   receiveMode?: ReceiveMode;
-  /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
-   * processed concurrently while in peek lock mode. Once this limit has been reached, more
-   * messages will not be received until messages currently being processed have been settled.
-   * Default: 1
-   */
-  maxConcurrentCalls?: number;
 }
 
 export class QueueClient extends Client {
@@ -37,12 +30,6 @@ export class QueueClient extends Client {
    * Default: ReceiveMode.peekLock
    */
   receiveMode: ReceiveMode;
-  /**
-   * @property {number} maxConcurrentCalls The maximum number of messages that should be
-   * processed concurrently while in peek lock mode. Once this limit has been reached, more
-   * messages will not be received until messages currently being processed have been settled.
-   */
-  maxConcurrentCalls: number;
 
   /**
    * Instantiates a client pointing to the ServiceBus Queue given by this configuration.
@@ -56,7 +43,6 @@ export class QueueClient extends Client {
     super(name, context);
     if (!options) options = {};
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
-    this.maxConcurrentCalls = options.maxConcurrentCalls != undefined ? options.maxConcurrentCalls : 1;
   }
 
   /**
@@ -126,14 +112,13 @@ export class QueueClient extends Client {
     if (!this._context.streamingReceiver || !this._context.streamingReceiver.isOpen()) {
       if (!options) options = {};
       const rcvOptions: ReceiveOptions = {
-        maxConcurrentCalls: this.maxConcurrentCalls,
+        maxConcurrentCalls: options.maxConcurrentCalls || 1,
         receiveMode: this.receiveMode,
         autoComplete: options.autoComplete
       };
       const sReceiver = StreamingReceiver.create(this._context, rcvOptions);
       this._context.streamingReceiver = sReceiver;
-      sReceiver.receive(onMessage, onError);
-      return new ReceiveHandler(sReceiver);
+      return sReceiver.receive(onMessage, onError);
     } else {
       const rcvr = this._context.streamingReceiver;
       const msg = `A "${rcvr.receiverType}" receiver with id "${rcvr.name}" has already been ` +

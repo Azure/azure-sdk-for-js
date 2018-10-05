@@ -12,34 +12,18 @@ console.log("path: ", path);
 let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
-  const client = ns.createQueueClient(path, { receiveMode: ReceiveMode.peekLock, maxConcurrentCalls: 1 });
+  const client = ns.createQueueClient(path, { receiveMode: ReceiveMode.peekLock });
   const onMessage: OnMessage = async (brokeredMessage: Message) => {
     console.log(">>> Message: ", brokeredMessage);
     console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
-    if (brokeredMessage.body.toString() === "Hello sb world!!") {
-      // console.log(">>>> Calling complete....");
-      // brokeredMessage.complete();
-      // console.log("???????????????????????????????????????????? completed the message....");
-      //brokeredMessage.abandon();
-      console.log("???????????????????????????????????????????? abandoned the message....");
-      // brokeredMessage.defer();
-      // console.log("???????????????????????????????????????????? defered the message....");
-    } else {
-      brokeredMessage.complete();
-    }
+    brokeredMessage.complete();
   }
   const onError: OnError = (err: MessagingError | Error) => {
     console.log(">>>>> Error occurred: ", err);
   };
-  //console.log(onMessage, onError);
-  client.receive(onMessage, onError, { autoComplete: true });
-  // const msgs = await client.receiveBatch(10);
-  // console.log(msgs);
-  // giving some time for receiver setup to complete. This will make sure that the receiver can receive the newly sent
-  // message from now onwards.
-  await delay(30000);
-  // Giving enough time for the receiver to receive the message...
-  //await rcvrHandler.stop();
+  const rcvHandler = client.receive(onMessage, onError, { autoComplete: true });
+  await delay(5000);
+  await rcvHandler.stop();
 }
 
 main().then(() => {

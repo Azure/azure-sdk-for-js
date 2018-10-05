@@ -14,8 +14,6 @@ async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path);
   await client.send({ body: "Hello sb world!!" });
-  // await client.send({ body: "Hello awesome world!!2" + new Date().toString() });
-  // await client.send({ body: "Hello awesome world!!3" + new Date().toString() });
   console.log("***********Created sender and sent the message...");
 }
 
