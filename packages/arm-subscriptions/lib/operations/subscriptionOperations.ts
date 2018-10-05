@@ -10,16 +10,16 @@
 
 import * as msRest from "ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/operationsMappers";
+import * as Mappers from "../models/subscriptionOperationsMappers";
 import * as Parameters from "../models/parameters";
 import { SubscriptionClientContext } from "../subscriptionClientContext";
 
-/** Class representing a Operations. */
-export class Operations {
+/** Class representing a SubscriptionOperations. */
+export class SubscriptionOperations {
   private readonly client: SubscriptionClientContext;
 
   /**
-   * Create a Operations.
+   * Create a SubscriptionOperations.
    * @param {SubscriptionClientContext} client Reference to the service client.
    */
   constructor(client: SubscriptionClientContext) {
@@ -27,27 +27,27 @@ export class Operations {
   }
 
   /**
-   * Lists all of the available Microsoft.Subscription API operations.
+   * Lists all of the available pending Microsoft.Subscription API operations.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListResponse>
+   * @returns Promise<Models.SubscriptionOperationsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionOperationsListResponse>;
   /**
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  list(callback: msRest.ServiceCallback<Models.SubscriptionOperationListResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SubscriptionOperationListResult>): void;
+  list(options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.SubscriptionOperationListResult>): Promise<Models.SubscriptionOperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OperationsListResponse>;
+      callback) as Promise<Models.SubscriptionOperationsListResponse>;
   }
 }
 
@@ -55,7 +55,7 @@ export class Operations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Subscription/operations",
+  path: "providers/Microsoft.Subscription/subscriptionOperations",
   queryParameters: [
     Parameters.apiVersion0
   ],
@@ -64,7 +64,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.SubscriptionOperationListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

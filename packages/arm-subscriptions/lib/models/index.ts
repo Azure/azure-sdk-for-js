@@ -16,6 +16,180 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing SubscriptionCreationResult.
+ * The created subscription object.
+ *
+ */
+export interface SubscriptionCreationResult {
+  /**
+   * @member {string} [subscriptionLink] The link to the new subscription.
+   */
+  subscriptionLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AdPrincipal.
+ * Active Directory Principal for subscription creation delegated permission
+ *
+ */
+export interface AdPrincipal {
+  /**
+   * @member {string} objectId Object id of the Principal
+   */
+  objectId: string;
+}
+
+/**
+ * @interface
+ * An interface representing SubscriptionCreationParameters.
+ * Subscription Creation Parameters required to create a new Azure
+ * subscription.
+ *
+ */
+export interface SubscriptionCreationParameters {
+  /**
+   * @member {string} [displayName] The display name of the subscription.
+   */
+  displayName?: string;
+  /**
+   * @member {AdPrincipal[]} [owners] The list of principals that should be
+   * granted Owner access on the subscription. Principals should be of type
+   * User, Service Principal or Security Group.
+   */
+  owners?: AdPrincipal[];
+  /**
+   * @member {OfferType} [offerType] The offer type of the subscription. For
+   * example, MS-AZR-0017P (EnterpriseAgreement) and MS-AZR-0148P
+   * (EnterpriseAgreement devTest) are available. Only valid when creating a
+   * subscription in a enrollment account scope. Possible values include:
+   * 'MS-AZR-0017P', 'MS-AZR-0148P'
+   */
+  offerType?: OfferType;
+  /**
+   * @member {{ [propertyName: string]: any }} [additionalParameters]
+   * Additional, untyped parameters to support custom subscription creation
+   * scenarios.
+   */
+  additionalParameters?: { [propertyName: string]: any };
+}
+
+/**
+ * @interface
+ * An interface representing ErrorResponse.
+ * Describes the format of Error response.
+ *
+ */
+export interface ErrorResponse {
+  /**
+   * @member {string} [code] Error code
+   */
+  code?: string;
+  /**
+   * @member {string} [message] Error message indicating why the operation
+   * failed.
+   */
+  message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SubscriptionOperation.
+ * status of the subscription POST operation.
+ *
+ */
+export interface SubscriptionOperation {
+  /**
+   * @member {string} [id] The operation Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly id?: string;
+  /**
+   * @member {string} [status] Status of the pending subscription
+   */
+  status?: string;
+  /**
+   * @member {string} [statusDetail] Status Detail of the pending subscription
+   */
+  statusDetail?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SubscriptionOperationListResult.
+ * A list of pending subscription operations.
+ *
+ */
+export interface SubscriptionOperationListResult {
+  /**
+   * @member {SubscriptionOperation[]} [value] A list of pending
+   * SubscriptionOperations
+   */
+  value?: SubscriptionOperation[];
+}
+
+/**
+ * @interface
+ * An interface representing OperationDisplay.
+ * The object that represents the operation.
+ *
+ */
+export interface OperationDisplay {
+  /**
+   * @member {string} [provider] Service provider: Microsoft.Subscription
+   */
+  provider?: string;
+  /**
+   * @member {string} [resource] Resource on which the operation is performed:
+   * Profile, endpoint, etc.
+   */
+  resource?: string;
+  /**
+   * @member {string} [operation] Operation type: Read, write, delete, etc.
+   */
+  operation?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Operation.
+ * REST API operation
+ *
+ */
+export interface Operation {
+  /**
+   * @member {string} [name] Operation name: {provider}/{resource}/{operation}
+   */
+  name?: string;
+  /**
+   * @member {OperationDisplay} [display] The object that represents the
+   * operation.
+   */
+  display?: OperationDisplay;
+}
+
+/**
+ * @interface
+ * An interface representing OperationListResult.
+ * Result of the request to list operations. It contains a list of operations
+ * and a URL link to get the next set of results.
+ *
+ */
+export interface OperationListResult {
+  /**
+   * @member {Operation[]} [value] List of operations.
+   */
+  value?: Operation[];
+  /**
+   * @member {string} [nextLink] URL to get the next set of operation list
+   * results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing Location.
  * Location information.
  *
@@ -163,50 +337,6 @@ export interface TenantIdDescription {
 
 /**
  * @interface
- * An interface representing OperationDisplay.
- * The object that represents the operation.
- *
- */
-export interface OperationDisplay {
-  /**
-   * @member {string} [provider] Service provider: Microsoft.Resources
-   */
-  provider?: string;
-  /**
-   * @member {string} [resource] Resource on which the operation is performed:
-   * Profile, endpoint, etc.
-   */
-  resource?: string;
-  /**
-   * @member {string} [operation] Operation type: Read, write, delete, etc.
-   */
-  operation?: string;
-  /**
-   * @member {string} [description] Description of the operation.
-   */
-  description?: string;
-}
-
-/**
- * @interface
- * An interface representing Operation.
- * Microsoft.Resources operation
- *
- */
-export interface Operation {
-  /**
-   * @member {string} [name] Operation name: {provider}/{resource}/{operation}
-   */
-  name?: string;
-  /**
-   * @member {OperationDisplay} [display] The object that represents the
-   * operation.
-   */
-  display?: OperationDisplay;
-}
-
-/**
- * @interface
  * An interface representing SubscriptionClientOptions.
  * @extends AzureServiceClientOptions
  */
@@ -217,22 +347,25 @@ export interface SubscriptionClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
 }
 
-
 /**
  * @interface
- * An interface representing the OperationListResult.
- * Result of the request to list Microsoft.Resources operations. It contains a
- * list of operations and a URL link to get the next set of results.
+ * An interface representing SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders.
+ * Defines headers for CreateSubscriptionInEnrollmentAccount operation.
  *
- * @extends Array<Operation>
  */
-export interface OperationListResult extends Array<Operation> {
+export interface SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders {
   /**
-   * @member {string} [nextLink] URL to get the next set of operation list
-   * results if there are any.
+   * @member {string} [location] GET this URL to retrieve the status of the
+   * asynchronous operation.
    */
-  nextLink?: string;
+  location: string;
+  /**
+   * @member {string} [retryAfter] The amount of delay to use while the status
+   * of the operation is checked. The value is expressed in seconds.
+   */
+  retryAfter: string;
 }
+
 
 /**
  * @interface
@@ -271,6 +404,21 @@ export interface TenantListResult extends Array<TenantIdDescription> {
    * results.
    */
   nextLink: string;
+}
+
+/**
+ * Defines values for OfferType.
+ * Possible values include: 'MS-AZR-0017P', 'MS-AZR-0148P'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OfferType = <OfferType>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum OfferType {
+  MSAZR0017P = 'MS-AZR-0017P',
+  MSAZR0148P = 'MS-AZR-0148P',
 }
 
 /**
@@ -320,9 +468,9 @@ export type OperationsListResponse = OperationListResult & {
 };
 
 /**
- * Contains response data for the listNext operation.
+ * Contains response data for the list operation.
  */
-export type OperationsListNextResponse = OperationListResult & {
+export type SubscriptionOperationsListResponse = SubscriptionOperationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -334,7 +482,30 @@ export type OperationsListNextResponse = OperationListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationListResult;
+      parsedBody: SubscriptionOperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the createSubscriptionInEnrollmentAccount operation.
+ */
+export type SubscriptionFactoryCreateSubscriptionInEnrollmentAccountResponse = SubscriptionCreationResult & SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SubscriptionCreationResult;
     };
 };
 
