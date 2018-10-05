@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+import { Dictionary } from "@azure/event-hubs";
 import { createBlobService, BlobService as StorageBlobService, ServiceResponse } from "azure-storage";
 import * as log from "./log";
 import { validateType, getStorageError } from "./util/utils";
 import { defaultMaximumExecutionTimeInMs } from "./util/constants";
-import { Dictionary } from "@azure/amqp-common";
 const path = require("path-browserify");
 /**
  * @ignore

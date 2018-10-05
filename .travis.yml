@@ -1,11 +1,12 @@
 language: node_js
 
 node_js:
+  - "6"
   - "8"
   - "10"
 
-before_install:
-  - cd client
-
+env:
+  - TEST_DIR=client
+  - TEST_DIR=processor
 script:
-  - npm test
+  - cd $TEST_DIR && npm install && npm test
