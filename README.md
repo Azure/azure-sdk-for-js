@@ -55,7 +55,7 @@ export DEBUG=azure:service-bus:error,azure-amqp-common:error,rhea-promise:error,
 
 ## Examples ##
 
-Please take a look at the [examples](https://github.com/Azure/azure-service-bus-node/tree/master/client/examples) directory for detailed examples.
+Please take a look at the [examples](https://github.com/Azure/azure-service-bus-node/tree/master/examples) directory for detailed examples.
 
 ## AMQP Dependencies ##
 It depends on [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
