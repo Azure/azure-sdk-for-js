@@ -5,7 +5,7 @@
  */
 
 import * as colors from "colors";
-import { CommandLineOptions } from "./commandLineOptions";
+import { CommandLineOptions } from "./commandLine";
 
 export enum Color {
     Red,

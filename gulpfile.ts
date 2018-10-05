@@ -11,7 +11,7 @@ import * as gulp from "gulp";
 import * as path from "path";
 import minimist = require("minimist");
 import { argv } from "yargs";
-import { CommandLineOptions, commandLineConfiguration, getSdkType } from "./.scripts/commandLineOptions";
+import { CommandLineOptions, commandLineConfiguration, getSdkType } from "./.scripts/commandLine";
 import { findAzureRestApiSpecsRepository, findMissingSdks } from "./.scripts/generateSdks";
 import { Logger } from "./.scripts/logger";
 import { generateTsReadme } from "./.scripts/gulp";

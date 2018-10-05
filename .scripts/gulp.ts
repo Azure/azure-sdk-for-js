@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { SdkType } from "./commandLineOptions";
+import { SdkType } from "./commandLine";
 import { findAzureRestApiSpecsRepository, findSdkDirectory, saveContentToFile } from "./generateSdks";
 import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile } from "./readme";
 

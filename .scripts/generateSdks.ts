@@ -6,12 +6,10 @@
 
 import { promises as fs } from "fs";
 import * as path from "path";
-import { SdkType } from "./commandLineOptions";
+import { SdkType } from "./commandLine";
 import { pathExists, isDirectory, arrayContains } from "./common";
 import { logger } from "../gulpfile";
 import { doesReadmeMdFileSpecifiesTypescriptSdk } from "./readme";
-
-
 
 const repositoryName = "azure-rest-api-specs";
 const specificationsSegment = "specification";
