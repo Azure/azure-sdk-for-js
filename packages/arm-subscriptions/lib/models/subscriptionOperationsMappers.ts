@@ -9,9 +9,8 @@
  */
 
 export {
-  OperationListResult,
-  Operation,
-  OperationDisplay,
+  SubscriptionOperationListResult,
+  SubscriptionOperation,
   ErrorResponse
 } from "../models/mappers";
 

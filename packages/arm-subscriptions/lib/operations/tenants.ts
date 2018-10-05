@@ -85,7 +85,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "tenants",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
