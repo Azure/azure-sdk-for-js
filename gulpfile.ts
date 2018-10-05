@@ -52,8 +52,20 @@ function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFil
   return readmeTypeScriptMdFileContents.match(/output-folder: (\S*)/)[1];
 }
 
+function execute(command: string, packageFolderPath: string): void {
+  if (!fs.existsSync(packageFolderPath)) {
+    log(packageFolderPath, "Folder not found.");
+  } else {
+    execSync(command, { cwd: packageFolderPath, stdio: "inherit" });
+  }
+}
+
+function npmRunBuild(packageFolderPath: string): void {
+  execute("npm run build", packageFolderPath);
+}
+
 function npmInstall(packageFolderPath: string): void {
-  execSync(`npm install`, { cwd: packageFolderPath, stdio: ['ignore', 'ignore', 'pipe'] });
+  execute("npm install", packageFolderPath);
 }
 
 function getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents: string): string {
@@ -74,7 +86,46 @@ function contains(values: string[], searchString: string): boolean {
   return values.indexOf(searchString) !== -1;
 }
 
+function getPackgeFolderPathFromPackageArgument(packageArgument: string | undefined): string | undefined {
+  let packageFolderPath: string | undefined;
+
+  if (!packageArg) {
+    console.log(`No --package specified.`);
+  } else {
+    const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
+
+    let foundPackage = false;
+
+    for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
+      const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
+
+      const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
+      const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
+      
+      if (contains(packageNames, packageArg)) {
+        foundPackage = true;
+
+        packageFolderPath = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
+      }
+    }
+
+    if (!foundPackage) {
+      console.log(`No package found with the name "${packageArg}".`);
+    }
+  }
+
+  return packageFolderPath;
+}
+
+function log(path: string, message: string): void {
+  console.log(`[${path}]> ${message}`);
+}
+
 gulp.task('default', () => {
+  console.log('gulp build --package <package-name>');
+  console.log('  --package');
+  console.log('    NPM package to run "npm run build" on.');
+  console.log();
   console.log('gulp install --package <package name>');
   console.log('  --package');
   console.log('    NPM package to run "npm install" on.');
@@ -95,31 +146,18 @@ gulp.task('default', () => {
 });
 
 gulp.task("install", () => {
-  if (!packageArg) {
-    console.log(`No --package specified to run "npm install" on.`);
-  } else {
-    const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
+  const packageFolderPath: string | undefined = getPackgeFolderPathFromPackageArgument(packageArg);
+  if (packageFolderPath) {
+    log(packageFolderPath, "npm install");
+    npmInstall(packageFolderPath);
+  }
+});
 
-    let foundPackage = false;
-
-    for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
-      const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
-
-      const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
-      const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-      
-      if (contains(packageNames, packageArg)) {
-        foundPackage = true;
-
-        const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
-        console.log(`[${packageFolderPath}]> npm install`);
-        npmInstall(packageFolderPath);
-      }
-    }
-
-    if (!foundPackage) {
-      console.log(`No package found with the name "${packageArg}".`);
-    }
+gulp.task("build", () => {
+  const packageFolderPath: string | undefined = getPackgeFolderPathFromPackageArgument(packageArg);
+  if (packageFolderPath) {
+    log(packageFolderPath, "npm run build");
+    npmRunBuild(packageFolderPath);
   }
 });
 
