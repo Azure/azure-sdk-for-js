@@ -7,7 +7,7 @@
   "main": "./dist/lib/index.js",
   "types": "./typings/lib/index.d.ts",
   "dependencies": {
-    "@azure/amqp-common": "azure/amqp-common-js",
+    "@azure/amqp-common": "^0.1.4",
     "debug": "^3.1.0",
     "is-buffer": "2.0.2",
     "ms-rest-azure": "^2.5.9",
