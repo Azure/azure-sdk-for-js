@@ -91,9 +91,71 @@ gulp.task("build", () => {
   }
 });
 
+function containsPackageName(packageNames: string[], packageName: string): boolean {
+  return contains(packageNames, packageName) ||
+    contains(packageNames, `@azure/${packageName}`) ||
+    contains(packageNames, `"${packageName}"`) ||
+    contains(packageNames, `"@azure/${packageName}"`) ||
+    contains(packageNames, `'${packageName}'`) ||
+    contains(packageNames, `'@azure/${packageName}'`);
+}
+
 // This task is used to generate libraries based on the mappings specified above.
 gulp.task('codegen', () => {
+<<<<<<< HEAD
   generateSdk(azureRestAPISpecsRoot, azureSDKForJSRepoRoot, args.package);
+=======
+  const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
+
+  for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
+    const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
+
+    const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
+    const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
+    const packageNamesString: string = JSON.stringify(packageNames);
+    // console.log(`In "${typeScriptReadmeFilePath}", found package names "${packageNamesString}".`);
+
+    if (!packageArg || containsPackageName(packageNames, packageArg)) {
+      console.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
+
+      const readmeFilePath: string = path.resolve(path.dirname(typeScriptReadmeFilePath), 'readme.md');
+
+      let cmd = `autorest --typescript --typescript-sdks-folder=${azureSDKForJSRepoRoot} --license-header=MICROSOFT_MIT_NO_VERSION ${readmeFilePath}`;
+      if (use) {
+        cmd += ` --use=${use}`;
+      }
+      else {
+        const localAutorestTypeScriptFolderPath = path.resolve(azureSDKForJSRepoRoot, '..', 'autorest.typescript');
+        if (fs.existsSync(localAutorestTypeScriptFolderPath) && fs.lstatSync(localAutorestTypeScriptFolderPath).isDirectory()) {
+          cmd += ` --use=${localAutorestTypeScriptFolderPath}`;
+        }
+      }
+
+      if (useDebugger) {
+        cmd += ` --typescript.debugger`;
+      }
+
+      try {
+        console.log('Executing command:');
+        console.log('------------------------------------------------------------');
+        console.log(cmd);
+        console.log('------------------------------------------------------------');
+
+        execSync(cmd, { encoding: "utf8", stdio: "inherit" });
+
+        console.log('Installing dependencies...');
+        const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
+        npmInstall(packageFolderPath);
+      } catch (err) {
+        console.log('Error:');
+        console.log(`An error occurred while generating client for packages: "${packageNamesString}":\n Stderr: "${err.stderr}"`);
+      }
+
+      console.log(`>>>>>>>>>>>>>>>>>>> End: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
+      console.log();
+    }
+  }
+>>>>>>> origin
 });
 
 gulp.task('publish', () => {

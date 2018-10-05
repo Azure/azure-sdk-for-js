@@ -15,6 +15,15 @@ import { getLogger } from "./logger";
 
 const logger = getLogger();
 
+function containsPackageName(packageNames: string[], packageName: string): boolean {
+    return contains(packageNames, packageName) ||
+      contains(packageNames, `@azure/${packageName}`) ||
+      contains(packageNames, `"${packageName}"`) ||
+      contains(packageNames, `"@azure/${packageName}"`) ||
+      contains(packageNames, `'${packageName}'`) ||
+      contains(packageNames, `'@azure/${packageName}'`);
+}
+
 export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRepoRoot: string, packageName: string, use?: boolean, useDebugger?: boolean) {
     const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
 
@@ -26,7 +35,7 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
         const packageNamesString: string = JSON.stringify(packageNames);
         logger.logVerbose(`In "${typeScriptReadmeFilePath}", found package names "${packageNamesString}".`.debug);
 
-        if (packageName || contains(packageNames, packageName)) {
+        if (packageName || containsPackageName(packageNames, packageName)) {
             console.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
 
             const readmeFilePath: string = path.resolve(path.dirname(typeScriptReadmeFilePath), 'readme.md');
