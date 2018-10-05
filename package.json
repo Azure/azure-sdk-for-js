@@ -33,6 +33,7 @@
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
     "rhea-promise": "^0.1.6",
+    "rimraf": "^2.6.2",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.0.3"
@@ -40,6 +41,7 @@
   "scripts": {
     "tslint": "tslint -p . -c tslint.json --exclude examples/**/*.ts --exclude tests/**/*.ts",
     "tsc": "tsc",
+    "prebuild": "rimraf dist && rimraf typings",
     "build": "npm run tslint && npm run tsc",
     "test": "npm run build && npm run unit",
     "unit": "nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 ./tests/**/*.spec.ts",
