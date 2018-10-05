@@ -8,7 +8,7 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import { SdkType } from "./commandLine";
 import { pathExists, isDirectory, arrayContains } from "./common";
-import { logger } from "../gulpfile";
+import { logger } from "./logger";
 import { doesReadmeMdFileSpecifiesTypescriptSdk } from "./readme";
 
 const repositoryName = "azure-rest-api-specs";

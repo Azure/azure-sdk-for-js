@@ -4,84 +4,22 @@
  * license information.
  */
 
-import { execSync } from "child_process";
+import { getCommandLineOptions } from "./.scripts/commandLine";
+import { contains, endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
+import { findAzureRestApiSpecsRepository, findMissingSdks } from "./.scripts/generateSdks";
+import { generateTsReadme } from "./.scripts/gulp";
+import { getPackageNamesFromReadmeTypeScriptMdFileContents, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents } from "./.scripts/readme";
+import { logger } from "./.scripts/logger";
 import * as fs from "fs";
-import * as glob from "glob";
 import * as gulp from "gulp";
 import * as path from "path";
-import minimist = require("minimist");
-import { argv } from "yargs";
-import { CommandLineOptions, commandLineConfiguration, getSdkType } from "./.scripts/commandLine";
-import { findAzureRestApiSpecsRepository, findMissingSdks } from "./.scripts/generateSdks";
-import { Logger } from "./.scripts/logger";
-import { generateTsReadme } from "./.scripts/gulp";
-import { startsWith, contains, endsWith } from "./.scripts/common";
+import { execSync } from "child_process";
 
+const args = getCommandLineOptions();
 const azureSDKForJSRepoRoot: string = __dirname;
-const azureRestAPISpecsRoot: string = argv['azure-rest-api-specs-root'] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
+const azureRestAPISpecsRoot: string = args["azure-rest-api-specs-root"] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
 
-const args = minimist(process.argv.slice(2), commandLineConfiguration) as CommandLineOptions;
-args.getSdkType = getSdkType;
-
-export const logger = new Logger(args);
-
-function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot: string): string[] {
-  // console.log(`Looking for "readme.typescript.md" files in "${azureRestAPISpecsRoot}"...`);
-  const specificationFolderPath: string = path.resolve(azureRestAPISpecsRoot, 'specification');
-  const readmeTypeScriptMdFilePaths: string[] = glob.sync('**/readme.typescript.md', { absolute: true, cwd: specificationFolderPath });
-  if (readmeTypeScriptMdFilePaths) {
-    for (let i = 0; i < readmeTypeScriptMdFilePaths.length; ++i) {
-      const readmeTypeScriptMdFilePath: string = readmeTypeScriptMdFilePaths[i];
-      // console.log(`  Found "${readmeTypeScriptMdFilePath}".`);
-      if (readmeTypeScriptMdFilePath && !startsWith(readmeTypeScriptMdFilePath, specificationFolderPath)) {
-        const resolvedReadmeTypeScriptMdFilePath: string = path.resolve(specificationFolderPath, readmeTypeScriptMdFilePath);
-        // console.log(`    Updating to "${resolvedReadmeTypeScriptMdFilePath}".`);
-        readmeTypeScriptMdFilePaths[i] = resolvedReadmeTypeScriptMdFilePath;
-      }
-    }
-  }
-  return readmeTypeScriptMdFilePaths;
-}
-
-function getPackageNamesFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string[] {
-  const packageNamePattern: RegExp = /package-name: (\S*)/g;
-  const matches: string[] = readmeTypeScriptMdFileContents.match(packageNamePattern) || [];
-  // console.log(`"package-name" matches: ${JSON.stringify(matches)}`);
-  for (let i = 0; i < matches.length; ++i) {
-    matches[i] = matches[i].substring("package-name: ".length);
-  }
-  // console.log(`"package-name" matches trimmed: ${JSON.stringify(matches)}`);
-  return matches;
-}
-
-function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string {
-  return readmeTypeScriptMdFileContents.match(/output-folder: (\S*)/)[1];
-}
-
-function execute(command: string, packageFolderPath: string): void {
-  if (!fs.existsSync(packageFolderPath)) {
-    log(packageFolderPath, "Folder not found.");
-  } else {
-    execSync(command, { cwd: packageFolderPath, stdio: "inherit" });
-  }
-}
-
-function npmRunBuild(packageFolderPath: string): void {
-  execute("npm run build", packageFolderPath);
-}
-
-function npmInstall(packageFolderPath: string): void {
-  execute("npm install", packageFolderPath);
-}
-
-function getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents: string): string {
-  const outputFolderPath: string = getOutputFolderFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-  const outputFolderPathRelativeToAzureSDKForJSRepoRoot: string = outputFolderPath.substring('$(typescript-sdks-folder)/'.length);
-  return path.resolve(azureSDKForJSRepoRoot, outputFolderPathRelativeToAzureSDKForJSRepoRoot);
-}
-
-
-function getPackgeFolderPathFromPackageArgument(): string | undefined {
+function getPackageFolderPathFromPackageArgument(): string | undefined {
   let packageFolderPath: string | undefined;
 
   if (!args.package) {
@@ -100,7 +38,7 @@ function getPackgeFolderPathFromPackageArgument(): string | undefined {
       if (contains(packageNames, args.package)) {
         foundPackage = true;
 
-        packageFolderPath = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
+        packageFolderPath = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
       }
     }
 
@@ -110,10 +48,6 @@ function getPackgeFolderPathFromPackageArgument(): string | undefined {
   }
 
   return packageFolderPath;
-}
-
-function log(path: string, message: string): void {
-  console.log(`[${path}]> ${message}`);
 }
 
 gulp.task('default', () => {
@@ -141,17 +75,17 @@ gulp.task('default', () => {
 });
 
 gulp.task("install", () => {
-  const packageFolderPath: string | undefined = getPackgeFolderPathFromPackageArgument();
+  const packageFolderPath: string | undefined = getPackageFolderPathFromPackageArgument();
   if (packageFolderPath) {
-    log(packageFolderPath, "npm install");
+    logger.logWithPath(packageFolderPath, "npm install");
     npmInstall(packageFolderPath);
   }
 });
 
 gulp.task("build", () => {
-  const packageFolderPath: string | undefined = getPackgeFolderPathFromPackageArgument();
+  const packageFolderPath: string | undefined = getPackageFolderPathFromPackageArgument();
   if (packageFolderPath) {
-    log(packageFolderPath, "npm run build");
+    logger.logWithPath(packageFolderPath, "npm run build");
     npmRunBuild(packageFolderPath);
   }
 });
@@ -197,7 +131,7 @@ gulp.task('codegen', () => {
         execSync(cmd, { encoding: "utf8", stdio: "inherit" });
 
         console.log('Installing dependencies...');
-        const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
+        const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
         npmInstall(packageFolderPath);
       } catch (err) {
         console.log('Error:');
@@ -223,7 +157,7 @@ gulp.task('publish', () => {
     // console.log(`INFO: Processing ${typeScriptReadmeFilePath}`);
 
     const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
-    const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
+    const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
     if (!fs.existsSync(packageFolderPath)) {
       console.log(`ERROR: Package folder ${packageFolderPath} has not been generated.`);
       errorPackages++;

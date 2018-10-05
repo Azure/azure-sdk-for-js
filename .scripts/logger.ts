@@ -5,7 +5,7 @@
  */
 
 import * as colors from "colors";
-import { CommandLineOptions } from "./commandLine";
+import { CommandLineOptions, getCommandLineOptions } from "./commandLine";
 
 export enum Color {
     Red,
@@ -15,12 +15,14 @@ export enum Color {
 colors.setTheme({
     positive: "green",
     negative: "red",
+    debug: "bgCyan",
 });
 
 declare global {
     interface String {
         positive: string;
         negative: string;
+        debug: string;
     }
 }
 
@@ -56,9 +58,9 @@ export class Logger {
         }
     }
 
-    logDebug(text: string, color?: Color): void {
-        if (this._options.debug) {
-            this.log(text, color);
-        }
+    logWithPath(path: string, message: string): void {
+        console.log(`[${path}]> ${message}`);
     }
 }
+
+export const logger = new Logger(getCommandLineOptions());

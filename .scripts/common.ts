@@ -6,6 +6,8 @@
 
 import * as fssync from "fs";
 import { promises as fs } from "fs";
+import { execSync } from "child_process";
+import { logger } from "./logger";
 
 export function arrayContains<T>(array: T[], el: T): boolean {
     return array.indexOf(el) != -1
@@ -33,5 +35,21 @@ export function endsWith(value: string, suffix: string): boolean {
 }
 
 export function contains(values: string[], searchString: string): boolean {
-    return values.indexOf(searchString) !== -1;
+    return arrayContains(values, searchString);
+}
+
+export function execute(command: string, packageFolderPath: string): void {
+    if (!fssync.existsSync(packageFolderPath)) {
+        logger.logWithPath(packageFolderPath, "Folder not found.");
+    } else {
+        execSync(command, { cwd: packageFolderPath, stdio: "inherit" });
+    }
+}
+
+export function npmRunBuild(packageFolderPath: string): void {
+    execute("npm run build", packageFolderPath);
+}
+
+export function npmInstall(packageFolderPath: string): void {
+    execute("npm install", packageFolderPath);
 }

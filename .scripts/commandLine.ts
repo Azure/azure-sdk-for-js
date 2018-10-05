@@ -8,6 +8,7 @@ import * as minimist from "minimist";
 import { arrayContains } from "./common";
 
 export interface CommandLineOptions extends minimist.ParsedArgs {
+    "azure-rest-api-specs-root": string;
     b: boolean,
     debugger: boolean,
     package: string,
@@ -19,7 +20,7 @@ export interface CommandLineOptions extends minimist.ParsedArgs {
 }
 
 export const commandLineConfiguration = {
-    string: ["package", "type"],
+    string: ["'azure-rest-api-specs-root", "package", "type"],
     boolean: ["debugger", "use", "verbose", "whatif"],
     alias: {
         package: "packageName",
@@ -34,6 +35,21 @@ export const commandLineConfiguration = {
 export enum SdkType {
     ResourceManager,
     DataPlane
+}
+
+let _options: CommandLineOptions;
+export function getCommandLineOptions() {
+    if (!_options) {
+        _options = createCommandLineParameters();
+    }
+
+    return _options;
+}
+
+export function createCommandLineParameters() {
+    const args = minimist(process.argv.slice(2), commandLineConfiguration) as CommandLineOptions;
+    args.getSdkType = getSdkType;
+    return args;
 }
 
 export function getSdkType() {

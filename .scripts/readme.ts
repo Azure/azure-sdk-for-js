@@ -4,11 +4,12 @@
  * license information.
  */
 
+import { logger } from "./logger";
+import { pathExists, startsWith } from "./common";
 import { promises as fs } from "fs";
+import * as glob from "glob";
 import * as path from "path";
 import * as yaml from "js-yaml";
-import { pathExists } from "./common";
-import { logger } from "../gulpfile";
 
 interface ReadmeSettings {
     "nodejs": {
@@ -89,7 +90,7 @@ async function updateYamlSection(sectionText: string): Promise<string> {
     const section = yaml.safeLoad(sectionText);
     await updatePackageName(section);
     await updateMetadataFields(section);
-     await updateOutputFolder(section);
+    await updateOutputFolder(section);
     section["typescript"] = section.nodejs;
     delete section.nodejs;
 
@@ -114,4 +115,47 @@ export async function updateTypeScriptReadmeFile(typescriptReadmePath: string): 
     outputReadme = outputReadme.replace("node", "typescript");
 
     return outputReadme;
+}
+
+export function getPackageNamesFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string[] {
+    const packageNamePattern: RegExp = /package-name: (\S*)/g;
+    const matches: string[] = readmeTypeScriptMdFileContents.match(packageNamePattern) || [];
+    logger.logVerbose(`"package-name" matches: ${JSON.stringify(matches)}`.debug);
+
+    for (let i = 0; i < matches.length; ++i) {
+        matches[i] = matches[i].substring("package-name: ".length);
+    }
+
+    logger.logVerbose(`"package-name" matches trimmed: ${JSON.stringify(matches)}`.debug);
+    return matches;
+}
+
+export function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot: string): string[] {
+    logger.logVerbose(`Looking for "readme.typescript.md" files in "${azureRestAPISpecsRoot}"...`.debug);
+
+    const specificationFolderPath: string = path.resolve(azureRestAPISpecsRoot, 'specification');
+    const readmeTypeScriptMdFilePaths: string[] = glob.sync('**/readme.typescript.md', { absolute: true, cwd: specificationFolderPath });
+    if (readmeTypeScriptMdFilePaths) {
+        for (let i = 0; i < readmeTypeScriptMdFilePaths.length; ++i) {
+            const readmeTypeScriptMdFilePath: string = readmeTypeScriptMdFilePaths[i];
+            logger.logVerbose(`  Found "${readmeTypeScriptMdFilePath}".`.debug);
+
+            if (readmeTypeScriptMdFilePath && !startsWith(readmeTypeScriptMdFilePath, specificationFolderPath)) {
+                const resolvedReadmeTypeScriptMdFilePath: string = path.resolve(specificationFolderPath, readmeTypeScriptMdFilePath);
+                logger.logVerbose(`    Updating to "${resolvedReadmeTypeScriptMdFilePath}".`.debug);
+                readmeTypeScriptMdFilePaths[i] = resolvedReadmeTypeScriptMdFilePath;
+            }
+        }
+    }
+    return readmeTypeScriptMdFilePaths;
+}
+
+export function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string {
+    return readmeTypeScriptMdFileContents.match(/output-folder: (\S*)/)[1];
+}
+
+export function getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot: string, typeScriptReadmeFileContents: string): string {
+    const outputFolderPath: string = getOutputFolderFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
+    const outputFolderPathRelativeToAzureSDKForJSRepoRoot: string = outputFolderPath.substring('$(typescript-sdks-folder)/'.length);
+    return path.resolve(azureSDKForJSRepoRoot, outputFolderPathRelativeToAzureSDKForJSRepoRoot);
 }
