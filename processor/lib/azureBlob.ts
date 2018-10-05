@@ -3,7 +3,7 @@
 
 import { BlobService, CreateContainerResult } from "./blobService";
 import { BlobService as StorageBlobService } from "azure-storage";
-import { Dictionary } from "@azure/amqp-common";
+import { Dictionary } from "@azure/event-hubs";
 
 /**
  * @ignore

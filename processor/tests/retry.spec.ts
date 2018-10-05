@@ -5,7 +5,7 @@ import "mocha";
 import * as chai from "chai";
 import { retry, RetryConfig } from "../lib/util/utils";
 import * as chaiAsPromised from "chai-as-promised";
-import { delay } from "@azure/amqp-common";
+import { delay } from "@azure/event-hubs";
 chai.use(chaiAsPromised);
 import * as debugModule from "debug";
 const should = chai.should();
