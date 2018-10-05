@@ -117,7 +117,7 @@ export class EventHubClient {
    * Instantiates a client pointing to the Event Hub given by this configuration.
    *
    * @constructor
-   * @param {ConnectionConfig} config - The connection configuration to create the EventHub Client.
+   * @param {EventHubConnectionConfig} config - The connection configuration to create the EventHub Client.
    * @param {ClientOptions} options - The optional parameters that can be provided to the EventHub
    * Client constructor.
    */
