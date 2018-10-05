@@ -26,7 +26,7 @@
     "clientruntime"
   ],
   "main": "./dist/msRestAzure.js",
-  "browser": "./es/lib/msRestAzure.js",
+  "module": "./es/lib/msRestAzure.js",
   "types": "./es/lib/msRestAzure.d.ts",
   "files": [
     "dist/**/*.js",
