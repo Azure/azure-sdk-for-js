@@ -1,3 +1,6 @@
+### 2018-10-01 1.0.6
+- export `EventHubConnectionConfig` from the library.
+
 ### 2018-10-01 1.0.5
 - Moved `lib/amqp-common` to `"@azure/amqp-common"` package and took a dependency on it.
 - Moved `lib/rhea-promise` to `"rhea-promise"` package and took a dependency on it.

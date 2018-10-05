@@ -16,6 +16,6 @@ export {
   delay, Timeout, EventHubConnectionStringModel, parseConnectionString,
   IotHubConnectionStringModel, StorageConnectionStringModel, isIotHubConnectionString,
   ErrorNameConditionMapper, ConditionStatusMapper, ConditionErrorNameMapper, MessagingError,
-  DataTransformer, DefaultDataTransformer, ConnectionConfig, TokenType, TokenProvider, TokenInfo,
-  AadTokenProvider, SasTokenProvider
+  DataTransformer, DefaultDataTransformer, TokenType, TokenProvider, TokenInfo, AadTokenProvider,
+  SasTokenProvider, ConnectionConfig, EventHubConnectionConfig
 } from "@azure/amqp-common";
