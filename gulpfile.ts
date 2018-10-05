@@ -161,6 +161,15 @@ gulp.task("build", () => {
   }
 });
 
+function containsPackageName(packageNames: string[], packageName: string): boolean {
+  return contains(packageNames, packageName) ||
+    contains(packageNames, `@azure/${packageName}`) ||
+    contains(packageNames, `"${packageName}"`) ||
+    contains(packageNames, `"@azure/${packageName}"`) ||
+    contains(packageNames, `'${packageName}'`) ||
+    contains(packageNames, `'@azure/${packageName}'`);
+}
+
 // This task is used to generate libraries based on the mappings specified above.
 gulp.task('codegen', () => {
   const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
@@ -173,7 +182,7 @@ gulp.task('codegen', () => {
     const packageNamesString: string = JSON.stringify(packageNames);
     // console.log(`In "${typeScriptReadmeFilePath}", found package names "${packageNamesString}".`);
 
-    if (!packageArg || contains(packageNames, packageArg)) {
+    if (!packageArg || containsPackageName(packageNames, packageArg)) {
       console.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
 
       const readmeFilePath: string = path.resolve(path.dirname(typeScriptReadmeFilePath), 'readme.md');
