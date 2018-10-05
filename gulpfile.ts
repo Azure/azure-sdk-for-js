@@ -7,14 +7,15 @@
 import { getCommandLineOptions } from "./.scripts/commandLine";
 import { contains, endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
 import { findAzureRestApiSpecsRepository, findMissingSdks } from "./.scripts/generateSdks";
-import { generateTsReadme } from "./.scripts/gulp";
+import { generateTsReadme, generateSdk } from "./.scripts/gulp";
 import { getPackageNamesFromReadmeTypeScriptMdFileContents, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents } from "./.scripts/readme";
-import { logger } from "./.scripts/logger";
+import { getLogger } from "./.scripts/logger";
 import * as fs from "fs";
 import * as gulp from "gulp";
 import * as path from "path";
 import { execSync } from "child_process";
 
+const logger = getLogger();
 const args = getCommandLineOptions();
 const azureSDKForJSRepoRoot: string = __dirname;
 const azureRestAPISpecsRoot: string = args["azure-rest-api-specs-root"] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
@@ -92,56 +93,7 @@ gulp.task("build", () => {
 
 // This task is used to generate libraries based on the mappings specified above.
 gulp.task('codegen', () => {
-  const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
-
-  for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
-    const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
-
-    const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
-    const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-    const packageNamesString: string = JSON.stringify(packageNames);
-    // console.log(`In "${typeScriptReadmeFilePath}", found package names "${packageNamesString}".`);
-
-    if (!args.package || contains(packageNames, args.package)) {
-      console.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
-
-      const readmeFilePath: string = path.resolve(path.dirname(typeScriptReadmeFilePath), 'readme.md');
-
-      let cmd = `autorest --typescript --typescript-sdks-folder=${azureSDKForJSRepoRoot} --license-header=MICROSOFT_MIT_NO_VERSION ${readmeFilePath}`;
-      if (args.use) {
-        cmd += ` --use=${args.use}`;
-      }
-      else {
-        const localAutorestTypeScriptFolderPath = path.resolve(azureSDKForJSRepoRoot, '..', 'autorest.typescript');
-        if (fs.existsSync(localAutorestTypeScriptFolderPath) && fs.lstatSync(localAutorestTypeScriptFolderPath).isDirectory()) {
-          cmd += ` --use=${localAutorestTypeScriptFolderPath}`;
-        }
-      }
-
-      if (args.debugger) {
-        cmd += ` --typescript.debugger`;
-      }
-
-      try {
-        console.log('Executing command:');
-        console.log('------------------------------------------------------------');
-        console.log(cmd);
-        console.log('------------------------------------------------------------');
-
-        execSync(cmd, { encoding: "utf8", stdio: "inherit" });
-
-        console.log('Installing dependencies...');
-        const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
-        npmInstall(packageFolderPath);
-      } catch (err) {
-        console.log('Error:');
-        console.log(`An error occurred while generating client for packages: "${packageNamesString}":\n Stderr: "${err.stderr}"`);
-      }
-
-      console.log(`>>>>>>>>>>>>>>>>>>> End: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
-      console.log();
-    }
-  }
+  generateSdk(azureRestAPISpecsRoot, azureSDKForJSRepoRoot, args.package);
 });
 
 gulp.task('publish', () => {

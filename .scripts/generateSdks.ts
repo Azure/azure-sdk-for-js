@@ -8,11 +8,12 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import { SdkType } from "./commandLine";
 import { pathExists, isDirectory, arrayContains } from "./common";
-import { logger } from "./logger";
+import { getLogger } from "./logger";
 import { doesReadmeMdFileSpecifiesTypescriptSdk } from "./readme";
 
 const repositoryName = "azure-rest-api-specs";
 const specificationsSegment = "specification";
+const logger = getLogger();
 
 if (!fs) {
     throw new Error("This script has to be run on Node.js 10.0+");
@@ -80,14 +81,14 @@ export async function findMissingSdks(azureRestApiSpecsRepository: string): Prom
                 const readmeMdPath = readmeFiles[0];
                 if (await doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath)) {
                     missingSdks.push(fullSdkPath);
-                    logger.logVerbose(`${fullSpecName}`.negative);
+                    logger.log(`${fullSpecName}`.negative);
                 } else {
                     logger.logVerbose(fullSpecName.positive);
                 }
             } else if (arrayContains(readmeFiles, "readme.nodejs.md")) {
                 if (!arrayContains(readmeFiles, "readme.typescript.md")) {
                     missingSdks.push(fullSdkPath);
-                    logger.logVerbose(`${fullSpecName}`.negative);
+                    logger.log(`${fullSpecName}`.negative);
                 } else {
                     logger.logVerbose(fullSpecName.positive);
                 }

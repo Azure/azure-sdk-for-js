@@ -46,7 +46,7 @@ export function getCommandLineOptions() {
     return _options;
 }
 
-export function createCommandLineParameters() {
+function createCommandLineParameters() {
     const args = minimist(process.argv.slice(2), commandLineConfiguration) as CommandLineOptions;
     args.getSdkType = getSdkType;
     return args;

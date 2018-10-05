@@ -63,4 +63,6 @@ export class Logger {
     }
 }
 
-export const logger = new Logger(getCommandLineOptions());
+export function getLogger() {
+    return new Logger(getCommandLineOptions());
+}

@@ -4,12 +4,14 @@
  * license information.
  */
 
-import { logger } from "./logger";
+import { getLogger } from "./logger";
 import { pathExists, startsWith } from "./common";
 import { promises as fs } from "fs";
 import * as glob from "glob";
 import * as path from "path";
 import * as yaml from "js-yaml";
+
+const logger = getLogger();
 
 interface ReadmeSettings {
     "nodejs": {

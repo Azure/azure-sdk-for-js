@@ -6,7 +6,67 @@
 
 import { SdkType } from "./commandLine";
 import { findAzureRestApiSpecsRepository, findSdkDirectory, saveContentToFile } from "./generateSdks";
-import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile } from "./readme";
+import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile, findReadmeTypeScriptMdFilePaths, getPackageNamesFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents } from "./readme";
+import * as fs from "fs";
+import * as path from "path";
+import { contains, npmInstall } from "./common";
+import { execSync } from "child_process";
+import { getLogger } from "./logger";
+
+const logger = getLogger();
+
+export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRepoRoot: string, packageName: string, use?: boolean, useDebugger?: boolean) {
+    const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
+
+    for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
+        const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
+
+        const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
+        const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
+        const packageNamesString: string = JSON.stringify(packageNames);
+        logger.logVerbose(`In "${typeScriptReadmeFilePath}", found package names "${packageNamesString}".`.debug);
+
+        if (packageName || contains(packageNames, packageName)) {
+            console.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
+
+            const readmeFilePath: string = path.resolve(path.dirname(typeScriptReadmeFilePath), 'readme.md');
+
+            let cmd = `autorest --typescript --typescript-sdks-folder=${azureSDKForJSRepoRoot} --license-header=MICROSOFT_MIT_NO_VERSION ${readmeFilePath}`;
+            if (use) {
+                cmd += ` --use=${use}`;
+            }
+            else {
+                const localAutorestTypeScriptFolderPath = path.resolve(azureSDKForJSRepoRoot, '..', 'autorest.typescript');
+                if (fs.existsSync(localAutorestTypeScriptFolderPath) && fs.lstatSync(localAutorestTypeScriptFolderPath).isDirectory()) {
+                    cmd += ` --use=${localAutorestTypeScriptFolderPath}`;
+                }
+            }
+
+            if (useDebugger) {
+                cmd += ` --typescript.debugger`;
+            }
+
+            try {
+                console.log('Executing command:');
+                console.log('------------------------------------------------------------');
+                console.log(cmd);
+                console.log('------------------------------------------------------------');
+
+                execSync(cmd, { encoding: "utf8", stdio: "inherit" });
+
+                console.log('Installing dependencies...');
+                const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
+                npmInstall(packageFolderPath);
+            } catch (err) {
+                console.log('Error:');
+                console.log(`An error occurred while generating client for packages: "${packageNamesString}":\n Stderr: "${err.stderr}"`);
+            }
+
+            console.log(`>>>>>>>>>>>>>>>>>>> End: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
+            console.log();
+        }
+    }
+}
 
 export async function generateTsReadme(packageName: string, sdkType: SdkType) {
     const azureRestApiSpecsRepository: string = await findAzureRestApiSpecsRepository();
