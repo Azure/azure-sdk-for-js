@@ -10,6 +10,7 @@ import * as glob from "glob";
 import * as gulp from "gulp";
 import * as path from "path";
 import { argv } from "yargs";
+import { findAzureRestApiSpecsRepository, findSdkDirectory, findMissingSdks, copyExistingNodeJsReadme, updateTypeScriptReadmeFile, saveContentToFile } from "./.scripts/generate-sdks";
 
 const azureSDKForJSRepoRoot: string = __dirname;
 const azureRestAPISpecsRoot: string = argv['azure-rest-api-specs-root'] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
@@ -40,8 +41,7 @@ function getPackageNamesFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFil
   const packageNamePattern: RegExp = /package-name: (\S*)/g;
   const matches: string[] = readmeTypeScriptMdFileContents.match(packageNamePattern) || [];
   // console.log(`"package-name" matches: ${JSON.stringify(matches)}`);
-  for (let i = 0; i < matches.length; ++i)
-  {
+  for (let i = 0; i < matches.length; ++i) {
     matches[i] = matches[i].substring("package-name: ".length);
   }
   // console.log(`"package-name" matches trimmed: ${JSON.stringify(matches)}`);
@@ -101,7 +101,7 @@ function getPackgeFolderPathFromPackageArgument(packageArgument: string | undefi
 
       const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
       const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-      
+
       if (contains(packageNames, packageArg)) {
         foundPackage = true;
 
@@ -198,9 +198,9 @@ gulp.task('codegen', () => {
         console.log('------------------------------------------------------------');
         console.log(cmd);
         console.log('------------------------------------------------------------');
-        
+
         execSync(cmd, { encoding: "utf8", stdio: "inherit" });
-        
+
         console.log('Installing dependencies...');
         const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(typeScriptReadmeFileContents);
         npmInstall(packageFolderPath);
@@ -288,4 +288,41 @@ gulp.task('publish', () => {
   console.log(`Up to date packages:        ${upToDatePackages}`);
   console.log(`Published packages:         ${publishedPackages}`);
   console.log(`Published packages skipped: ${publishedPackagesSkipped}`);
+});
+
+gulp.task("find-missing-sdks", async () => {
+  try {
+    console.log(`Passed arguments: ${process.argv}`);
+
+    const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepository();
+    console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
+
+    await findMissingSdks(azureRestApiSpecsRepository);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+gulp.task("generate-ts-readme", async () => {
+  try {
+    console.log(`Passed arguments: ${process.argv}`);
+
+    const azureRestApiSpecsRepository: string = await findAzureRestApiSpecsRepository();
+    console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
+
+    const sdkPath: string = await findSdkDirectory(azureRestApiSpecsRepository);
+    console.log(`Found specification in ${sdkPath}`);
+
+    const typescriptReadmePath: string = await copyExistingNodeJsReadme(sdkPath);
+    console.log(`Copied readme file successfully`);
+
+    const newContent: string = await updateTypeScriptReadmeFile(typescriptReadmePath);
+    console.log(`Generated content of the new readme file successfully`);
+
+    await saveContentToFile(typescriptReadmePath, newContent);
+    console.log(`Content saved successfully to ${typescriptReadmePath}`);
+  }
+  catch (error) {
+    console.error(error);
+  }
 });
