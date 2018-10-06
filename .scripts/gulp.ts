@@ -12,6 +12,7 @@ import * as path from "path";
 import { contains, npmInstall } from "./common";
 import { execSync } from "child_process";
 import { getLogger } from "./logger";
+import { refreshRepository, createNewUniqueBranch, commitSpecificationChanges } from "./git";
 
 const logger = getLogger();
 
@@ -35,7 +36,7 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
         const packageNamesString: string = JSON.stringify(packageNames);
         logger.logVerbose(`In "${typeScriptReadmeFilePath}", found package names "${packageNamesString}".`.debug);
 
-        if (packageName || containsPackageName(packageNames, packageName)) {
+        if (!packageName || containsPackageName(packageNames, packageName)) {
             console.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
 
             const readmeFilePath: string = path.resolve(path.dirname(typeScriptReadmeFilePath), 'readme.md');
@@ -81,6 +82,9 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType) {
     const azureRestApiSpecsRepository: string = await findAzureRestApiSpecsRepository();
     console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
 
+    await refreshRepository(azureRestApiSpecsRepository);
+    console.log(`Refresh ${azureRestApiSpecsRepository} repository`);
+
     const sdkPath: string = await findSdkDirectory(azureRestApiSpecsRepository, packageName, sdkType);
     console.log(`Found specification in ${sdkPath}`);
 
@@ -92,4 +96,7 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType) {
 
     await saveContentToFile(typescriptReadmePath, newContent);
     console.log(`Content saved successfully to ${typescriptReadmePath}`);
+
+    await createNewUniqueBranch(azureRestApiSpecsRepository, `generated/${packageName}`, true);
+    await commitSpecificationChanges(azureRestApiSpecsRepository, packageName);
 }
