@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { Repository, Signature, Merge, Oid, Reference, Remote, Cred, Branch } from "nodegit";
+import { Repository, Signature, Merge, Oid, Reference, Remote, Cred, Branch, StatusFile } from "nodegit";
 import { getLogger } from "./logger";
 
 const _logger = getLogger();
@@ -79,10 +79,10 @@ export async function refreshRepository(repository: Repository) {
     return checkoutMaster(repository);
 }
 
-export async function commitSpecificationChanges(repository: Repository, packageName: string): Promise<Oid> {
+export async function commitSpecificationChanges(repository: Repository, packageName: string, validate: (value: StatusFile, index: number, array: StatusFile[]) => boolean): Promise<Oid> {
     const status = await repository.getStatus();
 
-    if ((status.length == 2) && (status.every(el => el.path().startsWith(`specification/${packageName}`)))) {
+    if ((status.length == 2) && (status.every(validate))) {
         var author = Signature.default(repository);
         return repository.createCommitOnHead(status.map(el => el.path()), author, author, `Generate ${packageName} package`);
     } else {
