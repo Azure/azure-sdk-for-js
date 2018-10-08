@@ -16,6 +16,7 @@ colors.setTheme({
     positive: "green",
     negative: "red",
     debug: "bgCyan",
+    info: "bgGreen"
 });
 
 declare global {
@@ -23,6 +24,7 @@ declare global {
         positive: string;
         negative: string;
         debug: string;
+        info: string;
     }
 }
 
@@ -35,7 +37,7 @@ export class Logger {
     constructor(private _options: CommandLineOptions) {
     }
 
-    log(text: string, color?: Color): void {
+    log(text?: string, color?: Color): void {
         if (color !== undefined) {
             const coloredText = this._colorsMap[color](text);
             console.log(coloredText);
@@ -44,15 +46,19 @@ export class Logger {
         }
     }
 
-    logRed(text: string): void {
-        this.log(text, Color.Red)
+    logInfo(text?: string) {
+        this.log(text.info);
     }
 
-    logGreen(text: string): void {
-        this.log(text, Color.Green)
+    logRed(text?: string): void {
+        this.log(text, Color.Red);
     }
 
-    logVerbose(text: string, color?: Color): void {
+    logGreen(text?: string): void {
+        this.log(text, Color.Green);
+    }
+
+    logVerbose(text?: string, color?: Color): void {
         if (this._options.verbose) {
             this.log(text, color);
         }

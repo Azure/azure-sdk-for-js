@@ -204,3 +204,12 @@ gulp.task("generate-missing-sdk", async () => {
     console.error(error);
   }
 });
+
+gulp.task("generate-all-missing-sdks", async () => {
+  try {
+    console.log(`Passed arguments: ${process.argv}`);
+    await generateAllMissingSdks(azureSDKForJSRepoRoot);
+  } catch (error) {
+    console.error(error);
+  }
+});
