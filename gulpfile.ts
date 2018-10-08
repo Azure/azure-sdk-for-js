@@ -7,7 +7,7 @@
 import { contains, endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
 import { getCommandLineOptions } from "./.scripts/commandLine";
 import { findAzureRestApiSpecsRepositoryPath, findMissingSdks } from "./.scripts/generateSdks";
-import { generateTsReadme, generateSdk } from "./.scripts/gulp";
+import { generateTsReadme, generateSdk, generateMissingSdk } from "./.scripts/gulp";
 import { getPackageNamesFromReadmeTypeScriptMdFileContents, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents } from "./.scripts/readme";
 import { getLogger } from "./.scripts/logger";
 import * as fs from "fs";
@@ -90,15 +90,6 @@ gulp.task("build", () => {
     npmRunBuild(packageFolderPath);
   }
 });
-
-function containsPackageName(packageNames: string[], packageName: string): boolean {
-  return contains(packageNames, packageName) ||
-    contains(packageNames, `@azure/${packageName}`) ||
-    contains(packageNames, `"${packageName}"`) ||
-    contains(packageNames, `"@azure/${packageName}"`) ||
-    contains(packageNames, `'${packageName}'`) ||
-    contains(packageNames, `'@azure/${packageName}'`);
-}
 
 // This task is used to generate libraries based on the mappings specified above.
 gulp.task('codegen', () => {
@@ -198,6 +189,16 @@ gulp.task("generate-ts-readme", async () => {
   try {
     console.log(`Passed arguments: ${process.argv}`);
     await generateTsReadme(args.package, args.getSdkType());
+  }
+  catch (error) {
+    console.error(error);
+  }
+});
+
+gulp.task("generate-missing-sdk", async () => {
+  try {
+    console.log(`Passed arguments: ${process.argv}`);
+    await generateMissingSdk(args.package, args.getSdkType());
   }
   catch (error) {
     console.error(error);

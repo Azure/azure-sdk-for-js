@@ -28,6 +28,7 @@
     "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
   "devDependencies": {
+    "@octokit/rest": "^15.13.0",
     "@types/colors": "^1.2.1",
     "@types/js-yaml": "^3.11.2",
     "@types/minimist": "^1.2.0",

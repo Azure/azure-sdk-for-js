@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { Repository, Signature, Merge, Oid, Reference } from "nodegit";
+import { Repository, Signature, Merge, Oid, Reference, Remote, Cred, Branch } from "nodegit";
 import { getLogger } from "./logger";
 
 const _logger = getLogger();
@@ -49,16 +49,16 @@ export async function createNewBranch(repository: Repository, branchName: string
     const headCommit = await repository.getHeadCommit();
     const branchPromise = repository.createBranch(branchName, headCommit, false);
     if (!checkout) {
-        return branchPromise
+        return branchPromise;
     } else {
         const branch = await branchPromise;
-        return checkoutBranch(repository, branch);
+        return checkoutBranch(repository, branch.name());
     }
 }
 
 function getCurrentDateSuffix(): string {
     const now = new Date();
-    return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${now.getSeconds()}`
+    return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${now.getMilliseconds()}`;
 }
 
 export async function createNewUniqueBranch(repository: Repository, branchPrefix: string, checkout?: boolean): Promise<Reference> {
@@ -66,8 +66,8 @@ export async function createNewUniqueBranch(repository: Repository, branchPrefix
 }
 
 export async function checkoutBranch(repository: Repository, branchName: string | Reference): Promise<Reference> {
-    _logger.logVerbose(`Checking out ${branchName} branch`)
-    return repository.checkoutBranch(branchName)
+    _logger.logVerbose(`Checking out ${branchName} branch`);
+    return repository.checkoutBranch(branchName);
 }
 
 export async function checkoutMaster(repository: Repository): Promise<Reference> {
@@ -79,7 +79,7 @@ export async function refreshRepository(repository: Repository) {
     return checkoutMaster(repository);
 }
 
-export async function commitSpecificationChanges(repository: Repository, packageName: string) {
+export async function commitSpecificationChanges(repository: Repository, packageName: string): Promise<Oid> {
     const status = await repository.getStatus();
 
     if ((status.length == 2) && (status.every(el => el.path().startsWith(`specification/${packageName}`)))) {
@@ -88,4 +88,15 @@ export async function commitSpecificationChanges(repository: Repository, package
     } else {
         throw "Unknown changes present in the repository";
     }
+}
+
+export async function pushToNewBranch(repository: Repository, branchName: string): Promise<number> {
+    const remote = await repository.getRemote("origin");
+    return remote.push([`${branchName}:${branchName}`], {
+        callbacks: {
+            credentials: function (url, userName) {
+                return Cred.userpassPlaintextNew("e7174eefd558921e98102310257c69d19b268ee0", "x-oauth-basic");
+            }
+        }
+    });
 }
