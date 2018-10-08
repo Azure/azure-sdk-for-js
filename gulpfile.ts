@@ -4,8 +4,8 @@
  * license information.
  */
 
-import { getCommandLineOptions } from "./.scripts/commandLine";
 import { contains, endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
+import { getCommandLineOptions } from "./.scripts/commandLine";
 import { findAzureRestApiSpecsRepository, findMissingSdks } from "./.scripts/generateSdks";
 import { generateTsReadme, generateSdk } from "./.scripts/gulp";
 import { getPackageNamesFromReadmeTypeScriptMdFileContents, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents } from "./.scripts/readme";

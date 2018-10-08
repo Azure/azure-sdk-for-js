@@ -6,7 +6,7 @@
 
 import { SdkType } from "./commandLine";
 import { findAzureRestApiSpecsRepository, findSdkDirectory, saveContentToFile } from "./generateSdks";
-import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile, findReadmeTypeScriptMdFilePaths, getPackageNamesFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents } from "./readme";
+import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile, findReadmeTypeScriptMdFilePaths, getPackageNamesFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents, updateMainReadmeFile } from "./readme";
 import * as fs from "fs";
 import * as path from "path";
 import { contains, npmInstall } from "./common";
@@ -92,10 +92,17 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType) {
     console.log(`Copied readme file successfully`);
 
     const newContent: string = await updateTypeScriptReadmeFile(typescriptReadmePath);
-    console.log(`Generated content of the new readme file successfully`);
+    console.log(`Generated content of the new TypeScript readme file successfully`);
 
     await saveContentToFile(typescriptReadmePath, newContent);
     console.log(`Content saved successfully to ${typescriptReadmePath}`);
+
+    const readmeFilePath = path.resolve(sdkPath, "readme.md");
+    const updatedReadmeContent: string = await updateMainReadmeFile(readmeFilePath);
+    console.log(`Updated content of the readme file successfully`);
+
+    await saveContentToFile(readmeFilePath, updatedReadmeContent);
+    console.log(`Content saved successfully to ${readmeFilePath}`);
 
     await createNewUniqueBranch(azureRestApiSpecsRepository, `generated/${packageName}`, true);
     await commitSpecificationChanges(azureRestApiSpecsRepository, packageName);

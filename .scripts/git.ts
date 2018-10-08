@@ -59,7 +59,7 @@ export async function createNewBranch(repositoryPath: string, branchName: string
 
 function getCurrentDateSuffix(): string {
     const now = new Date();
-    return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDay()}-${now.getSeconds()}}`
+    return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDay()}-${now.getSeconds()}`
 }
 
 export async function createNewUniqueBranch(repositoryPath: string, branchPrefix: string, checkout?: boolean): Promise<Reference> {
@@ -91,11 +91,8 @@ export async function commitSpecificationChanges(repositoryPath: string, package
         await index.write();
         await index.writeTree();
 
-        var author = Signature.create("Scott Chacon",
-            "schacon@gmail.com", 123456789, 60);
-        var committer = Signature.create("Scott A Chacon",
-            "scott@github.com", 987654321, 90);
-        return repository.createCommitOnHead([status[0].path()], author, committer, "abc");
+        var author = Signature.default(repository);
+        return repository.createCommitOnHead([status[0].path()], author, author, "abc");
     } else {
         throw "Unknown changes present in the repository";
     }

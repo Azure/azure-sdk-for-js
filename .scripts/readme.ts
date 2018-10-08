@@ -101,8 +101,7 @@ async function updateYamlSection(sectionText: string): Promise<string> {
 
 export async function updateTypeScriptReadmeFile(typescriptReadmePath: string): Promise<string> {
     const readmeBuffer: Buffer = await fs.readFile(typescriptReadmePath);
-    const readme: string = readmeBuffer.toString();
-    let outputReadme = readme;
+    let outputReadme: string = readmeBuffer.toString();
 
     const yamlSection = await getYamlSection(readmeBuffer, "``` yaml $(nodejs)", "```");
     const sectionText = yamlSection.toString().trim();
@@ -116,6 +115,23 @@ export async function updateTypeScriptReadmeFile(typescriptReadmePath: string): 
     outputReadme = outputReadme.replace("Node", "TypeScript");
     outputReadme = outputReadme.replace("node", "typescript");
 
+    return outputReadme;
+}
+
+export async function updateMainReadmeFile(readmeFilePath: string) {
+    const readmeBuffer: Buffer = await fs.readFile(readmeFilePath);
+    let outputReadme: string = readmeBuffer.toString();
+
+    const yamlSection = await getYamlSection(readmeBuffer, "``` yaml $(swagger-to-sdk)", "```");
+    const sectionText = yamlSection.toString().trim();
+
+    let lines = sectionText.split("\r\n");
+    const nodeLineIndex = lines.findIndex(el => el.includes("- repo: azure-sdk-for-node"));
+    const nodeLine = lines[nodeLineIndex];
+    lines.splice(nodeLineIndex, 0, nodeLine.replace("node", "js"));
+    const updatedYamlSection = lines.join("\r\n");
+
+    outputReadme = outputReadme.replace(sectionText, updatedYamlSection);
     return outputReadme;
 }
 
