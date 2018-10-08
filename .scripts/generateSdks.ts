@@ -19,7 +19,7 @@ if (!fs) {
     throw new Error("This script has to be run on Node.js 10.0+");
 }
 
-export async function findAzureRestApiSpecsRepository(): Promise<string> {
+export async function findAzureRestApiSpecsRepositoryPath(): Promise<string> {
     let currentDirectory = __dirname;
     const pathData = path.parse(currentDirectory);
     const rootDirectory = pathData.root;

@@ -6,7 +6,7 @@
 
 import { contains, endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
 import { getCommandLineOptions } from "./.scripts/commandLine";
-import { findAzureRestApiSpecsRepository, findMissingSdks } from "./.scripts/generateSdks";
+import { findAzureRestApiSpecsRepositoryPath, findMissingSdks } from "./.scripts/generateSdks";
 import { generateTsReadme, generateSdk } from "./.scripts/gulp";
 import { getPackageNamesFromReadmeTypeScriptMdFileContents, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents } from "./.scripts/readme";
 import { getLogger } from "./.scripts/logger";
@@ -185,7 +185,7 @@ gulp.task("find-missing-sdks", async () => {
   try {
     console.log(`Passed arguments: ${process.argv}`);
 
-    const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepository();
+    const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepositoryPath();
     console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
 
     await findMissingSdks(azureRestApiSpecsRepository);
@@ -197,7 +197,7 @@ gulp.task("find-missing-sdks", async () => {
 gulp.task("generate-ts-readme", async () => {
   try {
     console.log(`Passed arguments: ${process.argv}`);
-    generateTsReadme(args.package, args.getSdkType());
+    await generateTsReadme(args.package, args.getSdkType());
   }
   catch (error) {
     console.error(error);

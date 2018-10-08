@@ -5,14 +5,14 @@
  */
 
 import { SdkType } from "./commandLine";
-import { findAzureRestApiSpecsRepository, findSdkDirectory, saveContentToFile } from "./generateSdks";
+import { findAzureRestApiSpecsRepositoryPath, findSdkDirectory, saveContentToFile } from "./generateSdks";
 import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile, findReadmeTypeScriptMdFilePaths, getPackageNamesFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents, updateMainReadmeFile } from "./readme";
 import * as fs from "fs";
 import * as path from "path";
 import { contains, npmInstall } from "./common";
 import { execSync } from "child_process";
 import { getLogger } from "./logger";
-import { refreshRepository, createNewUniqueBranch, commitSpecificationChanges } from "./git";
+import { refreshRepository, createNewUniqueBranch, commitSpecificationChanges, getValidatedRepository } from "./git";
 
 const logger = getLogger();
 
@@ -79,13 +79,14 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
 }
 
 export async function generateTsReadme(packageName: string, sdkType: SdkType) {
-    const azureRestApiSpecsRepository: string = await findAzureRestApiSpecsRepository();
-    console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
+    const azureRestApiSpecsRepositoryPath: string = await findAzureRestApiSpecsRepositoryPath();
+    const azureRestApiSpecRepository = await getValidatedRepository(azureRestApiSpecsRepositoryPath);
+    console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
-    await refreshRepository(azureRestApiSpecsRepository);
-    console.log(`Refresh ${azureRestApiSpecsRepository} repository`);
+    await refreshRepository(azureRestApiSpecRepository);
+    console.log(`Refresh ${azureRestApiSpecsRepositoryPath} repository`);
 
-    const sdkPath: string = await findSdkDirectory(azureRestApiSpecsRepository, packageName, sdkType);
+    const sdkPath: string = await findSdkDirectory(azureRestApiSpecsRepositoryPath, packageName, sdkType);
     console.log(`Found specification in ${sdkPath}`);
 
     const typescriptReadmePath: string = await copyExistingNodeJsReadme(sdkPath);
@@ -104,6 +105,6 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType) {
     await saveContentToFile(readmeFilePath, updatedReadmeContent);
     console.log(`Content saved successfully to ${readmeFilePath}`);
 
-    await createNewUniqueBranch(azureRestApiSpecsRepository, `generated/${packageName}`, true);
-    await commitSpecificationChanges(azureRestApiSpecsRepository, packageName);
+    await createNewUniqueBranch(azureRestApiSpecRepository, `generated/${packageName}`, true);
+    await commitSpecificationChanges(azureRestApiSpecRepository, packageName);
 }

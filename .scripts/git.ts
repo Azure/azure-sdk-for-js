@@ -9,21 +9,21 @@ import { getLogger } from "./logger";
 
 const _logger = getLogger();
 
-async function openRepository(repositoryPath: string): Promise<Repository> {
+export async function openRepository(repositoryPath: string): Promise<Repository> {
     _logger.logVerbose(`Opening Git repository located in ${repositoryPath}`);
     return Repository.open(repositoryPath)
 }
 
-async function validateRepositoryStatus(repository: Repository): Promise<void> {
+export async function validateRepositoryStatus(repository: Repository): Promise<void> {
     const status = await repository.getStatus();
     _logger.logVerbose(`Current repository status: ${status}`);
 
     if (status && status.length > 0) {
-        throw new Error(`Not commited changes exist in ${repository.path()} repository`)
+        throw new Error(`Not committed changes exist in ${repository.path()} repository`)
     }
 }
 
-async function getValidatedRepository(repositoryPath: string): Promise<Repository> {
+export async function getValidatedRepository(repositoryPath: string): Promise<Repository> {
     const repository = await openRepository(repositoryPath);
     await validateRepositoryStatus(repository);
     return repository;
@@ -45,8 +45,7 @@ export async function pullMaster(repository: Repository): Promise<Oid> {
     return pull(repository, "master");
 }
 
-export async function createNewBranch(repositoryPath: string, branchName: string, checkout?: boolean): Promise<Reference> {
-    const repository = await openRepository(repositoryPath);
+export async function createNewBranch(repository: Repository, branchName: string, checkout?: boolean): Promise<Reference> {
     const headCommit = await repository.getHeadCommit();
     const branchPromise = repository.createBranch(branchName, headCommit, false);
     if (!checkout) {
@@ -59,11 +58,11 @@ export async function createNewBranch(repositoryPath: string, branchName: string
 
 function getCurrentDateSuffix(): string {
     const now = new Date();
-    return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDay()}-${now.getSeconds()}`
+    return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${now.getSeconds()}`
 }
 
-export async function createNewUniqueBranch(repositoryPath: string, branchPrefix: string, checkout?: boolean): Promise<Reference> {
-    return createNewBranch(repositoryPath, `${branchPrefix}-${getCurrentDateSuffix()}`, checkout);
+export async function createNewUniqueBranch(repository: Repository, branchPrefix: string, checkout?: boolean): Promise<Reference> {
+    return createNewBranch(repository, `${branchPrefix}-${getCurrentDateSuffix()}`, checkout);
 }
 
 export async function checkoutBranch(repository: Repository, branchName: string | Reference): Promise<Reference> {
@@ -75,24 +74,17 @@ export async function checkoutMaster(repository: Repository): Promise<Reference>
     return checkoutBranch(repository, "master");
 }
 
-export async function refreshRepository(repositoryPath: string) {
-    const repository = await getValidatedRepository(repositoryPath);
+export async function refreshRepository(repository: Repository) {
     await pullMaster(repository);
     return checkoutMaster(repository);
 }
 
-export async function commitSpecificationChanges(repositoryPath: string, packageName: string) {
-    const repository = await openRepository(repositoryPath);
-    const index = await repository.refreshIndex();
+export async function commitSpecificationChanges(repository: Repository, packageName: string) {
     const status = await repository.getStatus();
 
-    if ((status.length == 1) && (status[0].isNew) && (status[0].path().startsWith(`specification/${packageName}`))) {
-        await index.addByPath(status[0].path());
-        await index.write();
-        await index.writeTree();
-
+    if ((status.length == 2) && (status.every(el => el.path().startsWith(`specification/${packageName}`)))) {
         var author = Signature.default(repository);
-        return repository.createCommitOnHead([status[0].path()], author, author, "abc");
+        return repository.createCommitOnHead(status.map(el => el.path()), author, author, `Generate ${packageName} package`);
     } else {
         throw "Unknown changes present in the repository";
     }
