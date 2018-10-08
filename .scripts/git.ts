@@ -79,10 +79,14 @@ export async function refreshRepository(repository: Repository) {
     return checkoutMaster(repository);
 }
 
-export async function commitSpecificationChanges(repository: Repository, packageName: string, validate: (value: StatusFile, index: number, array: StatusFile[]) => boolean): Promise<Oid> {
+export async function commitSpecificationChanges(repository: Repository, packageName: string, validate?: (statuses: StatusFile[]) => boolean, validateEach?: (value: StatusFile, index: number, array: StatusFile[]) => boolean): Promise<Oid> {
+    const emptyValidate = () => true;
+    validate = validate || emptyValidate;
+    validateEach = validateEach || emptyValidate;
+
     const status = await repository.getStatus();
 
-    if ((status.length == 2) && (status.every(validate))) {
+    if (validate(status) && status.every(validateEach)) {
         var author = Signature.default(repository);
         return repository.createCommitOnHead(status.map(el => el.path()), author, author, `Generate ${packageName} package`);
     } else {
@@ -95,7 +99,7 @@ export async function pushToNewBranch(repository: Repository, branchName: string
     return remote.push([`${branchName}:${branchName}`], {
         callbacks: {
             credentials: function (url, userName) {
-                return Cred.userpassPlaintextNew("e7174eefd558921e98102310257c69d19b268ee0", "x-oauth-basic");
+                return Cred.userpassPlaintextNew(process.env.SDK_GEN_GITHUB_TOKEN, "x-oauth-basic");
             }
         }
     });

@@ -17,7 +17,7 @@ import { execSync } from "child_process";
 
 const logger = getLogger();
 const args = getCommandLineOptions();
-const azureSDKForJSRepoRoot: string = __dirname;
+const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
 const azureRestAPISpecsRoot: string = args["azure-rest-api-specs-root"] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
 
 function getPackageFolderPathFromPackageArgument(): string | undefined {
@@ -198,7 +198,7 @@ gulp.task("generate-ts-readme", async () => {
 gulp.task("generate-missing-sdk", async () => {
   try {
     console.log(`Passed arguments: ${process.argv}`);
-    await generateMissingSdk(args.package, args.getSdkType());
+    await generateMissingSdk(azureSDKForJSRepoRoot, args.package, args.getSdkType());
   }
   catch (error) {
     console.error(error);

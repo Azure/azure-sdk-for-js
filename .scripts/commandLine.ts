@@ -8,19 +8,20 @@ import * as minimist from "minimist";
 import { arrayContains } from "./common";
 
 export interface CommandLineOptions extends minimist.ParsedArgs {
+    "azure-sdk-for-js-repo-root": string;
     "azure-rest-api-specs-root": string;
-    b: boolean,
-    debugger: boolean,
-    package: string,
-    type: string,
-    use: boolean,
-    verbose: boolean,
-    whatif: boolean,
+    b: boolean;
+    debugger: boolean;
+    package: string;
+    type: string;
+    use: boolean;
+    verbose: boolean;
+    whatif: boolean;
     getSdkType(): SdkType;
 }
 
 export const commandLineConfiguration = {
-    string: ["'azure-rest-api-specs-root", "package", "type"],
+    string: ["azure-sdk-for-js-repo-root", "azure-rest-api-specs-root", "package", "type"],
     boolean: ["debugger", "use", "verbose", "whatif"],
     alias: {
         package: "packageName",

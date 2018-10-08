@@ -85,7 +85,7 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType) {
     console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
     await refreshRepository(azureRestApiSpecRepository);
-    console.log(`Refresh ${azureRestApiSpecsRepositoryPath} repository`);
+    console.log(`Refreshed ${azureRestApiSpecsRepositoryPath} repository successfully`);
 
     const sdkPath: string = await findSdkDirectory(azureRestApiSpecsRepositoryPath, packageName, sdkType);
     console.log(`Found specification in ${sdkPath}`);
@@ -107,7 +107,7 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType) {
     console.log(`Content saved successfully to ${readmeFilePath}`);
 
     await createNewUniqueBranch(azureRestApiSpecRepository, `generated/${packageName}`, true);
-    await commitSpecificationChanges(azureRestApiSpecRepository, packageName, el => el.path().startsWith(`specification/${packageName}`));
+    await commitSpecificationChanges(azureRestApiSpecRepository, packageName, statuses => statuses.length == 2, el => el.path().startsWith(`specification/${packageName}`));
     const newBranch = await azureRestApiSpecRepository.getCurrentBranch();
     console.log(`Committed changes successfully on ${newBranch.name()} branch`);
 
@@ -117,18 +117,26 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType) {
     await createPullRequest("azure-rest-api-specs", `Generate ${packageName} package`, newBranch.name());
 }
 
-export async function generateMissingSdk(packageName: string, sdkType: SdkType) {
-    //await generateTsReadme(packageName, sdkType);
+export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageName: string, sdkType: SdkType) {
+    await generateTsReadme(packageName, sdkType);
 
     const azureRestApiSpecsRepositoryPath: string = await findAzureRestApiSpecsRepositoryPath();
     console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
-    const azureSdkForJsRepoPath = path.resolve(__dirname, "..");
     const azureSdkForJsRepository = await getValidatedRepository(azureSdkForJsRepoPath);
     await refreshRepository(azureSdkForJsRepository);
+    console.log(`Refreshed ${azureSdkForJsRepository} repository successfully`);
 
     await generateSdk(azureRestApiSpecsRepositoryPath, azureSdkForJsRepoPath, `arm-${packageName}`);
+    console.log(`Generated ${packageName} SDK successfully`);
 
     await createNewUniqueBranch(azureSdkForJsRepository, `generated/${packageName}`, true);
-    await commitSpecificationChanges(azureSdkForJsRepository, packageName, el => el.path().startsWith(`packages/arm-${packageName}`));
+    await commitSpecificationChanges(azureSdkForJsRepository, packageName, undefined, el => el.path().startsWith(`packages/arm-${packageName}`));
+    const newBranch = await azureSdkForJsRepository.getCurrentBranch();
+    console.log(`Committed changes successfully on ${newBranch.name()} branch`);
+
+    await pushToNewBranch(azureSdkForJsRepository, newBranch.name());
+    console.log(`Pushed changes successfully to ${newBranch.name()} branch`);
+
+    await createPullRequest("azure-sdk-for-js", `Generate ${packageName} package`, newBranch.name());
 }
