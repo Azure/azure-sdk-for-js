@@ -34,7 +34,10 @@ export class Logger {
         [Color.Green]: colors.green
     }
 
+    private _cache: string[];
+
     constructor(private _options: CommandLineOptions) {
+        this._cache = [];
     }
 
     log(text?: string, color?: Color): void {
@@ -44,6 +47,20 @@ export class Logger {
         } else {
             console.log(text);
         }
+
+        this._capture(text);
+    }
+
+    clearCapturedText(): void {
+        this._cache = [];
+    }
+
+    getCapturedText(): string {
+        return this._cache.join("\n");
+    }
+
+    private _capture(text?: string): void {
+        this._cache.push(text);
     }
 
     logInfo(text?: string) {
@@ -66,6 +83,12 @@ export class Logger {
         if (this._options.verbose) {
             this.log(text, color);
         }
+    }
+
+    logWithVerboseDetails(text?: string, details?: string, color?: Color): void {
+        const greyDetails = `(${details})`.grey;
+        const textToLog = this._options.verbose ? `${text} ${greyDetails}` : (text);
+        this.log(textToLog, color);
     }
 
     logTrace(text?: string) {
