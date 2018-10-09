@@ -6,10 +6,11 @@
 
 import * as Octokit from '@octokit/rest'
 import { PullRequestsCreateParams } from '@octokit/rest';
+import { getToken } from './git';
 
 export async function createPullRequest(repositoryName: string, pullRequestTitle: string, sourceBranchName: string, destinationBranchName: string = "master") {
     const octokit = new Octokit();
-    octokit.authenticate({ type: "token", token: process.env.SDK_GEN_GITHUB_TOKEN });
+    octokit.authenticate({ type: "token", token: getToken() });
     const prOptions: PullRequestsCreateParams = {
         owner: "Azure",
         repo: repositoryName,

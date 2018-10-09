@@ -58,9 +58,19 @@ export class Logger {
         this.log(text, Color.Green);
     }
 
+    logError(text?: string): void {
+        this.log(text.bgRed);
+    }
+
     logVerbose(text?: string, color?: Color): void {
         if (this._options.verbose) {
             this.log(text, color);
+        }
+    }
+
+    logTrace(text?: string) {
+        if (this._options.trace) {
+            this.log(text.gray);
         }
     }
 

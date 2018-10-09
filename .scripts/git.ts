@@ -4,9 +4,11 @@
  * license information.
  */
 
-import { Repository, Signature, Merge, Oid, Reference, Remote, Cred, Branch, StatusFile } from "nodegit";
+import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile } from "nodegit";
 import { getLogger } from "./logger";
+import { getCommandLineOptions } from "./commandLine";
 
+const _args = getCommandLineOptions();
 const _logger = getLogger();
 
 export async function openRepository(repositoryPath: string): Promise<Repository> {
@@ -99,8 +101,27 @@ export async function pushToNewBranch(repository: Repository, branchName: string
     return remote.push([`${branchName}:${branchName}`], {
         callbacks: {
             credentials: function (url, userName) {
-                return Cred.userpassPlaintextNew(process.env.SDK_GEN_GITHUB_TOKEN, "x-oauth-basic");
+                return Cred.userpassPlaintextNew(getToken(), "x-oauth-basic");
             }
         }
     });
+}
+
+export function getToken(): string {
+    const token = _args.token || process.env.SDK_GEN_GITHUB_TOKEN;
+    _validatePersonalAccessToken(token);
+
+    return token;
+}
+
+function _validatePersonalAccessToken(token: string): void {
+    if (!token) {
+        const text =
+        `Github personal access token was not found as a script parameter or as an
+        environmental variable. Please visit https://github.com/settings/tokens,
+        generate new token with "repo" scope and pass it with -token switch or set
+        it as environmental vaiable named SDK_GEN_GITHUB_TOKEN.`
+
+        _logger.logError(text);
+    }
 }

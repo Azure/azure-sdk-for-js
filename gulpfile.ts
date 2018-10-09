@@ -7,7 +7,7 @@
 import { contains, endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
 import { getCommandLineOptions } from "./.scripts/commandLine";
 import { findAzureRestApiSpecsRepositoryPath, findMissingSdks } from "./.scripts/generateSdks";
-import { generateTsReadme, generateSdk, generateMissingSdk } from "./.scripts/gulp";
+import { generateTsReadme, generateSdk, generateMissingSdk, generateAllMissingSdks } from "./.scripts/gulp";
 import { getPackageNamesFromReadmeTypeScriptMdFileContents, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents } from "./.scripts/readme";
 import { getLogger } from "./.scripts/logger";
 import * as fs from "fs";
