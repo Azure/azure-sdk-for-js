@@ -143,7 +143,7 @@ export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageN
     _logger.log(`Pushed changes successfully to ${newBranch.name()} branch`);
 
     const pullRequestResponse = await createPullRequest("azure-sdk-for-js", `Generate ${packageName} package`, `\`\`\`${_logger.getCapturedText()}\`\`\``, newBranch.name());
-    _logger.log(`Created pull request successfully - ${pullRequestResponse.data}`);
+    _logger.log(`Created pull request successfully - ${pullRequestResponse.data.html_url}`);
 
     return pullRequestResponse.data;
 }

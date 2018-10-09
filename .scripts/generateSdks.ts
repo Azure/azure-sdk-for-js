@@ -98,7 +98,7 @@ export async function findMissingSdks(azureRestApiSpecsRepository: string): Prom
                     _logger.logDebug(fullSpecName.positive);
                 }
             } else if (arrayContains(readmeFiles, "readme.md")) {
-                const readmeMdPath = "readme.md";
+                const readmeMdPath = path.resolve(fullSdkPath, "readme.md");
                 if (await doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath)) {
                     missingSdks.push(sdk);
                     _logger.logWithDebugDetails(`${fullSpecName}`.negative, "typescript mentioned in readme.md but no readme.typescript.md exists");
