@@ -13,7 +13,8 @@ import { doesReadmeMdFileSpecifiesTypescriptSdk } from "./readme";
 
 const repositoryName = "azure-rest-api-specs";
 const specificationsSegment = "specification";
-const logger = getLogger();
+
+const _logger = getLogger();
 
 if (!fs) {
     throw new Error("This script has to be run on Node.js 10.0+");
@@ -33,7 +34,7 @@ export async function findAzureRestApiSpecsRepositoryPath(): Promise<string> {
 
     } while (currentDirectory != rootDirectory);
 
-    throw new Error(`${repositoryName} not found!`)
+    return Promise.reject(`${repositoryName} not found!`)
 }
 
 async function containsDirectory(directoryName: string, parentPath: string): Promise<boolean> {
@@ -41,56 +42,68 @@ async function containsDirectory(directoryName: string, parentPath: string): Pro
 }
 
 export async function findSdkDirectory(azureRestApiSpecsRepository: string, packageName: string, sdkType: SdkType): Promise<string> {
-    const sdkSegment = sdkType === SdkType.ResourceManager ? "resource-manager" : "data-plane";
-    const sdkPath = path.resolve(azureRestApiSpecsRepository, specificationsSegment, packageName, sdkSegment);
+    const sdkPath = path.resolve(azureRestApiSpecsRepository, specificationsSegment, packageName, sdkType);
 
     if (await !pathExists(sdkPath)) {
-        throw new Error(`${sdkPath} SDK specs don't exist`);
+        return Promise.reject(`${sdkPath} SDK specs don't exist`);
     }
 
     return sdkPath;
 }
 
-export async function findMissingSdks(azureRestApiSpecsRepository: string): Promise<string[]> {
+export async function findMissingSdks(azureRestApiSpecsRepository: string): Promise<{ sdkName: string; sdkType: SdkType }[]> {
+    _logger.logTrace(`Finding missing SDKS in ${azureRestApiSpecsRepository}`);
+
     const specsDirectory = path.resolve(azureRestApiSpecsRepository, specificationsSegment);
+    _logger.logTrace(`Reading "${azureRestApiSpecsRepository}" directory`);
+
     const serviceSpecs = await fs.readdir(specsDirectory);
+    _logger.logTrace(`Found ${serviceSpecs.length} specification folders`);
 
     const missingSdks = [];
 
     for (const serviceDirectory of serviceSpecs) {
         const fullServicePath = path.resolve(specsDirectory, serviceDirectory);
+        _logger.logTrace(`Analyzing ${serviceDirectory} in ${fullServicePath}`);
+
         if (!(await isDirectory(fullServicePath))) {
+            _logger.logWarn(`"${fullServicePath}" is not a directory. Skipping`);
             continue;
         }
 
         const sdkTypeDirectories = await fs.readdir(fullServicePath);
+        _logger.logTrace(`Found ${sdkTypeDirectories.length} specification type folders: [${sdkTypeDirectories}]`);
 
         for (const sdkTypeDirectory of sdkTypeDirectories) {
             const fullSdkPath = path.resolve(fullServicePath, sdkTypeDirectory);
+            _logger.logTrace(`Analyzing ${sdkTypeDirectory} in ${fullSdkPath}`);
+
             if (!(await isDirectory(fullSdkPath))) {
+                _logger.logWarn(`"${fullServicePath}" is not a directory. Skipping`);
                 continue;
             }
 
             const readmeFiles = (await fs.readdir(fullSdkPath)).filter(file => /^readme/.test(file));
             const fullSpecName = `${serviceDirectory} [${sdkTypeDirectory}]`
+            const sdk = { sdkName: fullSpecName, sdkType: sdkTypeDirectory };
 
             if (readmeFiles.length <= 0) {
                 // No readme.md
                 continue;
-            } else if (readmeFiles.length == 1) {
-                const readmeMdPath = readmeFiles[0];
-                if (await doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath)) {
-                    missingSdks.push(fullSdkPath);
-                    logger.log(`${fullSpecName}`.negative);
-                } else {
-                    logger.logVerbose(fullSpecName.positive);
-                }
             } else if (arrayContains(readmeFiles, "readme.nodejs.md")) {
                 if (!arrayContains(readmeFiles, "readme.typescript.md")) {
-                    missingSdks.push(fullSdkPath);
-                    logger.log(`${fullSpecName}`.negative);
+                    missingSdks.push(sdk);
+                    _logger.logWithDebugDetails(`${fullSpecName}`.negative, "readme.nodejs.md exists but no matching readme.typescript.md");
                 } else {
-                    logger.logVerbose(fullSpecName.positive);
+                    _logger.logDebug(fullSpecName.positive);
+                }
+            } else if (arrayContains(readmeFiles, "readme.md")) {
+                const readmeMdPath = "readme.md";
+                if (await doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath)) {
+                    missingSdks.push(sdk);
+                    _logger.logWithDebugDetails(`${fullSpecName}`.negative, "typescript mentioned in readme.md but no readme.typescript.md exists");
+                } else {
+                    _logger.logDebug(fullSpecName.positive);
                 }
             }
         }

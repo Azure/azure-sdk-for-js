@@ -7,9 +7,13 @@
 import * as colors from "colors";
 import { CommandLineOptions, getCommandLineOptions } from "./commandLine";
 
-export enum Color {
-    Red,
-    Green
+export enum LoggingLevel {
+    All = 0,
+    Trace = 0,
+    Debug = 1,
+    Info = 2,
+    Warn = 3,
+    Error = 4
 }
 
 colors.setTheme({
@@ -29,25 +33,18 @@ declare global {
 }
 
 export class Logger {
-    private _colorsMap = {
-        [Color.Red]: colors.red,
-        [Color.Green]: colors.green
-    }
-
     private _cache: string[];
+    _loggingLevel: LoggingLevel;
 
-    constructor(private _options: CommandLineOptions) {
+    constructor(options: CommandLineOptions) {
+        const lowerCaseLevel = options["logging-level"].toLowerCase();
+        const capitalizedLevel = lowerCaseLevel.charAt(0).toUpperCase() + lowerCaseLevel.slice(1);
+        this._loggingLevel = LoggingLevel[capitalizedLevel];
         this._cache = [];
     }
 
-    log(text?: string, color?: Color): void {
-        if (color !== undefined) {
-            const coloredText = this._colorsMap[color](text);
-            console.log(coloredText);
-        } else {
-            console.log(text);
-        }
-
+    log(text?: string): void {
+        console.log(text);
         this._capture(text);
     }
 
@@ -68,31 +65,37 @@ export class Logger {
     }
 
     logRed(text?: string): void {
-        this.log(text, Color.Red);
+        this.log(text.red);
     }
 
     logGreen(text?: string): void {
-        this.log(text, Color.Green);
+        this.log(text.green);
     }
 
     logError(text?: string): void {
         this.log(text.bgRed);
     }
 
-    logVerbose(text?: string, color?: Color): void {
-        if (this._options.verbose) {
-            this.log(text, color);
+    logWarn(text?: string): void {
+        if (this._loggingLevel <= LoggingLevel.Warn) {
+            this.log(text.bgYellow);
         }
     }
 
-    logWithVerboseDetails(text?: string, details?: string, color?: Color): void {
+    logDebug(text?: string): void {
+        if (this._loggingLevel <= LoggingLevel.Debug) {
+            this.log(text);
+        }
+    }
+
+    logWithDebugDetails(text?: string, details?: string): void {
         const greyDetails = `(${details})`.grey;
-        const textToLog = this._options.verbose ? `${text} ${greyDetails}` : (text);
-        this.log(textToLog, color);
+        const textToLog = (this._loggingLevel <= LoggingLevel.Debug) ? `${text} ${greyDetails}` : (text);
+        this.log(textToLog);
     }
 
     logTrace(text?: string) {
-        if (this._options.trace) {
+        if (this._loggingLevel <= LoggingLevel.Trace) {
             this.log(text.gray);
         }
     }

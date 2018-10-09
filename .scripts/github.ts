@@ -5,10 +5,10 @@
  */
 
 import * as Octokit from '@octokit/rest'
-import { PullRequestsCreateParams } from '@octokit/rest';
+import { PullRequestsCreateParams, Response } from '@octokit/rest';
 import { getToken } from './git';
 
-export async function createPullRequest(repositoryName: string, pullRequestTitle: string, sourceBranchName: string, destinationBranchName: string = "master") {
+export async function createPullRequest(repositoryName: string, pullRequestTitle: string, body: string, sourceBranchName: string, destinationBranchName: string = "master"): Promise<Response<Octokit.PullRequestsCreateResponse>> {
     const octokit = new Octokit();
     octokit.authenticate({ type: "token", token: getToken() });
     const prOptions: PullRequestsCreateParams = {
@@ -16,8 +16,9 @@ export async function createPullRequest(repositoryName: string, pullRequestTitle
         repo: repositoryName,
         title: pullRequestTitle,
         head: sourceBranchName,
-        base: destinationBranchName
+        base: destinationBranchName,
+        body: body
     };
 
-    await octokit.pullRequests.create(prOptions);
+    return octokit.pullRequests.create(prOptions);
 }

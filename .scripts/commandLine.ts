@@ -12,6 +12,7 @@ export interface CommandLineOptions extends minimist.ParsedArgs {
     "azure-rest-api-specs-root": string;
     b: boolean;
     debugger: boolean;
+    "logging-level": string;
     package: string;
     type: string;
     use: boolean;
@@ -21,21 +22,25 @@ export interface CommandLineOptions extends minimist.ParsedArgs {
 }
 
 export const commandLineConfiguration = {
-    string: ["azure-sdk-for-js-repo-root", "azure-rest-api-specs-root", "package", "type"],
+    string: ["azure-sdk-for-js-repo-root", "azure-rest-api-specs-root", "logging-level", "package", "type"],
     boolean: ["debugger", "use", "verbose", "whatif"],
     alias: {
+        l: "logging-level",
+        log: "logging-level",
         package: "packageName",
         u: "use",
         v: "version",
     },
     default: {
+        "logging-level": "info",
         type: "arm"
     }
-}
+};
 
 export enum SdkType {
-    ResourceManager,
-    DataPlane
+    ResourceManager = "resource-manager",
+    DataPlane = "data-plane",
+    ControlPlane = "control-plane"
 }
 
 let _options: CommandLineOptions;

@@ -11,7 +11,7 @@ import * as glob from "glob";
 import * as path from "path";
 import * as yaml from "js-yaml";
 
-const logger = getLogger();
+const _logger = getLogger();
 
 interface ReadmeSettings {
     "nodejs": {
@@ -48,16 +48,17 @@ export async function doesReadmeMdFileSpecifiesTypescriptSdk(readmeMdPath: strin
     return false;
 }
 
-export async function copyExistingNodeJsReadme(sdkPath: string, verbose?: boolean): Promise<string> {
+export async function copyExistingNodeJsReadme(sdkPath: string): Promise<string> {
     const nodeJsReadmePath = path.resolve(sdkPath, "readme.nodejs.md");
-    const typescriptReadmePath = path.resolve(sdkPath, "readme.typescript.md");
-
-    if (verbose) {
-        logger.log(`Copying ${nodeJsReadmePath} to ${typescriptReadmePath}`)
+    if (!(await pathExists(nodeJsReadmePath))) {
+        return Promise.reject(`${nodeJsReadmePath} doesn't exists`)
     }
 
+    const typescriptReadmePath = path.resolve(sdkPath, "readme.typescript.md");
+    _logger.logDebug(`Copying ${nodeJsReadmePath} to ${typescriptReadmePath}`)
+
     if (await pathExists(typescriptReadmePath)) {
-        throw new Error(`${typescriptReadmePath} file already exists`)
+        return Promise.reject(`${typescriptReadmePath} file already exists`)
     }
 
     await fs.copyFile(nodeJsReadmePath, typescriptReadmePath);
@@ -138,29 +139,29 @@ export async function updateMainReadmeFile(readmeFilePath: string) {
 export function getPackageNamesFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string[] {
     const packageNamePattern: RegExp = /package-name: (\S*)/g;
     const matches: string[] = readmeTypeScriptMdFileContents.match(packageNamePattern) || [];
-    logger.logVerbose(`"package-name" matches: ${JSON.stringify(matches)}`.debug);
+    _logger.logDebug(`"package-name" matches: ${JSON.stringify(matches)}`.debug);
 
     for (let i = 0; i < matches.length; ++i) {
         matches[i] = matches[i].substring("package-name: ".length);
     }
 
-    logger.logVerbose(`"package-name" matches trimmed: ${JSON.stringify(matches)}`.debug);
+    _logger.logDebug(`"package-name" matches trimmed: ${JSON.stringify(matches)}`.debug);
     return matches;
 }
 
 export function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot: string): string[] {
-    logger.logVerbose(`Looking for "readme.typescript.md" files in "${azureRestAPISpecsRoot}"...`.debug);
+    _logger.logDebug(`Looking for "readme.typescript.md" files in "${azureRestAPISpecsRoot}"...`.debug);
 
     const specificationFolderPath: string = path.resolve(azureRestAPISpecsRoot, 'specification');
     const readmeTypeScriptMdFilePaths: string[] = glob.sync('**/readme.typescript.md', { absolute: true, cwd: specificationFolderPath });
     if (readmeTypeScriptMdFilePaths) {
         for (let i = 0; i < readmeTypeScriptMdFilePaths.length; ++i) {
             const readmeTypeScriptMdFilePath: string = readmeTypeScriptMdFilePaths[i];
-            logger.logVerbose(`  Found "${readmeTypeScriptMdFilePath}".`.debug);
+            _logger.logDebug(`  Found "${readmeTypeScriptMdFilePath}".`.debug);
 
             if (readmeTypeScriptMdFilePath && !startsWith(readmeTypeScriptMdFilePath, specificationFolderPath)) {
                 const resolvedReadmeTypeScriptMdFilePath: string = path.resolve(specificationFolderPath, readmeTypeScriptMdFilePath);
-                logger.logVerbose(`    Updating to "${resolvedReadmeTypeScriptMdFilePath}".`.debug);
+                _logger.logDebug(`    Updating to "${resolvedReadmeTypeScriptMdFilePath}".`.debug);
                 readmeTypeScriptMdFilePaths[i] = resolvedReadmeTypeScriptMdFilePath;
             }
         }

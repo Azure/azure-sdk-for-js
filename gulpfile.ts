@@ -15,7 +15,7 @@ import * as gulp from "gulp";
 import * as path from "path";
 import { execSync } from "child_process";
 
-const logger = getLogger();
+const _logger = getLogger();
 const args = getCommandLineOptions();
 const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
 const azureRestAPISpecsRoot: string = args["azure-rest-api-specs-root"] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
@@ -24,7 +24,7 @@ function getPackageFolderPathFromPackageArgument(): string | undefined {
   let packageFolderPath: string | undefined;
 
   if (!args.package) {
-    console.log(`No --package specified.`);
+    _logger.log(`No --package specified.`);
   } else {
     const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
 
@@ -44,7 +44,7 @@ function getPackageFolderPathFromPackageArgument(): string | undefined {
     }
 
     if (!foundPackage) {
-      console.log(`No package found with the name "${args.package}".`);
+      _logger.log(`No package found with the name "${args.package}".`);
     }
   }
 
@@ -52,33 +52,33 @@ function getPackageFolderPathFromPackageArgument(): string | undefined {
 }
 
 gulp.task('default', () => {
-  console.log('gulp build --package <package-name>');
-  console.log('  --package');
-  console.log('    NPM package to run "npm run build" on.');
-  console.log();
-  console.log('gulp install --package <package name>');
-  console.log('  --package');
-  console.log('    NPM package to run "npm install" on.');
-  console.log();
-  console.log('gulp codegen [--azure-rest-api-specs-root <azure-rest-api-specs root>] [--use <autorest.typescript root>] [--package <package name>]');
-  console.log('  --azure-rest-api-specs-root');
-  console.log('    Root location of the local clone of the azure-rest-api-specs-root repository.');
-  console.log('  --use');
-  console.log('    Root location of autorest.typescript repository. If this is not specified, then the latest installed generator for TypeScript will be used.');
-  console.log('  --package');
-  console.log('    NPM package to regenerate. If no package is specified, then all packages will be regenerated.');
-  console.log();
-  console.log('gulp publish [--package <package name>] [--whatif]');
-  console.log('  --package');
-  console.log('    The name of the package to publish. If no package is specified, then all packages will be published.');
-  console.log('  --whatif');
-  console.log('    Don\'t actually publish packages, but just indicate which packages would be published.');
+  _logger.log('gulp build --package <package-name>');
+  _logger.log('  --package');
+  _logger.log('    NPM package to run "npm run build" on.');
+  _logger.log();
+  _logger.log('gulp install --package <package name>');
+  _logger.log('  --package');
+  _logger.log('    NPM package to run "npm install" on.');
+  _logger.log();
+  _logger.log('gulp codegen [--azure-rest-api-specs-root <azure-rest-api-specs root>] [--use <autorest.typescript root>] [--package <package name>]');
+  _logger.log('  --azure-rest-api-specs-root');
+  _logger.log('    Root location of the local clone of the azure-rest-api-specs-root repository.');
+  _logger.log('  --use');
+  _logger.log('    Root location of autorest.typescript repository. If this is not specified, then the latest installed generator for TypeScript will be used.');
+  _logger.log('  --package');
+  _logger.log('    NPM package to regenerate. If no package is specified, then all packages will be regenerated.');
+  _logger.log();
+  _logger.log('gulp publish [--package <package name>] [--whatif]');
+  _logger.log('  --package');
+  _logger.log('    The name of the package to publish. If no package is specified, then all packages will be published.');
+  _logger.log('  --whatif');
+  _logger.log('    Don\'t actually publish packages, but just indicate which packages would be published.');
 });
 
 gulp.task("install", () => {
   const packageFolderPath: string | undefined = getPackageFolderPathFromPackageArgument();
   if (packageFolderPath) {
-    logger.logWithPath(packageFolderPath, "npm install");
+    _logger.logWithPath(packageFolderPath, "npm install");
     npmInstall(packageFolderPath);
   }
 });
@@ -86,14 +86,14 @@ gulp.task("install", () => {
 gulp.task("build", () => {
   const packageFolderPath: string | undefined = getPackageFolderPathFromPackageArgument();
   if (packageFolderPath) {
-    logger.logWithPath(packageFolderPath, "npm run build");
+    _logger.logWithPath(packageFolderPath, "npm run build");
     npmRunBuild(packageFolderPath);
   }
 });
 
 // This task is used to generate libraries based on the mappings specified above.
 gulp.task('codegen', () => {
-    console.log(`Passed arguments: ${process.argv}`);
+    _logger.log(`Passed arguments: ${process.argv}`);
     generateSdk(azureRestAPISpecsRoot, azureSDKForJSRepoRoot, args.package);
 });
 
@@ -107,18 +107,18 @@ gulp.task('publish', () => {
 
   for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
     const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
-    // console.log(`INFO: Processing ${typeScriptReadmeFilePath}`);
+    _logger.logTrace(`INFO: Processing ${typeScriptReadmeFilePath}`);
 
     const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
     const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
     if (!fs.existsSync(packageFolderPath)) {
-      console.log(`ERROR: Package folder ${packageFolderPath} has not been generated.`);
+      _logger.log(`ERROR: Package folder ${packageFolderPath} has not been generated.`);
       errorPackages++;
     }
     else {
       const packageJsonFilePath: string = `${packageFolderPath}/package.json`;
       if (!fs.existsSync(packageJsonFilePath)) {
-        console.log(`ERROR: Package folder ${packageFolderPath} is missing its package.json file.`);
+        _logger.log(`ERROR: Package folder ${packageFolderPath} is missing its package.json file.`);
         errorPackages++;
       }
       else {
@@ -128,7 +128,7 @@ gulp.task('publish', () => {
         if (!args.package || args.package === packageName || endsWith(packageName, `-${args.package}`)) {
           const localPackageVersion: string = packageJson.version;
           if (!localPackageVersion) {
-            console.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
+            _logger.log(`ERROR: "${packageJsonFilePath}" doesn't have a version specified.`);
             errorPackages++;
           }
           else {
@@ -145,7 +145,7 @@ gulp.task('publish', () => {
               upToDatePackages++;
             }
             else {
-              console.log(`Publishing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
+              _logger.log(`Publishing package "${packageName}" with version "${localPackageVersion}"...${args.whatif ? " (SKIPPED)" : ""}`);
               if (!args.whatif) {
                 try {
                   npmInstall(packageFolderPath);
@@ -165,51 +165,52 @@ gulp.task('publish', () => {
     }
   }
 
-  console.log();
-  console.log(`Error packages:             ${errorPackages}`);
-  console.log(`Up to date packages:        ${upToDatePackages}`);
-  console.log(`Published packages:         ${publishedPackages}`);
-  console.log(`Published packages skipped: ${publishedPackagesSkipped}`);
+  _logger.log();
+  _logger.log(`Error packages:             ${errorPackages}`);
+  _logger.log(`Up to date packages:        ${upToDatePackages}`);
+  _logger.log(`Published packages:         ${publishedPackages}`);
+  _logger.log(`Published packages skipped: ${publishedPackagesSkipped}`);
 });
 
 gulp.task("find-missing-sdks", async () => {
   try {
-    console.log(`Passed arguments: ${process.argv}`);
+    _logger.log(`Passed arguments: ${process.argv}`);
 
-    const azureRestApiSpecsRepository = await findAzureRestApiSpecsRepositoryPath();
-    console.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepository}`);
+    const azureRestApiSpecsRepositoryPath = await findAzureRestApiSpecsRepositoryPath();
+    _logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
-    await findMissingSdks(azureRestApiSpecsRepository);
+    await findMissingSdks(azureRestApiSpecsRepositoryPath);
   } catch (error) {
-    console.error(error);
+    _logger.logError(error);
   }
 });
 
 gulp.task("generate-ts-readme", async () => {
   try {
-    console.log(`Passed arguments: ${process.argv}`);
+    _logger.log(`Passed arguments: ${process.argv}`);
     await generateTsReadme(args.package, args.getSdkType());
   }
   catch (error) {
-    console.error(error);
+    _logger.logError(error);
   }
 });
 
 gulp.task("generate-missing-sdk", async () => {
   try {
-    console.log(`Passed arguments: ${process.argv}`);
+    _logger.log(`Passed arguments: ${process.argv}`);
     await generateMissingSdk(azureSDKForJSRepoRoot, args.package, args.getSdkType());
   }
   catch (error) {
-    console.error(error);
+    _logger.logError(error);
   }
 });
 
 gulp.task("generate-all-missing-sdks", async () => {
   try {
-    console.log(`Passed arguments: ${process.argv}`);
-    await generateAllMissingSdks(azureSDKForJSRepoRoot);
+    _logger.log(`Passed arguments: ${process.argv}`);
+    const azureRestApiSpecsRepositoryPath = await findAzureRestApiSpecsRepositoryPath();
+    await generateAllMissingSdks(azureSDKForJSRepoRoot, azureRestApiSpecsRepositoryPath);
   } catch (error) {
-    console.error(error);
+    _logger.logError(error);
   }
 });

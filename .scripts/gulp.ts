@@ -12,10 +12,11 @@ import * as path from "path";
 import { contains, npmInstall } from "./common";
 import { execSync } from "child_process";
 import { getLogger } from "./logger";
-import { refreshRepository, createNewUniqueBranch, commitSpecificationChanges, getValidatedRepository, pushToNewBranch } from "./git";
+import { refreshRepository, createNewUniqueBranch, commitSpecificationChanges, getValidatedRepository, pushToNewBranch, pull } from "./git";
 import { createPullRequest } from "./github";
+import { PullRequestsCreateResponse } from "@octokit/rest";
 
-const logger = getLogger();
+const _logger = getLogger();
 
 function containsPackageName(packageNames: string[], packageName: string): boolean {
     return contains(packageNames, packageName) ||
@@ -35,10 +36,9 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
         const typeScriptReadmeFileContents: string = await fs.promises.readFile(typeScriptReadmeFilePath, { encoding: 'utf8' });
         const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
         const packageNamesString: string = JSON.stringify(packageNames);
-        logger.logVerbose(`In "${typeScriptReadmeFilePath}", found package names "${packageNamesString}".`.debug);
 
         if (!packageName || containsPackageName(packageNames, packageName)) {
-            logger.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
+            _logger.log(`>>>>>>>>>>>>>>>>>>> Start: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
 
             const readmeFilePath: string = path.resolve(path.dirname(typeScriptReadmeFilePath), 'readme.md');
 
@@ -58,92 +58,101 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
             }
 
             try {
-                logger.log('Executing command:');
-                logger.log('------------------------------------------------------------');
-                logger.log(cmd);
-                logger.log('------------------------------------------------------------');
+                _logger.log('Executing command:');
+                _logger.log('------------------------------------------------------------');
+                _logger.log(cmd);
+                _logger.log('------------------------------------------------------------');
 
-                execSync(cmd, { encoding: "utf8", stdio: "inherit" });
+                const commandOutput = execSync(cmd, { encoding: "utf8" });
+                _logger.log(commandOutput);
 
-                logger.log('Installing dependencies...');
+                _logger.log('Installing dependencies...');
                 const packageFolderPath: string = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
                 npmInstall(packageFolderPath);
             } catch (err) {
-                logger.log('Error:');
-                logger.log(`An error occurred while generating client for packages: "${packageNamesString}":\n Stderr: "${err.stderr}"`);
+                _logger.log('Error:');
+                _logger.log(`An error occurred while generating client for packages: "${packageNamesString}":\n Stderr: "${err.stderr}"`);
             }
 
-            logger.log(`>>>>>>>>>>>>>>>>>>> End: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
-            logger.log();
+            _logger.log(`>>>>>>>>>>>>>>>>>>> End: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
+            _logger.log();
         }
     }
 }
 
-export async function generateTsReadme(packageName: string, sdkType: SdkType) {
+export async function generateTsReadme(packageName: string, sdkType: SdkType): Promise<PullRequestsCreateResponse> {
     const azureRestApiSpecsRepositoryPath: string = await findAzureRestApiSpecsRepositoryPath();
     const azureRestApiSpecRepository = await getValidatedRepository(azureRestApiSpecsRepositoryPath);
-    logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
+    _logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
     await refreshRepository(azureRestApiSpecRepository);
-    logger.log(`Refreshed ${azureRestApiSpecsRepositoryPath} repository successfully`);
+    _logger.log(`Refreshed ${azureRestApiSpecsRepositoryPath} repository successfully`);
 
     const sdkPath: string = await findSdkDirectory(azureRestApiSpecsRepositoryPath, packageName, sdkType);
-    logger.log(`Found specification in ${sdkPath}`);
+    _logger.log(`Found specification in ${sdkPath}`);
 
     const typescriptReadmePath: string = await copyExistingNodeJsReadme(sdkPath);
-    logger.log(`Copied readme file successfully`);
+    _logger.log(`Copied readme file successfully`);
 
     const newContent: string = await updateTypeScriptReadmeFile(typescriptReadmePath);
-    logger.log(`Generated content of the new TypeScript readme file successfully`);
+    _logger.log(`Generated content of the new TypeScript readme file successfully`);
 
     await saveContentToFile(typescriptReadmePath, newContent);
-    logger.log(`Content saved successfully to ${typescriptReadmePath}`);
+    _logger.log(`Content saved successfully to ${typescriptReadmePath}`);
 
     const readmeFilePath = path.resolve(sdkPath, "readme.md");
     const updatedReadmeContent: string = await updateMainReadmeFile(readmeFilePath);
-    logger.log(`Updated content of the readme file successfully`);
+    _logger.log(`Updated content of the readme file successfully`);
 
     await saveContentToFile(readmeFilePath, updatedReadmeContent);
-    logger.log(`Content saved successfully to ${readmeFilePath}`);
+    _logger.log(`Content saved successfully to ${readmeFilePath}`);
 
     await createNewUniqueBranch(azureRestApiSpecRepository, `generated/${packageName}`, true);
     await commitSpecificationChanges(azureRestApiSpecRepository, packageName, statuses => statuses.length == 2, el => el.path().startsWith(`specification/${packageName}`));
     const newBranch = await azureRestApiSpecRepository.getCurrentBranch();
-    logger.log(`Committed changes successfully on ${newBranch.name()} branch`);
+    _logger.log(`Committed changes successfully on ${newBranch.name()} branch`);
 
     await pushToNewBranch(azureRestApiSpecRepository, newBranch.name());
-    logger.log(`Pushed changes successfully to ${newBranch.name()} branch`);
+    _logger.log(`Pushed changes successfully to ${newBranch.name()} branch`);
 
-    await createPullRequest("azure-rest-api-specs", `Generate ${packageName} package`, newBranch.name());
+    const pullRequestResponse = await createPullRequest("azure-rest-api-specs", `Add ${packageName}/${sdkType}/readme.typescript.md`, "Autogenerated", newBranch.name());
+    _logger.log(`Created pull request successfully - ${pullRequestResponse.data.issue_url}`);
+
+    return { url: pullRequestResponse.data.issue_url } as PullRequestsCreateResponse;
 }
 
-export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageName: string, sdkType: SdkType) {
+export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageName: string, sdkType: SdkType): Promise<PullRequestsCreateResponse> {
     await generateTsReadme(packageName, sdkType);
 
     const azureRestApiSpecsRepositoryPath: string = await findAzureRestApiSpecsRepositoryPath();
-    logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
+    _logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
     const azureSdkForJsRepository = await getValidatedRepository(azureSdkForJsRepoPath);
     await refreshRepository(azureSdkForJsRepository);
-    logger.log(`Refreshed ${azureSdkForJsRepository} repository successfully`);
+    _logger.log(`Refreshed ${azureSdkForJsRepository} repository successfully`);
 
     await generateSdk(azureRestApiSpecsRepositoryPath, azureSdkForJsRepoPath, `arm-${packageName}`);
-    logger.log(`Generated ${packageName} SDK successfully`);
+    _logger.log(`Generated ${packageName} SDK successfully`);
 
     await createNewUniqueBranch(azureSdkForJsRepository, `generated/${packageName}`, true);
     await commitSpecificationChanges(azureSdkForJsRepository, packageName, undefined, el => el.path().startsWith(`packages/arm-${packageName}`));
     const newBranch = await azureSdkForJsRepository.getCurrentBranch();
-    logger.log(`Committed changes successfully on ${newBranch.name()} branch`);
+    _logger.log(`Committed changes successfully on ${newBranch.name()} branch`);
 
     await pushToNewBranch(azureSdkForJsRepository, newBranch.name());
-    logger.log(`Pushed changes successfully to ${newBranch.name()} branch`);
+    _logger.log(`Pushed changes successfully to ${newBranch.name()} branch`);
 
-    await createPullRequest("azure-sdk-for-js", `Generate ${packageName} package`, newBranch.name());
+    const pullRequestResponse = await createPullRequest("azure-sdk-for-js", `Generate ${packageName} package`, `\`\`\`${_logger.getCapturedText()}\`\`\``, newBranch.name());
+    _logger.log(`Created pull request successfully - ${pullRequestResponse.data}`);
+
+    return pullRequestResponse.data;
 }
 
-export async function generateAllMissingSdks(azureRestApiSpecsRepository: string) {
+export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azureRestApiSpecsRepository: string) {
     const missingSdks = await findMissingSdks(azureRestApiSpecsRepository);
-    logger.log(`Found ${missingSdks.length} missing specifications`);
+    _logger.log(`Found ${missingSdks.length} missing specifications`);
 
-    for (const )
+    for (const missingSdk of missingSdks) {
+        await generateMissingSdk(azureSdkForJsRepoPath, missingSdk.sdkName, missingSdk.sdkType);
+    }
 }
