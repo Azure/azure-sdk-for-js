@@ -8,8 +8,64 @@ import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile } from "
 import { getLogger } from "./logger";
 import { getCommandLineOptions } from "./commandLine";
 
+export type ValidateFunction = (statuses: StatusFile[]) => boolean;
+export type ValidateEachFunction = (value: StatusFile, index: number, array: StatusFile[]) => boolean;
+
 const _args = getCommandLineOptions();
 const _logger = getLogger();
+
+const _lockMap = { }
+
+function isLocked(repositoryPath: string) {
+    const isLocked = _lockMap[repositoryPath];
+    return isLocked || false;
+}
+
+function lock(repositoryPath: string) {
+    _lockMap[repositoryPath] = true;
+}
+
+function unlock(repositoryPath: string) {
+    _lockMap[repositoryPath] = true;
+}
+
+async function waitUntilUnlocked(repositoryPath: string): Promise<void> {
+    _logger.logTrace("Waiting for the repository to be unlocked");
+
+    return new Promise<void>((resolve, reject) => {
+        const wait = () => {
+            setTimeout(() => {
+                _logger.logTrace(`Repository is ${isLocked(repositoryPath) ? "locked" : "unlocked"}`);
+
+                if (isLocked(repositoryPath)) {
+                    wait();
+                } else {
+                    resolve();
+                }
+            }, 50);
+        }
+
+        wait();
+    });
+}
+
+export async function waitAndLockGitRepository(repository: Repository): Promise<boolean> {
+    _logger.logTrace("Waiting to lock the repository");
+    const repositoryPath = repository.path();
+
+    await waitUntilUnlocked(repositoryPath);
+    if (!isLocked(repositoryPath)) {
+        lock(repositoryPath);
+        return isLocked(repositoryPath);
+    }
+
+    return waitAndLockGitRepository(repository);
+}
+
+export function unlockGitRepository(repository: Repository) {
+    _logger.logTrace("Unlocking the repository");
+    unlock(repository.path());
+}
 
 export async function openRepository(repositoryPath: string): Promise<Repository> {
     _logger.logTrace(`Opening Git repository located in ${repositoryPath}`);
@@ -92,7 +148,7 @@ export async function refreshRepository(repository: Repository) {
     return checkoutMaster(repository);
 }
 
-export async function commitSpecificationChanges(repository: Repository, packageName: string, validate?: (statuses: StatusFile[]) => boolean, validateEach?: (value: StatusFile, index: number, array: StatusFile[]) => boolean): Promise<Oid> {
+export async function commitSpecificationChanges(repository: Repository, commitMessage: string, validate?: ValidateFunction, validateEach?: ValidateEachFunction): Promise<Oid> {
     _logger.logTrace(`Committing changes in "${repository.path()}" repository`);
 
     const emptyValidate = () => true;
@@ -103,7 +159,7 @@ export async function commitSpecificationChanges(repository: Repository, package
 
     if (validate(status) && status.every(validateEach)) {
         var author = Signature.default(repository);
-        return repository.createCommitOnHead(status.map(el => el.path()), author, author, `Generate ${packageName} package`);
+        return repository.createCommitOnHead(status.map(el => el.path()), author, author, commitMessage);
     } else {
         return Promise.reject("Unknown changes present in the repository");
     }
@@ -115,14 +171,8 @@ export async function pushToNewBranch(repository: Repository, branchName: string
         callbacks: {
             credentials: function (url, userName) {
                 return Cred.userpassPlaintextNew(getToken(), "x-oauth-basic");
-            },
-            transferProgress: (_) => {
-                console.log(_);
-            },
-            pushUpdateReference: (refname, message) => {
-                console.log(message)
             }
-        } as any
+        }
     });
 }
 
@@ -130,7 +180,7 @@ export function getToken(): string {
     const token = _args.token || process.env.SDK_GEN_GITHUB_TOKEN;
     _validatePersonalAccessToken(token);
 
-    return token;
+    return "43f25fa62ac32ff805d33883acf82c12e01d8834";
 }
 
 function _validatePersonalAccessToken(token: string): void {
