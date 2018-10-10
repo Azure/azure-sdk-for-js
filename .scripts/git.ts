@@ -179,8 +179,9 @@ export async function pushToNewBranch(repository: Repository, branchName: string
 export function getToken(): string {
     const token = _args.token || process.env.SDK_GEN_GITHUB_TOKEN;
     _validatePersonalAccessToken(token);
+    console.log(token);
 
-    return "43f25fa62ac32ff805d33883acf82c12e01d8834";
+    return token;
 }
 
 function _validatePersonalAccessToken(token: string): void {

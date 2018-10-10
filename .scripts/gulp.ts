@@ -115,7 +115,7 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType): P
 }
 
 export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageName: string, sdkType: SdkType): Promise<string> {
-    const specsPullRequestsUrl = "http://abc";//await generateTsReadme(packageName, sdkType);
+    const specsPullRequestsUrl = await generateTsReadme(packageName, sdkType);
 
     const azureRestApiSpecsRepositoryPath: string = await findAzureRestApiSpecsRepositoryPath();
     _logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);

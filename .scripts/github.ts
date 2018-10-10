@@ -5,7 +5,7 @@
  */
 
 import * as Octokit from '@octokit/rest'
-import { PullRequestsCreateParams, Response, PullRequestsCreateReviewRequestParams } from '@octokit/rest';
+import { PullRequestsCreateParams, Response, PullRequestsCreateReviewRequestParams, PullRequestsCreateReviewRequestResponse } from '@octokit/rest';
 import { getToken, createNewUniqueBranch, commitSpecificationChanges, pushToNewBranch, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction } from './git';
 import { getLogger } from './logger';
 import { Repository } from 'nodegit';
@@ -13,9 +13,14 @@ import { Repository } from 'nodegit';
 const _repositoryOwner = "Azure";
 const _logger = getLogger();
 
-export async function createPullRequest(repositoryName: string, pullRequestTitle: string, body: string, sourceBranchName: string, destinationBranchName: string = "master"): Promise<Response<Octokit.PullRequestsCreateResponse>> {
+function getAuthenticatedClient(): Octokit {
     const octokit = new Octokit();
     octokit.authenticate({ type: "token", token: getToken() });
+    return octokit;
+}
+
+export async function createPullRequest(repositoryName: string, pullRequestTitle: string, body: string, sourceBranchName: string, destinationBranchName: string = "master"): Promise<Response<Octokit.PullRequestsCreateResponse>> {
+    const octokit = getAuthenticatedClient();
     const prOptions: PullRequestsCreateParams = {
         owner: _repositoryOwner,
         repo: repositoryName,
@@ -25,19 +30,35 @@ export async function createPullRequest(repositoryName: string, pullRequestTitle
         body: body
     };
 
-    return octokit.pullRequests.create(prOptions);
+    return new Promise<Response<Octokit.PullRequestsCreateResponse>>((resolve, reject) => {
+        octokit.pullRequests.create(prOptions, (error, response) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(response);
+            }
+        });
+    });
 }
 
-export async function requestPullRequestReview(repositoryName: string, prId: number) {
-    const octokit = new Octokit();
+export async function requestPullRequestReview(repositoryName: string, prId: number): Promise<Response<PullRequestsCreateReviewRequestResponse>> {
+    const octokit = getAuthenticatedClient();
     const params: PullRequestsCreateReviewRequestParams = {
         owner: _repositoryOwner,
         repo: repositoryName,
         number: prId,
-        reviewers: [ "kpajdzik", "daschult", "amarzavery", "sergey-shandar" ]
+        reviewers: [ "daschult", "amarzavery", "sergey-shandar" ]
     };
 
-     return octokit.pullRequests.createReviewRequest(params);
+     return new Promise<Response<PullRequestsCreateReviewRequestResponse>>((resolve, reject) => {
+        octokit.pullRequests.createReviewRequest(params, (error, response) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(response);
+            }
+        });
+     });
 }
 
 export async function commitAndCreatePullRequest(
