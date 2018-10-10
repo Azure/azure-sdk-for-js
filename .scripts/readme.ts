@@ -145,7 +145,13 @@ export async function updateMainReadmeFile(readmeFilePath: string) {
     const sectionText = yamlSection.toString().trim();
 
     let lines = sectionText.split("\r\n");
-    const nodeLineIndex = lines.findIndex(el => el.includes("- repo: azure-sdk-for-node"));
+    let nodeLineIndex = lines.findIndex(el => el.includes("- repo: azure-sdk-for-node"));
+
+    if (nodeLineIndex == -1) {
+        lines.push("  - repo: azure-sdk-for-node");
+        nodeLineIndex = lines.length - 1;
+    }
+
     const nodeLine = lines[nodeLineIndex];
     lines.splice(nodeLineIndex, 0, nodeLine.replace("node", "js"));
     const updatedYamlSection = lines.join("\r\n");
