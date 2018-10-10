@@ -85,7 +85,7 @@ export async function findMissingSdks(azureRestApiSpecsRepository: string): Prom
 
             const readmeFiles = (await fs.readdir(fullSdkPath)).filter(file => /^readme/.test(file));
             const fullSpecName = `${serviceDirectory} [${sdkTypeDirectory}]`
-            const sdk = { sdkName: fullSpecName, sdkType: sdkTypeDirectory };
+            const sdk = { sdkName: serviceDirectory, sdkType: sdkTypeDirectory };
 
             if (readmeFiles.length <= 0) {
                 // No readme.md
