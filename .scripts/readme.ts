@@ -65,13 +65,25 @@ export async function copyExistingNodeJsReadme(sdkPath: string): Promise<string>
     return typescriptReadmePath;
 }
 
+export async function getSinglePackageName(typescriptReadmePath: string): Promise<string> {
+    const readmeBuffer: Buffer = await fs.readFile(typescriptReadmePath);
+    const yamlSectionBuffer = await getYamlSection(readmeBuffer, "``` yaml $(typescript)", "```");
+    const yamlSectionText = yamlSectionBuffer.toString();
+    const yamlSection = yaml.safeLoad(yamlSectionText);
+    return yamlSection["typescript"]["package-name"];
+}
+
 async function updatePackageName(settings: ReadmeSettings): Promise<ReadmeSettings> {
-    const packageName = settings.nodejs["package-name"]
-    if (packageName.startsWith("arm") || !packageName.startsWith("azure-")) {
-        return settings;
+    let packageName = settings.nodejs["package-name"]
+    if (packageName.startsWith("azure-")) {
+        packageName = packageName.replace("azure-", "");
     }
 
-    settings.nodejs["package-name"] = packageName.replace("azure-", "");
+    if (!packageName.startsWith("arm-")) {
+        packageName = `arm-${packageName}`
+    }
+
+    settings.nodejs["package-name"] = `"@azure/${packageName}"`
     return settings;
 }
 
@@ -84,8 +96,13 @@ async function updateMetadataFields(settings: ReadmeSettings): Promise<ReadmeSet
     return settings;
 }
 
+function stripExtraQuotes(text: string): string {
+    return text.replace(/'/g, "");
+}
+
 async function updateOutputFolder(settings: ReadmeSettings): Promise<ReadmeSettings> {
-    settings.nodejs["output-folder"] = `$(typescript-sdks-folder)/packages/${settings.nodejs["package-name"]}`;
+    const outputName = settings.nodejs["package-name"].replace(/"/g, "");
+    settings.nodejs["output-folder"] = `"$(typescript-sdks-folder)/packages/${outputName}"`;
     return settings;
 }
 
@@ -106,7 +123,8 @@ export async function updateTypeScriptReadmeFile(typescriptReadmePath: string): 
 
     const yamlSection = await getYamlSection(readmeBuffer, "``` yaml $(nodejs)", "```");
     const sectionText = yamlSection.toString().trim();
-    const updatedYamlSection = await updateYamlSection(sectionText);
+    let updatedYamlSection = await updateYamlSection(sectionText);
+    updatedYamlSection = stripExtraQuotes(updatedYamlSection);
 
     outputReadme = outputReadme.replace(sectionText, updatedYamlSection);
     outputReadme = outputReadme.replace("azure-sdk-for-node", "azure-sdk-for-js");
@@ -175,6 +193,6 @@ export function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScri
 
 export function getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot: string, typeScriptReadmeFileContents: string): string {
     const outputFolderPath: string = getOutputFolderFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-    const outputFolderPathRelativeToAzureSDKForJSRepoRoot: string = outputFolderPath.substring('$(typescript-sdks-folder)/'.length);
+    const outputFolderPathRelativeToAzureSDKForJSRepoRoot: string = outputFolderPath.substring('$(typescript-sdks-folder)/'.length + 1, outputFolderPath.length - 1);
     return path.resolve(azureSDKForJSRepoRoot, outputFolderPathRelativeToAzureSDKForJSRepoRoot);
 }

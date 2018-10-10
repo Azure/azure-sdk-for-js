@@ -70,7 +70,6 @@ export async function commitAndCreatePullRequest(
     pullRequestDescription:string,
     validate?: ValidateFunction,
     validateEach?: ValidateEachFunction): Promise<string> {
-    await waitAndLockGitRepository(repository);
     await createNewUniqueBranch(repository, `generated/${packageName}`, true);
 
     await commitSpecificationChanges(repository, commitMessage, validate, validateEach);
@@ -86,6 +85,5 @@ export async function commitAndCreatePullRequest(
     const reviewResponse = await requestPullRequestReview(repositoryName, pullRequestResponse.data.number);
     _logger.logInfo(`Requested preview on pull request successfully - ${reviewResponse.data.html_url}`);
 
-    unlockGitRepository(repository);
     return reviewResponse.data.html_url;
 }

@@ -74,7 +74,7 @@ export async function openRepository(repositoryPath: string): Promise<Repository
 
 export async function validateRepositoryStatus(repository: Repository): Promise<void> {
     const status = await repository.getStatus();
-    _logger.logTrace(`Current repository status: ${status}`);
+    _logger.logTrace(`Current repository status: ${JSON.stringify(status)}`);
 
     if (status && status.length > 0) {
         return Promise.reject(`Not committed changes exist in ${repository.path()} repository`);
