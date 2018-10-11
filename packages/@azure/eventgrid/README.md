@@ -44,7 +44,6 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 ```
 
 ### browser - Authentication, client creation and publishEvents  as an example written in JavaScript.
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -52,39 +51,30 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <html lang="en">
   <head>
     <title>@azure/eventgrid sample</title>
-    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/eventgrid/dist/eventgrid.js"></script>
+    <script src="node_modules/ms-rest-js/master/msRestBundle.js"></script>
+    <script src="node_modules/ms-rest-azure-js/master/msRestAzureBundle.js"></script>
+    <script src="node_modules/@azure/eventgrid/eventGridClientBundle.js"></script>
     <script>
       const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
-        }
-        const client = new Azure.Eventgrid.EventGridClient(res.creds, subscriptionId);
-        const topicHostname = "testtopicHostname";
-        const events = [{
-          id: "testid",
-          topic: "testtopic",
-          subject: "testsubject",
-          data: {},
-          eventType: "testeventType",
-          eventTime: new Date().toISOString(),
-          dataVersion: "testdataVersion"
-        }];
-        client.publishEvents(topicHostname, events).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log('An error occurred:');
-          console.error(err);
-        });
+      const token = "<access_token>";
+      const creds = new msRest.TokenCredentials(token);
+      const client = new EventGridClient(creds, undefined, subscriptionId);
+      const topicHostname = "testtopicHostname";
+      const events = [{
+        id: "testid",
+        topic: "testtopic",
+        subject: "testsubject",
+        data: {},
+        eventType: "testeventType",
+        eventTime: new Date().toISOString(),
+        dataVersion: "testdataVersion"
+      }];
+      client.publishEvents(topicHostname, events).then((result) => {
+        console.log("The result is:");
+        console.log(result);
+      }).catch((err) => {
+        console.log('An error ocurred:');
+        console.error(err);
       });
     </script>
   </head>
