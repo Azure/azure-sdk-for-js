@@ -73,7 +73,7 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
                 npmInstall(packageFolderPath);
             } catch (err) {
                 _logger.log('Error:');
-                _logger.log(`An error occurred while generating client for packages: "${packageNamesString}":\n Stderr: "${err.stderr}"`);
+                _logger.log(`An error occurred while generating client for packages: "${packageNamesString}":\nErr: ${err}\nStderr: "${err.stderr}"`);
             }
 
             _logger.log(`>>>>>>>>>>>>>>>>>>> End: "${packageNamesString}" >>>>>>>>>>>>>>>>>>>>>>>>>`);
@@ -102,7 +102,7 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType): P
     const typescriptReadmePath: string = await copyExistingNodeJsReadme(sdkPath);
     _logger.log(`Copied readme file successfully`);
 
-    const newContent: string = await updateTypeScriptReadmeFile(typescriptReadmePath);
+    const newContent: string = await updateTypeScriptReadmeFile(typescriptReadmePath, _args.getSdkType());
     _logger.log(`Generated content of the new TypeScript readme file successfully`);
 
     await saveContentToFile(typescriptReadmePath, newContent);

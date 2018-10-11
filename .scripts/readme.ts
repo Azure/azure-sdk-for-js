@@ -10,6 +10,7 @@ import { promises as fs } from "fs";
 import * as glob from "glob";
 import * as path from "path";
 import * as yaml from "js-yaml";
+import { SdkType } from "./commandLine";
 
 const _logger = getLogger();
 
@@ -73,13 +74,13 @@ export async function getSinglePackageName(typescriptReadmePath: string): Promis
     return yamlSection["typescript"]["package-name"];
 }
 
-async function updatePackageName(settings: ReadmeSettings): Promise<ReadmeSettings> {
+async function updatePackageName(settings: ReadmeSettings, sdkType: SdkType): Promise<ReadmeSettings> {
     let packageName = settings.nodejs["package-name"]
     if (packageName.startsWith("azure-")) {
         packageName = packageName.replace("azure-", "");
     }
 
-    if (!packageName.startsWith("arm-")) {
+    if (sdkType == SdkType.ResourceManager && !packageName.startsWith("arm-")) {
         packageName = `arm-${packageName}`
     }
 
@@ -106,9 +107,9 @@ async function updateOutputFolder(settings: ReadmeSettings): Promise<ReadmeSetti
     return settings;
 }
 
-async function updateYamlSection(sectionText: string): Promise<string> {
+async function updateYamlSection(sectionText: string, sdkType: SdkType): Promise<string> {
     const section = yaml.safeLoad(sectionText);
-    await updatePackageName(section);
+    await updatePackageName(section, sdkType);
     await updateMetadataFields(section);
     await updateOutputFolder(section);
     section["typescript"] = section.nodejs;
@@ -117,13 +118,13 @@ async function updateYamlSection(sectionText: string): Promise<string> {
     return yaml.safeDump(section).trim();
 }
 
-export async function updateTypeScriptReadmeFile(typescriptReadmePath: string): Promise<string> {
+export async function updateTypeScriptReadmeFile(typescriptReadmePath: string, sdkType: SdkType): Promise<string> {
     const readmeBuffer: Buffer = await fs.readFile(typescriptReadmePath);
     let outputReadme: string = readmeBuffer.toString();
 
     const yamlSection = await getYamlSection(readmeBuffer, "``` yaml $(nodejs)", "```");
     const sectionText = yamlSection.toString().trim();
-    let updatedYamlSection = await updateYamlSection(sectionText);
+    let updatedYamlSection = await updateYamlSection(sectionText, sdkType);
     updatedYamlSection = stripExtraQuotes(updatedYamlSection);
 
     outputReadme = outputReadme.replace(sectionText, updatedYamlSection);
