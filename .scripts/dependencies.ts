@@ -311,7 +311,7 @@ export function getLocalDependencyVersion(dependencyName: string): string {
 }
 
 export function getPreviewDependencyVersion(dependencyName: string): string | undefined {
-  let version: string | undefined = addTildePrefix(getNpmPackageVersion(dependencyName, "preview"));
+  let version: string | undefined = addCaretPrefix(getNpmPackageVersion(dependencyName, "preview"));
   if (!version) {
     version = getLatestDependencyVersion(dependencyName);
   }
@@ -319,9 +319,9 @@ export function getPreviewDependencyVersion(dependencyName: string): string | un
 }
 
 export function getLatestDependencyVersion(dependencyName: string): string | undefined {
-  return addTildePrefix(getNpmPackageVersion(dependencyName, "latest"));
+  return addCaretPrefix(getNpmPackageVersion(dependencyName, "latest"));
 }
 
-function addTildePrefix(version: string | undefined): string | undefined {
-  return version ? `~${version}` : version;
+function addCaretPrefix(version: string | undefined): string | undefined {
+  return version ? `^${version}` : version;
 }
