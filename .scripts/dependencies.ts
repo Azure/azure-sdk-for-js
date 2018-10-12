@@ -236,16 +236,6 @@ function regularExpressionReplace(filePath: string, fileContents: string, depend
   return newFileContents;
 }
 
-/**
- * Write the provided packageJSON object to the file at the provided packageJsonFilePath.
- * @param {any} packageJson The package json object to write.
- * @param {string} packageJsonFilePath The path to the package.json file.
- * @returns {void}
- */
-function writePackageJson(packageJson: any, packageJsonFilePath: string): void {
-  fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  ") + "\n");
-}
-
 export function updateLocalDependencies(packageFolders: PackageFolder[], localDependencyNPMScript: string, getNewDependencyVersion: (dependencyName: string) => (string | undefined)): void {
   const forceRefresh: boolean = shouldForceRefresh(process.argv);
 
