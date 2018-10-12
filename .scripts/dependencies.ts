@@ -181,26 +181,6 @@ export function getNpmPackageVersion(packageName: string, tag: string): string |
 }
 
 /**
- * Update the package.json property values for "main".
- * @param {string} mainValue The value that will be used for "main".
- * @returns {void}
- */
-export function updatePackageJsonMain(packageFolderPath: string, mainValue: string): void {
-  const packageJsonFilePath: string = getPackageJsonFilePath(packageFolderPath);
-
-  const packageJson: any = getPackageJson(packageJsonFilePath);
-
-  if (packageJson.main === mainValue) {
-    log(packageJsonFilePath, `"main" is already set to "${mainValue}".`);
-  } else {
-    log(packageJsonFilePath, `Changing "main" to "${mainValue}".`);
-    packageJson.main = mainValue;
-
-    writePackageJson(packageJson, packageJsonFilePath);
-  }
-}
-
-/**
  * Update the dependency versions in the files at the provided codeFilePaths.
  * @param {string[]} codeFilePath The paths to the code files that should be updated.
  * @param {string} dependencyName The name of the dependency to update.
@@ -254,16 +234,6 @@ function regularExpressionReplace(filePath: string, fileContents: string, depend
     }
   }
   return newFileContents;
-}
-
-/**
- * Write the provided packageJSON object to the file at the provided packageJsonFilePath.
- * @param {any} packageJson The package json object to write.
- * @param {string} packageJsonFilePath The path to the package.json file.
- * @returns {void}
- */
-function writePackageJson(packageJson: any, packageJsonFilePath: string): void {
-  fs.writeFileSync(packageJsonFilePath, JSON.stringify(packageJson, undefined, "  ") + "\n");
 }
 
 export function updateLocalDependencies(packageFolders: PackageFolder[], localDependencyNPMScript: string, getNewDependencyVersion: (dependencyName: string) => (string | undefined)): void {
