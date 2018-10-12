@@ -41,7 +41,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "ms-rest-js": "^1.0.439",
+    "ms-rest-js": "^1.0.443",
     "tslib": "^1.9.2"
   },
   "devDependencies": {

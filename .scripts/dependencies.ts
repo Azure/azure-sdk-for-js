@@ -202,7 +202,7 @@ function updateGeneratedPackageDependencyVersion(codeFilePath: string, dependenc
       codeFilePath,
       codeFileContents,
       dependencyName,
-      new RegExp(`\\\\"${dependencyName}\\\\": \\\\"(.*)\\\\"`),
+      new RegExp(`\\\\"${dependencyName}\\\\": \\\\"(.*?)\\\\"`),
       `\\"${dependencyName}\\": \\"${newDependencyVersion}\\"`,
       newDependencyVersion);
 
@@ -210,7 +210,7 @@ function updateGeneratedPackageDependencyVersion(codeFilePath: string, dependenc
       codeFilePath,
       codeFileContents,
       dependencyName,
-      new RegExp(`"${dependencyName}": "(.*)"`),
+      new RegExp(`"${dependencyName}": "(.*?)"`),
       `"${dependencyName}": "${newDependencyVersion}"`,
       newDependencyVersion);
 
