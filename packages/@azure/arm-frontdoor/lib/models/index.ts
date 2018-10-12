@@ -16,79 +16,6 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
- * An interface representing FrontDoorUpdateParameters.
- * The properties needed to update a Front Door
- *
- */
-export interface FrontDoorUpdateParameters {
-  /**
-   * @member {string} [friendlyName] A friendly name for the frontDoor
-   */
-  friendlyName?: string;
-  /**
-   * @member {RoutingRule[]} [routingRules] Routing rules associated with this
-   * Front Door.
-   */
-  routingRules?: RoutingRule[];
-  /**
-   * @member {LoadBalancingSettingsModel[]} [loadBalancingSettings] Load
-   * balancing settings associated with this Front Door instance.
-   */
-  loadBalancingSettings?: LoadBalancingSettingsModel[];
-  /**
-   * @member {HealthProbeSettingsModel[]} [healthProbeSettings] Health probe
-   * settings associated with this Front Door instance.
-   */
-  healthProbeSettings?: HealthProbeSettingsModel[];
-  /**
-   * @member {BackendPool[]} [backendPools] Backend pools available to routing
-   * rules.
-   */
-  backendPools?: BackendPool[];
-  /**
-   * @member {FrontendEndpoint[]} [frontendEndpoints] Frontend endpoints
-   * available to routing rules.
-   */
-  frontendEndpoints?: FrontendEndpoint[];
-  /**
-   * @member {FrontDoorEnabledState} [enabledState] Operational status of the
-   * Front Door load balancer. Permitted values are 'Enabled' or 'Disabled'.
-   * Possible values include: 'Enabled', 'Disabled'
-   */
-  enabledState?: FrontDoorEnabledState;
-}
-
-/**
- * @interface
- * An interface representing FrontDoorProperties.
- * The JSON object that contains the properties required to create an endpoint.
- *
- * @extends FrontDoorUpdateParameters
- */
-export interface FrontDoorProperties extends FrontDoorUpdateParameters {
-  /**
-   * @member {FrontDoorResourceState} [resourceState] Resource status of the
-   * Front Door. Possible values include: 'Creating', 'Enabling', 'Enabled',
-   * 'Disabling', 'Disabled', 'Deleting'
-   */
-  resourceState?: FrontDoorResourceState;
-  /**
-   * @member {string} [provisioningState] Provisioning state of the Front Door.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * @member {string} [cname] The host that each frontendEndpoint must CNAME
-   * to.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly cname?: string;
-}
-
-/**
- * @interface
  * An interface representing Resource.
  * Common resource representation.
  *
@@ -190,73 +117,6 @@ export interface FrontDoor extends Resource {
 
 /**
  * @interface
- * An interface representing RoutingRuleUpdateParameters.
- * Routing rules to apply to an endpoint
- *
- */
-export interface RoutingRuleUpdateParameters {
-  /**
-   * @member {SubResource[]} [frontendEndpoints] Frontend endpoints associated
-   * with this rule
-   */
-  frontendEndpoints?: SubResource[];
-  /**
-   * @member {FrontDoorProtocol[]} [acceptedProtocols] Protocol schemes to
-   * match for this rule
-   */
-  acceptedProtocols?: FrontDoorProtocol[];
-  /**
-   * @member {string[]} [patternsToMatch] The route patterns of the rule.
-   */
-  patternsToMatch?: string[];
-  /**
-   * @member {string} [customForwardingPath] A custom path used to rewrite
-   * resource paths matched by this rule. Leave empty to use incoming path.
-   */
-  customForwardingPath?: string;
-  /**
-   * @member {FrontDoorForwardingProtocol} [forwardingProtocol] Protocol this
-   * rule will use when forwarding traffic to backends. Possible values
-   * include: 'HttpOnly', 'HttpsOnly', 'MatchRequest'
-   */
-  forwardingProtocol?: FrontDoorForwardingProtocol;
-  /**
-   * @member {CacheConfiguration} [cacheConfiguration] The caching
-   * configuration associated with this rule.
-   */
-  cacheConfiguration?: CacheConfiguration;
-  /**
-   * @member {SubResource} [backendPool] A reference to the BackendPool which
-   * this rule routes to.
-   */
-  backendPool?: SubResource;
-  /**
-   * @member {FrontDoorEnabledState} [enabledState] Whether to enable use of
-   * this rule. Permitted values are 'Enabled' or 'Disabled'. Possible values
-   * include: 'Enabled', 'Disabled'
-   */
-  enabledState?: FrontDoorEnabledState;
-}
-
-/**
- * @interface
- * An interface representing RoutingRuleProperties.
- * The JSON object that contains the properties required to create a routing
- * rule.
- *
- * @extends RoutingRuleUpdateParameters
- */
-export interface RoutingRuleProperties extends RoutingRuleUpdateParameters {
-  /**
-   * @member {FrontDoorResourceState} [resourceState] Resource status. Possible
-   * values include: 'Creating', 'Enabling', 'Enabled', 'Disabling',
-   * 'Disabled', 'Deleting'
-   */
-  resourceState?: FrontDoorResourceState;
-}
-
-/**
- * @interface
  * An interface representing SubResource.
  * Reference to another subresource.
  *
@@ -339,47 +199,6 @@ export interface RoutingRule extends SubResource {
 
 /**
  * @interface
- * An interface representing LoadBalancingSettingsUpdateParameters.
- * Round-Robin load balancing settings for a backend pool
- *
- */
-export interface LoadBalancingSettingsUpdateParameters {
-  /**
-   * @member {number} [sampleSize] The number of samples to consider for load
-   * balancing decisions
-   */
-  sampleSize?: number;
-  /**
-   * @member {number} [successfulSamplesRequired] The number of samples within
-   * the sample period that must succeed
-   */
-  successfulSamplesRequired?: number;
-  /**
-   * @member {number} [additionalLatencyMilliseconds] The additional latency in
-   * milliseconds for probes to fall into the lowest latency bucket
-   */
-  additionalLatencyMilliseconds?: number;
-}
-
-/**
- * @interface
- * An interface representing LoadBalancingSettingsProperties.
- * The JSON object that contains the properties required to create load
- * balancing settings
- *
- * @extends LoadBalancingSettingsUpdateParameters
- */
-export interface LoadBalancingSettingsProperties extends LoadBalancingSettingsUpdateParameters {
-  /**
-   * @member {FrontDoorResourceState} [resourceState] Resource status. Possible
-   * values include: 'Creating', 'Enabling', 'Enabled', 'Disabling',
-   * 'Disabled', 'Deleting'
-   */
-  resourceState?: FrontDoorResourceState;
-}
-
-/**
- * @interface
  * An interface representing LoadBalancingSettingsModel.
  * Load balancing settings for a backend pool
  *
@@ -421,46 +240,6 @@ export interface LoadBalancingSettingsModel extends SubResource {
 
 /**
  * @interface
- * An interface representing HealthProbeSettingsUpdateParameters.
- * L7 health probe settings for a backend pool
- *
- */
-export interface HealthProbeSettingsUpdateParameters {
-  /**
-   * @member {string} [path] The path to use for the health probe. Default is /
-   */
-  path?: string;
-  /**
-   * @member {FrontDoorProtocol} [protocol] Protocol scheme to use for this
-   * probe. Possible values include: 'Http', 'Https'
-   */
-  protocol?: FrontDoorProtocol;
-  /**
-   * @member {number} [intervalInSeconds] The number of seconds between health
-   * probes.
-   */
-  intervalInSeconds?: number;
-}
-
-/**
- * @interface
- * An interface representing HealthProbeSettingsProperties.
- * The JSON object that contains the properties required to create a health
- * probe settings.
- *
- * @extends HealthProbeSettingsUpdateParameters
- */
-export interface HealthProbeSettingsProperties extends HealthProbeSettingsUpdateParameters {
-  /**
-   * @member {FrontDoorResourceState} [resourceState] Resource status. Possible
-   * values include: 'Creating', 'Enabling', 'Enabled', 'Disabling',
-   * 'Disabled', 'Deleting'
-   */
-  resourceState?: FrontDoorResourceState;
-}
-
-/**
- * @interface
  * An interface representing HealthProbeSettingsModel.
  * Load balancing settings for a backend pool
  *
@@ -497,46 +276,6 @@ export interface HealthProbeSettingsModel extends SubResource {
    * the server.**
    */
   readonly type?: string;
-}
-
-/**
- * @interface
- * An interface representing BackendPoolUpdateParameters.
- * A collection of backends that can be routed to.
- *
- */
-export interface BackendPoolUpdateParameters {
-  /**
-   * @member {Backend[]} [backends] The set of backends for this pool
-   */
-  backends?: Backend[];
-  /**
-   * @member {SubResource} [loadBalancingSettings] Load balancing settings for
-   * a backend pool
-   */
-  loadBalancingSettings?: SubResource;
-  /**
-   * @member {SubResource} [healthProbeSettings] L7 health probe settings for a
-   * backend pool
-   */
-  healthProbeSettings?: SubResource;
-}
-
-/**
- * @interface
- * An interface representing BackendPoolProperties.
- * The JSON object that contains the properties required to create a routing
- * rule.
- *
- * @extends BackendPoolUpdateParameters
- */
-export interface BackendPoolProperties extends BackendPoolUpdateParameters {
-  /**
-   * @member {FrontDoorResourceState} [resourceState] Resource status. Possible
-   * values include: 'Creating', 'Enabling', 'Enabled', 'Disabling',
-   * 'Disabled', 'Deleting'
-   */
-  resourceState?: FrontDoorResourceState;
 }
 
 /**
@@ -594,45 +333,6 @@ export interface KeyVaultCertificateSourceParametersVault {
 
 /**
  * @interface
- * An interface representing KeyVaultCertificateSourceParameters.
- * Parameters required for bring-your-own-certification via Key Vault
- *
- */
-export interface KeyVaultCertificateSourceParameters {
-  /**
-   * @member {KeyVaultCertificateSourceParametersVault} [vault] The Key Vault
-   * containing the SSL certificate
-   */
-  vault?: KeyVaultCertificateSourceParametersVault;
-  /**
-   * @member {string} [secretName] The name of the Key Vault secret
-   * representing the full certificate PFX
-   */
-  secretName?: string;
-  /**
-   * @member {string} [secretVersion] The version of the Key Vault secret
-   * representing the full certificate PFX
-   */
-  secretVersion?: string;
-}
-
-/**
- * @interface
- * An interface representing FrontDoorCertificateSourceParameters.
- * Parameters required for enabling SSL with Front Door-managed certificates
- *
- */
-export interface FrontDoorCertificateSourceParameters {
-  /**
-   * @member {FrontDoorCertificateType} [certificateType] Defines the type of
-   * the certificate used for secure connections to a frontendEndpoint.
-   * Possible values include: 'Dedicated'
-   */
-  certificateType?: FrontDoorCertificateType;
-}
-
-/**
- * @interface
  * An interface representing CustomHttpsConfiguration.
  * Https settings for a domain
  *
@@ -671,84 +371,6 @@ export interface CustomHttpsConfiguration {
    * Possible values include: 'Dedicated'
    */
   certificateType?: FrontDoorCertificateType;
-}
-
-/**
- * @interface
- * An interface representing FrontendEndpointUpdateParameters.
- * Frontend endpoint used in routing rule
- *
- */
-export interface FrontendEndpointUpdateParameters {
-  /**
-   * @member {string} [hostName] The host name of the frontendEndpoint. Must be
-   * a domain name.
-   */
-  hostName?: string;
-  /**
-   * @member {SessionAffinityEnabledState} [sessionAffinityEnabledState]
-   * Whether to allow session affinity on this host. Valid options are
-   * 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
-   */
-  sessionAffinityEnabledState?: SessionAffinityEnabledState;
-  /**
-   * @member {number} [sessionAffinityTtlSeconds] UNUSED. This field will be
-   * ignored. The TTL to use in seconds for session affinity, if applicable.
-   */
-  sessionAffinityTtlSeconds?: number;
-  /**
-   * @member {FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink}
-   * [webApplicationFirewallPolicyLink] Defines the Web Application Firewall
-   * policy for each host (if applicable)
-   */
-  webApplicationFirewallPolicyLink?: FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink;
-}
-
-/**
- * @interface
- * An interface representing FrontendEndpointProperties.
- * The JSON object that contains the properties required to create a frontend
- * endpoint.
- *
- * @extends FrontendEndpointUpdateParameters
- */
-export interface FrontendEndpointProperties extends FrontendEndpointUpdateParameters {
-  /**
-   * @member {FrontDoorResourceState} [resourceState] Resource status. Possible
-   * values include: 'Creating', 'Enabling', 'Enabled', 'Disabling',
-   * 'Disabled', 'Deleting'
-   */
-  resourceState?: FrontDoorResourceState;
-  /**
-   * @member {CustomHttpsProvisioningState} [customHttpsProvisioningState]
-   * Provisioning status of Custom Https of the frontendEndpoint. Possible
-   * values include: 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly customHttpsProvisioningState?: CustomHttpsProvisioningState;
-  /**
-   * @member {CustomHttpsProvisioningSubstate}
-   * [customHttpsProvisioningSubstate] Provisioning substate shows the progress
-   * of custom HTTPS enabling/disabling process step by step. Possible values
-   * include: 'SubmittingDomainControlValidationRequest',
-   * 'PendingDomainControlValidationREquestApproval',
-   * 'DomainControlValidationRequestApproved',
-   * 'DomainControlValidationRequestRejected',
-   * 'DomainControlValidationRequestTimedOut', 'IssuingCertificate',
-   * 'DeployingCertificate', 'CertificateDeployed', 'DeletingCertificate',
-   * 'CertificateDeleted'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
-  /**
-   * @member {CustomHttpsConfiguration} [customHttpsConfiguration] The
-   * configuration specifying how to enable HTTPS
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly customHttpsConfiguration?: CustomHttpsConfiguration;
 }
 
 /**
@@ -831,6 +453,50 @@ export interface FrontendEndpoint extends SubResource {
 
 /**
  * @interface
+ * An interface representing FrontDoorUpdateParameters.
+ * The properties needed to update a Front Door
+ *
+ */
+export interface FrontDoorUpdateParameters {
+  /**
+   * @member {string} [friendlyName] A friendly name for the frontDoor
+   */
+  friendlyName?: string;
+  /**
+   * @member {RoutingRule[]} [routingRules] Routing rules associated with this
+   * Front Door.
+   */
+  routingRules?: RoutingRule[];
+  /**
+   * @member {LoadBalancingSettingsModel[]} [loadBalancingSettings] Load
+   * balancing settings associated with this Front Door instance.
+   */
+  loadBalancingSettings?: LoadBalancingSettingsModel[];
+  /**
+   * @member {HealthProbeSettingsModel[]} [healthProbeSettings] Health probe
+   * settings associated with this Front Door instance.
+   */
+  healthProbeSettings?: HealthProbeSettingsModel[];
+  /**
+   * @member {BackendPool[]} [backendPools] Backend pools available to routing
+   * rules.
+   */
+  backendPools?: BackendPool[];
+  /**
+   * @member {FrontendEndpoint[]} [frontendEndpoints] Frontend endpoints
+   * available to routing rules.
+   */
+  frontendEndpoints?: FrontendEndpoint[];
+  /**
+   * @member {FrontDoorEnabledState} [enabledState] Operational status of the
+   * Front Door load balancer. Permitted values are 'Enabled' or 'Disabled'.
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  enabledState?: FrontDoorEnabledState;
+}
+
+/**
+ * @interface
  * An interface representing PurgeParameters.
  * Parameters required for content purge.
  *
@@ -863,6 +529,56 @@ export interface CacheConfiguration {
    * 'Enabled', 'Disabled'
    */
   dynamicCompression?: DynamicCompressionEnabled;
+}
+
+/**
+ * @interface
+ * An interface representing RoutingRuleUpdateParameters.
+ * Routing rules to apply to an endpoint
+ *
+ */
+export interface RoutingRuleUpdateParameters {
+  /**
+   * @member {SubResource[]} [frontendEndpoints] Frontend endpoints associated
+   * with this rule
+   */
+  frontendEndpoints?: SubResource[];
+  /**
+   * @member {FrontDoorProtocol[]} [acceptedProtocols] Protocol schemes to
+   * match for this rule
+   */
+  acceptedProtocols?: FrontDoorProtocol[];
+  /**
+   * @member {string[]} [patternsToMatch] The route patterns of the rule.
+   */
+  patternsToMatch?: string[];
+  /**
+   * @member {string} [customForwardingPath] A custom path used to rewrite
+   * resource paths matched by this rule. Leave empty to use incoming path.
+   */
+  customForwardingPath?: string;
+  /**
+   * @member {FrontDoorForwardingProtocol} [forwardingProtocol] Protocol this
+   * rule will use when forwarding traffic to backends. Possible values
+   * include: 'HttpOnly', 'HttpsOnly', 'MatchRequest'
+   */
+  forwardingProtocol?: FrontDoorForwardingProtocol;
+  /**
+   * @member {CacheConfiguration} [cacheConfiguration] The caching
+   * configuration associated with this rule.
+   */
+  cacheConfiguration?: CacheConfiguration;
+  /**
+   * @member {SubResource} [backendPool] A reference to the BackendPool which
+   * this rule routes to.
+   */
+  backendPool?: SubResource;
+  /**
+   * @member {FrontDoorEnabledState} [enabledState] Whether to enable use of
+   * this rule. Permitted values are 'Enabled' or 'Disabled'. Possible values
+   * include: 'Enabled', 'Disabled'
+   */
+  enabledState?: FrontDoorEnabledState;
 }
 
 /**
@@ -913,6 +629,76 @@ export interface Backend {
 
 /**
  * @interface
+ * An interface representing LoadBalancingSettingsUpdateParameters.
+ * Round-Robin load balancing settings for a backend pool
+ *
+ */
+export interface LoadBalancingSettingsUpdateParameters {
+  /**
+   * @member {number} [sampleSize] The number of samples to consider for load
+   * balancing decisions
+   */
+  sampleSize?: number;
+  /**
+   * @member {number} [successfulSamplesRequired] The number of samples within
+   * the sample period that must succeed
+   */
+  successfulSamplesRequired?: number;
+  /**
+   * @member {number} [additionalLatencyMilliseconds] The additional latency in
+   * milliseconds for probes to fall into the lowest latency bucket
+   */
+  additionalLatencyMilliseconds?: number;
+}
+
+/**
+ * @interface
+ * An interface representing HealthProbeSettingsUpdateParameters.
+ * L7 health probe settings for a backend pool
+ *
+ */
+export interface HealthProbeSettingsUpdateParameters {
+  /**
+   * @member {string} [path] The path to use for the health probe. Default is /
+   */
+  path?: string;
+  /**
+   * @member {FrontDoorProtocol} [protocol] Protocol scheme to use for this
+   * probe. Possible values include: 'Http', 'Https'
+   */
+  protocol?: FrontDoorProtocol;
+  /**
+   * @member {number} [intervalInSeconds] The number of seconds between health
+   * probes.
+   */
+  intervalInSeconds?: number;
+}
+
+/**
+ * @interface
+ * An interface representing BackendPoolUpdateParameters.
+ * A collection of backends that can be routed to.
+ *
+ */
+export interface BackendPoolUpdateParameters {
+  /**
+   * @member {Backend[]} [backends] The set of backends for this pool
+   */
+  backends?: Backend[];
+  /**
+   * @member {SubResource} [loadBalancingSettings] Load balancing settings for
+   * a backend pool
+   */
+  loadBalancingSettings?: SubResource;
+  /**
+   * @member {SubResource} [healthProbeSettings] L7 health probe settings for a
+   * backend pool
+   */
+  healthProbeSettings?: SubResource;
+}
+
+/**
+ * @interface
  * An interface representing FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink.
  * Defines the Web Application Firewall policy for each host (if applicable)
  *
@@ -922,6 +708,37 @@ export interface FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLin
    * @member {string} [id] Resource ID.
    */
   id?: string;
+}
+
+/**
+ * @interface
+ * An interface representing FrontendEndpointUpdateParameters.
+ * Frontend endpoint used in routing rule
+ *
+ */
+export interface FrontendEndpointUpdateParameters {
+  /**
+   * @member {string} [hostName] The host name of the frontendEndpoint. Must be
+   * a domain name.
+   */
+  hostName?: string;
+  /**
+   * @member {SessionAffinityEnabledState} [sessionAffinityEnabledState]
+   * Whether to allow session affinity on this host. Valid options are
+   * 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  sessionAffinityEnabledState?: SessionAffinityEnabledState;
+  /**
+   * @member {number} [sessionAffinityTtlSeconds] UNUSED. This field will be
+   * ignored. The TTL to use in seconds for session affinity, if applicable.
+   */
+  sessionAffinityTtlSeconds?: number;
+  /**
+   * @member {FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink}
+   * [webApplicationFirewallPolicyLink] Defines the Web Application Firewall
+   * policy for each host (if applicable)
+   */
+  webApplicationFirewallPolicyLink?: FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink;
 }
 
 /**
@@ -1282,45 +1099,6 @@ export interface ManagedRuleSets {
    * @member {ManagedRuleSetUnion[]} [ruleSets] List of rules
    */
   ruleSets?: ManagedRuleSetUnion[];
-}
-
-/**
- * @interface
- * An interface representing WebApplicationFirewallPolicyPropertiesFormat.
- * Defines web application firewall policy properties
- *
- */
-export interface WebApplicationFirewallPolicyPropertiesFormat {
-  /**
-   * @member {PolicySettings} [policySettings] Describes  policySettings for
-   * policy
-   */
-  policySettings?: PolicySettings;
-  /**
-   * @member {CustomRules} [customRules] Describes custom rules inside the
-   * policy
-   */
-  customRules?: CustomRules;
-  /**
-   * @member {ManagedRuleSets} [managedRules] Describes managed rules inside
-   * the policy
-   */
-  managedRules?: ManagedRuleSets;
-  /**
-   * @member {string} [provisioningState] Provisioning state of the
-   * WebApplicationFirewallPolicy.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * @member {WebApplicationFirewallPolicy} [resourceState] Resource status of
-   * the policy. Possible values include: 'Creating', 'Enabling', 'Enabled',
-   * 'Disabling', 'Disabled', 'Deleting'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly resourceState?: WebApplicationFirewallPolicy;
 }
 
 /**
