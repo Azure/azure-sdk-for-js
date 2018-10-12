@@ -10,7 +10,6 @@ import { arrayContains } from "./common";
 export interface CommandLineOptions extends minimist.ParsedArgs {
     "azure-sdk-for-js-repo-root": string;
     "azure-rest-api-specs-root": string;
-    b: boolean;
     debugger: boolean;
     "logging-level": string;
     package: string;
