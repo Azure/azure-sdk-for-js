@@ -34,7 +34,6 @@ export {
   BaseImageTriggerUpdateParameters,
   Registry,
   Sku,
-  RegistryIdentity,
   Status,
   StorageAccountProperties,
   Replication,
