@@ -1306,6 +1306,16 @@ export interface ManagementGroupAggregatedCostResult extends Resource {
    * management group
    */
   children?: ManagementGroupAggregatedCostResult[];
+  /**
+   * @member {string[]} [includedSubscriptions] List of subscriptionGuids
+   * included in the calculation of aggregated cost
+   */
+  includedSubscriptions?: string[];
+  /**
+   * @member {string[]} [excludedSubscriptions] List of subscriptionGuids
+   * excluded from the calculation of aggregated cost
+   */
+  excludedSubscriptions?: string[];
 }
 
 /**
