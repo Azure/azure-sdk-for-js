@@ -2144,7 +2144,7 @@ export interface LinuxProperties {
 export interface TagSettingsProperties {
   /**
    * @member {{ [propertyName: string]: string[] }} [tags] Dictionary of tags
-   * with its list of values
+   * with its list of values.
    */
   tags?: { [propertyName: string]: string[] };
   /**
@@ -2184,7 +2184,7 @@ export interface AzureQueryProperties {
 export interface TargetProperties {
   /**
    * @member {AzureQueryProperties[]} [azureQueries] List of Azure queries in
-   * software update configuration.
+   * the software update configuration.
    */
   azureQueries?: AzureQueryProperties[];
 }
@@ -2227,8 +2227,8 @@ export interface UpdateConfiguration {
    */
   nonAzureComputerNames?: string[];
   /**
-   * @member {TargetProperties} [targets] Group information that will be
-   * patched during run time.
+   * @member {TargetProperties} [targets] Group targets for the software update
+   * configuration.
    */
   targets?: TargetProperties;
 }
