@@ -17,16 +17,16 @@ import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOp
  */
 export interface DeserializationContentTypes {
   /**
-   * The content-types that indicate that an operation response should be deserialized as XML.
+   * The content-types that indicate that an operation response should be deserialized as JSON.
    * Defaults to [ "application/json", "text/json" ].
    */
-  xml?: string[];
+  json?: string[];
 
   /**
-   * The content-types that indicate that an operation response should be deserialized as JSON.
+   * The content-types that indicate that an operation response should be deserialized as XML.
    * Defaults to [ "application/xml", "application/atom+xml" ].
    */
-  json?: string[];
+  xml?: string[];
 }
 
 /**
@@ -41,8 +41,8 @@ export function deserializationPolicy(deserializationContentTypes?: Deserializat
   };
 }
 
-export const defaultJsonContentTypes = [ "application/json", "text/json" ];
-export const defaultXmlContentTypes = [ "application/xml", "application/atom+xml" ];
+export const defaultJsonContentTypes = ["application/json", "text/json"];
+export const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];
 
 /**
  * A RequestPolicy that will deserialize HTTP response bodies and headers as they pass through the
