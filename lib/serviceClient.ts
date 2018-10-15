@@ -9,7 +9,7 @@ import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { OperationArguments } from "./operationArguments";
 import { getPathStringFromParameter, getPathStringFromParameterPath, OperationParameter, ParameterPath } from "./operationParameter";
 import { isStreamOperation, OperationSpec } from "./operationSpec";
-import { deserializationPolicy } from "./policies/deserializationPolicy";
+import { deserializationPolicy, DeserializationContentTypes } from "./policies/deserializationPolicy";
 import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
 import { msRestUserAgentPolicy } from "./policies/msRestUserAgentPolicy";
@@ -67,6 +67,10 @@ export interface ServiceClientOptions {
    * header to all outgoing requests with this header name and a random UUID as the request ID.
    */
   clientRequestIdHeaderName?: string;
+  /**
+   * The content-types that will be associated with JSON or XML serialization.
+   */
+  deserializationContentTypes?: DeserializationContentTypes;
 }
 
 /**
@@ -389,7 +393,7 @@ function createDefaultRequestPolicyFactories(credentials: ServiceClientCredentia
     factories.push(systemErrorRetryPolicy());
   }
 
-  factories.push(deserializationPolicy());
+  factories.push(deserializationPolicy(options.deserializationContentTypes));
 
   return factories;
 }

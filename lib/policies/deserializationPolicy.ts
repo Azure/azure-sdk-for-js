@@ -12,28 +12,55 @@ import { WebResource } from "../webResource";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./requestPolicy";
 
 /**
+ * The content-types that will indicate that an operation response should be deserialized in a
+ * particular way.
+ */
+export interface DeserializationContentTypes {
+  /**
+   * The content-types that indicate that an operation response should be deserialized as XML.
+   * Defaults to [ "application/json", "text/json" ].
+   */
+  xml?: string[];
+
+  /**
+   * The content-types that indicate that an operation response should be deserialized as JSON.
+   * Defaults to [ "application/xml", "application/atom+xml" ].
+   */
+  json?: string[];
+}
+
+/**
  * Create a new serialization RequestPolicyCreator that will serialized HTTP request bodies as they
  * pass through the HTTP pipeline.
  */
-export function deserializationPolicy(): RequestPolicyFactory {
+export function deserializationPolicy(deserializationContentTypes?: DeserializationContentTypes): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new DeserializationPolicy(nextPolicy, options);
+      return new DeserializationPolicy(nextPolicy, deserializationContentTypes, options);
     }
   };
 }
+
+export const defaultJsonContentTypes = [ "application/json", "text/json" ];
+export const defaultXmlContentTypes = [ "application/xml", "application/atom+xml" ];
 
 /**
  * A RequestPolicy that will deserialize HTTP response bodies and headers as they pass through the
  * HTTP pipeline.
  */
 export class DeserializationPolicy extends BaseRequestPolicy {
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
+  public readonly jsonContentTypes: string[];
+  public readonly xmlContentTypes: string[];
+
+  constructor(nextPolicy: RequestPolicy, deserializationContentTypes: DeserializationContentTypes | undefined, options: RequestPolicyOptions) {
     super(nextPolicy, options);
+
+    this.jsonContentTypes = deserializationContentTypes && deserializationContentTypes.json || defaultJsonContentTypes;
+    this.xmlContentTypes = deserializationContentTypes && deserializationContentTypes.xml || defaultXmlContentTypes;
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(request).then(deserializeResponseBody);
+    return this._nextPolicy.sendRequest(request).then((response: HttpOperationResponse) => deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response));
   }
 }
 
@@ -65,8 +92,8 @@ function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boole
   return result;
 }
 
-export function deserializeResponseBody(response: HttpOperationResponse): Promise<HttpOperationResponse> {
-  return parse(response).then(parsedResponse => {
+export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTypes: string[], response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  return parse(jsonContentTypes, xmlContentTypes, response).then(parsedResponse => {
     const shouldDeserialize: boolean = shouldDeserializeResponse(parsedResponse);
     if (shouldDeserialize) {
       const operationSpec: OperationSpec | undefined = parsedResponse.request.operationSpec;
@@ -162,7 +189,7 @@ export function deserializeResponseBody(response: HttpOperationResponse): Promis
   });
 }
 
-function parse(operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
+function parse(jsonContentTypes: string[], xmlContentTypes: string[], operationResponse: HttpOperationResponse): Promise<HttpOperationResponse> {
   const errorHandler = (err: Error & { code: string }) => {
     const msg = `Error "${err}" occurred while parsing the response body - ${operationResponse.bodyAsText}.`;
     const errCode = err.code || RestError.PARSE_ERROR;
@@ -174,12 +201,12 @@ function parse(operationResponse: HttpOperationResponse): Promise<HttpOperationR
     const text = operationResponse.bodyAsText;
     const contentType: string = operationResponse.headers.get("Content-Type") || "";
     const contentComponents: string[] = !contentType ? [] : contentType.split(";").map(component => component.toLowerCase());
-    if (contentComponents.length === 0 || contentComponents.some(isJsonContentType)) {
+    if (contentComponents.length === 0 || contentComponents.some(component => jsonContentTypes.indexOf(component) !== -1)) {
       return new Promise<HttpOperationResponse>(resolve => {
         operationResponse.parsedBody = JSON.parse(text);
         resolve(operationResponse);
       }).catch(errorHandler);
-    } else if (contentComponents.some(isXMLContentType)) {
+    } else if (contentComponents.some(component => xmlContentTypes.indexOf(component) !== -1)) {
       return parseXML(text)
         .then(body => {
           operationResponse.parsedBody = body;
@@ -190,20 +217,4 @@ function parse(operationResponse: HttpOperationResponse): Promise<HttpOperationR
   }
 
   return Promise.resolve(operationResponse);
-}
-
-const jsonContentTypes: string[] = [ "application/json", "text/json" ];
-/**
- * Get whether or not the provided Content-Type header value is a recognized JSON content type.
- */
-function isJsonContentType(contentType: string): boolean {
-  return jsonContentTypes.indexOf(contentType) !== -1;
-}
-
-const xmlContentTypes: string[] = [ "application/xml", "application/atom+xml" ];
-/**
- * Get whether or not the provided Content-Type header value is a recognized XML content type.
- */
-function isXMLContentType(contentType: string): boolean {
-  return xmlContentTypes.indexOf(contentType) !== -1;
 }

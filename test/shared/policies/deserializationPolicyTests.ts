@@ -5,7 +5,7 @@ import assert from "assert";
 import { HttpHeaders } from "../../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../../lib/httpOperationResponse";
 import { HttpClient } from "../../../lib/msRest";
-import { DeserializationPolicy, deserializationPolicy, deserializeResponseBody } from "../../../lib/policies/deserializationPolicy";
+import { DeserializationPolicy, deserializationPolicy, deserializeResponseBody, defaultJsonContentTypes, defaultXmlContentTypes } from "../../../lib/policies/deserializationPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../../../lib/policies/requestPolicy";
 import { WebResource } from "../../../lib/webResource";
 
@@ -21,7 +21,7 @@ describe("deserializationPolicy", () => {
   };
 
   it(`should not modify a request that has no request body mapper`, async () => {
-    const deserializationPolicy = new DeserializationPolicy(mockPolicy, new RequestPolicyOptions());
+    const deserializationPolicy = new DeserializationPolicy(mockPolicy, {}, new RequestPolicyOptions());
 
     const request = new WebResource();
     request.body = "hello there!";
@@ -102,7 +102,7 @@ describe("deserializationPolicy", () => {
         headers: new HttpHeaders()
       };
 
-      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(response);
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
 
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
@@ -122,7 +122,7 @@ describe("deserializationPolicy", () => {
         bodyAsText: `<fruit><apples>3</apples></fruit>`
       };
 
-      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(response);
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
 
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
@@ -142,7 +142,7 @@ describe("deserializationPolicy", () => {
         bodyAsText: `<fruit><apples>3</apples></fruit>`
       };
 
-      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(response);
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
 
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
@@ -162,7 +162,34 @@ describe("deserializationPolicy", () => {
         bodyAsText: `<fruit><apples taste="good">3</apples></fruit>`
       };
 
-      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(response);
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
+
+      assert(deserializedResponse);
+      assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
+      assert.strictEqual(deserializedResponse.blobBody, undefined);
+      assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples taste="good">3</apples></fruit>`);
+      assert.deepEqual(deserializedResponse.parsedBody, {
+        "apples": {
+          "$": {
+            "taste": "good"
+          },
+          "_": "3"
+        }
+      });
+      assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
+    });
+
+    it(`with xml property with attribute and value, my/weird-xml content-type, but no operation spec`, async () => {
+      const response: HttpOperationResponse = {
+        request: new WebResource(),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "my/weird-xml"
+        }),
+        bodyAsText: `<fruit><apples taste="good">3</apples></fruit>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody([], [ "my/weird-xml" ], response);
 
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
@@ -189,7 +216,7 @@ describe("deserializationPolicy", () => {
         bodyAsText: `<entry xmlns="http://www.w3.org/2005/Atom"><id>https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False</id><title type="text">testQueuePath</title><published>2018-10-09T19:56:34Z</published><updated>2018-10-09T19:56:35Z</updated><author><name>daschulttest1</name></author><link rel="self" href="https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False"/><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT1M</LockDuration><MaxSizeInMegabytes>1024</MaxSizeInMegabytes><RequiresDuplicateDetection>false</RequiresDuplicateDetection><RequiresSession>false</RequiresSession><DefaultMessageTimeToLive>P14D</DefaultMessageTimeToLive><DeadLetteringOnMessageExpiration>false</DeadLetteringOnMessageExpiration><DuplicateDetectionHistoryTimeWindow>PT10M</DuplicateDetectionHistoryTimeWindow><MaxDeliveryCount>10</MaxDeliveryCount><EnableBatchedOperations>true</EnableBatchedOperations><SizeInBytes>0</SizeInBytes><MessageCount>0</MessageCount><IsAnonymousAccessible>false</IsAnonymousAccessible><AuthorizationRules></AuthorizationRules><Status>Active</Status><CreatedAt>2018-10-09T19:56:34.903Z</CreatedAt><UpdatedAt>2018-10-09T19:56:35.013Z</UpdatedAt><AccessedAt>0001-01-01T00:00:00Z</AccessedAt><SupportOrdering>true</SupportOrdering><CountDetails xmlns:d2p1="http://schemas.microsoft.com/netservices/2011/06/servicebus"><d2p1:ActiveMessageCount>0</d2p1:ActiveMessageCount><d2p1:DeadLetterMessageCount>0</d2p1:DeadLetterMessageCount><d2p1:ScheduledMessageCount>0</d2p1:ScheduledMessageCount><d2p1:TransferMessageCount>0</d2p1:TransferMessageCount><d2p1:TransferDeadLetterMessageCount>0</d2p1:TransferDeadLetterMessageCount></CountDetails><AutoDeleteOnIdle>P10675199DT2H48M5.4775807S</AutoDeleteOnIdle><EnablePartitioning>false</EnablePartitioning><EntityAvailabilityStatus>Available</EntityAvailabilityStatus><EnableExpress>false</EnableExpress></QueueDescription></content></entry>`
       };
 
-      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(response);
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
 
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
@@ -265,3 +292,8 @@ describe("deserializationPolicy", () => {
     });
   });
 });
+
+function deserializeResponse(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  return deserializeResponseBody(defaultJsonContentTypes, defaultXmlContentTypes, response);
+}
+
