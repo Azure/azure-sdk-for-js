@@ -1602,6 +1602,26 @@
                             }
                         }
                     }
+                }, includedSubscriptions: {
+                    serializedName: "properties.includedSubscriptions",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                }, excludedSubscriptions: {
+                    serializedName: "properties.excludedSubscriptions",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
                 } })
         }
     };
@@ -5169,7 +5189,7 @@
                 options = {};
             }
             _this = _super.call(this, credentials, options) || this;
-            _this.apiVersion = '2018-08-31';
+            _this.apiVersion = '2018-10-01';
             _this.acceptLanguage = 'en-US';
             _this.longRunningOperationRetryTimeout = 30;
             _this.baseUri = options.baseUri || _this.baseUri || "https://management.azure.com";
