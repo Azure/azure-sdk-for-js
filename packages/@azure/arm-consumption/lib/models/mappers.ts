@@ -1546,28 +1546,6 @@ export const ManagementGroupAggregatedCostResult: msRest.CompositeMapper = {
             }
           }
         }
-      },
-      includedSubscriptions: {
-        serializedName: "properties.includedSubscriptions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      excludedSubscriptions: {
-        serializedName: "properties.excludedSubscriptions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
       }
     }
   }
