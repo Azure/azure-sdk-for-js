@@ -34,37 +34,54 @@ function isElement(node: Node): node is Element {
   return !!(node as Element).attributes;
 }
 
+/**
+ * Get the Element-typed version of the provided Node if the provided node is an element with
+ * attributes. If it isn't, then undefined is returned.
+ */
+function asElementWithAttributes(node: Node): Element | undefined {
+  return isElement(node) && node.hasAttributes() ? node : undefined;
+}
+
 function domToObject(node: Node): any {
-  // empty node
-  if (node.childNodes.length === 0 && !(isElement(node) && node.hasAttributes())) {
-    return "";
-  }
+  let result: any = {};
 
-  if (node.childNodes.length === 1 && node.childNodes[0].nodeType === Node.TEXT_NODE) {
-    return node.childNodes[0].nodeValue;
-  }
+  const childNodeCount: number = node.childNodes.length;
 
-  const result: { [key: string]: any } = {};
-  for (let i = 0; i < node.childNodes.length; i++) {
-    const child = node.childNodes[i];
-    // Ignore leading/trailing whitespace nodes
-    if (child.nodeType !== Node.TEXT_NODE) {
-      if (!result[child.nodeName]) {
-        result[child.nodeName] = domToObject(child);
-      } else if (Array.isArray(result[child.nodeName])) {
-        result[child.nodeName].push(domToObject(child));
-      } else {
-        result[child.nodeName] = [result[child.nodeName], domToObject(child)];
-      }
-    }
-  }
+  const firstChildNode: Node = node.childNodes[0];
+  const onlyChildTextValue: string | undefined = (firstChildNode && childNodeCount === 1 && firstChildNode.nodeType === Node.TEXT_NODE && firstChildNode.nodeValue) || undefined;
 
-  if (isElement(node) && node.hasAttributes()) {
+  const elementWithAttributes: Element | undefined = asElementWithAttributes(node);
+  if (elementWithAttributes) {
     result["$"] = {};
 
-    for (let i = 0; i < node.attributes.length; i++) {
-      const attr = node.attributes[i];
+    for (let i = 0; i < elementWithAttributes.attributes.length; i++) {
+      const attr = elementWithAttributes.attributes[i];
       result["$"][attr.nodeName] = attr.nodeValue;
+    }
+
+    if (onlyChildTextValue) {
+      result["_"] = onlyChildTextValue;
+    }
+  } else if (childNodeCount === 0) {
+    result = "";
+  } else if (onlyChildTextValue) {
+    result = onlyChildTextValue;
+  }
+
+  if (!onlyChildTextValue) {
+    for (let i = 0; i < childNodeCount; i++) {
+      const child = node.childNodes[i];
+      // Ignore leading/trailing whitespace nodes
+      if (child.nodeType !== Node.TEXT_NODE) {
+        const childObject: any = domToObject(child);
+        if (!result[child.nodeName]) {
+          result[child.nodeName] = childObject;
+        } else if (Array.isArray(result[child.nodeName])) {
+          result[child.nodeName].push(childObject);
+        } else {
+          result[child.nodeName] = [result[child.nodeName], childObject];
+        }
+      }
     }
   }
 

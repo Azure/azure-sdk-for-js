@@ -174,12 +174,12 @@ function parse(operationResponse: HttpOperationResponse): Promise<HttpOperationR
     const text = operationResponse.bodyAsText;
     const contentType: string = operationResponse.headers.get("Content-Type") || "";
     const contentComponents: string[] = !contentType ? [] : contentType.split(";").map(component => component.toLowerCase());
-    if (contentComponents.length === 0 || contentComponents.some(component => component === "application/json" || component === "text/json")) {
+    if (contentComponents.length === 0 || contentComponents.some(isJsonContentType)) {
       return new Promise<HttpOperationResponse>(resolve => {
         operationResponse.parsedBody = JSON.parse(text);
         resolve(operationResponse);
       }).catch(errorHandler);
-    } else if (contentComponents.some(component => component === "application/xml" || component === "text/xml")) {
+    } else if (contentComponents.some(isXMLContentType)) {
       return parseXML(text)
         .then(body => {
           operationResponse.parsedBody = body;
@@ -190,4 +190,20 @@ function parse(operationResponse: HttpOperationResponse): Promise<HttpOperationR
   }
 
   return Promise.resolve(operationResponse);
+}
+
+const jsonContentTypes: string[] = [ "application/json", "text/json" ];
+/**
+ * Get whether or not the provided Content-Type header value is a recognized JSON content type.
+ */
+function isJsonContentType(contentType: string): boolean {
+  return jsonContentTypes.indexOf(contentType) !== -1;
+}
+
+const xmlContentTypes: string[] = [ "application/xml", "application/atom+xml" ];
+/**
+ * Get whether or not the provided Content-Type header value is a recognized XML content type.
+ */
+function isXMLContentType(contentType: string): boolean {
+  return xmlContentTypes.indexOf(contentType) !== -1;
 }
