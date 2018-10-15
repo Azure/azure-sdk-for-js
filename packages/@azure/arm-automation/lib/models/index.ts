@@ -2138,18 +2138,18 @@ export interface LinuxProperties {
 /**
  * @interface
  * An interface representing TagSettingsProperties.
- * Tag filter information of the VM.
+ * Tag filter information for the VM.
  *
  */
 export interface TagSettingsProperties {
   /**
-   * @member {{ [propertyName: string]: string[] }} [tags] dictionary of tags
-   * with its list of value
+   * @member {{ [propertyName: string]: string[] }} [tags] Dictionary of tags
+   * with its list of values
    */
   tags?: { [propertyName: string]: string[] };
   /**
-   * @member {TagOperators} [filterOperator] Possible values include: 'All',
-   * 'Any'
+   * @member {TagOperators} [filterOperator] Filter VMs by Any or All specified
+   * tags. Possible values include: 'All', 'Any'
    */
   filterOperator?: TagOperators;
 }
@@ -2157,21 +2157,20 @@ export interface TagSettingsProperties {
 /**
  * @interface
  * An interface representing AzureQueryProperties.
- * Azure query specific to the group of machines for update configuration.
+ * Azure query for the update configuration.
  *
  */
 export interface AzureQueryProperties {
   /**
-   * @member {string[]} [scope] List of Subscription or Resource Group ARM Id.
+   * @member {string[]} [scope] List of Subscription or Resource Group ARM Ids.
    */
   scope?: string[];
   /**
-   * @member {string[]} [location] list of locations for the VM filter .
+   * @member {string[]} [location] List of locations for the VM.
    */
   location?: string[];
   /**
-   * @member {TagSettingsProperties} [tagSettings] tag filter information of
-   * the Vm.
+   * @member {TagSettingsProperties} [tagSettings] Tag settings for the VM.
    */
   tagSettings?: TagSettingsProperties;
 }
@@ -2179,7 +2178,7 @@ export interface AzureQueryProperties {
 /**
  * @interface
  * An interface representing TargetProperties.
- * Group specific of update configuration.
+ * Group specific to the update configuration.
  *
  */
 export interface TargetProperties {
@@ -2228,7 +2227,7 @@ export interface UpdateConfiguration {
    */
   nonAzureComputerNames?: string[];
   /**
-   * @member {TargetProperties} [targets] group informations that will be
+   * @member {TargetProperties} [targets] Group information that will be
    * patched during run time.
    */
   targets?: TargetProperties;
