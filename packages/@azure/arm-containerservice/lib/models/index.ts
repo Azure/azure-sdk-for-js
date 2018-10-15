@@ -52,6 +52,304 @@ export interface Resource extends BaseResource {
 
 /**
  * @interface
+ * An interface representing PurchasePlan.
+ * Used for establishing the purchase context of any 3rd Party artifact through
+ * MarketPlace.
+ *
+ */
+export interface PurchasePlan {
+  /**
+   * @member {string} [name] The plan ID.
+   */
+  name?: string;
+  /**
+   * @member {string} [product] Specifies the product of the image from the
+   * marketplace. This is the same value as Offer under the imageReference
+   * element.
+   */
+  product?: string;
+  /**
+   * @member {string} [promotionCode] The promotion code.
+   */
+  promotionCode?: string;
+  /**
+   * @member {string} [publisher] The plan ID.
+   */
+  publisher?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OpenShiftRouterProfile.
+ * Represents an OpenShift router
+ *
+ */
+export interface OpenShiftRouterProfile {
+  /**
+   * @member {string} [name] Name of the router profile.
+   */
+  name?: string;
+  /**
+   * @member {string} [publicSubdomain] DNS subdomain for openshift router.
+   */
+  publicSubdomain?: string;
+  /**
+   * @member {string} [fqdn] Auto-allocated FQDN for the OpenShift router.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly fqdn?: string;
+}
+
+/**
+ * @interface
+ * An interface representing NetworkProfile.
+ * Represents the OpenShift networking configuration
+ *
+ */
+export interface NetworkProfile {
+  /**
+   * @member {string} [vnetCidr] CIDR for the OpenShift Vnet. Default value:
+   * '10.0.0.0/8' .
+   */
+  vnetCidr?: string;
+  /**
+   * @member {string} [peerVnetId] CIDR of the Vnet to peer.
+   */
+  peerVnetId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OpenShiftManagedClusterMasterPoolProfile.
+ * OpenShiftManagedClusterMaterPoolProfile contains configuration for OpenShift
+ * master VMs.
+ *
+ */
+export interface OpenShiftManagedClusterMasterPoolProfile {
+  /**
+   * @member {string} [name] Unique name of the master pool profile in the
+   * context of the subscription and resource group.
+   */
+  name?: string;
+  /**
+   * @member {number} count Number of masters (VMs) to host docker containers.
+   * The default value is 3. Default value: 3 .
+   */
+  count: number;
+  /**
+   * @member {OpenShiftContainerServiceVMSize} vmSize Size of agent VMs.
+   * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3'
+   */
+  vmSize: OpenShiftContainerServiceVMSize;
+  /**
+   * @member {string} [subnetCidr] Subnet CIDR for the peering.
+   */
+  subnetCidr?: string;
+  /**
+   * @member {OSType} [osType] OsType to be used to specify os type. Choose
+   * from Linux and Windows. Default to Linux. Possible values include:
+   * 'Linux', 'Windows'. Default value: 'Linux' .
+   */
+  osType?: OSType;
+}
+
+/**
+ * @interface
+ * An interface representing OpenShiftManagedClusterAgentPoolProfile.
+ * Defines the configuration of the OpenShift cluster VMs.
+ *
+ */
+export interface OpenShiftManagedClusterAgentPoolProfile {
+  /**
+   * @member {string} name Unique name of the pool profile in the context of
+   * the subscription and resource group.
+   */
+  name: string;
+  /**
+   * @member {number} count Number of agents (VMs) to host docker containers.
+   * Allowed values must be in the range of 1 to 5 (inclusive). The default
+   * value is 2. . Default value: 2 .
+   */
+  count: number;
+  /**
+   * @member {OpenShiftContainerServiceVMSize} vmSize Size of agent VMs.
+   * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3'
+   */
+  vmSize: OpenShiftContainerServiceVMSize;
+  /**
+   * @member {string} [subnetCidr] Subnet CIDR for the peering. Default value:
+   * '10.0.0.0/24' .
+   */
+  subnetCidr?: string;
+  /**
+   * @member {OSType} [osType] OsType to be used to specify os type. Choose
+   * from Linux and Windows. Default to Linux. Possible values include:
+   * 'Linux', 'Windows'. Default value: 'Linux' .
+   */
+  osType?: OSType;
+  /**
+   * @member {OpenShiftAgentPoolProfileRole} [role] Define the role of the
+   * AgentPoolProfile. Possible values include: 'compute', 'infra'
+   */
+  role?: OpenShiftAgentPoolProfileRole;
+}
+
+/**
+ * Contains the possible cases for OpenShiftManagedClusterBaseIdentityProvider.
+ */
+export type OpenShiftManagedClusterBaseIdentityProviderUnion = OpenShiftManagedClusterBaseIdentityProvider | OpenShiftManagedClusterAADIdentityProvider;
+
+/**
+ * @interface
+ * An interface representing OpenShiftManagedClusterBaseIdentityProvider.
+ * Structure for any Identity provider.
+ *
+ */
+export interface OpenShiftManagedClusterBaseIdentityProvider {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "OpenShiftManagedClusterBaseIdentityProvider";
+}
+
+/**
+ * @interface
+ * An interface representing OpenShiftManagedClusterIdentityProvider.
+ * Defines the configuration of the identity providers to be used in the
+ * OpenShift cluster.
+ *
+ */
+export interface OpenShiftManagedClusterIdentityProvider {
+  /**
+   * @member {string} [name] Name of the provider.
+   */
+  name?: string;
+  /**
+   * @member {OpenShiftManagedClusterBaseIdentityProviderUnion} [provider]
+   * Configuration of the provider.
+   */
+  provider?: OpenShiftManagedClusterBaseIdentityProviderUnion;
+}
+
+/**
+ * @interface
+ * An interface representing OpenShiftManagedClusterAuthProfile.
+ * Defines all possible authentication profiles for the OpenShift cluster.
+ *
+ */
+export interface OpenShiftManagedClusterAuthProfile {
+  /**
+   * @member {OpenShiftManagedClusterIdentityProvider[]} [identityProviders]
+   * Type of authentication profile to use.
+   */
+  identityProviders?: OpenShiftManagedClusterIdentityProvider[];
+}
+
+/**
+ * @interface
+ * An interface representing OpenShiftManagedCluster.
+ * OpenShift Managed cluster.
+ *
+ * @extends Resource
+ */
+export interface OpenShiftManagedCluster extends Resource {
+  /**
+   * @member {PurchasePlan} [plan] Define the resource plan as required by ARM
+   * for billing purposes
+   */
+  plan?: PurchasePlan;
+  /**
+   * @member {string} [provisioningState] The current deployment or
+   * provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} openShiftVersion Version of OpenShift specified when
+   * creating the cluster.
+   */
+  openShiftVersion: string;
+  /**
+   * @member {string} [publicHostname] Optional user-specified FQDN for
+   * OpenShift API server.
+   */
+  publicHostname?: string;
+  /**
+   * @member {string} [fqdn] User-specified FQDN for OpenShift API server
+   * loadbalancer internal hostname.
+   */
+  fqdn?: string;
+  /**
+   * @member {NetworkProfile} [networkProfile] Configuration for OpenShift
+   * networking.
+   */
+  networkProfile?: NetworkProfile;
+  /**
+   * @member {OpenShiftRouterProfile[]} [routerProfiles] Configuration for
+   * OpenShift router(s).
+   */
+  routerProfiles?: OpenShiftRouterProfile[];
+  /**
+   * @member {OpenShiftManagedClusterMasterPoolProfile} [masterPoolProfile]
+   * Configuration for OpenShift master VMs.
+   */
+  masterPoolProfile?: OpenShiftManagedClusterMasterPoolProfile;
+  /**
+   * @member {OpenShiftManagedClusterAgentPoolProfile[]} [agentPoolProfiles]
+   * Configuration of OpenShift cluster VMs.
+   */
+  agentPoolProfiles?: OpenShiftManagedClusterAgentPoolProfile[];
+  /**
+   * @member {OpenShiftManagedClusterAuthProfile} [authProfile] Configures
+   * OpenShift authentication.
+   */
+  authProfile?: OpenShiftManagedClusterAuthProfile;
+}
+
+/**
+ * @interface
+ * An interface representing OpenShiftManagedClusterAADIdentityProvider.
+ * Defines the Identity provider for MS AAD.
+ *
+ */
+export interface OpenShiftManagedClusterAADIdentityProvider {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AADIdentityProvider";
+  /**
+   * @member {string} [clientId] The clientId password associated with the
+   * provider.
+   */
+  clientId?: string;
+  /**
+   * @member {string} [secret] The secret password associated with the
+   * provider.
+   */
+  secret?: string;
+  /**
+   * @member {string} [tenantId] The tenantId associated with the provider.
+   */
+  tenantId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagsObject.
+ * Tags object for patch operations.
+ *
+ */
+export interface TagsObject {
+  /**
+   * @member {{ [propertyName: string]: string }} [tags] Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
  * An interface representing ContainerServiceCustomProfile.
  * Properties to configure a custom container service cluster.
  *
@@ -561,19 +859,6 @@ export interface OperationValue {
    * the server.**
    */
   readonly provider?: string;
-}
-
-/**
- * @interface
- * An interface representing TagsObject.
- * Tags object for patch operations.
- *
- */
-export interface TagsObject {
-  /**
-   * @member {{ [propertyName: string]: string }} [tags] Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -1127,6 +1412,53 @@ export interface ManagedClusterListResult extends Array<ManagedCluster> {
 }
 
 /**
+ * Defines values for OSType.
+ * Possible values include: 'Linux', 'Windows'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OSType = <OSType>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum OSType {
+  Linux = 'Linux',
+  Windows = 'Windows',
+}
+
+/**
+ * Defines values for OpenShiftContainerServiceVMSize.
+ * Possible values include: 'Standard_D2s_v3', 'Standard_D4s_v3'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OpenShiftContainerServiceVMSize =
+ * <OpenShiftContainerServiceVMSize>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum OpenShiftContainerServiceVMSize {
+  StandardD2sV3 = 'Standard_D2s_v3',
+  StandardD4sV3 = 'Standard_D4s_v3',
+}
+
+/**
+ * Defines values for OpenShiftAgentPoolProfileRole.
+ * Possible values include: 'compute', 'infra'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: OpenShiftAgentPoolProfileRole =
+ * <OpenShiftAgentPoolProfileRole>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum OpenShiftAgentPoolProfileRole {
+  Compute = 'compute',
+  Infra = 'infra',
+}
+
+/**
  * Defines values for ContainerServiceStorageProfileTypes.
  * Possible values include: 'StorageAccount', 'ManagedDisks'
  * There could be more values for this enum apart from the ones defined here.If
@@ -1398,21 +1730,6 @@ export enum ContainerServiceOrchestratorTypes {
 }
 
 /**
- * Defines values for OSType.
- * Possible values include: 'Linux', 'Windows'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: OSType = <OSType>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum OSType {
-  Linux = 'Linux',
-  Windows = 'Windows',
-}
-
-/**
  * Defines values for AgentPoolType.
  * Possible values include: 'VirtualMachineScaleSets', 'AvailabilitySet'
  * There could be more values for this enum apart from the ones defined here.If
@@ -1458,6 +1775,101 @@ export enum NetworkPlugin {
 export enum NetworkPolicy {
   Calico = 'calico',
 }
+
+/**
+ * Contains response data for the get operation.
+ */
+export type OpenShiftManagedClustersGetResponse = OpenShiftManagedCluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedCluster;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type OpenShiftManagedClustersCreateOrUpdateResponse = OpenShiftManagedCluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedCluster;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type OpenShiftManagedClustersUpdateTagsResponse = OpenShiftManagedCluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedCluster;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type OpenShiftManagedClustersBeginCreateOrUpdateResponse = OpenShiftManagedCluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedCluster;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type OpenShiftManagedClustersBeginUpdateTagsResponse = OpenShiftManagedCluster & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OpenShiftManagedCluster;
+    };
+};
 
 /**
  * Contains response data for the list operation.
