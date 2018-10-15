@@ -1,0 +1,42 @@
+{
+  "name": "@azure/arm-sql",
+  "author": "Microsoft Corporation",
+  "description": "SqlManagementClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0-preview",
+  "dependencies": {
+    "ms-rest-azure-js": "^1.0.166",
+    "ms-rest-js": "^1.0.439",
+    "tslib": "^1.9.3"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/arm-sql.js",
+  "module": "./esm/sqlManagementClient.js",
+  "types": "./esm/sqlManagementClient.d.ts",
+  "devDependencies": {
+    "typescript": "^3.1.1",
+    "rollup": "^0.66.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "uglify-js": "^3.4.9"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-sql",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-sql.js.map'\" -o ./dist/arm-sql.min.js ./dist/arm-sql.js",
+    "prepare": "npm run build"
+  },
+  "sideEffects": false
+}
