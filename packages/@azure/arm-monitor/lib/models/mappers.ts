@@ -524,63 +524,6 @@ export const AutoscaleNotification: msRest.CompositeMapper = {
   }
 };
 
-export const AutoscaleSetting: msRest.CompositeMapper = {
-  serializedName: "AutoscaleSetting",
-  type: {
-    name: "Composite",
-    className: "AutoscaleSetting",
-    modelProperties: {
-      profiles: {
-        required: true,
-        serializedName: "profiles",
-        constraints: {
-          MaxItems: 20
-        },
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AutoscaleProfile"
-            }
-          }
-        }
-      },
-      notifications: {
-        serializedName: "notifications",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AutoscaleNotification"
-            }
-          }
-        }
-      },
-      enabled: {
-        serializedName: "enabled",
-        defaultValue: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      targetResourceUri: {
-        serializedName: "targetResourceUri",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const AutoscaleSettingResource: msRest.CompositeMapper = {
   serializedName: "AutoscaleSettingResource",
   type: {
@@ -1235,73 +1178,6 @@ export const RuleWebhookAction: msRest.CompositeMapper = {
   }
 };
 
-export const AlertRule: msRest.CompositeMapper = {
-  serializedName: "AlertRule",
-  type: {
-    name: "Composite",
-    className: "AlertRule",
-    modelProperties: {
-      name: {
-        required: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      isEnabled: {
-        required: true,
-        serializedName: "isEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      condition: {
-        required: true,
-        serializedName: "condition",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "odata.type",
-            clientName: "odatatype"
-          },
-          uberParent: "RuleCondition",
-          className: "RuleCondition"
-        }
-      },
-      actions: {
-        serializedName: "actions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              polymorphicDiscriminator: {
-                serializedName: "odata.type",
-                clientName: "odatatype"
-              },
-              uberParent: "RuleAction",
-              className: "RuleAction"
-            }
-          }
-        }
-      },
-      lastUpdatedTime: {
-        readOnly: true,
-        serializedName: "lastUpdatedTime",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
 export const AlertRuleResource: msRest.CompositeMapper = {
   serializedName: "AlertRuleResource",
   type: {
@@ -1469,60 +1345,6 @@ export const RetentionPolicy: msRest.CompositeMapper = {
         },
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const LogProfileProperties: msRest.CompositeMapper = {
-  serializedName: "LogProfileProperties",
-  type: {
-    name: "Composite",
-    className: "LogProfileProperties",
-    modelProperties: {
-      storageAccountId: {
-        serializedName: "storageAccountId",
-        type: {
-          name: "String"
-        }
-      },
-      serviceBusRuleId: {
-        serializedName: "serviceBusRuleId",
-        type: {
-          name: "String"
-        }
-      },
-      locations: {
-        required: true,
-        serializedName: "locations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      categories: {
-        required: true,
-        serializedName: "categories",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      retentionPolicy: {
-        required: true,
-        serializedName: "retentionPolicy",
-        type: {
-          name: "Composite",
-          className: "RetentionPolicy"
         }
       }
     }
@@ -1746,70 +1568,6 @@ export const LogSettings: msRest.CompositeMapper = {
   }
 };
 
-export const DiagnosticSettings: msRest.CompositeMapper = {
-  serializedName: "DiagnosticSettings",
-  type: {
-    name: "Composite",
-    className: "DiagnosticSettings",
-    modelProperties: {
-      storageAccountId: {
-        serializedName: "storageAccountId",
-        type: {
-          name: "String"
-        }
-      },
-      serviceBusRuleId: {
-        serializedName: "serviceBusRuleId",
-        type: {
-          name: "String"
-        }
-      },
-      eventHubAuthorizationRuleId: {
-        serializedName: "eventHubAuthorizationRuleId",
-        type: {
-          name: "String"
-        }
-      },
-      eventHubName: {
-        serializedName: "eventHubName",
-        type: {
-          name: "String"
-        }
-      },
-      metrics: {
-        serializedName: "metrics",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MetricSettings"
-            }
-          }
-        }
-      },
-      logs: {
-        serializedName: "logs",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LogSettings"
-            }
-          }
-        }
-      },
-      workspaceId: {
-        serializedName: "workspaceId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DiagnosticSettingsResource: msRest.CompositeMapper = {
   serializedName: "DiagnosticSettingsResource",
   type: {
@@ -1891,27 +1649,6 @@ export const DiagnosticSettingsResourceCollection: msRest.CompositeMapper = {
               className: "DiagnosticSettingsResource"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const DiagnosticSettingsCategory: msRest.CompositeMapper = {
-  serializedName: "DiagnosticSettingsCategory",
-  type: {
-    name: "Composite",
-    className: "DiagnosticSettingsCategory",
-    modelProperties: {
-      categoryType: {
-        nullable: false,
-        serializedName: "categoryType",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Metrics",
-            "Logs"
-          ]
         }
       }
     }
@@ -2284,142 +2021,6 @@ export const AzureFunctionReceiver: msRest.CompositeMapper = {
   }
 };
 
-export const ActionGroup: msRest.CompositeMapper = {
-  serializedName: "ActionGroup",
-  type: {
-    name: "Composite",
-    className: "ActionGroup",
-    modelProperties: {
-      groupShortName: {
-        required: true,
-        serializedName: "groupShortName",
-        constraints: {
-          MaxLength: 12
-        },
-        type: {
-          name: "String"
-        }
-      },
-      enabled: {
-        required: true,
-        serializedName: "enabled",
-        defaultValue: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      emailReceivers: {
-        serializedName: "emailReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EmailReceiver"
-            }
-          }
-        }
-      },
-      smsReceivers: {
-        serializedName: "smsReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SmsReceiver"
-            }
-          }
-        }
-      },
-      webhookReceivers: {
-        serializedName: "webhookReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "WebhookReceiver"
-            }
-          }
-        }
-      },
-      itsmReceivers: {
-        serializedName: "itsmReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ItsmReceiver"
-            }
-          }
-        }
-      },
-      azureAppPushReceivers: {
-        serializedName: "azureAppPushReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureAppPushReceiver"
-            }
-          }
-        }
-      },
-      automationRunbookReceivers: {
-        serializedName: "automationRunbookReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AutomationRunbookReceiver"
-            }
-          }
-        }
-      },
-      voiceReceivers: {
-        serializedName: "voiceReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VoiceReceiver"
-            }
-          }
-        }
-      },
-      logicAppReceivers: {
-        serializedName: "logicAppReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LogicAppReceiver"
-            }
-          }
-        }
-      },
-      azureFunctionReceivers: {
-        serializedName: "azureFunctionReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureFunctionReceiver"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ActionGroupResource: msRest.CompositeMapper = {
   serializedName: "ActionGroupResource",
   type: {
@@ -2574,23 +2175,6 @@ export const EnableRequest: msRest.CompositeMapper = {
   }
 };
 
-export const ActionGroupPatch: msRest.CompositeMapper = {
-  serializedName: "ActionGroupPatch",
-  type: {
-    name: "Composite",
-    className: "ActionGroupPatch",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        defaultValue: true,
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
 export const ActionGroupPatchBody: msRest.CompositeMapper = {
   serializedName: "ActionGroupPatchBody",
   type: {
@@ -2716,57 +2300,6 @@ export const ActivityLogAlertActionList: msRest.CompositeMapper = {
   }
 };
 
-export const ActivityLogAlert: msRest.CompositeMapper = {
-  serializedName: "ActivityLogAlert",
-  type: {
-    name: "Composite",
-    className: "ActivityLogAlert",
-    modelProperties: {
-      scopes: {
-        required: true,
-        serializedName: "scopes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      enabled: {
-        serializedName: "enabled",
-        defaultValue: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      condition: {
-        required: true,
-        serializedName: "condition",
-        type: {
-          name: "Composite",
-          className: "ActivityLogAlertAllOfCondition"
-        }
-      },
-      actions: {
-        required: true,
-        serializedName: "actions",
-        type: {
-          name: "Composite",
-          className: "ActivityLogAlertActionList"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ActivityLogAlertResource: msRest.CompositeMapper = {
   serializedName: "ActivityLogAlertResource",
   type: {
@@ -2813,23 +2346,6 @@ export const ActivityLogAlertResource: msRest.CompositeMapper = {
         serializedName: "properties.description",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ActivityLogAlertPatch: msRest.CompositeMapper = {
-  serializedName: "ActivityLogAlertPatch",
-  type: {
-    name: "Composite",
-    className: "ActivityLogAlertPatch",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        defaultValue: true,
-        type: {
-          name: "Boolean"
         }
       }
     }
@@ -3583,69 +3099,6 @@ export const Baseline: msRest.CompositeMapper = {
   }
 };
 
-export const BaselineProperties: msRest.CompositeMapper = {
-  serializedName: "BaselineProperties",
-  type: {
-    name: "Composite",
-    className: "BaselineProperties",
-    modelProperties: {
-      timespan: {
-        serializedName: "timespan",
-        type: {
-          name: "String"
-        }
-      },
-      interval: {
-        serializedName: "interval",
-        type: {
-          name: "TimeSpan"
-        }
-      },
-      aggregation: {
-        serializedName: "aggregation",
-        type: {
-          name: "String"
-        }
-      },
-      timestamps: {
-        serializedName: "timestamps",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "DateTime"
-            }
-          }
-        }
-      },
-      baseline: {
-        serializedName: "baseline",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Baseline"
-            }
-          }
-        }
-      },
-      metadata: {
-        serializedName: "metadata",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BaselineMetadataValue"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const BaselineResponse: msRest.CompositeMapper = {
   serializedName: "BaselineResponse",
   type: {
@@ -3866,117 +3319,6 @@ export const MetricAlertCriteria: msRest.CompositeMapper = {
     additionalProperties: {
       type: {
         name: "Object"
-      }
-    }
-  }
-};
-
-export const MetricAlertProperties: msRest.CompositeMapper = {
-  serializedName: "MetricAlertProperties",
-  type: {
-    name: "Composite",
-    className: "MetricAlertProperties",
-    modelProperties: {
-      description: {
-        required: true,
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      severity: {
-        required: true,
-        serializedName: "severity",
-        type: {
-          name: "Number"
-        }
-      },
-      enabled: {
-        required: true,
-        serializedName: "enabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      scopes: {
-        serializedName: "scopes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      evaluationFrequency: {
-        required: true,
-        serializedName: "evaluationFrequency",
-        type: {
-          name: "TimeSpan"
-        }
-      },
-      windowSize: {
-        required: true,
-        serializedName: "windowSize",
-        type: {
-          name: "TimeSpan"
-        }
-      },
-      targetResourceType: {
-        serializedName: "targetResourceType",
-        type: {
-          name: "String"
-        }
-      },
-      targetResourceRegion: {
-        serializedName: "targetResourceRegion",
-        type: {
-          name: "String"
-        }
-      },
-      criteria: {
-        required: true,
-        serializedName: "criteria",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "odata.type",
-            clientName: "odatatype"
-          },
-          uberParent: "MetricAlertCriteria",
-          className: "MetricAlertCriteria",
-          additionalProperties: {
-            type: {
-              name: "Object"
-            }
-          }
-        }
-      },
-      autoMitigate: {
-        serializedName: "autoMitigate",
-        type: {
-          name: "Boolean"
-        }
-      },
-      actions: {
-        serializedName: "actions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MetricAlertAction"
-            }
-          }
-        }
-      },
-      lastUpdatedTime: {
-        readOnly: true,
-        serializedName: "lastUpdatedTime",
-        type: {
-          name: "DateTime"
-        }
       }
     }
   }
@@ -4587,70 +3929,6 @@ export const Action: msRest.CompositeMapper = {
   }
 };
 
-export const LogSearchRule: msRest.CompositeMapper = {
-  serializedName: "LogSearchRule",
-  type: {
-    name: "Composite",
-    className: "LogSearchRule",
-    modelProperties: {
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "String"
-        }
-      },
-      lastUpdatedTime: {
-        readOnly: true,
-        serializedName: "lastUpdatedTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      source: {
-        required: true,
-        serializedName: "source",
-        type: {
-          name: "Composite",
-          className: "Source"
-        }
-      },
-      schedule: {
-        serializedName: "schedule",
-        type: {
-          name: "Composite",
-          className: "Schedule"
-        }
-      },
-      action: {
-        required: true,
-        serializedName: "action",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "odata.type",
-            clientName: "odatatype"
-          },
-          uberParent: "Action",
-          className: "Action"
-        }
-      }
-    }
-  }
-};
-
 export const LogSearchRuleResource: msRest.CompositeMapper = {
   serializedName: "LogSearchRuleResource",
   type: {
@@ -4710,22 +3988,6 @@ export const LogSearchRuleResource: msRest.CompositeMapper = {
           },
           uberParent: "Action",
           className: "Action"
-        }
-      }
-    }
-  }
-};
-
-export const LogSearchRulePatch: msRest.CompositeMapper = {
-  serializedName: "LogSearchRulePatch",
-  type: {
-    name: "Composite",
-    className: "LogSearchRulePatch",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "String"
         }
       }
     }
