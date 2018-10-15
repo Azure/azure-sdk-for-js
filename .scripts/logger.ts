@@ -5,48 +5,106 @@
  */
 
 import * as colors from "colors";
-import { CommandLineOptions } from "./commandLineOptions";
+import { CommandLineOptions, getCommandLineOptions } from "./commandLine";
 
-export enum Color {
-    Red,
-    Green
+export enum LoggingLevel {
+    All = 0,
+    Trace = 0,
+    Debug = 1,
+    Info = 2,
+    Warn = 3,
+    Error = 4
 }
 
- export class Logger {
-    private _colorsMap = {
-        [Color.Red]: colors.red,
-        [Color.Green]: colors.green
+colors.setTheme({
+    positive: "green",
+    negative: "red",
+    debug: "bgCyan",
+    info: "bgGreen"
+});
+
+declare global {
+    interface String {
+        positive: string;
+        negative: string;
+        debug: string;
+        info: string;
+    }
+}
+
+export class Logger {
+    private _cache: string[];
+    _loggingLevel: LoggingLevel;
+
+    constructor(options: CommandLineOptions) {
+        const lowerCaseLevel = options["logging-level"].toLowerCase();
+        const capitalizedLevel = lowerCaseLevel.charAt(0).toUpperCase() + lowerCaseLevel.slice(1);
+        this._loggingLevel = LoggingLevel[capitalizedLevel];
+        this._cache = [];
     }
 
-    constructor(private _options: CommandLineOptions) {
+    log(text?: string): void {
+        console.log(text);
+        this._capture(text);
     }
 
-    log(text: string, color?: Color): void {
-        if (color !== undefined) {
-            const coloredText = this._colorsMap[color](text);
-            console.log(coloredText);
-        } else {
-            console.log(text);
+    clearCapturedText(): void {
+        this._cache = [];
+    }
+
+    getCapturedText(): string {
+        return this._cache.join("\n");
+    }
+
+    private _capture(text?: string): void {
+        this._cache.push(text);
+    }
+
+    logInfo(text?: string) {
+        this.log(text.info);
+    }
+
+    logRed(text?: string): void {
+        this.log(text.red);
+    }
+
+    logGreen(text?: string): void {
+        this.log(text.green);
+    }
+
+    logError(text?: string): void {
+        this.log(text.bgRed);
+    }
+
+    logWarn(text?: string): void {
+        if (this._loggingLevel <= LoggingLevel.Warn) {
+            this.log(text.bgYellow);
         }
-     }
-
-     logRed(text: string): void {
-         this.log(text, Color.Red)
-     }
-
-     logGreen(text: string): void {
-        this.log(text, Color.Green)
     }
 
-     logVerbose(text: string, color?: Color): void {
-         if (this._options.verbose) {
-             this.log(text, color);
-         }
-     }
+    logDebug(text?: string): void {
+        if (this._loggingLevel <= LoggingLevel.Debug) {
+            this.log(text);
+        }
+    }
 
-     logDebug(text: string, color?: Color): void {
-         if (this._options.debug) {
-             this.log(text, color);
-         }
-     }
- }
+    logWithDebugDetails(text?: string, details?: string): void {
+        const greyDetails = `(${details})`.grey;
+        const textToLog = (this._loggingLevel <= LoggingLevel.Debug) ? `${text} ${greyDetails}` : (text);
+        this.log(textToLog);
+    }
+
+    logTrace(text?: string) {
+        if (this._loggingLevel <= LoggingLevel.Trace) {
+            this.log(text.gray);
+        }
+    }
+
+    logWithPath(path: string, message: string): void {
+        console.log(`[${path}]> ${message}`);
+    }
+}
+
+export function getLogger() {
+    return new Logger(getCommandLineOptions());
+}
