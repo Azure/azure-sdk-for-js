@@ -9,7 +9,6 @@
  */
 
 export {
-  discriminators,
   ManagedClusterListResult,
   ManagedCluster,
   Resource,
@@ -25,20 +24,9 @@ export {
   CloudError,
   ManagedClusterUpgradeProfile,
   ManagedClusterPoolUpgradeProfile,
-  ManagedClusterAccessProfile,
   CredentialResults,
   CredentialResult,
   TagsObject,
-  OpenShiftManagedCluster,
-  PurchasePlan,
-  NetworkProfile,
-  OpenShiftRouterProfile,
-  OpenShiftManagedClusterMasterPoolProfile,
-  OpenShiftManagedClusterAgentPoolProfile,
-  OpenShiftManagedClusterAuthProfile,
-  OpenShiftManagedClusterIdentityProvider,
-  OpenShiftManagedClusterBaseIdentityProvider,
-  OpenShiftManagedClusterAADIdentityProvider,
   ContainerService,
   ContainerServiceOrchestratorProfile,
   ContainerServiceCustomProfile,
