@@ -9,7 +9,7 @@ import { DeserializationPolicy, deserializationPolicy, deserializeResponseBody, 
 import { RequestPolicy, RequestPolicyOptions } from "../../../lib/policies/requestPolicy";
 import { WebResource } from "../../../lib/webResource";
 
-describe("deserializationPolicy", () => {
+describe("deserializationPolicy", function () {
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       return Promise.resolve({
@@ -20,7 +20,7 @@ describe("deserializationPolicy", () => {
     }
   };
 
-  it(`should not modify a request that has no request body mapper`, async () => {
+  it(`should not modify a request that has no request body mapper`, async function () {
     const deserializationPolicy = new DeserializationPolicy(mockPolicy, {}, new RequestPolicyOptions());
 
     const request = new WebResource();
@@ -30,7 +30,7 @@ describe("deserializationPolicy", () => {
     assert.strictEqual(request.body, "hello there!");
   });
 
-  it("should parse a JSON response body", async () => {
+  it("should parse a JSON response body", async function () {
     const request = new WebResource();
     const mockClient: HttpClient = {
       sendRequest: req => Promise.resolve({
@@ -46,7 +46,7 @@ describe("deserializationPolicy", () => {
     assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
   });
 
-  it("should parse a JSON response body with a charset specified in Content-Type", async () => {
+  it("should parse a JSON response body with a charset specified in Content-Type", async function () {
     const request = new WebResource();
     const mockClient: HttpClient = {
       sendRequest: req => Promise.resolve({
@@ -62,7 +62,7 @@ describe("deserializationPolicy", () => {
     assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
   });
 
-  it("should parse a JSON response body with an uppercase Content-Type", async () => {
+  it("should parse a JSON response body with an uppercase Content-Type", async function () {
     const request = new WebResource();
     const mockClient: HttpClient = {
       sendRequest: req => Promise.resolve({
@@ -78,7 +78,7 @@ describe("deserializationPolicy", () => {
     assert.deepStrictEqual(response.parsedBody, [123, 456, 789]);
   });
 
-  it("should parse a JSON response body with a missing Content-Type", async () => {
+  it("should parse a JSON response body with a missing Content-Type", async function () {
     const request = new WebResource();
     const mockClient: HttpClient = {
       sendRequest: req => Promise.resolve({
@@ -95,7 +95,7 @@ describe("deserializationPolicy", () => {
   });
 
   describe(`parse(HttpOperationResponse)`, () => {
-    it(`with no response headers or body`, async () => {
+    it(`with no response headers or body`, async function () {
       const response: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
@@ -112,7 +112,7 @@ describe("deserializationPolicy", () => {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml response body, application/xml content-type, but no operation spec`, async () => {
+    it(`with xml response body, application/xml content-type, but no operation spec`, async function () {
       const response: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
@@ -132,7 +132,7 @@ describe("deserializationPolicy", () => {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml response body, application/atom+xml content-type, but no operation spec`, async () => {
+    it(`with xml response body, application/atom+xml content-type, but no operation spec`, async function () {
       const response: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
@@ -152,7 +152,7 @@ describe("deserializationPolicy", () => {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml property with attribute and value, application/atom+xml content-type, but no operation spec`, async () => {
+    it(`with xml property with attribute and value, application/atom+xml content-type, but no operation spec`, async function () {
       const response: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
@@ -179,7 +179,7 @@ describe("deserializationPolicy", () => {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml property with attribute and value, my/weird-xml content-type, but no operation spec`, async () => {
+    it(`with xml property with attribute and value, my/weird-xml content-type, but no operation spec`, async function () {
       const response: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
@@ -189,7 +189,7 @@ describe("deserializationPolicy", () => {
         bodyAsText: `<fruit><apples taste="good">3</apples></fruit>`
       };
 
-      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody([], [ "my/weird-xml" ], response);
+      const deserializedResponse: HttpOperationResponse = await deserializeResponseBody([], ["my/weird-xml"], response);
 
       assert(deserializedResponse);
       assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
@@ -206,7 +206,7 @@ describe("deserializationPolicy", () => {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with service bus response body and application/atom+xml content-type`, async () => {
+    it(`with service bus response body and application/atom+xml content-type`, async function () {
       const response: HttpOperationResponse = {
         request: new WebResource(),
         status: 200,
