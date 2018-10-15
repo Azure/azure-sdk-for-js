@@ -9,10 +9,11 @@ import { findAzureRestApiSpecsRepositoryPath, findSdkDirectory, saveContentToFil
 import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile, findReadmeTypeScriptMdFilePaths, getPackageNamesFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents, updateMainReadmeFile, getSinglePackageName } from "./readme";
 import * as fs from "fs";
 import * as path from "path";
+import { Version } from "./version";
 import { contains, npmInstall } from "./common";
 import { execSync } from "child_process";
 import { getLogger } from "./logger";
-import { refreshRepository, getValidatedRepository, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction } from "./git";
+import { refreshRepository, getValidatedRepository, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction, checkoutBranch, pullBranch, mergeBranch, mergeMasterIntoBranch, commitAndPush } from "./git";
 import { commitAndCreatePullRequest } from "./github";
 
 const _logger = getLogger();
@@ -143,7 +144,7 @@ export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageN
 
     const azureSdkForJsRepository = await getValidatedRepository(azureSdkForJsRepoPath);
     await refreshRepository(azureSdkForJsRepository);
-    _logger.log(`Refreshed ${azureRestApiSpecsRepositoryPath} repository successfully`);
+    _logger.log(`Refreshed ${azureSdkForJsRepoPath} repository successfully`);
 
     await waitAndLockGitRepository(azureSdkForJsRepository);
     await generateSdk(azureRestApiSpecsRepositoryPath, azureSdkForJsRepoPath, packageName);
@@ -177,4 +178,41 @@ export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azur
             continue;
         }
     }
+}
+
+export async function regenerate(branchName: string, packageName: string, azureSdkForJsRepoPath: string, azureRestAPISpecsPath: string) {
+    const azureSdkForJsRepository = await getValidatedRepository(azureSdkForJsRepoPath);
+    await refreshRepository(azureSdkForJsRepository);
+    _logger.log(`Refreshed ${azureSdkForJsRepository.path()} repository successfully`);
+
+    await checkoutBranch(azureSdkForJsRepository, `origin/${branchName}`);
+    _logger.log(`Check out ${branchName} branch`);
+
+    await pullBranch(azureSdkForJsRepository, branchName);
+    _logger.log(`Pulled ${branchName} from origin successfully`);
+
+    await mergeMasterIntoBranch(azureSdkForJsRepository, branchName);
+    _logger.log(`Merged master into ${branchName} successfully`);
+
+    await bumpMinorVersion(azureSdkForJsRepoPath, packageName);
+    _logger.log(`Successfully updated version in package.json`);
+
+    generateSdk(azureRestAPISpecsPath, azureSdkForJsRepoPath, packageName)
+    _logger.log(`Generated sdk successfully`);
+
+    await commitAndPush(azureSdkForJsRepository, branchName, `Regenerated "${packageName}" SDK.`);
+    _logger.log(`Committed and pushed the changes successfully`);
+
+
+async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: string) {
+    const pathToPackageJson = path.resolve(azureSdkForJsRepoPath, "packages", packageName);
+    const packageJsonContent = await fs.promises.readFile(pathToPackageJson);
+    const packageJson = JSON.parse(packageJsonContent.toString());
+    const versionString = packageJson.version;
+    const version = Version.parse(versionString);
+    version.bumpMinor();
+    _logger.log(`Updating package.json version from ${versionString} to ${version.toString()}`);
+
+    packageJson.version = version.toString();
+    await saveContentToFile(pathToPackageJson, JSON.stringify(packageJson));
 }

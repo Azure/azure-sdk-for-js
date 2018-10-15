@@ -86,10 +86,20 @@ export async function validateRepositoryStatus(repository: Repository): Promise<
 export async function getValidatedRepository(repositoryPath: string): Promise<Repository> {
     const repository = await openRepository(repositoryPath);
     await validateRepositoryStatus(repository);
+    await repository.fetchAll();
     return repository;
 }
 
-export async function pull(repository: Repository, branchName: string, origin: string = "origin"): Promise<Oid> {
+export async function mergeBranch(repository: Repository, toBranchName: string, fromBranchName: string): Promise<Oid> {
+    _logger.logTrace(`Merging "${fromBranchName}" to "${toBranchName}" branch in ${repository.path()} repository`);
+    return repository.mergeBranches(toBranchName, fromBranchName, Signature.default(repository), Merge.PREFERENCE.NONE);
+}
+
+export async function mergeMasterIntoBranch(repository: Repository, toBranchName: string): Promise<Oid> {
+    return mergeBranch(repository, toBranchName, "origin/master");
+}
+
+export async function pullBranch(repository: Repository, branchName: string, origin: string = "origin"): Promise<Oid> {
     _logger.logTrace(`Pulling "${branchName}" branch from ${origin} origin in ${repository.path()} repository`);
 
     await repository.fetchAll();
@@ -107,7 +117,7 @@ export async function pull(repository: Repository, branchName: string, origin: s
 }
 
 export async function pullMaster(repository: Repository): Promise<Oid> {
-    return pull(repository, "master");
+    return pullBranch(repository, "master");
 }
 
 export async function createNewBranch(repository: Repository, branchName: string, checkout?: boolean): Promise<Reference> {
@@ -165,7 +175,7 @@ export async function commitSpecificationChanges(repository: Repository, commitM
     }
 }
 
-export async function pushToNewBranch(repository: Repository, branchName: string): Promise<number> {
+export async function pushBranch(repository: Repository, branchName: string): Promise<number> {
     const remote = await repository.getRemote("origin");
     return remote.push([`${branchName}:${branchName}`], {
         callbacks: {
@@ -174,6 +184,11 @@ export async function pushToNewBranch(repository: Repository, branchName: string
             }
         }
     });
+}
+
+export async function commitAndPush(repository: Repository, branchName: string, commitMessage: string, validate?: ValidateFunction, validateEach?: ValidateEachFunction) {
+    await commitSpecificationChanges(repository, commitMessage, validate, validateEach);
+    await pushBranch(repository, branchName);
 }
 
 export function getToken(): string {

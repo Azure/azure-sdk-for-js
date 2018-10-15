@@ -6,7 +6,7 @@
 
 import * as Octokit from '@octokit/rest'
 import { PullRequestsCreateParams, Response, PullRequestsCreateReviewRequestParams, PullRequestsCreateReviewRequestResponse } from '@octokit/rest';
-import { getToken, createNewUniqueBranch, commitSpecificationChanges, pushToNewBranch, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction } from './git';
+import { getToken, createNewUniqueBranch, commitSpecificationChanges, pushBranch, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction } from './git';
 import { getLogger } from './logger';
 import { Repository } from 'nodegit';
 
@@ -76,7 +76,7 @@ export async function commitAndCreatePullRequest(
     const newBranch = await repository.getCurrentBranch();
     _logger.logInfo(`Committed changes successfully on ${newBranch.name()} branch`);
 
-    await pushToNewBranch(repository, newBranch.name());
+    await pushBranch(repository, newBranch.name());
     _logger.logInfo(`Pushed changes successfully to ${newBranch.name()} branch`);
 
     const pullRequestResponse = await createPullRequest(repositoryName, pullRequestTitle, pullRequestDescription, newBranch.name());

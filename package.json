@@ -34,6 +34,7 @@
     "@types/minimist": "^1.2.0",
     "@types/node": "^10.11.4",
     "@types/nodegit": "^0.22.3",
+    "@types/yargs": "^12.0.1",
     "colors": "^1.3.2",
     "fs": "0.0.1-security",
     "gulp": "^4.0.0",
