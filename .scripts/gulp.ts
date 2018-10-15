@@ -202,7 +202,7 @@ export async function regenerate(branchName: string, packageName: string, azureS
 
     await commitAndPush(azureSdkForJsRepository, branchName, `Regenerated "${packageName}" SDK.`);
     _logger.log(`Committed and pushed the changes successfully`);
-
+}
 
 async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: string) {
     const pathToPackageJson = path.resolve(azureSdkForJsRepoPath, "packages", packageName);
