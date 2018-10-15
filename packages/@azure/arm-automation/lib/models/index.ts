@@ -2166,7 +2166,7 @@ export interface AzureQueryProperties {
    */
   scope?: string[];
   /**
-   * @member {string[]} [location] List of locations for the VM.
+   * @member {string[]} [location] List of locations to scope the query to.
    */
   location?: string[];
   /**
