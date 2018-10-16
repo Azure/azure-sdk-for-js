@@ -1,0 +1,68 @@
+{
+  "name": "@azure/arm-apimanagement",
+  "author": "Microsoft Corporation",
+  "description": "ApiManagementClient Library with typescript type definitions for node.js and browser.",
+<<<<<<< HEAD
+  "version": "1.1.0-preview",
+  "dependencies": {
+    "ms-rest-azure-js": "^1.0.172",
+    "ms-rest-js": "^1.0.443",
+    "tslib": "^1.9.3"
+=======
+  "version": "1.0.0-preview",
+  "dependencies": {
+    "ms-rest-azure-js": "~0.17.165",
+    "ms-rest-js": "~0.22.434"
+>>>>>>> master
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+<<<<<<< HEAD
+  "main": "./dist/arm-apimanagement.js",
+  "module": "./esm/apiManagementClient.js",
+  "types": "./esm/apiManagementClient.d.ts",
+  "devDependencies": {
+    "typescript": "^3.1.1",
+    "rollup": "^0.66.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "uglify-js": "^3.4.9"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
+=======
+  "main": "./cjs/apiManagementClient.js",
+  "module": "./esm/apiManagementClient.js",
+  "types": "./cjs/apiManagementClient.d.ts",
+  "devDependencies": {
+    "tslib": "^1.9.3",
+    "typescript": "^3.0.3",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-apimanagement",
+>>>>>>> master
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+<<<<<<< HEAD
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-apimanagement.js.map'\" -o ./dist/arm-apimanagement.min.js ./dist/arm-apimanagement.js",
+    "prepare": "npm run build"
+  },
+  "sideEffects": false
+=======
+    "build": "tsc && tsc -p tsconfig.esm.json && webpack",
+    "prepare": "npm run build"
+  }
+>>>>>>> master
+}

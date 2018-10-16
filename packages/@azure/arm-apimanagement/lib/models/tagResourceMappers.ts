@@ -23,6 +23,11 @@ export {
   ProductEntityBaseParameters,
   CloudError,
   ApiContractProperties,
-  ApiVersionSetContractDetails
+  ApiVersionSetContractDetails,
+  ApiCreateOrUpdateProperties,
+  ApiCreateOrUpdatePropertiesWsdlSelector,
+  ApiContractUpdateProperties,
+  ProductUpdateProperties,
+  ProductContractProperties
 } from "../models/mappers";
 
