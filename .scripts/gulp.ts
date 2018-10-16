@@ -202,15 +202,13 @@ export async function regenerate(branchName: string, packageName: string, azureS
     generateSdk(azureRestAPISpecsPath, azureSdkForJsRepoPath, packageName)
     _logger.log(`Generated sdk successfully`);
 
-    await bumpMinorVersion(azureSdkForJsRepoPath, packageName);
-
     const validateEach: ValidateEachFunction = el => el.path().startsWith(`packages/${packageName}`);
-    await commitAndPush(azureSdkForJsRepository, branchName, `Regenerated "${packageName}" SDK.`, undefined, validateEach);
+    await commitAndPush(azureSdkForJsRepository, localBranch, `Regenerated "${packageName}" SDK.`, undefined, validateEach);
     _logger.log(`Committed and pushed the changes successfully`);
 }
 
 async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: string) {
-    const pathToPackageJson = path.resolve(azureSdkForJsRepoPath, "packages", packageName);
+    const pathToPackageJson = path.resolve(azureSdkForJsRepoPath, "packages", packageName, "package.json");
     const packageJsonContent = await fs.promises.readFile(pathToPackageJson);
     const packageJson = JSON.parse(packageJsonContent.toString());
     const versionString = packageJson.version;
@@ -219,5 +217,5 @@ async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: stri
     _logger.log(`Updating package.json version from ${versionString} to ${version.toString()}`);
 
     packageJson.version = version.toString();
-    await saveContentToFile(pathToPackageJson, JSON.stringify(packageJson));
+    await saveContentToFile(pathToPackageJson, JSON.stringify(packageJson, undefined, "  "));
 }

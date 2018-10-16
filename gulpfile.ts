@@ -227,7 +227,7 @@ gulp.task("generate-all-missing-sdks", async () => {
 });
 
 gulp.task("regenerate", async () => {
-  try {
+  return new Promise((resolve, reject) => {
     const argv = commonArgv.options({
       "branch": {
         alias: "b",
@@ -255,15 +255,11 @@ gulp.task("regenerate", async () => {
       }
     }).usage("gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
-    return new Promise((resolve, reject) => {
-      regenerate(argv.branch, argv.package, argv["azure-sdk-for-js-path"], argv["azure-rest-api-specs-path"])
-        .then(_ => resolve(),
-          error => reject(error))
-        .catch(error => {
-          reject(error)
-        });
-    });
-  } catch (error) {
-    _logger.logError(error);
-  }
+    regenerate(argv.branch, argv.package, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"])
+      .then(_ => resolve(),
+        error => reject(error))
+      .catch(error => {
+        reject(error)
+      });
+  });
 });

@@ -161,7 +161,7 @@ export async function createNewBranch(repository: Repository, branchName: string
         return branchPromise;
     } else {
         const branch = await branchPromise;
-        return checkoutBranch(repository, branch.name());
+        return checkoutBranch(repository, branch.shorthand());
     }
 }
 
@@ -169,18 +169,20 @@ export async function checkoutRemoteBranch(repository: Repository, remoteBranch:
     _logger.logTrace(`Checking out "${remoteBranch.fullName()}" remote branch`);
 
     const branchNames = await repository.getReferenceNames(Reference.TYPE.LISTALL);
-    const branchExists = branchNames.some(name => name === remoteBranch.fullName());
+    const localBranch = remoteBranch.convertTo(BranchLocation.Local);
+    const branchExists = branchNames.some(name => name === localBranch.fullName());
     _logger.logTrace(`Branch exists: ${branchExists}`);
 
     let branchRef: Reference;
     if (branchExists) {
-        branchRef = await checkoutBranch(repository, remoteBranch.shorthand());
+        branchRef = await checkoutBranch(repository, remoteBranch.name);
     } else {
-        branchRef = await createNewBranch(repository, remoteBranch.shorthand(), true);
+        branchRef = await createNewBranch(repository, remoteBranch.name, true);
+        const commit = await repository.getReferenceCommit(remoteBranch.fullName());
+        await Reset.reset(repository, commit as any, Reset.TYPE.HARD, {});
+        await pullBranch(repository, remoteBranch.convertTo(BranchLocation.Local));
     }
 
-    const commit = await repository.getReferenceCommit(remoteBranch.fullName());
-    await Reset.reset(repository, commit as any, 3, {});
     return branchRef;
 }
 
@@ -207,7 +209,7 @@ export async function refreshRepository(repository: Repository) {
     return checkoutMaster(repository);
 }
 
-export async function commitSpecificationChanges(repository: Repository, commitMessage: string, validate?: ValidateFunction, validateEach?: ValidateEachFunction): Promise<Oid> {
+export async function commitChanges(repository: Repository, commitMessage: string, validate?: ValidateFunction, validateEach?: ValidateEachFunction): Promise<Oid> {
     _logger.logTrace(`Committing changes in "${repository.path()}" repository`);
 
     const emptyValidate = () => true;
@@ -216,17 +218,26 @@ export async function commitSpecificationChanges(repository: Repository, commitM
 
     const status = await repository.getStatus();
 
-    if (validate(status) && status.every(validateEach)) {
-        var author = Signature.default(repository);
-        return repository.createCommitOnHead(status.map(el => el.path()), author, author, commitMessage);
+    if (validate(status)) {
+        const author = Signature.default(repository);
+        const filePaths = status.map(stat => stat.path());
+        _logger.logTrace(`Changes in the repository: ${JSON.stringify(filePaths)}`);
+
+        const changesToStage = status.filter(validateEach);
+        const pathsToStage = changesToStage.map(stat => stat.path());
+        _logger.logTrace(`Changes to commit: ${JSON.stringify(pathsToStage)}`);
+        return repository.createCommitOnHead(pathsToStage, author, author, commitMessage);
     } else {
         return Promise.reject("Unknown changes present in the repository");
     }
 }
 
-export async function pushBranch(repository: Repository, branchName: string): Promise<number> {
+export async function pushBranch(repository: Repository, localBranch: Branch): Promise<number> {
     const remote = await repository.getRemote("origin");
-    return remote.push([`${branchName}:${branchName}`], {
+    const refSpec = `refs/heads/${localBranch.name}:refs/heads/${localBranch.name}`;
+    _logger.logTrace(`Pushing to ${refSpec}`);
+
+    return remote.push([refSpec], {
         callbacks: {
             credentials: function (url, userName) {
                 return Cred.userpassPlaintextNew(getToken(), "x-oauth-basic");
@@ -235,9 +246,9 @@ export async function pushBranch(repository: Repository, branchName: string): Pr
     });
 }
 
-export async function commitAndPush(repository: Repository, branchName: string, commitMessage: string, validate?: ValidateFunction, validateEach?: ValidateEachFunction) {
-    await commitSpecificationChanges(repository, commitMessage, validate, validateEach);
-    await pushBranch(repository, branchName);
+export async function commitAndPush(repository: Repository, localBranch: Branch, commitMessage: string, validate?: ValidateFunction, validateEach?: ValidateEachFunction) {
+    await commitChanges(repository, commitMessage, validate, validateEach);
+    await pushBranch(repository, localBranch);
 }
 
 export function getToken(): string {
