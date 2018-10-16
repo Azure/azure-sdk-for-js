@@ -22,12 +22,16 @@ export function parseXML(str: string): Promise<any> {
     explicitRoot: false
   });
   return new Promise((resolve, reject) => {
-    xmlParser.parseString(str, (err?: Error, res?: any) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(res);
-      }
-    });
+    if (!str) {
+      reject(new Error("Document is empty"));
+    } else {
+      xmlParser.parseString(str, (err?: Error, res?: any) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
+    }
   });
 }

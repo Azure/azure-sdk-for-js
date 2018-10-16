@@ -82,6 +82,7 @@ node_modules
 SdkCodeGen
 
 output/*
+package-lock.json
 
 # Typescript output
 dist/
