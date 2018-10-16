@@ -103,7 +103,7 @@ gulp.task("build", () => {
 });
 
 // This task is used to generate libraries based on the mappings specified above.
-gulp.task('codegen', () => {
+gulp.task('codegen', async () => {
   _logger.log(`Passed arguments: ${process.argv}`);
   await generateSdk(azureRestAPISpecsRoot, azureSDKForJSRepoRoot, args.package);
 });
