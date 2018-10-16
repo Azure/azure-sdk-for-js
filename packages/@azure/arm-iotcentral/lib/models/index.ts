@@ -264,10 +264,10 @@ export interface OperationInputs {
    */
   name: string;
   /**
-   * @member {Type} [type] The type of the IoT Central resource to query.
-   * Possible values include: 'IoTApps'. Default value: 'IoTApps' .
+   * @member {string} [type] The type of the IoT Central resource to query.
+   * Default value: 'IoTApps' .
    */
-  type?: Type;
+  type?: string;
 }
 
 /**
@@ -356,20 +356,6 @@ export interface OperationListResult extends Array<Operation> {
 export enum AppSku {
   F1 = 'F1',
   S1 = 'S1',
-}
-
-/**
- * Defines values for Type.
- * Possible values include: 'IoTApps'
- * There could be more values for this enum apart from the ones defined here.If
- * you want to set a value that is not from the known values then you can do
- * the following:
- * let param: Type = <Type>"someUnknownValueThatWillStillBeValid";
- * @readonly
- * @enum {string}
- */
-export enum Type {
-  IoTApps = 'IoTApps',
 }
 
 /**
