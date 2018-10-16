@@ -13,7 +13,7 @@ npm install @azure/arm-containerservice
 
 ## How to use
 
-### nodejs - Authentication, client creation and list containerServices as an example written in TypeScript.
+### nodejs - Authentication, client creation and get openShiftManagedClusters as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
@@ -24,7 +24,9 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new ContainerServiceClient(creds, subscriptionId);
-  client.containerServices.list().then((result) => {
+  const resourceGroupName = "testresourceGroupName";
+  const resourceName = "testresourceName";
+  client.openShiftManagedClusters.get(resourceGroupName, resourceName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -33,7 +35,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and list containerServices as an example written in JavaScript.
+### browser - Authentication, client creation and get openShiftManagedClusters as an example written in JavaScript.
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
@@ -58,7 +60,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmContainerservice.ContainerServiceClient(res.creds, subscriptionId);
-        client.containerServices.list().then((result) => {
+        const resourceGroupName = "testresourceGroupName";
+        const resourceName = "testresourceName";
+        client.openShiftManagedClusters.get(resourceGroupName, resourceName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

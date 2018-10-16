@@ -17,6 +17,7 @@ import { ContainerServiceClientContext } from "./containerServiceClientContext";
 
 class ContainerServiceClient extends ContainerServiceClientContext {
   // Operation groups
+  openShiftManagedClusters: operations.OpenShiftManagedClusters;
   containerServices: operations.ContainerServices;
   operations: operations.Operations;
   managedClusters: operations.ManagedClusters;
@@ -30,6 +31,7 @@ class ContainerServiceClient extends ContainerServiceClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ContainerServiceClientOptions) {
     super(credentials, subscriptionId, options);
+    this.openShiftManagedClusters = new operations.OpenShiftManagedClusters(this);
     this.containerServices = new operations.ContainerServices(this);
     this.operations = new operations.Operations(this);
     this.managedClusters = new operations.ManagedClusters(this);
