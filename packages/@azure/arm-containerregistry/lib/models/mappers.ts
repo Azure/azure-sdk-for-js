@@ -358,6 +358,34 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
+export const RegistryIdentity: msRest.CompositeMapper = {
+  serializedName: "RegistryIdentity",
+  type: {
+    name: "Composite",
+    className: "RegistryIdentity",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Status: msRest.CompositeMapper = {
   serializedName: "Status",
   type: {
@@ -523,6 +551,13 @@ export const Registry: msRest.CompositeMapper = {
           className: "Sku"
         }
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "RegistryIdentity"
+        }
+      },
       loginServer: {
         readOnly: true,
         serializedName: "properties.loginServer",
@@ -615,6 +650,13 @@ export const RegistryUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Sku"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "RegistryIdentity"
         }
       },
       adminUserEnabled: {

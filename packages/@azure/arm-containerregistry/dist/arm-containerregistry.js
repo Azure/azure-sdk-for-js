@@ -790,6 +790,33 @@
             }
         }
     };
+    var RegistryIdentity = {
+        serializedName: "RegistryIdentity",
+        type: {
+            name: "Composite",
+            className: "RegistryIdentity",
+            modelProperties: {
+                type: {
+                    serializedName: "type",
+                    type: {
+                        name: "String"
+                    }
+                },
+                principalId: {
+                    serializedName: "principalId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                tenantId: {
+                    serializedName: "tenantId",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var Status = {
         serializedName: "Status",
         type: {
@@ -948,6 +975,12 @@
                         name: "Composite",
                         className: "Sku"
                     }
+                }, identity: {
+                    serializedName: "identity",
+                    type: {
+                        name: "Composite",
+                        className: "RegistryIdentity"
+                    }
                 }, loginServer: {
                     readOnly: true,
                     serializedName: "properties.loginServer",
@@ -1032,6 +1065,13 @@
                     type: {
                         name: "Composite",
                         className: "Sku"
+                    }
+                },
+                identity: {
+                    serializedName: "identity",
+                    type: {
+                        name: "Composite",
+                        className: "RegistryIdentity"
                     }
                 },
                 adminUserEnabled: {
@@ -3928,6 +3968,7 @@
         OperationPropertiesDefinition: OperationPropertiesDefinition,
         OperationDefinition: OperationDefinition,
         Sku: Sku,
+        RegistryIdentity: RegistryIdentity,
         Status: Status,
         StorageAccountProperties: StorageAccountProperties,
         RegistryProperties: RegistryProperties,
@@ -4037,6 +4078,7 @@
         Resource: Resource,
         BaseResource: BaseResource,
         Sku: Sku,
+        RegistryIdentity: RegistryIdentity,
         Status: Status,
         StorageAccountProperties: StorageAccountProperties,
         RegistryUpdateParameters: RegistryUpdateParameters,
@@ -5054,6 +5096,7 @@
         ReplicationListResult: ReplicationListResult,
         Registry: Registry,
         Sku: Sku,
+        RegistryIdentity: RegistryIdentity,
         StorageAccountProperties: StorageAccountProperties,
         Webhook: Webhook,
         Task: Task,
@@ -5402,6 +5445,7 @@
         EventResponseMessage: EventResponseMessage,
         Registry: Registry,
         Sku: Sku,
+        RegistryIdentity: RegistryIdentity,
         Status: Status,
         StorageAccountProperties: StorageAccountProperties,
         Replication: Replication,
@@ -5884,6 +5928,7 @@
         EncodedTaskStep: EncodedTaskStep,
         Registry: Registry,
         Sku: Sku,
+        RegistryIdentity: RegistryIdentity,
         Status: Status,
         StorageAccountProperties: StorageAccountProperties,
         Replication: Replication,
@@ -6189,6 +6234,7 @@
         BaseImageTriggerUpdateParameters: BaseImageTriggerUpdateParameters,
         Registry: Registry,
         Sku: Sku,
+        RegistryIdentity: RegistryIdentity,
         Status: Status,
         StorageAccountProperties: StorageAccountProperties,
         Replication: Replication,

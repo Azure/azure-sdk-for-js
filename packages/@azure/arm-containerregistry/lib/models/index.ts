@@ -269,6 +269,27 @@ export interface Sku {
 
 /**
  * @interface
+ * An interface representing RegistryIdentity.
+ * The identity of the container registry.
+ *
+ */
+export interface RegistryIdentity {
+  /**
+   * @member {string} [type] The type of identity used for the registry.
+   */
+  type?: string;
+  /**
+   * @member {string} [principalId] The principal ID of registry identity.
+   */
+  principalId?: string;
+  /**
+   * @member {string} [tenantId] The tenant ID associated with the registry.
+   */
+  tenantId?: string;
+}
+
+/**
+ * @interface
  * An interface representing Status.
  * The status of an Azure resource at the time the operation was called.
  *
@@ -411,6 +432,11 @@ export interface Registry extends Resource {
    */
   sku: Sku;
   /**
+   * @member {RegistryIdentity} [identity] The identity of the container
+   * registry.
+   */
+  identity?: RegistryIdentity;
+  /**
    * @member {string} [loginServer] The URL that can be used to log into the
    * container registry.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -490,6 +516,11 @@ export interface RegistryUpdateParameters {
    * @member {Sku} [sku] The SKU of the container registry.
    */
   sku?: Sku;
+  /**
+   * @member {RegistryIdentity} [identity] The identity of the container
+   * registry.
+   */
+  identity?: RegistryIdentity;
   /**
    * @member {boolean} [adminUserEnabled] The value that indicates whether the
    * admin user is enabled.
