@@ -350,7 +350,6 @@ export const OperationInputs: msRest.CompositeMapper = {
         }
       },
       type: {
-        required: true,
         serializedName: "type",
         defaultValue: 'IoTApps',
         type: {
