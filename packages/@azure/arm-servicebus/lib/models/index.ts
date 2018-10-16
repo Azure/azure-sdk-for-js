@@ -1131,6 +1131,14 @@ export interface ArmDisasterRecovery extends Resource {
    * the server.**
    */
   readonly role?: RoleDisasterRecovery;
+  /**
+   * @member {ReplicationType} [armDisasterRecoveryType] Replication Type on
+   * the Alias(Disaster Recovery configurations). Possible values include:
+   * 'MetadataReplication'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly armDisasterRecoveryType?: ReplicationType;
 }
 
 /**
@@ -1646,6 +1654,16 @@ export enum RoleDisasterRecovery {
   Primary = 'Primary',
   PrimaryNotReplicating = 'PrimaryNotReplicating',
   Secondary = 'Secondary',
+}
+
+/**
+ * Defines values for ReplicationType.
+ * Possible values include: 'MetadataReplication'
+ * @readonly
+ * @enum {string}
+ */
+export enum ReplicationType {
+  MetadataReplication = 'MetadataReplication',
 }
 
 /**

@@ -1422,6 +1422,16 @@ export const ArmDisasterRecovery: msRest.CompositeMapper = {
             "Secondary"
           ]
         }
+      },
+      armDisasterRecoveryType: {
+        readOnly: true,
+        serializedName: "properties.type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "MetadataReplication"
+          ]
+        }
       }
     }
   }
