@@ -2907,7 +2907,7 @@ export interface SourceControlSyncJob {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'PartialSync', 'FullSync'
+   * 'IncrementalSync', 'FullSync'
    */
   syncType?: SyncType;
 }
@@ -2966,7 +2966,7 @@ export interface SourceControlSyncJobById {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'PartialSync', 'FullSync'
+   * 'IncrementalSync', 'FullSync'
    */
   syncType?: SyncType;
   /**
@@ -5683,7 +5683,7 @@ export enum ProvisioningState {
 
 /**
  * Defines values for SyncType.
- * Possible values include: 'PartialSync', 'FullSync'
+ * Possible values include: 'IncrementalSync', 'FullSync'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
@@ -5692,7 +5692,7 @@ export enum ProvisioningState {
  * @enum {string}
  */
 export enum SyncType {
-  PartialSync = 'PartialSync',
+  IncrementalSync = 'IncrementalSync',
   FullSync = 'FullSync',
 }
 
