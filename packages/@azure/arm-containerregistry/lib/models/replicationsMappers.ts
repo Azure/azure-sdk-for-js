@@ -19,7 +19,6 @@ export {
   ReplicationListResult,
   Registry,
   Sku,
-  RegistryIdentity,
   StorageAccountProperties,
   Webhook,
   Task,
