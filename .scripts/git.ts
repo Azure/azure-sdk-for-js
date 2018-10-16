@@ -4,12 +4,41 @@
  * license information.
  */
 
-import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile } from "nodegit";
+import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile, Reset } from "nodegit";
 import { getLogger } from "./logger";
 import { getCommandLineOptions } from "./commandLine";
 
 export type ValidateFunction = (statuses: StatusFile[]) => boolean;
 export type ValidateEachFunction = (value: StatusFile, index: number, array: StatusFile[]) => boolean;
+
+export enum BranchLocation {
+    Local = "heads",
+    Remote = "remotes"
+}
+
+export class Branch {
+    static LocalMaster = new Branch("master", BranchLocation.Local);
+    static RemoteMaster = new Branch("master", BranchLocation.Remote);
+
+    constructor(public name: string, public location: BranchLocation, public remote: string = "origin") {
+    }
+
+    shorthand(): string {
+        return `${this.remote}/${this.name}`;
+    }
+
+    fullName(): string {
+        if (this.name.startsWith("refs")) {
+            return this.name;
+        }
+
+        return `refs/${this.location}/${this.remote}/${this.name}`;
+    }
+
+    convertTo(location: BranchLocation): Branch {
+        return new Branch(this.name, location, this.remote);
+    }
+}
 
 const _args = getCommandLineOptions();
 const _logger = getLogger();
@@ -90,34 +119,35 @@ export async function getValidatedRepository(repositoryPath: string): Promise<Re
     return repository;
 }
 
-export async function mergeBranch(repository: Repository, toBranchName: string, fromBranchName: string): Promise<Oid> {
-    _logger.logTrace(`Merging "${fromBranchName}" to "${toBranchName}" branch in ${repository.path()} repository`);
-    return repository.mergeBranches(toBranchName, fromBranchName, Signature.default(repository), Merge.PREFERENCE.NONE);
+export async function mergeBranch(repository: Repository, toBranch: Branch, fromBranch: Branch): Promise<Oid> {
+    _logger.logTrace(`Merging "${fromBranch.fullName()}" to "${toBranch.fullName()}" branch in ${repository.path()} repository`);
+    return repository.mergeBranches(toBranch.name, fromBranch.shorthand(), Signature.default(repository), Merge.PREFERENCE.NONE);
 }
 
-export async function mergeMasterIntoBranch(repository: Repository, toBranchName: string): Promise<Oid> {
-    return mergeBranch(repository, toBranchName, "origin/master");
+export async function mergeMasterIntoBranch(repository: Repository, toBranch: Branch): Promise<Oid> {
+    return mergeBranch(repository, toBranch, Branch.RemoteMaster);
 }
 
-export async function pullBranch(repository: Repository, branchName: string, origin: string = "origin"): Promise<Oid> {
-    _logger.logTrace(`Pulling "${branchName}" branch from ${origin} origin in ${repository.path()} repository`);
+export async function pullBranch(repository: Repository, localBranch: Branch): Promise<Oid> {
+    _logger.logTrace(`Pulling "${localBranch.fullName()}" branch in ${repository.path()} repository`);
 
     await repository.fetchAll();
     _logger.logTrace(`Fetched all successfully`);
 
-    const oid = await repository.mergeBranches(branchName, `${origin}/${branchName}`, Signature.default(repository), Merge.PREFERENCE.NONE);
+    const remoteBranch = new Branch(localBranch.name, BranchLocation.Remote, localBranch.remote);
+    await mergeBranch(repository, localBranch, remoteBranch);
 
     const index = await repository.index();
     if (index.hasConflicts()) {
-        throw new Error(`Conflict while pulling ${branchName} from origin.`);
+        throw new Error(`Conflict while pulling ${remoteBranch.fullName()}`);
     }
 
-    _logger.logTrace(`Merged "${origin}/${branchName}" to "${branchName}" successfully without any conflicts`);
-    return oid;
+    _logger.logTrace(`Merged "${remoteBranch.fullName()}" to "${localBranch.fullName()}" successfully without any conflicts`);
+    return undefined;
 }
 
 export async function pullMaster(repository: Repository): Promise<Oid> {
-    return pullBranch(repository, "master");
+    return pullBranch(repository, Branch.LocalMaster);
 }
 
 export async function createNewBranch(repository: Repository, branchName: string, checkout?: boolean): Promise<Reference> {
@@ -135,6 +165,25 @@ export async function createNewBranch(repository: Repository, branchName: string
     }
 }
 
+export async function checkoutRemoteBranch(repository: Repository, remoteBranch: Branch): Promise<Reference> {
+    _logger.logTrace(`Checking out "${remoteBranch.fullName()}" remote branch`);
+
+    const branchNames = await repository.getReferenceNames(Reference.TYPE.LISTALL);
+    const branchExists = branchNames.some(name => name === remoteBranch.fullName());
+    _logger.logTrace(`Branch exists: ${branchExists}`);
+
+    let branchRef: Reference;
+    if (branchExists) {
+        branchRef = await checkoutBranch(repository, remoteBranch.shorthand());
+    } else {
+        branchRef = await createNewBranch(repository, remoteBranch.shorthand(), true);
+    }
+
+    const commit = await repository.getReferenceCommit(remoteBranch.fullName());
+    await Reset.reset(repository, commit as any, 3, {});
+    return branchRef;
+}
+
 function getCurrentDateSuffix(): string {
     const now = new Date();
     return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${now.getMilliseconds()}`;
@@ -145,7 +194,7 @@ export async function createNewUniqueBranch(repository: Repository, branchPrefix
 }
 
 export async function checkoutBranch(repository: Repository, branchName: string | Reference): Promise<Reference> {
-    _logger.logTrace(`Checking out ${branchName} branch`);
+    _logger.logTrace(`Checking out "${branchName}" branch`);
     return repository.checkoutBranch(branchName);
 }
 

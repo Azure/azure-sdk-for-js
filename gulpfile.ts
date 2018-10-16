@@ -241,15 +241,29 @@ gulp.task("regenerate", async () => {
         required: true,
         description: "Name of the regenerated package"
       },
-      "repo-path": {
+      "azure-sdk-for-js-root": {
+        alias: "sdk",
         string: true,
-        default: __dirname,
+        default: azureSDKForJSRepoRoot,
         description: "Path to the azure-sdk-for-js repository"
+      },
+      "azure-rest-api-specs-root": {
+        alias: "specs",
+        string: true,
+        default: azureRestAPISpecsRoot,
+        description: "Path to the azure-rest-api-specs repository"
       }
     }).usage("gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
-    await regenerate(argv.branch, argv["repo-path"]);
+    return new Promise((resolve, reject) => {
+      regenerate(argv.branch, argv.package, argv["azure-sdk-for-js-path"], argv["azure-rest-api-specs-path"])
+        .then(_ => resolve(),
+          error => reject(error))
+        .catch(error => {
+          reject(error)
+        });
+    });
   } catch (error) {
-
+    _logger.logError(error);
   }
 });

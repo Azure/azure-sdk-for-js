@@ -13,7 +13,7 @@ import { Version } from "./version";
 import { contains, npmInstall } from "./common";
 import { execSync } from "child_process";
 import { getLogger } from "./logger";
-import { refreshRepository, getValidatedRepository, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction, checkoutBranch, pullBranch, mergeBranch, mergeMasterIntoBranch, commitAndPush } from "./git";
+import { refreshRepository, getValidatedRepository, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction, checkoutBranch, pullBranch, mergeBranch, mergeMasterIntoBranch, commitAndPush, checkoutRemoteBranch, Branch, BranchLocation } from "./git";
 import { commitAndCreatePullRequest } from "./github";
 
 const _logger = getLogger();
@@ -185,14 +185,16 @@ export async function regenerate(branchName: string, packageName: string, azureS
     await refreshRepository(azureSdkForJsRepository);
     _logger.log(`Refreshed ${azureSdkForJsRepository.path()} repository successfully`);
 
-    await checkoutBranch(azureSdkForJsRepository, `origin/${branchName}`);
-    _logger.log(`Check out ${branchName} branch`);
+    const remoteBranch = new Branch(branchName, BranchLocation.Remote);
+    await checkoutRemoteBranch(azureSdkForJsRepository, remoteBranch);
+    _logger.log(`Checked out ${branchName} branch`);
 
-    await pullBranch(azureSdkForJsRepository, branchName);
+    const localBranch = remoteBranch.convertTo(BranchLocation.Local);
+    await pullBranch(azureSdkForJsRepository, localBranch);
     _logger.log(`Pulled ${branchName} from origin successfully`);
 
-    await mergeMasterIntoBranch(azureSdkForJsRepository, branchName);
-    _logger.log(`Merged master into ${branchName} successfully`);
+    await mergeMasterIntoBranch(azureSdkForJsRepository, localBranch);
+    _logger.log(`Merged master into ${localBranch.shorthand()} successfully`);
 
     await bumpMinorVersion(azureSdkForJsRepoPath, packageName);
     _logger.log(`Successfully updated version in package.json`);
@@ -200,7 +202,10 @@ export async function regenerate(branchName: string, packageName: string, azureS
     generateSdk(azureRestAPISpecsPath, azureSdkForJsRepoPath, packageName)
     _logger.log(`Generated sdk successfully`);
 
-    await commitAndPush(azureSdkForJsRepository, branchName, `Regenerated "${packageName}" SDK.`);
+    await bumpMinorVersion(azureSdkForJsRepoPath, packageName);
+
+    const validateEach: ValidateEachFunction = el => el.path().startsWith(`packages/${packageName}`);
+    await commitAndPush(azureSdkForJsRepository, branchName, `Regenerated "${packageName}" SDK.`, undefined, validateEach);
     _logger.log(`Committed and pushed the changes successfully`);
 }
 
