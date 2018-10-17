@@ -16,6 +16,7 @@ export {
   BaseResource,
   MachineCountsByOperatingSystem,
   ErrorResponse,
+  ErrorModel,
   CoreResource,
   Machine,
   Timezone,

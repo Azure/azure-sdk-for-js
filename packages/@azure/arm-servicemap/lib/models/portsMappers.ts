@@ -16,6 +16,7 @@ export {
   BaseResource,
   ResourceReference,
   ErrorResponse,
+  ErrorModel,
   Liveness,
   ProcessCollection,
   Process,

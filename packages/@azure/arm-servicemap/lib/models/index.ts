@@ -107,6 +107,21 @@ export interface MachineReference {
 
 /**
  * @interface
+ * An interface representing ProcessReferenceProperties.
+ * Resource properties.
+ *
+ */
+export interface ProcessReferenceProperties {
+  /**
+   * @member {MachineReference} [machine] Machine hosting the process.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly machine?: MachineReference;
+}
+
+/**
+ * @interface
  * An interface representing ProcessReference.
  * Reference to a process.
  *
@@ -138,6 +153,31 @@ export interface ProcessReference {
    * the server.**
    */
   readonly machine?: MachineReference;
+}
+
+/**
+ * @interface
+ * An interface representing PortReferenceProperties.
+ * Resource properties.
+ *
+ */
+export interface PortReferenceProperties {
+  /**
+   * @member {MachineReference} [machine] Machine hosting the port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly machine?: MachineReference;
+  /**
+   * @member {string} [ipAddress] IP address of the port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ipAddress?: string;
+  /**
+   * @member {number} [portNumber] Port number.
+   */
+  portNumber?: number;
 }
 
 /**
@@ -183,6 +223,29 @@ export interface PortReference {
    * @member {number} [portNumber] Port number.
    */
   portNumber?: number;
+}
+
+/**
+ * @interface
+ * An interface representing MachineReferenceWithHintsProperties.
+ * Machine reference with name and os hints.
+ *
+ */
+export interface MachineReferenceWithHintsProperties {
+  /**
+   * @member {string} [displayNameHint] Last known display name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayNameHint?: string;
+  /**
+   * @member {OperatingSystemFamily} [osFamilyHint] Last known operating system
+   * family. Possible values include: 'unknown', 'windows', 'linux', 'solaris',
+   * 'aix'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly osFamilyHint?: OperatingSystemFamily;
 }
 
 /**
@@ -533,6 +596,88 @@ export interface HostingConfiguration {
 
 /**
  * @interface
+ * An interface representing MachineProperties.
+ * Resource properties.
+ *
+ */
+export interface MachineProperties {
+  /**
+   * @member {Date} [timestamp] UTC date and time when this resource was
+   * updated in the system.
+   */
+  timestamp?: Date;
+  /**
+   * @member {MonitoringState} [monitoringState] Specifies whether the machine
+   * is actively monitored or discovered. Possible values include: 'monitored',
+   * 'discovered'
+   */
+  monitoringState?: MonitoringState;
+  /**
+   * @member {VirtualizationState} [virtualizationState] Specifies whether the
+   * machine is virtualized. Possible values include: 'unknown', 'physical',
+   * 'virtual', 'hypervisor'
+   */
+  virtualizationState?: VirtualizationState;
+  /**
+   * @member {string} [displayName] Name to use for display purposes
+   */
+  displayName?: string;
+  /**
+   * @member {string} [computerName] Name of the machine, e.g., server
+   */
+  computerName?: string;
+  /**
+   * @member {string} [fullyQualifiedDomainName] Fully-qualified name of the
+   * machine, e.g., server.company.com
+   */
+  fullyQualifiedDomainName?: string;
+  /**
+   * @member {Date} [bootTime] UTC date and time when the machine last booted
+   */
+  bootTime?: Date;
+  /**
+   * @member {Timezone} [timezone] Timezone of the machine.
+   */
+  timezone?: Timezone;
+  /**
+   * @member {AgentConfiguration} [agent] Dependency Agent configuration.
+   */
+  agent?: AgentConfiguration;
+  /**
+   * @member {MachineResourcesConfiguration} [resources] Machine resources
+   * (memory, cpu, etc.).
+   */
+  resources?: MachineResourcesConfiguration;
+  /**
+   * @member {NetworkConfiguration} [networking] Network configuration (ips,
+   * gateways, dns, etc.)
+   */
+  networking?: NetworkConfiguration;
+  /**
+   * @member {OperatingSystemConfiguration} [operatingSystem] Operating system
+   * information.
+   */
+  operatingSystem?: OperatingSystemConfiguration;
+  /**
+   * @member {VirtualMachineConfiguration} [virtualMachine]
+   * Virtualization-related configuration. Present only when
+   * `virtualizationState` is `virtual`.
+   */
+  virtualMachine?: VirtualMachineConfiguration;
+  /**
+   * @member {HypervisorConfiguration} [hypervisor] Hypervisor-related
+   * configuration. Present only when 'virtualizationState' is `hypervisor`.
+   */
+  hypervisor?: HypervisorConfiguration;
+  /**
+   * @member {HostingConfigurationUnion} [hosting] Hosting-related
+   * configuration. Present if hosting information is discovered for the VM.
+   */
+  hosting?: HostingConfigurationUnion;
+}
+
+/**
+ * @interface
  * An interface representing Machine.
  * A machine resource represents a discovered computer system. It can be
  * *monitored*, i.e., a Dependency Agent is running on it, or *discovered*,
@@ -775,6 +920,80 @@ export interface ProcessHostingConfiguration {
 
 /**
  * @interface
+ * An interface representing ProcessProperties.
+ * Resource properties.
+ *
+ */
+export interface ProcessProperties {
+  /**
+   * @member {Date} [timestamp] UTC date and time when this process resource
+   * was updated in the system
+   */
+  timestamp?: Date;
+  /**
+   * @member {MonitoringState} [monitoringState] Specifies whether the process
+   * is actively monitored or discovered. Possible values include: 'monitored',
+   * 'discovered'
+   */
+  monitoringState?: MonitoringState;
+  /**
+   * @member {ResourceReferenceUnion} [machine] Machine hosting this process.
+   */
+  machine?: ResourceReferenceUnion;
+  /**
+   * @member {string} [executableName] The name of the process executable
+   */
+  executableName?: string;
+  /**
+   * @member {string} [displayName] Name to use for display purposes
+   */
+  displayName?: string;
+  /**
+   * @member {Date} [startTime] UTC date and time when the process started
+   */
+  startTime?: Date;
+  /**
+   * @member {ProcessRole} [role] The inferred role of this process based on
+   * its name, command line, etc. Possible values include: 'webServer',
+   * 'appServer', 'databaseServer', 'ldapServer', 'smbServer'
+   */
+  role?: ProcessRole;
+  /**
+   * @member {string} [group] The name of the product or suite of the process.
+   * The group is determined by its executable name, command line, etc.
+   */
+  group?: string;
+  /**
+   * @member {ProcessDetails} [details] Process metadata (command line, product
+   * name, etc.).
+   */
+  details?: ProcessDetails;
+  /**
+   * @member {ProcessUser} [user] Information about the account under which the
+   * process is executing.
+   */
+  user?: ProcessUser;
+  /**
+   * @member {ResourceReferenceUnion} [clientOf] Present only for a discovered
+   * process acting as a client of a monitored process/machine/port. References
+   * the monitored process/machine/port that this process is a client of.
+   */
+  clientOf?: ResourceReferenceUnion;
+  /**
+   * @member {ResourceReferenceUnion} [acceptorOf] Present only for a
+   * discovered process acting as a server. References the port on which the
+   * discovered process is accepting.
+   */
+  acceptorOf?: ResourceReferenceUnion;
+  /**
+   * @member {ProcessHostingConfigurationUnion} [hosting] Information about the
+   * hosting environment
+   */
+  hosting?: ProcessHostingConfigurationUnion;
+}
+
+/**
+ * @interface
  * An interface representing Process.
  * A process resource represents a process running on a machine. The process
  * may be actively *monitored*, i.e., a Dependency Agent is running on its
@@ -882,6 +1101,38 @@ export interface Process {
 
 /**
  * @interface
+ * An interface representing PortProperties.
+ * Resource properties.
+ *
+ */
+export interface PortProperties {
+  /**
+   * @member {MonitoringState} [monitoringState] Specifies whether the port is
+   * actively monitored or discovered. Possible values include: 'monitored',
+   * 'discovered'
+   */
+  monitoringState?: MonitoringState;
+  /**
+   * @member {ResourceReferenceUnion} [machine] Machine hosting this port.
+   */
+  machine?: ResourceReferenceUnion;
+  /**
+   * @member {string} [displayName] Name to use for display purposes.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [ipAddress] IP address associated with the port. At
+   * present only IPv4 addresses are supported.
+   */
+  ipAddress?: string;
+  /**
+   * @member {number} [portNumber] Port number.
+   */
+  portNumber?: number;
+}
+
+/**
+ * @interface
  * An interface representing Port.
  * A port resource represents a server port on a machine. The port may be
  * actively *monitored*, i.e., a Dependency Agent is running on its machine, or
@@ -944,6 +1195,20 @@ export interface Port {
 
 /**
  * @interface
+ * An interface representing ClientGroupProperties.
+ * Resource properties.
+ *
+ */
+export interface ClientGroupProperties {
+  /**
+   * @member {ResourceReferenceUnion} clientsOf Reference to the resource whose
+   * clients are represented by this group.
+   */
+  clientsOf: ResourceReferenceUnion;
+}
+
+/**
+ * @interface
  * An interface representing ClientGroup.
  * Represents a collection of clients of a resource. A client group can
  * represent the clients of a port, process, or a machine.
@@ -985,6 +1250,28 @@ export interface ClientGroup {
 
 /**
  * @interface
+ * An interface representing ClientGroupMemberProperties.
+ * Resource properties.
+ *
+ */
+export interface ClientGroupMemberProperties {
+  /**
+   * @member {string} [ipAddress] IP address.
+   */
+  ipAddress?: string;
+  /**
+   * @member {PortReference} [port] Port into which this client connected
+   */
+  port?: PortReference;
+  /**
+   * @member {ProcessReference[]} [processes] Processes accepting on the above
+   * port that received connections from this client.
+   */
+  processes?: ProcessReference[];
+}
+
+/**
+ * @interface
  * An interface representing ClientGroupMember.
  * Represents a member of a client group
  *
@@ -1004,6 +1291,39 @@ export interface ClientGroupMember extends Resource {
    * port that received connections from this client.
    */
   processes?: ProcessReference[];
+}
+
+/**
+ * @interface
+ * An interface representing MachineGroupProperties.
+ * Resource properties.
+ *
+ */
+export interface MachineGroupProperties {
+  /**
+   * @member {MachineGroupType} [groupType] Type of the machine group. Possible
+   * values include: 'unknown', 'azure-cs', 'azure-sf', 'azure-vmss',
+   * 'user-static'
+   */
+  groupType?: MachineGroupType;
+  /**
+   * @member {string} displayName User defined name for the group
+   */
+  displayName: string;
+  /**
+   * @member {number} [count] Count of machines in this group. The value of
+   * count may be bigger than the number of machines in case of the group has
+   * been truncated due to exceeding the max number of machines a group can
+   * handle.
+   */
+  count?: number;
+  /**
+   * @member {MachineReferenceWithHints[]} [machines] References of the
+   * machines in this group. The hints within each reference do not represent
+   * the current value of the corresponding fields. They are a snapshot created
+   * during the last time the machine group was updated.
+   */
+  machines?: MachineReferenceWithHints[];
 }
 
 /**
@@ -1094,6 +1414,46 @@ export interface MachineCountsByOperatingSystem {
 
 /**
  * @interface
+ * An interface representing SummaryProperties.
+ * Base for all summaries.
+ *
+ */
+export interface SummaryProperties {
+  /**
+   * @member {Date} startTime Summary interval start time.
+   */
+  startTime: Date;
+  /**
+   * @member {Date} endTime Summary interval end time.
+   */
+  endTime: Date;
+}
+
+/**
+ * @interface
+ * An interface representing MachinesSummaryProperties.
+ * Summarizes machines in the workspace.
+ *
+ * @extends SummaryProperties
+ */
+export interface MachinesSummaryProperties extends SummaryProperties {
+  /**
+   * @member {number} total Total number of machines.
+   */
+  total: number;
+  /**
+   * @member {number} live Number of live machines.
+   */
+  live: number;
+  /**
+   * @member {MachineCountsByOperatingSystem} os Machine counts by operating
+   * system.
+   */
+  os: MachineCountsByOperatingSystem;
+}
+
+/**
+ * @interface
  * An interface representing MachinesSummary.
  * A summary of the machines in the workspace.
  *
@@ -1161,6 +1521,54 @@ export interface Relationship {
 
 /**
  * @interface
+ * An interface representing RelationshipProperties.
+ * Relationship properties.
+ *
+ */
+export interface RelationshipProperties {
+  /**
+   * @member {ResourceReferenceUnion} source Source resource of the
+   * relationship.
+   */
+  source: ResourceReferenceUnion;
+  /**
+   * @member {ResourceReferenceUnion} destination Destination resource of the
+   * relationship.
+   */
+  destination: ResourceReferenceUnion;
+  /**
+   * @member {Date} [startTime] Relationship start time.
+   */
+  startTime?: Date;
+  /**
+   * @member {Date} [endTime] Relationship end time.
+   */
+  endTime?: Date;
+}
+
+/**
+ * @interface
+ * An interface representing ConnectionProperties.
+ * Properties for a connection resource.
+ *
+ * @extends RelationshipProperties
+ */
+export interface ConnectionProperties extends RelationshipProperties {
+  /**
+   * @member {PortReference} [serverPort] Reference to the server port via
+   * which this connection has been established.
+   */
+  serverPort?: PortReference;
+  /**
+   * @member {ConnectionFailureState} [failureState] Specifies whether there
+   * are only successful, failed or a mixture of both connections represented
+   * by this resource. Possible values include: 'ok', 'failed', 'mixed'
+   */
+  failureState?: ConnectionFailureState;
+}
+
+/**
+ * @interface
  * An interface representing Connection.
  * A network connection.
  *
@@ -1221,6 +1629,31 @@ export interface Connection {
 
 /**
  * @interface
+ * An interface representing AcceptorProperties.
+ * Properties for an acceptor relationship.
+ *
+ */
+export interface AcceptorProperties {
+  /**
+   * @member {PortReference} source Port being accepted.
+   */
+  source: PortReference;
+  /**
+   * @member {ProcessReference} destination Accepting process.
+   */
+  destination: ProcessReference;
+  /**
+   * @member {Date} [startTime] Relationship start time.
+   */
+  startTime?: Date;
+  /**
+   * @member {Date} [endTime] Relationship end time.
+   */
+  endTime?: Date;
+}
+
+/**
+ * @interface
  * An interface representing Acceptor.
  * A process accepting on a port.
  *
@@ -1256,50 +1689,6 @@ export interface Acceptor {
    * @member {ProcessReference} destination Accepting process.
    */
   destination: ProcessReference;
-  /**
-   * @member {Date} [startTime] Relationship start time.
-   */
-  startTime?: Date;
-  /**
-   * @member {Date} [endTime] Relationship end time.
-   */
-  endTime?: Date;
-}
-
-/**
- * @interface
- * An interface representing SummaryProperties.
- * Base for all summaries.
- *
- */
-export interface SummaryProperties {
-  /**
-   * @member {Date} startTime Summary interval start time.
-   */
-  startTime: Date;
-  /**
-   * @member {Date} endTime Summary interval end time.
-   */
-  endTime: Date;
-}
-
-/**
- * @interface
- * An interface representing RelationshipProperties.
- * Relationship properties.
- *
- */
-export interface RelationshipProperties {
-  /**
-   * @member {ResourceReferenceUnion} source Source resource of the
-   * relationship.
-   */
-  source: ResourceReferenceUnion;
-  /**
-   * @member {ResourceReferenceUnion} destination Destination resource of the
-   * relationship.
-   */
-  destination: ResourceReferenceUnion;
   /**
    * @member {Date} [startTime] Relationship start time.
    */

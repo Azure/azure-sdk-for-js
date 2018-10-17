@@ -20,6 +20,7 @@ export {
   ProcessUser,
   ProcessHostingConfiguration,
   ErrorResponse,
+  ErrorModel,
   Liveness,
   PortCollection,
   Port,

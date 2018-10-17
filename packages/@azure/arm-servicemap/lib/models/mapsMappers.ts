@@ -44,6 +44,7 @@ export {
   Acceptor,
   ProcessReference,
   ErrorResponse,
+  ErrorModel,
   MachineReferenceWithHints,
   ClientGroupReference,
   ClientGroupMember,
