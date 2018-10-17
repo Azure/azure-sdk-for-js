@@ -4,17 +4,54 @@
  * license information.
  */
 
-import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile } from "nodegit";
+import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile, Reset, Index } from "nodegit";
 import { getLogger } from "./logger";
 import { getCommandLineOptions } from "./commandLine";
 
 export type ValidateFunction = (statuses: StatusFile[]) => boolean;
-export type ValidateEachFunction = (value: StatusFile, index: number, array: StatusFile[]) => boolean;
+export type ValidateEachFunction = (path: string, matchedPatter: string) => number;
+
+export enum BranchLocation {
+    Local = "heads",
+    Remote = "remotes"
+}
+
+export class Branch {
+    static LocalMaster = new Branch("master", BranchLocation.Local);
+    static RemoteMaster = new Branch("master", BranchLocation.Remote);
+
+    constructor(public name: string, public location: BranchLocation, public remote: string = "origin") {
+    }
+
+    shorthand(): string {
+        return `${this.remote}/${this.name}`;
+    }
+
+    fullName(): string {
+        if (this.name.startsWith("refs")) {
+            return this.name;
+        }
+
+        return `refs/${this.location}/${this.remote}/${this.name}`;
+    }
+
+    fullNameWithoutRemote(): string {
+        if (this.name.startsWith("refs")) {
+            return this.name;
+        }
+
+        return `refs/${this.location}/${this.name}`;
+    }
+
+    convertTo(location: BranchLocation): Branch {
+        return new Branch(this.name, location, this.remote);
+    }
+}
 
 const _args = getCommandLineOptions();
 const _logger = getLogger();
 
-const _lockMap = { }
+const _lockMap = {}
 
 function isLocked(repositoryPath: string) {
     const isLocked = _lockMap[repositoryPath];
@@ -86,28 +123,39 @@ export async function validateRepositoryStatus(repository: Repository): Promise<
 export async function getValidatedRepository(repositoryPath: string): Promise<Repository> {
     const repository = await openRepository(repositoryPath);
     await validateRepositoryStatus(repository);
+    await repository.fetchAll();
     return repository;
 }
 
-export async function pull(repository: Repository, branchName: string, origin: string = "origin"): Promise<Oid> {
-    _logger.logTrace(`Pulling "${branchName}" branch from ${origin} origin in ${repository.path()} repository`);
+export async function mergeBranch(repository: Repository, toBranch: Branch, fromBranch: Branch): Promise<Oid> {
+    _logger.logTrace(`Merging "${fromBranch.fullName()}" to "${toBranch.fullName()}" branch in ${repository.path()} repository`);
+    return repository.mergeBranches(toBranch.name, fromBranch.shorthand(), Signature.default(repository), Merge.PREFERENCE.NONE);
+}
+
+export async function mergeMasterIntoBranch(repository: Repository, toBranch: Branch): Promise<Oid> {
+    return mergeBranch(repository, toBranch, Branch.RemoteMaster);
+}
+
+export async function pullBranch(repository: Repository, localBranch: Branch): Promise<Oid> {
+    _logger.logTrace(`Pulling "${localBranch.fullName()}" branch in ${repository.path()} repository`);
 
     await repository.fetchAll();
     _logger.logTrace(`Fetched all successfully`);
 
-    const oid = await repository.mergeBranches(branchName, `${origin}/${branchName}`, Signature.default(repository), Merge.PREFERENCE.NONE);
+    const remoteBranch = new Branch(localBranch.name, BranchLocation.Remote, localBranch.remote);
+    await mergeBranch(repository, localBranch, remoteBranch);
 
     const index = await repository.index();
     if (index.hasConflicts()) {
-        throw new Error(`Conflict while pulling ${branchName} from origin.`);
+        throw new Error(`Conflict while pulling ${remoteBranch.fullName()}`);
     }
 
-    _logger.logTrace(`Merged "${origin}/${branchName}" to "${branchName}" successfully without any conflicts`);
-    return oid;
+    _logger.logTrace(`Merged "${remoteBranch.fullName()}" to "${localBranch.fullName()}" successfully without any conflicts`);
+    return undefined;
 }
 
 export async function pullMaster(repository: Repository): Promise<Oid> {
-    return pull(repository, "master");
+    return pullBranch(repository, Branch.LocalMaster);
 }
 
 export async function createNewBranch(repository: Repository, branchName: string, checkout?: boolean): Promise<Reference> {
@@ -121,8 +169,29 @@ export async function createNewBranch(repository: Repository, branchName: string
         return branchPromise;
     } else {
         const branch = await branchPromise;
-        return checkoutBranch(repository, branch.name());
+        return checkoutBranch(repository, branch.shorthand());
     }
+}
+
+export async function checkoutRemoteBranch(repository: Repository, remoteBranch: Branch): Promise<Reference> {
+    _logger.logTrace(`Checking out "${remoteBranch.fullName()}" remote branch`);
+
+    const branchNames = await repository.getReferenceNames(Reference.TYPE.LISTALL);
+    const localBranch = remoteBranch.convertTo(BranchLocation.Local);
+    const branchExists = branchNames.some(name => name === localBranch.fullNameWithoutRemote());
+    _logger.logTrace(`Branch exists: ${branchExists}`);
+
+    let branchRef: Reference;
+    if (branchExists) {
+        branchRef = await checkoutBranch(repository, remoteBranch.name);
+    } else {
+        branchRef = await createNewBranch(repository, remoteBranch.name, true);
+        const commit = await repository.getReferenceCommit(remoteBranch.name);
+        await Reset.reset(repository, commit as any, Reset.TYPE.HARD, {});
+        await pullBranch(repository, remoteBranch.convertTo(BranchLocation.Local));
+    }
+
+    return branchRef;
 }
 
 function getCurrentDateSuffix(): string {
@@ -135,7 +204,7 @@ export async function createNewUniqueBranch(repository: Repository, branchPrefix
 }
 
 export async function checkoutBranch(repository: Repository, branchName: string | Reference): Promise<Reference> {
-    _logger.logTrace(`Checking out ${branchName} branch`);
+    _logger.logTrace(`Checking out "${branchName}" branch`);
     return repository.checkoutBranch(branchName);
 }
 
@@ -148,32 +217,56 @@ export async function refreshRepository(repository: Repository) {
     return checkoutMaster(repository);
 }
 
-export async function commitSpecificationChanges(repository: Repository, commitMessage: string, validate?: ValidateFunction, validateEach?: ValidateEachFunction): Promise<Oid> {
+export async function commitChanges(repository: Repository, commitMessage: string, validateStatus?: ValidateFunction, validateEach?: string | ValidateEachFunction): Promise<Oid> {
     _logger.logTrace(`Committing changes in "${repository.path()}" repository`);
 
-    const emptyValidate = () => true;
-    validate = validate || emptyValidate;
-    validateEach = validateEach || emptyValidate;
+    validateStatus = validateStatus || ((_) => true);
+    validateEach = validateEach || ((_, __) => 0);
 
     const status = await repository.getStatus();
-
-    if (validate(status) && status.every(validateEach)) {
-        var author = Signature.default(repository);
-        return repository.createCommitOnHead(status.map(el => el.path()), author, author, commitMessage);
-    } else {
+    if (!validateStatus(status)) {
         return Promise.reject("Unknown changes present in the repository");
     }
+
+    const index = await repository.refreshIndex();
+    if (typeof validateEach === "string") {
+        const folderName = validateEach;
+        validateEach = (path, pattern) => {
+             return path.startsWith(folderName) ? 0 : 1;
+        }
+    }
+
+    await index.addAll("*", Index.ADD_OPTION.ADD_CHECK_PATHSPEC, validateEach);
+
+    const entries = index.entries();
+    _logger.logTrace(`Files added to the index ${index.entryCount}: ${JSON.stringify(entries)}`)
+
+    await index.write();
+    const oid = await index.writeTree();
+
+    const head = await repository.getHeadCommit();
+    const author = Signature.default(repository);
+
+    return repository.createCommit("HEAD", author, author, commitMessage, oid, [head]);
 }
 
-export async function pushToNewBranch(repository: Repository, branchName: string): Promise<number> {
+export async function pushBranch(repository: Repository, localBranch: Branch): Promise<number> {
     const remote = await repository.getRemote("origin");
-    return remote.push([`${branchName}:${branchName}`], {
+    const refSpec = `refs/heads/${localBranch.name}:refs/heads/${localBranch.name}`;
+    _logger.logTrace(`Pushing to ${refSpec}`);
+
+    return remote.push([refSpec], {
         callbacks: {
             credentials: function (url, userName) {
                 return Cred.userpassPlaintextNew(getToken(), "x-oauth-basic");
             }
         }
     });
+}
+
+export async function commitAndPush(repository: Repository, localBranch: Branch, commitMessage: string, validate?: ValidateFunction, validateEach?: string | ValidateEachFunction) {
+    await commitChanges(repository, commitMessage, validate, validateEach);
+    await pushBranch(repository, localBranch);
 }
 
 export function getToken(): string {
@@ -186,7 +279,7 @@ export function getToken(): string {
 function _validatePersonalAccessToken(token: string): void {
     if (!token) {
         const text =
-        `Github personal access token was not found as a script parameter or as an
+            `Github personal access token was not found as a script parameter or as an
         environmental variable. Please visit https://github.com/settings/tokens,
         generate new token with "repo" scope and pass it with -token switch or set
         it as environmental variable named SDK_GEN_GITHUB_TOKEN.`

@@ -6,7 +6,7 @@
 
 import * as Octokit from '@octokit/rest'
 import { PullRequestsCreateParams, Response, PullRequestsCreateReviewRequestParams, PullRequestsCreateReviewRequestResponse } from '@octokit/rest';
-import { getToken, createNewUniqueBranch, commitSpecificationChanges, pushToNewBranch, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction } from './git';
+import { getToken, createNewUniqueBranch, commitChanges, pushBranch,ValidateFunction, ValidateEachFunction, Branch, BranchLocation } from './git';
 import { getLogger } from './logger';
 import { Repository } from 'nodegit';
 
@@ -69,17 +69,18 @@ export async function commitAndCreatePullRequest(
     pullRequestTitle: string,
     pullRequestDescription:string,
     validate?: ValidateFunction,
-    validateEach?: ValidateEachFunction): Promise<string> {
+    validateEach?: string | ValidateEachFunction): Promise<string> {
     await createNewUniqueBranch(repository, `generated/${packageName}`, true);
 
-    await commitSpecificationChanges(repository, commitMessage, validate, validateEach);
-    const newBranch = await repository.getCurrentBranch();
-    _logger.logInfo(`Committed changes successfully on ${newBranch.name()} branch`);
+    await commitChanges(repository, commitMessage, validate, validateEach);
+    const newBranchRef = await repository.getCurrentBranch();
+    const newBranch = new Branch(newBranchRef.name(), BranchLocation.Local);
+    _logger.logInfo(`Committed changes successfully on ${newBranch.name} branch`);
 
-    await pushToNewBranch(repository, newBranch.name());
-    _logger.logInfo(`Pushed changes successfully to ${newBranch.name()} branch`);
+    await pushBranch(repository, newBranch);
+    _logger.logInfo(`Pushed changes successfully to ${newBranch.name} branch`);
 
-    const pullRequestResponse = await createPullRequest(repositoryName, pullRequestTitle, pullRequestDescription, newBranch.name());
+    const pullRequestResponse = await createPullRequest(repositoryName, pullRequestTitle, pullRequestDescription, newBranchRef.name());
     _logger.logInfo(`Created pull request successfully - ${pullRequestResponse.data.html_url}`);
 
     const reviewResponse = await requestPullRequestReview(repositoryName, pullRequestResponse.data.number);
