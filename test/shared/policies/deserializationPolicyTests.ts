@@ -203,6 +203,61 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
+    it(`with xml response body, application/xml content-type, and operation spec for only headers`, async function () {
+      const response: HttpOperationResponse = {
+        request: createRequest({
+          httpMethod: "GET",
+          serializer: new Serializer({}, true),
+          responses: {
+            200: {
+              bodyMapper: {
+                xmlName: "fruit",
+                serializedName: "fruit",
+                type: {
+                  name: "Composite",
+                  className: "Fruit",
+                  modelProperties: {
+                    apples: {
+                      xmlName: "apples",
+                      serializedName: "apples",
+                      type: {
+                        name: "Composite",
+                        className: "Apples",
+                        modelProperties: {
+                          tasty: {
+                            xmlName: "tasty",
+                            xmlIsAttribute: true,
+                            serializedName: "tasty",
+                            type: {
+                              name: "String"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<fruit><apples tasty="yes">3</apples></fruit>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
+
+      assert(deserializedResponse);
+      assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
+      assert.strictEqual(deserializedResponse.blobBody, undefined);
+      assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples tasty="yes">3</apples></fruit>`);
+      assert.deepEqual(deserializedResponse.parsedBody, { "apples": { "tasty": "yes" } });
+      assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
+    });
+
     it(`with xml response body, application/atom+xml content-type, but no operation spec`, async function () {
       const response: HttpOperationResponse = {
         request: createRequest(),
