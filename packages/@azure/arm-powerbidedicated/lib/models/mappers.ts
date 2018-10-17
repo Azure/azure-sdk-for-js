@@ -149,6 +149,48 @@ export const Resource: msRest.CompositeMapper = {
   }
 };
 
+export const DedicatedCapacityMutableProperties: msRest.CompositeMapper = {
+  serializedName: "DedicatedCapacityMutableProperties",
+  type: {
+    name: "Composite",
+    className: "DedicatedCapacityMutableProperties",
+    modelProperties: {
+      administration: {
+        serializedName: "administration",
+        type: {
+          name: "Composite",
+          className: "DedicatedCapacityAdministrators"
+        }
+      }
+    }
+  }
+};
+
+export const DedicatedCapacityProperties: msRest.CompositeMapper = {
+  serializedName: "DedicatedCapacityProperties",
+  type: {
+    name: "Composite",
+    className: "DedicatedCapacityProperties",
+    modelProperties: {
+      ...DedicatedCapacityMutableProperties.type.modelProperties,
+      state: {
+        readOnly: true,
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DedicatedCapacity: msRest.CompositeMapper = {
   serializedName: "DedicatedCapacity",
   type: {
