@@ -35,6 +35,14 @@ export class Branch {
         return `refs/${this.location}/${this.remote}/${this.name}`;
     }
 
+    fullNameWithoutRemote(): string {
+        if (this.name.startsWith("refs")) {
+            return this.name;
+        }
+
+        return `refs/${this.location}/${this.name}`;
+    }
+
     convertTo(location: BranchLocation): Branch {
         return new Branch(this.name, location, this.remote);
     }
@@ -170,7 +178,7 @@ export async function checkoutRemoteBranch(repository: Repository, remoteBranch:
 
     const branchNames = await repository.getReferenceNames(Reference.TYPE.LISTALL);
     const localBranch = remoteBranch.convertTo(BranchLocation.Local);
-    const branchExists = branchNames.some(name => name === localBranch.fullName());
+    const branchExists = branchNames.some(name => name === localBranch.fullNameWithoutRemote());
     _logger.logTrace(`Branch exists: ${branchExists}`);
 
     let branchRef: Reference;
@@ -178,7 +186,7 @@ export async function checkoutRemoteBranch(repository: Repository, remoteBranch:
         branchRef = await checkoutBranch(repository, remoteBranch.name);
     } else {
         branchRef = await createNewBranch(repository, remoteBranch.name, true);
-        const commit = await repository.getReferenceCommit(remoteBranch.fullName());
+        const commit = await repository.getReferenceCommit(remoteBranch.name);
         await Reset.reset(repository, commit as any, Reset.TYPE.HARD, {});
         await pullBranch(repository, remoteBranch.convertTo(BranchLocation.Local));
     }

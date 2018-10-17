@@ -194,7 +194,7 @@ export async function regenerate(branchName: string, packageName: string, azureS
     await bumpMinorVersion(azureSdkForJsRepoPath, packageName);
     _logger.log(`Successfully updated version in package.json`);
 
-    generateSdk(azureRestAPISpecsPath, azureSdkForJsRepoPath, packageName)
+    await generateSdk(azureRestAPISpecsPath, azureSdkForJsRepoPath, packageName)
     _logger.log(`Generated sdk successfully`);
 
     await commitAndPush(azureSdkForJsRepository, localBranch, `Regenerated "${packageName}" SDK.`, undefined, `packages/${packageName}`);
