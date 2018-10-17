@@ -2,10 +2,9 @@
   "name": "@azure/arm-servicemap",
   "author": "Microsoft Corporation",
   "description": "ServicemapManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.0.0-preview",
+  "version": "1.1.0-preview",
   "dependencies": {
-    "ms-rest-azure-js": "~0.17.165",
-    "ms-rest-js": "~0.22.434"
+    "ms-rest-azure-js": "~0.17.165"
   },
   "keywords": [
     "node",
@@ -24,7 +23,7 @@
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-servicemap",
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"

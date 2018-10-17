@@ -26,7 +26,6 @@ export {
   HypervisorConfiguration,
   HostingConfiguration,
   ErrorResponse,
-  ErrorModel,
   Liveness,
   ConnectionCollection,
   Connection,

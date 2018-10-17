@@ -16,7 +16,6 @@ export {
   BaseResource,
   ResourceReference,
   ErrorResponse,
-  ErrorModel,
   ClientGroupMembersCount,
   ClientGroupMembersCollection,
   ClientGroupMember,

@@ -18,7 +18,6 @@ export {
   MachineReferenceWithHints,
   ResourceReference,
   ErrorResponse,
-  ErrorModel,
   MachineReference,
   ProcessReference,
   PortReference,
