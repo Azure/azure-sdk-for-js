@@ -11,7 +11,7 @@ npm install @azure/servicefabric
 ```
 - browser
 ```html
-<script type="text/javascript" src="@azure/servicefabric/dist/servicefabric.js"></script>
+<script type="text/javascript" src="@azure/servicefabric/serviceFabricClientBundle.js"></script>
 ```
 
 ## How to use
@@ -43,13 +43,13 @@ client.getClusterManifest(timeout).then((result) => {
 <html lang="en">
   <head>
     <title>@azure/servicefabric sample</title>
-    <script type="text/javascript" src="./node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script type="text/javascript" src="./dist/servicefabric.js"></script>
+    <script type="text/javascript" src="./node_modules/ms-rest-js/msRestBundle.js"></script>
+    <script type="text/javascript" src="./serviceFabricClientBundle.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const token = "<access_token>";
       const creds = new msRest.TokenCredentials(token);
-      const client = new Azure.Servicefabric.ServiceFabricClient(creds, subscriptionId);
+      const client = new ServiceFabricClient(creds, subscriptionId);
       const timeout = 1;
       client.getClusterManifest(timeout).then((result) => {
         console.log("The result is:");
