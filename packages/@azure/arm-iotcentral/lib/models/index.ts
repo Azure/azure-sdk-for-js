@@ -16,36 +16,6 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
- * An interface representing AppProperties.
- * The properties of an IoT Central application.
- *
- */
-export interface AppProperties {
-  /**
-   * @member {string} [applicationId] The ID of the application.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly applicationId?: string;
-  /**
-   * @member {string} [displayName] The display name of the application.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [subdomain] The subdomain of the application.
-   */
-  subdomain?: string;
-  /**
-   * @member {string} [template] The ID of the application template, which is a
-   * blueprint that defines the characteristics and behaviors of an
-   * application. Optional; if not specified, defaults to a blank blueprint and
-   * allows the application to be defined from scratch.
-   */
-  template?: string;
-}
-
-/**
- * @interface
  * An interface representing AppSkuInfo.
  * Information about the SKU of the IoT Central application.
  *
