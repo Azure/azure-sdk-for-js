@@ -1,15 +1,18 @@
-# Azure FrontDoorManagementClient SDK for JavaScript
-This package contains an isomorphic SDK for FrontDoorManagementClient.
-
-## Currently supported environments
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+# Microsoft Azure SDK for isomorphic javascript - FrontDoorManagementClient
+This project provides an isomorphic javascript package for accessing Azure. Right now it supports:
+- node.js version 6.x.x or higher
+- browser javascript
 
 ## How to Install
+
+- nodejs
 ```
 npm install @azure/arm-frontdoor
 ```
-
+- browser
+```html
+<script type="text/javascript" src="https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/lib/services/@azure/arm-frontdoor/frontDoorManagementClientBundle.js"></script>
+```
 
 ## How to use
 
@@ -33,7 +36,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and list frontDoors as an example written in JavaScript.
+### browser - Authentication, client creation and list frontDoors as an example written in javascript.
 
 - index.html
 ```html
@@ -41,10 +44,10 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 <html lang="en">
   <head>
     <title>@azure/arm-frontdoor sample</title>
-    <script src="node_modules/ms-rest-js/master/msRestBundle.js"></script>
-    <script src="node_modules/ms-rest-azure-js/master/msRestAzureBundle.js"></script>
-    <script src="node_modules/@azure/arm-frontdoor/frontDoorManagementClientBundle.js"></script>
-    <script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/ms-rest-js/master/msRestBundle.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/ms-rest-js/master/msRestAzureBundle.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/lib/services/@azure/arm-frontdoor/frontDoorManagementClientBundle.js"></script>
+    <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const token = "<access_token>";
       const creds = new msRest.TokenCredentials(token);

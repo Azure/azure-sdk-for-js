@@ -30,6 +30,7 @@ export {
   EventResponseMessage,
   Registry,
   Sku,
+  RegistryIdentity,
   Status,
   StorageAccountProperties,
   Replication,

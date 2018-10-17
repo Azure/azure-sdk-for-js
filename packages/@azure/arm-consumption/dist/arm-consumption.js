@@ -291,6 +291,205 @@
             }
         }
     };
+    var UsageDetailProperties = {
+        serializedName: "UsageDetailProperties",
+        type: {
+            name: "Composite",
+            className: "UsageDetailProperties",
+            modelProperties: {
+                billingPeriodId: {
+                    readOnly: true,
+                    serializedName: "billingPeriodId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                invoiceId: {
+                    readOnly: true,
+                    serializedName: "invoiceId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                usageStart: {
+                    readOnly: true,
+                    serializedName: "usageStart",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                usageEnd: {
+                    readOnly: true,
+                    serializedName: "usageEnd",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                instanceName: {
+                    readOnly: true,
+                    serializedName: "instanceName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                instanceId: {
+                    readOnly: true,
+                    serializedName: "instanceId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                instanceLocation: {
+                    readOnly: true,
+                    serializedName: "instanceLocation",
+                    type: {
+                        name: "String"
+                    }
+                },
+                currency: {
+                    readOnly: true,
+                    serializedName: "currency",
+                    type: {
+                        name: "String"
+                    }
+                },
+                usageQuantity: {
+                    readOnly: true,
+                    serializedName: "usageQuantity",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                billableQuantity: {
+                    readOnly: true,
+                    serializedName: "billableQuantity",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                pretaxCost: {
+                    readOnly: true,
+                    serializedName: "pretaxCost",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                isEstimated: {
+                    readOnly: true,
+                    serializedName: "isEstimated",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                meterId: {
+                    readOnly: true,
+                    serializedName: "meterId",
+                    type: {
+                        name: "Uuid"
+                    }
+                },
+                meterDetails: {
+                    readOnly: true,
+                    serializedName: "meterDetails",
+                    type: {
+                        name: "Composite",
+                        className: "MeterDetails"
+                    }
+                },
+                subscriptionGuid: {
+                    readOnly: true,
+                    serializedName: "subscriptionGuid",
+                    type: {
+                        name: "Uuid"
+                    }
+                },
+                subscriptionName: {
+                    readOnly: true,
+                    serializedName: "subscriptionName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                accountName: {
+                    readOnly: true,
+                    serializedName: "accountName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                departmentName: {
+                    readOnly: true,
+                    serializedName: "departmentName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                product: {
+                    readOnly: true,
+                    serializedName: "product",
+                    type: {
+                        name: "String"
+                    }
+                },
+                consumedService: {
+                    readOnly: true,
+                    serializedName: "consumedService",
+                    type: {
+                        name: "String"
+                    }
+                },
+                costCenter: {
+                    readOnly: true,
+                    serializedName: "costCenter",
+                    type: {
+                        name: "String"
+                    }
+                },
+                partNumber: {
+                    readOnly: true,
+                    serializedName: "partNumber",
+                    type: {
+                        name: "String"
+                    }
+                },
+                resourceGuid: {
+                    readOnly: true,
+                    serializedName: "resourceGuid",
+                    type: {
+                        name: "String"
+                    }
+                },
+                offerId: {
+                    readOnly: true,
+                    serializedName: "offerId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                chargesBilledSeparately: {
+                    readOnly: true,
+                    serializedName: "chargesBilledSeparately",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                location: {
+                    readOnly: true,
+                    serializedName: "location",
+                    type: {
+                        name: "String"
+                    }
+                },
+                additionalProperties: {
+                    readOnly: true,
+                    serializedName: "additionalProperties",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -504,6 +703,190 @@
                 } })
         }
     };
+    var MarketplaceProperties = {
+        serializedName: "MarketplaceProperties",
+        type: {
+            name: "Composite",
+            className: "MarketplaceProperties",
+            modelProperties: {
+                billingPeriodId: {
+                    readOnly: true,
+                    serializedName: "billingPeriodId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                usageStart: {
+                    readOnly: true,
+                    serializedName: "usageStart",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                usageEnd: {
+                    readOnly: true,
+                    serializedName: "usageEnd",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                resourceRate: {
+                    readOnly: true,
+                    serializedName: "resourceRate",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                offerName: {
+                    readOnly: true,
+                    serializedName: "offerName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                resourceGroup: {
+                    readOnly: true,
+                    serializedName: "resourceGroup",
+                    type: {
+                        name: "String"
+                    }
+                },
+                orderNumber: {
+                    readOnly: true,
+                    serializedName: "orderNumber",
+                    type: {
+                        name: "String"
+                    }
+                },
+                instanceName: {
+                    readOnly: true,
+                    serializedName: "instanceName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                instanceId: {
+                    readOnly: true,
+                    serializedName: "instanceId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                currency: {
+                    readOnly: true,
+                    serializedName: "currency",
+                    type: {
+                        name: "String"
+                    }
+                },
+                consumedQuantity: {
+                    readOnly: true,
+                    serializedName: "consumedQuantity",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                unitOfMeasure: {
+                    readOnly: true,
+                    serializedName: "unitOfMeasure",
+                    type: {
+                        name: "String"
+                    }
+                },
+                pretaxCost: {
+                    readOnly: true,
+                    serializedName: "pretaxCost",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                isEstimated: {
+                    readOnly: true,
+                    serializedName: "isEstimated",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                meterId: {
+                    readOnly: true,
+                    serializedName: "meterId",
+                    type: {
+                        name: "Uuid"
+                    }
+                },
+                subscriptionGuid: {
+                    readOnly: true,
+                    serializedName: "subscriptionGuid",
+                    type: {
+                        name: "Uuid"
+                    }
+                },
+                subscriptionName: {
+                    readOnly: true,
+                    serializedName: "subscriptionName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                accountName: {
+                    readOnly: true,
+                    serializedName: "accountName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                departmentName: {
+                    readOnly: true,
+                    serializedName: "departmentName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                consumedService: {
+                    readOnly: true,
+                    serializedName: "consumedService",
+                    type: {
+                        name: "String"
+                    }
+                },
+                costCenter: {
+                    readOnly: true,
+                    serializedName: "costCenter",
+                    type: {
+                        name: "String"
+                    }
+                },
+                additionalProperties: {
+                    readOnly: true,
+                    serializedName: "additionalProperties",
+                    type: {
+                        name: "String"
+                    }
+                },
+                publisherName: {
+                    readOnly: true,
+                    serializedName: "publisherName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                planName: {
+                    readOnly: true,
+                    serializedName: "planName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                isRecurringCharge: {
+                    readOnly: true,
+                    serializedName: "isRecurringCharge",
+                    type: {
+                        name: "Boolean"
+                    }
+                }
+            }
+        }
+    };
     var Marketplace = {
         serializedName: "Marketplace",
         type: {
@@ -708,6 +1091,131 @@
             }
         }
     };
+    var BalanceProperties = {
+        serializedName: "BalanceProperties",
+        type: {
+            name: "Composite",
+            className: "BalanceProperties",
+            modelProperties: {
+                currency: {
+                    readOnly: true,
+                    serializedName: "currency",
+                    type: {
+                        name: "String"
+                    }
+                },
+                beginningBalance: {
+                    readOnly: true,
+                    serializedName: "beginningBalance",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                endingBalance: {
+                    readOnly: true,
+                    serializedName: "endingBalance",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                newPurchases: {
+                    readOnly: true,
+                    serializedName: "newPurchases",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                adjustments: {
+                    readOnly: true,
+                    serializedName: "adjustments",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                utilized: {
+                    readOnly: true,
+                    serializedName: "utilized",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                serviceOverage: {
+                    readOnly: true,
+                    serializedName: "serviceOverage",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                chargesBilledSeparately: {
+                    readOnly: true,
+                    serializedName: "chargesBilledSeparately",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                totalOverage: {
+                    readOnly: true,
+                    serializedName: "totalOverage",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                totalUsage: {
+                    readOnly: true,
+                    serializedName: "totalUsage",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                azureMarketplaceServiceCharges: {
+                    readOnly: true,
+                    serializedName: "azureMarketplaceServiceCharges",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                billingFrequency: {
+                    serializedName: "billingFrequency",
+                    type: {
+                        name: "String"
+                    }
+                },
+                priceHidden: {
+                    readOnly: true,
+                    serializedName: "priceHidden",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                newPurchasesDetails: {
+                    readOnly: true,
+                    serializedName: "newPurchasesDetails",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "BalancePropertiesNewPurchasesDetailsItem"
+                            }
+                        }
+                    }
+                },
+                adjustmentDetails: {
+                    readOnly: true,
+                    serializedName: "adjustmentDetails",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "BalancePropertiesAdjustmentDetailsItem"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var Balance = {
         serializedName: "Balance",
         type: {
@@ -817,6 +1325,78 @@
                 } })
         }
     };
+    var ReservationSummaryProperties = {
+        serializedName: "ReservationSummaryProperties",
+        type: {
+            name: "Composite",
+            className: "ReservationSummaryProperties",
+            modelProperties: {
+                reservationOrderId: {
+                    readOnly: true,
+                    serializedName: "reservationOrderId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                reservationId: {
+                    readOnly: true,
+                    serializedName: "reservationId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                skuName: {
+                    readOnly: true,
+                    serializedName: "skuName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                reservedHours: {
+                    readOnly: true,
+                    serializedName: "reservedHours",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                usageDate: {
+                    readOnly: true,
+                    serializedName: "usageDate",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                usedHours: {
+                    readOnly: true,
+                    serializedName: "usedHours",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                minUtilizationPercentage: {
+                    readOnly: true,
+                    serializedName: "minUtilizationPercentage",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                avgUtilizationPercentage: {
+                    readOnly: true,
+                    serializedName: "avgUtilizationPercentage",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                maxUtilizationPercentage: {
+                    readOnly: true,
+                    serializedName: "maxUtilizationPercentage",
+                    type: {
+                        name: "Number"
+                    }
+                }
+            }
+        }
+    };
     var ReservationSummary = {
         serializedName: "ReservationSummary",
         type: {
@@ -879,6 +1459,71 @@
                 } })
         }
     };
+    var ReservationDetailProperties = {
+        serializedName: "ReservationDetailProperties",
+        type: {
+            name: "Composite",
+            className: "ReservationDetailProperties",
+            modelProperties: {
+                reservationOrderId: {
+                    readOnly: true,
+                    serializedName: "reservationOrderId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                reservationId: {
+                    readOnly: true,
+                    serializedName: "reservationId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                skuName: {
+                    readOnly: true,
+                    serializedName: "skuName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                reservedHours: {
+                    readOnly: true,
+                    serializedName: "reservedHours",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                usageDate: {
+                    readOnly: true,
+                    serializedName: "usageDate",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                usedHours: {
+                    readOnly: true,
+                    serializedName: "usedHours",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                instanceId: {
+                    readOnly: true,
+                    serializedName: "instanceId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                totalReservedQuantity: {
+                    readOnly: true,
+                    serializedName: "totalReservedQuantity",
+                    type: {
+                        name: "Number"
+                    }
+                }
+            }
+        }
+    };
     var ReservationDetail = {
         serializedName: "ReservationDetail",
         type: {
@@ -933,6 +1578,78 @@
                         name: "Number"
                     }
                 } })
+        }
+    };
+    var ReservationRecommendationProperties = {
+        serializedName: "ReservationRecommendationProperties",
+        type: {
+            name: "Composite",
+            className: "ReservationRecommendationProperties",
+            modelProperties: {
+                lookBackPeriod: {
+                    readOnly: true,
+                    serializedName: "lookBackPeriod",
+                    type: {
+                        name: "String"
+                    }
+                },
+                meterId: {
+                    readOnly: true,
+                    serializedName: "meterId",
+                    type: {
+                        name: "Uuid"
+                    }
+                },
+                term: {
+                    readOnly: true,
+                    serializedName: "term",
+                    type: {
+                        name: "String"
+                    }
+                },
+                costWithNoReservedInstances: {
+                    readOnly: true,
+                    serializedName: "costWithNoReservedInstances",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                recommendedQuantity: {
+                    readOnly: true,
+                    serializedName: "recommendedQuantity",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                totalCostWithReservedInstances: {
+                    readOnly: true,
+                    serializedName: "totalCostWithReservedInstances",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                netSavings: {
+                    readOnly: true,
+                    serializedName: "netSavings",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                firstUsageDate: {
+                    readOnly: true,
+                    serializedName: "firstUsageDate",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                scope: {
+                    readOnly: true,
+                    serializedName: "scope",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
         }
     };
     var ReservationRecommendation = {
@@ -1064,6 +1781,27 @@
                     serializedName: "key",
                     type: {
                         name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var TagProperties = {
+        serializedName: "TagProperties",
+        type: {
+            name: "Composite",
+            className: "TagProperties",
+            modelProperties: {
+                tags: {
+                    serializedName: "tags",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Tag"
+                            }
+                        }
                     }
                 }
             }
@@ -1311,6 +2049,71 @@
             }
         }
     };
+    var BudgetProperties = {
+        serializedName: "BudgetProperties",
+        type: {
+            name: "Composite",
+            className: "BudgetProperties",
+            modelProperties: {
+                category: {
+                    required: true,
+                    serializedName: "category",
+                    type: {
+                        name: "String"
+                    }
+                },
+                amount: {
+                    required: true,
+                    serializedName: "amount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                timeGrain: {
+                    required: true,
+                    serializedName: "timeGrain",
+                    type: {
+                        name: "String"
+                    }
+                },
+                timePeriod: {
+                    required: true,
+                    serializedName: "timePeriod",
+                    type: {
+                        name: "Composite",
+                        className: "BudgetTimePeriod"
+                    }
+                },
+                filters: {
+                    serializedName: "filters",
+                    type: {
+                        name: "Composite",
+                        className: "Filters"
+                    }
+                },
+                currentSpend: {
+                    readOnly: true,
+                    serializedName: "currentSpend",
+                    type: {
+                        name: "Composite",
+                        className: "CurrentSpend"
+                    }
+                },
+                notifications: {
+                    serializedName: "notifications",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "Composite",
+                                className: "Notification"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var Budget = {
         serializedName: "Budget",
         type: {
@@ -1441,6 +2244,35 @@
             }
         }
     };
+    var PriceSheetModel = {
+        serializedName: "PriceSheetModel",
+        type: {
+            name: "Composite",
+            className: "PriceSheetModel",
+            modelProperties: {
+                pricesheets: {
+                    readOnly: true,
+                    serializedName: "pricesheets",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "PriceSheetProperties"
+                            }
+                        }
+                    }
+                },
+                nextLink: {
+                    readOnly: true,
+                    serializedName: "nextLink",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var PriceSheetResult = {
         serializedName: "PriceSheetResult",
         type: {
@@ -1496,6 +2328,61 @@
             }
         }
     };
+    var ForecastProperties = {
+        serializedName: "ForecastProperties",
+        type: {
+            name: "Composite",
+            className: "ForecastProperties",
+            modelProperties: {
+                usageDate: {
+                    readOnly: true,
+                    serializedName: "usageDate",
+                    type: {
+                        name: "String"
+                    }
+                },
+                grain: {
+                    serializedName: "grain",
+                    type: {
+                        name: "String"
+                    }
+                },
+                charge: {
+                    readOnly: true,
+                    serializedName: "charge",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                currency: {
+                    readOnly: true,
+                    serializedName: "currency",
+                    type: {
+                        name: "String"
+                    }
+                },
+                chargeType: {
+                    serializedName: "chargeType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                confidenceLevels: {
+                    readOnly: true,
+                    serializedName: "confidenceLevels",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ForecastPropertiesConfidenceLevelsItem"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var Forecast = {
         serializedName: "Forecast",
         type: {
@@ -1542,6 +2429,76 @@
                         }
                     }
                 } })
+        }
+    };
+    var ManagementGroupAggregatedCostProperties = {
+        serializedName: "ManagementGroupAggregatedCostProperties",
+        type: {
+            name: "Composite",
+            className: "ManagementGroupAggregatedCostProperties",
+            modelProperties: {
+                billingPeriodId: {
+                    readOnly: true,
+                    serializedName: "billingPeriodId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                usageStart: {
+                    readOnly: true,
+                    serializedName: "usageStart",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                usageEnd: {
+                    readOnly: true,
+                    serializedName: "usageEnd",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                azureCharges: {
+                    readOnly: true,
+                    serializedName: "azureCharges",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                marketplaceCharges: {
+                    readOnly: true,
+                    serializedName: "marketplaceCharges",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                chargesBilledSeparately: {
+                    readOnly: true,
+                    serializedName: "chargesBilledSeparately",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                currency: {
+                    readOnly: true,
+                    serializedName: "currency",
+                    type: {
+                        name: "String"
+                    }
+                },
+                children: {
+                    serializedName: "children",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ManagementGroupAggregatedCostResult"
+                            }
+                        }
+                    }
+                }
+            }
         }
     };
     var ManagementGroupAggregatedCostResult = {
@@ -1602,27 +2559,65 @@
                             }
                         }
                     }
-                }, includedSubscriptions: {
-                    serializedName: "properties.includedSubscriptions",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }, excludedSubscriptions: {
-                    serializedName: "properties.excludedSubscriptions",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
                 } })
+        }
+    };
+    var ChargeSummaryProperties = {
+        serializedName: "ChargeSummaryProperties",
+        type: {
+            name: "Composite",
+            className: "ChargeSummaryProperties",
+            modelProperties: {
+                billingPeriodId: {
+                    readOnly: true,
+                    serializedName: "billingPeriodId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                usageStart: {
+                    readOnly: true,
+                    serializedName: "usageStart",
+                    type: {
+                        name: "String"
+                    }
+                },
+                usageEnd: {
+                    readOnly: true,
+                    serializedName: "usageEnd",
+                    type: {
+                        name: "String"
+                    }
+                },
+                azureCharges: {
+                    readOnly: true,
+                    serializedName: "azureCharges",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                chargesBilledSeparately: {
+                    readOnly: true,
+                    serializedName: "chargesBilledSeparately",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                marketplaceCharges: {
+                    readOnly: true,
+                    serializedName: "marketplaceCharges",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                currency: {
+                    readOnly: true,
+                    serializedName: "currency",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
         }
     };
     var ChargeSummary = {
@@ -2055,28 +3050,40 @@
         CloudError: CloudError,
         BaseResource: BaseResource,
         MeterDetails: MeterDetails,
+        UsageDetailProperties: UsageDetailProperties,
         Resource: Resource,
         UsageDetail: UsageDetail,
+        MarketplaceProperties: MarketplaceProperties,
         Marketplace: Marketplace,
         BalancePropertiesNewPurchasesDetailsItem: BalancePropertiesNewPurchasesDetailsItem,
         BalancePropertiesAdjustmentDetailsItem: BalancePropertiesAdjustmentDetailsItem,
+        BalanceProperties: BalanceProperties,
         Balance: Balance,
+        ReservationSummaryProperties: ReservationSummaryProperties,
         ReservationSummary: ReservationSummary,
+        ReservationDetailProperties: ReservationDetailProperties,
         ReservationDetail: ReservationDetail,
+        ReservationRecommendationProperties: ReservationRecommendationProperties,
         ReservationRecommendation: ReservationRecommendation,
         Tag: Tag,
+        TagProperties: TagProperties,
         ProxyResource: ProxyResource,
         TagsResult: TagsResult,
         BudgetTimePeriod: BudgetTimePeriod,
         Filters: Filters,
         CurrentSpend: CurrentSpend,
         Notification: Notification,
+        BudgetProperties: BudgetProperties,
         Budget: Budget,
         PriceSheetProperties: PriceSheetProperties,
+        PriceSheetModel: PriceSheetModel,
         PriceSheetResult: PriceSheetResult,
         ForecastPropertiesConfidenceLevelsItem: ForecastPropertiesConfidenceLevelsItem,
+        ForecastProperties: ForecastProperties,
         Forecast: Forecast,
+        ManagementGroupAggregatedCostProperties: ManagementGroupAggregatedCostProperties,
         ManagementGroupAggregatedCostResult: ManagementGroupAggregatedCostResult,
+        ChargeSummaryProperties: ChargeSummaryProperties,
         ChargeSummary: ChargeSummary,
         ChargesListResult: ChargesListResult,
         ErrorDetails: ErrorDetails,
@@ -5189,7 +6196,7 @@
                 options = {};
             }
             _this = _super.call(this, credentials, options) || this;
-            _this.apiVersion = '2018-10-01';
+            _this.apiVersion = '2018-08-31';
             _this.acceptLanguage = 'en-US';
             _this.longRunningOperationRetryTimeout = 30;
             _this.baseUri = options.baseUri || _this.baseUri || "https://management.azure.com";

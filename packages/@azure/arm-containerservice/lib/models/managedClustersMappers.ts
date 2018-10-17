@@ -9,7 +9,6 @@
  */
 
 export {
-  discriminators,
   ManagedClusterListResult,
   ManagedCluster,
   Resource,
@@ -29,16 +28,6 @@ export {
   CredentialResults,
   CredentialResult,
   TagsObject,
-  OpenShiftManagedCluster,
-  PurchasePlan,
-  NetworkProfile,
-  OpenShiftRouterProfile,
-  OpenShiftManagedClusterMasterPoolProfile,
-  OpenShiftManagedClusterAgentPoolProfile,
-  OpenShiftManagedClusterAuthProfile,
-  OpenShiftManagedClusterIdentityProvider,
-  OpenShiftManagedClusterBaseIdentityProvider,
-  OpenShiftManagedClusterAADIdentityProvider,
   ContainerService,
   ContainerServiceOrchestratorProfile,
   ContainerServiceCustomProfile,

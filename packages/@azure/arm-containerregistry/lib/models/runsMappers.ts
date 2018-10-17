@@ -38,6 +38,7 @@ export {
   EncodedTaskStep,
   Registry,
   Sku,
+  RegistryIdentity,
   Status,
   StorageAccountProperties,
   Replication,
