@@ -119,49 +119,6 @@ export const Step: msRest.CompositeMapper = {
   }
 };
 
-export const RolloutRequestProperties: msRest.CompositeMapper = {
-  serializedName: "RolloutRequestProperties",
-  type: {
-    name: "Composite",
-    className: "RolloutRequestProperties",
-    modelProperties: {
-      buildVersion: {
-        required: true,
-        serializedName: "buildVersion",
-        type: {
-          name: "String"
-        }
-      },
-      artifactSourceId: {
-        serializedName: "artifactSourceId",
-        type: {
-          name: "String"
-        }
-      },
-      targetServiceTopologyId: {
-        required: true,
-        serializedName: "targetServiceTopologyId",
-        type: {
-          name: "String"
-        }
-      },
-      stepGroups: {
-        required: true,
-        serializedName: "stepGroups",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Step"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -274,53 +231,6 @@ export const RolloutRequest: msRest.CompositeMapper = {
   }
 };
 
-export const ArtifactSourcePropertiesModel: msRest.CompositeMapper = {
-  serializedName: "ArtifactSourceProperties",
-  type: {
-    name: "Composite",
-    className: "ArtifactSourcePropertiesModel",
-    modelProperties: {
-      sourceType: {
-        required: true,
-        serializedName: "sourceType",
-        type: {
-          name: "String"
-        }
-      },
-      artifactRoot: {
-        serializedName: "artifactRoot",
-        type: {
-          name: "String"
-        }
-      },
-      authentication: {
-        required: true,
-        serializedName: "authentication",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "Authentication",
-          className: "Authentication"
-        }
-      }
-    }
-  }
-};
-
-export const ArtifactSourceProperties: msRest.CompositeMapper = {
-  serializedName: "ArtifactSource_properties",
-  type: {
-    name: "Composite",
-    className: "ArtifactSourceProperties",
-    modelProperties: {
-      ...ArtifactSourcePropertiesModel.type.modelProperties
-    }
-  }
-};
-
 export const ArtifactSource: msRest.CompositeMapper = {
   serializedName: "ArtifactSource",
   type: {
@@ -380,17 +290,36 @@ export const Authentication: msRest.CompositeMapper = {
   }
 };
 
-export const SasProperties: msRest.CompositeMapper = {
-  serializedName: "SasProperties",
+export const ArtifactSourcePropertiesModel: msRest.CompositeMapper = {
+  serializedName: "ArtifactSourceProperties",
   type: {
     name: "Composite",
-    className: "SasProperties",
+    className: "ArtifactSourcePropertiesModel",
     modelProperties: {
-      sasUri: {
+      sourceType: {
         required: true,
-        serializedName: "sasUri",
+        serializedName: "sourceType",
         type: {
           name: "String"
+        }
+      },
+      artifactRoot: {
+        serializedName: "artifactRoot",
+        type: {
+          name: "String"
+        }
+      },
+      authentication: {
+        required: true,
+        serializedName: "authentication",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "Authentication",
+          className: "Authentication"
         }
       }
     }
@@ -812,84 +741,6 @@ export const Service: msRest.CompositeMapper = {
   }
 };
 
-export const RolloutProperties: msRest.CompositeMapper = {
-  serializedName: "Rollout_properties",
-  type: {
-    name: "Composite",
-    className: "RolloutProperties",
-    modelProperties: {
-      buildVersion: {
-        required: true,
-        serializedName: "buildVersion",
-        type: {
-          name: "String"
-        }
-      },
-      artifactSourceId: {
-        serializedName: "artifactSourceId",
-        type: {
-          name: "String"
-        }
-      },
-      targetServiceTopologyId: {
-        required: true,
-        serializedName: "targetServiceTopologyId",
-        type: {
-          name: "String"
-        }
-      },
-      stepGroups: {
-        required: true,
-        serializedName: "stepGroups",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Step"
-            }
-          }
-        }
-      },
-      status: {
-        readOnly: true,
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      totalRetryAttempts: {
-        readOnly: true,
-        serializedName: "totalRetryAttempts",
-        type: {
-          name: "Number"
-        }
-      },
-      operationInfo: {
-        readOnly: true,
-        serializedName: "operationInfo",
-        type: {
-          name: "Composite",
-          className: "RolloutOperationInfo"
-        }
-      },
-      services: {
-        readOnly: true,
-        serializedName: "services",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Service"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const Rollout: msRest.CompositeMapper = {
   serializedName: "Rollout",
   type: {
@@ -1021,33 +872,6 @@ export const RolloutPropertiesModel: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceTopologyProperties: msRest.CompositeMapper = {
-  serializedName: "ServiceTopologyProperties",
-  type: {
-    name: "Composite",
-    className: "ServiceTopologyProperties",
-    modelProperties: {
-      artifactSourceId: {
-        serializedName: "artifactSourceId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ServiceTopologyResourceProperties: msRest.CompositeMapper = {
-  serializedName: "ServiceTopologyResource_properties",
-  type: {
-    name: "Composite",
-    className: "ServiceTopologyResourceProperties",
-    modelProperties: {
-      ...ServiceTopologyProperties.type.modelProperties
-    }
-  }
-};
-
 export const ServiceTopologyResource: msRest.CompositeMapper = {
   serializedName: "ServiceTopologyResource",
   type: {
@@ -1065,13 +889,18 @@ export const ServiceTopologyResource: msRest.CompositeMapper = {
   }
 };
 
-export const ServiceResourceProperties: msRest.CompositeMapper = {
-  serializedName: "ServiceResource_properties",
+export const ServiceTopologyProperties: msRest.CompositeMapper = {
+  serializedName: "ServiceTopologyProperties",
   type: {
     name: "Composite",
-    className: "ServiceResourceProperties",
+    className: "ServiceTopologyProperties",
     modelProperties: {
-      ...ServiceProperties.type.modelProperties
+      artifactSourceId: {
+        serializedName: "artifactSourceId",
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
@@ -1097,17 +926,6 @@ export const ServiceResource: msRest.CompositeMapper = {
           name: "String"
         }
       }
-    }
-  }
-};
-
-export const ServiceUnitResourceProperties: msRest.CompositeMapper = {
-  serializedName: "ServiceUnitResource_properties",
-  type: {
-    name: "Composite",
-    className: "ServiceUnitResourceProperties",
-    modelProperties: {
-      ...ServiceUnitProperties.type.modelProperties
     }
   }
 };
