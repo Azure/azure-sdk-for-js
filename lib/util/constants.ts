@@ -73,3 +73,29 @@ export const defaultRetryAttempts = 3;
 export const defaultConnectionRetryAttempts = 150;
 export const defaultDelayBetweenOperationRetriesInSeconds = 5;
 export const defaultDelayBetweenRetriesInSeconds = 15;
+export const receiverSettleMode = "receiver-settle-mode";
+export const dispositionStatus = "disposition-status";
+export const fromSequenceNumber = "from-sequence-number";
+export const messageCount = "message-count";
+export const lockTokens = "lock-tokens";
+export const sequenceNumbers = "sequence-numbers";
+export const deadLetterReason = "deadletter-reason";
+export const deadLetterDescription = "deadletter-description";
+export const propertiesToModify = "properties-to-modify";
+export const trackingId = "com.microsoft:tracking-id";
+export const serverTimeout = "com.microsoft:server-timeout";
+export const operations = {
+  cancelScheduledMessage: "com.microsoft:cancel-scheduled-message",
+  scheduleMessage: "com.microsoft:schedule-message",
+  renewLock: "com.microsoft:renew-lock",
+  peekMessage: "com.microsoft:peek-message",
+  receiveBySequenceNumber: "com.microsoft:receive-by-sequence-number",
+  updateDisposition: "com.microsoft:update-disposition",
+  renewSessionLock: "com.microsoft:renew-session-lock",
+  setSessionState: "com.microsoft:set-session-state",
+  getSessionState: "com.microsoft:get-session-state",
+  enumerateSessions: "com.microsoft:get-message-sessions",
+  addRule: "com.microsoft:add-rule",
+  removeRule: "com.microsoft:remove-rule",
+  enumerateRules: "com.microsoft:enumerate-rules"
+}
