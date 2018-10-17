@@ -238,9 +238,6 @@ export async function commitChanges(repository: Repository, commitMessage: strin
 
     await index.addAll("*", Index.ADD_OPTION.ADD_CHECK_PATHSPEC, validateEach);
 
-    const entries = index.entries();
-    _logger.logTrace(`Files added to the index ${index.entryCount}: ${JSON.stringify(entries)}`)
-
     await index.write();
     const oid = await index.writeTree();
 
