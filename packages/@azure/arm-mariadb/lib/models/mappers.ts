@@ -102,6 +102,63 @@ export const StorageProfile: msRest.CompositeMapper = {
   }
 };
 
+export const ServerProperties: msRest.CompositeMapper = {
+  serializedName: "ServerProperties",
+  type: {
+    name: "Composite",
+    className: "ServerProperties",
+    modelProperties: {
+      administratorLogin: {
+        serializedName: "administratorLogin",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      sslEnforcement: {
+        serializedName: "sslEnforcement",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Enabled",
+            "Disabled"
+          ]
+        }
+      },
+      userVisibleState: {
+        serializedName: "userVisibleState",
+        type: {
+          name: "String"
+        }
+      },
+      fullyQualifiedDomainName: {
+        serializedName: "fullyQualifiedDomainName",
+        type: {
+          name: "String"
+        }
+      },
+      earliestRestoreDate: {
+        serializedName: "earliestRestoreDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      storageProfile: {
+        serializedName: "storageProfile",
+        type: {
+          name: "Composite",
+          className: "StorageProfile"
+        }
+      }
+    }
+  }
+};
+
 export const ServerPropertiesForCreate: msRest.CompositeMapper = {
   serializedName: "ServerPropertiesForCreate",
   type: {
@@ -377,6 +434,45 @@ export const ServerForCreate: msRest.CompositeMapper = {
   }
 };
 
+export const ServerUpdateParametersProperties: msRest.CompositeMapper = {
+  serializedName: "ServerUpdateParameters_properties",
+  type: {
+    name: "Composite",
+    className: "ServerUpdateParametersProperties",
+    modelProperties: {
+      storageProfile: {
+        serializedName: "storageProfile",
+        type: {
+          name: "Composite",
+          className: "StorageProfile"
+        }
+      },
+      administratorLoginPassword: {
+        serializedName: "administratorLoginPassword",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      sslEnforcement: {
+        serializedName: "sslEnforcement",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Enabled",
+            "Disabled"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const ServerUpdateParameters: msRest.CompositeMapper = {
   serializedName: "ServerUpdateParameters",
   type: {
@@ -434,6 +530,36 @@ export const ServerUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
+export const FirewallRuleProperties: msRest.CompositeMapper = {
+  serializedName: "FirewallRuleProperties",
+  type: {
+    name: "Composite",
+    className: "FirewallRuleProperties",
+    modelProperties: {
+      startIpAddress: {
+        required: true,
+        serializedName: "startIpAddress",
+        constraints: {
+          Pattern: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      endIpAddress: {
+        required: true,
+        serializedName: "endIpAddress",
+        constraints: {
+          Pattern: /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const FirewallRule: msRest.CompositeMapper = {
   serializedName: "FirewallRule",
   type: {
@@ -465,6 +591,28 @@ export const FirewallRule: msRest.CompositeMapper = {
   }
 };
 
+export const DatabaseProperties: msRest.CompositeMapper = {
+  serializedName: "DatabaseProperties",
+  type: {
+    name: "Composite",
+    className: "DatabaseProperties",
+    modelProperties: {
+      charset: {
+        serializedName: "charset",
+        type: {
+          name: "String"
+        }
+      },
+      collation: {
+        serializedName: "collation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Database: msRest.CompositeMapper = {
   serializedName: "Database",
   type: {
@@ -480,6 +628,56 @@ export const Database: msRest.CompositeMapper = {
       },
       collation: {
         serializedName: "properties.collation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfigurationProperties: msRest.CompositeMapper = {
+  serializedName: "ConfigurationProperties",
+  type: {
+    name: "Composite",
+    className: "ConfigurationProperties",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      defaultValue: {
+        readOnly: true,
+        serializedName: "defaultValue",
+        type: {
+          name: "String"
+        }
+      },
+      dataType: {
+        readOnly: true,
+        serializedName: "dataType",
+        type: {
+          name: "String"
+        }
+      },
+      allowedValues: {
+        readOnly: true,
+        serializedName: "allowedValues",
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
         type: {
           name: "String"
         }
@@ -637,6 +835,49 @@ export const OperationListResult: msRest.CompositeMapper = {
               className: "Operation"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const LogFileProperties: msRest.CompositeMapper = {
+  serializedName: "LogFileProperties",
+  type: {
+    name: "Composite",
+    className: "LogFileProperties",
+    modelProperties: {
+      sizeInKB: {
+        serializedName: "sizeInKB",
+        type: {
+          name: "Number"
+        }
+      },
+      createdTime: {
+        readOnly: true,
+        serializedName: "createdTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        readOnly: true,
+        serializedName: "url",
+        type: {
+          name: "String"
         }
       }
     }
@@ -818,6 +1059,73 @@ export const NameAvailability: msRest.CompositeMapper = {
         serializedName: "reason",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecurityAlertPolicyProperties: msRest.CompositeMapper = {
+  serializedName: "SecurityAlertPolicyProperties",
+  type: {
+    name: "Composite",
+    className: "SecurityAlertPolicyProperties",
+    modelProperties: {
+      state: {
+        required: true,
+        serializedName: "state",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Enabled",
+            "Disabled"
+          ]
+        }
+      },
+      disabledAlerts: {
+        serializedName: "disabledAlerts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      emailAddresses: {
+        serializedName: "emailAddresses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      emailAccountAdmins: {
+        serializedName: "emailAccountAdmins",
+        type: {
+          name: "Boolean"
+        }
+      },
+      storageEndpoint: {
+        serializedName: "storageEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountAccessKey: {
+        serializedName: "storageAccountAccessKey",
+        type: {
+          name: "String"
+        }
+      },
+      retentionDays: {
+        serializedName: "retentionDays",
+        type: {
+          name: "Number"
         }
       }
     }
