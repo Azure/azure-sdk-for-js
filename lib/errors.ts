@@ -36,6 +36,31 @@ export enum ConditionStatusMapper {
  */
 export enum ConditionErrorNameMapper {
   /**
+   * Error is thrown when the address is already in use.
+   */
+  "com.microsoft:address-already-in-use" = "AddressAlreadyInUseError",
+  /**
+   * Error is thrown when the store lock is lost.
+   */
+  "com.microsoft:store-lock-lost" = "StoreLockLostError",
+  /**
+   * Error is thrown when a matching subscription is not found.
+   */
+  "com.microsoft:no-matching-subscription" = "NoMatchingSubscriptionError",
+  /**
+   * Error is thrown when an attempt is made to access a parition that is not owned by the
+   * requesting entity.
+   */
+  "com.microsoft:partition-not-owned" = "PartitionNotOwnedError",
+  /**
+   * Error is thrown when access to publisher has been revoked.
+   */
+  "com.microsoft:publisher-revoked" = "PublisherRevokedError",
+  /**
+   * Error is thrown when an attempt is made to create an entity that already exists.
+   */
+  "com.microsoft:entity-already-exists" = "MessagingEntityAlreadyExistsError",
+  /**
    * Error is thrown when trying to access/connect to a disabled messaging entity.
    */
   "com.microsoft:entity-disabled" = "MessagingEntityDisabledError",
@@ -59,6 +84,14 @@ export enum ConditionErrorNameMapper {
    * Error for signaling general communication errors related to messaging operations.
    */
   "amqp:not-found" = "ServiceCommunicationError",
+  /**
+   * Error is thrown when the message is not found.
+   */
+  "com.microsoft:message-not-found" = "MessageNotFoundError",
+  /**
+   * Error is thrown when relay is not found.
+   */
+  "com.microsoft:relay-not-found" = "RelayNotFoundError",
   /**
    * Error is thrown when a feature is not implemented yet but the placeholder is present.
    */
@@ -158,7 +191,7 @@ export enum ConditionErrorNameMapper {
   /**
    * Error is thrown when an attach was received using a handle that is already in use for an attached link.
    */
-  "amqp:session:handle-in-use" = "HanldeInUseError",
+  "amqp:session:handle-in-use" = "HandleInUseError",
   /**
    * Error is thrown when a frame (other than attach) was received referencing a handle which is not
    * currently in use of an attached link.
@@ -206,6 +239,31 @@ export enum ConditionErrorNameMapper {
  */
 export enum ErrorNameConditionMapper {
   /**
+   * Error is thrown when the address is already in use.
+   */
+  AddressAlreadyInUseError = "com.microsoft:address-already-in-use",
+  /**
+   * Error is thrown when the store lock is lost.
+   */
+  StoreLockLostError = "com.microsoft:store-lock-lost",
+  /**
+   * Error is thrown when a matching subscription is not found.
+   */
+  NoMatchingSubscriptionError = "com.microsoft:no-matching-subscription",
+  /**
+   * Error is thrown when an attempt is made to access a parition that is not owned by the
+   * requesting entity.
+   */
+  PartitionNotOwnedError = "com.microsoft:partition-not-owned",
+  /**
+   * Error is thrown when access to publisher has been revoked.
+   */
+  PublisherRevokedError = "com.microsoft:publisher-revoked",
+  /**
+   * Error is thrown when an attempt is made to create an entity that already exists.
+   */
+  MessagingEntityAlreadyExistsError = "com.microsoft:entity-already-exists",
+  /**
    * Error is thrown when trying to access/connect to a disabled messaging entity.
    */
   MessagingEntityDisabledError = "com.microsoft:entity-disabled",
@@ -229,6 +287,14 @@ export enum ErrorNameConditionMapper {
    * Error for signaling general communication errors related to messaging operations.
    */
   ServiceCommunicationError = "amqp:not-found",
+  /**
+   * Error is thrown when message is not found.
+   */
+  MessageNotFoundError = "com.microsoft:message-not-found",
+  /**
+   * Error is thrown when relay is not found.
+   */
+  RelayNotFoundError = "com.microsoft:relay-not-found",
   /**
    * Error is thrown when a feature is not implemented yet but the placeholder is present.
    */
@@ -320,7 +386,7 @@ export enum ErrorNameConditionMapper {
   /**
    * Error is thrown when an attach was received using a handle that is already in use for an attached link.
    */
-  HanldeInUseError = "amqp:session:handle-in-use",
+  HandleInUseError = "amqp:session:handle-in-use",
   /**
    * Error is thrown when a frame (other than attach) was received referencing a handle which is not
    * currently in use of an attached link.
