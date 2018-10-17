@@ -4,7 +4,7 @@
 import assert from "assert";
 import { HttpHeaders } from "../../../lib/httpHeaders";
 import { HttpOperationResponse } from "../../../lib/httpOperationResponse";
-import { HttpClient } from "../../../lib/msRest";
+import { HttpClient, OperationSpec, Serializer } from "../../../lib/msRest";
 import { DeserializationPolicy, deserializationPolicy, deserializeResponseBody, defaultJsonContentTypes, defaultXmlContentTypes } from "../../../lib/policies/deserializationPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../../../lib/policies/requestPolicy";
 import { WebResource } from "../../../lib/webResource";
@@ -23,7 +23,7 @@ describe("deserializationPolicy", function () {
   it(`should not modify a request that has no request body mapper`, async function () {
     const deserializationPolicy = new DeserializationPolicy(mockPolicy, {}, new RequestPolicyOptions());
 
-    const request = new WebResource();
+    const request = createRequest();
     request.body = "hello there!";
 
     await deserializationPolicy.sendRequest(request);
@@ -31,7 +31,7 @@ describe("deserializationPolicy", function () {
   });
 
   it("should parse a JSON response body", async function () {
-    const request = new WebResource();
+    const request: WebResource = createRequest();
     const mockClient: HttpClient = {
       sendRequest: req => Promise.resolve({
         request: req,
@@ -47,7 +47,7 @@ describe("deserializationPolicy", function () {
   });
 
   it("should parse a JSON response body with a charset specified in Content-Type", async function () {
-    const request = new WebResource();
+    const request: WebResource = createRequest();
     const mockClient: HttpClient = {
       sendRequest: req => Promise.resolve({
         request: req,
@@ -63,7 +63,7 @@ describe("deserializationPolicy", function () {
   });
 
   it("should parse a JSON response body with an uppercase Content-Type", async function () {
-    const request = new WebResource();
+    const request: WebResource = createRequest();
     const mockClient: HttpClient = {
       sendRequest: req => Promise.resolve({
         request: req,
@@ -79,7 +79,7 @@ describe("deserializationPolicy", function () {
   });
 
   it("should parse a JSON response body with a missing Content-Type", async function () {
-    const request = new WebResource();
+    const request: WebResource = createRequest();
     const mockClient: HttpClient = {
       sendRequest: req => Promise.resolve({
         request: req,
@@ -97,7 +97,7 @@ describe("deserializationPolicy", function () {
   describe(`parse(HttpOperationResponse)`, () => {
     it(`with no response headers or body`, async function () {
       const response: HttpOperationResponse = {
-        request: new WebResource(),
+        request: createRequest(),
         status: 200,
         headers: new HttpHeaders()
       };
@@ -114,7 +114,7 @@ describe("deserializationPolicy", function () {
 
     it(`with xml response body, application/xml content-type, but no operation spec`, async function () {
       const response: HttpOperationResponse = {
-        request: new WebResource(),
+        request: createRequest(),
         status: 200,
         headers: new HttpHeaders({
           "content-type": "application/xml"
@@ -132,9 +132,80 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
+    it(`with xml response body with child element with attributes and value, application/xml content-type, but no operation spec`, async function () {
+      const response: HttpOperationResponse = {
+        request: createRequest(),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<fruit><apples tasty="yes">3</apples></fruit>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
+
+      assert(deserializedResponse);
+      assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
+      assert.strictEqual(deserializedResponse.blobBody, undefined);
+      assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples tasty="yes">3</apples></fruit>`);
+      assert.deepEqual(deserializedResponse.parsedBody, {
+        "apples": {
+          "$": {
+            "tasty": "yes"
+          },
+          "_": "3"
+        }
+      });
+      assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
+    });
+
+    it(`with xml response body, application/xml content-type, and operation spec for only value`, async function () {
+      const response: HttpOperationResponse = {
+        request: createRequest({
+          httpMethod: "GET",
+          serializer: new Serializer({}, true),
+          responses: {
+            200: {
+              bodyMapper: {
+                xmlName: "fruit",
+                serializedName: "fruit",
+                type: {
+                  name: "Composite",
+                  className: "Fruit",
+                  modelProperties: {
+                    apples: {
+                      xmlName: "apples",
+                      serializedName: "apples",
+                      type: {
+                        name: "String"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<fruit><apples tasty="yes">3</apples></fruit>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
+
+      assert(deserializedResponse);
+      assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
+      assert.strictEqual(deserializedResponse.blobBody, undefined);
+      assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples tasty="yes">3</apples></fruit>`);
+      assert.deepEqual(deserializedResponse.parsedBody, { "apples": "3" });
+      assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
+    });
+
     it(`with xml response body, application/atom+xml content-type, but no operation spec`, async function () {
       const response: HttpOperationResponse = {
-        request: new WebResource(),
+        request: createRequest(),
         status: 200,
         headers: new HttpHeaders({
           "content-type": "application/atom+xml"
@@ -154,7 +225,7 @@ describe("deserializationPolicy", function () {
 
     it(`with xml property with attribute and value, application/atom+xml content-type, but no operation spec`, async function () {
       const response: HttpOperationResponse = {
-        request: new WebResource(),
+        request: createRequest(),
         status: 200,
         headers: new HttpHeaders({
           "content-type": "application/atom+xml"
@@ -181,7 +252,7 @@ describe("deserializationPolicy", function () {
 
     it(`with xml property with attribute and value, my/weird-xml content-type, but no operation spec`, async function () {
       const response: HttpOperationResponse = {
-        request: new WebResource(),
+        request: createRequest(),
         status: 200,
         headers: new HttpHeaders({
           "content-type": "my/weird-xml"
@@ -206,9 +277,9 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with service bus response body and application/atom+xml content-type`, async function () {
+    it(`with service bus response body, application/atom+xml content-type, and no operationSpec`, async function () {
       const response: HttpOperationResponse = {
-        request: new WebResource(),
+        request: createRequest(),
         status: 200,
         headers: new HttpHeaders({
           "content-type": "application/atom+xml;type=entry;charset=utf-8"
@@ -297,3 +368,8 @@ function deserializeResponse(response: HttpOperationResponse): Promise<HttpOpera
   return deserializeResponseBody(defaultJsonContentTypes, defaultXmlContentTypes, response);
 }
 
+function createRequest(operationSpec?: OperationSpec): WebResource {
+  const request = new WebResource();
+  request.operationSpec = operationSpec;
+  return request;
+}
