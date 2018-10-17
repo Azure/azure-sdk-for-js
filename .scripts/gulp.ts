@@ -199,7 +199,7 @@ export async function regenerate(branchName: string, packageName: string, azureS
     await bumpMinorVersion(azureSdkForJsRepoPath, packageName);
     _logger.log(`Successfully updated version in package.json`);
 
-    generateSdk(azureRestAPISpecsPath, azureSdkForJsRepoPath, packageName)
+    await generateSdk(azureRestAPISpecsPath, azureSdkForJsRepoPath, packageName)
     _logger.log(`Generated sdk successfully`);
 
     const validateEach: ValidateEachFunction = el => el.path().startsWith(`packages/${packageName}`);
