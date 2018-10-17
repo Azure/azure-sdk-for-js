@@ -4,9 +4,8 @@
 import { TokenInfo } from "./auth/token";
 import {
   EventContext, ReceiverOptions, Message as AmqpMessage, SenderEvents, ReceiverEvents,
-  Connection, SenderOptions
+  Connection, SenderOptions, generate_uuid
 } from "rhea-promise";
-import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
 import * as log from "./log";
 import { translate } from "./errors";
@@ -35,12 +34,12 @@ export class CbsClient {
   /**
    * @property {string} replyTo CBS replyTo - The reciever link name that the service should reply to.
    */
-  readonly replyTo: string = `${Constants.cbsReplyTo}-${uuid()}`;
+  readonly replyTo: string = `${Constants.cbsReplyTo}-${generate_uuid()}`;
   /**
    * @property {string} cbsLock The unqiue lock name per $cbs session per connection that is used to
    * acquire the lock for establishing a cbs session if one does not exist for an aqmp connection.
    */
-  readonly cbsLock: string = `${Constants.negotiateCbsKey}-${uuid()}`;
+  readonly cbsLock: string = `${Constants.negotiateCbsKey}-${generate_uuid()}`;
   /**
    * @property {string} connectionLock The unqiue lock name per connection that is used to
    * acquire the lock for establishing an amqp connection if one does not exist.
@@ -159,7 +158,7 @@ export class CbsClient {
     try {
       const request: AmqpMessage = {
         body: tokenObject.token,
-        message_id: uuid(),
+        message_id: generate_uuid(),
         reply_to: this.replyTo,
         to: this.endpoint,
         application_properties: {

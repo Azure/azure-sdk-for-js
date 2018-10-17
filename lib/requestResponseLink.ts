@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as uuid from "uuid/v4";
 import * as Constants from "./util/constants";
 import { retry, RetryConfig, RetryOperationType } from "./retry";
 import {
   Session, Connection, Sender, Receiver, Message as AmqpMessage, EventContext, AmqpError,
-  SenderOptions, ReceiverOptions, ReceiverEvents, ReqResLink
+  SenderOptions, ReceiverOptions, ReceiverEvents, ReqResLink, generate_uuid
 } from "rhea-promise";
 import { translate, ConditionStatusMapper } from "./errors";
 import * as log from "./log";
@@ -81,7 +80,7 @@ export class RequestResponseLink implements ReqResLink {
       throw new Error("request is a required parameter and must be of type 'object'.");
     }
 
-    if (!request.message_id) request.message_id = uuid();
+    if (!request.message_id) request.message_id = generate_uuid();
 
     if (!options) options = {};
 

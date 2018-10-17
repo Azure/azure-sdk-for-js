@@ -98,4 +98,4 @@ export const operations = {
   addRule: "com.microsoft:add-rule",
   removeRule: "com.microsoft:remove-rule",
   enumerateRules: "com.microsoft:enumerate-rules"
-}
+};

@@ -1,3 +1,11 @@
+### 2018-10-17 0.1.5
+- Updated error code mappers
+- Added more constants
+- Added support for handling servicebus response properties in the request/response operations
+- Fixed a bug in the `sendRequest()` method which ensures that the operation will actually be 
+retried, rather than returning the previously rejected promise.
+- Removed dependency from `uuid`, since `rhea` supports basic uuid operations.
+
 ### 2018-10-03 0.1.4
 - `ConnectionConfig.entityPath` is optional. Hence, `ConnectionConfig.create()` and
 `ConnectionConfig.validate()` will not throw an error if `entityPath` is not defined. However,

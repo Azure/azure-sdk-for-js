@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { Connection, ConnectionOptions } from "rhea-promise";
+import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
 import { CbsClient } from "./cbs";
 import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 import { TokenProvider } from "./auth/token";
@@ -9,7 +9,6 @@ import { ConnectionConfig } from "./connectionConfig";
 import { SasTokenProvider } from "./auth/sas";
 import * as Constants from "./util/constants";
 import * as os from "os";
-import * as uuid from "uuid/v4";
 
 /**
  * @interface ConnectionContextBase
@@ -152,11 +151,11 @@ export module ConnectionContextBase {
     };
 
     const connection = new Connection(connectionOptions);
-    const connectionLock = `${Constants.establishConnection}-${uuid()}`;
+    const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
     const connectionContextBase: ConnectionContextBase = {
       wasConnectionCloseCalled: false,
       connectionLock: connectionLock,
-      negotiateClaimLock: `${Constants.negotiateClaim}-${uuid()}`,
+      negotiateClaimLock: `${Constants.negotiateClaim}-${generate_uuid()}`,
       connection: connection,
       connectionId: connection.id,
       cbsSession: new CbsClient(connection, connectionLock),
