@@ -20,7 +20,6 @@ export {
   Resource,
   BaseResource,
   Sku,
-  RegistryIdentity,
   Status,
   StorageAccountProperties,
   RegistryUpdateParameters,
