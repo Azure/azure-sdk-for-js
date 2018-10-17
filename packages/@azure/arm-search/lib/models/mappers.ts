@@ -142,6 +142,83 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
+export const SearchServiceProperties: msRest.CompositeMapper = {
+  serializedName: "SearchServiceProperties",
+  type: {
+    name: "Composite",
+    className: "SearchServiceProperties",
+    modelProperties: {
+      replicaCount: {
+        serializedName: "replicaCount",
+        defaultValue: 1,
+        constraints: {
+          InclusiveMaximum: 12,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      partitionCount: {
+        serializedName: "partitionCount",
+        defaultValue: 1,
+        constraints: {
+          InclusiveMaximum: 12,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      hostingMode: {
+        serializedName: "hostingMode",
+        defaultValue: 'default',
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "default",
+            "highDensity"
+          ]
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "running",
+            "provisioning",
+            "deleting",
+            "degraded",
+            "disabled",
+            "error"
+          ]
+        }
+      },
+      statusDetails: {
+        readOnly: true,
+        serializedName: "statusDetails",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "succeeded",
+            "provisioning",
+            "failed"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
