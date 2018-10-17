@@ -45,6 +45,7 @@ export {
   ManagedClusterServicePrincipalProfile,
   ManagedClusterAddonProfile,
   ContainerServiceNetworkProfile,
-  ManagedClusterAADProfile
+  ManagedClusterAADProfile,
+  ManagedClusterAccessProfile
 } from "../models/mappers";
 

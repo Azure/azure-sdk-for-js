@@ -1350,6 +1350,23 @@ export const OrchestratorProfile: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedClusterAccessProfile: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterAccessProfile",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAccessProfile",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      kubeConfig: {
+        serializedName: "properties.kubeConfig",
+        type: {
+          name: "ByteArray"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterPoolUpgradeProfile: msRest.CompositeMapper = {
   serializedName: "ManagedClusterPoolUpgradeProfile",
   type: {

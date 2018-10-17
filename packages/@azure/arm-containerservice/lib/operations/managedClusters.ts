@@ -118,6 +118,44 @@ export class ManagedClusters {
   }
 
   /**
+   * Gets the accessProfile for the specified role name of the managed cluster with a specified
+   * resource group and name.
+   * @summary Gets an access profile of a managed cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param roleName The name of the role for managed cluster accessProfile resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ManagedClustersGetAccessProfileResponse>
+   */
+  getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersGetAccessProfileResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param roleName The name of the role for managed cluster accessProfile resource.
+   * @param callback The callback
+   */
+  getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, callback: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param roleName The name of the role for managed cluster accessProfile resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>): void;
+  getAccessProfile(resourceGroupName: string, resourceName: string, roleName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ManagedClusterAccessProfile>): Promise<Models.ManagedClustersGetAccessProfileResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceName,
+        roleName,
+        options
+      },
+      getAccessProfileOperationSpec,
+      callback) as Promise<Models.ManagedClustersGetAccessProfileResponse>;
+  }
+
+  /**
    * Gets clusteradmin credential of the managed cluster with a specified resource group and name.
    * @summary Gets clusteradmin credential of a managed cluster.
    * @param resourceGroupName The name of the resource group.
@@ -447,6 +485,32 @@ const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagedClusterUpgradeProfile
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getAccessProfileOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/accessProfiles/{roleName}/listCredential",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.roleName
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedClusterAccessProfile
     },
     default: {
       bodyMapper: Mappers.CloudError

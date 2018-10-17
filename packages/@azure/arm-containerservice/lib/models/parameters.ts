@@ -131,6 +131,16 @@ export const resourceType: msRest.OperationQueryParameter = {
     }
   }
 };
+export const roleName: msRest.OperationURLParameter = {
+  parameterPath: "roleName",
+  mapper: {
+    required: true,
+    serializedName: "roleName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {

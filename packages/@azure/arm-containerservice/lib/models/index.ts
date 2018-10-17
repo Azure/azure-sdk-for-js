@@ -1178,6 +1178,21 @@ export interface OrchestratorProfile {
 
 /**
  * @interface
+ * An interface representing ManagedClusterAccessProfile.
+ * Managed cluster Access Profile.
+ *
+ * @extends Resource
+ */
+export interface ManagedClusterAccessProfile extends Resource {
+  /**
+   * @member {Uint8Array} [kubeConfig] Base64-encoded Kubernetes configuration
+   * file.
+   */
+  kubeConfig?: Uint8Array;
+}
+
+/**
+ * @interface
  * An interface representing ManagedClusterPoolUpgradeProfile.
  * The list of available upgrade versions.
  *
@@ -2096,6 +2111,25 @@ export type ManagedClustersGetUpgradeProfileResponse = ManagedClusterUpgradeProf
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedClusterUpgradeProfile;
+    };
+};
+
+/**
+ * Contains response data for the getAccessProfile operation.
+ */
+export type ManagedClustersGetAccessProfileResponse = ManagedClusterAccessProfile & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedClusterAccessProfile;
     };
 };
 

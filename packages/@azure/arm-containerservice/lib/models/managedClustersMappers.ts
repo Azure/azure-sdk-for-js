@@ -25,6 +25,7 @@ export {
   CloudError,
   ManagedClusterUpgradeProfile,
   ManagedClusterPoolUpgradeProfile,
+  ManagedClusterAccessProfile,
   CredentialResults,
   CredentialResult,
   TagsObject,
