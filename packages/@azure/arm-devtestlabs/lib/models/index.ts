@@ -85,6 +85,71 @@ export interface NotificationSettings {
 
 /**
  * @interface
+ * An interface representing ScheduleProperties.
+ * Properties of a schedule.
+ *
+ */
+export interface ScheduleProperties {
+  /**
+   * @member {EnableStatus} [status] The status of the schedule (i.e. Enabled,
+   * Disabled). Possible values include: 'Enabled', 'Disabled'
+   */
+  status?: EnableStatus;
+  /**
+   * @member {string} [taskType] The task type of the schedule (e.g.
+   * LabVmsShutdownTask, LabVmAutoStart).
+   */
+  taskType?: string;
+  /**
+   * @member {WeekDetails} [weeklyRecurrence] If the schedule will occur only
+   * some days of the week, specify the weekly recurrence.
+   */
+  weeklyRecurrence?: WeekDetails;
+  /**
+   * @member {DayDetails} [dailyRecurrence] If the schedule will occur once
+   * each day of the week, specify the daily recurrence.
+   */
+  dailyRecurrence?: DayDetails;
+  /**
+   * @member {HourDetails} [hourlyRecurrence] If the schedule will occur
+   * multiple times a day, specify the hourly recurrence.
+   */
+  hourlyRecurrence?: HourDetails;
+  /**
+   * @member {string} [timeZoneId] The time zone ID (e.g. Pacific Standard
+   * time).
+   */
+  timeZoneId?: string;
+  /**
+   * @member {NotificationSettings} [notificationSettings] Notification
+   * settings.
+   */
+  notificationSettings?: NotificationSettings;
+  /**
+   * @member {Date} [createdDate] The creation date of the schedule.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [targetResourceId] The resource ID to which the schedule
+   * belongs
+   */
+  targetResourceId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * An Azure resource.
  *
@@ -188,6 +253,25 @@ export interface Schedule extends Resource {
 
 /**
  * @interface
+ * An interface representing ApplicableScheduleProperties.
+ * Properties of a schedules applicable to a virtual machine.
+ *
+ */
+export interface ApplicableScheduleProperties {
+  /**
+   * @member {Schedule} [labVmsShutdown] The auto-shutdown schedule, if one has
+   * been set at the lab or lab resource level.
+   */
+  labVmsShutdown?: Schedule;
+  /**
+   * @member {Schedule} [labVmsStartup] The auto-startup schedule, if one has
+   * been set at the lab or lab resource level.
+   */
+  labVmsStartup?: Schedule;
+}
+
+/**
+ * @interface
  * An interface representing ApplicableSchedule.
  * Schedules applicable to a virtual machine. The schedules may have been
  * defined on a VM or on lab level.
@@ -278,6 +362,65 @@ export interface NotificationSettingsFragment {
 
 /**
  * @interface
+ * An interface representing SchedulePropertiesFragment.
+ * Properties of a schedule.
+ *
+ */
+export interface SchedulePropertiesFragment {
+  /**
+   * @member {EnableStatus} [status] The status of the schedule (i.e. Enabled,
+   * Disabled). Possible values include: 'Enabled', 'Disabled'
+   */
+  status?: EnableStatus;
+  /**
+   * @member {string} [taskType] The task type of the schedule (e.g.
+   * LabVmsShutdownTask, LabVmAutoStart).
+   */
+  taskType?: string;
+  /**
+   * @member {WeekDetailsFragment} [weeklyRecurrence] If the schedule will
+   * occur only some days of the week, specify the weekly recurrence.
+   */
+  weeklyRecurrence?: WeekDetailsFragment;
+  /**
+   * @member {DayDetailsFragment} [dailyRecurrence] If the schedule will occur
+   * once each day of the week, specify the daily recurrence.
+   */
+  dailyRecurrence?: DayDetailsFragment;
+  /**
+   * @member {HourDetailsFragment} [hourlyRecurrence] If the schedule will
+   * occur multiple times a day, specify the hourly recurrence.
+   */
+  hourlyRecurrence?: HourDetailsFragment;
+  /**
+   * @member {string} [timeZoneId] The time zone ID (e.g. Pacific Standard
+   * time).
+   */
+  timeZoneId?: string;
+  /**
+   * @member {NotificationSettingsFragment} [notificationSettings] Notification
+   * settings.
+   */
+  notificationSettings?: NotificationSettingsFragment;
+  /**
+   * @member {string} [targetResourceId] The resource ID to which the schedule
+   * belongs
+   */
+  targetResourceId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing ScheduleFragment.
  * A schedule.
  *
@@ -334,6 +477,25 @@ export interface ScheduleFragment extends Resource {
    * resource (Guid).
    */
   uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicableSchedulePropertiesFragment.
+ * Properties of a schedules applicable to a virtual machine.
+ *
+ */
+export interface ApplicableSchedulePropertiesFragment {
+  /**
+   * @member {ScheduleFragment} [labVmsShutdown] The auto-shutdown schedule, if
+   * one has been set at the lab or lab resource level.
+   */
+  labVmsShutdown?: ScheduleFragment;
+  /**
+   * @member {ScheduleFragment} [labVmsStartup] The auto-startup schedule, if
+   * one has been set at the lab or lab resource level.
+   */
+  labVmsStartup?: ScheduleFragment;
 }
 
 /**
@@ -444,6 +606,59 @@ export interface ParametersValueFileInfo {
 
 /**
  * @interface
+ * An interface representing ArmTemplateProperties.
+ * Properties of an Azure Resource Manager template.
+ *
+ */
+export interface ArmTemplateProperties {
+  /**
+   * @member {string} [displayName] The display name of the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * @member {string} [description] The description of the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {string} [publisher] The publisher of the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly publisher?: string;
+  /**
+   * @member {string} [icon] The URI to the icon of the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly icon?: string;
+  /**
+   * @member {any} [contents] The contents of the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly contents?: any;
+  /**
+   * @member {Date} [createdDate] The creation date of the armTemplate.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {ParametersValueFileInfo[]} [parametersValueFilesInfo] File name
+   * and parameter values information from all azuredeploy.*.parameters.json
+   * for the ARM template.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly parametersValueFilesInfo?: ParametersValueFileInfo[];
+}
+
+/**
+ * @interface
  * An interface representing ArmTemplate.
  * An Azure Resource Manager template.
  *
@@ -528,6 +743,63 @@ export interface ArmTemplateParameterProperties {
    * @member {string} [value] The value of the template parameter.
    */
   value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ArtifactProperties.
+ * Properties of an artifact.
+ *
+ */
+export interface ArtifactProperties {
+  /**
+   * @member {string} [title] The artifact's title.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly title?: string;
+  /**
+   * @member {string} [description] The artifact's description.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly description?: string;
+  /**
+   * @member {string} [publisher] The artifact's publisher.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly publisher?: string;
+  /**
+   * @member {string} [filePath] The file path to the artifact.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly filePath?: string;
+  /**
+   * @member {string} [icon] The URI to the artifact icon.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly icon?: string;
+  /**
+   * @member {string} [targetOsType] The artifact's target OS.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly targetOsType?: string;
+  /**
+   * @member {any} [parameters] The artifact's parameters.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly parameters?: any;
+  /**
+   * @member {Date} [createdDate] The artifact's creation date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
 }
 
 /**
@@ -690,6 +962,68 @@ export interface ArtifactInstallPropertiesFragment {
 
 /**
  * @interface
+ * An interface representing ArtifactSourceProperties.
+ * Properties of an artifact source.
+ *
+ */
+export interface ArtifactSourceProperties {
+  /**
+   * @member {string} [displayName] The artifact source's display name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [uri] The artifact source's URI.
+   */
+  uri?: string;
+  /**
+   * @member {SourceControlType} [sourceType] The artifact source's type.
+   * Possible values include: 'VsoGit', 'GitHub'
+   */
+  sourceType?: SourceControlType;
+  /**
+   * @member {string} [folderPath] The folder containing artifacts.
+   */
+  folderPath?: string;
+  /**
+   * @member {string} [armTemplateFolderPath] The folder containing Azure
+   * Resource Manager templates.
+   */
+  armTemplateFolderPath?: string;
+  /**
+   * @member {string} [branchRef] The artifact source's branch reference.
+   */
+  branchRef?: string;
+  /**
+   * @member {string} [securityToken] The security token to authenticate to the
+   * artifact source.
+   */
+  securityToken?: string;
+  /**
+   * @member {EnableStatus} [status] Indicates if the artifact source is
+   * enabled (values: Enabled, Disabled). Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  status?: EnableStatus;
+  /**
+   * @member {Date} [createdDate] The artifact source's creation date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing ArtifactSource.
  * Properties of an artifact source.
  *
@@ -739,6 +1073,62 @@ export interface ArtifactSource extends Resource {
    * the server.**
    */
   readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ArtifactSourcePropertiesFragment.
+ * Properties of an artifact source.
+ *
+ */
+export interface ArtifactSourcePropertiesFragment {
+  /**
+   * @member {string} [displayName] The artifact source's display name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [uri] The artifact source's URI.
+   */
+  uri?: string;
+  /**
+   * @member {SourceControlType} [sourceType] The artifact source's type.
+   * Possible values include: 'VsoGit', 'GitHub'
+   */
+  sourceType?: SourceControlType;
+  /**
+   * @member {string} [folderPath] The folder containing artifacts.
+   */
+  folderPath?: string;
+  /**
+   * @member {string} [armTemplateFolderPath] The folder containing Azure
+   * Resource Manager templates.
+   */
+  armTemplateFolderPath?: string;
+  /**
+   * @member {string} [branchRef] The artifact source's branch reference.
+   */
+  branchRef?: string;
+  /**
+   * @member {string} [securityToken] The security token to authenticate to the
+   * artifact source.
+   */
+  securityToken?: string;
+  /**
+   * @member {EnableStatus} [status] Indicates if the artifact source is
+   * enabled (values: Enabled, Disabled). Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  status?: EnableStatus;
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
@@ -1165,6 +1555,54 @@ export interface CustomImagePropertiesCustom {
 
 /**
  * @interface
+ * An interface representing CustomImageProperties.
+ * Properties of a custom image.
+ *
+ */
+export interface CustomImageProperties {
+  /**
+   * @member {CustomImagePropertiesFromVm} [vm] The virtual machine from which
+   * the image is to be created.
+   */
+  vm?: CustomImagePropertiesFromVm;
+  /**
+   * @member {CustomImagePropertiesCustom} [vhd] The VHD from which the image
+   * is to be created.
+   */
+  vhd?: CustomImagePropertiesCustom;
+  /**
+   * @member {string} [description] The description of the custom image.
+   */
+  description?: string;
+  /**
+   * @member {string} [author] The author of the custom image.
+   */
+  author?: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the custom image.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {string} [managedImageId] The Managed Image Id backing the custom
+   * image.
+   */
+  managedImageId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing CustomImage.
  * A custom image.
  *
@@ -1267,6 +1705,65 @@ export interface DetachDiskProperties {
 
 /**
  * @interface
+ * An interface representing DiskProperties.
+ * Properties of a disk.
+ *
+ */
+export interface DiskProperties {
+  /**
+   * @member {StorageType} [diskType] The storage type for the disk (i.e.
+   * Standard, Premium). Possible values include: 'Standard', 'Premium'
+   */
+  diskType?: StorageType;
+  /**
+   * @member {number} [diskSizeGiB] The size of the disk in GibiBytes.
+   */
+  diskSizeGiB?: number;
+  /**
+   * @member {string} [leasedByLabVmId] The resource ID of the VM to which this
+   * disk is leased.
+   */
+  leasedByLabVmId?: string;
+  /**
+   * @member {string} [diskBlobName] When backed by a blob, the name of the VHD
+   * blob without extension.
+   */
+  diskBlobName?: string;
+  /**
+   * @member {string} [diskUri] When backed by a blob, the URI of underlying
+   * blob.
+   */
+  diskUri?: string;
+  /**
+   * @member {Date} [createdDate] The creation date of the disk.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [hostCaching] The host caching policy of the disk (i.e.
+   * None, ReadOnly, ReadWrite).
+   */
+  hostCaching?: string;
+  /**
+   * @member {string} [managedDiskId] When backed by managed disk, this is the
+   * ID of the compute disk resource.
+   */
+  managedDiskId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing Disk.
  * A Disk.
  *
@@ -1342,6 +1839,48 @@ export interface EnvironmentDeploymentProperties {
    * the Azure Resource Manager template.
    */
   parameters?: ArmTemplateParameterProperties[];
+}
+
+/**
+ * @interface
+ * An interface representing EnvironmentProperties.
+ * Properties of an environment.
+ *
+ */
+export interface EnvironmentProperties {
+  /**
+   * @member {EnvironmentDeploymentProperties} [deploymentProperties] The
+   * deployment properties of the environment.
+   */
+  deploymentProperties?: EnvironmentDeploymentProperties;
+  /**
+   * @member {string} [armTemplateDisplayName] The display name of the Azure
+   * Resource Manager template that produced the environment.
+   */
+  armTemplateDisplayName?: string;
+  /**
+   * @member {string} [resourceGroupId] The identifier of the resource group
+   * containing the environment's resources.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceGroupId?: string;
+  /**
+   * @member {string} [createdByUser] The creator of the environment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdByUser?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -1677,6 +2216,165 @@ export interface NetworkInterfaceProperties {
 
 /**
  * @interface
+ * An interface representing LabVirtualMachineCreationParameterProperties.
+ * Properties for virtual machine creation.
+ *
+ */
+export interface LabVirtualMachineCreationParameterProperties {
+  /**
+   * @member {BulkCreationParameters} [bulkCreationParameters] The number of
+   * virtual machine instances to create.
+   */
+  bulkCreationParameters?: BulkCreationParameters;
+  /**
+   * @member {string} [notes] The notes of the virtual machine.
+   */
+  notes?: string;
+  /**
+   * @member {string} [ownerObjectId] The object identifier of the owner of the
+   * virtual machine.
+   */
+  ownerObjectId?: string;
+  /**
+   * @member {string} [ownerUserPrincipalName] The user principal name of the
+   * virtual machine owner.
+   */
+  ownerUserPrincipalName?: string;
+  /**
+   * @member {string} [createdByUserId] The object identifier of the creator of
+   * the virtual machine.
+   */
+  createdByUserId?: string;
+  /**
+   * @member {string} [createdByUser] The email address of creator of the
+   * virtual machine.
+   */
+  createdByUser?: string;
+  /**
+   * @member {Date} [createdDate] The creation date of the virtual machine.
+   */
+  createdDate?: Date;
+  /**
+   * @member {string} [customImageId] The custom image identifier of the
+   * virtual machine.
+   */
+  customImageId?: string;
+  /**
+   * @member {string} [osType] The OS type of the virtual machine.
+   */
+  osType?: string;
+  /**
+   * @member {string} [size] The size of the virtual machine.
+   */
+  size?: string;
+  /**
+   * @member {string} [userName] The user name of the virtual machine.
+   */
+  userName?: string;
+  /**
+   * @member {string} [password] The password of the virtual machine
+   * administrator.
+   */
+  password?: string;
+  /**
+   * @member {string} [sshKey] The SSH key of the virtual machine
+   * administrator.
+   */
+  sshKey?: string;
+  /**
+   * @member {boolean} [isAuthenticationWithSshKey] Indicates whether this
+   * virtual machine uses an SSH key for authentication.
+   */
+  isAuthenticationWithSshKey?: boolean;
+  /**
+   * @member {string} [fqdn] The fully-qualified domain name of the virtual
+   * machine.
+   */
+  fqdn?: string;
+  /**
+   * @member {string} [labSubnetName] The lab subnet name of the virtual
+   * machine.
+   */
+  labSubnetName?: string;
+  /**
+   * @member {string} [labVirtualNetworkId] The lab virtual network identifier
+   * of the virtual machine.
+   */
+  labVirtualNetworkId?: string;
+  /**
+   * @member {boolean} [disallowPublicIpAddress] Indicates whether the virtual
+   * machine is to be created without a public IP address.
+   */
+  disallowPublicIpAddress?: boolean;
+  /**
+   * @member {ArtifactInstallProperties[]} [artifacts] The artifacts to be
+   * installed on the virtual machine.
+   */
+  artifacts?: ArtifactInstallProperties[];
+  /**
+   * @member {ArtifactDeploymentStatusProperties} [artifactDeploymentStatus]
+   * The artifact deployment status for the virtual machine.
+   */
+  artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
+  /**
+   * @member {GalleryImageReference} [galleryImageReference] The Microsoft
+   * Azure Marketplace image reference of the virtual machine.
+   */
+  galleryImageReference?: GalleryImageReference;
+  /**
+   * @member {ComputeVmProperties} [computeVm] The compute virtual machine
+   * properties.
+   */
+  computeVm?: ComputeVmProperties;
+  /**
+   * @member {NetworkInterfaceProperties} [networkInterface] The network
+   * interface properties.
+   */
+  networkInterface?: NetworkInterfaceProperties;
+  /**
+   * @member {ApplicableSchedule} [applicableSchedule] The applicable schedule
+   * for the virtual machine.
+   */
+  applicableSchedule?: ApplicableSchedule;
+  /**
+   * @member {Date} [expirationDate] The expiration date for VM.
+   */
+  expirationDate?: Date;
+  /**
+   * @member {boolean} [allowClaim] Indicates whether another user can take
+   * ownership of the virtual machine
+   */
+  allowClaim?: boolean;
+  /**
+   * @member {string} [storageType] Storage type to use for virtual machine
+   * (i.e. Standard, Premium).
+   */
+  storageType?: string;
+  /**
+   * @member {VirtualMachineCreationSource} [virtualMachineCreationSource]
+   * Tells source of creation of lab virtual machine. Output property only.
+   * Possible values include: 'FromCustomImage', 'FromGalleryImage'
+   */
+  virtualMachineCreationSource?: VirtualMachineCreationSource;
+  /**
+   * @member {string} [environmentId] The resource ID of the environment that
+   * contains this virtual machine, if any.
+   */
+  environmentId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing LabVirtualMachineCreationParameter.
  * Properties for creating a virtual machine.
  *
@@ -1864,6 +2562,53 @@ export interface FormulaPropertiesFromVm {
 
 /**
  * @interface
+ * An interface representing FormulaProperties.
+ * Properties of a formula.
+ *
+ */
+export interface FormulaProperties {
+  /**
+   * @member {string} [description] The description of the formula.
+   */
+  description?: string;
+  /**
+   * @member {string} [author] The author of the formula.
+   */
+  author?: string;
+  /**
+   * @member {string} [osType] The OS type of the formula.
+   */
+  osType?: string;
+  /**
+   * @member {Date} [creationDate] The creation date of the formula.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * @member {LabVirtualMachineCreationParameter} [formulaContent] The content
+   * of the formula.
+   */
+  formulaContent?: LabVirtualMachineCreationParameter;
+  /**
+   * @member {FormulaPropertiesFromVm} [vm] Information about a VM from which a
+   * formula is to be created.
+   */
+  vm?: FormulaPropertiesFromVm;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing Formula.
  * A formula for creating a VM, specifying an image base and other parameters
  *
@@ -1908,6 +2653,43 @@ export interface Formula extends Resource {
    * resource (Guid).
    */
   uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing GalleryImageProperties.
+ * Properties of a gallery image.
+ *
+ */
+export interface GalleryImageProperties {
+  /**
+   * @member {string} [author] The author of the gallery image.
+   */
+  author?: string;
+  /**
+   * @member {Date} [createdDate] The creation date of the gallery image.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [description] The description of the gallery image.
+   */
+  description?: string;
+  /**
+   * @member {GalleryImageReference} [imageReference] The image reference of
+   * the gallery image.
+   */
+  imageReference?: GalleryImageReference;
+  /**
+   * @member {string} [icon] The icon of the gallery image.
+   */
+  icon?: string;
+  /**
+   * @member {boolean} [enabled] Indicates whether this gallery image is
+   * enabled.
+   */
+  enabled?: boolean;
 }
 
 /**
@@ -2097,6 +2879,80 @@ export interface InboundNatRuleFragment {
    * be redirected.
    */
   backendPort?: number;
+}
+
+/**
+ * @interface
+ * An interface representing LabProperties.
+ * Properties of a lab.
+ *
+ */
+export interface LabProperties {
+  /**
+   * @member {string} [defaultStorageAccount] The lab's default storage
+   * account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly defaultStorageAccount?: string;
+  /**
+   * @member {string} [defaultPremiumStorageAccount] The lab's default premium
+   * storage account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly defaultPremiumStorageAccount?: string;
+  /**
+   * @member {string} [artifactsStorageAccount] The lab's artifact storage
+   * account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly artifactsStorageAccount?: string;
+  /**
+   * @member {string} [premiumDataDiskStorageAccount] The lab's premium data
+   * disk storage account.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly premiumDataDiskStorageAccount?: string;
+  /**
+   * @member {string} [vaultName] The lab's Key vault.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly vaultName?: string;
+  /**
+   * @member {StorageType} [labStorageType] Type of storage used by the lab. It
+   * can be either Premium or Standard. Default is Premium. Possible values
+   * include: 'Standard', 'Premium'
+   */
+  labStorageType?: StorageType;
+  /**
+   * @member {Date} [createdDate] The creation date of the lab.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {PremiumDataDisk} [premiumDataDisks] The setting to enable usage
+   * of premium data disks.
+   * When its value is 'Enabled', creation of standard or premium data disks is
+   * allowed.
+   * When its value is 'Disabled', only creation of standard data disks is
+   * allowed. Possible values include: 'Disabled', 'Enabled'
+   */
+  premiumDataDisks?: PremiumDataDisk;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -2295,6 +3151,66 @@ export interface LabResourceCostProperties {
 
 /**
  * @interface
+ * An interface representing LabCostProperties.
+ * Properties of a cost item.
+ *
+ */
+export interface LabCostProperties {
+  /**
+   * @member {TargetCostProperties} [targetCost] The target cost properties
+   */
+  targetCost?: TargetCostProperties;
+  /**
+   * @member {LabCostSummaryProperties} [labCostSummary] The lab cost summary
+   * component of the cost data.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly labCostSummary?: LabCostSummaryProperties;
+  /**
+   * @member {LabCostDetailsProperties[]} [labCostDetails] The lab cost details
+   * component of the cost data.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly labCostDetails?: LabCostDetailsProperties[];
+  /**
+   * @member {LabResourceCostProperties[]} [resourceCosts] The resource cost
+   * component of the cost data.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceCosts?: LabResourceCostProperties[];
+  /**
+   * @member {string} [currencyCode] The currency code of the cost.
+   */
+  currencyCode?: string;
+  /**
+   * @member {Date} [startDateTime] The start time of the cost data.
+   */
+  startDateTime?: Date;
+  /**
+   * @member {Date} [endDateTime] The end time of the cost data.
+   */
+  endDateTime?: Date;
+  /**
+   * @member {Date} [createdDate] The creation date of the cost.
+   */
+  createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing LabCost.
  * A cost item.
  *
@@ -2356,6 +3272,40 @@ export interface LabCost extends Resource {
 
 /**
  * @interface
+ * An interface representing LabPropertiesFragment.
+ * Properties of a lab.
+ *
+ */
+export interface LabPropertiesFragment {
+  /**
+   * @member {StorageType} [labStorageType] Type of storage used by the lab. It
+   * can be either Premium or Standard. Default is Premium. Possible values
+   * include: 'Standard', 'Premium'
+   */
+  labStorageType?: StorageType;
+  /**
+   * @member {PremiumDataDisk} [premiumDataDisks] The setting to enable usage
+   * of premium data disks.
+   * When its value is 'Enabled', creation of standard or premium data disks is
+   * allowed.
+   * When its value is 'Disabled', only creation of standard data disks is
+   * allowed. Possible values include: 'Disabled', 'Enabled'
+   */
+  premiumDataDisks?: PremiumDataDisk;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing LabFragment.
  * A lab.
  *
@@ -2400,6 +3350,167 @@ export interface LabVhd {
    * @member {string} [id] The URI to the VHD.
    */
   id?: string;
+}
+
+/**
+ * @interface
+ * An interface representing LabVirtualMachineProperties.
+ * Properties of a virtual machine.
+ *
+ */
+export interface LabVirtualMachineProperties {
+  /**
+   * @member {string} [notes] The notes of the virtual machine.
+   */
+  notes?: string;
+  /**
+   * @member {string} [ownerObjectId] The object identifier of the owner of the
+   * virtual machine.
+   */
+  ownerObjectId?: string;
+  /**
+   * @member {string} [ownerUserPrincipalName] The user principal name of the
+   * virtual machine owner.
+   */
+  ownerUserPrincipalName?: string;
+  /**
+   * @member {string} [createdByUserId] The object identifier of the creator of
+   * the virtual machine.
+   */
+  createdByUserId?: string;
+  /**
+   * @member {string} [createdByUser] The email address of creator of the
+   * virtual machine.
+   */
+  createdByUser?: string;
+  /**
+   * @member {Date} [createdDate] The creation date of the virtual machine.
+   */
+  createdDate?: Date;
+  /**
+   * @member {string} [computeId] The resource identifier (Microsoft.Compute)
+   * of the virtual machine.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly computeId?: string;
+  /**
+   * @member {string} [customImageId] The custom image identifier of the
+   * virtual machine.
+   */
+  customImageId?: string;
+  /**
+   * @member {string} [osType] The OS type of the virtual machine.
+   */
+  osType?: string;
+  /**
+   * @member {string} [size] The size of the virtual machine.
+   */
+  size?: string;
+  /**
+   * @member {string} [userName] The user name of the virtual machine.
+   */
+  userName?: string;
+  /**
+   * @member {string} [password] The password of the virtual machine
+   * administrator.
+   */
+  password?: string;
+  /**
+   * @member {string} [sshKey] The SSH key of the virtual machine
+   * administrator.
+   */
+  sshKey?: string;
+  /**
+   * @member {boolean} [isAuthenticationWithSshKey] Indicates whether this
+   * virtual machine uses an SSH key for authentication.
+   */
+  isAuthenticationWithSshKey?: boolean;
+  /**
+   * @member {string} [fqdn] The fully-qualified domain name of the virtual
+   * machine.
+   */
+  fqdn?: string;
+  /**
+   * @member {string} [labSubnetName] The lab subnet name of the virtual
+   * machine.
+   */
+  labSubnetName?: string;
+  /**
+   * @member {string} [labVirtualNetworkId] The lab virtual network identifier
+   * of the virtual machine.
+   */
+  labVirtualNetworkId?: string;
+  /**
+   * @member {boolean} [disallowPublicIpAddress] Indicates whether the virtual
+   * machine is to be created without a public IP address.
+   */
+  disallowPublicIpAddress?: boolean;
+  /**
+   * @member {ArtifactInstallProperties[]} [artifacts] The artifacts to be
+   * installed on the virtual machine.
+   */
+  artifacts?: ArtifactInstallProperties[];
+  /**
+   * @member {ArtifactDeploymentStatusProperties} [artifactDeploymentStatus]
+   * The artifact deployment status for the virtual machine.
+   */
+  artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
+  /**
+   * @member {GalleryImageReference} [galleryImageReference] The Microsoft
+   * Azure Marketplace image reference of the virtual machine.
+   */
+  galleryImageReference?: GalleryImageReference;
+  /**
+   * @member {ComputeVmProperties} [computeVm] The compute virtual machine
+   * properties.
+   */
+  computeVm?: ComputeVmProperties;
+  /**
+   * @member {NetworkInterfaceProperties} [networkInterface] The network
+   * interface properties.
+   */
+  networkInterface?: NetworkInterfaceProperties;
+  /**
+   * @member {ApplicableSchedule} [applicableSchedule] The applicable schedule
+   * for the virtual machine.
+   */
+  applicableSchedule?: ApplicableSchedule;
+  /**
+   * @member {Date} [expirationDate] The expiration date for VM.
+   */
+  expirationDate?: Date;
+  /**
+   * @member {boolean} [allowClaim] Indicates whether another user can take
+   * ownership of the virtual machine
+   */
+  allowClaim?: boolean;
+  /**
+   * @member {string} [storageType] Storage type to use for virtual machine
+   * (i.e. Standard, Premium).
+   */
+  storageType?: string;
+  /**
+   * @member {VirtualMachineCreationSource} [virtualMachineCreationSource]
+   * Tells source of creation of lab virtual machine. Output property only.
+   * Possible values include: 'FromCustomImage', 'FromGalleryImage'
+   */
+  virtualMachineCreationSource?: VirtualMachineCreationSource;
+  /**
+   * @member {string} [environmentId] The resource ID of the environment that
+   * contains this virtual machine, if any.
+   */
+  environmentId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -2633,6 +3744,161 @@ export interface NetworkInterfacePropertiesFragment {
 
 /**
  * @interface
+ * An interface representing LabVirtualMachinePropertiesFragment.
+ * Properties of a virtual machine.
+ *
+ */
+export interface LabVirtualMachinePropertiesFragment {
+  /**
+   * @member {string} [notes] The notes of the virtual machine.
+   */
+  notes?: string;
+  /**
+   * @member {string} [ownerObjectId] The object identifier of the owner of the
+   * virtual machine.
+   */
+  ownerObjectId?: string;
+  /**
+   * @member {string} [ownerUserPrincipalName] The user principal name of the
+   * virtual machine owner.
+   */
+  ownerUserPrincipalName?: string;
+  /**
+   * @member {string} [createdByUserId] The object identifier of the creator of
+   * the virtual machine.
+   */
+  createdByUserId?: string;
+  /**
+   * @member {string} [createdByUser] The email address of creator of the
+   * virtual machine.
+   */
+  createdByUser?: string;
+  /**
+   * @member {Date} [createdDate] The creation date of the virtual machine.
+   */
+  createdDate?: Date;
+  /**
+   * @member {string} [customImageId] The custom image identifier of the
+   * virtual machine.
+   */
+  customImageId?: string;
+  /**
+   * @member {string} [osType] The OS type of the virtual machine.
+   */
+  osType?: string;
+  /**
+   * @member {string} [size] The size of the virtual machine.
+   */
+  size?: string;
+  /**
+   * @member {string} [userName] The user name of the virtual machine.
+   */
+  userName?: string;
+  /**
+   * @member {string} [password] The password of the virtual machine
+   * administrator.
+   */
+  password?: string;
+  /**
+   * @member {string} [sshKey] The SSH key of the virtual machine
+   * administrator.
+   */
+  sshKey?: string;
+  /**
+   * @member {boolean} [isAuthenticationWithSshKey] Indicates whether this
+   * virtual machine uses an SSH key for authentication.
+   */
+  isAuthenticationWithSshKey?: boolean;
+  /**
+   * @member {string} [fqdn] The fully-qualified domain name of the virtual
+   * machine.
+   */
+  fqdn?: string;
+  /**
+   * @member {string} [labSubnetName] The lab subnet name of the virtual
+   * machine.
+   */
+  labSubnetName?: string;
+  /**
+   * @member {string} [labVirtualNetworkId] The lab virtual network identifier
+   * of the virtual machine.
+   */
+  labVirtualNetworkId?: string;
+  /**
+   * @member {boolean} [disallowPublicIpAddress] Indicates whether the virtual
+   * machine is to be created without a public IP address.
+   */
+  disallowPublicIpAddress?: boolean;
+  /**
+   * @member {ArtifactInstallPropertiesFragment[]} [artifacts] The artifacts to
+   * be installed on the virtual machine.
+   */
+  artifacts?: ArtifactInstallPropertiesFragment[];
+  /**
+   * @member {ArtifactDeploymentStatusPropertiesFragment}
+   * [artifactDeploymentStatus] The artifact deployment status for the virtual
+   * machine.
+   */
+  artifactDeploymentStatus?: ArtifactDeploymentStatusPropertiesFragment;
+  /**
+   * @member {GalleryImageReferenceFragment} [galleryImageReference] The
+   * Microsoft Azure Marketplace image reference of the virtual machine.
+   */
+  galleryImageReference?: GalleryImageReferenceFragment;
+  /**
+   * @member {ComputeVmPropertiesFragment} [computeVm] The compute virtual
+   * machine properties.
+   */
+  computeVm?: ComputeVmPropertiesFragment;
+  /**
+   * @member {NetworkInterfacePropertiesFragment} [networkInterface] The
+   * network interface properties.
+   */
+  networkInterface?: NetworkInterfacePropertiesFragment;
+  /**
+   * @member {ApplicableScheduleFragment} [applicableSchedule] The applicable
+   * schedule for the virtual machine.
+   */
+  applicableSchedule?: ApplicableScheduleFragment;
+  /**
+   * @member {Date} [expirationDate] The expiration date for VM.
+   */
+  expirationDate?: Date;
+  /**
+   * @member {boolean} [allowClaim] Indicates whether another user can take
+   * ownership of the virtual machine
+   */
+  allowClaim?: boolean;
+  /**
+   * @member {string} [storageType] Storage type to use for virtual machine
+   * (i.e. Standard, Premium).
+   */
+  storageType?: string;
+  /**
+   * @member {VirtualMachineCreationSource} [virtualMachineCreationSource]
+   * Tells source of creation of lab virtual machine. Output property only.
+   * Possible values include: 'FromCustomImage', 'FromGalleryImage'
+   */
+  virtualMachineCreationSource?: VirtualMachineCreationSource;
+  /**
+   * @member {string} [environmentId] The resource ID of the environment that
+   * contains this virtual machine, if any.
+   */
+  environmentId?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing LabVirtualMachineFragment.
  * A virtual machine.
  *
@@ -2789,6 +4055,45 @@ export interface LabVirtualMachineFragment extends Resource {
 
 /**
  * @interface
+ * An interface representing NotificationChannelProperties.
+ * Properties of a schedule.
+ *
+ */
+export interface NotificationChannelProperties {
+  /**
+   * @member {string} [webHookUrl] The webhook URL to send notifications to.
+   */
+  webHookUrl?: string;
+  /**
+   * @member {string} [description] Description of notification.
+   */
+  description?: string;
+  /**
+   * @member {Event[]} [events] The list of event for which this notification
+   * is enabled.
+   */
+  events?: Event[];
+  /**
+   * @member {Date} [createdDate] The creation date of the notification
+   * channel.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing NotificationChannel.
  * A notification.
  *
@@ -2815,6 +4120,38 @@ export interface NotificationChannel extends Resource {
    * the server.**
    */
   readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing NotificationChannelPropertiesFragment.
+ * Properties of a schedule.
+ *
+ */
+export interface NotificationChannelPropertiesFragment {
+  /**
+   * @member {string} [webHookUrl] The webhook URL to send notifications to.
+   */
+  webHookUrl?: string;
+  /**
+   * @member {string} [description] Description of notification.
+   */
+  description?: string;
+  /**
+   * @member {EventFragment[]} [events] The list of event for which this
+   * notification is enabled.
+   */
+  events?: EventFragment[];
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
@@ -2977,6 +4314,63 @@ export interface OperationResult {
 
 /**
  * @interface
+ * An interface representing PolicyProperties.
+ * Properties of a Policy.
+ *
+ */
+export interface PolicyProperties {
+  /**
+   * @member {string} [description] The description of the policy.
+   */
+  description?: string;
+  /**
+   * @member {PolicyStatus} [status] The status of the policy. Possible values
+   * include: 'Enabled', 'Disabled'
+   */
+  status?: PolicyStatus;
+  /**
+   * @member {PolicyFactName} [factName] The fact name of the policy (e.g.
+   * LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc. Possible values include:
+   * 'UserOwnedLabVmCount', 'UserOwnedLabPremiumVmCount', 'LabVmCount',
+   * 'LabPremiumVmCount', 'LabVmSize', 'GalleryImage',
+   * 'UserOwnedLabVmCountInSubnet', 'LabTargetCost'
+   */
+  factName?: PolicyFactName;
+  /**
+   * @member {string} [factData] The fact data of the policy.
+   */
+  factData?: string;
+  /**
+   * @member {string} [threshold] The threshold of the policy (i.e. a number
+   * for MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy).
+   */
+  threshold?: string;
+  /**
+   * @member {PolicyEvaluatorType} [evaluatorType] The evaluator type of the
+   * policy (i.e. AllowedValuesPolicy, MaxValuePolicy). Possible values
+   * include: 'AllowedValuesPolicy', 'MaxValuePolicy'
+   */
+  evaluatorType?: PolicyEvaluatorType;
+  /**
+   * @member {Date} [createdDate] The creation date of the policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing Policy.
  * A Policy.
  *
@@ -3021,6 +4415,57 @@ export interface Policy extends Resource {
    * the server.**
    */
   readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing PolicyPropertiesFragment.
+ * Properties of a Policy.
+ *
+ */
+export interface PolicyPropertiesFragment {
+  /**
+   * @member {string} [description] The description of the policy.
+   */
+  description?: string;
+  /**
+   * @member {PolicyStatus} [status] The status of the policy. Possible values
+   * include: 'Enabled', 'Disabled'
+   */
+  status?: PolicyStatus;
+  /**
+   * @member {PolicyFactName} [factName] The fact name of the policy (e.g.
+   * LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc. Possible values include:
+   * 'UserOwnedLabVmCount', 'UserOwnedLabPremiumVmCount', 'LabVmCount',
+   * 'LabPremiumVmCount', 'LabVmSize', 'GalleryImage',
+   * 'UserOwnedLabVmCountInSubnet', 'LabTargetCost'
+   */
+  factName?: PolicyFactName;
+  /**
+   * @member {string} [factData] The fact data of the policy.
+   */
+  factData?: string;
+  /**
+   * @member {string} [threshold] The threshold of the policy (i.e. a number
+   * for MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy).
+   */
+  threshold?: string;
+  /**
+   * @member {PolicyEvaluatorType} [evaluatorType] The evaluator type of the
+   * policy (i.e. AllowedValuesPolicy, MaxValuePolicy). Possible values
+   * include: 'AllowedValuesPolicy', 'MaxValuePolicy'
+   */
+  evaluatorType?: PolicyEvaluatorType;
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
@@ -3138,6 +4583,29 @@ export interface RetargetScheduleProperties {
    * that the schedule should be retargeted to
    */
   targetResourceId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SecretProperties.
+ * Properties of a secret.
+ *
+ */
+export interface SecretProperties {
+  /**
+   * @member {string} [value] The value of the secret for secret creation.
+   */
+  value?: string;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
 }
 
 /**
@@ -3448,6 +4916,39 @@ export interface UserSecretStore {
 
 /**
  * @interface
+ * An interface representing UserProperties.
+ * Properties of a lab user profile.
+ *
+ */
+export interface UserProperties {
+  /**
+   * @member {UserIdentity} [identity] The identity of the user.
+   */
+  identity?: UserIdentity;
+  /**
+   * @member {UserSecretStore} [secretStore] The secret store of the user.
+   */
+  secretStore?: UserSecretStore;
+  /**
+   * @member {Date} [createdDate] The creation date of the user profile.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing User.
  * Profile of a lab user.
  *
@@ -3534,6 +5035,34 @@ export interface UserSecretStoreFragment {
 
 /**
  * @interface
+ * An interface representing UserPropertiesFragment.
+ * Properties of a lab user profile.
+ *
+ */
+export interface UserPropertiesFragment {
+  /**
+   * @member {UserIdentityFragment} [identity] The identity of the user.
+   */
+  identity?: UserIdentityFragment;
+  /**
+   * @member {UserSecretStoreFragment} [secretStore] The secret store of the
+   * user.
+   */
+  secretStore?: UserSecretStoreFragment;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
  * An interface representing UserFragment.
  * Profile of a lab user.
  *
@@ -3549,6 +5078,55 @@ export interface UserFragment extends Resource {
    * user.
    */
   secretStore?: UserSecretStoreFragment;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualNetworkProperties.
+ * Properties of a virtual network.
+ *
+ */
+export interface VirtualNetworkProperties {
+  /**
+   * @member {Subnet[]} [allowedSubnets] The allowed subnets of the virtual
+   * network.
+   */
+  allowedSubnets?: Subnet[];
+  /**
+   * @member {string} [description] The description of the virtual network.
+   */
+  description?: string;
+  /**
+   * @member {string} [externalProviderResourceId] The Microsoft.Network
+   * resource identifier of the virtual network.
+   */
+  externalProviderResourceId?: string;
+  /**
+   * @member {ExternalSubnet[]} [externalSubnets] The external subnet
+   * properties.
+   */
+  externalSubnets?: ExternalSubnet[];
+  /**
+   * @member {SubnetOverride[]} [subnetOverrides] The subnet overrides of the
+   * virtual network.
+   */
+  subnetOverrides?: SubnetOverride[];
+  /**
+   * @member {Date} [createdDate] The creation date of the virtual network.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
@@ -3599,6 +5177,49 @@ export interface VirtualNetwork extends Resource {
    * the server.**
    */
   readonly createdDate?: Date;
+  /**
+   * @member {string} [provisioningState] The provisioning status of the
+   * resource.
+   */
+  provisioningState?: string;
+  /**
+   * @member {string} [uniqueIdentifier] The unique immutable identifier of a
+   * resource (Guid).
+   */
+  uniqueIdentifier?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualNetworkPropertiesFragment.
+ * Properties of a virtual network.
+ *
+ */
+export interface VirtualNetworkPropertiesFragment {
+  /**
+   * @member {SubnetFragment[]} [allowedSubnets] The allowed subnets of the
+   * virtual network.
+   */
+  allowedSubnets?: SubnetFragment[];
+  /**
+   * @member {string} [description] The description of the virtual network.
+   */
+  description?: string;
+  /**
+   * @member {string} [externalProviderResourceId] The Microsoft.Network
+   * resource identifier of the virtual network.
+   */
+  externalProviderResourceId?: string;
+  /**
+   * @member {ExternalSubnetFragment[]} [externalSubnets] The external subnet
+   * properties.
+   */
+  externalSubnets?: ExternalSubnetFragment[];
+  /**
+   * @member {SubnetOverrideFragment[]} [subnetOverrides] The subnet overrides
+   * of the virtual network.
+   */
+  subnetOverrides?: SubnetOverrideFragment[];
   /**
    * @member {string} [provisioningState] The provisioning status of the
    * resource.
