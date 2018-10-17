@@ -165,35 +165,48 @@ export class Serializer {
       objectName = mapper.serializedName!;
     }
 
-    if (mapperType.match(/^Number$/ig) !== null) {
-      payload = parseFloat(responseBody);
-      if (isNaN(payload)) {
-        payload = responseBody;
-      }
-    } else if (mapperType.match(/^Boolean$/ig) !== null) {
-      if (responseBody === "true") {
-        payload = true;
-      } else if (responseBody === "false") {
-        payload = false;
-      } else {
-        payload = responseBody;
-      }
-    } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/ig) !== null) {
-      payload = responseBody;
-    } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/ig) !== null) {
-      payload = new Date(responseBody);
-    } else if (mapperType.match(/^UnixTime$/ig) !== null) {
-      payload = unixTimeToDate(responseBody);
-    } else if (mapperType.match(/^ByteArray$/ig) !== null) {
-      payload = base64.decodeString(responseBody);
-    } else if (mapperType.match(/^Base64Url$/ig) !== null) {
-      payload = base64UrlToByteArray(responseBody);
-    } else if (mapperType.match(/^Sequence$/ig) !== null) {
-      payload = deserializeSequenceType(this, mapper as SequenceMapper, responseBody, objectName);
-    } else if (mapperType.match(/^Dictionary$/ig) !== null) {
-      payload = deserializeDictionaryType(this, mapper as DictionaryMapper, responseBody, objectName);
-    } else if (mapperType.match(/^Composite$/ig) !== null) {
+    if (mapperType.match(/^Composite$/ig) !== null) {
       payload = deserializeCompositeType(this, mapper as CompositeMapper, responseBody, objectName);
+    } else {
+      if (this.isXML) {
+        /**
+         * If the mapper specifies this as a non-composite type value but the responseBody contains
+         * both header ("$") and body ("_") properties, then just reduce the responseBody value to
+         * the body ("_") property.
+         */
+        if (responseBody["$"] != undefined && responseBody["_"] != undefined) {
+          responseBody = responseBody["_"];
+        }
+      }
+
+      if (mapperType.match(/^Number$/ig) !== null) {
+        payload = parseFloat(responseBody);
+        if (isNaN(payload)) {
+          payload = responseBody;
+        }
+      } else if (mapperType.match(/^Boolean$/ig) !== null) {
+        if (responseBody === "true") {
+          payload = true;
+        } else if (responseBody === "false") {
+          payload = false;
+        } else {
+          payload = responseBody;
+        }
+      } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/ig) !== null) {
+        payload = responseBody;
+      } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/ig) !== null) {
+        payload = new Date(responseBody);
+      } else if (mapperType.match(/^UnixTime$/ig) !== null) {
+        payload = unixTimeToDate(responseBody);
+      } else if (mapperType.match(/^ByteArray$/ig) !== null) {
+        payload = base64.decodeString(responseBody);
+      } else if (mapperType.match(/^Base64Url$/ig) !== null) {
+        payload = base64UrlToByteArray(responseBody);
+      } else if (mapperType.match(/^Sequence$/ig) !== null) {
+        payload = deserializeSequenceType(this, mapper as SequenceMapper, responseBody, objectName);
+      } else if (mapperType.match(/^Dictionary$/ig) !== null) {
+        payload = deserializeDictionaryType(this, mapper as DictionaryMapper, responseBody, objectName);
+      }
     }
 
     if (mapper.isConstant) {
@@ -297,10 +310,10 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
     } else if (typeName.match(/^Stream$/ig) !== null) {
       const objectType = typeof value;
       if (objectType !== "string" &&
-          objectType !== "function" &&
-          !(value instanceof ArrayBuffer) &&
-          !ArrayBuffer.isView(value) &&
-          !(typeof Blob === "function" && value instanceof Blob)) {
+        objectType !== "function" &&
+        !(value instanceof ArrayBuffer) &&
+        !ArrayBuffer.isView(value) &&
+        !(typeof Blob === "function" && value instanceof Blob)) {
         throw new Error(`${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or a function returning NodeJS.ReadableStream.`);
       }
     }
@@ -687,19 +700,19 @@ export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapper
 
 export interface SimpleMapperType {
   name: "Base64Url"
-    | "Boolean"
-    | "ByteArray"
-    | "Date"
-    | "DateTime"
-    | "DateTimeRfc1123"
-    | "Object"
-    | "Stream"
-    | "String"
-    | "TimeSpan"
-    | "UnixTime"
-    | "Uuid"
-    | "Number"
-    | "any";
+  | "Boolean"
+  | "ByteArray"
+  | "Date"
+  | "DateTime"
+  | "DateTimeRfc1123"
+  | "Object"
+  | "Stream"
+  | "String"
+  | "TimeSpan"
+  | "UnixTime"
+  | "Uuid"
+  | "Number"
+  | "any";
 }
 
 export interface CompositeMapperType {
