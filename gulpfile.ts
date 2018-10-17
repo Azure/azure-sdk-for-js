@@ -245,6 +245,10 @@ gulp.task("regenerate", async () => {
         boolean: true,
         description: "Determines if version bumping should be skipped"
       },
+      "request-review": {
+        boolean: true,
+        description: "Determines if review should be automatically requested on matching pull request"
+      },
       "azure-sdk-for-js-root": {
         alias: "sdk",
         string: true,
@@ -259,7 +263,7 @@ gulp.task("regenerate", async () => {
       }
     }).usage("gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
-    regenerate(argv.branch, argv.package, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], argv["skip-version-bump"])
+    regenerate(argv.branch, argv.package, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], argv["skip-version-bump"], argv["request-review"])
       .then(_ => resolve(),
         error => reject(error))
       .catch(error => {

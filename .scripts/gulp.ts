@@ -14,7 +14,7 @@ import { contains, npmInstall } from "./common";
 import { execSync } from "child_process";
 import { getLogger } from "./logger";
 import { refreshRepository, getValidatedRepository, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction, checkoutBranch, pullBranch, mergeBranch, mergeMasterIntoBranch, commitAndPush, checkoutRemoteBranch, Branch, BranchLocation } from "./git";
-import { commitAndCreatePullRequest } from "./github";
+import { commitAndCreatePullRequest, findPullRequest, requestPullRequestReview } from "./github";
 
 const _logger = getLogger();
 const _args = getCommandLineOptions();
@@ -178,7 +178,7 @@ export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azur
     }
 }
 
-export async function regenerate(branchName: string, packageName: string, azureSdkForJsRepoPath: string, azureRestAPISpecsPath: string, skipVersionBump?: boolean) {
+export async function regenerate(branchName: string, packageName: string, azureSdkForJsRepoPath: string, azureRestAPISpecsPath: string, skipVersionBump?: boolean, requestReview?: boolean) {
     const azureSdkForJsRepository = await getValidatedRepository(azureSdkForJsRepoPath);
     await refreshRepository(azureSdkForJsRepository);
     _logger.log(`Refreshed ${azureSdkForJsRepository.path()} repository successfully`);
@@ -192,18 +192,25 @@ export async function regenerate(branchName: string, packageName: string, azureS
     _logger.log(`Merged master into ${localBranch.shorthand()} successfully`);
 
     if (skipVersionBump) {
-        _logger.log("Skip version bump");
+        _logger.log("Skipping version bump");
     } else {
         await bumpMinorVersion(azureSdkForJsRepoPath, packageName);
         _logger.log(`Successfully updated version in package.json`);
     }
-
 
     await generateSdk(azureRestAPISpecsPath, azureSdkForJsRepoPath, packageName)
     _logger.log(`Generated sdk successfully`);
 
     await commitAndPush(azureSdkForJsRepository, localBranch, `Regenerated "${packageName}" SDK.`, undefined, `packages/${packageName}`);
     _logger.log(`Committed and pushed the changes successfully`);
+
+    if (requestReview) {
+        const pullRequest = await findPullRequest("azure-sdk-for-js", branchName, "open");
+        await requestPullRequestReview("azure-sdk-for-js", pullRequest.id);
+        _logger.log(`Requested review on PR ${pullRequest.id} successfully`);
+    } else {
+        _logger.log("Skipping review requesting");
+    }
 }
 
 async function bumpMinorVersion(azureSdkForJsRepoPath: string, packageName: string) {

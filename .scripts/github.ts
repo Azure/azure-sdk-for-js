@@ -5,7 +5,7 @@
  */
 
 import * as Octokit from '@octokit/rest'
-import { PullRequestsCreateParams, Response, PullRequestsCreateReviewRequestParams, PullRequestsCreateReviewRequestResponse } from '@octokit/rest';
+import { PullRequestsCreateParams, Response, PullRequestsCreateReviewRequestParams, PullRequestsCreateReviewRequestResponse, PullRequestsGetParams, PullRequestsGetAllParams, PullRequestsGetAllResponse, PullRequestsGetAllResponseItem } from '@octokit/rest';
 import { getToken, createNewUniqueBranch, commitChanges, pushBranch,ValidateFunction, ValidateEachFunction, Branch, BranchLocation } from './git';
 import { getLogger } from './logger';
 import { Repository } from 'nodegit';
@@ -39,6 +39,30 @@ export async function createPullRequest(repositoryName: string, pullRequestTitle
             }
         });
     });
+}
+
+export async function listPullRequests(repositoryName: string, state?: "open" | "closed" | "all"): Promise<Response<PullRequestsGetAllResponse>> {
+    const octokit = getAuthenticatedClient();
+    const params: PullRequestsGetAllParams = {
+        owner: _repositoryOwner,
+        repo: repositoryName,
+        state: state
+    }
+
+    return new Promise<Response<PullRequestsGetAllResponse>>((resolve, reject) => {
+        octokit.pullRequests.getAll(params, (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+}
+
+export async function findPullRequest(repositoryName: string, branchName: string, state?: "open" | "closed" | "all"): Promise<PullRequestsGetAllResponseItem> {
+    const allPullRequests = await listPullRequests(repositoryName, state);
+    return allPullRequests.data.find(el => el.head.label === `Azure:${branchName}`);
 }
 
 export async function requestPullRequestReview(repositoryName: string, prId: number): Promise<Response<PullRequestsCreateReviewRequestResponse>> {
