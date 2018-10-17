@@ -247,40 +247,6 @@ export interface FactoryRepoConfiguration {
 
 /**
  * @interface
- * An interface representing FactoryProperties.
- * Factory resource properties.
- *
- */
-export interface FactoryProperties {
-  /**
-   * @member {string} [provisioningState] Factory provisioning state, example
-   * Succeeded.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * @member {Date} [createTime] Time the factory was created in ISO8601
-   * format.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createTime?: Date;
-  /**
-   * @member {string} [version] Version of the factory.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly version?: string;
-  /**
-   * @member {FactoryRepoConfigurationUnion} [repoConfiguration] Git repo
-   * information of the factory.
-   */
-  repoConfiguration?: FactoryRepoConfigurationUnion;
-}
-
-/**
- * @interface
  * An interface representing Factory.
  * Factory resource type.
  *
@@ -810,48 +776,6 @@ export interface PipelineFolder {
    * @member {string} [name] The name of the folder that this Pipeline is in.
    */
   name?: string;
-}
-
-/**
- * @interface
- * An interface representing PipelineModel.
- * A data factory pipeline.
- *
- */
-export interface PipelineModel {
-  /**
-   * @member {string} [description] The description of the pipeline.
-   */
-  description?: string;
-  /**
-   * @member {ActivityUnion[]} [activities] List of activities in pipeline.
-   */
-  activities?: ActivityUnion[];
-  /**
-   * @member {{ [propertyName: string]: ParameterSpecification }} [parameters]
-   * List of parameters for pipeline.
-   */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /**
-   * @member {{ [propertyName: string]: VariableSpecification }} [variables]
-   * List of variables for pipeline.
-   */
-  variables?: { [propertyName: string]: VariableSpecification };
-  /**
-   * @member {number} [concurrency] The max number of concurrent runs for the
-   * pipeline.
-   */
-  concurrency?: number;
-  /**
-   * @member {any[]} [annotations] List of tags that can be used for describing
-   * the Pipeline.
-   */
-  annotations?: any[];
-  /**
-   * @member {PipelineFolder} [folder] The folder that this Pipeline is in. If
-   * not specified, Pipeline will appear at the root level.
-   */
-  folder?: PipelineFolder;
 }
 
 /**
@@ -1599,34 +1523,6 @@ export interface RerunTumblingWindowTriggerActionParameters {
 
 /**
  * @interface
- * An interface representing RerunTumblingWindowTriggerTypeProperties.
- * Rerun Trigger properties.
- *
- */
-export interface RerunTumblingWindowTriggerTypeProperties {
-  /**
-   * @member {any} [parentTrigger] The parent trigger reference.
-   */
-  parentTrigger?: any;
-  /**
-   * @member {Date} requestedStartTime The start time for the time period for
-   * which restatement is initiated. Only UTC time is currently supported.
-   */
-  requestedStartTime: Date;
-  /**
-   * @member {Date} requestedEndTime The end time for the time period for which
-   * restatement is initiated. Only UTC time is currently supported.
-   */
-  requestedEndTime: Date;
-  /**
-   * @member {number} maxConcurrency The max number of parallel time windows
-   * (ready for execution) for which a rerun is triggered.
-   */
-  maxConcurrency: number;
-}
-
-/**
- * @interface
  * An interface representing RerunTumblingWindowTrigger.
  * Trigger that schedules pipeline reruns for all fixed time interval windows
  * from a requested start time to requested end time.
@@ -1847,20 +1743,6 @@ export interface OperationServiceSpecification {
 
 /**
  * @interface
- * An interface representing OperationProperties.
- * Additional details about an operation.
- *
- */
-export interface OperationProperties {
-  /**
-   * @member {OperationServiceSpecification} [serviceSpecification] Details
-   * about a service operation.
-   */
-  serviceSpecification?: OperationServiceSpecification;
-}
-
-/**
- * @interface
  * An interface representing Operation.
  * Azure Data Factory API operation definition.
  *
@@ -2012,59 +1894,6 @@ export interface RetryPolicy {
 
 /**
  * @interface
- * An interface representing TumblingWindowTriggerTypeProperties.
- * Tumbling Window Trigger properties.
- *
- */
-export interface TumblingWindowTriggerTypeProperties {
-  /**
-   * @member {TumblingWindowFrequency} frequency The frequency of the time
-   * windows. Possible values include: 'Minute', 'Hour'
-   */
-  frequency: TumblingWindowFrequency;
-  /**
-   * @member {number} interval The interval of the time windows. The minimum
-   * interval allowed is 15 Minutes.
-   */
-  interval: number;
-  /**
-   * @member {Date} startTime The start time for the time period for the
-   * trigger during which events are fired for windows that are ready. Only UTC
-   * time is currently supported.
-   */
-  startTime: Date;
-  /**
-   * @member {Date} [endTime] The end time for the time period for the trigger
-   * during which events are fired for windows that are ready. Only UTC time is
-   * currently supported.
-   */
-  endTime?: Date;
-  /**
-   * @member {any} [delay] Specifies how long the trigger waits past due time
-   * before triggering new run. It doesn't alter window start and end time. The
-   * default is 0. Type: string (or Expression with resultType string),
-   * pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  delay?: any;
-  /**
-   * @member {number} maxConcurrency The max number of parallel time windows
-   * (ready for execution) for which a new run is triggered.
-   */
-  maxConcurrency: number;
-  /**
-   * @member {RetryPolicy} [retryPolicy] Retry policy that will be applied for
-   * failed pipeline runs.
-   */
-  retryPolicy?: RetryPolicy;
-  /**
-   * @member {DependencyReferenceUnion[]} [dependsOn] Triggers that this
-   * trigger depends on. Only tumbling window triggers are supported.
-   */
-  dependsOn?: DependencyReferenceUnion[];
-}
-
-/**
- * @interface
  * An interface representing TumblingWindowTrigger.
  * Trigger that schedules pipeline runs for all fixed time interval windows
  * from a start time without gaps and also supports backfill scenarios (when
@@ -2137,39 +1966,6 @@ export interface TumblingWindowTrigger {
    * trigger depends on. Only tumbling window triggers are supported.
    */
   dependsOn?: DependencyReferenceUnion[];
-}
-
-/**
- * @interface
- * An interface representing BlobEventsTriggerTypeProperties.
- * Blob Events Trigger properties.
- *
- */
-export interface BlobEventsTriggerTypeProperties {
-  /**
-   * @member {string} [blobPathBeginsWith] The blob path must begin with the
-   * pattern provided for trigger to fire. For example,
-   * '/records/blobs/december/' will only fire the trigger for blobs in the
-   * december folder under the records container. At least one of these must be
-   * provided: blobPathBeginsWith, blobPathEndsWith.
-   */
-  blobPathBeginsWith?: string;
-  /**
-   * @member {string} [blobPathEndsWith] The blob path must end with the
-   * pattern provided for trigger to fire. For example, 'december/boxes.csv'
-   * will only fire the trigger for blobs named boxes in a december folder. At
-   * least one of these must be provided: blobPathBeginsWith, blobPathEndsWith.
-   */
-  blobPathEndsWith?: string;
-  /**
-   * @member {BlobEventTypes[]} events The type of events that cause this
-   * trigger to fire.
-   */
-  events: BlobEventTypes[];
-  /**
-   * @member {string} scope The ARM resource ID of the Storage Account.
-   */
-  scope: string;
 }
 
 /**
@@ -2260,30 +2056,6 @@ export interface BlobEventsTrigger {
    * @member {string} scope The ARM resource ID of the Storage Account.
    */
   scope: string;
-}
-
-/**
- * @interface
- * An interface representing BlobTriggerTypeProperties.
- * Blob Trigger properties.
- *
- */
-export interface BlobTriggerTypeProperties {
-  /**
-   * @member {string} folderPath The path of the container/folder that will
-   * trigger the pipeline.
-   */
-  folderPath: string;
-  /**
-   * @member {number} maxConcurrency The max number of parallel files to handle
-   * when it is triggered.
-   */
-  maxConcurrency: number;
-  /**
-   * @member {LinkedServiceReference} linkedService The Azure Storage linked
-   * service reference.
-   */
-  linkedService: LinkedServiceReference;
 }
 
 /**
@@ -2431,20 +2203,6 @@ export interface ScheduleTriggerRecurrence {
 
 /**
  * @interface
- * An interface representing ScheduleTriggerTypeProperties.
- * Schedule Trigger properties.
- *
- */
-export interface ScheduleTriggerTypeProperties {
-  /**
-   * @member {ScheduleTriggerRecurrence} recurrence Recurrence schedule
-   * configuration.
-   */
-  recurrence: ScheduleTriggerRecurrence;
-}
-
-/**
- * @interface
  * An interface representing ScheduleTrigger.
  * Trigger that creates pipeline runs periodically, on schedule.
  *
@@ -2476,55 +2234,6 @@ export interface ScheduleTrigger {
    * configuration.
    */
   recurrence: ScheduleTriggerRecurrence;
-}
-
-/**
- * @interface
- * An interface representing ResponsysLinkedServiceTypeProperties.
- * Responsys linked service properties.
- *
- */
-export interface ResponsysLinkedServiceTypeProperties {
-  /**
-   * @member {any} endpoint The endpoint of the Responsys server.
-   */
-  endpoint: any;
-  /**
-   * @member {any} clientId The client ID associated with the Responsys
-   * application. Type: string (or Expression with resultType string).
-   */
-  clientId: any;
-  /**
-   * @member {SecretBaseUnion} [clientSecret] The client secret associated with
-   * the Responsys application. Type: string (or Expression with resultType
-   * string).
-   */
-  clientSecret?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true. Type:
-   * boolean (or Expression with resultType boolean).
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true. Type: boolean (or
-   * Expression with resultType boolean).
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true. Type: boolean (or Expression with resultType boolean).
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
 }
 
 /**
@@ -2591,72 +2300,6 @@ export interface ResponsysLinkedService {
    * true. Type: boolean (or Expression with resultType boolean).
    */
   usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing AzureDatabricksLinkedServiceTypeProperties.
- * Azure Databricks linked service properties.
- *
- */
-export interface AzureDatabricksLinkedServiceTypeProperties {
-  /**
-   * @member {any} domain <REGION>.azuredatabricks.net, domain name of your
-   * Databricks deployment. Type: string (or Expression with resultType
-   * string).
-   */
-  domain: any;
-  /**
-   * @member {SecretBaseUnion} accessToken Access token for databricks REST
-   * API. Refer to
-   * https://docs.azuredatabricks.net/api/latest/authentication.html. Type:
-   * string (or Expression with resultType string).
-   */
-  accessToken: SecretBaseUnion;
-  /**
-   * @member {any} [existingClusterId] The id of an existing cluster that will
-   * be used for all runs of this job. Type: string (or Expression with
-   * resultType string).
-   */
-  existingClusterId?: any;
-  /**
-   * @member {any} [newClusterVersion] The Spark version of new cluster. Type:
-   * string (or Expression with resultType string).
-   */
-  newClusterVersion?: any;
-  /**
-   * @member {any} [newClusterNumOfWorker] Number of worker nodes that new
-   * cluster should have. A string formatted Int32, like '1' means numOfWorker
-   * is 1 or '1:10' means auto-scale from 1 as min and 10 as max. Type: string
-   * (or Expression with resultType string).
-   */
-  newClusterNumOfWorker?: any;
-  /**
-   * @member {any} [newClusterNodeType] The node types of new cluster. Type:
-   * string (or Expression with resultType string).
-   */
-  newClusterNodeType?: any;
-  /**
-   * @member {{ [propertyName: string]: any }} [newClusterSparkConf] A set of
-   * optional, user-specified Spark configuration key-value pairs.
-   */
-  newClusterSparkConf?: { [propertyName: string]: any };
-  /**
-   * @member {{ [propertyName: string]: any }} [newClusterSparkEnvVars] A set
-   * of optional, user-specified Spark environment variables key-value pairs.
-   */
-  newClusterSparkEnvVars?: { [propertyName: string]: any };
-  /**
-   * @member {{ [propertyName: string]: any }} [newClusterCustomTags]
-   * Additional tags for cluster resources.
-   */
-  newClusterCustomTags?: { [propertyName: string]: any };
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -2746,59 +2389,6 @@ export interface AzureDatabricksLinkedService {
    * Additional tags for cluster resources.
    */
   newClusterCustomTags?: { [propertyName: string]: any };
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing AzureDataLakeAnalyticsLinkedServiceTypeProperties.
- * Azure Data Lake Analytics linked service properties.
- *
- */
-export interface AzureDataLakeAnalyticsLinkedServiceTypeProperties {
-  /**
-   * @member {any} accountName The Azure Data Lake Analytics account name.
-   * Type: string (or Expression with resultType string).
-   */
-  accountName: any;
-  /**
-   * @member {any} [servicePrincipalId] The ID of the application used to
-   * authenticate against the Azure Data Lake Analytics account. Type: string
-   * (or Expression with resultType string).
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] The Key of the application
-   * used to authenticate against the Azure Data Lake Analytics account.
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {any} tenant The name or ID of the tenant to which the service
-   * principal belongs. Type: string (or Expression with resultType string).
-   */
-  tenant: any;
-  /**
-   * @member {any} [subscriptionId] Data Lake Analytics account subscription ID
-   * (if different from Data Factory account). Type: string (or Expression with
-   * resultType string).
-   */
-  subscriptionId?: any;
-  /**
-   * @member {any} [resourceGroupName] Data Lake Analytics account resource
-   * group name (if different from Data Factory account). Type: string (or
-   * Expression with resultType string).
-   */
-  resourceGroupName?: any;
-  /**
-   * @member {any} [dataLakeAnalyticsUri] Azure Data Lake Analytics URI Type:
-   * string (or Expression with resultType string).
-   */
-  dataLakeAnalyticsUri?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -2907,181 +2497,6 @@ export interface ScriptAction {
    * @member {string} [parameters] The parameters for the script action.
    */
   parameters?: string;
-}
-
-/**
- * @interface
- * An interface representing HDInsightOnDemandLinkedServiceTypeProperties.
- * HDInsight ondemand linked service properties.
- *
- */
-export interface HDInsightOnDemandLinkedServiceTypeProperties {
-  /**
-   * @member {any} clusterSize Number of worker/data nodes in the cluster.
-   * Suggestion value: 4. Type: string (or Expression with resultType string).
-   */
-  clusterSize: any;
-  /**
-   * @member {any} timeToLive The allowed idle time for the on-demand HDInsight
-   * cluster. Specifies how long the on-demand HDInsight cluster stays alive
-   * after completion of an activity run if there are no other active jobs in
-   * the cluster. The minimum value is 5 mins. Type: string (or Expression with
-   * resultType string).
-   */
-  timeToLive: any;
-  /**
-   * @member {any} version Version of the HDInsight cluster.  Type: string (or
-   * Expression with resultType string).
-   */
-  version: any;
-  /**
-   * @member {LinkedServiceReference} linkedServiceName Azure Storage linked
-   * service to be used by the on-demand cluster for storing and processing
-   * data.
-   */
-  linkedServiceName: LinkedServiceReference;
-  /**
-   * @member {any} hostSubscriptionId The customer’s subscription to host the
-   * cluster. Type: string (or Expression with resultType string).
-   */
-  hostSubscriptionId: any;
-  /**
-   * @member {any} [servicePrincipalId] The service principal id for the
-   * hostSubscriptionId. Type: string (or Expression with resultType string).
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] The key for the service
-   * principal id.
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {any} tenant The Tenant id/name to which the service principal
-   * belongs. Type: string (or Expression with resultType string).
-   */
-  tenant: any;
-  /**
-   * @member {any} clusterResourceGroup The resource group where the cluster
-   * belongs. Type: string (or Expression with resultType string).
-   */
-  clusterResourceGroup: any;
-  /**
-   * @member {any} [clusterNamePrefix] The prefix of cluster name, postfix will
-   * be distinct with timestamp. Type: string (or Expression with resultType
-   * string).
-   */
-  clusterNamePrefix?: any;
-  /**
-   * @member {any} [clusterUserName] The username to access the cluster. Type:
-   * string (or Expression with resultType string).
-   */
-  clusterUserName?: any;
-  /**
-   * @member {SecretBaseUnion} [clusterPassword] The password to access the
-   * cluster.
-   */
-  clusterPassword?: SecretBaseUnion;
-  /**
-   * @member {any} [clusterSshUserName] The username to SSH remotely connect to
-   * cluster’s node (for Linux). Type: string (or Expression with resultType
-   * string).
-   */
-  clusterSshUserName?: any;
-  /**
-   * @member {SecretBaseUnion} [clusterSshPassword] The password to SSH
-   * remotely connect cluster’s node (for Linux).
-   */
-  clusterSshPassword?: SecretBaseUnion;
-  /**
-   * @member {LinkedServiceReference[]} [additionalLinkedServiceNames]
-   * Specifies additional storage accounts for the HDInsight linked service so
-   * that the Data Factory service can register them on your behalf.
-   */
-  additionalLinkedServiceNames?: LinkedServiceReference[];
-  /**
-   * @member {LinkedServiceReference} [hcatalogLinkedServiceName] The name of
-   * Azure SQL linked service that point to the HCatalog database. The
-   * on-demand HDInsight cluster is created by using the Azure SQL database as
-   * the metastore.
-   */
-  hcatalogLinkedServiceName?: LinkedServiceReference;
-  /**
-   * @member {any} [clusterType] The cluster type. Type: string (or Expression
-   * with resultType string).
-   */
-  clusterType?: any;
-  /**
-   * @member {any} [sparkVersion] The version of spark if the cluster type is
-   * 'spark'. Type: string (or Expression with resultType string).
-   */
-  sparkVersion?: any;
-  /**
-   * @member {any} [coreConfiguration] Specifies the core configuration
-   * parameters (as in core-site.xml) for the HDInsight cluster to be created.
-   */
-  coreConfiguration?: any;
-  /**
-   * @member {any} [hBaseConfiguration] Specifies the HBase configuration
-   * parameters (hbase-site.xml) for the HDInsight cluster.
-   */
-  hBaseConfiguration?: any;
-  /**
-   * @member {any} [hdfsConfiguration] Specifies the HDFS configuration
-   * parameters (hdfs-site.xml) for the HDInsight cluster.
-   */
-  hdfsConfiguration?: any;
-  /**
-   * @member {any} [hiveConfiguration] Specifies the hive configuration
-   * parameters (hive-site.xml) for the HDInsight cluster.
-   */
-  hiveConfiguration?: any;
-  /**
-   * @member {any} [mapReduceConfiguration] Specifies the MapReduce
-   * configuration parameters (mapred-site.xml) for the HDInsight cluster.
-   */
-  mapReduceConfiguration?: any;
-  /**
-   * @member {any} [oozieConfiguration] Specifies the Oozie configuration
-   * parameters (oozie-site.xml) for the HDInsight cluster.
-   */
-  oozieConfiguration?: any;
-  /**
-   * @member {any} [stormConfiguration] Specifies the Storm configuration
-   * parameters (storm-site.xml) for the HDInsight cluster.
-   */
-  stormConfiguration?: any;
-  /**
-   * @member {any} [yarnConfiguration] Specifies the Yarn configuration
-   * parameters (yarn-site.xml) for the HDInsight cluster.
-   */
-  yarnConfiguration?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-  /**
-   * @member {any} [headNodeSize] Specifies the size of the head node for the
-   * HDInsight cluster.
-   */
-  headNodeSize?: any;
-  /**
-   * @member {any} [dataNodeSize] Specifies the size of the data node for the
-   * HDInsight cluster.
-   */
-  dataNodeSize?: any;
-  /**
-   * @member {any} [zookeeperNodeSize] Specifies the size of the Zoo Keeper
-   * node for the HDInsight cluster.
-   */
-  zookeeperNodeSize?: any;
-  /**
-   * @member {ScriptAction[]} [scriptActions] Custom script actions to run on
-   * HDI ondemand cluster once it's up. Please refer to
-   * https://docs.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-customize-cluster-linux?toc=%2Fen-us%2Fazure%2Fhdinsight%2Fr-server%2FTOC.json&bc=%2Fen-us%2Fazure%2Fbread%2Ftoc.json#understanding-script-actions.
-   */
-  scriptActions?: ScriptAction[];
 }
 
 /**
@@ -3284,52 +2699,6 @@ export interface HDInsightOnDemandLinkedService {
 
 /**
  * @interface
- * An interface representing SalesforceMarketingCloudLinkedServiceTypeProperties.
- * Salesforce Marketing Cloud linked service properties.
- *
- */
-export interface SalesforceMarketingCloudLinkedServiceTypeProperties {
-  /**
-   * @member {any} clientId The client ID associated with the Salesforce
-   * Marketing Cloud application. Type: string (or Expression with resultType
-   * string).
-   */
-  clientId: any;
-  /**
-   * @member {SecretBaseUnion} [clientSecret] The client secret associated with
-   * the Salesforce Marketing Cloud application. Type: string (or Expression
-   * with resultType string).
-   */
-  clientSecret?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true. Type:
-   * boolean (or Expression with resultType boolean).
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true. Type: boolean (or
-   * Expression with resultType boolean).
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true. Type: boolean (or Expression with resultType boolean).
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing SalesforceMarketingCloudLinkedService.
  * Salesforce Marketing Cloud linked service.
  *
@@ -3399,26 +2768,6 @@ export interface SalesforceMarketingCloudLinkedService {
 
 /**
  * @interface
- * An interface representing NetezzaLinkedServiceTypeProperties.
- * Netezza linked service properties.
- *
- */
-export interface NetezzaLinkedServiceTypeProperties {
-  /**
-   * @member {any} [connectionString] An ODBC connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing NetezzaLinkedService.
  * Netezza linked service.
  *
@@ -3447,26 +2796,6 @@ export interface NetezzaLinkedService {
    * the Dataset.
    */
   annotations?: any[];
-  /**
-   * @member {any} [connectionString] An ODBC connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing VerticaLinkedServiceTypeProperties.
- * Vertica linked service properties.
- *
- */
-export interface VerticaLinkedServiceTypeProperties {
   /**
    * @member {any} [connectionString] An ODBC connection string. Type: string,
    * SecureString or AzureKeyVaultSecretReference.
@@ -3525,48 +2854,6 @@ export interface VerticaLinkedService {
 
 /**
  * @interface
- * An interface representing ZohoLinkedServiceTypeProperties.
- * Zoho server linked service properties.
- *
- */
-export interface ZohoLinkedServiceTypeProperties {
-  /**
-   * @member {any} endpoint The endpoint of the Zoho server. (i.e.
-   * crm.zoho.com/crm/private)
-   */
-  endpoint: any;
-  /**
-   * @member {SecretBaseUnion} [accessToken] The access token for Zoho
-   * authentication.
-   */
-  accessToken?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing ZohoLinkedService.
  * Zoho server linked service.
  *
@@ -3605,54 +2892,6 @@ export interface ZohoLinkedService {
    * authentication.
    */
   accessToken?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing XeroLinkedServiceTypeProperties.
- * Xero Serivce linked service properties.
- *
- */
-export interface XeroLinkedServiceTypeProperties {
-  /**
-   * @member {any} host The endpoint of the Xero server. (i.e. api.xero.com)
-   */
-  host: any;
-  /**
-   * @member {SecretBaseUnion} [consumerKey] The consumer key associated with
-   * the Xero application.
-   */
-  consumerKey?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [privateKey] The private key from the .pem file
-   * that was generated for your Xero private application. You must include all
-   * the text from the .pem file, including the Unix line endings(
-   * ).
-   */
-  privateKey?: SecretBaseUnion;
   /**
    * @member {any} [useEncryptedEndpoints] Specifies whether the data source
    * endpoints are encrypted using HTTPS. The default value is true.
@@ -3751,58 +2990,6 @@ export interface XeroLinkedService {
 
 /**
  * @interface
- * An interface representing SquareLinkedServiceTypeProperties.
- * Square Serivce linked service properties.
- *
- */
-export interface SquareLinkedServiceTypeProperties {
-  /**
-   * @member {any} host The URL of the Square instance. (i.e.
-   * mystore.mysquare.com)
-   */
-  host: any;
-  /**
-   * @member {any} clientId The client ID associated with your Square
-   * application.
-   */
-  clientId: any;
-  /**
-   * @member {SecretBaseUnion} [clientSecret] The client secret associated with
-   * your Square application.
-   */
-  clientSecret?: SecretBaseUnion;
-  /**
-   * @member {any} redirectUri The redirect URL assigned in the Square
-   * application dashboard. (i.e. http://localhost:2500)
-   */
-  redirectUri: any;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing SquareLinkedService.
  * Square Serivce linked service.
  *
@@ -3868,92 +3055,6 @@ export interface SquareLinkedService {
    * true.
    */
   usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing SparkLinkedServiceTypeProperties.
- * Spark Server linked service properties.
- *
- */
-export interface SparkLinkedServiceTypeProperties {
-  /**
-   * @member {any} host IP address or host name of the Spark server
-   */
-  host: any;
-  /**
-   * @member {any} port The TCP port that the Spark server uses to listen for
-   * client connections.
-   */
-  port: any;
-  /**
-   * @member {SparkServerType} [serverType] The type of Spark server. Possible
-   * values include: 'SharkServer', 'SharkServer2', 'SparkThriftServer'
-   */
-  serverType?: SparkServerType;
-  /**
-   * @member {SparkThriftTransportProtocol} [thriftTransportProtocol] The
-   * transport protocol to use in the Thrift layer. Possible values include:
-   * 'Binary', 'SASL', 'HTTP '
-   */
-  thriftTransportProtocol?: SparkThriftTransportProtocol;
-  /**
-   * @member {SparkAuthenticationType} authenticationType The authentication
-   * method used to access the Spark server. Possible values include:
-   * 'Anonymous', 'Username', 'UsernameAndPassword',
-   * 'WindowsAzureHDInsightService'
-   */
-  authenticationType: SparkAuthenticationType;
-  /**
-   * @member {any} [username] The user name that you use to access Spark
-   * Server.
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password corresponding to the
-   * user name that you provided in the Username field
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [httpPath] The partial URL corresponding to the Spark
-   * server.
-   */
-  httpPath?: any;
-  /**
-   * @member {any} [enableSsl] Specifies whether the connections to the server
-   * are encrypted using SSL. The default value is false.
-   */
-  enableSsl?: any;
-  /**
-   * @member {any} [trustedCertPath] The full path of the .pem file containing
-   * trusted CA certificates for verifying the server when connecting over SSL.
-   * This property can only be set when using SSL on self-hosted IR. The
-   * default value is the cacerts.pem file installed with the IR.
-   */
-  trustedCertPath?: any;
-  /**
-   * @member {any} [useSystemTrustStore] Specifies whether to use a CA
-   * certificate from the system trust store or from a specified PEM file. The
-   * default value is false.
-   */
-  useSystemTrustStore?: any;
-  /**
-   * @member {any} [allowHostNameCNMismatch] Specifies whether to require a
-   * CA-issued SSL certificate name to match the host name of the server when
-   * connecting over SSL. The default value is false.
-   */
-  allowHostNameCNMismatch?: any;
-  /**
-   * @member {any} [allowSelfSignedServerCert] Specifies whether to allow
-   * self-signed certificates from the server. The default value is false.
-   */
-  allowSelfSignedServerCert?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -4073,49 +3174,6 @@ export interface SparkLinkedService {
 
 /**
  * @interface
- * An interface representing ShopifyLinkedServiceTypeProperties.
- * Shopify Serivce linked service properties.
- *
- */
-export interface ShopifyLinkedServiceTypeProperties {
-  /**
-   * @member {any} host The endpoint of the Shopify server. (i.e.
-   * mystore.myshopify.com)
-   */
-  host: any;
-  /**
-   * @member {SecretBaseUnion} [accessToken] The API access token that can be
-   * used to access Shopify’s data. The token won't expire if it is offline
-   * mode.
-   */
-  accessToken?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing ShopifyLinkedService.
  * Shopify Serivce linked service.
  *
@@ -4155,67 +3213,6 @@ export interface ShopifyLinkedService {
    * mode.
    */
   accessToken?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing ServiceNowLinkedServiceTypeProperties.
- * ServiceNow server linked service properties.
- *
- */
-export interface ServiceNowLinkedServiceTypeProperties {
-  /**
-   * @member {any} endpoint The endpoint of the ServiceNow server. (i.e.
-   * <instance>.service-now.com)
-   */
-  endpoint: any;
-  /**
-   * @member {ServiceNowAuthenticationType} authenticationType The
-   * authentication type to use. Possible values include: 'Basic', 'OAuth2'
-   */
-  authenticationType: ServiceNowAuthenticationType;
-  /**
-   * @member {any} [username] The user name used to connect to the ServiceNow
-   * server for Basic and OAuth2 authentication.
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password corresponding to the
-   * user name for Basic and OAuth2 authentication.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [clientId] The client id for OAuth2 authentication.
-   */
-  clientId?: any;
-  /**
-   * @member {SecretBaseUnion} [clientSecret] The client secret for OAuth2
-   * authentication.
-   */
-  clientSecret?: SecretBaseUnion;
   /**
    * @member {any} [useEncryptedEndpoints] Specifies whether the data source
    * endpoints are encrypted using HTTPS. The default value is true.
@@ -4327,55 +3324,6 @@ export interface ServiceNowLinkedService {
 
 /**
  * @interface
- * An interface representing QuickBooksLinkedServiceTypeProperties.
- * QuickBooks server linked service properties.
- *
- */
-export interface QuickBooksLinkedServiceTypeProperties {
-  /**
-   * @member {any} endpoint The endpoint of the QuickBooks server. (i.e.
-   * quickbooks.api.intuit.com)
-   */
-  endpoint: any;
-  /**
-   * @member {any} companyId The company ID of the QuickBooks company to
-   * authorize.
-   */
-  companyId: any;
-  /**
-   * @member {any} consumerKey The consumer key for OAuth 1.0 authentication.
-   */
-  consumerKey: any;
-  /**
-   * @member {SecretBaseUnion} consumerSecret The consumer secret for OAuth 1.0
-   * authentication.
-   */
-  consumerSecret: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} accessToken The access token for OAuth 1.0
-   * authentication.
-   */
-  accessToken: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} accessTokenSecret The access token secret for
-   * OAuth 1.0 authentication.
-   */
-  accessTokenSecret: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing QuickBooksLinkedService.
  * QuickBooks server linked service.
  *
@@ -4438,92 +3386,6 @@ export interface QuickBooksLinkedService {
    * endpoints are encrypted using HTTPS. The default value is true.
    */
   useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing PrestoLinkedServiceTypeProperties.
- * Presto server linked service properties.
- *
- */
-export interface PrestoLinkedServiceTypeProperties {
-  /**
-   * @member {any} host The IP address or host name of the Presto server. (i.e.
-   * 192.168.222.160)
-   */
-  host: any;
-  /**
-   * @member {any} serverVersion The version of the Presto server. (i.e.
-   * 0.148-t)
-   */
-  serverVersion: any;
-  /**
-   * @member {any} catalog The catalog context for all request against the
-   * server.
-   */
-  catalog: any;
-  /**
-   * @member {any} [port] The TCP port that the Presto server uses to listen
-   * for client connections. The default value is 8080.
-   */
-  port?: any;
-  /**
-   * @member {PrestoAuthenticationType} authenticationType The authentication
-   * mechanism used to connect to the Presto server. Possible values include:
-   * 'Anonymous', 'LDAP'
-   */
-  authenticationType: PrestoAuthenticationType;
-  /**
-   * @member {any} [username] The user name used to connect to the Presto
-   * server.
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password corresponding to the
-   * user name.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [enableSsl] Specifies whether the connections to the server
-   * are encrypted using SSL. The default value is false.
-   */
-  enableSsl?: any;
-  /**
-   * @member {any} [trustedCertPath] The full path of the .pem file containing
-   * trusted CA certificates for verifying the server when connecting over SSL.
-   * This property can only be set when using SSL on self-hosted IR. The
-   * default value is the cacerts.pem file installed with the IR.
-   */
-  trustedCertPath?: any;
-  /**
-   * @member {any} [useSystemTrustStore] Specifies whether to use a CA
-   * certificate from the system trust store or from a specified PEM file. The
-   * default value is false.
-   */
-  useSystemTrustStore?: any;
-  /**
-   * @member {any} [allowHostNameCNMismatch] Specifies whether to require a
-   * CA-issued SSL certificate name to match the host name of the server when
-   * connecting over SSL. The default value is false.
-   */
-  allowHostNameCNMismatch?: any;
-  /**
-   * @member {any} [allowSelfSignedServerCert] Specifies whether to allow
-   * self-signed certificates from the server. The default value is false.
-   */
-  allowSelfSignedServerCert?: any;
-  /**
-   * @member {any} [timeZoneID] The local time zone used by the connection.
-   * Valid values for this option are specified in the IANA Time Zone Database.
-   * The default value is the system time zone.
-   */
-  timeZoneID?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -4643,82 +3505,6 @@ export interface PrestoLinkedService {
 
 /**
  * @interface
- * An interface representing PhoenixLinkedServiceTypeProperties.
- * Phoenix server linked service properties.
- *
- */
-export interface PhoenixLinkedServiceTypeProperties {
-  /**
-   * @member {any} host The IP address or host name of the Phoenix server.
-   * (i.e. 192.168.222.160)
-   */
-  host: any;
-  /**
-   * @member {any} [port] The TCP port that the Phoenix server uses to listen
-   * for client connections. The default value is 8765.
-   */
-  port?: any;
-  /**
-   * @member {any} [httpPath] The partial URL corresponding to the Phoenix
-   * server. (i.e. /gateway/sandbox/phoenix/version). The default value is
-   * hbasephoenix if using WindowsAzureHDInsightService.
-   */
-  httpPath?: any;
-  /**
-   * @member {PhoenixAuthenticationType} authenticationType The authentication
-   * mechanism used to connect to the Phoenix server. Possible values include:
-   * 'Anonymous', 'UsernameAndPassword', 'WindowsAzureHDInsightService'
-   */
-  authenticationType: PhoenixAuthenticationType;
-  /**
-   * @member {any} [username] The user name used to connect to the Phoenix
-   * server.
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password corresponding to the
-   * user name.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [enableSsl] Specifies whether the connections to the server
-   * are encrypted using SSL. The default value is false.
-   */
-  enableSsl?: any;
-  /**
-   * @member {any} [trustedCertPath] The full path of the .pem file containing
-   * trusted CA certificates for verifying the server when connecting over SSL.
-   * This property can only be set when using SSL on self-hosted IR. The
-   * default value is the cacerts.pem file installed with the IR.
-   */
-  trustedCertPath?: any;
-  /**
-   * @member {any} [useSystemTrustStore] Specifies whether to use a CA
-   * certificate from the system trust store or from a specified PEM file. The
-   * default value is false.
-   */
-  useSystemTrustStore?: any;
-  /**
-   * @member {any} [allowHostNameCNMismatch] Specifies whether to require a
-   * CA-issued SSL certificate name to match the host name of the server when
-   * connecting over SSL. The default value is false.
-   */
-  allowHostNameCNMismatch?: any;
-  /**
-   * @member {any} [allowSelfSignedServerCert] Specifies whether to allow
-   * self-signed certificates from the server. The default value is false.
-   */
-  allowSelfSignedServerCert?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing PhoenixLinkedService.
  * Phoenix server linked service.
  *
@@ -4818,53 +3604,6 @@ export interface PhoenixLinkedService {
 
 /**
  * @interface
- * An interface representing PaypalLinkedServiceTypeProperties.
- * Paypal Serivce linked service properties.
- *
- */
-export interface PaypalLinkedServiceTypeProperties {
-  /**
-   * @member {any} host The URL of the PayPal instance. (i.e.
-   * api.sandbox.paypal.com)
-   */
-  host: any;
-  /**
-   * @member {any} clientId The client ID associated with your PayPal
-   * application.
-   */
-  clientId: any;
-  /**
-   * @member {SecretBaseUnion} [clientSecret] The client secret associated with
-   * your PayPal application.
-   */
-  clientSecret?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing PaypalLinkedService.
  * Paypal Serivce linked service.
  *
@@ -4906,52 +3645,6 @@ export interface PaypalLinkedService {
   /**
    * @member {SecretBaseUnion} [clientSecret] The client secret associated with
    * your PayPal application.
-   */
-  clientSecret?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing MarketoLinkedServiceTypeProperties.
- * Marketo server linked service properties.
- *
- */
-export interface MarketoLinkedServiceTypeProperties {
-  /**
-   * @member {any} endpoint The endpoint of the Marketo server. (i.e.
-   * 123-ABC-321.mktorest.com)
-   */
-  endpoint: any;
-  /**
-   * @member {any} clientId The client Id of your Marketo service.
-   */
-  clientId: any;
-  /**
-   * @member {SecretBaseUnion} [clientSecret] The client secret of your Marketo
-   * service.
    */
   clientSecret?: SecretBaseUnion;
   /**
@@ -5050,26 +3743,6 @@ export interface MarketoLinkedService {
 
 /**
  * @interface
- * An interface representing MariaDBLinkedServiceTypeProperties.
- * MariaDB server linked service properties.
- *
- */
-export interface MariaDBLinkedServiceTypeProperties {
-  /**
-   * @member {any} [connectionString] An ODBC connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing MariaDBLinkedService.
  * MariaDB server linked service.
  *
@@ -5103,47 +3776,6 @@ export interface MariaDBLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing MagentoLinkedServiceTypeProperties.
- * Magento server linked service properties.
- *
- */
-export interface MagentoLinkedServiceTypeProperties {
-  /**
-   * @member {any} host The URL of the Magento instance. (i.e.
-   * 192.168.222.110/magento3)
-   */
-  host: any;
-  /**
-   * @member {SecretBaseUnion} [accessToken] The access token from Magento.
-   */
-  accessToken?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -5191,58 +3823,6 @@ export interface MagentoLinkedService {
    * @member {SecretBaseUnion} [accessToken] The access token from Magento.
    */
   accessToken?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing JiraLinkedServiceTypeProperties.
- * Jira Serivce linked service properties.
- *
- */
-export interface JiraLinkedServiceTypeProperties {
-  /**
-   * @member {any} host The IP address or host name of the Jira service. (e.g.
-   * jira.example.com)
-   */
-  host: any;
-  /**
-   * @member {any} [port] The TCP port that the Jira server uses to listen for
-   * client connections. The default value is 443 if connecting through HTTPS,
-   * or 8080 if connecting through HTTP.
-   */
-  port?: any;
-  /**
-   * @member {any} username The user name that you use to access Jira Service.
-   */
-  username: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password corresponding to the
-   * user name that you provided in the username field.
-   */
-  password?: SecretBaseUnion;
   /**
    * @member {any} [useEncryptedEndpoints] Specifies whether the data source
    * endpoints are encrypted using HTTPS. The default value is true.
@@ -5335,76 +3915,6 @@ export interface JiraLinkedService {
    * true.
    */
   usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing ImpalaLinkedServiceTypeProperties.
- * Impala server linked service properties.
- *
- */
-export interface ImpalaLinkedServiceTypeProperties {
-  /**
-   * @member {any} host The IP address or host name of the Impala server. (i.e.
-   * 192.168.222.160)
-   */
-  host: any;
-  /**
-   * @member {any} [port] The TCP port that the Impala server uses to listen
-   * for client connections. The default value is 21050.
-   */
-  port?: any;
-  /**
-   * @member {ImpalaAuthenticationType} authenticationType The authentication
-   * type to use. Possible values include: 'Anonymous', 'SASLUsername',
-   * 'UsernameAndPassword'
-   */
-  authenticationType: ImpalaAuthenticationType;
-  /**
-   * @member {any} [username] The user name used to access the Impala server.
-   * The default value is anonymous when using SASLUsername.
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password corresponding to the
-   * user name when using UsernameAndPassword.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [enableSsl] Specifies whether the connections to the server
-   * are encrypted using SSL. The default value is false.
-   */
-  enableSsl?: any;
-  /**
-   * @member {any} [trustedCertPath] The full path of the .pem file containing
-   * trusted CA certificates for verifying the server when connecting over SSL.
-   * This property can only be set when using SSL on self-hosted IR. The
-   * default value is the cacerts.pem file installed with the IR.
-   */
-  trustedCertPath?: any;
-  /**
-   * @member {any} [useSystemTrustStore] Specifies whether to use a CA
-   * certificate from the system trust store or from a specified PEM file. The
-   * default value is false.
-   */
-  useSystemTrustStore?: any;
-  /**
-   * @member {any} [allowHostNameCNMismatch] Specifies whether to require a
-   * CA-issued SSL certificate name to match the host name of the server when
-   * connecting over SSL. The default value is false.
-   */
-  allowHostNameCNMismatch?: any;
-  /**
-   * @member {any} [allowSelfSignedServerCert] Specifies whether to allow
-   * self-signed certificates from the server. The default value is false.
-   */
-  allowSelfSignedServerCert?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -5508,58 +4018,6 @@ export interface ImpalaLinkedService {
 
 /**
  * @interface
- * An interface representing HubspotLinkedServiceTypeProperties.
- * Hubspot Serivce linked service properties.
- *
- */
-export interface HubspotLinkedServiceTypeProperties {
-  /**
-   * @member {any} clientId The client ID associated with your Hubspot
-   * application.
-   */
-  clientId: any;
-  /**
-   * @member {SecretBaseUnion} [clientSecret] The client secret associated with
-   * your Hubspot application.
-   */
-  clientSecret?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [accessToken] The access token obtained when
-   * initially authenticating your OAuth integration.
-   */
-  accessToken?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [refreshToken] The refresh token obtained when
-   * initially authenticating your OAuth integration.
-   */
-  refreshToken?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing HubspotLinkedService.
  * Hubspot Serivce linked service.
  *
@@ -5625,106 +4083,6 @@ export interface HubspotLinkedService {
    * true.
    */
   usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing HiveLinkedServiceTypeProperties.
- * Hive Server linked service properties.
- *
- */
-export interface HiveLinkedServiceTypeProperties {
-  /**
-   * @member {any} host IP address or host name of the Hive server, separated
-   * by ';' for multiple hosts (only when serviceDiscoveryMode is enable).
-   */
-  host: any;
-  /**
-   * @member {any} [port] The TCP port that the Hive server uses to listen for
-   * client connections.
-   */
-  port?: any;
-  /**
-   * @member {HiveServerType} [serverType] The type of Hive server. Possible
-   * values include: 'HiveServer1', 'HiveServer2', 'HiveThriftServer'
-   */
-  serverType?: HiveServerType;
-  /**
-   * @member {HiveThriftTransportProtocol} [thriftTransportProtocol] The
-   * transport protocol to use in the Thrift layer. Possible values include:
-   * 'Binary', 'SASL', 'HTTP '
-   */
-  thriftTransportProtocol?: HiveThriftTransportProtocol;
-  /**
-   * @member {HiveAuthenticationType} authenticationType The authentication
-   * method used to access the Hive server. Possible values include:
-   * 'Anonymous', 'Username', 'UsernameAndPassword',
-   * 'WindowsAzureHDInsightService'
-   */
-  authenticationType: HiveAuthenticationType;
-  /**
-   * @member {any} [serviceDiscoveryMode] true to indicate using the ZooKeeper
-   * service, false not.
-   */
-  serviceDiscoveryMode?: any;
-  /**
-   * @member {any} [zooKeeperNameSpace] The namespace on ZooKeeper under which
-   * Hive Server 2 nodes are added.
-   */
-  zooKeeperNameSpace?: any;
-  /**
-   * @member {any} [useNativeQuery] Specifies whether the driver uses native
-   * HiveQL queries,or converts them into an equivalent form in HiveQL.
-   */
-  useNativeQuery?: any;
-  /**
-   * @member {any} [username] The user name that you use to access Hive Server.
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password corresponding to the
-   * user name that you provided in the Username field
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [httpPath] The partial URL corresponding to the Hive server.
-   */
-  httpPath?: any;
-  /**
-   * @member {any} [enableSsl] Specifies whether the connections to the server
-   * are encrypted using SSL. The default value is false.
-   */
-  enableSsl?: any;
-  /**
-   * @member {any} [trustedCertPath] The full path of the .pem file containing
-   * trusted CA certificates for verifying the server when connecting over SSL.
-   * This property can only be set when using SSL on self-hosted IR. The
-   * default value is the cacerts.pem file installed with the IR.
-   */
-  trustedCertPath?: any;
-  /**
-   * @member {any} [useSystemTrustStore] Specifies whether to use a CA
-   * certificate from the system trust store or from a specified PEM file. The
-   * default value is false.
-   */
-  useSystemTrustStore?: any;
-  /**
-   * @member {any} [allowHostNameCNMismatch] Specifies whether to require a
-   * CA-issued SSL certificate name to match the host name of the server when
-   * connecting over SSL. The default value is false.
-   */
-  allowHostNameCNMismatch?: any;
-  /**
-   * @member {any} [allowSelfSignedServerCert] Specifies whether to allow
-   * self-signed certificates from the server. The default value is false.
-   */
-  allowSelfSignedServerCert?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -5858,75 +4216,6 @@ export interface HiveLinkedService {
 
 /**
  * @interface
- * An interface representing HBaseLinkedServiceTypeProperties.
- * HBase server linked service properties.
- *
- */
-export interface HBaseLinkedServiceTypeProperties {
-  /**
-   * @member {any} host The IP address or host name of the HBase server. (i.e.
-   * 192.168.222.160)
-   */
-  host: any;
-  /**
-   * @member {any} [port] The TCP port that the HBase instance uses to listen
-   * for client connections. The default value is 9090.
-   */
-  port?: any;
-  /**
-   * @member {any} [httpPath] The partial URL corresponding to the HBase
-   * server. (i.e. /gateway/sandbox/hbase/version)
-   */
-  httpPath?: any;
-  /**
-   * @member {HBaseAuthenticationType} authenticationType The authentication
-   * mechanism to use to connect to the HBase server. Possible values include:
-   * 'Anonymous', 'Basic'
-   */
-  authenticationType: HBaseAuthenticationType;
-  /**
-   * @member {any} [username] The user name used to connect to the HBase
-   * instance.
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password corresponding to the
-   * user name.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [enableSsl] Specifies whether the connections to the server
-   * are encrypted using SSL. The default value is false.
-   */
-  enableSsl?: any;
-  /**
-   * @member {any} [trustedCertPath] The full path of the .pem file containing
-   * trusted CA certificates for verifying the server when connecting over SSL.
-   * This property can only be set when using SSL on self-hosted IR. The
-   * default value is the cacerts.pem file installed with the IR.
-   */
-  trustedCertPath?: any;
-  /**
-   * @member {any} [allowHostNameCNMismatch] Specifies whether to require a
-   * CA-issued SSL certificate name to match the host name of the server when
-   * connecting over SSL. The default value is false.
-   */
-  allowHostNameCNMismatch?: any;
-  /**
-   * @member {any} [allowSelfSignedServerCert] Specifies whether to allow
-   * self-signed certificates from the server. The default value is false.
-   */
-  allowSelfSignedServerCert?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing HBaseLinkedService.
  * HBase server linked service.
  *
@@ -6019,26 +4308,6 @@ export interface HBaseLinkedService {
 
 /**
  * @interface
- * An interface representing GreenplumLinkedServiceTypeProperties.
- * Greenplum Database linked service properties.
- *
- */
-export interface GreenplumLinkedServiceTypeProperties {
-  /**
-   * @member {any} [connectionString] An ODBC connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing GreenplumLinkedService.
  * Greenplum Database linked service.
  *
@@ -6072,83 +4341,6 @@ export interface GreenplumLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing GoogleBigQueryLinkedServiceTypeProperties.
- * Google BigQuery service linked service properties.
- *
- */
-export interface GoogleBigQueryLinkedServiceTypeProperties {
-  /**
-   * @member {any} project The default BigQuery project to query against.
-   */
-  project: any;
-  /**
-   * @member {any} [additionalProjects] A comma-separated list of public
-   * BigQuery projects to access.
-   */
-  additionalProjects?: any;
-  /**
-   * @member {any} [requestGoogleDriveScope] Whether to request access to
-   * Google Drive. Allowing Google Drive access enables support for federated
-   * tables that combine BigQuery data with data from Google Drive. The default
-   * value is false.
-   */
-  requestGoogleDriveScope?: any;
-  /**
-   * @member {GoogleBigQueryAuthenticationType} authenticationType The OAuth
-   * 2.0 authentication mechanism used for authentication.
-   * ServiceAuthentication can only be used on self-hosted IR. Possible values
-   * include: 'ServiceAuthentication', 'UserAuthentication'
-   */
-  authenticationType: GoogleBigQueryAuthenticationType;
-  /**
-   * @member {SecretBaseUnion} [refreshToken] The refresh token obtained from
-   * Google for authorizing access to BigQuery for UserAuthentication.
-   */
-  refreshToken?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [clientId] The client id of the google
-   * application used to acquire the refresh token.
-   */
-  clientId?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [clientSecret] The client secret of the google
-   * application used to acquire the refresh token.
-   */
-  clientSecret?: SecretBaseUnion;
-  /**
-   * @member {any} [email] The service account email ID that is used for
-   * ServiceAuthentication and can only be used on self-hosted IR.
-   */
-  email?: any;
-  /**
-   * @member {any} [keyFilePath] The full path to the .p12 key file that is
-   * used to authenticate the service account email address and can only be
-   * used on self-hosted IR.
-   */
-  keyFilePath?: any;
-  /**
-   * @member {any} [trustedCertPath] The full path of the .pem file containing
-   * trusted CA certificates for verifying the server when connecting over SSL.
-   * This property can only be set when using SSL on self-hosted IR. The
-   * default value is the cacerts.pem file installed with the IR.
-   */
-  trustedCertPath?: any;
-  /**
-   * @member {any} [useSystemTrustStore] Specifies whether to use a CA
-   * certificate from the system trust store or from a specified PEM file. The
-   * default value is false.
-   */
-  useSystemTrustStore?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -6259,53 +4451,6 @@ export interface GoogleBigQueryLinkedService {
 
 /**
  * @interface
- * An interface representing EloquaLinkedServiceTypeProperties.
- * Eloqua server linked service properties.
- *
- */
-export interface EloquaLinkedServiceTypeProperties {
-  /**
-   * @member {any} endpoint The endpoint of the Eloqua server. (i.e.
-   * eloqua.example.com)
-   */
-  endpoint: any;
-  /**
-   * @member {any} username The site name and user name of your Eloqua account
-   * in the form: sitename/username. (i.e. Eloqua/Alice)
-   */
-  username: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password corresponding to the
-   * user name.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing EloquaLinkedService.
  * Eloqua server linked service.
  *
@@ -6376,26 +4521,6 @@ export interface EloquaLinkedService {
 
 /**
  * @interface
- * An interface representing DrillLinkedServiceTypeProperties.
- * Drill server linked service properties.
- *
- */
-export interface DrillLinkedServiceTypeProperties {
-  /**
-   * @member {any} [connectionString] An ODBC connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing DrillLinkedService.
  * Drill server linked service.
  *
@@ -6424,26 +4549,6 @@ export interface DrillLinkedService {
    * the Dataset.
    */
   annotations?: any[];
-  /**
-   * @member {any} [connectionString] An ODBC connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing CouchbaseLinkedServiceTypeProperties.
- * Couchbase server linked service properties.
- *
- */
-export interface CouchbaseLinkedServiceTypeProperties {
   /**
    * @member {any} [connectionString] An ODBC connection string. Type: string,
    * SecureString or AzureKeyVaultSecretReference.
@@ -6492,53 +4597,6 @@ export interface CouchbaseLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing ConcurLinkedServiceTypeProperties.
- * Concur Serivce linked service properties.
- *
- */
-export interface ConcurLinkedServiceTypeProperties {
-  /**
-   * @member {any} clientId Application client_id supplied by Concur App
-   * Management.
-   */
-  clientId: any;
-  /**
-   * @member {any} username The user name that you use to access Concur
-   * Service.
-   */
-  username: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password corresponding to the
-   * user name that you provided in the username field.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -6619,26 +4677,6 @@ export interface ConcurLinkedService {
 
 /**
  * @interface
- * An interface representing AzurePostgreSqlLinkedServiceTypeProperties.
- * Azure PostgreSQL linked service properties.
- *
- */
-export interface AzurePostgreSqlLinkedServiceTypeProperties {
-  /**
-   * @member {any} [connectionString] An ODBC connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing AzurePostgreSqlLinkedService.
  * Azure PostgreSQL linked service.
  *
@@ -6672,66 +4710,6 @@ export interface AzurePostgreSqlLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing AmazonMWSLinkedServiceTypeProperties.
- * Amazon Marketplace Web Service linked service properties.
- *
- */
-export interface AmazonMWSLinkedServiceTypeProperties {
-  /**
-   * @member {any} endpoint The endpoint of the Amazon MWS server, (i.e.
-   * mws.amazonservices.com)
-   */
-  endpoint: any;
-  /**
-   * @member {any} marketplaceID The Amazon Marketplace ID you want to retrieve
-   * data from. To retrive data from multiple Marketplace IDs, seperate them
-   * with a comma (,). (i.e. A2EUQ1WTGCTBG2)
-   */
-  marketplaceID: any;
-  /**
-   * @member {any} sellerID The Amazon seller ID.
-   */
-  sellerID: any;
-  /**
-   * @member {SecretBaseUnion} [mwsAuthToken] The Amazon MWS authentication
-   * token.
-   */
-  mwsAuthToken?: SecretBaseUnion;
-  /**
-   * @member {any} accessKeyId The access key id used to access data.
-   */
-  accessKeyId: any;
-  /**
-   * @member {SecretBaseUnion} [secretKey] The secret key used to access data.
-   */
-  secretKey?: SecretBaseUnion;
-  /**
-   * @member {any} [useEncryptedEndpoints] Specifies whether the data source
-   * endpoints are encrypted using HTTPS. The default value is true.
-   */
-  useEncryptedEndpoints?: any;
-  /**
-   * @member {any} [useHostVerification] Specifies whether to require the host
-   * name in the server's certificate to match the host name of the server when
-   * connecting over SSL. The default value is true.
-   */
-  useHostVerification?: any;
-  /**
-   * @member {any} [usePeerVerification] Specifies whether to verify the
-   * identity of the server when connecting over SSL. The default value is
-   * true.
-   */
-  usePeerVerification?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -6825,42 +4803,6 @@ export interface AmazonMWSLinkedService {
 
 /**
  * @interface
- * An interface representing SapHanaLinkedServiceProperties.
- * Properties specific to this linked service type.
- *
- */
-export interface SapHanaLinkedServiceProperties {
-  /**
-   * @member {any} server Host name of the SAP HANA server. Type: string (or
-   * Expression with resultType string).
-   */
-  server: any;
-  /**
-   * @member {SapHanaAuthenticationType} [authenticationType] The
-   * authentication type to be used to connect to the SAP HANA server. Possible
-   * values include: 'Basic', 'Windows'
-   */
-  authenticationType?: SapHanaAuthenticationType;
-  /**
-   * @member {any} [userName] Username to access the SAP HANA server. Type:
-   * string (or Expression with resultType string).
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password to access the SAP HANA
-   * server.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing SapHanaLinkedService.
  * SAP HANA Linked Service.
  *
@@ -6908,47 +4850,6 @@ export interface SapHanaLinkedService {
   /**
    * @member {SecretBaseUnion} [password] Password to access the SAP HANA
    * server.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing SapBWLinkedServiceTypeProperties.
- * Properties specific to this linked service type.
- *
- */
-export interface SapBWLinkedServiceTypeProperties {
-  /**
-   * @member {any} server Host name of the SAP BW instance. Type: string (or
-   * Expression with resultType string).
-   */
-  server: any;
-  /**
-   * @member {any} systemNumber System number of the BW system. (Usually a
-   * two-digit decimal number represented as a string.) Type: string (or
-   * Expression with resultType string).
-   */
-  systemNumber: any;
-  /**
-   * @member {any} clientId Client ID of the client on the BW system. (Usually
-   * a three-digit decimal number represented as a string) Type: string (or
-   * Expression with resultType string).
-   */
-  clientId: any;
-  /**
-   * @member {any} [userName] Username to access the SAP BW server. Type:
-   * string (or Expression with resultType string).
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password to access the SAP BW server.
    */
   password?: SecretBaseUnion;
   /**
@@ -7021,80 +4922,6 @@ export interface SapBWLinkedService {
    * credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing SftpServerLinkedServiceTypeProperties.
- * Properties specific to this linked service type.
- *
- */
-export interface SftpServerLinkedServiceTypeProperties {
-  /**
-   * @member {any} host The SFTP server host name. Type: string (or Expression
-   * with resultType string).
-   */
-  host: any;
-  /**
-   * @member {any} [port] The TCP port number that the SFTP server uses to
-   * listen for client connections. Default value is 22. Type: integer (or
-   * Expression with resultType integer), minimum: 0.
-   */
-  port?: any;
-  /**
-   * @member {SftpAuthenticationType} [authenticationType] The authentication
-   * type to be used to connect to the FTP server. Possible values include:
-   * 'Basic', 'SshPublicKey'
-   */
-  authenticationType?: SftpAuthenticationType;
-  /**
-   * @member {any} [userName] The username used to log on to the SFTP server.
-   * Type: string (or Expression with resultType string).
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password to logon the SFTP server for
-   * Basic authentication.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-  /**
-   * @member {any} [privateKeyPath] The SSH private key file path for
-   * SshPublicKey authentication. Only valid for on-premises copy. For
-   * on-premises copy with SshPublicKey authentication, either PrivateKeyPath
-   * or PrivateKeyContent should be specified. SSH private key should be
-   * OpenSSH format. Type: string (or Expression with resultType string).
-   */
-  privateKeyPath?: any;
-  /**
-   * @member {SecretBaseUnion} [privateKeyContent] Base64 encoded SSH private
-   * key content for SshPublicKey authentication. For on-premises copy with
-   * SshPublicKey authentication, either PrivateKeyPath or PrivateKeyContent
-   * should be specified. SSH private key should be OpenSSH format.
-   */
-  privateKeyContent?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [passPhrase] The password to decrypt the SSH
-   * private key if the SSH private key is encrypted.
-   */
-  passPhrase?: SecretBaseUnion;
-  /**
-   * @member {any} [skipHostKeyValidation] If true, skip the SSH host key
-   * validation. Default value is false. Type: boolean (or Expression with
-   * resultType boolean).
-   */
-  skipHostKeyValidation?: any;
-  /**
-   * @member {any} [hostKeyFingerprint] The host key finger-print of the SFTP
-   * server. When SkipHostKeyValidation is false, HostKeyFingerprint should be
-   * specified. Type: string (or Expression with resultType string).
-   */
-  hostKeyFingerprint?: any;
 }
 
 /**
@@ -7196,59 +5023,6 @@ export interface SftpServerLinkedService {
 
 /**
  * @interface
- * An interface representing FtpServerLinkedServiceTypeProperties.
- * Properties specific to this linked service type.
- *
- */
-export interface FtpServerLinkedServiceTypeProperties {
-  /**
-   * @member {any} host Host name of the FTP server. Type: string (or
-   * Expression with resultType string).
-   */
-  host: any;
-  /**
-   * @member {any} [port] The TCP port number that the FTP server uses to
-   * listen for client connections. Default value is 21. Type: integer (or
-   * Expression with resultType integer), minimum: 0.
-   */
-  port?: any;
-  /**
-   * @member {FtpAuthenticationType} [authenticationType] The authentication
-   * type to be used to connect to the FTP server. Possible values include:
-   * 'Basic', 'Anonymous'
-   */
-  authenticationType?: FtpAuthenticationType;
-  /**
-   * @member {any} [userName] Username to logon the FTP server. Type: string
-   * (or Expression with resultType string).
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password to logon the FTP server.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-  /**
-   * @member {any} [enableSsl] If true, connect to the FTP server over SSL/TLS
-   * channel. Default value is true. Type: boolean (or Expression with
-   * resultType boolean).
-   */
-  enableSsl?: any;
-  /**
-   * @member {any} [enableServerCertificateValidation] If true, validate the
-   * FTP server SSL certificate when connect over SSL/TLS channel. Default
-   * value is true. Type: boolean (or Expression with resultType boolean).
-   */
-  enableServerCertificateValidation?: any;
-}
-
-/**
- * @interface
  * An interface representing FtpServerLinkedService.
  * A FTP server Linked Service.
  *
@@ -7319,65 +5093,6 @@ export interface FtpServerLinkedService {
    * @member {any} [enableServerCertificateValidation] If true, validate the
    * FTP server SSL certificate when connect over SSL/TLS channel. Default
    * value is true. Type: boolean (or Expression with resultType boolean).
-   */
-  enableServerCertificateValidation?: any;
-}
-
-/**
- * @interface
- * An interface representing HttpLinkedServiceTypeProperties.
- * Properties specific to this linked service type.
- *
- */
-export interface HttpLinkedServiceTypeProperties {
-  /**
-   * @member {any} url The base URL of the HTTP endpoint, e.g.
-   * http://www.microsoft.com. Type: string (or Expression with resultType
-   * string).
-   */
-  url: any;
-  /**
-   * @member {HttpAuthenticationType} [authenticationType] The authentication
-   * type to be used to connect to the HTTP server. Possible values include:
-   * 'Basic', 'Anonymous', 'Digest', 'Windows', 'ClientCertificate'
-   */
-  authenticationType?: HttpAuthenticationType;
-  /**
-   * @member {any} [userName] User name for Basic, Digest, or Windows
-   * authentication. Type: string (or Expression with resultType string).
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password for Basic, Digest, Windows,
-   * or ClientCertificate with EmbeddedCertData authentication.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [embeddedCertData] Base64 encoded certificate data for
-   * ClientCertificate authentication. For on-premises copy with
-   * ClientCertificate authentication, either CertThumbprint or
-   * EmbeddedCertData/Password should be specified. Type: string (or Expression
-   * with resultType string).
-   */
-  embeddedCertData?: any;
-  /**
-   * @member {any} [certThumbprint] Thumbprint of certificate for
-   * ClientCertificate authentication. Only valid for on-premises copy. For
-   * on-premises copy with ClientCertificate authentication, either
-   * CertThumbprint or EmbeddedCertData/Password should be specified. Type:
-   * string (or Expression with resultType string).
-   */
-  certThumbprint?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-  /**
-   * @member {any} [enableServerCertificateValidation] If true, validate the
-   * HTTPS server SSL certificate. Default value is true. Type: boolean (or
-   * Expression with resultType boolean).
    */
   enableServerCertificateValidation?: any;
 }
@@ -7466,30 +5181,6 @@ export interface HttpLinkedService {
 
 /**
  * @interface
- * An interface representing AzureSearchLinkedServiceTypeProperties.
- * Windows Azure Search Service linked service properties.
- *
- */
-export interface AzureSearchLinkedServiceTypeProperties {
-  /**
-   * @member {any} url URL for Azure Search service. Type: string (or
-   * Expression with resultType string).
-   */
-  url: any;
-  /**
-   * @member {SecretBaseUnion} [key] Admin Key for Azure Search service
-   */
-  key?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing AzureSearchLinkedService.
  * Linked service for Windows Azure Search Service.
  *
@@ -7573,47 +5264,6 @@ export interface CustomDataSourceLinkedService {
 
 /**
  * @interface
- * An interface representing AmazonRedshiftLinkedServiceTypeProperties.
- * Amazon Redshift linked service properties.
- *
- */
-export interface AmazonRedshiftLinkedServiceTypeProperties {
-  /**
-   * @member {any} server The name of the Amazon Redshift server. Type: string
-   * (or Expression with resultType string).
-   */
-  server: any;
-  /**
-   * @member {any} [username] The username of the Amazon Redshift source. Type:
-   * string (or Expression with resultType string).
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password of the Amazon Redshift
-   * source.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} database The database name of the Amazon Redshift source.
-   * Type: string (or Expression with resultType string).
-   */
-  database: any;
-  /**
-   * @member {any} [port] The TCP port number that the Amazon Redshift server
-   * uses to listen for client connections. The default value is 5439. Type:
-   * integer (or Expression with resultType integer).
-   */
-  port?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing AmazonRedshiftLinkedService.
  * Linked service for Amazon Redshift.
  *
@@ -7678,32 +5328,6 @@ export interface AmazonRedshiftLinkedService {
 
 /**
  * @interface
- * An interface representing AmazonS3LinkedServiceTypeProperties.
- * Amazon S3 linked service properties.
- *
- */
-export interface AmazonS3LinkedServiceTypeProperties {
-  /**
-   * @member {any} [accessKeyId] The access key identifier of the Amazon S3
-   * Identity and Access Management (IAM) user. Type: string (or Expression
-   * with resultType string).
-   */
-  accessKeyId?: any;
-  /**
-   * @member {SecretBaseUnion} [secretAccessKey] The secret access key of the
-   * Amazon S3 Identity and Access Management (IAM) user.
-   */
-  secretAccessKey?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing AmazonS3LinkedService.
  * Linked service for Amazon S3.
  *
@@ -7749,38 +5373,6 @@ export interface AmazonS3LinkedService {
    * credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing SapEccLinkedServiceTypeProperties.
- * SAP ECC linked service properties.
- *
- */
-export interface SapEccLinkedServiceTypeProperties {
-  /**
-   * @member {string} url The URL of SAP ECC OData API. For example,
-   * '[https://hostname:port/sap/opu/odata/sap/servicename/]'. Type: string (or
-   * Expression with resultType string).
-   */
-  url: string;
-  /**
-   * @member {string} [username] The username for Basic authentication. Type:
-   * string (or Expression with resultType string).
-   */
-  username?: string;
-  /**
-   * @member {SecretBaseUnion} [password] The password for Basic
-   * authentication.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {string} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Either encryptedCredential or username/password must
-   * be provided. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: string;
 }
 
 /**
@@ -7840,38 +5432,6 @@ export interface SapEccLinkedService {
 
 /**
  * @interface
- * An interface representing SapCloudForCustomerLinkedServiceTypeProperties.
- * SAP Cloud for Customer linked service properties.
- *
- */
-export interface SapCloudForCustomerLinkedServiceTypeProperties {
-  /**
-   * @member {any} url The URL of SAP Cloud for Customer OData API. For
-   * example, '[https://[tenantname].crm.ondemand.com/sap/c4c/odata/v1]'. Type:
-   * string (or Expression with resultType string).
-   */
-  url: any;
-  /**
-   * @member {any} [username] The username for Basic authentication. Type:
-   * string (or Expression with resultType string).
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password for Basic
-   * authentication.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Either encryptedCredential or username/password must
-   * be provided. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing SapCloudForCustomerLinkedService.
  * Linked service for SAP Cloud for Customer.
  *
@@ -7921,44 +5481,6 @@ export interface SapCloudForCustomerLinkedService {
    * authentication. Credentials are encrypted using the integration runtime
    * credential manager. Either encryptedCredential or username/password must
    * be provided. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing SalesforceLinkedServiceTypeProperties.
- * Salesforce linked service properties.
- *
- */
-export interface SalesforceLinkedServiceTypeProperties {
-  /**
-   * @member {any} [environmentUrl] The URL of Salesforce instance. Default is
-   * 'https://login.salesforce.com'. To copy data from sandbox, specify
-   * 'https://test.salesforce.com'. To copy data from custom domain, specify,
-   * for example, 'https://[domain].my.salesforce.com'. Type: string (or
-   * Expression with resultType string).
-   */
-  environmentUrl?: any;
-  /**
-   * @member {any} [username] The username for Basic authentication of the
-   * Salesforce instance. Type: string (or Expression with resultType string).
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The password for Basic authentication
-   * of the Salesforce instance.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {SecretBaseUnion} [securityToken] The security token is required
-   * to remotely access Salesforce instance.
-   */
-  securityToken?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
 }
@@ -8016,59 +5538,6 @@ export interface SalesforceLinkedService {
    * to remotely access Salesforce instance.
    */
   securityToken?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing AzureDataLakeStoreLinkedServiceTypeProperties.
- * Azure Data Lake Store linked service properties.
- *
- */
-export interface AzureDataLakeStoreLinkedServiceTypeProperties {
-  /**
-   * @member {any} dataLakeStoreUri Data Lake Store service URI. Type: string
-   * (or Expression with resultType string).
-   */
-  dataLakeStoreUri: any;
-  /**
-   * @member {any} [servicePrincipalId] The ID of the application used to
-   * authenticate against the Azure Data Lake Store account. Type: string (or
-   * Expression with resultType string).
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] The Key of the application
-   * used to authenticate against the Azure Data Lake Store account.
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {any} [tenant] The name or ID of the tenant to which the service
-   * principal belongs. Type: string (or Expression with resultType string).
-   */
-  tenant?: any;
-  /**
-   * @member {any} [accountName] Data Lake Store account name. Type: string (or
-   * Expression with resultType string).
-   */
-  accountName?: any;
-  /**
-   * @member {any} [subscriptionId] Data Lake Store account subscription ID (if
-   * different from Data Factory account). Type: string (or Expression with
-   * resultType string).
-   */
-  subscriptionId?: any;
-  /**
-   * @member {any} [resourceGroupName] Data Lake Store account resource group
-   * name (if different from Data Factory account). Type: string (or Expression
-   * with resultType string).
-   */
-  resourceGroupName?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -8155,69 +5624,6 @@ export interface AzureDataLakeStoreLinkedService {
 
 /**
  * @interface
- * An interface representing MongoDbLinkedServiceTypeProperties.
- * MongoDB linked service properties.
- *
- */
-export interface MongoDbLinkedServiceTypeProperties {
-  /**
-   * @member {any} server The IP address or server name of the MongoDB server.
-   * Type: string (or Expression with resultType string).
-   */
-  server: any;
-  /**
-   * @member {MongoDbAuthenticationType} [authenticationType] The
-   * authentication type to be used to connect to the MongoDB database.
-   * Possible values include: 'Basic', 'Anonymous'
-   */
-  authenticationType?: MongoDbAuthenticationType;
-  /**
-   * @member {any} databaseName The name of the MongoDB database that you want
-   * to access. Type: string (or Expression with resultType string).
-   */
-  databaseName: any;
-  /**
-   * @member {any} [username] Username for authentication. Type: string (or
-   * Expression with resultType string).
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password for authentication.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [authSource] Database to verify the username and password.
-   * Type: string (or Expression with resultType string).
-   */
-  authSource?: any;
-  /**
-   * @member {any} [port] The TCP port number that the MongoDB server uses to
-   * listen for client connections. The default value is 27017. Type: integer
-   * (or Expression with resultType integer), minimum: 0.
-   */
-  port?: any;
-  /**
-   * @member {any} [enableSsl] Specifies whether the connections to the server
-   * are encrypted using SSL. The default value is false. Type: boolean (or
-   * Expression with resultType boolean).
-   */
-  enableSsl?: any;
-  /**
-   * @member {any} [allowSelfSignedServerCert] Specifies whether to allow
-   * self-signed certificates from the server. The default value is false.
-   * Type: boolean (or Expression with resultType boolean).
-   */
-  allowSelfSignedServerCert?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing MongoDbLinkedService.
  * Linked service for MongoDb data source.
  *
@@ -8294,45 +5700,6 @@ export interface MongoDbLinkedService {
    * Type: boolean (or Expression with resultType boolean).
    */
   allowSelfSignedServerCert?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing CassandraLinkedServiceTypeProperties.
- * Cassandra linked service properties.
- *
- */
-export interface CassandraLinkedServiceTypeProperties {
-  /**
-   * @member {any} host Host name for connection. Type: string (or Expression
-   * with resultType string).
-   */
-  host: any;
-  /**
-   * @member {any} [authenticationType] AuthenticationType to be used for
-   * connection. Type: string (or Expression with resultType string).
-   */
-  authenticationType?: any;
-  /**
-   * @member {any} [port] The port for the connection. Type: integer (or
-   * Expression with resultType integer).
-   */
-  port?: any;
-  /**
-   * @member {any} [username] Username for authentication. Type: string (or
-   * Expression with resultType string).
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password for authentication.
-   */
-  password?: SecretBaseUnion;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -8546,41 +5913,6 @@ export interface WebLinkedService {
 
 /**
  * @interface
- * An interface representing ODataLinkedServiceTypeProperties.
- * OData linked service properties.
- *
- */
-export interface ODataLinkedServiceTypeProperties {
-  /**
-   * @member {any} url The URL of the OData service endpoint. Type: string (or
-   * Expression with resultType string).
-   */
-  url: any;
-  /**
-   * @member {ODataAuthenticationType} [authenticationType] Type of
-   * authentication used to connect to the OData service. Possible values
-   * include: 'Basic', 'Anonymous'
-   */
-  authenticationType?: ODataAuthenticationType;
-  /**
-   * @member {any} [userName] User name of the OData service. Type: string (or
-   * Expression with resultType string).
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password of the OData service.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing ODataLinkedService.
  * Open Data Protocol (OData) linked service.
  *
@@ -8635,42 +5967,6 @@ export interface ODataLinkedService {
    * credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing HdfsLinkedServiceTypeProperties.
- * HDFS linked service properties.
- *
- */
-export interface HdfsLinkedServiceTypeProperties {
-  /**
-   * @member {any} url The URL of the HDFS service endpoint, e.g.
-   * http://myhostname:50070/webhdfs/v1 . Type: string (or Expression with
-   * resultType string).
-   */
-  url: any;
-  /**
-   * @member {any} [authenticationType] Type of authentication used to connect
-   * to the HDFS. Possible values are: Anonymous and Windows. Type: string (or
-   * Expression with resultType string).
-   */
-  authenticationType?: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-  /**
-   * @member {any} [userName] User name for Windows authentication. Type:
-   * string (or Expression with resultType string).
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password for Windows authentication.
-   */
-  password?: SecretBaseUnion;
 }
 
 /**
@@ -8734,47 +6030,6 @@ export interface HdfsLinkedService {
 
 /**
  * @interface
- * An interface representing OdbcLinkedServiceTypeProperties.
- * ODBC linked service properties.
- *
- */
-export interface OdbcLinkedServiceTypeProperties {
-  /**
-   * @member {any} connectionString The non-access credential portion of the
-   * connection string as well as an optional encrypted credential. Type:
-   * string, SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString: any;
-  /**
-   * @member {any} [authenticationType] Type of authentication used to connect
-   * to the ODBC data store. Possible values are: Anonymous and Basic. Type:
-   * string (or Expression with resultType string).
-   */
-  authenticationType?: any;
-  /**
-   * @member {SecretBaseUnion} [credential] The access credential portion of
-   * the connection string specified in driver-specific property-value format.
-   */
-  credential?: SecretBaseUnion;
-  /**
-   * @member {any} [userName] User name for Basic authentication. Type: string
-   * (or Expression with resultType string).
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password for Basic authentication.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing OdbcLinkedService.
  * Open Database Connectivity (ODBC) linked service.
  *
@@ -8829,54 +6084,6 @@ export interface OdbcLinkedService {
    * @member {SecretBaseUnion} [password] Password for Basic authentication.
    */
   password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing AzureMLLinkedServiceTypeProperties.
- * Azure ML Web Service linked service properties.
- *
- */
-export interface AzureMLLinkedServiceTypeProperties {
-  /**
-   * @member {any} mlEndpoint The Batch Execution REST URL for an Azure ML Web
-   * Service endpoint. Type: string (or Expression with resultType string).
-   */
-  mlEndpoint: any;
-  /**
-   * @member {SecretBaseUnion} apiKey The API key for accessing the Azure ML
-   * model endpoint.
-   */
-  apiKey: SecretBaseUnion;
-  /**
-   * @member {any} [updateResourceEndpoint] The Update Resource REST URL for an
-   * Azure ML Web Service endpoint. Type: string (or Expression with resultType
-   * string).
-   */
-  updateResourceEndpoint?: any;
-  /**
-   * @member {any} [servicePrincipalId] The ID of the service principal used to
-   * authenticate against the ARM-based updateResourceEndpoint of an Azure ML
-   * web service. Type: string (or Expression with resultType string).
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] The key of the service
-   * principal used to authenticate against the ARM-based
-   * updateResourceEndpoint of an Azure ML web service.
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {any} [tenant] The name or ID of the tenant to which the service
-   * principal belongs. Type: string (or Expression with resultType string).
-   */
-  tenant?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -8958,41 +6165,6 @@ export interface AzureMLLinkedService {
 
 /**
  * @interface
- * An interface representing TeradataLinkedServiceTypeProperties.
- * Teradata linked service properties.
- *
- */
-export interface TeradataLinkedServiceTypeProperties {
-  /**
-   * @member {any} server Server name for connection. Type: string (or
-   * Expression with resultType string).
-   */
-  server: any;
-  /**
-   * @member {TeradataAuthenticationType} [authenticationType]
-   * AuthenticationType to be used for connection. Possible values include:
-   * 'Basic', 'Windows'
-   */
-  authenticationType?: TeradataAuthenticationType;
-  /**
-   * @member {any} [username] Username for authentication. Type: string (or
-   * Expression with resultType string).
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password for authentication.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing TeradataLinkedService.
  * Linked service for Teradata data source.
  *
@@ -9032,45 +6204,6 @@ export interface TeradataLinkedService {
    * 'Basic', 'Windows'
    */
   authenticationType?: TeradataAuthenticationType;
-  /**
-   * @member {any} [username] Username for authentication. Type: string (or
-   * Expression with resultType string).
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password for authentication.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing Db2LinkedServiceTypeProperties.
- * DB2 linked service properties.
- *
- */
-export interface Db2LinkedServiceTypeProperties {
-  /**
-   * @member {any} server Server name for connection. Type: string (or
-   * Expression with resultType string).
-   */
-  server: any;
-  /**
-   * @member {any} database Database name for connection. Type: string (or
-   * Expression with resultType string).
-   */
-  database: any;
-  /**
-   * @member {Db2AuthenticationType} [authenticationType] AuthenticationType to
-   * be used for connection. Possible values include: 'Basic'
-   */
-  authenticationType?: Db2AuthenticationType;
   /**
    * @member {any} [username] Username for authentication. Type: string (or
    * Expression with resultType string).
@@ -9133,50 +6266,6 @@ export interface Db2LinkedService {
    * be used for connection. Possible values include: 'Basic'
    */
   authenticationType?: Db2AuthenticationType;
-  /**
-   * @member {any} [username] Username for authentication. Type: string (or
-   * Expression with resultType string).
-   */
-  username?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password for authentication.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing SybaseLinkedServiceTypeProperties.
- * Sybase linked service properties.
- *
- */
-export interface SybaseLinkedServiceTypeProperties {
-  /**
-   * @member {any} server Server name for connection. Type: string (or
-   * Expression with resultType string).
-   */
-  server: any;
-  /**
-   * @member {any} database Database name for connection. Type: string (or
-   * Expression with resultType string).
-   */
-  database: any;
-  /**
-   * @member {any} [schema] Schema name for connection. Type: string (or
-   * Expression with resultType string).
-   */
-  schema?: any;
-  /**
-   * @member {SybaseAuthenticationType} [authenticationType] AuthenticationType
-   * to be used for connection. Possible values include: 'Basic', 'Windows'
-   */
-  authenticationType?: SybaseAuthenticationType;
   /**
    * @member {any} [username] Username for authentication. Type: string (or
    * Expression with resultType string).
@@ -9263,25 +6352,6 @@ export interface SybaseLinkedService {
 
 /**
  * @interface
- * An interface representing PostgreSqlLinkedServiceTypeProperties.
- * PostgreSQL linked service properties.
- *
- */
-export interface PostgreSqlLinkedServiceTypeProperties {
-  /**
-   * @member {SecretBaseUnion} connectionString The connection string.
-   */
-  connectionString: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing PostgreSqlLinkedService.
  * Linked service for PostgreSQL data source.
  *
@@ -9310,25 +6380,6 @@ export interface PostgreSqlLinkedService {
    * the Dataset.
    */
   annotations?: any[];
-  /**
-   * @member {SecretBaseUnion} connectionString The connection string.
-   */
-  connectionString: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing MySqlLinkedServiceTypeProperties.
- * MySQL linked service properties.
- *
- */
-export interface MySqlLinkedServiceTypeProperties {
   /**
    * @member {SecretBaseUnion} connectionString The connection string.
    */
@@ -9385,26 +6436,6 @@ export interface MySqlLinkedService {
 
 /**
  * @interface
- * An interface representing AzureMySqlLinkedServiceTypeProperties.
- * Azure MySQL database linked service properties.
- *
- */
-export interface AzureMySqlLinkedServiceTypeProperties {
-  /**
-   * @member {any} connectionString The connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing AzureMySqlLinkedService.
  * Azure MySQL database linked service.
  *
@@ -9433,26 +6464,6 @@ export interface AzureMySqlLinkedService {
    * the Dataset.
    */
   annotations?: any[];
-  /**
-   * @member {any} connectionString The connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing OracleLinkedServiceTypeProperties.
- * Oracle database linked service properties.
- *
- */
-export interface OracleLinkedServiceTypeProperties {
   /**
    * @member {any} connectionString The connection string. Type: string,
    * SecureString or AzureKeyVaultSecretReference.
@@ -9501,35 +6512,6 @@ export interface OracleLinkedService {
    * SecureString or AzureKeyVaultSecretReference.
    */
   connectionString: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing FileServerLinkedServiceTypeProperties.
- * File system linked service properties.
- *
- */
-export interface FileServerLinkedServiceTypeProperties {
-  /**
-   * @member {any} host Host name of the server. Type: string (or Expression
-   * with resultType string).
-   */
-  host: any;
-  /**
-   * @member {any} [userId] User ID to logon the server. Type: string (or
-   * Expression with resultType string).
-   */
-  userId?: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password to logon the server.
-   */
-  password?: SecretBaseUnion;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -9592,45 +6574,6 @@ export interface FileServerLinkedService {
 
 /**
  * @interface
- * An interface representing HDInsightLinkedServiceTypeProperties.
- * HDInsight linked service properties.
- *
- */
-export interface HDInsightLinkedServiceTypeProperties {
-  /**
-   * @member {any} clusterUri HDInsight cluster URI. Type: string (or
-   * Expression with resultType string).
-   */
-  clusterUri: any;
-  /**
-   * @member {any} [userName] HDInsight cluster user name. Type: string (or
-   * Expression with resultType string).
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] HDInsight cluster password.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {LinkedServiceReference} [linkedServiceName] The Azure Storage
-   * linked service reference.
-   */
-  linkedServiceName?: LinkedServiceReference;
-  /**
-   * @member {LinkedServiceReference} [hcatalogLinkedServiceName] A reference
-   * to the Azure SQL linked service that points to the HCatalog database.
-   */
-  hcatalogLinkedServiceName?: LinkedServiceReference;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing HDInsightLinkedService.
  * HDInsight linked service.
  *
@@ -9683,68 +6626,6 @@ export interface HDInsightLinkedService {
    * to the Azure SQL linked service that points to the HCatalog database.
    */
   hcatalogLinkedServiceName?: LinkedServiceReference;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing DynamicsLinkedServiceTypeProperties.
- * Dynamics linked service properties.
- *
- */
-export interface DynamicsLinkedServiceTypeProperties {
-  /**
-   * @member {any} deploymentType The deployment type of the Dynamics instance.
-   * 'Online' for Dynamics Online and 'OnPremisesWithIfd' for Dynamics
-   * on-premises with Ifd. Type: string (or Expression with resultType string).
-   */
-  deploymentType: any;
-  /**
-   * @member {any} [hostName] The host name of the on-premises Dynamics server.
-   * The property is required for on-prem and not allowed for online. Type:
-   * string (or Expression with resultType string).
-   */
-  hostName?: any;
-  /**
-   * @member {any} [port] The port of on-premises Dynamics server. The property
-   * is required for on-prem and not allowed for online. Default is 443. Type:
-   * integer (or Expression with resultType integer), minimum: 0.
-   */
-  port?: any;
-  /**
-   * @member {any} [serviceUri] The URL to the Microsoft Dynamics server. The
-   * property is required for on-line and not allowed for on-prem. Type: string
-   * (or Expression with resultType string).
-   */
-  serviceUri?: any;
-  /**
-   * @member {any} [organizationName] The organization name of the Dynamics
-   * instance. The property is required for on-prem and required for online
-   * when there are more than one Dynamics instances associated with the user.
-   * Type: string (or Expression with resultType string).
-   */
-  organizationName?: any;
-  /**
-   * @member {any} authenticationType The authentication type to connect to
-   * Dynamics server. 'Office365' for online scenario, 'Ifd' for on-premises
-   * with Ifd scenario. Type: string (or Expression with resultType string).
-   */
-  authenticationType: any;
-  /**
-   * @member {any} username User name to access the Dynamics instance. Type:
-   * string (or Expression with resultType string).
-   */
-  username: any;
-  /**
-   * @member {SecretBaseUnion} [password] Password to access the Dynamics
-   * instance.
-   */
-  password?: SecretBaseUnion;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -9840,26 +6721,6 @@ export interface DynamicsLinkedService {
 
 /**
  * @interface
- * An interface representing CosmosDbLinkedServiceTypeProperties.
- * CosmosDB linked service properties.
- *
- */
-export interface CosmosDbLinkedServiceTypeProperties {
-  /**
-   * @member {any} connectionString The connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString: any;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing CosmosDbLinkedService.
  * Microsoft Azure Cosmos Database (CosmosDB) linked service.
  *
@@ -9903,21 +6764,6 @@ export interface CosmosDbLinkedService {
 
 /**
  * @interface
- * An interface representing AzureKeyVaultLinkedServiceTypeProperties.
- * Azure Key Vault linked service properties.
- *
- */
-export interface AzureKeyVaultLinkedServiceTypeProperties {
-  /**
-   * @member {any} baseUrl The base URL of the Azure Key Vault. e.g.
-   * https://myakv.vault.azure.net Type: string (or Expression with resultType
-   * string).
-   */
-  baseUrl: any;
-}
-
-/**
- * @interface
  * An interface representing AzureKeyVaultLinkedService.
  * Azure Key Vault linked service.
  *
@@ -9952,45 +6798,6 @@ export interface AzureKeyVaultLinkedService {
    * string).
    */
   baseUrl: any;
-}
-
-/**
- * @interface
- * An interface representing AzureBatchLinkedServiceTypeProperties.
- * Azure Batch linked service properties.
- *
- */
-export interface AzureBatchLinkedServiceTypeProperties {
-  /**
-   * @member {any} accountName The Azure Batch account name. Type: string (or
-   * Expression with resultType string).
-   */
-  accountName: any;
-  /**
-   * @member {SecretBaseUnion} [accessKey] The Azure Batch account access key.
-   */
-  accessKey?: SecretBaseUnion;
-  /**
-   * @member {any} batchUri The Azure Batch URI. Type: string (or Expression
-   * with resultType string).
-   */
-  batchUri: any;
-  /**
-   * @member {any} poolName The Azure Batch pool name. Type: string (or
-   * Expression with resultType string).
-   */
-  poolName: any;
-  /**
-   * @member {LinkedServiceReference} linkedServiceName The Azure Storage
-   * linked service reference.
-   */
-  linkedServiceName: LinkedServiceReference;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
 }
 
 /**
@@ -10047,42 +6854,6 @@ export interface AzureBatchLinkedService {
    * linked service reference.
    */
   linkedServiceName: LinkedServiceReference;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing AzureSqlDatabaseLinkedServiceTypeProperties.
- * Azure SQL Database linked service properties.
- *
- */
-export interface AzureSqlDatabaseLinkedServiceTypeProperties {
-  /**
-   * @member {any} connectionString The connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString: any;
-  /**
-   * @member {any} [servicePrincipalId] The ID of the service principal used to
-   * authenticate against Azure SQL Database. Type: string (or Expression with
-   * resultType string).
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] The key of the service
-   * principal used to authenticate against Azure SQL Database.
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {any} [tenant] The name or ID of the tenant to which the service
-   * principal belongs. Type: string (or Expression with resultType string).
-   */
-  tenant?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -10152,36 +6923,6 @@ export interface AzureSqlDatabaseLinkedService {
 
 /**
  * @interface
- * An interface representing SqlServerLinkedServiceTypeProperties.
- * SQL Server linked service properties.
- *
- */
-export interface SqlServerLinkedServiceTypeProperties {
-  /**
-   * @member {any} connectionString The connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString: any;
-  /**
-   * @member {any} [userName] The on-premises Windows authentication user name.
-   * Type: string (or Expression with resultType string).
-   */
-  userName?: any;
-  /**
-   * @member {SecretBaseUnion} [password] The on-premises Windows
-   * authentication password.
-   */
-  password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
  * An interface representing SqlServerLinkedService.
  * SQL Server linked service.
  *
@@ -10225,43 +6966,6 @@ export interface SqlServerLinkedService {
    * authentication password.
    */
   password?: SecretBaseUnion;
-  /**
-   * @member {any} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: any;
-}
-
-/**
- * @interface
- * An interface representing AzureSqlDWLinkedServiceTypeProperties.
- * Azure SQL Data Warehouse linked service properties.
- *
- */
-export interface AzureSqlDWLinkedServiceTypeProperties {
-  /**
-   * @member {any} connectionString The connection string. Type: string,
-   * SecureString or AzureKeyVaultSecretReference. Type: string, SecureString
-   * or AzureKeyVaultSecretReference.
-   */
-  connectionString: any;
-  /**
-   * @member {any} [servicePrincipalId] The ID of the service principal used to
-   * authenticate against Azure SQL Data Warehouse. Type: string (or Expression
-   * with resultType string).
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] The key of the service
-   * principal used to authenticate against Azure SQL Data Warehouse.
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {any} [tenant] The name or ID of the tenant to which the service
-   * principal belongs. Type: string (or Expression with resultType string).
-   */
-  tenant?: any;
   /**
    * @member {any} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -10332,32 +7036,6 @@ export interface AzureSqlDWLinkedService {
 
 /**
  * @interface
- * An interface representing AzureStorageLinkedServiceTypeProperties.
- * Azure Storage linked service properties.
- *
- */
-export interface AzureStorageLinkedServiceTypeProperties {
-  /**
-   * @member {any} [connectionString] The connection string. It is mutually
-   * exclusive with sasUri property. Type: string, SecureString or
-   * AzureKeyVaultSecretReference.
-   */
-  connectionString?: any;
-  /**
-   * @member {SecretBaseUnion} [sasUri] SAS URI of the Azure Storage resource.
-   * It is mutually exclusive with connectionString property.
-   */
-  sasUri?: SecretBaseUnion;
-  /**
-   * @member {string} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: string;
-}
-
-/**
- * @interface
  * An interface representing AzureTableStorageLinkedService.
  * The azure table storage linked service.
  *
@@ -10397,55 +7075,6 @@ export interface AzureTableStorageLinkedService {
    * It is mutually exclusive with connectionString property.
    */
   sasUri?: SecretBaseUnion;
-  /**
-   * @member {string} [encryptedCredential] The encrypted credential used for
-   * authentication. Credentials are encrypted using the integration runtime
-   * credential manager. Type: string (or Expression with resultType string).
-   */
-  encryptedCredential?: string;
-}
-
-/**
- * @interface
- * An interface representing AzureBlobStorageLinkedServiceTypeProperties.
- * Azure Blob Storage linked service properties.
- *
- */
-export interface AzureBlobStorageLinkedServiceTypeProperties {
-  /**
-   * @member {any} [connectionString] The connection string. It is mutually
-   * exclusive with sasUri, serviceEndpoint property. Type: string,
-   * SecureString or AzureKeyVaultSecretReference.
-   */
-  connectionString?: any;
-  /**
-   * @member {SecretBaseUnion} [sasUri] SAS URI of the Azure Blob Storage
-   * resource. It is mutually exclusive with connectionString, serviceEndpoint
-   * property.
-   */
-  sasUri?: SecretBaseUnion;
-  /**
-   * @member {string} [serviceEndpoint] Blob service endpoint of the Azure Blob
-   * Storage resource. It is mutually exclusive with connectionString, sasUri
-   * property.
-   */
-  serviceEndpoint?: string;
-  /**
-   * @member {any} [servicePrincipalId] The ID of the service principal used to
-   * authenticate against Azure SQL Data Warehouse. Type: string (or Expression
-   * with resultType string).
-   */
-  servicePrincipalId?: any;
-  /**
-   * @member {SecretBaseUnion} [servicePrincipalKey] The key of the service
-   * principal used to authenticate against Azure SQL Data Warehouse.
-   */
-  servicePrincipalKey?: SecretBaseUnion;
-  /**
-   * @member {any} [tenant] The name or ID of the tenant to which the service
-   * principal belongs. Type: string (or Expression with resultType string).
-   */
-  tenant?: any;
   /**
    * @member {string} [encryptedCredential] The encrypted credential used for
    * authentication. Credentials are encrypted using the integration runtime
@@ -12195,48 +8824,6 @@ export interface TextFormat {
 
 /**
  * @interface
- * An interface representing HttpDatasetTypeProperties.
- * Properties specific to this dataset type.
- *
- */
-export interface HttpDatasetTypeProperties {
-  /**
-   * @member {any} [relativeUrl] The relative URL based on the URL in the
-   * HttpLinkedService refers to an HTTP file Type: string (or Expression with
-   * resultType string).
-   */
-  relativeUrl?: any;
-  /**
-   * @member {any} [requestMethod] The HTTP method for the HTTP request. Type:
-   * string (or Expression with resultType string).
-   */
-  requestMethod?: any;
-  /**
-   * @member {any} [requestBody] The body for the HTTP request. Type: string
-   * (or Expression with resultType string).
-   */
-  requestBody?: any;
-  /**
-   * @member {any} [additionalHeaders] The headers for the HTTP Request. e.g.
-   * request-header-name-1:request-header-value-1
-   * ...
-   * request-header-name-n:request-header-value-n Type: string (or Expression
-   * with resultType string).
-   */
-  additionalHeaders?: any;
-  /**
-   * @member {DatasetStorageFormatUnion} [format] The format of files.
-   */
-  format?: DatasetStorageFormatUnion;
-  /**
-   * @member {DatasetCompressionUnion} [compression] The data compression
-   * method used on files.
-   */
-  compression?: DatasetCompressionUnion;
-}
-
-/**
- * @interface
  * An interface representing HttpDataset.
  * A file in an HTTP web server.
  *
@@ -12313,20 +8900,6 @@ export interface HttpDataset {
 
 /**
  * @interface
- * An interface representing AzureSearchIndexDatasetTypeProperties.
- * Properties specific to this dataset type.
- *
- */
-export interface AzureSearchIndexDatasetTypeProperties {
-  /**
-   * @member {any} indexName The name of the Azure Search Index. Type: string
-   * (or Expression with resultType string).
-   */
-  indexName: any;
-}
-
-/**
- * @interface
  * An interface representing AzureSearchIndexDataset.
  * The Azure Search Index.
  *
@@ -12371,25 +8944,6 @@ export interface AzureSearchIndexDataset {
    * (or Expression with resultType string).
    */
   indexName: any;
-}
-
-/**
- * @interface
- * An interface representing WebTableDatasetTypeProperties.
- * Web table dataset properties.
- *
- */
-export interface WebTableDatasetTypeProperties {
-  /**
-   * @member {any} index The zero-based index of the table in the web page.
-   * Type: integer (or Expression with resultType integer), minimum: 0.
-   */
-  index: any;
-  /**
-   * @member {any} [path] The relative URL to the web page from the linked
-   * service URL. Type: string (or Expression with resultType string).
-   */
-  path?: any;
 }
 
 /**
@@ -12447,20 +9001,6 @@ export interface WebTableDataset {
 
 /**
  * @interface
- * An interface representing SqlServerTableDatasetTypeProperties.
- * On-premises SQL Server dataset properties.
- *
- */
-export interface SqlServerTableDatasetTypeProperties {
-  /**
-   * @member {any} tableName The table name of the SQL Server dataset. Type:
-   * string (or Expression with resultType string).
-   */
-  tableName: any;
-}
-
-/**
- * @interface
  * An interface representing SqlServerTableDataset.
  * The on-premises SQL Server dataset.
  *
@@ -12505,20 +9045,6 @@ export interface SqlServerTableDataset {
    * string (or Expression with resultType string).
    */
   tableName: any;
-}
-
-/**
- * @interface
- * An interface representing SapEccResourceDatasetTypeProperties.
- * Sap ECC OData resource dataset properties.
- *
- */
-export interface SapEccResourceDatasetTypeProperties {
-  /**
-   * @member {string} path The path of the SAP ECC OData entity. Type: string
-   * (or Expression with resultType string).
-   */
-  path: string;
 }
 
 /**
@@ -12571,20 +9097,6 @@ export interface SapEccResourceDataset {
 
 /**
  * @interface
- * An interface representing SapCloudForCustomerResourceDatasetTypeProperties.
- * Sap Cloud For Customer OData resource dataset properties.
- *
- */
-export interface SapCloudForCustomerResourceDatasetTypeProperties {
-  /**
-   * @member {any} path The path of the SAP Cloud for Customer OData entity.
-   * Type: string (or Expression with resultType string).
-   */
-  path: any;
-}
-
-/**
- * @interface
  * An interface representing SapCloudForCustomerResourceDataset.
  * The path of the SAP Cloud for Customer OData entity.
  *
@@ -12629,20 +9141,6 @@ export interface SapCloudForCustomerResourceDataset {
    * Type: string (or Expression with resultType string).
    */
   path: any;
-}
-
-/**
- * @interface
- * An interface representing SalesforceObjectDatasetTypeProperties.
- * Salesforce object dataset properties.
- *
- */
-export interface SalesforceObjectDatasetTypeProperties {
-  /**
-   * @member {any} [objectApiName] The Salesforce object API name. Type: string
-   * (or Expression with resultType string).
-   */
-  objectApiName?: any;
 }
 
 /**
@@ -12695,20 +9193,6 @@ export interface SalesforceObjectDataset {
 
 /**
  * @interface
- * An interface representing RelationalTableDatasetTypeProperties.
- * Relational table dataset properties.
- *
- */
-export interface RelationalTableDatasetTypeProperties {
-  /**
-   * @member {any} [tableName] The relational table name. Type: string (or
-   * Expression with resultType string).
-   */
-  tableName?: any;
-}
-
-/**
- * @interface
  * An interface representing RelationalTableDataset.
  * The relational table dataset.
  *
@@ -12751,20 +9235,6 @@ export interface RelationalTableDataset {
   /**
    * @member {any} [tableName] The relational table name. Type: string (or
    * Expression with resultType string).
-   */
-  tableName?: any;
-}
-
-/**
- * @interface
- * An interface representing AzureMySqlTableDatasetTypeProperties.
- * Azure MySQL database dataset properties.
- *
- */
-export interface AzureMySqlTableDatasetTypeProperties {
-  /**
-   * @member {any} [tableName] The Azure MySQL database table name. Type:
-   * string (or Expression with resultType string).
    */
   tableName?: any;
 }
@@ -12819,20 +9289,6 @@ export interface AzureMySqlTableDataset {
 
 /**
  * @interface
- * An interface representing OracleTableDatasetTypeProperties.
- * On-premises Oracle dataset properties.
- *
- */
-export interface OracleTableDatasetTypeProperties {
-  /**
-   * @member {any} tableName The table name of the on-premises Oracle database.
-   * Type: string (or Expression with resultType string).
-   */
-  tableName: any;
-}
-
-/**
- * @interface
  * An interface representing OracleTableDataset.
  * The on-premises Oracle database dataset.
  *
@@ -12877,20 +9333,6 @@ export interface OracleTableDataset {
    * Type: string (or Expression with resultType string).
    */
   tableName: any;
-}
-
-/**
- * @interface
- * An interface representing ODataResourceDatasetTypeProperties.
- * OData dataset properties.
- *
- */
-export interface ODataResourceDatasetTypeProperties {
-  /**
-   * @member {any} [path] The OData resource path. Type: string (or Expression
-   * with resultType string).
-   */
-  path?: any;
 }
 
 /**
@@ -12943,20 +9385,6 @@ export interface ODataResourceDataset {
 
 /**
  * @interface
- * An interface representing MongoDbCollectionDatasetTypeProperties.
- * MongoDB database dataset properties.
- *
- */
-export interface MongoDbCollectionDatasetTypeProperties {
-  /**
-   * @member {any} collectionName The table name of the MongoDB database. Type:
-   * string (or Expression with resultType string).
-   */
-  collectionName: any;
-}
-
-/**
- * @interface
  * An interface representing MongoDbCollectionDataset.
  * The MongoDB database dataset.
  *
@@ -13001,40 +9429,6 @@ export interface MongoDbCollectionDataset {
    * string (or Expression with resultType string).
    */
   collectionName: any;
-}
-
-/**
- * @interface
- * An interface representing FileShareDatasetTypeProperties.
- * On-premises file system dataset properties.
- *
- */
-export interface FileShareDatasetTypeProperties {
-  /**
-   * @member {any} [folderPath] The path of the on-premises file system. Type:
-   * string (or Expression with resultType string).
-   */
-  folderPath?: any;
-  /**
-   * @member {any} [fileName] The name of the on-premises file system. Type:
-   * string (or Expression with resultType string).
-   */
-  fileName?: any;
-  /**
-   * @member {DatasetStorageFormatUnion} [format] The format of the files.
-   */
-  format?: DatasetStorageFormatUnion;
-  /**
-   * @member {any} [fileFilter] Specify a filter to be used to select a subset
-   * of files in the folderPath rather than all files. Type: string (or
-   * Expression with resultType string).
-   */
-  fileFilter?: any;
-  /**
-   * @member {DatasetCompressionUnion} [compression] The data compression
-   * method used for the file system.
-   */
-  compression?: DatasetCompressionUnion;
 }
 
 /**
@@ -13107,35 +9501,6 @@ export interface FileShareDataset {
 
 /**
  * @interface
- * An interface representing AzureDataLakeStoreDatasetTypeProperties.
- * Azure Data Lake Store dataset properties.
- *
- */
-export interface AzureDataLakeStoreDatasetTypeProperties {
-  /**
-   * @member {any} folderPath Path to the folder in the Azure Data Lake Store.
-   * Type: string (or Expression with resultType string).
-   */
-  folderPath: any;
-  /**
-   * @member {any} [fileName] The name of the file in the Azure Data Lake
-   * Store. Type: string (or Expression with resultType string).
-   */
-  fileName?: any;
-  /**
-   * @member {DatasetStorageFormatUnion} [format] The format of the Data Lake
-   * Store.
-   */
-  format?: DatasetStorageFormatUnion;
-  /**
-   * @member {DatasetCompressionUnion} [compression] The data compression
-   * method used for the item(s) in the Azure Data Lake Store.
-   */
-  compression?: DatasetCompressionUnion;
-}
-
-/**
- * @interface
  * An interface representing AzureDataLakeStoreDataset.
  * Azure Data Lake Store dataset.
  *
@@ -13199,20 +9564,6 @@ export interface AzureDataLakeStoreDataset {
 
 /**
  * @interface
- * An interface representing DynamicsEntityDatasetTypeProperties.
- * Dynamics entity dataset properties.
- *
- */
-export interface DynamicsEntityDatasetTypeProperties {
-  /**
-   * @member {any} [entityName] The logical name of the entity. Type: string
-   * (or Expression with resultType string).
-   */
-  entityName?: any;
-}
-
-/**
- * @interface
  * An interface representing DynamicsEntityDataset.
  * The Dynamics entity dataset.
  *
@@ -13257,20 +9608,6 @@ export interface DynamicsEntityDataset {
    * (or Expression with resultType string).
    */
   entityName?: any;
-}
-
-/**
- * @interface
- * An interface representing DocumentDbCollectionDatasetTypeProperties.
- * DocumentDB Collection dataset properties.
- *
- */
-export interface DocumentDbCollectionDatasetTypeProperties {
-  /**
-   * @member {any} collectionName Document Database collection name. Type:
-   * string (or Expression with resultType string).
-   */
-  collectionName: any;
 }
 
 /**
@@ -13370,25 +9707,6 @@ export interface CustomDataset {
 
 /**
  * @interface
- * An interface representing CassandraTableDatasetTypeProperties.
- * Cassandra dataset properties.
- *
- */
-export interface CassandraTableDatasetTypeProperties {
-  /**
-   * @member {any} [tableName] The table name of the Cassandra database. Type:
-   * string (or Expression with resultType string).
-   */
-  tableName?: any;
-  /**
-   * @member {any} [keyspace] The keyspace of the Cassandra database. Type:
-   * string (or Expression with resultType string).
-   */
-  keyspace?: any;
-}
-
-/**
- * @interface
  * An interface representing CassandraTableDataset.
  * The Cassandra database dataset.
  *
@@ -13442,20 +9760,6 @@ export interface CassandraTableDataset {
 
 /**
  * @interface
- * An interface representing AzureSqlDWTableDatasetTypeProperties.
- * Azure SQL Data Warehouse dataset properties.
- *
- */
-export interface AzureSqlDWTableDatasetTypeProperties {
-  /**
-   * @member {any} tableName The table name of the Azure SQL Data Warehouse.
-   * Type: string (or Expression with resultType string).
-   */
-  tableName: any;
-}
-
-/**
- * @interface
  * An interface representing AzureSqlDWTableDataset.
  * The Azure SQL Data Warehouse dataset.
  *
@@ -13498,20 +9802,6 @@ export interface AzureSqlDWTableDataset {
   /**
    * @member {any} tableName The table name of the Azure SQL Data Warehouse.
    * Type: string (or Expression with resultType string).
-   */
-  tableName: any;
-}
-
-/**
- * @interface
- * An interface representing AzureSqlTableDatasetTypeProperties.
- * Azure SQL dataset properties.
- *
- */
-export interface AzureSqlTableDatasetTypeProperties {
-  /**
-   * @member {any} tableName The table name of the Azure SQL database. Type:
-   * string (or Expression with resultType string).
    */
   tableName: any;
 }
@@ -13566,20 +9856,6 @@ export interface AzureSqlTableDataset {
 
 /**
  * @interface
- * An interface representing AzureTableDatasetTypeProperties.
- * Azure Table dataset properties.
- *
- */
-export interface AzureTableDatasetTypeProperties {
-  /**
-   * @member {any} tableName The table name of the Azure Table storage. Type:
-   * string (or Expression with resultType string).
-   */
-  tableName: any;
-}
-
-/**
- * @interface
  * An interface representing AzureTableDataset.
  * The Azure Table storage dataset.
  *
@@ -13624,40 +9900,6 @@ export interface AzureTableDataset {
    * string (or Expression with resultType string).
    */
   tableName: any;
-}
-
-/**
- * @interface
- * An interface representing AzureBlobDatasetTypeProperties.
- * Azure Blob dataset properties.
- *
- */
-export interface AzureBlobDatasetTypeProperties {
-  /**
-   * @member {any} [folderPath] The path of the Azure Blob storage. Type:
-   * string (or Expression with resultType string).
-   */
-  folderPath?: any;
-  /**
-   * @member {any} [tableRootLocation] The root of blob path. Type: string (or
-   * Expression with resultType string).
-   */
-  tableRootLocation?: any;
-  /**
-   * @member {any} [fileName] The name of the Azure Blob. Type: string (or
-   * Expression with resultType string).
-   */
-  fileName?: any;
-  /**
-   * @member {DatasetStorageFormatUnion} [format] The format of the Azure Blob
-   * storage.
-   */
-  format?: DatasetStorageFormatUnion;
-  /**
-   * @member {DatasetCompressionUnion} [compression] The data compression
-   * method used for the blob storage.
-   */
-  compression?: DatasetCompressionUnion;
 }
 
 /**
@@ -13724,44 +9966,6 @@ export interface AzureBlobDataset {
   /**
    * @member {DatasetCompressionUnion} [compression] The data compression
    * method used for the blob storage.
-   */
-  compression?: DatasetCompressionUnion;
-}
-
-/**
- * @interface
- * An interface representing AmazonS3DatasetTypeProperties.
- * Amazon S3 dataset properties.
- *
- */
-export interface AmazonS3DatasetTypeProperties {
-  /**
-   * @member {any} bucketName The name of the Amazon S3 bucket. Type: string
-   * (or Expression with resultType string).
-   */
-  bucketName: any;
-  /**
-   * @member {any} [key] The key of the Amazon S3 object. Type: string (or
-   * Expression with resultType string).
-   */
-  key?: any;
-  /**
-   * @member {any} [prefix] The prefix filter for the S3 object name. Type:
-   * string (or Expression with resultType string).
-   */
-  prefix?: any;
-  /**
-   * @member {any} [version] The version for the S3 object. Type: string (or
-   * Expression with resultType string).
-   */
-  version?: any;
-  /**
-   * @member {DatasetStorageFormatUnion} [format] The format of files.
-   */
-  format?: DatasetStorageFormatUnion;
-  /**
-   * @member {DatasetCompressionUnion} [compression] The data compression
-   * method used for the Amazon S3 object.
    */
   compression?: DatasetCompressionUnion;
 }
@@ -13879,30 +10083,6 @@ export interface ActivityPolicy {
 }
 
 /**
- * @interface
- * An interface representing DatabricksSparkPythonActivityTypeProperties.
- * Databricks SparkPython activity properties.
- *
- */
-export interface DatabricksSparkPythonActivityTypeProperties {
-  /**
-   * @member {any} pythonFile The URI of the Python file to be executed. DBFS
-   * paths are supported. Type: string (or Expression with resultType string).
-   */
-  pythonFile: any;
-  /**
-   * @member {any[]} [parameters] Command line parameters that will be passed
-   * to the Python file.
-   */
-  parameters?: any[];
-  /**
-   * @member {{ [propertyName: string]: any }[]} [libraries] A list of
-   * libraries to be installed on the cluster that will execute the job.
-   */
-  libraries?: { [propertyName: string]: any }[];
-}
-
-/**
  * Contains the possible cases for ExecutionActivity.
  */
 export type ExecutionActivityUnion = ExecutionActivity | DatabricksSparkPythonActivity | DatabricksSparkJarActivity | DatabricksNotebookActivity | DataLakeAnalyticsUSQLActivity | AzureMLUpdateResourceActivity | AzureMLBatchExecutionActivity | GetMetadataActivity | WebActivity | LookupActivity | SqlServerStoredProcedureActivity | CustomActivity | ExecuteSSISPackageActivity | HDInsightSparkActivity | HDInsightStreamingActivity | HDInsightMapReduceActivity | HDInsightPigActivity | HDInsightHiveActivity | CopyActivity;
@@ -14000,31 +10180,6 @@ export interface DatabricksSparkPythonActivity {
 
 /**
  * @interface
- * An interface representing DatabricksSparkJarActivityTypeProperties.
- * Databricks SparkJar activity properties.
- *
- */
-export interface DatabricksSparkJarActivityTypeProperties {
-  /**
-   * @member {any} mainClassName The full name of the class containing the main
-   * method to be executed. This class must be contained in a JAR provided as a
-   * library. Type: string (or Expression with resultType string).
-   */
-  mainClassName: any;
-  /**
-   * @member {any[]} [parameters] Parameters that will be passed to the main
-   * method.
-   */
-  parameters?: any[];
-  /**
-   * @member {{ [propertyName: string]: any }[]} [libraries] A list of
-   * libraries to be installed on the cluster that will execute the job.
-   */
-  libraries?: { [propertyName: string]: any }[];
-}
-
-/**
- * @interface
  * An interface representing DatabricksSparkJarActivity.
  * DatabricksSparkJar activity.
  *
@@ -14070,32 +10225,6 @@ export interface DatabricksSparkJarActivity {
    * method.
    */
   parameters?: any[];
-  /**
-   * @member {{ [propertyName: string]: any }[]} [libraries] A list of
-   * libraries to be installed on the cluster that will execute the job.
-   */
-  libraries?: { [propertyName: string]: any }[];
-}
-
-/**
- * @interface
- * An interface representing DatabricksNotebookActivityTypeProperties.
- * Databricks Notebook activity properties.
- *
- */
-export interface DatabricksNotebookActivityTypeProperties {
-  /**
-   * @member {any} notebookPath The absolute path of the notebook to be run in
-   * the Databricks Workspace. This path must begin with a slash. Type: string
-   * (or Expression with resultType string).
-   */
-  notebookPath: any;
-  /**
-   * @member {{ [propertyName: string]: any }} [baseParameters] Base parameters
-   * to be used for each run of this job.If the notebook takes a parameter that
-   * is not specified, the default value from the notebook will be used.
-   */
-  baseParameters?: { [propertyName: string]: any };
   /**
    * @member {{ [propertyName: string]: any }[]} [libraries] A list of
    * libraries to be installed on the cluster that will execute the job.
@@ -14156,54 +10285,6 @@ export interface DatabricksNotebookActivity {
    * libraries to be installed on the cluster that will execute the job.
    */
   libraries?: { [propertyName: string]: any }[];
-}
-
-/**
- * @interface
- * An interface representing DataLakeAnalyticsUSQLActivityTypeProperties.
- * DataLakeAnalyticsU-SQL activity properties.
- *
- */
-export interface DataLakeAnalyticsUSQLActivityTypeProperties {
-  /**
-   * @member {any} scriptPath Case-sensitive path to folder that contains the
-   * U-SQL script. Type: string (or Expression with resultType string).
-   */
-  scriptPath: any;
-  /**
-   * @member {LinkedServiceReference} scriptLinkedService Script linked service
-   * reference.
-   */
-  scriptLinkedService: LinkedServiceReference;
-  /**
-   * @member {any} [degreeOfParallelism] The maximum number of nodes
-   * simultaneously used to run the job. Default value is 1. Type: integer (or
-   * Expression with resultType integer), minimum: 1.
-   */
-  degreeOfParallelism?: any;
-  /**
-   * @member {any} [priority] Determines which jobs out of all that are queued
-   * should be selected to run first. The lower the number, the higher the
-   * priority. Default value is 1000. Type: integer (or Expression with
-   * resultType integer), minimum: 1.
-   */
-  priority?: any;
-  /**
-   * @member {{ [propertyName: string]: any }} [parameters] Parameters for
-   * U-SQL job request.
-   */
-  parameters?: { [propertyName: string]: any };
-  /**
-   * @member {any} [runtimeVersion] Runtime version of the U-SQL engine to use.
-   * Type: string (or Expression with resultType string).
-   */
-  runtimeVersion?: any;
-  /**
-   * @member {any} [compilationMode] Compilation mode of U-SQL. Must be one of
-   * these values : Semantic, Full and SingleBox. Type: string (or Expression
-   * with resultType string).
-   */
-  compilationMode?: any;
 }
 
 /**
@@ -14281,34 +10362,6 @@ export interface DataLakeAnalyticsUSQLActivity {
    * with resultType string).
    */
   compilationMode?: any;
-}
-
-/**
- * @interface
- * An interface representing AzureMLUpdateResourceActivityTypeProperties.
- * Azure ML Update Resource activity properties.
- *
- */
-export interface AzureMLUpdateResourceActivityTypeProperties {
-  /**
-   * @member {any} trainedModelName Name of the Trained Model module in the Web
-   * Service experiment to be updated. Type: string (or Expression with
-   * resultType string).
-   */
-  trainedModelName: any;
-  /**
-   * @member {LinkedServiceReference} trainedModelLinkedServiceName Name of
-   * Azure Storage linked service holding the .ilearner file that will be
-   * uploaded by the update operation.
-   */
-  trainedModelLinkedServiceName: LinkedServiceReference;
-  /**
-   * @member {any} trainedModelFilePath The relative file path in
-   * trainedModelLinkedService to represent the .ilearner file that will be
-   * uploaded by the update operation.  Type: string (or Expression with
-   * resultType string).
-   */
-  trainedModelFilePath: any;
 }
 
 /**
@@ -14391,39 +10444,6 @@ export interface AzureMLWebServiceFile {
 
 /**
  * @interface
- * An interface representing AzureMLBatchExecutionActivityTypeProperties.
- * Azure ML Batch Execution activity properties.
- *
- */
-export interface AzureMLBatchExecutionActivityTypeProperties {
-  /**
-   * @member {{ [propertyName: string]: any }} [globalParameters] Key,Value
-   * pairs to be passed to the Azure ML Batch Execution Service endpoint. Keys
-   * must match the names of web service parameters defined in the published
-   * Azure ML web service. Values will be passed in the GlobalParameters
-   * property of the Azure ML batch execution request.
-   */
-  globalParameters?: { [propertyName: string]: any };
-  /**
-   * @member {{ [propertyName: string]: AzureMLWebServiceFile }}
-   * [webServiceOutputs] Key,Value pairs, mapping the names of Azure ML
-   * endpoint's Web Service Outputs to AzureMLWebServiceFile objects specifying
-   * the output Blob locations. This information will be passed in the
-   * WebServiceOutputs property of the Azure ML batch execution request.
-   */
-  webServiceOutputs?: { [propertyName: string]: AzureMLWebServiceFile };
-  /**
-   * @member {{ [propertyName: string]: AzureMLWebServiceFile }}
-   * [webServiceInputs] Key,Value pairs, mapping the names of Azure ML
-   * endpoint's Web Service Inputs to AzureMLWebServiceFile objects specifying
-   * the input Blob locations.. This information will be passed in the
-   * WebServiceInputs property of the Azure ML batch execution request.
-   */
-  webServiceInputs?: { [propertyName: string]: AzureMLWebServiceFile };
-}
-
-/**
- * @interface
  * An interface representing AzureMLBatchExecutionActivity.
  * Azure ML Batch Execution activity.
  *
@@ -14482,23 +10502,6 @@ export interface AzureMLBatchExecutionActivity {
    * WebServiceInputs property of the Azure ML batch execution request.
    */
   webServiceInputs?: { [propertyName: string]: AzureMLWebServiceFile };
-}
-
-/**
- * @interface
- * An interface representing GetMetadataActivityTypeProperties.
- * GetMetadata activity properties.
- *
- */
-export interface GetMetadataActivityTypeProperties {
-  /**
-   * @member {DatasetReference} dataset GetMetadata activity dataset reference.
-   */
-  dataset: DatasetReference;
-  /**
-   * @member {any[]} [fieldList] Fields of metadata to get from dataset.
-   */
-  fieldList?: any[];
 }
 
 /**
@@ -14578,53 +10581,6 @@ export interface WebActivityAuthentication {
    * requested when using MSI Authentication.
    */
   resource?: string;
-}
-
-/**
- * @interface
- * An interface representing WebActivityTypeProperties.
- * Web activity type properties.
- *
- */
-export interface WebActivityTypeProperties {
-  /**
-   * @member {WebActivityMethod} method Rest API method for target endpoint.
-   * Possible values include: 'GET', 'POST', 'PUT', 'DELETE'
-   */
-  method: WebActivityMethod;
-  /**
-   * @member {any} url Web activity target endpoint and path. Type: string (or
-   * Expression with resultType string).
-   */
-  url: any;
-  /**
-   * @member {any} [headers] Represents the headers that will be sent to the
-   * request. For example, to set the language and type on a request: "headers"
-   * : { "Accept-Language": "en-us", "Content-Type": "application/json" }.
-   * Type: string (or Expression with resultType string).
-   */
-  headers?: any;
-  /**
-   * @member {any} [body] Represents the payload that will be sent to the
-   * endpoint. Required for POST/PUT method, not allowed for GET method Type:
-   * string (or Expression with resultType string).
-   */
-  body?: any;
-  /**
-   * @member {WebActivityAuthentication} [authentication] Authentication method
-   * used for calling the endpoint.
-   */
-  authentication?: WebActivityAuthentication;
-  /**
-   * @member {DatasetReference[]} [datasets] List of datasets passed to web
-   * endpoint.
-   */
-  datasets?: DatasetReference[];
-  /**
-   * @member {LinkedServiceReference[]} [linkedServices] List of linked
-   * services passed to web endpoint.
-   */
-  linkedServices?: LinkedServiceReference[];
 }
 
 /**
@@ -16346,30 +12302,6 @@ export interface AzureTableSource {
 
 /**
  * @interface
- * An interface representing LookupActivityTypeProperties.
- * Lookup activity properties.
- *
- */
-export interface LookupActivityTypeProperties {
-  /**
-   * @member {CopySourceUnion} source Dataset-specific source properties, same
-   * as copy activity source.
-   */
-  source: CopySourceUnion;
-  /**
-   * @member {DatasetReference} dataset Lookup activity dataset reference.
-   */
-  dataset: DatasetReference;
-  /**
-   * @member {any} [firstRowOnly] Whether to return first row or all rows.
-   * Default value is true. Type: boolean (or Expression with resultType
-   * boolean).
-   */
-  firstRowOnly?: any;
-}
-
-/**
- * @interface
  * An interface representing LookupActivity.
  * Lookup activity.
  *
@@ -16419,26 +12351,6 @@ export interface LookupActivity {
    * boolean).
    */
   firstRowOnly?: any;
-}
-
-/**
- * @interface
- * An interface representing SqlServerStoredProcedureActivityTypeProperties.
- * SQL stored procedure activity properties.
- *
- */
-export interface SqlServerStoredProcedureActivityTypeProperties {
-  /**
-   * @member {any} storedProcedureName Stored procedure name. Type: string (or
-   * Expression with resultType string).
-   */
-  storedProcedureName: any;
-  /**
-   * @member {{ [propertyName: string]: StoredProcedureParameter }}
-   * [storedProcedureParameters] Value and type setting for stored procedure
-   * parameters. Example: "{Parameter1: {value: "1", type: "int"}}".
-   */
-  storedProcedureParameters?: { [propertyName: string]: StoredProcedureParameter };
 }
 
 /**
@@ -16506,42 +12418,6 @@ export interface CustomActivityReferenceObject {
    * @member {DatasetReference[]} [datasets] Dataset references.
    */
   datasets?: DatasetReference[];
-}
-
-/**
- * @interface
- * An interface representing CustomActivityTypeProperties.
- * Custom activity properties.
- *
- */
-export interface CustomActivityTypeProperties {
-  /**
-   * @member {any} command Command for custom activity Type: string (or
-   * Expression with resultType string).
-   */
-  command: any;
-  /**
-   * @member {LinkedServiceReference} [resourceLinkedService] Resource linked
-   * service reference.
-   */
-  resourceLinkedService?: LinkedServiceReference;
-  /**
-   * @member {any} [folderPath] Folder path for resource files Type: string (or
-   * Expression with resultType string).
-   */
-  folderPath?: any;
-  /**
-   * @member {CustomActivityReferenceObject} [referenceObjects] Reference
-   * objects
-   */
-  referenceObjects?: CustomActivityReferenceObject;
-  /**
-   * @member {{ [propertyName: string]: any }} [extendedProperties] User
-   * defined property bag. There is no restriction on the keys or values that
-   * can be used. The user specified custom activity has the full
-   * responsibility to consume and interpret the content defined.
-   */
-  extendedProperties?: { [propertyName: string]: any };
 }
 
 /**
@@ -16657,68 +12533,6 @@ export interface SSISPackageLocation {
 
 /**
  * @interface
- * An interface representing ExecuteSSISPackageActivityTypeProperties.
- * Execute SSIS package activity properties.
- *
- */
-export interface ExecuteSSISPackageActivityTypeProperties {
-  /**
-   * @member {SSISPackageLocation} packageLocation SSIS package location.
-   */
-  packageLocation: SSISPackageLocation;
-  /**
-   * @member {SSISExecutionRuntime} [runtime] Specifies the runtime to execute
-   * SSIS package. Possible values include: 'x64', 'x86'
-   */
-  runtime?: SSISExecutionRuntime;
-  /**
-   * @member {string} [loggingLevel] The logging level of SSIS package
-   * execution.
-   */
-  loggingLevel?: string;
-  /**
-   * @member {string} [environmentPath] The environment path to execute the
-   * SSIS package.
-   */
-  environmentPath?: string;
-  /**
-   * @member {IntegrationRuntimeReference} connectVia The integration runtime
-   * reference.
-   */
-  connectVia: IntegrationRuntimeReference;
-  /**
-   * @member {{ [propertyName: string]: SSISExecutionParameter }}
-   * [projectParameters] The project level parameters to execute the SSIS
-   * package.
-   */
-  projectParameters?: { [propertyName: string]: SSISExecutionParameter };
-  /**
-   * @member {{ [propertyName: string]: SSISExecutionParameter }}
-   * [packageParameters] The package level parameters to execute the SSIS
-   * package.
-   */
-  packageParameters?: { [propertyName: string]: SSISExecutionParameter };
-  /**
-   * @member {{ [propertyName: string]: { [propertyName: string]:
-   * SSISExecutionParameter } }} [projectConnectionManagers] The project level
-   * connection managers to execute the SSIS package.
-   */
-  projectConnectionManagers?: { [propertyName: string]: { [propertyName: string]: SSISExecutionParameter } };
-  /**
-   * @member {{ [propertyName: string]: { [propertyName: string]:
-   * SSISExecutionParameter } }} [packageConnectionManagers] The package level
-   * connection managers to execute the SSIS package.
-   */
-  packageConnectionManagers?: { [propertyName: string]: { [propertyName: string]: SSISExecutionParameter } };
-  /**
-   * @member {{ [propertyName: string]: SSISPropertyOverride }}
-   * [propertyOverrides] The property overrides to execute the SSIS package.
-   */
-  propertyOverrides?: { [propertyName: string]: SSISPropertyOverride };
-}
-
-/**
- * @interface
  * An interface representing ExecuteSSISPackageActivity.
  * Execute SSIS package activity.
  *
@@ -16810,56 +12624,6 @@ export interface ExecuteSSISPackageActivity {
 
 /**
  * @interface
- * An interface representing HDInsightSparkActivityTypeProperties.
- * HDInsight spark activity properties.
- *
- */
-export interface HDInsightSparkActivityTypeProperties {
-  /**
-   * @member {any} rootPath The root path in 'sparkJobLinkedService' for all
-   * the job’s files. Type: string (or Expression with resultType string).
-   */
-  rootPath: any;
-  /**
-   * @member {any} entryFilePath The relative path to the root folder of the
-   * code/package to be executed. Type: string (or Expression with resultType
-   * string).
-   */
-  entryFilePath: any;
-  /**
-   * @member {any[]} [argumentsProperty] The user-specified arguments to
-   * HDInsightSparkActivity.
-   */
-  argumentsProperty?: any[];
-  /**
-   * @member {HDInsightActivityDebugInfoOption} [getDebugInfo] Debug info
-   * option. Possible values include: 'None', 'Always', 'Failure'
-   */
-  getDebugInfo?: HDInsightActivityDebugInfoOption;
-  /**
-   * @member {LinkedServiceReference} [sparkJobLinkedService] The storage
-   * linked service for uploading the entry file and dependencies, and for
-   * receiving logs.
-   */
-  sparkJobLinkedService?: LinkedServiceReference;
-  /**
-   * @member {string} [className] The application's Java/Spark main class.
-   */
-  className?: string;
-  /**
-   * @member {any} [proxyUser] The user to impersonate that will execute the
-   * job. Type: string (or Expression with resultType string).
-   */
-  proxyUser?: any;
-  /**
-   * @member {{ [propertyName: string]: any }} [sparkConfig] Spark
-   * configuration property.
-   */
-  sparkConfig?: { [propertyName: string]: any };
-}
-
-/**
- * @interface
  * An interface representing HDInsightSparkActivity.
  * HDInsight Spark activity.
  *
@@ -16935,74 +12699,6 @@ export interface HDInsightSparkActivity {
    * configuration property.
    */
   sparkConfig?: { [propertyName: string]: any };
-}
-
-/**
- * @interface
- * An interface representing HDInsightStreamingActivityTypeProperties.
- * HDInsight streaming activity properties.
- *
- */
-export interface HDInsightStreamingActivityTypeProperties {
-  /**
-   * @member {LinkedServiceReference[]} [storageLinkedServices] Storage linked
-   * service references.
-   */
-  storageLinkedServices?: LinkedServiceReference[];
-  /**
-   * @member {any[]} [argumentsProperty] User specified arguments to
-   * HDInsightActivity.
-   */
-  argumentsProperty?: any[];
-  /**
-   * @member {HDInsightActivityDebugInfoOption} [getDebugInfo] Debug info
-   * option. Possible values include: 'None', 'Always', 'Failure'
-   */
-  getDebugInfo?: HDInsightActivityDebugInfoOption;
-  /**
-   * @member {any} mapper Mapper executable name. Type: string (or Expression
-   * with resultType string).
-   */
-  mapper: any;
-  /**
-   * @member {any} reducer Reducer executable name. Type: string (or Expression
-   * with resultType string).
-   */
-  reducer: any;
-  /**
-   * @member {any} input Input blob path. Type: string (or Expression with
-   * resultType string).
-   */
-  input: any;
-  /**
-   * @member {any} output Output blob path. Type: string (or Expression with
-   * resultType string).
-   */
-  output: any;
-  /**
-   * @member {any[]} filePaths Paths to streaming job files. Can be
-   * directories.
-   */
-  filePaths: any[];
-  /**
-   * @member {LinkedServiceReference} [fileLinkedService] Linked service
-   * reference where the files are located.
-   */
-  fileLinkedService?: LinkedServiceReference;
-  /**
-   * @member {any} [combiner] Combiner executable name. Type: string (or
-   * Expression with resultType string).
-   */
-  combiner?: any;
-  /**
-   * @member {any[]} [commandEnvironment] Command line environment values.
-   */
-  commandEnvironment?: any[];
-  /**
-   * @member {{ [propertyName: string]: any }} [defines] Allows user to specify
-   * defines for streaming job request.
-   */
-  defines?: { [propertyName: string]: any };
 }
 
 /**
@@ -17104,54 +12800,6 @@ export interface HDInsightStreamingActivity {
 
 /**
  * @interface
- * An interface representing HDInsightMapReduceActivityTypeProperties.
- * HDInsight MapReduce activity properties.
- *
- */
-export interface HDInsightMapReduceActivityTypeProperties {
-  /**
-   * @member {LinkedServiceReference[]} [storageLinkedServices] Storage linked
-   * service references.
-   */
-  storageLinkedServices?: LinkedServiceReference[];
-  /**
-   * @member {any[]} [argumentsProperty] User specified arguments to
-   * HDInsightActivity.
-   */
-  argumentsProperty?: any[];
-  /**
-   * @member {HDInsightActivityDebugInfoOption} [getDebugInfo] Debug info
-   * option. Possible values include: 'None', 'Always', 'Failure'
-   */
-  getDebugInfo?: HDInsightActivityDebugInfoOption;
-  /**
-   * @member {any} className Class name. Type: string (or Expression with
-   * resultType string).
-   */
-  className: any;
-  /**
-   * @member {any} jarFilePath Jar path. Type: string (or Expression with
-   * resultType string).
-   */
-  jarFilePath: any;
-  /**
-   * @member {LinkedServiceReference} [jarLinkedService] Jar linked service
-   * reference.
-   */
-  jarLinkedService?: LinkedServiceReference;
-  /**
-   * @member {any[]} [jarLibs] Jar libs.
-   */
-  jarLibs?: any[];
-  /**
-   * @member {{ [propertyName: string]: any }} [defines] Allows user to specify
-   * defines for the MapReduce job request.
-   */
-  defines?: { [propertyName: string]: any };
-}
-
-/**
- * @interface
  * An interface representing HDInsightMapReduceActivity.
  * HDInsight MapReduce activity type.
  *
@@ -17229,45 +12877,6 @@ export interface HDInsightMapReduceActivity {
 
 /**
  * @interface
- * An interface representing HDInsightPigActivityTypeProperties.
- * HDInsight Pig activity properties.
- *
- */
-export interface HDInsightPigActivityTypeProperties {
-  /**
-   * @member {LinkedServiceReference[]} [storageLinkedServices] Storage linked
-   * service references.
-   */
-  storageLinkedServices?: LinkedServiceReference[];
-  /**
-   * @member {any[]} [argumentsProperty] User specified arguments to
-   * HDInsightActivity.
-   */
-  argumentsProperty?: any[];
-  /**
-   * @member {HDInsightActivityDebugInfoOption} [getDebugInfo] Debug info
-   * option. Possible values include: 'None', 'Always', 'Failure'
-   */
-  getDebugInfo?: HDInsightActivityDebugInfoOption;
-  /**
-   * @member {any} [scriptPath] Script path. Type: string (or Expression with
-   * resultType string).
-   */
-  scriptPath?: any;
-  /**
-   * @member {LinkedServiceReference} [scriptLinkedService] Script linked
-   * service reference.
-   */
-  scriptLinkedService?: LinkedServiceReference;
-  /**
-   * @member {{ [propertyName: string]: any }} [defines] Allows user to specify
-   * defines for Pig job request.
-   */
-  defines?: { [propertyName: string]: any };
-}
-
-/**
- * @interface
  * An interface representing HDInsightPigActivity.
  * HDInsight Pig activity type.
  *
@@ -17330,45 +12939,6 @@ export interface HDInsightPigActivity {
   /**
    * @member {{ [propertyName: string]: any }} [defines] Allows user to specify
    * defines for Pig job request.
-   */
-  defines?: { [propertyName: string]: any };
-}
-
-/**
- * @interface
- * An interface representing HDInsightHiveActivityTypeProperties.
- * HDInsight Hive activity properties.
- *
- */
-export interface HDInsightHiveActivityTypeProperties {
-  /**
-   * @member {LinkedServiceReference[]} [storageLinkedServices] Storage linked
-   * service references.
-   */
-  storageLinkedServices?: LinkedServiceReference[];
-  /**
-   * @member {any[]} [argumentsProperty] User specified arguments to
-   * HDInsightActivity.
-   */
-  argumentsProperty?: any[];
-  /**
-   * @member {HDInsightActivityDebugInfoOption} [getDebugInfo] Debug info
-   * option. Possible values include: 'None', 'Always', 'Failure'
-   */
-  getDebugInfo?: HDInsightActivityDebugInfoOption;
-  /**
-   * @member {any} [scriptPath] Script path. Type: string (or Expression with
-   * resultType string).
-   */
-  scriptPath?: any;
-  /**
-   * @member {LinkedServiceReference} [scriptLinkedService] Script linked
-   * service reference.
-   */
-  scriptLinkedService?: LinkedServiceReference;
-  /**
-   * @member {{ [propertyName: string]: any }} [defines] Allows user to specify
-   * defines for Hive job request.
    */
   defines?: { [propertyName: string]: any };
 }
@@ -18265,63 +13835,6 @@ export interface SapCloudForCustomerSink {
 
 /**
  * @interface
- * An interface representing CopyActivityTypeProperties.
- * Copy activity properties.
- *
- */
-export interface CopyActivityTypeProperties {
-  /**
-   * @member {CopySourceUnion} source Copy activity source.
-   */
-  source: CopySourceUnion;
-  /**
-   * @member {CopySinkUnion} sink Copy activity sink.
-   */
-  sink: CopySinkUnion;
-  /**
-   * @member {CopyTranslatorUnion} [translator] Copy activity translator. If
-   * not specificed, tabular translator is used.
-   */
-  translator?: CopyTranslatorUnion;
-  /**
-   * @member {any} [enableStaging] Specifies whether to copy data via an
-   * interim staging. Default value is false. Type: boolean (or Expression with
-   * resultType boolean).
-   */
-  enableStaging?: any;
-  /**
-   * @member {StagingSettings} [stagingSettings] Specifies interim staging
-   * settings when EnableStaging is true.
-   */
-  stagingSettings?: StagingSettings;
-  /**
-   * @member {any} [parallelCopies] Maximum number of concurrent sessions
-   * opened on the source or sink to avoid overloading the data store. Type:
-   * integer (or Expression with resultType integer), minimum: 0.
-   */
-  parallelCopies?: any;
-  /**
-   * @member {any} [dataIntegrationUnits] Maximum number of data integration
-   * units that can be used to perform this data movement. Type: integer (or
-   * Expression with resultType integer), minimum: 0.
-   */
-  dataIntegrationUnits?: any;
-  /**
-   * @member {any} [enableSkipIncompatibleRow] Whether to skip incompatible
-   * row. Default value is false. Type: boolean (or Expression with resultType
-   * boolean).
-   */
-  enableSkipIncompatibleRow?: any;
-  /**
-   * @member {RedirectIncompatibleRowSettings}
-   * [redirectIncompatibleRowSettings] Redirect incompatible row settings when
-   * EnableSkipIncompatibleRow is true.
-   */
-  redirectIncompatibleRowSettings?: RedirectIncompatibleRowSettings;
-}
-
-/**
- * @interface
  * An interface representing CopyActivity.
  * Copy activity.
  *
@@ -18415,25 +13928,6 @@ export interface CopyActivity {
 }
 
 /**
- * @interface
- * An interface representing AppendVariableActivityTypeProperties.
- * AppendVariable activity properties.
- *
- */
-export interface AppendVariableActivityTypeProperties {
-  /**
-   * @member {string} [variableName] Name of the variable whose value needs to
-   * be appended to.
-   */
-  variableName?: string;
-  /**
-   * @member {any} [value] Value to be appended. Could be a static value or
-   * Expression
-   */
-  value?: any;
-}
-
-/**
  * Contains the possible cases for ControlActivity.
  */
 export type ControlActivityUnion = ControlActivity | AppendVariableActivity | SetVariableActivity | FilterActivity | UntilActivity | WaitActivity | ForEachActivity | IfConditionActivity | ExecutePipelineActivity;
@@ -18508,25 +14002,6 @@ export interface AppendVariableActivity {
 
 /**
  * @interface
- * An interface representing SetVariableActivityTypeProperties.
- * SetVariable activity properties.
- *
- */
-export interface SetVariableActivityTypeProperties {
-  /**
-   * @member {string} [variableName] Name of the variable whose value needs to
-   * be set.
-   */
-  variableName?: string;
-  /**
-   * @member {any} [value] Value to be set. Could be a static value or
-   * Expression
-   */
-  value?: any;
-}
-
-/**
- * @interface
  * An interface representing SetVariableActivity.
  * Set value for a Variable.
  *
@@ -18566,24 +14041,6 @@ export interface SetVariableActivity {
 
 /**
  * @interface
- * An interface representing FilterActivityTypeProperties.
- * Filter activity properties.
- *
- */
-export interface FilterActivityTypeProperties {
-  /**
-   * @member {Expression} items Input array on which filter should be applied.
-   */
-  items: Expression;
-  /**
-   * @member {Expression} condition Condition to be used for filtering the
-   * input.
-   */
-  condition: Expression;
-}
-
-/**
- * @interface
  * An interface representing FilterActivity.
  * Filter and return results from input array based on the conditions.
  *
@@ -18618,33 +14075,6 @@ export interface FilterActivity {
    * input.
    */
   condition: Expression;
-}
-
-/**
- * @interface
- * An interface representing UntilActivityTypeProperties.
- * Until activity properties.
- *
- */
-export interface UntilActivityTypeProperties {
-  /**
-   * @member {Expression} expression An expression that would evaluate to
-   * Boolean. The loop will continue until this expression evaluates to true
-   */
-  expression: Expression;
-  /**
-   * @member {any} [timeout] Specifies the timeout for the activity to run. If
-   * there is no value specified, it takes the value of TimeSpan.FromDays(7)
-   * which is 1 week as default. Type: string (or Expression with resultType
-   * string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   * Type: string (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  timeout?: any;
-  /**
-   * @member {ActivityUnion[]} activities List of activities to execute.
-   */
-  activities: ActivityUnion[];
 }
 
 /**
@@ -18697,19 +14127,6 @@ export interface UntilActivity {
 
 /**
  * @interface
- * An interface representing WaitActivityTypeProperties.
- * Wait activity properties.
- *
- */
-export interface WaitActivityTypeProperties {
-  /**
-   * @member {number} waitTimeInSeconds Duration in seconds.
-   */
-  waitTimeInSeconds: number;
-}
-
-/**
- * @interface
  * An interface representing WaitActivity.
  * This activity suspends pipeline execution for the specified interval.
  *
@@ -18739,33 +14156,6 @@ export interface WaitActivity {
    * @member {number} waitTimeInSeconds Duration in seconds.
    */
   waitTimeInSeconds: number;
-}
-
-/**
- * @interface
- * An interface representing ForEachActivityTypeProperties.
- * ForEach activity properties.
- *
- */
-export interface ForEachActivityTypeProperties {
-  /**
-   * @member {boolean} [isSequential] Should the loop be executed in sequence
-   * or in parallel (max 50)
-   */
-  isSequential?: boolean;
-  /**
-   * @member {number} [batchCount] Batch count to be used for controlling the
-   * number of parallel execution (when isSequential is set to false).
-   */
-  batchCount?: number;
-  /**
-   * @member {Expression} items Collection to iterate.
-   */
-  items: Expression;
-  /**
-   * @member {ActivityUnion[]} activities List of activities to execute .
-   */
-  activities: ActivityUnion[];
 }
 
 /**
@@ -18818,33 +14208,6 @@ export interface ForEachActivity {
 
 /**
  * @interface
- * An interface representing IfConditionActivityTypeProperties.
- * IfCondition activity properties.
- *
- */
-export interface IfConditionActivityTypeProperties {
-  /**
-   * @member {Expression} expression An expression that would evaluate to
-   * Boolean. This is used to determine the block of activities
-   * (ifTrueActivities or ifFalseActivities) that will be executed.
-   */
-  expression: Expression;
-  /**
-   * @member {ActivityUnion[]} [ifTrueActivities] List of activities to execute
-   * if expression is evaluated to true. This is an optional property and if
-   * not provided, the activity will exit without any action.
-   */
-  ifTrueActivities?: ActivityUnion[];
-  /**
-   * @member {ActivityUnion[]} [ifFalseActivities] List of activities to
-   * execute if expression is evaluated to false. This is an optional property
-   * and if not provided, the activity will exit without any action.
-   */
-  ifFalseActivities?: ActivityUnion[];
-}
-
-/**
- * @interface
  * An interface representing IfConditionActivity.
  * This activity evaluates a boolean expression and executes either the
  * activities under the ifTrueActivities property or the ifFalseActivities
@@ -18890,30 +14253,6 @@ export interface IfConditionActivity {
    * and if not provided, the activity will exit without any action.
    */
   ifFalseActivities?: ActivityUnion[];
-}
-
-/**
- * @interface
- * An interface representing ExecutePipelineActivityTypeProperties.
- * Execute pipeline activity properties.
- *
- */
-export interface ExecutePipelineActivityTypeProperties {
-  /**
-   * @member {PipelineReference} pipelineProperty Pipeline reference.
-   */
-  pipelineProperty: PipelineReference;
-  /**
-   * @member {{ [propertyName: string]: any }} [parameters] Pipeline
-   * parameters.
-   */
-  parameters?: { [propertyName: string]: any };
-  /**
-   * @member {boolean} [waitOnCompletion] Defines whether activity execution
-   * will wait for the dependent pipeline execution to finish. Default is
-   * false.
-   */
-  waitOnCompletion?: boolean;
 }
 
 /**
@@ -19140,126 +14479,6 @@ export interface SelfHostedIntegrationRuntimeNode {
    * can be of "any" type.
    */
   [property: string]: any;
-}
-
-/**
- * @interface
- * An interface representing SelfHostedIntegrationRuntimeStatusTypeProperties.
- * Self-hosted integration runtime status type properties.
- *
- */
-export interface SelfHostedIntegrationRuntimeStatusTypeProperties {
-  /**
-   * @member {Date} [createTime] The time at which the integration runtime was
-   * created, in ISO8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createTime?: Date;
-  /**
-   * @member {string} [taskQueueId] The task queue id of the integration
-   * runtime.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly taskQueueId?: string;
-  /**
-   * @member {IntegrationRuntimeInternalChannelEncryptionMode}
-   * [internalChannelEncryption] It is used to set the encryption mode for
-   * node-node communication channel (when more than 2 self-hosted integration
-   * runtime nodes exist). Possible values include: 'NotSet', 'SslEncrypted',
-   * 'NotEncrypted'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly internalChannelEncryption?: IntegrationRuntimeInternalChannelEncryptionMode;
-  /**
-   * @member {string} [version] Version of the integration runtime.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly version?: string;
-  /**
-   * @member {SelfHostedIntegrationRuntimeNode[]} [nodes] The list of nodes for
-   * this integration runtime.
-   */
-  nodes?: SelfHostedIntegrationRuntimeNode[];
-  /**
-   * @member {Date} [scheduledUpdateDate] The date at which the integration
-   * runtime will be scheduled to update, in ISO8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly scheduledUpdateDate?: Date;
-  /**
-   * @member {string} [updateDelayOffset] The time in the date scheduled by
-   * service to update the integration runtime, e.g., PT03H is 3 hours
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly updateDelayOffset?: string;
-  /**
-   * @member {string} [localTimeZoneOffset] The local time zone offset in
-   * hours.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly localTimeZoneOffset?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [capabilities] Object with
-   * additional information about integration runtime capabilities.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly capabilities?: { [propertyName: string]: string };
-  /**
-   * @member {string[]} [serviceUrls] The URLs for the services used in
-   * integration runtime backend service.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly serviceUrls?: string[];
-  /**
-   * @member {IntegrationRuntimeAutoUpdate} [autoUpdate] Whether Self-hosted
-   * integration runtime auto update has been turned on. Possible values
-   * include: 'On', 'Off'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly autoUpdate?: IntegrationRuntimeAutoUpdate;
-  /**
-   * @member {string} [versionStatus] Status of the integration runtime
-   * version.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly versionStatus?: string;
-  /**
-   * @member {LinkedIntegrationRuntime[]} [links] The list of linked
-   * integration runtimes that are created to share with this integration
-   * runtime.
-   */
-  links?: LinkedIntegrationRuntime[];
-  /**
-   * @member {string} [pushedVersion] The version that the integration runtime
-   * is going to update to.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly pushedVersion?: string;
-  /**
-   * @member {string} [latestVersion] The latest version on download center.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly latestVersion?: string;
-  /**
-   * @member {Date} [autoUpdateETA] The estimated time when the self-hosted
-   * integration runtime will be updated.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly autoUpdateETA?: Date;
 }
 
 /**
@@ -19527,43 +14746,6 @@ export interface ManagedIntegrationRuntimeNode {
 
 /**
  * @interface
- * An interface representing ManagedIntegrationRuntimeStatusTypeProperties.
- * Managed integration runtime status type properties.
- *
- */
-export interface ManagedIntegrationRuntimeStatusTypeProperties {
-  /**
-   * @member {Date} [createTime] The time at which the integration runtime was
-   * created, in ISO8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createTime?: Date;
-  /**
-   * @member {ManagedIntegrationRuntimeNode[]} [nodes] The list of nodes for
-   * managed integration runtime.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly nodes?: ManagedIntegrationRuntimeNode[];
-  /**
-   * @member {ManagedIntegrationRuntimeError[]} [otherErrors] The errors that
-   * occurred on this integration runtime.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly otherErrors?: ManagedIntegrationRuntimeError[];
-  /**
-   * @member {ManagedIntegrationRuntimeOperationResult} [lastOperation] The
-   * last operation result that occurred on this integration runtime.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastOperation?: ManagedIntegrationRuntimeOperationResult;
-}
-
-/**
- * @interface
  * An interface representing ManagedIntegrationRuntimeStatus.
  * Managed integration runtime status.
  *
@@ -19670,19 +14852,6 @@ export interface LinkedIntegrationRuntimeKeyAuthorization {
    * @member {SecureString} key The key used for authorization.
    */
   key: SecureString;
-}
-
-/**
- * @interface
- * An interface representing SelfHostedIntegrationRuntimeTypeProperties.
- * The self-hosted integration runtime properties.
- *
- */
-export interface SelfHostedIntegrationRuntimeTypeProperties {
-  /**
-   * @member {LinkedIntegrationRuntimeTypeUnion} [linkedInfo]
-   */
-  linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
 }
 
 /**
@@ -19858,25 +15027,6 @@ export interface IntegrationRuntimeComputeProperties {
    * can be of "any" type.
    */
   [property: string]: any;
-}
-
-/**
- * @interface
- * An interface representing ManagedIntegrationRuntimeTypeProperties.
- * Managed integration runtime type properties.
- *
- */
-export interface ManagedIntegrationRuntimeTypeProperties {
-  /**
-   * @member {IntegrationRuntimeComputeProperties} [computeProperties] The
-   * compute resource for managed integration runtime.
-   */
-  computeProperties?: IntegrationRuntimeComputeProperties;
-  /**
-   * @member {IntegrationRuntimeSsisProperties} [ssisProperties] SSIS
-   * properties for managed integration runtime.
-   */
-  ssisProperties?: IntegrationRuntimeSsisProperties;
 }
 
 /**
