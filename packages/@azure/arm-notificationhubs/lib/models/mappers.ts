@@ -265,6 +265,105 @@ export const CheckAvailabilityResult: msRest.CompositeMapper = {
   }
 };
 
+export const NamespaceProperties: msRest.CompositeMapper = {
+  serializedName: "NamespaceProperties",
+  type: {
+    name: "Composite",
+    className: "NamespaceProperties",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String"
+        }
+      },
+      metricId: {
+        readOnly: true,
+        serializedName: "metricId",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedAt: {
+        serializedName: "updatedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      serviceBusEndpoint: {
+        serializedName: "serviceBusEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        type: {
+          name: "String"
+        }
+      },
+      scaleUnit: {
+        serializedName: "scaleUnit",
+        type: {
+          name: "String"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      critical: {
+        serializedName: "critical",
+        type: {
+          name: "Boolean"
+        }
+      },
+      dataCenter: {
+        serializedName: "dataCenter",
+        type: {
+          name: "String"
+        }
+      },
+      namespaceType: {
+        serializedName: "namespaceType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Messaging",
+            "NotificationHub"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const NamespaceCreateOrUpdateParameters: msRest.CompositeMapper = {
   serializedName: "NamespaceCreateOrUpdateParameters",
   type: {
@@ -732,6 +831,64 @@ export const PolicykeyResource: msRest.CompositeMapper = {
   }
 };
 
+export const ApnsCredentialProperties: msRest.CompositeMapper = {
+  serializedName: "ApnsCredentialProperties",
+  type: {
+    name: "Composite",
+    className: "ApnsCredentialProperties",
+    modelProperties: {
+      apnsCertificate: {
+        serializedName: "apnsCertificate",
+        type: {
+          name: "String"
+        }
+      },
+      certificateKey: {
+        serializedName: "certificateKey",
+        type: {
+          name: "String"
+        }
+      },
+      endpoint: {
+        serializedName: "endpoint",
+        type: {
+          name: "String"
+        }
+      },
+      thumbprint: {
+        serializedName: "thumbprint",
+        type: {
+          name: "String"
+        }
+      },
+      keyId: {
+        serializedName: "keyId",
+        type: {
+          name: "String"
+        }
+      },
+      appName: {
+        serializedName: "appName",
+        type: {
+          name: "String"
+        }
+      },
+      appId: {
+        serializedName: "appId",
+        type: {
+          name: "String"
+        }
+      },
+      token: {
+        serializedName: "token",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ApnsCredential: msRest.CompositeMapper = {
   serializedName: "ApnsCredential",
   type: {
@@ -790,6 +947,34 @@ export const ApnsCredential: msRest.CompositeMapper = {
   }
 };
 
+export const WnsCredentialProperties: msRest.CompositeMapper = {
+  serializedName: "WnsCredentialProperties",
+  type: {
+    name: "Composite",
+    className: "WnsCredentialProperties",
+    modelProperties: {
+      packageSid: {
+        serializedName: "packageSid",
+        type: {
+          name: "String"
+        }
+      },
+      secretKey: {
+        serializedName: "secretKey",
+        type: {
+          name: "String"
+        }
+      },
+      windowsLiveEndpoint: {
+        serializedName: "windowsLiveEndpoint",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WnsCredential: msRest.CompositeMapper = {
   serializedName: "WnsCredential",
   type: {
@@ -818,6 +1003,28 @@ export const WnsCredential: msRest.CompositeMapper = {
   }
 };
 
+export const GcmCredentialProperties: msRest.CompositeMapper = {
+  serializedName: "GcmCredentialProperties",
+  type: {
+    name: "Composite",
+    className: "GcmCredentialProperties",
+    modelProperties: {
+      gcmEndpoint: {
+        serializedName: "gcmEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      googleApiKey: {
+        serializedName: "googleApiKey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const GcmCredential: msRest.CompositeMapper = {
   serializedName: "GcmCredential",
   type: {
@@ -832,6 +1039,34 @@ export const GcmCredential: msRest.CompositeMapper = {
       },
       googleApiKey: {
         serializedName: "properties.googleApiKey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MpnsCredentialProperties: msRest.CompositeMapper = {
+  serializedName: "MpnsCredentialProperties",
+  type: {
+    name: "Composite",
+    className: "MpnsCredentialProperties",
+    modelProperties: {
+      mpnsCertificate: {
+        serializedName: "mpnsCertificate",
+        type: {
+          name: "String"
+        }
+      },
+      certificateKey: {
+        serializedName: "certificateKey",
+        type: {
+          name: "String"
+        }
+      },
+      thumbprint: {
+        serializedName: "thumbprint",
         type: {
           name: "String"
         }
@@ -868,6 +1103,34 @@ export const MpnsCredential: msRest.CompositeMapper = {
   }
 };
 
+export const AdmCredentialProperties: msRest.CompositeMapper = {
+  serializedName: "AdmCredentialProperties",
+  type: {
+    name: "Composite",
+    className: "AdmCredentialProperties",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "String"
+        }
+      },
+      authTokenUrl: {
+        serializedName: "authTokenUrl",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AdmCredential: msRest.CompositeMapper = {
   serializedName: "AdmCredential",
   type: {
@@ -888,6 +1151,34 @@ export const AdmCredential: msRest.CompositeMapper = {
       },
       authTokenUrl: {
         serializedName: "properties.authTokenUrl",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BaiduCredentialProperties: msRest.CompositeMapper = {
+  serializedName: "BaiduCredentialProperties",
+  type: {
+    name: "Composite",
+    className: "BaiduCredentialProperties",
+    modelProperties: {
+      baiduApiKey: {
+        serializedName: "baiduApiKey",
+        type: {
+          name: "String"
+        }
+      },
+      baiduEndPoint: {
+        serializedName: "baiduEndPoint",
+        type: {
+          name: "String"
+        }
+      },
+      baiduSecretKey: {
+        serializedName: "baiduSecretKey",
         type: {
           name: "String"
         }
@@ -918,6 +1209,82 @@ export const BaiduCredential: msRest.CompositeMapper = {
         serializedName: "properties.baiduSecretKey",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NotificationHubProperties: msRest.CompositeMapper = {
+  serializedName: "NotificationHubProperties",
+  type: {
+    name: "Composite",
+    className: "NotificationHubProperties",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      registrationTtl: {
+        serializedName: "registrationTtl",
+        type: {
+          name: "String"
+        }
+      },
+      authorizationRules: {
+        serializedName: "authorizationRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SharedAccessAuthorizationRuleProperties"
+            }
+          }
+        }
+      },
+      apnsCredential: {
+        serializedName: "apnsCredential",
+        type: {
+          name: "Composite",
+          className: "ApnsCredential"
+        }
+      },
+      wnsCredential: {
+        serializedName: "wnsCredential",
+        type: {
+          name: "Composite",
+          className: "WnsCredential"
+        }
+      },
+      gcmCredential: {
+        serializedName: "gcmCredential",
+        type: {
+          name: "Composite",
+          className: "GcmCredential"
+        }
+      },
+      mpnsCredential: {
+        serializedName: "mpnsCredential",
+        type: {
+          name: "Composite",
+          className: "MpnsCredential"
+        }
+      },
+      admCredential: {
+        serializedName: "admCredential",
+        type: {
+          name: "Composite",
+          className: "AdmCredential"
+        }
+      },
+      baiduCredential: {
+        serializedName: "baiduCredential",
+        type: {
+          name: "Composite",
+          className: "BaiduCredential"
         }
       }
     }
@@ -1155,6 +1522,34 @@ export const NotificationHubResource: msRest.CompositeMapper = {
   }
 };
 
+export const DebugSendResult: msRest.CompositeMapper = {
+  serializedName: "DebugSendResult",
+  type: {
+    name: "Composite",
+    className: "DebugSendResult",
+    modelProperties: {
+      success: {
+        serializedName: "success",
+        type: {
+          name: "Number"
+        }
+      },
+      failure: {
+        serializedName: "failure",
+        type: {
+          name: "Number"
+        }
+      },
+      results: {
+        serializedName: "results",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const DebugSendResponse: msRest.CompositeMapper = {
   serializedName: "DebugSendResponse",
   type: {
@@ -1178,6 +1573,58 @@ export const DebugSendResponse: msRest.CompositeMapper = {
         serializedName: "properties.results",
         type: {
           name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const PnsCredentialsProperties: msRest.CompositeMapper = {
+  serializedName: "PnsCredentialsProperties",
+  type: {
+    name: "Composite",
+    className: "PnsCredentialsProperties",
+    modelProperties: {
+      apnsCredential: {
+        serializedName: "apnsCredential",
+        type: {
+          name: "Composite",
+          className: "ApnsCredential"
+        }
+      },
+      wnsCredential: {
+        serializedName: "wnsCredential",
+        type: {
+          name: "Composite",
+          className: "WnsCredential"
+        }
+      },
+      gcmCredential: {
+        serializedName: "gcmCredential",
+        type: {
+          name: "Composite",
+          className: "GcmCredential"
+        }
+      },
+      mpnsCredential: {
+        serializedName: "mpnsCredential",
+        type: {
+          name: "Composite",
+          className: "MpnsCredential"
+        }
+      },
+      admCredential: {
+        serializedName: "admCredential",
+        type: {
+          name: "Composite",
+          className: "AdmCredential"
+        }
+      },
+      baiduCredential: {
+        serializedName: "baiduCredential",
+        type: {
+          name: "Composite",
+          className: "BaiduCredential"
         }
       }
     }
