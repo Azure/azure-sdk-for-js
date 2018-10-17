@@ -1794,7 +1794,7 @@
      * regenerated.
      */
     var packageName = "@azure/eventgrid";
-    var packageVersion = "1.0.0";
+    var packageVersion = "1.1.0";
     var EventGridClientContext = /** @class */ (function (_super) {
         __extends(EventGridClientContext, _super);
         /**
