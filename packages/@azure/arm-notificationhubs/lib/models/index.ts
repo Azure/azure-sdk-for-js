@@ -209,83 +209,6 @@ export interface CheckAvailabilityResult extends Resource {
 
 /**
  * @interface
- * An interface representing NamespaceProperties.
- * Namespace properties.
- *
- */
-export interface NamespaceProperties {
-  /**
-   * @member {string} [name] The name of the namespace.
-   */
-  name?: string;
-  /**
-   * @member {string} [provisioningState] Provisioning state of the Namespace.
-   */
-  provisioningState?: string;
-  /**
-   * @member {string} [region] Specifies the targeted region in which the
-   * namespace should be created. It can be any of the following values:
-   * Australia EastAustralia SoutheastCentral USEast USEast US 2West USNorth
-   * Central USSouth Central USEast AsiaSoutheast AsiaBrazil SouthJapan
-   * EastJapan WestNorth EuropeWest Europe
-   */
-  region?: string;
-  /**
-   * @member {string} [metricId] Identifier for Azure Insights metrics
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly metricId?: string;
-  /**
-   * @member {string} [status] Status of the namespace. It can be any of these
-   * values:1 = Created/Active2 = Creating3 = Suspended4 = Deleting
-   */
-  status?: string;
-  /**
-   * @member {Date} [createdAt] The time the namespace was created.
-   */
-  createdAt?: Date;
-  /**
-   * @member {Date} [updatedAt] The time the namespace was updated.
-   */
-  updatedAt?: Date;
-  /**
-   * @member {string} [serviceBusEndpoint] Endpoint you can use to perform
-   * NotificationHub operations.
-   */
-  serviceBusEndpoint?: string;
-  /**
-   * @member {string} [subscriptionId] The Id of the Azure subscription
-   * associated with the namespace.
-   */
-  subscriptionId?: string;
-  /**
-   * @member {string} [scaleUnit] ScaleUnit where the namespace gets created
-   */
-  scaleUnit?: string;
-  /**
-   * @member {boolean} [enabled] Whether or not the namespace is currently
-   * enabled.
-   */
-  enabled?: boolean;
-  /**
-   * @member {boolean} [critical] Whether or not the namespace is set as
-   * Critical.
-   */
-  critical?: boolean;
-  /**
-   * @member {string} [dataCenter] Data center for the namespace
-   */
-  dataCenter?: string;
-  /**
-   * @member {NamespaceType} [namespaceType] The namespace type. Possible
-   * values include: 'Messaging', 'NotificationHub'
-   */
-  namespaceType?: NamespaceType;
-}
-
-/**
- * @interface
  * An interface representing NamespaceCreateOrUpdateParameters.
  * Parameters supplied to the CreateOrUpdate Namespace operation.
  *
@@ -648,50 +571,6 @@ export interface PolicykeyResource {
 
 /**
  * @interface
- * An interface representing ApnsCredentialProperties.
- * Description of a NotificationHub ApnsCredential.
- *
- */
-export interface ApnsCredentialProperties {
-  /**
-   * @member {string} [apnsCertificate] The APNS certificate.
-   */
-  apnsCertificate?: string;
-  /**
-   * @member {string} [certificateKey] The certificate key.
-   */
-  certificateKey?: string;
-  /**
-   * @member {string} [endpoint] The endpoint of this credential.
-   */
-  endpoint?: string;
-  /**
-   * @member {string} [thumbprint] The Apns certificate Thumbprint
-   */
-  thumbprint?: string;
-  /**
-   * @member {string} [keyId] A 10-character key identifier (kid) key, obtained
-   * from your developer account
-   */
-  keyId?: string;
-  /**
-   * @member {string} [appName] The name of the application
-   */
-  appName?: string;
-  /**
-   * @member {string} [appId] The issuer (iss) registered claim key, whose
-   * value is your 10-character Team ID, obtained from your developer account
-   */
-  appId?: string;
-  /**
-   * @member {string} [token] Provider Authentication Token, obtained through
-   * your developer account
-   */
-  token?: string;
-}
-
-/**
- * @interface
  * An interface representing ApnsCredential.
  * Description of a NotificationHub ApnsCredential.
  *
@@ -736,27 +615,6 @@ export interface ApnsCredential {
 
 /**
  * @interface
- * An interface representing WnsCredentialProperties.
- * Description of a NotificationHub WnsCredential.
- *
- */
-export interface WnsCredentialProperties {
-  /**
-   * @member {string} [packageSid] The package ID for this credential.
-   */
-  packageSid?: string;
-  /**
-   * @member {string} [secretKey] The secret key.
-   */
-  secretKey?: string;
-  /**
-   * @member {string} [windowsLiveEndpoint] The Windows Live endpoint.
-   */
-  windowsLiveEndpoint?: string;
-}
-
-/**
- * @interface
  * An interface representing WnsCredential.
  * Description of a NotificationHub WnsCredential.
  *
@@ -778,23 +636,6 @@ export interface WnsCredential {
 
 /**
  * @interface
- * An interface representing GcmCredentialProperties.
- * Description of a NotificationHub GcmCredential.
- *
- */
-export interface GcmCredentialProperties {
-  /**
-   * @member {string} [gcmEndpoint] The GCM endpoint.
-   */
-  gcmEndpoint?: string;
-  /**
-   * @member {string} [googleApiKey] The Google API key.
-   */
-  googleApiKey?: string;
-}
-
-/**
- * @interface
  * An interface representing GcmCredential.
  * Description of a NotificationHub GcmCredential.
  *
@@ -808,27 +649,6 @@ export interface GcmCredential {
    * @member {string} [googleApiKey] The Google API key.
    */
   googleApiKey?: string;
-}
-
-/**
- * @interface
- * An interface representing MpnsCredentialProperties.
- * Description of a NotificationHub MpnsCredential.
- *
- */
-export interface MpnsCredentialProperties {
-  /**
-   * @member {string} [mpnsCertificate] The MPNS certificate.
-   */
-  mpnsCertificate?: string;
-  /**
-   * @member {string} [certificateKey] The certificate key for this credential.
-   */
-  certificateKey?: string;
-  /**
-   * @member {string} [thumbprint] The Mpns certificate Thumbprint
-   */
-  thumbprint?: string;
 }
 
 /**
@@ -854,27 +674,6 @@ export interface MpnsCredential {
 
 /**
  * @interface
- * An interface representing AdmCredentialProperties.
- * Description of a NotificationHub AdmCredential.
- *
- */
-export interface AdmCredentialProperties {
-  /**
-   * @member {string} [clientId] The client identifier.
-   */
-  clientId?: string;
-  /**
-   * @member {string} [clientSecret] The credential secret access key.
-   */
-  clientSecret?: string;
-  /**
-   * @member {string} [authTokenUrl] The URL of the authorization token.
-   */
-  authTokenUrl?: string;
-}
-
-/**
- * @interface
  * An interface representing AdmCredential.
  * Description of a NotificationHub AdmCredential.
  *
@@ -896,27 +695,6 @@ export interface AdmCredential {
 
 /**
  * @interface
- * An interface representing BaiduCredentialProperties.
- * Description of a NotificationHub BaiduCredential.
- *
- */
-export interface BaiduCredentialProperties {
-  /**
-   * @member {string} [baiduApiKey] Baidu Api Key.
-   */
-  baiduApiKey?: string;
-  /**
-   * @member {string} [baiduEndPoint] Baidu Endpoint.
-   */
-  baiduEndPoint?: string;
-  /**
-   * @member {string} [baiduSecretKey] Baidu Secret Key
-   */
-  baiduSecretKey?: string;
-}
-
-/**
- * @interface
  * An interface representing BaiduCredential.
  * Description of a NotificationHub BaiduCredential.
  *
@@ -934,59 +712,6 @@ export interface BaiduCredential {
    * @member {string} [baiduSecretKey] Baidu Secret Key
    */
   baiduSecretKey?: string;
-}
-
-/**
- * @interface
- * An interface representing NotificationHubProperties.
- * NotificationHub properties.
- *
- */
-export interface NotificationHubProperties {
-  /**
-   * @member {string} [name] The NotificationHub name.
-   */
-  name?: string;
-  /**
-   * @member {string} [registrationTtl] The RegistrationTtl of the created
-   * NotificationHub
-   */
-  registrationTtl?: string;
-  /**
-   * @member {SharedAccessAuthorizationRuleProperties[]} [authorizationRules]
-   * The AuthorizationRules of the created NotificationHub
-   */
-  authorizationRules?: SharedAccessAuthorizationRuleProperties[];
-  /**
-   * @member {ApnsCredential} [apnsCredential] The ApnsCredential of the
-   * created NotificationHub
-   */
-  apnsCredential?: ApnsCredential;
-  /**
-   * @member {WnsCredential} [wnsCredential] The WnsCredential of the created
-   * NotificationHub
-   */
-  wnsCredential?: WnsCredential;
-  /**
-   * @member {GcmCredential} [gcmCredential] The GcmCredential of the created
-   * NotificationHub
-   */
-  gcmCredential?: GcmCredential;
-  /**
-   * @member {MpnsCredential} [mpnsCredential] The MpnsCredential of the
-   * created NotificationHub
-   */
-  mpnsCredential?: MpnsCredential;
-  /**
-   * @member {AdmCredential} [admCredential] The AdmCredential of the created
-   * NotificationHub
-   */
-  admCredential?: AdmCredential;
-  /**
-   * @member {BaiduCredential} [baiduCredential] The BaiduCredential of the
-   * created NotificationHub
-   */
-  baiduCredential?: BaiduCredential;
 }
 
 /**
@@ -1155,26 +880,6 @@ export interface NotificationHubResource extends Resource {
 
 /**
  * @interface
- * An interface representing DebugSendResult.
- * @extends BaseResource
- */
-export interface DebugSendResult extends BaseResource {
-  /**
-   * @member {number} [success] successful send
-   */
-  success?: number;
-  /**
-   * @member {number} [failure] send failure
-   */
-  failure?: number;
-  /**
-   * @member {any} [results] actual failure description
-   */
-  results?: any;
-}
-
-/**
- * @interface
  * An interface representing DebugSendResponse.
  * Description of a NotificationHub Resource.
  *
@@ -1193,45 +898,6 @@ export interface DebugSendResponse extends Resource {
    * @member {any} [results] actual failure description
    */
   results?: any;
-}
-
-/**
- * @interface
- * An interface representing PnsCredentialsProperties.
- * Description of a NotificationHub PNS Credentials.
- *
- */
-export interface PnsCredentialsProperties {
-  /**
-   * @member {ApnsCredential} [apnsCredential] The ApnsCredential of the
-   * created NotificationHub
-   */
-  apnsCredential?: ApnsCredential;
-  /**
-   * @member {WnsCredential} [wnsCredential] The WnsCredential of the created
-   * NotificationHub
-   */
-  wnsCredential?: WnsCredential;
-  /**
-   * @member {GcmCredential} [gcmCredential] The GcmCredential of the created
-   * NotificationHub
-   */
-  gcmCredential?: GcmCredential;
-  /**
-   * @member {MpnsCredential} [mpnsCredential] The MpnsCredential of the
-   * created NotificationHub
-   */
-  mpnsCredential?: MpnsCredential;
-  /**
-   * @member {AdmCredential} [admCredential] The AdmCredential of the created
-   * NotificationHub
-   */
-  admCredential?: AdmCredential;
-  /**
-   * @member {BaiduCredential} [baiduCredential] The BaiduCredential of the
-   * created NotificationHub
-   */
-  baiduCredential?: BaiduCredential;
 }
 
 /**
