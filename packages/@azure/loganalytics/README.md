@@ -11,7 +11,7 @@ npm install @azure/loganalytics
 ```
 - browser
 ```html
-<script type="text/javascript" src="@azure/loganalytics/dist/loganalytics.js"></script>
+<script type="text/javascript" src="@azure/loganalytics/logAnalyticsClientBundle.js"></script>
 ```
 
 ## How to use
@@ -48,13 +48,13 @@ client.query.execute(workspaceId, body).then((result) => {
 <html lang="en">
   <head>
     <title>@azure/loganalytics sample</title>
-    <script type="text/javascript" src="./node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script type="text/javascript" src="./dist/loganalytics.js"></script>
+    <script type="text/javascript" src="./node_modules/ms-rest-js/msRestBundle.js"></script>
+    <script type="text/javascript" src="./logAnalyticsClientBundle.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const token = "<access_token>";
       const creds = new msRest.TokenCredentials(token);
-      const client = new Azure.Loganalytics.LogAnalyticsClient(creds, subscriptionId);
+      const client = new LogAnalyticsClient(creds, subscriptionId);
       const workspaceId = "testworkspaceId";
       const body = {
         query: "testquery",
