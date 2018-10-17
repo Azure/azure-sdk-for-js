@@ -38,6 +38,7 @@ export {
   DataMaskingRule,
   FirewallRule,
   GeoBackupPolicy,
+  ImportExtensionProperties,
   RecommendedElasticPool,
   RecommendedElasticPoolMetric,
   ReplicationLink,
