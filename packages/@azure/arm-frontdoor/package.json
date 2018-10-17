@@ -2,7 +2,7 @@
   "name": "@azure/arm-frontdoor",
   "author": "Microsoft Corporation",
   "description": "FrontDoorManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.1.0-preview",
+  "version": "1.0.0-preview",
   "dependencies": {
     "ms-rest-azure-js": "~0.17.165"
   },
