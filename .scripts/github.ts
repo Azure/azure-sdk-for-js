@@ -69,7 +69,7 @@ export async function commitAndCreatePullRequest(
     pullRequestTitle: string,
     pullRequestDescription:string,
     validate?: ValidateFunction,
-    validateEach?: ValidateEachFunction): Promise<string> {
+    validateEach?: string | ValidateEachFunction): Promise<string> {
     await createNewUniqueBranch(repository, `generated/${packageName}`, true);
 
     await commitChanges(repository, commitMessage, validate, validateEach);

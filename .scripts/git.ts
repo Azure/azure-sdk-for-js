@@ -4,12 +4,12 @@
  * license information.
  */
 
-import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile, Reset } from "nodegit";
+import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile, Reset, Index } from "nodegit";
 import { getLogger } from "./logger";
 import { getCommandLineOptions } from "./commandLine";
 
 export type ValidateFunction = (statuses: StatusFile[]) => boolean;
-export type ValidateEachFunction = (value: StatusFile, index: number, array: StatusFile[]) => boolean;
+export type ValidateEachFunction = (path: string, matchedPatter: string) => number;
 
 export enum BranchLocation {
     Local = "heads",
@@ -43,7 +43,7 @@ export class Branch {
 const _args = getCommandLineOptions();
 const _logger = getLogger();
 
-const _lockMap = { }
+const _lockMap = {}
 
 function isLocked(repositoryPath: string) {
     const isLocked = _lockMap[repositoryPath];
@@ -209,27 +209,29 @@ export async function refreshRepository(repository: Repository) {
     return checkoutMaster(repository);
 }
 
-export async function commitChanges(repository: Repository, commitMessage: string, validate?: ValidateFunction, validateEach?: ValidateEachFunction): Promise<Oid> {
+export async function commitChanges(repository: Repository, commitMessage: string, validateStatus?: ValidateFunction, validateEach?: string | ValidateEachFunction): Promise<Oid> {
     _logger.logTrace(`Committing changes in "${repository.path()}" repository`);
 
-    const emptyValidate = () => true;
-    validate = validate || emptyValidate;
-    validateEach = validateEach || emptyValidate;
+    validateStatus = validateStatus || ((_) => true);
+    validateEach = validateEach || ((_, __) => 0);
 
     const status = await repository.getStatus();
-
-    if (validate(status)) {
-        const author = Signature.default(repository);
-        const filePaths = status.map(stat => stat.path());
-        _logger.logTrace(`Changes in the repository: ${JSON.stringify(filePaths)}`);
-
-        const changesToStage = status.filter(validateEach);
-        const pathsToStage = changesToStage.map(stat => stat.path());
-        _logger.logTrace(`Changes to commit: ${JSON.stringify(pathsToStage)}`);
-        return repository.createCommitOnHead(pathsToStage, author, author, commitMessage);
-    } else {
+    if (!validateStatus(status)) {
         return Promise.reject("Unknown changes present in the repository");
     }
+
+    const index = await repository.index();
+    if (typeof validateEach === "string") {
+        index.addByPath(validateEach);
+    } else {
+        index.addAll("*", Index.ADD_OPTION.ADD_DEFAULT, validateEach);
+    }
+
+    const head = await repository.getHeadCommit();
+    await index.write();
+    await index.writeTree();
+    const author = Signature.default(repository);
+    return repository.createCommit("HEAD", author, author, commitMessage, head.id(), [head]);
 }
 
 export async function pushBranch(repository: Repository, localBranch: Branch): Promise<number> {
@@ -246,9 +248,9 @@ export async function pushBranch(repository: Repository, localBranch: Branch): P
     });
 }
 
-export async function commitAndPush(repository: Repository, localBranch: Branch, commitMessage: string, validate?: ValidateFunction, validateEach?: ValidateEachFunction) {
+export async function commitAndPush(repository: Repository, localBranch: Branch, commitMessage: string, validate?: ValidateFunction, validateEach?: string | ValidateEachFunction) {
     await commitChanges(repository, commitMessage, validate, validateEach);
-    await pushBranch(repository, localBranch);
+    //await pushBranch(repository, localBranch);
 }
 
 export function getToken(): string {
@@ -261,7 +263,7 @@ export function getToken(): string {
 function _validatePersonalAccessToken(token: string): void {
     if (!token) {
         const text =
-        `Github personal access token was not found as a script parameter or as an
+            `Github personal access token was not found as a script parameter or as an
         environmental variable. Please visit https://github.com/settings/tokens,
         generate new token with "repo" scope and pass it with -token switch or set
         it as environmental variable named SDK_GEN_GITHUB_TOKEN.`
