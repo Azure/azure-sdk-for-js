@@ -104,6 +104,46 @@ export interface SBSku {
 
 /**
  * @interface
+ * An interface representing SBNamespaceProperties.
+ * Properties of the namespace.
+ *
+ */
+export interface SBNamespaceProperties {
+  /**
+   * @member {string} [provisioningState] Provisioning state of the namespace.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {Date} [createdAt] The time the namespace was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdAt?: Date;
+  /**
+   * @member {Date} [updatedAt] The time the namespace was updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedAt?: Date;
+  /**
+   * @member {string} [serviceBusEndpoint] Endpoint you can use to perform
+   * Service Bus operations.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceBusEndpoint?: string;
+  /**
+   * @member {string} [metricId] Identifier for Azure Insights metrics
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly metricId?: string;
+}
+
+/**
+ * @interface
  * An interface representing SBNamespace.
  * Description of a namespace resource.
  *
@@ -190,6 +230,19 @@ export interface SBNamespaceUpdateParameters extends ResourceNamespacePatch {
    * the server.**
    */
   readonly metricId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SBAuthorizationRuleProperties.
+ * AuthorizationRule properties.
+ *
+ */
+export interface SBAuthorizationRuleProperties {
+  /**
+   * @member {AccessRights[]} rights The rights associated with the rule.
+   */
+  rights: AccessRights[];
 }
 
 /**
@@ -341,6 +394,138 @@ export interface MessageCountDetails {
 
 /**
  * @interface
+ * An interface representing SBQueueProperties.
+ * The Queue Properties definition.
+ *
+ */
+export interface SBQueueProperties {
+  /**
+   * @member {MessageCountDetails} [countDetails] Message Count Details.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly countDetails?: MessageCountDetails;
+  /**
+   * @member {Date} [createdAt] The exact time the message was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdAt?: Date;
+  /**
+   * @member {Date} [updatedAt] The exact time the message was updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedAt?: Date;
+  /**
+   * @member {Date} [accessedAt] Last time a message was sent, or the last time
+   * there was a receive request to this queue.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly accessedAt?: Date;
+  /**
+   * @member {number} [sizeInBytes] The size of the queue, in bytes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sizeInBytes?: number;
+  /**
+   * @member {number} [messageCount] The number of messages in the queue.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly messageCount?: number;
+  /**
+   * @member {string} [lockDuration] ISO 8601 timespan duration of a peek-lock;
+   * that is, the amount of time that the message is locked for other
+   * receivers. The maximum value for LockDuration is 5 minutes; the default
+   * value is 1 minute.
+   */
+  lockDuration?: string;
+  /**
+   * @member {number} [maxSizeInMegabytes] The maximum size of the queue in
+   * megabytes, which is the size of memory allocated for the queue. Default is
+   * 1024.
+   */
+  maxSizeInMegabytes?: number;
+  /**
+   * @member {boolean} [requiresDuplicateDetection] A value indicating if this
+   * queue requires duplicate detection.
+   */
+  requiresDuplicateDetection?: boolean;
+  /**
+   * @member {boolean} [requiresSession] A value that indicates whether the
+   * queue supports the concept of sessions.
+   */
+  requiresSession?: boolean;
+  /**
+   * @member {string} [defaultMessageTimeToLive] ISO 8601 default message
+   * timespan to live value. This is the duration after which the message
+   * expires, starting from when the message is sent to Service Bus. This is
+   * the default value used when TimeToLive is not set on a message itself.
+   */
+  defaultMessageTimeToLive?: string;
+  /**
+   * @member {boolean} [deadLetteringOnMessageExpiration] A value that
+   * indicates whether this queue has dead letter support when a message
+   * expires.
+   */
+  deadLetteringOnMessageExpiration?: boolean;
+  /**
+   * @member {string} [duplicateDetectionHistoryTimeWindow] ISO 8601 timeSpan
+   * structure that defines the duration of the duplicate detection history.
+   * The default value is 10 minutes.
+   */
+  duplicateDetectionHistoryTimeWindow?: string;
+  /**
+   * @member {number} [maxDeliveryCount] The maximum delivery count. A message
+   * is automatically deadlettered after this number of deliveries. default
+   * value is 10.
+   */
+  maxDeliveryCount?: number;
+  /**
+   * @member {EntityStatus} [status] Enumerates the possible values for the
+   * status of a messaging entity. Possible values include: 'Active',
+   * 'Disabled', 'Restoring', 'SendDisabled', 'ReceiveDisabled', 'Creating',
+   * 'Deleting', 'Renaming', 'Unknown'
+   */
+  status?: EntityStatus;
+  /**
+   * @member {boolean} [enableBatchedOperations] Value that indicates whether
+   * server-side batched operations are enabled.
+   */
+  enableBatchedOperations?: boolean;
+  /**
+   * @member {string} [autoDeleteOnIdle] ISO 8061 timeSpan idle interval after
+   * which the queue is automatically deleted. The minimum duration is 5
+   * minutes.
+   */
+  autoDeleteOnIdle?: string;
+  /**
+   * @member {boolean} [enablePartitioning] A value that indicates whether the
+   * queue is to be partitioned across multiple message brokers.
+   */
+  enablePartitioning?: boolean;
+  /**
+   * @member {boolean} [enableExpress] A value that indicates whether Express
+   * Entities are enabled. An express queue holds a message in memory
+   * temporarily before writing it to persistent storage.
+   */
+  enableExpress?: boolean;
+  /**
+   * @member {string} [forwardTo] Queue/Topic name to forward the messages
+   */
+  forwardTo?: string;
+  /**
+   * @member {string} [forwardDeadLetteredMessagesTo] Queue/Topic name to
+   * forward the Dead Letter message
+   */
+  forwardDeadLetteredMessagesTo?: string;
+}
+
+/**
+ * @interface
  * An interface representing SBQueue.
  * Description of queue Resource.
  *
@@ -474,6 +659,110 @@ export interface SBQueue extends Resource {
 
 /**
  * @interface
+ * An interface representing SBTopicProperties.
+ * The Tpoic Properties definition.
+ *
+ */
+export interface SBTopicProperties {
+  /**
+   * @member {number} [sizeInBytes] Size of the topic, in bytes.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly sizeInBytes?: number;
+  /**
+   * @member {Date} [createdAt] Exact time the message was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdAt?: Date;
+  /**
+   * @member {Date} [updatedAt] The exact time the message was updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedAt?: Date;
+  /**
+   * @member {Date} [accessedAt] Last time the message was sent, or a request
+   * was received, for this topic.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly accessedAt?: Date;
+  /**
+   * @member {number} [subscriptionCount] Number of subscriptions.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subscriptionCount?: number;
+  /**
+   * @member {MessageCountDetails} [countDetails] Message count deatils
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly countDetails?: MessageCountDetails;
+  /**
+   * @member {string} [defaultMessageTimeToLive] ISO 8601 Default message
+   * timespan to live value. This is the duration after which the message
+   * expires, starting from when the message is sent to Service Bus. This is
+   * the default value used when TimeToLive is not set on a message itself.
+   */
+  defaultMessageTimeToLive?: string;
+  /**
+   * @member {number} [maxSizeInMegabytes] Maximum size of the topic in
+   * megabytes, which is the size of the memory allocated for the topic.
+   * Default is 1024.
+   */
+  maxSizeInMegabytes?: number;
+  /**
+   * @member {boolean} [requiresDuplicateDetection] Value indicating if this
+   * topic requires duplicate detection.
+   */
+  requiresDuplicateDetection?: boolean;
+  /**
+   * @member {string} [duplicateDetectionHistoryTimeWindow] ISO8601 timespan
+   * structure that defines the duration of the duplicate detection history.
+   * The default value is 10 minutes.
+   */
+  duplicateDetectionHistoryTimeWindow?: string;
+  /**
+   * @member {boolean} [enableBatchedOperations] Value that indicates whether
+   * server-side batched operations are enabled.
+   */
+  enableBatchedOperations?: boolean;
+  /**
+   * @member {EntityStatus} [status] Enumerates the possible values for the
+   * status of a messaging entity. Possible values include: 'Active',
+   * 'Disabled', 'Restoring', 'SendDisabled', 'ReceiveDisabled', 'Creating',
+   * 'Deleting', 'Renaming', 'Unknown'
+   */
+  status?: EntityStatus;
+  /**
+   * @member {boolean} [supportOrdering] Value that indicates whether the topic
+   * supports ordering.
+   */
+  supportOrdering?: boolean;
+  /**
+   * @member {string} [autoDeleteOnIdle] ISO 8601 timespan idle interval after
+   * which the topic is automatically deleted. The minimum duration is 5
+   * minutes.
+   */
+  autoDeleteOnIdle?: string;
+  /**
+   * @member {boolean} [enablePartitioning] Value that indicates whether the
+   * topic to be partitioned across multiple message brokers is enabled.
+   */
+  enablePartitioning?: boolean;
+  /**
+   * @member {boolean} [enableExpress] Value that indicates whether Express
+   * Entities are enabled. An express topic holds a message in memory
+   * temporarily before writing it to persistent storage.
+   */
+  enableExpress?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing SBTopic.
  * Description of topic resource.
  *
@@ -575,6 +864,111 @@ export interface SBTopic extends Resource {
    * temporarily before writing it to persistent storage.
    */
   enableExpress?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing SBSubscriptionProperties.
+ * Description of Subscription Resource.
+ *
+ */
+export interface SBSubscriptionProperties {
+  /**
+   * @member {number} [messageCount] Number of messages.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly messageCount?: number;
+  /**
+   * @member {Date} [createdAt] Exact time the message was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdAt?: Date;
+  /**
+   * @member {Date} [accessedAt] Last time there was a receive request to this
+   * subscription.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly accessedAt?: Date;
+  /**
+   * @member {Date} [updatedAt] The exact time the message was updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedAt?: Date;
+  /**
+   * @member {MessageCountDetails} [countDetails] Message count details
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly countDetails?: MessageCountDetails;
+  /**
+   * @member {string} [lockDuration] ISO 8061 lock duration timespan for the
+   * subscription. The default value is 1 minute.
+   */
+  lockDuration?: string;
+  /**
+   * @member {boolean} [requiresSession] Value indicating if a subscription
+   * supports the concept of sessions.
+   */
+  requiresSession?: boolean;
+  /**
+   * @member {string} [defaultMessageTimeToLive] ISO 8061 Default message
+   * timespan to live value. This is the duration after which the message
+   * expires, starting from when the message is sent to Service Bus. This is
+   * the default value used when TimeToLive is not set on a message itself.
+   */
+  defaultMessageTimeToLive?: string;
+  /**
+   * @member {boolean} [deadLetteringOnFilterEvaluationExceptions] Value that
+   * indicates whether a subscription has dead letter support on filter
+   * evaluation exceptions.
+   */
+  deadLetteringOnFilterEvaluationExceptions?: boolean;
+  /**
+   * @member {boolean} [deadLetteringOnMessageExpiration] Value that indicates
+   * whether a subscription has dead letter support when a message expires.
+   */
+  deadLetteringOnMessageExpiration?: boolean;
+  /**
+   * @member {string} [duplicateDetectionHistoryTimeWindow] ISO 8601 timeSpan
+   * structure that defines the duration of the duplicate detection history.
+   * The default value is 10 minutes.
+   */
+  duplicateDetectionHistoryTimeWindow?: string;
+  /**
+   * @member {number} [maxDeliveryCount] Number of maximum deliveries.
+   */
+  maxDeliveryCount?: number;
+  /**
+   * @member {EntityStatus} [status] Enumerates the possible values for the
+   * status of a messaging entity. Possible values include: 'Active',
+   * 'Disabled', 'Restoring', 'SendDisabled', 'ReceiveDisabled', 'Creating',
+   * 'Deleting', 'Renaming', 'Unknown'
+   */
+  status?: EntityStatus;
+  /**
+   * @member {boolean} [enableBatchedOperations] Value that indicates whether
+   * server-side batched operations are enabled.
+   */
+  enableBatchedOperations?: boolean;
+  /**
+   * @member {string} [autoDeleteOnIdle] ISO 8061 timeSpan idle interval after
+   * which the topic is automatically deleted. The minimum duration is 5
+   * minutes.
+   */
+  autoDeleteOnIdle?: string;
+  /**
+   * @member {string} [forwardTo] Queue/Topic name to forward the messages
+   */
+  forwardTo?: string;
+  /**
+   * @member {string} [forwardDeadLetteredMessagesTo] Queue/Topic name to
+   * forward the Dead Letter message
+   */
+  forwardDeadLetteredMessagesTo?: string;
 }
 
 /**
@@ -899,6 +1293,35 @@ export interface CorrelationFilter {
 
 /**
  * @interface
+ * An interface representing Ruleproperties.
+ * Description of Rule Resource.
+ *
+ */
+export interface Ruleproperties {
+  /**
+   * @member {Action} [action] Represents the filter actions which are allowed
+   * for the transformation of a message that have been matched by a filter
+   * expression.
+   */
+  action?: Action;
+  /**
+   * @member {FilterType} [filterType] Filter type that is evaluated against a
+   * BrokeredMessage. Possible values include: 'SqlFilter', 'CorrelationFilter'
+   */
+  filterType?: FilterType;
+  /**
+   * @member {SqlFilter} [sqlFilter] Properties of sqlFilter
+   */
+  sqlFilter?: SqlFilter;
+  /**
+   * @member {CorrelationFilter} [correlationFilter] Properties of
+   * correlationFilter
+   */
+  correlationFilter?: CorrelationFilter;
+}
+
+/**
+ * @interface
  * An interface representing Rule.
  * Description of Rule Resource.
  *
@@ -973,6 +1396,33 @@ export interface PremiumMessagingRegions extends ResourceNamespacePatch {
 
 /**
  * @interface
+ * An interface representing DestinationProperties.
+ * Properties describing the storage account, blob container and acrchive name
+ * format for capture destination
+ *
+ */
+export interface DestinationProperties {
+  /**
+   * @member {string} [storageAccountResourceId] Resource id of the storage
+   * account to be used to create the blobs
+   */
+  storageAccountResourceId?: string;
+  /**
+   * @member {string} [blobContainer] Blob container Name
+   */
+  blobContainer?: string;
+  /**
+   * @member {string} [archiveNameFormat] Blob naming convention for archive,
+   * e.g.
+   * {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}.
+   * Here all the parameters (Namespace,EventHub .. etc) are mandatory
+   * irrespective of order
+   */
+  archiveNameFormat?: string;
+}
+
+/**
+ * @interface
  * An interface representing Destination.
  * Capture storage details for capture description
  *
@@ -1040,6 +1490,56 @@ export interface CaptureDescription {
 
 /**
  * @interface
+ * An interface representing EventhubProperties.
+ * Properties supplied to the Create Or Update Event Hub operation.
+ *
+ */
+export interface EventhubProperties {
+  /**
+   * @member {string[]} [partitionIds] Current number of shards on the Event
+   * Hub.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly partitionIds?: string[];
+  /**
+   * @member {Date} [createdAt] Exact time the Event Hub was created.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdAt?: Date;
+  /**
+   * @member {Date} [updatedAt] The exact time the message was updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedAt?: Date;
+  /**
+   * @member {number} [messageRetentionInDays] Number of days to retain the
+   * events for this Event Hub, value should be 1 to 7 days
+   */
+  messageRetentionInDays?: number;
+  /**
+   * @member {number} [partitionCount] Number of partitions created for the
+   * Event Hub, allowed values are from 1 to 32 partitions.
+   */
+  partitionCount?: number;
+  /**
+   * @member {EntityStatus} [status] Enumerates the possible values for the
+   * status of the Event Hub. Possible values include: 'Active', 'Disabled',
+   * 'Restoring', 'SendDisabled', 'ReceiveDisabled', 'Creating', 'Deleting',
+   * 'Renaming', 'Unknown'
+   */
+  status?: EntityStatus;
+  /**
+   * @member {CaptureDescription} [captureDescription] Properties of capture
+   * description
+   */
+  captureDescription?: CaptureDescription;
+}
+
+/**
+ * @interface
  * An interface representing Eventhub.
  * Single item in List or Get Event Hub operation
  *
@@ -1091,6 +1591,50 @@ export interface Eventhub extends Resource {
 
 /**
  * @interface
+ * An interface representing ArmDisasterRecoveryProperties.
+ * Properties required to the Create Or Update Alias(Disaster Recovery
+ * configurations)
+ *
+ */
+export interface ArmDisasterRecoveryProperties {
+  /**
+   * @member {ProvisioningStateDR} [provisioningState] Provisioning state of
+   * the Alias(Disaster Recovery configuration) - possible values 'Accepted' or
+   * 'Succeeded' or 'Failed'. Possible values include: 'Accepted', 'Succeeded',
+   * 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningStateDR;
+  /**
+   * @member {number} [pendingReplicationOperationsCount] Number of entities
+   * pending to be replicated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly pendingReplicationOperationsCount?: number;
+  /**
+   * @member {string} [partnerNamespace] ARM Id of the Primary/Secondary
+   * eventhub namespace name, which is part of GEO DR pairning
+   */
+  partnerNamespace?: string;
+  /**
+   * @member {string} [alternateName] Primary/Secondary eventhub namespace
+   * name, which is part of GEO DR pairning
+   */
+  alternateName?: string;
+  /**
+   * @member {RoleDisasterRecovery} [role] role of namespace in GEO DR -
+   * possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'.
+   * Possible values include: 'Primary', 'PrimaryNotReplicating', 'Secondary'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly role?: RoleDisasterRecovery;
+}
+
+/**
+ * @interface
  * An interface representing ArmDisasterRecovery.
  * Single item in List or Get Alias(Disaster Recovery configuration) operation
  *
@@ -1135,6 +1679,47 @@ export interface ArmDisasterRecovery extends Resource {
 
 /**
  * @interface
+ * An interface representing MigrationConfigPropertiesProperties.
+ * Properties required to the Create Migration Configuration
+ *
+ */
+export interface MigrationConfigPropertiesProperties {
+  /**
+   * @member {string} [provisioningState] Provisioning state of Migration
+   * Configuration
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {number} [pendingReplicationOperationsCount] Number of entities
+   * pending to be replicated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly pendingReplicationOperationsCount?: number;
+  /**
+   * @member {string} targetNamespace Existing premium Namespace ARM Id name
+   * which has no entities, will be used for migration
+   */
+  targetNamespace: string;
+  /**
+   * @member {string} postMigrationName Name to access Standard Namespace after
+   * migration
+   */
+  postMigrationName: string;
+  /**
+   * @member {string} [migrationState] State in which Standard to Premium
+   * Migration is, possible values : Unknown, Reverting, Completing,
+   * Initiating, Syncing, Active
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly migrationState?: string;
+}
+
+/**
+ * @interface
  * An interface representing MigrationConfigProperties.
  * Single item in List or Get Migration Config operation
  *
@@ -1173,6 +1758,80 @@ export interface MigrationConfigProperties extends Resource {
    * the server.**
    */
   readonly migrationState?: string;
+}
+
+/**
+ * @interface
+ * An interface representing IpFilterRuleProperties.
+ * Properties supplied to create or update IpFilterRules
+ *
+ */
+export interface IpFilterRuleProperties {
+  /**
+   * @member {string} [ipMask] IP Mask
+   */
+  ipMask?: string;
+  /**
+   * @member {IPAction} [action] The IP Filter Action. Possible values include:
+   * 'Accept', 'Reject'
+   */
+  action?: IPAction;
+  /**
+   * @member {string} [filterName] IP Filter name
+   */
+  filterName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing IpFilterRule.
+ * Single item in a List or Get IpFilterRules operation
+ *
+ * @extends Resource
+ */
+export interface IpFilterRule extends Resource {
+  /**
+   * @member {string} [ipMask] IP Mask
+   */
+  ipMask?: string;
+  /**
+   * @member {IPAction} [action] The IP Filter Action. Possible values include:
+   * 'Accept', 'Reject'
+   */
+  action?: IPAction;
+  /**
+   * @member {string} [filterName] IP Filter name
+   */
+  filterName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualNetworkRuleProperties.
+ * Properties supplied to create or update VirtualNetworkRules
+ *
+ */
+export interface VirtualNetworkRuleProperties {
+  /**
+   * @member {string} [virtualNetworkSubnetId] Resource ID of Virtual Network
+   * Subnet
+   */
+  virtualNetworkSubnetId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing VirtualNetworkRule.
+ * Single item in a List or Get VirtualNetworkRules operation
+ *
+ * @extends Resource
+ */
+export interface VirtualNetworkRule extends Resource {
+  /**
+   * @member {string} [virtualNetworkSubnetId] Resource ID of Virtual Network
+   * Subnet
+   */
+  virtualNetworkSubnetId?: string;
 }
 
 /**
@@ -1320,6 +1979,36 @@ export interface SBAuthorizationRuleListResult extends Array<SBAuthorizationRule
   /**
    * @member {string} [nextLink] Link to the next set of results. Not empty if
    * Value contains incomplete list of Authorization Rules.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the IpFilterRuleListResult.
+ * The response from the List namespace operation.
+ *
+ * @extends Array<IpFilterRule>
+ */
+export interface IpFilterRuleListResult extends Array<IpFilterRule> {
+  /**
+   * @member {string} [nextLink] Link to the next set of results. Not empty if
+   * Value contains an incomplete list of IpFilter Rules
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the VirtualNetworkRuleListResult.
+ * The response from the List namespace operation.
+ *
+ * @extends Array<VirtualNetworkRule>
+ */
+export interface VirtualNetworkRuleListResult extends Array<VirtualNetworkRule> {
+  /**
+   * @member {string} [nextLink] Link to the next set of results. Not empty if
+   * Value contains an incomplete list of VirtualNetwork Rules
    */
   nextLink?: string;
 }
@@ -1581,6 +2270,21 @@ export enum RoleDisasterRecovery {
 }
 
 /**
+ * Defines values for IPAction.
+ * Possible values include: 'Accept', 'Reject'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: IPAction = <IPAction>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum IPAction {
+  Accept = 'Accept',
+  Reject = 'Reject',
+}
+
+/**
  * Contains response data for the list operation.
  */
 export type OperationsListResponse = OperationListResult & {
@@ -1828,6 +2532,120 @@ export type NamespacesRegenerateKeysResponse = AccessKeys & {
 };
 
 /**
+ * Contains response data for the listIpFilterRules operation.
+ */
+export type NamespacesListIpFilterRulesResponse = IpFilterRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpFilterRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateIpFilterRule operation.
+ */
+export type NamespacesCreateOrUpdateIpFilterRuleResponse = IpFilterRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpFilterRule;
+    };
+};
+
+/**
+ * Contains response data for the getIpFilterRule operation.
+ */
+export type NamespacesGetIpFilterRuleResponse = IpFilterRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpFilterRule;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualNetworkRules operation.
+ */
+export type NamespacesListVirtualNetworkRulesResponse = VirtualNetworkRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateVirtualNetworkRule operation.
+ */
+export type NamespacesCreateOrUpdateVirtualNetworkRuleResponse = VirtualNetworkRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRule;
+    };
+};
+
+/**
+ * Contains response data for the getVirtualNetworkRule operation.
+ */
+export type NamespacesGetVirtualNetworkRuleResponse = VirtualNetworkRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRule;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type NamespacesBeginCreateOrUpdateResponse = SBNamespace & {
@@ -1900,6 +2718,44 @@ export type NamespacesListAuthorizationRulesNextResponse = SBAuthorizationRuleLi
        * The response body as parsed JSON or XML
        */
       parsedBody: SBAuthorizationRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the listIpFilterRulesNext operation.
+ */
+export type NamespacesListIpFilterRulesNextResponse = IpFilterRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IpFilterRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the listVirtualNetworkRulesNext operation.
+ */
+export type NamespacesListVirtualNetworkRulesNextResponse = VirtualNetworkRuleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualNetworkRuleListResult;
     };
 };
 

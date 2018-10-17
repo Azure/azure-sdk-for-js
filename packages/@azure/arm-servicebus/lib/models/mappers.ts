@@ -141,6 +141,51 @@ export const SBSku: msRest.CompositeMapper = {
   }
 };
 
+export const SBNamespaceProperties: msRest.CompositeMapper = {
+  serializedName: "SBNamespaceProperties",
+  type: {
+    name: "Composite",
+    className: "SBNamespaceProperties",
+    modelProperties: {
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        readOnly: true,
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedAt: {
+        readOnly: true,
+        serializedName: "updatedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      serviceBusEndpoint: {
+        readOnly: true,
+        serializedName: "serviceBusEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      metricId: {
+        readOnly: true,
+        serializedName: "metricId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SBNamespace: msRest.CompositeMapper = {
   serializedName: "SBNamespace",
   type: {
@@ -241,6 +286,33 @@ export const SBNamespaceUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.metricId",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SBAuthorizationRuleProperties: msRest.CompositeMapper = {
+  serializedName: "SBAuthorizationRule_properties",
+  type: {
+    name: "Composite",
+    className: "SBAuthorizationRuleProperties",
+    modelProperties: {
+      rights: {
+        required: true,
+        serializedName: "rights",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "Manage",
+                "Send",
+                "Listen"
+              ]
+            }
+          }
         }
       }
     }
@@ -433,6 +505,160 @@ export const MessageCountDetails: msRest.CompositeMapper = {
   }
 };
 
+export const SBQueueProperties: msRest.CompositeMapper = {
+  serializedName: "SBQueueProperties",
+  type: {
+    name: "Composite",
+    className: "SBQueueProperties",
+    modelProperties: {
+      countDetails: {
+        readOnly: true,
+        serializedName: "countDetails",
+        type: {
+          name: "Composite",
+          className: "MessageCountDetails"
+        }
+      },
+      createdAt: {
+        readOnly: true,
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedAt: {
+        readOnly: true,
+        serializedName: "updatedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      accessedAt: {
+        readOnly: true,
+        serializedName: "accessedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      sizeInBytes: {
+        readOnly: true,
+        serializedName: "sizeInBytes",
+        type: {
+          name: "Number"
+        }
+      },
+      messageCount: {
+        readOnly: true,
+        serializedName: "messageCount",
+        type: {
+          name: "Number"
+        }
+      },
+      lockDuration: {
+        serializedName: "lockDuration",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      maxSizeInMegabytes: {
+        serializedName: "maxSizeInMegabytes",
+        type: {
+          name: "Number"
+        }
+      },
+      requiresDuplicateDetection: {
+        serializedName: "requiresDuplicateDetection",
+        type: {
+          name: "Boolean"
+        }
+      },
+      requiresSession: {
+        serializedName: "requiresSession",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultMessageTimeToLive: {
+        serializedName: "defaultMessageTimeToLive",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      deadLetteringOnMessageExpiration: {
+        serializedName: "deadLetteringOnMessageExpiration",
+        type: {
+          name: "Boolean"
+        }
+      },
+      duplicateDetectionHistoryTimeWindow: {
+        serializedName: "duplicateDetectionHistoryTimeWindow",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      maxDeliveryCount: {
+        serializedName: "maxDeliveryCount",
+        type: {
+          name: "Number"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Active",
+            "Disabled",
+            "Restoring",
+            "SendDisabled",
+            "ReceiveDisabled",
+            "Creating",
+            "Deleting",
+            "Renaming",
+            "Unknown"
+          ]
+        }
+      },
+      enableBatchedOperations: {
+        serializedName: "enableBatchedOperations",
+        type: {
+          name: "Boolean"
+        }
+      },
+      autoDeleteOnIdle: {
+        serializedName: "autoDeleteOnIdle",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      enablePartitioning: {
+        serializedName: "enablePartitioning",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableExpress: {
+        serializedName: "enableExpress",
+        type: {
+          name: "Boolean"
+        }
+      },
+      forwardTo: {
+        serializedName: "forwardTo",
+        type: {
+          name: "String"
+        }
+      },
+      forwardDeadLetteredMessagesTo: {
+        serializedName: "forwardDeadLetteredMessagesTo",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SBQueue: msRest.CompositeMapper = {
   serializedName: "SBQueue",
   type: {
@@ -588,6 +814,130 @@ export const SBQueue: msRest.CompositeMapper = {
   }
 };
 
+export const SBTopicProperties: msRest.CompositeMapper = {
+  serializedName: "SBTopicProperties",
+  type: {
+    name: "Composite",
+    className: "SBTopicProperties",
+    modelProperties: {
+      sizeInBytes: {
+        readOnly: true,
+        serializedName: "sizeInBytes",
+        type: {
+          name: "Number"
+        }
+      },
+      createdAt: {
+        readOnly: true,
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedAt: {
+        readOnly: true,
+        serializedName: "updatedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      accessedAt: {
+        readOnly: true,
+        serializedName: "accessedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      subscriptionCount: {
+        readOnly: true,
+        serializedName: "subscriptionCount",
+        type: {
+          name: "Number"
+        }
+      },
+      countDetails: {
+        readOnly: true,
+        serializedName: "countDetails",
+        type: {
+          name: "Composite",
+          className: "MessageCountDetails"
+        }
+      },
+      defaultMessageTimeToLive: {
+        serializedName: "defaultMessageTimeToLive",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      maxSizeInMegabytes: {
+        serializedName: "maxSizeInMegabytes",
+        type: {
+          name: "Number"
+        }
+      },
+      requiresDuplicateDetection: {
+        serializedName: "requiresDuplicateDetection",
+        type: {
+          name: "Boolean"
+        }
+      },
+      duplicateDetectionHistoryTimeWindow: {
+        serializedName: "duplicateDetectionHistoryTimeWindow",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      enableBatchedOperations: {
+        serializedName: "enableBatchedOperations",
+        type: {
+          name: "Boolean"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Active",
+            "Disabled",
+            "Restoring",
+            "SendDisabled",
+            "ReceiveDisabled",
+            "Creating",
+            "Deleting",
+            "Renaming",
+            "Unknown"
+          ]
+        }
+      },
+      supportOrdering: {
+        serializedName: "supportOrdering",
+        type: {
+          name: "Boolean"
+        }
+      },
+      autoDeleteOnIdle: {
+        serializedName: "autoDeleteOnIdle",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      enablePartitioning: {
+        serializedName: "enablePartitioning",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableExpress: {
+        serializedName: "enableExpress",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const SBTopic: msRest.CompositeMapper = {
   serializedName: "SBTopic",
   type: {
@@ -707,6 +1057,135 @@ export const SBTopic: msRest.CompositeMapper = {
         serializedName: "properties.enableExpress",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const SBSubscriptionProperties: msRest.CompositeMapper = {
+  serializedName: "SBSubscriptionProperties",
+  type: {
+    name: "Composite",
+    className: "SBSubscriptionProperties",
+    modelProperties: {
+      messageCount: {
+        readOnly: true,
+        serializedName: "messageCount",
+        type: {
+          name: "Number"
+        }
+      },
+      createdAt: {
+        readOnly: true,
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      accessedAt: {
+        readOnly: true,
+        serializedName: "accessedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedAt: {
+        readOnly: true,
+        serializedName: "updatedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      countDetails: {
+        readOnly: true,
+        serializedName: "countDetails",
+        type: {
+          name: "Composite",
+          className: "MessageCountDetails"
+        }
+      },
+      lockDuration: {
+        serializedName: "lockDuration",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      requiresSession: {
+        serializedName: "requiresSession",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultMessageTimeToLive: {
+        serializedName: "defaultMessageTimeToLive",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      deadLetteringOnFilterEvaluationExceptions: {
+        serializedName: "deadLetteringOnFilterEvaluationExceptions",
+        type: {
+          name: "Boolean"
+        }
+      },
+      deadLetteringOnMessageExpiration: {
+        serializedName: "deadLetteringOnMessageExpiration",
+        type: {
+          name: "Boolean"
+        }
+      },
+      duplicateDetectionHistoryTimeWindow: {
+        serializedName: "duplicateDetectionHistoryTimeWindow",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      maxDeliveryCount: {
+        serializedName: "maxDeliveryCount",
+        type: {
+          name: "Number"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Active",
+            "Disabled",
+            "Restoring",
+            "SendDisabled",
+            "ReceiveDisabled",
+            "Creating",
+            "Deleting",
+            "Renaming",
+            "Unknown"
+          ]
+        }
+      },
+      enableBatchedOperations: {
+        serializedName: "enableBatchedOperations",
+        type: {
+          name: "Boolean"
+        }
+      },
+      autoDeleteOnIdle: {
+        serializedName: "autoDeleteOnIdle",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      forwardTo: {
+        serializedName: "forwardTo",
+        type: {
+          name: "String"
+        }
+      },
+      forwardDeadLetteredMessagesTo: {
+        serializedName: "forwardDeadLetteredMessagesTo",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1110,6 +1589,47 @@ export const CorrelationFilter: msRest.CompositeMapper = {
   }
 };
 
+export const Ruleproperties: msRest.CompositeMapper = {
+  serializedName: "Ruleproperties",
+  type: {
+    name: "Composite",
+    className: "Ruleproperties",
+    modelProperties: {
+      action: {
+        serializedName: "action",
+        type: {
+          name: "Composite",
+          className: "Action"
+        }
+      },
+      filterType: {
+        serializedName: "filterType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SqlFilter",
+            "CorrelationFilter"
+          ]
+        }
+      },
+      sqlFilter: {
+        serializedName: "sqlFilter",
+        type: {
+          name: "Composite",
+          className: "SqlFilter"
+        }
+      },
+      correlationFilter: {
+        serializedName: "correlationFilter",
+        type: {
+          name: "Composite",
+          className: "CorrelationFilter"
+        }
+      }
+    }
+  }
+};
+
 export const Rule: msRest.CompositeMapper = {
   serializedName: "Rule",
   type: {
@@ -1205,6 +1725,34 @@ export const PremiumMessagingRegions: msRest.CompositeMapper = {
   }
 };
 
+export const DestinationProperties: msRest.CompositeMapper = {
+  serializedName: "Destination_properties",
+  type: {
+    name: "Composite",
+    className: "DestinationProperties",
+    modelProperties: {
+      storageAccountResourceId: {
+        serializedName: "storageAccountResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      blobContainer: {
+        serializedName: "blobContainer",
+        type: {
+          name: "String"
+        }
+      },
+      archiveNameFormat: {
+        serializedName: "archiveNameFormat",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Destination: msRest.CompositeMapper = {
   serializedName: "Destination",
   type: {
@@ -1292,6 +1840,86 @@ export const CaptureDescription: msRest.CompositeMapper = {
   }
 };
 
+export const EventhubProperties: msRest.CompositeMapper = {
+  serializedName: "Eventhub_properties",
+  type: {
+    name: "Composite",
+    className: "EventhubProperties",
+    modelProperties: {
+      partitionIds: {
+        readOnly: true,
+        serializedName: "partitionIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      createdAt: {
+        readOnly: true,
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedAt: {
+        readOnly: true,
+        serializedName: "updatedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      messageRetentionInDays: {
+        serializedName: "messageRetentionInDays",
+        constraints: {
+          InclusiveMaximum: 7,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      partitionCount: {
+        serializedName: "partitionCount",
+        constraints: {
+          InclusiveMaximum: 32,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Active",
+            "Disabled",
+            "Restoring",
+            "SendDisabled",
+            "ReceiveDisabled",
+            "Creating",
+            "Deleting",
+            "Renaming",
+            "Unknown"
+          ]
+        }
+      },
+      captureDescription: {
+        serializedName: "captureDescription",
+        type: {
+          name: "Composite",
+          className: "CaptureDescription"
+        }
+      }
+    }
+  }
+};
+
 export const Eventhub: msRest.CompositeMapper = {
   serializedName: "Eventhub",
   type: {
@@ -1373,6 +2001,59 @@ export const Eventhub: msRest.CompositeMapper = {
   }
 };
 
+export const ArmDisasterRecoveryProperties: msRest.CompositeMapper = {
+  serializedName: "ArmDisasterRecovery_properties",
+  type: {
+    name: "Composite",
+    className: "ArmDisasterRecoveryProperties",
+    modelProperties: {
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Accepted",
+            "Succeeded",
+            "Failed"
+          ]
+        }
+      },
+      pendingReplicationOperationsCount: {
+        readOnly: true,
+        serializedName: "pendingReplicationOperationsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      partnerNamespace: {
+        serializedName: "partnerNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      alternateName: {
+        serializedName: "alternateName",
+        type: {
+          name: "String"
+        }
+      },
+      role: {
+        readOnly: true,
+        serializedName: "role",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Primary",
+            "PrimaryNotReplicating",
+            "Secondary"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const ArmDisasterRecovery: msRest.CompositeMapper = {
   serializedName: "ArmDisasterRecovery",
   type: {
@@ -1427,6 +2108,51 @@ export const ArmDisasterRecovery: msRest.CompositeMapper = {
   }
 };
 
+export const MigrationConfigPropertiesProperties: msRest.CompositeMapper = {
+  serializedName: "MigrationConfigProperties_properties",
+  type: {
+    name: "Composite",
+    className: "MigrationConfigPropertiesProperties",
+    modelProperties: {
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      pendingReplicationOperationsCount: {
+        readOnly: true,
+        serializedName: "pendingReplicationOperationsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      targetNamespace: {
+        required: true,
+        serializedName: "targetNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      postMigrationName: {
+        required: true,
+        serializedName: "postMigrationName",
+        type: {
+          name: "String"
+        }
+      },
+      migrationState: {
+        readOnly: true,
+        serializedName: "migrationState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MigrationConfigProperties: msRest.CompositeMapper = {
   serializedName: "MigrationConfigProperties",
   type: {
@@ -1465,6 +2191,96 @@ export const MigrationConfigProperties: msRest.CompositeMapper = {
       migrationState: {
         readOnly: true,
         serializedName: "properties.migrationState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IpFilterRuleProperties: msRest.CompositeMapper = {
+  serializedName: "IpFilterRule_properties",
+  type: {
+    name: "Composite",
+    className: "IpFilterRuleProperties",
+    modelProperties: {
+      ipMask: {
+        serializedName: "ipMask",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      },
+      filterName: {
+        serializedName: "filterName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IpFilterRule: msRest.CompositeMapper = {
+  serializedName: "IpFilterRule",
+  type: {
+    name: "Composite",
+    className: "IpFilterRule",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      ipMask: {
+        serializedName: "properties.ipMask",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "properties.action",
+        type: {
+          name: "String"
+        }
+      },
+      filterName: {
+        serializedName: "properties.filterName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkRuleProperties: msRest.CompositeMapper = {
+  serializedName: "VirtualNetworkRule_properties",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkRuleProperties",
+    modelProperties: {
+      virtualNetworkSubnetId: {
+        serializedName: "virtualNetworkSubnetId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkRule: msRest.CompositeMapper = {
+  serializedName: "VirtualNetworkRule",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkRule",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      virtualNetworkSubnetId: {
+        serializedName: "properties.virtualNetworkSubnetId",
         type: {
           name: "String"
         }
@@ -1545,6 +2361,62 @@ export const SBAuthorizationRuleListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SBAuthorizationRule"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IpFilterRuleListResult: msRest.CompositeMapper = {
+  serializedName: "IpFilterRuleListResult",
+  type: {
+    name: "Composite",
+    className: "IpFilterRuleListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpFilterRule"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkRuleListResult: msRest.CompositeMapper = {
+  serializedName: "VirtualNetworkRuleListResult",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkRuleListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualNetworkRule"
             }
           }
         }

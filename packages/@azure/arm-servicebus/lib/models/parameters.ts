@@ -70,6 +70,19 @@ export const configName: msRest.OperationURLParameter = {
     }
   }
 };
+export const ipFilterRuleName: msRest.OperationURLParameter = {
+  parameterPath: "ipFilterRuleName",
+  mapper: {
+    required: true,
+    serializedName: "ipFilterRuleName",
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const namespaceName0: msRest.OperationURLParameter = {
   parameterPath: "namespaceName",
   mapper: {
@@ -221,6 +234,19 @@ export const topicName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "topicName",
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const virtualNetworkRuleName: msRest.OperationURLParameter = {
+  parameterPath: "virtualNetworkRuleName",
+  mapper: {
+    required: true,
+    serializedName: "virtualNetworkRuleName",
     constraints: {
       MinLength: 1
     },
