@@ -336,6 +336,49 @@ export const FactoryRepoConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const FactoryProperties: msRest.CompositeMapper = {
+  serializedName: "FactoryProperties",
+  type: {
+    name: "Composite",
+    className: "FactoryProperties",
+    modelProperties: {
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      createTime: {
+        readOnly: true,
+        serializedName: "createTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      version: {
+        readOnly: true,
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      repoConfiguration: {
+        serializedName: "repoConfiguration",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "FactoryRepoConfiguration",
+          className: "FactoryRepoConfiguration"
+        }
+      }
+    }
+  }
+};
+
 export const Factory: msRest.CompositeMapper = {
   serializedName: "Factory",
   type: {
@@ -1088,6 +1131,95 @@ export const PipelineFolder: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PipelineModel: msRest.CompositeMapper = {
+  serializedName: "Pipeline",
+  type: {
+    name: "Composite",
+    className: "PipelineModel",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      activities: {
+        serializedName: "activities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "type",
+                clientName: "type"
+              },
+              uberParent: "Activity",
+              className: "Activity",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ParameterSpecification"
+            }
+          }
+        }
+      },
+      variables: {
+        serializedName: "variables",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "VariableSpecification"
+            }
+          }
+        }
+      },
+      concurrency: {
+        serializedName: "concurrency",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      annotations: {
+        serializedName: "annotations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      folder: {
+        serializedName: "folder",
+        type: {
+          name: "Composite",
+          className: "PipelineFolder"
         }
       }
     }
@@ -2079,6 +2211,47 @@ export const RerunTumblingWindowTriggerActionParameters: msRest.CompositeMapper 
   }
 };
 
+export const RerunTumblingWindowTriggerTypeProperties: msRest.CompositeMapper = {
+  serializedName: "RerunTumblingWindowTrigger_typeProperties",
+  type: {
+    name: "Composite",
+    className: "RerunTumblingWindowTriggerTypeProperties",
+    modelProperties: {
+      parentTrigger: {
+        serializedName: "parentTrigger",
+        type: {
+          name: "Object"
+        }
+      },
+      requestedStartTime: {
+        required: true,
+        serializedName: "requestedStartTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      requestedEndTime: {
+        required: true,
+        serializedName: "requestedEndTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      maxConcurrency: {
+        required: true,
+        serializedName: "maxConcurrency",
+        constraints: {
+          InclusiveMaximum: 50,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const RerunTumblingWindowTrigger: msRest.CompositeMapper = {
   serializedName: "RerunTumblingWindowTrigger",
   type: {
@@ -2374,6 +2547,23 @@ export const OperationServiceSpecification: msRest.CompositeMapper = {
   }
 };
 
+export const OperationProperties: msRest.CompositeMapper = {
+  serializedName: "OperationProperties",
+  type: {
+    name: "Composite",
+    className: "OperationProperties",
+    modelProperties: {
+      serviceSpecification: {
+        serializedName: "serviceSpecification",
+        type: {
+          name: "Composite",
+          className: "OperationServiceSpecification"
+        }
+      }
+    }
+  }
+};
+
 export const Operation: msRest.CompositeMapper = {
   serializedName: "Operation",
   type: {
@@ -2577,6 +2767,84 @@ export const RetryPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const TumblingWindowTriggerTypeProperties: msRest.CompositeMapper = {
+  serializedName: "TumblingWindowTrigger_typeProperties",
+  type: {
+    name: "Composite",
+    className: "TumblingWindowTriggerTypeProperties",
+    modelProperties: {
+      frequency: {
+        required: true,
+        serializedName: "frequency",
+        type: {
+          name: "String"
+        }
+      },
+      interval: {
+        required: true,
+        serializedName: "interval",
+        type: {
+          name: "Number"
+        }
+      },
+      startTime: {
+        required: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      delay: {
+        serializedName: "delay",
+        type: {
+          name: "Object"
+        }
+      },
+      maxConcurrency: {
+        required: true,
+        serializedName: "maxConcurrency",
+        constraints: {
+          InclusiveMaximum: 50,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      retryPolicy: {
+        serializedName: "retryPolicy",
+        type: {
+          name: "Composite",
+          className: "RetryPolicy"
+        }
+      },
+      dependsOn: {
+        serializedName: "dependsOn",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "type",
+                clientName: "type"
+              },
+              uberParent: "DependencyReference",
+              className: "DependencyReference"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const TumblingWindowTrigger: msRest.CompositeMapper = {
   serializedName: "TumblingWindowTrigger",
   type: {
@@ -2668,6 +2936,47 @@ export const TumblingWindowTrigger: msRest.CompositeMapper = {
   }
 };
 
+export const BlobEventsTriggerTypeProperties: msRest.CompositeMapper = {
+  serializedName: "BlobEventsTrigger_typeProperties",
+  type: {
+    name: "Composite",
+    className: "BlobEventsTriggerTypeProperties",
+    modelProperties: {
+      blobPathBeginsWith: {
+        serializedName: "blobPathBeginsWith",
+        type: {
+          name: "String"
+        }
+      },
+      blobPathEndsWith: {
+        serializedName: "blobPathEndsWith",
+        type: {
+          name: "String"
+        }
+      },
+      events: {
+        required: true,
+        serializedName: "events",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      scope: {
+        required: true,
+        serializedName: "scope",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MultiplePipelineTrigger: msRest.CompositeMapper = {
   serializedName: "MultiplePipelineTrigger",
   type: {
@@ -2736,6 +3045,39 @@ export const BlobEventsTrigger: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Trigger.type.additionalProperties
+  }
+};
+
+export const BlobTriggerTypeProperties: msRest.CompositeMapper = {
+  serializedName: "BlobTrigger_typeProperties",
+  type: {
+    name: "Composite",
+    className: "BlobTriggerTypeProperties",
+    modelProperties: {
+      folderPath: {
+        required: true,
+        serializedName: "folderPath",
+        type: {
+          name: "String"
+        }
+      },
+      maxConcurrency: {
+        required: true,
+        serializedName: "maxConcurrency",
+        type: {
+          name: "Number"
+        }
+      },
+      linkedService: {
+        required: true,
+        serializedName: "linkedService",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      }
+    }
   }
 };
 
@@ -2954,6 +3296,29 @@ export const ScheduleTriggerRecurrence: msRest.CompositeMapper = {
   }
 };
 
+export const ScheduleTriggerTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ScheduleTrigger_typeProperties",
+  type: {
+    name: "Composite",
+    className: "ScheduleTriggerTypeProperties",
+    modelProperties: {
+      recurrence: {
+        required: true,
+        serializedName: "recurrence",
+        type: {
+          name: "Composite",
+          className: "ScheduleTriggerRecurrence",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ScheduleTrigger: msRest.CompositeMapper = {
   serializedName: "ScheduleTrigger",
   type: {
@@ -2978,6 +3343,66 @@ export const ScheduleTrigger: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Trigger.type.additionalProperties
+  }
+};
+
+export const ResponsysLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ResponsysLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ResponsysLinkedServiceTypeProperties",
+    modelProperties: {
+      endpoint: {
+        required: true,
+        serializedName: "endpoint",
+        type: {
+          name: "Object"
+        }
+      },
+      clientId: {
+        required: true,
+        serializedName: "clientId",
+        type: {
+          name: "Object"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -3042,6 +3467,99 @@ export const ResponsysLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const AzureDatabricksLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureDatabricksLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureDatabricksLinkedServiceTypeProperties",
+    modelProperties: {
+      domain: {
+        required: true,
+        serializedName: "domain",
+        type: {
+          name: "Object"
+        }
+      },
+      accessToken: {
+        required: true,
+        serializedName: "accessToken",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      existingClusterId: {
+        serializedName: "existingClusterId",
+        type: {
+          name: "Object"
+        }
+      },
+      newClusterVersion: {
+        serializedName: "newClusterVersion",
+        type: {
+          name: "Object"
+        }
+      },
+      newClusterNumOfWorker: {
+        serializedName: "newClusterNumOfWorker",
+        type: {
+          name: "Object"
+        }
+      },
+      newClusterNodeType: {
+        serializedName: "newClusterNodeType",
+        type: {
+          name: "Object"
+        }
+      },
+      newClusterSparkConf: {
+        serializedName: "newClusterSparkConf",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      newClusterSparkEnvVars: {
+        serializedName: "newClusterSparkEnvVars",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      newClusterCustomTags: {
+        serializedName: "newClusterCustomTags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -3139,6 +3657,72 @@ export const AzureDatabricksLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const AzureDataLakeAnalyticsLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureDataLakeAnalyticsLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureDataLakeAnalyticsLinkedServiceTypeProperties",
+    modelProperties: {
+      accountName: {
+        required: true,
+        serializedName: "accountName",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalId: {
+        serializedName: "servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalKey: {
+        serializedName: "servicePrincipalKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      tenant: {
+        required: true,
+        serializedName: "tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        type: {
+          name: "Object"
+        }
+      },
+      resourceGroupName: {
+        serializedName: "resourceGroupName",
+        type: {
+          name: "Object"
+        }
+      },
+      dataLakeAnalyticsUri: {
+        serializedName: "dataLakeAnalyticsUri",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -3243,6 +3827,242 @@ export const ScriptAction: msRest.CompositeMapper = {
         serializedName: "parameters",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HDInsightOnDemandLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HDInsightOnDemandLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HDInsightOnDemandLinkedServiceTypeProperties",
+    modelProperties: {
+      clusterSize: {
+        required: true,
+        serializedName: "clusterSize",
+        type: {
+          name: "Object"
+        }
+      },
+      timeToLive: {
+        required: true,
+        serializedName: "timeToLive",
+        type: {
+          name: "Object"
+        }
+      },
+      version: {
+        required: true,
+        serializedName: "version",
+        type: {
+          name: "Object"
+        }
+      },
+      linkedServiceName: {
+        required: true,
+        serializedName: "linkedServiceName",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      hostSubscriptionId: {
+        required: true,
+        serializedName: "hostSubscriptionId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalId: {
+        serializedName: "servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalKey: {
+        serializedName: "servicePrincipalKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      tenant: {
+        required: true,
+        serializedName: "tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      clusterResourceGroup: {
+        required: true,
+        serializedName: "clusterResourceGroup",
+        type: {
+          name: "Object"
+        }
+      },
+      clusterNamePrefix: {
+        serializedName: "clusterNamePrefix",
+        type: {
+          name: "Object"
+        }
+      },
+      clusterUserName: {
+        serializedName: "clusterUserName",
+        type: {
+          name: "Object"
+        }
+      },
+      clusterPassword: {
+        serializedName: "clusterPassword",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      clusterSshUserName: {
+        serializedName: "clusterSshUserName",
+        type: {
+          name: "Object"
+        }
+      },
+      clusterSshPassword: {
+        serializedName: "clusterSshPassword",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      additionalLinkedServiceNames: {
+        serializedName: "additionalLinkedServiceNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
+          }
+        }
+      },
+      hcatalogLinkedServiceName: {
+        serializedName: "hcatalogLinkedServiceName",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      clusterType: {
+        serializedName: "clusterType",
+        type: {
+          name: "Object"
+        }
+      },
+      sparkVersion: {
+        serializedName: "sparkVersion",
+        type: {
+          name: "Object"
+        }
+      },
+      coreConfiguration: {
+        serializedName: "coreConfiguration",
+        type: {
+          name: "Object"
+        }
+      },
+      hBaseConfiguration: {
+        serializedName: "hBaseConfiguration",
+        type: {
+          name: "Object"
+        }
+      },
+      hdfsConfiguration: {
+        serializedName: "hdfsConfiguration",
+        type: {
+          name: "Object"
+        }
+      },
+      hiveConfiguration: {
+        serializedName: "hiveConfiguration",
+        type: {
+          name: "Object"
+        }
+      },
+      mapReduceConfiguration: {
+        serializedName: "mapReduceConfiguration",
+        type: {
+          name: "Object"
+        }
+      },
+      oozieConfiguration: {
+        serializedName: "oozieConfiguration",
+        type: {
+          name: "Object"
+        }
+      },
+      stormConfiguration: {
+        serializedName: "stormConfiguration",
+        type: {
+          name: "Object"
+        }
+      },
+      yarnConfiguration: {
+        serializedName: "yarnConfiguration",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      },
+      headNodeSize: {
+        serializedName: "headNodeSize",
+        type: {
+          name: "Object"
+        }
+      },
+      dataNodeSize: {
+        serializedName: "dataNodeSize",
+        type: {
+          name: "Object"
+        }
+      },
+      zookeeperNodeSize: {
+        serializedName: "zookeeperNodeSize",
+        type: {
+          name: "Object"
+        }
+      },
+      scriptActions: {
+        serializedName: "scriptActions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ScriptAction"
+            }
+          }
         }
       }
     }
@@ -3489,6 +4309,59 @@ export const HDInsightOnDemandLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const SalesforceMarketingCloudLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SalesforceMarketingCloudLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SalesforceMarketingCloudLinkedServiceTypeProperties",
+    modelProperties: {
+      clientId: {
+        required: true,
+        serializedName: "clientId",
+        type: {
+          name: "Object"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const SalesforceMarketingCloudLinkedService: msRest.CompositeMapper = {
   serializedName: "SalesforceMarketingCloud",
   type: {
@@ -3546,6 +4419,28 @@ export const SalesforceMarketingCloudLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const NetezzaLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "NetezzaLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "NetezzaLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const NetezzaLinkedService: msRest.CompositeMapper = {
   serializedName: "Netezza",
   type: {
@@ -3572,6 +4467,28 @@ export const NetezzaLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const VerticaLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "VerticaLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "VerticaLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const VerticaLinkedService: msRest.CompositeMapper = {
   serializedName: "Vertica",
   type: {
@@ -3595,6 +4512,59 @@ export const VerticaLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const ZohoLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ZohoLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ZohoLinkedServiceTypeProperties",
+    modelProperties: {
+      endpoint: {
+        required: true,
+        serializedName: "endpoint",
+        type: {
+          name: "Object"
+        }
+      },
+      accessToken: {
+        serializedName: "accessToken",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -3652,6 +4622,71 @@ export const ZohoLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const XeroLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "XeroLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "XeroLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      consumerKey: {
+        serializedName: "consumerKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      privateKey: {
+        serializedName: "privateKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -3724,6 +4759,73 @@ export const XeroLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const SquareLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SquareLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SquareLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      clientId: {
+        required: true,
+        serializedName: "clientId",
+        type: {
+          name: "Object"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      redirectUri: {
+        required: true,
+        serializedName: "redirectUri",
+        type: {
+          name: "Object"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const SquareLinkedService: msRest.CompositeMapper = {
   serializedName: "Square",
   type: {
@@ -3792,6 +4894,109 @@ export const SquareLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const SparkLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SparkLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SparkLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        required: true,
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      serverType: {
+        serializedName: "serverType",
+        type: {
+          name: "String"
+        }
+      },
+      thriftTransportProtocol: {
+        serializedName: "thriftTransportProtocol",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationType: {
+        required: true,
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      httpPath: {
+        serializedName: "httpPath",
+        type: {
+          name: "Object"
+        }
+      },
+      enableSsl: {
+        serializedName: "enableSsl",
+        type: {
+          name: "Object"
+        }
+      },
+      trustedCertPath: {
+        serializedName: "trustedCertPath",
+        type: {
+          name: "Object"
+        }
+      },
+      useSystemTrustStore: {
+        serializedName: "useSystemTrustStore",
+        type: {
+          name: "Object"
+        }
+      },
+      allowHostNameCNMismatch: {
+        serializedName: "allowHostNameCNMismatch",
+        type: {
+          name: "Object"
+        }
+      },
+      allowSelfSignedServerCert: {
+        serializedName: "allowSelfSignedServerCert",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -3902,6 +5107,59 @@ export const SparkLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const ShopifyLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ShopifyLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ShopifyLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      accessToken: {
+        serializedName: "accessToken",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const ShopifyLinkedService: msRest.CompositeMapper = {
   serializedName: "Shopify",
   type: {
@@ -3956,6 +5214,90 @@ export const ShopifyLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const ServiceNowLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ServiceNowLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ServiceNowLinkedServiceTypeProperties",
+    modelProperties: {
+      endpoint: {
+        required: true,
+        serializedName: "endpoint",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        required: true,
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "Object"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -4047,6 +5389,88 @@ export const ServiceNowLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const QuickBooksLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "QuickBooksLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "QuickBooksLinkedServiceTypeProperties",
+    modelProperties: {
+      endpoint: {
+        required: true,
+        serializedName: "endpoint",
+        type: {
+          name: "Object"
+        }
+      },
+      companyId: {
+        required: true,
+        serializedName: "companyId",
+        type: {
+          name: "Object"
+        }
+      },
+      consumerKey: {
+        required: true,
+        serializedName: "consumerKey",
+        type: {
+          name: "Object"
+        }
+      },
+      consumerSecret: {
+        required: true,
+        serializedName: "consumerSecret",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      accessToken: {
+        required: true,
+        serializedName: "accessToken",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      accessTokenSecret: {
+        required: true,
+        serializedName: "accessTokenSecret",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const QuickBooksLinkedService: msRest.CompositeMapper = {
   serializedName: "QuickBooks",
   type: {
@@ -4130,6 +5554,110 @@ export const QuickBooksLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const PrestoLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "PrestoLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "PrestoLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      serverVersion: {
+        required: true,
+        serializedName: "serverVersion",
+        type: {
+          name: "Object"
+        }
+      },
+      catalog: {
+        required: true,
+        serializedName: "catalog",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        required: true,
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      enableSsl: {
+        serializedName: "enableSsl",
+        type: {
+          name: "Object"
+        }
+      },
+      trustedCertPath: {
+        serializedName: "trustedCertPath",
+        type: {
+          name: "Object"
+        }
+      },
+      useSystemTrustStore: {
+        serializedName: "useSystemTrustStore",
+        type: {
+          name: "Object"
+        }
+      },
+      allowHostNameCNMismatch: {
+        serializedName: "allowHostNameCNMismatch",
+        type: {
+          name: "Object"
+        }
+      },
+      allowSelfSignedServerCert: {
+        serializedName: "allowSelfSignedServerCert",
+        type: {
+          name: "Object"
+        }
+      },
+      timeZoneID: {
+        serializedName: "timeZoneID",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -4241,6 +5769,96 @@ export const PrestoLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const PhoenixLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "PhoenixLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "PhoenixLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      httpPath: {
+        serializedName: "httpPath",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        required: true,
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      enableSsl: {
+        serializedName: "enableSsl",
+        type: {
+          name: "Object"
+        }
+      },
+      trustedCertPath: {
+        serializedName: "trustedCertPath",
+        type: {
+          name: "Object"
+        }
+      },
+      useSystemTrustStore: {
+        serializedName: "useSystemTrustStore",
+        type: {
+          name: "Object"
+        }
+      },
+      allowHostNameCNMismatch: {
+        serializedName: "allowHostNameCNMismatch",
+        type: {
+          name: "Object"
+        }
+      },
+      allowSelfSignedServerCert: {
+        serializedName: "allowSelfSignedServerCert",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const PhoenixLinkedService: msRest.CompositeMapper = {
   serializedName: "Phoenix",
   type: {
@@ -4335,6 +5953,66 @@ export const PhoenixLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const PaypalLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "PaypalLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "PaypalLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      clientId: {
+        required: true,
+        serializedName: "clientId",
+        type: {
+          name: "Object"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const PaypalLinkedService: msRest.CompositeMapper = {
   serializedName: "Paypal",
   type: {
@@ -4396,6 +6074,66 @@ export const PaypalLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const MarketoLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "MarketoLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "MarketoLinkedServiceTypeProperties",
+    modelProperties: {
+      endpoint: {
+        required: true,
+        serializedName: "endpoint",
+        type: {
+          name: "Object"
+        }
+      },
+      clientId: {
+        required: true,
+        serializedName: "clientId",
+        type: {
+          name: "Object"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -4463,6 +6201,28 @@ export const MarketoLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const MariaDBLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "MariaDBLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "MariaDBLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const MariaDBLinkedService: msRest.CompositeMapper = {
   serializedName: "MariaDB",
   type: {
@@ -4486,6 +6246,59 @@ export const MariaDBLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const MagentoLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "MagentoLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "MagentoLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      accessToken: {
+        serializedName: "accessToken",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -4543,6 +6356,72 @@ export const MagentoLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const JiraLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "JiraLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "JiraLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      username: {
+        required: true,
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -4613,6 +6492,90 @@ export const JiraLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const ImpalaLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ImpalaLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ImpalaLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        required: true,
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      enableSsl: {
+        serializedName: "enableSsl",
+        type: {
+          name: "Object"
+        }
+      },
+      trustedCertPath: {
+        serializedName: "trustedCertPath",
+        type: {
+          name: "Object"
+        }
+      },
+      useSystemTrustStore: {
+        serializedName: "useSystemTrustStore",
+        type: {
+          name: "Object"
+        }
+      },
+      allowHostNameCNMismatch: {
+        serializedName: "allowHostNameCNMismatch",
+        type: {
+          name: "Object"
+        }
+      },
+      allowSelfSignedServerCert: {
+        serializedName: "allowSelfSignedServerCert",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -4704,6 +6667,83 @@ export const ImpalaLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const HubspotLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HubspotLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HubspotLinkedServiceTypeProperties",
+    modelProperties: {
+      clientId: {
+        required: true,
+        serializedName: "clientId",
+        type: {
+          name: "Object"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      accessToken: {
+        serializedName: "accessToken",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      refreshToken: {
+        serializedName: "refreshToken",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const HubspotLinkedService: msRest.CompositeMapper = {
   serializedName: "Hubspot",
   type: {
@@ -4782,6 +6822,126 @@ export const HubspotLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const HiveLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HiveLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HiveLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      serverType: {
+        serializedName: "serverType",
+        type: {
+          name: "String"
+        }
+      },
+      thriftTransportProtocol: {
+        serializedName: "thriftTransportProtocol",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationType: {
+        required: true,
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      serviceDiscoveryMode: {
+        serializedName: "serviceDiscoveryMode",
+        type: {
+          name: "Object"
+        }
+      },
+      zooKeeperNameSpace: {
+        serializedName: "zooKeeperNameSpace",
+        type: {
+          name: "Object"
+        }
+      },
+      useNativeQuery: {
+        serializedName: "useNativeQuery",
+        type: {
+          name: "Object"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      httpPath: {
+        serializedName: "httpPath",
+        type: {
+          name: "Object"
+        }
+      },
+      enableSsl: {
+        serializedName: "enableSsl",
+        type: {
+          name: "Object"
+        }
+      },
+      trustedCertPath: {
+        serializedName: "trustedCertPath",
+        type: {
+          name: "Object"
+        }
+      },
+      useSystemTrustStore: {
+        serializedName: "useSystemTrustStore",
+        type: {
+          name: "Object"
+        }
+      },
+      allowHostNameCNMismatch: {
+        serializedName: "allowHostNameCNMismatch",
+        type: {
+          name: "Object"
+        }
+      },
+      allowSelfSignedServerCert: {
+        serializedName: "allowSelfSignedServerCert",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -4909,6 +7069,90 @@ export const HiveLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const HBaseLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HBaseLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HBaseLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      httpPath: {
+        serializedName: "httpPath",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        required: true,
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      enableSsl: {
+        serializedName: "enableSsl",
+        type: {
+          name: "Object"
+        }
+      },
+      trustedCertPath: {
+        serializedName: "trustedCertPath",
+        type: {
+          name: "Object"
+        }
+      },
+      allowHostNameCNMismatch: {
+        serializedName: "allowHostNameCNMismatch",
+        type: {
+          name: "Object"
+        }
+      },
+      allowSelfSignedServerCert: {
+        serializedName: "allowSelfSignedServerCert",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const HBaseLinkedService: msRest.CompositeMapper = {
   serializedName: "HBase",
   type: {
@@ -4997,6 +7241,28 @@ export const HBaseLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const GreenplumLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "GreenplumLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "GreenplumLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const GreenplumLinkedService: msRest.CompositeMapper = {
   serializedName: "Greenplum",
   type: {
@@ -5020,6 +7286,108 @@ export const GreenplumLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const GoogleBigQueryLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "GoogleBigQueryLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "GoogleBigQueryLinkedServiceTypeProperties",
+    modelProperties: {
+      project: {
+        required: true,
+        serializedName: "project",
+        type: {
+          name: "Object"
+        }
+      },
+      additionalProjects: {
+        serializedName: "additionalProjects",
+        type: {
+          name: "Object"
+        }
+      },
+      requestGoogleDriveScope: {
+        serializedName: "requestGoogleDriveScope",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        required: true,
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      refreshToken: {
+        serializedName: "refreshToken",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      email: {
+        serializedName: "email",
+        type: {
+          name: "Object"
+        }
+      },
+      keyFilePath: {
+        serializedName: "keyFilePath",
+        type: {
+          name: "Object"
+        }
+      },
+      trustedCertPath: {
+        serializedName: "trustedCertPath",
+        type: {
+          name: "Object"
+        }
+      },
+      useSystemTrustStore: {
+        serializedName: "useSystemTrustStore",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -5129,6 +7497,66 @@ export const GoogleBigQueryLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const EloquaLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "EloquaLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "EloquaLinkedServiceTypeProperties",
+    modelProperties: {
+      endpoint: {
+        required: true,
+        serializedName: "endpoint",
+        type: {
+          name: "Object"
+        }
+      },
+      username: {
+        required: true,
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const EloquaLinkedService: msRest.CompositeMapper = {
   serializedName: "Eloqua",
   type: {
@@ -5193,6 +7621,28 @@ export const EloquaLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const DrillLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "DrillLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "DrillLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const DrillLinkedService: msRest.CompositeMapper = {
   serializedName: "Drill",
   type: {
@@ -5219,6 +7669,28 @@ export const DrillLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const CouchbaseLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "CouchbaseLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "CouchbaseLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const CouchbaseLinkedService: msRest.CompositeMapper = {
   serializedName: "Couchbase",
   type: {
@@ -5242,6 +7714,66 @@ export const CouchbaseLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const ConcurLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ConcurLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ConcurLinkedServiceTypeProperties",
+    modelProperties: {
+      clientId: {
+        required: true,
+        serializedName: "clientId",
+        type: {
+          name: "Object"
+        }
+      },
+      username: {
+        required: true,
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -5309,6 +7841,28 @@ export const ConcurLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const AzurePostgreSqlLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzurePostgreSqlLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzurePostgreSqlLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AzurePostgreSqlLinkedService: msRest.CompositeMapper = {
   serializedName: "AzurePostgreSql",
   type: {
@@ -5332,6 +7886,92 @@ export const AzurePostgreSqlLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const AmazonMWSLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AmazonMWSLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AmazonMWSLinkedServiceTypeProperties",
+    modelProperties: {
+      endpoint: {
+        required: true,
+        serializedName: "endpoint",
+        type: {
+          name: "Object"
+        }
+      },
+      marketplaceID: {
+        required: true,
+        serializedName: "marketplaceID",
+        type: {
+          name: "Object"
+        }
+      },
+      sellerID: {
+        required: true,
+        serializedName: "sellerID",
+        type: {
+          name: "Object"
+        }
+      },
+      mwsAuthToken: {
+        serializedName: "mwsAuthToken",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      accessKeyId: {
+        required: true,
+        serializedName: "accessKeyId",
+        type: {
+          name: "Object"
+        }
+      },
+      secretKey: {
+        serializedName: "secretKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      useEncryptedEndpoints: {
+        serializedName: "useEncryptedEndpoints",
+        type: {
+          name: "Object"
+        }
+      },
+      useHostVerification: {
+        serializedName: "useHostVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      usePeerVerification: {
+        serializedName: "usePeerVerification",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -5425,6 +8065,53 @@ export const AmazonMWSLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const SapHanaLinkedServiceProperties: msRest.CompositeMapper = {
+  serializedName: "SapHanaLinkedServiceProperties",
+  type: {
+    name: "Composite",
+    className: "SapHanaLinkedServiceProperties",
+    modelProperties: {
+      server: {
+        required: true,
+        serializedName: "server",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const SapHanaLinkedService: msRest.CompositeMapper = {
   serializedName: "SapHana",
   type: {
@@ -5473,6 +8160,61 @@ export const SapHanaLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const SapBWLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SapBWLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SapBWLinkedServiceTypeProperties",
+    modelProperties: {
+      server: {
+        required: true,
+        serializedName: "server",
+        type: {
+          name: "Object"
+        }
+      },
+      systemNumber: {
+        required: true,
+        serializedName: "systemNumber",
+        type: {
+          name: "Object"
+        }
+      },
+      clientId: {
+        required: true,
+        serializedName: "clientId",
+        type: {
+          name: "Object"
+        }
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -5532,6 +8274,101 @@ export const SapBWLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const SftpServerLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SftpServerLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SftpServerLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      },
+      privateKeyPath: {
+        serializedName: "privateKeyPath",
+        type: {
+          name: "Object"
+        }
+      },
+      privateKeyContent: {
+        serializedName: "privateKeyContent",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      passPhrase: {
+        serializedName: "passPhrase",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      skipHostKeyValidation: {
+        serializedName: "skipHostKeyValidation",
+        type: {
+          name: "Object"
+        }
+      },
+      hostKeyFingerprint: {
+        serializedName: "hostKeyFingerprint",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -5634,6 +8471,71 @@ export const SftpServerLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const FtpServerLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "FtpServerLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "FtpServerLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      },
+      enableSsl: {
+        serializedName: "enableSsl",
+        type: {
+          name: "Object"
+        }
+      },
+      enableServerCertificateValidation: {
+        serializedName: "enableServerCertificateValidation",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const FtpServerLinkedService: msRest.CompositeMapper = {
   serializedName: "FtpServer",
   type: {
@@ -5700,6 +8602,71 @@ export const FtpServerLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const HttpLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HttpLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HttpLinkedServiceTypeProperties",
+    modelProperties: {
+      url: {
+        required: true,
+        serializedName: "url",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      embeddedCertData: {
+        serializedName: "embeddedCertData",
+        type: {
+          name: "Object"
+        }
+      },
+      certThumbprint: {
+        serializedName: "certThumbprint",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      },
+      enableServerCertificateValidation: {
+        serializedName: "enableServerCertificateValidation",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -5772,6 +8739,41 @@ export const HttpLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const AzureSearchLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureSearchLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureSearchLinkedServiceTypeProperties",
+    modelProperties: {
+      url: {
+        required: true,
+        serializedName: "url",
+        type: {
+          name: "Object"
+        }
+      },
+      key: {
+        serializedName: "key",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AzureSearchLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureSearch",
   type: {
@@ -5829,6 +8831,60 @@ export const CustomDataSourceLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const AmazonRedshiftLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AmazonRedshiftLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AmazonRedshiftLinkedServiceTypeProperties",
+    modelProperties: {
+      server: {
+        required: true,
+        serializedName: "server",
+        type: {
+          name: "Object"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      database: {
+        required: true,
+        serializedName: "database",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -5890,6 +8946,40 @@ export const AmazonRedshiftLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const AmazonS3LinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AmazonS3LinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AmazonS3LinkedServiceTypeProperties",
+    modelProperties: {
+      accessKeyId: {
+        serializedName: "accessKeyId",
+        type: {
+          name: "Object"
+        }
+      },
+      secretAccessKey: {
+        serializedName: "secretAccessKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AmazonS3LinkedService: msRest.CompositeMapper = {
   serializedName: "AmazonS3",
   type: {
@@ -5925,6 +9015,47 @@ export const AmazonS3LinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const SapEccLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SapEccLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SapEccLinkedServiceTypeProperties",
+    modelProperties: {
+      url: {
+        required: true,
+        serializedName: "url",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "String"
+        }
+      }
+    }
   }
 };
 
@@ -5973,6 +9104,47 @@ export const SapEccLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const SapCloudForCustomerLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SapCloudForCustomerLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SapCloudForCustomerLinkedServiceTypeProperties",
+    modelProperties: {
+      url: {
+        required: true,
+        serializedName: "url",
+        type: {
+          name: "Object"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const SapCloudForCustomerLinkedService: msRest.CompositeMapper = {
   serializedName: "SapCloudForCustomer",
   type: {
@@ -6015,6 +9187,58 @@ export const SapCloudForCustomerLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const SalesforceLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SalesforceLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SalesforceLinkedServiceTypeProperties",
+    modelProperties: {
+      environmentUrl: {
+        serializedName: "environmentUrl",
+        type: {
+          name: "Object"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      securityToken: {
+        serializedName: "securityToken",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -6071,6 +9295,71 @@ export const SalesforceLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const AzureDataLakeStoreLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureDataLakeStoreLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureDataLakeStoreLinkedServiceTypeProperties",
+    modelProperties: {
+      dataLakeStoreUri: {
+        required: true,
+        serializedName: "dataLakeStoreUri",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalId: {
+        serializedName: "servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalKey: {
+        serializedName: "servicePrincipalKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      tenant: {
+        serializedName: "tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      accountName: {
+        serializedName: "accountName",
+        type: {
+          name: "Object"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        type: {
+          name: "Object"
+        }
+      },
+      resourceGroupName: {
+        serializedName: "resourceGroupName",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -6140,6 +9429,84 @@ export const AzureDataLakeStoreLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const MongoDbLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "MongoDbLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "MongoDbLinkedServiceTypeProperties",
+    modelProperties: {
+      server: {
+        required: true,
+        serializedName: "server",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      databaseName: {
+        required: true,
+        serializedName: "databaseName",
+        type: {
+          name: "Object"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      authSource: {
+        serializedName: "authSource",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      enableSsl: {
+        serializedName: "enableSsl",
+        type: {
+          name: "Object"
+        }
+      },
+      allowSelfSignedServerCert: {
+        serializedName: "allowSelfSignedServerCert",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -6222,6 +9589,59 @@ export const MongoDbLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const CassandraLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "CassandraLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "CassandraLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -6423,6 +9843,53 @@ export const WebLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const ODataLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ODataLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ODataLinkedServiceTypeProperties",
+    modelProperties: {
+      url: {
+        required: true,
+        serializedName: "url",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const ODataLinkedService: msRest.CompositeMapper = {
   serializedName: "OData",
   type: {
@@ -6474,6 +9941,53 @@ export const ODataLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const HdfsLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HdfsLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HdfsLinkedServiceTypeProperties",
+    modelProperties: {
+      url: {
+        required: true,
+        serializedName: "url",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      }
+    }
+  }
+};
+
 export const HdfsLinkedService: msRest.CompositeMapper = {
   serializedName: "Hdfs",
   type: {
@@ -6522,6 +10036,65 @@ export const HdfsLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const OdbcLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "OdbcLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "OdbcLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        required: true,
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "Object"
+        }
+      },
+      credential: {
+        serializedName: "credential",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -6585,6 +10158,72 @@ export const OdbcLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const AzureMLLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureMLLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureMLLinkedServiceTypeProperties",
+    modelProperties: {
+      mlEndpoint: {
+        required: true,
+        serializedName: "mlEndpoint",
+        type: {
+          name: "Object"
+        }
+      },
+      apiKey: {
+        required: true,
+        serializedName: "apiKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      updateResourceEndpoint: {
+        serializedName: "updateResourceEndpoint",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalId: {
+        serializedName: "servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalKey: {
+        serializedName: "servicePrincipalKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      tenant: {
+        serializedName: "tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -6658,6 +10297,53 @@ export const AzureMLLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const TeradataLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "TeradataLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "TeradataLinkedServiceTypeProperties",
+    modelProperties: {
+      server: {
+        required: true,
+        serializedName: "server",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const TeradataLinkedService: msRest.CompositeMapper = {
   serializedName: "Teradata",
   type: {
@@ -6706,6 +10392,60 @@ export const TeradataLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const Db2LinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "Db2LinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "Db2LinkedServiceTypeProperties",
+    modelProperties: {
+      server: {
+        required: true,
+        serializedName: "server",
+        type: {
+          name: "Object"
+        }
+      },
+      database: {
+        required: true,
+        serializedName: "database",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -6764,6 +10504,66 @@ export const Db2LinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const SybaseLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SybaseLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SybaseLinkedServiceTypeProperties",
+    modelProperties: {
+      server: {
+        required: true,
+        serializedName: "server",
+        type: {
+          name: "Object"
+        }
+      },
+      database: {
+        required: true,
+        serializedName: "database",
+        type: {
+          name: "Object"
+        }
+      },
+      schema: {
+        serializedName: "schema",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -6831,6 +10631,35 @@ export const SybaseLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const PostgreSqlLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "PostgreSqlLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "PostgreSqlLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        required: true,
+        serializedName: "connectionString",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const PostgreSqlLinkedService: msRest.CompositeMapper = {
   serializedName: "PostgreSql",
   type: {
@@ -6861,6 +10690,35 @@ export const PostgreSqlLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const MySqlLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "MySqlLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "MySqlLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        required: true,
+        serializedName: "connectionString",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -6897,6 +10755,29 @@ export const MySqlLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const AzureMySqlLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureMySqlLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureMySqlLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        required: true,
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AzureMySqlLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureMySql",
   type: {
@@ -6924,6 +10805,29 @@ export const AzureMySqlLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const OracleLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "OracleLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "OracleLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        required: true,
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const OracleLinkedService: msRest.CompositeMapper = {
   serializedName: "Oracle",
   type: {
@@ -6948,6 +10852,47 @@ export const OracleLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const FileServerLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "FileServerLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "FileServerLinkedServiceTypeProperties",
+    modelProperties: {
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "Object"
+        }
+      },
+      userId: {
+        serializedName: "userId",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -6993,6 +10938,61 @@ export const FileServerLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const HDInsightLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HDInsightLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HDInsightLinkedServiceTypeProperties",
+    modelProperties: {
+      clusterUri: {
+        required: true,
+        serializedName: "clusterUri",
+        type: {
+          name: "Object"
+        }
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      linkedServiceName: {
+        serializedName: "linkedServiceName",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      hcatalogLinkedServiceName: {
+        serializedName: "hcatalogLinkedServiceName",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -7052,6 +11052,79 @@ export const HDInsightLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const DynamicsLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "DynamicsLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "DynamicsLinkedServiceTypeProperties",
+    modelProperties: {
+      deploymentType: {
+        required: true,
+        serializedName: "deploymentType",
+        type: {
+          name: "Object"
+        }
+      },
+      hostName: {
+        serializedName: "hostName",
+        type: {
+          name: "Object"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Object"
+        }
+      },
+      serviceUri: {
+        serializedName: "serviceUri",
+        type: {
+          name: "Object"
+        }
+      },
+      organizationName: {
+        serializedName: "organizationName",
+        type: {
+          name: "Object"
+        }
+      },
+      authenticationType: {
+        required: true,
+        serializedName: "authenticationType",
+        type: {
+          name: "Object"
+        }
+      },
+      username: {
+        required: true,
+        serializedName: "username",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -7132,6 +11205,29 @@ export const DynamicsLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const CosmosDbLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "CosmosDbLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "CosmosDbLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        required: true,
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const CosmosDbLinkedService: msRest.CompositeMapper = {
   serializedName: "CosmosDb",
   type: {
@@ -7159,6 +11255,23 @@ export const CosmosDbLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const AzureKeyVaultLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureKeyVaultLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureKeyVaultLinkedServiceTypeProperties",
+    modelProperties: {
+      baseUrl: {
+        required: true,
+        serializedName: "baseUrl",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AzureKeyVaultLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureKeyVault",
   type: {
@@ -7177,6 +11290,64 @@ export const AzureKeyVaultLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const AzureBatchLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureBatchLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureBatchLinkedServiceTypeProperties",
+    modelProperties: {
+      accountName: {
+        required: true,
+        serializedName: "accountName",
+        type: {
+          name: "Object"
+        }
+      },
+      accessKey: {
+        serializedName: "accessKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      batchUri: {
+        required: true,
+        serializedName: "batchUri",
+        type: {
+          name: "Object"
+        }
+      },
+      poolName: {
+        required: true,
+        serializedName: "poolName",
+        type: {
+          name: "Object"
+        }
+      },
+      linkedServiceName: {
+        required: true,
+        serializedName: "linkedServiceName",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -7242,6 +11413,53 @@ export const AzureBatchLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const AzureSqlDatabaseLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureSqlDatabaseLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureSqlDatabaseLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        required: true,
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalId: {
+        serializedName: "servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalKey: {
+        serializedName: "servicePrincipalKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      tenant: {
+        serializedName: "tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AzureSqlDatabaseLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureSqlDatabase",
   type: {
@@ -7293,6 +11511,47 @@ export const AzureSqlDatabaseLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const SqlServerLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SqlServerLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SqlServerLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        required: true,
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "Object"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const SqlServerLinkedService: msRest.CompositeMapper = {
   serializedName: "SqlServer",
   type: {
@@ -7335,6 +11594,53 @@ export const SqlServerLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const AzureSqlDWLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureSqlDWLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureSqlDWLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        required: true,
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalId: {
+        serializedName: "servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalKey: {
+        serializedName: "servicePrincipalKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      tenant: {
+        serializedName: "tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -7389,6 +11695,40 @@ export const AzureSqlDWLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const AzureStorageLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureStorageLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureStorageLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      sasUri: {
+        serializedName: "sasUri",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AzureTableStorageLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureTableStorage",
   type: {
@@ -7424,6 +11764,70 @@ export const AzureTableStorageLinkedService: msRest.CompositeMapper = {
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const AzureBlobStorageLinkedServiceTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureBlobStorageLinkedServiceTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureBlobStorageLinkedServiceTypeProperties",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        type: {
+          name: "Object"
+        }
+      },
+      sasUri: {
+        serializedName: "sasUri",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      serviceEndpoint: {
+        serializedName: "serviceEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      servicePrincipalId: {
+        serializedName: "servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalKey: {
+        serializedName: "servicePrincipalKey",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "SecretBase",
+          className: "SecretBase"
+        }
+      },
+      tenant: {
+        serializedName: "tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "encryptedCredential",
+        type: {
+          name: "String"
+        }
+      }
+    }
   }
 };
 
@@ -8247,6 +12651,74 @@ export const TextFormat: msRest.CompositeMapper = {
   }
 };
 
+export const HttpDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HttpDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HttpDatasetTypeProperties",
+    modelProperties: {
+      relativeUrl: {
+        serializedName: "relativeUrl",
+        type: {
+          name: "Object"
+        }
+      },
+      requestMethod: {
+        serializedName: "requestMethod",
+        type: {
+          name: "Object"
+        }
+      },
+      requestBody: {
+        serializedName: "requestBody",
+        type: {
+          name: "Object"
+        }
+      },
+      additionalHeaders: {
+        serializedName: "additionalHeaders",
+        type: {
+          name: "Object"
+        }
+      },
+      format: {
+        serializedName: "format",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "DatasetStorageFormat",
+          className: "DatasetStorageFormat",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      compression: {
+        serializedName: "compression",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "DatasetCompression",
+          className: "DatasetCompression",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const HttpDataset: msRest.CompositeMapper = {
   serializedName: "HttpFile",
   type: {
@@ -8319,6 +12791,23 @@ export const HttpDataset: msRest.CompositeMapper = {
   }
 };
 
+export const AzureSearchIndexDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureSearchIndexDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureSearchIndexDatasetTypeProperties",
+    modelProperties: {
+      indexName: {
+        required: true,
+        serializedName: "indexName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AzureSearchIndexDataset: msRest.CompositeMapper = {
   serializedName: "AzureSearchIndex",
   type: {
@@ -8337,6 +12826,29 @@ export const AzureSearchIndexDataset: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const WebTableDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "WebTableDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "WebTableDatasetTypeProperties",
+    modelProperties: {
+      index: {
+        required: true,
+        serializedName: "index",
+        type: {
+          name: "Object"
+        }
+      },
+      path: {
+        serializedName: "path",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -8367,6 +12879,23 @@ export const WebTableDataset: msRest.CompositeMapper = {
   }
 };
 
+export const SqlServerTableDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SqlServerTableDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SqlServerTableDatasetTypeProperties",
+    modelProperties: {
+      tableName: {
+        required: true,
+        serializedName: "tableName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const SqlServerTableDataset: msRest.CompositeMapper = {
   serializedName: "SqlServerTable",
   type: {
@@ -8385,6 +12914,23 @@ export const SqlServerTableDataset: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const SapEccResourceDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SapEccResourceDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SapEccResourceDatasetTypeProperties",
+    modelProperties: {
+      path: {
+        required: true,
+        serializedName: "path",
+        type: {
+          name: "String"
+        }
+      }
+    }
   }
 };
 
@@ -8409,6 +12955,23 @@ export const SapEccResourceDataset: msRest.CompositeMapper = {
   }
 };
 
+export const SapCloudForCustomerResourceDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SapCloudForCustomerResourceDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SapCloudForCustomerResourceDatasetTypeProperties",
+    modelProperties: {
+      path: {
+        required: true,
+        serializedName: "path",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const SapCloudForCustomerResourceDataset: msRest.CompositeMapper = {
   serializedName: "SapCloudForCustomerResource",
   type: {
@@ -8427,6 +12990,22 @@ export const SapCloudForCustomerResourceDataset: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const SalesforceObjectDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SalesforceObjectDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SalesforceObjectDatasetTypeProperties",
+    modelProperties: {
+      objectApiName: {
+        serializedName: "objectApiName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -8450,6 +13029,22 @@ export const SalesforceObjectDataset: msRest.CompositeMapper = {
   }
 };
 
+export const RelationalTableDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "RelationalTableDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "RelationalTableDatasetTypeProperties",
+    modelProperties: {
+      tableName: {
+        serializedName: "tableName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const RelationalTableDataset: msRest.CompositeMapper = {
   serializedName: "RelationalTable",
   type: {
@@ -8470,6 +13065,22 @@ export const RelationalTableDataset: msRest.CompositeMapper = {
   }
 };
 
+export const AzureMySqlTableDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureMySqlTableDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureMySqlTableDatasetTypeProperties",
+    modelProperties: {
+      tableName: {
+        serializedName: "tableName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AzureMySqlTableDataset: msRest.CompositeMapper = {
   serializedName: "AzureMySqlTable",
   type: {
@@ -8487,6 +13098,23 @@ export const AzureMySqlTableDataset: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const OracleTableDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "OracleTableDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "OracleTableDatasetTypeProperties",
+    modelProperties: {
+      tableName: {
+        required: true,
+        serializedName: "tableName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -8511,6 +13139,22 @@ export const OracleTableDataset: msRest.CompositeMapper = {
   }
 };
 
+export const ODataResourceDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ODataResourceDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ODataResourceDatasetTypeProperties",
+    modelProperties: {
+      path: {
+        serializedName: "path",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const ODataResourceDataset: msRest.CompositeMapper = {
   serializedName: "ODataResource",
   type: {
@@ -8528,6 +13172,23 @@ export const ODataResourceDataset: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const MongoDbCollectionDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "MongoDbCollectionDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "MongoDbCollectionDatasetTypeProperties",
+    modelProperties: {
+      collectionName: {
+        required: true,
+        serializedName: "collectionName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -8549,6 +13210,68 @@ export const MongoDbCollectionDataset: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const FileShareDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "FileShareDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "FileShareDatasetTypeProperties",
+    modelProperties: {
+      folderPath: {
+        serializedName: "folderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      fileName: {
+        serializedName: "fileName",
+        type: {
+          name: "Object"
+        }
+      },
+      format: {
+        serializedName: "format",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "DatasetStorageFormat",
+          className: "DatasetStorageFormat",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      fileFilter: {
+        serializedName: "fileFilter",
+        type: {
+          name: "Object"
+        }
+      },
+      compression: {
+        serializedName: "compression",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "DatasetCompression",
+          className: "DatasetCompression",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
   }
 };
 
@@ -8618,6 +13341,63 @@ export const FileShareDataset: msRest.CompositeMapper = {
   }
 };
 
+export const AzureDataLakeStoreDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureDataLakeStoreDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureDataLakeStoreDatasetTypeProperties",
+    modelProperties: {
+      folderPath: {
+        required: true,
+        serializedName: "folderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      fileName: {
+        serializedName: "fileName",
+        type: {
+          name: "Object"
+        }
+      },
+      format: {
+        serializedName: "format",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "DatasetStorageFormat",
+          className: "DatasetStorageFormat",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      compression: {
+        serializedName: "compression",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "DatasetCompression",
+          className: "DatasetCompression",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AzureDataLakeStoreDataset: msRest.CompositeMapper = {
   serializedName: "AzureDataLakeStoreFile",
   type: {
@@ -8679,6 +13459,22 @@ export const AzureDataLakeStoreDataset: msRest.CompositeMapper = {
   }
 };
 
+export const DynamicsEntityDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "DynamicsEntityDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "DynamicsEntityDatasetTypeProperties",
+    modelProperties: {
+      entityName: {
+        serializedName: "entityName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const DynamicsEntityDataset: msRest.CompositeMapper = {
   serializedName: "DynamicsEntity",
   type: {
@@ -8696,6 +13492,23 @@ export const DynamicsEntityDataset: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const DocumentDbCollectionDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "DocumentDbCollectionDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "DocumentDbCollectionDatasetTypeProperties",
+    modelProperties: {
+      collectionName: {
+        required: true,
+        serializedName: "collectionName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -8741,6 +13554,28 @@ export const CustomDataset: msRest.CompositeMapper = {
   }
 };
 
+export const CassandraTableDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "CassandraTableDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "CassandraTableDatasetTypeProperties",
+    modelProperties: {
+      tableName: {
+        serializedName: "tableName",
+        type: {
+          name: "Object"
+        }
+      },
+      keyspace: {
+        serializedName: "keyspace",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const CassandraTableDataset: msRest.CompositeMapper = {
   serializedName: "CassandraTable",
   type: {
@@ -8767,6 +13602,23 @@ export const CassandraTableDataset: msRest.CompositeMapper = {
   }
 };
 
+export const AzureSqlDWTableDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureSqlDWTableDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureSqlDWTableDatasetTypeProperties",
+    modelProperties: {
+      tableName: {
+        required: true,
+        serializedName: "tableName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AzureSqlDWTableDataset: msRest.CompositeMapper = {
   serializedName: "AzureSqlDWTable",
   type: {
@@ -8785,6 +13637,23 @@ export const AzureSqlDWTableDataset: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const AzureSqlTableDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureSqlTableDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureSqlTableDatasetTypeProperties",
+    modelProperties: {
+      tableName: {
+        required: true,
+        serializedName: "tableName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -8809,6 +13678,23 @@ export const AzureSqlTableDataset: msRest.CompositeMapper = {
   }
 };
 
+export const AzureTableDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureTableDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureTableDatasetTypeProperties",
+    modelProperties: {
+      tableName: {
+        required: true,
+        serializedName: "tableName",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AzureTableDataset: msRest.CompositeMapper = {
   serializedName: "AzureTable",
   type: {
@@ -8827,6 +13713,68 @@ export const AzureTableDataset: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const AzureBlobDatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureBlobDatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureBlobDatasetTypeProperties",
+    modelProperties: {
+      folderPath: {
+        serializedName: "folderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      tableRootLocation: {
+        serializedName: "tableRootLocation",
+        type: {
+          name: "Object"
+        }
+      },
+      fileName: {
+        serializedName: "fileName",
+        type: {
+          name: "Object"
+        }
+      },
+      format: {
+        serializedName: "format",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "DatasetStorageFormat",
+          className: "DatasetStorageFormat",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      compression: {
+        serializedName: "compression",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "DatasetCompression",
+          className: "DatasetCompression",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
   }
 };
 
@@ -8893,6 +13841,75 @@ export const AzureBlobDataset: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const AmazonS3DatasetTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AmazonS3DatasetTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AmazonS3DatasetTypeProperties",
+    modelProperties: {
+      bucketName: {
+        required: true,
+        serializedName: "bucketName",
+        type: {
+          name: "Object"
+        }
+      },
+      key: {
+        serializedName: "key",
+        type: {
+          name: "Object"
+        }
+      },
+      prefix: {
+        serializedName: "prefix",
+        type: {
+          name: "Object"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Object"
+        }
+      },
+      format: {
+        serializedName: "format",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "DatasetStorageFormat",
+          className: "DatasetStorageFormat",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      compression: {
+        serializedName: "compression",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "DatasetCompression",
+          className: "DatasetCompression",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
   }
 };
 
@@ -9018,6 +14035,50 @@ export const ActivityPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const DatabricksSparkPythonActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "DatabricksSparkPythonActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "DatabricksSparkPythonActivityTypeProperties",
+    modelProperties: {
+      pythonFile: {
+        required: true,
+        serializedName: "pythonFile",
+        type: {
+          name: "Object"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      libraries: {
+        serializedName: "libraries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ExecutionActivity: msRest.CompositeMapper = {
   serializedName: "Execution",
   type: {
@@ -9099,6 +14160,50 @@ export const DatabricksSparkPythonActivity: msRest.CompositeMapper = {
   }
 };
 
+export const DatabricksSparkJarActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "DatabricksSparkJarActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "DatabricksSparkJarActivityTypeProperties",
+    modelProperties: {
+      mainClassName: {
+        required: true,
+        serializedName: "mainClassName",
+        type: {
+          name: "Object"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      libraries: {
+        serializedName: "libraries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const DatabricksSparkJarActivity: msRest.CompositeMapper = {
   serializedName: "DatabricksSparkJar",
   type: {
@@ -9147,6 +14252,50 @@ export const DatabricksSparkJarActivity: msRest.CompositeMapper = {
   }
 };
 
+export const DatabricksNotebookActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "DatabricksNotebookActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "DatabricksNotebookActivityTypeProperties",
+    modelProperties: {
+      notebookPath: {
+        required: true,
+        serializedName: "notebookPath",
+        type: {
+          name: "Object"
+        }
+      },
+      baseParameters: {
+        serializedName: "baseParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      libraries: {
+        serializedName: "libraries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const DatabricksNotebookActivity: msRest.CompositeMapper = {
   serializedName: "DatabricksNotebook",
   type: {
@@ -9192,6 +14341,67 @@ export const DatabricksNotebookActivity: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const DataLakeAnalyticsUSQLActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "DataLakeAnalyticsUSQLActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "DataLakeAnalyticsUSQLActivityTypeProperties",
+    modelProperties: {
+      scriptPath: {
+        required: true,
+        serializedName: "scriptPath",
+        type: {
+          name: "Object"
+        }
+      },
+      scriptLinkedService: {
+        required: true,
+        serializedName: "scriptLinkedService",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      degreeOfParallelism: {
+        serializedName: "degreeOfParallelism",
+        type: {
+          name: "Object"
+        }
+      },
+      priority: {
+        serializedName: "priority",
+        type: {
+          name: "Object"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      runtimeVersion: {
+        serializedName: "runtimeVersion",
+        type: {
+          name: "Object"
+        }
+      },
+      compilationMode: {
+        serializedName: "compilationMode",
+        type: {
+          name: "Object"
+        }
+      }
+    }
   }
 };
 
@@ -9260,6 +14470,39 @@ export const DataLakeAnalyticsUSQLActivity: msRest.CompositeMapper = {
   }
 };
 
+export const AzureMLUpdateResourceActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureMLUpdateResourceActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureMLUpdateResourceActivityTypeProperties",
+    modelProperties: {
+      trainedModelName: {
+        required: true,
+        serializedName: "trainedModelName",
+        type: {
+          name: "Object"
+        }
+      },
+      trainedModelLinkedServiceName: {
+        required: true,
+        serializedName: "trainedModelLinkedServiceName",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      trainedModelFilePath: {
+        required: true,
+        serializedName: "trainedModelFilePath",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const AzureMLUpdateResourceActivity: msRest.CompositeMapper = {
   serializedName: "AzureMLUpdateResource",
   type: {
@@ -9323,6 +14566,51 @@ export const AzureMLWebServiceFile: msRest.CompositeMapper = {
   }
 };
 
+export const AzureMLBatchExecutionActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AzureMLBatchExecutionActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AzureMLBatchExecutionActivityTypeProperties",
+    modelProperties: {
+      globalParameters: {
+        serializedName: "globalParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      webServiceOutputs: {
+        serializedName: "webServiceOutputs",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "AzureMLWebServiceFile"
+            }
+          }
+        }
+      },
+      webServiceInputs: {
+        serializedName: "webServiceInputs",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "AzureMLWebServiceFile"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AzureMLBatchExecutionActivity: msRest.CompositeMapper = {
   serializedName: "AzureMLBatchExecution",
   type: {
@@ -9369,6 +14657,36 @@ export const AzureMLBatchExecutionActivity: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const GetMetadataActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "GetMetadataActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "GetMetadataActivityTypeProperties",
+    modelProperties: {
+      dataset: {
+        required: true,
+        serializedName: "dataset",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "DatasetReference"
+        }
+      },
+      fieldList: {
+        serializedName: "fieldList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
   }
 };
 
@@ -9447,6 +14765,73 @@ export const WebActivityAuthentication: msRest.CompositeMapper = {
         serializedName: "resource",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "WebActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "WebActivityTypeProperties",
+    modelProperties: {
+      method: {
+        required: true,
+        serializedName: "method",
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        required: true,
+        serializedName: "url",
+        type: {
+          name: "Object"
+        }
+      },
+      headers: {
+        serializedName: "headers",
+        type: {
+          name: "Object"
+        }
+      },
+      body: {
+        serializedName: "body",
+        type: {
+          name: "Object"
+        }
+      },
+      authentication: {
+        serializedName: "authentication",
+        type: {
+          name: "Composite",
+          className: "WebActivityAuthentication"
+        }
+      },
+      datasets: {
+        serializedName: "datasets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatasetReference"
+            }
+          }
+        }
+      },
+      linkedServices: {
+        serializedName: "linkedServices",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
+          }
         }
       }
     }
@@ -10722,6 +16107,49 @@ export const AzureTableSource: msRest.CompositeMapper = {
   }
 };
 
+export const LookupActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "LookupActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "LookupActivityTypeProperties",
+    modelProperties: {
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "CopySource",
+          className: "CopySource",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      dataset: {
+        required: true,
+        serializedName: "dataset",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "DatasetReference"
+        }
+      },
+      firstRowOnly: {
+        serializedName: "firstRowOnly",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const LookupActivity: msRest.CompositeMapper = {
   serializedName: "Lookup",
   type: {
@@ -10766,6 +16194,35 @@ export const LookupActivity: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const SqlServerStoredProcedureActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SqlServerStoredProcedureActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SqlServerStoredProcedureActivityTypeProperties",
+    modelProperties: {
+      storedProcedureName: {
+        required: true,
+        serializedName: "storedProcedureName",
+        type: {
+          name: "Object"
+        }
+      },
+      storedProcedureParameters: {
+        serializedName: "storedProcedureParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "StoredProcedureParameter"
+            }
+          }
+        }
+      }
+    }
   }
 };
 
@@ -10828,6 +16285,54 @@ export const CustomActivityReferenceObject: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DatasetReference"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CustomActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "CustomActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "CustomActivityTypeProperties",
+    modelProperties: {
+      command: {
+        required: true,
+        serializedName: "command",
+        type: {
+          name: "Object"
+        }
+      },
+      resourceLinkedService: {
+        serializedName: "resourceLinkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      folderPath: {
+        serializedName: "folderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      referenceObjects: {
+        serializedName: "referenceObjects",
+        type: {
+          name: "Composite",
+          className: "CustomActivityReferenceObject"
+        }
+      },
+      extendedProperties: {
+        serializedName: "extendedProperties",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
             }
           }
         }
@@ -10939,6 +16444,121 @@ export const SSISPackageLocation: msRest.CompositeMapper = {
         serializedName: "packagePath",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExecuteSSISPackageActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ExecuteSSISPackageActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ExecuteSSISPackageActivityTypeProperties",
+    modelProperties: {
+      packageLocation: {
+        required: true,
+        serializedName: "packageLocation",
+        type: {
+          name: "Composite",
+          className: "SSISPackageLocation"
+        }
+      },
+      runtime: {
+        serializedName: "runtime",
+        type: {
+          name: "String"
+        }
+      },
+      loggingLevel: {
+        serializedName: "loggingLevel",
+        type: {
+          name: "String"
+        }
+      },
+      environmentPath: {
+        serializedName: "environmentPath",
+        type: {
+          name: "String"
+        }
+      },
+      connectVia: {
+        required: true,
+        serializedName: "connectVia",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeReference"
+        }
+      },
+      projectParameters: {
+        serializedName: "projectParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "SSISExecutionParameter"
+            }
+          }
+        }
+      },
+      packageParameters: {
+        serializedName: "packageParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "SSISExecutionParameter"
+            }
+          }
+        }
+      },
+      projectConnectionManagers: {
+        serializedName: "projectConnectionManagers",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "Composite",
+                  className: "SSISExecutionParameter"
+                }
+              }
+            }
+          }
+        }
+      },
+      packageConnectionManagers: {
+        serializedName: "packageConnectionManagers",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Dictionary",
+              value: {
+                type: {
+                  name: "Composite",
+                  className: "SSISExecutionParameter"
+                }
+              }
+            }
+          }
+        }
+      },
+      propertyOverrides: {
+        serializedName: "propertyOverrides",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "SSISPropertyOverride"
+            }
+          }
         }
       }
     }
@@ -11064,6 +16684,77 @@ export const ExecuteSSISPackageActivity: msRest.CompositeMapper = {
   }
 };
 
+export const HDInsightSparkActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HDInsightSparkActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HDInsightSparkActivityTypeProperties",
+    modelProperties: {
+      rootPath: {
+        required: true,
+        serializedName: "rootPath",
+        type: {
+          name: "Object"
+        }
+      },
+      entryFilePath: {
+        required: true,
+        serializedName: "entryFilePath",
+        type: {
+          name: "Object"
+        }
+      },
+      argumentsProperty: {
+        serializedName: "arguments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      getDebugInfo: {
+        serializedName: "getDebugInfo",
+        type: {
+          name: "String"
+        }
+      },
+      sparkJobLinkedService: {
+        serializedName: "sparkJobLinkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      className: {
+        serializedName: "className",
+        type: {
+          name: "String"
+        }
+      },
+      proxyUser: {
+        serializedName: "proxyUser",
+        type: {
+          name: "Object"
+        }
+      },
+      sparkConfig: {
+        serializedName: "sparkConfig",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const HDInsightSparkActivity: msRest.CompositeMapper = {
   serializedName: "HDInsightSpark",
   type: {
@@ -11136,6 +16827,120 @@ export const HDInsightSparkActivity: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const HDInsightStreamingActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HDInsightStreamingActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HDInsightStreamingActivityTypeProperties",
+    modelProperties: {
+      storageLinkedServices: {
+        serializedName: "storageLinkedServices",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
+          }
+        }
+      },
+      argumentsProperty: {
+        serializedName: "arguments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      getDebugInfo: {
+        serializedName: "getDebugInfo",
+        type: {
+          name: "String"
+        }
+      },
+      mapper: {
+        required: true,
+        serializedName: "mapper",
+        type: {
+          name: "Object"
+        }
+      },
+      reducer: {
+        required: true,
+        serializedName: "reducer",
+        type: {
+          name: "Object"
+        }
+      },
+      input: {
+        required: true,
+        serializedName: "input",
+        type: {
+          name: "Object"
+        }
+      },
+      output: {
+        required: true,
+        serializedName: "output",
+        type: {
+          name: "Object"
+        }
+      },
+      filePaths: {
+        required: true,
+        serializedName: "filePaths",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      fileLinkedService: {
+        serializedName: "fileLinkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      combiner: {
+        serializedName: "combiner",
+        type: {
+          name: "Object"
+        }
+      },
+      commandEnvironment: {
+        serializedName: "commandEnvironment",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      defines: {
+        serializedName: "defines",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
   }
 };
 
@@ -11257,6 +17062,88 @@ export const HDInsightStreamingActivity: msRest.CompositeMapper = {
   }
 };
 
+export const HDInsightMapReduceActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HDInsightMapReduceActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HDInsightMapReduceActivityTypeProperties",
+    modelProperties: {
+      storageLinkedServices: {
+        serializedName: "storageLinkedServices",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
+          }
+        }
+      },
+      argumentsProperty: {
+        serializedName: "arguments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      getDebugInfo: {
+        serializedName: "getDebugInfo",
+        type: {
+          name: "String"
+        }
+      },
+      className: {
+        required: true,
+        serializedName: "className",
+        type: {
+          name: "Object"
+        }
+      },
+      jarFilePath: {
+        required: true,
+        serializedName: "jarFilePath",
+        type: {
+          name: "Object"
+        }
+      },
+      jarLinkedService: {
+        serializedName: "jarLinkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      jarLibs: {
+        serializedName: "jarLibs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      defines: {
+        serializedName: "defines",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const HDInsightMapReduceActivity: msRest.CompositeMapper = {
   serializedName: "HDInsightMapReduce",
   type: {
@@ -11343,6 +17230,69 @@ export const HDInsightMapReduceActivity: msRest.CompositeMapper = {
   }
 };
 
+export const HDInsightPigActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HDInsightPigActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HDInsightPigActivityTypeProperties",
+    modelProperties: {
+      storageLinkedServices: {
+        serializedName: "storageLinkedServices",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
+          }
+        }
+      },
+      argumentsProperty: {
+        serializedName: "arguments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      getDebugInfo: {
+        serializedName: "getDebugInfo",
+        type: {
+          name: "String"
+        }
+      },
+      scriptPath: {
+        serializedName: "scriptPath",
+        type: {
+          name: "Object"
+        }
+      },
+      scriptLinkedService: {
+        serializedName: "scriptLinkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      defines: {
+        serializedName: "defines",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const HDInsightPigActivity: msRest.CompositeMapper = {
   serializedName: "HDInsightPig",
   type: {
@@ -11407,6 +17357,69 @@ export const HDInsightPigActivity: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const HDInsightHiveActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "HDInsightHiveActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "HDInsightHiveActivityTypeProperties",
+    modelProperties: {
+      storageLinkedServices: {
+        serializedName: "storageLinkedServices",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedServiceReference"
+            }
+          }
+        }
+      },
+      argumentsProperty: {
+        serializedName: "arguments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      getDebugInfo: {
+        serializedName: "getDebugInfo",
+        type: {
+          name: "String"
+        }
+      },
+      scriptPath: {
+        serializedName: "scriptPath",
+        type: {
+          name: "Object"
+        }
+      },
+      scriptLinkedService: {
+        serializedName: "scriptLinkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      defines: {
+        serializedName: "defines",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
   }
 };
 
@@ -12057,6 +18070,117 @@ export const SapCloudForCustomerSink: msRest.CompositeMapper = {
   }
 };
 
+export const CopyActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "CopyActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "CopyActivityTypeProperties",
+    modelProperties: {
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "CopySource",
+          className: "CopySource",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      sink: {
+        required: true,
+        serializedName: "sink",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "CopySink",
+          className: "CopySink",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      translator: {
+        serializedName: "translator",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "type",
+            clientName: "type"
+          },
+          uberParent: "CopyTranslator",
+          className: "CopyTranslator",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      enableStaging: {
+        serializedName: "enableStaging",
+        type: {
+          name: "Object"
+        }
+      },
+      stagingSettings: {
+        serializedName: "stagingSettings",
+        type: {
+          name: "Composite",
+          className: "StagingSettings",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      parallelCopies: {
+        serializedName: "parallelCopies",
+        type: {
+          name: "Object"
+        }
+      },
+      dataIntegrationUnits: {
+        serializedName: "dataIntegrationUnits",
+        type: {
+          name: "Object"
+        }
+      },
+      enableSkipIncompatibleRow: {
+        serializedName: "enableSkipIncompatibleRow",
+        type: {
+          name: "Object"
+        }
+      },
+      redirectIncompatibleRowSettings: {
+        serializedName: "redirectIncompatibleRowSettings",
+        type: {
+          name: "Composite",
+          className: "RedirectIncompatibleRowSettings",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const CopyActivity: msRest.CompositeMapper = {
   serializedName: "Copy",
   type: {
@@ -12196,6 +18320,28 @@ export const CopyActivity: msRest.CompositeMapper = {
   }
 };
 
+export const AppendVariableActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "AppendVariableActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "AppendVariableActivityTypeProperties",
+    modelProperties: {
+      variableName: {
+        serializedName: "variableName",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const ControlActivity: msRest.CompositeMapper = {
   serializedName: "Container",
   type: {
@@ -12236,6 +18382,28 @@ export const AppendVariableActivity: msRest.CompositeMapper = {
   }
 };
 
+export const SetVariableActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SetVariableActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SetVariableActivityTypeProperties",
+    modelProperties: {
+      variableName: {
+        serializedName: "variableName",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
 export const SetVariableActivity: msRest.CompositeMapper = {
   serializedName: "SetVariable",
   type: {
@@ -12259,6 +18427,34 @@ export const SetVariableActivity: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const FilterActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "FilterActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "FilterActivityTypeProperties",
+    modelProperties: {
+      items: {
+        required: true,
+        serializedName: "items",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "Expression"
+        }
+      },
+      condition: {
+        required: true,
+        serializedName: "condition",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "Expression"
+        }
+      }
+    }
   }
 };
 
@@ -12291,6 +18487,54 @@ export const FilterActivity: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const UntilActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "UntilActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "UntilActivityTypeProperties",
+    modelProperties: {
+      expression: {
+        required: true,
+        serializedName: "expression",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "Expression"
+        }
+      },
+      timeout: {
+        serializedName: "timeout",
+        type: {
+          name: "Object"
+        }
+      },
+      activities: {
+        required: true,
+        serializedName: "activities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "type",
+                clientName: "type"
+              },
+              uberParent: "Activity",
+              className: "Activity",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 };
 
@@ -12346,6 +18590,23 @@ export const UntilActivity: msRest.CompositeMapper = {
   }
 };
 
+export const WaitActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "WaitActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "WaitActivityTypeProperties",
+    modelProperties: {
+      waitTimeInSeconds: {
+        required: true,
+        serializedName: "waitTimeInSeconds",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const WaitActivity: msRest.CompositeMapper = {
   serializedName: "Wait",
   type: {
@@ -12364,6 +18625,63 @@ export const WaitActivity: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const ForEachActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ForEachActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ForEachActivityTypeProperties",
+    modelProperties: {
+      isSequential: {
+        serializedName: "isSequential",
+        type: {
+          name: "Boolean"
+        }
+      },
+      batchCount: {
+        serializedName: "batchCount",
+        constraints: {
+          InclusiveMaximum: 50
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      items: {
+        required: true,
+        serializedName: "items",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "Expression"
+        }
+      },
+      activities: {
+        required: true,
+        serializedName: "activities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "type",
+                clientName: "type"
+              },
+              uberParent: "Activity",
+              className: "Activity",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 };
 
@@ -12425,6 +18743,69 @@ export const ForEachActivity: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const IfConditionActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "IfConditionActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "IfConditionActivityTypeProperties",
+    modelProperties: {
+      expression: {
+        required: true,
+        serializedName: "expression",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "Expression"
+        }
+      },
+      ifTrueActivities: {
+        serializedName: "ifTrueActivities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "type",
+                clientName: "type"
+              },
+              uberParent: "Activity",
+              className: "Activity",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      ifFalseActivities: {
+        serializedName: "ifFalseActivities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "type",
+                clientName: "type"
+              },
+              uberParent: "Activity",
+              className: "Activity",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 };
 
@@ -12492,6 +18873,42 @@ export const IfConditionActivity: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Activity.type.additionalProperties
+  }
+};
+
+export const ExecutePipelineActivityTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ExecutePipelineActivityTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ExecutePipelineActivityTypeProperties",
+    modelProperties: {
+      pipelineProperty: {
+        required: true,
+        serializedName: "pipeline",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "PipelineReference"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      waitOnCompletion: {
+        serializedName: "waitOnCompletion",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
   }
 };
 
@@ -12721,6 +19138,153 @@ export const SelfHostedIntegrationRuntimeNode: msRest.CompositeMapper = {
     additionalProperties: {
       type: {
         name: "Object"
+      }
+    }
+  }
+};
+
+export const SelfHostedIntegrationRuntimeStatusTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SelfHostedIntegrationRuntimeStatusTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SelfHostedIntegrationRuntimeStatusTypeProperties",
+    modelProperties: {
+      createTime: {
+        readOnly: true,
+        serializedName: "createTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      taskQueueId: {
+        readOnly: true,
+        serializedName: "taskQueueId",
+        type: {
+          name: "String"
+        }
+      },
+      internalChannelEncryption: {
+        readOnly: true,
+        serializedName: "internalChannelEncryption",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        readOnly: true,
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      nodes: {
+        serializedName: "nodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SelfHostedIntegrationRuntimeNode",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      scheduledUpdateDate: {
+        readOnly: true,
+        serializedName: "scheduledUpdateDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updateDelayOffset: {
+        readOnly: true,
+        serializedName: "updateDelayOffset",
+        type: {
+          name: "String"
+        }
+      },
+      localTimeZoneOffset: {
+        readOnly: true,
+        serializedName: "localTimeZoneOffset",
+        type: {
+          name: "String"
+        }
+      },
+      capabilities: {
+        readOnly: true,
+        serializedName: "capabilities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      serviceUrls: {
+        readOnly: true,
+        serializedName: "serviceUrls",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      autoUpdate: {
+        readOnly: true,
+        serializedName: "autoUpdate",
+        type: {
+          name: "String"
+        }
+      },
+      versionStatus: {
+        readOnly: true,
+        serializedName: "versionStatus",
+        type: {
+          name: "String"
+        }
+      },
+      links: {
+        serializedName: "links",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedIntegrationRuntime"
+            }
+          }
+        }
+      },
+      pushedVersion: {
+        readOnly: true,
+        serializedName: "pushedVersion",
+        type: {
+          name: "String"
+        }
+      },
+      latestVersion: {
+        readOnly: true,
+        serializedName: "latestVersion",
+        type: {
+          name: "String"
+        }
+      },
+      autoUpdateETA: {
+        readOnly: true,
+        serializedName: "autoUpdateETA",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -13033,6 +19597,72 @@ export const ManagedIntegrationRuntimeNode: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedIntegrationRuntimeStatusTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ManagedIntegrationRuntimeStatusTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ManagedIntegrationRuntimeStatusTypeProperties",
+    modelProperties: {
+      createTime: {
+        readOnly: true,
+        serializedName: "createTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      nodes: {
+        readOnly: true,
+        serializedName: "nodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedIntegrationRuntimeNode",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      otherErrors: {
+        readOnly: true,
+        serializedName: "otherErrors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedIntegrationRuntimeError",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      },
+      lastOperation: {
+        readOnly: true,
+        serializedName: "lastOperation",
+        type: {
+          name: "Composite",
+          className: "ManagedIntegrationRuntimeOperationResult",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ManagedIntegrationRuntimeStatus: msRest.CompositeMapper = {
   serializedName: "Managed",
   type: {
@@ -13162,6 +19792,28 @@ export const LinkedIntegrationRuntimeKeyAuthorization: msRest.CompositeMapper = 
           polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
           uberParent: "SecretBase",
           className: "SecureString"
+        }
+      }
+    }
+  }
+};
+
+export const SelfHostedIntegrationRuntimeTypeProperties: msRest.CompositeMapper = {
+  serializedName: "SelfHostedIntegrationRuntimeTypeProperties",
+  type: {
+    name: "Composite",
+    className: "SelfHostedIntegrationRuntimeTypeProperties",
+    modelProperties: {
+      linkedInfo: {
+        serializedName: "linkedInfo",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "authorizationType",
+            clientName: "authorizationType"
+          },
+          uberParent: "LinkedIntegrationRuntimeType",
+          className: "LinkedIntegrationRuntimeType"
         }
       }
     }
@@ -13390,6 +20042,40 @@ export const IntegrationRuntimeComputeProperties: msRest.CompositeMapper = {
     additionalProperties: {
       type: {
         name: "Object"
+      }
+    }
+  }
+};
+
+export const ManagedIntegrationRuntimeTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ManagedIntegrationRuntimeTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ManagedIntegrationRuntimeTypeProperties",
+    modelProperties: {
+      computeProperties: {
+        serializedName: "computeProperties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeComputeProperties",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      },
+      ssisProperties: {
+        serializedName: "ssisProperties",
+        type: {
+          name: "Composite",
+          className: "IntegrationRuntimeSsisProperties",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
       }
     }
   }
