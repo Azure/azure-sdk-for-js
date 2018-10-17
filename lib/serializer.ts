@@ -167,11 +167,6 @@ export class Serializer {
 
     if (mapperType.match(/^Composite$/ig) !== null) {
       payload = deserializeCompositeType(this, mapper as CompositeMapper, responseBody, objectName);
-    } else if (mapperType.match(/^Number$/ig) !== null) {
-      payload = parseFloat(responseBody);
-      if (isNaN(payload)) {
-        payload = responseBody;
-      }
     } else {
       if (this.isXML) {
         /**
@@ -184,7 +179,12 @@ export class Serializer {
         }
       }
 
-      if (mapperType.match(/^Boolean$/ig) !== null) {
+      if (mapperType.match(/^Number$/ig) !== null) {
+        payload = parseFloat(responseBody);
+        if (isNaN(payload)) {
+          payload = responseBody;
+        }
+      } else if (mapperType.match(/^Boolean$/ig) !== null) {
         if (responseBody === "true") {
           payload = true;
         } else if (responseBody === "false") {

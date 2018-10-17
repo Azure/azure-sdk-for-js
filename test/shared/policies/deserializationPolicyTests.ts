@@ -159,7 +159,7 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
-    it(`with xml response body, application/xml content-type, and operation spec for only value`, async function () {
+    it(`with xml response body, application/xml content-type, and operation spec for only String value`, async function () {
       const response: HttpOperationResponse = {
         request: createRequest({
           httpMethod: "GET",
@@ -200,6 +200,50 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.blobBody, undefined);
       assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples tasty="yes">3</apples></fruit>`);
       assert.deepEqual(deserializedResponse.parsedBody, { "apples": "3" });
+      assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
+    });
+
+    it(`with xml response body, application/xml content-type, and operation spec for only number value`, async function () {
+      const response: HttpOperationResponse = {
+        request: createRequest({
+          httpMethod: "GET",
+          serializer: new Serializer({}, true),
+          responses: {
+            200: {
+              bodyMapper: {
+                xmlName: "fruit",
+                serializedName: "fruit",
+                type: {
+                  name: "Composite",
+                  className: "Fruit",
+                  modelProperties: {
+                    apples: {
+                      xmlName: "apples",
+                      serializedName: "apples",
+                      type: {
+                        name: "Number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<fruit><apples tasty="yes">3</apples></fruit>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
+
+      assert(deserializedResponse);
+      assert.strictEqual(deserializedResponse.readableStreamBody, undefined);
+      assert.strictEqual(deserializedResponse.blobBody, undefined);
+      assert.strictEqual(deserializedResponse.bodyAsText, `<fruit><apples tasty="yes">3</apples></fruit>`);
+      assert.deepEqual(deserializedResponse.parsedBody, { "apples": 3 });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
