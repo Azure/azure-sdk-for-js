@@ -35,6 +35,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 ```
 
 ### browser - Authentication, client creation and listByResourceGroup autoscaleSettings as an example written in JavaScript.
+See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -42,21 +43,30 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 <html lang="en">
   <head>
     <title>@azure/arm-monitor sample</title>
-    <script src="node_modules/ms-rest-js/master/msRestBundle.js"></script>
-    <script src="node_modules/ms-rest-azure-js/master/msRestAzureBundle.js"></script>
-    <script src="node_modules/@azure/arm-monitor/monitorManagementClientBundle.js"></script>
+    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/ms-rest-azure-js/dist/msRestAzure.js"></script>
+    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/@azure/arm-monitor/dist/arm-monitor.js"></script>
     <script>
       const subscriptionId = "<Subscription_Id>";
-      const token = "<access_token>";
-      const creds = new msRest.TokenCredentials(token);
-      const client = new MonitorManagementClient(creds, undefined, subscriptionId);
-      const resourceGroupName = "testresourceGroupName";
-      client.autoscaleSettings.listByResourceGroup(resourceGroupName).then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.log('An error ocurred:');
-        console.error(err);
+      const authManager = new msAuth.AuthManager({
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
+      });
+      authManager.finalizeLogin().then((res) => {
+        if (!res.isLoggedIn) {
+          // may cause redirects
+          authManager.login();
+        }
+        const client = new Azure.ArmMonitor.MonitorManagementClient(res.creds, subscriptionId);
+        const resourceGroupName = "testresourceGroupName";
+        client.autoscaleSettings.listByResourceGroup(resourceGroupName).then((result) => {
+          console.log("The result is:");
+          console.log(result);
+        }).catch((err) => {
+          console.log('An error occurred:');
+          console.error(err);
+        });
       });
     </script>
   </head>

@@ -429,6 +429,42 @@ export interface AutoscaleNotification {
 
 /**
  * @interface
+ * An interface representing AutoscaleSetting.
+ * A setting that contains all of the configuration for the automatic scaling
+ * of a resource.
+ *
+ */
+export interface AutoscaleSetting {
+  /**
+   * @member {AutoscaleProfile[]} profiles the collection of automatic scaling
+   * profiles that specify different scaling parameters for different time
+   * periods. A maximum of 20 profiles can be specified.
+   */
+  profiles: AutoscaleProfile[];
+  /**
+   * @member {AutoscaleNotification[]} [notifications] the collection of
+   * notifications.
+   */
+  notifications?: AutoscaleNotification[];
+  /**
+   * @member {boolean} [enabled] the enabled flag. Specifies whether automatic
+   * scaling is enabled for the resource. The default value is 'true'. Default
+   * value: true .
+   */
+  enabled?: boolean;
+  /**
+   * @member {string} [name] the name of the autoscale setting.
+   */
+  name?: string;
+  /**
+   * @member {string} [targetResourceUri] the resource identifier of the
+   * resource that the autoscale setting should be added to.
+   */
+  targetResourceUri?: string;
+}
+
+/**
+ * @interface
  * An interface representing AutoscaleSettingResource.
  * The autoscale setting resource.
  *
@@ -962,6 +998,47 @@ export interface RuleWebhookAction {
 
 /**
  * @interface
+ * An interface representing AlertRule.
+ * An alert rule.
+ *
+ */
+export interface AlertRule {
+  /**
+   * @member {string} name the name of the alert rule.
+   */
+  name: string;
+  /**
+   * @member {string} [description] the description of the alert rule that will
+   * be included in the alert email.
+   */
+  description?: string;
+  /**
+   * @member {boolean} isEnabled the flag that indicates whether the alert rule
+   * is enabled.
+   */
+  isEnabled: boolean;
+  /**
+   * @member {RuleConditionUnion} condition the condition that results in the
+   * alert rule being activated.
+   */
+  condition: RuleConditionUnion;
+  /**
+   * @member {RuleActionUnion[]} [actions] the array of actions that are
+   * performed when the alert rule becomes active, and when an alert condition
+   * is resolved.
+   */
+  actions?: RuleActionUnion[];
+  /**
+   * @member {Date} [lastUpdatedTime] Last time the rule was updated in ISO8601
+   * format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastUpdatedTime?: Date;
+}
+
+/**
+ * @interface
  * An interface representing AlertRuleResource.
  * The alert rule resource.
  *
@@ -1064,6 +1141,44 @@ export interface RetentionPolicy {
    * value of 0 will retain the events indefinitely.
    */
   days: number;
+}
+
+/**
+ * @interface
+ * An interface representing LogProfileProperties.
+ * The log profile properties.
+ *
+ */
+export interface LogProfileProperties {
+  /**
+   * @member {string} [storageAccountId] the resource id of the storage account
+   * to which you would like to send the Activity Log.
+   */
+  storageAccountId?: string;
+  /**
+   * @member {string} [serviceBusRuleId] The service bus rule ID of the service
+   * bus namespace in which you would like to have Event Hubs created for
+   * streaming the Activity Log. The rule ID is of the format: '{service bus
+   * resource ID}/authorizationrules/{key name}'.
+   */
+  serviceBusRuleId?: string;
+  /**
+   * @member {string[]} locations List of regions for which Activity Log events
+   * should be stored or streamed. It is a comma separated list of valid ARM
+   * locations including the 'global' location.
+   */
+  locations: string[];
+  /**
+   * @member {string[]} categories the categories of the logs. These categories
+   * are created as is convenient to the user. Some values are: 'Write',
+   * 'Delete', and/or 'Action.'
+   */
+  categories: string[];
+  /**
+   * @member {RetentionPolicy} retentionPolicy the retention policy for the
+   * events in the log.
+   */
+  retentionPolicy: RetentionPolicy;
 }
 
 /**
@@ -1235,6 +1350,50 @@ export interface LogSettings {
 
 /**
  * @interface
+ * An interface representing DiagnosticSettings.
+ * The diagnostic settings.
+ *
+ */
+export interface DiagnosticSettings {
+  /**
+   * @member {string} [storageAccountId] The resource ID of the storage account
+   * to which you would like to send Diagnostic Logs.
+   */
+  storageAccountId?: string;
+  /**
+   * @member {string} [serviceBusRuleId] The service bus rule Id of the
+   * diagnostic setting. This is here to maintain backwards compatibility.
+   */
+  serviceBusRuleId?: string;
+  /**
+   * @member {string} [eventHubAuthorizationRuleId] The resource Id for the
+   * event hub authorization rule.
+   */
+  eventHubAuthorizationRuleId?: string;
+  /**
+   * @member {string} [eventHubName] The name of the event hub. If none is
+   * specified, the default event hub will be selected.
+   */
+  eventHubName?: string;
+  /**
+   * @member {MetricSettings[]} [metrics] the list of metric settings.
+   */
+  metrics?: MetricSettings[];
+  /**
+   * @member {LogSettings[]} [logs] the list of logs settings.
+   */
+  logs?: LogSettings[];
+  /**
+   * @member {string} [workspaceId] The workspace ID (resource ID of a Log
+   * Analytics workspace) for a Log Analytics workspace to which you would like
+   * to send Diagnostic Logs. Example:
+   * /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2
+   */
+  workspaceId?: string;
+}
+
+/**
+ * @interface
  * An interface representing DiagnosticSettingsResource.
  * The diagnostic setting resource.
  *
@@ -1290,6 +1449,20 @@ export interface DiagnosticSettingsResourceCollection {
    * diagnostic settings resources;.
    */
   value?: DiagnosticSettingsResource[];
+}
+
+/**
+ * @interface
+ * An interface representing DiagnosticSettingsCategory.
+ * The diagnostic settings Category.
+ *
+ */
+export interface DiagnosticSettingsCategory {
+  /**
+   * @member {CategoryType} [categoryType] The type of the diagnostic settings
+   * category. Possible values include: 'Metrics', 'Logs'
+   */
+  categoryType?: CategoryType;
 }
 
 /**
@@ -1557,6 +1730,71 @@ export interface AzureFunctionReceiver {
 
 /**
  * @interface
+ * An interface representing ActionGroup.
+ * An Azure action group.
+ *
+ */
+export interface ActionGroup {
+  /**
+   * @member {string} groupShortName The short name of the action group. This
+   * will be used in SMS messages.
+   */
+  groupShortName: string;
+  /**
+   * @member {boolean} enabled Indicates whether this action group is enabled.
+   * If an action group is not enabled, then none of its receivers will receive
+   * communications. Default value: true .
+   */
+  enabled: boolean;
+  /**
+   * @member {EmailReceiver[]} [emailReceivers] The list of email receivers
+   * that are part of this action group.
+   */
+  emailReceivers?: EmailReceiver[];
+  /**
+   * @member {SmsReceiver[]} [smsReceivers] The list of SMS receivers that are
+   * part of this action group.
+   */
+  smsReceivers?: SmsReceiver[];
+  /**
+   * @member {WebhookReceiver[]} [webhookReceivers] The list of webhook
+   * receivers that are part of this action group.
+   */
+  webhookReceivers?: WebhookReceiver[];
+  /**
+   * @member {ItsmReceiver[]} [itsmReceivers] The list of ITSM receivers that
+   * are part of this action group.
+   */
+  itsmReceivers?: ItsmReceiver[];
+  /**
+   * @member {AzureAppPushReceiver[]} [azureAppPushReceivers] The list of
+   * AzureAppPush receivers that are part of this action group.
+   */
+  azureAppPushReceivers?: AzureAppPushReceiver[];
+  /**
+   * @member {AutomationRunbookReceiver[]} [automationRunbookReceivers] The
+   * list of AutomationRunbook receivers that are part of this action group.
+   */
+  automationRunbookReceivers?: AutomationRunbookReceiver[];
+  /**
+   * @member {VoiceReceiver[]} [voiceReceivers] The list of voice receivers
+   * that are part of this action group.
+   */
+  voiceReceivers?: VoiceReceiver[];
+  /**
+   * @member {LogicAppReceiver[]} [logicAppReceivers] The list of logic app
+   * receivers that are part of this action group.
+   */
+  logicAppReceivers?: LogicAppReceiver[];
+  /**
+   * @member {AzureFunctionReceiver[]} [azureFunctionReceivers] The list of
+   * azure function receivers that are part of this action group.
+   */
+  azureFunctionReceivers?: AzureFunctionReceiver[];
+}
+
+/**
+ * @interface
  * An interface representing ActionGroupResource.
  * An action group resource.
  *
@@ -1632,6 +1870,21 @@ export interface EnableRequest {
    * @member {string} receiverName The name of the receiver to resubscribe.
    */
   receiverName: string;
+}
+
+/**
+ * @interface
+ * An interface representing ActionGroupPatch.
+ * An Azure action group for patch operations.
+ *
+ */
+export interface ActionGroupPatch {
+  /**
+   * @member {boolean} [enabled] Indicates whether this action group is
+   * enabled. If an action group is not enabled, then none of its actions will
+   * be activated. Default value: true .
+   */
+  enabled?: boolean;
 }
 
 /**
@@ -1727,6 +1980,42 @@ export interface ActivityLogAlertActionList {
 
 /**
  * @interface
+ * An interface representing ActivityLogAlert.
+ * An Azure activity log alert.
+ *
+ */
+export interface ActivityLogAlert {
+  /**
+   * @member {string[]} scopes A list of resourceIds that will be used as
+   * prefixes. The alert will only apply to activityLogs with resourceIds that
+   * fall under one of these prefixes. This list must include at least one
+   * item.
+   */
+  scopes: string[];
+  /**
+   * @member {boolean} [enabled] Indicates whether this activity log alert is
+   * enabled. If an activity log alert is not enabled, then none of its actions
+   * will be activated. Default value: true .
+   */
+  enabled?: boolean;
+  /**
+   * @member {ActivityLogAlertAllOfCondition} condition The condition that will
+   * cause this alert to activate.
+   */
+  condition: ActivityLogAlertAllOfCondition;
+  /**
+   * @member {ActivityLogAlertActionList} actions The actions that will
+   * activate when the condition is met.
+   */
+  actions: ActivityLogAlertActionList;
+  /**
+   * @member {string} [description] A description of this activity log alert.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
  * An interface representing ActivityLogAlertResource.
  * An activity log alert resource.
  *
@@ -1760,6 +2049,21 @@ export interface ActivityLogAlertResource extends Resource {
    * @member {string} [description] A description of this activity log alert.
    */
   description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ActivityLogAlertPatch.
+ * An Azure activity log alert for patch operations.
+ *
+ */
+export interface ActivityLogAlertPatch {
+  /**
+   * @member {boolean} [enabled] Indicates whether this activity log alert is
+   * enabled. If an activity log alert is not enabled, then none of its actions
+   * will be activated. Default value: true .
+   */
+  enabled?: boolean;
 }
 
 /**
@@ -2304,6 +2608,46 @@ export interface Baseline {
 
 /**
  * @interface
+ * An interface representing BaselineProperties.
+ * The baseline properties class.
+ *
+ */
+export interface BaselineProperties {
+  /**
+   * @member {string} [timespan] The timespan for which the data was retrieved.
+   * Its value consists of two datatimes concatenated, separated by '/'.  This
+   * may be adjusted in the future and returned back from what was originally
+   * requested.
+   */
+  timespan?: string;
+  /**
+   * @member {string} [interval] The interval (window size) for which the
+   * metric data was returned in.  This may be adjusted in the future and
+   * returned back from what was originally requested.  This is not present if
+   * a metadata request was made.
+   */
+  interval?: string;
+  /**
+   * @member {string} [aggregation] The aggregation type of the metric.
+   */
+  aggregation?: string;
+  /**
+   * @member {Date[] | string[]} [timestamps] the array of timestamps of the
+   * baselines.
+   */
+  timestamps?: Date[] | string[];
+  /**
+   * @member {Baseline[]} [baseline] the baseline values for each sensitivity.
+   */
+  baseline?: Baseline[];
+  /**
+   * @member {BaselineMetadataValue[]} [metadata] the baseline metadata values.
+   */
+  metadata?: BaselineMetadataValue[];
+}
+
+/**
+ * @interface
  * An interface representing BaselineResponse.
  * The response to a baseline query.
  *
@@ -2445,6 +2789,79 @@ export interface MetricAlertCriteria {
    * can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * @interface
+ * An interface representing MetricAlertProperties.
+ * An alert rule.
+ *
+ */
+export interface MetricAlertProperties {
+  /**
+   * @member {string} description the description of the metric alert that will
+   * be included in the alert email.
+   */
+  description: string;
+  /**
+   * @member {number} severity Alert severity {0, 1, 2, 3, 4}
+   */
+  severity: number;
+  /**
+   * @member {boolean} enabled the flag that indicates whether the metric alert
+   * is enabled.
+   */
+  enabled: boolean;
+  /**
+   * @member {string[]} [scopes] the list of resource id's that this metric
+   * alert is scoped to.
+   */
+  scopes?: string[];
+  /**
+   * @member {string} evaluationFrequency how often the metric alert is
+   * evaluated represented in ISO 8601 duration format.
+   */
+  evaluationFrequency: string;
+  /**
+   * @member {string} windowSize the period of time (in ISO 8601 duration
+   * format) that is used to monitor alert activity based on the threshold.
+   */
+  windowSize: string;
+  /**
+   * @member {string} [targetResourceType] the resource type of the target
+   * resource(s) on which the alert is created/updated. Mandatory for
+   * MultipleResourceMultipleMetricCriteria.
+   */
+  targetResourceType?: string;
+  /**
+   * @member {string} [targetResourceRegion] the region of the target
+   * resource(s) on which the alert is created/updated. Mandatory for
+   * MultipleResourceMultipleMetricCriteria.
+   */
+  targetResourceRegion?: string;
+  /**
+   * @member {MetricAlertCriteriaUnion} criteria defines the specific alert
+   * criteria information.
+   */
+  criteria: MetricAlertCriteriaUnion;
+  /**
+   * @member {boolean} [autoMitigate] the flag that indicates whether the alert
+   * should be auto resolved or not.
+   */
+  autoMitigate?: boolean;
+  /**
+   * @member {MetricAlertAction[]} [actions] the array of actions that are
+   * performed when the alert rule becomes active, and when an alert condition
+   * is resolved.
+   */
+  actions?: MetricAlertAction[];
+  /**
+   * @member {Date} [lastUpdatedTime] Last time the rule was updated in ISO8601
+   * format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastUpdatedTime?: Date;
 }
 
 /**
@@ -2854,6 +3271,53 @@ export interface Action {
 
 /**
  * @interface
+ * An interface representing LogSearchRule.
+ * Log Search Rule Definition
+ *
+ */
+export interface LogSearchRule {
+  /**
+   * @member {string} [description] The description of the Log Search rule.
+   */
+  description?: string;
+  /**
+   * @member {Enabled} [enabled] The flag which indicates whether the Log
+   * Search rule is enabled. Value should be true or false. Possible values
+   * include: 'true', 'false'
+   */
+  enabled?: Enabled;
+  /**
+   * @member {Date} [lastUpdatedTime] Last time the rule was updated in IS08601
+   * format.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastUpdatedTime?: Date;
+  /**
+   * @member {ProvisioningState} [provisioningState] Provisioning state of the
+   * scheduledquery rule. Possible values include: 'Succeeded', 'Deploying',
+   * 'Canceled', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * @member {Source} source Data Source against which rule will Query Data
+   */
+  source: Source;
+  /**
+   * @member {Schedule} [schedule] Schedule (Frequnecy, Time Window) for rule.
+   * Required for action type - AlertingAction
+   */
+  schedule?: Schedule;
+  /**
+   * @member {ActionUnion} action Action needs to be taken on rule execution.
+   */
+  action: ActionUnion;
+}
+
+/**
+ * @interface
  * An interface representing LogSearchRuleResource.
  * The Log Search Rule resource.
  *
@@ -2898,6 +3362,21 @@ export interface LogSearchRuleResource extends Resource {
    * @member {ActionUnion} action Action needs to be taken on rule execution.
    */
   action: ActionUnion;
+}
+
+/**
+ * @interface
+ * An interface representing LogSearchRulePatch.
+ * Log Search Rule Definition for Patching
+ *
+ */
+export interface LogSearchRulePatch {
+  /**
+   * @member {Enabled} [enabled] The flag which indicates whether the Log
+   * Search rule is enabled. Value should be true or false. Possible values
+   * include: 'true', 'false'
+   */
+  enabled?: Enabled;
 }
 
 /**
