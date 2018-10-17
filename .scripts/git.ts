@@ -228,18 +228,26 @@ export async function commitChanges(repository: Repository, commitMessage: strin
         return Promise.reject("Unknown changes present in the repository");
     }
 
-    const index = await repository.index();
+    const index = await repository.refreshIndex();
     if (typeof validateEach === "string") {
-        index.addByPath(validateEach);
-    } else {
-        index.addAll("*", Index.ADD_OPTION.ADD_DEFAULT, validateEach);
+        const folderName = validateEach;
+        validateEach = (path, pattern) => {
+             return path.startsWith(folderName) ? 0 : 1;
+        }
     }
 
-    const head = await repository.getHeadCommit();
+    await index.addAll("*", Index.ADD_OPTION.ADD_CHECK_PATHSPEC, validateEach);
+
+    const entries = index.entries();
+    _logger.logTrace(`Files added to the index ${index.entryCount}: ${JSON.stringify(entries)}`)
+
     await index.write();
-    await index.writeTree();
+    const oid = await index.writeTree();
+
+    const head = await repository.getHeadCommit();
     const author = Signature.default(repository);
-    return repository.createCommit("HEAD", author, author, commitMessage, head.id(), [head]);
+
+    return repository.createCommit("HEAD", author, author, commitMessage, oid, [head]);
 }
 
 export async function pushBranch(repository: Repository, localBranch: Branch): Promise<number> {
@@ -258,7 +266,7 @@ export async function pushBranch(repository: Repository, localBranch: Branch): P
 
 export async function commitAndPush(repository: Repository, localBranch: Branch, commitMessage: string, validate?: ValidateFunction, validateEach?: string | ValidateEachFunction) {
     await commitChanges(repository, commitMessage, validate, validateEach);
-    //await pushBranch(repository, localBranch);
+    await pushBranch(repository, localBranch);
 }
 
 export function getToken(): string {

@@ -241,6 +241,10 @@ gulp.task("regenerate", async () => {
         required: true,
         description: "Name of the regenerated package"
       },
+      "skip-version-bump": {
+        boolean: true,
+        description: "Determines if version bumping should be skipped"
+      },
       "azure-sdk-for-js-root": {
         alias: "sdk",
         string: true,
@@ -255,7 +259,7 @@ gulp.task("regenerate", async () => {
       }
     }).usage("gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
-    regenerate(argv.branch, argv.package, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"])
+    regenerate(argv.branch, argv.package, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], argv["skip-version-bump"])
       .then(_ => resolve(),
         error => reject(error))
       .catch(error => {

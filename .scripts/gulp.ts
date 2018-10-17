@@ -178,7 +178,7 @@ export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azur
     }
 }
 
-export async function regenerate(branchName: string, packageName: string, azureSdkForJsRepoPath: string, azureRestAPISpecsPath: string) {
+export async function regenerate(branchName: string, packageName: string, azureSdkForJsRepoPath: string, azureRestAPISpecsPath: string, skipVersionBump?: boolean) {
     const azureSdkForJsRepository = await getValidatedRepository(azureSdkForJsRepoPath);
     await refreshRepository(azureSdkForJsRepository);
     _logger.log(`Refreshed ${azureSdkForJsRepository.path()} repository successfully`);
@@ -191,8 +191,13 @@ export async function regenerate(branchName: string, packageName: string, azureS
     await mergeMasterIntoBranch(azureSdkForJsRepository, localBranch);
     _logger.log(`Merged master into ${localBranch.shorthand()} successfully`);
 
-    await bumpMinorVersion(azureSdkForJsRepoPath, packageName);
-    _logger.log(`Successfully updated version in package.json`);
+    if (skipVersionBump) {
+        _logger.log("Skip version bump");
+    } else {
+        await bumpMinorVersion(azureSdkForJsRepoPath, packageName);
+        _logger.log(`Successfully updated version in package.json`);
+    }
+
 
     await generateSdk(azureRestAPISpecsPath, azureSdkForJsRepoPath, packageName)
     _logger.log(`Generated sdk successfully`);
