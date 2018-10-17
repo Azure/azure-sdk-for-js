@@ -4,9 +4,7 @@
   "description": "FrontDoorManagementClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0-preview",
   "dependencies": {
-    "ms-rest-azure-js": "^1.0.166",
-    "ms-rest-js": "^1.0.439",
-    "tslib": "^1.9.3"
+    "ms-rest-azure-js": "~0.17.165"
   },
   "keywords": [
     "node",
@@ -16,14 +14,14 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/arm-frontdoor.js",
+  "main": "./cjs/frontDoorManagementClient.js",
   "module": "./esm/frontDoorManagementClient.js",
-  "types": "./esm/frontDoorManagementClient.d.ts",
+  "types": "./cjs/frontDoorManagementClient.d.ts",
   "devDependencies": {
-    "typescript": "^3.1.1",
-    "rollup": "^0.66.2",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "uglify-js": "^3.4.9"
+    "tslib": "^1.9.3",
+    "typescript": "^3.0.3",
+    "webpack": "^4.17.2",
+    "webpack-cli": "^3.1.0"
   },
   "homepage": "https://github.com/azure/azure-sdk-for-js",
   "repository": {
@@ -34,9 +32,7 @@
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-frontdoor.js.map'\" -o ./dist/arm-frontdoor.min.js ./dist/arm-frontdoor.js",
+    "build": "tsc && tsc -p tsconfig.esm.json && webpack",
     "prepare": "npm run build"
-  },
-  "sideEffects": false
+  }
 }
