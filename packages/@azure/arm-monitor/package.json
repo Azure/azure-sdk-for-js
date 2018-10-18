@@ -2,11 +2,9 @@
   "name": "@azure/arm-monitor",
   "author": "Microsoft Corporation",
   "description": "MonitorManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.0.0-preview",
+  "version": "1.1.0-preview",
   "dependencies": {
-    "ms-rest-azure-js": "^1.0.172",
-    "ms-rest-js": "^1.0.443",
-    "tslib": "^1.9.3"
+    "ms-rest-azure-js": "~0.17.165"
   },
   "keywords": [
     "node",
@@ -25,7 +23,7 @@
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-monitor",
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
