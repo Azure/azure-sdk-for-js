@@ -50,7 +50,6 @@ export const ArgsConfig = {
             .showHelpOnFail(true, "Invalid usage. Run with -? to see help.");
     }
 }
-
 export interface CommandLineOptions extends minimist.ParsedArgs {
     "azure-sdk-for-js-repo-root": string;
     "azure-rest-api-specs-root": string;

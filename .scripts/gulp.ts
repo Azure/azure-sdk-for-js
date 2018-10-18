@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { SdkType, getCommandLineOptions } from "./commandLine";
+import { SdkType } from "./commandLine";
 import { findAzureRestApiSpecsRepositoryPath, findSdkDirectory, saveContentToFile, findMissingSdks } from "./generateSdks";
 import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile, findReadmeTypeScriptMdFilePaths, getPackageNamesFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents, updateMainReadmeFile, getSinglePackageName } from "./readme";
 import * as fs from "fs";
@@ -17,7 +17,6 @@ import { refreshRepository, getValidatedRepository, waitAndLockGitRepository, un
 import { commitAndCreatePullRequest, findPullRequest, requestPullRequestReview } from "./github";
 
 const _logger = getLogger();
-const _args = getCommandLineOptions();
 
 function containsPackageName(packageNames: string[], packageName: string): boolean {
     const result = contains(packageNames, packageName) ||
@@ -83,8 +82,8 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
     }
 }
 
-export async function generateTsReadme(packageName: string, sdkType: SdkType): Promise<{ pullRequestUrl?: string, typescriptReadmePath?: string }> {
-    if (_args["skip-spec"]) {
+export async function generateTsReadme(packageName: string, sdkType: SdkType, skipSpecificationGeneration?: boolean): Promise<{ pullRequestUrl?: string, typescriptReadmePath?: string }> {
+    if (skipSpecificationGeneration) {
         _logger.log(`Skipping spec generation`);
         return { };
     }
@@ -103,7 +102,7 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType): P
     const typescriptReadmePath: string = await copyExistingNodeJsReadme(sdkPath);
     _logger.log(`Copied readme file successfully`);
 
-    const newContent: string = await updateTypeScriptReadmeFile(typescriptReadmePath, _args.getSdkType());
+    const newContent: string = await updateTypeScriptReadmeFile(typescriptReadmePath, sdkType);
     _logger.log(`Generated content of the new TypeScript readme file successfully`);
 
     await saveContentToFile(typescriptReadmePath, newContent);
@@ -126,9 +125,9 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType): P
     return { pullRequestUrl: pullRequestUrl, typescriptReadmePath: typescriptReadmePath };
 }
 
-export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageName: string, sdkType: SdkType): Promise<string> {
-    const readmeGenerationResult = await generateTsReadme(packageName, sdkType);
-    if (_args["skip-sdk"]) {
+export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageName: string, sdkType: SdkType, skipSpecGeneration?: boolean, skipSdkGeneration?: boolean): Promise<string> {
+    const readmeGenerationResult = await generateTsReadme(packageName, sdkType, skipSpecGeneration);
+    if (skipSdkGeneration) {
         _logger.log(`Skipping sdk generation`);
         return "";
     }
@@ -164,13 +163,13 @@ ${_logger.getCapturedText()}
     return pullRequestUrl;
 }
 
-export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azureRestApiSpecsRepository: string) {
+export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azureRestApiSpecsRepository: string, skipSpecGeneration: boolean, skipSdkGeneration: boolean) {
     const missingSdks = await findMissingSdks(azureRestApiSpecsRepository);
     _logger.log(`Found ${missingSdks.length} missing specifications`);
 
     for (const missingSdk of missingSdks) {
         try {
-            await generateMissingSdk(azureSdkForJsRepoPath, missingSdk.sdkName, missingSdk.sdkType);
+            await generateMissingSdk(azureSdkForJsRepoPath, missingSdk.sdkName, missingSdk.sdkType, skipSpecGeneration, skipSdkGeneration);
         } catch (error) {
             _logger.logError(error);
             continue;

@@ -189,7 +189,7 @@ gulp.task("find-missing-sdks", async () => {
 gulp.task("generate-ts-readme", async () => {
   try {
     _logger.log(`Passed arguments: ${process.argv}`);
-    await generateTsReadme(args.package, args.getSdkType());
+    await generateTsReadme(args.package, args.getSdkType(), args["skip-spec"]);
   }
   catch (error) {
     _logger.logError(error);
@@ -199,7 +199,7 @@ gulp.task("generate-ts-readme", async () => {
 gulp.task("generate-missing-sdk", async () => {
   try {
     _logger.log(`Passed arguments: ${process.argv}`);
-    await generateMissingSdk(azureSDKForJSRepoRoot, args.package, args.getSdkType());
+    await generateMissingSdk(azureSDKForJSRepoRoot, args.package, args.getSdkType(), args["skip-spec"], args["skip-sdk"]);
   }
   catch (error) {
     _logger.logError(error);
@@ -210,7 +210,7 @@ gulp.task("generate-all-missing-sdks", async () => {
   try {
     _logger.log(`Passed arguments: ${process.argv}`);
     const azureRestApiSpecsRepositoryPath = await findAzureRestApiSpecsRepositoryPath();
-    await generateAllMissingSdks(azureSDKForJSRepoRoot, azureRestApiSpecsRepositoryPath);
+    await generateAllMissingSdks(azureSDKForJSRepoRoot, azureRestApiSpecsRepositoryPath, args["skip-spec"], args["skip-sdk"]);
   } catch (error) {
     _logger.logError(error);
   }
