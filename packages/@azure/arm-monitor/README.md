@@ -1,15 +1,18 @@
-# Azure MonitorManagementClient SDK for JavaScript
-This package contains an isomorphic SDK for MonitorManagementClient.
-
-## Currently supported environments
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+# Microsoft Azure SDK for isomorphic javascript - MonitorManagementClient
+This project provides an isomorphic javascript package for accessing Azure. Right now it supports:
+- node.js version 6.x.x or higher
+- browser javascript
 
 ## How to Install
+
+- nodejs
 ```
 npm install @azure/arm-monitor
 ```
-
+- browser
+```html
+<script type="text/javascript" src="https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/lib/services/@azure/arm-monitor/monitorManagementClientBundle.js"></script>
+```
 
 ## How to use
 
@@ -34,8 +37,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and listByResourceGroup autoscaleSettings as an example written in JavaScript.
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
+### browser - Authentication, client creation and listByResourceGroup autoscaleSettings as an example written in javascript.
 
 - index.html
 ```html
@@ -43,30 +45,21 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <html lang="en">
   <head>
     <title>@azure/arm-monitor sample</title>
-    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-monitor/dist/arm-monitor.js"></script>
-    <script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/ms-rest-js/master/msRestBundle.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/ms-rest-js/master/msRestAzureBundle.js"></script>
+    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/lib/services/@azure/arm-monitor/monitorManagementClientBundle.js"></script>
+    <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
-        }
-        const client = new Azure.ArmMonitor.MonitorManagementClient(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        client.autoscaleSettings.listByResourceGroup(resourceGroupName).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log('An error occurred:');
-          console.error(err);
-        });
+      const token = "<access_token>";
+      const creds = new msRest.TokenCredentials(token);
+      const client = new MonitorManagementClient(creds, undefined, subscriptionId);
+      const resourceGroupName = "testresourceGroupName";
+      client.autoscaleSettings.listByResourceGroup(resourceGroupName).then((result) => {
+        console.log("The result is:");
+        console.log(result);
+      }).catch((err) => {
+        console.log('An error ocurred:');
+        console.error(err);
       });
     </script>
   </head>
