@@ -5,7 +5,7 @@
  */
 
 import * as colors from "colors";
-import { ArgsConfig } from "./commandLine";
+import { Argv } from "./commandLine";
 
 export enum LoggingLevel {
     All = 0,
@@ -103,8 +103,8 @@ export class Logger {
     logWithPath(path: string, message: string): void {
         console.log(`[${path}]> ${message}`);
     }
-}
 
-export function getLogger() {
-    return new Logger(ArgsConfig.loggingLevel());
+    static get() {
+        return new Logger(Argv.Global.loggingLevel());
+    }
 }

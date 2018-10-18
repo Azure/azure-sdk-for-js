@@ -7,9 +7,6 @@
 import * as fssync from "fs";
 import { promises as fs } from "fs";
 import { execSync } from "child_process";
-import { getLogger } from "./logger";
-
-const _logger = getLogger();
 
 export function arrayContains<T>(array: T[], el: T): boolean {
     return array.indexOf(el) != -1
@@ -41,9 +38,7 @@ export function contains(values: string[], searchString: string): boolean {
 }
 
 export function execute(command: string, packageFolderPath: string): void {
-    if (!fssync.existsSync(packageFolderPath)) {
-        _logger.logWithPath(packageFolderPath, "Folder not found.");
-    } else {
+    if (fssync.existsSync(packageFolderPath)) {
         execSync(command, { cwd: packageFolderPath, stdio: "inherit" });
     }
 }

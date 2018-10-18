@@ -12,42 +12,52 @@ import yargs = require("yargs");
 
 export type YargsMapping = { [key: string]: Options };
 
-export const ArgsOptions = {
-    Common: {
-        "logging-level": {
-            alias: ["l", "loggingLevel"],
-            default: "info",
-            choices: ["all", "trace", "debug", "info", "warn", "error"],
-        }
-    },
-    Repository: {
-        "azure-sdk-for-js-root": {
-            alias: "sdk",
-            string: true,
-            default: __dirname,
-            description: "Path to the azure-sdk-for-js repository"
-        },
-        "azure-rest-api-specs-root": {
-            alias: "specs",
-            string: true,
-            default: path.resolve(__dirname, '..', 'azure-rest-api-specs'),
-            description: "Path to the azure-rest-api-specs repository"
-        }
-    }
+export enum SdkType {
+    ResourceManager = "resource-manager",
+    DataPlane = "data-plane",
+    ControlPlane = "control-plane"
 }
 
-export const ArgsConfig = {
-    _global: yargs.options(ArgsOptions.Common).argv,
-    loggingLevel: (): string => ArgsConfig._global.LoggingLevel,
-    _combine: (...configs: YargsMapping[]): YargsMapping => {
-        let result = ArgsOptions.Common;
+export module Argv {
+    export const Options: { [key: string]: YargsMapping } = {
+        Common: {
+            "logging-level": {
+                alias: ["l", "loggingLevel"],
+                default: "info",
+                choices: ["all", "trace", "debug", "info", "warn", "error"],
+                global: true
+            }
+        },
+        Repository: {
+            "azure-sdk-for-js-root": {
+                alias: "sdk",
+                string: true,
+                default: __dirname,
+                description: "Path to the azure-sdk-for-js repository"
+            },
+            "azure-rest-api-specs-root": {
+                alias: "specs",
+                string: true,
+                default: path.resolve(__dirname, '..', 'azure-rest-api-specs'),
+                description: "Path to the azure-rest-api-specs repository"
+            }
+        }
+    }
+
+    export const Global = {
+        loggingLevel: (): string => yargs.options(Argv.Options.Common).argv.loggingLevel,
+    }
+
+    const combine = (...configs: YargsMapping[]): YargsMapping => {
+        let result = Options.Common;
         for (const config of configs) {
             result = { ...result, ...config };
         }
         return result;
-    },
-    construct: (...configs: YargsMapping[]) => {
-        const mergedOption = ArgsConfig._combine(...configs);
+    }
+
+    export const construct = (...configs: YargsMapping[]) => {
+        const mergedOption = combine(...configs);
         const args = yargs.options(mergedOption)
             .help("?")
             .showHelpOnFail(true, "Invalid usage. Run with -? to see help.");
@@ -85,12 +95,6 @@ export const commandLineConfiguration = {
         type: "arm"
     }
 };
-
-export enum SdkType {
-    ResourceManager = "resource-manager",
-    DataPlane = "data-plane",
-    ControlPlane = "control-plane"
-}
 
 let _options: CommandLineOptions;
 export function getCommandLineOptions() {

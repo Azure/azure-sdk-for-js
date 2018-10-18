@@ -7,11 +7,12 @@
 import * as Octokit from '@octokit/rest'
 import { PullRequestsCreateParams, Response, PullRequestsCreateReviewRequestParams, PullRequestsCreateReviewRequestResponse, PullRequestsGetParams, PullRequestsGetAllParams, PullRequestsGetAllResponse, PullRequestsGetAllResponseItem } from '@octokit/rest';
 import { getToken, createNewUniqueBranch, commitChanges, pushBranch,ValidateFunction, ValidateEachFunction, Branch, BranchLocation } from './git';
-import { getLogger } from './logger';
+import { Logger } from './logger';
 import { Repository } from 'nodegit';
+import { Argv } from './commandLine';
 
 const _repositoryOwner = "Azure";
-const _logger = getLogger();
+const _logger = new Logger(Argv.Global.loggingLevel());
 
 function getAuthenticatedClient(): Octokit {
     const octokit = new Octokit();

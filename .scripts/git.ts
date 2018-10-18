@@ -5,8 +5,8 @@
  */
 
 import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile, Reset, Index, Rebase, AnnotatedCommit } from "nodegit";
-import { getLogger } from "./logger";
 import { getCommandLineOptions } from "./commandLine";
+import { Logger } from "./logger";
 
 export type ValidateFunction = (statuses: StatusFile[]) => boolean;
 export type ValidateEachFunction = (path: string, matchedPatter: string) => number;
@@ -49,8 +49,7 @@ export class Branch {
 }
 
 const _args = getCommandLineOptions();
-const _logger = getLogger();
-
+const _logger = Logger.get();
 const _lockMap = {}
 
 function isLocked(repositoryPath: string) {

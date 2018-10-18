@@ -4,12 +4,12 @@
  * license information.
  */
 
+import { getCommandLineOptions, Argv } from "./.scripts/commandLine";
 import { contains, endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
-import { getCommandLineOptions, ArgsConfig, ArgsOptions } from "./.scripts/commandLine";
 import { findAzureRestApiSpecsRepositoryPath, findMissingSdks } from "./.scripts/generateSdks";
 import { generateTsReadme, generateSdk, generateMissingSdk, generateAllMissingSdks, regenerate } from "./.scripts/gulp";
 import { getPackageNamesFromReadmeTypeScriptMdFileContents, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents } from "./.scripts/readme";
-import { getLogger } from "./.scripts/logger";
+import { Logger } from "./.scripts/logger";
 import * as fs from "fs";
 import * as gulp from "gulp";
 import * as path from "path";
@@ -17,7 +17,7 @@ import { execSync } from "child_process";
 import { getDataFromPullRequest } from "./.scripts/github";
 
 const args = getCommandLineOptions();
-const _logger = getLogger();
+const _logger = Logger.get();
 const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
 const azureRestAPISpecsRoot: string = args["azure-rest-api-specs-root"] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
 
@@ -218,7 +218,7 @@ gulp.task("generate-all-missing-sdks", async () => {
 
 gulp.task("regenerate", async () => {
   return new Promise((resolve, reject) => {
-    const argv = ArgsConfig.construct(ArgsOptions.Common, ArgsOptions.Repository)
+    const argv = Argv.construct(Argv.Options.Repository)
       .options({
         "branch": {
           alias: "b",

@@ -8,13 +8,13 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import { SdkType } from "./commandLine";
 import { pathExists, isDirectory, arrayContains } from "./common";
-import { getLogger } from "./logger";
+import { Logger } from "./logger";
 import { doesReadmeMdFileSpecifiesTypescriptSdk } from "./readme";
 
 const repositoryName = "azure-rest-api-specs";
 const specificationsSegment = "specification";
 
-const _logger = getLogger();
+const _logger = Logger.get();
 
 if (!fs) {
     throw new Error("This script has to be run on Node.js 10.0+");
