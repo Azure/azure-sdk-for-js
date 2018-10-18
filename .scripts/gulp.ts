@@ -13,7 +13,7 @@ import { Version } from "./version";
 import { contains, npmInstall } from "./common";
 import { execSync } from "child_process";
 import { getLogger } from "./logger";
-import { refreshRepository, getValidatedRepository, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction, checkoutBranch, pullBranch, mergeBranch, mergeMasterIntoBranch, commitAndPush, checkoutRemoteBranch, Branch, BranchLocation } from "./git";
+import { refreshRepository, getValidatedRepository, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction, checkoutBranch, pullBranch, mergeBranch, mergeMasterIntoBranch, commitAndPush, checkoutRemoteBranch, Branch, BranchLocation, rebaseBranch } from "./git";
 import { commitAndCreatePullRequest, findPullRequest, requestPullRequestReview } from "./github";
 
 const _logger = getLogger();
@@ -188,7 +188,8 @@ export async function regenerate(branchName: string, packageName: string, azureS
     _logger.log(`Checked out ${branchName} branch`);
 
     const localBranch = remoteBranch.convertTo(BranchLocation.Local);
-    await mergeMasterIntoBranch(azureSdkForJsRepository, localBranch);
+   //await mergeMasterIntoBranch(azureSdkForJsRepository, localBranch);
+    await rebaseBranch(azureSdkForJsRepository, localBranch);
     _logger.log(`Merged master into ${localBranch.shorthand()} successfully`);
 
     if (skipVersionBump) {

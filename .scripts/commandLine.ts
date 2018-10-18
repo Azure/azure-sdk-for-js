@@ -5,7 +5,51 @@
  */
 
 import * as minimist from "minimist";
+import * as path from "path";
 import { arrayContains } from "./common";
+import { LoggingLevel } from "./logger";
+import { Options } from "yargs";
+import yargs = require("yargs");
+
+export type YargsMapping = { [key: string]: Options };
+
+export const ArgsConfig = {
+    Common: {
+        "logging-level": {
+            alias: ["l", "loggingLevel"],
+            default: "info",
+            choices: ["all", "trace", "debug", "info", "warn", "error"],
+            coerce: (str) => LoggingLevel[str],
+        }
+    },
+    Repository: {
+        "azure-sdk-for-js-root": {
+            alias: "sdk",
+            string: true,
+            default: __dirname,
+            description: "Path to the azure-sdk-for-js repository"
+        },
+        "azure-rest-api-specs-root": {
+            alias: "specs",
+            string: true,
+            default: path.resolve(__dirname, '..', 'azure-rest-api-specs'),
+            description: "Path to the azure-rest-api-specs repository"
+        }
+    },
+    combine: (...configs: YargsMapping[]): YargsMapping => {
+        let result = {};
+        for (const config of configs) {
+            result = { ...result, ...config };
+        }
+        return result;
+    },
+    construct: (...configs: YargsMapping[]) => {
+        const mergedOption = ArgsConfig.combine(...configs);
+        return yargs.options(mergedOption)
+            .help("?")
+            .showHelpOnFail(true, "Invalid usage. Run with -? to see help.");
+    }
+}
 
 export interface CommandLineOptions extends minimist.ParsedArgs {
     "azure-sdk-for-js-repo-root": string;

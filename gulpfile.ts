@@ -5,15 +5,14 @@
  */
 
 import { contains, endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
-import { getCommandLineOptions } from "./.scripts/commandLine";
+import { getCommandLineOptions, ArgsConfig } from "./.scripts/commandLine";
 import { findAzureRestApiSpecsRepositoryPath, findMissingSdks } from "./.scripts/generateSdks";
 import { generateTsReadme, generateSdk, generateMissingSdk, generateAllMissingSdks, regenerate } from "./.scripts/gulp";
 import { getPackageNamesFromReadmeTypeScriptMdFileContents, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents } from "./.scripts/readme";
-import { getLogger, LoggingLevel } from "./.scripts/logger";
+import { getLogger } from "./.scripts/logger";
 import * as fs from "fs";
 import * as gulp from "gulp";
 import * as path from "path";
-import * as yargs from "yargs";
 import { execSync } from "child_process";
 import { getDataFromPullRequest } from "./.scripts/github";
 
@@ -21,16 +20,6 @@ const _logger = getLogger();
 const args = getCommandLineOptions();
 const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
 const azureRestAPISpecsRoot: string = args["azure-rest-api-specs-root"] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
-
-const commonArgv = yargs.options({
-  "logging-level": {
-    alias: ["l", "loggingLevel"],
-    default: "info",
-    choices: ["all", "trace", "debug", "info", "warn", "error"],
-    coerce: (str) => LoggingLevel[str],
-  }
-}).help("?")
-  .showHelpOnFail(true, "Invalid usage. Run with -? to see help.");
 
 function getPackageFolderPathFromPackageArgument(): string | undefined {
   let packageFolderPath: string | undefined;
@@ -229,45 +218,34 @@ gulp.task("generate-all-missing-sdks", async () => {
 
 gulp.task("regenerate", async () => {
   return new Promise((resolve, reject) => {
-    const argv = commonArgv.options({
-      "branch": {
-        alias: "b",
-        string: true,
-        description: "Name of the AutoPR branch",
-        implies: "package"
-      },
-      "package": {
-        alias: "p",
-        string: true,
-        description: "Name of the regenerated package"
-      },
-      "pull-request": {
-        alias: "pr",
-        string: true,
-        description: "URL to GitHub pull request",
-        conflicts: ["branch", "package"]
-      },
-      "skip-version-bump": {
-        boolean: true,
-        description: "Determines if version bumping should be skipped"
-      },
-      "request-review": {
-        boolean: true,
-        description: "Determines if review should be automatically requested on matching pull request"
-      },
-      "azure-sdk-for-js-root": {
-        alias: "sdk",
-        string: true,
-        default: azureSDKForJSRepoRoot,
-        description: "Path to the azure-sdk-for-js repository"
-      },
-      "azure-rest-api-specs-root": {
-        alias: "specs",
-        string: true,
-        default: azureRestAPISpecsRoot,
-        description: "Path to the azure-rest-api-specs repository"
-      }
-    }).usage("gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
+    const argv = ArgsConfig.construct(ArgsConfig.Common, ArgsConfig.Repository)
+      .options({
+        "branch": {
+          alias: "b",
+          string: true,
+          description: "Name of the AutoPR branch",
+          implies: "package"
+        },
+        "package": {
+          alias: "p",
+          string: true,
+          description: "Name of the regenerated package"
+        },
+        "pull-request": {
+          alias: "pr",
+          string: true,
+          description: "URL to GitHub pull request",
+          conflicts: ["branch", "package"]
+        },
+        "skip-version-bump": {
+          boolean: true,
+          description: "Determines if version bumping should be skipped"
+        },
+        "request-review": {
+          boolean: true,
+          description: "Determines if review should be automatically requested on matching pull request"
+        }
+      }).usage("gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
     getDataFromPullRequest(argv["pull-request"]).then(data => {
       const branchName = argv.branch || data.branchName;
@@ -275,10 +253,9 @@ gulp.task("regenerate", async () => {
 
       regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], argv["skip-version-bump"], argv["request-review"])
         .then(_ => resolve(),
-          error => reject(error))
-        .catch(error => {
-          reject(error)
-        });
-    })
+          error => reject(error));
+    }).catch(error => {
+      reject(error)
+    });
   });
 });
