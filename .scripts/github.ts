@@ -62,7 +62,7 @@ export async function listPullRequests(repositoryName: string, state?: "open" | 
 
 export async function findPullRequest(repositoryName: string, branchName: string, state?: "open" | "closed" | "all"): Promise<PullRequestsGetAllResponseItem> {
     const allPullRequests = await listPullRequests(repositoryName, state);
-    return allPullRequests.data.find(el => el.head.label === `Azure:${branchName}`);
+    return allPullRequests.data.find(el => el.head.ref === branchName);
 }
 
 export async function requestPullRequestReview(repositoryName: string, prId: number): Promise<Response<PullRequestsCreateReviewRequestResponse>> {
