@@ -1087,7 +1087,6 @@ export const ManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
       },
       type: {
         serializedName: "type",
-        defaultValue: 'VirtualMachineScaleSets',
         type: {
           name: "String"
         }
@@ -1208,7 +1207,6 @@ export const ManagedClusterAADProfile: msRest.CompositeMapper = {
         }
       },
       serverAppSecret: {
-        required: true,
         serializedName: "serverAppSecret",
         type: {
           name: "String"

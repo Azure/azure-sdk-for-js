@@ -976,21 +976,21 @@ export interface ManagedClusterAgentPoolProfile {
    */
   osType?: OSType;
   /**
-   * @member {number} [maxCount] Maximun number of nodes for auto-scaling
+   * @member {number} [maxCount] Maximum number of nodes for auto-scaling
    */
   maxCount?: number;
   /**
-   * @member {number} [minCount] Minimun number of nodes for auto-scaling
+   * @member {number} [minCount] Minimum number of nodes for auto-scaling
    */
   minCount?: number;
   /**
-   * @member {boolean} [enableAutoScaling] Wheter to enable auto-scaler
+   * @member {boolean} [enableAutoScaling] Whether to enable auto-scaler
    */
   enableAutoScaling?: boolean;
   /**
    * @member {AgentPoolType} [type] AgentPoolType represents types of
    * agentpool. Possible values include: 'VirtualMachineScaleSets',
-   * 'AvailabilitySet'. Default value: 'VirtualMachineScaleSets' .
+   * 'AvailabilitySet'
    */
   type?: AgentPoolType;
 }
@@ -1072,9 +1072,9 @@ export interface ManagedClusterAADProfile {
    */
   serverAppID: string;
   /**
-   * @member {string} serverAppSecret The server AAD application secret.
+   * @member {string} [serverAppSecret] The server AAD application secret.
    */
-  serverAppSecret: string;
+  serverAppSecret?: string;
   /**
    * @member {string} [tenantID] The AAD tenant ID to use for authentication.
    * If not specified, will use the tenant of the deployment subscription.
