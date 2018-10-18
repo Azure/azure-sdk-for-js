@@ -45,6 +45,12 @@ export class Branch {
     convertTo(location: BranchLocation): Branch {
         return new Branch(this.name, location, this.remote);
     }
+
+    static fromReference(reference: Reference) {
+        const fullName = reference.name();
+        const parts = fullName.split("/");
+        return new Branch(parts.slice(2).join("/"), reference.isRemote() ? BranchLocation.Remote : BranchLocation.Local);
+    }
 }
 
 const _logger = Logger.get();
@@ -258,12 +264,19 @@ export async function pushBranch(repository: Repository, localBranch: Branch): P
     const refSpec = `refs/heads/${localBranch.name}:refs/heads/${localBranch.name}`;
     _logger.logTrace(`Pushing to ${refSpec}`);
 
-    return remote.push([refSpec], {
-        callbacks: {
-            credentials: function (url, userName) {
-                return Cred.userpassPlaintextNew(getToken(), "x-oauth-basic");
+    return new Promise<number>((resolve, reject) => {
+        remote.push([refSpec], {
+            callbacks: {
+                credentials: function (url, userName) {
+                    return Cred.userpassPlaintextNew(getToken(), "x-oauth-basic");
+                }
             }
-        }
+        }).then(result => {
+            resolve(result);
+        }).catch(error => {
+            _logger.logError(error);
+            reject(error);
+        })
     });
 }
 

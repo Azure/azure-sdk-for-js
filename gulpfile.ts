@@ -175,11 +175,16 @@ gulp.task("find-missing-sdks", async () => {
 gulp.task("generate-readme", async () => {
   try {
     _logger.log(`Passed arguments: ${Argv.print()}`);
-    const argv = Argv.construct(Argv.Options.Package, Argv.Options.Generate)
-      .usage("gulp generate-readme --package @azure/arm-mariadb --type rm")
+    const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
+      .options({
+        "spec-directory": {
+          alias: "dir",
+          description: "Forces generating readme in the specified directory"
+        }
+      }).usage("gulp generate-readme --package @azure/arm-mariadb --type rm")
       .argv;
 
-    await generateTsReadme(argv.package, argv.type, argv["skip-spec"]);
+    await generateTsReadme(argv.package, argv.type, argv.azureRestAPISpecsRoot, argv.dir);
   }
   catch (error) {
     _logger.logError(error);

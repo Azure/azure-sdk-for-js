@@ -98,7 +98,7 @@ export async function commitAndCreatePullRequest(
 
     await commitChanges(repository, commitMessage, validate, validateEach);
     const newBranchRef = await repository.getCurrentBranch();
-    const newBranch = new Branch(newBranchRef.name(), BranchLocation.Local);
+    const newBranch = Branch.fromReference(newBranchRef);
     _logger.logInfo(`Committed changes successfully on ${newBranch.name} branch`);
 
     await pushBranch(repository, newBranch);

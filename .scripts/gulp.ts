@@ -5,7 +5,7 @@
  */
 
 import { SdkType } from "./commandLine";
-import { findAzureRestApiSpecsRepositoryPath, findSdkDirectory, saveContentToFile, findMissingSdks } from "./generateSdks";
+import { findSdkDirectory, saveContentToFile, findMissingSdks } from "./generateSdks";
 import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile, findReadmeTypeScriptMdFilePaths, getPackageNamesFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents, updateMainReadmeFile, getSinglePackageName } from "./readme";
 import * as fs from "fs";
 import * as path from "path";
@@ -82,20 +82,19 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
     }
 }
 
-export async function generateTsReadme(packageName: string, sdkType: SdkType, skipSpecificationGeneration?: boolean): Promise<{ pullRequestUrl?: string, typescriptReadmePath?: string }> {
+export async function generateTsReadme(packageName: string, sdkType: SdkType, azureRestApiSpecsRepositoryPath: string, specDirectory?: string, skipSpecificationGeneration?: boolean): Promise<{ pullRequestUrl?: string, typescriptReadmePath?: string }> {
     if (skipSpecificationGeneration) {
         _logger.log(`Skipping spec generation`);
         return { };
     }
 
-    const azureRestApiSpecsRepositoryPath: string = await findAzureRestApiSpecsRepositoryPath();
     const azureRestApiSpecRepository = await getValidatedRepository(azureRestApiSpecsRepositoryPath);
     _logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
     await refreshRepository(azureRestApiSpecRepository);
     _logger.log(`Refreshed ${azureRestApiSpecsRepositoryPath} repository successfully`);
 
-    const sdkPath: string = await findSdkDirectory(azureRestApiSpecsRepositoryPath, packageName, sdkType);
+    const sdkPath: string = specDirectory || await findSdkDirectory(azureRestApiSpecsRepositoryPath, packageName, sdkType);
     _logger.log(`Found specification in ${sdkPath}`);
 
     await waitAndLockGitRepository(azureRestApiSpecRepository);
@@ -115,7 +114,8 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType, sk
     await saveContentToFile(readmeFilePath, updatedReadmeContent);
     _logger.log(`Content saved successfully to ${readmeFilePath}`);
 
-    const pullRequestTitle = `Add ${packageName}/${sdkType}/readme.typescript.md`;
+    const relativeReadmePath = typescriptReadmePath.replace(`${azureRestApiSpecsRepositoryPath}${path.sep}specification${path.sep}`, "");
+    const pullRequestTitle = `Add ${relativeReadmePath}`
     const pullRequestDescription = "Auto generated";
     const validate: ValidateFunction = statuses => statuses.length == 2;
 
@@ -125,8 +125,8 @@ export async function generateTsReadme(packageName: string, sdkType: SdkType, sk
     return { pullRequestUrl: pullRequestUrl, typescriptReadmePath: typescriptReadmePath };
 }
 
-export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageName: string, sdkType: SdkType, skipSpecGeneration?: boolean, skipSdkGeneration?: boolean): Promise<string> {
-    const readmeGenerationResult = await generateTsReadme(packageName, sdkType, skipSpecGeneration);
+export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageName: string, sdkType: SdkType, azureRestApiSpecsRepositoryPath: string, skipSpecGeneration?: boolean, skipSdkGeneration?: boolean): Promise<string> {
+    const readmeGenerationResult = await generateTsReadme(packageName, sdkType, azureRestApiSpecsRepositoryPath, undefined, skipSpecGeneration);
     if (skipSdkGeneration) {
         _logger.log(`Skipping sdk generation`);
         return "";
@@ -136,9 +136,6 @@ export async function generateMissingSdk(azureSdkForJsRepoPath: string, packageN
         const generatedPackageName = await getSinglePackageName(readmeGenerationResult.typescriptReadmePath);
         packageName = generatedPackageName;
     }
-
-    const azureRestApiSpecsRepositoryPath: string = await findAzureRestApiSpecsRepositoryPath();
-    _logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
     const azureSdkForJsRepository = await getValidatedRepository(azureSdkForJsRepoPath);
     await refreshRepository(azureSdkForJsRepository);
@@ -169,7 +166,7 @@ export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azur
 
     for (const missingSdk of missingSdks) {
         try {
-            await generateMissingSdk(azureSdkForJsRepoPath, missingSdk.sdkName, missingSdk.sdkType, skipSpecGeneration, skipSdkGeneration);
+            await generateMissingSdk(azureSdkForJsRepoPath, missingSdk.sdkName, missingSdk.sdkType, azureRestApiSpecsRepository, skipSpecGeneration, skipSdkGeneration);
         } catch (error) {
             _logger.logError(error);
             continue;
