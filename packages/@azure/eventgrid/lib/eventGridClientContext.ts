@@ -12,7 +12,7 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/eventgrid";
-const packageVersion = "1.1.0";
+const packageVersion = "1.2.0";
 
 export class EventGridClientContext extends msRestAzure.AzureServiceClient {
 
