@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as uuid from "uuid/v4";
 import * as log from "./log";
 import {
   messageProperties, Sender, EventContext, OnAmqpEvent, SenderOptions, Delivery, SenderEvents,
-  message, AmqpError
+  message, AmqpError, generate_uuid
 } from "rhea-promise";
 import {
   defaultLock, Func, retry, translate, AmqpMessage, ErrorNameConditionMapper,
@@ -33,7 +32,7 @@ export class MessageSender extends LinkEntity {
    * lock for establishing a sender link by an entity on that connection.
    * @readonly
    */
-  readonly senderLock: string = `sender-${uuid()}`;
+  readonly senderLock: string = `sender-${generate_uuid()}`;
   /**
    * @property {OnAmqpEvent} _onAmqpError The handler function to handle errors that happen on the
    * underlying sender.

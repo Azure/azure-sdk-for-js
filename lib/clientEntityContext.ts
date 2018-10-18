@@ -109,7 +109,7 @@ export namespace ClientEntityContext {
     let managementSession = getManagementSession(context.clients, entityPath);
     if (!managementSession) {
       const mOptions: ManagementClientOptions = {
-        address: options.managementSessionAddress,
+        address: options.managementSessionAddress || `${entityPath}/$management`,
         audience: options.managementSessionAudience
       };
       managementSession = new ManagementClient(entityContext as ClientEntityContext, mOptions);

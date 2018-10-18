@@ -8,9 +8,10 @@ import { MessageSender } from "./messageSender";
 import { ReceiveOptions, OnError, OnMessage } from ".";
 import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
-import { Message, ServiceBusMessage } from "./message";
+import { Message, ServiceBusMessage, ReceivedSBMessage } from "./message";
 import { Client } from "./client";
 import { ReceiveMode } from "./messageReceiver";
+import * as Long from "long";
 
 /**
  * Describes the options that can be provided while creating the QueueClient.
@@ -130,6 +131,39 @@ export class QueueClient extends Client {
   }
 
   /**
+   * Fetches the next batch of active messages. The first call to `peek()` fetches the first
+   * active message for this client. Each subsequent call fetches the subsequent message in the
+   * entity.
+   *
+   * Unlike a `received` message, `peeked` message will not have lock token associated with it,
+   * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`. Also, unlike
+   * `receive() | receiveBatch()` this method will fetch even Deferred messages
+   * (but not Deadlettered message).
+   *
+   * It is especially important to keep in mind when attempting to recover deferred messages from
+   * the queue. A message for which the `expiresAtUtc` instant has passed is no longer eligible for
+   * regular retrieval by any other means, even when it's being returned by `peek()`. Returning
+   * these messages is deliberate, since `peek()` is a diagnostics tool reflecting the current
+   * state of the log.
+   *
+   * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedSBMessage[]>
+   */
+  async peek(messageCount?: number): Promise<ReceivedSBMessage[]> {
+    return await this._context.managementSession!.peek(messageCount);
+  }
+
+  /**
+   * Peeks the desired number of messages from the specified sequence number.
+   * @param {Long} fromSequenceNumber The sequence number from where to read the message.
+   * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
+   * @returns Promise<ReceivedSBMessage[]>
+   */
+  async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedSBMessage[]> {
+    return await this._context.managementSession!.peekBySequenceNumber(fromSequenceNumber, messageCount);
+  }
+
+  /**
    * Receives a batch of Message objects from a ServiceBus Queue for a given count and a
    * given max wait time in seconds, whichever happens first.
    * @param {number} maxMessageCount        The maximum message count. Must be a value greater than 0.
@@ -164,5 +198,44 @@ export class QueueClient extends Client {
         `then call receiveBatch() again.`;
       throw new Error(msg);
     }
+  }
+
+  /**
+   * Renews the lock on the message. The lock will be renewed based on the setting specified on
+   * the queue.
+   *
+   * When a message is received in `PeekLock` mode, the message is locked on the server for this
+   * receiver instance for a duration as specified during the Queue/Subscription creation
+   * (LockDuration). If processing of the message requires longer than this duration, the
+   * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
+   * LockDuration set on the Entity.
+   *
+   * @param {string | Message} lockTokenOrMessage Lock token of the message or the message itself.
+   * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
+   */
+  async renewLock(lockTokenOrMessage: string | Message): Promise<any> {
+    return await this._context.managementSession!.renewLock(lockTokenOrMessage);
+  }
+
+  /**
+   * Schedules a message to appear on Service Bus at a later time.
+   *
+   * @param {ServiceBusMessage} message message that needs to be scheduled.
+   * @param scheduledEnqueueTimeUtc The UTC time at which the message should be available
+   * for processing.
+   * @returns {Promise<Long>} Promise<Long> The sequence number of the message that was
+   * scheduled.
+   */
+  async scheduleMessage(message: ServiceBusMessage, scheduledEnqueueTimeUtc: Date): Promise<Long> {
+    return await this._context.managementSession!.scheduleMessage(message, scheduledEnqueueTimeUtc);
+  }
+
+  /**
+   * Cancels a message that was scheduled.
+   * @param {Long} sequenceNumber The sequence number of the message to be cancelled.
+   * @returns {Promise<void>} Promise<void>
+   */
+  async cancelScheduleMessage(sequenceNumber: Long): Promise<void> {
+    return await this._context.managementSession!.cancelScheduleMessage(sequenceNumber);
   }
 }

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import * as Long from "long";
 import {
   Delivery, uuid_to_string, AmqpError, MessageAnnotations, DeliveryAnnotations
 } from "rhea-promise";
@@ -359,9 +360,8 @@ export interface ReceivedSBMessage extends ServiceBusMessage {
    * not pre-settled) this property reflects the UTC instant until which the message is held
    * locked in the queue/subscription. When the lock expires, the `deliveryCount` is incremented
    * and the message is again available for retrieval.
-   * @readonly
    */
-  readonly lockedUntilUtc?: Date;
+  lockedUntilUtc?: Date;
   /**
    * @property {number} [enqueuedSequenceNumber] The original sequence number of the message. For
    * messages that have been auto-forwarded, this property reflects the sequence number that had
@@ -375,9 +375,14 @@ export interface ReceivedSBMessage extends ServiceBusMessage {
    * and stored by the broker and functions as its true identifier. For partitioned entities,
    * the topmost 16 bits reflect the partition identifier. Sequence numbers monotonically increase.
    * They roll over to 0 when the 48-64 bit range is exhausted.
+   *
+   * **Max safe integer** that Javascript currently supports is `2^53 - 1`. The sequence number
+   * is an AMQP `Long` type which can be upto 64 bits long. To represent that we are using a
+   * library named {@link https://github.com/dcodeIO/long.js long.js}. We expect customers
+   * to use the **`Long`** type exported by this library.
    * @readonly
    */
-  readonly sequenceNumber?: number;
+  readonly sequenceNumber?: Long;
   /**
    * @property {string} [deadLetterSource] The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
@@ -412,7 +417,7 @@ export interface ReceivedSBMessage extends ServiceBusMessage {
    * @param {Dictionary<any>} propertiesToModify The properties of the message to modify while
    * deferring the message
    */
-  defer(propertiesToModify?: Dictionary<any>): number;
+  defer(propertiesToModify?: Dictionary<any>): Long;
 }
 
 export namespace ReceivedSBMessage {
@@ -455,28 +460,51 @@ export namespace ReceivedSBMessage {
     ReceivedSBMessage.validate(msg);
     const amqpMsg: AmqpMessage = ServiceBusMessage.toAmqpMessage(msg);
     if (msg.deliveryCount) amqpMsg.delivery_count = msg.deliveryCount;
-    if (!amqpMsg.message_annotations) amqpMsg.message_annotations = {};
-    if (msg.deadLetterSource) amqpMsg.message_annotations[Constants.deadLetterSource] = msg.deadLetterSource;
-    if (msg.enqueuedSequenceNumber) amqpMsg.message_annotations[Constants.enqueueSequenceNumber] = msg.enqueuedSequenceNumber;
-    if (msg.sequenceNumber) amqpMsg.message_annotations[Constants.sequenceNumber] = msg.sequenceNumber;
-    if (msg.enqueuedTimeUtc) amqpMsg.message_annotations[Constants.enqueuedTime] = msg.enqueuedTimeUtc;
-    if (msg.lockedUntilUtc) amqpMsg.message_annotations[Constants.lockedUntil] = msg.lockedUntilUtc;
+    if (!amqpMsg.message_annotations) {
+      amqpMsg.message_annotations = {};
+    }
+    if (msg.deadLetterSource) {
+      amqpMsg.message_annotations[Constants.deadLetterSource] = msg.deadLetterSource;
+    }
+    if (msg.enqueuedSequenceNumber) {
+      amqpMsg.message_annotations[Constants.enqueueSequenceNumber] = msg.enqueuedSequenceNumber;
+    }
+    if (msg.sequenceNumber) {
+      amqpMsg.message_annotations[Constants.sequenceNumber] = msg.sequenceNumber;
+    }
+    if (msg.enqueuedTimeUtc) {
+      amqpMsg.message_annotations[Constants.enqueuedTime] = msg.enqueuedTimeUtc;
+    }
+    if (msg.lockedUntilUtc) {
+      amqpMsg.message_annotations[Constants.lockedUntil] = msg.lockedUntilUtc;
+    }
     log.message("ReceivedSBMessage to AmqpMessage: %O", amqpMsg);
     return amqpMsg;
   }
 
-  export function fromAmqpMessage(msg: AmqpMessage, delivery: Delivery): ReceivedSBMessage {
+  export function fromAmqpMessage(msg: AmqpMessage, delivery?: Delivery): ReceivedSBMessage {
     const sbmsg: ServiceBusMessage = ServiceBusMessage.fromAmqpMessage(msg);
     const props: any = {};
     if (msg.message_annotations) {
-      if (msg.message_annotations[Constants.deadLetterSource]) props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
-      if (msg.message_annotations[Constants.enqueueSequenceNumber]) props.enqueuedSequenceNumber = msg.message_annotations[Constants.enqueueSequenceNumber];
-      if (msg.message_annotations[Constants.sequenceNumber]) props.sequenceNumber = msg.message_annotations[Constants.sequenceNumber];
-      if (Buffer.isBuffer(props.sequenceNumber)) {
-        props.sequenceNumber = props.sequenceNumber.readInt32BE();
+      if (msg.message_annotations[Constants.deadLetterSource]) {
+        props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
       }
-      if (msg.message_annotations[Constants.enqueuedTime]) props.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
-      if (msg.message_annotations[Constants.lockedUntil]) props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
+      if (msg.message_annotations[Constants.enqueueSequenceNumber]) {
+        props.enqueuedSequenceNumber = msg.message_annotations[Constants.enqueueSequenceNumber];
+      }
+      if (msg.message_annotations[Constants.sequenceNumber]) {
+        if (Buffer.isBuffer(props.sequenceNumber)) {
+          props.sequenceNumber = Long.fromBytesBE(msg.message_annotations[Constants.sequenceNumber]);
+        } else {
+          props.sequenceNumber = Long.fromNumber(msg.message_annotations[Constants.sequenceNumber]);
+        }
+      }
+      if (msg.message_annotations[Constants.enqueuedTime]) {
+        props.enqueuedTimeUtc = new Date(msg.message_annotations[Constants.enqueuedTime] as number);
+      }
+      if (msg.message_annotations[Constants.lockedUntil]) {
+        props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
+      }
     }
     if (msg.ttl && msg.ttl >= (Constants.maxDurationValue) - props.enqueuedTimeUtc.getTime()) {
       props.expiresAtUtc = new Date(Constants.maxDurationValue);
@@ -487,7 +515,11 @@ export namespace ReceivedSBMessage {
       _amqpMessage: msg,
       _delivery: delivery,
       deliveryCount: msg.delivery_count,
-      lockToken: uuid_to_string(typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag),
+      lockToken: delivery
+        ? uuid_to_string(typeof delivery.tag === "string"
+          ? Buffer.from(delivery.tag)
+          : delivery.tag)
+        : undefined,
       ...sbmsg,
       ...props
     };
@@ -643,9 +675,8 @@ export class Message implements ReceivedSBMessage {
    * not pre-settled) this property reflects the UTC instant until which the message is held
    * locked in the queue/subscription. When the lock expires, the `deliveryCount` is incremented
    * and the message is again available for retrieval.
-   * @readonly
    */
-  readonly lockedUntilUtc?: Date;
+  lockedUntilUtc?: Date;
   /**
    * @property {number} [enqueuedSequenceNumber] The original sequence number of the message. For
    * messages that have been auto-forwarded, this property reflects the sequence number that had
@@ -661,7 +692,7 @@ export class Message implements ReceivedSBMessage {
    * They roll over to 0 when the 48-64 bit range is exhausted.
    * @readonly
    */
-  readonly sequenceNumber?: number;
+  readonly sequenceNumber?: Long;
   /**
    * @property {string} [deadLetterSource] The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
@@ -714,7 +745,7 @@ export class Message implements ReceivedSBMessage {
    * deferring the message
    * @returns {number} sequenceNumber of the message that was deferred.
    */
-  defer(propertiesToModify?: Dictionary<any>): number {
+  defer(propertiesToModify?: Dictionary<any>): Long {
     this._delivery.modified({ message_annotations: propertiesToModify, undeliverable_here: true });
     return this.sequenceNumber!;
   }
