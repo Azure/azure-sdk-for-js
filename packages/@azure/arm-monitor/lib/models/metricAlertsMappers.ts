@@ -52,6 +52,7 @@ export {
   VoiceReceiver,
   LogicAppReceiver,
   AzureFunctionReceiver,
+  ArmRoleReceiver,
   ActivityLogAlertResource,
   ActivityLogAlertAllOfCondition,
   ActivityLogAlertLeafCondition,
