@@ -4,8 +4,7 @@
  * license information.
  */
 
-import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile, Reset, Index, Rebase, AnnotatedCommit } from "nodegit";
-import { getCommandLineOptions } from "./commandLine";
+import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile, Reset, Index } from "nodegit";
 import { Logger } from "./logger";
 
 export type ValidateFunction = (statuses: StatusFile[]) => boolean;
@@ -48,7 +47,6 @@ export class Branch {
     }
 }
 
-const _args = getCommandLineOptions();
 const _logger = Logger.get();
 const _lockMap = {}
 
@@ -275,7 +273,7 @@ export async function commitAndPush(repository: Repository, localBranch: Branch,
 }
 
 export function getToken(): string {
-    const token = _args.token || process.env.SDK_GEN_GITHUB_TOKEN;
+    const token = process.env.SDK_GEN_GITHUB_TOKEN;
     _validatePersonalAccessToken(token);
 
     return token;

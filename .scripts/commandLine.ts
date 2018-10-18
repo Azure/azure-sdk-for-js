@@ -6,46 +6,72 @@
 
 import * as minimist from "minimist";
 import * as path from "path";
-import { arrayContains } from "./common";
+import { arrayContains, findAzureRestApiSpecsRepositoryPathSync } from "./common";
 import { Options } from "yargs";
-import yargs = require("yargs");
+import * as yargs from "yargs";
 
 export type YargsMapping = { [key: string]: Options };
 
 export enum SdkType {
     ResourceManager = "resource-manager",
     DataPlane = "data-plane",
-    ControlPlane = "control-plane"
+    ControlPlane = "control-plane",
+    Unknown = "unknown"
 }
 
 export module Argv {
     export const Options: { [key: string]: YargsMapping } = {
         Common: {
             "logging-level": {
-                alias: ["l", "loggingLevel"],
+                alias: "l",
                 default: "info",
                 choices: ["all", "trace", "debug", "info", "warn", "error"],
-                global: true
+                global: true,
+                description: "Defines how detailed logging statements are"
+            }
+        },
+        Generate: {
+            "skip-spec": {
+                boolean: true,
+                description: "Whether to skip generating readme.typescript.md file"
+            },
+            "skip-sdk": {
+                boolean: true,
+                description: "Whether to skip SDK generation"
+            }
+        },
+        Package: {
+            "package": {
+                alias: ["p", "package-name"],
+                string: true,
+                description: "Name of the manipulated package e.g. @azure/arm-servicebus"
+            },
+            "type": {
+                alias: "sdk-type",
+                string: true,
+                coerce: parseSdkType,
+                choices: ["rm", "data", "control"],
+                description: "Type of SDK to manipulate."
             }
         },
         Repository: {
             "azure-sdk-for-js-root": {
-                alias: "sdk",
+                alias: ["sdk", "azureSDKForJSRepoRoot"],
                 string: true,
-                default: __dirname,
+                default: path.resolve(__dirname, ".."),
                 description: "Path to the azure-sdk-for-js repository"
             },
             "azure-rest-api-specs-root": {
-                alias: "specs",
+                alias: ["specs", "azureRestAPISpecsRoot"],
                 string: true,
-                default: path.resolve(__dirname, '..', 'azure-rest-api-specs'),
+                default: findAzureRestApiSpecsRepositoryPathSync(),
                 description: "Path to the azure-rest-api-specs repository"
             }
         }
     }
 
     export const Global = {
-        loggingLevel: (): string => yargs.options(Argv.Options.Common).argv.loggingLevel,
+        loggingLevel: yargs.options(Argv.Options.Common).argv["logging-level"],
     }
 
     const combine = (...configs: YargsMapping[]): YargsMapping => {
@@ -59,9 +85,20 @@ export module Argv {
     export const construct = (...configs: YargsMapping[]) => {
         const mergedOption = combine(...configs);
         const args = yargs.options(mergedOption)
+            .strict()
             .help("?")
-            .showHelpOnFail(true, "Invalid usage. Run with -? to see help.");
+            .showHelpOnFail(true, "Invalid usage. Run with -? to see help.")
+            .wrap(Math.min(yargs.terminalWidth(), 150));
+
+        (args as any).toPrettyString = function (): string {
+            return JSON.stringify(this, undefined, "  ");
+        }
+
         return args;
+    }
+
+    export const print = () => {
+        return process.argv.slice(2).join(", ");
     }
 }
 
@@ -111,16 +148,23 @@ function createCommandLineParameters() {
     return args;
 }
 
-export function getSdkType() {
+export function parseSdkType(str: string) {
     const resourceManagerStrings = ["arm", "rm", "resourcemanager"]
     const dataPlaneStrings = ["dp", "data", "dataplane"]
+    const controlPlaneStrings = ["control"]
 
-    const type = this.type.toLowerCase().replace("-", "");
+    const type = str.toLowerCase().replace("-", "");
     if (arrayContains(resourceManagerStrings, type)) {
         return SdkType.ResourceManager;
     } else if (arrayContains(dataPlaneStrings, type)) {
         return SdkType.DataPlane;
+    } else if (arrayContains(controlPlaneStrings, type)) {
+        return SdkType.ControlPlane;
     } else {
-        throw new Error("Unknown SDK type");
+        return SdkType.Unknown;
     }
+}
+
+function getSdkType() {
+    return parseSdkType(this.type);
 }

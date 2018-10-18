@@ -105,6 +105,6 @@ export class Logger {
     }
 
     static get() {
-        return new Logger(Argv.Global.loggingLevel());
+        return new Logger(Argv.Global.loggingLevel);
     }
 }

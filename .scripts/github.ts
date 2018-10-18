@@ -9,10 +9,9 @@ import { PullRequestsCreateParams, Response, PullRequestsCreateReviewRequestPara
 import { getToken, createNewUniqueBranch, commitChanges, pushBranch,ValidateFunction, ValidateEachFunction, Branch, BranchLocation } from './git';
 import { Logger } from './logger';
 import { Repository } from 'nodegit';
-import { Argv } from './commandLine';
 
 const _repositoryOwner = "Azure";
-const _logger = new Logger(Argv.Global.loggingLevel());
+const _logger = Logger.get();
 
 function getAuthenticatedClient(): Octokit {
     const octokit = new Octokit();
