@@ -112,3 +112,63 @@ export async function commitAndCreatePullRequest(
 
     return reviewResponse.data.html_url;
 }
+
+export async function getDataFromPullRequest(pullRequestUrl: string): Promise<{ packageName: string, branchName: string }> {
+    const octokit = getAuthenticatedClient();
+    const params = parsePullRequestUrl(pullRequestUrl);
+    const pullRequest = await octokit.pullRequests.get(params);
+    const branchName = pullRequest.data.head.ref;
+    const files = await octokit.pullRequests.getFiles(params);
+    const path = getRootFolder(files.data.map(i => i.filename));
+    const packageName = getPackageNameFromPath(path);
+
+    _logger.logTrace(`Found "${packageName}" package name and ${branchName} branch name`)
+    return { packageName: packageName, branchName: branchName };
+}
+
+function parsePullRequestUrl(pullRequestUrl: string): PullRequestsGetParams {
+    const parts = pullRequestUrl.split("/");
+    const hostIndex = parts.indexOf("github.com")
+    const owner = parts[hostIndex + 1];
+    const repositoryName = parts[hostIndex + 2];
+    const resourceIndex = parts.indexOf("pull");
+    const id = Number.parseInt(parts[resourceIndex + 1]);
+
+    return {
+        number: id,
+        owner: owner,
+        repo: repositoryName
+    };
+}
+
+function getPackageNameFromPath(rootFolder: string): string | undefined {
+    if (!rootFolder || !rootFolder.startsWith("packages/")) {
+        _logger.logDebug(`Can't get package name from '${rootFolder}' path`);
+        return undefined;
+    }
+
+    return rootFolder.slice("packages/".length);
+}
+
+function getRootFolder(changedFiles: string[]) {
+    const pathsParts = changedFiles.map(changedFile => changedFile.split("/"));
+    const commonParts = [];
+
+    const partCount = Math.max(...pathsParts.map(arr => arr.length));
+
+    for (let partIndex = 0; partIndex < partCount; partIndex++) {
+        const part = pathsParts[0][partIndex];
+        const partArray = pathsParts.map(p => p[partIndex]);
+
+        if (partArray.every(p => p === part)) {
+            commonParts.push(part);
+            continue;
+        }
+
+        break;
+    }
+
+    const commonPath = commonParts.join("/");
+    _logger.logTrace(`Found "${commonPath}" common path for files in the pull request`)
+    return commonPath;
+}

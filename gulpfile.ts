@@ -15,6 +15,7 @@ import * as gulp from "gulp";
 import * as path from "path";
 import * as yargs from "yargs";
 import { execSync } from "child_process";
+import { getDataFromPullRequest } from "./.scripts/github";
 
 const _logger = getLogger();
 const args = getCommandLineOptions();
@@ -232,14 +233,19 @@ gulp.task("regenerate", async () => {
       "branch": {
         alias: "b",
         string: true,
-        required: true,
-        description: "Name of the AutoPR branch"
+        description: "Name of the AutoPR branch",
+        implies: "package"
       },
       "package": {
         alias: "p",
         string: true,
-        required: true,
         description: "Name of the regenerated package"
+      },
+      "pull-request": {
+        alias: "pr",
+        string: true,
+        description: "URL to GitHub pull request",
+        conflicts: ["branch", "package"]
       },
       "skip-version-bump": {
         boolean: true,
@@ -263,11 +269,16 @@ gulp.task("regenerate", async () => {
       }
     }).usage("gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
-    regenerate(argv.branch, argv.package, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], argv["skip-version-bump"], argv["request-review"])
-      .then(_ => resolve(),
-        error => reject(error))
-      .catch(error => {
-        reject(error)
-      });
+    getDataFromPullRequest(argv["pull-request"]).then(data => {
+      const branchName = argv.branch || data.branchName;
+      const packageName = argv.package || data.packageName;
+
+      regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], argv["skip-version-bump"], argv["request-review"])
+        .then(_ => resolve(),
+          error => reject(error))
+        .catch(error => {
+          reject(error)
+        });
+    })
   });
 });
