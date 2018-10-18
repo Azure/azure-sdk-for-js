@@ -1,4 +1,4 @@
-# An isomorphic javascript sdk for - AutoSuggestAPIClient
+# An isomorphic javascript sdk for - AutoSuggestClient
 This project provides an isomorphic javascript package. Right now it supports:
 - node.js version 6.x.x or higher
 - browser javascript
@@ -20,12 +20,12 @@ npm install @azure/cognitiveservices-autosuggest
 
 ```ts
 import * as msRest from "ms-rest-js";
-import { AutoSuggestAPIClient, AutoSuggestAPIModels, AutoSuggestAPIMappers } from "@azure/cognitiveservices-autosuggest";
+import { AutoSuggestClient, AutoSuggestModels, AutoSuggestMappers } from "@azure/cognitiveservices-autosuggest";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 const token = "<access_token>";
 const creds = new msRest.TokenCredentials(token);
-const client = new AutoSuggestAPIClient(creds, subscriptionId);
+const client = new AutoSuggestClient(creds, subscriptionId);
 const query = "testquery";
 const acceptLanguage = "testacceptLanguage";
 const pragma = "testpragma";
@@ -60,7 +60,7 @@ client.autoSuggest(query, acceptLanguage, pragma, userAgent, clientId, clientIp,
       const subscriptionId = "<Subscription_Id>";
       const token = "<access_token>";
       const creds = new msRest.TokenCredentials(token);
-      const client = new Azure.CognitiveservicesAutosuggest.AutoSuggestAPIClient(creds, subscriptionId);
+      const client = new Azure.CognitiveservicesAutosuggest.AutoSuggestClient(creds, subscriptionId);
       const query = "testquery";
       const acceptLanguage = "testacceptLanguage";
       const pragma = "testpragma";

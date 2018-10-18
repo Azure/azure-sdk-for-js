@@ -1042,10 +1042,10 @@ export interface ErrorResponse {
 
 /**
  * @interface
- * An interface representing AutoSuggestAPIClientOptions.
+ * An interface representing AutoSuggestClientOptions.
  * @extends ServiceClientOptions
  */
-export interface AutoSuggestAPIClientOptions extends ServiceClientOptions {
+export interface AutoSuggestClientOptions extends ServiceClientOptions {
   /**
    * @member {string} [baseUri]
    */
@@ -1054,12 +1054,12 @@ export interface AutoSuggestAPIClientOptions extends ServiceClientOptions {
 
 /**
  * @interface
- * An interface representing AutoSuggestAPIClientAutoSuggestOptionalParams.
+ * An interface representing AutoSuggestClientAutoSuggestOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface AutoSuggestAPIClientAutoSuggestOptionalParams extends msRest.RequestOptionsBase {
+export interface AutoSuggestClientAutoSuggestOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {string} [acceptLanguage] A comma-delimited list of one or more
    * languages to use for user interface strings. The list is in decreasing
