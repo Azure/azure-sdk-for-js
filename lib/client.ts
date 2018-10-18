@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import * as uuid from "uuid/v4";
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
-import { AmqpError } from "rhea-promise";
+import { AmqpError, generate_uuid } from "rhea-promise";
 
 /**
  * Describes the base class for a client.
@@ -38,7 +37,7 @@ export abstract class Client {
    */
   constructor(name: string, context: ConnectionContext) {
     this.name = name;
-    this.id = `${name}/${uuid()}`;
+    this.id = `${name}/${generate_uuid()}`;
     this._context = ClientEntityContext.create(name, context);
   }
 
