@@ -7,19 +7,17 @@
 import * as minimist from "minimist";
 import * as path from "path";
 import { arrayContains } from "./common";
-import { LoggingLevel } from "./logger";
 import { Options } from "yargs";
 import yargs = require("yargs");
 
 export type YargsMapping = { [key: string]: Options };
 
-export const ArgsConfig = {
+export const ArgsOptions = {
     Common: {
         "logging-level": {
             alias: ["l", "loggingLevel"],
             default: "info",
             choices: ["all", "trace", "debug", "info", "warn", "error"],
-            coerce: (str) => LoggingLevel[str],
         }
     },
     Repository: {
@@ -35,21 +33,28 @@ export const ArgsConfig = {
             default: path.resolve(__dirname, '..', 'azure-rest-api-specs'),
             description: "Path to the azure-rest-api-specs repository"
         }
-    },
-    combine: (...configs: YargsMapping[]): YargsMapping => {
-        let result = {};
+    }
+}
+
+export const ArgsConfig = {
+    _global: yargs.options(ArgsOptions.Common).argv,
+    loggingLevel: (): string => ArgsConfig._global.LoggingLevel,
+    _combine: (...configs: YargsMapping[]): YargsMapping => {
+        let result = ArgsOptions.Common;
         for (const config of configs) {
             result = { ...result, ...config };
         }
         return result;
     },
     construct: (...configs: YargsMapping[]) => {
-        const mergedOption = ArgsConfig.combine(...configs);
-        return yargs.options(mergedOption)
+        const mergedOption = ArgsConfig._combine(...configs);
+        const args = yargs.options(mergedOption)
             .help("?")
             .showHelpOnFail(true, "Invalid usage. Run with -? to see help.");
+        return args;
     }
 }
+
 export interface CommandLineOptions extends minimist.ParsedArgs {
     "azure-sdk-for-js-repo-root": string;
     "azure-rest-api-specs-root": string;

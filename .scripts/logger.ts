@@ -5,7 +5,7 @@
  */
 
 import * as colors from "colors";
-import { CommandLineOptions, getCommandLineOptions } from "./commandLine";
+import { ArgsConfig } from "./commandLine";
 
 export enum LoggingLevel {
     All = 0,
@@ -36,8 +36,8 @@ export class Logger {
     private _cache: string[];
     _loggingLevel: LoggingLevel;
 
-    constructor(options: CommandLineOptions) {
-        const lowerCaseLevel = options["logging-level"].toLowerCase();
+    constructor(loggingLevel: string) {
+        const lowerCaseLevel = loggingLevel.toLowerCase();
         const capitalizedLevel = lowerCaseLevel.charAt(0).toUpperCase() + lowerCaseLevel.slice(1);
         this._loggingLevel = LoggingLevel[capitalizedLevel];
         this._cache = [];
@@ -106,5 +106,5 @@ export class Logger {
 }
 
 export function getLogger() {
-    return new Logger(getCommandLineOptions());
+    return new Logger(ArgsConfig.loggingLevel());
 }
