@@ -4,7 +4,7 @@
  * license information.
  */
 
-import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile, Reset, Index } from "nodegit";
+import { Repository, Signature, Merge, Oid, Reference, Cred, StatusFile, Reset, Index, Rebase, AnnotatedCommit } from "nodegit";
 import { getLogger } from "./logger";
 import { getCommandLineOptions } from "./commandLine";
 
@@ -192,6 +192,15 @@ export async function checkoutRemoteBranch(repository: Repository, remoteBranch:
     }
 
     return branchRef;
+}
+
+export async function rebaseBranch(repository: Repository, localBranch: Branch) {
+    return repository.rebaseBranches(
+        localBranch.name,
+        Branch.RemoteMaster.shorthand(),
+        undefined,
+        repository.defaultSignature(),
+        _ => {});
 }
 
 function getCurrentDateSuffix(): string {
