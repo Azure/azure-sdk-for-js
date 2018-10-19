@@ -56,9 +56,17 @@ export function npmInstall(packageFolderPath: string): void {
     execute("npm install", packageFolderPath);
 }
 
-export async function getChildDirectories(path: string): Promise<string[]> {
-    const children = await fs.readdir(path);
-    return children.filter(dir => isDirectory(dir));
+export async function getChildDirectories(parent: string): Promise<string[]> {
+    const allChildren = await fs.readdir(parent);
+    const childDirectories = [];
+
+    for (const child of allChildren) {
+        if (await isDirectory(path.resolve(parent, child))) {
+            childDirectories.push(child);
+        }
+    }
+
+    return childDirectories;
 }
 
 export function findAzureRestApiSpecsRepositoryPathSync(): string {

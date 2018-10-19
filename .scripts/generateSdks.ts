@@ -50,7 +50,7 @@ export async function findMissingSdks(azureRestApiSpecsRepository: string): Prom
             continue;
         }
 
-        const sdkTypeDirectories = await findDirectoriesRecursively(fullServicePath);
+        const sdkTypeDirectories = await findChildDirectoriesRecursively(fullServicePath);
         _logger.logTrace(`Found ${sdkTypeDirectories.length} specification type folders: [${sdkTypeDirectories}]`);
 
         for (const sdkTypeDirectory of sdkTypeDirectories) {
@@ -64,22 +64,18 @@ export async function findMissingSdks(azureRestApiSpecsRepository: string): Prom
     return missingSdks;
 }
 
-async function findDirectoriesRecursively(directoryPath: string): Promise<string[]> {
-    const foo = async (dirPath: string, paths: string[]) => {
+async function findChildDirectoriesRecursively(directoryPath: string): Promise<string[]> {
+    const _findChildDirectoriesRecursively = async (dirPath: string, paths: string[]) => {
         const children = await getChildDirectories(dirPath);
         for (const child of children) {
             const fullPath = path.resolve(dirPath, child);
-            if (!(await isDirectory(fullPath))) {
-                return;
-            }
-
             paths.push(fullPath);
-            foo(fullPath, paths);
+            _findChildDirectoriesRecursively(fullPath, paths);
         }
     }
 
     const allDirectories = [];
-    await foo(directoryPath, allDirectories);
+    await _findChildDirectoriesRecursively(directoryPath, allDirectories);
     return allDirectories;
 }
 
