@@ -575,6 +575,22 @@
         GoogleBigQueryAuthenticationType["UserAuthentication"] = "UserAuthentication";
     })(GoogleBigQueryAuthenticationType || (GoogleBigQueryAuthenticationType = {}));
     /**
+     * Defines values for GoogleAdWordsAuthenticationType.
+     * Possible values include: 'ServiceAuthentication', 'UserAuthentication'
+     * There could be more values for this enum apart from the ones defined here.If
+     * you want to set a value that is not from the known values then you can do
+     * the following:
+     * let param: GoogleAdWordsAuthenticationType =
+     * <GoogleAdWordsAuthenticationType>"someUnknownValueThatWillStillBeValid";
+     * @readonly
+     * @enum {string}
+     */
+    var GoogleAdWordsAuthenticationType;
+    (function (GoogleAdWordsAuthenticationType) {
+        GoogleAdWordsAuthenticationType["ServiceAuthentication"] = "ServiceAuthentication";
+        GoogleAdWordsAuthenticationType["UserAuthentication"] = "UserAuthentication";
+    })(GoogleAdWordsAuthenticationType || (GoogleAdWordsAuthenticationType = {}));
+    /**
      * Defines values for SapHanaAuthenticationType.
      * Possible values include: 'Basic', 'Windows'
      * There could be more values for this enum apart from the ones defined here.If
@@ -623,6 +639,25 @@
         FtpAuthenticationType["Anonymous"] = "Anonymous";
     })(FtpAuthenticationType || (FtpAuthenticationType = {}));
     /**
+     * Defines values for RestServiceAuthenticationType.
+     * Possible values include: 'Anonymous', 'Basic', 'AadServicePrincial',
+     * 'ManagedServiceIdentity'
+     * There could be more values for this enum apart from the ones defined here.If
+     * you want to set a value that is not from the known values then you can do
+     * the following:
+     * let param: RestServiceAuthenticationType =
+     * <RestServiceAuthenticationType>"someUnknownValueThatWillStillBeValid";
+     * @readonly
+     * @enum {string}
+     */
+    var RestServiceAuthenticationType;
+    (function (RestServiceAuthenticationType) {
+        RestServiceAuthenticationType["Anonymous"] = "Anonymous";
+        RestServiceAuthenticationType["Basic"] = "Basic";
+        RestServiceAuthenticationType["AadServicePrincial"] = "AadServicePrincial";
+        RestServiceAuthenticationType["ManagedServiceIdentity"] = "ManagedServiceIdentity";
+    })(RestServiceAuthenticationType || (RestServiceAuthenticationType = {}));
+    /**
      * Defines values for HttpAuthenticationType.
      * Possible values include: 'Basic', 'Anonymous', 'Digest', 'Windows',
      * 'ClientCertificate'
@@ -660,7 +695,8 @@
     })(MongoDbAuthenticationType || (MongoDbAuthenticationType = {}));
     /**
      * Defines values for ODataAuthenticationType.
-     * Possible values include: 'Basic', 'Anonymous'
+     * Possible values include: 'Anonymous', 'Basic', 'Windows',
+     * 'AadServicePrincipal', 'ManagedServiceIdentity'
      * There could be more values for this enum apart from the ones defined here.If
      * you want to set a value that is not from the known values then you can do
      * the following:
@@ -671,9 +707,28 @@
      */
     var ODataAuthenticationType;
     (function (ODataAuthenticationType) {
-        ODataAuthenticationType["Basic"] = "Basic";
         ODataAuthenticationType["Anonymous"] = "Anonymous";
+        ODataAuthenticationType["Basic"] = "Basic";
+        ODataAuthenticationType["Windows"] = "Windows";
+        ODataAuthenticationType["AadServicePrincipal"] = "AadServicePrincipal";
+        ODataAuthenticationType["ManagedServiceIdentity"] = "ManagedServiceIdentity";
     })(ODataAuthenticationType || (ODataAuthenticationType = {}));
+    /**
+     * Defines values for ODataAadServicePrincipalCredentialType.
+     * Possible values include: 'ServicePrincipalKey', 'ServicePrincipalCert'
+     * There could be more values for this enum apart from the ones defined here.If
+     * you want to set a value that is not from the known values then you can do
+     * the following:
+     * let param: ODataAadServicePrincipalCredentialType =
+     * <ODataAadServicePrincipalCredentialType>"someUnknownValueThatWillStillBeValid";
+     * @readonly
+     * @enum {string}
+     */
+    var ODataAadServicePrincipalCredentialType;
+    (function (ODataAadServicePrincipalCredentialType) {
+        ODataAadServicePrincipalCredentialType["ServicePrincipalKey"] = "ServicePrincipalKey";
+        ODataAadServicePrincipalCredentialType["ServicePrincipalCert"] = "ServicePrincipalCert";
+    })(ODataAadServicePrincipalCredentialType || (ODataAadServicePrincipalCredentialType = {}));
     /**
      * Defines values for TeradataAuthenticationType.
      * Possible values include: 'Basic', 'Windows'
@@ -1134,12 +1189,15 @@
         get HiveAuthenticationType () { return HiveAuthenticationType; },
         get HBaseAuthenticationType () { return HBaseAuthenticationType; },
         get GoogleBigQueryAuthenticationType () { return GoogleBigQueryAuthenticationType; },
+        get GoogleAdWordsAuthenticationType () { return GoogleAdWordsAuthenticationType; },
         get SapHanaAuthenticationType () { return SapHanaAuthenticationType; },
         get SftpAuthenticationType () { return SftpAuthenticationType; },
         get FtpAuthenticationType () { return FtpAuthenticationType; },
+        get RestServiceAuthenticationType () { return RestServiceAuthenticationType; },
         get HttpAuthenticationType () { return HttpAuthenticationType; },
         get MongoDbAuthenticationType () { return MongoDbAuthenticationType; },
         get ODataAuthenticationType () { return ODataAuthenticationType; },
+        get ODataAadServicePrincipalCredentialType () { return ODataAadServicePrincipalCredentialType; },
         get TeradataAuthenticationType () { return TeradataAuthenticationType; },
         get Db2AuthenticationType () { return Db2AuthenticationType; },
         get SybaseAuthenticationType () { return SybaseAuthenticationType; },
@@ -8133,6 +8191,201 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
+    var GoogleAdWordsLinkedServiceTypeProperties = {
+        serializedName: "GoogleAdWordsLinkedServiceTypeProperties",
+        type: {
+            name: "Composite",
+            className: "GoogleAdWordsLinkedServiceTypeProperties",
+            modelProperties: {
+                clientCustomerID: {
+                    required: true,
+                    serializedName: "clientCustomerID",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                developerToken: {
+                    required: true,
+                    serializedName: "developerToken",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                },
+                authenticationType: {
+                    required: true,
+                    serializedName: "authenticationType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                refreshToken: {
+                    serializedName: "refreshToken",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                },
+                clientId: {
+                    serializedName: "clientId",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                },
+                clientSecret: {
+                    serializedName: "clientSecret",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                },
+                email: {
+                    serializedName: "email",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                keyFilePath: {
+                    serializedName: "keyFilePath",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                trustedCertPath: {
+                    serializedName: "trustedCertPath",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                useSystemTrustStore: {
+                    serializedName: "useSystemTrustStore",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                encryptedCredential: {
+                    serializedName: "encryptedCredential",
+                    type: {
+                        name: "Object"
+                    }
+                }
+            }
+        }
+    };
+    var GoogleAdWordsLinkedService = {
+        serializedName: "GoogleAdWords",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+            uberParent: "LinkedService",
+            className: "GoogleAdWordsLinkedService",
+            modelProperties: __assign({}, LinkedService.type.modelProperties, { clientCustomerID: {
+                    required: true,
+                    serializedName: "typeProperties.clientCustomerID",
+                    type: {
+                        name: "Object"
+                    }
+                }, developerToken: {
+                    required: true,
+                    serializedName: "typeProperties.developerToken",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                }, authenticationType: {
+                    required: true,
+                    serializedName: "typeProperties.authenticationType",
+                    type: {
+                        name: "String"
+                    }
+                }, refreshToken: {
+                    serializedName: "typeProperties.refreshToken",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                }, clientId: {
+                    serializedName: "typeProperties.clientId",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                }, clientSecret: {
+                    serializedName: "typeProperties.clientSecret",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                }, email: {
+                    serializedName: "typeProperties.email",
+                    type: {
+                        name: "Object"
+                    }
+                }, keyFilePath: {
+                    serializedName: "typeProperties.keyFilePath",
+                    type: {
+                        name: "Object"
+                    }
+                }, trustedCertPath: {
+                    serializedName: "typeProperties.trustedCertPath",
+                    type: {
+                        name: "Object"
+                    }
+                }, useSystemTrustStore: {
+                    serializedName: "typeProperties.useSystemTrustStore",
+                    type: {
+                        name: "Object"
+                    }
+                }, encryptedCredential: {
+                    serializedName: "typeProperties.encryptedCredential",
+                    type: {
+                        name: "Object"
+                    }
+                } }),
+            additionalProperties: LinkedService.type.additionalProperties
+        }
+    };
     var EloquaLinkedServiceTypeProperties = {
         serializedName: "EloquaLinkedServiceTypeProperties",
         type: {
@@ -9134,6 +9387,164 @@
                     }
                 }, enableServerCertificateValidation: {
                     serializedName: "typeProperties.enableServerCertificateValidation",
+                    type: {
+                        name: "Object"
+                    }
+                } }),
+            additionalProperties: LinkedService.type.additionalProperties
+        }
+    };
+    var RestServiceLinkedServiceTypeProperties = {
+        serializedName: "RestServiceLinkedServiceTypeProperties",
+        type: {
+            name: "Composite",
+            className: "RestServiceLinkedServiceTypeProperties",
+            modelProperties: {
+                url: {
+                    required: true,
+                    serializedName: "url",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                enableServerCertificateValidation: {
+                    serializedName: "enableServerCertificateValidation",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                authenticationType: {
+                    required: true,
+                    serializedName: "authenticationType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                userName: {
+                    serializedName: "userName",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                password: {
+                    serializedName: "password",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                },
+                servicePrincipalId: {
+                    serializedName: "servicePrincipalId",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                servicePrincipalKey: {
+                    serializedName: "servicePrincipalKey",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                },
+                tenant: {
+                    serializedName: "tenant",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                aadResourceId: {
+                    serializedName: "aadResourceId",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                encryptedCredential: {
+                    serializedName: "encryptedCredential",
+                    type: {
+                        name: "Object"
+                    }
+                }
+            }
+        }
+    };
+    var RestServiceLinkedService = {
+        serializedName: "RestService",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+            uberParent: "LinkedService",
+            className: "RestServiceLinkedService",
+            modelProperties: __assign({}, LinkedService.type.modelProperties, { url: {
+                    required: true,
+                    serializedName: "typeProperties.url",
+                    type: {
+                        name: "Object"
+                    }
+                }, enableServerCertificateValidation: {
+                    serializedName: "typeProperties.enableServerCertificateValidation",
+                    type: {
+                        name: "Object"
+                    }
+                }, authenticationType: {
+                    required: true,
+                    serializedName: "typeProperties.authenticationType",
+                    type: {
+                        name: "String"
+                    }
+                }, userName: {
+                    serializedName: "typeProperties.userName",
+                    type: {
+                        name: "Object"
+                    }
+                }, password: {
+                    serializedName: "typeProperties.password",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                }, servicePrincipalId: {
+                    serializedName: "typeProperties.servicePrincipalId",
+                    type: {
+                        name: "Object"
+                    }
+                }, servicePrincipalKey: {
+                    serializedName: "typeProperties.servicePrincipalKey",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                }, tenant: {
+                    serializedName: "typeProperties.tenant",
+                    type: {
+                        name: "Object"
+                    }
+                }, aadResourceId: {
+                    serializedName: "typeProperties.aadResourceId",
+                    type: {
+                        name: "Object"
+                    }
+                }, encryptedCredential: {
+                    serializedName: "typeProperties.encryptedCredential",
                     type: {
                         name: "Object"
                     }
@@ -10274,6 +10685,7 @@
                     }
                 },
                 authenticationType: {
+                    required: true,
                     serializedName: "authenticationType",
                     type: {
                         name: "String"
@@ -10287,6 +10699,66 @@
                 },
                 password: {
                     serializedName: "password",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                },
+                tenant: {
+                    serializedName: "tenant",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                servicePrincipalId: {
+                    serializedName: "servicePrincipalId",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                aadResourceId: {
+                    serializedName: "aadResourceId",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                aadServicePrincipalCredentialType: {
+                    serializedName: "aadServicePrincipalCredentialType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                servicePrincipalKey: {
+                    serializedName: "servicePrincipalKey",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                },
+                servicePrincipalEmbeddedCert: {
+                    serializedName: "servicePrincipalEmbeddedCert",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                },
+                servicePrincipalEmbeddedCertPassword: {
+                    serializedName: "servicePrincipalEmbeddedCertPassword",
                     type: {
                         name: "Composite",
                         polymorphicDiscriminator: {
@@ -10320,6 +10792,7 @@
                         name: "Object"
                     }
                 }, authenticationType: {
+                    required: true,
                     serializedName: "typeProperties.authenticationType",
                     type: {
                         name: "String"
@@ -10331,6 +10804,59 @@
                     }
                 }, password: {
                     serializedName: "typeProperties.password",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                }, tenant: {
+                    serializedName: "typeProperties.tenant",
+                    type: {
+                        name: "Object"
+                    }
+                }, servicePrincipalId: {
+                    serializedName: "typeProperties.servicePrincipalId",
+                    type: {
+                        name: "Object"
+                    }
+                }, aadResourceId: {
+                    serializedName: "typeProperties.aadResourceId",
+                    type: {
+                        name: "Object"
+                    }
+                }, aadServicePrincipalCredentialType: {
+                    serializedName: "typeProperties.aadServicePrincipalCredentialType",
+                    type: {
+                        name: "String"
+                    }
+                }, servicePrincipalKey: {
+                    serializedName: "typeProperties.servicePrincipalKey",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                }, servicePrincipalEmbeddedCert: {
+                    serializedName: "typeProperties.servicePrincipalEmbeddedCert",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                }, servicePrincipalEmbeddedCertPassword: {
+                    serializedName: "typeProperties.servicePrincipalEmbeddedCertPassword",
                     type: {
                         name: "Composite",
                         polymorphicDiscriminator: {
@@ -11135,6 +11661,121 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
+    var OracleServiceCloudLinkedServiceTypeProperties = {
+        serializedName: "OracleServiceCloudLinkedServiceTypeProperties",
+        type: {
+            name: "Composite",
+            className: "OracleServiceCloudLinkedServiceTypeProperties",
+            modelProperties: {
+                host: {
+                    required: true,
+                    serializedName: "host",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                username: {
+                    required: true,
+                    serializedName: "username",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                password: {
+                    required: true,
+                    serializedName: "password",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                },
+                useEncryptedEndpoints: {
+                    serializedName: "useEncryptedEndpoints",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                useHostVerification: {
+                    serializedName: "useHostVerification",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                usePeerVerification: {
+                    serializedName: "usePeerVerification",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                encryptedCredential: {
+                    serializedName: "encryptedCredential",
+                    type: {
+                        name: "Object"
+                    }
+                }
+            }
+        }
+    };
+    var OracleServiceCloudLinkedService = {
+        serializedName: "OracleServiceCloud",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+            uberParent: "LinkedService",
+            className: "OracleServiceCloudLinkedService",
+            modelProperties: __assign({}, LinkedService.type.modelProperties, { host: {
+                    required: true,
+                    serializedName: "typeProperties.host",
+                    type: {
+                        name: "Object"
+                    }
+                }, username: {
+                    required: true,
+                    serializedName: "typeProperties.username",
+                    type: {
+                        name: "Object"
+                    }
+                }, password: {
+                    required: true,
+                    serializedName: "typeProperties.password",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                }, useEncryptedEndpoints: {
+                    serializedName: "typeProperties.useEncryptedEndpoints",
+                    type: {
+                        name: "Object"
+                    }
+                }, useHostVerification: {
+                    serializedName: "typeProperties.useHostVerification",
+                    type: {
+                        name: "Object"
+                    }
+                }, usePeerVerification: {
+                    serializedName: "typeProperties.usePeerVerification",
+                    type: {
+                        name: "Object"
+                    }
+                }, encryptedCredential: {
+                    serializedName: "typeProperties.encryptedCredential",
+                    type: {
+                        name: "Object"
+                    }
+                } }),
+            additionalProperties: LinkedService.type.additionalProperties
+        }
+    };
     var OracleLinkedServiceTypeProperties = {
         serializedName: "OracleLinkedServiceTypeProperties",
         type: {
@@ -11351,6 +11992,106 @@
                     type: {
                         name: "Composite",
                         className: "LinkedServiceReference"
+                    }
+                }, encryptedCredential: {
+                    serializedName: "typeProperties.encryptedCredential",
+                    type: {
+                        name: "Object"
+                    }
+                } }),
+            additionalProperties: LinkedService.type.additionalProperties
+        }
+    };
+    var DynamicsAXLinkedServiceTypeProperties = {
+        serializedName: "DynamicsAXLinkedServiceTypeProperties",
+        type: {
+            name: "Composite",
+            className: "DynamicsAXLinkedServiceTypeProperties",
+            modelProperties: {
+                url: {
+                    required: true,
+                    serializedName: "url",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                tenant: {
+                    serializedName: "tenant",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                servicePrincipalId: {
+                    serializedName: "servicePrincipalId",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                aadResourceId: {
+                    serializedName: "aadResourceId",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                servicePrincipalKey: {
+                    serializedName: "servicePrincipalKey",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
+                    }
+                },
+                encryptedCredential: {
+                    serializedName: "encryptedCredential",
+                    type: {
+                        name: "Object"
+                    }
+                }
+            }
+        }
+    };
+    var DynamicsAXLinkedService = {
+        serializedName: "DynamicsAX",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+            uberParent: "LinkedService",
+            className: "DynamicsAXLinkedService",
+            modelProperties: __assign({}, LinkedService.type.modelProperties, { url: {
+                    required: true,
+                    serializedName: "typeProperties.url",
+                    type: {
+                        name: "Object"
+                    }
+                }, tenant: {
+                    serializedName: "typeProperties.tenant",
+                    type: {
+                        name: "Object"
+                    }
+                }, servicePrincipalId: {
+                    serializedName: "typeProperties.servicePrincipalId",
+                    type: {
+                        name: "Object"
+                    }
+                }, aadResourceId: {
+                    serializedName: "typeProperties.aadResourceId",
+                    type: {
+                        name: "Object"
+                    }
+                }, servicePrincipalKey: {
+                    serializedName: "typeProperties.servicePrincipalKey",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "SecretBase",
+                        className: "SecretBase"
                     }
                 }, encryptedCredential: {
                     serializedName: "typeProperties.encryptedCredential",
@@ -12423,6 +13164,17 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
+    var GoogleAdWordsObjectDataset = {
+        serializedName: "GoogleAdWordsObject",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+            uberParent: "Dataset",
+            className: "GoogleAdWordsObjectDataset",
+            modelProperties: __assign({}, Dataset.type.modelProperties),
+            additionalProperties: Dataset.type.additionalProperties
+        }
+    };
     var EloquaObjectDataset = {
         serializedName: "EloquaObject",
         type: {
@@ -12486,6 +13238,81 @@
             uberParent: "Dataset",
             className: "AmazonMWSObjectDataset",
             modelProperties: __assign({}, Dataset.type.modelProperties),
+            additionalProperties: Dataset.type.additionalProperties
+        }
+    };
+    var RestServiceDatasetTypeProperties = {
+        serializedName: "RestServiceDatasetTypeProperties",
+        type: {
+            name: "Composite",
+            className: "RestServiceDatasetTypeProperties",
+            modelProperties: {
+                relativeUrl: {
+                    serializedName: "relativeUrl",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                requestMethod: {
+                    serializedName: "requestMethod",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                requestBody: {
+                    serializedName: "requestBody",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                additionalHeaders: {
+                    serializedName: "additionalHeaders",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                paginationRules: {
+                    serializedName: "paginationRules",
+                    type: {
+                        name: "Object"
+                    }
+                }
+            }
+        }
+    };
+    var RestServiceDataset = {
+        serializedName: "RestResource",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+            uberParent: "Dataset",
+            className: "RestServiceDataset",
+            modelProperties: __assign({}, Dataset.type.modelProperties, { relativeUrl: {
+                    serializedName: "typeProperties.relativeUrl",
+                    type: {
+                        name: "Object"
+                    }
+                }, requestMethod: {
+                    serializedName: "typeProperties.requestMethod",
+                    type: {
+                        name: "Object"
+                    }
+                }, requestBody: {
+                    serializedName: "typeProperties.requestBody",
+                    type: {
+                        name: "Object"
+                    }
+                }, additionalHeaders: {
+                    serializedName: "typeProperties.additionalHeaders",
+                    type: {
+                        name: "Object"
+                    }
+                }, paginationRules: {
+                    serializedName: "typeProperties.paginationRules",
+                    type: {
+                        name: "Object"
+                    }
+                } }),
             additionalProperties: Dataset.type.additionalProperties
         }
     };
@@ -13136,6 +13963,17 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
+    var OracleServiceCloudObjectDataset = {
+        serializedName: "OracleServiceCloudObject",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+            uberParent: "Dataset",
+            className: "OracleServiceCloudObjectDataset",
+            modelProperties: __assign({}, Dataset.type.modelProperties),
+            additionalProperties: Dataset.type.additionalProperties
+        }
+    };
     var OracleTableDatasetTypeProperties = {
         serializedName: "OracleTableDatasetTypeProperties",
         type: {
@@ -13251,6 +14089,12 @@
                         name: "Object"
                     }
                 },
+                wildcardPath: {
+                    serializedName: "wildcardPath",
+                    type: {
+                        name: "Object"
+                    }
+                },
                 format: {
                     serializedName: "format",
                     type: {
@@ -13311,6 +14155,11 @@
                     type: {
                         name: "Object"
                     }
+                }, wildcardPath: {
+                    serializedName: "typeProperties.wildcardPath",
+                    type: {
+                        name: "Object"
+                    }
                 }, format: {
                     serializedName: "typeProperties.format",
                     type: {
@@ -13359,7 +14208,6 @@
             className: "AzureDataLakeStoreDatasetTypeProperties",
             modelProperties: {
                 folderPath: {
-                    required: true,
                     serializedName: "folderPath",
                     type: {
                         name: "Object"
@@ -13386,6 +14234,12 @@
                                 name: "Object"
                             }
                         }
+                    }
+                },
+                wildcardPath: {
+                    serializedName: "wildcardPath",
+                    type: {
+                        name: "Object"
                     }
                 },
                 compression: {
@@ -13416,7 +14270,6 @@
             uberParent: "Dataset",
             className: "AzureDataLakeStoreDataset",
             modelProperties: __assign({}, Dataset.type.modelProperties, { folderPath: {
-                    required: true,
                     serializedName: "typeProperties.folderPath",
                     type: {
                         name: "Object"
@@ -13442,6 +14295,11 @@
                             }
                         }
                     }
+                }, wildcardPath: {
+                    serializedName: "typeProperties.wildcardPath",
+                    type: {
+                        name: "Object"
+                    }
                 }, compression: {
                     serializedName: "typeProperties.compression",
                     type: {
@@ -13457,6 +14315,39 @@
                                 name: "Object"
                             }
                         }
+                    }
+                } }),
+            additionalProperties: Dataset.type.additionalProperties
+        }
+    };
+    var DynamicsAXResourceDatasetTypeProperties = {
+        serializedName: "DynamicsAXResourceDatasetTypeProperties",
+        type: {
+            name: "Composite",
+            className: "DynamicsAXResourceDatasetTypeProperties",
+            modelProperties: {
+                path: {
+                    required: true,
+                    serializedName: "path",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var DynamicsAXResourceDataset = {
+        serializedName: "DynamicsAXResource",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+            uberParent: "Dataset",
+            className: "DynamicsAXResourceDataset",
+            modelProperties: __assign({}, Dataset.type.modelProperties, { path: {
+                    required: true,
+                    serializedName: "typeProperties.path",
+                    type: {
+                        name: "String"
                     }
                 } }),
             additionalProperties: Dataset.type.additionalProperties
@@ -13708,6 +14599,12 @@
                         name: "Object"
                     }
                 },
+                wildcardPath: {
+                    serializedName: "wildcardPath",
+                    type: {
+                        name: "Object"
+                    }
+                },
                 format: {
                     serializedName: "format",
                     type: {
@@ -13764,6 +14661,11 @@
                     }
                 }, fileName: {
                     serializedName: "typeProperties.fileName",
+                    type: {
+                        name: "Object"
+                    }
+                }, wildcardPath: {
+                    serializedName: "typeProperties.wildcardPath",
                     type: {
                         name: "Object"
                     }
@@ -13824,6 +14726,12 @@
                 },
                 prefix: {
                     serializedName: "prefix",
+                    type: {
+                        name: "Object"
+                    }
+                },
+                wildcardPath: {
+                    serializedName: "wildcardPath",
                     type: {
                         name: "Object"
                     }
@@ -13891,6 +14799,11 @@
                     }
                 }, prefix: {
                     serializedName: "typeProperties.prefix",
+                    type: {
+                        name: "Object"
+                    }
+                }, wildcardPath: {
+                    serializedName: "typeProperties.wildcardPath",
                     type: {
                         name: "Object"
                     }
@@ -15256,6 +16169,22 @@
             additionalProperties: CopySource.type.additionalProperties
         }
     };
+    var GoogleAdWordsSource = {
+        serializedName: "GoogleAdWordsSource",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+            uberParent: "CopySource",
+            className: "GoogleAdWordsSource",
+            modelProperties: __assign({}, CopySource.type.modelProperties, { query: {
+                    serializedName: "query",
+                    type: {
+                        name: "Object"
+                    }
+                } }),
+            additionalProperties: CopySource.type.additionalProperties
+        }
+    };
     var EloquaSource = {
         serializedName: "EloquaSource",
         type: {
@@ -15352,6 +16281,27 @@
             additionalProperties: CopySource.type.additionalProperties
         }
     };
+    var RestServiceSource = {
+        serializedName: "RestServiceSource",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+            uberParent: "CopySource",
+            className: "RestServiceSource",
+            modelProperties: __assign({}, CopySource.type.modelProperties, { httpRequestTimeout: {
+                    serializedName: "httpRequestTimeout",
+                    type: {
+                        name: "Object"
+                    }
+                }, requestInterval: {
+                    serializedName: "requestInterval",
+                    type: {
+                        name: "Object"
+                    }
+                } }),
+            additionalProperties: CopySource.type.additionalProperties
+        }
+    };
     var HttpSource = {
         serializedName: "HttpSource",
         type: {
@@ -15429,6 +16379,22 @@
             uberParent: "CopySource",
             className: "WebSource",
             modelProperties: __assign({}, CopySource.type.modelProperties),
+            additionalProperties: CopySource.type.additionalProperties
+        }
+    };
+    var OracleServiceCloudSource = {
+        serializedName: "OracleServiceCloudSource",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+            uberParent: "CopySource",
+            className: "OracleServiceCloudSource",
+            modelProperties: __assign({}, CopySource.type.modelProperties, { query: {
+                    serializedName: "query",
+                    type: {
+                        name: "Object"
+                    }
+                } }),
             additionalProperties: CopySource.type.additionalProperties
         }
     };
@@ -15569,7 +16535,6 @@
             className: "StoredProcedureParameter",
             modelProperties: {
                 value: {
-                    required: true,
                     serializedName: "value",
                     type: {
                         name: "Object"
@@ -15676,6 +16641,22 @@
             polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
             uberParent: "CopySource",
             className: "RelationalSource",
+            modelProperties: __assign({}, CopySource.type.modelProperties, { query: {
+                    serializedName: "query",
+                    type: {
+                        name: "Object"
+                    }
+                } }),
+            additionalProperties: CopySource.type.additionalProperties
+        }
+    };
+    var DynamicsAXSource = {
+        serializedName: "DynamicsAXSource",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+            uberParent: "CopySource",
+            className: "DynamicsAXSource",
             modelProperties: __assign({}, CopySource.type.modelProperties, { query: {
                     serializedName: "query",
                     type: {
@@ -19974,6 +20955,7 @@
         'LinkedService.HBase': HBaseLinkedService,
         'LinkedService.Greenplum': GreenplumLinkedService,
         'LinkedService.GoogleBigQuery': GoogleBigQueryLinkedService,
+        'LinkedService.GoogleAdWords': GoogleAdWordsLinkedService,
         'LinkedService.Eloqua': EloquaLinkedService,
         'LinkedService.Drill': DrillLinkedService,
         'LinkedService.Couchbase': CouchbaseLinkedService,
@@ -19984,6 +20966,7 @@
         'LinkedService.SapBW': SapBWLinkedService,
         'LinkedService.Sftp': SftpServerLinkedService,
         'LinkedService.FtpServer': FtpServerLinkedService,
+        'LinkedService.RestService': RestServiceLinkedService,
         'LinkedService.HttpServer': HttpLinkedService,
         'LinkedService.AzureSearch': AzureSearchLinkedService,
         'LinkedService.CustomDataSource': CustomDataSourceLinkedService,
@@ -20010,9 +20993,11 @@
         'LinkedService.PostgreSql': PostgreSqlLinkedService,
         'LinkedService.MySql': MySqlLinkedService,
         'LinkedService.AzureMySql': AzureMySqlLinkedService,
+        'LinkedService.OracleServiceCloud': OracleServiceCloudLinkedService,
         'LinkedService.Oracle': OracleLinkedService,
         'LinkedService.FileServer': FileServerLinkedService,
         'LinkedService.HDInsight': HDInsightLinkedService,
+        'LinkedService.DynamicsAX': DynamicsAXLinkedService,
         'LinkedService.Dynamics': DynamicsLinkedService,
         'LinkedService.CosmosDb': CosmosDbLinkedService,
         'LinkedService.AzureKeyVault': AzureKeyVaultLinkedService,
@@ -20047,12 +21032,14 @@
         'Dataset.HBaseObject': HBaseObjectDataset,
         'Dataset.GreenplumTable': GreenplumTableDataset,
         'Dataset.GoogleBigQueryObject': GoogleBigQueryObjectDataset,
+        'Dataset.GoogleAdWordsObject': GoogleAdWordsObjectDataset,
         'Dataset.EloquaObject': EloquaObjectDataset,
         'Dataset.DrillTable': DrillTableDataset,
         'Dataset.CouchbaseTable': CouchbaseTableDataset,
         'Dataset.ConcurObject': ConcurObjectDataset,
         'Dataset.AzurePostgreSqlTable': AzurePostgreSqlTableDataset,
         'Dataset.AmazonMWSObject': AmazonMWSObjectDataset,
+        'Dataset.RestResource': RestServiceDataset,
         'DatasetCompression.ZipDeflate': DatasetZipDeflateCompression,
         'DatasetCompression.Deflate': DatasetDeflateCompression,
         'DatasetCompression.GZip': DatasetGZipCompression,
@@ -20073,11 +21060,13 @@
         'Dataset.SalesforceObject': SalesforceObjectDataset,
         'Dataset.RelationalTable': RelationalTableDataset,
         'Dataset.AzureMySqlTable': AzureMySqlTableDataset,
+        'Dataset.OracleServiceCloudObject': OracleServiceCloudObjectDataset,
         'Dataset.OracleTable': OracleTableDataset,
         'Dataset.ODataResource': ODataResourceDataset,
         'Dataset.MongoDbCollection': MongoDbCollectionDataset,
         'Dataset.FileShare': FileShareDataset,
         'Dataset.AzureDataLakeStoreFile': AzureDataLakeStoreDataset,
+        'Dataset.DynamicsAXResource': DynamicsAXResourceDataset,
         'Dataset.DynamicsEntity': DynamicsEntityDataset,
         'Dataset.DocumentDbCollection': DocumentDbCollectionDataset,
         'Dataset.CustomDataset': CustomDataset,
@@ -20120,17 +21109,20 @@
         'CopySource.HBaseSource': HBaseSource,
         'CopySource.GreenplumSource': GreenplumSource,
         'CopySource.GoogleBigQuerySource': GoogleBigQuerySource,
+        'CopySource.GoogleAdWordsSource': GoogleAdWordsSource,
         'CopySource.EloquaSource': EloquaSource,
         'CopySource.DrillSource': DrillSource,
         'CopySource.CouchbaseSource': CouchbaseSource,
         'CopySource.ConcurSource': ConcurSource,
         'CopySource.AzurePostgreSqlSource': AzurePostgreSqlSource,
         'CopySource.AmazonMWSSource': AmazonMWSSource,
+        'CopySource.RestServiceSource': RestServiceSource,
         'CopySource.HttpSource': HttpSource,
         'CopySource.AzureDataLakeStoreSource': AzureDataLakeStoreSource,
         'CopySource.MongoDbSource': MongoDbSource,
         'CopySource.CassandraSource': CassandraSource,
         'CopySource.WebSource': WebSource,
+        'CopySource.OracleServiceCloudSource': OracleServiceCloudSource,
         'CopySource.OracleSource': OracleSource,
         'CopySource.AzureMySqlSource': AzureMySqlSource,
         'CopySource.HdfsSource': HdfsSource,
@@ -20141,6 +21133,7 @@
         'CopySource.SapCloudForCustomerSource': SapCloudForCustomerSource,
         'CopySource.SalesforceSource': SalesforceSource,
         'CopySource.RelationalSource': RelationalSource,
+        'CopySource.DynamicsAXSource': DynamicsAXSource,
         'CopySource.DynamicsSource': DynamicsSource,
         'CopySource.DocumentDbCollectionSource': DocumentDbCollectionSource,
         'CopySource.BlobSource': BlobSource,
@@ -20336,6 +21329,8 @@
         GreenplumLinkedService: GreenplumLinkedService,
         GoogleBigQueryLinkedServiceTypeProperties: GoogleBigQueryLinkedServiceTypeProperties,
         GoogleBigQueryLinkedService: GoogleBigQueryLinkedService,
+        GoogleAdWordsLinkedServiceTypeProperties: GoogleAdWordsLinkedServiceTypeProperties,
+        GoogleAdWordsLinkedService: GoogleAdWordsLinkedService,
         EloquaLinkedServiceTypeProperties: EloquaLinkedServiceTypeProperties,
         EloquaLinkedService: EloquaLinkedService,
         DrillLinkedServiceTypeProperties: DrillLinkedServiceTypeProperties,
@@ -20356,6 +21351,8 @@
         SftpServerLinkedService: SftpServerLinkedService,
         FtpServerLinkedServiceTypeProperties: FtpServerLinkedServiceTypeProperties,
         FtpServerLinkedService: FtpServerLinkedService,
+        RestServiceLinkedServiceTypeProperties: RestServiceLinkedServiceTypeProperties,
+        RestServiceLinkedService: RestServiceLinkedService,
         HttpLinkedServiceTypeProperties: HttpLinkedServiceTypeProperties,
         HttpLinkedService: HttpLinkedService,
         AzureSearchLinkedServiceTypeProperties: AzureSearchLinkedServiceTypeProperties,
@@ -20402,12 +21399,16 @@
         MySqlLinkedService: MySqlLinkedService,
         AzureMySqlLinkedServiceTypeProperties: AzureMySqlLinkedServiceTypeProperties,
         AzureMySqlLinkedService: AzureMySqlLinkedService,
+        OracleServiceCloudLinkedServiceTypeProperties: OracleServiceCloudLinkedServiceTypeProperties,
+        OracleServiceCloudLinkedService: OracleServiceCloudLinkedService,
         OracleLinkedServiceTypeProperties: OracleLinkedServiceTypeProperties,
         OracleLinkedService: OracleLinkedService,
         FileServerLinkedServiceTypeProperties: FileServerLinkedServiceTypeProperties,
         FileServerLinkedService: FileServerLinkedService,
         HDInsightLinkedServiceTypeProperties: HDInsightLinkedServiceTypeProperties,
         HDInsightLinkedService: HDInsightLinkedService,
+        DynamicsAXLinkedServiceTypeProperties: DynamicsAXLinkedServiceTypeProperties,
+        DynamicsAXLinkedService: DynamicsAXLinkedService,
         DynamicsLinkedServiceTypeProperties: DynamicsLinkedServiceTypeProperties,
         DynamicsLinkedService: DynamicsLinkedService,
         CosmosDbLinkedServiceTypeProperties: CosmosDbLinkedServiceTypeProperties,
@@ -20451,12 +21452,15 @@
         HBaseObjectDataset: HBaseObjectDataset,
         GreenplumTableDataset: GreenplumTableDataset,
         GoogleBigQueryObjectDataset: GoogleBigQueryObjectDataset,
+        GoogleAdWordsObjectDataset: GoogleAdWordsObjectDataset,
         EloquaObjectDataset: EloquaObjectDataset,
         DrillTableDataset: DrillTableDataset,
         CouchbaseTableDataset: CouchbaseTableDataset,
         ConcurObjectDataset: ConcurObjectDataset,
         AzurePostgreSqlTableDataset: AzurePostgreSqlTableDataset,
         AmazonMWSObjectDataset: AmazonMWSObjectDataset,
+        RestServiceDatasetTypeProperties: RestServiceDatasetTypeProperties,
+        RestServiceDataset: RestServiceDataset,
         DatasetCompression: DatasetCompression,
         DatasetZipDeflateCompression: DatasetZipDeflateCompression,
         DatasetDeflateCompression: DatasetDeflateCompression,
@@ -20486,6 +21490,7 @@
         RelationalTableDataset: RelationalTableDataset,
         AzureMySqlTableDatasetTypeProperties: AzureMySqlTableDatasetTypeProperties,
         AzureMySqlTableDataset: AzureMySqlTableDataset,
+        OracleServiceCloudObjectDataset: OracleServiceCloudObjectDataset,
         OracleTableDatasetTypeProperties: OracleTableDatasetTypeProperties,
         OracleTableDataset: OracleTableDataset,
         ODataResourceDatasetTypeProperties: ODataResourceDatasetTypeProperties,
@@ -20496,6 +21501,8 @@
         FileShareDataset: FileShareDataset,
         AzureDataLakeStoreDatasetTypeProperties: AzureDataLakeStoreDatasetTypeProperties,
         AzureDataLakeStoreDataset: AzureDataLakeStoreDataset,
+        DynamicsAXResourceDatasetTypeProperties: DynamicsAXResourceDatasetTypeProperties,
+        DynamicsAXResourceDataset: DynamicsAXResourceDataset,
         DynamicsEntityDatasetTypeProperties: DynamicsEntityDatasetTypeProperties,
         DynamicsEntityDataset: DynamicsEntityDataset,
         DocumentDbCollectionDatasetTypeProperties: DocumentDbCollectionDatasetTypeProperties,
@@ -20560,17 +21567,20 @@
         HBaseSource: HBaseSource,
         GreenplumSource: GreenplumSource,
         GoogleBigQuerySource: GoogleBigQuerySource,
+        GoogleAdWordsSource: GoogleAdWordsSource,
         EloquaSource: EloquaSource,
         DrillSource: DrillSource,
         CouchbaseSource: CouchbaseSource,
         ConcurSource: ConcurSource,
         AzurePostgreSqlSource: AzurePostgreSqlSource,
         AmazonMWSSource: AmazonMWSSource,
+        RestServiceSource: RestServiceSource,
         HttpSource: HttpSource,
         AzureDataLakeStoreSource: AzureDataLakeStoreSource,
         MongoDbSource: MongoDbSource,
         CassandraSource: CassandraSource,
         WebSource: WebSource,
+        OracleServiceCloudSource: OracleServiceCloudSource,
         OracleSource: OracleSource,
         AzureMySqlSource: AzureMySqlSource,
         DistcpSettings: DistcpSettings,
@@ -20583,6 +21593,7 @@
         SapCloudForCustomerSource: SapCloudForCustomerSource,
         SalesforceSource: SalesforceSource,
         RelationalSource: RelationalSource,
+        DynamicsAXSource: DynamicsAXSource,
         DynamicsSource: DynamicsSource,
         DocumentDbCollectionSource: DocumentDbCollectionSource,
         BlobSource: BlobSource,
@@ -21117,6 +22128,7 @@
         HBaseLinkedService: HBaseLinkedService,
         GreenplumLinkedService: GreenplumLinkedService,
         GoogleBigQueryLinkedService: GoogleBigQueryLinkedService,
+        GoogleAdWordsLinkedService: GoogleAdWordsLinkedService,
         EloquaLinkedService: EloquaLinkedService,
         DrillLinkedService: DrillLinkedService,
         CouchbaseLinkedService: CouchbaseLinkedService,
@@ -21127,6 +22139,7 @@
         SapBWLinkedService: SapBWLinkedService,
         SftpServerLinkedService: SftpServerLinkedService,
         FtpServerLinkedService: FtpServerLinkedService,
+        RestServiceLinkedService: RestServiceLinkedService,
         HttpLinkedService: HttpLinkedService,
         AzureSearchLinkedService: AzureSearchLinkedService,
         CustomDataSourceLinkedService: CustomDataSourceLinkedService,
@@ -21150,9 +22163,11 @@
         PostgreSqlLinkedService: PostgreSqlLinkedService,
         MySqlLinkedService: MySqlLinkedService,
         AzureMySqlLinkedService: AzureMySqlLinkedService,
+        OracleServiceCloudLinkedService: OracleServiceCloudLinkedService,
         OracleLinkedService: OracleLinkedService,
         FileServerLinkedService: FileServerLinkedService,
         HDInsightLinkedService: HDInsightLinkedService,
+        DynamicsAXLinkedService: DynamicsAXLinkedService,
         DynamicsLinkedService: DynamicsLinkedService,
         CosmosDbLinkedService: CosmosDbLinkedService,
         AzureKeyVaultLinkedService: AzureKeyVaultLinkedService,
@@ -21187,12 +22202,14 @@
         HBaseObjectDataset: HBaseObjectDataset,
         GreenplumTableDataset: GreenplumTableDataset,
         GoogleBigQueryObjectDataset: GoogleBigQueryObjectDataset,
+        GoogleAdWordsObjectDataset: GoogleAdWordsObjectDataset,
         EloquaObjectDataset: EloquaObjectDataset,
         DrillTableDataset: DrillTableDataset,
         CouchbaseTableDataset: CouchbaseTableDataset,
         ConcurObjectDataset: ConcurObjectDataset,
         AzurePostgreSqlTableDataset: AzurePostgreSqlTableDataset,
         AmazonMWSObjectDataset: AmazonMWSObjectDataset,
+        RestServiceDataset: RestServiceDataset,
         HttpDataset: HttpDataset,
         DatasetStorageFormat: DatasetStorageFormat,
         DatasetCompression: DatasetCompression,
@@ -21204,11 +22221,13 @@
         SalesforceObjectDataset: SalesforceObjectDataset,
         RelationalTableDataset: RelationalTableDataset,
         AzureMySqlTableDataset: AzureMySqlTableDataset,
+        OracleServiceCloudObjectDataset: OracleServiceCloudObjectDataset,
         OracleTableDataset: OracleTableDataset,
         ODataResourceDataset: ODataResourceDataset,
         MongoDbCollectionDataset: MongoDbCollectionDataset,
         FileShareDataset: FileShareDataset,
         AzureDataLakeStoreDataset: AzureDataLakeStoreDataset,
+        DynamicsAXResourceDataset: DynamicsAXResourceDataset,
         DynamicsEntityDataset: DynamicsEntityDataset,
         DocumentDbCollectionDataset: DocumentDbCollectionDataset,
         CustomDataset: CustomDataset,
@@ -21321,17 +22340,20 @@
         HBaseSource: HBaseSource,
         GreenplumSource: GreenplumSource,
         GoogleBigQuerySource: GoogleBigQuerySource,
+        GoogleAdWordsSource: GoogleAdWordsSource,
         EloquaSource: EloquaSource,
         DrillSource: DrillSource,
         CouchbaseSource: CouchbaseSource,
         ConcurSource: ConcurSource,
         AzurePostgreSqlSource: AzurePostgreSqlSource,
         AmazonMWSSource: AmazonMWSSource,
+        RestServiceSource: RestServiceSource,
         HttpSource: HttpSource,
         AzureDataLakeStoreSource: AzureDataLakeStoreSource,
         MongoDbSource: MongoDbSource,
         CassandraSource: CassandraSource,
         WebSource: WebSource,
+        OracleServiceCloudSource: OracleServiceCloudSource,
         OracleSource: OracleSource,
         AzureMySqlSource: AzureMySqlSource,
         HdfsSource: HdfsSource,
@@ -21343,6 +22365,7 @@
         SapCloudForCustomerSource: SapCloudForCustomerSource,
         SalesforceSource: SalesforceSource,
         RelationalSource: RelationalSource,
+        DynamicsAXSource: DynamicsAXSource,
         DynamicsSource: DynamicsSource,
         DocumentDbCollectionSource: DocumentDbCollectionSource,
         BlobSource: BlobSource,
@@ -21789,6 +22812,7 @@
         HBaseLinkedService: HBaseLinkedService,
         GreenplumLinkedService: GreenplumLinkedService,
         GoogleBigQueryLinkedService: GoogleBigQueryLinkedService,
+        GoogleAdWordsLinkedService: GoogleAdWordsLinkedService,
         EloquaLinkedService: EloquaLinkedService,
         DrillLinkedService: DrillLinkedService,
         CouchbaseLinkedService: CouchbaseLinkedService,
@@ -21799,6 +22823,7 @@
         SapBWLinkedService: SapBWLinkedService,
         SftpServerLinkedService: SftpServerLinkedService,
         FtpServerLinkedService: FtpServerLinkedService,
+        RestServiceLinkedService: RestServiceLinkedService,
         HttpLinkedService: HttpLinkedService,
         AzureSearchLinkedService: AzureSearchLinkedService,
         CustomDataSourceLinkedService: CustomDataSourceLinkedService,
@@ -21822,9 +22847,11 @@
         PostgreSqlLinkedService: PostgreSqlLinkedService,
         MySqlLinkedService: MySqlLinkedService,
         AzureMySqlLinkedService: AzureMySqlLinkedService,
+        OracleServiceCloudLinkedService: OracleServiceCloudLinkedService,
         OracleLinkedService: OracleLinkedService,
         FileServerLinkedService: FileServerLinkedService,
         HDInsightLinkedService: HDInsightLinkedService,
+        DynamicsAXLinkedService: DynamicsAXLinkedService,
         DynamicsLinkedService: DynamicsLinkedService,
         CosmosDbLinkedService: CosmosDbLinkedService,
         AzureKeyVaultLinkedService: AzureKeyVaultLinkedService,
@@ -21859,12 +22886,14 @@
         HBaseObjectDataset: HBaseObjectDataset,
         GreenplumTableDataset: GreenplumTableDataset,
         GoogleBigQueryObjectDataset: GoogleBigQueryObjectDataset,
+        GoogleAdWordsObjectDataset: GoogleAdWordsObjectDataset,
         EloquaObjectDataset: EloquaObjectDataset,
         DrillTableDataset: DrillTableDataset,
         CouchbaseTableDataset: CouchbaseTableDataset,
         ConcurObjectDataset: ConcurObjectDataset,
         AzurePostgreSqlTableDataset: AzurePostgreSqlTableDataset,
         AmazonMWSObjectDataset: AmazonMWSObjectDataset,
+        RestServiceDataset: RestServiceDataset,
         HttpDataset: HttpDataset,
         DatasetStorageFormat: DatasetStorageFormat,
         DatasetCompression: DatasetCompression,
@@ -21876,11 +22905,13 @@
         SalesforceObjectDataset: SalesforceObjectDataset,
         RelationalTableDataset: RelationalTableDataset,
         AzureMySqlTableDataset: AzureMySqlTableDataset,
+        OracleServiceCloudObjectDataset: OracleServiceCloudObjectDataset,
         OracleTableDataset: OracleTableDataset,
         ODataResourceDataset: ODataResourceDataset,
         MongoDbCollectionDataset: MongoDbCollectionDataset,
         FileShareDataset: FileShareDataset,
         AzureDataLakeStoreDataset: AzureDataLakeStoreDataset,
+        DynamicsAXResourceDataset: DynamicsAXResourceDataset,
         DynamicsEntityDataset: DynamicsEntityDataset,
         DocumentDbCollectionDataset: DocumentDbCollectionDataset,
         CustomDataset: CustomDataset,
@@ -22000,17 +23031,20 @@
         HBaseSource: HBaseSource,
         GreenplumSource: GreenplumSource,
         GoogleBigQuerySource: GoogleBigQuerySource,
+        GoogleAdWordsSource: GoogleAdWordsSource,
         EloquaSource: EloquaSource,
         DrillSource: DrillSource,
         CouchbaseSource: CouchbaseSource,
         ConcurSource: ConcurSource,
         AzurePostgreSqlSource: AzurePostgreSqlSource,
         AmazonMWSSource: AmazonMWSSource,
+        RestServiceSource: RestServiceSource,
         HttpSource: HttpSource,
         AzureDataLakeStoreSource: AzureDataLakeStoreSource,
         MongoDbSource: MongoDbSource,
         CassandraSource: CassandraSource,
         WebSource: WebSource,
+        OracleServiceCloudSource: OracleServiceCloudSource,
         OracleSource: OracleSource,
         AzureMySqlSource: AzureMySqlSource,
         HdfsSource: HdfsSource,
@@ -22022,6 +23056,7 @@
         SapCloudForCustomerSource: SapCloudForCustomerSource,
         SalesforceSource: SalesforceSource,
         RelationalSource: RelationalSource,
+        DynamicsAXSource: DynamicsAXSource,
         DynamicsSource: DynamicsSource,
         DocumentDbCollectionSource: DocumentDbCollectionSource,
         BlobSource: BlobSource,
@@ -22942,6 +23977,7 @@
         HBaseLinkedService: HBaseLinkedService,
         GreenplumLinkedService: GreenplumLinkedService,
         GoogleBigQueryLinkedService: GoogleBigQueryLinkedService,
+        GoogleAdWordsLinkedService: GoogleAdWordsLinkedService,
         EloquaLinkedService: EloquaLinkedService,
         DrillLinkedService: DrillLinkedService,
         CouchbaseLinkedService: CouchbaseLinkedService,
@@ -22952,6 +23988,7 @@
         SapBWLinkedService: SapBWLinkedService,
         SftpServerLinkedService: SftpServerLinkedService,
         FtpServerLinkedService: FtpServerLinkedService,
+        RestServiceLinkedService: RestServiceLinkedService,
         HttpLinkedService: HttpLinkedService,
         AzureSearchLinkedService: AzureSearchLinkedService,
         CustomDataSourceLinkedService: CustomDataSourceLinkedService,
@@ -22975,9 +24012,11 @@
         PostgreSqlLinkedService: PostgreSqlLinkedService,
         MySqlLinkedService: MySqlLinkedService,
         AzureMySqlLinkedService: AzureMySqlLinkedService,
+        OracleServiceCloudLinkedService: OracleServiceCloudLinkedService,
         OracleLinkedService: OracleLinkedService,
         FileServerLinkedService: FileServerLinkedService,
         HDInsightLinkedService: HDInsightLinkedService,
+        DynamicsAXLinkedService: DynamicsAXLinkedService,
         DynamicsLinkedService: DynamicsLinkedService,
         CosmosDbLinkedService: CosmosDbLinkedService,
         AzureKeyVaultLinkedService: AzureKeyVaultLinkedService,
@@ -23012,12 +24051,14 @@
         HBaseObjectDataset: HBaseObjectDataset,
         GreenplumTableDataset: GreenplumTableDataset,
         GoogleBigQueryObjectDataset: GoogleBigQueryObjectDataset,
+        GoogleAdWordsObjectDataset: GoogleAdWordsObjectDataset,
         EloquaObjectDataset: EloquaObjectDataset,
         DrillTableDataset: DrillTableDataset,
         CouchbaseTableDataset: CouchbaseTableDataset,
         ConcurObjectDataset: ConcurObjectDataset,
         AzurePostgreSqlTableDataset: AzurePostgreSqlTableDataset,
         AmazonMWSObjectDataset: AmazonMWSObjectDataset,
+        RestServiceDataset: RestServiceDataset,
         HttpDataset: HttpDataset,
         DatasetStorageFormat: DatasetStorageFormat,
         DatasetCompression: DatasetCompression,
@@ -23029,11 +24070,13 @@
         SalesforceObjectDataset: SalesforceObjectDataset,
         RelationalTableDataset: RelationalTableDataset,
         AzureMySqlTableDataset: AzureMySqlTableDataset,
+        OracleServiceCloudObjectDataset: OracleServiceCloudObjectDataset,
         OracleTableDataset: OracleTableDataset,
         ODataResourceDataset: ODataResourceDataset,
         MongoDbCollectionDataset: MongoDbCollectionDataset,
         FileShareDataset: FileShareDataset,
         AzureDataLakeStoreDataset: AzureDataLakeStoreDataset,
+        DynamicsAXResourceDataset: DynamicsAXResourceDataset,
         DynamicsEntityDataset: DynamicsEntityDataset,
         DocumentDbCollectionDataset: DocumentDbCollectionDataset,
         CustomDataset: CustomDataset,
@@ -23146,17 +24189,20 @@
         HBaseSource: HBaseSource,
         GreenplumSource: GreenplumSource,
         GoogleBigQuerySource: GoogleBigQuerySource,
+        GoogleAdWordsSource: GoogleAdWordsSource,
         EloquaSource: EloquaSource,
         DrillSource: DrillSource,
         CouchbaseSource: CouchbaseSource,
         ConcurSource: ConcurSource,
         AzurePostgreSqlSource: AzurePostgreSqlSource,
         AmazonMWSSource: AmazonMWSSource,
+        RestServiceSource: RestServiceSource,
         HttpSource: HttpSource,
         AzureDataLakeStoreSource: AzureDataLakeStoreSource,
         MongoDbSource: MongoDbSource,
         CassandraSource: CassandraSource,
         WebSource: WebSource,
+        OracleServiceCloudSource: OracleServiceCloudSource,
         OracleSource: OracleSource,
         AzureMySqlSource: AzureMySqlSource,
         HdfsSource: HdfsSource,
@@ -23168,6 +24214,7 @@
         SapCloudForCustomerSource: SapCloudForCustomerSource,
         SalesforceSource: SalesforceSource,
         RelationalSource: RelationalSource,
+        DynamicsAXSource: DynamicsAXSource,
         DynamicsSource: DynamicsSource,
         DocumentDbCollectionSource: DocumentDbCollectionSource,
         BlobSource: BlobSource,
@@ -23453,6 +24500,7 @@
         HBaseLinkedService: HBaseLinkedService,
         GreenplumLinkedService: GreenplumLinkedService,
         GoogleBigQueryLinkedService: GoogleBigQueryLinkedService,
+        GoogleAdWordsLinkedService: GoogleAdWordsLinkedService,
         EloquaLinkedService: EloquaLinkedService,
         DrillLinkedService: DrillLinkedService,
         CouchbaseLinkedService: CouchbaseLinkedService,
@@ -23463,6 +24511,7 @@
         SapBWLinkedService: SapBWLinkedService,
         SftpServerLinkedService: SftpServerLinkedService,
         FtpServerLinkedService: FtpServerLinkedService,
+        RestServiceLinkedService: RestServiceLinkedService,
         HttpLinkedService: HttpLinkedService,
         AzureSearchLinkedService: AzureSearchLinkedService,
         CustomDataSourceLinkedService: CustomDataSourceLinkedService,
@@ -23486,9 +24535,11 @@
         PostgreSqlLinkedService: PostgreSqlLinkedService,
         MySqlLinkedService: MySqlLinkedService,
         AzureMySqlLinkedService: AzureMySqlLinkedService,
+        OracleServiceCloudLinkedService: OracleServiceCloudLinkedService,
         OracleLinkedService: OracleLinkedService,
         FileServerLinkedService: FileServerLinkedService,
         HDInsightLinkedService: HDInsightLinkedService,
+        DynamicsAXLinkedService: DynamicsAXLinkedService,
         DynamicsLinkedService: DynamicsLinkedService,
         CosmosDbLinkedService: CosmosDbLinkedService,
         AzureKeyVaultLinkedService: AzureKeyVaultLinkedService,
@@ -23523,12 +24574,14 @@
         HBaseObjectDataset: HBaseObjectDataset,
         GreenplumTableDataset: GreenplumTableDataset,
         GoogleBigQueryObjectDataset: GoogleBigQueryObjectDataset,
+        GoogleAdWordsObjectDataset: GoogleAdWordsObjectDataset,
         EloquaObjectDataset: EloquaObjectDataset,
         DrillTableDataset: DrillTableDataset,
         CouchbaseTableDataset: CouchbaseTableDataset,
         ConcurObjectDataset: ConcurObjectDataset,
         AzurePostgreSqlTableDataset: AzurePostgreSqlTableDataset,
         AmazonMWSObjectDataset: AmazonMWSObjectDataset,
+        RestServiceDataset: RestServiceDataset,
         HttpDataset: HttpDataset,
         DatasetStorageFormat: DatasetStorageFormat,
         DatasetCompression: DatasetCompression,
@@ -23540,11 +24593,13 @@
         SalesforceObjectDataset: SalesforceObjectDataset,
         RelationalTableDataset: RelationalTableDataset,
         AzureMySqlTableDataset: AzureMySqlTableDataset,
+        OracleServiceCloudObjectDataset: OracleServiceCloudObjectDataset,
         OracleTableDataset: OracleTableDataset,
         ODataResourceDataset: ODataResourceDataset,
         MongoDbCollectionDataset: MongoDbCollectionDataset,
         FileShareDataset: FileShareDataset,
         AzureDataLakeStoreDataset: AzureDataLakeStoreDataset,
+        DynamicsAXResourceDataset: DynamicsAXResourceDataset,
         DynamicsEntityDataset: DynamicsEntityDataset,
         DocumentDbCollectionDataset: DocumentDbCollectionDataset,
         CustomDataset: CustomDataset,
@@ -23657,17 +24712,20 @@
         HBaseSource: HBaseSource,
         GreenplumSource: GreenplumSource,
         GoogleBigQuerySource: GoogleBigQuerySource,
+        GoogleAdWordsSource: GoogleAdWordsSource,
         EloquaSource: EloquaSource,
         DrillSource: DrillSource,
         CouchbaseSource: CouchbaseSource,
         ConcurSource: ConcurSource,
         AzurePostgreSqlSource: AzurePostgreSqlSource,
         AmazonMWSSource: AmazonMWSSource,
+        RestServiceSource: RestServiceSource,
         HttpSource: HttpSource,
         AzureDataLakeStoreSource: AzureDataLakeStoreSource,
         MongoDbSource: MongoDbSource,
         CassandraSource: CassandraSource,
         WebSource: WebSource,
+        OracleServiceCloudSource: OracleServiceCloudSource,
         OracleSource: OracleSource,
         AzureMySqlSource: AzureMySqlSource,
         HdfsSource: HdfsSource,
@@ -23679,6 +24737,7 @@
         SapCloudForCustomerSource: SapCloudForCustomerSource,
         SalesforceSource: SalesforceSource,
         RelationalSource: RelationalSource,
+        DynamicsAXSource: DynamicsAXSource,
         DynamicsSource: DynamicsSource,
         DocumentDbCollectionSource: DocumentDbCollectionSource,
         BlobSource: BlobSource,
@@ -23965,6 +25024,7 @@
         HBaseLinkedService: HBaseLinkedService,
         GreenplumLinkedService: GreenplumLinkedService,
         GoogleBigQueryLinkedService: GoogleBigQueryLinkedService,
+        GoogleAdWordsLinkedService: GoogleAdWordsLinkedService,
         EloquaLinkedService: EloquaLinkedService,
         DrillLinkedService: DrillLinkedService,
         CouchbaseLinkedService: CouchbaseLinkedService,
@@ -23975,6 +25035,7 @@
         SapBWLinkedService: SapBWLinkedService,
         SftpServerLinkedService: SftpServerLinkedService,
         FtpServerLinkedService: FtpServerLinkedService,
+        RestServiceLinkedService: RestServiceLinkedService,
         HttpLinkedService: HttpLinkedService,
         AzureSearchLinkedService: AzureSearchLinkedService,
         CustomDataSourceLinkedService: CustomDataSourceLinkedService,
@@ -23998,9 +25059,11 @@
         PostgreSqlLinkedService: PostgreSqlLinkedService,
         MySqlLinkedService: MySqlLinkedService,
         AzureMySqlLinkedService: AzureMySqlLinkedService,
+        OracleServiceCloudLinkedService: OracleServiceCloudLinkedService,
         OracleLinkedService: OracleLinkedService,
         FileServerLinkedService: FileServerLinkedService,
         HDInsightLinkedService: HDInsightLinkedService,
+        DynamicsAXLinkedService: DynamicsAXLinkedService,
         DynamicsLinkedService: DynamicsLinkedService,
         CosmosDbLinkedService: CosmosDbLinkedService,
         AzureKeyVaultLinkedService: AzureKeyVaultLinkedService,
@@ -24035,12 +25098,14 @@
         HBaseObjectDataset: HBaseObjectDataset,
         GreenplumTableDataset: GreenplumTableDataset,
         GoogleBigQueryObjectDataset: GoogleBigQueryObjectDataset,
+        GoogleAdWordsObjectDataset: GoogleAdWordsObjectDataset,
         EloquaObjectDataset: EloquaObjectDataset,
         DrillTableDataset: DrillTableDataset,
         CouchbaseTableDataset: CouchbaseTableDataset,
         ConcurObjectDataset: ConcurObjectDataset,
         AzurePostgreSqlTableDataset: AzurePostgreSqlTableDataset,
         AmazonMWSObjectDataset: AmazonMWSObjectDataset,
+        RestServiceDataset: RestServiceDataset,
         HttpDataset: HttpDataset,
         DatasetStorageFormat: DatasetStorageFormat,
         DatasetCompression: DatasetCompression,
@@ -24052,11 +25117,13 @@
         SalesforceObjectDataset: SalesforceObjectDataset,
         RelationalTableDataset: RelationalTableDataset,
         AzureMySqlTableDataset: AzureMySqlTableDataset,
+        OracleServiceCloudObjectDataset: OracleServiceCloudObjectDataset,
         OracleTableDataset: OracleTableDataset,
         ODataResourceDataset: ODataResourceDataset,
         MongoDbCollectionDataset: MongoDbCollectionDataset,
         FileShareDataset: FileShareDataset,
         AzureDataLakeStoreDataset: AzureDataLakeStoreDataset,
+        DynamicsAXResourceDataset: DynamicsAXResourceDataset,
         DynamicsEntityDataset: DynamicsEntityDataset,
         DocumentDbCollectionDataset: DocumentDbCollectionDataset,
         CustomDataset: CustomDataset,
@@ -24169,17 +25236,20 @@
         HBaseSource: HBaseSource,
         GreenplumSource: GreenplumSource,
         GoogleBigQuerySource: GoogleBigQuerySource,
+        GoogleAdWordsSource: GoogleAdWordsSource,
         EloquaSource: EloquaSource,
         DrillSource: DrillSource,
         CouchbaseSource: CouchbaseSource,
         ConcurSource: ConcurSource,
         AzurePostgreSqlSource: AzurePostgreSqlSource,
         AmazonMWSSource: AmazonMWSSource,
+        RestServiceSource: RestServiceSource,
         HttpSource: HttpSource,
         AzureDataLakeStoreSource: AzureDataLakeStoreSource,
         MongoDbSource: MongoDbSource,
         CassandraSource: CassandraSource,
         WebSource: WebSource,
+        OracleServiceCloudSource: OracleServiceCloudSource,
         OracleSource: OracleSource,
         AzureMySqlSource: AzureMySqlSource,
         HdfsSource: HdfsSource,
@@ -24191,6 +25261,7 @@
         SapCloudForCustomerSource: SapCloudForCustomerSource,
         SalesforceSource: SalesforceSource,
         RelationalSource: RelationalSource,
+        DynamicsAXSource: DynamicsAXSource,
         DynamicsSource: DynamicsSource,
         DocumentDbCollectionSource: DocumentDbCollectionSource,
         BlobSource: BlobSource,
@@ -24753,6 +25824,7 @@
         HBaseLinkedService: HBaseLinkedService,
         GreenplumLinkedService: GreenplumLinkedService,
         GoogleBigQueryLinkedService: GoogleBigQueryLinkedService,
+        GoogleAdWordsLinkedService: GoogleAdWordsLinkedService,
         EloquaLinkedService: EloquaLinkedService,
         DrillLinkedService: DrillLinkedService,
         CouchbaseLinkedService: CouchbaseLinkedService,
@@ -24763,6 +25835,7 @@
         SapBWLinkedService: SapBWLinkedService,
         SftpServerLinkedService: SftpServerLinkedService,
         FtpServerLinkedService: FtpServerLinkedService,
+        RestServiceLinkedService: RestServiceLinkedService,
         HttpLinkedService: HttpLinkedService,
         AzureSearchLinkedService: AzureSearchLinkedService,
         CustomDataSourceLinkedService: CustomDataSourceLinkedService,
@@ -24786,9 +25859,11 @@
         PostgreSqlLinkedService: PostgreSqlLinkedService,
         MySqlLinkedService: MySqlLinkedService,
         AzureMySqlLinkedService: AzureMySqlLinkedService,
+        OracleServiceCloudLinkedService: OracleServiceCloudLinkedService,
         OracleLinkedService: OracleLinkedService,
         FileServerLinkedService: FileServerLinkedService,
         HDInsightLinkedService: HDInsightLinkedService,
+        DynamicsAXLinkedService: DynamicsAXLinkedService,
         DynamicsLinkedService: DynamicsLinkedService,
         CosmosDbLinkedService: CosmosDbLinkedService,
         AzureKeyVaultLinkedService: AzureKeyVaultLinkedService,
@@ -24823,12 +25898,14 @@
         HBaseObjectDataset: HBaseObjectDataset,
         GreenplumTableDataset: GreenplumTableDataset,
         GoogleBigQueryObjectDataset: GoogleBigQueryObjectDataset,
+        GoogleAdWordsObjectDataset: GoogleAdWordsObjectDataset,
         EloquaObjectDataset: EloquaObjectDataset,
         DrillTableDataset: DrillTableDataset,
         CouchbaseTableDataset: CouchbaseTableDataset,
         ConcurObjectDataset: ConcurObjectDataset,
         AzurePostgreSqlTableDataset: AzurePostgreSqlTableDataset,
         AmazonMWSObjectDataset: AmazonMWSObjectDataset,
+        RestServiceDataset: RestServiceDataset,
         HttpDataset: HttpDataset,
         DatasetStorageFormat: DatasetStorageFormat,
         DatasetCompression: DatasetCompression,
@@ -24840,11 +25917,13 @@
         SalesforceObjectDataset: SalesforceObjectDataset,
         RelationalTableDataset: RelationalTableDataset,
         AzureMySqlTableDataset: AzureMySqlTableDataset,
+        OracleServiceCloudObjectDataset: OracleServiceCloudObjectDataset,
         OracleTableDataset: OracleTableDataset,
         ODataResourceDataset: ODataResourceDataset,
         MongoDbCollectionDataset: MongoDbCollectionDataset,
         FileShareDataset: FileShareDataset,
         AzureDataLakeStoreDataset: AzureDataLakeStoreDataset,
+        DynamicsAXResourceDataset: DynamicsAXResourceDataset,
         DynamicsEntityDataset: DynamicsEntityDataset,
         DocumentDbCollectionDataset: DocumentDbCollectionDataset,
         CustomDataset: CustomDataset,
@@ -24957,17 +26036,20 @@
         HBaseSource: HBaseSource,
         GreenplumSource: GreenplumSource,
         GoogleBigQuerySource: GoogleBigQuerySource,
+        GoogleAdWordsSource: GoogleAdWordsSource,
         EloquaSource: EloquaSource,
         DrillSource: DrillSource,
         CouchbaseSource: CouchbaseSource,
         ConcurSource: ConcurSource,
         AzurePostgreSqlSource: AzurePostgreSqlSource,
         AmazonMWSSource: AmazonMWSSource,
+        RestServiceSource: RestServiceSource,
         HttpSource: HttpSource,
         AzureDataLakeStoreSource: AzureDataLakeStoreSource,
         MongoDbSource: MongoDbSource,
         CassandraSource: CassandraSource,
         WebSource: WebSource,
+        OracleServiceCloudSource: OracleServiceCloudSource,
         OracleSource: OracleSource,
         AzureMySqlSource: AzureMySqlSource,
         HdfsSource: HdfsSource,
@@ -24979,6 +26061,7 @@
         SapCloudForCustomerSource: SapCloudForCustomerSource,
         SalesforceSource: SalesforceSource,
         RelationalSource: RelationalSource,
+        DynamicsAXSource: DynamicsAXSource,
         DynamicsSource: DynamicsSource,
         DocumentDbCollectionSource: DocumentDbCollectionSource,
         BlobSource: BlobSource,
@@ -25367,6 +26450,7 @@
         HBaseLinkedService: HBaseLinkedService,
         GreenplumLinkedService: GreenplumLinkedService,
         GoogleBigQueryLinkedService: GoogleBigQueryLinkedService,
+        GoogleAdWordsLinkedService: GoogleAdWordsLinkedService,
         EloquaLinkedService: EloquaLinkedService,
         DrillLinkedService: DrillLinkedService,
         CouchbaseLinkedService: CouchbaseLinkedService,
@@ -25377,6 +26461,7 @@
         SapBWLinkedService: SapBWLinkedService,
         SftpServerLinkedService: SftpServerLinkedService,
         FtpServerLinkedService: FtpServerLinkedService,
+        RestServiceLinkedService: RestServiceLinkedService,
         HttpLinkedService: HttpLinkedService,
         AzureSearchLinkedService: AzureSearchLinkedService,
         CustomDataSourceLinkedService: CustomDataSourceLinkedService,
@@ -25400,9 +26485,11 @@
         PostgreSqlLinkedService: PostgreSqlLinkedService,
         MySqlLinkedService: MySqlLinkedService,
         AzureMySqlLinkedService: AzureMySqlLinkedService,
+        OracleServiceCloudLinkedService: OracleServiceCloudLinkedService,
         OracleLinkedService: OracleLinkedService,
         FileServerLinkedService: FileServerLinkedService,
         HDInsightLinkedService: HDInsightLinkedService,
+        DynamicsAXLinkedService: DynamicsAXLinkedService,
         DynamicsLinkedService: DynamicsLinkedService,
         CosmosDbLinkedService: CosmosDbLinkedService,
         AzureKeyVaultLinkedService: AzureKeyVaultLinkedService,
@@ -25437,12 +26524,14 @@
         HBaseObjectDataset: HBaseObjectDataset,
         GreenplumTableDataset: GreenplumTableDataset,
         GoogleBigQueryObjectDataset: GoogleBigQueryObjectDataset,
+        GoogleAdWordsObjectDataset: GoogleAdWordsObjectDataset,
         EloquaObjectDataset: EloquaObjectDataset,
         DrillTableDataset: DrillTableDataset,
         CouchbaseTableDataset: CouchbaseTableDataset,
         ConcurObjectDataset: ConcurObjectDataset,
         AzurePostgreSqlTableDataset: AzurePostgreSqlTableDataset,
         AmazonMWSObjectDataset: AmazonMWSObjectDataset,
+        RestServiceDataset: RestServiceDataset,
         HttpDataset: HttpDataset,
         DatasetStorageFormat: DatasetStorageFormat,
         DatasetCompression: DatasetCompression,
@@ -25454,11 +26543,13 @@
         SalesforceObjectDataset: SalesforceObjectDataset,
         RelationalTableDataset: RelationalTableDataset,
         AzureMySqlTableDataset: AzureMySqlTableDataset,
+        OracleServiceCloudObjectDataset: OracleServiceCloudObjectDataset,
         OracleTableDataset: OracleTableDataset,
         ODataResourceDataset: ODataResourceDataset,
         MongoDbCollectionDataset: MongoDbCollectionDataset,
         FileShareDataset: FileShareDataset,
         AzureDataLakeStoreDataset: AzureDataLakeStoreDataset,
+        DynamicsAXResourceDataset: DynamicsAXResourceDataset,
         DynamicsEntityDataset: DynamicsEntityDataset,
         DocumentDbCollectionDataset: DocumentDbCollectionDataset,
         CustomDataset: CustomDataset,
@@ -25571,17 +26662,20 @@
         HBaseSource: HBaseSource,
         GreenplumSource: GreenplumSource,
         GoogleBigQuerySource: GoogleBigQuerySource,
+        GoogleAdWordsSource: GoogleAdWordsSource,
         EloquaSource: EloquaSource,
         DrillSource: DrillSource,
         CouchbaseSource: CouchbaseSource,
         ConcurSource: ConcurSource,
         AzurePostgreSqlSource: AzurePostgreSqlSource,
         AmazonMWSSource: AmazonMWSSource,
+        RestServiceSource: RestServiceSource,
         HttpSource: HttpSource,
         AzureDataLakeStoreSource: AzureDataLakeStoreSource,
         MongoDbSource: MongoDbSource,
         CassandraSource: CassandraSource,
         WebSource: WebSource,
+        OracleServiceCloudSource: OracleServiceCloudSource,
         OracleSource: OracleSource,
         AzureMySqlSource: AzureMySqlSource,
         HdfsSource: HdfsSource,
@@ -25593,6 +26687,7 @@
         SapCloudForCustomerSource: SapCloudForCustomerSource,
         SalesforceSource: SalesforceSource,
         RelationalSource: RelationalSource,
+        DynamicsAXSource: DynamicsAXSource,
         DynamicsSource: DynamicsSource,
         DocumentDbCollectionSource: DocumentDbCollectionSource,
         BlobSource: BlobSource,
@@ -26001,7 +27096,7 @@
      * regenerated.
      */
     var packageName = "@azure/arm-datafactory";
-    var packageVersion = "1.0.0";
+    var packageVersion = "1.1.0";
     var DataFactoryManagementClientContext = /** @class */ (function (_super) {
         __extends(DataFactoryManagementClientContext, _super);
         /**
