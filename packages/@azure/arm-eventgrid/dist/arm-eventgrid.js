@@ -63,6 +63,45 @@
      * regenerated.
      */
     /**
+     * Defines values for DomainProvisioningState.
+     * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
+     * 'Canceled', 'Failed'
+     * There could be more values for this enum apart from the ones defined here.If
+     * you want to set a value that is not from the known values then you can do
+     * the following:
+     * let param: DomainProvisioningState =
+     * <DomainProvisioningState>"someUnknownValueThatWillStillBeValid";
+     * @readonly
+     * @enum {string}
+     */
+    var DomainProvisioningState;
+    (function (DomainProvisioningState) {
+        DomainProvisioningState["Creating"] = "Creating";
+        DomainProvisioningState["Updating"] = "Updating";
+        DomainProvisioningState["Deleting"] = "Deleting";
+        DomainProvisioningState["Succeeded"] = "Succeeded";
+        DomainProvisioningState["Canceled"] = "Canceled";
+        DomainProvisioningState["Failed"] = "Failed";
+    })(DomainProvisioningState || (DomainProvisioningState = {}));
+    /**
+     * Defines values for InputSchema.
+     * Possible values include: 'EventGridSchema', 'CustomEventSchema',
+     * 'CloudEventV01Schema'
+     * There could be more values for this enum apart from the ones defined here.If
+     * you want to set a value that is not from the known values then you can do
+     * the following:
+     * let param: InputSchema =
+     * <InputSchema>"someUnknownValueThatWillStillBeValid";
+     * @readonly
+     * @enum {string}
+     */
+    var InputSchema;
+    (function (InputSchema) {
+        InputSchema["EventGridSchema"] = "EventGridSchema";
+        InputSchema["CustomEventSchema"] = "CustomEventSchema";
+        InputSchema["CloudEventV01Schema"] = "CloudEventV01Schema";
+    })(InputSchema || (InputSchema = {}));
+    /**
      * Defines values for EventSubscriptionProvisioningState.
      * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded',
      * 'Canceled', 'Failed', 'AwaitingManualAction'
@@ -86,8 +125,8 @@
     })(EventSubscriptionProvisioningState || (EventSubscriptionProvisioningState = {}));
     /**
      * Defines values for EventDeliverySchema.
-     * Possible values include: 'EventGridSchema', 'InputEventSchema',
-     * 'CloudEventV01Schema'
+     * Possible values include: 'EventGridSchema', 'CloudEventV01Schema',
+     * 'CustomInputSchema'
      * There could be more values for this enum apart from the ones defined here.If
      * you want to set a value that is not from the known values then you can do
      * the following:
@@ -99,8 +138,8 @@
     var EventDeliverySchema;
     (function (EventDeliverySchema) {
         EventDeliverySchema["EventGridSchema"] = "EventGridSchema";
-        EventDeliverySchema["InputEventSchema"] = "InputEventSchema";
         EventDeliverySchema["CloudEventV01Schema"] = "CloudEventV01Schema";
+        EventDeliverySchema["CustomInputSchema"] = "CustomInputSchema";
     })(EventDeliverySchema || (EventDeliverySchema = {}));
     /**
      * Defines values for TopicProvisioningState.
@@ -123,24 +162,6 @@
         TopicProvisioningState["Canceled"] = "Canceled";
         TopicProvisioningState["Failed"] = "Failed";
     })(TopicProvisioningState || (TopicProvisioningState = {}));
-    /**
-     * Defines values for InputSchema.
-     * Possible values include: 'EventGridSchema', 'CustomEventSchema',
-     * 'CloudEventV01Schema'
-     * There could be more values for this enum apart from the ones defined here.If
-     * you want to set a value that is not from the known values then you can do
-     * the following:
-     * let param: InputSchema =
-     * <InputSchema>"someUnknownValueThatWillStillBeValid";
-     * @readonly
-     * @enum {string}
-     */
-    var InputSchema;
-    (function (InputSchema) {
-        InputSchema["EventGridSchema"] = "EventGridSchema";
-        InputSchema["CustomEventSchema"] = "CustomEventSchema";
-        InputSchema["CloudEventV01Schema"] = "CloudEventV01Schema";
-    })(InputSchema || (InputSchema = {}));
     /**
      * Defines values for ResourceRegionType.
      * Possible values include: 'RegionalResource', 'GlobalResource'
@@ -180,10 +201,11 @@
     })(TopicTypeProvisioningState || (TopicTypeProvisioningState = {}));
 
     var index = /*#__PURE__*/Object.freeze({
+        get DomainProvisioningState () { return DomainProvisioningState; },
+        get InputSchema () { return InputSchema; },
         get EventSubscriptionProvisioningState () { return EventSubscriptionProvisioningState; },
         get EventDeliverySchema () { return EventDeliverySchema; },
         get TopicProvisioningState () { return TopicProvisioningState; },
-        get InputSchema () { return InputSchema; },
         get ResourceRegionType () { return ResourceRegionType; },
         get TopicTypeProvisioningState () { return TopicTypeProvisioningState; }
     });
@@ -199,6 +221,223 @@
      */
     var CloudError = msRestAzure.CloudErrorMapper;
     var BaseResource = msRestAzure.BaseResourceMapper;
+    var InputSchemaMapping = {
+        serializedName: "InputSchemaMapping",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: {
+                serializedName: "inputSchemaMappingType",
+                clientName: "inputSchemaMappingType"
+            },
+            uberParent: "InputSchemaMapping",
+            className: "InputSchemaMapping",
+            modelProperties: {
+                inputSchemaMappingType: {
+                    required: true,
+                    serializedName: "inputSchemaMappingType",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var DomainProperties = {
+        serializedName: "DomainProperties",
+        type: {
+            name: "Composite",
+            className: "DomainProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                endpoint: {
+                    readOnly: true,
+                    serializedName: "endpoint",
+                    type: {
+                        name: "String"
+                    }
+                },
+                inputSchema: {
+                    serializedName: "inputSchema",
+                    type: {
+                        name: "String"
+                    }
+                },
+                inputSchemaMapping: {
+                    serializedName: "inputSchemaMapping",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "inputSchemaMappingType",
+                            clientName: "inputSchemaMappingType"
+                        },
+                        uberParent: "InputSchemaMapping",
+                        className: "InputSchemaMapping"
+                    }
+                }
+            }
+        }
+    };
+    var Resource = {
+        serializedName: "Resource",
+        type: {
+            name: "Composite",
+            className: "Resource",
+            modelProperties: {
+                id: {
+                    readOnly: true,
+                    serializedName: "id",
+                    type: {
+                        name: "String"
+                    }
+                },
+                name: {
+                    readOnly: true,
+                    serializedName: "name",
+                    type: {
+                        name: "String"
+                    }
+                },
+                type: {
+                    readOnly: true,
+                    serializedName: "type",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var TrackedResource = {
+        serializedName: "TrackedResource",
+        type: {
+            name: "Composite",
+            className: "TrackedResource",
+            modelProperties: __assign({}, Resource.type.modelProperties, { location: {
+                    required: true,
+                    serializedName: "location",
+                    type: {
+                        name: "String"
+                    }
+                }, tags: {
+                    serializedName: "tags",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                } })
+        }
+    };
+    var Domain = {
+        serializedName: "Domain",
+        type: {
+            name: "Composite",
+            className: "Domain",
+            modelProperties: __assign({}, TrackedResource.type.modelProperties, { provisioningState: {
+                    readOnly: true,
+                    serializedName: "properties.provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                }, endpoint: {
+                    readOnly: true,
+                    serializedName: "properties.endpoint",
+                    type: {
+                        name: "String"
+                    }
+                }, inputSchema: {
+                    serializedName: "properties.inputSchema",
+                    type: {
+                        name: "String"
+                    }
+                }, inputSchemaMapping: {
+                    serializedName: "properties.inputSchemaMapping",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "inputSchemaMappingType",
+                            clientName: "inputSchemaMappingType"
+                        },
+                        uberParent: "InputSchemaMapping",
+                        className: "InputSchemaMapping"
+                    }
+                } })
+        }
+    };
+    var DomainUpdateParameters = {
+        serializedName: "DomainUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "DomainUpdateParameters",
+            modelProperties: {
+                tags: {
+                    serializedName: "tags",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    var DomainSharedAccessKeys = {
+        serializedName: "DomainSharedAccessKeys",
+        type: {
+            name: "Composite",
+            className: "DomainSharedAccessKeys",
+            modelProperties: {
+                key1: {
+                    serializedName: "key1",
+                    type: {
+                        name: "String"
+                    }
+                },
+                key2: {
+                    serializedName: "key2",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var DomainRegenerateKeyRequest = {
+        serializedName: "DomainRegenerateKeyRequest",
+        type: {
+            name: "Composite",
+            className: "DomainRegenerateKeyRequest",
+            modelProperties: {
+                keyName: {
+                    required: true,
+                    serializedName: "keyName",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var DomainTopic = {
+        serializedName: "DomainTopic",
+        type: {
+            name: "Composite",
+            className: "DomainTopic",
+            modelProperties: __assign({}, Resource.type.modelProperties)
+        }
+    };
     var EventSubscriptionDestination = {
         serializedName: "EventSubscriptionDestination",
         type: {
@@ -213,6 +452,33 @@
                 endpointType: {
                     required: true,
                     serializedName: "endpointType",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var AdvancedFilter = {
+        serializedName: "AdvancedFilter",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: {
+                serializedName: "operatorType",
+                clientName: "operatorType"
+            },
+            uberParent: "AdvancedFilter",
+            className: "AdvancedFilter",
+            modelProperties: {
+                key: {
+                    serializedName: "key",
+                    type: {
+                        name: "String"
+                    }
+                },
+                operatorType: {
+                    required: true,
+                    serializedName: "operatorType",
                     type: {
                         name: "String"
                     }
@@ -254,6 +520,23 @@
                     defaultValue: false,
                     type: {
                         name: "Boolean"
+                    }
+                },
+                advancedFilters: {
+                    serializedName: "advancedFilters",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                polymorphicDiscriminator: {
+                                    serializedName: "operatorType",
+                                    clientName: "operatorType"
+                                },
+                                uberParent: "AdvancedFilter",
+                                className: "AdvancedFilter"
+                            }
+                        }
                     }
                 }
             }
@@ -351,9 +634,14 @@
                         }
                     }
                 },
+                expirationTimeUtc: {
+                    serializedName: "expirationTimeUtc",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
                 eventDeliverySchema: {
                     serializedName: "eventDeliverySchema",
-                    defaultValue: 'InputEventSchema',
                     type: {
                         name: "String"
                     }
@@ -375,36 +663,6 @@
                         },
                         uberParent: "DeadLetterDestination",
                         className: "DeadLetterDestination"
-                    }
-                }
-            }
-        }
-    };
-    var Resource = {
-        serializedName: "Resource",
-        type: {
-            name: "Composite",
-            className: "Resource",
-            modelProperties: {
-                id: {
-                    readOnly: true,
-                    serializedName: "id",
-                    type: {
-                        name: "String"
-                    }
-                },
-                name: {
-                    readOnly: true,
-                    serializedName: "name",
-                    type: {
-                        name: "String"
-                    }
-                },
-                type: {
-                    readOnly: true,
-                    serializedName: "type",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -453,6 +711,26 @@
             }
         }
     };
+    var NumberInAdvancedFilter = {
+        serializedName: "NumberIn",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "NumberInAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { values: {
+                    serializedName: "values",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Number"
+                            }
+                        }
+                    }
+                } })
+        }
+    };
     var StorageBlobDeadLetterDestination = {
         serializedName: "StorageBlob",
         type: {
@@ -469,6 +747,201 @@
                     serializedName: "properties.blobContainerName",
                     type: {
                         name: "String"
+                    }
+                } })
+        }
+    };
+    var NumberNotInAdvancedFilter = {
+        serializedName: "NumberNotIn",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "NumberNotInAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { values: {
+                    serializedName: "values",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Number"
+                            }
+                        }
+                    }
+                } })
+        }
+    };
+    var NumberLessThanAdvancedFilter = {
+        serializedName: "NumberLessThan",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "NumberLessThanAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { value: {
+                    serializedName: "value",
+                    type: {
+                        name: "Number"
+                    }
+                } })
+        }
+    };
+    var NumberGreaterThanAdvancedFilter = {
+        serializedName: "NumberGreaterThan",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "NumberGreaterThanAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { value: {
+                    serializedName: "value",
+                    type: {
+                        name: "Number"
+                    }
+                } })
+        }
+    };
+    var NumberLessThanOrEqualsAdvancedFilter = {
+        serializedName: "NumberLessThanOrEquals",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "NumberLessThanOrEqualsAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { value: {
+                    serializedName: "value",
+                    type: {
+                        name: "Number"
+                    }
+                } })
+        }
+    };
+    var NumberGreaterThanOrEqualsAdvancedFilter = {
+        serializedName: "NumberGreaterThanOrEquals",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "NumberGreaterThanOrEqualsAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { value: {
+                    serializedName: "value",
+                    type: {
+                        name: "Number"
+                    }
+                } })
+        }
+    };
+    var BoolEqualsAdvancedFilter = {
+        serializedName: "BoolEquals",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "BoolEqualsAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { value: {
+                    serializedName: "value",
+                    type: {
+                        name: "Boolean"
+                    }
+                } })
+        }
+    };
+    var StringInAdvancedFilter = {
+        serializedName: "StringIn",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "StringInAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { values: {
+                    serializedName: "values",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                } })
+        }
+    };
+    var StringNotInAdvancedFilter = {
+        serializedName: "StringNotIn",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "StringNotInAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { values: {
+                    serializedName: "values",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                } })
+        }
+    };
+    var StringBeginsWithAdvancedFilter = {
+        serializedName: "StringBeginsWith",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "StringBeginsWithAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { values: {
+                    serializedName: "values",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                } })
+        }
+    };
+    var StringEndsWithAdvancedFilter = {
+        serializedName: "StringEndsWith",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "StringEndsWithAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { values: {
+                    serializedName: "values",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                } })
+        }
+    };
+    var StringContainsAdvancedFilter = {
+        serializedName: "StringContains",
+        type: {
+            name: "Composite",
+            polymorphicDiscriminator: AdvancedFilter.type.polymorphicDiscriminator,
+            uberParent: "AdvancedFilter",
+            className: "StringContainsAdvancedFilter",
+            modelProperties: __assign({}, AdvancedFilter.type.modelProperties, { values: {
+                    serializedName: "values",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
                     }
                 } })
         }
@@ -639,9 +1112,13 @@
                             }
                         }
                     }
+                }, expirationTimeUtc: {
+                    serializedName: "properties.expirationTimeUtc",
+                    type: {
+                        name: "DateTime"
+                    }
                 }, eventDeliverySchema: {
                     serializedName: "properties.eventDeliverySchema",
-                    defaultValue: 'InputEventSchema',
                     type: {
                         name: "String"
                     }
@@ -699,6 +1176,12 @@
                                 name: "String"
                             }
                         }
+                    }
+                },
+                expirationTimeUtc: {
+                    serializedName: "expirationTimeUtc",
+                    type: {
+                        name: "DateTime"
                     }
                 },
                 eventDeliverySchema: {
@@ -806,27 +1289,6 @@
                     serializedName: "properties",
                     type: {
                         name: "Object"
-                    }
-                }
-            }
-        }
-    };
-    var InputSchemaMapping = {
-        serializedName: "InputSchemaMapping",
-        type: {
-            name: "Composite",
-            polymorphicDiscriminator: {
-                serializedName: "inputSchemaMappingType",
-                clientName: "inputSchemaMappingType"
-            },
-            uberParent: "InputSchemaMapping",
-            className: "InputSchemaMapping",
-            modelProperties: {
-                inputSchemaMappingType: {
-                    required: true,
-                    serializedName: "inputSchemaMappingType",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -1003,30 +1465,6 @@
                     type: {
                         name: "Composite",
                         className: "JsonFieldWithDefault"
-                    }
-                } })
-        }
-    };
-    var TrackedResource = {
-        serializedName: "TrackedResource",
-        type: {
-            name: "Composite",
-            className: "TrackedResource",
-            modelProperties: __assign({}, Resource.type.modelProperties, { location: {
-                    required: true,
-                    serializedName: "location",
-                    type: {
-                        name: "String"
-                    }
-                }, tags: {
-                    serializedName: "tags",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
                     }
                 } })
         }
@@ -1268,6 +1706,48 @@
                 } })
         }
     };
+    var DomainsListResult = {
+        serializedName: "DomainsListResult",
+        type: {
+            name: "Composite",
+            className: "DomainsListResult",
+            modelProperties: {
+                value: {
+                    serializedName: "",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "Domain"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    var DomainTopicsListResult = {
+        serializedName: "DomainTopicsListResult",
+        type: {
+            name: "Composite",
+            className: "DomainTopicsListResult",
+            modelProperties: {
+                value: {
+                    serializedName: "",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "DomainTopic"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var EventSubscriptionsListResult = {
         serializedName: "EventSubscriptionsListResult",
         type: {
@@ -1374,29 +1854,63 @@
         }
     };
     var discriminators = {
+        'InputSchemaMapping': InputSchemaMapping,
         'EventSubscriptionDestination': EventSubscriptionDestination,
+        'AdvancedFilter': AdvancedFilter,
         'DeadLetterDestination': DeadLetterDestination,
+        'AdvancedFilter.NumberIn': NumberInAdvancedFilter,
         'DeadLetterDestination.StorageBlob': StorageBlobDeadLetterDestination,
+        'AdvancedFilter.NumberNotIn': NumberNotInAdvancedFilter,
+        'AdvancedFilter.NumberLessThan': NumberLessThanAdvancedFilter,
+        'AdvancedFilter.NumberGreaterThan': NumberGreaterThanAdvancedFilter,
+        'AdvancedFilter.NumberLessThanOrEquals': NumberLessThanOrEqualsAdvancedFilter,
+        'AdvancedFilter.NumberGreaterThanOrEquals': NumberGreaterThanOrEqualsAdvancedFilter,
+        'AdvancedFilter.BoolEquals': BoolEqualsAdvancedFilter,
+        'AdvancedFilter.StringIn': StringInAdvancedFilter,
+        'AdvancedFilter.StringNotIn': StringNotInAdvancedFilter,
+        'AdvancedFilter.StringBeginsWith': StringBeginsWithAdvancedFilter,
+        'AdvancedFilter.StringEndsWith': StringEndsWithAdvancedFilter,
+        'AdvancedFilter.StringContains': StringContainsAdvancedFilter,
         'EventSubscriptionDestination.WebHook': WebHookEventSubscriptionDestination,
         'EventSubscriptionDestination.EventHub': EventHubEventSubscriptionDestination,
         'EventSubscriptionDestination.StorageQueue': StorageQueueEventSubscriptionDestination,
         'EventSubscriptionDestination.HybridConnection': HybridConnectionEventSubscriptionDestination,
-        'InputSchemaMapping': InputSchemaMapping,
         'InputSchemaMapping.Json': JsonInputSchemaMapping
     };
 
     var mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
         BaseResource: BaseResource,
+        InputSchemaMapping: InputSchemaMapping,
+        DomainProperties: DomainProperties,
+        Resource: Resource,
+        TrackedResource: TrackedResource,
+        Domain: Domain,
+        DomainUpdateParameters: DomainUpdateParameters,
+        DomainSharedAccessKeys: DomainSharedAccessKeys,
+        DomainRegenerateKeyRequest: DomainRegenerateKeyRequest,
+        DomainTopic: DomainTopic,
         EventSubscriptionDestination: EventSubscriptionDestination,
+        AdvancedFilter: AdvancedFilter,
         EventSubscriptionFilter: EventSubscriptionFilter,
         RetryPolicy: RetryPolicy,
         DeadLetterDestination: DeadLetterDestination,
         EventSubscriptionProperties: EventSubscriptionProperties,
-        Resource: Resource,
         WebHookEventSubscriptionDestinationProperties: WebHookEventSubscriptionDestinationProperties,
         StorageBlobDeadLetterDestinationProperties: StorageBlobDeadLetterDestinationProperties,
+        NumberInAdvancedFilter: NumberInAdvancedFilter,
         StorageBlobDeadLetterDestination: StorageBlobDeadLetterDestination,
+        NumberNotInAdvancedFilter: NumberNotInAdvancedFilter,
+        NumberLessThanAdvancedFilter: NumberLessThanAdvancedFilter,
+        NumberGreaterThanAdvancedFilter: NumberGreaterThanAdvancedFilter,
+        NumberLessThanOrEqualsAdvancedFilter: NumberLessThanOrEqualsAdvancedFilter,
+        NumberGreaterThanOrEqualsAdvancedFilter: NumberGreaterThanOrEqualsAdvancedFilter,
+        BoolEqualsAdvancedFilter: BoolEqualsAdvancedFilter,
+        StringInAdvancedFilter: StringInAdvancedFilter,
+        StringNotInAdvancedFilter: StringNotInAdvancedFilter,
+        StringBeginsWithAdvancedFilter: StringBeginsWithAdvancedFilter,
+        StringEndsWithAdvancedFilter: StringEndsWithAdvancedFilter,
+        StringContainsAdvancedFilter: StringContainsAdvancedFilter,
         WebHookEventSubscriptionDestination: WebHookEventSubscriptionDestination,
         EventHubEventSubscriptionDestinationProperties: EventHubEventSubscriptionDestinationProperties,
         EventHubEventSubscriptionDestination: EventHubEventSubscriptionDestination,
@@ -1409,13 +1923,11 @@
         EventSubscriptionFullUrl: EventSubscriptionFullUrl,
         OperationInfo: OperationInfo,
         Operation: Operation,
-        InputSchemaMapping: InputSchemaMapping,
         TopicProperties: TopicProperties,
         JsonField: JsonField,
         JsonFieldWithDefault: JsonFieldWithDefault,
         JsonInputSchemaMappingProperties: JsonInputSchemaMappingProperties,
         JsonInputSchemaMapping: JsonInputSchemaMapping,
-        TrackedResource: TrackedResource,
         Topic: Topic,
         TopicUpdateParameters: TopicUpdateParameters,
         TopicSharedAccessKeys: TopicSharedAccessKeys,
@@ -1424,6 +1936,8 @@
         EventType: EventType,
         TopicTypeProperties: TopicTypeProperties,
         TopicTypeInfo: TopicTypeInfo,
+        DomainsListResult: DomainsListResult,
+        DomainTopicsListResult: DomainTopicsListResult,
         EventSubscriptionsListResult: EventSubscriptionsListResult,
         OperationsListResult: OperationsListResult,
         TopicsListResult: TopicsListResult,
@@ -1444,30 +1958,46 @@
 
     var Mappers = /*#__PURE__*/Object.freeze({
         discriminators: discriminators,
-        EventSubscription: EventSubscription,
+        Domain: Domain,
+        TrackedResource: TrackedResource,
         Resource: Resource,
         BaseResource: BaseResource,
+        InputSchemaMapping: InputSchemaMapping,
+        CloudError: CloudError,
+        DomainUpdateParameters: DomainUpdateParameters,
+        DomainsListResult: DomainsListResult,
+        DomainSharedAccessKeys: DomainSharedAccessKeys,
+        DomainRegenerateKeyRequest: DomainRegenerateKeyRequest,
+        DomainTopic: DomainTopic,
+        EventSubscription: EventSubscription,
         EventSubscriptionDestination: EventSubscriptionDestination,
         EventSubscriptionFilter: EventSubscriptionFilter,
+        AdvancedFilter: AdvancedFilter,
         RetryPolicy: RetryPolicy,
         DeadLetterDestination: DeadLetterDestination,
-        CloudError: CloudError,
-        EventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
-        EventSubscriptionFullUrl: EventSubscriptionFullUrl,
-        EventSubscriptionsListResult: EventSubscriptionsListResult,
+        JsonInputSchemaMapping: JsonInputSchemaMapping,
+        JsonField: JsonField,
+        JsonFieldWithDefault: JsonFieldWithDefault,
+        Topic: Topic,
+        EventType: EventType,
+        TopicTypeInfo: TopicTypeInfo,
+        NumberInAdvancedFilter: NumberInAdvancedFilter,
         StorageBlobDeadLetterDestination: StorageBlobDeadLetterDestination,
+        NumberNotInAdvancedFilter: NumberNotInAdvancedFilter,
+        NumberLessThanAdvancedFilter: NumberLessThanAdvancedFilter,
+        NumberGreaterThanAdvancedFilter: NumberGreaterThanAdvancedFilter,
+        NumberLessThanOrEqualsAdvancedFilter: NumberLessThanOrEqualsAdvancedFilter,
+        NumberGreaterThanOrEqualsAdvancedFilter: NumberGreaterThanOrEqualsAdvancedFilter,
+        BoolEqualsAdvancedFilter: BoolEqualsAdvancedFilter,
+        StringInAdvancedFilter: StringInAdvancedFilter,
+        StringNotInAdvancedFilter: StringNotInAdvancedFilter,
+        StringBeginsWithAdvancedFilter: StringBeginsWithAdvancedFilter,
+        StringEndsWithAdvancedFilter: StringEndsWithAdvancedFilter,
+        StringContainsAdvancedFilter: StringContainsAdvancedFilter,
         WebHookEventSubscriptionDestination: WebHookEventSubscriptionDestination,
         EventHubEventSubscriptionDestination: EventHubEventSubscriptionDestination,
         StorageQueueEventSubscriptionDestination: StorageQueueEventSubscriptionDestination,
-        HybridConnectionEventSubscriptionDestination: HybridConnectionEventSubscriptionDestination,
-        TrackedResource: TrackedResource,
-        Topic: Topic,
-        InputSchemaMapping: InputSchemaMapping,
-        EventType: EventType,
-        TopicTypeInfo: TopicTypeInfo,
-        JsonInputSchemaMapping: JsonInputSchemaMapping,
-        JsonField: JsonField,
-        JsonFieldWithDefault: JsonFieldWithDefault
+        HybridConnectionEventSubscriptionDestination: HybridConnectionEventSubscriptionDestination
     });
 
     /*
@@ -1494,6 +2024,16 @@
         mapper: {
             required: true,
             serializedName: "api-version",
+            type: {
+                name: "String"
+            }
+        }
+    };
+    var domainName = {
+        parameterPath: "domainName",
+        mapper: {
+            required: true,
+            serializedName: "domainName",
             type: {
                 name: "String"
             }
@@ -1610,6 +2150,540 @@
      * Changes may cause incorrect behavior and will be lost if the code is
      * regenerated.
      */
+    /** Class representing a Domains. */
+    var Domains = /** @class */ (function () {
+        /**
+         * Create a Domains.
+         * @param {EventGridManagementClientContext} client Reference to the service client.
+         */
+        function Domains(client) {
+            this.client = client;
+        }
+        Domains.prototype.get = function (resourceGroupName$$1, domainName$$1, options, callback) {
+            return this.client.sendOperationRequest({
+                resourceGroupName: resourceGroupName$$1,
+                domainName: domainName$$1,
+                options: options
+            }, getOperationSpec, callback);
+        };
+        /**
+         * Asynchronously creates a new domain with the specified parameters.
+         * @summary Create a domain
+         * @param resourceGroupName The name of the resource group within the user's subscription.
+         * @param domainName Name of the domain
+         * @param domainInfo Domain information
+         * @param [options] The optional parameters
+         * @returns Promise<Models.DomainsCreateOrUpdateResponse>
+         */
+        Domains.prototype.createOrUpdate = function (resourceGroupName$$1, domainName$$1, domainInfo, options) {
+            return this.beginCreateOrUpdate(resourceGroupName$$1, domainName$$1, domainInfo, options)
+                .then(function (lroPoller) { return lroPoller.pollUntilFinished(); });
+        };
+        /**
+         * Delete existing domain
+         * @summary Delete a domain
+         * @param resourceGroupName The name of the resource group within the user's subscription.
+         * @param domainName Name of the domain
+         * @param [options] The optional parameters
+         * @returns Promise<msRest.RestResponse>
+         */
+        Domains.prototype.deleteMethod = function (resourceGroupName$$1, domainName$$1, options) {
+            return this.beginDeleteMethod(resourceGroupName$$1, domainName$$1, options)
+                .then(function (lroPoller) { return lroPoller.pollUntilFinished(); });
+        };
+        /**
+         * Asynchronously updates a domain with the specified parameters.
+         * @summary Update a domain
+         * @param resourceGroupName The name of the resource group within the user's subscription.
+         * @param domainName Name of the domain
+         * @param domainUpdateParameters Domain update information
+         * @param [options] The optional parameters
+         * @returns Promise<Models.DomainsUpdateResponse>
+         */
+        Domains.prototype.update = function (resourceGroupName$$1, domainName$$1, domainUpdateParameters, options) {
+            return this.beginUpdate(resourceGroupName$$1, domainName$$1, domainUpdateParameters, options)
+                .then(function (lroPoller) { return lroPoller.pollUntilFinished(); });
+        };
+        Domains.prototype.listBySubscription = function (options, callback) {
+            return this.client.sendOperationRequest({
+                options: options
+            }, listBySubscriptionOperationSpec, callback);
+        };
+        Domains.prototype.listByResourceGroup = function (resourceGroupName$$1, options, callback) {
+            return this.client.sendOperationRequest({
+                resourceGroupName: resourceGroupName$$1,
+                options: options
+            }, listByResourceGroupOperationSpec, callback);
+        };
+        Domains.prototype.listSharedAccessKeys = function (resourceGroupName$$1, domainName$$1, options, callback) {
+            return this.client.sendOperationRequest({
+                resourceGroupName: resourceGroupName$$1,
+                domainName: domainName$$1,
+                options: options
+            }, listSharedAccessKeysOperationSpec, callback);
+        };
+        Domains.prototype.regenerateKey = function (resourceGroupName$$1, domainName$$1, regenerateKeyRequest, options, callback) {
+            return this.client.sendOperationRequest({
+                resourceGroupName: resourceGroupName$$1,
+                domainName: domainName$$1,
+                regenerateKeyRequest: regenerateKeyRequest,
+                options: options
+            }, regenerateKeyOperationSpec, callback);
+        };
+        /**
+         * Asynchronously creates a new domain with the specified parameters.
+         * @summary Create a domain
+         * @param resourceGroupName The name of the resource group within the user's subscription.
+         * @param domainName Name of the domain
+         * @param domainInfo Domain information
+         * @param [options] The optional parameters
+         * @returns Promise<msRestAzure.LROPoller>
+         */
+        Domains.prototype.beginCreateOrUpdate = function (resourceGroupName$$1, domainName$$1, domainInfo, options) {
+            return this.client.sendLRORequest({
+                resourceGroupName: resourceGroupName$$1,
+                domainName: domainName$$1,
+                domainInfo: domainInfo,
+                options: options
+            }, beginCreateOrUpdateOperationSpec, options);
+        };
+        /**
+         * Delete existing domain
+         * @summary Delete a domain
+         * @param resourceGroupName The name of the resource group within the user's subscription.
+         * @param domainName Name of the domain
+         * @param [options] The optional parameters
+         * @returns Promise<msRestAzure.LROPoller>
+         */
+        Domains.prototype.beginDeleteMethod = function (resourceGroupName$$1, domainName$$1, options) {
+            return this.client.sendLRORequest({
+                resourceGroupName: resourceGroupName$$1,
+                domainName: domainName$$1,
+                options: options
+            }, beginDeleteMethodOperationSpec, options);
+        };
+        /**
+         * Asynchronously updates a domain with the specified parameters.
+         * @summary Update a domain
+         * @param resourceGroupName The name of the resource group within the user's subscription.
+         * @param domainName Name of the domain
+         * @param domainUpdateParameters Domain update information
+         * @param [options] The optional parameters
+         * @returns Promise<msRestAzure.LROPoller>
+         */
+        Domains.prototype.beginUpdate = function (resourceGroupName$$1, domainName$$1, domainUpdateParameters, options) {
+            return this.client.sendLRORequest({
+                resourceGroupName: resourceGroupName$$1,
+                domainName: domainName$$1,
+                domainUpdateParameters: domainUpdateParameters,
+                options: options
+            }, beginUpdateOperationSpec, options);
+        };
+        return Domains;
+    }());
+    // Operation Specifications
+    var serializer = new msRest.Serializer(Mappers);
+    var getOperationSpec = {
+        httpMethod: "GET",
+        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}",
+        urlParameters: [
+            subscriptionId,
+            resourceGroupName,
+            domainName
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        responses: {
+            200: {
+                bodyMapper: Domain
+            },
+            default: {
+                bodyMapper: CloudError
+            }
+        },
+        serializer: serializer
+    };
+    var listBySubscriptionOperationSpec = {
+        httpMethod: "GET",
+        path: "subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/domains",
+        urlParameters: [
+            subscriptionId
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        responses: {
+            200: {
+                bodyMapper: DomainsListResult
+            },
+            default: {
+                bodyMapper: CloudError
+            }
+        },
+        serializer: serializer
+    };
+    var listByResourceGroupOperationSpec = {
+        httpMethod: "GET",
+        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains",
+        urlParameters: [
+            subscriptionId,
+            resourceGroupName
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        responses: {
+            200: {
+                bodyMapper: DomainsListResult
+            },
+            default: {
+                bodyMapper: CloudError
+            }
+        },
+        serializer: serializer
+    };
+    var listSharedAccessKeysOperationSpec = {
+        httpMethod: "POST",
+        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/listKeys",
+        urlParameters: [
+            subscriptionId,
+            resourceGroupName,
+            domainName
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        responses: {
+            200: {
+                bodyMapper: DomainSharedAccessKeys
+            },
+            default: {
+                bodyMapper: CloudError
+            }
+        },
+        serializer: serializer
+    };
+    var regenerateKeyOperationSpec = {
+        httpMethod: "POST",
+        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/regenerateKey",
+        urlParameters: [
+            subscriptionId,
+            resourceGroupName,
+            domainName
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        requestBody: {
+            parameterPath: "regenerateKeyRequest",
+            mapper: __assign({}, DomainRegenerateKeyRequest, { required: true })
+        },
+        responses: {
+            200: {
+                bodyMapper: DomainSharedAccessKeys
+            },
+            default: {
+                bodyMapper: CloudError
+            }
+        },
+        serializer: serializer
+    };
+    var beginCreateOrUpdateOperationSpec = {
+        httpMethod: "PUT",
+        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}",
+        urlParameters: [
+            subscriptionId,
+            resourceGroupName,
+            domainName
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        requestBody: {
+            parameterPath: "domainInfo",
+            mapper: __assign({}, Domain, { required: true })
+        },
+        responses: {
+            201: {
+                bodyMapper: Domain
+            },
+            default: {
+                bodyMapper: CloudError
+            }
+        },
+        serializer: serializer
+    };
+    var beginDeleteMethodOperationSpec = {
+        httpMethod: "DELETE",
+        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}",
+        urlParameters: [
+            subscriptionId,
+            resourceGroupName,
+            domainName
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        responses: {
+            202: {},
+            204: {},
+            default: {
+                bodyMapper: CloudError
+            }
+        },
+        serializer: serializer
+    };
+    var beginUpdateOperationSpec = {
+        httpMethod: "PATCH",
+        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}",
+        urlParameters: [
+            subscriptionId,
+            resourceGroupName,
+            domainName
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        requestBody: {
+            parameterPath: "domainUpdateParameters",
+            mapper: __assign({}, DomainUpdateParameters, { required: true })
+        },
+        responses: {
+            201: {
+                bodyMapper: Domain
+            },
+            default: {
+                bodyMapper: CloudError
+            }
+        },
+        serializer: serializer
+    };
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License. See License.txt in the project root for
+     * license information.
+     *
+     * Code generated by Microsoft (R) AutoRest Code Generator.
+     * Changes may cause incorrect behavior and will be lost if the code is
+     * regenerated.
+     */
+
+    var Mappers$1 = /*#__PURE__*/Object.freeze({
+        discriminators: discriminators,
+        DomainTopic: DomainTopic,
+        Resource: Resource,
+        BaseResource: BaseResource,
+        CloudError: CloudError,
+        DomainTopicsListResult: DomainTopicsListResult,
+        EventSubscription: EventSubscription,
+        EventSubscriptionDestination: EventSubscriptionDestination,
+        EventSubscriptionFilter: EventSubscriptionFilter,
+        AdvancedFilter: AdvancedFilter,
+        RetryPolicy: RetryPolicy,
+        DeadLetterDestination: DeadLetterDestination,
+        TrackedResource: TrackedResource,
+        Topic: Topic,
+        InputSchemaMapping: InputSchemaMapping,
+        EventType: EventType,
+        TopicTypeInfo: TopicTypeInfo,
+        Domain: Domain,
+        NumberInAdvancedFilter: NumberInAdvancedFilter,
+        StorageBlobDeadLetterDestination: StorageBlobDeadLetterDestination,
+        NumberNotInAdvancedFilter: NumberNotInAdvancedFilter,
+        NumberLessThanAdvancedFilter: NumberLessThanAdvancedFilter,
+        NumberGreaterThanAdvancedFilter: NumberGreaterThanAdvancedFilter,
+        NumberLessThanOrEqualsAdvancedFilter: NumberLessThanOrEqualsAdvancedFilter,
+        NumberGreaterThanOrEqualsAdvancedFilter: NumberGreaterThanOrEqualsAdvancedFilter,
+        BoolEqualsAdvancedFilter: BoolEqualsAdvancedFilter,
+        StringInAdvancedFilter: StringInAdvancedFilter,
+        StringNotInAdvancedFilter: StringNotInAdvancedFilter,
+        StringBeginsWithAdvancedFilter: StringBeginsWithAdvancedFilter,
+        StringEndsWithAdvancedFilter: StringEndsWithAdvancedFilter,
+        StringContainsAdvancedFilter: StringContainsAdvancedFilter,
+        WebHookEventSubscriptionDestination: WebHookEventSubscriptionDestination,
+        EventHubEventSubscriptionDestination: EventHubEventSubscriptionDestination,
+        StorageQueueEventSubscriptionDestination: StorageQueueEventSubscriptionDestination,
+        HybridConnectionEventSubscriptionDestination: HybridConnectionEventSubscriptionDestination,
+        JsonInputSchemaMapping: JsonInputSchemaMapping,
+        JsonField: JsonField,
+        JsonFieldWithDefault: JsonFieldWithDefault
+    });
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License. See License.txt in the project root for
+     * license information.
+     *
+     * Code generated by Microsoft (R) AutoRest Code Generator.
+     * Changes may cause incorrect behavior and will be lost if the code is
+     * regenerated.
+     */
+    /** Class representing a DomainTopics. */
+    var DomainTopics = /** @class */ (function () {
+        /**
+         * Create a DomainTopics.
+         * @param {EventGridManagementClientContext} client Reference to the service client.
+         */
+        function DomainTopics(client) {
+            this.client = client;
+        }
+        DomainTopics.prototype.get = function (resourceGroupName$$1, domainName$$1, topicName$$1, options, callback) {
+            return this.client.sendOperationRequest({
+                resourceGroupName: resourceGroupName$$1,
+                domainName: domainName$$1,
+                topicName: topicName$$1,
+                options: options
+            }, getOperationSpec$1, callback);
+        };
+        DomainTopics.prototype.listByDomain = function (resourceGroupName$$1, domainName$$1, options, callback) {
+            return this.client.sendOperationRequest({
+                resourceGroupName: resourceGroupName$$1,
+                domainName: domainName$$1,
+                options: options
+            }, listByDomainOperationSpec, callback);
+        };
+        return DomainTopics;
+    }());
+    // Operation Specifications
+    var serializer$1 = new msRest.Serializer(Mappers$1);
+    var getOperationSpec$1 = {
+        httpMethod: "GET",
+        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{topicName}",
+        urlParameters: [
+            subscriptionId,
+            resourceGroupName,
+            domainName,
+            topicName
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        responses: {
+            200: {
+                bodyMapper: DomainTopic
+            },
+            default: {
+                bodyMapper: CloudError
+            }
+        },
+        serializer: serializer$1
+    };
+    var listByDomainOperationSpec = {
+        httpMethod: "GET",
+        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics",
+        urlParameters: [
+            subscriptionId,
+            resourceGroupName,
+            domainName
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        responses: {
+            200: {
+                bodyMapper: DomainTopicsListResult
+            },
+            default: {
+                bodyMapper: CloudError
+            }
+        },
+        serializer: serializer$1
+    };
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License. See License.txt in the project root for
+     * license information.
+     *
+     * Code generated by Microsoft (R) AutoRest Code Generator.
+     * Changes may cause incorrect behavior and will be lost if the code is
+     * regenerated.
+     */
+
+    var Mappers$2 = /*#__PURE__*/Object.freeze({
+        discriminators: discriminators,
+        EventSubscription: EventSubscription,
+        Resource: Resource,
+        BaseResource: BaseResource,
+        EventSubscriptionDestination: EventSubscriptionDestination,
+        EventSubscriptionFilter: EventSubscriptionFilter,
+        AdvancedFilter: AdvancedFilter,
+        RetryPolicy: RetryPolicy,
+        DeadLetterDestination: DeadLetterDestination,
+        CloudError: CloudError,
+        EventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
+        EventSubscriptionFullUrl: EventSubscriptionFullUrl,
+        EventSubscriptionsListResult: EventSubscriptionsListResult,
+        DomainTopic: DomainTopic,
+        NumberInAdvancedFilter: NumberInAdvancedFilter,
+        StorageBlobDeadLetterDestination: StorageBlobDeadLetterDestination,
+        NumberNotInAdvancedFilter: NumberNotInAdvancedFilter,
+        NumberLessThanAdvancedFilter: NumberLessThanAdvancedFilter,
+        NumberGreaterThanAdvancedFilter: NumberGreaterThanAdvancedFilter,
+        NumberLessThanOrEqualsAdvancedFilter: NumberLessThanOrEqualsAdvancedFilter,
+        NumberGreaterThanOrEqualsAdvancedFilter: NumberGreaterThanOrEqualsAdvancedFilter,
+        BoolEqualsAdvancedFilter: BoolEqualsAdvancedFilter,
+        StringInAdvancedFilter: StringInAdvancedFilter,
+        StringNotInAdvancedFilter: StringNotInAdvancedFilter,
+        StringBeginsWithAdvancedFilter: StringBeginsWithAdvancedFilter,
+        StringEndsWithAdvancedFilter: StringEndsWithAdvancedFilter,
+        StringContainsAdvancedFilter: StringContainsAdvancedFilter,
+        WebHookEventSubscriptionDestination: WebHookEventSubscriptionDestination,
+        EventHubEventSubscriptionDestination: EventHubEventSubscriptionDestination,
+        StorageQueueEventSubscriptionDestination: StorageQueueEventSubscriptionDestination,
+        HybridConnectionEventSubscriptionDestination: HybridConnectionEventSubscriptionDestination,
+        TrackedResource: TrackedResource,
+        Topic: Topic,
+        InputSchemaMapping: InputSchemaMapping,
+        EventType: EventType,
+        TopicTypeInfo: TopicTypeInfo,
+        Domain: Domain,
+        JsonInputSchemaMapping: JsonInputSchemaMapping,
+        JsonField: JsonField,
+        JsonFieldWithDefault: JsonFieldWithDefault
+    });
+
+    /*
+     * Copyright (c) Microsoft Corporation. All rights reserved.
+     * Licensed under the MIT License. See License.txt in the project root for
+     * license information.
+     *
+     * Code generated by Microsoft (R) AutoRest Code Generator.
+     * Changes may cause incorrect behavior and will be lost if the code is
+     * regenerated.
+     */
     /** Class representing a EventSubscriptions. */
     var EventSubscriptions = /** @class */ (function () {
         /**
@@ -1624,7 +2698,7 @@
                 scope: scope$$1,
                 eventSubscriptionName: eventSubscriptionName$$1,
                 options: options
-            }, getOperationSpec, callback);
+            }, getOperationSpec$2, callback);
         };
         /**
          * Asynchronously creates a new event subscription or updates an existing event subscription based
@@ -1757,6 +2831,14 @@
                 options: options
             }, listByResourceOperationSpec, callback);
         };
+        EventSubscriptions.prototype.listByDomainTopic = function (resourceGroupName$$1, domainName$$1, topicName$$1, options, callback) {
+            return this.client.sendOperationRequest({
+                resourceGroupName: resourceGroupName$$1,
+                domainName: domainName$$1,
+                topicName: topicName$$1,
+                options: options
+            }, listByDomainTopicOperationSpec, callback);
+        };
         /**
          * Asynchronously creates a new event subscription or updates an existing event subscription based
          * on the specified scope.
@@ -1783,7 +2865,7 @@
                 eventSubscriptionName: eventSubscriptionName$$1,
                 eventSubscriptionInfo: eventSubscriptionInfo,
                 options: options
-            }, beginCreateOrUpdateOperationSpec, options);
+            }, beginCreateOrUpdateOperationSpec$1, options);
         };
         /**
          * Delete an existing event subscription
@@ -1805,7 +2887,7 @@
                 scope: scope$$1,
                 eventSubscriptionName: eventSubscriptionName$$1,
                 options: options
-            }, beginDeleteMethodOperationSpec, options);
+            }, beginDeleteMethodOperationSpec$1, options);
         };
         /**
          * Asynchronously updates an existing event subscription.
@@ -1829,13 +2911,13 @@
                 eventSubscriptionName: eventSubscriptionName$$1,
                 eventSubscriptionUpdateParameters: eventSubscriptionUpdateParameters,
                 options: options
-            }, beginUpdateOperationSpec, options);
+            }, beginUpdateOperationSpec$1, options);
         };
         return EventSubscriptions;
     }());
     // Operation Specifications
-    var serializer = new msRest.Serializer(Mappers);
-    var getOperationSpec = {
+    var serializer$2 = new msRest.Serializer(Mappers$2);
+    var getOperationSpec$2 = {
         httpMethod: "GET",
         path: "{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
         urlParameters: [
@@ -1856,7 +2938,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
     var getFullUrlOperationSpec = {
         httpMethod: "POST",
@@ -1879,7 +2961,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
     var listGlobalBySubscriptionOperationSpec = {
         httpMethod: "GET",
@@ -1901,7 +2983,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
     var listGlobalBySubscriptionForTopicTypeOperationSpec = {
         httpMethod: "GET",
@@ -1924,7 +3006,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
     var listGlobalByResourceGroupOperationSpec = {
         httpMethod: "GET",
@@ -1947,7 +3029,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
     var listGlobalByResourceGroupForTopicTypeOperationSpec = {
         httpMethod: "GET",
@@ -1971,7 +3053,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
     var listRegionalBySubscriptionOperationSpec = {
         httpMethod: "GET",
@@ -1994,7 +3076,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
     var listRegionalByResourceGroupOperationSpec = {
         httpMethod: "GET",
@@ -2018,7 +3100,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
     var listRegionalBySubscriptionForTopicTypeOperationSpec = {
         httpMethod: "GET",
@@ -2042,7 +3124,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
     var listRegionalByResourceGroupForTopicTypeOperationSpec = {
         httpMethod: "GET",
@@ -2067,7 +3149,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
     var listByResourceOperationSpec = {
         httpMethod: "GET",
@@ -2093,9 +3175,34 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
-    var beginCreateOrUpdateOperationSpec = {
+    var listByDomainTopicOperationSpec = {
+        httpMethod: "GET",
+        path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{topicName}/providers/Microsoft.EventGrid/eventSubscriptions",
+        urlParameters: [
+            subscriptionId,
+            resourceGroupName,
+            domainName,
+            topicName
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        responses: {
+            200: {
+                bodyMapper: EventSubscriptionsListResult
+            },
+            default: {
+                bodyMapper: CloudError
+            }
+        },
+        serializer: serializer$2
+    };
+    var beginCreateOrUpdateOperationSpec$1 = {
         httpMethod: "PUT",
         path: "{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
         urlParameters: [
@@ -2120,9 +3227,9 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
-    var beginDeleteMethodOperationSpec = {
+    var beginDeleteMethodOperationSpec$1 = {
         httpMethod: "DELETE",
         path: "{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
         urlParameters: [
@@ -2143,9 +3250,9 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
-    var beginUpdateOperationSpec = {
+    var beginUpdateOperationSpec$1 = {
         httpMethod: "PATCH",
         path: "{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
         urlParameters: [
@@ -2170,7 +3277,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer
+        serializer: serializer$2
     };
 
     /*
@@ -2183,7 +3290,7 @@
      * regenerated.
      */
 
-    var Mappers$1 = /*#__PURE__*/Object.freeze({
+    var Mappers$3 = /*#__PURE__*/Object.freeze({
         discriminators: discriminators,
         OperationsListResult: OperationsListResult,
         Operation: Operation,
@@ -2217,7 +3324,7 @@
         return Operations;
     }());
     // Operation Specifications
-    var serializer$1 = new msRest.Serializer(Mappers$1);
+    var serializer$3 = new msRest.Serializer(Mappers$3);
     var listOperationSpec = {
         httpMethod: "GET",
         path: "providers/Microsoft.EventGrid/operations",
@@ -2235,7 +3342,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$1
+        serializer: serializer$3
     };
 
     /*
@@ -2248,7 +3355,7 @@
      * regenerated.
      */
 
-    var Mappers$2 = /*#__PURE__*/Object.freeze({
+    var Mappers$4 = /*#__PURE__*/Object.freeze({
         discriminators: discriminators,
         Topic: Topic,
         TrackedResource: TrackedResource,
@@ -2262,16 +3369,31 @@
         TopicRegenerateKeyRequest: TopicRegenerateKeyRequest,
         EventTypesListResult: EventTypesListResult,
         EventType: EventType,
+        Domain: Domain,
+        DomainTopic: DomainTopic,
         EventSubscription: EventSubscription,
         EventSubscriptionDestination: EventSubscriptionDestination,
         EventSubscriptionFilter: EventSubscriptionFilter,
+        AdvancedFilter: AdvancedFilter,
         RetryPolicy: RetryPolicy,
         DeadLetterDestination: DeadLetterDestination,
         JsonInputSchemaMapping: JsonInputSchemaMapping,
         JsonField: JsonField,
         JsonFieldWithDefault: JsonFieldWithDefault,
         TopicTypeInfo: TopicTypeInfo,
+        NumberInAdvancedFilter: NumberInAdvancedFilter,
         StorageBlobDeadLetterDestination: StorageBlobDeadLetterDestination,
+        NumberNotInAdvancedFilter: NumberNotInAdvancedFilter,
+        NumberLessThanAdvancedFilter: NumberLessThanAdvancedFilter,
+        NumberGreaterThanAdvancedFilter: NumberGreaterThanAdvancedFilter,
+        NumberLessThanOrEqualsAdvancedFilter: NumberLessThanOrEqualsAdvancedFilter,
+        NumberGreaterThanOrEqualsAdvancedFilter: NumberGreaterThanOrEqualsAdvancedFilter,
+        BoolEqualsAdvancedFilter: BoolEqualsAdvancedFilter,
+        StringInAdvancedFilter: StringInAdvancedFilter,
+        StringNotInAdvancedFilter: StringNotInAdvancedFilter,
+        StringBeginsWithAdvancedFilter: StringBeginsWithAdvancedFilter,
+        StringEndsWithAdvancedFilter: StringEndsWithAdvancedFilter,
+        StringContainsAdvancedFilter: StringContainsAdvancedFilter,
         WebHookEventSubscriptionDestination: WebHookEventSubscriptionDestination,
         EventHubEventSubscriptionDestination: EventHubEventSubscriptionDestination,
         StorageQueueEventSubscriptionDestination: StorageQueueEventSubscriptionDestination,
@@ -2301,7 +3423,7 @@
                 resourceGroupName: resourceGroupName$$1,
                 topicName: topicName$$1,
                 options: options
-            }, getOperationSpec$1, callback);
+            }, getOperationSpec$3, callback);
         };
         /**
          * Asynchronously creates a new topic with the specified parameters.
@@ -2344,20 +3466,20 @@
         Topics.prototype.listBySubscription = function (options, callback) {
             return this.client.sendOperationRequest({
                 options: options
-            }, listBySubscriptionOperationSpec, callback);
+            }, listBySubscriptionOperationSpec$1, callback);
         };
         Topics.prototype.listByResourceGroup = function (resourceGroupName$$1, options, callback) {
             return this.client.sendOperationRequest({
                 resourceGroupName: resourceGroupName$$1,
                 options: options
-            }, listByResourceGroupOperationSpec, callback);
+            }, listByResourceGroupOperationSpec$1, callback);
         };
         Topics.prototype.listSharedAccessKeys = function (resourceGroupName$$1, topicName$$1, options, callback) {
             return this.client.sendOperationRequest({
                 resourceGroupName: resourceGroupName$$1,
                 topicName: topicName$$1,
                 options: options
-            }, listSharedAccessKeysOperationSpec, callback);
+            }, listSharedAccessKeysOperationSpec$1, callback);
         };
         Topics.prototype.regenerateKey = function (resourceGroupName$$1, topicName$$1, regenerateKeyRequest, options, callback) {
             return this.client.sendOperationRequest({
@@ -2365,7 +3487,7 @@
                 topicName: topicName$$1,
                 regenerateKeyRequest: regenerateKeyRequest,
                 options: options
-            }, regenerateKeyOperationSpec, callback);
+            }, regenerateKeyOperationSpec$1, callback);
         };
         Topics.prototype.listEventTypes = function (resourceGroupName$$1, providerNamespace$$1, resourceTypeName$$1, resourceName$$1, options, callback) {
             return this.client.sendOperationRequest({
@@ -2391,7 +3513,7 @@
                 topicName: topicName$$1,
                 topicInfo: topicInfo,
                 options: options
-            }, beginCreateOrUpdateOperationSpec$1, options);
+            }, beginCreateOrUpdateOperationSpec$2, options);
         };
         /**
          * Delete existing topic
@@ -2406,7 +3528,7 @@
                 resourceGroupName: resourceGroupName$$1,
                 topicName: topicName$$1,
                 options: options
-            }, beginDeleteMethodOperationSpec$1, options);
+            }, beginDeleteMethodOperationSpec$2, options);
         };
         /**
          * Asynchronously updates a topic with the specified parameters.
@@ -2423,13 +3545,13 @@
                 topicName: topicName$$1,
                 topicUpdateParameters: topicUpdateParameters,
                 options: options
-            }, beginUpdateOperationSpec$1, options);
+            }, beginUpdateOperationSpec$2, options);
         };
         return Topics;
     }());
     // Operation Specifications
-    var serializer$2 = new msRest.Serializer(Mappers$2);
-    var getOperationSpec$1 = {
+    var serializer$4 = new msRest.Serializer(Mappers$4);
+    var getOperationSpec$3 = {
         httpMethod: "GET",
         path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
         urlParameters: [
@@ -2451,9 +3573,9 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$2
+        serializer: serializer$4
     };
-    var listBySubscriptionOperationSpec = {
+    var listBySubscriptionOperationSpec$1 = {
         httpMethod: "GET",
         path: "subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/topics",
         urlParameters: [
@@ -2473,9 +3595,9 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$2
+        serializer: serializer$4
     };
-    var listByResourceGroupOperationSpec = {
+    var listByResourceGroupOperationSpec$1 = {
         httpMethod: "GET",
         path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics",
         urlParameters: [
@@ -2496,9 +3618,9 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$2
+        serializer: serializer$4
     };
-    var listSharedAccessKeysOperationSpec = {
+    var listSharedAccessKeysOperationSpec$1 = {
         httpMethod: "POST",
         path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}/listKeys",
         urlParameters: [
@@ -2520,9 +3642,9 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$2
+        serializer: serializer$4
     };
-    var regenerateKeyOperationSpec = {
+    var regenerateKeyOperationSpec$1 = {
         httpMethod: "POST",
         path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}/regenerateKey",
         urlParameters: [
@@ -2548,7 +3670,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$2
+        serializer: serializer$4
     };
     var listEventTypesOperationSpec = {
         httpMethod: "GET",
@@ -2574,9 +3696,9 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$2
+        serializer: serializer$4
     };
-    var beginCreateOrUpdateOperationSpec$1 = {
+    var beginCreateOrUpdateOperationSpec$2 = {
         httpMethod: "PUT",
         path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
         urlParameters: [
@@ -2602,9 +3724,9 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$2
+        serializer: serializer$4
     };
-    var beginDeleteMethodOperationSpec$1 = {
+    var beginDeleteMethodOperationSpec$2 = {
         httpMethod: "DELETE",
         path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
         urlParameters: [
@@ -2625,9 +3747,9 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$2
+        serializer: serializer$4
     };
-    var beginUpdateOperationSpec$1 = {
+    var beginUpdateOperationSpec$2 = {
         httpMethod: "PATCH",
         path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
         urlParameters: [
@@ -2653,7 +3775,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$2
+        serializer: serializer$4
     };
 
     /*
@@ -2666,7 +3788,7 @@
      * regenerated.
      */
 
-    var Mappers$3 = /*#__PURE__*/Object.freeze({
+    var Mappers$5 = /*#__PURE__*/Object.freeze({
         discriminators: discriminators,
         TopicTypesListResult: TopicTypesListResult,
         TopicTypeInfo: TopicTypeInfo,
@@ -2675,15 +3797,30 @@
         CloudError: CloudError,
         EventTypesListResult: EventTypesListResult,
         EventType: EventType,
+        DomainTopic: DomainTopic,
         EventSubscription: EventSubscription,
         EventSubscriptionDestination: EventSubscriptionDestination,
         EventSubscriptionFilter: EventSubscriptionFilter,
+        AdvancedFilter: AdvancedFilter,
         RetryPolicy: RetryPolicy,
         DeadLetterDestination: DeadLetterDestination,
         TrackedResource: TrackedResource,
         Topic: Topic,
         InputSchemaMapping: InputSchemaMapping,
+        Domain: Domain,
+        NumberInAdvancedFilter: NumberInAdvancedFilter,
         StorageBlobDeadLetterDestination: StorageBlobDeadLetterDestination,
+        NumberNotInAdvancedFilter: NumberNotInAdvancedFilter,
+        NumberLessThanAdvancedFilter: NumberLessThanAdvancedFilter,
+        NumberGreaterThanAdvancedFilter: NumberGreaterThanAdvancedFilter,
+        NumberLessThanOrEqualsAdvancedFilter: NumberLessThanOrEqualsAdvancedFilter,
+        NumberGreaterThanOrEqualsAdvancedFilter: NumberGreaterThanOrEqualsAdvancedFilter,
+        BoolEqualsAdvancedFilter: BoolEqualsAdvancedFilter,
+        StringInAdvancedFilter: StringInAdvancedFilter,
+        StringNotInAdvancedFilter: StringNotInAdvancedFilter,
+        StringBeginsWithAdvancedFilter: StringBeginsWithAdvancedFilter,
+        StringEndsWithAdvancedFilter: StringEndsWithAdvancedFilter,
+        StringContainsAdvancedFilter: StringContainsAdvancedFilter,
         WebHookEventSubscriptionDestination: WebHookEventSubscriptionDestination,
         EventHubEventSubscriptionDestination: EventHubEventSubscriptionDestination,
         StorageQueueEventSubscriptionDestination: StorageQueueEventSubscriptionDestination,
@@ -2720,7 +3857,7 @@
             return this.client.sendOperationRequest({
                 topicTypeName: topicTypeName$$1,
                 options: options
-            }, getOperationSpec$2, callback);
+            }, getOperationSpec$4, callback);
         };
         TopicTypes.prototype.listEventTypes = function (topicTypeName$$1, options, callback) {
             return this.client.sendOperationRequest({
@@ -2731,7 +3868,7 @@
         return TopicTypes;
     }());
     // Operation Specifications
-    var serializer$3 = new msRest.Serializer(Mappers$3);
+    var serializer$5 = new msRest.Serializer(Mappers$5);
     var listOperationSpec$1 = {
         httpMethod: "GET",
         path: "providers/Microsoft.EventGrid/topicTypes",
@@ -2749,9 +3886,9 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$3
+        serializer: serializer$5
     };
-    var getOperationSpec$2 = {
+    var getOperationSpec$4 = {
         httpMethod: "GET",
         path: "providers/Microsoft.EventGrid/topicTypes/{topicTypeName}",
         urlParameters: [
@@ -2771,7 +3908,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$3
+        serializer: serializer$5
     };
     var listEventTypesOperationSpec$1 = {
         httpMethod: "GET",
@@ -2793,7 +3930,7 @@
                 bodyMapper: CloudError
             }
         },
-        serializer: serializer$3
+        serializer: serializer$5
     };
 
     /*
@@ -2816,7 +3953,7 @@
      * regenerated.
      */
     var packageName = "@azure/arm-eventgrid";
-    var packageVersion = "1.0.0-preview";
+    var packageVersion = "1.1.0-preview";
     var EventGridManagementClientContext = /** @class */ (function (_super) {
         __extends(EventGridManagementClientContext, _super);
         /**
@@ -2838,7 +3975,7 @@
                 options = {};
             }
             _this = _super.call(this, credentials, options) || this;
-            _this.apiVersion = '2018-05-01-preview';
+            _this.apiVersion = '2018-09-15-preview';
             _this.acceptLanguage = 'en-US';
             _this.longRunningOperationRetryTimeout = 30;
             _this.baseUri = options.baseUri || _this.baseUri || "https://management.azure.com";
@@ -2877,6 +4014,8 @@
          */
         function EventGridManagementClient(credentials, subscriptionId, options) {
             var _this = _super.call(this, credentials, subscriptionId, options) || this;
+            _this.domains = new Domains(_this);
+            _this.domainTopics = new DomainTopics(_this);
             _this.eventSubscriptions = new EventSubscriptions(_this);
             _this.operations = new Operations(_this);
             _this.topics = new Topics(_this);
@@ -2890,6 +4029,8 @@
     exports.EventGridManagementClientContext = EventGridManagementClientContext;
     exports.EventGridManagementModels = index;
     exports.EventGridManagementMappers = mappers;
+    exports.Domains = Domains;
+    exports.DomainTopics = DomainTopics;
     exports.EventSubscriptions = EventSubscriptions;
     exports.Operations = Operations;
     exports.Topics = Topics;

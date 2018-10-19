@@ -37,6 +37,42 @@ export interface InputSchemaMapping {
 
 /**
  * @interface
+ * An interface representing DomainProperties.
+ * Properties of the Domain
+ *
+ */
+export interface DomainProperties {
+  /**
+   * @member {DomainProvisioningState} [provisioningState] Provisioning state
+   * of the domain. Possible values include: 'Creating', 'Updating',
+   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: DomainProvisioningState;
+  /**
+   * @member {string} [endpoint] Endpoint for the domain.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endpoint?: string;
+  /**
+   * @member {InputSchema} [inputSchema] This determines the format that Event
+   * Grid should expect for incoming events published to the domain. Possible
+   * values include: 'EventGridSchema', 'CustomEventSchema',
+   * 'CloudEventV01Schema'
+   */
+  inputSchema?: InputSchema;
+  /**
+   * @member {InputSchemaMappingUnion} [inputSchemaMapping] Information about
+   * the InputSchemaMapping which specified the info about mapping event
+   * payload.
+   */
+  inputSchemaMapping?: InputSchemaMappingUnion;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * Definition of a Resource
  *
@@ -293,6 +329,108 @@ export interface DeadLetterDestination {
    * @member {string} endpointType Polymorphic Discriminator
    */
   endpointType: "DeadLetterDestination";
+}
+
+/**
+ * @interface
+ * An interface representing EventSubscriptionProperties.
+ * Properties of the Event Subscription
+ *
+ */
+export interface EventSubscriptionProperties {
+  /**
+   * @member {string} [topic] Name of the topic of the event subscription.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly topic?: string;
+  /**
+   * @member {EventSubscriptionProvisioningState} [provisioningState]
+   * Provisioning state of the event subscription. Possible values include:
+   * 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed',
+   * 'AwaitingManualAction'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: EventSubscriptionProvisioningState;
+  /**
+   * @member {EventSubscriptionDestinationUnion} [destination] Information
+   * about the destination where events have to be delivered for the event
+   * subscription.
+   */
+  destination?: EventSubscriptionDestinationUnion;
+  /**
+   * @member {EventSubscriptionFilter} [filter] Information about the filter
+   * for the event subscription.
+   */
+  filter?: EventSubscriptionFilter;
+  /**
+   * @member {string[]} [labels] List of user defined labels.
+   */
+  labels?: string[];
+  /**
+   * @member {Date} [expirationTimeUtc] Expiration time of the event
+   * subscription.
+   */
+  expirationTimeUtc?: Date;
+  /**
+   * @member {EventDeliverySchema} [eventDeliverySchema] The event delivery
+   * schema for the event subscription. Possible values include:
+   * 'EventGridSchema', 'CloudEventV01Schema', 'CustomInputSchema'
+   */
+  eventDeliverySchema?: EventDeliverySchema;
+  /**
+   * @member {RetryPolicy} [retryPolicy] The retry policy for events. This can
+   * be used to configure maximum number of delivery attempts and time to live
+   * for events.
+   */
+  retryPolicy?: RetryPolicy;
+  /**
+   * @member {DeadLetterDestinationUnion} [deadLetterDestination] The
+   * DeadLetter destination of the event subscription.
+   */
+  deadLetterDestination?: DeadLetterDestinationUnion;
+}
+
+/**
+ * @interface
+ * An interface representing WebHookEventSubscriptionDestinationProperties.
+ * Information about the webhook destination properties for an event
+ * subscription.
+ *
+ */
+export interface WebHookEventSubscriptionDestinationProperties {
+  /**
+   * @member {string} [endpointUrl] The URL that represents the endpoint of the
+   * destination of an event subscription.
+   */
+  endpointUrl?: string;
+  /**
+   * @member {string} [endpointBaseUrl] The base URL that represents the
+   * endpoint of the destination of an event subscription.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endpointBaseUrl?: string;
+}
+
+/**
+ * @interface
+ * An interface representing StorageBlobDeadLetterDestinationProperties.
+ * Properties of the storage blob based dead letter destination.
+ *
+ */
+export interface StorageBlobDeadLetterDestinationProperties {
+  /**
+   * @member {string} [resourceId] The Azure Resource ID of the storage account
+   * that is the destination of the deadletter events
+   */
+  resourceId?: string;
+  /**
+   * @member {string} [blobContainerName] The name of the Storage blob
+   * container that is the destination of the deadletter events
+   */
+  blobContainerName?: string;
 }
 
 /**
@@ -609,6 +747,20 @@ export interface WebHookEventSubscriptionDestination {
 
 /**
  * @interface
+ * An interface representing EventHubEventSubscriptionDestinationProperties.
+ * The properties for a event hub destination.
+ *
+ */
+export interface EventHubEventSubscriptionDestinationProperties {
+  /**
+   * @member {string} [resourceId] The Azure Resource Id that represents the
+   * endpoint of an Event Hub destination of an event subscription.
+   */
+  resourceId?: string;
+}
+
+/**
+ * @interface
  * An interface representing EventHubEventSubscriptionDestination.
  * Information about the event hub destination for an event subscription
  *
@@ -623,6 +775,25 @@ export interface EventHubEventSubscriptionDestination {
    * endpoint of an Event Hub destination of an event subscription.
    */
   resourceId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing StorageQueueEventSubscriptionDestinationProperties.
+ * The properties for a storage queue destination.
+ *
+ */
+export interface StorageQueueEventSubscriptionDestinationProperties {
+  /**
+   * @member {string} [resourceId] The Azure Resource ID of the storage account
+   * that contains the queue that is the destination of an event subscription.
+   */
+  resourceId?: string;
+  /**
+   * @member {string} [queueName] The name of the Storage queue under a storage
+   * account that is the destination of an event subscription.
+   */
+  queueName?: string;
 }
 
 /**
@@ -646,6 +817,20 @@ export interface StorageQueueEventSubscriptionDestination {
    * account that is the destination of an event subscription.
    */
   queueName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing HybridConnectionEventSubscriptionDestinationProperties.
+ * The properties for a hybrid connection destination.
+ *
+ */
+export interface HybridConnectionEventSubscriptionDestinationProperties {
+  /**
+   * @member {string} [resourceId] The Azure Resource ID of an hybrid
+   * connection that is the destination of an event subscription.
+   */
+  resourceId?: string;
 }
 
 /**
@@ -841,6 +1026,43 @@ export interface Operation {
 
 /**
  * @interface
+ * An interface representing TopicProperties.
+ * Properties of the Topic
+ *
+ */
+export interface TopicProperties {
+  /**
+   * @member {TopicProvisioningState} [provisioningState] Provisioning state of
+   * the topic. Possible values include: 'Creating', 'Updating', 'Deleting',
+   * 'Succeeded', 'Canceled', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: TopicProvisioningState;
+  /**
+   * @member {string} [endpoint] Endpoint for the topic.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endpoint?: string;
+  /**
+   * @member {InputSchema} [inputSchema] This determines the format that Event
+   * Grid should expect for incoming events published to the topic. Possible
+   * values include: 'EventGridSchema', 'CustomEventSchema',
+   * 'CloudEventV01Schema'. Default value: 'EventGridSchema' .
+   */
+  inputSchema?: InputSchema;
+  /**
+   * @member {InputSchemaMappingUnion} [inputSchemaMapping] This enables
+   * publishing using custom event schemas. An InputSchemaMapping can be
+   * specified to map various properties of a source schema to various required
+   * properties of the EventGridEvent schema.
+   */
+  inputSchemaMapping?: InputSchemaMappingUnion;
+}
+
+/**
+ * @interface
  * An interface representing JsonField.
  * This is used to express the source of an input schema mapping for a single
  * target field in the Event Grid Event schema. This is currently used in the
@@ -878,6 +1100,47 @@ export interface JsonFieldWithDefault {
    * specified name in the published JSON event payload.
    */
   defaultValue?: string;
+}
+
+/**
+ * @interface
+ * An interface representing JsonInputSchemaMappingProperties.
+ * This can be used to map properties of a source schema (or default values,
+ * for certain supported properties) to properties of the EventGridEvent
+ * schema.
+ *
+ */
+export interface JsonInputSchemaMappingProperties {
+  /**
+   * @member {JsonField} [id] The mapping information for the Id property of
+   * the Event Grid Event.
+   */
+  id?: JsonField;
+  /**
+   * @member {JsonField} [topic] The mapping information for the Topic property
+   * of the Event Grid Event.
+   */
+  topic?: JsonField;
+  /**
+   * @member {JsonField} [eventTime] The mapping information for the EventTime
+   * property of the Event Grid Event.
+   */
+  eventTime?: JsonField;
+  /**
+   * @member {JsonFieldWithDefault} [eventType] The mapping information for the
+   * EventType property of the Event Grid Event.
+   */
+  eventType?: JsonFieldWithDefault;
+  /**
+   * @member {JsonFieldWithDefault} [subject] The mapping information for the
+   * Subject property of the Event Grid Event.
+   */
+  subject?: JsonFieldWithDefault;
+  /**
+   * @member {JsonFieldWithDefault} [dataVersion] The mapping information for
+   * the DataVersion property of the Event Grid Event.
+   */
+  dataVersion?: JsonFieldWithDefault;
 }
 
 /**
@@ -1008,6 +1271,27 @@ export interface TopicRegenerateKeyRequest {
 
 /**
  * @interface
+ * An interface representing EventTypeProperties.
+ * Properties of the event type
+ *
+ */
+export interface EventTypeProperties {
+  /**
+   * @member {string} [displayName] Display name of the event type.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [description] Description of the event type.
+   */
+  description?: string;
+  /**
+   * @member {string} [schemaUrl] Url of the schema for this event type.
+   */
+  schemaUrl?: string;
+}
+
+/**
+ * @interface
  * An interface representing EventType.
  * Event Type for a subject under a topic
  *
@@ -1026,6 +1310,43 @@ export interface EventType extends Resource {
    * @member {string} [schemaUrl] Url of the schema for this event type.
    */
   schemaUrl?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TopicTypeProperties.
+ * Properties of a topic type.
+ *
+ */
+export interface TopicTypeProperties {
+  /**
+   * @member {string} [provider] Namespace of the provider of the topic type.
+   */
+  provider?: string;
+  /**
+   * @member {string} [displayName] Display Name for the topic type.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [description] Description of the topic type.
+   */
+  description?: string;
+  /**
+   * @member {ResourceRegionType} [resourceRegionType] Region type of the
+   * resource. Possible values include: 'RegionalResource', 'GlobalResource'
+   */
+  resourceRegionType?: ResourceRegionType;
+  /**
+   * @member {TopicTypeProvisioningState} [provisioningState] Provisioning
+   * state of the topic type. Possible values include: 'Creating', 'Updating',
+   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
+   */
+  provisioningState?: TopicTypeProvisioningState;
+  /**
+   * @member {string[]} [supportedLocations] List of locations supported by
+   * this topic type.
+   */
+  supportedLocations?: string[];
 }
 
 /**
