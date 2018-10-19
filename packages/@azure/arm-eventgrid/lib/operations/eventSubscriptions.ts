@@ -495,6 +495,43 @@ export class EventSubscriptions {
   }
 
   /**
+   * List all event subscriptions that have been created for a specific domain topic
+   * @summary List all event subscriptions for a specific domain topic
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the top level domain
+   * @param topicName Name of the domain topic
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EventSubscriptionsListByDomainTopicResponse>
+   */
+  listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, options?: msRest.RequestOptionsBase): Promise<Models.EventSubscriptionsListByDomainTopicResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the top level domain
+   * @param topicName Name of the domain topic
+   * @param callback The callback
+   */
+  listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the top level domain
+   * @param topicName Name of the domain topic
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
+  listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): Promise<Models.EventSubscriptionsListByDomainTopicResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        domainName,
+        topicName,
+        options
+      },
+      listByDomainTopicOperationSpec,
+      callback) as Promise<Models.EventSubscriptionsListByDomainTopicResponse>;
+  }
+
+  /**
    * Asynchronously creates a new event subscription or updates an existing event subscription based
    * on the specified scope.
    * @summary Create or update an event subscription
@@ -836,6 +873,32 @@ const listByResourceOperationSpec: msRest.OperationSpec = {
     Parameters.providerNamespace,
     Parameters.resourceTypeName,
     Parameters.resourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByDomainTopicOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{topicName}/providers/Microsoft.EventGrid/eventSubscriptions",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.domainName,
+    Parameters.topicName
   ],
   queryParameters: [
     Parameters.apiVersion
