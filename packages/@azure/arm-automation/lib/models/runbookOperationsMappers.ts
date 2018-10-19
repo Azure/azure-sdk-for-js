@@ -50,6 +50,8 @@ export {
   AzureQueryProperties,
   TagSettingsProperties,
   ScheduleProperties,
+  TasksProperties,
+  TaskProperties,
   SourceControl,
   Job,
   JobCollectionItem,

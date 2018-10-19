@@ -3102,6 +3102,57 @@ export const UpdateConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const TaskProperties: msRest.CompositeMapper = {
+  serializedName: "taskProperties",
+  type: {
+    name: "Composite",
+    className: "TaskProperties",
+    modelProperties: {
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TasksProperties: msRest.CompositeMapper = {
+  serializedName: "tasksProperties",
+  type: {
+    name: "Composite",
+    className: "TasksProperties",
+    modelProperties: {
+      preTask: {
+        serializedName: "preTask",
+        type: {
+          name: "Composite",
+          className: "TaskProperties"
+        }
+      },
+      postTask: {
+        serializedName: "postTask",
+        type: {
+          name: "Composite",
+          className: "TaskProperties"
+        }
+      }
+    }
+  }
+};
+
 export const SoftwareUpdateConfiguration: msRest.CompositeMapper = {
   serializedName: "softwareUpdateConfiguration",
   type: {
@@ -3130,7 +3181,6 @@ export const SoftwareUpdateConfiguration: msRest.CompositeMapper = {
         }
       },
       updateConfiguration: {
-        required: true,
         serializedName: "properties.updateConfiguration",
         type: {
           name: "Composite",
@@ -3138,7 +3188,6 @@ export const SoftwareUpdateConfiguration: msRest.CompositeMapper = {
         }
       },
       scheduleInfo: {
-        required: true,
         serializedName: "properties.scheduleInfo",
         type: {
           name: "Composite",
@@ -3187,6 +3236,13 @@ export const SoftwareUpdateConfiguration: msRest.CompositeMapper = {
         serializedName: "properties.lastModifiedBy",
         type: {
           name: "String"
+        }
+      },
+      tasks: {
+        serializedName: "properties.tasks",
+        type: {
+          name: "Composite",
+          className: "TasksProperties"
         }
       }
     }
@@ -3333,6 +3389,58 @@ export const UpdateConfigurationNavigation: msRest.CompositeMapper = {
   }
 };
 
+export const SoftareUpdateConfigurationRunTaskProperties: msRest.CompositeMapper = {
+  serializedName: "softareUpdateConfigurationRunTaskProperties",
+  type: {
+    name: "Composite",
+    className: "SoftareUpdateConfigurationRunTaskProperties",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      jobId: {
+        serializedName: "jobId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SoftareUpdateConfigurationRunTasks: msRest.CompositeMapper = {
+  serializedName: "softareUpdateConfigurationRunTasks",
+  type: {
+    name: "Composite",
+    className: "SoftareUpdateConfigurationRunTasks",
+    modelProperties: {
+      preTask: {
+        serializedName: "preTask",
+        type: {
+          name: "Composite",
+          className: "SoftareUpdateConfigurationRunTaskProperties"
+        }
+      },
+      postTask: {
+        serializedName: "postTask",
+        type: {
+          name: "Composite",
+          className: "SoftareUpdateConfigurationRunTaskProperties"
+        }
+      }
+    }
+  }
+};
+
 export const SoftwareUpdateConfigurationRun: msRest.CompositeMapper = {
   serializedName: "softwareUpdateConfigurationRun",
   type: {
@@ -3439,6 +3547,13 @@ export const SoftwareUpdateConfigurationRun: msRest.CompositeMapper = {
         serializedName: "properties.lastModifiedBy",
         type: {
           name: "String"
+        }
+      },
+      tasks: {
+        serializedName: "properties.tasks",
+        type: {
+          name: "Composite",
+          className: "SoftareUpdateConfigurationRunTasks"
         }
       }
     }
@@ -3617,6 +3732,13 @@ export const SoftwareUpdateConfigurationMachineRun: msRest.CompositeMapper = {
         serializedName: "properties.lastModifiedBy",
         type: {
           name: "String"
+        }
+      },
+      error: {
+        serializedName: "properties.error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
         }
       }
     }

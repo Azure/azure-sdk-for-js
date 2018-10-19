@@ -2235,6 +2235,41 @@ export interface UpdateConfiguration {
 
 /**
  * @interface
+ * An interface representing TaskProperties.
+ * task properties of the software update configuration.
+ *
+ */
+export interface TaskProperties {
+  /**
+   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
+   * parameters of the task.
+   */
+  parameters?: { [propertyName: string]: string };
+  /**
+   * @member {string} [source] Gets or sets the name of the runbook.
+   */
+  source?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TasksProperties.
+ * task properties of the software update configuration.
+ *
+ */
+export interface TasksProperties {
+  /**
+   * @member {TaskProperties} [preTask] Pre task object
+   */
+  preTask?: TaskProperties;
+  /**
+   * @member {TaskProperties} [postTask] Post task object
+   */
+  postTask?: TaskProperties;
+}
+
+/**
+ * @interface
  * An interface representing SoftwareUpdateConfiguration.
  * Software update configuration properties.
  *
@@ -2260,15 +2295,15 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
    */
   readonly type?: string;
   /**
-   * @member {UpdateConfiguration} updateConfiguration update specific
+   * @member {UpdateConfiguration} [updateConfiguration] update specific
    * properties for the Software update configuration
    */
-  updateConfiguration: UpdateConfiguration;
+  updateConfiguration?: UpdateConfiguration;
   /**
-   * @member {ScheduleProperties} scheduleInfo Schedule information for the
+   * @member {ScheduleProperties} [scheduleInfo] Schedule information for the
    * Software update configuration
    */
-  scheduleInfo: ScheduleProperties;
+  scheduleInfo?: ScheduleProperties;
   /**
    * @member {string} [provisioningState] Provisioning state for the software
    * update configuration, which only appears in the response.
@@ -2308,6 +2343,11 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
    * the server.**
    */
   readonly lastModifiedBy?: string;
+  /**
+   * @member {TasksProperties} [tasks] Tasks information for the Software
+   * update configuration
+   */
+  tasks?: TasksProperties;
 }
 
 /**
@@ -2424,6 +2464,46 @@ export interface UpdateConfigurationNavigation {
 
 /**
  * @interface
+ * An interface representing SoftareUpdateConfigurationRunTaskProperties.
+ * task properties of the software update configuration.
+ *
+ */
+export interface SoftareUpdateConfigurationRunTaskProperties {
+  /**
+   * @member {string} [status] The status of the task.
+   */
+  status?: string;
+  /**
+   * @member {string} [source] The name of the source of the task.
+   */
+  source?: string;
+  /**
+   * @member {string} [jobId] The job id of the task.
+   */
+  jobId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SoftareUpdateConfigurationRunTasks.
+ * Software update configuration run tasks model.
+ *
+ */
+export interface SoftareUpdateConfigurationRunTasks {
+  /**
+   * @member {SoftareUpdateConfigurationRunTaskProperties} [preTask] Pre task
+   * object
+   */
+  preTask?: SoftareUpdateConfigurationRunTaskProperties;
+  /**
+   * @member {SoftareUpdateConfigurationRunTaskProperties} [postTask] Post task
+   * object
+   */
+  postTask?: SoftareUpdateConfigurationRunTaskProperties;
+}
+
+/**
+ * @interface
  * An interface representing SoftwareUpdateConfigurationRun.
  * Software update configuration Run properties.
  *
@@ -2521,6 +2601,11 @@ export interface SoftwareUpdateConfigurationRun {
    * the server.**
    */
   readonly lastModifiedBy?: string;
+  /**
+   * @member {SoftareUpdateConfigurationRunTasks} [tasks] software update
+   * configuration tasks triggered in this run
+   */
+  tasks?: SoftareUpdateConfigurationRunTasks;
 }
 
 /**
@@ -2677,6 +2762,10 @@ export interface SoftwareUpdateConfigurationMachineRun {
    * the server.**
    */
   readonly lastModifiedBy?: string;
+  /**
+   * @member {ErrorResponse} [error] detailes of provisioning error
+   */
+  error?: ErrorResponse;
 }
 
 /**
