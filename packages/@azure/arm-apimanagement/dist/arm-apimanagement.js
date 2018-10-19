@@ -954,29 +954,6 @@
             }
         }
     };
-    var PolicyContractProperties = {
-        serializedName: "PolicyContractProperties",
-        type: {
-            name: "Composite",
-            className: "PolicyContractProperties",
-            modelProperties: {
-                policyContent: {
-                    required: true,
-                    serializedName: "policyContent",
-                    type: {
-                        name: "String"
-                    }
-                },
-                contentFormat: {
-                    serializedName: "contentFormat",
-                    defaultValue: 'xml',
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -1491,35 +1468,6 @@
             }
         }
     };
-    var ApiCreateOrUpdateProperties = {
-        serializedName: "ApiCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ApiCreateOrUpdateProperties",
-            modelProperties: __assign({}, ApiContractProperties.type.modelProperties, { contentValue: {
-                    serializedName: "contentValue",
-                    type: {
-                        name: "String"
-                    }
-                }, contentFormat: {
-                    serializedName: "contentFormat",
-                    type: {
-                        name: "String"
-                    }
-                }, wsdlSelector: {
-                    serializedName: "wsdlSelector",
-                    type: {
-                        name: "Composite",
-                        className: "ApiCreateOrUpdatePropertiesWsdlSelector"
-                    }
-                }, soapApiType: {
-                    serializedName: "apiType",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
     var ApiCreateOrUpdateParameter = {
         serializedName: "ApiCreateOrUpdateParameter",
         type: {
@@ -1688,55 +1636,6 @@
                     }
                 }
             }
-        }
-    };
-    var ApiContractUpdateProperties = {
-        serializedName: "ApiContractUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ApiContractUpdateProperties",
-            modelProperties: __assign({}, ApiEntityBaseContract.type.modelProperties, { displayName: {
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 300,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, serviceUrl: {
-                    serializedName: "serviceUrl",
-                    constraints: {
-                        MaxLength: 2000,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, path: {
-                    serializedName: "path",
-                    constraints: {
-                        MaxLength: 400,
-                        MinLength: 0
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, protocols: {
-                    serializedName: "protocols",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Enum",
-                                allowedValues: [
-                                    "http",
-                                    "https"
-                                ]
-                            }
-                        }
-                    }
-                } })
         }
     };
     var ApiUpdateContract = {
@@ -2085,41 +1984,6 @@
             }
         }
     };
-    var ApiReleaseContractProperties = {
-        serializedName: "ApiReleaseContractProperties",
-        type: {
-            name: "Composite",
-            className: "ApiReleaseContractProperties",
-            modelProperties: {
-                apiId: {
-                    serializedName: "apiId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdDateTime: {
-                    readOnly: true,
-                    serializedName: "createdDateTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                updatedDateTime: {
-                    readOnly: true,
-                    serializedName: "updatedDateTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                notes: {
-                    serializedName: "notes",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var ApiReleaseContract = {
         serializedName: "ApiReleaseContract",
         type: {
@@ -2144,95 +2008,6 @@
                     }
                 }, notes: {
                     serializedName: "properties.notes",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var OperationEntityBaseContract = {
-        serializedName: "OperationEntityBaseContract",
-        type: {
-            name: "Composite",
-            className: "OperationEntityBaseContract",
-            modelProperties: {
-                templateParameters: {
-                    serializedName: "templateParameters",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ParameterContract"
-                            }
-                        }
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    constraints: {
-                        MaxLength: 1000
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                request: {
-                    serializedName: "request",
-                    type: {
-                        name: "Composite",
-                        className: "RequestContract"
-                    }
-                },
-                responses: {
-                    serializedName: "responses",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ResponseContract"
-                            }
-                        }
-                    }
-                },
-                policies: {
-                    serializedName: "policies",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var OperationContractProperties = {
-        serializedName: "OperationContractProperties",
-        type: {
-            name: "Composite",
-            className: "OperationContractProperties",
-            modelProperties: __assign({}, OperationEntityBaseContract.type.modelProperties, { displayName: {
-                    required: true,
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 300,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, method: {
-                    required: true,
-                    serializedName: "method",
-                    type: {
-                        name: "String"
-                    }
-                }, urlTemplate: {
-                    required: true,
-                    serializedName: "urlTemplate",
-                    constraints: {
-                        MaxLength: 1000,
-                        MinLength: 1
-                    },
                     type: {
                         name: "String"
                     }
@@ -2304,37 +2079,6 @@
                 }, urlTemplate: {
                     required: true,
                     serializedName: "properties.urlTemplate",
-                    constraints: {
-                        MaxLength: 1000,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var OperationUpdateContractProperties = {
-        serializedName: "OperationUpdateContractProperties",
-        type: {
-            name: "Composite",
-            className: "OperationUpdateContractProperties",
-            modelProperties: __assign({}, OperationEntityBaseContract.type.modelProperties, { displayName: {
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 300,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, method: {
-                    serializedName: "method",
-                    type: {
-                        name: "String"
-                    }
-                }, urlTemplate: {
-                    serializedName: "urlTemplate",
                     constraints: {
                         MaxLength: 1000,
                         MinLength: 1
@@ -2540,6 +2284,61 @@
             }
         }
     };
+    var OperationEntityBaseContract = {
+        serializedName: "OperationEntityBaseContract",
+        type: {
+            name: "Composite",
+            className: "OperationEntityBaseContract",
+            modelProperties: {
+                templateParameters: {
+                    serializedName: "templateParameters",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ParameterContract"
+                            }
+                        }
+                    }
+                },
+                description: {
+                    serializedName: "description",
+                    constraints: {
+                        MaxLength: 1000
+                    },
+                    type: {
+                        name: "String"
+                    }
+                },
+                request: {
+                    serializedName: "request",
+                    type: {
+                        name: "Composite",
+                        className: "RequestContract"
+                    }
+                },
+                responses: {
+                    serializedName: "responses",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ResponseContract"
+                            }
+                        }
+                    }
+                },
+                policies: {
+                    serializedName: "policies",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var OperationUpdateContract = {
         serializedName: "OperationUpdateContract",
         type: {
@@ -2621,43 +2420,6 @@
             }
         }
     };
-    var SchemaDocumentProperties = {
-        serializedName: "SchemaDocumentProperties",
-        type: {
-            name: "Composite",
-            className: "SchemaDocumentProperties",
-            modelProperties: {
-                value: {
-                    serializedName: "value",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var SchemaContractProperties = {
-        serializedName: "SchemaContractProperties",
-        type: {
-            name: "Composite",
-            className: "SchemaContractProperties",
-            modelProperties: {
-                contentType: {
-                    required: true,
-                    serializedName: "contentType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                value: {
-                    serializedName: "document.value",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var SchemaContract = {
         serializedName: "SchemaContract",
         type: {
@@ -2675,54 +2437,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var IssueContractProperties = {
-        serializedName: "IssueContractProperties",
-        type: {
-            name: "Composite",
-            className: "IssueContractProperties",
-            modelProperties: {
-                title: {
-                    required: true,
-                    serializedName: "title",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    required: true,
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdDate: {
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                state: {
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userId: {
-                    required: true,
-                    serializedName: "userId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                apiId: {
-                    serializedName: "apiId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var IssueContract = {
@@ -2766,35 +2480,6 @@
                 } })
         }
     };
-    var IssueCommentContractProperties = {
-        serializedName: "IssueCommentContractProperties",
-        type: {
-            name: "Composite",
-            className: "IssueCommentContractProperties",
-            modelProperties: {
-                text: {
-                    required: true,
-                    serializedName: "text",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdDate: {
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                userId: {
-                    required: true,
-                    serializedName: "userId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var IssueCommentContract = {
         serializedName: "IssueCommentContract",
         type: {
@@ -2818,36 +2503,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var IssueAttachmentContractProperties = {
-        serializedName: "IssueAttachmentContractProperties",
-        type: {
-            name: "Composite",
-            className: "IssueAttachmentContractProperties",
-            modelProperties: {
-                title: {
-                    required: true,
-                    serializedName: "title",
-                    type: {
-                        name: "String"
-                    }
-                },
-                contentFormat: {
-                    required: true,
-                    serializedName: "contentFormat",
-                    type: {
-                        name: "String"
-                    }
-                },
-                content: {
-                    required: true,
-                    serializedName: "content",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var IssueAttachmentContract = {
@@ -2874,49 +2529,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var LoggerContractProperties = {
-        serializedName: "LoggerContractProperties",
-        type: {
-            name: "Composite",
-            className: "LoggerContractProperties",
-            modelProperties: {
-                loggerType: {
-                    required: true,
-                    serializedName: "loggerType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    constraints: {
-                        MaxLength: 256
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                credentials: {
-                    required: true,
-                    serializedName: "credentials",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                isBuffered: {
-                    serializedName: "isBuffered",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
         }
     };
     var LoggerContract = {
@@ -2955,22 +2567,6 @@
                         name: "Boolean"
                     }
                 } })
-        }
-    };
-    var DiagnosticContractProperties = {
-        serializedName: "DiagnosticContractProperties",
-        type: {
-            name: "Composite",
-            className: "DiagnosticContractProperties",
-            modelProperties: {
-                enabled: {
-                    required: true,
-                    serializedName: "enabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
         }
     };
     var DiagnosticContract = {
@@ -3038,41 +2634,6 @@
                     }
                 }
             }
-        }
-    };
-    var ProductUpdateProperties = {
-        serializedName: "ProductUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ProductUpdateProperties",
-            modelProperties: __assign({}, ProductEntityBaseParameters.type.modelProperties, { displayName: {
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 300,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var ProductContractProperties = {
-        serializedName: "ProductContractProperties",
-        type: {
-            name: "Composite",
-            className: "ProductContractProperties",
-            modelProperties: __assign({}, ProductEntityBaseParameters.type.modelProperties, { displayName: {
-                    required: true,
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 300,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                } })
         }
     };
     var ProductTagResourceContractProperties = {
@@ -3335,159 +2896,6 @@
                 } })
         }
     };
-    var AuthorizationServerContractBaseProperties = {
-        serializedName: "AuthorizationServerContractBaseProperties",
-        type: {
-            name: "Composite",
-            className: "AuthorizationServerContractBaseProperties",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                authorizationMethods: {
-                    serializedName: "authorizationMethods",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Enum",
-                                allowedValues: [
-                                    "HEAD",
-                                    "OPTIONS",
-                                    "TRACE",
-                                    "GET",
-                                    "POST",
-                                    "PUT",
-                                    "PATCH",
-                                    "DELETE"
-                                ]
-                            }
-                        }
-                    }
-                },
-                clientAuthenticationMethod: {
-                    serializedName: "clientAuthenticationMethod",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                tokenBodyParameters: {
-                    serializedName: "tokenBodyParameters",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "TokenBodyParameterContract"
-                            }
-                        }
-                    }
-                },
-                tokenEndpoint: {
-                    serializedName: "tokenEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                supportState: {
-                    serializedName: "supportState",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                defaultScope: {
-                    serializedName: "defaultScope",
-                    type: {
-                        name: "String"
-                    }
-                },
-                bearerTokenSendingMethods: {
-                    serializedName: "bearerTokenSendingMethods",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "String"
-                    }
-                },
-                resourceOwnerUsername: {
-                    serializedName: "resourceOwnerUsername",
-                    type: {
-                        name: "String"
-                    }
-                },
-                resourceOwnerPassword: {
-                    serializedName: "resourceOwnerPassword",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var AuthorizationServerContractProperties = {
-        serializedName: "AuthorizationServerContractProperties",
-        type: {
-            name: "Composite",
-            className: "AuthorizationServerContractProperties",
-            modelProperties: __assign({}, AuthorizationServerContractBaseProperties.type.modelProperties, { displayName: {
-                    required: true,
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 50,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, clientRegistrationEndpoint: {
-                    required: true,
-                    serializedName: "clientRegistrationEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                }, authorizationEndpoint: {
-                    required: true,
-                    serializedName: "authorizationEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                }, grantTypes: {
-                    required: true,
-                    serializedName: "grantTypes",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }, clientId: {
-                    required: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
     var AuthorizationServerContract = {
         serializedName: "AuthorizationServerContract",
         type: {
@@ -3615,48 +3023,6 @@
                 }, clientId: {
                     required: true,
                     serializedName: "properties.clientId",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var AuthorizationServerUpdateContractProperties = {
-        serializedName: "AuthorizationServerUpdateContractProperties",
-        type: {
-            name: "Composite",
-            className: "AuthorizationServerUpdateContractProperties",
-            modelProperties: __assign({}, AuthorizationServerContractBaseProperties.type.modelProperties, { displayName: {
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 50,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, clientRegistrationEndpoint: {
-                    serializedName: "clientRegistrationEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                }, authorizationEndpoint: {
-                    serializedName: "authorizationEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                }, grantTypes: {
-                    serializedName: "grantTypes",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }, clientId: {
-                    serializedName: "clientId",
                     type: {
                         name: "String"
                     }
@@ -3807,6 +3173,112 @@
                 value: {
                     required: true,
                     serializedName: "value",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var AuthorizationServerContractBaseProperties = {
+        serializedName: "AuthorizationServerContractBaseProperties",
+        type: {
+            name: "Composite",
+            className: "AuthorizationServerContractBaseProperties",
+            modelProperties: {
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                authorizationMethods: {
+                    serializedName: "authorizationMethods",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Enum",
+                                allowedValues: [
+                                    "HEAD",
+                                    "OPTIONS",
+                                    "TRACE",
+                                    "GET",
+                                    "POST",
+                                    "PUT",
+                                    "PATCH",
+                                    "DELETE"
+                                ]
+                            }
+                        }
+                    }
+                },
+                clientAuthenticationMethod: {
+                    serializedName: "clientAuthenticationMethod",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                tokenBodyParameters: {
+                    serializedName: "tokenBodyParameters",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "TokenBodyParameterContract"
+                            }
+                        }
+                    }
+                },
+                tokenEndpoint: {
+                    serializedName: "tokenEndpoint",
+                    type: {
+                        name: "String"
+                    }
+                },
+                supportState: {
+                    serializedName: "supportState",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                defaultScope: {
+                    serializedName: "defaultScope",
+                    type: {
+                        name: "String"
+                    }
+                },
+                bearerTokenSendingMethods: {
+                    serializedName: "bearerTokenSendingMethods",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                clientSecret: {
+                    serializedName: "clientSecret",
+                    type: {
+                        name: "String"
+                    }
+                },
+                resourceOwnerUsername: {
+                    serializedName: "resourceOwnerUsername",
+                    type: {
+                        name: "String"
+                    }
+                },
+                resourceOwnerPassword: {
+                    serializedName: "resourceOwnerPassword",
                     type: {
                         name: "String"
                     }
@@ -4123,30 +3595,6 @@
             }
         }
     };
-    var BackendContractProperties = {
-        serializedName: "BackendContractProperties",
-        type: {
-            name: "Composite",
-            className: "BackendContractProperties",
-            modelProperties: __assign({}, BackendBaseParameters.type.modelProperties, { url: {
-                    required: true,
-                    serializedName: "url",
-                    constraints: {
-                        MaxLength: 2000,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, protocol: {
-                    required: true,
-                    serializedName: "protocol",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
     var BackendContract = {
         serializedName: "BackendContract",
         type: {
@@ -4216,28 +3664,6 @@
                 }, protocol: {
                     required: true,
                     serializedName: "properties.protocol",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var BackendUpdateParameterProperties = {
-        serializedName: "BackendUpdateParameterProperties",
-        type: {
-            name: "Composite",
-            className: "BackendUpdateParameterProperties",
-            modelProperties: __assign({}, BackendBaseParameters.type.modelProperties, { url: {
-                    serializedName: "url",
-                    constraints: {
-                        MaxLength: 2000,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, protocol: {
-                    serializedName: "protocol",
                     type: {
                         name: "String"
                     }
@@ -4327,21 +3753,6 @@
             }
         }
     };
-    var BackendReconnectProperties = {
-        serializedName: "BackendReconnectProperties",
-        type: {
-            name: "Composite",
-            className: "BackendReconnectProperties",
-            modelProperties: {
-                after: {
-                    serializedName: "after",
-                    type: {
-                        name: "TimeSpan"
-                    }
-                }
-            }
-        }
-    };
     var BackendReconnectContract = {
         serializedName: "BackendReconnectContract",
         type: {
@@ -4353,36 +3764,6 @@
                         name: "TimeSpan"
                     }
                 } })
-        }
-    };
-    var CertificateContractProperties = {
-        serializedName: "CertificateContractProperties",
-        type: {
-            name: "Composite",
-            className: "CertificateContractProperties",
-            modelProperties: {
-                subject: {
-                    required: true,
-                    serializedName: "subject",
-                    type: {
-                        name: "String"
-                    }
-                },
-                thumbprint: {
-                    required: true,
-                    serializedName: "thumbprint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                expirationDate: {
-                    required: true,
-                    serializedName: "expirationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
         }
     };
     var CertificateContract = {
@@ -4409,29 +3790,6 @@
                         name: "DateTime"
                     }
                 } })
-        }
-    };
-    var CertificateCreateOrUpdateProperties = {
-        serializedName: "CertificateCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "CertificateCreateOrUpdateProperties",
-            modelProperties: {
-                data: {
-                    required: true,
-                    serializedName: "data",
-                    type: {
-                        name: "String"
-                    }
-                },
-                password: {
-                    required: true,
-                    serializedName: "password",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var CertificateCreateOrUpdateParameters = {
@@ -4901,56 +4259,6 @@
                     }
                 }
             }
-        }
-    };
-    var ApiManagementServiceProperties = {
-        serializedName: "ApiManagementServiceProperties",
-        type: {
-            name: "Composite",
-            className: "ApiManagementServiceProperties",
-            modelProperties: __assign({}, ApiManagementServiceBaseProperties.type.modelProperties, { publisherEmail: {
-                    required: true,
-                    serializedName: "publisherEmail",
-                    constraints: {
-                        MaxLength: 100
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, publisherName: {
-                    required: true,
-                    serializedName: "publisherName",
-                    constraints: {
-                        MaxLength: 100
-                    },
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var ApiManagementServiceUpdateProperties = {
-        serializedName: "ApiManagementServiceUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ApiManagementServiceUpdateProperties",
-            modelProperties: __assign({}, ApiManagementServiceBaseProperties.type.modelProperties, { publisherEmail: {
-                    serializedName: "publisherEmail",
-                    constraints: {
-                        MaxLength: 100
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, publisherName: {
-                    serializedName: "publisherName",
-                    constraints: {
-                        MaxLength: 100
-                    },
-                    type: {
-                        name: "String"
-                    }
-                } })
         }
     };
     var ApiManagementServiceIdentity = {
@@ -5684,67 +4992,6 @@
             }
         }
     };
-    var EmailTemplateContractProperties = {
-        serializedName: "EmailTemplateContractProperties",
-        type: {
-            name: "Composite",
-            className: "EmailTemplateContractProperties",
-            modelProperties: {
-                subject: {
-                    required: true,
-                    serializedName: "subject",
-                    constraints: {
-                        MaxLength: 1000,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                body: {
-                    required: true,
-                    serializedName: "body",
-                    constraints: {
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                title: {
-                    serializedName: "title",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isDefault: {
-                    readOnly: true,
-                    serializedName: "isDefault",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "EmailTemplateParametersContractProperties"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var EmailTemplateContract = {
         serializedName: "EmailTemplateContract",
         type: {
@@ -5797,58 +5044,6 @@
                         }
                     }
                 } })
-        }
-    };
-    var EmailTemplateUpdateParameterProperties = {
-        serializedName: "EmailTemplateUpdateParameterProperties",
-        type: {
-            name: "Composite",
-            className: "EmailTemplateUpdateParameterProperties",
-            modelProperties: {
-                subject: {
-                    serializedName: "subject",
-                    constraints: {
-                        MaxLength: 1000,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                title: {
-                    serializedName: "title",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                body: {
-                    serializedName: "body",
-                    constraints: {
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "EmailTemplateParametersContractProperties"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var EmailTemplateUpdateParameters = {
@@ -6003,49 +5198,6 @@
                 } })
         }
     };
-    var GroupCreateParametersProperties = {
-        serializedName: "GroupCreateParametersProperties",
-        type: {
-            name: "Composite",
-            className: "GroupCreateParametersProperties",
-            modelProperties: {
-                displayName: {
-                    required: true,
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 300,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                type: {
-                    serializedName: "type",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "custom",
-                            "system",
-                            "external"
-                        ]
-                    }
-                },
-                externalId: {
-                    serializedName: "externalId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var GroupCreateParameters = {
         serializedName: "GroupCreateParameters",
         type: {
@@ -6082,48 +5234,6 @@
                 },
                 externalId: {
                     serializedName: "properties.externalId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var GroupUpdateParametersProperties = {
-        serializedName: "GroupUpdateParametersProperties",
-        type: {
-            name: "Composite",
-            className: "GroupUpdateParametersProperties",
-            modelProperties: {
-                displayName: {
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 300,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                type: {
-                    serializedName: "type",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "custom",
-                            "system",
-                            "external"
-                        ]
-                    }
-                },
-                externalId: {
-                    serializedName: "externalId",
                     type: {
                         name: "String"
                     }
@@ -6229,134 +5339,6 @@
             }
         }
     };
-    var UserUpdateParametersProperties = {
-        serializedName: "UserUpdateParametersProperties",
-        type: {
-            name: "Composite",
-            className: "UserUpdateParametersProperties",
-            modelProperties: __assign({}, UserEntityBaseParameters.type.modelProperties, { email: {
-                    serializedName: "email",
-                    constraints: {
-                        MaxLength: 254,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, password: {
-                    serializedName: "password",
-                    type: {
-                        name: "String"
-                    }
-                }, firstName: {
-                    serializedName: "firstName",
-                    constraints: {
-                        MaxLength: 100,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, lastName: {
-                    serializedName: "lastName",
-                    constraints: {
-                        MaxLength: 100,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var UserCreateParameterProperties = {
-        serializedName: "UserCreateParameterProperties",
-        type: {
-            name: "Composite",
-            className: "UserCreateParameterProperties",
-            modelProperties: __assign({}, UserEntityBaseParameters.type.modelProperties, { email: {
-                    required: true,
-                    serializedName: "email",
-                    constraints: {
-                        MaxLength: 254,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, firstName: {
-                    required: true,
-                    serializedName: "firstName",
-                    constraints: {
-                        MaxLength: 100,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, lastName: {
-                    required: true,
-                    serializedName: "lastName",
-                    constraints: {
-                        MaxLength: 100,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, password: {
-                    serializedName: "password",
-                    type: {
-                        name: "String"
-                    }
-                }, confirmation: {
-                    serializedName: "confirmation",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var UserContractProperties = {
-        serializedName: "UserContractProperties",
-        type: {
-            name: "Composite",
-            className: "UserContractProperties",
-            modelProperties: __assign({}, UserEntityBaseParameters.type.modelProperties, { firstName: {
-                    serializedName: "firstName",
-                    type: {
-                        name: "String"
-                    }
-                }, lastName: {
-                    serializedName: "lastName",
-                    type: {
-                        name: "String"
-                    }
-                }, email: {
-                    serializedName: "email",
-                    type: {
-                        name: "String"
-                    }
-                }, registrationDate: {
-                    serializedName: "registrationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                }, groups: {
-                    readOnly: true,
-                    serializedName: "groups",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "GroupContractProperties"
-                            }
-                        }
-                    }
-                } })
-        }
-    };
     var UserContract = {
         serializedName: "UserContract",
         type: {
@@ -6416,97 +5398,6 @@
                                 className: "GroupContractProperties"
                             }
                         }
-                    }
-                } })
-        }
-    };
-    var IdentityProviderBaseParameters = {
-        serializedName: "IdentityProviderBaseParameters",
-        type: {
-            name: "Composite",
-            className: "IdentityProviderBaseParameters",
-            modelProperties: {
-                type: {
-                    serializedName: "type",
-                    type: {
-                        name: "String"
-                    }
-                },
-                allowedTenants: {
-                    serializedName: "allowedTenants",
-                    constraints: {
-                        MaxItems: 32
-                    },
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                signupPolicyName: {
-                    serializedName: "signupPolicyName",
-                    constraints: {
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                signinPolicyName: {
-                    serializedName: "signinPolicyName",
-                    constraints: {
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                profileEditingPolicyName: {
-                    serializedName: "profileEditingPolicyName",
-                    constraints: {
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                passwordResetPolicyName: {
-                    serializedName: "passwordResetPolicyName",
-                    constraints: {
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var IdentityProviderContractProperties = {
-        serializedName: "IdentityProviderContractProperties",
-        type: {
-            name: "Composite",
-            className: "IdentityProviderContractProperties",
-            modelProperties: __assign({}, IdentityProviderBaseParameters.type.modelProperties, { clientId: {
-                    required: true,
-                    serializedName: "clientId",
-                    constraints: {
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, clientSecret: {
-                    required: true,
-                    serializedName: "clientSecret",
-                    constraints: {
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
                     }
                 } })
         }
@@ -6578,30 +5469,6 @@
                 }, clientSecret: {
                     required: true,
                     serializedName: "properties.clientSecret",
-                    constraints: {
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var IdentityProviderUpdateProperties = {
-        serializedName: "IdentityProviderUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "IdentityProviderUpdateProperties",
-            modelProperties: __assign({}, IdentityProviderBaseParameters.type.modelProperties, { clientId: {
-                    serializedName: "clientId",
-                    constraints: {
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, clientSecret: {
-                    serializedName: "clientSecret",
                     constraints: {
                         MinLength: 1
                     },
@@ -6694,39 +5561,66 @@
             }
         }
     };
-    var LoggerUpdateParameters = {
-        serializedName: "LoggerUpdateParameters",
+    var IdentityProviderBaseParameters = {
+        serializedName: "IdentityProviderBaseParameters",
         type: {
             name: "Composite",
-            className: "LoggerUpdateParameters",
+            className: "IdentityProviderBaseParameters",
             modelProperties: {
-                loggerType: {
-                    serializedName: "loggerType",
+                type: {
+                    serializedName: "type",
                     type: {
                         name: "String"
                     }
                 },
-                description: {
-                    serializedName: "description",
+                allowedTenants: {
+                    serializedName: "allowedTenants",
+                    constraints: {
+                        MaxItems: 32
+                    },
                     type: {
-                        name: "String"
-                    }
-                },
-                credentials: {
-                    serializedName: "credentials",
-                    type: {
-                        name: "Dictionary",
-                        value: {
+                        name: "Sequence",
+                        element: {
                             type: {
                                 name: "String"
                             }
                         }
                     }
                 },
-                isBuffered: {
-                    serializedName: "isBuffered",
+                signupPolicyName: {
+                    serializedName: "signupPolicyName",
+                    constraints: {
+                        MinLength: 1
+                    },
                     type: {
-                        name: "Boolean"
+                        name: "String"
+                    }
+                },
+                signinPolicyName: {
+                    serializedName: "signinPolicyName",
+                    constraints: {
+                        MinLength: 1
+                    },
+                    type: {
+                        name: "String"
+                    }
+                },
+                profileEditingPolicyName: {
+                    serializedName: "profileEditingPolicyName",
+                    constraints: {
+                        MinLength: 1
+                    },
+                    type: {
+                        name: "String"
+                    }
+                },
+                passwordResetPolicyName: {
+                    serializedName: "passwordResetPolicyName",
+                    constraints: {
+                        MinLength: 1
+                    },
+                    type: {
+                        name: "String"
                     }
                 }
             }
@@ -6801,39 +5695,6 @@
             }
         }
     };
-    var NotificationContractProperties = {
-        serializedName: "NotificationContractProperties",
-        type: {
-            name: "Composite",
-            className: "NotificationContractProperties",
-            modelProperties: {
-                title: {
-                    required: true,
-                    serializedName: "title",
-                    constraints: {
-                        MaxLength: 1000,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                recipients: {
-                    serializedName: "recipients",
-                    type: {
-                        name: "Composite",
-                        className: "RecipientsContractProperties"
-                    }
-                }
-            }
-        }
-    };
     var NotificationContract = {
         serializedName: "NotificationContract",
         type: {
@@ -6861,21 +5722,6 @@
                         className: "RecipientsContractProperties"
                     }
                 } })
-        }
-    };
-    var RecipientUsersContractProperties = {
-        serializedName: "RecipientUsersContractProperties",
-        type: {
-            name: "Composite",
-            className: "RecipientUsersContractProperties",
-            modelProperties: {
-                userId: {
-                    serializedName: "userId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var RecipientUserContract = {
@@ -6911,21 +5757,6 @@
                 },
                 nextLink: {
                     serializedName: "nextLink",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var RecipientEmailContractProperties = {
-        serializedName: "RecipientEmailContractProperties",
-        type: {
-            name: "Composite",
-            className: "RecipientEmailContractProperties",
-            modelProperties: {
-                email: {
-                    serializedName: "email",
                     type: {
                         name: "String"
                     }
@@ -7078,51 +5909,6 @@
             }
         }
     };
-    var OpenidConnectProviderContractProperties = {
-        serializedName: "OpenidConnectProviderContractProperties",
-        type: {
-            name: "Composite",
-            className: "OpenidConnectProviderContractProperties",
-            modelProperties: {
-                displayName: {
-                    required: true,
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 50
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                metadataEndpoint: {
-                    required: true,
-                    serializedName: "metadataEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                clientId: {
-                    required: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var OpenidConnectProviderContract = {
         serializedName: "OpenidConnectProviderContract",
         type: {
@@ -7160,48 +5946,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var OpenidConnectProviderUpdateContractProperties = {
-        serializedName: "OpenidConnectProviderUpdateContractProperties",
-        type: {
-            name: "Composite",
-            className: "OpenidConnectProviderUpdateContractProperties",
-            modelProperties: {
-                displayName: {
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 50
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                metadataEndpoint: {
-                    serializedName: "metadataEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                clientId: {
-                    serializedName: "clientId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var OpenidConnectProviderUpdateContract = {
@@ -7246,21 +5990,6 @@
             }
         }
     };
-    var PortalSigninSettingProperties = {
-        serializedName: "PortalSigninSettingProperties",
-        type: {
-            name: "Composite",
-            className: "PortalSigninSettingProperties",
-            modelProperties: {
-                enabled: {
-                    serializedName: "enabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
     var PortalSigninSettings = {
         serializedName: "PortalSigninSettings",
         type: {
@@ -7296,28 +6025,6 @@
                     serializedName: "consentRequired",
                     type: {
                         name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
-    var PortalSignupSettingsProperties = {
-        serializedName: "PortalSignupSettingsProperties",
-        type: {
-            name: "Composite",
-            className: "PortalSignupSettingsProperties",
-            modelProperties: {
-                enabled: {
-                    serializedName: "enabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                termsOfService: {
-                    serializedName: "termsOfService",
-                    type: {
-                        name: "Composite",
-                        className: "TermsOfServiceProperties"
                     }
                 }
             }
@@ -7367,41 +6074,6 @@
                     serializedName: "enabled",
                     type: {
                         name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
-    var PortalDelegationSettingsProperties = {
-        serializedName: "PortalDelegationSettingsProperties",
-        type: {
-            name: "Composite",
-            className: "PortalDelegationSettingsProperties",
-            modelProperties: {
-                url: {
-                    serializedName: "url",
-                    type: {
-                        name: "String"
-                    }
-                },
-                validationKey: {
-                    serializedName: "validationKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                subscriptions: {
-                    serializedName: "subscriptions",
-                    type: {
-                        name: "Composite",
-                        className: "SubscriptionsDelegationSettingsProperties"
-                    }
-                },
-                userRegistration: {
-                    serializedName: "userRegistration",
-                    type: {
-                        name: "Composite",
-                        className: "RegistrationDelegationSettingsProperties"
                     }
                 }
             }
@@ -7493,113 +6165,6 @@
                         MaxLength: 300,
                         MinLength: 1
                     },
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var SubscriptionContractProperties = {
-        serializedName: "SubscriptionContractProperties",
-        type: {
-            name: "Composite",
-            className: "SubscriptionContractProperties",
-            modelProperties: {
-                userId: {
-                    required: true,
-                    serializedName: "userId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                productId: {
-                    required: true,
-                    serializedName: "productId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                displayName: {
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 100,
-                        MinLength: 0
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                state: {
-                    required: true,
-                    serializedName: "state",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "suspended",
-                            "active",
-                            "expired",
-                            "submitted",
-                            "rejected",
-                            "cancelled"
-                        ]
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                startDate: {
-                    serializedName: "startDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                expirationDate: {
-                    serializedName: "expirationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endDate: {
-                    serializedName: "endDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                notificationDate: {
-                    serializedName: "notificationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                primaryKey: {
-                    required: true,
-                    serializedName: "primaryKey",
-                    constraints: {
-                        MaxLength: 256,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                secondaryKey: {
-                    required: true,
-                    serializedName: "secondaryKey",
-                    constraints: {
-                        MaxLength: 256,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                stateComment: {
-                    serializedName: "stateComment",
                     type: {
                         name: "String"
                     }
@@ -7701,64 +6266,6 @@
                 } })
         }
     };
-    var PropertyEntityBaseParameters = {
-        serializedName: "PropertyEntityBaseParameters",
-        type: {
-            name: "Composite",
-            className: "PropertyEntityBaseParameters",
-            modelProperties: {
-                tags: {
-                    serializedName: "tags",
-                    constraints: {
-                        MaxItems: 32
-                    },
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                secret: {
-                    serializedName: "secret",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
-    var PropertyContractProperties = {
-        serializedName: "PropertyContractProperties",
-        type: {
-            name: "Composite",
-            className: "PropertyContractProperties",
-            modelProperties: __assign({}, PropertyEntityBaseParameters.type.modelProperties, { displayName: {
-                    required: true,
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 256,
-                        MinLength: 1,
-                        Pattern: /^[A-Za-z0-9-._]+$/
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, value: {
-                    required: true,
-                    serializedName: "value",
-                    constraints: {
-                        MaxLength: 4096,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
     var PropertyContract = {
         serializedName: "PropertyContract",
         type: {
@@ -7796,33 +6303,6 @@
                 }, value: {
                     required: true,
                     serializedName: "properties.value",
-                    constraints: {
-                        MaxLength: 4096,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var PropertyUpdateParameterProperties = {
-        serializedName: "PropertyUpdateParameterProperties",
-        type: {
-            name: "Composite",
-            className: "PropertyUpdateParameterProperties",
-            modelProperties: __assign({}, PropertyEntityBaseParameters.type.modelProperties, { displayName: {
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 256,
-                        MinLength: 1,
-                        Pattern: /^[A-Za-z0-9-._]+$/
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, value: {
-                    serializedName: "value",
                     constraints: {
                         MaxLength: 4096,
                         MinLength: 1
@@ -7878,6 +6358,35 @@
                     },
                     type: {
                         name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var PropertyEntityBaseParameters = {
+        serializedName: "PropertyEntityBaseParameters",
+        type: {
+            name: "Composite",
+            className: "PropertyEntityBaseParameters",
+            modelProperties: {
+                tags: {
+                    serializedName: "tags",
+                    constraints: {
+                        MaxItems: 32
+                    },
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                secret: {
+                    serializedName: "secret",
+                    type: {
+                        name: "Boolean"
                     }
                 }
             }
@@ -8294,74 +6803,6 @@
             }
         }
     };
-    var SubscriptionCreateParameterProperties = {
-        serializedName: "SubscriptionCreateParameterProperties",
-        type: {
-            name: "Composite",
-            className: "SubscriptionCreateParameterProperties",
-            modelProperties: {
-                userId: {
-                    required: true,
-                    serializedName: "userId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                productId: {
-                    required: true,
-                    serializedName: "productId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                displayName: {
-                    required: true,
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 100,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                primaryKey: {
-                    serializedName: "primaryKey",
-                    constraints: {
-                        MaxLength: 256,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                secondaryKey: {
-                    serializedName: "secondaryKey",
-                    constraints: {
-                        MaxLength: 256,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                state: {
-                    serializedName: "state",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "suspended",
-                            "active",
-                            "expired",
-                            "submitted",
-                            "rejected",
-                            "cancelled"
-                        ]
-                    }
-                }
-            }
-        }
-    };
     var SubscriptionCreateParameters = {
         serializedName: "SubscriptionCreateParameters",
         type: {
@@ -8425,79 +6866,6 @@
                             "rejected",
                             "cancelled"
                         ]
-                    }
-                }
-            }
-        }
-    };
-    var SubscriptionUpdateParameterProperties = {
-        serializedName: "SubscriptionUpdateParameterProperties",
-        type: {
-            name: "Composite",
-            className: "SubscriptionUpdateParameterProperties",
-            modelProperties: {
-                userId: {
-                    serializedName: "userId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                productId: {
-                    serializedName: "productId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                expirationDate: {
-                    serializedName: "expirationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                displayName: {
-                    serializedName: "displayName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                primaryKey: {
-                    serializedName: "primaryKey",
-                    constraints: {
-                        MaxLength: 256,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                secondaryKey: {
-                    serializedName: "secondaryKey",
-                    constraints: {
-                        MaxLength: 256,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                state: {
-                    serializedName: "state",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "suspended",
-                            "active",
-                            "expired",
-                            "submitted",
-                            "rejected",
-                            "cancelled"
-                        ]
-                    }
-                },
-                stateComment: {
-                    serializedName: "stateComment",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -8576,26 +6944,6 @@
             }
         }
     };
-    var TagContractProperties = {
-        serializedName: "TagContractProperties",
-        type: {
-            name: "Composite",
-            className: "TagContractProperties",
-            modelProperties: {
-                displayName: {
-                    required: true,
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 160,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var TagContract = {
         serializedName: "TagContract",
         type: {
@@ -8632,53 +6980,6 @@
                     }
                 }
             }
-        }
-    };
-    var TagDescriptionBaseProperties = {
-        serializedName: "TagDescriptionBaseProperties",
-        type: {
-            name: "Composite",
-            className: "TagDescriptionBaseProperties",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                externalDocsUrl: {
-                    serializedName: "externalDocsUrl",
-                    constraints: {
-                        MaxLength: 2000
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                externalDocsDescription: {
-                    serializedName: "externalDocsDescription",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var TagDescriptionContractProperties = {
-        serializedName: "TagDescriptionContractProperties",
-        type: {
-            name: "Composite",
-            className: "TagDescriptionContractProperties",
-            modelProperties: __assign({}, TagDescriptionBaseProperties.type.modelProperties, { displayName: {
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 160,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                } })
         }
     };
     var TagDescriptionContract = {
@@ -9190,65 +7491,6 @@
             }
         }
     };
-    var ApiVersionSetEntityBase = {
-        serializedName: "ApiVersionSetEntityBase",
-        type: {
-            name: "Composite",
-            className: "ApiVersionSetEntityBase",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                versionQueryName: {
-                    serializedName: "versionQueryName",
-                    constraints: {
-                        MaxLength: 100,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                versionHeaderName: {
-                    serializedName: "versionHeaderName",
-                    constraints: {
-                        MaxLength: 100,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var ApiVersionSetContractProperties = {
-        serializedName: "ApiVersionSetContractProperties",
-        type: {
-            name: "Composite",
-            className: "ApiVersionSetContractProperties",
-            modelProperties: __assign({}, ApiVersionSetEntityBase.type.modelProperties, { displayName: {
-                    required: true,
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 100,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }, versioningScheme: {
-                    required: true,
-                    serializedName: "versioningScheme",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
     var ApiVersionSetContract = {
         serializedName: "ApiVersionSetContract",
         type: {
@@ -9296,13 +7538,20 @@
                 } })
         }
     };
-    var ApiVersionSetUpdateParametersProperties = {
-        serializedName: "ApiVersionSetUpdateParametersProperties",
+    var ApiVersionSetEntityBase = {
+        serializedName: "ApiVersionSetEntityBase",
         type: {
             name: "Composite",
-            className: "ApiVersionSetUpdateParametersProperties",
-            modelProperties: __assign({}, ApiVersionSetEntityBase.type.modelProperties, { displayName: {
-                    serializedName: "displayName",
+            className: "ApiVersionSetEntityBase",
+            modelProperties: {
+                description: {
+                    serializedName: "description",
+                    type: {
+                        name: "String"
+                    }
+                },
+                versionQueryName: {
+                    serializedName: "versionQueryName",
                     constraints: {
                         MaxLength: 100,
                         MinLength: 1
@@ -9310,12 +7559,18 @@
                     type: {
                         name: "String"
                     }
-                }, versioningScheme: {
-                    serializedName: "versioningScheme",
+                },
+                versionHeaderName: {
+                    serializedName: "versionHeaderName",
+                    constraints: {
+                        MaxLength: 100,
+                        MinLength: 1
+                    },
                     type: {
                         name: "String"
                     }
-                } })
+                }
+            }
         }
     };
     var ApiVersionSetUpdateParameters = {
@@ -11388,7 +9643,6 @@
         ErrorFieldContract: ErrorFieldContract,
         ErrorResponseBody: ErrorResponseBody,
         ErrorResponse: ErrorResponse,
-        PolicyContractProperties: PolicyContractProperties,
         Resource: Resource,
         PolicyContract: PolicyContract,
         PolicyCollection: PolicyCollection,
@@ -11401,9 +9655,7 @@
         ApiContractProperties: ApiContractProperties,
         ApiContract: ApiContract,
         ApiCreateOrUpdatePropertiesWsdlSelector: ApiCreateOrUpdatePropertiesWsdlSelector,
-        ApiCreateOrUpdateProperties: ApiCreateOrUpdateProperties,
         ApiCreateOrUpdateParameter: ApiCreateOrUpdateParameter,
-        ApiContractUpdateProperties: ApiContractUpdateProperties,
         ApiUpdateContract: ApiUpdateContract,
         OAuth2AuthenticationSettingsContract: OAuth2AuthenticationSettingsContract,
         OpenIdAuthenticationSettingsContract: OpenIdAuthenticationSettingsContract,
@@ -11411,45 +9663,31 @@
         SubscriptionKeyParameterNamesContract: SubscriptionKeyParameterNamesContract,
         ApiRevisionContract: ApiRevisionContract,
         ApiRevisionInfoContract: ApiRevisionInfoContract,
-        ApiReleaseContractProperties: ApiReleaseContractProperties,
         ApiReleaseContract: ApiReleaseContract,
-        OperationEntityBaseContract: OperationEntityBaseContract,
-        OperationContractProperties: OperationContractProperties,
         OperationContract: OperationContract,
-        OperationUpdateContractProperties: OperationUpdateContractProperties,
         ParameterContract: ParameterContract,
         RepresentationContract: RepresentationContract,
         RequestContract: RequestContract,
         ResponseContract: ResponseContract,
+        OperationEntityBaseContract: OperationEntityBaseContract,
         OperationUpdateContract: OperationUpdateContract,
-        SchemaDocumentProperties: SchemaDocumentProperties,
-        SchemaContractProperties: SchemaContractProperties,
         SchemaContract: SchemaContract,
-        IssueContractProperties: IssueContractProperties,
         IssueContract: IssueContract,
-        IssueCommentContractProperties: IssueCommentContractProperties,
         IssueCommentContract: IssueCommentContract,
-        IssueAttachmentContractProperties: IssueAttachmentContractProperties,
         IssueAttachmentContract: IssueAttachmentContract,
-        LoggerContractProperties: LoggerContractProperties,
         LoggerContract: LoggerContract,
-        DiagnosticContractProperties: DiagnosticContractProperties,
         DiagnosticContract: DiagnosticContract,
         ProductEntityBaseParameters: ProductEntityBaseParameters,
-        ProductUpdateProperties: ProductUpdateProperties,
-        ProductContractProperties: ProductContractProperties,
         ProductTagResourceContractProperties: ProductTagResourceContractProperties,
         OperationTagResourceContractProperties: OperationTagResourceContractProperties,
         ApiTagResourceContractProperties: ApiTagResourceContractProperties,
         TagTagResourceContractProperties: TagTagResourceContractProperties,
         TagResourceContract: TagResourceContract,
         ProductContract: ProductContract,
-        AuthorizationServerContractBaseProperties: AuthorizationServerContractBaseProperties,
-        AuthorizationServerContractProperties: AuthorizationServerContractProperties,
         AuthorizationServerContract: AuthorizationServerContract,
-        AuthorizationServerUpdateContractProperties: AuthorizationServerUpdateContractProperties,
         AuthorizationServerUpdateContract: AuthorizationServerUpdateContract,
         TokenBodyParameterContract: TokenBodyParameterContract,
+        AuthorizationServerContractBaseProperties: AuthorizationServerContractBaseProperties,
         BackendAuthorizationHeaderCredentials: BackendAuthorizationHeaderCredentials,
         X509CertificateName: X509CertificateName,
         BackendServiceFabricClusterProperties: BackendServiceFabricClusterProperties,
@@ -11458,15 +9696,10 @@
         BackendProxyContract: BackendProxyContract,
         BackendTlsProperties: BackendTlsProperties,
         BackendBaseParameters: BackendBaseParameters,
-        BackendContractProperties: BackendContractProperties,
         BackendContract: BackendContract,
-        BackendUpdateParameterProperties: BackendUpdateParameterProperties,
         BackendUpdateParameters: BackendUpdateParameters,
-        BackendReconnectProperties: BackendReconnectProperties,
         BackendReconnectContract: BackendReconnectContract,
-        CertificateContractProperties: CertificateContractProperties,
         CertificateContract: CertificateContract,
-        CertificateCreateOrUpdateProperties: CertificateCreateOrUpdateProperties,
         CertificateCreateOrUpdateParameters: CertificateCreateOrUpdateParameters,
         CertificateInformation: CertificateInformation,
         CertificateConfiguration: CertificateConfiguration,
@@ -11476,8 +9709,6 @@
         AdditionalLocation: AdditionalLocation,
         ApiManagementServiceBackupRestoreParameters: ApiManagementServiceBackupRestoreParameters,
         ApiManagementServiceBaseProperties: ApiManagementServiceBaseProperties,
-        ApiManagementServiceProperties: ApiManagementServiceProperties,
-        ApiManagementServiceUpdateProperties: ApiManagementServiceUpdateProperties,
         ApiManagementServiceIdentity: ApiManagementServiceIdentity,
         ApimResource: ApimResource,
         ApiManagementServiceResource: ApiManagementServiceResource,
@@ -11492,77 +9723,51 @@
         OperationDisplay: OperationDisplay,
         Operation: Operation,
         EmailTemplateParametersContractProperties: EmailTemplateParametersContractProperties,
-        EmailTemplateContractProperties: EmailTemplateContractProperties,
         EmailTemplateContract: EmailTemplateContract,
-        EmailTemplateUpdateParameterProperties: EmailTemplateUpdateParameterProperties,
         EmailTemplateUpdateParameters: EmailTemplateUpdateParameters,
         GroupContractProperties: GroupContractProperties,
         GroupContract: GroupContract,
-        GroupCreateParametersProperties: GroupCreateParametersProperties,
         GroupCreateParameters: GroupCreateParameters,
-        GroupUpdateParametersProperties: GroupUpdateParametersProperties,
         GroupUpdateParameters: GroupUpdateParameters,
         UserIdentityContract: UserIdentityContract,
         UserEntityBaseParameters: UserEntityBaseParameters,
-        UserUpdateParametersProperties: UserUpdateParametersProperties,
-        UserCreateParameterProperties: UserCreateParameterProperties,
-        UserContractProperties: UserContractProperties,
         UserContract: UserContract,
-        IdentityProviderBaseParameters: IdentityProviderBaseParameters,
-        IdentityProviderContractProperties: IdentityProviderContractProperties,
         IdentityProviderContract: IdentityProviderContract,
-        IdentityProviderUpdateProperties: IdentityProviderUpdateProperties,
         IdentityProviderUpdateParameters: IdentityProviderUpdateParameters,
-        LoggerUpdateParameters: LoggerUpdateParameters,
+        IdentityProviderBaseParameters: IdentityProviderBaseParameters,
         LoggerUpdateContract: LoggerUpdateContract,
         RecipientsContractProperties: RecipientsContractProperties,
-        NotificationContractProperties: NotificationContractProperties,
         NotificationContract: NotificationContract,
-        RecipientUsersContractProperties: RecipientUsersContractProperties,
         RecipientUserContract: RecipientUserContract,
         RecipientUserCollection: RecipientUserCollection,
-        RecipientEmailContractProperties: RecipientEmailContractProperties,
         RecipientEmailContract: RecipientEmailContract,
         RecipientEmailCollection: RecipientEmailCollection,
         ConnectivityStatusContract: ConnectivityStatusContract,
         NetworkStatusContract: NetworkStatusContract,
         NetworkStatusContractByLocation: NetworkStatusContractByLocation,
-        OpenidConnectProviderContractProperties: OpenidConnectProviderContractProperties,
         OpenidConnectProviderContract: OpenidConnectProviderContract,
-        OpenidConnectProviderUpdateContractProperties: OpenidConnectProviderUpdateContractProperties,
         OpenidConnectProviderUpdateContract: OpenidConnectProviderUpdateContract,
-        PortalSigninSettingProperties: PortalSigninSettingProperties,
         PortalSigninSettings: PortalSigninSettings,
         TermsOfServiceProperties: TermsOfServiceProperties,
-        PortalSignupSettingsProperties: PortalSignupSettingsProperties,
         PortalSignupSettings: PortalSignupSettings,
         SubscriptionsDelegationSettingsProperties: SubscriptionsDelegationSettingsProperties,
         RegistrationDelegationSettingsProperties: RegistrationDelegationSettingsProperties,
-        PortalDelegationSettingsProperties: PortalDelegationSettingsProperties,
         PortalDelegationSettings: PortalDelegationSettings,
         ProductUpdateParameters: ProductUpdateParameters,
-        SubscriptionContractProperties: SubscriptionContractProperties,
         SubscriptionContract: SubscriptionContract,
-        PropertyEntityBaseParameters: PropertyEntityBaseParameters,
-        PropertyContractProperties: PropertyContractProperties,
         PropertyContract: PropertyContract,
-        PropertyUpdateParameterProperties: PropertyUpdateParameterProperties,
         PropertyUpdateParameters: PropertyUpdateParameters,
+        PropertyEntityBaseParameters: PropertyEntityBaseParameters,
         QuotaCounterValueContractProperties: QuotaCounterValueContractProperties,
         QuotaCounterContract: QuotaCounterContract,
         QuotaCounterCollection: QuotaCounterCollection,
         QuotaCounterValueContract: QuotaCounterValueContract,
         ReportRecordContract: ReportRecordContract,
         RequestReportRecordContract: RequestReportRecordContract,
-        SubscriptionCreateParameterProperties: SubscriptionCreateParameterProperties,
         SubscriptionCreateParameters: SubscriptionCreateParameters,
-        SubscriptionUpdateParameterProperties: SubscriptionUpdateParameterProperties,
         SubscriptionUpdateParameters: SubscriptionUpdateParameters,
-        TagContractProperties: TagContractProperties,
         TagContract: TagContract,
         TagCreateUpdateParameters: TagCreateUpdateParameters,
-        TagDescriptionBaseProperties: TagDescriptionBaseProperties,
-        TagDescriptionContractProperties: TagDescriptionContractProperties,
         TagDescriptionContract: TagDescriptionContract,
         TagDescriptionCreateParameters: TagDescriptionCreateParameters,
         AccessInformationContract: AccessInformationContract,
@@ -11577,10 +9782,8 @@
         UserTokenParameters: UserTokenParameters,
         UserTokenResult: UserTokenResult,
         UserUpdateParameters: UserUpdateParameters,
-        ApiVersionSetEntityBase: ApiVersionSetEntityBase,
-        ApiVersionSetContractProperties: ApiVersionSetContractProperties,
         ApiVersionSetContract: ApiVersionSetContract,
-        ApiVersionSetUpdateParametersProperties: ApiVersionSetUpdateParametersProperties,
+        ApiVersionSetEntityBase: ApiVersionSetEntityBase,
         ApiVersionSetUpdateParameters: ApiVersionSetUpdateParameters,
         PolicyGetEntityTagHeaders: PolicyGetEntityTagHeaders,
         PolicyGetHeaders: PolicyGetHeaders,
@@ -12857,8 +11060,6 @@
         CloudError: CloudError,
         PolicyContract: PolicyContract,
         ApiContractProperties: ApiContractProperties,
-        ApiCreateOrUpdateProperties: ApiCreateOrUpdateProperties,
-        ApiContractUpdateProperties: ApiContractUpdateProperties,
         ApiReleaseContract: ApiReleaseContract,
         OperationContract: OperationContract,
         ParameterContract: ParameterContract,
@@ -12871,8 +11072,6 @@
         IssueAttachmentContract: IssueAttachmentContract,
         LoggerContract: LoggerContract,
         DiagnosticContract: DiagnosticContract,
-        ProductUpdateProperties: ProductUpdateProperties,
-        ProductContractProperties: ProductContractProperties,
         ProductContract: ProductContract,
         AuthorizationServerContract: AuthorizationServerContract,
         TokenBodyParameterContract: TokenBodyParameterContract,
@@ -25786,12 +23985,7 @@
         ProductEntityBaseParameters: ProductEntityBaseParameters,
         CloudError: CloudError,
         ApiContractProperties: ApiContractProperties,
-        ApiVersionSetContractDetails: ApiVersionSetContractDetails,
-        ApiCreateOrUpdateProperties: ApiCreateOrUpdateProperties,
-        ApiCreateOrUpdatePropertiesWsdlSelector: ApiCreateOrUpdatePropertiesWsdlSelector,
-        ApiContractUpdateProperties: ApiContractUpdateProperties,
-        ProductUpdateProperties: ProductUpdateProperties,
-        ProductContractProperties: ProductContractProperties
+        ApiVersionSetContractDetails: ApiVersionSetContractDetails
     });
 
     /*
@@ -27216,12 +25410,7 @@
         ProductEntityBaseParameters: ProductEntityBaseParameters,
         CloudError: CloudError,
         ApiContractProperties: ApiContractProperties,
-        ApiVersionSetContractDetails: ApiVersionSetContractDetails,
-        ApiCreateOrUpdateProperties: ApiCreateOrUpdateProperties,
-        ApiCreateOrUpdatePropertiesWsdlSelector: ApiCreateOrUpdatePropertiesWsdlSelector,
-        ApiContractUpdateProperties: ApiContractUpdateProperties,
-        ProductUpdateProperties: ProductUpdateProperties,
-        ProductContractProperties: ProductContractProperties
+        ApiVersionSetContractDetails: ApiVersionSetContractDetails
     });
 
     /*
