@@ -78,7 +78,7 @@ export class Logger {
 
     logWarn(text?: string): void {
         if (this._loggingLevel <= LoggingLevel.Warn) {
-            this.log(text.bgYellow);
+            this.log(text.bgYellow.black);
         }
     }
 

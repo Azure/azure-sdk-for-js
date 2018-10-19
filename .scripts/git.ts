@@ -43,7 +43,19 @@ export class Branch {
     }
 
     convertTo(location: BranchLocation): Branch {
+        if (this.location == location) {
+            return this;
+        }
+
         return new Branch(this.name, location, this.remote);
+    }
+
+    toRemote(): Branch {
+        return this.convertTo(BranchLocation.Remote);
+    }
+
+    toLocal(): Branch {
+        return this.convertTo(BranchLocation.Local);
     }
 
     static fromReference(reference: Reference) {
@@ -180,7 +192,7 @@ export async function checkoutRemoteBranch(repository: Repository, remoteBranch:
     _logger.logTrace(`Checking out "${remoteBranch.fullName()}" remote branch`);
 
     const branchNames = await repository.getReferenceNames(Reference.TYPE.LISTALL);
-    const localBranch = remoteBranch.convertTo(BranchLocation.Local);
+    const localBranch = remoteBranch.toLocal();
     const branchExists = branchNames.some(name => name === localBranch.fullNameWithoutRemote());
     _logger.logTrace(`Branch exists: ${branchExists}`);
 
@@ -191,7 +203,7 @@ export async function checkoutRemoteBranch(repository: Repository, remoteBranch:
         branchRef = await createNewBranch(repository, remoteBranch.name, true);
         const commit = await repository.getReferenceCommit(remoteBranch.name);
         await Reset.reset(repository, commit as any, Reset.TYPE.HARD, {});
-        await pullBranch(repository, remoteBranch.convertTo(BranchLocation.Local));
+        await pullBranch(repository, remoteBranch.toLocal());
     }
 
     return branchRef;
@@ -259,9 +271,9 @@ export async function commitChanges(repository: Repository, commitMessage: strin
     return repository.createCommit("HEAD", author, author, commitMessage, oid, [head]);
 }
 
-export async function pushBranch(repository: Repository, localBranch: Branch): Promise<number> {
+export async function pushBranch(repository: Repository, localBranch: Branch, forcePush?: boolean): Promise<number> {
     const remote = await repository.getRemote("origin");
-    const refSpec = `refs/heads/${localBranch.name}:refs/heads/${localBranch.name}`;
+    const refSpec = `${forcePush ? "+" : ""}refs/heads/${localBranch.name}:refs/heads/${localBranch.name}`;
     _logger.logTrace(`Pushing to ${refSpec}`);
 
     return new Promise<number>((resolve, reject) => {
@@ -280,9 +292,9 @@ export async function pushBranch(repository: Repository, localBranch: Branch): P
     });
 }
 
-export async function commitAndPush(repository: Repository, localBranch: Branch, commitMessage: string, validate?: ValidateFunction, validateEach?: string | ValidateEachFunction) {
+export async function commitAndPush(repository: Repository, localBranch: Branch, commitMessage: string, validate?: ValidateFunction, validateEach?: string | ValidateEachFunction, forcePush?: boolean) {
     await commitChanges(repository, commitMessage, validate, validateEach);
-    await pushBranch(repository, localBranch);
+    await pushBranch(repository, localBranch, forcePush);
 }
 
 export function getToken(): string {

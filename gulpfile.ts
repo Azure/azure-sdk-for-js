@@ -254,7 +254,7 @@ gulp.task("regenerate", async () => {
       const branchName = argv.branch || data.branchName;
       const packageName = argv.package || data.packageName;
 
-      regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], argv["skip-version-bump"], argv["request-review"])
+      regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], data.prId, argv["skip-version-bump"], argv["request-review"])
         .then(_ => resolve(),
           error => reject(error));
     }).catch(error => {

@@ -14,7 +14,7 @@ import { contains, npmInstall } from "./common";
 import { execSync } from "child_process";
 import { Logger } from "./logger";
 import { refreshRepository, getValidatedRepository, waitAndLockGitRepository, unlockGitRepository, ValidateFunction, ValidateEachFunction, checkoutBranch, pullBranch, mergeBranch, mergeMasterIntoBranch, commitAndPush, checkoutRemoteBranch, Branch, BranchLocation, rebaseBranch } from "./git";
-import { commitAndCreatePullRequest, findPullRequest, requestPullRequestReview } from "./github";
+import { commitAndCreatePullRequest, findPullRequest, requestPullRequestReview, forcePrDiffRefresh } from "./github";
 
 const _logger = Logger.get();
 
@@ -174,7 +174,7 @@ export async function generateAllMissingSdks(azureSdkForJsRepoPath: string, azur
     }
 }
 
-export async function regenerate(branchName: string, packageName: string, azureSdkForJsRepoPath: string, azureRestAPISpecsPath: string, skipVersionBump?: boolean, requestReview?: boolean) {
+export async function regenerate(branchName: string, packageName: string, azureSdkForJsRepoPath: string, azureRestAPISpecsPath: string, pullRequestId?: number, skipVersionBump?: boolean, requestReview?: boolean) {
     const azureSdkForJsRepository = await getValidatedRepository(azureSdkForJsRepoPath);
     await refreshRepository(azureSdkForJsRepository);
     _logger.log(`Refreshed ${azureSdkForJsRepository.path()} repository successfully`);
@@ -184,7 +184,6 @@ export async function regenerate(branchName: string, packageName: string, azureS
     _logger.log(`Checked out ${branchName} branch`);
 
     const localBranch = remoteBranch.convertTo(BranchLocation.Local);
-   //await mergeMasterIntoBranch(azureSdkForJsRepository, localBranch);
     await rebaseBranch(azureSdkForJsRepository, localBranch);
     _logger.log(`Merged master into ${localBranch.shorthand()} successfully`);
 
@@ -201,10 +200,16 @@ export async function regenerate(branchName: string, packageName: string, azureS
     await commitAndPush(azureSdkForJsRepository, localBranch, `Regenerated "${packageName}" SDK.`, undefined, `packages/${packageName}`);
     _logger.log(`Committed and pushed the changes successfully`);
 
+    await forcePrDiffRefresh("azure-sdk-for-js", pullRequestId);
+    _logger.logDebug(`Force refreshed pull request successfully`);
+
     if (requestReview) {
-        const pullRequest = await findPullRequest("azure-sdk-for-js", branchName, "open");
-        await requestPullRequestReview("azure-sdk-for-js", pullRequest.id);
-        _logger.log(`Requested review on PR ${pullRequest.id} successfully`);
+        if (!pullRequestId) {
+            const pullRequest = await findPullRequest("azure-sdk-for-js", branchName, "open");
+            pullRequestId = pullRequest.id;
+        }
+        await requestPullRequestReview("azure-sdk-for-js", pullRequestId);
+        _logger.log(`Requested review on PR ${pullRequestId} successfully`);
     } else {
         _logger.log("Skipping review requesting");
     }

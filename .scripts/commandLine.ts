@@ -134,7 +134,7 @@ export const commandLineConfiguration = {
 };
 
 let _options: CommandLineOptions;
-export function getCommandLineOptions() {
+export function getCommandLineOptions(): CommandLineOptions {
     if (!_options) {
         _options = createCommandLineParameters();
     }
@@ -142,13 +142,13 @@ export function getCommandLineOptions() {
     return _options;
 }
 
-function createCommandLineParameters() {
+function createCommandLineParameters(): CommandLineOptions {
     const args = minimist(process.argv.slice(2), commandLineConfiguration) as CommandLineOptions;
     args.getSdkType = getSdkType;
     return args;
 }
 
-export function parseSdkType(str: string) {
+export function parseSdkType(str: string): SdkType {
     const resourceManagerStrings = ["arm", "rm", "resourcemanager"]
     const dataPlaneStrings = ["dp", "data", "dataplane"]
     const controlPlaneStrings = ["control"]
@@ -165,6 +165,6 @@ export function parseSdkType(str: string) {
     }
 }
 
-function getSdkType() {
+function getSdkType(): SdkType {
     return parseSdkType(this.type);
 }
