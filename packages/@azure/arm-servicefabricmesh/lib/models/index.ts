@@ -16,6 +16,129 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
+ * An interface representing AvailableOperationDisplay.
+ * An operation available at the listed Azure resource provider.
+ *
+ */
+export interface AvailableOperationDisplay {
+  /**
+   * @member {string} [provider] Name of the operation provider.
+   */
+  provider?: string;
+  /**
+   * @member {string} [resource] Name of the resource on which the operation is
+   * available.
+   */
+  resource?: string;
+  /**
+   * @member {string} [operation] Name of the available operation.
+   */
+  operation?: string;
+  /**
+   * @member {string} [description] Description of the available operation.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ErrorDetailsModel.
+ * Error model details information
+ *
+ */
+export interface ErrorDetailsModel {
+  /**
+   * @member {string} code
+   */
+  code: string;
+  /**
+   * @member {string} message Error message.
+   */
+  message: string;
+}
+
+/**
+ * @interface
+ * An interface representing ErrorErrorModel.
+ * Error model information
+ *
+ */
+export interface ErrorErrorModel {
+  /**
+   * @member {string} code
+   */
+  code: string;
+  /**
+   * @member {string} [message] Error message.
+   */
+  message?: string;
+  /**
+   * @member {string} [innerError]
+   */
+  innerError?: string;
+  /**
+   * @member {ErrorDetailsModel[]} [details] List of error message details.
+   */
+  details?: ErrorDetailsModel[];
+}
+
+/**
+ * @interface
+ * An interface representing ErrorModel.
+ * The error details.
+ *
+ */
+export interface ErrorModel {
+  /**
+   * @member {ErrorErrorModel} error Error model information
+   */
+  error: ErrorErrorModel;
+}
+
+/**
+ * @interface
+ * An interface representing OperationResult.
+ * List of operations available at the listed Azure resource provider.
+ *
+ */
+export interface OperationResult {
+  /**
+   * @member {string} [name] The name of the operation.
+   */
+  name?: string;
+  /**
+   * @member {AvailableOperationDisplay} [display] The object that represents
+   * the operation.
+   */
+  display?: AvailableOperationDisplay;
+  /**
+   * @member {string} [origin] Origin result
+   */
+  origin?: string;
+  /**
+   * @member {string} [nextLink] The URL to use for getting the next set of
+   * results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProvisionedResourceProperties.
+ * Describes common properties of a provisioned resource.
+ *
+ */
+export interface ProvisionedResourceProperties {
+  /**
+   * @member {string} [provisioningState] State of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * The resource model definition for Azure Resource Manager resource.
  *
@@ -42,10 +165,6 @@ export interface Resource extends BaseResource {
    * the server.**
    */
   readonly type?: string;
-  /**
-   * @member {string} [location] The geo-location where the resource lives
-   */
-  location?: string;
 }
 
 /**
@@ -103,15 +222,28 @@ export interface TrackedResource extends Resource {
    * @member {{ [propertyName: string]: string }} [tags] Resource tags.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * @member {string} location The geo-location where the resource lives
+   */
+  location: string;
 }
 
 /**
+ * Contains the possible cases for SecretResourcePropertiesBase.
+ */
+export type SecretResourcePropertiesBaseUnion = SecretResourcePropertiesBase | SecretResourcePropertiesUnion;
+
+/**
  * @interface
- * An interface representing ProvisionedResourceProperties.
- * Describes common properties of a provisioned resource.
+ * An interface representing SecretResourcePropertiesBase.
+ * This type describes the properties of a secret resource, including its kind.
  *
  */
-export interface ProvisionedResourceProperties {
+export interface SecretResourcePropertiesBase {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "SecretResourcePropertiesBase";
   /**
    * @member {string} [provisioningState] State of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -121,71 +253,21 @@ export interface ProvisionedResourceProperties {
 }
 
 /**
- * @interface
- * An interface representing Layer4IngressConfig.
- * Describes the layer4 configuration for public connectivity for this network.
- *
+ * Contains the possible cases for SecretResourceProperties.
  */
-export interface Layer4IngressConfig {
-  /**
-   * @member {string} [name] Layer4 ingress config name.
-   */
-  name?: string;
-  /**
-   * @member {number} [publicPort] Specifies the public port at which the
-   * service endpoint below needs to be exposed.
-   */
-  publicPort?: number;
-  /**
-   * @member {string} [applicationName] The application name which contains the
-   * service to be exposed.
-   */
-  applicationName?: string;
-  /**
-   * @member {string} [serviceName] The service whose endpoint needs to be
-   * exposed at the public port.
-   */
-  serviceName?: string;
-  /**
-   * @member {string} [endpointName] The service endpoint that needs to be
-   * exposed.
-   */
-  endpointName?: string;
-}
+export type SecretResourcePropertiesUnion = SecretResourceProperties | InlinedValueSecretResourceProperties;
 
 /**
  * @interface
- * An interface representing IngressConfig.
- * Describes public connectivity configuration for the network.
+ * An interface representing SecretResourceProperties.
+ * Describes the properties of a secret resource.
  *
  */
-export interface IngressConfig {
+export interface SecretResourceProperties {
   /**
-   * @member {IngressQoSLevel} [qosLevel] The QoS tier for ingress. Possible
-   * values include: 'Bronze'
+   * @member {string} kind Polymorphic Discriminator
    */
-  qosLevel?: IngressQoSLevel;
-  /**
-   * @member {Layer4IngressConfig[]} [layer4] Configuration for layer4 public
-   * connectivity for this network.
-   */
-  layer4?: Layer4IngressConfig[];
-  /**
-   * @member {string} [publicIPAddress] The public IP address for reaching this
-   * network.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly publicIPAddress?: string;
-}
-
-/**
- * @interface
- * An interface representing NetworkResourceProperties.
- * Describes properties of a network resource.
- *
- */
-export interface NetworkResourceProperties {
+  kind: "SecretResourceProperties";
   /**
    * @member {string} [provisioningState] State of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -193,28 +275,128 @@ export interface NetworkResourceProperties {
    */
   readonly provisioningState?: string;
   /**
-   * @member {string} [description] User readable description of the network.
+   * @member {string} [description] User readable description of the secret.
    */
   description?: string;
   /**
-   * @member {string} addressPrefix the address prefix for this network.
+   * @member {ResourceStatus} [status] Status of the resource. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  addressPrefix: string;
+  readonly status?: ResourceStatus;
   /**
-   * @member {IngressConfig} [ingressConfig] Configuration for public
-   * connectivity for this network.
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the secret.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  ingressConfig?: IngressConfig;
+  readonly statusDetails?: string;
+  /**
+   * @member {string} [contentType] The type of the content stored in the
+   * secret value. The value of this property is opaque to Service Fabric. Once
+   * set, the value of this property cannot be changed.
+   */
+  contentType?: string;
 }
 
 /**
  * @interface
- * An interface representing NetworkResourceDescription.
- * This type describes a network resource.
+ * An interface representing InlinedValueSecretResourceProperties.
+ * Describes the properties of a secret resource whose value is provided
+ * explicitly as plaintext. The secret resource may have multiple values, each
+ * being uniquely versioned. The secret value of each version is stored
+ * encrypted, and delivered as plaintext into the context of applications
+ * referencing it.
+ *
+ */
+export interface InlinedValueSecretResourceProperties {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "inlinedValue";
+  /**
+   * @member {string} [provisioningState] State of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [description] User readable description of the secret.
+   */
+  description?: string;
+  /**
+   * @member {ResourceStatus} [status] Status of the resource. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the secret.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {string} [contentType] The type of the content stored in the
+   * secret value. The value of this property is opaque to Service Fabric. Once
+   * set, the value of this property cannot be changed.
+   */
+  contentType?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SecretResourceDescription.
+ * This type describes a secret resource.
  *
  * @extends TrackedResource
  */
-export interface NetworkResourceDescription extends TrackedResource {
+export interface SecretResourceDescription extends TrackedResource {
+  /**
+   * @member {SecretResourcePropertiesUnion} properties Describes the
+   * properties of a secret resource.
+   */
+  properties: SecretResourcePropertiesUnion;
+}
+
+/**
+ * @interface
+ * An interface representing SecretValue.
+ * This type represents the unencrypted value of the secret.
+ *
+ */
+export interface SecretValue {
+  /**
+   * @member {string} [value] The actual value of the secret.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SecretValueProperties.
+ * This type describes properties of secret value resource.
+ *
+ */
+export interface SecretValueProperties {
+  /**
+   * @member {string} [value] The actual value of the secret.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SecretValueResourceDescription.
+ * This type describes a value of a secret resource. The name of this resource
+ * is the version identifier corresponding to this secret value.
+ *
+ * @extends TrackedResource
+ */
+export interface SecretValueResourceDescription extends TrackedResource {
   /**
    * @member {string} [provisioningState] State of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by
@@ -222,40 +404,9 @@ export interface NetworkResourceDescription extends TrackedResource {
    */
   readonly provisioningState?: string;
   /**
-   * @member {string} [description] User readable description of the network.
+   * @member {string} [value] The actual value of the secret.
    */
-  description?: string;
-  /**
-   * @member {string} addressPrefix the address prefix for this network.
-   */
-  addressPrefix: string;
-  /**
-   * @member {IngressConfig} [ingressConfig] Configuration for public
-   * connectivity for this network.
-   */
-  ingressConfig?: IngressConfig;
-}
-
-/**
- * @interface
- * An interface representing NetworkProperties.
- * Describes a network.
- *
- */
-export interface NetworkProperties {
-  /**
-   * @member {string} [description] User readable description of the network.
-   */
-  description?: string;
-  /**
-   * @member {string} addressPrefix the address prefix for this network.
-   */
-  addressPrefix: string;
-  /**
-   * @member {IngressConfig} [ingressConfig] Configuration for public
-   * connectivity for this network.
-   */
-  ingressConfig?: IngressConfig;
+  value?: string;
 }
 
 /**
@@ -284,26 +435,118 @@ export interface VolumeProviderParametersAzureFile {
 
 /**
  * @interface
- * An interface representing VolumeResourceProperties.
+ * An interface representing VolumeProperties.
  * Describes properties of a volume resource.
  *
  */
-export interface VolumeResourceProperties {
-  /**
-   * @member {string} [provisioningState] State of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: string;
+export interface VolumeProperties {
   /**
    * @member {string} [description] User readable description of the volume.
    */
   description?: string;
   /**
+   * @member {ResourceStatus} [status] Status of the volume. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the volume.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
    * @member {VolumeProviderParametersAzureFile} [azureFileParameters] This
    * type describes a volume provided by an Azure Files file share.
    */
   azureFileParameters?: VolumeProviderParametersAzureFile;
+}
+
+/**
+ * @interface
+ * An interface representing VolumeReference.
+ * Describes a reference to a volume resource.
+ *
+ */
+export interface VolumeReference {
+  /**
+   * @member {string} name Name of the volume being referenced.
+   */
+  name: string;
+  /**
+   * @member {boolean} [readOnly] The flag indicating whether the volume is
+   * read only. Default is 'false'.
+   */
+  readOnly?: boolean;
+  /**
+   * @member {string} destinationPath The path within the container at which
+   * the volume should be mounted. Only valid path characters are allowed.
+   */
+  destinationPath: string;
+}
+
+/**
+ * Contains the possible cases for ApplicationScopedVolumeCreationParameters.
+ */
+export type ApplicationScopedVolumeCreationParametersUnion = ApplicationScopedVolumeCreationParameters | ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk;
+
+/**
+ * @interface
+ * An interface representing ApplicationScopedVolumeCreationParameters.
+ * Describes parameters for creating application-scoped volumes.
+ *
+ */
+export interface ApplicationScopedVolumeCreationParameters {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "ApplicationScopedVolumeCreationParameters";
+  /**
+   * @member {string} [description] User readable description of the volume.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationScopedVolume.
+ * Describes a volume whose lifetime is scoped to the application's lifetime.
+ *
+ * @extends VolumeReference
+ */
+export interface ApplicationScopedVolume extends VolumeReference {
+  /**
+   * @member {ApplicationScopedVolumeCreationParametersUnion}
+   * creationParameters Describes parameters for creating application-scoped
+   * volumes.
+   */
+  creationParameters: ApplicationScopedVolumeCreationParametersUnion;
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk.
+ * Describes parameters for creating application-scoped volumes provided by
+ * Service Fabric Volume Disks
+ *
+ */
+export interface ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "ServiceFabricVolumeDisk";
+  /**
+   * @member {string} [description] User readable description of the volume.
+   */
+  description?: string;
+  /**
+   * @member {SizeTypes} sizeDisk Volume size. Possible values include:
+   * 'Small', 'Medium', 'Large'
+   */
+  sizeDisk: SizeTypes;
 }
 
 /**
@@ -325,6 +568,20 @@ export interface VolumeResourceDescription extends TrackedResource {
    */
   description?: string;
   /**
+   * @member {ResourceStatus} [status] Status of the volume. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the volume.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
    * @member {VolumeProviderParametersAzureFile} [azureFileParameters] This
    * type describes a volume provided by an Azure Files file share.
    */
@@ -332,406 +589,634 @@ export interface VolumeResourceDescription extends TrackedResource {
 }
 
 /**
- * @interface
- * An interface representing VolumeProperties.
- * This type describes properties of a volume resource.
- *
+ * Contains the possible cases for NetworkResourcePropertiesBase.
  */
-export interface VolumeProperties {
-  /**
-   * @member {string} [description] User readable description of the volume.
-   */
-  description?: string;
-  /**
-   * @member {VolumeProviderParametersAzureFile} [azureFileParameters] This
-   * type describes a volume provided by an Azure Files file share.
-   */
-  azureFileParameters?: VolumeProviderParametersAzureFile;
-}
+export type NetworkResourcePropertiesBaseUnion = NetworkResourcePropertiesBase | NetworkResourcePropertiesUnion;
 
 /**
  * @interface
- * An interface representing ServiceReplicaProperties.
- * Describes the properties of a service replica.
+ * An interface representing NetworkResourcePropertiesBase.
+ * This type describes the properties of a network resource, including its
+ * kind.
  *
  */
-export interface ServiceReplicaProperties {
-  /**
-   * @member {OperatingSystemTypes} osType The Operating system type required
-   * by the code in service.
-   * . Possible values include: 'Linux', 'Windows'
-   */
-  osType: OperatingSystemTypes;
-  /**
-   * @member {ContainerCodePackageProperties[]} codePackages Describes the set
-   * of code packages that forms the service. A code package describes the
-   * container and the properties for running it. All the code packages are
-   * started together on the same host and share the same context (network,
-   * process etc.).
-   */
-  codePackages: ContainerCodePackageProperties[];
-  /**
-   * @member {NetworkRef[]} [networkRefs] The names of the private networks
-   * that this service needs to be part of.
-   */
-  networkRefs?: NetworkRef[];
-  /**
-   * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
-   * DiagnosticsDescription.
-   */
-  diagnostics?: DiagnosticsRef;
-}
-
-/**
- * @interface
- * An interface representing ServiceResourceProperties.
- * This type describes properties of a service resource.
- *
- * @extends ServiceReplicaProperties
- */
-export interface ServiceResourceProperties extends ServiceReplicaProperties {
-  /**
-   * @member {string} [description] User readable description of the service.
-   */
-  description?: string;
-  /**
-   * @member {number} [replicaCount] The number of replicas of the service to
-   * create. Defaults to 1 if not specified.
-   */
-  replicaCount?: number;
-  /**
-   * @member {HealthState} [healthState] The health state of a resource such as
-   * Application, Service, or Network. Possible values include: 'Invalid',
-   * 'Ok', 'Warning', 'Error', 'Unknown'
-   */
-  healthState?: HealthState;
-  /**
-   * @member {ServiceResourceStatus} [status] Represents the status of the
-   * service. Possible values include: 'Unknown', 'Active', 'Upgrading',
-   * 'Deleting', 'Creating', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: ServiceResourceStatus;
-}
-
-/**
- * @interface
- * An interface representing ServiceResourceDescription.
- * This type describes a service resource.
- *
- * @extends ManagedProxyResource
- */
-export interface ServiceResourceDescription extends ManagedProxyResource {
-  /**
-   * @member {OperatingSystemTypes} osType The Operating system type required
-   * by the code in service.
-   * . Possible values include: 'Linux', 'Windows'
-   */
-  osType: OperatingSystemTypes;
-  /**
-   * @member {ContainerCodePackageProperties[]} codePackages Describes the set
-   * of code packages that forms the service. A code package describes the
-   * container and the properties for running it. All the code packages are
-   * started together on the same host and share the same context (network,
-   * process etc.).
-   */
-  codePackages: ContainerCodePackageProperties[];
-  /**
-   * @member {NetworkRef[]} [networkRefs] The names of the private networks
-   * that this service needs to be part of.
-   */
-  networkRefs?: NetworkRef[];
-  /**
-   * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
-   * DiagnosticsDescription.
-   */
-  diagnostics?: DiagnosticsRef;
-  /**
-   * @member {string} [description] User readable description of the service.
-   */
-  description?: string;
-  /**
-   * @member {number} [replicaCount] The number of replicas of the service to
-   * create. Defaults to 1 if not specified.
-   */
-  replicaCount?: number;
-  /**
-   * @member {HealthState} [healthState] The health state of a resource such as
-   * Application, Service, or Network. Possible values include: 'Invalid',
-   * 'Ok', 'Warning', 'Error', 'Unknown'
-   */
-  healthState?: HealthState;
-  /**
-   * @member {ServiceResourceStatus} [status] Represents the status of the
-   * service. Possible values include: 'Unknown', 'Active', 'Upgrading',
-   * 'Deleting', 'Creating', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: ServiceResourceStatus;
-}
-
-/**
- * Contains the possible cases for DiagnosticsSinkProperties.
- */
-export type DiagnosticsSinkPropertiesUnion = DiagnosticsSinkProperties | AzureInternalMonitoringPipelineSinkDescription;
-
-/**
- * @interface
- * An interface representing DiagnosticsSinkProperties.
- * Properties of a DiagnosticsSink.
- *
- */
-export interface DiagnosticsSinkProperties {
+export interface NetworkResourcePropertiesBase {
   /**
    * @member {string} kind Polymorphic Discriminator
    */
-  kind: "DiagnosticsSinkProperties";
+  kind: "NetworkResourcePropertiesBase";
   /**
-   * @member {string} [name] Name of the sink. This value is referenced by
-   * DiagnosticsReferenceDescription
+   * @member {string} [provisioningState] State of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  name?: string;
+  readonly provisioningState?: string;
+}
+
+/**
+ * Contains the possible cases for NetworkResourceProperties.
+ */
+export type NetworkResourcePropertiesUnion = NetworkResourceProperties | LocalNetworkResourceProperties;
+
+/**
+ * @interface
+ * An interface representing NetworkResourceProperties.
+ * Describes properties of a network resource.
+ *
+ */
+export interface NetworkResourceProperties {
   /**
-   * @member {string} [description] A description of the sink.
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "NetworkResourceProperties";
+  /**
+   * @member {string} [provisioningState] State of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [description] User readable description of the network.
    */
   description?: string;
+  /**
+   * @member {ResourceStatus} [status] Status of the network. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the network.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
 }
 
 /**
  * @interface
- * An interface representing DiagnosticsDescription.
- * Describes the diagnostics options available
+ * An interface representing LocalNetworkResourceProperties.
+ * Information about a Service Fabric container network local to a single
+ * Service Fabric cluster.
  *
  */
-export interface DiagnosticsDescription {
+export interface LocalNetworkResourceProperties {
   /**
-   * @member {DiagnosticsSinkPropertiesUnion[]} [sinks] List of supported sinks
-   * that can be referenced.
+   * @member {string} kind Polymorphic Discriminator
    */
-  sinks?: DiagnosticsSinkPropertiesUnion[];
+  kind: "Local";
+  /**
+   * @member {string} [provisioningState] State of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [description] User readable description of the network.
+   */
+  description?: string;
+  /**
+   * @member {ResourceStatus} [status] Status of the network. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the network.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {string} [networkAddressPrefix] Address space for the local
+   * container network.
+   */
+  networkAddressPrefix?: string;
+}
+
+/**
+ * @interface
+ * An interface representing EndpointRef.
+ * Describes a reference to a service endpoint.
+ *
+ */
+export interface EndpointRef {
+  /**
+   * @member {string} [name] Name of the endpoint.
+   */
+  name?: string;
+}
+
+/**
+ * @interface
+ * An interface representing NetworkRef.
+ * Describes a network reference in a service.
+ *
+ */
+export interface NetworkRef {
+  /**
+   * @member {string} [name] Name of the network
+   */
+  name?: string;
+  /**
+   * @member {EndpointRef[]} [endpointRefs] A list of endpoints that are
+   * exposed on this network.
+   */
+  endpointRefs?: EndpointRef[];
+}
+
+/**
+ * @interface
+ * An interface representing NetworkResourceDescription.
+ * This type describes a network resource.
+ *
+ * @extends TrackedResource
+ */
+export interface NetworkResourceDescription extends TrackedResource {
+  /**
+   * @member {NetworkResourcePropertiesUnion} properties Describes properties
+   * of a network resource.
+   */
+  properties: NetworkResourcePropertiesUnion;
+}
+
+/**
+ * @interface
+ * An interface representing GatewayDestination.
+ * Describes destination endpoint for routing traffic.
+ *
+ */
+export interface GatewayDestination {
+  /**
+   * @member {string} applicationName Name of the service fabric Mesh
+   * application.
+   */
+  applicationName: string;
+  /**
+   * @member {string} serviceName service that contains the endpoint.
+   */
+  serviceName: string;
+  /**
+   * @member {string} endpointName name of the endpoint in the service.
+   */
+  endpointName: string;
+}
+
+/**
+ * @interface
+ * An interface representing TcpConfig.
+ * Describes the tcp configuration for external connectivity for this network.
+ *
+ */
+export interface TcpConfig {
+  /**
+   * @member {string} name tcp gateway config name.
+   */
+  name: string;
+  /**
+   * @member {number} port Specifies the port at which the service endpoint
+   * below needs to be exposed.
+   */
+  port: number;
+  /**
+   * @member {GatewayDestination} destination Describes destination endpoint
+   * for routing traffic.
+   */
+  destination: GatewayDestination;
+}
+
+/**
+ * @interface
+ * An interface representing HttpRouteMatchPath.
+ * Path to match for routing.
+ *
+ */
+export interface HttpRouteMatchPath {
+  /**
+   * @member {string} value Uri path to match for request.
+   */
+  value: string;
+  /**
+   * @member {string} [rewrite] replacement string for matched part of the Uri.
+   */
+  rewrite?: string;
+}
+
+/**
+ * @interface
+ * An interface representing HttpRouteMatchHeader.
+ * Describes header information for http route matching.
+ *
+ */
+export interface HttpRouteMatchHeader {
+  /**
+   * @member {string} name Name of header to match in request.
+   */
+  name: string;
+  /**
+   * @member {string} [value] Value of header to match in request.
+   */
+  value?: string;
+  /**
+   * @member {HeaderMatchType} [type] how to match header value. Possible
+   * values include: 'exact'
+   */
+  type?: HeaderMatchType;
+}
+
+/**
+ * @interface
+ * An interface representing HttpRouteMatchRule.
+ * Describes a rule for http route matching.
+ *
+ */
+export interface HttpRouteMatchRule {
+  /**
+   * @member {HttpRouteMatchPath} path Path to match for routing.
+   */
+  path: HttpRouteMatchPath;
+  /**
+   * @member {HttpRouteMatchHeader[]} [headers] headers and their values to
+   * match in request.
+   */
+  headers?: HttpRouteMatchHeader[];
+}
+
+/**
+ * @interface
+ * An interface representing HttpRouteConfig.
+ * Describes the hostname properties for http routing.
+ *
+ */
+export interface HttpRouteConfig {
+  /**
+   * @member {string} name http route name.
+   */
+  name: string;
+  /**
+   * @member {HttpRouteMatchRule} match Describes a rule for http route
+   * matching.
+   */
+  match: HttpRouteMatchRule;
+  /**
+   * @member {GatewayDestination} destination Describes destination endpoint
+   * for routing traffic.
+   */
+  destination: GatewayDestination;
+}
+
+/**
+ * @interface
+ * An interface representing HttpHostConfig.
+ * Describes the hostname properties for http routing.
+ *
+ */
+export interface HttpHostConfig {
+  /**
+   * @member {string} name http hostname config name.
+   */
+  name: string;
+  /**
+   * @member {HttpRouteConfig[]} routes Route information to use for routing.
+   * Routes are processed in the order they are specified. Specify routes that
+   * are more specific before routes that can hamdle general cases.
+   */
+  routes: HttpRouteConfig[];
+}
+
+/**
+ * @interface
+ * An interface representing HttpConfig.
+ * Describes the http configuration for external connectivity for this network.
+ *
+ */
+export interface HttpConfig {
+  /**
+   * @member {string} name http gateway config name.
+   */
+  name: string;
+  /**
+   * @member {number} port Specifies the port at which the service endpoint
+   * below needs to be exposed.
+   */
+  port: number;
+  /**
+   * @member {HttpHostConfig[]} hosts description for routing.
+   */
+  hosts: HttpHostConfig[];
+}
+
+/**
+ * @interface
+ * An interface representing GatewayProperties.
+ * Describes properties of a gateway resource.
+ *
+ */
+export interface GatewayProperties {
+  /**
+   * @member {string} [description] User readable description of the gateway.
+   */
+  description?: string;
+  /**
+   * @member {NetworkRef} sourceNetwork Network the gateway should listen on
+   * for requests.
+   */
+  sourceNetwork: NetworkRef;
+  /**
+   * @member {NetworkRef} destinationNetwork Network that the Application is
+   * using.
+   */
+  destinationNetwork: NetworkRef;
+  /**
+   * @member {TcpConfig[]} [tcp] Configuration for tcp connectivity for this
+   * gateway.
+   */
+  tcp?: TcpConfig[];
+  /**
+   * @member {HttpConfig[]} [http] Configuration for http connectivity for this
+   * gateway.
+   */
+  http?: HttpConfig[];
+  /**
+   * @member {ResourceStatus} [status] Status of the resource. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the gateway.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {string} [ipAddress] IP address of the gateway. This is populated
+   * in the response and is ignored for incoming requests.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ipAddress?: string;
+}
+
+/**
+ * @interface
+ * An interface representing GatewayResourceDescription.
+ * This type describes a gateway resource.
+ *
+ * @extends TrackedResource
+ */
+export interface GatewayResourceDescription extends TrackedResource {
+  /**
+   * @member {string} [provisioningState] State of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [description] User readable description of the gateway.
+   */
+  description?: string;
+  /**
+   * @member {NetworkRef} sourceNetwork Network the gateway should listen on
+   * for requests.
+   */
+  sourceNetwork: NetworkRef;
+  /**
+   * @member {NetworkRef} destinationNetwork Network that the Application is
+   * using.
+   */
+  destinationNetwork: NetworkRef;
+  /**
+   * @member {TcpConfig[]} [tcp] Configuration for tcp connectivity for this
+   * gateway.
+   */
+  tcp?: TcpConfig[];
+  /**
+   * @member {HttpConfig[]} [http] Configuration for http connectivity for this
+   * gateway.
+   */
+  http?: HttpConfig[];
+  /**
+   * @member {ResourceStatus} [status] Status of the resource. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the gateway.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {string} [ipAddress] IP address of the gateway. This is populated
+   * in the response and is ignored for incoming requests.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ipAddress?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ImageRegistryCredential.
+ * Image registry credential.
+ *
+ */
+export interface ImageRegistryCredential {
+  /**
+   * @member {string} server Docker image registry server, without protocol
+   * such as `http` and `https`.
+   */
+  server: string;
+  /**
+   * @member {string} username The username for the private registry.
+   */
+  username: string;
+  /**
+   * @member {string} [password] The password for the private registry. The
+   * password is required for create or update operations, however it is not
+   * returned in the get or list operations.
+   */
+  password?: string;
+}
+
+/**
+ * @interface
+ * An interface representing EnvironmentVariable.
+ * Describes an environment variable for the container.
+ *
+ */
+export interface EnvironmentVariable {
+  /**
+   * @member {string} [name] The name of the environment variable.
+   */
+  name?: string;
+  /**
+   * @member {string} [value] The value of the environment variable.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing Setting.
+ * Describes a setting for the container. The setting file path can be fetched
+ * from environment variable "Fabric_SettingPath". The path for Windows
+ * container is "C:\\secrets". The path for Linux container is "/var/secrets".
+ *
+ */
+export interface Setting {
+  /**
+   * @member {string} [name] The name of the setting.
+   */
+  name?: string;
+  /**
+   * @member {string} [value] The value of the setting.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ContainerLabel.
+ * Describes a container label.
+ *
+ */
+export interface ContainerLabel {
+  /**
+   * @member {string} name The name of the container label.
+   */
+  name: string;
+  /**
+   * @member {string} value The value of the container label.
+   */
+  value: string;
+}
+
+/**
+ * @interface
+ * An interface representing EndpointProperties.
+ * Describes a container endpoint.
+ *
+ */
+export interface EndpointProperties {
+  /**
+   * @member {string} name The name of the endpoint.
+   */
+  name: string;
+  /**
+   * @member {number} [port] Port used by the container.
+   */
+  port?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceRequests.
+ * This type describes the requested resources for a given container. It
+ * describes the least amount of resources required for the container. A
+ * container can consume more than requested resources up to the specified
+ * limits before being restarted. Currently, the requested resources are
+ * treated as limits.
+ *
+ */
+export interface ResourceRequests {
+  /**
+   * @member {number} memoryInGB The memory request in GB for this container.
+   */
+  memoryInGB: number;
+  /**
+   * @member {number} cpu Requested number of CPU cores. At present, only full
+   * cores are supported.
+   */
+  cpu: number;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceLimits.
+ * This type describes the resource limits for a given container. It describes
+ * the most amount of resources a container is allowed to use before being
+ * restarted.
+ *
+ */
+export interface ResourceLimits {
+  /**
+   * @member {number} [memoryInGB] The memory limit in GB.
+   */
+  memoryInGB?: number;
+  /**
+   * @member {number} [cpu] CPU limits in cores. At present, only full cores
+   * are supported.
+   */
+  cpu?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ResourceRequirements.
+ * This type describes the resource requirements for a container or a service.
+ *
+ */
+export interface ResourceRequirements {
+  /**
+   * @member {ResourceRequests} requests Describes the requested resources for
+   * a given container.
+   */
+  requests: ResourceRequests;
+  /**
+   * @member {ResourceLimits} [limits] Describes the maximum limits on the
+   * resources for a given container.
+   */
+  limits?: ResourceLimits;
+}
+
+/**
+ * @interface
+ * An interface representing DiagnosticsRef.
+ * Reference to sinks in DiagnosticsDescription.
+ *
+ */
+export interface DiagnosticsRef {
   /**
    * @member {boolean} [enabled] Status of whether or not sinks are enabled.
    */
   enabled?: boolean;
   /**
-   * @member {string[]} [defaultSinkRefs] The sinks to be used if diagnostics
-   * is enabled. Sink choices can be overridden at the service and code package
-   * level.
+   * @member {string[]} [sinkRefs] List of sinks to be used if enabled.
+   * References the list of sinks in DiagnosticsDescription.
    */
-  defaultSinkRefs?: string[];
+  sinkRefs?: string[];
 }
 
 /**
  * @interface
- * An interface representing ApplicationResourceProperties.
- * This type describes properties of an application resource.
+ * An interface representing ReliableCollectionsRef.
+ * Specifying this parameter adds support for reliable collections
  *
  */
-export interface ApplicationResourceProperties {
+export interface ReliableCollectionsRef {
   /**
-   * @member {string} [provisioningState] State of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
+   * @member {string} name Name of ReliableCollection resource. Right now it's
+   * not used and you can use any string.
    */
-  readonly provisioningState?: string;
+  name: string;
   /**
-   * @member {string} [description] User readable description of the
-   * application.
+   * @member {boolean} [doNotPersistState] False (the default) if
+   * ReliableCollections state is persisted to disk as usual. True if you do
+   * not want to persist state, in which case replication is still enabled and
+   * you can use ReliableCollections as distributed cache.
    */
-  description?: string;
-  /**
-   * @member {string} [debugParams] Internal use.
-   */
-  debugParams?: string;
-  /**
-   * @member {ServiceResourceDescription[]} [services] describes the services
-   * in the application.
-   */
-  services?: ServiceResourceDescription[];
-  /**
-   * @member {HealthState} [healthState] Describes the health state of an
-   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
-   * 'Error', 'Unknown'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly healthState?: HealthState;
-  /**
-   * @member {string} [unhealthyEvaluation] When the application's health state
-   * is not 'Ok', this additional details from service fabric Health Manager
-   * for the user to know why the application is marked unhealthy.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unhealthyEvaluation?: string;
-  /**
-   * @member {ApplicationResourceStatus} [status] Status of the application
-   * resource. Possible values include: 'Invalid', 'Ready', 'Upgrading',
-   * 'Creating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: ApplicationResourceStatus;
-  /**
-   * @member {string} [statusDetails] Gives additional information about the
-   * current status of the application deployment.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly statusDetails?: string;
-  /**
-   * @member {string[]} [serviceNames] Names of the services in the
-   * application.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly serviceNames?: string[];
-  /**
-   * @member {DiagnosticsDescription} [diagnostics] Describes the diagnostics
-   * definition and usage for an application resource.
-   */
-  diagnostics?: DiagnosticsDescription;
-}
-
-/**
- * @interface
- * An interface representing ApplicationResourceDescription.
- * This type describes an application resource.
- *
- * @extends TrackedResource
- */
-export interface ApplicationResourceDescription extends TrackedResource {
-  /**
-   * @member {string} [provisioningState] State of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * @member {string} [description] User readable description of the
-   * application.
-   */
-  description?: string;
-  /**
-   * @member {string} [debugParams] Internal use.
-   */
-  debugParams?: string;
-  /**
-   * @member {ServiceResourceDescription[]} [services] describes the services
-   * in the application.
-   */
-  services?: ServiceResourceDescription[];
-  /**
-   * @member {HealthState} [healthState] Describes the health state of an
-   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
-   * 'Error', 'Unknown'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly healthState?: HealthState;
-  /**
-   * @member {string} [unhealthyEvaluation] When the application's health state
-   * is not 'Ok', this additional details from service fabric Health Manager
-   * for the user to know why the application is marked unhealthy.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unhealthyEvaluation?: string;
-  /**
-   * @member {ApplicationResourceStatus} [status] Status of the application
-   * resource. Possible values include: 'Invalid', 'Ready', 'Upgrading',
-   * 'Creating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: ApplicationResourceStatus;
-  /**
-   * @member {string} [statusDetails] Gives additional information about the
-   * current status of the application deployment.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly statusDetails?: string;
-  /**
-   * @member {string[]} [serviceNames] Names of the services in the
-   * application.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly serviceNames?: string[];
-  /**
-   * @member {DiagnosticsDescription} [diagnostics] Describes the diagnostics
-   * definition and usage for an application resource.
-   */
-  diagnostics?: DiagnosticsDescription;
-}
-
-/**
- * @interface
- * An interface representing ApplicationProperties.
- * This type describes properties of an application resource.
- *
- */
-export interface ApplicationProperties {
-  /**
-   * @member {string} [description] User readable description of the
-   * application.
-   */
-  description?: string;
-  /**
-   * @member {string} [debugParams] Internal use.
-   */
-  debugParams?: string;
-  /**
-   * @member {ServiceResourceDescription[]} [services] describes the services
-   * in the application.
-   */
-  services?: ServiceResourceDescription[];
-  /**
-   * @member {HealthState} [healthState] Describes the health state of an
-   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
-   * 'Error', 'Unknown'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly healthState?: HealthState;
-  /**
-   * @member {string} [unhealthyEvaluation] When the application's health state
-   * is not 'Ok', this additional details from service fabric Health Manager
-   * for the user to know why the application is marked unhealthy.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unhealthyEvaluation?: string;
-  /**
-   * @member {ApplicationResourceStatus} [status] Status of the application
-   * resource. Possible values include: 'Invalid', 'Ready', 'Upgrading',
-   * 'Creating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: ApplicationResourceStatus;
-  /**
-   * @member {string} [statusDetails] Gives additional information about the
-   * current status of the application deployment.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly statusDetails?: string;
-  /**
-   * @member {string[]} [serviceNames] Names of the services in the
-   * application.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly serviceNames?: string[];
-  /**
-   * @member {DiagnosticsDescription} [diagnostics] Describes the diagnostics
-   * definition and usage for an application resource.
-   */
-  diagnostics?: DiagnosticsDescription;
+  doNotPersistState?: boolean;
 }
 
 /**
@@ -825,282 +1310,6 @@ export interface ContainerInstanceView {
 
 /**
  * @interface
- * An interface representing ContainerLabel.
- * Describes a container label.
- *
- */
-export interface ContainerLabel {
-  /**
-   * @member {string} name The name of the container label.
-   */
-  name: string;
-  /**
-   * @member {string} value The value of the container label.
-   */
-  value: string;
-}
-
-/**
- * @interface
- * An interface representing ContainerLogs.
- * The logs of the container.
- *
- */
-export interface ContainerLogs {
-  /**
-   * @member {string} [content] content of the log.
-   */
-  content?: string;
-}
-
-/**
- * @interface
- * An interface representing ImageRegistryCredential.
- * Image registry credential.
- *
- */
-export interface ImageRegistryCredential {
-  /**
-   * @member {string} server Docker image registry server, without protocol
-   * such as `http` and `https`.
-   */
-  server: string;
-  /**
-   * @member {string} username The username for the private registry.
-   */
-  username: string;
-  /**
-   * @member {string} [password] The password for the private registry.
-   */
-  password?: string;
-}
-
-/**
- * @interface
- * An interface representing ResourceLimits.
- * This type describes the resource limits for a given container. It describes
- * the most amount of resources a container is allowed to use before being
- * restarted.
- *
- */
-export interface ResourceLimits {
-  /**
-   * @member {number} [memoryInGB] The memory limit in GB.
-   */
-  memoryInGB?: number;
-  /**
-   * @member {number} [cpu] CPU limits in cores. At present, only full cores
-   * are supported.
-   */
-  cpu?: number;
-}
-
-/**
- * @interface
- * An interface representing ResourceRequests.
- * This type describes the requested resources for a given container. It
- * describes the least amount of resources required for the container. A
- * container can consume more than requested resources up to the specified
- * limits before being restarted. Currently, the requested resources are
- * treated as limits.
- *
- *
- */
-export interface ResourceRequests {
-  /**
-   * @member {number} memoryInGB The memory request in GB for this container.
-   */
-  memoryInGB: number;
-  /**
-   * @member {number} cpu Requested number of CPU cores. At present, only full
-   * cores are supported.
-   */
-  cpu: number;
-}
-
-/**
- * @interface
- * An interface representing ResourceRequirements.
- * This type describes the resource requirements for a container or a service.
- *
- */
-export interface ResourceRequirements {
-  /**
-   * @member {ResourceRequests} requests Describes the requested resources for
-   * a given container.
-   */
-  requests: ResourceRequests;
-  /**
-   * @member {ResourceLimits} [limits] Describes the maximum limits on the
-   * resources for a given container.
-   */
-  limits?: ResourceLimits;
-}
-
-/**
- * @interface
- * An interface representing AvailableOperationDisplay.
- * An operation available at the listed Azure resource provider.
- *
- */
-export interface AvailableOperationDisplay {
-  /**
-   * @member {string} [provider] Name of the operation provider.
-   */
-  provider?: string;
-  /**
-   * @member {string} [resource] Name of the resource on which the operation is
-   * available.
-   */
-  resource?: string;
-  /**
-   * @member {string} [operation] Name of the available operation.
-   */
-  operation?: string;
-  /**
-   * @member {string} [description] Description of the available operation.
-   */
-  description?: string;
-}
-
-/**
- * @interface
- * An interface representing OperationResult.
- * List of operations available at the listed Azure resource provider.
- *
- */
-export interface OperationResult {
-  /**
-   * @member {string} [name] The name of the operation.
-   */
-  name?: string;
-  /**
-   * @member {AvailableOperationDisplay} [display] The object that represents
-   * the operation.
-   */
-  display?: AvailableOperationDisplay;
-  /**
-   * @member {string} [origin] Origin result
-   */
-  origin?: string;
-  /**
-   * @member {string} [nextLink] The URL to use for getting the next set of
-   * results.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing ErrorModel.
- * The error details.
- *
- */
-export interface ErrorModel {
-  /**
-   * @member {string} [code] The error code.
-   */
-  code?: string;
-  /**
-   * @member {string} [message] The error message.
-   */
-  message?: string;
-}
-
-/**
- * @interface
- * An interface representing EnvironmentVariable.
- * Describes an environment variable for the container.
- *
- */
-export interface EnvironmentVariable {
-  /**
-   * @member {string} [name] The name of the environment variable.
-   */
-  name?: string;
-  /**
-   * @member {string} [value] The value of the environment variable.
-   */
-  value?: string;
-}
-
-/**
- * @interface
- * An interface representing Setting.
- * Describes a setting for the container.
- *
- */
-export interface Setting {
-  /**
-   * @member {string} [name] The name of the setting.
-   */
-  name?: string;
-  /**
-   * @member {string} [value] The value of the setting.
-   */
-  value?: string;
-}
-
-/**
- * @interface
- * An interface representing EndpointProperties.
- * Describes a container endpoint.
- *
- */
-export interface EndpointProperties {
-  /**
-   * @member {string} name The name of the endpoint.
-   */
-  name: string;
-  /**
-   * @member {number} [port] Port used by the container.
-   */
-  port?: number;
-}
-
-/**
- * @interface
- * An interface representing ContainerVolume.
- * Describes how a volume is attached to a container.
- *
- */
-export interface ContainerVolume {
-  /**
-   * @member {string} name Name of the volume.
-   */
-  name: string;
-  /**
-   * @member {boolean} [readOnly] The flag indicating whether the volume is
-   * read only. Default is 'false'.
-   */
-  readOnly?: boolean;
-  /**
-   * @member {string} destinationPath The path within the container at which
-   * the volume should be mounted. Only valid path characters are allowed.
-   */
-  destinationPath: string;
-}
-
-/**
- * @interface
- * An interface representing DiagnosticsRef.
- * Reference to sinks in DiagnosticsDescription.
- *
- */
-export interface DiagnosticsRef {
-  /**
-   * @member {boolean} [enabled] Status of whether or not sinks are enabled.
-   */
-  enabled?: boolean;
-  /**
-   * @member {string[]} [sinkRefs] List of sinks to be used if enabled.
-   * References the list of sinks in DiagnosticsDescription.
-   */
-  sinkRefs?: string[];
-}
-
-/**
- * @interface
  * An interface representing ContainerCodePackageProperties.
  * Describes a container and its runtime properties.
  *
@@ -1151,15 +1360,33 @@ export interface ContainerCodePackageProperties {
    */
   endpoints?: EndpointProperties[];
   /**
-   * @member {ResourceRequirements} resources This type describes the resource
-   * requirements for a container or a service.
+   * @member {ResourceRequirements} resources The resources required by this
+   * container.
    */
   resources: ResourceRequirements;
   /**
-   * @member {ContainerVolume[]} [volumeRefs] The volumes to be attached to the
-   * container.
+   * @member {VolumeReference[]} [volumeRefs] Volumes to be attached to the
+   * container. The lifetime of these volumes is independent of the
+   * application's lifetime.
    */
-  volumeRefs?: ContainerVolume[];
+  volumeRefs?: VolumeReference[];
+  /**
+   * @member {ApplicationScopedVolume[]} [volumes] Volumes to be attached to
+   * the container. The lifetime of these volumes is scoped to the
+   * application's lifetime.
+   */
+  volumes?: ApplicationScopedVolume[];
+  /**
+   * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
+   * DiagnosticsDescription.
+   */
+  diagnostics?: DiagnosticsRef;
+  /**
+   * @member {ReliableCollectionsRef[]} [reliableCollectionsRefs] A list of
+   * ReliableCollection resources used by this particular code package. Please
+   * refer to ReliablecollectionsRef for more details.
+   */
+  reliableCollectionsRefs?: ReliableCollectionsRef[];
   /**
    * @member {ContainerInstanceView} [instanceView] Runtime information of a
    * container instance.
@@ -1167,38 +1394,268 @@ export interface ContainerCodePackageProperties {
    * the server.**
    */
   readonly instanceView?: ContainerInstanceView;
+}
+
+/**
+ * Contains the possible cases for AutoScalingTrigger.
+ */
+export type AutoScalingTriggerUnion = AutoScalingTrigger | AverageLoadScalingTrigger;
+
+/**
+ * @interface
+ * An interface representing AutoScalingTrigger.
+ * Describes the trigger for performing auto scaling operation.
+ *
+ */
+export interface AutoScalingTrigger {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AutoScalingTrigger";
+}
+
+/**
+ * Contains the possible cases for AutoScalingMechanism.
+ */
+export type AutoScalingMechanismUnion = AutoScalingMechanism | AddRemoveReplicaScalingMechanism;
+
+/**
+ * @interface
+ * An interface representing AutoScalingMechanism.
+ * Describes the mechanism for performing auto scaling operation. Derived
+ * classes will describe the actual mechanism.
+ *
+ */
+export interface AutoScalingMechanism {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AutoScalingMechanism";
+}
+
+/**
+ * @interface
+ * An interface representing AutoScalingPolicy.
+ * Describes the auto scaling policy
+ *
+ */
+export interface AutoScalingPolicy {
+  /**
+   * @member {string} name The name of the auto scaling policy.
+   */
+  name: string;
+  /**
+   * @member {AutoScalingTriggerUnion} trigger Determines when auto scaling
+   * operation will be invoked.
+   */
+  trigger: AutoScalingTriggerUnion;
+  /**
+   * @member {AutoScalingMechanismUnion} mechanism The mechanism that is used
+   * to scale when auto scaling operation is invoked.
+   */
+  mechanism: AutoScalingMechanismUnion;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceResourceDescription.
+ * This type describes a service resource.
+ *
+ * @extends ManagedProxyResource
+ */
+export interface ServiceResourceDescription extends ManagedProxyResource {
+  /**
+   * @member {string} [provisioningState] State of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {OperatingSystemType} osType The operation system required by the
+   * code in service. Possible values include: 'Linux', 'Windows'
+   */
+  osType: OperatingSystemType;
+  /**
+   * @member {ContainerCodePackageProperties[]} codePackages Describes the set
+   * of code packages that forms the service. A code package describes the
+   * container and the properties for running it. All the code packages are
+   * started together on the same host and share the same context (network,
+   * process etc.).
+   */
+  codePackages: ContainerCodePackageProperties[];
+  /**
+   * @member {NetworkRef[]} [networkRefs] The names of the private networks
+   * that this service needs to be part of.
+   */
+  networkRefs?: NetworkRef[];
   /**
    * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
    * DiagnosticsDescription.
    */
   diagnostics?: DiagnosticsRef;
-}
-
-/**
- * @interface
- * An interface representing ServiceReplicaDescription.
- * This type describes a replica of a service resource.
- *
- * @extends ServiceReplicaProperties
- */
-export interface ServiceReplicaDescription extends ServiceReplicaProperties {
   /**
-   * @member {string} [replicaName] Name of the replica.
+   * @member {string} [description] User readable description of the service.
    */
-  replicaName?: string;
+  description?: string;
+  /**
+   * @member {number} [replicaCount] The number of replicas of the service to
+   * create. Defaults to 1 if not specified.
+   */
+  replicaCount?: number;
+  /**
+   * @member {AutoScalingPolicy[]} [autoScalingPolicies] Auto scaling policies
+   */
+  autoScalingPolicies?: AutoScalingPolicy[];
+  /**
+   * @member {ResourceStatus} [status] Status of the service. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the service.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {HealthState} [healthState] Describes the health state of an
+   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
+   * 'Error', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthState?: HealthState;
+  /**
+   * @member {string} [unhealthyEvaluation] When the service's health state is
+   * not 'Ok', this additional details from service fabric Health Manager for
+   * the user to know why the service is marked unhealthy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unhealthyEvaluation?: string;
 }
 
 /**
+ * Contains the possible cases for DiagnosticsSinkProperties.
+ */
+export type DiagnosticsSinkPropertiesUnion = DiagnosticsSinkProperties | AzureInternalMonitoringPipelineSinkDescription;
+
+/**
  * @interface
- * An interface representing NetworkRef.
- * Describes a network reference in a service.
+ * An interface representing DiagnosticsSinkProperties.
+ * Properties of a DiagnosticsSink.
  *
  */
-export interface NetworkRef {
+export interface DiagnosticsSinkProperties {
   /**
-   * @member {string} [name] Name of the network.
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "DiagnosticsSinkProperties";
+  /**
+   * @member {string} [name] Name of the sink. This value is referenced by
+   * DiagnosticsReferenceDescription
    */
   name?: string;
+  /**
+   * @member {string} [description] A description of the sink.
+   */
+  description?: string;
+}
+
+/**
+ * @interface
+ * An interface representing DiagnosticsDescription.
+ * Describes the diagnostics options available
+ *
+ */
+export interface DiagnosticsDescription {
+  /**
+   * @member {DiagnosticsSinkPropertiesUnion[]} [sinks] List of supported sinks
+   * that can be referenced.
+   */
+  sinks?: DiagnosticsSinkPropertiesUnion[];
+  /**
+   * @member {boolean} [enabled] Status of whether or not sinks are enabled.
+   */
+  enabled?: boolean;
+  /**
+   * @member {string[]} [defaultSinkRefs] The sinks to be used if diagnostics
+   * is enabled. Sink choices can be overridden at the service and code package
+   * level.
+   */
+  defaultSinkRefs?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing ApplicationProperties.
+ * Describes properties of a application resource.
+ *
+ */
+export interface ApplicationProperties {
+  /**
+   * @member {string} [description] User readable description of the
+   * application.
+   */
+  description?: string;
+  /**
+   * @member {ServiceResourceDescription[]} [services] Describes the services
+   * in the application. This property is used to create or modify services of
+   * the application. On get only the name of the service is returned. The
+   * service description can be obtained by querying for the service resource.
+   */
+  services?: ServiceResourceDescription[];
+  /**
+   * @member {DiagnosticsDescription} [diagnostics] Describes the diagnostics
+   * definition and usage for an application resource.
+   */
+  diagnostics?: DiagnosticsDescription;
+  /**
+   * @member {string} [debugParams] Internal - used by Visual Studio to setup
+   * the debugging session on the local development environment.
+   */
+  debugParams?: string;
+  /**
+   * @member {string[]} [serviceNames] Names of the services in the
+   * application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceNames?: string[];
+  /**
+   * @member {ResourceStatus} [status] Status of the application. Possible
+   * values include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting',
+   * 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {HealthState} [healthState] Describes the health state of an
+   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
+   * 'Error', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthState?: HealthState;
+  /**
+   * @member {string} [unhealthyEvaluation] When the application's health state
+   * is not 'Ok', this additional details from service fabric Health Manager
+   * for the user to know why the application is marked unhealthy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unhealthyEvaluation?: string;
 }
 
 /**
@@ -1249,12 +1706,298 @@ export interface AzureInternalMonitoringPipelineSinkDescription {
 
 /**
  * @interface
- * An interface representing CodePackageGetContainerLogOptionalParams.
+ * An interface representing ApplicationResourceDescription.
+ * This type describes an application resource.
+ *
+ * @extends TrackedResource
+ */
+export interface ApplicationResourceDescription extends TrackedResource {
+  /**
+   * @member {string} [provisioningState] State of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * @member {string} [description] User readable description of the
+   * application.
+   */
+  description?: string;
+  /**
+   * @member {ServiceResourceDescription[]} [services] Describes the services
+   * in the application. This property is used to create or modify services of
+   * the application. On get only the name of the service is returned. The
+   * service description can be obtained by querying for the service resource.
+   */
+  services?: ServiceResourceDescription[];
+  /**
+   * @member {DiagnosticsDescription} [diagnostics] Describes the diagnostics
+   * definition and usage for an application resource.
+   */
+  diagnostics?: DiagnosticsDescription;
+  /**
+   * @member {string} [debugParams] Internal - used by Visual Studio to setup
+   * the debugging session on the local development environment.
+   */
+  debugParams?: string;
+  /**
+   * @member {string[]} [serviceNames] Names of the services in the
+   * application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceNames?: string[];
+  /**
+   * @member {ResourceStatus} [status] Status of the application. Possible
+   * values include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting',
+   * 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the application.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {HealthState} [healthState] Describes the health state of an
+   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
+   * 'Error', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthState?: HealthState;
+  /**
+   * @member {string} [unhealthyEvaluation] When the application's health state
+   * is not 'Ok', this additional details from service fabric Health Manager
+   * for the user to know why the application is marked unhealthy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unhealthyEvaluation?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AddRemoveReplicaScalingMechanism.
+ * Describes the horizontal auto scaling mechanism that adds or removes
+ * replicas (containers or container groups).
+ *
+ */
+export interface AddRemoveReplicaScalingMechanism {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AddRemoveReplica";
+  /**
+   * @member {number} minCount Minimum number of containers (scale down won't
+   * be performed below this number).
+   */
+  minCount: number;
+  /**
+   * @member {number} maxCount Maximum number of containers (scale up won't be
+   * performed above this number).
+   */
+  maxCount: number;
+  /**
+   * @member {number} scaleIncrement Each time auto scaling is performed, this
+   * number of containers will be added or removed.
+   */
+  scaleIncrement: number;
+}
+
+/**
+ * Contains the possible cases for AutoScalingMetric.
+ */
+export type AutoScalingMetricUnion = AutoScalingMetric | AutoScalingResourceMetric;
+
+/**
+ * @interface
+ * An interface representing AutoScalingMetric.
+ * Describes the metric that is used for triggering auto scaling operation.
+ * Derived classes will describe resources or metrics.
+ *
+ */
+export interface AutoScalingMetric {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AutoScalingMetric";
+}
+
+/**
+ * @interface
+ * An interface representing AutoScalingResourceMetric.
+ * Describes the resource that is used for triggering auto scaling.
+ *
+ */
+export interface AutoScalingResourceMetric {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "Resource";
+  /**
+   * @member {AutoScalingResourceMetricName} name Name of the resource.
+   * Possible values include: 'cpu', 'memoryInGB'
+   */
+  name: AutoScalingResourceMetricName;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceProperties.
+ * Describes properties of a service resource.
+ *
+ */
+export interface ServiceProperties {
+  /**
+   * @member {string} [description] User readable description of the service.
+   */
+  description?: string;
+  /**
+   * @member {number} [replicaCount] The number of replicas of the service to
+   * create. Defaults to 1 if not specified.
+   */
+  replicaCount?: number;
+  /**
+   * @member {AutoScalingPolicy[]} [autoScalingPolicies] Auto scaling policies
+   */
+  autoScalingPolicies?: AutoScalingPolicy[];
+  /**
+   * @member {ResourceStatus} [status] Status of the service. Possible values
+   * include: 'Unknown', 'Ready', 'Upgrading', 'Creating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly status?: ResourceStatus;
+  /**
+   * @member {string} [statusDetails] Gives additional information about the
+   * current status of the service.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly statusDetails?: string;
+  /**
+   * @member {HealthState} [healthState] Describes the health state of an
+   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
+   * 'Error', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthState?: HealthState;
+  /**
+   * @member {string} [unhealthyEvaluation] When the service's health state is
+   * not 'Ok', this additional details from service fabric Health Manager for
+   * the user to know why the service is marked unhealthy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unhealthyEvaluation?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceReplicaProperties.
+ * Describes the properties of a service replica.
+ *
+ */
+export interface ServiceReplicaProperties {
+  /**
+   * @member {OperatingSystemType} osType The operation system required by the
+   * code in service. Possible values include: 'Linux', 'Windows'
+   */
+  osType: OperatingSystemType;
+  /**
+   * @member {ContainerCodePackageProperties[]} codePackages Describes the set
+   * of code packages that forms the service. A code package describes the
+   * container and the properties for running it. All the code packages are
+   * started together on the same host and share the same context (network,
+   * process etc.).
+   */
+  codePackages: ContainerCodePackageProperties[];
+  /**
+   * @member {NetworkRef[]} [networkRefs] The names of the private networks
+   * that this service needs to be part of.
+   */
+  networkRefs?: NetworkRef[];
+  /**
+   * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
+   * DiagnosticsDescription.
+   */
+  diagnostics?: DiagnosticsRef;
+}
+
+/**
+ * @interface
+ * An interface representing ServiceReplicaDescription.
+ * Describes a replica of a service resource.
+ *
+ * @extends ServiceReplicaProperties
+ */
+export interface ServiceReplicaDescription extends ServiceReplicaProperties {
+  /**
+   * @member {string} replicaName Name of the replica.
+   */
+  replicaName: string;
+}
+
+/**
+ * @interface
+ * An interface representing AverageLoadScalingTrigger.
+ * Describes the average load trigger used for auto scaling.
+ *
+ */
+export interface AverageLoadScalingTrigger {
+  /**
+   * @member {string} kind Polymorphic Discriminator
+   */
+  kind: "AverageLoad";
+  /**
+   * @member {AutoScalingMetricUnion} metric Description of the metric that is
+   * used for scaling.
+   */
+  metric: AutoScalingMetricUnion;
+  /**
+   * @member {number} lowerLoadThreshold Lower load threshold (if average load
+   * is below this threshold, service will scale down).
+   */
+  lowerLoadThreshold: number;
+  /**
+   * @member {number} upperLoadThreshold Upper load threshold (if average load
+   * is above this threshold, service will scale up).
+   */
+  upperLoadThreshold: number;
+  /**
+   * @member {number} scaleIntervalInSeconds Scale interval that indicates how
+   * often will this trigger be checked.
+   */
+  scaleIntervalInSeconds: number;
+}
+
+/**
+ * @interface
+ * An interface representing ContainerLogs.
+ * Container logs.
+ *
+ */
+export interface ContainerLogs {
+  /**
+   * @member {string} [content] Container logs.
+   */
+  content?: string;
+}
+
+/**
+ * @interface
+ * An interface representing CodePackageGetContainerLogsOptionalParams.
  * Optional Parameters.
  *
  * @extends RequestOptionsBase
  */
-export interface CodePackageGetContainerLogOptionalParams extends msRest.RequestOptionsBase {
+export interface CodePackageGetContainerLogsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * @member {number} [tail] Number of lines to show from the end of the logs.
    * Default is 100.
@@ -1277,50 +2020,6 @@ export interface ServiceFabricMeshManagementClientOptions extends AzureServiceCl
 
 /**
  * @interface
- * An interface representing the ApplicationResourceDescriptionList.
- * A pageable list of application resources.
- *
- * @extends Array<ApplicationResourceDescription>
- */
-export interface ApplicationResourceDescriptionList extends Array<ApplicationResourceDescription> {
-  /**
-   * @member {string} [nextLink] URI to fetch the next page of the list.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the ServiceList.
- * A pageable list of all services in an application.
- *
- *
- * @extends Array<ServiceResourceDescription>
- */
-export interface ServiceList extends Array<ServiceResourceDescription> {
-  /**
-   * @member {string} [nextLink] URI to fetch the next page of the list.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the ServiceReplicaList.
- * A pageable list of replicas of a service resource.
- *
- *
- * @extends Array<ServiceReplicaDescription>
- */
-export interface ServiceReplicaList extends Array<ServiceReplicaDescription> {
-  /**
-   * @member {string} [nextLink] URI to fetch the next page of the list.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
  * An interface representing the OperationListResult.
  * Describes the result of the request to list Service Fabric operations.
  *
@@ -1338,12 +2037,27 @@ export interface OperationListResult extends Array<OperationResult> {
 
 /**
  * @interface
- * An interface representing the NetworkResourceDescriptionList.
- * A pageable list of network resources.
+ * An interface representing the SecretResourceDescriptionList.
+ * A pageable list of secret resources.
  *
- * @extends Array<NetworkResourceDescription>
+ * @extends Array<SecretResourceDescription>
  */
-export interface NetworkResourceDescriptionList extends Array<NetworkResourceDescription> {
+export interface SecretResourceDescriptionList extends Array<SecretResourceDescription> {
+  /**
+   * @member {string} [nextLink] URI to fetch the next page of the list.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the SecretValueResourceDescriptionList.
+ * A pageable list of values of a secret resource. The information does not
+ * include only the name of the value and not the actual unecrypted value.
+ *
+ * @extends Array<SecretValueResourceDescription>
+ */
+export interface SecretValueResourceDescriptionList extends Array<SecretValueResourceDescription> {
   /**
    * @member {string} [nextLink] URI to fetch the next page of the list.
    */
@@ -1365,18 +2079,113 @@ export interface VolumeResourceDescriptionList extends Array<VolumeResourceDescr
 }
 
 /**
- * Defines values for IngressQoSLevel.
- * Possible values include: 'Bronze'
+ * @interface
+ * An interface representing the NetworkResourceDescriptionList.
+ * A pageable list of network resources.
+ *
+ * @extends Array<NetworkResourceDescription>
+ */
+export interface NetworkResourceDescriptionList extends Array<NetworkResourceDescription> {
+  /**
+   * @member {string} [nextLink] URI to fetch the next page of the list.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the GatewayResourceDescriptionList.
+ * A pageable list of gateway resources.
+ *
+ * @extends Array<GatewayResourceDescription>
+ */
+export interface GatewayResourceDescriptionList extends Array<GatewayResourceDescription> {
+  /**
+   * @member {string} [nextLink] URI to fetch the next page of the list.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ApplicationResourceDescriptionList.
+ * A pageable list of application resources.
+ *
+ * @extends Array<ApplicationResourceDescription>
+ */
+export interface ApplicationResourceDescriptionList extends Array<ApplicationResourceDescription> {
+  /**
+   * @member {string} [nextLink] URI to fetch the next page of the list.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ServiceResourceDescriptionList.
+ * A pageable list of service resources.
+ *
+ * @extends Array<ServiceResourceDescription>
+ */
+export interface ServiceResourceDescriptionList extends Array<ServiceResourceDescription> {
+  /**
+   * @member {string} [nextLink] URI to fetch the next page of the list.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ServiceReplicaDescriptionList.
+ * A pageable list of service replicas.
+ *
+ * @extends Array<ServiceReplicaDescription>
+ */
+export interface ServiceReplicaDescriptionList extends Array<ServiceReplicaDescription> {
+  /**
+   * @member {string} [nextLink] URI to fetch the next page of the list.
+   */
+  nextLink?: string;
+}
+
+/**
+ * Defines values for ResourceStatus.
+ * Possible values include: 'Unknown', 'Ready', 'Upgrading', 'Creating',
+ * 'Deleting', 'Failed'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
- * let param: IngressQoSLevel =
- * <IngressQoSLevel>"someUnknownValueThatWillStillBeValid";
+ * let param: ResourceStatus =
+ * <ResourceStatus>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum IngressQoSLevel {
-  Bronze = 'Bronze',
+export enum ResourceStatus {
+  /**
+   * Indicates the resource status is unknown. The value is zero.
+   */
+  Unknown = 'Unknown',
+  /**
+   * Indicates the resource is ready. The value is 1.
+   */
+  Ready = 'Ready',
+  /**
+   * Indicates the resource is upgrading. The value is 2.
+   */
+  Upgrading = 'Upgrading',
+  /**
+   * Indicates the resource is being created. The value is 3.
+   */
+  Creating = 'Creating',
+  /**
+   * Indicates the resource is being deletd. The value is 4.
+   */
+  Deleting = 'Deleting',
+  /**
+   * Indicates the resource is not functional due to persistent failures. See
+   * statusDetails property for more details. The value is 5.
+   */
+  Failed = 'Failed',
 }
 
 /**
@@ -1417,60 +2226,127 @@ export enum HealthState {
 }
 
 /**
- * Defines values for ServiceResourceStatus.
- * Possible values include: 'Unknown', 'Active', 'Upgrading', 'Deleting',
- * 'Creating', 'Failed'
+ * Defines values for SecretKind.
+ * Possible values include: 'inlinedValue'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
- * let param: ServiceResourceStatus =
- * <ServiceResourceStatus>"someUnknownValueThatWillStillBeValid";
+ * let param: SecretKind = <SecretKind>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ServiceResourceStatus {
-  Unknown = 'Unknown',
-  Active = 'Active',
-  Upgrading = 'Upgrading',
-  Deleting = 'Deleting',
-  Creating = 'Creating',
-  Failed = 'Failed',
+export enum SecretKind {
+  /**
+   * A simple secret resource whose plaintext value is provided by the user.
+   */
+  InlinedValue = 'inlinedValue',
 }
 
 /**
- * Defines values for ApplicationResourceStatus.
- * Possible values include: 'Invalid', 'Ready', 'Upgrading', 'Creating',
- * 'Deleting', 'Failed'
+ * Defines values for VolumeProvider.
+ * Possible values include: 'SFAzureFile'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
- * let param: ApplicationResourceStatus =
- * <ApplicationResourceStatus>"someUnknownValueThatWillStillBeValid";
+ * let param: VolumeProvider =
+ * <VolumeProvider>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum ApplicationResourceStatus {
-  Invalid = 'Invalid',
-  Ready = 'Ready',
-  Upgrading = 'Upgrading',
-  Creating = 'Creating',
-  Deleting = 'Deleting',
-  Failed = 'Failed',
+export enum VolumeProvider {
+  /**
+   * Provides volumes that are backed by Azure Files.
+   */
+  SFAzureFile = 'SFAzureFile',
 }
 
 /**
- * Defines values for OperatingSystemTypes.
+ * Defines values for SizeTypes.
+ * Possible values include: 'Small', 'Medium', 'Large'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: SizeTypes = <SizeTypes>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum SizeTypes {
+  Small = 'Small',
+  Medium = 'Medium',
+  Large = 'Large',
+}
+
+/**
+ * Defines values for ApplicationScopedVolumeKind.
+ * Possible values include: 'ServiceFabricVolumeDisk'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: ApplicationScopedVolumeKind =
+ * <ApplicationScopedVolumeKind>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum ApplicationScopedVolumeKind {
+  /**
+   * Provides Service Fabric High Availability Volume Disk
+   */
+  ServiceFabricVolumeDisk = 'ServiceFabricVolumeDisk',
+}
+
+/**
+ * Defines values for NetworkKind.
+ * Possible values include: 'Local'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: NetworkKind =
+ * <NetworkKind>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum NetworkKind {
+  /**
+   * Indicates a container network local to a single Service Fabric cluster.
+   * The value is 1.
+   */
+  Local = 'Local',
+}
+
+/**
+ * Defines values for HeaderMatchType.
+ * Possible values include: 'exact'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: HeaderMatchType =
+ * <HeaderMatchType>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum HeaderMatchType {
+  Exact = 'exact',
+}
+
+/**
+ * Defines values for OperatingSystemType.
  * Possible values include: 'Linux', 'Windows'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
- * let param: OperatingSystemTypes =
- * <OperatingSystemTypes>"someUnknownValueThatWillStillBeValid";
+ * let param: OperatingSystemType =
+ * <OperatingSystemType>"someUnknownValueThatWillStillBeValid";
  * @readonly
  * @enum {string}
  */
-export enum OperatingSystemTypes {
+export enum OperatingSystemType {
+  /**
+   * The required operating system is Linux.
+   */
   Linux = 'Linux',
+  /**
+   * The required operating system is Windows.
+   */
   Windows = 'Windows',
 }
 
@@ -1498,251 +2374,81 @@ export enum DiagnosticsSinkKind {
 }
 
 /**
- * Contains response data for the create operation.
+ * Defines values for AutoScalingMechanismKind.
+ * Possible values include: 'AddRemoveReplica'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: AutoScalingMechanismKind =
+ * <AutoScalingMechanismKind>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
  */
-export type ApplicationCreateResponse = ApplicationResourceDescription & {
+export enum AutoScalingMechanismKind {
   /**
-   * The underlying HTTP response.
+   * Indicates that scaling should be performed by adding or removing replicas.
    */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescription;
-    };
-};
+  AddRemoveReplica = 'AddRemoveReplica',
+}
 
 /**
- * Contains response data for the get operation.
+ * Defines values for AutoScalingMetricKind.
+ * Possible values include: 'Resource'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: AutoScalingMetricKind =
+ * <AutoScalingMetricKind>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
  */
-export type ApplicationGetResponse = ApplicationResourceDescription & {
+export enum AutoScalingMetricKind {
   /**
-   * The underlying HTTP response.
+   * Indicates that the metric is one of resources, like cpu or memory.
    */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescription;
-    };
-};
+  Resource = 'Resource',
+}
 
 /**
- * Contains response data for the listByResourceGroup operation.
+ * Defines values for AutoScalingResourceMetricName.
+ * Possible values include: 'cpu', 'memoryInGB'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: AutoScalingResourceMetricName =
+ * <AutoScalingResourceMetricName>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
  */
-export type ApplicationListByResourceGroupResponse = ApplicationResourceDescriptionList & {
+export enum AutoScalingResourceMetricName {
   /**
-   * The underlying HTTP response.
+   * Indicates that the resource is CPU cores.
    */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescriptionList;
-    };
-};
+  Cpu = 'cpu',
+  /**
+   * Indicates that the resource is memory in GB.
+   */
+  MemoryInGB = 'memoryInGB',
+}
 
 /**
- * Contains response data for the listBySubscription operation.
+ * Defines values for AutoScalingTriggerKind.
+ * Possible values include: 'AverageLoad'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: AutoScalingTriggerKind =
+ * <AutoScalingTriggerKind>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
  */
-export type ApplicationListBySubscriptionResponse = ApplicationResourceDescriptionList & {
+export enum AutoScalingTriggerKind {
   /**
-   * The underlying HTTP response.
+   * Indicates that scaling should be performed based on average load of all
+   * replicas in the service.
    */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescriptionList;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type ApplicationListByResourceGroupNextResponse = ApplicationResourceDescriptionList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescriptionList;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type ApplicationListBySubscriptionNextResponse = ApplicationResourceDescriptionList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ApplicationResourceDescriptionList;
-    };
-};
-
-/**
- * Contains response data for the listByApplicationName operation.
- */
-export type ServiceListByApplicationNameResponse = ServiceList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServiceGetResponse = ServiceResourceDescription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResourceDescription;
-    };
-};
-
-/**
- * Contains response data for the listByApplicationNameNext operation.
- */
-export type ServiceListByApplicationNameNextResponse = ServiceList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceList;
-    };
-};
-
-/**
- * Contains response data for the listByServiceName operation.
- */
-export type ReplicaListByServiceNameResponse = ServiceReplicaList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceReplicaList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ReplicaGetResponse = ServiceReplicaDescription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceReplicaDescription;
-    };
-};
-
-/**
- * Contains response data for the listByServiceNameNext operation.
- */
-export type ReplicaListByServiceNameNextResponse = ServiceReplicaList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceReplicaList;
-    };
-};
-
-/**
- * Contains response data for the getContainerLog operation.
- */
-export type CodePackageGetContainerLogResponse = ContainerLogs & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ContainerLogs;
-    };
-};
+  AverageLoad = 'AverageLoad',
+}
 
 /**
  * Contains response data for the list operation.
@@ -1779,6 +2485,329 @@ export type OperationsListNextResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type SecretCreateResponse = SecretResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SecretGetResponse = SecretResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type SecretListByResourceGroupResponse = SecretResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type SecretListBySubscriptionResponse = SecretResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type SecretListByResourceGroupNextResponse = SecretResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type SecretListBySubscriptionNextResponse = SecretResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type SecretValueCreateResponse = SecretValueResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretValueResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SecretValueGetResponse = SecretValueResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretValueResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SecretValueListResponse = SecretValueResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretValueResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listValue operation.
+ */
+export type SecretValueListValueResponse = SecretValue & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretValue;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SecretValueListNextResponse = SecretValueResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretValueResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type VolumeCreateResponse = VolumeResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VolumeGetResponse = VolumeResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type VolumeListByResourceGroupResponse = VolumeResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type VolumeListBySubscriptionResponse = VolumeResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type VolumeListByResourceGroupNextResponse = VolumeResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type VolumeListBySubscriptionNextResponse = VolumeResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeResourceDescriptionList;
     };
 };
 
@@ -1899,7 +2928,7 @@ export type NetworkListBySubscriptionNextResponse = NetworkResourceDescriptionLi
 /**
  * Contains response data for the create operation.
  */
-export type VolumeCreateResponse = VolumeResourceDescription & {
+export type GatewayCreateResponse = GatewayResourceDescription & {
   /**
    * The underlying HTTP response.
    */
@@ -1911,14 +2940,14 @@ export type VolumeCreateResponse = VolumeResourceDescription & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VolumeResourceDescription;
+      parsedBody: GatewayResourceDescription;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type VolumeGetResponse = VolumeResourceDescription & {
+export type GatewayGetResponse = GatewayResourceDescription & {
   /**
    * The underlying HTTP response.
    */
@@ -1930,14 +2959,14 @@ export type VolumeGetResponse = VolumeResourceDescription & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VolumeResourceDescription;
+      parsedBody: GatewayResourceDescription;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroup operation.
  */
-export type VolumeListByResourceGroupResponse = VolumeResourceDescriptionList & {
+export type GatewayListByResourceGroupResponse = GatewayResourceDescriptionList & {
   /**
    * The underlying HTTP response.
    */
@@ -1949,14 +2978,14 @@ export type VolumeListByResourceGroupResponse = VolumeResourceDescriptionList & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VolumeResourceDescriptionList;
+      parsedBody: GatewayResourceDescriptionList;
     };
 };
 
 /**
  * Contains response data for the listBySubscription operation.
  */
-export type VolumeListBySubscriptionResponse = VolumeResourceDescriptionList & {
+export type GatewayListBySubscriptionResponse = GatewayResourceDescriptionList & {
   /**
    * The underlying HTTP response.
    */
@@ -1968,14 +2997,14 @@ export type VolumeListBySubscriptionResponse = VolumeResourceDescriptionList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VolumeResourceDescriptionList;
+      parsedBody: GatewayResourceDescriptionList;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroupNext operation.
  */
-export type VolumeListByResourceGroupNextResponse = VolumeResourceDescriptionList & {
+export type GatewayListByResourceGroupNextResponse = GatewayResourceDescriptionList & {
   /**
    * The underlying HTTP response.
    */
@@ -1987,14 +3016,14 @@ export type VolumeListByResourceGroupNextResponse = VolumeResourceDescriptionLis
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VolumeResourceDescriptionList;
+      parsedBody: GatewayResourceDescriptionList;
     };
 };
 
 /**
  * Contains response data for the listBySubscriptionNext operation.
  */
-export type VolumeListBySubscriptionNextResponse = VolumeResourceDescriptionList & {
+export type GatewayListBySubscriptionNextResponse = GatewayResourceDescriptionList & {
   /**
    * The underlying HTTP response.
    */
@@ -2006,6 +3035,253 @@ export type VolumeListBySubscriptionNextResponse = VolumeResourceDescriptionList
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: VolumeResourceDescriptionList;
+      parsedBody: GatewayResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type ApplicationCreateResponse = ApplicationResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ApplicationGetResponse = ApplicationResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type ApplicationListByResourceGroupResponse = ApplicationResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type ApplicationListBySubscriptionResponse = ApplicationResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type ApplicationListByResourceGroupNextResponse = ApplicationResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type ApplicationListBySubscriptionNextResponse = ApplicationResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServiceGetResponse = ServiceResourceDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceResourceDescription;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ServiceListResponse = ServiceResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ServiceListNextResponse = ServiceResourceDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServiceReplicaGetResponse = ServiceReplicaDescription & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceReplicaDescription;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ServiceReplicaListResponse = ServiceReplicaDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceReplicaDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ServiceReplicaListNextResponse = ServiceReplicaDescriptionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServiceReplicaDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the getContainerLogs operation.
+ */
+export type CodePackageGetContainerLogsResponse = ContainerLogs & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ContainerLogs;
     };
 };
