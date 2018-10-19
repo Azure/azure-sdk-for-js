@@ -1,0 +1,41 @@
+{
+  "name": "@azure/cognitiveservices-spellcheck",
+  "author": "Microsoft Corporation",
+  "description": "SpellCheckAPIClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0",
+  "dependencies": {
+    "ms-rest-js": "^1.0.443",
+    "tslib": "^1.9.3"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/cognitiveservices-spellcheck.js",
+  "module": "./esm/spellCheckAPIClient.js",
+  "types": "./esm/spellCheckAPIClient.d.ts",
+  "devDependencies": {
+    "typescript": "^3.1.1",
+    "rollup": "^0.66.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "uglify-js": "^3.4.9"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-spellcheck.js.map'\" -o ./dist/cognitiveservices-spellcheck.min.js ./dist/cognitiveservices-spellcheck.js",
+    "prepare": "npm run build"
+  },
+  "sideEffects": false
+}
