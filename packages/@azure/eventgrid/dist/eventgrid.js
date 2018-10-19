@@ -63,49 +63,160 @@
      * regenerated.
      */
     /**
-     * Defines values for JobState.
+     * Defines values for MediaJobState.
      * Possible values include: 'Canceled', 'Canceling', 'Error', 'Finished',
      * 'Processing', 'Queued', 'Scheduled'
      * @readonly
      * @enum {string}
      */
-    var JobState;
-    (function (JobState) {
+    var MediaJobState;
+    (function (MediaJobState) {
         /**
          * The job was canceled. This is a final state for the job.
          */
-        JobState["Canceled"] = "Canceled";
+        MediaJobState["Canceled"] = "Canceled";
         /**
          * The job is in the process of being canceled. This is a transient state for
          * the job.
          */
-        JobState["Canceling"] = "Canceling";
+        MediaJobState["Canceling"] = "Canceling";
         /**
          * The job has encountered an error. This is a final state for the job.
          */
-        JobState["Error"] = "Error";
+        MediaJobState["Error"] = "Error";
         /**
          * The job is finished. This is a final state for the job.
          */
-        JobState["Finished"] = "Finished";
+        MediaJobState["Finished"] = "Finished";
         /**
          * The job is processing. This is a transient state for the job.
          */
-        JobState["Processing"] = "Processing";
+        MediaJobState["Processing"] = "Processing";
         /**
          * The job is in a queued state, waiting for resources to become available.
          * This is a transient state.
          */
-        JobState["Queued"] = "Queued";
+        MediaJobState["Queued"] = "Queued";
         /**
          * The job is being scheduled to run on an available resource. This is a
          * transient state, between queued and processing states.
          */
-        JobState["Scheduled"] = "Scheduled";
-    })(JobState || (JobState = {}));
+        MediaJobState["Scheduled"] = "Scheduled";
+    })(MediaJobState || (MediaJobState = {}));
+    /**
+     * Defines values for MediaJobErrorCode.
+     * Possible values include: 'ServiceError', 'ServiceTransientError',
+     * 'DownloadNotAccessible', 'DownloadTransientError', 'UploadNotAccessible',
+     * 'UploadTransientError', 'ConfigurationUnsupported', 'ContentMalformed',
+     * 'ContentUnsupported'
+     * @readonly
+     * @enum {string}
+     */
+    var MediaJobErrorCode;
+    (function (MediaJobErrorCode) {
+        /**
+         * Fatal service error, please contact support.
+         */
+        MediaJobErrorCode["ServiceError"] = "ServiceError";
+        /**
+         * Transient error, please retry, if retry is unsuccessful, please contact
+         * support.
+         */
+        MediaJobErrorCode["ServiceTransientError"] = "ServiceTransientError";
+        /**
+         * While trying to download the input files, the files were not accessible,
+         * please check the availability of the source.
+         */
+        MediaJobErrorCode["DownloadNotAccessible"] = "DownloadNotAccessible";
+        /**
+         * While trying to download the input files, there was an issue during
+         * transfer (storage service, network errors), see details and check your
+         * source.
+         */
+        MediaJobErrorCode["DownloadTransientError"] = "DownloadTransientError";
+        /**
+         * While trying to upload the output files, the destination was not
+         * reachable, please check the availability of the destination.
+         */
+        MediaJobErrorCode["UploadNotAccessible"] = "UploadNotAccessible";
+        /**
+         * While trying to upload the output files, there was an issue during
+         * transfer (storage service, network errors), see details and check your
+         * destination.
+         */
+        MediaJobErrorCode["UploadTransientError"] = "UploadTransientError";
+        /**
+         * There was a problem with the combination of input files and the
+         * configuration settings applied, fix the configuration settings and retry
+         * with the same input, or change input to match the configuration.
+         */
+        MediaJobErrorCode["ConfigurationUnsupported"] = "ConfigurationUnsupported";
+        /**
+         * There was a problem with the input content (for example: zero byte files,
+         * or corrupt/non-decodable files), check the input files.
+         */
+        MediaJobErrorCode["ContentMalformed"] = "ContentMalformed";
+        /**
+         * There was a problem with the format of the input (not valid media file, or
+         * an unsupported file/codec), check the validity of the input files.
+         */
+        MediaJobErrorCode["ContentUnsupported"] = "ContentUnsupported";
+    })(MediaJobErrorCode || (MediaJobErrorCode = {}));
+    /**
+     * Defines values for MediaJobErrorCategory.
+     * Possible values include: 'Service', 'Download', 'Upload', 'Configuration',
+     * 'Content'
+     * @readonly
+     * @enum {string}
+     */
+    var MediaJobErrorCategory;
+    (function (MediaJobErrorCategory) {
+        /**
+         * The error is service related.
+         */
+        MediaJobErrorCategory["Service"] = "Service";
+        /**
+         * The error is download related.
+         */
+        MediaJobErrorCategory["Download"] = "Download";
+        /**
+         * The error is upload related.
+         */
+        MediaJobErrorCategory["Upload"] = "Upload";
+        /**
+         * The error is configuration related.
+         */
+        MediaJobErrorCategory["Configuration"] = "Configuration";
+        /**
+         * The error is related to data in the input files.
+         */
+        MediaJobErrorCategory["Content"] = "Content";
+    })(MediaJobErrorCategory || (MediaJobErrorCategory = {}));
+    /**
+     * Defines values for MediaJobRetry.
+     * Possible values include: 'DoNotRetry', 'MayRetry'
+     * @readonly
+     * @enum {string}
+     */
+    var MediaJobRetry;
+    (function (MediaJobRetry) {
+        /**
+         * Issue needs to be investigated and then the job resubmitted with
+         * corrections or retried once the underlying issue has been corrected.
+         */
+        MediaJobRetry["DoNotRetry"] = "DoNotRetry";
+        /**
+         * Issue may be resolved after waiting for a period of time and resubmitting
+         * the same Job.
+         */
+        MediaJobRetry["MayRetry"] = "MayRetry";
+    })(MediaJobRetry || (MediaJobRetry = {}));
 
     var index = /*#__PURE__*/Object.freeze({
-        get JobState () { return JobState; }
+        get MediaJobState () { return MediaJobState; },
+        get MediaJobErrorCode () { return MediaJobErrorCode; },
+        get MediaJobErrorCategory () { return MediaJobErrorCategory; },
+        get MediaJobRetry () { return MediaJobRetry; }
     });
 
     /*
@@ -1694,6 +1805,840 @@
                             "Scheduled"
                         ]
                     }
+                },
+                correlationData: {
+                    serializedName: "correlationData",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    var MediaJobErrorDetail = {
+        serializedName: "MediaJobErrorDetail",
+        type: {
+            name: "Composite",
+            className: "MediaJobErrorDetail",
+            modelProperties: {
+                code: {
+                    readOnly: true,
+                    serializedName: "code",
+                    type: {
+                        name: "String"
+                    }
+                },
+                message: {
+                    readOnly: true,
+                    serializedName: "message",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var MediaJobError = {
+        serializedName: "MediaJobError",
+        type: {
+            name: "Composite",
+            className: "MediaJobError",
+            modelProperties: {
+                code: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "code",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "ServiceError",
+                            "ServiceTransientError",
+                            "DownloadNotAccessible",
+                            "DownloadTransientError",
+                            "UploadNotAccessible",
+                            "UploadTransientError",
+                            "ConfigurationUnsupported",
+                            "ContentMalformed",
+                            "ContentUnsupported"
+                        ]
+                    }
+                },
+                message: {
+                    readOnly: true,
+                    serializedName: "message",
+                    type: {
+                        name: "String"
+                    }
+                },
+                category: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "category",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Service",
+                            "Download",
+                            "Upload",
+                            "Configuration",
+                            "Content"
+                        ]
+                    }
+                },
+                retry: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "retry",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "DoNotRetry",
+                            "MayRetry"
+                        ]
+                    }
+                },
+                details: {
+                    readOnly: true,
+                    serializedName: "details",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "MediaJobErrorDetail"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    var MediaJobOutput = {
+        serializedName: "MediaJobOutput",
+        type: {
+            name: "Composite",
+            className: "MediaJobOutput",
+            modelProperties: {
+                error: {
+                    serializedName: "error",
+                    type: {
+                        name: "Composite",
+                        className: "MediaJobError"
+                    }
+                },
+                label: {
+                    serializedName: "label",
+                    type: {
+                        name: "String"
+                    }
+                },
+                progress: {
+                    required: true,
+                    serializedName: "progress",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                state: {
+                    required: true,
+                    serializedName: "state",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Canceled",
+                            "Canceling",
+                            "Error",
+                            "Finished",
+                            "Processing",
+                            "Queued",
+                            "Scheduled"
+                        ]
+                    }
+                }
+            }
+        }
+    };
+    var MediaJobOutputAsset = {
+        serializedName: "#Microsoft.Media.JobOutputAsset",
+        type: {
+            name: "Composite",
+            className: "MediaJobOutputAsset",
+            modelProperties: __assign({}, MediaJobOutput.type.modelProperties, { assetName: {
+                    serializedName: "assetName",
+                    type: {
+                        name: "String"
+                    }
+                } })
+        }
+    };
+    var MediaJobOutputStateChangeEventData = {
+        serializedName: "MediaJobOutputStateChangeEventData",
+        type: {
+            name: "Composite",
+            className: "MediaJobOutputStateChangeEventData",
+            modelProperties: {
+                previousState: {
+                    nullable: false,
+                    readOnly: true,
+                    serializedName: "previousState",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "Canceled",
+                            "Canceling",
+                            "Error",
+                            "Finished",
+                            "Processing",
+                            "Queued",
+                            "Scheduled"
+                        ]
+                    }
+                },
+                output: {
+                    serializedName: "output",
+                    type: {
+                        name: "Composite",
+                        className: "MediaJobOutput"
+                    }
+                },
+                jobCorrelationData: {
+                    serializedName: "jobCorrelationData",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    var MediaJobScheduledEventData = {
+        serializedName: "#Microsoft.Media.JobScheduled",
+        type: {
+            name: "Composite",
+            className: "MediaJobScheduledEventData",
+            modelProperties: __assign({}, MediaJobStateChangeEventData.type.modelProperties)
+        }
+    };
+    var MediaJobProcessingEventData = {
+        serializedName: "#Microsoft.Media.JobProcessing",
+        type: {
+            name: "Composite",
+            className: "MediaJobProcessingEventData",
+            modelProperties: __assign({}, MediaJobStateChangeEventData.type.modelProperties)
+        }
+    };
+    var MediaJobCancelingEventData = {
+        serializedName: "#Microsoft.Media.JobCanceling",
+        type: {
+            name: "Composite",
+            className: "MediaJobCancelingEventData",
+            modelProperties: __assign({}, MediaJobStateChangeEventData.type.modelProperties)
+        }
+    };
+    var MediaJobFinishedEventData = {
+        serializedName: "#Microsoft.Media.JobFinished",
+        type: {
+            name: "Composite",
+            className: "MediaJobFinishedEventData",
+            modelProperties: __assign({}, MediaJobStateChangeEventData.type.modelProperties, { outputs: {
+                    serializedName: "outputs",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "MediaJobOutput"
+                            }
+                        }
+                    }
+                } })
+        }
+    };
+    var MediaJobCanceledEventData = {
+        serializedName: "#Microsoft.Media.JobCanceled",
+        type: {
+            name: "Composite",
+            className: "MediaJobCanceledEventData",
+            modelProperties: __assign({}, MediaJobStateChangeEventData.type.modelProperties, { outputs: {
+                    serializedName: "outputs",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "MediaJobOutput"
+                            }
+                        }
+                    }
+                } })
+        }
+    };
+    var MediaJobErroredEventData = {
+        serializedName: "#Microsoft.Media.JobErrored",
+        type: {
+            name: "Composite",
+            className: "MediaJobErroredEventData",
+            modelProperties: __assign({}, MediaJobStateChangeEventData.type.modelProperties, { outputs: {
+                    serializedName: "outputs",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "MediaJobOutput"
+                            }
+                        }
+                    }
+                } })
+        }
+    };
+    var MediaJobOutputCanceledEventData = {
+        serializedName: "#Microsoft.Media.JobOutputCanceled",
+        type: {
+            name: "Composite",
+            className: "MediaJobOutputCanceledEventData",
+            modelProperties: __assign({}, MediaJobOutputStateChangeEventData.type.modelProperties)
+        }
+    };
+    var MediaJobOutputCancelingEventData = {
+        serializedName: "#Microsoft.Media.JobOutputCanceling",
+        type: {
+            name: "Composite",
+            className: "MediaJobOutputCancelingEventData",
+            modelProperties: __assign({}, MediaJobOutputStateChangeEventData.type.modelProperties)
+        }
+    };
+    var MediaJobOutputErroredEventData = {
+        serializedName: "#Microsoft.Media.JobOutputErrored",
+        type: {
+            name: "Composite",
+            className: "MediaJobOutputErroredEventData",
+            modelProperties: __assign({}, MediaJobOutputStateChangeEventData.type.modelProperties)
+        }
+    };
+    var MediaJobOutputFinishedEventData = {
+        serializedName: "#Microsoft.Media.JobOutputFinished",
+        type: {
+            name: "Composite",
+            className: "MediaJobOutputFinishedEventData",
+            modelProperties: __assign({}, MediaJobOutputStateChangeEventData.type.modelProperties)
+        }
+    };
+    var MediaJobOutputProcessingEventData = {
+        serializedName: "#Microsoft.Media.JobOutputProcessing",
+        type: {
+            name: "Composite",
+            className: "MediaJobOutputProcessingEventData",
+            modelProperties: __assign({}, MediaJobOutputStateChangeEventData.type.modelProperties)
+        }
+    };
+    var MediaJobOutputScheduledEventData = {
+        serializedName: "#Microsoft.Media.JobOutputScheduled",
+        type: {
+            name: "Composite",
+            className: "MediaJobOutputScheduledEventData",
+            modelProperties: __assign({}, MediaJobOutputStateChangeEventData.type.modelProperties)
+        }
+    };
+    var MediaLiveEventEncoderConnectedEventData = {
+        serializedName: "MediaLiveEventEncoderConnectedEventData",
+        type: {
+            name: "Composite",
+            className: "MediaLiveEventEncoderConnectedEventData",
+            modelProperties: {
+                ingestUrl: {
+                    readOnly: true,
+                    serializedName: "ingestUrl",
+                    type: {
+                        name: "String"
+                    }
+                },
+                streamId: {
+                    readOnly: true,
+                    serializedName: "streamId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                encoderIp: {
+                    readOnly: true,
+                    serializedName: "encoderIp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                encoderPort: {
+                    readOnly: true,
+                    serializedName: "encoderPort",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var MediaLiveEventConnectionRejectedEventData = {
+        serializedName: "MediaLiveEventConnectionRejectedEventData",
+        type: {
+            name: "Composite",
+            className: "MediaLiveEventConnectionRejectedEventData",
+            modelProperties: {
+                ingestUrl: {
+                    readOnly: true,
+                    serializedName: "ingestUrl",
+                    type: {
+                        name: "String"
+                    }
+                },
+                streamId: {
+                    readOnly: true,
+                    serializedName: "streamId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                encoderIp: {
+                    readOnly: true,
+                    serializedName: "encoderIp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                encoderPort: {
+                    readOnly: true,
+                    serializedName: "encoderPort",
+                    type: {
+                        name: "String"
+                    }
+                },
+                resultCode: {
+                    readOnly: true,
+                    serializedName: "resultCode",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var MediaLiveEventEncoderDisconnectedEventData = {
+        serializedName: "MediaLiveEventEncoderDisconnectedEventData",
+        type: {
+            name: "Composite",
+            className: "MediaLiveEventEncoderDisconnectedEventData",
+            modelProperties: {
+                ingestUrl: {
+                    readOnly: true,
+                    serializedName: "ingestUrl",
+                    type: {
+                        name: "String"
+                    }
+                },
+                streamId: {
+                    readOnly: true,
+                    serializedName: "streamId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                encoderIp: {
+                    readOnly: true,
+                    serializedName: "encoderIp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                encoderPort: {
+                    readOnly: true,
+                    serializedName: "encoderPort",
+                    type: {
+                        name: "String"
+                    }
+                },
+                resultCode: {
+                    readOnly: true,
+                    serializedName: "resultCode",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var MediaLiveEventIncomingStreamReceivedEventData = {
+        serializedName: "MediaLiveEventIncomingStreamReceivedEventData",
+        type: {
+            name: "Composite",
+            className: "MediaLiveEventIncomingStreamReceivedEventData",
+            modelProperties: {
+                ingestUrl: {
+                    readOnly: true,
+                    serializedName: "ingestUrl",
+                    type: {
+                        name: "String"
+                    }
+                },
+                trackType: {
+                    readOnly: true,
+                    serializedName: "trackType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                trackName: {
+                    readOnly: true,
+                    serializedName: "trackName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                bitrate: {
+                    readOnly: true,
+                    serializedName: "bitrate",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                encoderIp: {
+                    readOnly: true,
+                    serializedName: "encoderIp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                encoderPort: {
+                    readOnly: true,
+                    serializedName: "encoderPort",
+                    type: {
+                        name: "String"
+                    }
+                },
+                timestamp: {
+                    readOnly: true,
+                    serializedName: "timestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                duration: {
+                    readOnly: true,
+                    serializedName: "duration",
+                    type: {
+                        name: "String"
+                    }
+                },
+                timescale: {
+                    readOnly: true,
+                    serializedName: "timescale",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var MediaLiveEventIncomingStreamsOutOfSyncEventData = {
+        serializedName: "MediaLiveEventIncomingStreamsOutOfSyncEventData",
+        type: {
+            name: "Composite",
+            className: "MediaLiveEventIncomingStreamsOutOfSyncEventData",
+            modelProperties: {
+                minLastTimestamp: {
+                    readOnly: true,
+                    serializedName: "minLastTimestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                typeOfStreamWithMinLastTimestamp: {
+                    readOnly: true,
+                    serializedName: "typeOfStreamWithMinLastTimestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                maxLastTimestamp: {
+                    readOnly: true,
+                    serializedName: "maxLastTimestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                typeOfStreamWithMaxLastTimestamp: {
+                    readOnly: true,
+                    serializedName: "typeOfStreamWithMaxLastTimestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                timescaleOfMinLastTimestamp: {
+                    readOnly: true,
+                    serializedName: "timescaleOfMinLastTimestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                timescaleOfMaxLastTimestamp: {
+                    readOnly: true,
+                    serializedName: "timescaleOfMaxLastTimestamp",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var MediaLiveEventIncomingVideoStreamsOutOfSyncEventData = {
+        serializedName: "MediaLiveEventIncomingVideoStreamsOutOfSyncEventData",
+        type: {
+            name: "Composite",
+            className: "MediaLiveEventIncomingVideoStreamsOutOfSyncEventData",
+            modelProperties: {
+                firstTimestamp: {
+                    readOnly: true,
+                    serializedName: "firstTimestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                firstDuration: {
+                    readOnly: true,
+                    serializedName: "firstDuration",
+                    type: {
+                        name: "String"
+                    }
+                },
+                secondTimestamp: {
+                    readOnly: true,
+                    serializedName: "secondTimestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                secondDuration: {
+                    readOnly: true,
+                    serializedName: "secondDuration",
+                    type: {
+                        name: "String"
+                    }
+                },
+                timescale: {
+                    readOnly: true,
+                    serializedName: "timescale",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var MediaLiveEventIncomingDataChunkDroppedEventData = {
+        serializedName: "MediaLiveEventIncomingDataChunkDroppedEventData",
+        type: {
+            name: "Composite",
+            className: "MediaLiveEventIncomingDataChunkDroppedEventData",
+            modelProperties: {
+                timestamp: {
+                    readOnly: true,
+                    serializedName: "timestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                trackType: {
+                    readOnly: true,
+                    serializedName: "trackType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                bitrate: {
+                    readOnly: true,
+                    serializedName: "bitrate",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                timescale: {
+                    readOnly: true,
+                    serializedName: "timescale",
+                    type: {
+                        name: "String"
+                    }
+                },
+                resultCode: {
+                    readOnly: true,
+                    serializedName: "resultCode",
+                    type: {
+                        name: "String"
+                    }
+                },
+                trackName: {
+                    readOnly: true,
+                    serializedName: "trackName",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
+    var MediaLiveEventIngestHeartbeatEventData = {
+        serializedName: "MediaLiveEventIngestHeartbeatEventData",
+        type: {
+            name: "Composite",
+            className: "MediaLiveEventIngestHeartbeatEventData",
+            modelProperties: {
+                trackType: {
+                    readOnly: true,
+                    serializedName: "trackType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                trackName: {
+                    readOnly: true,
+                    serializedName: "trackName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                bitrate: {
+                    readOnly: true,
+                    serializedName: "bitrate",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                incomingBitrate: {
+                    readOnly: true,
+                    serializedName: "incomingBitrate",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                lastTimestamp: {
+                    readOnly: true,
+                    serializedName: "lastTimestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                timescale: {
+                    readOnly: true,
+                    serializedName: "timescale",
+                    type: {
+                        name: "String"
+                    }
+                },
+                overlapCount: {
+                    readOnly: true,
+                    serializedName: "overlapCount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                discontinuityCount: {
+                    readOnly: true,
+                    serializedName: "discontinuityCount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                nonincreasingCount: {
+                    readOnly: true,
+                    serializedName: "nonincreasingCount",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                unexpectedBitrate: {
+                    readOnly: true,
+                    serializedName: "unexpectedBitrate",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                state: {
+                    readOnly: true,
+                    serializedName: "state",
+                    type: {
+                        name: "String"
+                    }
+                },
+                healthy: {
+                    readOnly: true,
+                    serializedName: "healthy",
+                    type: {
+                        name: "Boolean"
+                    }
+                }
+            }
+        }
+    };
+    var MediaLiveEventTrackDiscontinuityDetectedEventData = {
+        serializedName: "MediaLiveEventTrackDiscontinuityDetectedEventData",
+        type: {
+            name: "Composite",
+            className: "MediaLiveEventTrackDiscontinuityDetectedEventData",
+            modelProperties: {
+                trackType: {
+                    readOnly: true,
+                    serializedName: "trackType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                trackName: {
+                    readOnly: true,
+                    serializedName: "trackName",
+                    type: {
+                        name: "String"
+                    }
+                },
+                bitrate: {
+                    readOnly: true,
+                    serializedName: "bitrate",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                previousTimestamp: {
+                    readOnly: true,
+                    serializedName: "previousTimestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                newTimestamp: {
+                    readOnly: true,
+                    serializedName: "newTimestamp",
+                    type: {
+                        name: "String"
+                    }
+                },
+                timescale: {
+                    readOnly: true,
+                    serializedName: "timescale",
+                    type: {
+                        name: "String"
+                    }
+                },
+                discontinuityGap: {
+                    readOnly: true,
+                    serializedName: "discontinuityGap",
+                    type: {
+                        name: "String"
+                    }
                 }
             }
         }
@@ -1739,7 +2684,33 @@
         ContainerRegistryEventSource: ContainerRegistryEventSource,
         ServiceBusActiveMessagesAvailableWithNoListenersEventData: ServiceBusActiveMessagesAvailableWithNoListenersEventData,
         ServiceBusDeadletterMessagesAvailableWithNoListenersEventData: ServiceBusDeadletterMessagesAvailableWithNoListenersEventData,
-        MediaJobStateChangeEventData: MediaJobStateChangeEventData
+        MediaJobStateChangeEventData: MediaJobStateChangeEventData,
+        MediaJobErrorDetail: MediaJobErrorDetail,
+        MediaJobError: MediaJobError,
+        MediaJobOutput: MediaJobOutput,
+        MediaJobOutputAsset: MediaJobOutputAsset,
+        MediaJobOutputStateChangeEventData: MediaJobOutputStateChangeEventData,
+        MediaJobScheduledEventData: MediaJobScheduledEventData,
+        MediaJobProcessingEventData: MediaJobProcessingEventData,
+        MediaJobCancelingEventData: MediaJobCancelingEventData,
+        MediaJobFinishedEventData: MediaJobFinishedEventData,
+        MediaJobCanceledEventData: MediaJobCanceledEventData,
+        MediaJobErroredEventData: MediaJobErroredEventData,
+        MediaJobOutputCanceledEventData: MediaJobOutputCanceledEventData,
+        MediaJobOutputCancelingEventData: MediaJobOutputCancelingEventData,
+        MediaJobOutputErroredEventData: MediaJobOutputErroredEventData,
+        MediaJobOutputFinishedEventData: MediaJobOutputFinishedEventData,
+        MediaJobOutputProcessingEventData: MediaJobOutputProcessingEventData,
+        MediaJobOutputScheduledEventData: MediaJobOutputScheduledEventData,
+        MediaLiveEventEncoderConnectedEventData: MediaLiveEventEncoderConnectedEventData,
+        MediaLiveEventConnectionRejectedEventData: MediaLiveEventConnectionRejectedEventData,
+        MediaLiveEventEncoderDisconnectedEventData: MediaLiveEventEncoderDisconnectedEventData,
+        MediaLiveEventIncomingStreamReceivedEventData: MediaLiveEventIncomingStreamReceivedEventData,
+        MediaLiveEventIncomingStreamsOutOfSyncEventData: MediaLiveEventIncomingStreamsOutOfSyncEventData,
+        MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: MediaLiveEventIncomingVideoStreamsOutOfSyncEventData,
+        MediaLiveEventIncomingDataChunkDroppedEventData: MediaLiveEventIncomingDataChunkDroppedEventData,
+        MediaLiveEventIngestHeartbeatEventData: MediaLiveEventIngestHeartbeatEventData,
+        MediaLiveEventTrackDiscontinuityDetectedEventData: MediaLiveEventTrackDiscontinuityDetectedEventData
     });
 
     /*
@@ -1794,7 +2765,7 @@
      * regenerated.
      */
     var packageName = "@azure/eventgrid";
-    var packageVersion = "1.1.0";
+    var packageVersion = "1.0.0";
     var EventGridClientContext = /** @class */ (function (_super) {
         __extends(EventGridClientContext, _super);
         /**
