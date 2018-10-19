@@ -12,7 +12,7 @@ import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/cognitiveservices-autosuggest";
-const packageVersion = "1.1.0";
+const packageVersion = "1.0.0";
 
 export class AutoSuggestClientContext extends msRest.ServiceClient {
   credentials: msRest.ServiceClientCredentials;
