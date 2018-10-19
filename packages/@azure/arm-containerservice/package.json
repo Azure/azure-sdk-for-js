@@ -4,8 +4,8 @@
   "description": "ContainerServiceClient Library with typescript type definitions for node.js and browser.",
   "version": "1.0.0-preview",
   "dependencies": {
-    "ms-rest-azure-js": "^1.0.172",
-    "ms-rest-js": "^1.0.443",
+    "ms-rest-azure-js": "^1.0.176",
+    "ms-rest-js": "^1.0.455",
     "tslib": "^1.9.3"
   },
   "keywords": [
