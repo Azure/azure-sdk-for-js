@@ -59,7 +59,7 @@ export class ResourceGroups {
    * Creates or updates a resource group.
    * @param resourceGroupName The name of the resource group to create or update. Can include
    * alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters
-   * that match the regular expression pattern.
+   * that match the allowed characters.
    * @param parameters Parameters supplied to the create or update a resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceGroupsCreateOrUpdateResponse>
@@ -68,7 +68,7 @@ export class ResourceGroups {
   /**
    * @param resourceGroupName The name of the resource group to create or update. Can include
    * alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters
-   * that match the regular expression pattern.
+   * that match the allowed characters.
    * @param parameters Parameters supplied to the create or update a resource group.
    * @param callback The callback
    */
@@ -76,7 +76,7 @@ export class ResourceGroups {
   /**
    * @param resourceGroupName The name of the resource group to create or update. Can include
    * alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters
-   * that match the regular expression pattern.
+   * that match the allowed characters.
    * @param parameters Parameters supplied to the create or update a resource group.
    * @param options The optional parameters
    * @param callback The callback
