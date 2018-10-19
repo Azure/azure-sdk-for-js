@@ -1541,48 +1541,6 @@
             }
         }
     };
-    var FactoryProperties = {
-        serializedName: "FactoryProperties",
-        type: {
-            name: "Composite",
-            className: "FactoryProperties",
-            modelProperties: {
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createTime: {
-                    readOnly: true,
-                    serializedName: "createTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                version: {
-                    readOnly: true,
-                    serializedName: "version",
-                    type: {
-                        name: "String"
-                    }
-                },
-                repoConfiguration: {
-                    serializedName: "repoConfiguration",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "FactoryRepoConfiguration",
-                        className: "FactoryRepoConfiguration"
-                    }
-                }
-            }
-        }
-    };
     var Factory = {
         serializedName: "Factory",
         type: {
@@ -2298,94 +2256,6 @@
                     serializedName: "name",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var PipelineModel = {
-        serializedName: "Pipeline",
-        type: {
-            name: "Composite",
-            className: "PipelineModel",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                activities: {
-                    serializedName: "activities",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                polymorphicDiscriminator: {
-                                    serializedName: "type",
-                                    clientName: "type"
-                                },
-                                uberParent: "Activity",
-                                className: "Activity",
-                                additionalProperties: {
-                                    type: {
-                                        name: "Object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "ParameterSpecification"
-                            }
-                        }
-                    }
-                },
-                variables: {
-                    serializedName: "variables",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "VariableSpecification"
-                            }
-                        }
-                    }
-                },
-                concurrency: {
-                    serializedName: "concurrency",
-                    constraints: {
-                        InclusiveMinimum: 1
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                },
-                annotations: {
-                    serializedName: "annotations",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                folder: {
-                    serializedName: "folder",
-                    type: {
-                        name: "Composite",
-                        className: "PipelineFolder"
                     }
                 }
             }
@@ -3333,46 +3203,6 @@
             }
         }
     };
-    var RerunTumblingWindowTriggerTypeProperties = {
-        serializedName: "RerunTumblingWindowTrigger_typeProperties",
-        type: {
-            name: "Composite",
-            className: "RerunTumblingWindowTriggerTypeProperties",
-            modelProperties: {
-                parentTrigger: {
-                    serializedName: "parentTrigger",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                requestedStartTime: {
-                    required: true,
-                    serializedName: "requestedStartTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                requestedEndTime: {
-                    required: true,
-                    serializedName: "requestedEndTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                maxConcurrency: {
-                    required: true,
-                    serializedName: "maxConcurrency",
-                    constraints: {
-                        InclusiveMaximum: 50,
-                        InclusiveMinimum: 1
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
     var RerunTumblingWindowTrigger = {
         serializedName: "RerunTumblingWindowTrigger",
         type: {
@@ -3651,22 +3481,6 @@
             }
         }
     };
-    var OperationProperties = {
-        serializedName: "OperationProperties",
-        type: {
-            name: "Composite",
-            className: "OperationProperties",
-            modelProperties: {
-                serviceSpecification: {
-                    serializedName: "serviceSpecification",
-                    type: {
-                        name: "Composite",
-                        className: "OperationServiceSpecification"
-                    }
-                }
-            }
-        }
-    };
     var Operation = {
         serializedName: "Operation",
         type: {
@@ -3852,83 +3666,6 @@
             }
         }
     };
-    var TumblingWindowTriggerTypeProperties = {
-        serializedName: "TumblingWindowTrigger_typeProperties",
-        type: {
-            name: "Composite",
-            className: "TumblingWindowTriggerTypeProperties",
-            modelProperties: {
-                frequency: {
-                    required: true,
-                    serializedName: "frequency",
-                    type: {
-                        name: "String"
-                    }
-                },
-                interval: {
-                    required: true,
-                    serializedName: "interval",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                startTime: {
-                    required: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                delay: {
-                    serializedName: "delay",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                maxConcurrency: {
-                    required: true,
-                    serializedName: "maxConcurrency",
-                    constraints: {
-                        InclusiveMaximum: 50,
-                        InclusiveMinimum: 1
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                },
-                retryPolicy: {
-                    serializedName: "retryPolicy",
-                    type: {
-                        name: "Composite",
-                        className: "RetryPolicy"
-                    }
-                },
-                dependsOn: {
-                    serializedName: "dependsOn",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                polymorphicDiscriminator: {
-                                    serializedName: "type",
-                                    clientName: "type"
-                                },
-                                uberParent: "DependencyReference",
-                                className: "DependencyReference"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var TumblingWindowTrigger = {
         serializedName: "TumblingWindowTrigger",
         type: {
@@ -4008,46 +3745,6 @@
             additionalProperties: Trigger.type.additionalProperties
         }
     };
-    var BlobEventsTriggerTypeProperties = {
-        serializedName: "BlobEventsTrigger_typeProperties",
-        type: {
-            name: "Composite",
-            className: "BlobEventsTriggerTypeProperties",
-            modelProperties: {
-                blobPathBeginsWith: {
-                    serializedName: "blobPathBeginsWith",
-                    type: {
-                        name: "String"
-                    }
-                },
-                blobPathEndsWith: {
-                    serializedName: "blobPathEndsWith",
-                    type: {
-                        name: "String"
-                    }
-                },
-                events: {
-                    required: true,
-                    serializedName: "events",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                scope: {
-                    required: true,
-                    serializedName: "scope",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var MultiplePipelineTrigger = {
         serializedName: "MultiplePipelineTrigger",
         type: {
@@ -4106,38 +3803,6 @@
                     }
                 } }),
             additionalProperties: Trigger.type.additionalProperties
-        }
-    };
-    var BlobTriggerTypeProperties = {
-        serializedName: "BlobTrigger_typeProperties",
-        type: {
-            name: "Composite",
-            className: "BlobTriggerTypeProperties",
-            modelProperties: {
-                folderPath: {
-                    required: true,
-                    serializedName: "folderPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                maxConcurrency: {
-                    required: true,
-                    serializedName: "maxConcurrency",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                linkedService: {
-                    required: true,
-                    serializedName: "linkedService",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                }
-            }
         }
     };
     var BlobTrigger = {
@@ -4346,28 +4011,6 @@
             }
         }
     };
-    var ScheduleTriggerTypeProperties = {
-        serializedName: "ScheduleTrigger_typeProperties",
-        type: {
-            name: "Composite",
-            className: "ScheduleTriggerTypeProperties",
-            modelProperties: {
-                recurrence: {
-                    required: true,
-                    serializedName: "recurrence",
-                    type: {
-                        name: "Composite",
-                        className: "ScheduleTriggerRecurrence",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var ScheduleTrigger = {
         serializedName: "ScheduleTrigger",
         type: {
@@ -4389,65 +4032,6 @@
                     }
                 } }),
             additionalProperties: Trigger.type.additionalProperties
-        }
-    };
-    var ResponsysLinkedServiceTypeProperties = {
-        serializedName: "ResponsysLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ResponsysLinkedServiceTypeProperties",
-            modelProperties: {
-                endpoint: {
-                    required: true,
-                    serializedName: "endpoint",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientId: {
-                    required: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var ResponsysLinkedService = {
@@ -4502,98 +4086,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var AzureDatabricksLinkedServiceTypeProperties = {
-        serializedName: "AzureDatabricksLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureDatabricksLinkedServiceTypeProperties",
-            modelProperties: {
-                domain: {
-                    required: true,
-                    serializedName: "domain",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                accessToken: {
-                    required: true,
-                    serializedName: "accessToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                existingClusterId: {
-                    serializedName: "existingClusterId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                newClusterVersion: {
-                    serializedName: "newClusterVersion",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                newClusterNumOfWorker: {
-                    serializedName: "newClusterNumOfWorker",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                newClusterNodeType: {
-                    serializedName: "newClusterNodeType",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                newClusterSparkConf: {
-                    serializedName: "newClusterSparkConf",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                newClusterSparkEnvVars: {
-                    serializedName: "newClusterSparkEnvVars",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                newClusterCustomTags: {
-                    serializedName: "newClusterCustomTags",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var AzureDatabricksLinkedService = {
@@ -4678,71 +4170,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var AzureDataLakeAnalyticsLinkedServiceTypeProperties = {
-        serializedName: "AzureDataLakeAnalyticsLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureDataLakeAnalyticsLinkedServiceTypeProperties",
-            modelProperties: {
-                accountName: {
-                    required: true,
-                    serializedName: "accountName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalId: {
-                    serializedName: "servicePrincipalId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalKey: {
-                    serializedName: "servicePrincipalKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                tenant: {
-                    required: true,
-                    serializedName: "tenant",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                subscriptionId: {
-                    serializedName: "subscriptionId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                resourceGroupName: {
-                    serializedName: "resourceGroupName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                dataLakeAnalyticsUri: {
-                    serializedName: "dataLakeAnalyticsUri",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var AzureDataLakeAnalyticsLinkedService = {
@@ -4835,241 +4262,6 @@
                     serializedName: "parameters",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var HDInsightOnDemandLinkedServiceTypeProperties = {
-        serializedName: "HDInsightOnDemandLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HDInsightOnDemandLinkedServiceTypeProperties",
-            modelProperties: {
-                clusterSize: {
-                    required: true,
-                    serializedName: "clusterSize",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                timeToLive: {
-                    required: true,
-                    serializedName: "timeToLive",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                version: {
-                    required: true,
-                    serializedName: "version",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                linkedServiceName: {
-                    required: true,
-                    serializedName: "linkedServiceName",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                hostSubscriptionId: {
-                    required: true,
-                    serializedName: "hostSubscriptionId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalId: {
-                    serializedName: "servicePrincipalId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalKey: {
-                    serializedName: "servicePrincipalKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                tenant: {
-                    required: true,
-                    serializedName: "tenant",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clusterResourceGroup: {
-                    required: true,
-                    serializedName: "clusterResourceGroup",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clusterNamePrefix: {
-                    serializedName: "clusterNamePrefix",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clusterUserName: {
-                    serializedName: "clusterUserName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clusterPassword: {
-                    serializedName: "clusterPassword",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                clusterSshUserName: {
-                    serializedName: "clusterSshUserName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clusterSshPassword: {
-                    serializedName: "clusterSshPassword",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                additionalLinkedServiceNames: {
-                    serializedName: "additionalLinkedServiceNames",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LinkedServiceReference"
-                            }
-                        }
-                    }
-                },
-                hcatalogLinkedServiceName: {
-                    serializedName: "hcatalogLinkedServiceName",
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                clusterType: {
-                    serializedName: "clusterType",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                sparkVersion: {
-                    serializedName: "sparkVersion",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                coreConfiguration: {
-                    serializedName: "coreConfiguration",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                hBaseConfiguration: {
-                    serializedName: "hBaseConfiguration",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                hdfsConfiguration: {
-                    serializedName: "hdfsConfiguration",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                hiveConfiguration: {
-                    serializedName: "hiveConfiguration",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                mapReduceConfiguration: {
-                    serializedName: "mapReduceConfiguration",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                oozieConfiguration: {
-                    serializedName: "oozieConfiguration",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                stormConfiguration: {
-                    serializedName: "stormConfiguration",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                yarnConfiguration: {
-                    serializedName: "yarnConfiguration",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                headNodeSize: {
-                    serializedName: "headNodeSize",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                dataNodeSize: {
-                    serializedName: "dataNodeSize",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                zookeeperNodeSize: {
-                    serializedName: "zookeeperNodeSize",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                scriptActions: {
-                    serializedName: "scriptActions",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ScriptAction"
-                            }
-                        }
                     }
                 }
             }
@@ -5281,58 +4473,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var SalesforceMarketingCloudLinkedServiceTypeProperties = {
-        serializedName: "SalesforceMarketingCloudLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SalesforceMarketingCloudLinkedServiceTypeProperties",
-            modelProperties: {
-                clientId: {
-                    required: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var SalesforceMarketingCloudLinkedService = {
         serializedName: "SalesforceMarketingCloud",
         type: {
@@ -5381,27 +4521,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var NetezzaLinkedServiceTypeProperties = {
-        serializedName: "NetezzaLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "NetezzaLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var NetezzaLinkedService = {
         serializedName: "Netezza",
         type: {
@@ -5423,27 +4542,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var VerticaLinkedServiceTypeProperties = {
-        serializedName: "VerticaLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "VerticaLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var VerticaLinkedService = {
         serializedName: "Vertica",
         type: {
@@ -5463,58 +4561,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var ZohoLinkedServiceTypeProperties = {
-        serializedName: "ZohoLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ZohoLinkedServiceTypeProperties",
-            modelProperties: {
-                endpoint: {
-                    required: true,
-                    serializedName: "endpoint",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                accessToken: {
-                    serializedName: "accessToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var ZohoLinkedService = {
@@ -5563,70 +4609,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var XeroLinkedServiceTypeProperties = {
-        serializedName: "XeroLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "XeroLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                consumerKey: {
-                    serializedName: "consumerKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                privateKey: {
-                    serializedName: "privateKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var XeroLinkedService = {
@@ -5688,72 +4670,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var SquareLinkedServiceTypeProperties = {
-        serializedName: "SquareLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SquareLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientId: {
-                    required: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                redirectUri: {
-                    required: true,
-                    serializedName: "redirectUri",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var SquareLinkedService = {
         serializedName: "Square",
         type: {
@@ -5812,108 +4728,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var SparkLinkedServiceTypeProperties = {
-        serializedName: "SparkLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SparkLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    required: true,
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                serverType: {
-                    serializedName: "serverType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                thriftTransportProtocol: {
-                    serializedName: "thriftTransportProtocol",
-                    type: {
-                        name: "String"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                httpPath: {
-                    serializedName: "httpPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                enableSsl: {
-                    serializedName: "enableSsl",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                trustedCertPath: {
-                    serializedName: "trustedCertPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useSystemTrustStore: {
-                    serializedName: "useSystemTrustStore",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowHostNameCNMismatch: {
-                    serializedName: "allowHostNameCNMismatch",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowSelfSignedServerCert: {
-                    serializedName: "allowSelfSignedServerCert",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var SparkLinkedService = {
@@ -6006,58 +4820,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var ShopifyLinkedServiceTypeProperties = {
-        serializedName: "ShopifyLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ShopifyLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                accessToken: {
-                    serializedName: "accessToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var ShopifyLinkedService = {
         serializedName: "Shopify",
         type: {
@@ -6104,89 +4866,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var ServiceNowLinkedServiceTypeProperties = {
-        serializedName: "ServiceNowLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ServiceNowLinkedServiceTypeProperties",
-            modelProperties: {
-                endpoint: {
-                    required: true,
-                    serializedName: "endpoint",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                clientId: {
-                    serializedName: "clientId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var ServiceNowLinkedService = {
@@ -6264,87 +4943,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var QuickBooksLinkedServiceTypeProperties = {
-        serializedName: "QuickBooksLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "QuickBooksLinkedServiceTypeProperties",
-            modelProperties: {
-                endpoint: {
-                    required: true,
-                    serializedName: "endpoint",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                companyId: {
-                    required: true,
-                    serializedName: "companyId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                consumerKey: {
-                    required: true,
-                    serializedName: "consumerKey",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                consumerSecret: {
-                    required: true,
-                    serializedName: "consumerSecret",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                accessToken: {
-                    required: true,
-                    serializedName: "accessToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                accessTokenSecret: {
-                    required: true,
-                    serializedName: "accessTokenSecret",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var QuickBooksLinkedService = {
         serializedName: "QuickBooks",
         type: {
@@ -6418,109 +5016,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var PrestoLinkedServiceTypeProperties = {
-        serializedName: "PrestoLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "PrestoLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                serverVersion: {
-                    required: true,
-                    serializedName: "serverVersion",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                catalog: {
-                    required: true,
-                    serializedName: "catalog",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                enableSsl: {
-                    serializedName: "enableSsl",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                trustedCertPath: {
-                    serializedName: "trustedCertPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useSystemTrustStore: {
-                    serializedName: "useSystemTrustStore",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowHostNameCNMismatch: {
-                    serializedName: "allowHostNameCNMismatch",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowSelfSignedServerCert: {
-                    serializedName: "allowSelfSignedServerCert",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                timeZoneID: {
-                    serializedName: "timeZoneID",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var PrestoLinkedService = {
@@ -6614,95 +5109,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var PhoenixLinkedServiceTypeProperties = {
-        serializedName: "PhoenixLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "PhoenixLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                httpPath: {
-                    serializedName: "httpPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                enableSsl: {
-                    serializedName: "enableSsl",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                trustedCertPath: {
-                    serializedName: "trustedCertPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useSystemTrustStore: {
-                    serializedName: "useSystemTrustStore",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowHostNameCNMismatch: {
-                    serializedName: "allowHostNameCNMismatch",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowSelfSignedServerCert: {
-                    serializedName: "allowSelfSignedServerCert",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var PhoenixLinkedService = {
         serializedName: "Phoenix",
         type: {
@@ -6782,65 +5188,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var PaypalLinkedServiceTypeProperties = {
-        serializedName: "PaypalLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "PaypalLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientId: {
-                    required: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var PaypalLinkedService = {
         serializedName: "Paypal",
         type: {
@@ -6893,65 +5240,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var MarketoLinkedServiceTypeProperties = {
-        serializedName: "MarketoLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "MarketoLinkedServiceTypeProperties",
-            modelProperties: {
-                endpoint: {
-                    required: true,
-                    serializedName: "endpoint",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientId: {
-                    required: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var MarketoLinkedService = {
@@ -7008,27 +5296,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var MariaDBLinkedServiceTypeProperties = {
-        serializedName: "MariaDBLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "MariaDBLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var MariaDBLinkedService = {
         serializedName: "MariaDB",
         type: {
@@ -7048,58 +5315,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var MagentoLinkedServiceTypeProperties = {
-        serializedName: "MagentoLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "MagentoLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                accessToken: {
-                    serializedName: "accessToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var MagentoLinkedService = {
@@ -7148,71 +5363,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var JiraLinkedServiceTypeProperties = {
-        serializedName: "JiraLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "JiraLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                username: {
-                    required: true,
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var JiraLinkedService = {
@@ -7272,89 +5422,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var ImpalaLinkedServiceTypeProperties = {
-        serializedName: "ImpalaLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ImpalaLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                enableSsl: {
-                    serializedName: "enableSsl",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                trustedCertPath: {
-                    serializedName: "trustedCertPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useSystemTrustStore: {
-                    serializedName: "useSystemTrustStore",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowHostNameCNMismatch: {
-                    serializedName: "allowHostNameCNMismatch",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowSelfSignedServerCert: {
-                    serializedName: "allowSelfSignedServerCert",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var ImpalaLinkedService = {
@@ -7431,82 +5498,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var HubspotLinkedServiceTypeProperties = {
-        serializedName: "HubspotLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HubspotLinkedServiceTypeProperties",
-            modelProperties: {
-                clientId: {
-                    required: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                accessToken: {
-                    serializedName: "accessToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                refreshToken: {
-                    serializedName: "refreshToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var HubspotLinkedService = {
         serializedName: "Hubspot",
         type: {
@@ -7575,125 +5566,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var HiveLinkedServiceTypeProperties = {
-        serializedName: "HiveLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HiveLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                serverType: {
-                    serializedName: "serverType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                thriftTransportProtocol: {
-                    serializedName: "thriftTransportProtocol",
-                    type: {
-                        name: "String"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serviceDiscoveryMode: {
-                    serializedName: "serviceDiscoveryMode",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                zooKeeperNameSpace: {
-                    serializedName: "zooKeeperNameSpace",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useNativeQuery: {
-                    serializedName: "useNativeQuery",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                httpPath: {
-                    serializedName: "httpPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                enableSsl: {
-                    serializedName: "enableSsl",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                trustedCertPath: {
-                    serializedName: "trustedCertPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useSystemTrustStore: {
-                    serializedName: "useSystemTrustStore",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowHostNameCNMismatch: {
-                    serializedName: "allowHostNameCNMismatch",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowSelfSignedServerCert: {
-                    serializedName: "allowSelfSignedServerCert",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var HiveLinkedService = {
@@ -7800,89 +5672,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var HBaseLinkedServiceTypeProperties = {
-        serializedName: "HBaseLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HBaseLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                httpPath: {
-                    serializedName: "httpPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                enableSsl: {
-                    serializedName: "enableSsl",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                trustedCertPath: {
-                    serializedName: "trustedCertPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowHostNameCNMismatch: {
-                    serializedName: "allowHostNameCNMismatch",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowSelfSignedServerCert: {
-                    serializedName: "allowSelfSignedServerCert",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var HBaseLinkedService = {
         serializedName: "HBase",
         type: {
@@ -7957,27 +5746,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var GreenplumLinkedServiceTypeProperties = {
-        serializedName: "GreenplumLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "GreenplumLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var GreenplumLinkedService = {
         serializedName: "Greenplum",
         type: {
@@ -7997,107 +5765,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var GoogleBigQueryLinkedServiceTypeProperties = {
-        serializedName: "GoogleBigQueryLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "GoogleBigQueryLinkedServiceTypeProperties",
-            modelProperties: {
-                project: {
-                    required: true,
-                    serializedName: "project",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                additionalProjects: {
-                    serializedName: "additionalProjects",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                requestGoogleDriveScope: {
-                    serializedName: "requestGoogleDriveScope",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                refreshToken: {
-                    serializedName: "refreshToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                clientId: {
-                    serializedName: "clientId",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                email: {
-                    serializedName: "email",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                keyFilePath: {
-                    serializedName: "keyFilePath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                trustedCertPath: {
-                    serializedName: "trustedCertPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useSystemTrustStore: {
-                    serializedName: "useSystemTrustStore",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var GoogleBigQueryLinkedService = {
@@ -8189,108 +5856,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var GoogleAdWordsLinkedServiceTypeProperties = {
-        serializedName: "GoogleAdWordsLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "GoogleAdWordsLinkedServiceTypeProperties",
-            modelProperties: {
-                clientCustomerID: {
-                    required: true,
-                    serializedName: "clientCustomerID",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                developerToken: {
-                    required: true,
-                    serializedName: "developerToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                refreshToken: {
-                    serializedName: "refreshToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                clientId: {
-                    serializedName: "clientId",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                email: {
-                    serializedName: "email",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                keyFilePath: {
-                    serializedName: "keyFilePath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                trustedCertPath: {
-                    serializedName: "trustedCertPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useSystemTrustStore: {
-                    serializedName: "useSystemTrustStore",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var GoogleAdWordsLinkedService = {
@@ -8386,65 +5951,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var EloquaLinkedServiceTypeProperties = {
-        serializedName: "EloquaLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "EloquaLinkedServiceTypeProperties",
-            modelProperties: {
-                endpoint: {
-                    required: true,
-                    serializedName: "endpoint",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                username: {
-                    required: true,
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var EloquaLinkedService = {
         serializedName: "Eloqua",
         type: {
@@ -8499,27 +6005,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var DrillLinkedServiceTypeProperties = {
-        serializedName: "DrillLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "DrillLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var DrillLinkedService = {
         serializedName: "Drill",
         type: {
@@ -8541,27 +6026,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var CouchbaseLinkedServiceTypeProperties = {
-        serializedName: "CouchbaseLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "CouchbaseLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var CouchbaseLinkedService = {
         serializedName: "Couchbase",
         type: {
@@ -8581,65 +6045,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var ConcurLinkedServiceTypeProperties = {
-        serializedName: "ConcurLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ConcurLinkedServiceTypeProperties",
-            modelProperties: {
-                clientId: {
-                    required: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                username: {
-                    required: true,
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var ConcurLinkedService = {
@@ -8696,27 +6101,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var AzurePostgreSqlLinkedServiceTypeProperties = {
-        serializedName: "AzurePostgreSqlLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzurePostgreSqlLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var AzurePostgreSqlLinkedService = {
         serializedName: "AzurePostgreSql",
         type: {
@@ -8736,91 +6120,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var AmazonMWSLinkedServiceTypeProperties = {
-        serializedName: "AmazonMWSLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AmazonMWSLinkedServiceTypeProperties",
-            modelProperties: {
-                endpoint: {
-                    required: true,
-                    serializedName: "endpoint",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                marketplaceID: {
-                    required: true,
-                    serializedName: "marketplaceID",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                sellerID: {
-                    required: true,
-                    serializedName: "sellerID",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                mwsAuthToken: {
-                    serializedName: "mwsAuthToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                accessKeyId: {
-                    required: true,
-                    serializedName: "accessKeyId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                secretKey: {
-                    serializedName: "secretKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var AmazonMWSLinkedService = {
@@ -8900,52 +6199,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var SapHanaLinkedServiceProperties = {
-        serializedName: "SapHanaLinkedServiceProperties",
-        type: {
-            name: "Composite",
-            className: "SapHanaLinkedServiceProperties",
-            modelProperties: {
-                server: {
-                    required: true,
-                    serializedName: "server",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var SapHanaLinkedService = {
         serializedName: "SapHana",
         type: {
@@ -8987,60 +6240,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var SapBWLinkedServiceTypeProperties = {
-        serializedName: "SapBWLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SapBWLinkedServiceTypeProperties",
-            modelProperties: {
-                server: {
-                    required: true,
-                    serializedName: "server",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                systemNumber: {
-                    required: true,
-                    serializedName: "systemNumber",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                clientId: {
-                    required: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var SapBWLinkedService = {
@@ -9091,100 +6290,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var SftpServerLinkedServiceTypeProperties = {
-        serializedName: "SftpServerLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SftpServerLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                privateKeyPath: {
-                    serializedName: "privateKeyPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                privateKeyContent: {
-                    serializedName: "privateKeyContent",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                passPhrase: {
-                    serializedName: "passPhrase",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                skipHostKeyValidation: {
-                    serializedName: "skipHostKeyValidation",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                hostKeyFingerprint: {
-                    serializedName: "hostKeyFingerprint",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var SftpServerLinkedService = {
@@ -9272,70 +6377,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var FtpServerLinkedServiceTypeProperties = {
-        serializedName: "FtpServerLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "FtpServerLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                enableSsl: {
-                    serializedName: "enableSsl",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                enableServerCertificateValidation: {
-                    serializedName: "enableServerCertificateValidation",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var FtpServerLinkedService = {
         serializedName: "FtpServer",
         type: {
@@ -9392,89 +6433,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var RestServiceLinkedServiceTypeProperties = {
-        serializedName: "RestServiceLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "RestServiceLinkedServiceTypeProperties",
-            modelProperties: {
-                url: {
-                    required: true,
-                    serializedName: "url",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                enableServerCertificateValidation: {
-                    serializedName: "enableServerCertificateValidation",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                servicePrincipalId: {
-                    serializedName: "servicePrincipalId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalKey: {
-                    serializedName: "servicePrincipalKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                tenant: {
-                    serializedName: "tenant",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                aadResourceId: {
-                    serializedName: "aadResourceId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var RestServiceLinkedService = {
@@ -9552,70 +6510,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var HttpLinkedServiceTypeProperties = {
-        serializedName: "HttpLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HttpLinkedServiceTypeProperties",
-            modelProperties: {
-                url: {
-                    required: true,
-                    serializedName: "url",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                embeddedCertData: {
-                    serializedName: "embeddedCertData",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                certThumbprint: {
-                    serializedName: "certThumbprint",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                enableServerCertificateValidation: {
-                    serializedName: "enableServerCertificateValidation",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var HttpLinkedService = {
         serializedName: "HttpServer",
         type: {
@@ -9674,40 +6568,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var AzureSearchLinkedServiceTypeProperties = {
-        serializedName: "AzureSearchLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureSearchLinkedServiceTypeProperties",
-            modelProperties: {
-                url: {
-                    required: true,
-                    serializedName: "url",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                key: {
-                    serializedName: "key",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var AzureSearchLinkedService = {
         serializedName: "AzureSearch",
         type: {
@@ -9756,59 +6616,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var AmazonRedshiftLinkedServiceTypeProperties = {
-        serializedName: "AmazonRedshiftLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AmazonRedshiftLinkedServiceTypeProperties",
-            modelProperties: {
-                server: {
-                    required: true,
-                    serializedName: "server",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                database: {
-                    required: true,
-                    serializedName: "database",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var AmazonRedshiftLinkedService = {
@@ -9860,39 +6667,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var AmazonS3LinkedServiceTypeProperties = {
-        serializedName: "AmazonS3LinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AmazonS3LinkedServiceTypeProperties",
-            modelProperties: {
-                accessKeyId: {
-                    serializedName: "accessKeyId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                secretAccessKey: {
-                    serializedName: "secretAccessKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var AmazonS3LinkedService = {
         serializedName: "AmazonS3",
         type: {
@@ -9923,46 +6697,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var SapEccLinkedServiceTypeProperties = {
-        serializedName: "SapEccLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SapEccLinkedServiceTypeProperties",
-            modelProperties: {
-                url: {
-                    required: true,
-                    serializedName: "url",
-                    type: {
-                        name: "String"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "String"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var SapEccLinkedService = {
@@ -10003,46 +6737,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var SapCloudForCustomerLinkedServiceTypeProperties = {
-        serializedName: "SapCloudForCustomerLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SapCloudForCustomerLinkedServiceTypeProperties",
-            modelProperties: {
-                url: {
-                    required: true,
-                    serializedName: "url",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var SapCloudForCustomerLinkedService = {
         serializedName: "SapCloudForCustomer",
         type: {
@@ -10079,57 +6773,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var SalesforceLinkedServiceTypeProperties = {
-        serializedName: "SalesforceLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SalesforceLinkedServiceTypeProperties",
-            modelProperties: {
-                environmentUrl: {
-                    serializedName: "environmentUrl",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                securityToken: {
-                    serializedName: "securityToken",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var SalesforceLinkedService = {
@@ -10178,70 +6821,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var AzureDataLakeStoreLinkedServiceTypeProperties = {
-        serializedName: "AzureDataLakeStoreLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureDataLakeStoreLinkedServiceTypeProperties",
-            modelProperties: {
-                dataLakeStoreUri: {
-                    required: true,
-                    serializedName: "dataLakeStoreUri",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalId: {
-                    serializedName: "servicePrincipalId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalKey: {
-                    serializedName: "servicePrincipalKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                tenant: {
-                    serializedName: "tenant",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                accountName: {
-                    serializedName: "accountName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                subscriptionId: {
-                    serializedName: "subscriptionId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                resourceGroupName: {
-                    serializedName: "resourceGroupName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var AzureDataLakeStoreLinkedService = {
@@ -10300,83 +6879,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var MongoDbLinkedServiceTypeProperties = {
-        serializedName: "MongoDbLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "MongoDbLinkedServiceTypeProperties",
-            modelProperties: {
-                server: {
-                    required: true,
-                    serializedName: "server",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                databaseName: {
-                    required: true,
-                    serializedName: "databaseName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                authSource: {
-                    serializedName: "authSource",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                enableSsl: {
-                    serializedName: "enableSsl",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                allowSelfSignedServerCert: {
-                    serializedName: "allowSelfSignedServerCert",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var MongoDbLinkedService = {
@@ -10446,58 +6948,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var CassandraLinkedServiceTypeProperties = {
-        serializedName: "CassandraLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "CassandraLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var CassandraLinkedService = {
@@ -10671,113 +7121,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var ODataLinkedServiceTypeProperties = {
-        serializedName: "ODataLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ODataLinkedServiceTypeProperties",
-            modelProperties: {
-                url: {
-                    required: true,
-                    serializedName: "url",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                tenant: {
-                    serializedName: "tenant",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalId: {
-                    serializedName: "servicePrincipalId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                aadResourceId: {
-                    serializedName: "aadResourceId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                aadServicePrincipalCredentialType: {
-                    serializedName: "aadServicePrincipalCredentialType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                servicePrincipalKey: {
-                    serializedName: "servicePrincipalKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                servicePrincipalEmbeddedCert: {
-                    serializedName: "servicePrincipalEmbeddedCert",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                servicePrincipalEmbeddedCertPassword: {
-                    serializedName: "servicePrincipalEmbeddedCertPassword",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var ODataLinkedService = {
         serializedName: "OData",
         type: {
@@ -10875,52 +7218,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var HdfsLinkedServiceTypeProperties = {
-        serializedName: "HdfsLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HdfsLinkedServiceTypeProperties",
-            modelProperties: {
-                url: {
-                    required: true,
-                    serializedName: "url",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                }
-            }
-        }
-    };
     var HdfsLinkedService = {
         serializedName: "Hdfs",
         type: {
@@ -10962,64 +7259,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var OdbcLinkedServiceTypeProperties = {
-        serializedName: "OdbcLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "OdbcLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    required: true,
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                credential: {
-                    serializedName: "credential",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var OdbcLinkedService = {
@@ -11074,71 +7313,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var AzureMLLinkedServiceTypeProperties = {
-        serializedName: "AzureMLLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureMLLinkedServiceTypeProperties",
-            modelProperties: {
-                mlEndpoint: {
-                    required: true,
-                    serializedName: "mlEndpoint",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                apiKey: {
-                    required: true,
-                    serializedName: "apiKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                updateResourceEndpoint: {
-                    serializedName: "updateResourceEndpoint",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalId: {
-                    serializedName: "servicePrincipalId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalKey: {
-                    serializedName: "servicePrincipalKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                tenant: {
-                    serializedName: "tenant",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var AzureMLLinkedService = {
@@ -11201,52 +7375,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var TeradataLinkedServiceTypeProperties = {
-        serializedName: "TeradataLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "TeradataLinkedServiceTypeProperties",
-            modelProperties: {
-                server: {
-                    required: true,
-                    serializedName: "server",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var TeradataLinkedService = {
         serializedName: "Teradata",
         type: {
@@ -11288,59 +7416,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var Db2LinkedServiceTypeProperties = {
-        serializedName: "Db2LinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "Db2LinkedServiceTypeProperties",
-            modelProperties: {
-                server: {
-                    required: true,
-                    serializedName: "server",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                database: {
-                    required: true,
-                    serializedName: "database",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var Db2LinkedService = {
@@ -11390,65 +7465,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var SybaseLinkedServiceTypeProperties = {
-        serializedName: "SybaseLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SybaseLinkedServiceTypeProperties",
-            modelProperties: {
-                server: {
-                    required: true,
-                    serializedName: "server",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                database: {
-                    required: true,
-                    serializedName: "database",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                schema: {
-                    serializedName: "schema",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                username: {
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var SybaseLinkedService = {
@@ -11505,34 +7521,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var PostgreSqlLinkedServiceTypeProperties = {
-        serializedName: "PostgreSqlLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "PostgreSqlLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    required: true,
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var PostgreSqlLinkedService = {
         serializedName: "PostgreSql",
         type: {
@@ -11559,34 +7547,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var MySqlLinkedServiceTypeProperties = {
-        serializedName: "MySqlLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "MySqlLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    required: true,
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var MySqlLinkedService = {
@@ -11617,28 +7577,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var AzureMySqlLinkedServiceTypeProperties = {
-        serializedName: "AzureMySqlLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureMySqlLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    required: true,
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var AzureMySqlLinkedService = {
         serializedName: "AzureMySql",
         type: {
@@ -11659,66 +7597,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var OracleServiceCloudLinkedServiceTypeProperties = {
-        serializedName: "OracleServiceCloudLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "OracleServiceCloudLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                username: {
-                    required: true,
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    required: true,
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                useEncryptedEndpoints: {
-                    serializedName: "useEncryptedEndpoints",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                useHostVerification: {
-                    serializedName: "useHostVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                usePeerVerification: {
-                    serializedName: "usePeerVerification",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var OracleServiceCloudLinkedService = {
@@ -11776,28 +7654,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var OracleLinkedServiceTypeProperties = {
-        serializedName: "OracleLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "OracleLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    required: true,
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var OracleLinkedService = {
         serializedName: "Oracle",
         type: {
@@ -11818,46 +7674,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var FileServerLinkedServiceTypeProperties = {
-        serializedName: "FileServerLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "FileServerLinkedServiceTypeProperties",
-            modelProperties: {
-                host: {
-                    required: true,
-                    serializedName: "host",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                userId: {
-                    serializedName: "userId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var FileServerLinkedService = {
@@ -11896,60 +7712,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var HDInsightLinkedServiceTypeProperties = {
-        serializedName: "HDInsightLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HDInsightLinkedServiceTypeProperties",
-            modelProperties: {
-                clusterUri: {
-                    required: true,
-                    serializedName: "clusterUri",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                linkedServiceName: {
-                    serializedName: "linkedServiceName",
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                hcatalogLinkedServiceName: {
-                    serializedName: "hcatalogLinkedServiceName",
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var HDInsightLinkedService = {
@@ -12002,58 +7764,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var DynamicsAXLinkedServiceTypeProperties = {
-        serializedName: "DynamicsAXLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "DynamicsAXLinkedServiceTypeProperties",
-            modelProperties: {
-                url: {
-                    required: true,
-                    serializedName: "url",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                tenant: {
-                    serializedName: "tenant",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalId: {
-                    serializedName: "servicePrincipalId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                aadResourceId: {
-                    serializedName: "aadResourceId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalKey: {
-                    serializedName: "servicePrincipalKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var DynamicsAXLinkedService = {
         serializedName: "DynamicsAX",
         type: {
@@ -12100,78 +7810,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var DynamicsLinkedServiceTypeProperties = {
-        serializedName: "DynamicsLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "DynamicsLinkedServiceTypeProperties",
-            modelProperties: {
-                deploymentType: {
-                    required: true,
-                    serializedName: "deploymentType",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                hostName: {
-                    serializedName: "hostName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                serviceUri: {
-                    serializedName: "serviceUri",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                organizationName: {
-                    serializedName: "organizationName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authenticationType: {
-                    required: true,
-                    serializedName: "authenticationType",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                username: {
-                    required: true,
-                    serializedName: "username",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var DynamicsLinkedService = {
@@ -12239,28 +7877,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var CosmosDbLinkedServiceTypeProperties = {
-        serializedName: "CosmosDbLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "CosmosDbLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    required: true,
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var CosmosDbLinkedService = {
         serializedName: "CosmosDb",
         type: {
@@ -12283,22 +7899,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var AzureKeyVaultLinkedServiceTypeProperties = {
-        serializedName: "AzureKeyVaultLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureKeyVaultLinkedServiceTypeProperties",
-            modelProperties: {
-                baseUrl: {
-                    required: true,
-                    serializedName: "baseUrl",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var AzureKeyVaultLinkedService = {
         serializedName: "AzureKeyVault",
         type: {
@@ -12314,63 +7914,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var AzureBatchLinkedServiceTypeProperties = {
-        serializedName: "AzureBatchLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureBatchLinkedServiceTypeProperties",
-            modelProperties: {
-                accountName: {
-                    required: true,
-                    serializedName: "accountName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                accessKey: {
-                    serializedName: "accessKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                batchUri: {
-                    required: true,
-                    serializedName: "batchUri",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                poolName: {
-                    required: true,
-                    serializedName: "poolName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                linkedServiceName: {
-                    required: true,
-                    serializedName: "linkedServiceName",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var AzureBatchLinkedService = {
@@ -12426,52 +7969,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var AzureSqlDatabaseLinkedServiceTypeProperties = {
-        serializedName: "AzureSqlDatabaseLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureSqlDatabaseLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    required: true,
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalId: {
-                    serializedName: "servicePrincipalId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalKey: {
-                    serializedName: "servicePrincipalKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                tenant: {
-                    serializedName: "tenant",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var AzureSqlDatabaseLinkedService = {
         serializedName: "AzureSqlDatabase",
         type: {
@@ -12515,46 +8012,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var SqlServerLinkedServiceTypeProperties = {
-        serializedName: "SqlServerLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SqlServerLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    required: true,
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var SqlServerLinkedService = {
         serializedName: "SqlServer",
         type: {
@@ -12591,52 +8048,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var AzureSqlDWLinkedServiceTypeProperties = {
-        serializedName: "AzureSqlDWLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureSqlDWLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    required: true,
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalId: {
-                    serializedName: "servicePrincipalId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalKey: {
-                    serializedName: "servicePrincipalKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                tenant: {
-                    serializedName: "tenant",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var AzureSqlDWLinkedService = {
@@ -12682,39 +8093,6 @@
             additionalProperties: LinkedService.type.additionalProperties
         }
     };
-    var AzureStorageLinkedServiceTypeProperties = {
-        serializedName: "AzureStorageLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureStorageLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                sasUri: {
-                    serializedName: "sasUri",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var AzureTableStorageLinkedService = {
         serializedName: "AzureTableStorage",
         type: {
@@ -12745,69 +8123,6 @@
                     }
                 } }),
             additionalProperties: LinkedService.type.additionalProperties
-        }
-    };
-    var AzureBlobStorageLinkedServiceTypeProperties = {
-        serializedName: "AzureBlobStorageLinkedServiceTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureBlobStorageLinkedServiceTypeProperties",
-            modelProperties: {
-                connectionString: {
-                    serializedName: "connectionString",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                sasUri: {
-                    serializedName: "sasUri",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                serviceEndpoint: {
-                    serializedName: "serviceEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                servicePrincipalId: {
-                    serializedName: "servicePrincipalId",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                servicePrincipalKey: {
-                    serializedName: "servicePrincipalKey",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "SecretBase",
-                        className: "SecretBase"
-                    }
-                },
-                tenant: {
-                    serializedName: "tenant",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                encryptedCredential: {
-                    serializedName: "encryptedCredential",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var AzureBlobStorageLinkedService = {
@@ -13241,45 +8556,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var RestServiceDatasetTypeProperties = {
-        serializedName: "RestServiceDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "RestServiceDatasetTypeProperties",
-            modelProperties: {
-                relativeUrl: {
-                    serializedName: "relativeUrl",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                requestMethod: {
-                    serializedName: "requestMethod",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                requestBody: {
-                    serializedName: "requestBody",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                additionalHeaders: {
-                    serializedName: "additionalHeaders",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                paginationRules: {
-                    serializedName: "paginationRules",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var RestServiceDataset = {
         serializedName: "RestResource",
         type: {
@@ -13564,73 +8840,6 @@
             additionalProperties: DatasetStorageFormat.type.additionalProperties
         }
     };
-    var HttpDatasetTypeProperties = {
-        serializedName: "HttpDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HttpDatasetTypeProperties",
-            modelProperties: {
-                relativeUrl: {
-                    serializedName: "relativeUrl",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                requestMethod: {
-                    serializedName: "requestMethod",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                requestBody: {
-                    serializedName: "requestBody",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                additionalHeaders: {
-                    serializedName: "additionalHeaders",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                format: {
-                    serializedName: "format",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "DatasetStorageFormat",
-                        className: "DatasetStorageFormat",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                compression: {
-                    serializedName: "compression",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "DatasetCompression",
-                        className: "DatasetCompression",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var HttpDataset = {
         serializedName: "HttpFile",
         type: {
@@ -13694,22 +8903,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var AzureSearchIndexDatasetTypeProperties = {
-        serializedName: "AzureSearchIndexDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureSearchIndexDatasetTypeProperties",
-            modelProperties: {
-                indexName: {
-                    required: true,
-                    serializedName: "indexName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var AzureSearchIndexDataset = {
         serializedName: "AzureSearchIndex",
         type: {
@@ -13725,28 +8918,6 @@
                     }
                 } }),
             additionalProperties: Dataset.type.additionalProperties
-        }
-    };
-    var WebTableDatasetTypeProperties = {
-        serializedName: "WebTableDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "WebTableDatasetTypeProperties",
-            modelProperties: {
-                index: {
-                    required: true,
-                    serializedName: "index",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                path: {
-                    serializedName: "path",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var WebTableDataset = {
@@ -13771,22 +8942,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var SqlServerTableDatasetTypeProperties = {
-        serializedName: "SqlServerTableDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SqlServerTableDatasetTypeProperties",
-            modelProperties: {
-                tableName: {
-                    required: true,
-                    serializedName: "tableName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var SqlServerTableDataset = {
         serializedName: "SqlServerTable",
         type: {
@@ -13802,22 +8957,6 @@
                     }
                 } }),
             additionalProperties: Dataset.type.additionalProperties
-        }
-    };
-    var SapEccResourceDatasetTypeProperties = {
-        serializedName: "SapEccResourceDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SapEccResourceDatasetTypeProperties",
-            modelProperties: {
-                path: {
-                    required: true,
-                    serializedName: "path",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var SapEccResourceDataset = {
@@ -13837,22 +8976,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var SapCloudForCustomerResourceDatasetTypeProperties = {
-        serializedName: "SapCloudForCustomerResourceDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SapCloudForCustomerResourceDatasetTypeProperties",
-            modelProperties: {
-                path: {
-                    required: true,
-                    serializedName: "path",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var SapCloudForCustomerResourceDataset = {
         serializedName: "SapCloudForCustomerResource",
         type: {
@@ -13868,21 +8991,6 @@
                     }
                 } }),
             additionalProperties: Dataset.type.additionalProperties
-        }
-    };
-    var SalesforceObjectDatasetTypeProperties = {
-        serializedName: "SalesforceObjectDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SalesforceObjectDatasetTypeProperties",
-            modelProperties: {
-                objectApiName: {
-                    serializedName: "objectApiName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var SalesforceObjectDataset = {
@@ -13901,21 +9009,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var RelationalTableDatasetTypeProperties = {
-        serializedName: "RelationalTableDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "RelationalTableDatasetTypeProperties",
-            modelProperties: {
-                tableName: {
-                    serializedName: "tableName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var RelationalTableDataset = {
         serializedName: "RelationalTable",
         type: {
@@ -13930,21 +9023,6 @@
                     }
                 } }),
             additionalProperties: Dataset.type.additionalProperties
-        }
-    };
-    var AzureMySqlTableDatasetTypeProperties = {
-        serializedName: "AzureMySqlTableDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureMySqlTableDatasetTypeProperties",
-            modelProperties: {
-                tableName: {
-                    serializedName: "tableName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var AzureMySqlTableDataset = {
@@ -13974,22 +9052,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var OracleTableDatasetTypeProperties = {
-        serializedName: "OracleTableDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "OracleTableDatasetTypeProperties",
-            modelProperties: {
-                tableName: {
-                    required: true,
-                    serializedName: "tableName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var OracleTableDataset = {
         serializedName: "OracleTable",
         type: {
@@ -14005,21 +9067,6 @@
                     }
                 } }),
             additionalProperties: Dataset.type.additionalProperties
-        }
-    };
-    var ODataResourceDatasetTypeProperties = {
-        serializedName: "ODataResourceDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ODataResourceDatasetTypeProperties",
-            modelProperties: {
-                path: {
-                    serializedName: "path",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var ODataResourceDataset = {
@@ -14038,22 +9085,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var MongoDbCollectionDatasetTypeProperties = {
-        serializedName: "MongoDbCollectionDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "MongoDbCollectionDatasetTypeProperties",
-            modelProperties: {
-                collectionName: {
-                    required: true,
-                    serializedName: "collectionName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var MongoDbCollectionDataset = {
         serializedName: "MongoDbCollection",
         type: {
@@ -14069,73 +9100,6 @@
                     }
                 } }),
             additionalProperties: Dataset.type.additionalProperties
-        }
-    };
-    var FileShareDatasetTypeProperties = {
-        serializedName: "FileShareDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "FileShareDatasetTypeProperties",
-            modelProperties: {
-                folderPath: {
-                    serializedName: "folderPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                fileName: {
-                    serializedName: "fileName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                wildcardPath: {
-                    serializedName: "wildcardPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                format: {
-                    serializedName: "format",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "DatasetStorageFormat",
-                        className: "DatasetStorageFormat",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                fileFilter: {
-                    serializedName: "fileFilter",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                compression: {
-                    serializedName: "compression",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "DatasetCompression",
-                        className: "DatasetCompression",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var FileShareDataset = {
@@ -14201,67 +9165,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var AzureDataLakeStoreDatasetTypeProperties = {
-        serializedName: "AzureDataLakeStoreDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureDataLakeStoreDatasetTypeProperties",
-            modelProperties: {
-                folderPath: {
-                    serializedName: "folderPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                fileName: {
-                    serializedName: "fileName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                format: {
-                    serializedName: "format",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "DatasetStorageFormat",
-                        className: "DatasetStorageFormat",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                wildcardPath: {
-                    serializedName: "wildcardPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                compression: {
-                    serializedName: "compression",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "DatasetCompression",
-                        className: "DatasetCompression",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var AzureDataLakeStoreDataset = {
         serializedName: "AzureDataLakeStoreFile",
         type: {
@@ -14320,22 +9223,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var DynamicsAXResourceDatasetTypeProperties = {
-        serializedName: "DynamicsAXResourceDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "DynamicsAXResourceDatasetTypeProperties",
-            modelProperties: {
-                path: {
-                    required: true,
-                    serializedName: "path",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var DynamicsAXResourceDataset = {
         serializedName: "DynamicsAXResource",
         type: {
@@ -14353,21 +9240,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var DynamicsEntityDatasetTypeProperties = {
-        serializedName: "DynamicsEntityDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "DynamicsEntityDatasetTypeProperties",
-            modelProperties: {
-                entityName: {
-                    serializedName: "entityName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var DynamicsEntityDataset = {
         serializedName: "DynamicsEntity",
         type: {
@@ -14382,22 +9254,6 @@
                     }
                 } }),
             additionalProperties: Dataset.type.additionalProperties
-        }
-    };
-    var DocumentDbCollectionDatasetTypeProperties = {
-        serializedName: "DocumentDbCollectionDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "DocumentDbCollectionDatasetTypeProperties",
-            modelProperties: {
-                collectionName: {
-                    required: true,
-                    serializedName: "collectionName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var DocumentDbCollectionDataset = {
@@ -14434,27 +9290,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var CassandraTableDatasetTypeProperties = {
-        serializedName: "CassandraTableDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "CassandraTableDatasetTypeProperties",
-            modelProperties: {
-                tableName: {
-                    serializedName: "tableName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                keyspace: {
-                    serializedName: "keyspace",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var CassandraTableDataset = {
         serializedName: "CassandraTable",
         type: {
@@ -14476,22 +9311,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var AzureSqlDWTableDatasetTypeProperties = {
-        serializedName: "AzureSqlDWTableDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureSqlDWTableDatasetTypeProperties",
-            modelProperties: {
-                tableName: {
-                    required: true,
-                    serializedName: "tableName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var AzureSqlDWTableDataset = {
         serializedName: "AzureSqlDWTable",
         type: {
@@ -14507,22 +9326,6 @@
                     }
                 } }),
             additionalProperties: Dataset.type.additionalProperties
-        }
-    };
-    var AzureSqlTableDatasetTypeProperties = {
-        serializedName: "AzureSqlTableDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureSqlTableDatasetTypeProperties",
-            modelProperties: {
-                tableName: {
-                    required: true,
-                    serializedName: "tableName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var AzureSqlTableDataset = {
@@ -14542,22 +9345,6 @@
             additionalProperties: Dataset.type.additionalProperties
         }
     };
-    var AzureTableDatasetTypeProperties = {
-        serializedName: "AzureTableDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureTableDatasetTypeProperties",
-            modelProperties: {
-                tableName: {
-                    required: true,
-                    serializedName: "tableName",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var AzureTableDataset = {
         serializedName: "AzureTable",
         type: {
@@ -14573,73 +9360,6 @@
                     }
                 } }),
             additionalProperties: Dataset.type.additionalProperties
-        }
-    };
-    var AzureBlobDatasetTypeProperties = {
-        serializedName: "AzureBlobDatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureBlobDatasetTypeProperties",
-            modelProperties: {
-                folderPath: {
-                    serializedName: "folderPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                tableRootLocation: {
-                    serializedName: "tableRootLocation",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                fileName: {
-                    serializedName: "fileName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                wildcardPath: {
-                    serializedName: "wildcardPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                format: {
-                    serializedName: "format",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "DatasetStorageFormat",
-                        className: "DatasetStorageFormat",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                compression: {
-                    serializedName: "compression",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "DatasetCompression",
-                        className: "DatasetCompression",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var AzureBlobDataset = {
@@ -14703,80 +9423,6 @@
                     }
                 } }),
             additionalProperties: Dataset.type.additionalProperties
-        }
-    };
-    var AmazonS3DatasetTypeProperties = {
-        serializedName: "AmazonS3DatasetTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AmazonS3DatasetTypeProperties",
-            modelProperties: {
-                bucketName: {
-                    required: true,
-                    serializedName: "bucketName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                key: {
-                    serializedName: "key",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                prefix: {
-                    serializedName: "prefix",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                wildcardPath: {
-                    serializedName: "wildcardPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                version: {
-                    serializedName: "version",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                format: {
-                    serializedName: "format",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "DatasetStorageFormat",
-                        className: "DatasetStorageFormat",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                compression: {
-                    serializedName: "compression",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "DatasetCompression",
-                        className: "DatasetCompression",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var AmazonS3Dataset = {
@@ -14896,49 +9542,6 @@
             }
         }
     };
-    var DatabricksSparkPythonActivityTypeProperties = {
-        serializedName: "DatabricksSparkPythonActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "DatabricksSparkPythonActivityTypeProperties",
-            modelProperties: {
-                pythonFile: {
-                    required: true,
-                    serializedName: "pythonFile",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                libraries: {
-                    serializedName: "libraries",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Dictionary",
-                                value: {
-                                    type: {
-                                        name: "Object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var ExecutionActivity = {
         serializedName: "Execution",
         type: {
@@ -15009,49 +9612,6 @@
             additionalProperties: Activity.type.additionalProperties
         }
     };
-    var DatabricksSparkJarActivityTypeProperties = {
-        serializedName: "DatabricksSparkJarActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "DatabricksSparkJarActivityTypeProperties",
-            modelProperties: {
-                mainClassName: {
-                    required: true,
-                    serializedName: "mainClassName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                libraries: {
-                    serializedName: "libraries",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Dictionary",
-                                value: {
-                                    type: {
-                                        name: "Object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var DatabricksSparkJarActivity = {
         serializedName: "DatabricksSparkJar",
         type: {
@@ -15094,49 +9654,6 @@
             additionalProperties: Activity.type.additionalProperties
         }
     };
-    var DatabricksNotebookActivityTypeProperties = {
-        serializedName: "DatabricksNotebookActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "DatabricksNotebookActivityTypeProperties",
-            modelProperties: {
-                notebookPath: {
-                    required: true,
-                    serializedName: "notebookPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                baseParameters: {
-                    serializedName: "baseParameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                libraries: {
-                    serializedName: "libraries",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Dictionary",
-                                value: {
-                                    type: {
-                                        name: "Object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var DatabricksNotebookActivity = {
         serializedName: "DatabricksNotebook",
         type: {
@@ -15177,66 +9694,6 @@
                     }
                 } }),
             additionalProperties: Activity.type.additionalProperties
-        }
-    };
-    var DataLakeAnalyticsUSQLActivityTypeProperties = {
-        serializedName: "DataLakeAnalyticsUSQLActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "DataLakeAnalyticsUSQLActivityTypeProperties",
-            modelProperties: {
-                scriptPath: {
-                    required: true,
-                    serializedName: "scriptPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                scriptLinkedService: {
-                    required: true,
-                    serializedName: "scriptLinkedService",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                degreeOfParallelism: {
-                    serializedName: "degreeOfParallelism",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                priority: {
-                    serializedName: "priority",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                runtimeVersion: {
-                    serializedName: "runtimeVersion",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                compilationMode: {
-                    serializedName: "compilationMode",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var DataLakeAnalyticsUSQLActivity = {
@@ -15292,38 +9749,6 @@
                     }
                 } }),
             additionalProperties: Activity.type.additionalProperties
-        }
-    };
-    var AzureMLUpdateResourceActivityTypeProperties = {
-        serializedName: "AzureMLUpdateResourceActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureMLUpdateResourceActivityTypeProperties",
-            modelProperties: {
-                trainedModelName: {
-                    required: true,
-                    serializedName: "trainedModelName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                trainedModelLinkedServiceName: {
-                    required: true,
-                    serializedName: "trainedModelLinkedServiceName",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                trainedModelFilePath: {
-                    required: true,
-                    serializedName: "trainedModelFilePath",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
         }
     };
     var AzureMLUpdateResourceActivity = {
@@ -15382,50 +9807,6 @@
             }
         }
     };
-    var AzureMLBatchExecutionActivityTypeProperties = {
-        serializedName: "AzureMLBatchExecutionActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AzureMLBatchExecutionActivityTypeProperties",
-            modelProperties: {
-                globalParameters: {
-                    serializedName: "globalParameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                webServiceOutputs: {
-                    serializedName: "webServiceOutputs",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "AzureMLWebServiceFile"
-                            }
-                        }
-                    }
-                },
-                webServiceInputs: {
-                    serializedName: "webServiceInputs",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "AzureMLWebServiceFile"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var AzureMLBatchExecutionActivity = {
         serializedName: "AzureMLBatchExecution",
         type: {
@@ -15467,35 +9848,6 @@
                     }
                 } }),
             additionalProperties: Activity.type.additionalProperties
-        }
-    };
-    var GetMetadataActivityTypeProperties = {
-        serializedName: "GetMetadataActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "GetMetadataActivityTypeProperties",
-            modelProperties: {
-                dataset: {
-                    required: true,
-                    serializedName: "dataset",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "DatasetReference"
-                    }
-                },
-                fieldList: {
-                    serializedName: "fieldList",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var GetMetadataActivity = {
@@ -15568,72 +9920,6 @@
                     serializedName: "resource",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var WebActivityTypeProperties = {
-        serializedName: "WebActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "WebActivityTypeProperties",
-            modelProperties: {
-                method: {
-                    required: true,
-                    serializedName: "method",
-                    type: {
-                        name: "String"
-                    }
-                },
-                url: {
-                    required: true,
-                    serializedName: "url",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                headers: {
-                    serializedName: "headers",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                body: {
-                    serializedName: "body",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                authentication: {
-                    serializedName: "authentication",
-                    type: {
-                        name: "Composite",
-                        className: "WebActivityAuthentication"
-                    }
-                },
-                datasets: {
-                    serializedName: "datasets",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "DatasetReference"
-                            }
-                        }
-                    }
-                },
-                linkedServices: {
-                    serializedName: "linkedServices",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LinkedServiceReference"
-                            }
-                        }
                     }
                 }
             }
@@ -16750,48 +11036,6 @@
             additionalProperties: CopySource.type.additionalProperties
         }
     };
-    var LookupActivityTypeProperties = {
-        serializedName: "LookupActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "LookupActivityTypeProperties",
-            modelProperties: {
-                source: {
-                    required: true,
-                    serializedName: "source",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "CopySource",
-                        className: "CopySource",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                dataset: {
-                    required: true,
-                    serializedName: "dataset",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "DatasetReference"
-                    }
-                },
-                firstRowOnly: {
-                    serializedName: "firstRowOnly",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var LookupActivity = {
         serializedName: "Lookup",
         type: {
@@ -16831,34 +11075,6 @@
                     }
                 } }),
             additionalProperties: Activity.type.additionalProperties
-        }
-    };
-    var SqlServerStoredProcedureActivityTypeProperties = {
-        serializedName: "SqlServerStoredProcedureActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SqlServerStoredProcedureActivityTypeProperties",
-            modelProperties: {
-                storedProcedureName: {
-                    required: true,
-                    serializedName: "storedProcedureName",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                storedProcedureParameters: {
-                    serializedName: "storedProcedureParameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "StoredProcedureParameter"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var SqlServerStoredProcedureActivity = {
@@ -16915,53 +11131,6 @@
                             type: {
                                 name: "Composite",
                                 className: "DatasetReference"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
-    var CustomActivityTypeProperties = {
-        serializedName: "CustomActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "CustomActivityTypeProperties",
-            modelProperties: {
-                command: {
-                    required: true,
-                    serializedName: "command",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                resourceLinkedService: {
-                    serializedName: "resourceLinkedService",
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                folderPath: {
-                    serializedName: "folderPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                referenceObjects: {
-                    serializedName: "referenceObjects",
-                    type: {
-                        name: "Composite",
-                        className: "CustomActivityReferenceObject"
-                    }
-                },
-                extendedProperties: {
-                    serializedName: "extendedProperties",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
                             }
                         }
                     }
@@ -17062,120 +11231,6 @@
                     serializedName: "packagePath",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var ExecuteSSISPackageActivityTypeProperties = {
-        serializedName: "ExecuteSSISPackageActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ExecuteSSISPackageActivityTypeProperties",
-            modelProperties: {
-                packageLocation: {
-                    required: true,
-                    serializedName: "packageLocation",
-                    type: {
-                        name: "Composite",
-                        className: "SSISPackageLocation"
-                    }
-                },
-                runtime: {
-                    serializedName: "runtime",
-                    type: {
-                        name: "String"
-                    }
-                },
-                loggingLevel: {
-                    serializedName: "loggingLevel",
-                    type: {
-                        name: "String"
-                    }
-                },
-                environmentPath: {
-                    serializedName: "environmentPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                connectVia: {
-                    required: true,
-                    serializedName: "connectVia",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "IntegrationRuntimeReference"
-                    }
-                },
-                projectParameters: {
-                    serializedName: "projectParameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "SSISExecutionParameter"
-                            }
-                        }
-                    }
-                },
-                packageParameters: {
-                    serializedName: "packageParameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "SSISExecutionParameter"
-                            }
-                        }
-                    }
-                },
-                projectConnectionManagers: {
-                    serializedName: "projectConnectionManagers",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Dictionary",
-                                value: {
-                                    type: {
-                                        name: "Composite",
-                                        className: "SSISExecutionParameter"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                packageConnectionManagers: {
-                    serializedName: "packageConnectionManagers",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Dictionary",
-                                value: {
-                                    type: {
-                                        name: "Composite",
-                                        className: "SSISExecutionParameter"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                propertyOverrides: {
-                    serializedName: "propertyOverrides",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "SSISPropertyOverride"
-                            }
-                        }
                     }
                 }
             }
@@ -17287,76 +11342,6 @@
             additionalProperties: Activity.type.additionalProperties
         }
     };
-    var HDInsightSparkActivityTypeProperties = {
-        serializedName: "HDInsightSparkActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HDInsightSparkActivityTypeProperties",
-            modelProperties: {
-                rootPath: {
-                    required: true,
-                    serializedName: "rootPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                entryFilePath: {
-                    required: true,
-                    serializedName: "entryFilePath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                argumentsProperty: {
-                    serializedName: "arguments",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                getDebugInfo: {
-                    serializedName: "getDebugInfo",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sparkJobLinkedService: {
-                    serializedName: "sparkJobLinkedService",
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                className: {
-                    serializedName: "className",
-                    type: {
-                        name: "String"
-                    }
-                },
-                proxyUser: {
-                    serializedName: "proxyUser",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                sparkConfig: {
-                    serializedName: "sparkConfig",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var HDInsightSparkActivity = {
         serializedName: "HDInsightSpark",
         type: {
@@ -17419,119 +11404,6 @@
                     }
                 } }),
             additionalProperties: Activity.type.additionalProperties
-        }
-    };
-    var HDInsightStreamingActivityTypeProperties = {
-        serializedName: "HDInsightStreamingActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HDInsightStreamingActivityTypeProperties",
-            modelProperties: {
-                storageLinkedServices: {
-                    serializedName: "storageLinkedServices",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LinkedServiceReference"
-                            }
-                        }
-                    }
-                },
-                argumentsProperty: {
-                    serializedName: "arguments",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                getDebugInfo: {
-                    serializedName: "getDebugInfo",
-                    type: {
-                        name: "String"
-                    }
-                },
-                mapper: {
-                    required: true,
-                    serializedName: "mapper",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                reducer: {
-                    required: true,
-                    serializedName: "reducer",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                input: {
-                    required: true,
-                    serializedName: "input",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                output: {
-                    required: true,
-                    serializedName: "output",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                filePaths: {
-                    required: true,
-                    serializedName: "filePaths",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                fileLinkedService: {
-                    serializedName: "fileLinkedService",
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                combiner: {
-                    serializedName: "combiner",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                commandEnvironment: {
-                    serializedName: "commandEnvironment",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                defines: {
-                    serializedName: "defines",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var HDInsightStreamingActivity = {
@@ -17637,87 +11509,6 @@
             additionalProperties: Activity.type.additionalProperties
         }
     };
-    var HDInsightMapReduceActivityTypeProperties = {
-        serializedName: "HDInsightMapReduceActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HDInsightMapReduceActivityTypeProperties",
-            modelProperties: {
-                storageLinkedServices: {
-                    serializedName: "storageLinkedServices",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LinkedServiceReference"
-                            }
-                        }
-                    }
-                },
-                argumentsProperty: {
-                    serializedName: "arguments",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                getDebugInfo: {
-                    serializedName: "getDebugInfo",
-                    type: {
-                        name: "String"
-                    }
-                },
-                className: {
-                    required: true,
-                    serializedName: "className",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                jarFilePath: {
-                    required: true,
-                    serializedName: "jarFilePath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                jarLinkedService: {
-                    serializedName: "jarLinkedService",
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                jarLibs: {
-                    serializedName: "jarLibs",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                defines: {
-                    serializedName: "defines",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var HDInsightMapReduceActivity = {
         serializedName: "HDInsightMapReduce",
         type: {
@@ -17793,68 +11584,6 @@
             additionalProperties: Activity.type.additionalProperties
         }
     };
-    var HDInsightPigActivityTypeProperties = {
-        serializedName: "HDInsightPigActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HDInsightPigActivityTypeProperties",
-            modelProperties: {
-                storageLinkedServices: {
-                    serializedName: "storageLinkedServices",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LinkedServiceReference"
-                            }
-                        }
-                    }
-                },
-                argumentsProperty: {
-                    serializedName: "arguments",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                getDebugInfo: {
-                    serializedName: "getDebugInfo",
-                    type: {
-                        name: "String"
-                    }
-                },
-                scriptPath: {
-                    serializedName: "scriptPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                scriptLinkedService: {
-                    serializedName: "scriptLinkedService",
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                defines: {
-                    serializedName: "defines",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var HDInsightPigActivity = {
         serializedName: "HDInsightPig",
         type: {
@@ -17911,68 +11640,6 @@
                     }
                 } }),
             additionalProperties: Activity.type.additionalProperties
-        }
-    };
-    var HDInsightHiveActivityTypeProperties = {
-        serializedName: "HDInsightHiveActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "HDInsightHiveActivityTypeProperties",
-            modelProperties: {
-                storageLinkedServices: {
-                    serializedName: "storageLinkedServices",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LinkedServiceReference"
-                            }
-                        }
-                    }
-                },
-                argumentsProperty: {
-                    serializedName: "arguments",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                getDebugInfo: {
-                    serializedName: "getDebugInfo",
-                    type: {
-                        name: "String"
-                    }
-                },
-                scriptPath: {
-                    serializedName: "scriptPath",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                scriptLinkedService: {
-                    serializedName: "scriptLinkedService",
-                    type: {
-                        name: "Composite",
-                        className: "LinkedServiceReference"
-                    }
-                },
-                defines: {
-                    serializedName: "defines",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var HDInsightHiveActivity = {
@@ -18534,116 +12201,6 @@
             additionalProperties: CopySink.type.additionalProperties
         }
     };
-    var CopyActivityTypeProperties = {
-        serializedName: "CopyActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "CopyActivityTypeProperties",
-            modelProperties: {
-                source: {
-                    required: true,
-                    serializedName: "source",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "CopySource",
-                        className: "CopySource",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                sink: {
-                    required: true,
-                    serializedName: "sink",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "CopySink",
-                        className: "CopySink",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                translator: {
-                    serializedName: "translator",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "type",
-                            clientName: "type"
-                        },
-                        uberParent: "CopyTranslator",
-                        className: "CopyTranslator",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                enableStaging: {
-                    serializedName: "enableStaging",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                stagingSettings: {
-                    serializedName: "stagingSettings",
-                    type: {
-                        name: "Composite",
-                        className: "StagingSettings",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                parallelCopies: {
-                    serializedName: "parallelCopies",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                dataIntegrationUnits: {
-                    serializedName: "dataIntegrationUnits",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                enableSkipIncompatibleRow: {
-                    serializedName: "enableSkipIncompatibleRow",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                redirectIncompatibleRowSettings: {
-                    serializedName: "redirectIncompatibleRowSettings",
-                    type: {
-                        name: "Composite",
-                        className: "RedirectIncompatibleRowSettings",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var CopyActivity = {
         serializedName: "Copy",
         type: {
@@ -18769,27 +12326,6 @@
             additionalProperties: Activity.type.additionalProperties
         }
     };
-    var AppendVariableActivityTypeProperties = {
-        serializedName: "AppendVariableActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "AppendVariableActivityTypeProperties",
-            modelProperties: {
-                variableName: {
-                    serializedName: "variableName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                value: {
-                    serializedName: "value",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var ControlActivity = {
         serializedName: "Container",
         type: {
@@ -18822,27 +12358,6 @@
             additionalProperties: Activity.type.additionalProperties
         }
     };
-    var SetVariableActivityTypeProperties = {
-        serializedName: "SetVariableActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SetVariableActivityTypeProperties",
-            modelProperties: {
-                variableName: {
-                    serializedName: "variableName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                value: {
-                    serializedName: "value",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var SetVariableActivity = {
         serializedName: "SetVariable",
         type: {
@@ -18862,33 +12377,6 @@
                     }
                 } }),
             additionalProperties: Activity.type.additionalProperties
-        }
-    };
-    var FilterActivityTypeProperties = {
-        serializedName: "FilterActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "FilterActivityTypeProperties",
-            modelProperties: {
-                items: {
-                    required: true,
-                    serializedName: "items",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "Expression"
-                    }
-                },
-                condition: {
-                    required: true,
-                    serializedName: "condition",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "Expression"
-                    }
-                }
-            }
         }
     };
     var FilterActivity = {
@@ -18916,53 +12404,6 @@
                     }
                 } }),
             additionalProperties: Activity.type.additionalProperties
-        }
-    };
-    var UntilActivityTypeProperties = {
-        serializedName: "UntilActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "UntilActivityTypeProperties",
-            modelProperties: {
-                expression: {
-                    required: true,
-                    serializedName: "expression",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "Expression"
-                    }
-                },
-                timeout: {
-                    serializedName: "timeout",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                activities: {
-                    required: true,
-                    serializedName: "activities",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                polymorphicDiscriminator: {
-                                    serializedName: "type",
-                                    clientName: "type"
-                                },
-                                uberParent: "Activity",
-                                className: "Activity",
-                                additionalProperties: {
-                                    type: {
-                                        name: "Object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var UntilActivity = {
@@ -19011,22 +12452,6 @@
             additionalProperties: Activity.type.additionalProperties
         }
     };
-    var WaitActivityTypeProperties = {
-        serializedName: "WaitActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "WaitActivityTypeProperties",
-            modelProperties: {
-                waitTimeInSeconds: {
-                    required: true,
-                    serializedName: "waitTimeInSeconds",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
     var WaitActivity = {
         serializedName: "Wait",
         type: {
@@ -19042,62 +12467,6 @@
                     }
                 } }),
             additionalProperties: Activity.type.additionalProperties
-        }
-    };
-    var ForEachActivityTypeProperties = {
-        serializedName: "ForEachActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ForEachActivityTypeProperties",
-            modelProperties: {
-                isSequential: {
-                    serializedName: "isSequential",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                batchCount: {
-                    serializedName: "batchCount",
-                    constraints: {
-                        InclusiveMaximum: 50
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                },
-                items: {
-                    required: true,
-                    serializedName: "items",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "Expression"
-                    }
-                },
-                activities: {
-                    required: true,
-                    serializedName: "activities",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                polymorphicDiscriminator: {
-                                    serializedName: "type",
-                                    clientName: "type"
-                                },
-                                uberParent: "Activity",
-                                className: "Activity",
-                                additionalProperties: {
-                                    type: {
-                                        name: "Object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var ForEachActivity = {
@@ -19152,68 +12521,6 @@
                     }
                 } }),
             additionalProperties: Activity.type.additionalProperties
-        }
-    };
-    var IfConditionActivityTypeProperties = {
-        serializedName: "IfConditionActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "IfConditionActivityTypeProperties",
-            modelProperties: {
-                expression: {
-                    required: true,
-                    serializedName: "expression",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "Expression"
-                    }
-                },
-                ifTrueActivities: {
-                    serializedName: "ifTrueActivities",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                polymorphicDiscriminator: {
-                                    serializedName: "type",
-                                    clientName: "type"
-                                },
-                                uberParent: "Activity",
-                                className: "Activity",
-                                additionalProperties: {
-                                    type: {
-                                        name: "Object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                ifFalseActivities: {
-                    serializedName: "ifFalseActivities",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                polymorphicDiscriminator: {
-                                    serializedName: "type",
-                                    clientName: "type"
-                                },
-                                uberParent: "Activity",
-                                className: "Activity",
-                                additionalProperties: {
-                                    type: {
-                                        name: "Object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var IfConditionActivity = {
@@ -19275,41 +12582,6 @@
                     }
                 } }),
             additionalProperties: Activity.type.additionalProperties
-        }
-    };
-    var ExecutePipelineActivityTypeProperties = {
-        serializedName: "ExecutePipelineActivityTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ExecutePipelineActivityTypeProperties",
-            modelProperties: {
-                pipelineProperty: {
-                    required: true,
-                    serializedName: "pipeline",
-                    defaultValue: {},
-                    type: {
-                        name: "Composite",
-                        className: "PipelineReference"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                waitOnCompletion: {
-                    serializedName: "waitOnCompletion",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
         }
     };
     var ExecutePipelineActivity = {
@@ -19531,152 +12803,6 @@
             additionalProperties: {
                 type: {
                     name: "Object"
-                }
-            }
-        }
-    };
-    var SelfHostedIntegrationRuntimeStatusTypeProperties = {
-        serializedName: "SelfHostedIntegrationRuntimeStatusTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SelfHostedIntegrationRuntimeStatusTypeProperties",
-            modelProperties: {
-                createTime: {
-                    readOnly: true,
-                    serializedName: "createTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                taskQueueId: {
-                    readOnly: true,
-                    serializedName: "taskQueueId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                internalChannelEncryption: {
-                    readOnly: true,
-                    serializedName: "internalChannelEncryption",
-                    type: {
-                        name: "String"
-                    }
-                },
-                version: {
-                    readOnly: true,
-                    serializedName: "version",
-                    type: {
-                        name: "String"
-                    }
-                },
-                nodes: {
-                    serializedName: "nodes",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "SelfHostedIntegrationRuntimeNode",
-                                additionalProperties: {
-                                    type: {
-                                        name: "Object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                scheduledUpdateDate: {
-                    readOnly: true,
-                    serializedName: "scheduledUpdateDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                updateDelayOffset: {
-                    readOnly: true,
-                    serializedName: "updateDelayOffset",
-                    type: {
-                        name: "String"
-                    }
-                },
-                localTimeZoneOffset: {
-                    readOnly: true,
-                    serializedName: "localTimeZoneOffset",
-                    type: {
-                        name: "String"
-                    }
-                },
-                capabilities: {
-                    readOnly: true,
-                    serializedName: "capabilities",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                serviceUrls: {
-                    readOnly: true,
-                    serializedName: "serviceUrls",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                autoUpdate: {
-                    readOnly: true,
-                    serializedName: "autoUpdate",
-                    type: {
-                        name: "String"
-                    }
-                },
-                versionStatus: {
-                    readOnly: true,
-                    serializedName: "versionStatus",
-                    type: {
-                        name: "String"
-                    }
-                },
-                links: {
-                    serializedName: "links",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LinkedIntegrationRuntime"
-                            }
-                        }
-                    }
-                },
-                pushedVersion: {
-                    readOnly: true,
-                    serializedName: "pushedVersion",
-                    type: {
-                        name: "String"
-                    }
-                },
-                latestVersion: {
-                    readOnly: true,
-                    serializedName: "latestVersion",
-                    type: {
-                        name: "String"
-                    }
-                },
-                autoUpdateETA: {
-                    readOnly: true,
-                    serializedName: "autoUpdateETA",
-                    type: {
-                        name: "DateTime"
-                    }
                 }
             }
         }
@@ -19966,71 +13092,6 @@
             }
         }
     };
-    var ManagedIntegrationRuntimeStatusTypeProperties = {
-        serializedName: "ManagedIntegrationRuntimeStatusTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ManagedIntegrationRuntimeStatusTypeProperties",
-            modelProperties: {
-                createTime: {
-                    readOnly: true,
-                    serializedName: "createTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                nodes: {
-                    readOnly: true,
-                    serializedName: "nodes",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ManagedIntegrationRuntimeNode",
-                                additionalProperties: {
-                                    type: {
-                                        name: "Object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                otherErrors: {
-                    readOnly: true,
-                    serializedName: "otherErrors",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ManagedIntegrationRuntimeError",
-                                additionalProperties: {
-                                    type: {
-                                        name: "Object"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                lastOperation: {
-                    readOnly: true,
-                    serializedName: "lastOperation",
-                    type: {
-                        name: "Composite",
-                        className: "ManagedIntegrationRuntimeOperationResult",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var ManagedIntegrationRuntimeStatus = {
         serializedName: "Managed",
         type: {
@@ -20148,27 +13209,6 @@
                         className: "SecureString"
                     }
                 } })
-        }
-    };
-    var SelfHostedIntegrationRuntimeTypeProperties = {
-        serializedName: "SelfHostedIntegrationRuntimeTypeProperties",
-        type: {
-            name: "Composite",
-            className: "SelfHostedIntegrationRuntimeTypeProperties",
-            modelProperties: {
-                linkedInfo: {
-                    serializedName: "linkedInfo",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "authorizationType",
-                            clientName: "authorizationType"
-                        },
-                        uberParent: "LinkedIntegrationRuntimeType",
-                        className: "LinkedIntegrationRuntimeType"
-                    }
-                }
-            }
         }
     };
     var SelfHostedIntegrationRuntime = {
@@ -20385,39 +13425,6 @@
             additionalProperties: {
                 type: {
                     name: "Object"
-                }
-            }
-        }
-    };
-    var ManagedIntegrationRuntimeTypeProperties = {
-        serializedName: "ManagedIntegrationRuntimeTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ManagedIntegrationRuntimeTypeProperties",
-            modelProperties: {
-                computeProperties: {
-                    serializedName: "computeProperties",
-                    type: {
-                        name: "Composite",
-                        className: "IntegrationRuntimeComputeProperties",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                ssisProperties: {
-                    serializedName: "ssisProperties",
-                    type: {
-                        name: "Composite",
-                        className: "IntegrationRuntimeSsisProperties",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -21197,7 +14204,6 @@
         AzureKeyVaultSecretReference: AzureKeyVaultSecretReference,
         FactoryIdentity: FactoryIdentity,
         FactoryRepoConfiguration: FactoryRepoConfiguration,
-        FactoryProperties: FactoryProperties,
         Factory: Factory,
         IntegrationRuntime: IntegrationRuntime,
         IntegrationRuntimeResource: IntegrationRuntimeResource,
@@ -21220,7 +14226,6 @@
         Activity: Activity,
         VariableSpecification: VariableSpecification,
         PipelineFolder: PipelineFolder,
-        PipelineModel: PipelineModel,
         PipelineResource: PipelineResource,
         Trigger: Trigger,
         TriggerResource: TriggerResource,
@@ -21245,7 +14250,6 @@
         TriggerRun: TriggerRun,
         TriggerRunsQueryResponse: TriggerRunsQueryResponse,
         RerunTumblingWindowTriggerActionParameters: RerunTumblingWindowTriggerActionParameters,
-        RerunTumblingWindowTriggerTypeProperties: RerunTumblingWindowTriggerTypeProperties,
         RerunTumblingWindowTrigger: RerunTumblingWindowTrigger,
         RerunTriggerResource: RerunTriggerResource,
         OperationDisplay: OperationDisplay,
@@ -21254,7 +14258,6 @@
         OperationMetricDimension: OperationMetricDimension,
         OperationMetricSpecification: OperationMetricSpecification,
         OperationServiceSpecification: OperationServiceSpecification,
-        OperationProperties: OperationProperties,
         Operation: Operation,
         DependencyReference: DependencyReference,
         SelfDependencyTumblingWindowTriggerReference: SelfDependencyTumblingWindowTriggerReference,
@@ -21262,170 +14265,93 @@
         TriggerDependencyReference: TriggerDependencyReference,
         TumblingWindowTriggerDependencyReference: TumblingWindowTriggerDependencyReference,
         RetryPolicy: RetryPolicy,
-        TumblingWindowTriggerTypeProperties: TumblingWindowTriggerTypeProperties,
         TumblingWindowTrigger: TumblingWindowTrigger,
-        BlobEventsTriggerTypeProperties: BlobEventsTriggerTypeProperties,
         MultiplePipelineTrigger: MultiplePipelineTrigger,
         BlobEventsTrigger: BlobEventsTrigger,
-        BlobTriggerTypeProperties: BlobTriggerTypeProperties,
         BlobTrigger: BlobTrigger,
         RecurrenceScheduleOccurrence: RecurrenceScheduleOccurrence,
         RecurrenceSchedule: RecurrenceSchedule,
         ScheduleTriggerRecurrence: ScheduleTriggerRecurrence,
-        ScheduleTriggerTypeProperties: ScheduleTriggerTypeProperties,
         ScheduleTrigger: ScheduleTrigger,
-        ResponsysLinkedServiceTypeProperties: ResponsysLinkedServiceTypeProperties,
         ResponsysLinkedService: ResponsysLinkedService,
-        AzureDatabricksLinkedServiceTypeProperties: AzureDatabricksLinkedServiceTypeProperties,
         AzureDatabricksLinkedService: AzureDatabricksLinkedService,
-        AzureDataLakeAnalyticsLinkedServiceTypeProperties: AzureDataLakeAnalyticsLinkedServiceTypeProperties,
         AzureDataLakeAnalyticsLinkedService: AzureDataLakeAnalyticsLinkedService,
         ScriptAction: ScriptAction,
-        HDInsightOnDemandLinkedServiceTypeProperties: HDInsightOnDemandLinkedServiceTypeProperties,
         HDInsightOnDemandLinkedService: HDInsightOnDemandLinkedService,
-        SalesforceMarketingCloudLinkedServiceTypeProperties: SalesforceMarketingCloudLinkedServiceTypeProperties,
         SalesforceMarketingCloudLinkedService: SalesforceMarketingCloudLinkedService,
-        NetezzaLinkedServiceTypeProperties: NetezzaLinkedServiceTypeProperties,
         NetezzaLinkedService: NetezzaLinkedService,
-        VerticaLinkedServiceTypeProperties: VerticaLinkedServiceTypeProperties,
         VerticaLinkedService: VerticaLinkedService,
-        ZohoLinkedServiceTypeProperties: ZohoLinkedServiceTypeProperties,
         ZohoLinkedService: ZohoLinkedService,
-        XeroLinkedServiceTypeProperties: XeroLinkedServiceTypeProperties,
         XeroLinkedService: XeroLinkedService,
-        SquareLinkedServiceTypeProperties: SquareLinkedServiceTypeProperties,
         SquareLinkedService: SquareLinkedService,
-        SparkLinkedServiceTypeProperties: SparkLinkedServiceTypeProperties,
         SparkLinkedService: SparkLinkedService,
-        ShopifyLinkedServiceTypeProperties: ShopifyLinkedServiceTypeProperties,
         ShopifyLinkedService: ShopifyLinkedService,
-        ServiceNowLinkedServiceTypeProperties: ServiceNowLinkedServiceTypeProperties,
         ServiceNowLinkedService: ServiceNowLinkedService,
-        QuickBooksLinkedServiceTypeProperties: QuickBooksLinkedServiceTypeProperties,
         QuickBooksLinkedService: QuickBooksLinkedService,
-        PrestoLinkedServiceTypeProperties: PrestoLinkedServiceTypeProperties,
         PrestoLinkedService: PrestoLinkedService,
-        PhoenixLinkedServiceTypeProperties: PhoenixLinkedServiceTypeProperties,
         PhoenixLinkedService: PhoenixLinkedService,
-        PaypalLinkedServiceTypeProperties: PaypalLinkedServiceTypeProperties,
         PaypalLinkedService: PaypalLinkedService,
-        MarketoLinkedServiceTypeProperties: MarketoLinkedServiceTypeProperties,
         MarketoLinkedService: MarketoLinkedService,
-        MariaDBLinkedServiceTypeProperties: MariaDBLinkedServiceTypeProperties,
         MariaDBLinkedService: MariaDBLinkedService,
-        MagentoLinkedServiceTypeProperties: MagentoLinkedServiceTypeProperties,
         MagentoLinkedService: MagentoLinkedService,
-        JiraLinkedServiceTypeProperties: JiraLinkedServiceTypeProperties,
         JiraLinkedService: JiraLinkedService,
-        ImpalaLinkedServiceTypeProperties: ImpalaLinkedServiceTypeProperties,
         ImpalaLinkedService: ImpalaLinkedService,
-        HubspotLinkedServiceTypeProperties: HubspotLinkedServiceTypeProperties,
         HubspotLinkedService: HubspotLinkedService,
-        HiveLinkedServiceTypeProperties: HiveLinkedServiceTypeProperties,
         HiveLinkedService: HiveLinkedService,
-        HBaseLinkedServiceTypeProperties: HBaseLinkedServiceTypeProperties,
         HBaseLinkedService: HBaseLinkedService,
-        GreenplumLinkedServiceTypeProperties: GreenplumLinkedServiceTypeProperties,
         GreenplumLinkedService: GreenplumLinkedService,
-        GoogleBigQueryLinkedServiceTypeProperties: GoogleBigQueryLinkedServiceTypeProperties,
         GoogleBigQueryLinkedService: GoogleBigQueryLinkedService,
-        GoogleAdWordsLinkedServiceTypeProperties: GoogleAdWordsLinkedServiceTypeProperties,
         GoogleAdWordsLinkedService: GoogleAdWordsLinkedService,
-        EloquaLinkedServiceTypeProperties: EloquaLinkedServiceTypeProperties,
         EloquaLinkedService: EloquaLinkedService,
-        DrillLinkedServiceTypeProperties: DrillLinkedServiceTypeProperties,
         DrillLinkedService: DrillLinkedService,
-        CouchbaseLinkedServiceTypeProperties: CouchbaseLinkedServiceTypeProperties,
         CouchbaseLinkedService: CouchbaseLinkedService,
-        ConcurLinkedServiceTypeProperties: ConcurLinkedServiceTypeProperties,
         ConcurLinkedService: ConcurLinkedService,
-        AzurePostgreSqlLinkedServiceTypeProperties: AzurePostgreSqlLinkedServiceTypeProperties,
         AzurePostgreSqlLinkedService: AzurePostgreSqlLinkedService,
-        AmazonMWSLinkedServiceTypeProperties: AmazonMWSLinkedServiceTypeProperties,
         AmazonMWSLinkedService: AmazonMWSLinkedService,
-        SapHanaLinkedServiceProperties: SapHanaLinkedServiceProperties,
         SapHanaLinkedService: SapHanaLinkedService,
-        SapBWLinkedServiceTypeProperties: SapBWLinkedServiceTypeProperties,
         SapBWLinkedService: SapBWLinkedService,
-        SftpServerLinkedServiceTypeProperties: SftpServerLinkedServiceTypeProperties,
         SftpServerLinkedService: SftpServerLinkedService,
-        FtpServerLinkedServiceTypeProperties: FtpServerLinkedServiceTypeProperties,
         FtpServerLinkedService: FtpServerLinkedService,
-        RestServiceLinkedServiceTypeProperties: RestServiceLinkedServiceTypeProperties,
         RestServiceLinkedService: RestServiceLinkedService,
-        HttpLinkedServiceTypeProperties: HttpLinkedServiceTypeProperties,
         HttpLinkedService: HttpLinkedService,
-        AzureSearchLinkedServiceTypeProperties: AzureSearchLinkedServiceTypeProperties,
         AzureSearchLinkedService: AzureSearchLinkedService,
         CustomDataSourceLinkedService: CustomDataSourceLinkedService,
-        AmazonRedshiftLinkedServiceTypeProperties: AmazonRedshiftLinkedServiceTypeProperties,
         AmazonRedshiftLinkedService: AmazonRedshiftLinkedService,
-        AmazonS3LinkedServiceTypeProperties: AmazonS3LinkedServiceTypeProperties,
         AmazonS3LinkedService: AmazonS3LinkedService,
-        SapEccLinkedServiceTypeProperties: SapEccLinkedServiceTypeProperties,
         SapEccLinkedService: SapEccLinkedService,
-        SapCloudForCustomerLinkedServiceTypeProperties: SapCloudForCustomerLinkedServiceTypeProperties,
         SapCloudForCustomerLinkedService: SapCloudForCustomerLinkedService,
-        SalesforceLinkedServiceTypeProperties: SalesforceLinkedServiceTypeProperties,
         SalesforceLinkedService: SalesforceLinkedService,
-        AzureDataLakeStoreLinkedServiceTypeProperties: AzureDataLakeStoreLinkedServiceTypeProperties,
         AzureDataLakeStoreLinkedService: AzureDataLakeStoreLinkedService,
-        MongoDbLinkedServiceTypeProperties: MongoDbLinkedServiceTypeProperties,
         MongoDbLinkedService: MongoDbLinkedService,
-        CassandraLinkedServiceTypeProperties: CassandraLinkedServiceTypeProperties,
         CassandraLinkedService: CassandraLinkedService,
         WebLinkedServiceTypeProperties: WebLinkedServiceTypeProperties,
         WebClientCertificateAuthentication: WebClientCertificateAuthentication,
         WebBasicAuthentication: WebBasicAuthentication,
         WebAnonymousAuthentication: WebAnonymousAuthentication,
         WebLinkedService: WebLinkedService,
-        ODataLinkedServiceTypeProperties: ODataLinkedServiceTypeProperties,
         ODataLinkedService: ODataLinkedService,
-        HdfsLinkedServiceTypeProperties: HdfsLinkedServiceTypeProperties,
         HdfsLinkedService: HdfsLinkedService,
-        OdbcLinkedServiceTypeProperties: OdbcLinkedServiceTypeProperties,
         OdbcLinkedService: OdbcLinkedService,
-        AzureMLLinkedServiceTypeProperties: AzureMLLinkedServiceTypeProperties,
         AzureMLLinkedService: AzureMLLinkedService,
-        TeradataLinkedServiceTypeProperties: TeradataLinkedServiceTypeProperties,
         TeradataLinkedService: TeradataLinkedService,
-        Db2LinkedServiceTypeProperties: Db2LinkedServiceTypeProperties,
         Db2LinkedService: Db2LinkedService,
-        SybaseLinkedServiceTypeProperties: SybaseLinkedServiceTypeProperties,
         SybaseLinkedService: SybaseLinkedService,
-        PostgreSqlLinkedServiceTypeProperties: PostgreSqlLinkedServiceTypeProperties,
         PostgreSqlLinkedService: PostgreSqlLinkedService,
-        MySqlLinkedServiceTypeProperties: MySqlLinkedServiceTypeProperties,
         MySqlLinkedService: MySqlLinkedService,
-        AzureMySqlLinkedServiceTypeProperties: AzureMySqlLinkedServiceTypeProperties,
         AzureMySqlLinkedService: AzureMySqlLinkedService,
-        OracleServiceCloudLinkedServiceTypeProperties: OracleServiceCloudLinkedServiceTypeProperties,
         OracleServiceCloudLinkedService: OracleServiceCloudLinkedService,
-        OracleLinkedServiceTypeProperties: OracleLinkedServiceTypeProperties,
         OracleLinkedService: OracleLinkedService,
-        FileServerLinkedServiceTypeProperties: FileServerLinkedServiceTypeProperties,
         FileServerLinkedService: FileServerLinkedService,
-        HDInsightLinkedServiceTypeProperties: HDInsightLinkedServiceTypeProperties,
         HDInsightLinkedService: HDInsightLinkedService,
-        DynamicsAXLinkedServiceTypeProperties: DynamicsAXLinkedServiceTypeProperties,
         DynamicsAXLinkedService: DynamicsAXLinkedService,
-        DynamicsLinkedServiceTypeProperties: DynamicsLinkedServiceTypeProperties,
         DynamicsLinkedService: DynamicsLinkedService,
-        CosmosDbLinkedServiceTypeProperties: CosmosDbLinkedServiceTypeProperties,
         CosmosDbLinkedService: CosmosDbLinkedService,
-        AzureKeyVaultLinkedServiceTypeProperties: AzureKeyVaultLinkedServiceTypeProperties,
         AzureKeyVaultLinkedService: AzureKeyVaultLinkedService,
-        AzureBatchLinkedServiceTypeProperties: AzureBatchLinkedServiceTypeProperties,
         AzureBatchLinkedService: AzureBatchLinkedService,
-        AzureSqlDatabaseLinkedServiceTypeProperties: AzureSqlDatabaseLinkedServiceTypeProperties,
         AzureSqlDatabaseLinkedService: AzureSqlDatabaseLinkedService,
-        SqlServerLinkedServiceTypeProperties: SqlServerLinkedServiceTypeProperties,
         SqlServerLinkedService: SqlServerLinkedService,
-        AzureSqlDWLinkedServiceTypeProperties: AzureSqlDWLinkedServiceTypeProperties,
         AzureSqlDWLinkedService: AzureSqlDWLinkedService,
-        AzureStorageLinkedServiceTypeProperties: AzureStorageLinkedServiceTypeProperties,
         AzureTableStorageLinkedService: AzureTableStorageLinkedService,
-        AzureBlobStorageLinkedServiceTypeProperties: AzureBlobStorageLinkedServiceTypeProperties,
         AzureBlobStorageLinkedService: AzureBlobStorageLinkedService,
         AzureStorageLinkedService: AzureStorageLinkedService,
         ResponsysObjectDataset: ResponsysObjectDataset,
@@ -21459,7 +14385,6 @@
         ConcurObjectDataset: ConcurObjectDataset,
         AzurePostgreSqlTableDataset: AzurePostgreSqlTableDataset,
         AmazonMWSObjectDataset: AmazonMWSObjectDataset,
-        RestServiceDatasetTypeProperties: RestServiceDatasetTypeProperties,
         RestServiceDataset: RestServiceDataset,
         DatasetCompression: DatasetCompression,
         DatasetZipDeflateCompression: DatasetZipDeflateCompression,
@@ -21472,73 +14397,42 @@
         AvroFormat: AvroFormat,
         JsonFormat: JsonFormat,
         TextFormat: TextFormat,
-        HttpDatasetTypeProperties: HttpDatasetTypeProperties,
         HttpDataset: HttpDataset,
-        AzureSearchIndexDatasetTypeProperties: AzureSearchIndexDatasetTypeProperties,
         AzureSearchIndexDataset: AzureSearchIndexDataset,
-        WebTableDatasetTypeProperties: WebTableDatasetTypeProperties,
         WebTableDataset: WebTableDataset,
-        SqlServerTableDatasetTypeProperties: SqlServerTableDatasetTypeProperties,
         SqlServerTableDataset: SqlServerTableDataset,
-        SapEccResourceDatasetTypeProperties: SapEccResourceDatasetTypeProperties,
         SapEccResourceDataset: SapEccResourceDataset,
-        SapCloudForCustomerResourceDatasetTypeProperties: SapCloudForCustomerResourceDatasetTypeProperties,
         SapCloudForCustomerResourceDataset: SapCloudForCustomerResourceDataset,
-        SalesforceObjectDatasetTypeProperties: SalesforceObjectDatasetTypeProperties,
         SalesforceObjectDataset: SalesforceObjectDataset,
-        RelationalTableDatasetTypeProperties: RelationalTableDatasetTypeProperties,
         RelationalTableDataset: RelationalTableDataset,
-        AzureMySqlTableDatasetTypeProperties: AzureMySqlTableDatasetTypeProperties,
         AzureMySqlTableDataset: AzureMySqlTableDataset,
         OracleServiceCloudObjectDataset: OracleServiceCloudObjectDataset,
-        OracleTableDatasetTypeProperties: OracleTableDatasetTypeProperties,
         OracleTableDataset: OracleTableDataset,
-        ODataResourceDatasetTypeProperties: ODataResourceDatasetTypeProperties,
         ODataResourceDataset: ODataResourceDataset,
-        MongoDbCollectionDatasetTypeProperties: MongoDbCollectionDatasetTypeProperties,
         MongoDbCollectionDataset: MongoDbCollectionDataset,
-        FileShareDatasetTypeProperties: FileShareDatasetTypeProperties,
         FileShareDataset: FileShareDataset,
-        AzureDataLakeStoreDatasetTypeProperties: AzureDataLakeStoreDatasetTypeProperties,
         AzureDataLakeStoreDataset: AzureDataLakeStoreDataset,
-        DynamicsAXResourceDatasetTypeProperties: DynamicsAXResourceDatasetTypeProperties,
         DynamicsAXResourceDataset: DynamicsAXResourceDataset,
-        DynamicsEntityDatasetTypeProperties: DynamicsEntityDatasetTypeProperties,
         DynamicsEntityDataset: DynamicsEntityDataset,
-        DocumentDbCollectionDatasetTypeProperties: DocumentDbCollectionDatasetTypeProperties,
         DocumentDbCollectionDataset: DocumentDbCollectionDataset,
         CustomDataset: CustomDataset,
-        CassandraTableDatasetTypeProperties: CassandraTableDatasetTypeProperties,
         CassandraTableDataset: CassandraTableDataset,
-        AzureSqlDWTableDatasetTypeProperties: AzureSqlDWTableDatasetTypeProperties,
         AzureSqlDWTableDataset: AzureSqlDWTableDataset,
-        AzureSqlTableDatasetTypeProperties: AzureSqlTableDatasetTypeProperties,
         AzureSqlTableDataset: AzureSqlTableDataset,
-        AzureTableDatasetTypeProperties: AzureTableDatasetTypeProperties,
         AzureTableDataset: AzureTableDataset,
-        AzureBlobDatasetTypeProperties: AzureBlobDatasetTypeProperties,
         AzureBlobDataset: AzureBlobDataset,
-        AmazonS3DatasetTypeProperties: AmazonS3DatasetTypeProperties,
         AmazonS3Dataset: AmazonS3Dataset,
         ActivityPolicy: ActivityPolicy,
-        DatabricksSparkPythonActivityTypeProperties: DatabricksSparkPythonActivityTypeProperties,
         ExecutionActivity: ExecutionActivity,
         DatabricksSparkPythonActivity: DatabricksSparkPythonActivity,
-        DatabricksSparkJarActivityTypeProperties: DatabricksSparkJarActivityTypeProperties,
         DatabricksSparkJarActivity: DatabricksSparkJarActivity,
-        DatabricksNotebookActivityTypeProperties: DatabricksNotebookActivityTypeProperties,
         DatabricksNotebookActivity: DatabricksNotebookActivity,
-        DataLakeAnalyticsUSQLActivityTypeProperties: DataLakeAnalyticsUSQLActivityTypeProperties,
         DataLakeAnalyticsUSQLActivity: DataLakeAnalyticsUSQLActivity,
-        AzureMLUpdateResourceActivityTypeProperties: AzureMLUpdateResourceActivityTypeProperties,
         AzureMLUpdateResourceActivity: AzureMLUpdateResourceActivity,
         AzureMLWebServiceFile: AzureMLWebServiceFile,
-        AzureMLBatchExecutionActivityTypeProperties: AzureMLBatchExecutionActivityTypeProperties,
         AzureMLBatchExecutionActivity: AzureMLBatchExecutionActivity,
-        GetMetadataActivityTypeProperties: GetMetadataActivityTypeProperties,
         GetMetadataActivity: GetMetadataActivity,
         WebActivityAuthentication: WebActivityAuthentication,
-        WebActivityTypeProperties: WebActivityTypeProperties,
         WebActivity: WebActivity,
         RedshiftUnloadSettings: RedshiftUnloadSettings,
         CopySource: CopySource,
@@ -21598,27 +14492,18 @@
         DocumentDbCollectionSource: DocumentDbCollectionSource,
         BlobSource: BlobSource,
         AzureTableSource: AzureTableSource,
-        LookupActivityTypeProperties: LookupActivityTypeProperties,
         LookupActivity: LookupActivity,
-        SqlServerStoredProcedureActivityTypeProperties: SqlServerStoredProcedureActivityTypeProperties,
         SqlServerStoredProcedureActivity: SqlServerStoredProcedureActivity,
         CustomActivityReferenceObject: CustomActivityReferenceObject,
-        CustomActivityTypeProperties: CustomActivityTypeProperties,
         CustomActivity: CustomActivity,
         SSISPropertyOverride: SSISPropertyOverride,
         SSISExecutionParameter: SSISExecutionParameter,
         SSISPackageLocation: SSISPackageLocation,
-        ExecuteSSISPackageActivityTypeProperties: ExecuteSSISPackageActivityTypeProperties,
         ExecuteSSISPackageActivity: ExecuteSSISPackageActivity,
-        HDInsightSparkActivityTypeProperties: HDInsightSparkActivityTypeProperties,
         HDInsightSparkActivity: HDInsightSparkActivity,
-        HDInsightStreamingActivityTypeProperties: HDInsightStreamingActivityTypeProperties,
         HDInsightStreamingActivity: HDInsightStreamingActivity,
-        HDInsightMapReduceActivityTypeProperties: HDInsightMapReduceActivityTypeProperties,
         HDInsightMapReduceActivity: HDInsightMapReduceActivity,
-        HDInsightPigActivityTypeProperties: HDInsightPigActivityTypeProperties,
         HDInsightPigActivity: HDInsightPigActivity,
-        HDInsightHiveActivityTypeProperties: HDInsightHiveActivityTypeProperties,
         HDInsightHiveActivity: HDInsightHiveActivity,
         RedirectIncompatibleRowSettings: RedirectIncompatibleRowSettings,
         StagingSettings: StagingSettings,
@@ -21640,45 +14525,32 @@
         AzureTableSink: AzureTableSink,
         AzureQueueSink: AzureQueueSink,
         SapCloudForCustomerSink: SapCloudForCustomerSink,
-        CopyActivityTypeProperties: CopyActivityTypeProperties,
         CopyActivity: CopyActivity,
-        AppendVariableActivityTypeProperties: AppendVariableActivityTypeProperties,
         ControlActivity: ControlActivity,
         AppendVariableActivity: AppendVariableActivity,
-        SetVariableActivityTypeProperties: SetVariableActivityTypeProperties,
         SetVariableActivity: SetVariableActivity,
-        FilterActivityTypeProperties: FilterActivityTypeProperties,
         FilterActivity: FilterActivity,
-        UntilActivityTypeProperties: UntilActivityTypeProperties,
         UntilActivity: UntilActivity,
-        WaitActivityTypeProperties: WaitActivityTypeProperties,
         WaitActivity: WaitActivity,
-        ForEachActivityTypeProperties: ForEachActivityTypeProperties,
         ForEachActivity: ForEachActivity,
-        IfConditionActivityTypeProperties: IfConditionActivityTypeProperties,
         IfConditionActivity: IfConditionActivity,
-        ExecutePipelineActivityTypeProperties: ExecutePipelineActivityTypeProperties,
         ExecutePipelineActivity: ExecutePipelineActivity,
         LinkedIntegrationRuntime: LinkedIntegrationRuntime,
         SelfHostedIntegrationRuntimeNode: SelfHostedIntegrationRuntimeNode,
-        SelfHostedIntegrationRuntimeStatusTypeProperties: SelfHostedIntegrationRuntimeStatusTypeProperties,
         SelfHostedIntegrationRuntimeStatus: SelfHostedIntegrationRuntimeStatus,
         ManagedIntegrationRuntimeOperationResult: ManagedIntegrationRuntimeOperationResult,
         ManagedIntegrationRuntimeError: ManagedIntegrationRuntimeError,
         ManagedIntegrationRuntimeNode: ManagedIntegrationRuntimeNode,
-        ManagedIntegrationRuntimeStatusTypeProperties: ManagedIntegrationRuntimeStatusTypeProperties,
         ManagedIntegrationRuntimeStatus: ManagedIntegrationRuntimeStatus,
         LinkedIntegrationRuntimeType: LinkedIntegrationRuntimeType,
         LinkedIntegrationRuntimeRbacAuthorization: LinkedIntegrationRuntimeRbacAuthorization,
         LinkedIntegrationRuntimeKeyAuthorization: LinkedIntegrationRuntimeKeyAuthorization,
-        SelfHostedIntegrationRuntimeTypeProperties: SelfHostedIntegrationRuntimeTypeProperties,
         SelfHostedIntegrationRuntime: SelfHostedIntegrationRuntime,
         IntegrationRuntimeCustomSetupScriptProperties: IntegrationRuntimeCustomSetupScriptProperties,
         IntegrationRuntimeSsisCatalogInfo: IntegrationRuntimeSsisCatalogInfo,
         IntegrationRuntimeSsisProperties: IntegrationRuntimeSsisProperties,
         IntegrationRuntimeVNetProperties: IntegrationRuntimeVNetProperties,
         IntegrationRuntimeComputeProperties: IntegrationRuntimeComputeProperties,
-        ManagedIntegrationRuntimeTypeProperties: ManagedIntegrationRuntimeTypeProperties,
         ManagedIntegrationRuntime: ManagedIntegrationRuntime,
         IntegrationRuntimeNodeIpAddress: IntegrationRuntimeNodeIpAddress,
         IntegrationRuntimeNodeMonitoringData: IntegrationRuntimeNodeMonitoringData,
