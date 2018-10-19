@@ -3953,7 +3953,7 @@
      * regenerated.
      */
     var packageName = "@azure/arm-eventgrid";
-    var packageVersion = "1.1.0-preview";
+    var packageVersion = "1.0.0-preview";
     var EventGridManagementClientContext = /** @class */ (function (_super) {
         __extends(EventGridManagementClientContext, _super);
         /**
