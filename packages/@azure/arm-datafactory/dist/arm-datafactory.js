@@ -27096,7 +27096,7 @@
      * regenerated.
      */
     var packageName = "@azure/arm-datafactory";
-    var packageVersion = "1.1.0";
+    var packageVersion = "1.0.0";
     var DataFactoryManagementClientContext = /** @class */ (function (_super) {
         __extends(DataFactoryManagementClientContext, _super);
         /**
