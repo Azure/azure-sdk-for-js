@@ -312,6 +312,17 @@
         LinuxUpdateClasses["Other"] = "Other";
     })(LinuxUpdateClasses || (LinuxUpdateClasses = {}));
     /**
+     * Defines values for TagOperators.
+     * Possible values include: 'All', 'Any'
+     * @readonly
+     * @enum {string}
+     */
+    var TagOperators;
+    (function (TagOperators) {
+        TagOperators["All"] = "All";
+        TagOperators["Any"] = "Any";
+    })(TagOperators || (TagOperators = {}));
+    /**
      * Defines values for SourceType.
      * Possible values include: 'VsoGit', 'VsoTfvc', 'GitHub'
      * There could be more values for this enum apart from the ones defined here.If
@@ -361,7 +372,7 @@
     })(ProvisioningState || (ProvisioningState = {}));
     /**
      * Defines values for SyncType.
-     * Possible values include: 'PartialSync', 'FullSync'
+     * Possible values include: 'IncrementalSync', 'FullSync'
      * There could be more values for this enum apart from the ones defined here.If
      * you want to set a value that is not from the known values then you can do
      * the following:
@@ -371,7 +382,7 @@
      */
     var SyncType;
     (function (SyncType) {
-        SyncType["PartialSync"] = "PartialSync";
+        SyncType["IncrementalSync"] = "IncrementalSync";
         SyncType["FullSync"] = "FullSync";
     })(SyncType || (SyncType = {}));
     /**
@@ -624,6 +635,7 @@
         get OperatingSystemType () { return OperatingSystemType; },
         get WindowsUpdateClasses () { return WindowsUpdateClasses; },
         get LinuxUpdateClasses () { return LinuxUpdateClasses; },
+        get TagOperators () { return TagOperators; },
         get SourceType () { return SourceType; },
         get TokenType () { return TokenType; },
         get ProvisioningState () { return ProvisioningState; },
@@ -4697,6 +4709,100 @@
             }
         }
     };
+    var TagSettingsProperties = {
+        serializedName: "TagSettingsProperties",
+        type: {
+            name: "Composite",
+            className: "TagSettingsProperties",
+            modelProperties: {
+                tags: {
+                    serializedName: "tags",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "Sequence",
+                                element: {
+                                    type: {
+                                        name: "String"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                filterOperator: {
+                    serializedName: "filterOperator",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "All",
+                            "Any"
+                        ]
+                    }
+                }
+            }
+        }
+    };
+    var AzureQueryProperties = {
+        serializedName: "AzureQueryProperties",
+        type: {
+            name: "Composite",
+            className: "AzureQueryProperties",
+            modelProperties: {
+                scope: {
+                    serializedName: "scope",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                location: {
+                    serializedName: "location",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                tagSettings: {
+                    serializedName: "tagSettings",
+                    type: {
+                        name: "Composite",
+                        className: "TagSettingsProperties"
+                    }
+                }
+            }
+        }
+    };
+    var TargetProperties = {
+        serializedName: "TargetProperties",
+        type: {
+            name: "Composite",
+            className: "TargetProperties",
+            modelProperties: {
+                azureQueries: {
+                    serializedName: "azureQueries",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "AzureQueryProperties"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var UpdateConfiguration = {
         serializedName: "updateConfiguration",
         type: {
@@ -4754,6 +4860,13 @@
                                 name: "String"
                             }
                         }
+                    }
+                },
+                targets: {
+                    serializedName: "targets",
+                    type: {
+                        name: "Composite",
+                        className: "TargetProperties"
                     }
                 }
             }
@@ -9864,6 +9977,9 @@
         WatcherUpdateParameters: WatcherUpdateParameters,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TagSettingsProperties: TagSettingsProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TargetProperties: TargetProperties,
         UpdateConfiguration: UpdateConfiguration,
         SoftwareUpdateConfigurationProperties: SoftwareUpdateConfigurationProperties,
         SoftwareUpdateConfiguration: SoftwareUpdateConfiguration,
@@ -10021,6 +10137,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -11117,6 +11236,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -11397,6 +11519,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -11885,6 +12010,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -12168,6 +12296,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -13103,6 +13234,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -13562,6 +13696,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -13843,6 +13980,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -14123,6 +14263,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -14441,6 +14584,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -14757,6 +14903,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         AdvancedSchedule: AdvancedSchedule,
         AdvancedScheduleMonthlyOccurrence: AdvancedScheduleMonthlyOccurrence,
@@ -15225,6 +15374,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         Job: Job,
         JobCollectionItem: JobCollectionItem,
@@ -15822,6 +15974,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         DscNode: DscNode,
@@ -16453,6 +16608,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -16876,6 +17034,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -17213,6 +17374,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -17780,6 +17944,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -18486,6 +18653,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,

@@ -3095,6 +3095,60 @@ export interface LinuxProperties {
 
 /**
  * @interface
+ * An interface representing TagSettingsProperties.
+ * Tag filter information for the VM.
+ *
+ */
+export interface TagSettingsProperties {
+  /**
+   * @member {{ [propertyName: string]: string[] }} [tags] Dictionary of tags
+   * with its list of values.
+   */
+  tags?: { [propertyName: string]: string[] };
+  /**
+   * @member {TagOperators} [filterOperator] Filter VMs by Any or All specified
+   * tags. Possible values include: 'All', 'Any'
+   */
+  filterOperator?: TagOperators;
+}
+
+/**
+ * @interface
+ * An interface representing AzureQueryProperties.
+ * Azure query for the update configuration.
+ *
+ */
+export interface AzureQueryProperties {
+  /**
+   * @member {string[]} [scope] List of Subscription or Resource Group ARM Ids.
+   */
+  scope?: string[];
+  /**
+   * @member {string[]} [location] List of locations to scope the query to.
+   */
+  location?: string[];
+  /**
+   * @member {TagSettingsProperties} [tagSettings] Tag settings for the VM.
+   */
+  tagSettings?: TagSettingsProperties;
+}
+
+/**
+ * @interface
+ * An interface representing TargetProperties.
+ * Group specific to the update configuration.
+ *
+ */
+export interface TargetProperties {
+  /**
+   * @member {AzureQueryProperties[]} [azureQueries] List of Azure queries in
+   * the software update configuration.
+   */
+  azureQueries?: AzureQueryProperties[];
+}
+
+/**
+ * @interface
  * An interface representing UpdateConfiguration.
  * Update specifc properties of the software update configuration.
  *
@@ -3130,6 +3184,11 @@ export interface UpdateConfiguration {
    * machines targeted by the software update configuration.
    */
   nonAzureComputerNames?: string[];
+  /**
+   * @member {TargetProperties} [targets] Group targets for the software update
+   * configuration.
+   */
+  targets?: TargetProperties;
 }
 
 /**
@@ -4226,7 +4285,7 @@ export interface SourceControlSyncJobProperties {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'PartialSync', 'FullSync'
+   * 'IncrementalSync', 'FullSync'
    */
   syncType?: SyncType;
 }
@@ -4285,7 +4344,7 @@ export interface SourceControlSyncJob {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'PartialSync', 'FullSync'
+   * 'IncrementalSync', 'FullSync'
    */
   syncType?: SyncType;
 }
@@ -4354,7 +4413,7 @@ export interface SourceControlSyncJobByIdProperties {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'PartialSync', 'FullSync'
+   * 'IncrementalSync', 'FullSync'
    */
   syncType?: SyncType;
   /**
@@ -4404,7 +4463,7 @@ export interface SourceControlSyncJobById {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'PartialSync', 'FullSync'
+   * 'IncrementalSync', 'FullSync'
    */
   syncType?: SyncType;
   /**
@@ -7723,6 +7782,17 @@ export enum LinuxUpdateClasses {
 }
 
 /**
+ * Defines values for TagOperators.
+ * Possible values include: 'All', 'Any'
+ * @readonly
+ * @enum {string}
+ */
+export enum TagOperators {
+  All = 'All',
+  Any = 'Any',
+}
+
+/**
  * Defines values for SourceType.
  * Possible values include: 'VsoGit', 'VsoTfvc', 'GitHub'
  * There could be more values for this enum apart from the ones defined here.If
@@ -7772,7 +7842,7 @@ export enum ProvisioningState {
 
 /**
  * Defines values for SyncType.
- * Possible values include: 'PartialSync', 'FullSync'
+ * Possible values include: 'IncrementalSync', 'FullSync'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
@@ -7781,7 +7851,7 @@ export enum ProvisioningState {
  * @enum {string}
  */
 export enum SyncType {
-  PartialSync = 'PartialSync',
+  IncrementalSync = 'IncrementalSync',
   FullSync = 'FullSync',
 }
 

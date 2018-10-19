@@ -4273,6 +4273,103 @@ export const LinuxProperties: msRest.CompositeMapper = {
   }
 };
 
+export const TagSettingsProperties: msRest.CompositeMapper = {
+  serializedName: "TagSettingsProperties",
+  type: {
+    name: "Composite",
+    className: "TagSettingsProperties",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Sequence",
+              element: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
+      filterOperator: {
+        serializedName: "filterOperator",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "All",
+            "Any"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const AzureQueryProperties: msRest.CompositeMapper = {
+  serializedName: "AzureQueryProperties",
+  type: {
+    name: "Composite",
+    className: "AzureQueryProperties",
+    modelProperties: {
+      scope: {
+        serializedName: "scope",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      tagSettings: {
+        serializedName: "tagSettings",
+        type: {
+          name: "Composite",
+          className: "TagSettingsProperties"
+        }
+      }
+    }
+  }
+};
+
+export const TargetProperties: msRest.CompositeMapper = {
+  serializedName: "TargetProperties",
+  type: {
+    name: "Composite",
+    className: "TargetProperties",
+    modelProperties: {
+      azureQueries: {
+        serializedName: "azureQueries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureQueryProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const UpdateConfiguration: msRest.CompositeMapper = {
   serializedName: "updateConfiguration",
   type: {
@@ -4330,6 +4427,13 @@ export const UpdateConfiguration: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      targets: {
+        serializedName: "targets",
+        type: {
+          name: "Composite",
+          className: "TargetProperties"
         }
       }
     }
