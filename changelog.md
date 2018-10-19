@@ -1,3 +1,7 @@
+### 2018-10-19 0.1.6
+- Fixed error stack propogation
+- Added more constants
+
 ### 2018-10-17 0.1.5
 - Updated error code mappers
 - Added more constants
