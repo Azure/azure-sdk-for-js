@@ -2,7 +2,7 @@
   "name": "@azure/arm-consumption",
   "author": "Microsoft Corporation",
   "description": "ConsumptionManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "dependencies": {
     "ms-rest-azure-js": "^1.0.172",
     "ms-rest-js": "^1.0.443",

@@ -6217,7 +6217,7 @@
      * regenerated.
      */
     var packageName = "@azure/arm-consumption";
-    var packageVersion = "1.1.0";
+    var packageVersion = "1.0.0";
     var ConsumptionManagementClientContext = /** @class */ (function (_super) {
         __extends(ConsumptionManagementClientContext, _super);
         /**
