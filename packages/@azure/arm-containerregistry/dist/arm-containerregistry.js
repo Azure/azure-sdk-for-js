@@ -716,6 +716,22 @@
             }
         }
     };
+    var OperationPropertiesDefinition = {
+        serializedName: "OperationPropertiesDefinition",
+        type: {
+            name: "Composite",
+            className: "OperationPropertiesDefinition",
+            modelProperties: {
+                serviceSpecification: {
+                    serializedName: "serviceSpecification",
+                    type: {
+                        name: "Composite",
+                        className: "OperationServiceSpecificationDefinition"
+                    }
+                }
+            }
+        }
+    };
     var OperationDefinition = {
         serializedName: "OperationDefinition",
         type: {
@@ -820,6 +836,58 @@
             }
         }
     };
+    var RegistryProperties = {
+        serializedName: "RegistryProperties",
+        type: {
+            name: "Composite",
+            className: "RegistryProperties",
+            modelProperties: {
+                loginServer: {
+                    readOnly: true,
+                    serializedName: "loginServer",
+                    type: {
+                        name: "String"
+                    }
+                },
+                creationDate: {
+                    readOnly: true,
+                    serializedName: "creationDate",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                status: {
+                    readOnly: true,
+                    serializedName: "status",
+                    type: {
+                        name: "Composite",
+                        className: "Status"
+                    }
+                },
+                adminUserEnabled: {
+                    serializedName: "adminUserEnabled",
+                    defaultValue: false,
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                storageAccount: {
+                    serializedName: "storageAccount",
+                    type: {
+                        name: "Composite",
+                        className: "StorageAccountProperties"
+                    }
+                }
+            }
+        }
+    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -918,6 +986,28 @@
                         className: "StorageAccountProperties"
                     }
                 } })
+        }
+    };
+    var RegistryPropertiesUpdateParameters = {
+        serializedName: "RegistryPropertiesUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "RegistryPropertiesUpdateParameters",
+            modelProperties: {
+                adminUserEnabled: {
+                    serializedName: "adminUserEnabled",
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                storageAccount: {
+                    serializedName: "storageAccount",
+                    type: {
+                        name: "Composite",
+                        className: "StorageAccountProperties"
+                    }
+                }
+            }
         }
     };
     var RegistryUpdateParameters = {
@@ -1145,6 +1235,30 @@
             }
         }
     };
+    var ReplicationProperties = {
+        serializedName: "ReplicationProperties",
+        type: {
+            name: "Composite",
+            className: "ReplicationProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                status: {
+                    readOnly: true,
+                    serializedName: "status",
+                    type: {
+                        name: "Composite",
+                        className: "Status"
+                    }
+                }
+            }
+        }
+    };
     var Replication = {
         serializedName: "Replication",
         type: {
@@ -1186,6 +1300,46 @@
             }
         }
     };
+    var WebhookProperties = {
+        serializedName: "WebhookProperties",
+        type: {
+            name: "Composite",
+            className: "WebhookProperties",
+            modelProperties: {
+                status: {
+                    serializedName: "status",
+                    type: {
+                        name: "String"
+                    }
+                },
+                scope: {
+                    serializedName: "scope",
+                    type: {
+                        name: "String"
+                    }
+                },
+                actions: {
+                    required: true,
+                    serializedName: "actions",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var Webhook = {
         serializedName: "Webhook",
         type: {
@@ -1219,6 +1373,57 @@
                         name: "String"
                     }
                 } })
+        }
+    };
+    var WebhookPropertiesCreateParameters = {
+        serializedName: "WebhookPropertiesCreateParameters",
+        type: {
+            name: "Composite",
+            className: "WebhookPropertiesCreateParameters",
+            modelProperties: {
+                serviceUri: {
+                    required: true,
+                    serializedName: "serviceUri",
+                    type: {
+                        name: "String"
+                    }
+                },
+                customHeaders: {
+                    serializedName: "customHeaders",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                status: {
+                    serializedName: "status",
+                    type: {
+                        name: "String"
+                    }
+                },
+                scope: {
+                    serializedName: "scope",
+                    type: {
+                        name: "String"
+                    }
+                },
+                actions: {
+                    required: true,
+                    serializedName: "actions",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                }
+            }
         }
     };
     var WebhookCreateParameters = {
@@ -1278,6 +1483,55 @@
                 actions: {
                     required: true,
                     serializedName: "properties.actions",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    var WebhookPropertiesUpdateParameters = {
+        serializedName: "WebhookPropertiesUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "WebhookPropertiesUpdateParameters",
+            modelProperties: {
+                serviceUri: {
+                    serializedName: "serviceUri",
+                    type: {
+                        name: "String"
+                    }
+                },
+                customHeaders: {
+                    serializedName: "customHeaders",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                status: {
+                    serializedName: "status",
+                    type: {
+                        name: "String"
+                    }
+                },
+                scope: {
+                    serializedName: "scope",
+                    type: {
+                        name: "String"
+                    }
+                },
+                actions: {
+                    serializedName: "actions",
                     type: {
                         name: "Sequence",
                         element: {
@@ -1870,6 +2124,116 @@
             }
         }
     };
+    var RunProperties = {
+        serializedName: "RunProperties",
+        type: {
+            name: "Composite",
+            className: "RunProperties",
+            modelProperties: {
+                runId: {
+                    serializedName: "runId",
+                    type: {
+                        name: "String"
+                    }
+                },
+                status: {
+                    serializedName: "status",
+                    type: {
+                        name: "String"
+                    }
+                },
+                lastUpdatedTime: {
+                    serializedName: "lastUpdatedTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                runType: {
+                    serializedName: "runType",
+                    type: {
+                        name: "String"
+                    }
+                },
+                createTime: {
+                    serializedName: "createTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                startTime: {
+                    serializedName: "startTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                finishTime: {
+                    serializedName: "finishTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                outputImages: {
+                    serializedName: "outputImages",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ImageDescriptor"
+                            }
+                        }
+                    }
+                },
+                task: {
+                    serializedName: "task",
+                    type: {
+                        name: "String"
+                    }
+                },
+                imageUpdateTrigger: {
+                    serializedName: "imageUpdateTrigger",
+                    type: {
+                        name: "Composite",
+                        className: "ImageUpdateTrigger"
+                    }
+                },
+                sourceTrigger: {
+                    serializedName: "sourceTrigger",
+                    type: {
+                        name: "Composite",
+                        className: "SourceTriggerDescriptor"
+                    }
+                },
+                isArchiveEnabled: {
+                    serializedName: "isArchiveEnabled",
+                    defaultValue: false,
+                    type: {
+                        name: "Boolean"
+                    }
+                },
+                platform: {
+                    serializedName: "platform",
+                    type: {
+                        name: "Composite",
+                        className: "PlatformProperties"
+                    }
+                },
+                agentConfiguration: {
+                    serializedName: "agentConfiguration",
+                    type: {
+                        name: "Composite",
+                        className: "AgentProperties"
+                    }
+                },
+                provisioningState: {
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var ProxyResource = {
         serializedName: "ProxyResource",
         type: {
@@ -2357,6 +2721,81 @@
             }
         }
     };
+    var TaskProperties = {
+        serializedName: "TaskProperties",
+        type: {
+            name: "Composite",
+            className: "TaskProperties",
+            modelProperties: {
+                provisioningState: {
+                    readOnly: true,
+                    serializedName: "provisioningState",
+                    type: {
+                        name: "String"
+                    }
+                },
+                creationDate: {
+                    readOnly: true,
+                    serializedName: "creationDate",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                status: {
+                    serializedName: "status",
+                    type: {
+                        name: "String"
+                    }
+                },
+                platform: {
+                    required: true,
+                    serializedName: "platform",
+                    type: {
+                        name: "Composite",
+                        className: "PlatformProperties"
+                    }
+                },
+                agentConfiguration: {
+                    serializedName: "agentConfiguration",
+                    type: {
+                        name: "Composite",
+                        className: "AgentProperties"
+                    }
+                },
+                timeout: {
+                    serializedName: "timeout",
+                    defaultValue: 3600,
+                    constraints: {
+                        InclusiveMaximum: 28800,
+                        InclusiveMinimum: 300
+                    },
+                    type: {
+                        name: "Number"
+                    }
+                },
+                step: {
+                    required: true,
+                    serializedName: "step",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "TaskStepProperties",
+                        className: "TaskStepProperties"
+                    }
+                },
+                trigger: {
+                    serializedName: "trigger",
+                    type: {
+                        name: "Composite",
+                        className: "TriggerProperties"
+                    }
+                }
+            }
+        }
+    };
     var Task = {
         serializedName: "Task",
         type: {
@@ -2641,6 +3080,60 @@
                     type: {
                         name: "Composite",
                         className: "BaseImageTriggerUpdateParameters"
+                    }
+                }
+            }
+        }
+    };
+    var TaskPropertiesUpdateParameters = {
+        serializedName: "TaskPropertiesUpdateParameters",
+        type: {
+            name: "Composite",
+            className: "TaskPropertiesUpdateParameters",
+            modelProperties: {
+                status: {
+                    serializedName: "status",
+                    type: {
+                        name: "String"
+                    }
+                },
+                platform: {
+                    serializedName: "platform",
+                    type: {
+                        name: "Composite",
+                        className: "PlatformUpdateParameters"
+                    }
+                },
+                agentConfiguration: {
+                    serializedName: "agentConfiguration",
+                    type: {
+                        name: "Composite",
+                        className: "AgentProperties"
+                    }
+                },
+                timeout: {
+                    serializedName: "timeout",
+                    type: {
+                        name: "Number"
+                    }
+                },
+                step: {
+                    serializedName: "step",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "type",
+                            clientName: "type"
+                        },
+                        uberParent: "TaskStepUpdateParameters",
+                        className: "TaskStepUpdateParameters"
+                    }
+                },
+                trigger: {
+                    serializedName: "trigger",
+                    type: {
+                        name: "Composite",
+                        className: "TriggerUpdateParameters"
                     }
                 }
             }
@@ -3432,12 +3925,15 @@
         OperationDisplayDefinition: OperationDisplayDefinition,
         OperationMetricSpecificationDefinition: OperationMetricSpecificationDefinition,
         OperationServiceSpecificationDefinition: OperationServiceSpecificationDefinition,
+        OperationPropertiesDefinition: OperationPropertiesDefinition,
         OperationDefinition: OperationDefinition,
         Sku: Sku,
         Status: Status,
         StorageAccountProperties: StorageAccountProperties,
+        RegistryProperties: RegistryProperties,
         Resource: Resource,
         Registry: Registry,
+        RegistryPropertiesUpdateParameters: RegistryPropertiesUpdateParameters,
         RegistryUpdateParameters: RegistryUpdateParameters,
         RegistryPassword: RegistryPassword,
         RegistryListCredentialsResult: RegistryListCredentialsResult,
@@ -3447,10 +3943,14 @@
         QuarantinePolicy: QuarantinePolicy,
         TrustPolicy: TrustPolicy,
         RegistryPolicies: RegistryPolicies,
+        ReplicationProperties: ReplicationProperties,
         Replication: Replication,
         ReplicationUpdateParameters: ReplicationUpdateParameters,
+        WebhookProperties: WebhookProperties,
         Webhook: Webhook,
+        WebhookPropertiesCreateParameters: WebhookPropertiesCreateParameters,
         WebhookCreateParameters: WebhookCreateParameters,
+        WebhookPropertiesUpdateParameters: WebhookPropertiesUpdateParameters,
         WebhookUpdateParameters: WebhookUpdateParameters,
         EventInfo: EventInfo,
         CallbackConfig: CallbackConfig,
@@ -3468,6 +3968,7 @@
         SourceTriggerDescriptor: SourceTriggerDescriptor,
         PlatformProperties: PlatformProperties,
         AgentProperties: AgentProperties,
+        RunProperties: RunProperties,
         ProxyResource: ProxyResource,
         Run: Run,
         SourceUploadDefinition: SourceUploadDefinition,
@@ -3481,6 +3982,7 @@
         SourceTrigger: SourceTrigger,
         BaseImageTrigger: BaseImageTrigger,
         TriggerProperties: TriggerProperties,
+        TaskProperties: TaskProperties,
         Task: Task,
         PlatformUpdateParameters: PlatformUpdateParameters,
         TaskStepUpdateParameters: TaskStepUpdateParameters,
@@ -3489,6 +3991,7 @@
         SourceTriggerUpdateParameters: SourceTriggerUpdateParameters,
         BaseImageTriggerUpdateParameters: BaseImageTriggerUpdateParameters,
         TriggerUpdateParameters: TriggerUpdateParameters,
+        TaskPropertiesUpdateParameters: TaskPropertiesUpdateParameters,
         TaskUpdateParameters: TaskUpdateParameters,
         Argument: Argument,
         DockerBuildRequest: DockerBuildRequest,
