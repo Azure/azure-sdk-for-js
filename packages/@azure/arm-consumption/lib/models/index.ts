@@ -85,6 +85,188 @@ export interface MeterDetails {
 
 /**
  * @interface
+ * An interface representing UsageDetailProperties.
+ * The properties of the usage detail.
+ *
+ */
+export interface UsageDetailProperties {
+  /**
+   * @member {string} [billingPeriodId] The id of the billing period resource
+   * that the usage belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingPeriodId?: string;
+  /**
+   * @member {string} [invoiceId] The id of the invoice resource that the usage
+   * belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly invoiceId?: string;
+  /**
+   * @member {Date} [usageStart] The start of the date time range covered by
+   * the usage detail.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageStart?: Date;
+  /**
+   * @member {Date} [usageEnd] The end of the date time range covered by the
+   * usage detail.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageEnd?: Date;
+  /**
+   * @member {string} [instanceName] The name of the resource instance that the
+   * usage is about.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly instanceName?: string;
+  /**
+   * @member {string} [instanceId] The uri of the resource instance that the
+   * usage is about.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly instanceId?: string;
+  /**
+   * @member {string} [instanceLocation] The location of the resource instance
+   * that the usage is about.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly instanceLocation?: string;
+  /**
+   * @member {string} [currency] The ISO currency in which the meter is
+   * charged, for example, USD.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
+  /**
+   * @member {number} [usageQuantity] The quantity of usage.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageQuantity?: number;
+  /**
+   * @member {number} [billableQuantity] The billable usage quantity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billableQuantity?: number;
+  /**
+   * @member {number} [pretaxCost] The amount of cost before tax.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly pretaxCost?: number;
+  /**
+   * @member {boolean} [isEstimated] The estimated usage is subject to change.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isEstimated?: boolean;
+  /**
+   * @member {string} [meterId] The meter id (GUID).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly meterId?: string;
+  /**
+   * @member {MeterDetails} [meterDetails] The details about the meter. By
+   * default this is not populated, unless it's specified in $expand.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly meterDetails?: MeterDetails;
+  /**
+   * @member {string} [subscriptionGuid] Subscription guid.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subscriptionGuid?: string;
+  /**
+   * @member {string} [subscriptionName] Subscription name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subscriptionName?: string;
+  /**
+   * @member {string} [accountName] Account name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly accountName?: string;
+  /**
+   * @member {string} [departmentName] Department name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly departmentName?: string;
+  /**
+   * @member {string} [product] Product name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly product?: string;
+  /**
+   * @member {string} [consumedService] Consumed service name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly consumedService?: string;
+  /**
+   * @member {string} [costCenter] The cost center of this department if it is
+   * a department and a costcenter exists
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly costCenter?: string;
+  /**
+   * @member {string} [partNumber] Part Number
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly partNumber?: string;
+  /**
+   * @member {string} [resourceGuid] Resource Guid
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceGuid?: string;
+  /**
+   * @member {string} [offerId] Offer Id
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly offerId?: string;
+  /**
+   * @member {boolean} [chargesBilledSeparately] Charges billed separately
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly chargesBilledSeparately?: boolean;
+  /**
+   * @member {string} [location] Resource Location
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly location?: string;
+  /**
+   * @member {string} [additionalProperties] Additional details of this usage
+   * item. By default this is not populated, unless it's specified in $expand.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly additionalProperties?: string;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * The Resource model definition.
  *
@@ -302,6 +484,174 @@ export interface UsageDetail extends Resource {
 
 /**
  * @interface
+ * An interface representing MarketplaceProperties.
+ * The properties of the marketplace usage detail.
+ *
+ */
+export interface MarketplaceProperties {
+  /**
+   * @member {string} [billingPeriodId] The id of the billing period resource
+   * that the usage belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingPeriodId?: string;
+  /**
+   * @member {Date} [usageStart] The start of the date time range covered by
+   * the usage detail.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageStart?: Date;
+  /**
+   * @member {Date} [usageEnd] The end of the date time range covered by the
+   * usage detail.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageEnd?: Date;
+  /**
+   * @member {number} [resourceRate] The marketplace resource rate.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceRate?: number;
+  /**
+   * @member {string} [offerName] The type of offer.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly offerName?: string;
+  /**
+   * @member {string} [resourceGroup] The name of resource group.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resourceGroup?: string;
+  /**
+   * @member {string} [orderNumber] The order number.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly orderNumber?: string;
+  /**
+   * @member {string} [instanceName] The name of the resource instance that the
+   * usage is about.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly instanceName?: string;
+  /**
+   * @member {string} [instanceId] The uri of the resource instance that the
+   * usage is about.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly instanceId?: string;
+  /**
+   * @member {string} [currency] The ISO currency in which the meter is
+   * charged, for example, USD.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
+  /**
+   * @member {number} [consumedQuantity] The quantity of usage.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly consumedQuantity?: number;
+  /**
+   * @member {string} [unitOfMeasure] The unit of measure.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unitOfMeasure?: string;
+  /**
+   * @member {number} [pretaxCost] The amount of cost before tax.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly pretaxCost?: number;
+  /**
+   * @member {boolean} [isEstimated] The estimated usage is subject to change.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isEstimated?: boolean;
+  /**
+   * @member {string} [meterId] The meter id (GUID).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly meterId?: string;
+  /**
+   * @member {string} [subscriptionGuid] Subscription guid.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subscriptionGuid?: string;
+  /**
+   * @member {string} [subscriptionName] Subscription name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly subscriptionName?: string;
+  /**
+   * @member {string} [accountName] Account name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly accountName?: string;
+  /**
+   * @member {string} [departmentName] Department name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly departmentName?: string;
+  /**
+   * @member {string} [consumedService] Consumed service name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly consumedService?: string;
+  /**
+   * @member {string} [costCenter] The cost center of this department if it is
+   * a department and a costcenter exists
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly costCenter?: string;
+  /**
+   * @member {string} [additionalProperties] Additional details of this usage
+   * item. By default this is not populated, unless it's specified in $expand.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly additionalProperties?: string;
+  /**
+   * @member {string} [publisherName] The name of publisher.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly publisherName?: string;
+  /**
+   * @member {string} [planName] The name of plan.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly planName?: string;
+  /**
+   * @member {boolean} [isRecurringCharge] Flag indicating whether this is a
+   * recurring charge or not.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isRecurringCharge?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing Marketplace.
  * An marketplace resource.
  *
@@ -509,6 +859,110 @@ export interface BalancePropertiesAdjustmentDetailsItem {
 
 /**
  * @interface
+ * An interface representing BalanceProperties.
+ * The properties of the balance.
+ *
+ */
+export interface BalanceProperties {
+  /**
+   * @member {string} [currency] The ISO currency in which the meter is
+   * charged, for example, USD.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
+  /**
+   * @member {number} [beginningBalance] The beginning balance for the billing
+   * period.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly beginningBalance?: number;
+  /**
+   * @member {number} [endingBalance] The ending balance for the billing period
+   * (for open periods this will be updated daily).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly endingBalance?: number;
+  /**
+   * @member {number} [newPurchases] Total new purchase amount.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly newPurchases?: number;
+  /**
+   * @member {number} [adjustments] Total adjustment amount.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly adjustments?: number;
+  /**
+   * @member {number} [utilized] Total Commitment usage.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly utilized?: number;
+  /**
+   * @member {number} [serviceOverage] Overage for Azure services.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly serviceOverage?: number;
+  /**
+   * @member {number} [chargesBilledSeparately] Charges Billed separately.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly chargesBilledSeparately?: number;
+  /**
+   * @member {number} [totalOverage] serviceOverage + chargesBilledSeparately.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalOverage?: number;
+  /**
+   * @member {number} [totalUsage] Azure service commitment + total Overage.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalUsage?: number;
+  /**
+   * @member {number} [azureMarketplaceServiceCharges] Total charges for Azure
+   * Marketplace.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly azureMarketplaceServiceCharges?: number;
+  /**
+   * @member {BillingFrequency} [billingFrequency] The billing frequency.
+   * Possible values include: 'Month', 'Quarter', 'Year'
+   */
+  billingFrequency?: BillingFrequency;
+  /**
+   * @member {boolean} [priceHidden] Price is hidden or not.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly priceHidden?: boolean;
+  /**
+   * @member {BalancePropertiesNewPurchasesDetailsItem[]} [newPurchasesDetails]
+   * List of new purchases.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly newPurchasesDetails?: BalancePropertiesNewPurchasesDetailsItem[];
+  /**
+   * @member {BalancePropertiesAdjustmentDetailsItem[]} [adjustmentDetails]
+   * List of Adjustments (Promo credit, SIE credit etc.).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly adjustmentDetails?: BalancePropertiesAdjustmentDetailsItem[];
+}
+
+/**
+ * @interface
  * An interface representing Balance.
  * A balance resource.
  *
@@ -614,6 +1068,87 @@ export interface Balance extends Resource {
 
 /**
  * @interface
+ * An interface representing ReservationSummaryProperties.
+ * The properties of the reservation summary.
+ *
+ */
+export interface ReservationSummaryProperties {
+  /**
+   * @member {string} [reservationOrderId] The reservation order ID is the
+   * identifier for a reservation purchase. Each reservation order ID
+   * represents a single purchase transaction. A reservation order contains
+   * reservations. The reservation order specifies the VM size and region for
+   * the reservations.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly reservationOrderId?: string;
+  /**
+   * @member {string} [reservationId] The reservation ID is the identifier of a
+   * reservation within a reservation order. Each reservation is the grouping
+   * for applying the benefit scope and also specifies the number of instances
+   * to which the reservation benefit can be applied to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly reservationId?: string;
+  /**
+   * @member {string} [skuName] This is the ARM Sku name. It can be used to
+   * join with the servicetype field in additoinalinfo in usage records.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skuName?: string;
+  /**
+   * @member {number} [reservedHours] This is the total hours reserved. E.g. if
+   * reservation for 1 instance was made on 1 PM, this will be 11 hours for
+   * that day and 24 hours from subsequent days
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly reservedHours?: number;
+  /**
+   * @member {Date} [usageDate] Data corresponding to the utilization record.
+   * If the grain of data is monthly, it will be first day of month.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageDate?: Date;
+  /**
+   * @member {number} [usedHours] Total used hours by the reservation
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usedHours?: number;
+  /**
+   * @member {number} [minUtilizationPercentage] This is the minimum hourly
+   * utilization in the usage time (day or month). E.g. if usage record
+   * corresponds to 12/10/2017 and on that for hour 4 and 5, utilization was
+   * 10%, this field will return 10% for that day
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly minUtilizationPercentage?: number;
+  /**
+   * @member {number} [avgUtilizationPercentage] This is average utilization
+   * for the entire time range. (day or month depending on the grain)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly avgUtilizationPercentage?: number;
+  /**
+   * @member {number} [maxUtilizationPercentage] This is the maximum hourly
+   * utilization in the usage time (day or month). E.g. if usage record
+   * corresponds to 12/10/2017 and on that for hour 4 and 5, utilization was
+   * 100%, this field will return 100% for that day.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maxUtilizationPercentage?: number;
+}
+
+/**
+ * @interface
  * An interface representing ReservationSummary.
  * reservation summary resource.
  *
@@ -696,6 +1231,75 @@ export interface ReservationSummary extends Resource {
 
 /**
  * @interface
+ * An interface representing ReservationDetailProperties.
+ * The properties of the reservation detail.
+ *
+ */
+export interface ReservationDetailProperties {
+  /**
+   * @member {string} [reservationOrderId] The reservation order ID is the
+   * identifier for a reservation purchase. Each reservation order ID
+   * represents a single purchase transaction. A reservation order contains
+   * reservations. The reservation order specifies the VM size and region for
+   * the reservations.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly reservationOrderId?: string;
+  /**
+   * @member {string} [reservationId] The reservation ID is the identifier of a
+   * reservation within a reservation order. Each reservation is the grouping
+   * for applying the benefit scope and also specifies the number of instances
+   * to which the reservation benefit can be applied to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly reservationId?: string;
+  /**
+   * @member {string} [skuName] This is the ARM Sku name. It can be used to
+   * join with the servicetype field in additoinalinfo in usage records.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly skuName?: string;
+  /**
+   * @member {number} [reservedHours] This is the total hours reserved for the
+   * day. E.g. if reservation for 1 instance was made on 1 PM, this will be 11
+   * hours for that day and 24 hours from subsequent days.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly reservedHours?: number;
+  /**
+   * @member {Date} [usageDate] The date on which consumption occurred.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageDate?: Date;
+  /**
+   * @member {number} [usedHours] This is the total hours used by the instance.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usedHours?: number;
+  /**
+   * @member {string} [instanceId] This identifier is the name of the resource
+   * or the fully qualified Resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly instanceId?: string;
+  /**
+   * @member {number} [totalReservedQuantity] This is the total count of
+   * instances that are reserved for the reservationid.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalReservedQuantity?: number;
+}
+
+/**
+ * @interface
  * An interface representing ReservationDetail.
  * reservation detail resource.
  *
@@ -762,6 +1366,74 @@ export interface ReservationDetail extends Resource {
    * the server.**
    */
   readonly totalReservedQuantity?: number;
+}
+
+/**
+ * @interface
+ * An interface representing ReservationRecommendationProperties.
+ * The properties of the reservation recommendation.
+ *
+ */
+export interface ReservationRecommendationProperties {
+  /**
+   * @member {string} [lookBackPeriod] The number of days of usage to look back
+   * for recommendation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lookBackPeriod?: string;
+  /**
+   * @member {string} [meterId] The meter id (GUID)
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly meterId?: string;
+  /**
+   * @member {string} [term] RI recommendations in one or three year terms.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly term?: string;
+  /**
+   * @member {number} [costWithNoReservedInstances] The total amount of cost
+   * without reserved instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly costWithNoReservedInstances?: number;
+  /**
+   * @member {number} [recommendedQuantity] Recomended quality for reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly recommendedQuantity?: number;
+  /**
+   * @member {number} [totalCostWithReservedInstances] The total amount of cost
+   * with reserved instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly totalCostWithReservedInstances?: number;
+  /**
+   * @member {number} [netSavings] Total estimated savings with reserved
+   * instances.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly netSavings?: number;
+  /**
+   * @member {Date} [firstUsageDate] The usage date for looking back.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly firstUsageDate?: Date;
+  /**
+   * @member {string} [scope] Shared or single recommendation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly scope?: string;
 }
 
 /**
@@ -879,6 +1551,19 @@ export interface Tag {
    * @member {string} [key] Tag key.
    */
   key?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagProperties.
+ * The properties of the tag.
+ *
+ */
+export interface TagProperties {
+  /**
+   * @member {Tag[]} [tags] A list of Tag.
+   */
+  tags?: Tag[];
 }
 
 /**
@@ -1038,6 +1723,57 @@ export interface Notification {
 
 /**
  * @interface
+ * An interface representing BudgetProperties.
+ * The properties of the budget.
+ *
+ */
+export interface BudgetProperties {
+  /**
+   * @member {CategoryType} category The category of the budget, whether the
+   * budget tracks cost or usage. Possible values include: 'Cost', 'Usage'
+   */
+  category: CategoryType;
+  /**
+   * @member {number} amount The total amount of cost to track with the budget
+   */
+  amount: number;
+  /**
+   * @member {TimeGrainType} timeGrain The time covered by a budget. Tracking
+   * of the amount will be reset based on the time grain. Possible values
+   * include: 'Monthly', 'Quarterly', 'Annually'
+   */
+  timeGrain: TimeGrainType;
+  /**
+   * @member {BudgetTimePeriod} timePeriod Has start and end date of the
+   * budget. The start date must be first of the month and should be less than
+   * the end date. Budget start date must be on or after June 1, 2017. Future
+   * start date should not be more than three months. Past start date should
+   * be selected within the timegrain preiod. There are no restrictions on the
+   * end date.
+   */
+  timePeriod: BudgetTimePeriod;
+  /**
+   * @member {Filters} [filters] May be used to filter budgets by resource
+   * group, resource, or meter.
+   */
+  filters?: Filters;
+  /**
+   * @member {CurrentSpend} [currentSpend] The current amount of cost which is
+   * being tracked for a budget.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currentSpend?: CurrentSpend;
+  /**
+   * @member {{ [propertyName: string]: Notification }} [notifications]
+   * Dictionary of notifications associated with the budget. Budget can have up
+   * to five notifications.
+   */
+  notifications?: { [propertyName: string]: Notification };
+}
+
+/**
+ * @interface
  * An interface representing Budget.
  * A budget resource.
  *
@@ -1155,6 +1891,28 @@ export interface PriceSheetProperties {
 
 /**
  * @interface
+ * An interface representing PriceSheetModel.
+ * price sheet result. It contains the pricesheet associated with billing
+ * period
+ *
+ */
+export interface PriceSheetModel {
+  /**
+   * @member {PriceSheetProperties[]} [pricesheets] Price sheet
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly pricesheets?: PriceSheetProperties[];
+  /**
+   * @member {string} [nextLink] The link (url) to the next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * An interface representing PriceSheetResult.
  * An pricesheet resource.
  *
@@ -1202,6 +1960,52 @@ export interface ForecastPropertiesConfidenceLevelsItem {
 
 /**
  * @interface
+ * An interface representing ForecastProperties.
+ * The properties of the forecast charge.
+ *
+ */
+export interface ForecastProperties {
+  /**
+   * @member {string} [usageDate] The usage date of the forecast.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageDate?: string;
+  /**
+   * @member {Grain} [grain] The granularity of forecast. Possible values
+   * include: 'Daily', 'Monthly', 'Yearly'
+   */
+  grain?: Grain;
+  /**
+   * @member {number} [charge] The amount of charge
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly charge?: number;
+  /**
+   * @member {string} [currency] The ISO currency in which the meter is
+   * charged, for example, USD.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
+  /**
+   * @member {ChargeType} [chargeType] The type of the charge. Could be actual
+   * or forecast. Possible values include: 'Actual', 'Forecast'
+   */
+  chargeType?: ChargeType;
+  /**
+   * @member {ForecastPropertiesConfidenceLevelsItem[]} [confidenceLevels] The
+   * details about the forecast confidence levels. This is populated only when
+   * chargeType is Forecast.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly confidenceLevels?: ForecastPropertiesConfidenceLevelsItem[];
+}
+
+/**
+ * @interface
  * An interface representing Forecast.
  * A forecast resource.
  *
@@ -1245,6 +2049,76 @@ export interface Forecast extends Resource {
    * the server.**
    */
   readonly confidenceLevels?: ForecastPropertiesConfidenceLevelsItem[];
+}
+
+/**
+ * @interface
+ * An interface representing ManagementGroupAggregatedCostProperties.
+ * The properties of the Management Group Aggregated Cost.
+ *
+ */
+export interface ManagementGroupAggregatedCostProperties {
+  /**
+   * @member {string} [billingPeriodId] The id of the billing period resource
+   * that the aggregated cost belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingPeriodId?: string;
+  /**
+   * @member {Date} [usageStart] The start of the date time range covered by
+   * aggregated cost.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageStart?: Date;
+  /**
+   * @member {Date} [usageEnd] The end of the date time range covered by the
+   * aggregated cost.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageEnd?: Date;
+  /**
+   * @member {number} [azureCharges] Azure Charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly azureCharges?: number;
+  /**
+   * @member {number} [marketplaceCharges] Marketplace Charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly marketplaceCharges?: number;
+  /**
+   * @member {number} [chargesBilledSeparately] Charges Billed Separately.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly chargesBilledSeparately?: number;
+  /**
+   * @member {string} [currency] The ISO currency in which the meter is
+   * charged, for example, USD.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
+  /**
+   * @member {ManagementGroupAggregatedCostResult[]} [children] Children of a
+   * management group
+   */
+  children?: ManagementGroupAggregatedCostResult[];
+  /**
+   * @member {string[]} [includedSubscriptions] List of subscription Guids
+   * included in the calculation of aggregated cost
+   */
+  includedSubscriptions?: string[];
+  /**
+   * @member {string[]} [excludedSubscriptions] List of subscription Guids
+   * excluded from the calculation of aggregated cost
+   */
+  excludedSubscriptions?: string[];
 }
 
 /**
@@ -1316,6 +2190,58 @@ export interface ManagementGroupAggregatedCostResult extends Resource {
    * excluded from the calculation of aggregated cost
    */
   excludedSubscriptions?: string[];
+}
+
+/**
+ * @interface
+ * An interface representing ChargeSummaryProperties.
+ * The properties of the charge summary.
+ *
+ */
+export interface ChargeSummaryProperties {
+  /**
+   * @member {string} [billingPeriodId] The id of the billing period resource
+   * that the charge belongs to.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly billingPeriodId?: string;
+  /**
+   * @member {string} [usageStart] Usage start date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageStart?: string;
+  /**
+   * @member {string} [usageEnd] Usage end date.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly usageEnd?: string;
+  /**
+   * @member {number} [azureCharges] Azure Charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly azureCharges?: number;
+  /**
+   * @member {number} [chargesBilledSeparately] Charges Billed separately.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly chargesBilledSeparately?: number;
+  /**
+   * @member {number} [marketplaceCharges] Marketplace Charges.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly marketplaceCharges?: number;
+  /**
+   * @member {string} [currency] Currency Code
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly currency?: string;
 }
 
 /**
