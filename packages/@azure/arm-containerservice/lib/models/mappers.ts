@@ -1024,6 +1024,7 @@ export const ManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
         }
       },
       count: {
+        required: true,
         serializedName: "count",
         defaultValue: 1,
         constraints: {
@@ -1047,13 +1048,6 @@ export const ManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      storageProfile: {
-        readOnly: true,
-        serializedName: "storageProfile",
-        type: {
-          name: "String"
-        }
-      },
       vnetSubnetID: {
         serializedName: "vnetSubnetID",
         type: {
@@ -1069,6 +1063,30 @@ export const ManagedClusterAgentPoolProfile: msRest.CompositeMapper = {
       osType: {
         serializedName: "osType",
         defaultValue: 'Linux',
+        type: {
+          name: "String"
+        }
+      },
+      maxCount: {
+        serializedName: "maxCount",
+        type: {
+          name: "Number"
+        }
+      },
+      minCount: {
+        serializedName: "minCount",
+        type: {
+          name: "Number"
+        }
+      },
+      enableAutoScaling: {
+        serializedName: "enableAutoScaling",
+        type: {
+          name: "Boolean"
+        }
+      },
+      type: {
+        serializedName: "type",
         type: {
           name: "String"
         }
