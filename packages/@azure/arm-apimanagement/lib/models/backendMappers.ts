@@ -21,6 +21,7 @@ export {
   BackendProxyContract,
   BackendTlsProperties,
   ErrorResponse,
+  ErrorFieldContract,
   BackendGetEntityTagHeaders,
   BackendGetHeaders,
   BackendUpdateParameters,

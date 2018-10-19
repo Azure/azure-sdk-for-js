@@ -14,6 +14,7 @@ export {
   Resource,
   BaseResource,
   ErrorResponse,
+  ErrorFieldContract,
   DiagnosticGetEntityTagHeaders,
   DiagnosticGetHeaders,
   PolicyContract,

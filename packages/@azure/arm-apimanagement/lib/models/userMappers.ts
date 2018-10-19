@@ -16,6 +16,7 @@ export {
   UserIdentityContract,
   GroupContractProperties,
   ErrorResponse,
+  ErrorFieldContract,
   UserGetEntityTagHeaders,
   UserGetHeaders,
   UserCreateParameters,

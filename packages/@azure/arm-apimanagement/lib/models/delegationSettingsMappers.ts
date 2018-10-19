@@ -11,6 +11,7 @@
 export {
   DelegationSettingsGetEntityTagHeaders,
   ErrorResponse,
+  ErrorFieldContract,
   PortalDelegationSettings,
   Resource,
   BaseResource,

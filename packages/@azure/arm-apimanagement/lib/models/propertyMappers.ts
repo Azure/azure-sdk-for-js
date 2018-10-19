@@ -16,6 +16,7 @@ export {
   CloudError,
   PropertyGetEntityTagHeaders,
   ErrorResponse,
+  ErrorFieldContract,
   PropertyGetHeaders,
   PropertyUpdateParameters,
   PolicyContract,

@@ -84,6 +84,26 @@ export interface ErrorResponse {
 
 /**
  * @interface
+ * An interface representing PolicyContractProperties.
+ * Policy contract Properties.
+ *
+ */
+export interface PolicyContractProperties {
+  /**
+   * @member {string} policyContent Json escaped Xml Encoded contents of the
+   * Policy.
+   */
+  policyContent: string;
+  /**
+   * @member {PolicyContentFormat} [contentFormat] Format of the policyContent.
+   * Possible values include: 'xml', 'xml-link', 'rawxml', 'rawxml-link'.
+   * Default value: 'xml' .
+   */
+  contentFormat?: PolicyContentFormat;
+}
+
+/**
+ * @interface
  * An interface representing Resource.
  * The Resource definition.
  *
@@ -481,6 +501,38 @@ export interface ApiCreateOrUpdatePropertiesWsdlSelector {
 
 /**
  * @interface
+ * An interface representing ApiCreateOrUpdateProperties.
+ * Api Create or Update Properties.
+ *
+ * @extends ApiContractProperties
+ */
+export interface ApiCreateOrUpdateProperties extends ApiContractProperties {
+  /**
+   * @member {string} [contentValue] Content value when Importing an API.
+   */
+  contentValue?: string;
+  /**
+   * @member {ContentFormat} [contentFormat] Format of the Content in which the
+   * API is getting imported. Possible values include: 'wadl-xml',
+   * 'wadl-link-json', 'swagger-json', 'swagger-link-json', 'wsdl', 'wsdl-link'
+   */
+  contentFormat?: ContentFormat;
+  /**
+   * @member {ApiCreateOrUpdatePropertiesWsdlSelector} [wsdlSelector] Criteria
+   * to limit import of WSDL to a subset of the document.
+   */
+  wsdlSelector?: ApiCreateOrUpdatePropertiesWsdlSelector;
+  /**
+   * @member {SoapApiType} [soapApiType] Type of Api to create.
+   * * `http` creates a SOAP to REST API
+   * * `soap` creates a SOAP pass-through API. Possible values include:
+   * 'SoapToRest', 'SoapPassThrough'
+   */
+  soapApiType?: SoapApiType;
+}
+
+/**
+ * @interface
  * An interface representing ApiCreateOrUpdateParameter.
  * API Create or Update Parameters.
  *
@@ -591,6 +643,37 @@ export interface ApiCreateOrUpdateParameter {
    * 'SoapToRest', 'SoapPassThrough'
    */
   soapApiType?: SoapApiType;
+}
+
+/**
+ * @interface
+ * An interface representing ApiContractUpdateProperties.
+ * API update contract properties.
+ *
+ * @extends ApiEntityBaseContract
+ */
+export interface ApiContractUpdateProperties extends ApiEntityBaseContract {
+  /**
+   * @member {string} [displayName] API name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [serviceUrl] Absolute URL of the backend service
+   * implementing this API.
+   */
+  serviceUrl?: string;
+  /**
+   * @member {string} [path] Relative URL uniquely identifying this API and all
+   * of its resource paths within the API Management service instance. It is
+   * appended to the API endpoint base URL specified during the service
+   * instance creation to form a public URL for this API.
+   */
+  path?: string;
+  /**
+   * @member {Protocol[]} [protocols] Describes on which protocols the
+   * operations in this API can be invoked.
+   */
+  protocols?: Protocol[];
 }
 
 /**
@@ -854,6 +937,37 @@ export interface ApiRevisionInfoContract {
 
 /**
  * @interface
+ * An interface representing ApiReleaseContractProperties.
+ * API Release details
+ *
+ */
+export interface ApiReleaseContractProperties {
+  /**
+   * @member {string} [apiId] Identifier of the API the release belongs to.
+   */
+  apiId?: string;
+  /**
+   * @member {Date} [createdDateTime] The time the API was released. The date
+   * conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the
+   * ISO 8601 standard.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDateTime?: Date;
+  /**
+   * @member {Date} [updatedDateTime] The time the API release was updated.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly updatedDateTime?: Date;
+  /**
+   * @member {string} [notes] Release Notes
+   */
+  notes?: string;
+}
+
+/**
+ * @interface
  * An interface representing ApiReleaseContract.
  * Api Release details.
  *
@@ -882,6 +996,62 @@ export interface ApiReleaseContract extends Resource {
    * @member {string} [notes] Release Notes
    */
   notes?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OperationEntityBaseContract.
+ * Api Operation Entity Base Contract details.
+ *
+ */
+export interface OperationEntityBaseContract {
+  /**
+   * @member {ParameterContract[]} [templateParameters] Collection of URL
+   * template parameters.
+   */
+  templateParameters?: ParameterContract[];
+  /**
+   * @member {string} [description] Description of the operation. May include
+   * HTML formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {RequestContract} [request] An entity containing request details.
+   */
+  request?: RequestContract;
+  /**
+   * @member {ResponseContract[]} [responses] Array of Operation responses.
+   */
+  responses?: ResponseContract[];
+  /**
+   * @member {string} [policies] Operation Policies
+   */
+  policies?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OperationContractProperties.
+ * Operation Contract Properties
+ *
+ * @extends OperationEntityBaseContract
+ */
+export interface OperationContractProperties extends OperationEntityBaseContract {
+  /**
+   * @member {string} displayName Operation Name.
+   */
+  displayName: string;
+  /**
+   * @member {string} method A Valid HTTP Operation Method. Typical Http
+   * Methods like GET, PUT, POST but not limited by only them.
+   */
+  method: string;
+  /**
+   * @member {string} urlTemplate Relative URL template identifying the target
+   * resource for this operation. May include parameters. Example:
+   * /customers/{cid}/orders/{oid}/?date={date}
+   */
+  urlTemplate: string;
 }
 
 /**
@@ -929,6 +1099,31 @@ export interface OperationContract extends Resource {
    * /customers/{cid}/orders/{oid}/?date={date}
    */
   urlTemplate: string;
+}
+
+/**
+ * @interface
+ * An interface representing OperationUpdateContractProperties.
+ * Operation Update Contract Properties.
+ *
+ * @extends OperationEntityBaseContract
+ */
+export interface OperationUpdateContractProperties extends OperationEntityBaseContract {
+  /**
+   * @member {string} [displayName] Operation Name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [method] A Valid HTTP Operation Method. Typical Http
+   * Methods like GET, PUT, POST but not limited by only them.
+   */
+  method?: string;
+  /**
+   * @member {string} [urlTemplate] Relative URL template identifying the
+   * target resource for this operation. May include parameters. Example:
+   * /customers/{cid}/orders/{oid}/?date={date}
+   */
+  urlTemplate?: string;
 }
 
 /**
@@ -1057,37 +1252,6 @@ export interface ResponseContract {
 
 /**
  * @interface
- * An interface representing OperationEntityBaseContract.
- * Api Operation Entity Base Contract details.
- *
- */
-export interface OperationEntityBaseContract {
-  /**
-   * @member {ParameterContract[]} [templateParameters] Collection of URL
-   * template parameters.
-   */
-  templateParameters?: ParameterContract[];
-  /**
-   * @member {string} [description] Description of the operation. May include
-   * HTML formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {RequestContract} [request] An entity containing request details.
-   */
-  request?: RequestContract;
-  /**
-   * @member {ResponseContract[]} [responses] Array of Operation responses.
-   */
-  responses?: ResponseContract[];
-  /**
-   * @member {string} [policies] Operation Policies
-   */
-  policies?: string;
-}
-
-/**
- * @interface
  * An interface representing OperationUpdateContract.
  * Api Operation Update Contract details.
  *
@@ -1134,6 +1298,40 @@ export interface OperationUpdateContract {
 
 /**
  * @interface
+ * An interface representing SchemaDocumentProperties.
+ * Schema Document Properties.
+ *
+ */
+export interface SchemaDocumentProperties {
+  /**
+   * @member {string} [value] Json escaped string defining the document
+   * representing the Schema.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SchemaContractProperties.
+ * Schema contract Properties.
+ *
+ */
+export interface SchemaContractProperties {
+  /**
+   * @member {string} contentType Must be a valid a media type used in a
+   * Content-Type header as defined in the RFC 2616. Media type of the schema
+   * document (e.g. application/json, application/xml).
+   */
+  contentType: string;
+  /**
+   * @member {string} [value] Json escaped string defining the document
+   * representing the Schema.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
  * An interface representing SchemaContract.
  * Schema Contract details.
  *
@@ -1151,6 +1349,42 @@ export interface SchemaContract extends Resource {
    * representing the Schema.
    */
   value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing IssueContractProperties.
+ * Issue contract Properties.
+ *
+ */
+export interface IssueContractProperties {
+  /**
+   * @member {string} title The issue title.
+   */
+  title: string;
+  /**
+   * @member {string} description Text describing the issue.
+   */
+  description: string;
+  /**
+   * @member {Date} [createdDate] Date and time when the issue was created.
+   */
+  createdDate?: Date;
+  /**
+   * @member {State} [state] Status of the issue. Possible values include:
+   * 'proposed', 'open', 'removed', 'resolved', 'closed'
+   */
+  state?: State;
+  /**
+   * @member {string} userId A resource identifier for the user created the
+   * issue.
+   */
+  userId: string;
+  /**
+   * @member {string} [apiId] A resource identifier for the API the issue was
+   * created for.
+   */
+  apiId?: string;
 }
 
 /**
@@ -1192,6 +1426,28 @@ export interface IssueContract extends Resource {
 
 /**
  * @interface
+ * An interface representing IssueCommentContractProperties.
+ * Issue Comment contract Properties.
+ *
+ */
+export interface IssueCommentContractProperties {
+  /**
+   * @member {string} text Comment text.
+   */
+  text: string;
+  /**
+   * @member {Date} [createdDate] Date and time when the comment was created.
+   */
+  createdDate?: Date;
+  /**
+   * @member {string} userId A resource identifier for the user who left the
+   * comment.
+   */
+  userId: string;
+}
+
+/**
+ * @interface
  * An interface representing IssueCommentContract.
  * Issue Comment Contract details.
  *
@@ -1211,6 +1467,29 @@ export interface IssueCommentContract extends Resource {
    * comment.
    */
   userId: string;
+}
+
+/**
+ * @interface
+ * An interface representing IssueAttachmentContractProperties.
+ * Issue Attachment contract Properties.
+ *
+ */
+export interface IssueAttachmentContractProperties {
+  /**
+   * @member {string} title Filename by which the binary data will be saved.
+   */
+  title: string;
+  /**
+   * @member {string} contentFormat Either 'link' if content is provided via an
+   * HTTP link or the MIME type of the Base64-encoded binary data provided in
+   * the 'content' property.
+   */
+  contentFormat: string;
+  /**
+   * @member {string} content An HTTP link or Base64-encoded binary data.
+   */
+  content: string;
 }
 
 /**
@@ -1235,6 +1514,37 @@ export interface IssueAttachmentContract extends Resource {
    * @member {string} content An HTTP link or Base64-encoded binary data.
    */
   content: string;
+}
+
+/**
+ * @interface
+ * An interface representing LoggerContractProperties.
+ * The Logger entity in API Management represents an event sink that you can
+ * use to log API Management events. Currently the Logger entity supports
+ * logging API Management events to Azure Event Hubs.
+ *
+ */
+export interface LoggerContractProperties {
+  /**
+   * @member {LoggerType} loggerType Logger type. Possible values include:
+   * 'azureEventHub', 'applicationInsights'
+   */
+  loggerType: LoggerType;
+  /**
+   * @member {string} [description] Logger description.
+   */
+  description?: string;
+  /**
+   * @member {{ [propertyName: string]: string }} credentials The name and
+   * SendRule connection string of the event hub for azureEventHub logger.
+   * Instrumentation key for applicationInsights logger.
+   */
+  credentials: { [propertyName: string]: string };
+  /**
+   * @member {boolean} [isBuffered] Whether records are buffered in the logger
+   * before publishing. Default is assumed to be true.
+   */
+  isBuffered?: boolean;
 }
 
 /**
@@ -1265,6 +1575,20 @@ export interface LoggerContract extends Resource {
    * before publishing. Default is assumed to be true.
    */
   isBuffered?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing DiagnosticContractProperties.
+ * Diagnostic Entity Properties
+ *
+ */
+export interface DiagnosticContractProperties {
+  /**
+   * @member {boolean} enabled Indicates whether a diagnostic should receive
+   * data or not.
+   */
+  enabled: boolean;
 }
 
 /**
@@ -1335,6 +1659,34 @@ export interface ProductEntityBaseParameters {
    * 'published'
    */
   state?: ProductState;
+}
+
+/**
+ * @interface
+ * An interface representing ProductUpdateProperties.
+ * Parameters supplied to the Update Product operation.
+ *
+ * @extends ProductEntityBaseParameters
+ */
+export interface ProductUpdateProperties extends ProductEntityBaseParameters {
+  /**
+   * @member {string} [displayName] Product name.
+   */
+  displayName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ProductContractProperties.
+ * Product profile.
+ *
+ * @extends ProductEntityBaseParameters
+ */
+export interface ProductContractProperties extends ProductEntityBaseParameters {
+  /**
+   * @member {string} displayName Product name.
+   */
+  displayName: string;
 }
 
 /**
@@ -1558,6 +1910,115 @@ export interface ProductContract extends Resource {
 
 /**
  * @interface
+ * An interface representing AuthorizationServerContractBaseProperties.
+ * External OAuth authorization server Update settings contract.
+ *
+ */
+export interface AuthorizationServerContractBaseProperties {
+  /**
+   * @member {string} [description] Description of the authorization server.
+   * Can contain HTML formatting tags.
+   */
+  description?: string;
+  /**
+   * @member {AuthorizationMethod[]} [authorizationMethods] HTTP verbs
+   * supported by the authorization endpoint. GET must be always present. POST
+   * is optional.
+   */
+  authorizationMethods?: AuthorizationMethod[];
+  /**
+   * @member {ClientAuthenticationMethod[]} [clientAuthenticationMethod] Method
+   * of authentication supported by the token endpoint of this authorization
+   * server. Possible values are Basic and/or Body. When Body is specified,
+   * client credentials and other parameters are passed within the request body
+   * in the application/x-www-form-urlencoded format.
+   */
+  clientAuthenticationMethod?: ClientAuthenticationMethod[];
+  /**
+   * @member {TokenBodyParameterContract[]} [tokenBodyParameters] Additional
+   * parameters required by the token endpoint of this authorization server
+   * represented as an array of JSON objects with name and value string
+   * properties, i.e. {"name" : "name value", "value": "a value"}.
+   */
+  tokenBodyParameters?: TokenBodyParameterContract[];
+  /**
+   * @member {string} [tokenEndpoint] OAuth token endpoint. Contains absolute
+   * URI to entity being referenced.
+   */
+  tokenEndpoint?: string;
+  /**
+   * @member {boolean} [supportState] If true, authorization server will
+   * include state parameter from the authorization request to its response.
+   * Client may use state parameter to raise protocol security.
+   */
+  supportState?: boolean;
+  /**
+   * @member {string} [defaultScope] Access token scope that is going to be
+   * requested by default. Can be overridden at the API level. Should be
+   * provided in the form of a string containing space-delimited values.
+   */
+  defaultScope?: string;
+  /**
+   * @member {BearerTokenSendingMethod[]} [bearerTokenSendingMethods] Specifies
+   * the mechanism by which access token is passed to the API.
+   */
+  bearerTokenSendingMethods?: BearerTokenSendingMethod[];
+  /**
+   * @member {string} [clientSecret] Client or app secret registered with this
+   * authorization server.
+   */
+  clientSecret?: string;
+  /**
+   * @member {string} [resourceOwnerUsername] Can be optionally specified when
+   * resource owner password grant type is supported by this authorization
+   * server. Default resource owner username.
+   */
+  resourceOwnerUsername?: string;
+  /**
+   * @member {string} [resourceOwnerPassword] Can be optionally specified when
+   * resource owner password grant type is supported by this authorization
+   * server. Default resource owner password.
+   */
+  resourceOwnerPassword?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AuthorizationServerContractProperties.
+ * External OAuth authorization server settings Properties.
+ *
+ * @extends AuthorizationServerContractBaseProperties
+ */
+export interface AuthorizationServerContractProperties extends AuthorizationServerContractBaseProperties {
+  /**
+   * @member {string} displayName User-friendly authorization server name.
+   */
+  displayName: string;
+  /**
+   * @member {string} clientRegistrationEndpoint Optional reference to a page
+   * where client or app registration for this authorization server is
+   * performed. Contains absolute URL to entity being referenced.
+   */
+  clientRegistrationEndpoint: string;
+  /**
+   * @member {string} authorizationEndpoint OAuth authorization endpoint. See
+   * http://tools.ietf.org/html/rfc6749#section-3.2.
+   */
+  authorizationEndpoint: string;
+  /**
+   * @member {GrantType[]} grantTypes Form of an authorization grant, which the
+   * client uses to request the access token.
+   */
+  grantTypes: GrantType[];
+  /**
+   * @member {string} clientId Client or app id registered with this
+   * authorization server.
+   */
+  clientId: string;
+}
+
+/**
+ * @interface
  * An interface representing AuthorizationServerContract.
  * External OAuth authorization server settings.
  *
@@ -1654,6 +2115,41 @@ export interface AuthorizationServerContract extends Resource {
    * authorization server.
    */
   clientId: string;
+}
+
+/**
+ * @interface
+ * An interface representing AuthorizationServerUpdateContractProperties.
+ * External OAuth authorization server Update settings contract.
+ *
+ * @extends AuthorizationServerContractBaseProperties
+ */
+export interface AuthorizationServerUpdateContractProperties extends AuthorizationServerContractBaseProperties {
+  /**
+   * @member {string} [displayName] User-friendly authorization server name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [clientRegistrationEndpoint] Optional reference to a page
+   * where client or app registration for this authorization server is
+   * performed. Contains absolute URL to entity being referenced.
+   */
+  clientRegistrationEndpoint?: string;
+  /**
+   * @member {string} [authorizationEndpoint] OAuth authorization endpoint. See
+   * http://tools.ietf.org/html/rfc6749#section-3.2.
+   */
+  authorizationEndpoint?: string;
+  /**
+   * @member {GrantType[]} [grantTypes] Form of an authorization grant, which
+   * the client uses to request the access token.
+   */
+  grantTypes?: GrantType[];
+  /**
+   * @member {string} [clientId] Client or app id registered with this
+   * authorization server.
+   */
+  clientId?: string;
 }
 
 /**
@@ -1771,80 +2267,6 @@ export interface TokenBodyParameterContract {
    * @member {string} value body parameter value.
    */
   value: string;
-}
-
-/**
- * @interface
- * An interface representing AuthorizationServerContractBaseProperties.
- * External OAuth authorization server Update settings contract.
- *
- */
-export interface AuthorizationServerContractBaseProperties {
-  /**
-   * @member {string} [description] Description of the authorization server.
-   * Can contain HTML formatting tags.
-   */
-  description?: string;
-  /**
-   * @member {AuthorizationMethod[]} [authorizationMethods] HTTP verbs
-   * supported by the authorization endpoint. GET must be always present. POST
-   * is optional.
-   */
-  authorizationMethods?: AuthorizationMethod[];
-  /**
-   * @member {ClientAuthenticationMethod[]} [clientAuthenticationMethod] Method
-   * of authentication supported by the token endpoint of this authorization
-   * server. Possible values are Basic and/or Body. When Body is specified,
-   * client credentials and other parameters are passed within the request body
-   * in the application/x-www-form-urlencoded format.
-   */
-  clientAuthenticationMethod?: ClientAuthenticationMethod[];
-  /**
-   * @member {TokenBodyParameterContract[]} [tokenBodyParameters] Additional
-   * parameters required by the token endpoint of this authorization server
-   * represented as an array of JSON objects with name and value string
-   * properties, i.e. {"name" : "name value", "value": "a value"}.
-   */
-  tokenBodyParameters?: TokenBodyParameterContract[];
-  /**
-   * @member {string} [tokenEndpoint] OAuth token endpoint. Contains absolute
-   * URI to entity being referenced.
-   */
-  tokenEndpoint?: string;
-  /**
-   * @member {boolean} [supportState] If true, authorization server will
-   * include state parameter from the authorization request to its response.
-   * Client may use state parameter to raise protocol security.
-   */
-  supportState?: boolean;
-  /**
-   * @member {string} [defaultScope] Access token scope that is going to be
-   * requested by default. Can be overridden at the API level. Should be
-   * provided in the form of a string containing space-delimited values.
-   */
-  defaultScope?: string;
-  /**
-   * @member {BearerTokenSendingMethod[]} [bearerTokenSendingMethods] Specifies
-   * the mechanism by which access token is passed to the API.
-   */
-  bearerTokenSendingMethods?: BearerTokenSendingMethod[];
-  /**
-   * @member {string} [clientSecret] Client or app secret registered with this
-   * authorization server.
-   */
-  clientSecret?: string;
-  /**
-   * @member {string} [resourceOwnerUsername] Can be optionally specified when
-   * resource owner password grant type is supported by this authorization
-   * server. Default resource owner username.
-   */
-  resourceOwnerUsername?: string;
-  /**
-   * @member {string} [resourceOwnerPassword] Can be optionally specified when
-   * resource owner password grant type is supported by this authorization
-   * server. Default resource owner password.
-   */
-  resourceOwnerPassword?: string;
 }
 
 /**
@@ -2043,6 +2465,25 @@ export interface BackendBaseParameters {
 
 /**
  * @interface
+ * An interface representing BackendContractProperties.
+ * Parameters supplied to the Create Backend operation.
+ *
+ * @extends BackendBaseParameters
+ */
+export interface BackendContractProperties extends BackendBaseParameters {
+  /**
+   * @member {string} url Runtime Url of the Backend.
+   */
+  url: string;
+  /**
+   * @member {BackendProtocol} protocol Backend communication protocol.
+   * Possible values include: 'http', 'soap'
+   */
+  protocol: BackendProtocol;
+}
+
+/**
+ * @interface
  * An interface representing BackendContract.
  * Backend details.
  *
@@ -2089,6 +2530,25 @@ export interface BackendContract extends Resource {
    * Possible values include: 'http', 'soap'
    */
   protocol: BackendProtocol;
+}
+
+/**
+ * @interface
+ * An interface representing BackendUpdateParameterProperties.
+ * Parameters supplied to the Update Backend operation.
+ *
+ * @extends BackendBaseParameters
+ */
+export interface BackendUpdateParameterProperties extends BackendBaseParameters {
+  /**
+   * @member {string} [url] Runtime Url of the Backend.
+   */
+  url?: string;
+  /**
+   * @member {BackendProtocol} [protocol] Backend communication protocol.
+   * Possible values include: 'http', 'soap'
+   */
+  protocol?: BackendProtocol;
 }
 
 /**
@@ -2142,6 +2602,20 @@ export interface BackendUpdateParameters {
 
 /**
  * @interface
+ * An interface representing BackendReconnectProperties.
+ * Properties to control reconnect requests.
+ *
+ */
+export interface BackendReconnectProperties {
+  /**
+   * @member {string} [after] Duration in ISO8601 format after which reconnect
+   * will be initiated. Minimum duration of the Reconect is PT2M.
+   */
+  after?: string;
+}
+
+/**
+ * @interface
  * An interface representing BackendReconnectContract.
  * Reconnect request parameters.
  *
@@ -2153,6 +2627,29 @@ export interface BackendReconnectContract extends Resource {
    * will be initiated. Minimum duration of the Reconect is PT2M.
    */
   after?: string;
+}
+
+/**
+ * @interface
+ * An interface representing CertificateContractProperties.
+ * Properties of the Certificate contract.
+ *
+ */
+export interface CertificateContractProperties {
+  /**
+   * @member {string} subject Subject attribute of the certificate.
+   */
+  subject: string;
+  /**
+   * @member {string} thumbprint Thumbprint of the certificate.
+   */
+  thumbprint: string;
+  /**
+   * @member {Date} expirationDate Expiration date of the certificate. The date
+   * conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by
+   * the ISO 8601 standard.
+   */
+  expirationDate: Date;
 }
 
 /**
@@ -2177,6 +2674,24 @@ export interface CertificateContract extends Resource {
    * the ISO 8601 standard.
    */
   expirationDate: Date;
+}
+
+/**
+ * @interface
+ * An interface representing CertificateCreateOrUpdateProperties.
+ * Parameters supplied to the CreateOrUpdate certificate operation.
+ *
+ */
+export interface CertificateCreateOrUpdateProperties {
+  /**
+   * @member {string} data Base 64 encoded certificate using the
+   * application/x-pkcs12 representation.
+   */
+  data: string;
+  /**
+   * @member {string} password Password for the Certificate
+   */
+  password: string;
 }
 
 /**
@@ -2558,6 +3073,42 @@ export interface ApiManagementServiceBaseProperties {
    * 'Internal'. Default value: 'None' .
    */
   virtualNetworkType?: VirtualNetworkType;
+}
+
+/**
+ * @interface
+ * An interface representing ApiManagementServiceProperties.
+ * Properties of an API Management service resource description.
+ *
+ * @extends ApiManagementServiceBaseProperties
+ */
+export interface ApiManagementServiceProperties extends ApiManagementServiceBaseProperties {
+  /**
+   * @member {string} publisherEmail Publisher email.
+   */
+  publisherEmail: string;
+  /**
+   * @member {string} publisherName Publisher name.
+   */
+  publisherName: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiManagementServiceUpdateProperties.
+ * Properties of an API Management service resource description.
+ *
+ * @extends ApiManagementServiceBaseProperties
+ */
+export interface ApiManagementServiceUpdateProperties extends ApiManagementServiceBaseProperties {
+  /**
+   * @member {string} [publisherEmail] Publisher email.
+   */
+  publisherEmail?: string;
+  /**
+   * @member {string} [publisherName] Publisher name.
+   */
+  publisherName?: string;
 }
 
 /**
@@ -3147,6 +3698,44 @@ export interface EmailTemplateParametersContractProperties {
 
 /**
  * @interface
+ * An interface representing EmailTemplateContractProperties.
+ * Email Template Contract properties.
+ *
+ */
+export interface EmailTemplateContractProperties {
+  /**
+   * @member {string} subject Subject of the Template.
+   */
+  subject: string;
+  /**
+   * @member {string} body Email Template Body. This should be a valid
+   * XDocument
+   */
+  body: string;
+  /**
+   * @member {string} [title] Title of the Template.
+   */
+  title?: string;
+  /**
+   * @member {string} [description] Description of the Email Template.
+   */
+  description?: string;
+  /**
+   * @member {boolean} [isDefault] Whether the template is the default template
+   * provided by Api Management or has been edited.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly isDefault?: boolean;
+  /**
+   * @member {EmailTemplateParametersContractProperties[]} [parameters] Email
+   * Template Parameter values.
+   */
+  parameters?: EmailTemplateParametersContractProperties[];
+}
+
+/**
+ * @interface
  * An interface representing EmailTemplateContract.
  * Email Template details.
  *
@@ -3177,6 +3766,37 @@ export interface EmailTemplateContract extends Resource {
    * the server.**
    */
   readonly isDefault?: boolean;
+  /**
+   * @member {EmailTemplateParametersContractProperties[]} [parameters] Email
+   * Template Parameter values.
+   */
+  parameters?: EmailTemplateParametersContractProperties[];
+}
+
+/**
+ * @interface
+ * An interface representing EmailTemplateUpdateParameterProperties.
+ * Email Template Update Contract properties.
+ *
+ */
+export interface EmailTemplateUpdateParameterProperties {
+  /**
+   * @member {string} [subject] Subject of the Template.
+   */
+  subject?: string;
+  /**
+   * @member {string} [title] Title of the Template.
+   */
+  title?: string;
+  /**
+   * @member {string} [description] Description of the Email Template.
+   */
+  description?: string;
+  /**
+   * @member {string} [body] Email Template Body. This should be a valid
+   * XDocument
+   */
+  body?: string;
   /**
    * @member {EmailTemplateParametersContractProperties[]} [parameters] Email
    * Template Parameter values.
@@ -3292,6 +3912,36 @@ export interface GroupContract extends Resource {
 
 /**
  * @interface
+ * An interface representing GroupCreateParametersProperties.
+ * Parameters supplied to the Create Group operation.
+ *
+ */
+export interface GroupCreateParametersProperties {
+  /**
+   * @member {string} displayName Group name.
+   */
+  displayName: string;
+  /**
+   * @member {string} [description] Group description.
+   */
+  description?: string;
+  /**
+   * @member {GroupType} [type] Group type. Possible values include: 'custom',
+   * 'system', 'external'
+   */
+  type?: GroupType;
+  /**
+   * @member {string} [externalId] Identifier of the external groups, this
+   * property contains the id of the group from the external identity provider,
+   * e.g. for Azure Active Directory
+   * aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the
+   * value is null.
+   */
+  externalId?: string;
+}
+
+/**
+ * @interface
  * An interface representing GroupCreateParameters.
  * Parameters supplied to the Create Group operation.
  *
@@ -3301,6 +3951,36 @@ export interface GroupCreateParameters {
    * @member {string} displayName Group name.
    */
   displayName: string;
+  /**
+   * @member {string} [description] Group description.
+   */
+  description?: string;
+  /**
+   * @member {GroupType} [type] Group type. Possible values include: 'custom',
+   * 'system', 'external'
+   */
+  type?: GroupType;
+  /**
+   * @member {string} [externalId] Identifier of the external groups, this
+   * property contains the id of the group from the external identity provider,
+   * e.g. for Azure Active Directory
+   * aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the
+   * value is null.
+   */
+  externalId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing GroupUpdateParametersProperties.
+ * Parameters supplied to the Update Group operation.
+ *
+ */
+export interface GroupUpdateParametersProperties {
+  /**
+   * @member {string} [displayName] Group name.
+   */
+  displayName?: string;
   /**
    * @member {string} [description] Group description.
    */
@@ -3398,6 +4078,102 @@ export interface UserEntityBaseParameters {
 
 /**
  * @interface
+ * An interface representing UserUpdateParametersProperties.
+ * Parameters supplied to the Update User operation.
+ *
+ * @extends UserEntityBaseParameters
+ */
+export interface UserUpdateParametersProperties extends UserEntityBaseParameters {
+  /**
+   * @member {string} [email] Email address. Must not be empty and must be
+   * unique within the service instance.
+   */
+  email?: string;
+  /**
+   * @member {string} [password] User Password.
+   */
+  password?: string;
+  /**
+   * @member {string} [firstName] First name.
+   */
+  firstName?: string;
+  /**
+   * @member {string} [lastName] Last name.
+   */
+  lastName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing UserCreateParameterProperties.
+ * Parameters supplied to the Create User operation.
+ *
+ * @extends UserEntityBaseParameters
+ */
+export interface UserCreateParameterProperties extends UserEntityBaseParameters {
+  /**
+   * @member {string} email Email address. Must not be empty and must be unique
+   * within the service instance.
+   */
+  email: string;
+  /**
+   * @member {string} firstName First name.
+   */
+  firstName: string;
+  /**
+   * @member {string} lastName Last name.
+   */
+  lastName: string;
+  /**
+   * @member {string} [password] User Password. If no value is provided, a
+   * default password is generated.
+   */
+  password?: string;
+  /**
+   * @member {Confirmation} [confirmation] Determines the type of confirmation
+   * e-mail that will be sent to the newly created user. Possible values
+   * include: 'signup', 'invite'
+   */
+  confirmation?: Confirmation;
+}
+
+/**
+ * @interface
+ * An interface representing UserContractProperties.
+ * User profile.
+ *
+ * @extends UserEntityBaseParameters
+ */
+export interface UserContractProperties extends UserEntityBaseParameters {
+  /**
+   * @member {string} [firstName] First name.
+   */
+  firstName?: string;
+  /**
+   * @member {string} [lastName] Last name.
+   */
+  lastName?: string;
+  /**
+   * @member {string} [email] Email address.
+   */
+  email?: string;
+  /**
+   * @member {Date} [registrationDate] Date of user registration. The date
+   * conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by
+   * the ISO 8601 standard.
+   */
+  registrationDate?: Date;
+  /**
+   * @member {GroupContractProperties[]} [groups] Collection of groups user is
+   * part of.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly groups?: GroupContractProperties[];
+}
+
+/**
+ * @interface
  * An interface representing UserContract.
  * User details.
  *
@@ -3449,6 +4225,71 @@ export interface UserContract extends Resource {
    * the server.**
    */
   readonly groups?: GroupContractProperties[];
+}
+
+/**
+ * @interface
+ * An interface representing IdentityProviderBaseParameters.
+ * Identity Provider Base Parameter Properties.
+ *
+ */
+export interface IdentityProviderBaseParameters {
+  /**
+   * @member {IdentityProviderType} [type] Identity Provider Type identifier.
+   * Possible values include: 'facebook', 'google', 'microsoft', 'twitter',
+   * 'aad', 'aadB2C'
+   */
+  type?: IdentityProviderType;
+  /**
+   * @member {string[]} [allowedTenants] List of Allowed Tenants when
+   * configuring Azure Active Directory login.
+   */
+  allowedTenants?: string[];
+  /**
+   * @member {string} [signupPolicyName] Signup Policy Name. Only applies to
+   * AAD B2C Identity Provider.
+   */
+  signupPolicyName?: string;
+  /**
+   * @member {string} [signinPolicyName] Signin Policy Name. Only applies to
+   * AAD B2C Identity Provider.
+   */
+  signinPolicyName?: string;
+  /**
+   * @member {string} [profileEditingPolicyName] Profile Editing Policy Name.
+   * Only applies to AAD B2C Identity Provider.
+   */
+  profileEditingPolicyName?: string;
+  /**
+   * @member {string} [passwordResetPolicyName] Password Reset Policy Name.
+   * Only applies to AAD B2C Identity Provider.
+   */
+  passwordResetPolicyName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing IdentityProviderContractProperties.
+ * The external Identity Providers like Facebook, Google, Microsoft, Twitter or
+ * Azure Active Directory which can be used to enable access to the API
+ * Management service developer portal for all users.
+ *
+ * @extends IdentityProviderBaseParameters
+ */
+export interface IdentityProviderContractProperties extends IdentityProviderBaseParameters {
+  /**
+   * @member {string} clientId Client Id of the Application in the external
+   * Identity Provider. It is App ID for Facebook login, Client ID for Google
+   * login, App ID for Microsoft.
+   */
+  clientId: string;
+  /**
+   * @member {string} clientSecret Client secret of the Application in external
+   * Identity Provider, used to authenticate login request. For example, it is
+   * App Secret for Facebook login, API Key for Google login, Public Key for
+   * Microsoft.
+   */
+  clientSecret: string;
 }
 
 /**
@@ -3507,6 +4348,29 @@ export interface IdentityProviderContract extends Resource {
 
 /**
  * @interface
+ * An interface representing IdentityProviderUpdateProperties.
+ * Parameters supplied to the Update Identity Provider operation.
+ *
+ * @extends IdentityProviderBaseParameters
+ */
+export interface IdentityProviderUpdateProperties extends IdentityProviderBaseParameters {
+  /**
+   * @member {string} [clientId] Client Id of the Application in the external
+   * Identity Provider. It is App ID for Facebook login, Client ID for Google
+   * login, App ID for Microsoft.
+   */
+  clientId?: string;
+  /**
+   * @member {string} [clientSecret] Client secret of the Application in
+   * external Identity Provider, used to authenticate login request. For
+   * example, it is App Secret for Facebook login, API Key for Google login,
+   * Public Key for Microsoft.
+   */
+  clientSecret?: string;
+}
+
+/**
+ * @interface
  * An interface representing IdentityProviderUpdateParameters.
  * Parameters supplied to update Identity Provider
  *
@@ -3560,42 +4424,30 @@ export interface IdentityProviderUpdateParameters {
 
 /**
  * @interface
- * An interface representing IdentityProviderBaseParameters.
- * Identity Provider Base Parameter Properties.
+ * An interface representing LoggerUpdateParameters.
+ * Parameters supplied to the Update Logger operation.
  *
  */
-export interface IdentityProviderBaseParameters {
+export interface LoggerUpdateParameters {
   /**
-   * @member {IdentityProviderType} [type] Identity Provider Type identifier.
-   * Possible values include: 'facebook', 'google', 'microsoft', 'twitter',
-   * 'aad', 'aadB2C'
+   * @member {LoggerType} [loggerType] Logger type. Possible values include:
+   * 'azureEventHub', 'applicationInsights'
    */
-  type?: IdentityProviderType;
+  loggerType?: LoggerType;
   /**
-   * @member {string[]} [allowedTenants] List of Allowed Tenants when
-   * configuring Azure Active Directory login.
+   * @member {string} [description] Logger description.
    */
-  allowedTenants?: string[];
+  description?: string;
   /**
-   * @member {string} [signupPolicyName] Signup Policy Name. Only applies to
-   * AAD B2C Identity Provider.
+   * @member {{ [propertyName: string]: string }} [credentials] Logger
+   * credentials.
    */
-  signupPolicyName?: string;
+  credentials?: { [propertyName: string]: string };
   /**
-   * @member {string} [signinPolicyName] Signin Policy Name. Only applies to
-   * AAD B2C Identity Provider.
+   * @member {boolean} [isBuffered] Whether records are buffered in the logger
+   * before publishing. Default is assumed to be true.
    */
-  signinPolicyName?: string;
-  /**
-   * @member {string} [profileEditingPolicyName] Profile Editing Policy Name.
-   * Only applies to AAD B2C Identity Provider.
-   */
-  profileEditingPolicyName?: string;
-  /**
-   * @member {string} [passwordResetPolicyName] Password Reset Policy Name.
-   * Only applies to AAD B2C Identity Provider.
-   */
-  passwordResetPolicyName?: string;
+  isBuffered?: boolean;
 }
 
 /**
@@ -3646,6 +4498,28 @@ export interface RecipientsContractProperties {
 
 /**
  * @interface
+ * An interface representing NotificationContractProperties.
+ * Notification Contract properties.
+ *
+ */
+export interface NotificationContractProperties {
+  /**
+   * @member {string} title Title of the Notification.
+   */
+  title: string;
+  /**
+   * @member {string} [description] Description of the Notification.
+   */
+  description?: string;
+  /**
+   * @member {RecipientsContractProperties} [recipients] Recipient Parameter
+   * values.
+   */
+  recipients?: RecipientsContractProperties;
+}
+
+/**
+ * @interface
  * An interface representing NotificationContract.
  * Notification details.
  *
@@ -3665,6 +4539,20 @@ export interface NotificationContract extends Resource {
    * values.
    */
   recipients?: RecipientsContractProperties;
+}
+
+/**
+ * @interface
+ * An interface representing RecipientUsersContractProperties.
+ * Recipient User Contract Properties.
+ *
+ */
+export interface RecipientUsersContractProperties {
+  /**
+   * @member {string} [userId] API Management UserId subscribed to
+   * notification.
+   */
+  userId?: string;
 }
 
 /**
@@ -3697,6 +4585,19 @@ export interface RecipientUserCollection {
    * @member {string} [nextLink] Next page link if any.
    */
   nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing RecipientEmailContractProperties.
+ * Recipient Email Contract Properties.
+ *
+ */
+export interface RecipientEmailContractProperties {
+  /**
+   * @member {string} [email] User Email subscribed to notification.
+   */
+  email?: string;
 }
 
 /**
@@ -3808,6 +4709,38 @@ export interface NetworkStatusContractByLocation {
 
 /**
  * @interface
+ * An interface representing OpenidConnectProviderContractProperties.
+ * OpenID Connect Providers Contract.
+ *
+ */
+export interface OpenidConnectProviderContractProperties {
+  /**
+   * @member {string} displayName User-friendly OpenID Connect Provider name.
+   */
+  displayName: string;
+  /**
+   * @member {string} [description] User-friendly description of OpenID Connect
+   * Provider.
+   */
+  description?: string;
+  /**
+   * @member {string} metadataEndpoint Metadata endpoint URI.
+   */
+  metadataEndpoint: string;
+  /**
+   * @member {string} clientId Client ID of developer console which is the
+   * client application.
+   */
+  clientId: string;
+  /**
+   * @member {string} [clientSecret] Client Secret of developer console which
+   * is the client application.
+   */
+  clientSecret?: string;
+}
+
+/**
+ * @interface
  * An interface representing OpenidConnectProviderContract.
  * OpenId Connect Provider details.
  *
@@ -3832,6 +4765,38 @@ export interface OpenidConnectProviderContract extends Resource {
    * client application.
    */
   clientId: string;
+  /**
+   * @member {string} [clientSecret] Client Secret of developer console which
+   * is the client application.
+   */
+  clientSecret?: string;
+}
+
+/**
+ * @interface
+ * An interface representing OpenidConnectProviderUpdateContractProperties.
+ * Parameters supplied to the Update OpenID Connect Provider operation.
+ *
+ */
+export interface OpenidConnectProviderUpdateContractProperties {
+  /**
+   * @member {string} [displayName] User-friendly OpenID Connect Provider name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [description] User-friendly description of OpenID Connect
+   * Provider.
+   */
+  description?: string;
+  /**
+   * @member {string} [metadataEndpoint] Metadata endpoint URI.
+   */
+  metadataEndpoint?: string;
+  /**
+   * @member {string} [clientId] Client ID of developer console which is the
+   * client application.
+   */
+  clientId?: string;
   /**
    * @member {string} [clientSecret] Client Secret of developer console which
    * is the client application.
@@ -3873,6 +4838,19 @@ export interface OpenidConnectProviderUpdateContract {
 
 /**
  * @interface
+ * An interface representing PortalSigninSettingProperties.
+ * Sign-in settings contract properties.
+ *
+ */
+export interface PortalSigninSettingProperties {
+  /**
+   * @member {boolean} [enabled] Redirect Anonymous users to the Sign-In page.
+   */
+  enabled?: boolean;
+}
+
+/**
+ * @interface
  * An interface representing PortalSigninSettings.
  * Sign-In settings for the Developer Portal.
  *
@@ -3906,6 +4884,24 @@ export interface TermsOfServiceProperties {
    * service.
    */
   consentRequired?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing PortalSignupSettingsProperties.
+ * Sign-up settings contract properties.
+ *
+ */
+export interface PortalSignupSettingsProperties {
+  /**
+   * @member {boolean} [enabled] Allow users to sign up on a developer portal.
+   */
+  enabled?: boolean;
+  /**
+   * @member {TermsOfServiceProperties} [termsOfService] Terms of service
+   * contract properties.
+   */
+  termsOfService?: TermsOfServiceProperties;
 }
 
 /**
@@ -3953,6 +4949,34 @@ export interface RegistrationDelegationSettingsProperties {
    * registration.
    */
   enabled?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing PortalDelegationSettingsProperties.
+ * Delegation settings contract properties.
+ *
+ */
+export interface PortalDelegationSettingsProperties {
+  /**
+   * @member {string} [url] A delegation Url.
+   */
+  url?: string;
+  /**
+   * @member {string} [validationKey] A base64-encoded validation key to
+   * validate, that a request is coming from Azure API Management.
+   */
+  validationKey?: string;
+  /**
+   * @member {SubscriptionsDelegationSettingsProperties} [subscriptions]
+   * Subscriptions delegation settings.
+   */
+  subscriptions?: SubscriptionsDelegationSettingsProperties;
+  /**
+   * @member {RegistrationDelegationSettingsProperties} [userRegistration] User
+   * registration delegation settings.
+   */
+  userRegistration?: RegistrationDelegationSettingsProperties;
 }
 
 /**
@@ -4041,6 +5065,97 @@ export interface ProductUpdateParameters {
    * @member {string} [displayName] Product name.
    */
   displayName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing SubscriptionContractProperties.
+ * Subscription details.
+ *
+ */
+export interface SubscriptionContractProperties {
+  /**
+   * @member {string} userId The user resource identifier of the subscription
+   * owner. The value is a valid relative URL in the format of /users/{uid}
+   * where {uid} is a user identifier.
+   */
+  userId: string;
+  /**
+   * @member {string} productId The product resource identifier of the
+   * subscribed product. The value is a valid relative URL in the format of
+   * /products/{productId} where {productId} is a product identifier.
+   */
+  productId: string;
+  /**
+   * @member {string} [displayName] The name of the subscription, or null if
+   * the subscription has no name.
+   */
+  displayName?: string;
+  /**
+   * @member {SubscriptionState} state Subscription state. Possible states are
+   * * active – the subscription is active, * suspended – the subscription is
+   * blocked, and the subscriber cannot call any APIs of the product, *
+   * submitted – the subscription request has been made by the developer, but
+   * has not yet been approved or rejected, * rejected – the subscription
+   * request has been denied by an administrator, * cancelled – the
+   * subscription has been cancelled by the developer or administrator, *
+   * expired – the subscription reached its expiration date and was
+   * deactivated. Possible values include: 'suspended', 'active', 'expired',
+   * 'submitted', 'rejected', 'cancelled'
+   */
+  state: SubscriptionState;
+  /**
+   * @member {Date} [createdDate] Subscription creation date. The date conforms
+   * to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO
+   * 8601 standard.
+   *
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly createdDate?: Date;
+  /**
+   * @member {Date} [startDate] Subscription activation date. The setting is
+   * for audit purposes only and the subscription is not automatically
+   * activated. The subscription lifecycle can be managed by using the `state`
+   * property. The date conforms to the following format:
+   * `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+   */
+  startDate?: Date;
+  /**
+   * @member {Date} [expirationDate] Subscription expiration date. The setting
+   * is for audit purposes only and the subscription is not automatically
+   * expired. The subscription lifecycle can be managed by using the `state`
+   * property. The date conforms to the following format:
+   * `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+   */
+  expirationDate?: Date;
+  /**
+   * @member {Date} [endDate] Date when subscription was cancelled or expired.
+   * The setting is for audit purposes only and the subscription is not
+   * automatically cancelled. The subscription lifecycle can be managed by
+   * using the `state` property. The date conforms to the following format:
+   * `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+   */
+  endDate?: Date;
+  /**
+   * @member {Date} [notificationDate] Upcoming subscription expiration
+   * notification date. The date conforms to the following format:
+   * `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+   */
+  notificationDate?: Date;
+  /**
+   * @member {string} primaryKey Subscription primary key.
+   */
+  primaryKey: string;
+  /**
+   * @member {string} secondaryKey Subscription secondary key.
+   */
+  secondaryKey: string;
+  /**
+   * @member {string} [stateComment] Optional subscription comment added by an
+   * administrator.
+   */
+  stateComment?: string;
 }
 
 /**
@@ -4137,6 +5252,45 @@ export interface SubscriptionContract extends Resource {
 
 /**
  * @interface
+ * An interface representing PropertyEntityBaseParameters.
+ * Property Entity Base Parameters set.
+ *
+ */
+export interface PropertyEntityBaseParameters {
+  /**
+   * @member {string[]} [tags] Optional tags that when provided can be used to
+   * filter the property list.
+   */
+  tags?: string[];
+  /**
+   * @member {boolean} [secret] Determines whether the value is a secret and
+   * should be encrypted or not. Default value is false.
+   */
+  secret?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing PropertyContractProperties.
+ * Property Contract properties.
+ *
+ * @extends PropertyEntityBaseParameters
+ */
+export interface PropertyContractProperties extends PropertyEntityBaseParameters {
+  /**
+   * @member {string} displayName Unique name of Property. It may contain only
+   * letters, digits, period, dash, and underscore characters.
+   */
+  displayName: string;
+  /**
+   * @member {string} value Value of the property. Can contain policy
+   * expressions. It may not be empty or consist only of whitespace.
+   */
+  value: string;
+}
+
+/**
+ * @interface
  * An interface representing PropertyContract.
  * Property details.
  *
@@ -4167,6 +5321,26 @@ export interface PropertyContract extends Resource {
 
 /**
  * @interface
+ * An interface representing PropertyUpdateParameterProperties.
+ * Property Contract properties.
+ *
+ * @extends PropertyEntityBaseParameters
+ */
+export interface PropertyUpdateParameterProperties extends PropertyEntityBaseParameters {
+  /**
+   * @member {string} [displayName] Unique name of Property. It may contain
+   * only letters, digits, period, dash, and underscore characters.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [value] Value of the property. Can contain policy
+   * expressions. It may not be empty or consist only of whitespace.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
  * An interface representing PropertyUpdateParameters.
  * Property update Parameters.
  *
@@ -4192,25 +5366,6 @@ export interface PropertyUpdateParameters {
    * expressions. It may not be empty or consist only of whitespace.
    */
   value?: string;
-}
-
-/**
- * @interface
- * An interface representing PropertyEntityBaseParameters.
- * Property Entity Base Parameters set.
- *
- */
-export interface PropertyEntityBaseParameters {
-  /**
-   * @member {string[]} [tags] Optional tags that when provided can be used to
-   * filter the property list.
-   */
-  tags?: string[];
-  /**
-   * @member {boolean} [secret] Determines whether the value is a secret and
-   * should be encrypted or not. Default value is false.
-   */
-  secret?: boolean;
 }
 
 /**
@@ -4543,6 +5698,53 @@ export interface RequestReportRecordContract {
 
 /**
  * @interface
+ * An interface representing SubscriptionCreateParameterProperties.
+ * Parameters supplied to the Create subscription operation.
+ *
+ */
+export interface SubscriptionCreateParameterProperties {
+  /**
+   * @member {string} userId User (user id path) for whom subscription is being
+   * created in form /users/{uid}
+   */
+  userId: string;
+  /**
+   * @member {string} productId Product (product id path) for which
+   * subscription is being created in form /products/{productid}
+   */
+  productId: string;
+  /**
+   * @member {string} displayName Subscription name.
+   */
+  displayName: string;
+  /**
+   * @member {string} [primaryKey] Primary subscription key. If not specified
+   * during request key will be generated automatically.
+   */
+  primaryKey?: string;
+  /**
+   * @member {string} [secondaryKey] Secondary subscription key. If not
+   * specified during request key will be generated automatically.
+   */
+  secondaryKey?: string;
+  /**
+   * @member {SubscriptionState} [state] Initial subscription state. If no
+   * value is specified, subscription is created with Submitted state. Possible
+   * states are * active – the subscription is active, * suspended – the
+   * subscription is blocked, and the subscriber cannot call any APIs of the
+   * product, * submitted – the subscription request has been made by the
+   * developer, but has not yet been approved or rejected, * rejected – the
+   * subscription request has been denied by an administrator, * cancelled –
+   * the subscription has been cancelled by the developer or administrator, *
+   * expired – the subscription reached its expiration date and was
+   * deactivated. Possible values include: 'suspended', 'active', 'expired',
+   * 'submitted', 'rejected', 'cancelled'
+   */
+  state?: SubscriptionState;
+}
+
+/**
+ * @interface
  * An interface representing SubscriptionCreateParameters.
  * Subscription create details.
  *
@@ -4586,6 +5788,62 @@ export interface SubscriptionCreateParameters {
    * 'submitted', 'rejected', 'cancelled'
    */
   state?: SubscriptionState;
+}
+
+/**
+ * @interface
+ * An interface representing SubscriptionUpdateParameterProperties.
+ * Parameters supplied to the Update subscription operation.
+ *
+ */
+export interface SubscriptionUpdateParameterProperties {
+  /**
+   * @member {string} [userId] User identifier path: /users/{uid}
+   */
+  userId?: string;
+  /**
+   * @member {string} [productId] Product identifier path:
+   * /products/{productId}
+   */
+  productId?: string;
+  /**
+   * @member {Date} [expirationDate] Subscription expiration date. The setting
+   * is for audit purposes only and the subscription is not automatically
+   * expired. The subscription lifecycle can be managed by using the `state`
+   * property. The date conforms to the following format:
+   * `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
+   */
+  expirationDate?: Date;
+  /**
+   * @member {string} [displayName] Subscription name.
+   */
+  displayName?: string;
+  /**
+   * @member {string} [primaryKey] Primary subscription key.
+   */
+  primaryKey?: string;
+  /**
+   * @member {string} [secondaryKey] Secondary subscription key.
+   */
+  secondaryKey?: string;
+  /**
+   * @member {SubscriptionState} [state] Subscription state. Possible states
+   * are * active – the subscription is active, * suspended – the subscription
+   * is blocked, and the subscriber cannot call any APIs of the product, *
+   * submitted – the subscription request has been made by the developer, but
+   * has not yet been approved or rejected, * rejected – the subscription
+   * request has been denied by an administrator, * cancelled – the
+   * subscription has been cancelled by the developer or administrator, *
+   * expired – the subscription reached its expiration date and was
+   * deactivated. Possible values include: 'suspended', 'active', 'expired',
+   * 'submitted', 'rejected', 'cancelled'
+   */
+  state?: SubscriptionState;
+  /**
+   * @member {string} [stateComment] Comments describing subscription state
+   * change by the administrator.
+   */
+  stateComment?: string;
 }
 
 /**
@@ -4646,6 +5904,19 @@ export interface SubscriptionUpdateParameters {
 
 /**
  * @interface
+ * An interface representing TagContractProperties.
+ * Tag contract Properties.
+ *
+ */
+export interface TagContractProperties {
+  /**
+   * @member {string} displayName Tag name.
+   */
+  displayName: string;
+}
+
+/**
+ * @interface
  * An interface representing TagContract.
  * Tag Contract details.
  *
@@ -4669,6 +5940,43 @@ export interface TagCreateUpdateParameters {
    * @member {string} displayName Tag name.
    */
   displayName: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagDescriptionBaseProperties.
+ * Parameters supplied to the Create TagDescription operation.
+ *
+ */
+export interface TagDescriptionBaseProperties {
+  /**
+   * @member {string} [description] Description of the Tag.
+   */
+  description?: string;
+  /**
+   * @member {string} [externalDocsUrl] Absolute URL of external resources
+   * describing the tag.
+   */
+  externalDocsUrl?: string;
+  /**
+   * @member {string} [externalDocsDescription] Description of the external
+   * resources describing the tag.
+   */
+  externalDocsDescription?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TagDescriptionContractProperties.
+ * TagDescription contract Properties.
+ *
+ * @extends TagDescriptionBaseProperties
+ */
+export interface TagDescriptionContractProperties extends TagDescriptionBaseProperties {
+  /**
+   * @member {string} [displayName] Tag name.
+   */
+  displayName?: string;
 }
 
 /**
@@ -5062,6 +6370,49 @@ export interface UserUpdateParameters {
 
 /**
  * @interface
+ * An interface representing ApiVersionSetEntityBase.
+ * Api Version set base parameters
+ *
+ */
+export interface ApiVersionSetEntityBase {
+  /**
+   * @member {string} [description] Description of API Version Set.
+   */
+  description?: string;
+  /**
+   * @member {string} [versionQueryName] Name of query parameter that indicates
+   * the API Version if versioningScheme is set to `query`.
+   */
+  versionQueryName?: string;
+  /**
+   * @member {string} [versionHeaderName] Name of HTTP header parameter that
+   * indicates the API Version if versioningScheme is set to `header`.
+   */
+  versionHeaderName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ApiVersionSetContractProperties.
+ * Properties of an API Version Set.
+ *
+ * @extends ApiVersionSetEntityBase
+ */
+export interface ApiVersionSetContractProperties extends ApiVersionSetEntityBase {
+  /**
+   * @member {string} displayName Name of API Version Set
+   */
+  displayName: string;
+  /**
+   * @member {VersioningScheme} versioningScheme An value that determines where
+   * the API Version identifer will be located in a HTTP request. Possible
+   * values include: 'Segment', 'Query', 'Header'
+   */
+  versioningScheme: VersioningScheme;
+}
+
+/**
+ * @interface
  * An interface representing ApiVersionSetContract.
  * Api Version Set Contract details.
  *
@@ -5096,25 +6447,22 @@ export interface ApiVersionSetContract extends Resource {
 
 /**
  * @interface
- * An interface representing ApiVersionSetEntityBase.
- * Api Version set base parameters
+ * An interface representing ApiVersionSetUpdateParametersProperties.
+ * Properties used to create or update an API Version Set.
  *
+ * @extends ApiVersionSetEntityBase
  */
-export interface ApiVersionSetEntityBase {
+export interface ApiVersionSetUpdateParametersProperties extends ApiVersionSetEntityBase {
   /**
-   * @member {string} [description] Description of API Version Set.
+   * @member {string} [displayName] Name of API Version Set
    */
-  description?: string;
+  displayName?: string;
   /**
-   * @member {string} [versionQueryName] Name of query parameter that indicates
-   * the API Version if versioningScheme is set to `query`.
+   * @member {VersioningScheme} [versioningScheme] An value that determines
+   * where the API Version identifer will be located in a HTTP request.
+   * Possible values include: 'Segment', 'Query', 'Header'
    */
-  versionQueryName?: string;
-  /**
-   * @member {string} [versionHeaderName] Name of HTTP header parameter that
-   * indicates the API Version if versioningScheme is set to `header`.
-   */
-  versionHeaderName?: string;
+  versioningScheme?: VersioningScheme;
 }
 
 /**

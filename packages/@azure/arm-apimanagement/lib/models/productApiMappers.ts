@@ -19,6 +19,7 @@ export {
   SubscriptionKeyParameterNamesContract,
   ApiVersionSetContractDetails,
   ErrorResponse,
+  ErrorFieldContract,
   PolicyContract,
   ApiReleaseContract,
   OperationContract,

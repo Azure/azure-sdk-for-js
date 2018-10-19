@@ -12,6 +12,7 @@ export {
   QuotaCounterCollection,
   QuotaCounterContract,
   QuotaCounterValueContractProperties,
-  ErrorResponse
+  ErrorResponse,
+  ErrorFieldContract
 } from "../models/mappers";
 

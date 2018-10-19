@@ -11,6 +11,7 @@
 export {
   SignUpSettingsGetEntityTagHeaders,
   ErrorResponse,
+  ErrorFieldContract,
   PortalSignupSettings,
   Resource,
   BaseResource,

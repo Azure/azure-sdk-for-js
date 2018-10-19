@@ -17,6 +17,7 @@ export {
   CloudError,
   AuthorizationServerGetEntityTagHeaders,
   ErrorResponse,
+  ErrorFieldContract,
   AuthorizationServerGetHeaders,
   AuthorizationServerUpdateContract,
   PolicyContract,

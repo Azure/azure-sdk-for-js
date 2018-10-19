@@ -17,6 +17,7 @@ export {
   CloudError,
   EmailTemplateGetEntityTagHeaders,
   ErrorResponse,
+  ErrorFieldContract,
   EmailTemplateGetHeaders,
   EmailTemplateUpdateParameters,
   PolicyContract,

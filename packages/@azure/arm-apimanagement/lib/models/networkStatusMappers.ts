@@ -12,6 +12,7 @@ export {
   NetworkStatusContractByLocation,
   NetworkStatusContract,
   ConnectivityStatusContract,
-  ErrorResponse
+  ErrorResponse,
+  ErrorFieldContract
 } from "../models/mappers";
 

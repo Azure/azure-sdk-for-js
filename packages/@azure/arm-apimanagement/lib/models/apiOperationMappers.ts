@@ -18,6 +18,7 @@ export {
   RepresentationContract,
   ResponseContract,
   ErrorResponse,
+  ErrorFieldContract,
   ApiOperationGetEntityTagHeaders,
   ApiOperationGetHeaders,
   OperationUpdateContract,
