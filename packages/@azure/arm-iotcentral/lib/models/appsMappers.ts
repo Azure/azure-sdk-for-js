@@ -14,10 +14,9 @@ export {
   BaseResource,
   AppSkuInfo,
   ErrorDetails,
-  ErrorResponseBody,
   AppPatch,
   AppListResult,
   OperationInputs,
-  AppAvailabilityInfo
+  AppNameAvailabilityInfo
 } from "../models/mappers";
 

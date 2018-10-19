@@ -105,46 +105,6 @@
      */
     var CloudError = msRestAzure.CloudErrorMapper;
     var BaseResource = msRestAzure.BaseResourceMapper;
-    var AppProperties = {
-        serializedName: "AppProperties",
-        type: {
-            name: "Composite",
-            className: "AppProperties",
-            modelProperties: {
-                applicationId: {
-                    readOnly: true,
-                    serializedName: "applicationId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                displayName: {
-                    serializedName: "displayName",
-                    constraints: {
-                        Pattern: /^.{1,200}$/
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                subdomain: {
-                    serializedName: "subdomain",
-                    constraints: {
-                        Pattern: /^[a-z0-9-]{1,63}$/
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                template: {
-                    serializedName: "template",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var AppSkuInfo = {
         serializedName: "AppSkuInfo",
         type: {
@@ -503,7 +463,6 @@
     var mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
         BaseResource: BaseResource,
-        AppProperties: AppProperties,
         AppSkuInfo: AppSkuInfo,
         Resource: Resource,
         App: App,

@@ -185,11 +185,11 @@ export const AppPatch: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorResponseBody: msRest.CompositeMapper = {
-  serializedName: "ErrorResponseBody",
+export const ErrorDetails: msRest.CompositeMapper = {
+  serializedName: "ErrorDetails",
   type: {
     name: "Composite",
-    className: "ErrorResponseBody",
+    className: "ErrorDetails",
     modelProperties: {
       code: {
         readOnly: true,
@@ -210,61 +210,6 @@ export const ErrorResponseBody: msRest.CompositeMapper = {
         serializedName: "target",
         type: {
           name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorResponseBody"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ErrorDetails: msRest.CompositeMapper = {
-  serializedName: "ErrorDetails",
-  type: {
-    name: "Composite",
-    className: "ErrorDetails",
-    modelProperties: {
-      code: {
-        readOnly: true,
-        serializedName: "error.code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "error.message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        readOnly: true,
-        serializedName: "error.target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "error.details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorResponseBody"
-            }
-          }
         }
       }
     }
@@ -342,16 +287,6 @@ export const OperationInputs: msRest.CompositeMapper = {
       name: {
         required: true,
         serializedName: "name",
-        constraints: {
-          Pattern: /^[a-z0-9-]{1,63}$/
-        },
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        defaultValue: 'IoTApps',
         type: {
           name: "String"
         }
@@ -360,11 +295,11 @@ export const OperationInputs: msRest.CompositeMapper = {
   }
 };
 
-export const AppAvailabilityInfo: msRest.CompositeMapper = {
-  serializedName: "AppAvailabilityInfo",
+export const AppNameAvailabilityInfo: msRest.CompositeMapper = {
+  serializedName: "AppNameAvailabilityInfo",
   type: {
     name: "Composite",
-    className: "AppAvailabilityInfo",
+    className: "AppNameAvailabilityInfo",
     modelProperties: {
       nameAvailable: {
         readOnly: true,
@@ -377,11 +312,14 @@ export const AppAvailabilityInfo: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "reason",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "Invalid",
+            "AlreadyExists"
+          ]
         }
       },
       message: {
-        readOnly: true,
         serializedName: "message",
         type: {
           name: "String"
