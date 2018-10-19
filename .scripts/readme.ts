@@ -4,15 +4,15 @@
  * license information.
  */
 
-import { getLogger } from "./logger";
-import { pathExists, startsWith } from "./common";
+import { pathExists, startsWith, contains } from "./common";
 import { promises as fs } from "fs";
 import * as glob from "glob";
 import * as path from "path";
 import * as yaml from "js-yaml";
 import { SdkType } from "./commandLine";
+import { Logger } from "./logger";
 
-const _logger = getLogger();
+const _logger = Logger.get();
 
 interface ReadmeSettings {
     "nodejs": {
@@ -26,6 +26,38 @@ interface ReadmeSettings {
         "generate-readme-md": boolean | undefined;
         "generate-metadata": boolean | undefined;
     } | undefined;
+}
+
+export async function getPackageFolderPathFromPackageArgument(packageName: string, azureRestAPISpecsRoot: string, azureSDKForJSRepoRoot: string): Promise<string | undefined> {
+    let packageFolderPath: string | undefined;
+
+    if (!packageName) {
+        _logger.logError(`No --package specified.`);
+    } else {
+        const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
+        _logger.logTrace(`Found ${typeScriptReadmeFilePaths.length} readmes in ${azureRestAPISpecsRoot}`)
+
+        let foundPackage = false;
+
+        for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
+            const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
+
+            const typeScriptReadmeFileContents: string = await fs.readFile(typeScriptReadmeFilePath, 'utf8');
+            const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
+            _logger.logTrace(`Found [${packageNames}] package names`);
+
+            if (contains(packageNames, packageName)) {
+                foundPackage = true;
+                packageFolderPath = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
+            }
+        }
+
+        if (!foundPackage) {
+            _logger.logError(`No package found with the name "${packageName}".`);
+        }
+    }
+
+    return packageFolderPath;
 }
 
 export async function getYamlSection(buffer: Buffer, sectionBeginning: string, sectionEnd: string): Promise<Buffer> {
@@ -164,29 +196,30 @@ export async function updateMainReadmeFile(readmeFilePath: string) {
 export function getPackageNamesFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string[] {
     const packageNamePattern: RegExp = /package-name: (\S*)/g;
     const matches: string[] = readmeTypeScriptMdFileContents.match(packageNamePattern) || [];
-    _logger.logDebug(`"package-name" matches: ${JSON.stringify(matches)}`.debug);
+    _logger.logTrace(`"package-name" matches: ${JSON.stringify(matches)}`);
 
     for (let i = 0; i < matches.length; ++i) {
         matches[i] = matches[i].substring("package-name: ".length);
     }
 
-    _logger.logDebug(`"package-name" matches trimmed: ${JSON.stringify(matches)}`.debug);
-    return matches;
+    const trimmedMatches = matches.map(match => match.replace(/\"/g, ""));
+    _logger.logTrace(`"package-name" matches trimmed: ${JSON.stringify(trimmedMatches)}`);
+    return trimmedMatches;
 }
 
 export function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot: string): string[] {
-    _logger.logDebug(`Looking for "readme.typescript.md" files in "${azureRestAPISpecsRoot}"...`.debug);
+    _logger.logDebug(`Looking for "readme.typescript.md" files in "${azureRestAPISpecsRoot}"...`);
 
     const specificationFolderPath: string = path.resolve(azureRestAPISpecsRoot, 'specification');
     const readmeTypeScriptMdFilePaths: string[] = glob.sync('**/readme.typescript.md', { absolute: true, cwd: specificationFolderPath });
     if (readmeTypeScriptMdFilePaths) {
         for (let i = 0; i < readmeTypeScriptMdFilePaths.length; ++i) {
             const readmeTypeScriptMdFilePath: string = readmeTypeScriptMdFilePaths[i];
-            _logger.logDebug(`  Found "${readmeTypeScriptMdFilePath}".`.debug);
+            _logger.logTrace(`  Found "${readmeTypeScriptMdFilePath}".`);
 
             if (readmeTypeScriptMdFilePath && !startsWith(readmeTypeScriptMdFilePath, specificationFolderPath)) {
                 const resolvedReadmeTypeScriptMdFilePath: string = path.resolve(specificationFolderPath, readmeTypeScriptMdFilePath);
-                _logger.logDebug(`    Updating to "${resolvedReadmeTypeScriptMdFilePath}".`.debug);
+                _logger.logTrace(`    Updating to "${resolvedReadmeTypeScriptMdFilePath}".`);
                 readmeTypeScriptMdFilePaths[i] = resolvedReadmeTypeScriptMdFilePath;
             }
         }

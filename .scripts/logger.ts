@@ -5,7 +5,7 @@
  */
 
 import * as colors from "colors";
-import { CommandLineOptions, getCommandLineOptions } from "./commandLine";
+import { Argv } from "./commandLine";
 
 export enum LoggingLevel {
     All = 0,
@@ -36,8 +36,8 @@ export class Logger {
     private _cache: string[];
     _loggingLevel: LoggingLevel;
 
-    constructor(options: CommandLineOptions) {
-        const lowerCaseLevel = options["logging-level"].toLowerCase();
+    constructor(loggingLevel: string) {
+        const lowerCaseLevel = loggingLevel.toLowerCase();
         const capitalizedLevel = lowerCaseLevel.charAt(0).toUpperCase() + lowerCaseLevel.slice(1);
         this._loggingLevel = LoggingLevel[capitalizedLevel];
         this._cache = [];
@@ -78,7 +78,7 @@ export class Logger {
 
     logWarn(text?: string): void {
         if (this._loggingLevel <= LoggingLevel.Warn) {
-            this.log(text.bgYellow);
+            this.log(text.bgYellow.black);
         }
     }
 
@@ -103,8 +103,8 @@ export class Logger {
     logWithPath(path: string, message: string): void {
         console.log(`[${path}]> ${message}`);
     }
-}
 
-export function getLogger() {
-    return new Logger(getCommandLineOptions());
+    static get() {
+        return new Logger(Argv.Global.loggingLevel);
+    }
 }

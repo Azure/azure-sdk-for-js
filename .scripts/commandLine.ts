@@ -5,7 +5,102 @@
  */
 
 import * as minimist from "minimist";
-import { arrayContains } from "./common";
+import * as path from "path";
+import { arrayContains, findAzureRestApiSpecsRepositoryPathSync } from "./common";
+import { Options } from "yargs";
+import * as yargs from "yargs";
+
+export type YargsMapping = { [key: string]: Options };
+
+export enum SdkType {
+    ResourceManager = "resource-manager",
+    DataPlane = "data-plane",
+    ControlPlane = "control-plane",
+    Unknown = "unknown"
+}
+
+export module Argv {
+    export const Options: { [key: string]: YargsMapping } = {
+        Common: {
+            "logging-level": {
+                alias: "l",
+                default: "info",
+                choices: ["all", "trace", "debug", "info", "warn", "error"],
+                global: true,
+                description: "Defines how detailed logging statements are"
+            }
+        },
+        Generate: {
+            "skip-spec": {
+                boolean: true,
+                description: "Whether to skip generating readme.typescript.md file"
+            },
+            "skip-sdk": {
+                boolean: true,
+                description: "Whether to skip SDK generation"
+            }
+        },
+        Package: {
+            "package": {
+                alias: ["p", "package-name"],
+                string: true,
+                description: "Name of the manipulated package e.g. @azure/arm-servicebus"
+            },
+            "type": {
+                alias: "sdk-type",
+                string: true,
+                coerce: parseSdkType,
+                choices: ["rm", "data", "control"],
+                description: "Type of SDK to manipulate."
+            }
+        },
+        Repository: {
+            "azure-sdk-for-js-root": {
+                alias: ["sdk", "azureSDKForJSRepoRoot"],
+                string: true,
+                default: path.resolve(__dirname, ".."),
+                description: "Path to the azure-sdk-for-js repository"
+            },
+            "azure-rest-api-specs-root": {
+                alias: ["specs", "azureRestAPISpecsRoot"],
+                string: true,
+                default: findAzureRestApiSpecsRepositoryPathSync(),
+                description: "Path to the azure-rest-api-specs repository"
+            }
+        }
+    }
+
+    export const Global = {
+        loggingLevel: yargs.options(Argv.Options.Common).argv["logging-level"],
+    }
+
+    const combine = (...configs: YargsMapping[]): YargsMapping => {
+        let result = Options.Common;
+        for (const config of configs) {
+            result = { ...result, ...config };
+        }
+        return result;
+    }
+
+    export const construct = (...configs: YargsMapping[]) => {
+        const mergedOption = combine(...configs);
+        const args = yargs.options(mergedOption)
+            .strict()
+            .help("?")
+            .showHelpOnFail(true, "Invalid usage. Run with -? to see help.")
+            .wrap(Math.min(yargs.terminalWidth(), 150));
+
+        (args as any).toPrettyString = function (): string {
+            return JSON.stringify(this, undefined, "  ");
+        }
+
+        return args;
+    }
+
+    export const print = () => {
+        return process.argv.slice(2).join(", ");
+    }
+}
 
 export interface CommandLineOptions extends minimist.ParsedArgs {
     "azure-sdk-for-js-repo-root": string;
@@ -38,14 +133,8 @@ export const commandLineConfiguration = {
     }
 };
 
-export enum SdkType {
-    ResourceManager = "resource-manager",
-    DataPlane = "data-plane",
-    ControlPlane = "control-plane"
-}
-
 let _options: CommandLineOptions;
-export function getCommandLineOptions() {
+export function getCommandLineOptions(): CommandLineOptions {
     if (!_options) {
         _options = createCommandLineParameters();
     }
@@ -53,22 +142,29 @@ export function getCommandLineOptions() {
     return _options;
 }
 
-function createCommandLineParameters() {
+function createCommandLineParameters(): CommandLineOptions {
     const args = minimist(process.argv.slice(2), commandLineConfiguration) as CommandLineOptions;
     args.getSdkType = getSdkType;
     return args;
 }
 
-export function getSdkType() {
+export function parseSdkType(str: string): SdkType {
     const resourceManagerStrings = ["arm", "rm", "resourcemanager"]
     const dataPlaneStrings = ["dp", "data", "dataplane"]
+    const controlPlaneStrings = ["control"]
 
-    const type = this.type.toLowerCase().replace("-", "");
+    const type = str.toLowerCase().replace("-", "");
     if (arrayContains(resourceManagerStrings, type)) {
         return SdkType.ResourceManager;
     } else if (arrayContains(dataPlaneStrings, type)) {
         return SdkType.DataPlane;
+    } else if (arrayContains(controlPlaneStrings, type)) {
+        return SdkType.ControlPlane;
     } else {
-        throw new Error("Unknown SDK type");
+        return SdkType.Unknown;
     }
+}
+
+function getSdkType(): SdkType {
+    return parseSdkType(this.type);
 }
