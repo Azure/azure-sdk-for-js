@@ -10,13 +10,16 @@
 
 export {
   discriminators,
-  TopicTypesListResult,
-  TopicTypeInfo,
+  Domain,
+  TrackedResource,
   Resource,
   BaseResource,
+  InputSchemaMapping,
   CloudError,
-  EventTypesListResult,
-  EventType,
+  DomainUpdateParameters,
+  DomainsListResult,
+  DomainSharedAccessKeys,
+  DomainRegenerateKeyRequest,
   DomainTopic,
   EventSubscription,
   EventSubscriptionDestination,
@@ -24,10 +27,12 @@ export {
   AdvancedFilter,
   RetryPolicy,
   DeadLetterDestination,
-  TrackedResource,
+  JsonInputSchemaMapping,
+  JsonField,
+  JsonFieldWithDefault,
   Topic,
-  InputSchemaMapping,
-  Domain,
+  EventType,
+  TopicTypeInfo,
   NumberInAdvancedFilter,
   StorageBlobDeadLetterDestination,
   NumberNotInAdvancedFilter,
@@ -44,9 +49,6 @@ export {
   WebHookEventSubscriptionDestination,
   EventHubEventSubscriptionDestination,
   StorageQueueEventSubscriptionDestination,
-  HybridConnectionEventSubscriptionDestination,
-  JsonInputSchemaMapping,
-  JsonField,
-  JsonFieldWithDefault
+  HybridConnectionEventSubscriptionDestination
 } from "../models/mappers";
 
