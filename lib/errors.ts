@@ -512,12 +512,15 @@ export function isSystemError(err: any): boolean {
  * @returns {MessagingError} MessagingError object.
  */
 export function translate(err: AmqpError | Error): MessagingError {
+  let error: MessagingError = err as MessagingError;
   if ((err as MessagingError).translated) { // already translated
     return err as MessagingError;
-  } else if (isAmqpError(err)) { // translate
+  }
+  if (isAmqpError(err)) { // translate
     const condition = (err as AmqpError).condition;
     const description = (err as AmqpError).description as string;
-    const error = new MessagingError(description);
+    error = new MessagingError(description);
+    if ((err as any).stack) error.stack = (err as any).stack;
     error.info = (err as AmqpError).info;
     error.condition = condition;
     if (condition) {
@@ -532,11 +535,11 @@ export function translate(err: AmqpError | Error): MessagingError {
     if (retryableErrors.indexOf(error.name) === -1) { // not found
       error.retryable = false;
     }
-    return error;
   } else if (isSystemError(err)) { // translate
     const condition = (err as any).code;
     const description = (err as Error).message;
-    const error = new MessagingError(description);
+    error = new MessagingError(description);
+    if ((err as any).stack) error.stack = (err as any).stack;
     if (condition) {
       const amqpErrorCondition = SystemErrorConditionMapper[condition as any];
       error.name = ConditionErrorNameMapper[amqpErrorCondition as any];
@@ -545,10 +548,10 @@ export function translate(err: AmqpError | Error): MessagingError {
     if (retryableErrors.indexOf(error.name) === -1) { // not found
       error.retryable = false;
     }
-    return error;
   } else {
     // Translate a generic error into MessagingError.
-    const error = new MessagingError((err as Error).message);
-    return error;
+    error = new MessagingError((err as Error).message);
+    error.stack = (err as Error).stack;
   }
+  return error;
 }

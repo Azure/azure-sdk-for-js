@@ -78,13 +78,20 @@ export const dispositionStatus = "disposition-status";
 export const fromSequenceNumber = "from-sequence-number";
 export const messageCount = "message-count";
 export const lockTokens = "lock-tokens";
+export const messageIdMapKey = "message-id";
+export const sequenceNumberMapKey = "sequence-number";
+export const lockTokenMapKey = "lock-token";
+export const sessionIdMapKey = "session-id";
 export const sequenceNumbers = "sequence-numbers";
 export const deadLetterReason = "deadletter-reason";
 export const deadLetterDescription = "deadletter-description";
 export const propertiesToModify = "properties-to-modify";
+export const deadLetterName = "com.microsoft:dead-letter";
 export const trackingId = "com.microsoft:tracking-id";
 export const serverTimeout = "com.microsoft:server-timeout";
 export const operations = {
+  putToken: "put-token",
+  read: "READ",
   cancelScheduledMessage: "com.microsoft:cancel-scheduled-message",
   scheduleMessage: "com.microsoft:schedule-message",
   renewLock: "com.microsoft:renew-lock",
