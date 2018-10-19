@@ -43,6 +43,58 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
+export const AutomationAccountProperties: msRest.CompositeMapper = {
+  serializedName: "AutomationAccountProperties",
+  type: {
+    name: "Composite",
+    className: "AutomationAccountProperties",
+    modelProperties: {
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        readOnly: true,
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -155,6 +207,23 @@ export const AutomationAccount: msRest.CompositeMapper = {
         serializedName: "etag",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AutomationAccountCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "AutomationAccountCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "AutomationAccountCreateOrUpdateProperties",
+    modelProperties: {
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
         }
       }
     }
@@ -421,6 +490,23 @@ export const KeyListResult: msRest.CompositeMapper = {
   }
 };
 
+export const AutomationAccountUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "AutomationAccountUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "AutomationAccountUpdateProperties",
+    modelProperties: {
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      }
+    }
+  }
+};
+
 export const AutomationAccountUpdateParameters: msRest.CompositeMapper = {
   serializedName: "AutomationAccountUpdateParameters",
   type: {
@@ -494,6 +580,42 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
+export const CertificateCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "CertificateCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "CertificateCreateOrUpdateProperties",
+    modelProperties: {
+      base64Value: {
+        required: true,
+        serializedName: "base64Value",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      thumbprint: {
+        serializedName: "thumbprint",
+        type: {
+          name: "String"
+        }
+      },
+      isExportable: {
+        nullable: false,
+        serializedName: "isExportable",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const CertificateCreateOrUpdateParameters: msRest.CompositeMapper = {
   serializedName: "CertificateCreateOrUpdateParameters",
   type: {
@@ -531,6 +653,61 @@ export const CertificateCreateOrUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.isExportable",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const CertificateProperties: msRest.CompositeMapper = {
+  serializedName: "CertificateProperties",
+  type: {
+    name: "Composite",
+    className: "CertificateProperties",
+    modelProperties: {
+      thumbprint: {
+        readOnly: true,
+        serializedName: "thumbprint",
+        type: {
+          name: "String"
+        }
+      },
+      expiryTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "expiryTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      isExportable: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "isExportable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
         }
       }
     }
@@ -593,6 +770,22 @@ export const Certificate: msRest.CompositeMapper = {
   }
 };
 
+export const CertificateUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "CertificateUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "CertificateUpdateProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CertificateUpdateParameters: msRest.CompositeMapper = {
   serializedName: "CertificateUpdateParameters",
   type: {
@@ -625,6 +818,41 @@ export const ConnectionTypeAssociationProperty: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectionCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "ConnectionCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "ConnectionCreateOrUpdateProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      connectionType: {
+        required: true,
+        serializedName: "connectionType",
+        type: {
+          name: "Composite",
+          className: "ConnectionTypeAssociationProperty"
+        }
+      },
+      fieldDefinitionValues: {
+        serializedName: "fieldDefinitionValues",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -667,6 +895,57 @@ export const ConnectionCreateOrUpdateParameters: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ConnectionProperties: msRest.CompositeMapper = {
+  serializedName: "ConnectionProperties",
+  type: {
+    name: "Composite",
+    className: "ConnectionProperties",
+    modelProperties: {
+      connectionType: {
+        serializedName: "connectionType",
+        type: {
+          name: "Composite",
+          className: "ConnectionTypeAssociationProperty"
+        }
+      },
+      fieldDefinitionValues: {
+        readOnly: true,
+        serializedName: "fieldDefinitionValues",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
         }
       }
     }
@@ -719,6 +998,33 @@ export const Connection: msRest.CompositeMapper = {
         serializedName: "properties.description",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectionUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "ConnectionUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "ConnectionUpdateProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      fieldDefinitionValues: {
+        serializedName: "fieldDefinitionValues",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -779,6 +1085,56 @@ export const FieldDefinition: msRest.CompositeMapper = {
       type: {
         required: true,
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectionTypeProperties: msRest.CompositeMapper = {
+  serializedName: "ConnectionTypeProperties",
+  type: {
+    name: "Composite",
+    className: "ConnectionTypeProperties",
+    modelProperties: {
+      isGlobal: {
+        serializedName: "isGlobal",
+        type: {
+          name: "Boolean"
+        }
+      },
+      fieldDefinitions: {
+        readOnly: true,
+        serializedName: "fieldDefinitions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "FieldDefinition"
+            }
+          }
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      description: {
+        serializedName: "description",
         type: {
           name: "String"
         }
@@ -858,6 +1214,35 @@ export const ConnectionType: msRest.CompositeMapper = {
   }
 };
 
+export const ConnectionTypeCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "ConnectionTypeCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "ConnectionTypeCreateOrUpdateProperties",
+    modelProperties: {
+      isGlobal: {
+        serializedName: "isGlobal",
+        type: {
+          name: "Boolean"
+        }
+      },
+      fieldDefinitions: {
+        required: true,
+        serializedName: "fieldDefinitions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "FieldDefinition"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ConnectionTypeCreateOrUpdateParameters: msRest.CompositeMapper = {
   serializedName: "ConnectionTypeCreateOrUpdateParameters",
   type: {
@@ -888,6 +1273,36 @@ export const ConnectionTypeCreateOrUpdateParameters: msRest.CompositeMapper = {
               className: "FieldDefinition"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const CredentialCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "CredentialCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "CredentialCreateOrUpdateProperties",
+    modelProperties: {
+      userName: {
+        required: true,
+        serializedName: "userName",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        required: true,
+        serializedName: "password",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
         }
       }
     }
@@ -931,6 +1346,45 @@ export const CredentialCreateOrUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
+export const CredentialProperties: msRest.CompositeMapper = {
+  serializedName: "CredentialProperties",
+  type: {
+    name: "Composite",
+    className: "CredentialProperties",
+    modelProperties: {
+      userName: {
+        readOnly: true,
+        serializedName: "userName",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Credential: msRest.CompositeMapper = {
   serializedName: "Credential",
   type: {
@@ -963,6 +1417,34 @@ export const Credential: msRest.CompositeMapper = {
       },
       description: {
         serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CredentialUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "CredentialUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "CredentialUpdateProperties",
+    modelProperties: {
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
         type: {
           name: "String"
         }
@@ -1098,6 +1580,54 @@ export const DscConfigurationParameter: msRest.CompositeMapper = {
   }
 };
 
+export const DscConfigurationCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "DscConfigurationCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "DscConfigurationCreateOrUpdateProperties",
+    modelProperties: {
+      logVerbose: {
+        serializedName: "logVerbose",
+        type: {
+          name: "Boolean"
+        }
+      },
+      logProgress: {
+        serializedName: "logProgress",
+        type: {
+          name: "Boolean"
+        }
+      },
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          className: "ContentSource"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "DscConfigurationParameter"
+            }
+          }
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DscConfigurationCreateOrUpdateParameters: msRest.CompositeMapper = {
   serializedName: "DscConfigurationCreateOrUpdateParameters",
   type: {
@@ -1163,6 +1693,89 @@ export const DscConfigurationCreateOrUpdateParameters: msRest.CompositeMapper = 
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const DscConfigurationProperties: msRest.CompositeMapper = {
+  serializedName: "DscConfigurationProperties",
+  type: {
+    name: "Composite",
+    className: "DscConfigurationProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Succeeded"
+          ]
+        }
+      },
+      jobCount: {
+        serializedName: "jobCount",
+        type: {
+          name: "Number"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "DscConfigurationParameter"
+            }
+          }
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          className: "ContentSource"
+        }
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      logVerbose: {
+        serializedName: "logVerbose",
+        type: {
+          name: "Boolean"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      nodeConfigurationCount: {
+        nullable: false,
+        serializedName: "nodeConfigurationCount",
+        type: {
+          name: "Number"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1472,6 +2085,53 @@ export const RunbookAssociationProperty: msRest.CompositeMapper = {
   }
 };
 
+export const JobScheduleProperties: msRest.CompositeMapper = {
+  serializedName: "JobScheduleProperties",
+  type: {
+    name: "Composite",
+    className: "JobScheduleProperties",
+    modelProperties: {
+      jobScheduleId: {
+        serializedName: "jobScheduleId",
+        type: {
+          name: "String"
+        }
+      },
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "ScheduleAssociationProperty"
+        }
+      },
+      runbook: {
+        serializedName: "runbook",
+        type: {
+          name: "Composite",
+          className: "RunbookAssociationProperty"
+        }
+      },
+      runOn: {
+        serializedName: "runOn",
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const JobSchedule: msRest.CompositeMapper = {
   serializedName: "JobSchedule",
   type: {
@@ -1527,6 +2187,49 @@ export const JobSchedule: msRest.CompositeMapper = {
       },
       parameters: {
         serializedName: "properties.parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const JobScheduleCreateProperties: msRest.CompositeMapper = {
+  serializedName: "JobScheduleCreateProperties",
+  type: {
+    name: "Composite",
+    className: "JobScheduleCreateProperties",
+    modelProperties: {
+      schedule: {
+        required: true,
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "ScheduleAssociationProperty"
+        }
+      },
+      runbook: {
+        required: true,
+        serializedName: "runbook",
+        type: {
+          name: "Composite",
+          className: "RunbookAssociationProperty"
+        }
+      },
+      runOn: {
+        serializedName: "runOn",
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
         type: {
           name: "Dictionary",
           value: {
@@ -1742,6 +2445,66 @@ export const ActivityOutputType: msRest.CompositeMapper = {
   }
 };
 
+export const ActivityProperties: msRest.CompositeMapper = {
+  serializedName: "ActivityProperties",
+  type: {
+    name: "Composite",
+    className: "ActivityProperties",
+    modelProperties: {
+      definition: {
+        serializedName: "definition",
+        type: {
+          name: "String"
+        }
+      },
+      parameterSets: {
+        serializedName: "parameterSets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ActivityParameterSet"
+            }
+          }
+        }
+      },
+      outputTypes: {
+        serializedName: "outputTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ActivityOutputType"
+            }
+          }
+        }
+      },
+      creationTime: {
+        nullable: false,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Activity: msRest.CompositeMapper = {
   serializedName: "Activity",
   type: {
@@ -1866,6 +2629,104 @@ export const ContentLink: msRest.CompositeMapper = {
   }
 };
 
+export const ModuleProperties: msRest.CompositeMapper = {
+  serializedName: "ModuleProperties",
+  type: {
+    name: "Composite",
+    className: "ModuleProperties",
+    modelProperties: {
+      isGlobal: {
+        serializedName: "isGlobal",
+        type: {
+          name: "Boolean"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      sizeInBytes: {
+        serializedName: "sizeInBytes",
+        type: {
+          name: "Number"
+        }
+      },
+      activityCount: {
+        serializedName: "activityCount",
+        type: {
+          name: "Number"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Created",
+            "Creating",
+            "StartingImportModuleRunbook",
+            "RunningImportModuleRunbook",
+            "ContentRetrieved",
+            "ContentDownloaded",
+            "ContentValidated",
+            "ConnectionTypeImported",
+            "ContentStored",
+            "ModuleDataStored",
+            "ActivitiesStored",
+            "ModuleImportRunbookComplete",
+            "Succeeded",
+            "Failed",
+            "Cancelled",
+            "Updating"
+          ]
+        }
+      },
+      contentLink: {
+        serializedName: "contentLink",
+        type: {
+          name: "Composite",
+          className: "ContentLink"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ModuleErrorInfo"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      isComposite: {
+        serializedName: "isComposite",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const Module: msRest.CompositeMapper = {
   serializedName: "Module",
   type: {
@@ -1971,6 +2832,24 @@ export const Module: msRest.CompositeMapper = {
   }
 };
 
+export const ModuleCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "ModuleCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "ModuleCreateOrUpdateProperties",
+    modelProperties: {
+      contentLink: {
+        required: true,
+        serializedName: "contentLink",
+        type: {
+          name: "Composite",
+          className: "ContentLink"
+        }
+      }
+    }
+  }
+};
+
 export const ModuleCreateOrUpdateParameters: msRest.CompositeMapper = {
   serializedName: "ModuleCreateOrUpdateParameters",
   type: {
@@ -2006,6 +2885,23 @@ export const ModuleCreateOrUpdateParameters: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ModuleUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "ModuleUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "ModuleUpdateProperties",
+    modelProperties: {
+      contentLink: {
+        serializedName: "contentLink",
+        type: {
+          name: "Composite",
+          className: "ContentLink"
         }
       }
     }
@@ -2134,6 +3030,63 @@ export const AdvancedSchedule: msRest.CompositeMapper = {
               className: "AdvancedScheduleMonthlyOccurrence"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ScheduleCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "ScheduleCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "ScheduleCreateOrUpdateProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        required: true,
+        nullable: false,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      expiryTime: {
+        nullable: true,
+        serializedName: "expiryTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      interval: {
+        serializedName: "interval",
+        type: {
+          name: "Object"
+        }
+      },
+      frequency: {
+        required: true,
+        serializedName: "frequency",
+        type: {
+          name: "String"
+        }
+      },
+      timeZone: {
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      advancedSchedule: {
+        serializedName: "advancedSchedule",
+        type: {
+          name: "Composite",
+          className: "AdvancedSchedule"
         }
       }
     }
@@ -2415,6 +3368,28 @@ export const Schedule: msRest.CompositeMapper = {
   }
 };
 
+export const ScheduleUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "ScheduleUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "ScheduleUpdateProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      isEnabled: {
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ScheduleUpdateParameters: msRest.CompositeMapper = {
   serializedName: "ScheduleUpdateParameters",
   type: {
@@ -2435,6 +3410,34 @@ export const ScheduleUpdateParameters: msRest.CompositeMapper = {
       },
       isEnabled: {
         serializedName: "properties.isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const VariableCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "VariableCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "VariableCreateOrUpdateProperties",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      isEncrypted: {
+        serializedName: "isEncrypted",
         type: {
           name: "Boolean"
         }
@@ -2472,6 +3475,49 @@ export const VariableCreateOrUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.isEncrypted",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const VariableProperties: msRest.CompositeMapper = {
+  serializedName: "VariableProperties",
+  type: {
+    name: "Composite",
+    className: "VariableProperties",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      isEncrypted: {
+        nullable: true,
+        serializedName: "isEncrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2522,6 +3568,28 @@ export const Variable: msRest.CompositeMapper = {
   }
 };
 
+export const VariableUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "VariableUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "VariableUpdateProperties",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VariableUpdateParameters: msRest.CompositeMapper = {
   serializedName: "VariableUpdateParameters",
   type: {
@@ -2542,6 +3610,93 @@ export const VariableUpdateParameters: msRest.CompositeMapper = {
       },
       description: {
         serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebhookProperties: msRest.CompositeMapper = {
+  serializedName: "WebhookProperties",
+  type: {
+    name: "Composite",
+    className: "WebhookProperties",
+    modelProperties: {
+      isEnabled: {
+        serializedName: "isEnabled",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      uri: {
+        serializedName: "uri",
+        type: {
+          name: "String"
+        }
+      },
+      expiryTime: {
+        nullable: false,
+        serializedName: "expiryTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastInvokedTime: {
+        nullable: true,
+        serializedName: "lastInvokedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      runbook: {
+        serializedName: "runbook",
+        type: {
+          name: "Composite",
+          className: "RunbookAssociationProperty"
+        }
+      },
+      runOn: {
+        serializedName: "runOn",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
         type: {
           name: "String"
         }
@@ -2638,6 +3793,45 @@ export const Webhook: msRest.CompositeMapper = {
   }
 };
 
+export const WebhookUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "WebhookUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "WebhookUpdateProperties",
+    modelProperties: {
+      isEnabled: {
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      runOn: {
+        serializedName: "runOn",
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WebhookUpdateParameters: msRest.CompositeMapper = {
   serializedName: "WebhookUpdateParameters",
   type: {
@@ -2675,6 +3869,59 @@ export const WebhookUpdateParameters: msRest.CompositeMapper = {
       },
       description: {
         serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WebhookCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "WebhookCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "WebhookCreateOrUpdateProperties",
+    modelProperties: {
+      isEnabled: {
+        serializedName: "isEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      uri: {
+        serializedName: "uri",
+        type: {
+          name: "String"
+        }
+      },
+      expiryTime: {
+        nullable: false,
+        serializedName: "expiryTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      runbook: {
+        serializedName: "runbook",
+        type: {
+          name: "Composite",
+          className: "RunbookAssociationProperty"
+        }
+      },
+      runOn: {
+        serializedName: "runOn",
         type: {
           name: "String"
         }
@@ -2735,6 +3982,81 @@ export const WebhookCreateOrUpdateParameters: msRest.CompositeMapper = {
       },
       runOn: {
         serializedName: "properties.runOn",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WatcherProperties: msRest.CompositeMapper = {
+  serializedName: "WatcherProperties",
+  type: {
+    name: "Composite",
+    className: "WatcherProperties",
+    modelProperties: {
+      executionFrequencyInSeconds: {
+        serializedName: "executionFrequencyInSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      scriptName: {
+        serializedName: "scriptName",
+        type: {
+          name: "String"
+        }
+      },
+      scriptParameters: {
+        serializedName: "scriptParameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      scriptRunOn: {
+        serializedName: "scriptRunOn",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        readOnly: true,
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
         type: {
           name: "String"
         }
@@ -2819,6 +4141,22 @@ export const Watcher: msRest.CompositeMapper = {
         serializedName: "etag",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WatcherUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "WatcherUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "WatcherUpdateProperties",
+    modelProperties: {
+      executionFrequencyInSeconds: {
+        serializedName: "executionFrequencyInSeconds",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -3102,6 +4440,76 @@ export const UpdateConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const SoftwareUpdateConfigurationProperties: msRest.CompositeMapper = {
+  serializedName: "softwareUpdateConfigurationProperties",
+  type: {
+    name: "Composite",
+    className: "SoftwareUpdateConfigurationProperties",
+    modelProperties: {
+      updateConfiguration: {
+        required: true,
+        serializedName: "updateConfiguration",
+        type: {
+          name: "Composite",
+          className: "UpdateConfiguration"
+        }
+      },
+      scheduleInfo: {
+        required: true,
+        serializedName: "scheduleInfo",
+        type: {
+          name: "Composite",
+          className: "ScheduleProperties"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      createdBy: {
+        readOnly: true,
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        readOnly: true,
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SoftwareUpdateConfiguration: msRest.CompositeMapper = {
   serializedName: "softwareUpdateConfiguration",
   type: {
@@ -3220,6 +4628,66 @@ export const CollectionItemUpdateConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const SoftwareUpdateConfigurationCollectionItemProperties: msRest.CompositeMapper = {
+  serializedName: "softwareUpdateConfigurationCollectionItemProperties",
+  type: {
+    name: "Composite",
+    className: "SoftwareUpdateConfigurationCollectionItemProperties",
+    modelProperties: {
+      updateConfiguration: {
+        serializedName: "updateConfiguration",
+        type: {
+          name: "Composite",
+          className: "CollectionItemUpdateConfiguration"
+        }
+      },
+      frequency: {
+        serializedName: "frequency",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        nullable: false,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      nextRun: {
+        nullable: true,
+        serializedName: "nextRun",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const SoftwareUpdateConfigurationCollectionItem: msRest.CompositeMapper = {
   serializedName: "softwareUpdateConfigurationCollectionItem",
   type: {
@@ -3325,6 +4793,104 @@ export const UpdateConfigurationNavigation: msRest.CompositeMapper = {
       name: {
         readOnly: true,
         serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SoftwareUpdateConfigurationRunProperties: msRest.CompositeMapper = {
+  serializedName: "softwareUpdateConfigurationRunProperties",
+  type: {
+    name: "Composite",
+    className: "SoftwareUpdateConfigurationRunProperties",
+    modelProperties: {
+      softwareUpdateConfiguration: {
+        serializedName: "softwareUpdateConfiguration",
+        type: {
+          name: "Composite",
+          className: "UpdateConfigurationNavigation"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      configuredDuration: {
+        readOnly: true,
+        serializedName: "configuredDuration",
+        type: {
+          name: "String"
+        }
+      },
+      osType: {
+        readOnly: true,
+        serializedName: "osType",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      computerCount: {
+        readOnly: true,
+        serializedName: "computerCount",
+        type: {
+          name: "Number"
+        }
+      },
+      failedCount: {
+        readOnly: true,
+        serializedName: "failedCount",
+        type: {
+          name: "Number"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      createdBy: {
+        readOnly: true,
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        readOnly: true,
+        serializedName: "lastModifiedBy",
         type: {
           name: "String"
         }
@@ -3482,6 +5048,125 @@ export const JobNavigation: msRest.CompositeMapper = {
       id: {
         readOnly: true,
         serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UpdateConfigurationMachineRunProperties: msRest.CompositeMapper = {
+  serializedName: "updateConfigurationMachineRunProperties",
+  type: {
+    name: "Composite",
+    className: "UpdateConfigurationMachineRunProperties",
+    modelProperties: {
+      targetComputer: {
+        readOnly: true,
+        serializedName: "targetComputer",
+        type: {
+          name: "String"
+        }
+      },
+      targetComputerType: {
+        readOnly: true,
+        serializedName: "targetComputerType",
+        type: {
+          name: "String"
+        }
+      },
+      softwareUpdateConfiguration: {
+        serializedName: "softwareUpdateConfiguration",
+        type: {
+          name: "Composite",
+          className: "UpdateConfigurationNavigation"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      osType: {
+        readOnly: true,
+        serializedName: "osType",
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        readOnly: true,
+        serializedName: "correlationId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      sourceComputerId: {
+        readOnly: true,
+        serializedName: "sourceComputerId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      startTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      configuredDuration: {
+        readOnly: true,
+        serializedName: "configuredDuration",
+        type: {
+          name: "String"
+        }
+      },
+      job: {
+        serializedName: "job",
+        type: {
+          name: "Composite",
+          className: "JobNavigation"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      createdBy: {
+        readOnly: true,
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        readOnly: true,
+        serializedName: "lastModifiedBy",
         type: {
           name: "String"
         }
@@ -3651,6 +5336,72 @@ export const SoftwareUpdateConfigurationMachineRunListResult: msRest.CompositeMa
   }
 };
 
+export const SourceControlProperties: msRest.CompositeMapper = {
+  serializedName: "SourceControlProperties",
+  type: {
+    name: "Composite",
+    className: "SourceControlProperties",
+    modelProperties: {
+      repoUrl: {
+        serializedName: "repoUrl",
+        type: {
+          name: "String"
+        }
+      },
+      branch: {
+        serializedName: "branch",
+        type: {
+          name: "String"
+        }
+      },
+      folderPath: {
+        serializedName: "folderPath",
+        type: {
+          name: "String"
+        }
+      },
+      autoSync: {
+        serializedName: "autoSync",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publishRunbook: {
+        serializedName: "publishRunbook",
+        type: {
+          name: "Boolean"
+        }
+      },
+      sourceType: {
+        serializedName: "sourceType",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const SourceControl: msRest.CompositeMapper = {
   serializedName: "SourceControl",
   type: {
@@ -3752,6 +5503,53 @@ export const SourceControlSecurityTokenProperties: msRest.CompositeMapper = {
   }
 };
 
+export const SourceControlUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "SourceControlUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "SourceControlUpdateProperties",
+    modelProperties: {
+      branch: {
+        serializedName: "branch",
+        type: {
+          name: "String"
+        }
+      },
+      folderPath: {
+        serializedName: "folderPath",
+        type: {
+          name: "String"
+        }
+      },
+      autoSync: {
+        serializedName: "autoSync",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publishRunbook: {
+        serializedName: "publishRunbook",
+        type: {
+          name: "Boolean"
+        }
+      },
+      securityToken: {
+        serializedName: "securityToken",
+        type: {
+          name: "Composite",
+          className: "SourceControlSecurityTokenProperties"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SourceControlUpdateParameters: msRest.CompositeMapper = {
   serializedName: "SourceControlUpdateParameters",
   type: {
@@ -3791,6 +5589,77 @@ export const SourceControlUpdateParameters: msRest.CompositeMapper = {
       },
       description: {
         serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SourceControlCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "SourceControlCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "SourceControlCreateOrUpdateProperties",
+    modelProperties: {
+      repoUrl: {
+        serializedName: "repoUrl",
+        constraints: {
+          MaxLength: 2000
+        },
+        type: {
+          name: "String"
+        }
+      },
+      branch: {
+        serializedName: "branch",
+        constraints: {
+          MaxLength: 255
+        },
+        type: {
+          name: "String"
+        }
+      },
+      folderPath: {
+        serializedName: "folderPath",
+        constraints: {
+          MaxLength: 255
+        },
+        type: {
+          name: "String"
+        }
+      },
+      autoSync: {
+        serializedName: "autoSync",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publishRunbook: {
+        serializedName: "publishRunbook",
+        type: {
+          name: "Boolean"
+        }
+      },
+      sourceType: {
+        serializedName: "sourceType",
+        type: {
+          name: "String"
+        }
+      },
+      securityToken: {
+        serializedName: "securityToken",
+        type: {
+          name: "Composite",
+          className: "SourceControlSecurityTokenProperties"
+        }
+      },
+      description: {
+        serializedName: "description",
+        constraints: {
+          MaxLength: 512
+        },
         type: {
           name: "String"
         }
@@ -3862,6 +5731,58 @@ export const SourceControlCreateOrUpdateParameters: msRest.CompositeMapper = {
         constraints: {
           MaxLength: 512
         },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SourceControlSyncJobProperties: msRest.CompositeMapper = {
+  serializedName: "SourceControlSyncJobProperties",
+  type: {
+    name: "Composite",
+    className: "SourceControlSyncJobProperties",
+    modelProperties: {
+      sourceControlSyncJobId: {
+        serializedName: "sourceControlSyncJobId",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      syncType: {
+        serializedName: "syncType",
         type: {
           name: "String"
         }
@@ -3943,6 +5864,26 @@ export const SourceControlSyncJob: msRest.CompositeMapper = {
   }
 };
 
+export const SourceControlSyncJobCreateProperties: msRest.CompositeMapper = {
+  serializedName: "SourceControlSyncJobCreateProperties",
+  type: {
+    name: "Composite",
+    className: "SourceControlSyncJobCreateProperties",
+    modelProperties: {
+      commitId: {
+        required: true,
+        serializedName: "commitId",
+        constraints: {
+          MinLength: 0
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SourceControlSyncJobCreateParameters: msRest.CompositeMapper = {
   serializedName: "SourceControlSyncJobCreateParameters",
   type: {
@@ -3955,6 +5896,64 @@ export const SourceControlSyncJobCreateParameters: msRest.CompositeMapper = {
         constraints: {
           MinLength: 0
         },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SourceControlSyncJobByIdProperties: msRest.CompositeMapper = {
+  serializedName: "SourceControlSyncJobByIdProperties",
+  type: {
+    name: "Composite",
+    className: "SourceControlSyncJobByIdProperties",
+    modelProperties: {
+      sourceControlSyncJobId: {
+        serializedName: "sourceControlSyncJobId",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      syncType: {
+        serializedName: "syncType",
+        type: {
+          name: "String"
+        }
+      },
+      exception: {
+        serializedName: "exception",
         type: {
           name: "String"
         }
@@ -4027,6 +6026,42 @@ export const SourceControlSyncJobById: msRest.CompositeMapper = {
   }
 };
 
+export const SourceControlSyncJobStreamProperties: msRest.CompositeMapper = {
+  serializedName: "SourceControlSyncJobStreamProperties",
+  type: {
+    name: "Composite",
+    className: "SourceControlSyncJobStreamProperties",
+    modelProperties: {
+      sourceControlSyncJobStreamId: {
+        serializedName: "sourceControlSyncJobStreamId",
+        type: {
+          name: "String"
+        }
+      },
+      summary: {
+        serializedName: "summary",
+        type: {
+          name: "String"
+        }
+      },
+      time: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "time",
+        type: {
+          name: "DateTime"
+        }
+      },
+      streamType: {
+        serializedName: "streamType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SourceControlSyncJobStream: msRest.CompositeMapper = {
   serializedName: "SourceControlSyncJobStream",
   type: {
@@ -4064,6 +6099,59 @@ export const SourceControlSyncJobStream: msRest.CompositeMapper = {
         serializedName: "properties.streamType",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SourceControlSyncJobStreamByIdProperties: msRest.CompositeMapper = {
+  serializedName: "SourceControlSyncJobStreamByIdProperties",
+  type: {
+    name: "Composite",
+    className: "SourceControlSyncJobStreamByIdProperties",
+    modelProperties: {
+      sourceControlSyncJobStreamId: {
+        serializedName: "sourceControlSyncJobStreamId",
+        type: {
+          name: "String"
+        }
+      },
+      summary: {
+        serializedName: "summary",
+        type: {
+          name: "String"
+        }
+      },
+      time: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "time",
+        type: {
+          name: "DateTime"
+        }
+      },
+      streamType: {
+        serializedName: "streamType",
+        type: {
+          name: "String"
+        }
+      },
+      streamText: {
+        serializedName: "streamText",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     }
@@ -4130,6 +6218,58 @@ export const SourceControlSyncJobStreamById: msRest.CompositeMapper = {
   }
 };
 
+export const JobStreamProperties: msRest.CompositeMapper = {
+  serializedName: "JobStreamProperties",
+  type: {
+    name: "Composite",
+    className: "JobStreamProperties",
+    modelProperties: {
+      jobStreamId: {
+        serializedName: "jobStreamId",
+        type: {
+          name: "String"
+        }
+      },
+      time: {
+        nullable: false,
+        serializedName: "time",
+        type: {
+          name: "DateTime"
+        }
+      },
+      streamType: {
+        serializedName: "streamType",
+        type: {
+          name: "String"
+        }
+      },
+      streamText: {
+        serializedName: "streamText",
+        type: {
+          name: "String"
+        }
+      },
+      summary: {
+        serializedName: "summary",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const JobStream: msRest.CompositeMapper = {
   serializedName: "JobStream",
   type: {
@@ -4182,6 +6322,112 @@ export const JobStream: msRest.CompositeMapper = {
               name: "Object"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const JobProperties: msRest.CompositeMapper = {
+  serializedName: "JobProperties",
+  type: {
+    name: "Composite",
+    className: "JobProperties",
+    modelProperties: {
+      runbook: {
+        serializedName: "runbook",
+        type: {
+          name: "Composite",
+          className: "RunbookAssociationProperty"
+        }
+      },
+      startedBy: {
+        serializedName: "startedBy",
+        type: {
+          name: "String"
+        }
+      },
+      runOn: {
+        serializedName: "runOn",
+        type: {
+          name: "String"
+        }
+      },
+      jobId: {
+        nullable: false,
+        serializedName: "jobId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      statusDetails: {
+        serializedName: "statusDetails",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        nullable: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      exception: {
+        serializedName: "exception",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedTime: {
+        nullable: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastStatusModifiedTime: {
+        nullable: true,
+        serializedName: "lastStatusModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4295,6 +6541,84 @@ export const Job: msRest.CompositeMapper = {
   }
 };
 
+export const JobCollectionItemProperties: msRest.CompositeMapper = {
+  serializedName: "JobCollectionItemProperties",
+  type: {
+    name: "Composite",
+    className: "JobCollectionItemProperties",
+    modelProperties: {
+      runbook: {
+        readOnly: true,
+        serializedName: "runbook",
+        type: {
+          name: "Composite",
+          className: "RunbookAssociationProperty"
+        }
+      },
+      jobId: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "jobId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      runOn: {
+        serializedName: "runOn",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const JobCollectionItem: msRest.CompositeMapper = {
   serializedName: "JobCollectionItem",
   type: {
@@ -4366,6 +6690,40 @@ export const JobCollectionItem: msRest.CompositeMapper = {
       },
       runOn: {
         serializedName: "properties.runOn",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const JobCreateProperties: msRest.CompositeMapper = {
+  serializedName: "JobCreateProperties",
+  type: {
+    name: "Composite",
+    className: "JobCreateProperties",
+    modelProperties: {
+      runbook: {
+        serializedName: "runbook",
+        type: {
+          name: "Composite",
+          className: "RunbookAssociationProperty"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      runOn: {
+        serializedName: "runOn",
         type: {
           name: "String"
         }
@@ -4806,6 +7164,22 @@ export const AgentRegistration: msRest.CompositeMapper = {
   }
 };
 
+export const DscNodeConfigurationAssociationProperty: msRest.CompositeMapper = {
+  serializedName: "DscNodeConfigurationAssociationProperty",
+  type: {
+    name: "Composite",
+    className: "DscNodeConfigurationAssociationProperty",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DscNodeExtensionHandlerAssociationProperty: msRest.CompositeMapper = {
   serializedName: "DscNodeExtensionHandlerAssociationProperty",
   type: {
@@ -4822,6 +7196,84 @@ export const DscNodeExtensionHandlerAssociationProperty: msRest.CompositeMapper 
         serializedName: "version",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DscNodeProperties: msRest.CompositeMapper = {
+  serializedName: "DscNodeProperties",
+  type: {
+    name: "Composite",
+    className: "DscNodeProperties",
+    modelProperties: {
+      lastSeen: {
+        nullable: false,
+        serializedName: "lastSeen",
+        type: {
+          name: "DateTime"
+        }
+      },
+      registrationTime: {
+        nullable: false,
+        serializedName: "registrationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      ip: {
+        serializedName: "ip",
+        type: {
+          name: "String"
+        }
+      },
+      accountId: {
+        serializedName: "accountId",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "nodeConfiguration.name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      nodeId: {
+        serializedName: "nodeId",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      totalCount: {
+        serializedName: "totalCount",
+        type: {
+          name: "Number"
+        }
+      },
+      extensionHandler: {
+        serializedName: "extensionHandler",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DscNodeExtensionHandlerAssociationProperty"
+            }
+          }
         }
       }
     }
@@ -4979,6 +7431,120 @@ export const DscConfigurationAssociationProperty: msRest.CompositeMapper = {
   }
 };
 
+export const DscCompilationJobProperties: msRest.CompositeMapper = {
+  serializedName: "DscCompilationJobProperties",
+  type: {
+    name: "Composite",
+    className: "DscCompilationJobProperties",
+    modelProperties: {
+      configuration: {
+        serializedName: "configuration",
+        type: {
+          name: "Composite",
+          className: "DscConfigurationAssociationProperty"
+        }
+      },
+      startedBy: {
+        readOnly: true,
+        serializedName: "startedBy",
+        type: {
+          name: "String"
+        }
+      },
+      jobId: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "jobId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      runOn: {
+        serializedName: "runOn",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      statusDetails: {
+        serializedName: "statusDetails",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      exception: {
+        readOnly: true,
+        serializedName: "exception",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastStatusModifiedTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "lastStatusModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const DscCompilationJob: msRest.CompositeMapper = {
   serializedName: "DscCompilationJob",
   type: {
@@ -5094,6 +7660,41 @@ export const DscCompilationJob: msRest.CompositeMapper = {
   }
 };
 
+export const DscCompilationJobCreateProperties: msRest.CompositeMapper = {
+  serializedName: "DscCompilationJobCreateProperties",
+  type: {
+    name: "Composite",
+    className: "DscCompilationJobCreateProperties",
+    modelProperties: {
+      configuration: {
+        required: true,
+        serializedName: "configuration",
+        type: {
+          name: "Composite",
+          className: "DscConfigurationAssociationProperty"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      incrementNodeConfigurationBuild: {
+        serializedName: "incrementNodeConfigurationBuild",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const DscCompilationJobCreateParameters: msRest.CompositeMapper = {
   serializedName: "DscCompilationJobCreateParameters",
   type: {
@@ -5152,6 +7753,55 @@ export const DscCompilationJobCreateParameters: msRest.CompositeMapper = {
   }
 };
 
+export const DscNodeConfigurationProperties: msRest.CompositeMapper = {
+  serializedName: "DscNodeConfigurationProperties",
+  type: {
+    name: "Composite",
+    className: "DscNodeConfigurationProperties",
+    modelProperties: {
+      lastModifiedTime: {
+        nullable: false,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      configuration: {
+        serializedName: "configuration",
+        type: {
+          name: "Composite",
+          className: "DscConfigurationAssociationProperty"
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      nodeCount: {
+        serializedName: "nodeCount",
+        type: {
+          name: "Number"
+        }
+      },
+      incrementNodeConfigurationBuild: {
+        serializedName: "incrementNodeConfigurationBuild",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const DscNodeConfiguration: msRest.CompositeMapper = {
   serializedName: "DscNodeConfiguration",
   type: {
@@ -5194,6 +7844,38 @@ export const DscNodeConfiguration: msRest.CompositeMapper = {
       },
       incrementNodeConfigurationBuild: {
         serializedName: "properties.incrementNodeConfigurationBuild",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const DscNodeConfigurationCreateOrUpdateParametersProperties: msRest.CompositeMapper = {
+  serializedName: "DscNodeConfigurationCreateOrUpdateParametersProperties",
+  type: {
+    name: "Composite",
+    className: "DscNodeConfigurationCreateOrUpdateParametersProperties",
+    modelProperties: {
+      source: {
+        required: true,
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          className: "ContentSource"
+        }
+      },
+      configuration: {
+        required: true,
+        serializedName: "configuration",
+        type: {
+          name: "Composite",
+          className: "DscConfigurationAssociationProperty"
+        }
+      },
+      incrementNodeConfigurationBuild: {
+        serializedName: "incrementNodeConfigurationBuild",
         type: {
           name: "Boolean"
         }
@@ -5412,6 +8094,124 @@ export const RunbookDraft: msRest.CompositeMapper = {
   }
 };
 
+export const RunbookProperties: msRest.CompositeMapper = {
+  serializedName: "RunbookProperties",
+  type: {
+    name: "Composite",
+    className: "RunbookProperties",
+    modelProperties: {
+      runbookType: {
+        serializedName: "runbookType",
+        type: {
+          name: "String"
+        }
+      },
+      publishContentLink: {
+        serializedName: "publishContentLink",
+        type: {
+          name: "Composite",
+          className: "ContentLink"
+        }
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      logVerbose: {
+        serializedName: "logVerbose",
+        type: {
+          name: "Boolean"
+        }
+      },
+      logProgress: {
+        serializedName: "logProgress",
+        type: {
+          name: "Boolean"
+        }
+      },
+      logActivityTrace: {
+        serializedName: "logActivityTrace",
+        type: {
+          name: "Number"
+        }
+      },
+      jobCount: {
+        serializedName: "jobCount",
+        type: {
+          name: "Number"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "RunbookParameter"
+            }
+          }
+        }
+      },
+      outputTypes: {
+        serializedName: "outputTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      draft: {
+        serializedName: "draft",
+        type: {
+          name: "Composite",
+          className: "RunbookDraft"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Succeeded"
+          ]
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        nullable: false,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedTime: {
+        nullable: false,
+        serializedName: "lastModifiedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Runbook: msRest.CompositeMapper = {
   serializedName: "Runbook",
   type: {
@@ -5537,6 +8337,61 @@ export const Runbook: msRest.CompositeMapper = {
   }
 };
 
+export const RunbookCreateOrUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "RunbookCreateOrUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "RunbookCreateOrUpdateProperties",
+    modelProperties: {
+      logVerbose: {
+        serializedName: "logVerbose",
+        type: {
+          name: "Boolean"
+        }
+      },
+      logProgress: {
+        serializedName: "logProgress",
+        type: {
+          name: "Boolean"
+        }
+      },
+      runbookType: {
+        required: true,
+        serializedName: "runbookType",
+        type: {
+          name: "String"
+        }
+      },
+      draft: {
+        serializedName: "draft",
+        type: {
+          name: "Composite",
+          className: "RunbookDraft"
+        }
+      },
+      publishContentLink: {
+        serializedName: "publishContentLink",
+        type: {
+          name: "Composite",
+          className: "ContentLink"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      logActivityTrace: {
+        serializedName: "logActivityTrace",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const RunbookCreateOrUpdateParameters: msRest.CompositeMapper = {
   serializedName: "RunbookCreateOrUpdateParameters",
   type: {
@@ -5609,6 +8464,40 @@ export const RunbookCreateOrUpdateParameters: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const RunbookUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "RunbookUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "RunbookUpdateProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      logVerbose: {
+        serializedName: "logVerbose",
+        type: {
+          name: "Boolean"
+        }
+      },
+      logProgress: {
+        serializedName: "logProgress",
+        type: {
+          name: "Boolean"
+        }
+      },
+      logActivityTrace: {
+        serializedName: "logActivityTrace",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -5867,6 +8756,24 @@ export const RunbookCreateOrUpdateDraftParameters: msRest.CompositeMapper = {
         serializedName: "runbookContent",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PythonPackageCreateProperties: msRest.CompositeMapper = {
+  serializedName: "PythonPackageCreateProperties",
+  type: {
+    name: "Composite",
+    className: "PythonPackageCreateProperties",
+    modelProperties: {
+      contentLink: {
+        required: true,
+        serializedName: "contentLink",
+        type: {
+          name: "Composite",
+          className: "ContentLink"
         }
       }
     }
