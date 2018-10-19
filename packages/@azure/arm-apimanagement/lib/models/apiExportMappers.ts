@@ -10,7 +10,6 @@
 
 export {
   ApiExportResult,
-  ErrorResponse,
-  ErrorFieldContract
+  ErrorResponse
 } from "../models/mappers";
 

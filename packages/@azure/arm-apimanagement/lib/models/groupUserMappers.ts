@@ -16,7 +16,6 @@ export {
   UserIdentityContract,
   GroupContractProperties,
   ErrorResponse,
-  ErrorFieldContract,
   PolicyContract,
   ApiContract,
   AuthenticationSettingsContract,

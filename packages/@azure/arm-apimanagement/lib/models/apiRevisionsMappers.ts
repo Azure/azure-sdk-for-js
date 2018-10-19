@@ -11,7 +11,6 @@
 export {
   ApiRevisionCollection,
   ApiRevisionContract,
-  ErrorResponse,
-  ErrorFieldContract
+  ErrorResponse
 } from "../models/mappers";
 

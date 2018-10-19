@@ -11,7 +11,6 @@
 export {
   AccessInformationContract,
   TenantAccessGitGetHeaders,
-  ErrorResponse,
-  ErrorFieldContract
+  ErrorResponse
 } from "../models/mappers";
 

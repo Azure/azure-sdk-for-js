@@ -16,7 +16,6 @@ export {
   CloudError,
   TagGetEntityStateHeaders,
   ErrorResponse,
-  ErrorFieldContract,
   TagGetHeaders,
   TagCreateUpdateParameters,
   TagGetEntityStateByApiHeaders,

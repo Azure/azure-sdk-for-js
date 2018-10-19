@@ -15,7 +15,6 @@ export {
   BaseResource,
   ProductPolicyListByProductHeaders,
   ErrorResponse,
-  ErrorFieldContract,
   ProductPolicyGetEntityTagHeaders,
   ProductPolicyGetHeaders,
   ApiContract,

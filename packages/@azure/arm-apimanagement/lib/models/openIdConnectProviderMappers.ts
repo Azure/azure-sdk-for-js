@@ -16,7 +16,6 @@ export {
   CloudError,
   OpenIdConnectProviderGetEntityTagHeaders,
   ErrorResponse,
-  ErrorFieldContract,
   OpenIdConnectProviderGetHeaders,
   OpenidConnectProviderUpdateContract,
   PolicyContract,

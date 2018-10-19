@@ -14,7 +14,6 @@ export {
   Resource,
   BaseResource,
   ErrorResponse,
-  ErrorFieldContract,
   SubscriptionGetEntityTagHeaders,
   SubscriptionGetHeaders,
   SubscriptionCreateParameters,

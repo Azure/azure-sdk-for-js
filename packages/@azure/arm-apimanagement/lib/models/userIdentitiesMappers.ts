@@ -11,7 +11,6 @@
 export {
   UserIdentityCollection,
   UserIdentityContract,
-  ErrorResponse,
-  ErrorFieldContract
+  ErrorResponse
 } from "../models/mappers";
 

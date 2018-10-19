@@ -16,7 +16,6 @@ export {
   RecipientsContractProperties,
   CloudError,
   ErrorResponse,
-  ErrorFieldContract,
   PolicyContract,
   ApiContract,
   AuthenticationSettingsContract,

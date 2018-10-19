@@ -13,7 +13,6 @@ export {
   TenantAccessGetHeaders,
   CloudError,
   AccessInformationUpdateParameters,
-  ErrorResponse,
-  ErrorFieldContract
+  ErrorResponse
 } from "../models/mappers";
 

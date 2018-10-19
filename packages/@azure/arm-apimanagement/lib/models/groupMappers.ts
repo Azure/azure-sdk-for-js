@@ -16,7 +16,6 @@ export {
   CloudError,
   GroupGetEntityTagHeaders,
   ErrorResponse,
-  ErrorFieldContract,
   GroupGetHeaders,
   GroupCreateParameters,
   GroupUpdateParameters,
