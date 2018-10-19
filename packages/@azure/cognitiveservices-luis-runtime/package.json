@@ -1,11 +1,10 @@
 {
-  "name": "@azure/arm-containerservice",
+  "name": "@azure/cognitiveservices-luis-runtime",
   "author": "Microsoft Corporation",
-  "description": "ContainerServiceClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.0.0-preview",
+  "description": "LUISRuntimeClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0",
   "dependencies": {
-    "ms-rest-azure-js": "^1.0.176",
-    "ms-rest-js": "^1.0.455",
+    "ms-rest-js": "^1.0.443",
     "tslib": "^1.9.3"
   },
   "keywords": [
@@ -16,16 +15,16 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/arm-containerservice.js",
-  "module": "./esm/containerServiceClient.js",
-  "types": "./esm/containerServiceClient.d.ts",
+  "main": "./dist/cognitiveservices-luis-runtime.js",
+  "module": "./esm/lUISRuntimeClient.js",
+  "types": "./esm/lUISRuntimeClient.d.ts",
   "devDependencies": {
     "typescript": "^3.1.1",
     "rollup": "^0.66.2",
     "rollup-plugin-node-resolve": "^3.4.0",
     "uglify-js": "^3.4.9"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-containerservice",
+  "homepage": "https://github.com/azure/azure-sdk-for-js",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"
@@ -35,7 +34,7 @@
   },
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-containerservice.js.map'\" -o ./dist/arm-containerservice.min.js ./dist/arm-containerservice.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-luis-runtime.js.map'\" -o ./dist/cognitiveservices-luis-runtime.min.js ./dist/cognitiveservices-luis-runtime.js",
     "prepare": "npm run build"
   },
   "sideEffects": false
