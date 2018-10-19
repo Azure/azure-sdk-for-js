@@ -1,18 +1,15 @@
-# Microsoft Azure SDK for isomorphic javascript - EventGridClient
-This project provides an isomorphic javascript package for accessing Azure. Right now it supports:
-- node.js version 6.x.x or higher
-- browser javascript
+# Azure EventGridClient SDK for JavaScript
+This package contains an isomorphic SDK for EventGridClient.
+
+## Currently supported environments
+- Node.js version 6.x.x or higher
+- Browser JavaScript
 
 ## How to Install
-
-- nodejs
 ```
 npm install @azure/eventgrid
 ```
-- browser
-```html
-<script type="text/javascript" src="https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/lib/services/@azure/eventgrid/eventGridClientBundle.js"></script>
-```
+
 
 ## How to use
 
@@ -46,7 +43,8 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and publishEvents  as an example written in javascript.
+### browser - Authentication, client creation and publishEvents  as an example written in JavaScript.
+See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -54,30 +52,39 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 <html lang="en">
   <head>
     <title>@azure/eventgrid sample</title>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/ms-rest-js/master/msRestBundle.js"></script>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/ms-rest-js/master/msRestAzureBundle.js"></script>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/lib/services/@azure/eventgrid/eventGridClientBundle.js"></script>
-    <script type="text/javascript">
+    <script src="node_modules/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/ms-rest-azure-js/dist/msRestAzure.js"></script>
+    <script src="node_modules/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/@azure/eventgrid/dist/eventgrid.js"></script>
+    <script>
       const subscriptionId = "<Subscription_Id>";
-      const token = "<access_token>";
-      const creds = new msRest.TokenCredentials(token);
-      const client = new EventGridClient(creds, undefined, subscriptionId);
-      const topicHostname = "testtopicHostname";
-      const events = [{
-        id: "testid",
-        topic: "testtopic",
-        subject: "testsubject",
-        data: {},
-        eventType: "testeventType",
-        eventTime: new Date().toISOString(),
-        dataVersion: "testdataVersion"
-      }];
-      client.publishEvents(topicHostname, events).then((result) => {
-        console.log("The result is:");
-        console.log(result);
-      }).catch((err) => {
-        console.log('An error ocurred:');
-        console.error(err);
+      const authManager = new msAuth.AuthManager({
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
+      });
+      authManager.finalizeLogin().then((res) => {
+        if (!res.isLoggedIn) {
+          // may cause redirects
+          authManager.login();
+        }
+        const client = new Azure.Eventgrid.EventGridClient(res.creds, subscriptionId);
+        const topicHostname = "testtopicHostname";
+        const events = [{
+          id: "testid",
+          topic: "testtopic",
+          subject: "testsubject",
+          data: {},
+          eventType: "testeventType",
+          eventTime: new Date().toISOString(),
+          dataVersion: "testdataVersion"
+        }];
+        client.publishEvents(topicHostname, events).then((result) => {
+          console.log("The result is:");
+          console.log(result);
+        }).catch((err) => {
+          console.log('An error occurred:');
+          console.error(err);
+        });
       });
     </script>
   </head>
