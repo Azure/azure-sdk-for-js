@@ -242,47 +242,6 @@
             }
         }
     };
-    var DomainProperties = {
-        serializedName: "DomainProperties",
-        type: {
-            name: "Composite",
-            className: "DomainProperties",
-            modelProperties: {
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                endpoint: {
-                    readOnly: true,
-                    serializedName: "endpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                inputSchema: {
-                    serializedName: "inputSchema",
-                    type: {
-                        name: "String"
-                    }
-                },
-                inputSchemaMapping: {
-                    serializedName: "inputSchemaMapping",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "inputSchemaMappingType",
-                            clientName: "inputSchemaMappingType"
-                        },
-                        uberParent: "InputSchemaMapping",
-                        className: "InputSchemaMapping"
-                    }
-                }
-            }
-        }
-    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -584,133 +543,6 @@
             }
         }
     };
-    var EventSubscriptionProperties = {
-        serializedName: "EventSubscriptionProperties",
-        type: {
-            name: "Composite",
-            className: "EventSubscriptionProperties",
-            modelProperties: {
-                topic: {
-                    readOnly: true,
-                    serializedName: "topic",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                destination: {
-                    serializedName: "destination",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "endpointType",
-                            clientName: "endpointType"
-                        },
-                        uberParent: "EventSubscriptionDestination",
-                        className: "EventSubscriptionDestination"
-                    }
-                },
-                filter: {
-                    serializedName: "filter",
-                    type: {
-                        name: "Composite",
-                        className: "EventSubscriptionFilter"
-                    }
-                },
-                labels: {
-                    serializedName: "labels",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                expirationTimeUtc: {
-                    serializedName: "expirationTimeUtc",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                eventDeliverySchema: {
-                    serializedName: "eventDeliverySchema",
-                    type: {
-                        name: "String"
-                    }
-                },
-                retryPolicy: {
-                    serializedName: "retryPolicy",
-                    type: {
-                        name: "Composite",
-                        className: "RetryPolicy"
-                    }
-                },
-                deadLetterDestination: {
-                    serializedName: "deadLetterDestination",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "endpointType",
-                            clientName: "endpointType"
-                        },
-                        uberParent: "DeadLetterDestination",
-                        className: "DeadLetterDestination"
-                    }
-                }
-            }
-        }
-    };
-    var WebHookEventSubscriptionDestinationProperties = {
-        serializedName: "WebHookEventSubscriptionDestinationProperties",
-        type: {
-            name: "Composite",
-            className: "WebHookEventSubscriptionDestinationProperties",
-            modelProperties: {
-                endpointUrl: {
-                    serializedName: "endpointUrl",
-                    type: {
-                        name: "String"
-                    }
-                },
-                endpointBaseUrl: {
-                    readOnly: true,
-                    serializedName: "endpointBaseUrl",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var StorageBlobDeadLetterDestinationProperties = {
-        serializedName: "StorageBlobDeadLetterDestinationProperties",
-        type: {
-            name: "Composite",
-            className: "StorageBlobDeadLetterDestinationProperties",
-            modelProperties: {
-                resourceId: {
-                    serializedName: "resourceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                blobContainerName: {
-                    serializedName: "blobContainerName",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var NumberInAdvancedFilter = {
         serializedName: "NumberIn",
         type: {
@@ -967,21 +799,6 @@
                 } })
         }
     };
-    var EventHubEventSubscriptionDestinationProperties = {
-        serializedName: "EventHubEventSubscriptionDestinationProperties",
-        type: {
-            name: "Composite",
-            className: "EventHubEventSubscriptionDestinationProperties",
-            modelProperties: {
-                resourceId: {
-                    serializedName: "resourceId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var EventHubEventSubscriptionDestination = {
         serializedName: "EventHub",
         type: {
@@ -995,27 +812,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var StorageQueueEventSubscriptionDestinationProperties = {
-        serializedName: "StorageQueueEventSubscriptionDestinationProperties",
-        type: {
-            name: "Composite",
-            className: "StorageQueueEventSubscriptionDestinationProperties",
-            modelProperties: {
-                resourceId: {
-                    serializedName: "resourceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                queueName: {
-                    serializedName: "queueName",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var StorageQueueEventSubscriptionDestination = {
@@ -1036,21 +832,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var HybridConnectionEventSubscriptionDestinationProperties = {
-        serializedName: "HybridConnectionEventSubscriptionDestinationProperties",
-        type: {
-            name: "Composite",
-            className: "HybridConnectionEventSubscriptionDestinationProperties",
-            modelProperties: {
-                resourceId: {
-                    serializedName: "resourceId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var HybridConnectionEventSubscriptionDestination = {
@@ -1294,48 +1075,6 @@
             }
         }
     };
-    var TopicProperties = {
-        serializedName: "TopicProperties",
-        type: {
-            name: "Composite",
-            className: "TopicProperties",
-            modelProperties: {
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                endpoint: {
-                    readOnly: true,
-                    serializedName: "endpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                inputSchema: {
-                    serializedName: "inputSchema",
-                    defaultValue: 'EventGridSchema',
-                    type: {
-                        name: "String"
-                    }
-                },
-                inputSchemaMapping: {
-                    serializedName: "inputSchemaMapping",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "inputSchemaMappingType",
-                            clientName: "inputSchemaMappingType"
-                        },
-                        uberParent: "InputSchemaMapping",
-                        className: "InputSchemaMapping"
-                    }
-                }
-            }
-        }
-    };
     var JsonField = {
         serializedName: "JsonField",
         type: {
@@ -1367,57 +1106,6 @@
                     serializedName: "defaultValue",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var JsonInputSchemaMappingProperties = {
-        serializedName: "JsonInputSchemaMappingProperties",
-        type: {
-            name: "Composite",
-            className: "JsonInputSchemaMappingProperties",
-            modelProperties: {
-                id: {
-                    serializedName: "id",
-                    type: {
-                        name: "Composite",
-                        className: "JsonField"
-                    }
-                },
-                topic: {
-                    serializedName: "topic",
-                    type: {
-                        name: "Composite",
-                        className: "JsonField"
-                    }
-                },
-                eventTime: {
-                    serializedName: "eventTime",
-                    type: {
-                        name: "Composite",
-                        className: "JsonField"
-                    }
-                },
-                eventType: {
-                    serializedName: "eventType",
-                    type: {
-                        name: "Composite",
-                        className: "JsonFieldWithDefault"
-                    }
-                },
-                subject: {
-                    serializedName: "subject",
-                    type: {
-                        name: "Composite",
-                        className: "JsonFieldWithDefault"
-                    }
-                },
-                dataVersion: {
-                    serializedName: "dataVersion",
-                    type: {
-                        name: "Composite",
-                        className: "JsonFieldWithDefault"
                     }
                 }
             }
@@ -1563,33 +1251,6 @@
             }
         }
     };
-    var EventTypeProperties = {
-        serializedName: "EventTypeProperties",
-        type: {
-            name: "Composite",
-            className: "EventTypeProperties",
-            modelProperties: {
-                displayName: {
-                    serializedName: "displayName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                schemaUrl: {
-                    serializedName: "schemaUrl",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var EventType = {
         serializedName: "EventType",
         type: {
@@ -1611,56 +1272,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var TopicTypeProperties = {
-        serializedName: "TopicTypeProperties",
-        type: {
-            name: "Composite",
-            className: "TopicTypeProperties",
-            modelProperties: {
-                provider: {
-                    serializedName: "provider",
-                    type: {
-                        name: "String"
-                    }
-                },
-                displayName: {
-                    serializedName: "displayName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                resourceRegionType: {
-                    serializedName: "resourceRegionType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                supportedLocations: {
-                    serializedName: "supportedLocations",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var TopicTypeInfo = {
@@ -1882,7 +1493,6 @@
         CloudError: CloudError,
         BaseResource: BaseResource,
         InputSchemaMapping: InputSchemaMapping,
-        DomainProperties: DomainProperties,
         Resource: Resource,
         TrackedResource: TrackedResource,
         Domain: Domain,
@@ -1895,9 +1505,6 @@
         EventSubscriptionFilter: EventSubscriptionFilter,
         RetryPolicy: RetryPolicy,
         DeadLetterDestination: DeadLetterDestination,
-        EventSubscriptionProperties: EventSubscriptionProperties,
-        WebHookEventSubscriptionDestinationProperties: WebHookEventSubscriptionDestinationProperties,
-        StorageBlobDeadLetterDestinationProperties: StorageBlobDeadLetterDestinationProperties,
         NumberInAdvancedFilter: NumberInAdvancedFilter,
         StorageBlobDeadLetterDestination: StorageBlobDeadLetterDestination,
         NumberNotInAdvancedFilter: NumberNotInAdvancedFilter,
@@ -1912,29 +1519,22 @@
         StringEndsWithAdvancedFilter: StringEndsWithAdvancedFilter,
         StringContainsAdvancedFilter: StringContainsAdvancedFilter,
         WebHookEventSubscriptionDestination: WebHookEventSubscriptionDestination,
-        EventHubEventSubscriptionDestinationProperties: EventHubEventSubscriptionDestinationProperties,
         EventHubEventSubscriptionDestination: EventHubEventSubscriptionDestination,
-        StorageQueueEventSubscriptionDestinationProperties: StorageQueueEventSubscriptionDestinationProperties,
         StorageQueueEventSubscriptionDestination: StorageQueueEventSubscriptionDestination,
-        HybridConnectionEventSubscriptionDestinationProperties: HybridConnectionEventSubscriptionDestinationProperties,
         HybridConnectionEventSubscriptionDestination: HybridConnectionEventSubscriptionDestination,
         EventSubscription: EventSubscription,
         EventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters,
         EventSubscriptionFullUrl: EventSubscriptionFullUrl,
         OperationInfo: OperationInfo,
         Operation: Operation,
-        TopicProperties: TopicProperties,
         JsonField: JsonField,
         JsonFieldWithDefault: JsonFieldWithDefault,
-        JsonInputSchemaMappingProperties: JsonInputSchemaMappingProperties,
         JsonInputSchemaMapping: JsonInputSchemaMapping,
         Topic: Topic,
         TopicUpdateParameters: TopicUpdateParameters,
         TopicSharedAccessKeys: TopicSharedAccessKeys,
         TopicRegenerateKeyRequest: TopicRegenerateKeyRequest,
-        EventTypeProperties: EventTypeProperties,
         EventType: EventType,
-        TopicTypeProperties: TopicTypeProperties,
         TopicTypeInfo: TopicTypeInfo,
         DomainsListResult: DomainsListResult,
         DomainTopicsListResult: DomainTopicsListResult,
