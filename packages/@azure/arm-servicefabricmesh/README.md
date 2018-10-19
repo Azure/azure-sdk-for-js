@@ -13,7 +13,7 @@ npm install @azure/arm-servicefabricmesh
 
 ## How to use
 
-### nodejs - Authentication, client creation and get application as an example written in TypeScript.
+### nodejs - Authentication, client creation and list operations as an example written in TypeScript.
 
 ```ts
 import * as msRest from "ms-rest-js";
@@ -24,9 +24,7 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new ServiceFabricMeshManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const applicationName = "testapplicationName";
-  client.application.get(resourceGroupName, applicationName).then((result) => {
+  client.operations.list().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -35,7 +33,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-### browser - Authentication, client creation and get application as an example written in JavaScript.
+### browser - Authentication, client creation and list operations as an example written in JavaScript.
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
@@ -60,9 +58,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmServicefabricmesh.ServiceFabricMeshManagementClient(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        const applicationName = "testapplicationName";
-        client.application.get(resourceGroupName, applicationName).then((result) => {
+        client.operations.list().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
