@@ -27371,7 +27371,7 @@
      * regenerated.
      */
     var packageName = "@azure/arm-apimanagement";
-    var packageVersion = "1.1.0-preview";
+    var packageVersion = "1.0.0-preview";
     var ApiManagementClientContext = /** @class */ (function (_super) {
         __extends(ApiManagementClientContext, _super);
         /**

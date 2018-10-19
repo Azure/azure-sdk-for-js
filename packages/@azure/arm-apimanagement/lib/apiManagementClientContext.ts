@@ -13,7 +13,7 @@ import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
 const packageName = "@azure/arm-apimanagement";
-const packageVersion = "1.1.0-preview";
+const packageVersion = "1.0.0-preview";
 
 export class ApiManagementClientContext extends msRestAzure.AzureServiceClient {
 
