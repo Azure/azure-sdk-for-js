@@ -1,0 +1,42 @@
+{
+  "name": "@azure/arm-storsimple1200series",
+  "author": "Microsoft Corporation",
+  "description": "StorSimpleManagementClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0",
+  "dependencies": {
+    "ms-rest-azure-js": "^1.0.176",
+    "ms-rest-js": "^1.0.455",
+    "tslib": "^1.9.3"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/arm-storsimple1200series.js",
+  "module": "./esm/storSimpleManagementClient.js",
+  "types": "./esm/storSimpleManagementClient.d.ts",
+  "devDependencies": {
+    "typescript": "^3.1.1",
+    "rollup": "^0.66.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "uglify-js": "^3.4.9"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-storsimple1200series",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-storsimple1200series.js.map'\" -o ./dist/arm-storsimple1200series.min.js ./dist/arm-storsimple1200series.js",
+    "prepare": "npm run build"
+  },
+  "sideEffects": false
+}

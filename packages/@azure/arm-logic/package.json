@@ -1,0 +1,42 @@
+{
+  "name": "@azure/arm-logic",
+  "author": "Microsoft Corporation",
+  "description": "LogicManagementClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0-preview",
+  "dependencies": {
+    "ms-rest-azure-js": "^1.0.176",
+    "ms-rest-js": "^1.0.455",
+    "tslib": "^1.9.3"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/arm-logic.js",
+  "module": "./esm/logicManagementClient.js",
+  "types": "./esm/logicManagementClient.d.ts",
+  "devDependencies": {
+    "typescript": "^3.1.1",
+    "rollup": "^0.66.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "uglify-js": "^3.4.9"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/arm-logic",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-logic.js.map'\" -o ./dist/arm-logic.min.js ./dist/arm-logic.js",
+    "prepare": "npm run build"
+  },
+  "sideEffects": false
+}

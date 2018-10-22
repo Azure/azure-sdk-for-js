@@ -4789,35 +4789,6 @@ export interface ServiceSku {
 
 /**
  * @interface
- * An interface representing DataMigrationServiceProperties.
- * Properties of the Database Migration Service instance
- *
- */
-export interface DataMigrationServiceProperties {
-  /**
-   * @member {ServiceProvisioningState} [provisioningState] The resource's
-   * provisioning state. Possible values include: 'Accepted', 'Deleting',
-   * 'Deploying', 'Stopped', 'Stopping', 'Starting', 'FailedToStart',
-   * 'FailedToStop', 'Succeeded', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: ServiceProvisioningState;
-  /**
-   * @member {string} [publicKey] The public key of the service, used to
-   * encrypt secrets sent to the service
-   */
-  publicKey?: string;
-  /**
-   * @member {string} virtualSubnetId The ID of the
-   * Microsoft.Network/virtualNetworks/subnets resource to which the service
-   * should be joined
-   */
-  virtualSubnetId: string;
-}
-
-/**
- * @interface
  * An interface representing DataMigrationService.
  * A Database Migration Service resource
  *
@@ -4888,53 +4859,6 @@ export interface DatabaseInfo {
    * @member {string} sourceDatabaseName Name of the database
    */
   sourceDatabaseName: string;
-}
-
-/**
- * @interface
- * An interface representing ProjectProperties.
- * Project-specific properties
- *
- */
-export interface ProjectProperties {
-  /**
-   * @member {ProjectSourcePlatform} sourcePlatform Source platform for the
-   * project. Possible values include: 'SQL', 'MySQL', 'PostgreSql', 'Unknown'
-   */
-  sourcePlatform: ProjectSourcePlatform;
-  /**
-   * @member {ProjectTargetPlatform} targetPlatform Target platform for the
-   * project. Possible values include: 'SQLDB', 'SQLMI', 'AzureDbForMySql',
-   * 'AzureDbForPostgreSql', 'Unknown'
-   */
-  targetPlatform: ProjectTargetPlatform;
-  /**
-   * @member {Date} [creationTime] UTC Date and time when project was created
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {ConnectionInfoUnion} [sourceConnectionInfo] Information for
-   * connecting to source
-   */
-  sourceConnectionInfo?: ConnectionInfoUnion;
-  /**
-   * @member {ConnectionInfoUnion} [targetConnectionInfo] Information for
-   * connecting to target
-   */
-  targetConnectionInfo?: ConnectionInfoUnion;
-  /**
-   * @member {DatabaseInfo[]} [databasesInfo] List of DatabaseInfo
-   */
-  databasesInfo?: DatabaseInfo[];
-  /**
-   * @member {ProjectProvisioningState} [provisioningState] The project's
-   * provisioning state. Possible values include: 'Deleting', 'Succeeded'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: ProjectProvisioningState;
 }
 
 /**
