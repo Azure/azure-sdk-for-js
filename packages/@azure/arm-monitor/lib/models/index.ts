@@ -1638,8 +1638,9 @@ export interface ActionGroupResource extends Resource {
    */
   azureFunctionReceivers?: AzureFunctionReceiver[];
   /**
-   * @member {ArmRoleReceiver[]} [armRoleReceivers] The list of arm role
-   * receivers that are part of this action group.
+   * @member {ArmRoleReceiver[]} [armRoleReceivers] The list of ARM role
+   * receivers that are part of this action group. Roles are Azure RBAC roles
+   * and only built-in roles are supported.
    */
   armRoleReceivers?: ArmRoleReceiver[];
 }
