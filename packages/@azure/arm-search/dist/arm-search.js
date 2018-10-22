@@ -1327,7 +1327,7 @@
      * regenerated.
      */
     var packageName = "@azure/arm-search";
-    var packageVersion = "1.1.0";
+    var packageVersion = "1.0.0";
     var SearchManagementClientContext = /** @class */ (function (_super) {
         __extends(SearchManagementClientContext, _super);
         /**
