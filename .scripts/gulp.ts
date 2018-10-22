@@ -5,7 +5,7 @@
  */
 
 import { SdkType } from "./commandLine";
-import { findSdkDirectory, saveContentToFile, findMissingSdks } from "./generateSdks";
+import { findSdkDirectory, saveContentToFile, findMissingSdks } from "./packages";
 import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile, findReadmeTypeScriptMdFilePaths, getPackageNamesFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents, updateMainReadmeFile, getSinglePackageName } from "./readme";
 import * as fs from "fs";
 import * as path from "path";
