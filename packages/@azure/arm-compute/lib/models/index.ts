@@ -445,6 +445,11 @@ export interface VirtualMachineExtension extends Resource {
    * machine extension instance view.
    */
   instanceView?: VirtualMachineExtensionInstanceView;
+  /**
+   * @member {string[]} [provisionAfterExtensions] Collection of extension
+   * names after which this extension needs to be provisioned.
+   */
+  provisionAfterExtensions?: string[];
 }
 
 /**
@@ -491,6 +496,11 @@ export interface VirtualMachineExtensionUpdate extends UpdateResource {
    * settings at all.
    */
   protectedSettings?: any;
+  /**
+   * @member {string[]} [provisionAfterExtensions] Collection of extension
+   * names after which this extension needs to be provisioned.
+   */
+  provisionAfterExtensions?: string[];
 }
 
 /**
@@ -3135,6 +3145,11 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
    * the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * @member {string[]} [provisionAfterExtensions] Collection of extension
+   * names after which this extension needs to be provisioned.
+   */
+  provisionAfterExtensions?: string[];
 }
 
 /**

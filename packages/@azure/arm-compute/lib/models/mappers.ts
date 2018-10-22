@@ -575,6 +575,17 @@ export const VirtualMachineExtension: msRest.CompositeMapper = {
           name: "Composite",
           className: "VirtualMachineExtensionInstanceView"
         }
+      },
+      provisionAfterExtensions: {
+        serializedName: "properties.provisionAfterExtensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -627,6 +638,17 @@ export const VirtualMachineExtensionUpdate: msRest.CompositeMapper = {
         serializedName: "properties.protectedSettings",
         type: {
           name: "Object"
+        }
+      },
+      provisionAfterExtensions: {
+        serializedName: "properties.provisionAfterExtensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -3768,6 +3790,17 @@ export const VirtualMachineScaleSetExtension: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
+        }
+      },
+      provisionAfterExtensions: {
+        serializedName: "properties.provisionAfterExtensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
