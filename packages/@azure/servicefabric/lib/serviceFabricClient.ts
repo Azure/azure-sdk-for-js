@@ -12,15 +12,36 @@ import * as msRest from "ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
+import * as operations from "./operations";
 import { ServiceFabricClientContext } from "./serviceFabricClientContext";
 
 class ServiceFabricClient extends ServiceFabricClientContext {
+  // Operation groups
+  meshSecret: operations.MeshSecret;
+  meshSecretValue: operations.MeshSecretValue;
+  meshVolume: operations.MeshVolume;
+  meshNetwork: operations.MeshNetwork;
+  meshApplication: operations.MeshApplication;
+  meshService: operations.MeshService;
+  meshCodePackage: operations.MeshCodePackage;
+  meshServiceReplica: operations.MeshServiceReplica;
+  meshGateway: operations.MeshGateway;
+
   /**
    * Initializes a new instance of the ServiceFabricClient class.
    * @param [options] The parameter options
    */
   constructor(options?: Models.ServiceFabricClientOptions) {
     super(options);
+    this.meshSecret = new operations.MeshSecret(this);
+    this.meshSecretValue = new operations.MeshSecretValue(this);
+    this.meshVolume = new operations.MeshVolume(this);
+    this.meshNetwork = new operations.MeshNetwork(this);
+    this.meshApplication = new operations.MeshApplication(this);
+    this.meshService = new operations.MeshService(this);
+    this.meshCodePackage = new operations.MeshCodePackage(this);
+    this.meshServiceReplica = new operations.MeshServiceReplica(this);
+    this.meshGateway = new operations.MeshGateway(this);
   }
 
   /**
@@ -471,8 +492,8 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   }
 
   /**
-   * Rollback the code or configuration upgrade of a Service Fabric cluster.
-   * @summary Rollback the upgrade of a Service Fabric cluster.
+   * Roll back the code or configuration upgrade of a Service Fabric cluster.
+   * @summary Roll back the upgrade of a Service Fabric cluster.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -642,6 +663,32 @@ class ServiceFabricClient extends ServiceFabricClientContext {
       },
       getAadMetadataOperationSpec,
       callback) as Promise<Models.GetAadMetadataResponse>;
+  }
+
+  /**
+   * If a cluster upgrade is happening, then this API will return the lowest (older) version of the
+   * current and target cluster runtime versions.
+   * @summary Get the current Service Fabric cluster version.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetClusterVersionResponse>
+   */
+  getClusterVersion(options?: Models.ServiceFabricClientGetClusterVersionOptionalParams): Promise<Models.GetClusterVersionResponse>;
+  /**
+   * @param callback The callback
+   */
+  getClusterVersion(callback: msRest.ServiceCallback<Models.ClusterVersion>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getClusterVersion(options: Models.ServiceFabricClientGetClusterVersionOptionalParams, callback: msRest.ServiceCallback<Models.ClusterVersion>): void;
+  getClusterVersion(options?: Models.ServiceFabricClientGetClusterVersionOptionalParams, callback?: msRest.ServiceCallback<Models.ClusterVersion>): Promise<Models.GetClusterVersionResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      getClusterVersionOperationSpec,
+      callback) as Promise<Models.GetClusterVersionResponse>;
   }
 
   /**
@@ -4537,6 +4584,35 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   }
 
   /**
+   * Rollback a service fabric compose deployment upgrade.
+   * @summary Starts rolling back a compose deployment upgrade in the Service Fabric cluster.
+   * @param deploymentName The identity of the deployment.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  startRollbackComposeDeploymentUpgrade(deploymentName: string, options?: Models.ServiceFabricClientStartRollbackComposeDeploymentUpgradeOptionalParams): Promise<msRest.RestResponse>;
+  /**
+   * @param deploymentName The identity of the deployment.
+   * @param callback The callback
+   */
+  startRollbackComposeDeploymentUpgrade(deploymentName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param deploymentName The identity of the deployment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  startRollbackComposeDeploymentUpgrade(deploymentName: string, options: Models.ServiceFabricClientStartRollbackComposeDeploymentUpgradeOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  startRollbackComposeDeploymentUpgrade(deploymentName: string, options?: Models.ServiceFabricClientStartRollbackComposeDeploymentUpgradeOptionalParams, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.sendOperationRequest(
+      {
+        deploymentName,
+        options
+      },
+      startRollbackComposeDeploymentUpgradeOperationSpec,
+      callback);
+  }
+
+  /**
    * Get the status of Chaos indicating whether or not Chaos is running, the Chaos parameters used
    * for running Chaos and the status of the Chaos Schedule.
    * @summary Get the status of Chaos.
@@ -4785,7 +4861,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
 
   /**
    * Deletes existing image store content being found within the given image store relative path.
-   * This can be used to delete uploaded application packages once they are provisioned.
+   * This command can be used to delete uploaded application packages once they are provisioned.
    * @summary Deletes existing image store content.
    * @param contentPath Relative path to file or folder in the image store from its root.
    * @param [options] The optional parameters
@@ -5616,7 +5692,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   }
 
   /**
-   * Gets the a list of user-induced fault operations filtered by provided input.
+   * Gets the list of user-induced fault operations filtered by provided input.
    * @summary Gets a list of user-induced fault operations filtered by provided input.
    * @param typeFilter Used to filter on OperationType for user-induced operations.
    *
@@ -5711,7 +5787,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
    * @summary Cancels a user-induced fault operation.
    * @param operationId A GUID that identifies a call of this API.  This is passed into the
    * corresponding GetProgress API
-   * @param force Indicates whether to gracefully rollback and clean up internal system state
+   * @param force Indicates whether to gracefully roll back and clean up internal system state
    * modified by executing the user-induced operation.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -5720,7 +5796,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   /**
    * @param operationId A GUID that identifies a call of this API.  This is passed into the
    * corresponding GetProgress API
-   * @param force Indicates whether to gracefully rollback and clean up internal system state
+   * @param force Indicates whether to gracefully roll back and clean up internal system state
    * modified by executing the user-induced operation.
    * @param callback The callback
    */
@@ -5728,7 +5804,7 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   /**
    * @param operationId A GUID that identifies a call of this API.  This is passed into the
    * corresponding GetProgress API
-   * @param force Indicates whether to gracefully rollback and clean up internal system state
+   * @param force Indicates whether to gracefully roll back and clean up internal system state
    * modified by executing the user-induced operation.
    * @param options The optional parameters
    * @param callback The callback
@@ -7571,326 +7647,6 @@ class ServiceFabricClient extends ServiceFabricClientContext {
       getCorrelatedEventListOperationSpec,
       callback) as Promise<Models.GetCorrelatedEventListResponse>;
   }
-
-  /**
-   * Creates an application with the specified name and description. If an application with the same
-   * name already exists, then its description are updated to the one indicated in this request.
-   * @summary Creates or updates an application resource.
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param applicationResourceDescription Description for creating an application resource.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  createApplicationResource(applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param applicationResourceDescription Description for creating an application resource.
-   * @param callback The callback
-   */
-  createApplicationResource(applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param applicationResourceDescription Description for creating an application resource.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createApplicationResource(applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  createApplicationResource(applicationResourceName: string, applicationResourceDescription: Models.ApplicationResourceDescription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.sendOperationRequest(
-      {
-        applicationResourceName,
-        applicationResourceDescription,
-        options
-      },
-      createApplicationResourceOperationSpec,
-      callback);
-  }
-
-  /**
-   * Gets the application with the given name. This includes the information about the application's
-   * services and other runtime information.
-   * @summary Gets the application with the given name.
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetApplicationResourceResponse>
-   */
-  getApplicationResource(applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetApplicationResourceResponse>;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param callback The callback
-   */
-  getApplicationResource(applicationResourceName: string, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getApplicationResource(applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceDescription>): void;
-  getApplicationResource(applicationResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ApplicationResourceDescription>): Promise<Models.GetApplicationResourceResponse> {
-    return this.sendOperationRequest(
-      {
-        applicationResourceName,
-        options
-      },
-      getApplicationResourceOperationSpec,
-      callback) as Promise<Models.GetApplicationResourceResponse>;
-  }
-
-  /**
-   * Deletes the application identified by the name.
-   * @summary Deletes the specified application.
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteApplicationResource(applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param callback The callback
-   */
-  deleteApplicationResource(applicationResourceName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteApplicationResource(applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteApplicationResource(applicationResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.sendOperationRequest(
-      {
-        applicationResourceName,
-        options
-      },
-      deleteApplicationResourceOperationSpec,
-      callback);
-  }
-
-  /**
-   * The operation returns the service descriptions of all the services in the application resource.
-   * @summary Gets all the services in the application resource.
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetServicesResponse>
-   */
-  getServices(applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetServicesResponse>;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param callback The callback
-   */
-  getServices(applicationResourceName: string, callback: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>): void;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getServices(applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>): void;
-  getServices(applicationResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PagedServiceResourceDescriptionList>): Promise<Models.GetServicesResponse> {
-    return this.sendOperationRequest(
-      {
-        applicationResourceName,
-        options
-      },
-      getServicesOperationSpec,
-      callback) as Promise<Models.GetServicesResponse>;
-  }
-
-  /**
-   * Gets the description of the service resource.
-   * @summary Gets the description of the specified service in an application resource.
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param serviceResourceName Service Fabric service resource name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetServiceResponse>
-   */
-  getService(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetServiceResponse>;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param serviceResourceName Service Fabric service resource name.
-   * @param callback The callback
-   */
-  getService(applicationResourceName: string, serviceResourceName: string, callback: msRest.ServiceCallback<Models.ServiceResourceDescription>): void;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param serviceResourceName Service Fabric service resource name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getService(applicationResourceName: string, serviceResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResourceDescription>): void;
-  getService(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceResourceDescription>): Promise<Models.GetServiceResponse> {
-    return this.sendOperationRequest(
-      {
-        applicationResourceName,
-        serviceResourceName,
-        options
-      },
-      getServiceOperationSpec,
-      callback) as Promise<Models.GetServiceResponse>;
-  }
-
-  /**
-   * Gets the information about all replicas of a given service of an application. The information
-   * includes the runtime properties of the replica instance.
-   * @summary Gets replicas of a given service in an applciation resource.
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param serviceResourceName Service Fabric service resource name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetReplicasResponse>
-   */
-  getReplicas(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetReplicasResponse>;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param serviceResourceName Service Fabric service resource name.
-   * @param callback The callback
-   */
-  getReplicas(applicationResourceName: string, serviceResourceName: string, callback: msRest.ServiceCallback<Models.PagedServiceResourceReplicaDescriptionList>): void;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param serviceResourceName Service Fabric service resource name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getReplicas(applicationResourceName: string, serviceResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PagedServiceResourceReplicaDescriptionList>): void;
-  getReplicas(applicationResourceName: string, serviceResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.PagedServiceResourceReplicaDescriptionList>): Promise<Models.GetReplicasResponse> {
-    return this.sendOperationRequest(
-      {
-        applicationResourceName,
-        serviceResourceName,
-        options
-      },
-      getReplicasOperationSpec,
-      callback) as Promise<Models.GetReplicasResponse>;
-  }
-
-  /**
-   * Gets the information about the specified replica of a given service of an application. The
-   * information includes the runtime properties of the replica instance.
-   * @summary Gets a specific replica of a given service in an application resource.
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param serviceResourceName Service Fabric service resource name.
-   * @param replicaName Service Fabric replica name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetReplicaResponse>
-   */
-  getReplica(applicationResourceName: string, serviceResourceName: string, replicaName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetReplicaResponse>;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param serviceResourceName Service Fabric service resource name.
-   * @param replicaName Service Fabric replica name.
-   * @param callback The callback
-   */
-  getReplica(applicationResourceName: string, serviceResourceName: string, replicaName: string, callback: msRest.ServiceCallback<Models.ServiceResourceReplicaDescription>): void;
-  /**
-   * @param applicationResourceName Service Fabric application resource name.
-   * @param serviceResourceName Service Fabric service resource name.
-   * @param replicaName Service Fabric replica name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getReplica(applicationResourceName: string, serviceResourceName: string, replicaName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceResourceReplicaDescription>): void;
-  getReplica(applicationResourceName: string, serviceResourceName: string, replicaName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.ServiceResourceReplicaDescription>): Promise<Models.GetReplicaResponse> {
-    return this.sendOperationRequest(
-      {
-        applicationResourceName,
-        serviceResourceName,
-        replicaName,
-        options
-      },
-      getReplicaOperationSpec,
-      callback) as Promise<Models.GetReplicaResponse>;
-  }
-
-  /**
-   * Creates a volume resource with the specified name and description. If a volume with the same
-   * name already exists, then its description is updated to the one indicated in this request.
-   * @summary Creates or updates a volume resource.
-   * @param volumeResourceName Service Fabric volume resource name.
-   * @param volumeResourceDescription Description for creating a volume resource.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  createVolumeResource(volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param volumeResourceName Service Fabric volume resource name.
-   * @param volumeResourceDescription Description for creating a volume resource.
-   * @param callback The callback
-   */
-  createVolumeResource(volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param volumeResourceName Service Fabric volume resource name.
-   * @param volumeResourceDescription Description for creating a volume resource.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createVolumeResource(volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  createVolumeResource(volumeResourceName: string, volumeResourceDescription: Models.VolumeResourceDescription, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.sendOperationRequest(
-      {
-        volumeResourceName,
-        volumeResourceDescription,
-        options
-      },
-      createVolumeResourceOperationSpec,
-      callback);
-  }
-
-  /**
-   * Gets the information about the volume resource with a given name. This information includes the
-   * volume description and other runtime information.
-   * @summary Gets the volume resource.
-   * @param volumeResourceName Service Fabric volume resource name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetVolumeResourceResponse>
-   */
-  getVolumeResource(volumeResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.GetVolumeResourceResponse>;
-  /**
-   * @param volumeResourceName Service Fabric volume resource name.
-   * @param callback The callback
-   */
-  getVolumeResource(volumeResourceName: string, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
-  /**
-   * @param volumeResourceName Service Fabric volume resource name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getVolumeResource(volumeResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VolumeResourceDescription>): void;
-  getVolumeResource(volumeResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<Models.VolumeResourceDescription>): Promise<Models.GetVolumeResourceResponse> {
-    return this.sendOperationRequest(
-      {
-        volumeResourceName,
-        options
-      },
-      getVolumeResourceOperationSpec,
-      callback) as Promise<Models.GetVolumeResourceResponse>;
-  }
-
-  /**
-   * Deletes the volume identified by the name.
-   * @summary Deletes the volume resource.
-   * @param volumeResourceName Service Fabric volume resource name.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteVolumeResource(volumeResourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param volumeResourceName Service Fabric volume resource name.
-   * @param callback The callback
-   */
-  deleteVolumeResource(volumeResourceName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param volumeResourceName Service Fabric volume resource name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteVolumeResource(volumeResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteVolumeResource(volumeResourceName: string, options?: msRest.RequestOptionsBase, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.sendOperationRequest(
-      {
-        volumeResourceName,
-        options
-      },
-      deleteVolumeResourceOperationSpec,
-      callback);
-  }
 }
 
 // Operation Specifications
@@ -8363,11 +8119,29 @@ const getAadMetadataOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getClusterVersionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "$/GetClusterVersion",
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterVersion
+    },
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
 const getNodeInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Nodes",
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.continuationToken,
     Parameters.nodeStatusFilter,
     Parameters.maxResults,
@@ -8646,7 +8420,7 @@ const provisionApplicationTypeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "ApplicationTypes/$/Provision",
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.timeout
   ],
   requestBody: {
@@ -8912,7 +8686,7 @@ const getApplicationInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Applications",
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.applicationDefinitionKindFilter,
     Parameters.applicationTypeName1,
     Parameters.excludeApplicationParameters,
@@ -9163,7 +8937,7 @@ const getDeployedApplicationInfoListOperationSpec: msRest.OperationSpec = {
     Parameters.nodeName
   ],
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.timeout,
     Parameters.includeHealthState,
     Parameters.continuationToken,
@@ -9188,7 +8962,7 @@ const getDeployedApplicationInfoOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.timeout,
     Parameters.includeHealthState
   ],
@@ -9610,7 +9384,7 @@ const getPartitionInfoListOperationSpec: msRest.OperationSpec = {
     Parameters.serviceId0
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion1,
     Parameters.continuationToken,
     Parameters.timeout
   ],
@@ -10537,7 +10311,7 @@ const getContainerLogsDeployedOnNodeOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.serviceManifestName0,
     Parameters.codePackageName1,
     Parameters.tail,
@@ -10563,7 +10337,7 @@ const invokeContainerApiOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.serviceManifestName0,
     Parameters.codePackageName1,
     Parameters.codePackageInstanceId,
@@ -10591,7 +10365,7 @@ const createComposeDeploymentOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "ComposeDeployments/$/Create",
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion5,
     Parameters.timeout
   ],
   requestBody: {
@@ -10617,7 +10391,7 @@ const getComposeDeploymentStatusOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion5,
     Parameters.timeout
   ],
   responses: {
@@ -10635,7 +10409,7 @@ const getComposeDeploymentStatusListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "ComposeDeployments",
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion5,
     Parameters.continuationToken,
     Parameters.maxResults,
     Parameters.timeout
@@ -10658,7 +10432,7 @@ const getComposeDeploymentUpgradeProgressOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion5,
     Parameters.timeout
   ],
   responses: {
@@ -10679,7 +10453,7 @@ const removeComposeDeploymentOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion5,
     Parameters.timeout
   ],
   responses: {
@@ -10698,7 +10472,7 @@ const startComposeDeploymentUpgradeOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion5,
     Parameters.timeout
   ],
   requestBody: {
@@ -10717,11 +10491,30 @@ const startComposeDeploymentUpgradeOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const startRollbackComposeDeploymentUpgradeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "ComposeDeployments/{deploymentName}/$/RollbackUpgrade",
+  urlParameters: [
+    Parameters.deploymentName
+  ],
+  queryParameters: [
+    Parameters.apiVersion6,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
 const getChaosOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Tools/Chaos",
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.timeout
   ],
   responses: {
@@ -10778,7 +10571,7 @@ const getChaosEventsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Tools/Chaos/Events",
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.continuationToken,
     Parameters.startTimeUtc0,
     Parameters.endTimeUtc0,
@@ -10800,7 +10593,7 @@ const getChaosScheduleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Tools/Chaos/Schedule",
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.timeout
   ],
   responses: {
@@ -10818,7 +10611,7 @@ const postChaosScheduleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Tools/Chaos/Schedule",
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.timeout
   ],
   requestBody: {
@@ -10863,7 +10656,7 @@ const getImageStoreContentOperationSpec: msRest.OperationSpec = {
     Parameters.contentPath
   ],
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.timeout
   ],
   responses: {
@@ -11318,7 +11111,7 @@ const createBackupPolicyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "BackupRestore/BackupPolicies/$/Create",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   requestBody: {
@@ -11344,7 +11137,7 @@ const deleteBackupPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.backupPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -11360,7 +11153,7 @@ const getBackupPolicyListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "BackupRestore/BackupPolicies",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.continuationToken,
     Parameters.maxResults,
     Parameters.timeout
@@ -11383,7 +11176,7 @@ const getBackupPolicyByNameOperationSpec: msRest.OperationSpec = {
     Parameters.backupPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -11404,7 +11197,7 @@ const getAllEntitiesBackedUpByPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.backupPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.continuationToken,
     Parameters.maxResults,
     Parameters.timeout
@@ -11427,7 +11220,7 @@ const updateBackupPolicyOperationSpec: msRest.OperationSpec = {
     Parameters.backupPolicyName
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   requestBody: {
@@ -11453,7 +11246,7 @@ const enableApplicationBackupOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   requestBody: {
@@ -11479,9 +11272,16 @@ const disableApplicationBackupOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "disableBackupDescription"
+    ],
+    mapper: Mappers.DisableBackupDescription
+  },
   responses: {
     202: {},
     default: {
@@ -11498,7 +11298,7 @@ const getApplicationBackupConfigurationInfoOperationSpec: msRest.OperationSpec =
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.continuationToken,
     Parameters.maxResults,
     Parameters.timeout
@@ -11521,7 +11321,7 @@ const getApplicationBackupListOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.latest,
     Parameters.startDateTimeFilter,
@@ -11547,7 +11347,7 @@ const suspendApplicationBackupOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -11566,7 +11366,7 @@ const resumeApplicationBackupOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -11585,7 +11385,7 @@ const enableServiceBackupOperationSpec: msRest.OperationSpec = {
     Parameters.serviceId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   requestBody: {
@@ -11611,9 +11411,16 @@ const disableServiceBackupOperationSpec: msRest.OperationSpec = {
     Parameters.serviceId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "disableBackupDescription"
+    ],
+    mapper: Mappers.DisableBackupDescription
+  },
   responses: {
     202: {},
     default: {
@@ -11630,7 +11437,7 @@ const getServiceBackupConfigurationInfoOperationSpec: msRest.OperationSpec = {
     Parameters.serviceId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.continuationToken,
     Parameters.maxResults,
     Parameters.timeout
@@ -11653,7 +11460,7 @@ const getServiceBackupListOperationSpec: msRest.OperationSpec = {
     Parameters.serviceId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.latest,
     Parameters.startDateTimeFilter,
@@ -11679,7 +11486,7 @@ const suspendServiceBackupOperationSpec: msRest.OperationSpec = {
     Parameters.serviceId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -11698,7 +11505,7 @@ const resumeServiceBackupOperationSpec: msRest.OperationSpec = {
     Parameters.serviceId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -11717,7 +11524,7 @@ const enablePartitionBackupOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   requestBody: {
@@ -11743,9 +11550,16 @@ const disablePartitionBackupOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "disableBackupDescription"
+    ],
+    mapper: Mappers.DisableBackupDescription
+  },
   responses: {
     202: {},
     default: {
@@ -11762,7 +11576,7 @@ const getPartitionBackupConfigurationInfoOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -11783,7 +11597,7 @@ const getPartitionBackupListOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.latest,
     Parameters.startDateTimeFilter,
@@ -11807,7 +11621,7 @@ const suspendPartitionBackupOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -11826,7 +11640,7 @@ const resumePartitionBackupOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -11846,7 +11660,7 @@ const backupPartitionOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.backupTimeout,
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   requestBody: {
@@ -11872,7 +11686,7 @@ const getPartitionBackupProgressOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -11894,7 +11708,7 @@ const restorePartitionOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.restoreTimeout,
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   requestBody: {
@@ -11920,7 +11734,7 @@ const getPartitionRestoreProgressOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -11938,7 +11752,7 @@ const getBackupsFromBackupLocationOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "BackupRestore/$/GetBackups",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.continuationToken,
     Parameters.maxResults
@@ -12171,7 +11985,7 @@ const getClusterEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Cluster/Events",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12207,7 +12021,7 @@ const getContainersEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Containers/Events",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion7,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12246,7 +12060,7 @@ const getNodeEventListOperationSpec: msRest.OperationSpec = {
     Parameters.nodeName
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12282,7 +12096,7 @@ const getNodesEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Nodes/Events",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12321,7 +12135,7 @@ const getApplicationEventListOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12357,7 +12171,7 @@ const getApplicationsEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Applications/Events",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12396,7 +12210,7 @@ const getServiceEventListOperationSpec: msRest.OperationSpec = {
     Parameters.serviceId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12432,7 +12246,7 @@ const getServicesEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Services/Events",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12471,7 +12285,7 @@ const getPartitionEventListOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12507,7 +12321,7 @@ const getPartitionsEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Partitions/Events",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12547,7 +12361,7 @@ const getPartitionReplicaEventListOperationSpec: msRest.OperationSpec = {
     Parameters.replicaId
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12586,7 +12400,7 @@ const getPartitionReplicasEventListOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId0
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,
@@ -12625,7 +12439,7 @@ const getCorrelatedEventListOperationSpec: msRest.OperationSpec = {
     Parameters.eventInstanceId
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion1,
     Parameters.timeout
   ],
   responses: {
@@ -12655,217 +12469,10 @@ const getCorrelatedEventListOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createApplicationResourceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "Resources/Applications/{applicationResourceName}",
-  urlParameters: [
-    Parameters.applicationResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  requestBody: {
-    parameterPath: "applicationResourceDescription",
-    mapper: {
-      ...Mappers.ApplicationResourceDescription,
-      required: true
-    }
-  },
-  responses: {
-    201: {},
-    202: {},
-    default: {
-      bodyMapper: Mappers.FabricError
-    }
-  },
-  serializer
-};
-
-const getApplicationResourceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "Resources/Applications/{applicationResourceName}",
-  urlParameters: [
-    Parameters.applicationResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationResourceDescription
-    },
-    default: {
-      bodyMapper: Mappers.FabricError
-    }
-  },
-  serializer
-};
-
-const deleteApplicationResourceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "Resources/Applications/{applicationResourceName}",
-  urlParameters: [
-    Parameters.applicationResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  responses: {
-    200: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.FabricError
-    }
-  },
-  serializer
-};
-
-const getServicesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "Resources/Applications/{applicationResourceName}/Services",
-  urlParameters: [
-    Parameters.applicationResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.PagedServiceResourceDescriptionList
-    },
-    default: {}
-  },
-  serializer
-};
-
-const getServiceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}",
-  urlParameters: [
-    Parameters.applicationResourceName,
-    Parameters.serviceResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServiceResourceDescription
-    },
-    default: {}
-  },
-  serializer
-};
-
-const getReplicasOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}/replicas",
-  urlParameters: [
-    Parameters.applicationResourceName,
-    Parameters.serviceResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.PagedServiceResourceReplicaDescriptionList
-    },
-    default: {}
-  },
-  serializer
-};
-
-const getReplicaOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "Resources/Applications/{applicationResourceName}/Services/{serviceResourceName}/Replicas/{replicaName}",
-  urlParameters: [
-    Parameters.applicationResourceName,
-    Parameters.serviceResourceName,
-    Parameters.replicaName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServiceResourceReplicaDescription
-    },
-    default: {}
-  },
-  serializer
-};
-
-const createVolumeResourceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "Resources/Volumes/{volumeResourceName}",
-  urlParameters: [
-    Parameters.volumeResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  requestBody: {
-    parameterPath: "volumeResourceDescription",
-    mapper: {
-      ...Mappers.VolumeResourceDescription,
-      required: true
-    }
-  },
-  responses: {
-    201: {},
-    202: {},
-    default: {
-      bodyMapper: Mappers.FabricError
-    }
-  },
-  serializer
-};
-
-const getVolumeResourceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "Resources/Volumes/{volumeResourceName}",
-  urlParameters: [
-    Parameters.volumeResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.VolumeResourceDescription
-    },
-    default: {
-      bodyMapper: Mappers.FabricError
-    }
-  },
-  serializer
-};
-
-const deleteVolumeResourceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "Resources/Volumes/{volumeResourceName}",
-  urlParameters: [
-    Parameters.volumeResourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion6
-  ],
-  responses: {
-    200: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.FabricError
-    }
-  },
-  serializer
-};
-
 export {
   ServiceFabricClient,
   ServiceFabricClientContext,
   Models as ServiceFabricModels,
   Mappers as ServiceFabricMappers
 };
+export * from "./operations";
