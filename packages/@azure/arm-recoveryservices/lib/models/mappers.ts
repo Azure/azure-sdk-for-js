@@ -765,40 +765,6 @@ export const PatchVault: msRest.CompositeMapper = {
   }
 };
 
-export const VaultExtendedInfo: msRest.CompositeMapper = {
-  serializedName: "VaultExtendedInfo",
-  type: {
-    name: "Composite",
-    className: "VaultExtendedInfo",
-    modelProperties: {
-      integrityKey: {
-        serializedName: "integrityKey",
-        type: {
-          name: "String"
-        }
-      },
-      encryptionKey: {
-        serializedName: "encryptionKey",
-        type: {
-          name: "String"
-        }
-      },
-      encryptionKeyThumbprint: {
-        serializedName: "encryptionKeyThumbprint",
-        type: {
-          name: "String"
-        }
-      },
-      algorithm: {
-        serializedName: "algorithm",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const VaultExtendedInfoResource: msRest.CompositeMapper = {
   serializedName: "VaultExtendedInfoResource",
   type: {

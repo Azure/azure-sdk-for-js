@@ -25,6 +25,8 @@ export {
   ScriptAction,
   StorageProfile,
   StorageAccount,
+  ClusterIdentity,
+  ClusterIdentityUserAssignedIdentitiesValue,
   Cluster,
   TrackedResource,
   Resource,

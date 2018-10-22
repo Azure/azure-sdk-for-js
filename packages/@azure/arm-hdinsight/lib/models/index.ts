@@ -378,6 +378,64 @@ export interface ClusterCreateProperties {
 
 /**
  * @interface
+ * An interface representing ClusterIdentityUserAssignedIdentitiesValue.
+ */
+export interface ClusterIdentityUserAssignedIdentitiesValue {
+  /**
+   * @member {string} [principalId] The principal id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [clientId] The client id of user assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly clientId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing ClusterIdentity.
+ * Identity for the cluster.
+ *
+ */
+export interface ClusterIdentity {
+  /**
+   * @member {string} [principalId] The principal id of cluster identity. This
+   * property will only be provided for a system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * @member {string} [tenantId] The tenant id associated with the cluster.
+   * This property will only be provided for a system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * @member {ResourceIdentityType} [type] The type of identity used for the
+   * cluster. The type 'SystemAssigned, UserAssigned' includes both an
+   * implicitly created identity and a set of user assigned identities.
+   * Possible values include: 'SystemAssigned', 'UserAssigned',
+   * 'SystemAssigned, UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
+  /**
+   * @member {{ [propertyName: string]:
+   * ClusterIdentityUserAssignedIdentitiesValue }} [userAssignedIdentities] The
+   * list of user identities associated with the cluster. The user identity
+   * dictionary key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   */
+  userAssignedIdentities?: { [propertyName: string]: ClusterIdentityUserAssignedIdentitiesValue };
+}
+
+/**
+ * @interface
  * An interface representing ClusterCreateParametersExtended.
  * The CreateCluster request parameters.
  *
@@ -396,6 +454,11 @@ export interface ClusterCreateParametersExtended {
    * parameters.
    */
   properties?: ClusterCreateProperties;
+  /**
+   * @member {ClusterIdentity} [identity] The identity of the cluster, if
+   * configured.
+   */
+  identity?: ClusterIdentity;
 }
 
 /**
@@ -590,6 +653,11 @@ export interface Cluster extends TrackedResource {
    * @member {ClusterGetProperties} [properties] The properties of the cluster.
    */
   properties?: ClusterGetProperties;
+  /**
+   * @member {ClusterIdentity} [identity] The identity of the cluster, if
+   * configured.
+   */
+  identity?: ClusterIdentity;
 }
 
 /**
@@ -1284,6 +1352,20 @@ export enum OSType {
 export enum Tier {
   Standard = 'Standard',
   Premium = 'Premium',
+}
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
+ * UserAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export enum ResourceIdentityType {
+  SystemAssigned = 'SystemAssigned',
+  UserAssigned = 'UserAssigned',
+  SystemAssignedUserAssigned = 'SystemAssigned, UserAssigned',
+  None = 'None',
 }
 
 /**

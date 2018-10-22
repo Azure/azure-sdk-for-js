@@ -93,43 +93,6 @@
      */
     var CloudError = msRestAzure.CloudErrorMapper;
     var BaseResource = msRestAzure.BaseResourceMapper;
-    var IdentityProperties = {
-        serializedName: "IdentityProperties",
-        type: {
-            name: "Composite",
-            className: "IdentityProperties",
-            modelProperties: {
-                tenantId: {
-                    readOnly: true,
-                    serializedName: "tenantId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                principalId: {
-                    readOnly: true,
-                    serializedName: "principalId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                clientId: {
-                    readOnly: true,
-                    serializedName: "clientId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                clientSecretUrl: {
-                    readOnly: true,
-                    serializedName: "clientSecretUrl",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Identity = {
         serializedName: "Identity",
         type: {
@@ -318,7 +281,6 @@
     var mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
         BaseResource: BaseResource,
-        IdentityProperties: IdentityProperties,
         Identity: Identity,
         OperationDisplay: OperationDisplay,
         Operation: Operation,

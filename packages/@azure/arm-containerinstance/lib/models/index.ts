@@ -308,60 +308,6 @@ export interface ContainerProbe {
 
 /**
  * @interface
- * An interface representing ContainerProperties.
- * The container instance properties.
- *
- */
-export interface ContainerProperties {
-  /**
-   * @member {string} image The name of the image used to create the container
-   * instance.
-   */
-  image: string;
-  /**
-   * @member {string[]} [command] The commands to execute within the container
-   * instance in exec form.
-   */
-  command?: string[];
-  /**
-   * @member {ContainerPort[]} [ports] The exposed ports on the container
-   * instance.
-   */
-  ports?: ContainerPort[];
-  /**
-   * @member {EnvironmentVariable[]} [environmentVariables] The environment
-   * variables to set in the container instance.
-   */
-  environmentVariables?: EnvironmentVariable[];
-  /**
-   * @member {ContainerPropertiesInstanceView} [instanceView] The instance view
-   * of the container instance. Only valid in response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly instanceView?: ContainerPropertiesInstanceView;
-  /**
-   * @member {ResourceRequirements} resources The resource requirements of the
-   * container instance.
-   */
-  resources: ResourceRequirements;
-  /**
-   * @member {VolumeMount[]} [volumeMounts] The volume mounts available to the
-   * container instance.
-   */
-  volumeMounts?: VolumeMount[];
-  /**
-   * @member {ContainerProbe} [livenessProbe] The liveness probe.
-   */
-  livenessProbe?: ContainerProbe;
-  /**
-   * @member {ContainerProbe} [readinessProbe] The readiness probe.
-   */
-  readinessProbe?: ContainerProbe;
-}
-
-/**
- * @interface
  * An interface representing Container.
  * A container instance.
  *
@@ -709,72 +655,6 @@ export interface ContainerGroupNetworkProfile {
    * @member {string} id The identifier for a network profile.
    */
   id: string;
-}
-
-/**
- * @interface
- * An interface representing ContainerGroupProperties.
- */
-export interface ContainerGroupProperties {
-  /**
-   * @member {string} [provisioningState] The provisioning state of the
-   * container group. This only appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * @member {Container[]} containers The containers within the container
-   * group.
-   */
-  containers: Container[];
-  /**
-   * @member {ImageRegistryCredential[]} [imageRegistryCredentials] The image
-   * registry credentials by which the container group is created from.
-   */
-  imageRegistryCredentials?: ImageRegistryCredential[];
-  /**
-   * @member {ContainerGroupRestartPolicy} [restartPolicy] Restart policy for
-   * all containers within the container group.
-   * - `Always` Always restart
-   * - `OnFailure` Restart on failure
-   * - `Never` Never restart
-   * . Possible values include: 'Always', 'OnFailure', 'Never'
-   */
-  restartPolicy?: ContainerGroupRestartPolicy;
-  /**
-   * @member {IpAddress} [ipAddress] The IP address type of the container
-   * group.
-   */
-  ipAddress?: IpAddress;
-  /**
-   * @member {OperatingSystemTypes} osType The operating system type required
-   * by the containers in the container group. Possible values include:
-   * 'Windows', 'Linux'
-   */
-  osType: OperatingSystemTypes;
-  /**
-   * @member {Volume[]} [volumes] The list of volumes that can be mounted by
-   * containers in this container group.
-   */
-  volumes?: Volume[];
-  /**
-   * @member {ContainerGroupPropertiesInstanceView} [instanceView] The instance
-   * view of the container group. Only valid in response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly instanceView?: ContainerGroupPropertiesInstanceView;
-  /**
-   * @member {ContainerGroupDiagnostics} [diagnostics] The diagnostic
-   * information for a container group.
-   */
-  diagnostics?: ContainerGroupDiagnostics;
-  /**
-   * @member {ContainerGroupNetworkProfile} [networkProfile] The network
-   * profile information for a container group.
-   */
-  networkProfile?: ContainerGroupNetworkProfile;
 }
 
 /**

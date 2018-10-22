@@ -14,44 +14,6 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const IdentityProperties: msRest.CompositeMapper = {
-  serializedName: "IdentityProperties",
-  type: {
-    name: "Composite",
-    className: "IdentityProperties",
-    modelProperties: {
-      tenantId: {
-        readOnly: true,
-        serializedName: "tenantId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      principalId: {
-        readOnly: true,
-        serializedName: "principalId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      clientId: {
-        readOnly: true,
-        serializedName: "clientId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      clientSecretUrl: {
-        readOnly: true,
-        serializedName: "clientSecretUrl",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Identity: msRest.CompositeMapper = {
   serializedName: "Identity",
   type: {

@@ -893,11 +893,11 @@ export interface ManagedClusterAgentPoolProfile {
    */
   name: string;
   /**
-   * @member {number} [count] Number of agents (VMs) to host docker containers.
+   * @member {number} count Number of agents (VMs) to host docker containers.
    * Allowed values must be in the range of 1 to 100 (inclusive). The default
    * value is 1. . Default value: 1 .
    */
-  count?: number;
+  count: number;
   /**
    * @member {ContainerServiceVMSizeTypes} vmSize Size of agent VMs. Possible
    * values include: 'Standard_A1', 'Standard_A10', 'Standard_A11',
@@ -961,14 +961,6 @@ export interface ManagedClusterAgentPoolProfile {
    */
   osDiskSizeGB?: number;
   /**
-   * @member {ContainerServiceStorageProfileTypes} [storageProfile] Storage
-   * profile specifies what kind of storage used. Defaults to ManagedDisks.
-   * Possible values include: 'StorageAccount', 'ManagedDisks'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly storageProfile?: ContainerServiceStorageProfileTypes;
-  /**
    * @member {string} [vnetSubnetID] VNet SubnetID specifies the vnet's subnet
    * identifier.
    */
@@ -983,6 +975,24 @@ export interface ManagedClusterAgentPoolProfile {
    * 'Linux', 'Windows'. Default value: 'Linux' .
    */
   osType?: OSType;
+  /**
+   * @member {number} [maxCount] Maximum number of nodes for auto-scaling
+   */
+  maxCount?: number;
+  /**
+   * @member {number} [minCount] Minimum number of nodes for auto-scaling
+   */
+  minCount?: number;
+  /**
+   * @member {boolean} [enableAutoScaling] Whether to enable auto-scaler
+   */
+  enableAutoScaling?: boolean;
+  /**
+   * @member {AgentPoolType} [type] AgentPoolType represents types of
+   * agentpool. Possible values include: 'VirtualMachineScaleSets',
+   * 'AvailabilitySet'
+   */
+  type?: AgentPoolType;
 }
 
 /**
@@ -1105,7 +1115,7 @@ export interface ManagedCluster extends Resource {
   readonly fqdn?: string;
   /**
    * @member {ManagedClusterAgentPoolProfile[]} [agentPoolProfiles] Properties
-   * of the agent pool. Currently only one agent pool can exist.
+   * of the agent pool.
    */
   agentPoolProfiles?: ManagedClusterAgentPoolProfile[];
   /**
@@ -1732,6 +1742,22 @@ export enum ContainerServiceOrchestratorTypes {
   DCOS = 'DCOS',
   DockerCE = 'DockerCE',
   Custom = 'Custom',
+}
+
+/**
+ * Defines values for AgentPoolType.
+ * Possible values include: 'VirtualMachineScaleSets', 'AvailabilitySet'
+ * There could be more values for this enum apart from the ones defined here.If
+ * you want to set a value that is not from the known values then you can do
+ * the following:
+ * let param: AgentPoolType =
+ * <AgentPoolType>"someUnknownValueThatWillStillBeValid";
+ * @readonly
+ * @enum {string}
+ */
+export enum AgentPoolType {
+  VirtualMachineScaleSets = 'VirtualMachineScaleSets',
+  AvailabilitySet = 'AvailabilitySet',
 }
 
 /**

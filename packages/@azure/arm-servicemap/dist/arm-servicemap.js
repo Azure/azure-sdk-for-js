@@ -365,25 +365,6 @@
             modelProperties: __assign({}, ResourceReference.type.modelProperties)
         }
     };
-    var ProcessReferenceProperties = {
-        serializedName: "ProcessReference_properties",
-        type: {
-            name: "Composite",
-            className: "ProcessReferenceProperties",
-            modelProperties: {
-                machine: {
-                    readOnly: true,
-                    serializedName: "machine",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-                        uberParent: "ResourceReference",
-                        className: "MachineReference"
-                    }
-                }
-            }
-        }
-    };
     var ProcessReference = {
         serializedName: "ref:process",
         type: {
@@ -401,38 +382,6 @@
                         className: "MachineReference"
                     }
                 } })
-        }
-    };
-    var PortReferenceProperties = {
-        serializedName: "PortReference_properties",
-        type: {
-            name: "Composite",
-            className: "PortReferenceProperties",
-            modelProperties: {
-                machine: {
-                    readOnly: true,
-                    serializedName: "machine",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-                        uberParent: "ResourceReference",
-                        className: "MachineReference"
-                    }
-                },
-                ipAddress: {
-                    readOnly: true,
-                    serializedName: "ipAddress",
-                    type: {
-                        name: "String"
-                    }
-                },
-                portNumber: {
-                    serializedName: "portNumber",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
         }
     };
     var PortReference = {
@@ -463,36 +412,6 @@
                         name: "Number"
                     }
                 } })
-        }
-    };
-    var MachineReferenceWithHintsProperties = {
-        serializedName: "MachineReferenceWithHints_properties",
-        type: {
-            name: "Composite",
-            className: "MachineReferenceWithHintsProperties",
-            modelProperties: {
-                displayNameHint: {
-                    readOnly: true,
-                    serializedName: "displayNameHint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                osFamilyHint: {
-                    readOnly: true,
-                    serializedName: "osFamilyHint",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "unknown",
-                            "windows",
-                            "linux",
-                            "solaris",
-                            "aix"
-                        ]
-                    }
-                }
-            }
         }
     };
     var MachineReferenceWithHints = {
@@ -901,128 +820,6 @@
             }
         }
     };
-    var MachineProperties = {
-        serializedName: "Machine_properties",
-        type: {
-            name: "Composite",
-            className: "MachineProperties",
-            modelProperties: {
-                timestamp: {
-                    serializedName: "timestamp",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                monitoringState: {
-                    serializedName: "monitoringState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "monitored",
-                            "discovered"
-                        ]
-                    }
-                },
-                virtualizationState: {
-                    serializedName: "virtualizationState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "unknown",
-                            "physical",
-                            "virtual",
-                            "hypervisor"
-                        ]
-                    }
-                },
-                displayName: {
-                    serializedName: "displayName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                computerName: {
-                    serializedName: "computerName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                fullyQualifiedDomainName: {
-                    serializedName: "fullyQualifiedDomainName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                bootTime: {
-                    serializedName: "bootTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                timezone: {
-                    serializedName: "timezone",
-                    type: {
-                        name: "Composite",
-                        className: "Timezone"
-                    }
-                },
-                agent: {
-                    serializedName: "agent",
-                    type: {
-                        name: "Composite",
-                        className: "AgentConfiguration"
-                    }
-                },
-                resources: {
-                    serializedName: "resources",
-                    type: {
-                        name: "Composite",
-                        className: "MachineResourcesConfiguration"
-                    }
-                },
-                networking: {
-                    serializedName: "networking",
-                    type: {
-                        name: "Composite",
-                        className: "NetworkConfiguration"
-                    }
-                },
-                operatingSystem: {
-                    serializedName: "operatingSystem",
-                    type: {
-                        name: "Composite",
-                        className: "OperatingSystemConfiguration"
-                    }
-                },
-                virtualMachine: {
-                    serializedName: "virtualMachine",
-                    type: {
-                        name: "Composite",
-                        className: "VirtualMachineConfiguration"
-                    }
-                },
-                hypervisor: {
-                    serializedName: "hypervisor",
-                    type: {
-                        name: "Composite",
-                        className: "HypervisorConfiguration"
-                    }
-                },
-                hosting: {
-                    serializedName: "hosting",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "kind",
-                            clientName: "kind"
-                        },
-                        uberParent: "HostingConfiguration",
-                        className: "HostingConfiguration"
-                    }
-                }
-            }
-        }
-    };
     var Machine = {
         serializedName: "machine",
         type: {
@@ -1297,123 +1094,6 @@
             }
         }
     };
-    var ProcessProperties = {
-        serializedName: "Process_properties",
-        type: {
-            name: "Composite",
-            className: "ProcessProperties",
-            modelProperties: {
-                timestamp: {
-                    serializedName: "timestamp",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                monitoringState: {
-                    serializedName: "monitoringState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "monitored",
-                            "discovered"
-                        ]
-                    }
-                },
-                machine: {
-                    serializedName: "machine",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "kind",
-                            clientName: "kind"
-                        },
-                        uberParent: "ResourceReference",
-                        className: "ResourceReference"
-                    }
-                },
-                executableName: {
-                    serializedName: "executableName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                displayName: {
-                    serializedName: "displayName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                role: {
-                    serializedName: "role",
-                    type: {
-                        name: "String"
-                    }
-                },
-                group: {
-                    serializedName: "group",
-                    type: {
-                        name: "String"
-                    }
-                },
-                details: {
-                    serializedName: "details",
-                    type: {
-                        name: "Composite",
-                        className: "ProcessDetails"
-                    }
-                },
-                user: {
-                    serializedName: "user",
-                    type: {
-                        name: "Composite",
-                        className: "ProcessUser"
-                    }
-                },
-                clientOf: {
-                    serializedName: "clientOf",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "kind",
-                            clientName: "kind"
-                        },
-                        uberParent: "ResourceReference",
-                        className: "ResourceReference"
-                    }
-                },
-                acceptorOf: {
-                    serializedName: "acceptorOf",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "kind",
-                            clientName: "kind"
-                        },
-                        uberParent: "ResourceReference",
-                        className: "ResourceReference"
-                    }
-                },
-                hosting: {
-                    serializedName: "hosting",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "kind",
-                            clientName: "kind"
-                        },
-                        uberParent: "ProcessHostingConfiguration",
-                        className: "ProcessHostingConfiguration"
-                    }
-                }
-            }
-        }
-    };
     var Process = {
         serializedName: "process",
         type: {
@@ -1517,55 +1197,6 @@
                 } })
         }
     };
-    var PortProperties = {
-        serializedName: "Port_properties",
-        type: {
-            name: "Composite",
-            className: "PortProperties",
-            modelProperties: {
-                monitoringState: {
-                    serializedName: "monitoringState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "monitored",
-                            "discovered"
-                        ]
-                    }
-                },
-                machine: {
-                    serializedName: "machine",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "kind",
-                            clientName: "kind"
-                        },
-                        uberParent: "ResourceReference",
-                        className: "ResourceReference"
-                    }
-                },
-                displayName: {
-                    serializedName: "displayName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                ipAddress: {
-                    serializedName: "ipAddress",
-                    type: {
-                        name: "String"
-                    }
-                },
-                portNumber: {
-                    serializedName: "portNumber",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
     var Port = {
         serializedName: "port",
         type: {
@@ -1609,28 +1240,6 @@
                 } })
         }
     };
-    var ClientGroupProperties = {
-        serializedName: "ClientGroup_properties",
-        type: {
-            name: "Composite",
-            className: "ClientGroupProperties",
-            modelProperties: {
-                clientsOf: {
-                    required: true,
-                    serializedName: "clientsOf",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "kind",
-                            clientName: "kind"
-                        },
-                        uberParent: "ResourceReference",
-                        className: "ResourceReference"
-                    }
-                }
-            }
-        }
-    };
     var ClientGroup = {
         serializedName: "clientGroup",
         type: {
@@ -1649,44 +1258,6 @@
                         className: "ResourceReference"
                     }
                 } })
-        }
-    };
-    var ClientGroupMemberProperties = {
-        serializedName: "ClientGroupMember_properties",
-        type: {
-            name: "Composite",
-            className: "ClientGroupMemberProperties",
-            modelProperties: {
-                ipAddress: {
-                    serializedName: "ipAddress",
-                    type: {
-                        name: "String"
-                    }
-                },
-                port: {
-                    serializedName: "port",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-                        uberParent: "ResourceReference",
-                        className: "PortReference"
-                    }
-                },
-                processes: {
-                    serializedName: "processes",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-                                uberParent: "ResourceReference",
-                                className: "ProcessReference"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var ClientGroupMember = {
@@ -1721,52 +1292,6 @@
                         }
                     }
                 } })
-        }
-    };
-    var MachineGroupProperties = {
-        serializedName: "MachineGroup_properties",
-        type: {
-            name: "Composite",
-            className: "MachineGroupProperties",
-            modelProperties: {
-                groupType: {
-                    serializedName: "groupType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                displayName: {
-                    required: true,
-                    serializedName: "displayName",
-                    constraints: {
-                        MaxLength: 256,
-                        MinLength: 1
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                count: {
-                    serializedName: "count",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                machines: {
-                    serializedName: "machines",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-                                uberParent: "ResourceReference",
-                                className: "MachineReferenceWithHints"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var MachineGroup = {
@@ -1841,56 +1366,6 @@
             }
         }
     };
-    var SummaryProperties = {
-        serializedName: "SummaryProperties",
-        type: {
-            name: "Composite",
-            className: "SummaryProperties",
-            modelProperties: {
-                startTime: {
-                    required: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    required: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
-        }
-    };
-    var MachinesSummaryProperties = {
-        serializedName: "MachinesSummaryProperties",
-        type: {
-            name: "Composite",
-            className: "MachinesSummaryProperties",
-            modelProperties: __assign({}, SummaryProperties.type.modelProperties, { total: {
-                    required: true,
-                    serializedName: "total",
-                    type: {
-                        name: "Number"
-                    }
-                }, live: {
-                    required: true,
-                    serializedName: "live",
-                    type: {
-                        name: "Number"
-                    }
-                }, os: {
-                    required: true,
-                    serializedName: "os",
-                    type: {
-                        name: "Composite",
-                        className: "MachineCountsByOperatingSystem"
-                    }
-                } })
-        }
-    };
     var MachinesSummary = {
         serializedName: "MachinesSummary",
         type: {
@@ -1945,79 +1420,6 @@
                     serializedName: "kind",
                     type: {
                         name: "String"
-                    }
-                } })
-        }
-    };
-    var RelationshipProperties = {
-        serializedName: "RelationshipProperties",
-        type: {
-            name: "Composite",
-            className: "RelationshipProperties",
-            modelProperties: {
-                source: {
-                    required: true,
-                    serializedName: "source",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "kind",
-                            clientName: "kind"
-                        },
-                        uberParent: "ResourceReference",
-                        className: "ResourceReference"
-                    }
-                },
-                destination: {
-                    required: true,
-                    serializedName: "destination",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "kind",
-                            clientName: "kind"
-                        },
-                        uberParent: "ResourceReference",
-                        className: "ResourceReference"
-                    }
-                },
-                startTime: {
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
-        }
-    };
-    var ConnectionProperties = {
-        serializedName: "ConnectionProperties",
-        type: {
-            name: "Composite",
-            className: "ConnectionProperties",
-            modelProperties: __assign({}, RelationshipProperties.type.modelProperties, { serverPort: {
-                    serializedName: "serverPort",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-                        uberParent: "ResourceReference",
-                        className: "PortReference"
-                    }
-                }, failureState: {
-                    serializedName: "failureState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "ok",
-                            "failed",
-                            "mixed"
-                        ]
                     }
                 } })
         }
@@ -2082,47 +1484,6 @@
                 } })
         }
     };
-    var AcceptorProperties = {
-        serializedName: "AcceptorProperties",
-        type: {
-            name: "Composite",
-            className: "AcceptorProperties",
-            modelProperties: {
-                source: {
-                    required: true,
-                    serializedName: "source",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-                        uberParent: "ResourceReference",
-                        className: "PortReference"
-                    }
-                },
-                destination: {
-                    required: true,
-                    serializedName: "destination",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: ResourceReference.type.polymorphicDiscriminator,
-                        uberParent: "ResourceReference",
-                        className: "ProcessReference"
-                    }
-                },
-                startTime: {
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
-        }
-    };
     var Acceptor = {
         serializedName: "rel:acceptor",
         type: {
@@ -2157,6 +1518,76 @@
                         name: "DateTime"
                     }
                 } })
+        }
+    };
+    var SummaryProperties = {
+        serializedName: "SummaryProperties",
+        type: {
+            name: "Composite",
+            className: "SummaryProperties",
+            modelProperties: {
+                startTime: {
+                    required: true,
+                    serializedName: "startTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                endTime: {
+                    required: true,
+                    serializedName: "endTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                }
+            }
+        }
+    };
+    var RelationshipProperties = {
+        serializedName: "RelationshipProperties",
+        type: {
+            name: "Composite",
+            className: "RelationshipProperties",
+            modelProperties: {
+                source: {
+                    required: true,
+                    serializedName: "source",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "kind",
+                            clientName: "kind"
+                        },
+                        uberParent: "ResourceReference",
+                        className: "ResourceReference"
+                    }
+                },
+                destination: {
+                    required: true,
+                    serializedName: "destination",
+                    type: {
+                        name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "kind",
+                            clientName: "kind"
+                        },
+                        uberParent: "ResourceReference",
+                        className: "ResourceReference"
+                    }
+                },
+                startTime: {
+                    serializedName: "startTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                },
+                endTime: {
+                    serializedName: "endTime",
+                    type: {
+                        name: "DateTime"
+                    }
+                }
+            }
         }
     };
     var ImageConfiguration = {
@@ -2944,11 +2375,8 @@
         Resource: Resource,
         ResourceReference: ResourceReference,
         MachineReference: MachineReference,
-        ProcessReferenceProperties: ProcessReferenceProperties,
         ProcessReference: ProcessReference,
-        PortReferenceProperties: PortReferenceProperties,
         PortReference: PortReference,
-        MachineReferenceWithHintsProperties: MachineReferenceWithHintsProperties,
         MachineReferenceWithHints: MachineReferenceWithHints,
         ClientGroupReference: ClientGroupReference,
         CoreResource: CoreResource,
@@ -2962,33 +2390,24 @@
         VirtualMachineConfiguration: VirtualMachineConfiguration,
         HypervisorConfiguration: HypervisorConfiguration,
         HostingConfiguration: HostingConfiguration,
-        MachineProperties: MachineProperties,
         Machine: Machine,
         ProcessHostedService: ProcessHostedService,
         ProcessDetails: ProcessDetails,
         ProcessUser: ProcessUser,
         ProcessHostingConfiguration: ProcessHostingConfiguration,
-        ProcessProperties: ProcessProperties,
         Process: Process,
-        PortProperties: PortProperties,
         Port: Port,
-        ClientGroupProperties: ClientGroupProperties,
         ClientGroup: ClientGroup,
-        ClientGroupMemberProperties: ClientGroupMemberProperties,
         ClientGroupMember: ClientGroupMember,
-        MachineGroupProperties: MachineGroupProperties,
         MachineGroup: MachineGroup,
         Summary: Summary,
         MachineCountsByOperatingSystem: MachineCountsByOperatingSystem,
-        SummaryProperties: SummaryProperties,
-        MachinesSummaryProperties: MachinesSummaryProperties,
         MachinesSummary: MachinesSummary,
         Relationship: Relationship,
-        RelationshipProperties: RelationshipProperties,
-        ConnectionProperties: ConnectionProperties,
         Connection: Connection,
-        AcceptorProperties: AcceptorProperties,
         Acceptor: Acceptor,
+        SummaryProperties: SummaryProperties,
+        RelationshipProperties: RelationshipProperties,
         ImageConfiguration: ImageConfiguration,
         AzureCloudServiceConfiguration: AzureCloudServiceConfiguration,
         AzureVmScaleSetConfiguration: AzureVmScaleSetConfiguration,

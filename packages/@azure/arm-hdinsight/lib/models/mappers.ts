@@ -534,6 +534,78 @@ export const ClusterCreateProperties: msRest.CompositeMapper = {
   }
 };
 
+export const ClusterIdentityUserAssignedIdentitiesValue: msRest.CompositeMapper = {
+  serializedName: "ClusterIdentity_userAssignedIdentitiesValue",
+  type: {
+    name: "Composite",
+    className: "ClusterIdentityUserAssignedIdentitiesValue",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        readOnly: true,
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterIdentity: msRest.CompositeMapper = {
+  serializedName: "ClusterIdentity",
+  type: {
+    name: "Composite",
+    className: "ClusterIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
+          ]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ClusterIdentityUserAssignedIdentitiesValue"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ClusterCreateParametersExtended: msRest.CompositeMapper = {
   serializedName: "ClusterCreateParametersExtended",
   type: {
@@ -562,6 +634,13 @@ export const ClusterCreateParametersExtended: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ClusterCreateProperties"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ClusterIdentity"
         }
       }
     }
@@ -853,6 +932,13 @@ export const Cluster: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ClusterGetProperties"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ClusterIdentity"
         }
       }
     }

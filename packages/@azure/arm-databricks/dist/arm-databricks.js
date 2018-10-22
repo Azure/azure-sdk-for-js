@@ -128,53 +128,6 @@
             }
         }
     };
-    var WorkspaceProperties = {
-        serializedName: "WorkspaceProperties",
-        type: {
-            name: "Composite",
-            className: "WorkspaceProperties",
-            modelProperties: {
-                managedResourceGroupId: {
-                    required: true,
-                    serializedName: "managedResourceGroupId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uiDefinitionUri: {
-                    serializedName: "uiDefinitionUri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                authorizations: {
-                    serializedName: "authorizations",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "WorkspaceProviderAuthorization"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var Sku = {
         serializedName: "Sku",
         type: {
@@ -513,7 +466,6 @@
         CloudError: CloudError,
         BaseResource: BaseResource,
         WorkspaceProviderAuthorization: WorkspaceProviderAuthorization,
-        WorkspaceProperties: WorkspaceProperties,
         Sku: Sku,
         Resource: Resource,
         TrackedResource: TrackedResource,
