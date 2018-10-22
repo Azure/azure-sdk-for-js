@@ -29,32 +29,6 @@ export interface ManagementLockOwner {
 
 /**
  * @interface
- * An interface representing ManagementLockProperties.
- * The lock properties.
- *
- */
-export interface ManagementLockProperties {
-  /**
-   * @member {LockLevel} level The level of the lock. Possible values are:
-   * NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users
-   * are able to read and modify the resources, but not delete. ReadOnly means
-   * authorized users can only read from a resource, but they can't modify or
-   * delete it. Possible values include: 'NotSpecified', 'CanNotDelete',
-   * 'ReadOnly'
-   */
-  level: LockLevel;
-  /**
-   * @member {string} [notes] Notes about the lock. Maximum of 512 characters.
-   */
-  notes?: string;
-  /**
-   * @member {ManagementLockOwner[]} [owners] The owners of the lock.
-   */
-  owners?: ManagementLockOwner[];
-}
-
-/**
- * @interface
  * An interface representing ManagementLockObject.
  * The lock information.
  *

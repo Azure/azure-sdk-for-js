@@ -16,45 +16,6 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
- * An interface representing PolicyAssignmentProperties.
- * The policy assignment properties.
- *
- */
-export interface PolicyAssignmentProperties {
-  /**
-   * @member {string} [displayName] The display name of the policy assignment.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [policyDefinitionId] The ID of the policy definition or
-   * policy set definition being assigned.
-   */
-  policyDefinitionId?: string;
-  /**
-   * @member {string} [scope] The scope for the policy assignment.
-   */
-  scope?: string;
-  /**
-   * @member {string[]} [notScopes] The policy's excluded scopes.
-   */
-  notScopes?: string[];
-  /**
-   * @member {any} [parameters] Required if a parameter is used in policy rule.
-   */
-  parameters?: any;
-  /**
-   * @member {string} [description] This message will be part of response in
-   * case of policy violation.
-   */
-  description?: string;
-  /**
-   * @member {any} [metadata] The policy assignment metadata.
-   */
-  metadata?: any;
-}
-
-/**
- * @interface
  * An interface representing PolicySku.
  * The policy sku. This property is optional, obsolete, and will be ignored.
  *
@@ -196,47 +157,6 @@ export interface ErrorResponse {
 
 /**
  * @interface
- * An interface representing PolicyDefinitionProperties.
- * The policy definition properties.
- *
- */
-export interface PolicyDefinitionProperties {
-  /**
-   * @member {PolicyType} [policyType] The type of policy definition. Possible
-   * values are NotSpecified, BuiltIn, and Custom. Possible values include:
-   * 'NotSpecified', 'BuiltIn', 'Custom'
-   */
-  policyType?: PolicyType;
-  /**
-   * @member {PolicyMode} [mode] The policy definition mode. Possible values
-   * are NotSpecified, Indexed, and All. Possible values include:
-   * 'NotSpecified', 'Indexed', 'All'
-   */
-  mode?: PolicyMode;
-  /**
-   * @member {string} [displayName] The display name of the policy definition.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [description] The policy definition description.
-   */
-  description?: string;
-  /**
-   * @member {any} [policyRule] The policy rule.
-   */
-  policyRule?: any;
-  /**
-   * @member {any} [metadata] The policy definition metadata.
-   */
-  metadata?: any;
-  /**
-   * @member {any} [parameters] Required if a parameter is used in policy rule.
-   */
-  parameters?: any;
-}
-
-/**
- * @interface
  * An interface representing PolicyDefinition.
  * The policy definition.
  *
@@ -312,44 +232,6 @@ export interface PolicyDefinitionReference {
    * @member {any} [parameters] Required if a parameter is used in policy rule.
    */
   parameters?: any;
-}
-
-/**
- * @interface
- * An interface representing PolicySetDefinitionProperties.
- * The policy set definition properties.
- *
- */
-export interface PolicySetDefinitionProperties {
-  /**
-   * @member {PolicyType} [policyType] The type of policy definition. Possible
-   * values are NotSpecified, BuiltIn, and Custom. Possible values include:
-   * 'NotSpecified', 'BuiltIn', 'Custom'
-   */
-  policyType?: PolicyType;
-  /**
-   * @member {string} [displayName] The display name of the policy set
-   * definition.
-   */
-  displayName?: string;
-  /**
-   * @member {string} [description] The policy set definition description.
-   */
-  description?: string;
-  /**
-   * @member {any} [metadata] The policy set definition metadata.
-   */
-  metadata?: any;
-  /**
-   * @member {any} [parameters] The policy set definition parameters that can
-   * be used in policy definition references.
-   */
-  parameters?: any;
-  /**
-   * @member {PolicyDefinitionReference[]} policyDefinitions An array of policy
-   * definition references.
-   */
-  policyDefinitions: PolicyDefinitionReference[];
 }
 
 /**
