@@ -2236,7 +2236,7 @@ export interface UpdateConfiguration {
 /**
  * @interface
  * An interface representing TaskProperties.
- * task properties of the software update configuration.
+ * Task properties of the software update configuration.
  *
  */
 export interface TaskProperties {
@@ -2254,16 +2254,16 @@ export interface TaskProperties {
 /**
  * @interface
  * An interface representing TasksProperties.
- * task properties of the software update configuration.
+ * Task properties of the software update configuration.
  *
  */
 export interface TasksProperties {
   /**
-   * @member {TaskProperties} [preTask] Pre task object
+   * @member {TaskProperties} [preTask] Pre task object.
    */
   preTask?: TaskProperties;
   /**
-   * @member {TaskProperties} [postTask] Post task object
+   * @member {TaskProperties} [postTask] Post task object.
    */
   postTask?: TaskProperties;
 }
@@ -2312,18 +2312,18 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
    */
   readonly provisioningState?: string;
   /**
-   * @member {ErrorResponse} [error] detailes of provisioning error
+   * @member {ErrorResponse} [error] Details of provisioning error
    */
   error?: ErrorResponse;
   /**
-   * @member {Date} [creationTime] Creation time of theresource, which only
+   * @member {Date} [creationTime] Creation time of there source, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly creationTime?: Date;
   /**
-   * @member {string} [createdBy] createdBy property, which only appears in the
+   * @member {string} [createdBy] CreatedBy property, which only appears in the
    * response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2337,7 +2337,7 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
    */
   readonly lastModifiedTime?: Date;
   /**
-   * @member {string} [lastModifiedBy] lastModifiedBy property, which only
+   * @member {string} [lastModifiedBy] LastModifiedBy property, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2345,7 +2345,7 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
   readonly lastModifiedBy?: string;
   /**
    * @member {TasksProperties} [tasks] Tasks information for the Software
-   * update configuration
+   * update configuration.
    */
   tasks?: TasksProperties;
 }
@@ -2465,7 +2465,7 @@ export interface UpdateConfigurationNavigation {
 /**
  * @interface
  * An interface representing SoftareUpdateConfigurationRunTaskProperties.
- * task properties of the software update configuration.
+ * Task properties of the software update configuration.
  *
  */
 export interface SoftareUpdateConfigurationRunTaskProperties {
@@ -2492,12 +2492,12 @@ export interface SoftareUpdateConfigurationRunTaskProperties {
 export interface SoftareUpdateConfigurationRunTasks {
   /**
    * @member {SoftareUpdateConfigurationRunTaskProperties} [preTask] Pre task
-   * object
+   * object.
    */
   preTask?: SoftareUpdateConfigurationRunTaskProperties;
   /**
    * @member {SoftareUpdateConfigurationRunTaskProperties} [postTask] Post task
-   * object
+   * object.
    */
   postTask?: SoftareUpdateConfigurationRunTaskProperties;
 }
@@ -2533,7 +2533,7 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly status?: string;
   /**
-   * @member {string} [configuredDuration] configured duration for the software
+   * @member {string} [configuredDuration] Configured duration for the software
    * update configuration run.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2547,7 +2547,7 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly osType?: string;
   /**
-   * @member {Date} [startTime] Etart time of the software update configuration
+   * @member {Date} [startTime] Start time of the software update configuration
    * run.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2581,7 +2581,7 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly creationTime?: Date;
   /**
-   * @member {string} [createdBy] createdBy property, which only appears in the
+   * @member {string} [createdBy] CreatedBy property, which only appears in the
    * response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2595,14 +2595,14 @@ export interface SoftwareUpdateConfigurationRun {
    */
   readonly lastModifiedTime?: Date;
   /**
-   * @member {string} [lastModifiedBy] lastModifiedBy property, which only
+   * @member {string} [lastModifiedBy] LastModifiedBy property, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
   readonly lastModifiedBy?: string;
   /**
-   * @member {SoftareUpdateConfigurationRunTasks} [tasks] software update
+   * @member {SoftareUpdateConfigurationRunTasks} [tasks] Software update
    * configuration tasks triggered in this run
    */
   tasks?: SoftareUpdateConfigurationRunTasks;
@@ -4648,7 +4648,7 @@ export interface SoftwareUpdateConfigurationRunsListOptionalParams extends msRes
    */
   filter?: string;
   /**
-   * @member {string} [skip] number of entries you skip before returning
+   * @member {string} [skip] Number of entries you skip before returning
    * results
    */
   skip?: string;
