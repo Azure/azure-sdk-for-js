@@ -1922,6 +1922,11 @@
         serializedName: "MediaJobOutput",
         type: {
             name: "Composite",
+            polymorphicDiscriminator: {
+                serializedName: "@odata.type",
+                clientName: "odatatype"
+            },
+            uberParent: "MediaJobOutput",
             className: "MediaJobOutput",
             modelProperties: {
                 error: {
@@ -1959,6 +1964,13 @@
                             "Scheduled"
                         ]
                     }
+                },
+                odatatype: {
+                    required: true,
+                    serializedName: "@odata\\.type",
+                    type: {
+                        name: "String"
+                    }
                 }
             }
         }
@@ -1967,6 +1979,8 @@
         serializedName: "#Microsoft.Media.JobOutputAsset",
         type: {
             name: "Composite",
+            polymorphicDiscriminator: MediaJobOutput.type.polymorphicDiscriminator,
+            uberParent: "MediaJobOutput",
             className: "MediaJobOutputAsset",
             modelProperties: __assign({}, MediaJobOutput.type.modelProperties, { assetName: {
                     serializedName: "assetName",
@@ -2003,6 +2017,11 @@
                     serializedName: "output",
                     type: {
                         name: "Composite",
+                        polymorphicDiscriminator: {
+                            serializedName: "@odata.type",
+                            clientName: "odatatype"
+                        },
+                        uberParent: "MediaJobOutput",
                         className: "MediaJobOutput"
                     }
                 },
@@ -2056,6 +2075,11 @@
                         element: {
                             type: {
                                 name: "Composite",
+                                polymorphicDiscriminator: {
+                                    serializedName: "@odata.type",
+                                    clientName: "odatatype"
+                                },
+                                uberParent: "MediaJobOutput",
                                 className: "MediaJobOutput"
                             }
                         }
@@ -2075,6 +2099,11 @@
                         element: {
                             type: {
                                 name: "Composite",
+                                polymorphicDiscriminator: {
+                                    serializedName: "@odata.type",
+                                    clientName: "odatatype"
+                                },
+                                uberParent: "MediaJobOutput",
                                 className: "MediaJobOutput"
                             }
                         }
@@ -2094,6 +2123,11 @@
                         element: {
                             type: {
                                 name: "Composite",
+                                polymorphicDiscriminator: {
+                                    serializedName: "@odata.type",
+                                    clientName: "odatatype"
+                                },
+                                uberParent: "MediaJobOutput",
                                 className: "MediaJobOutput"
                             }
                         }
@@ -2643,6 +2677,10 @@
             }
         }
     };
+    var discriminators = {
+        'MediaJobOutput': MediaJobOutput,
+        'MediaJobOutput.#Microsoft.Media.JobOutputAsset': MediaJobOutputAsset
+    };
 
     var Mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
@@ -2710,7 +2748,8 @@
         MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: MediaLiveEventIncomingVideoStreamsOutOfSyncEventData,
         MediaLiveEventIncomingDataChunkDroppedEventData: MediaLiveEventIncomingDataChunkDroppedEventData,
         MediaLiveEventIngestHeartbeatEventData: MediaLiveEventIngestHeartbeatEventData,
-        MediaLiveEventTrackDiscontinuityDetectedEventData: MediaLiveEventTrackDiscontinuityDetectedEventData
+        MediaLiveEventTrackDiscontinuityDetectedEventData: MediaLiveEventTrackDiscontinuityDetectedEventData,
+        discriminators: discriminators
     });
 
     /*

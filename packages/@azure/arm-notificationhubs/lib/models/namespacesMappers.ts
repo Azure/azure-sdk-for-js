@@ -34,7 +34,6 @@ export {
   BaiduCredential,
   NotificationHubPatchParameters,
   NotificationHubResource,
-  DebugSendResult,
   DebugSendResponse,
   PnsCredentialsResource,
   SubResource

@@ -1488,43 +1488,6 @@
      */
     var CloudError = msRestAzure.CloudErrorMapper;
     var BaseResource = msRestAzure.BaseResourceMapper;
-    var RecoverableDatabaseProperties = {
-        serializedName: "RecoverableDatabaseProperties",
-        type: {
-            name: "Composite",
-            className: "RecoverableDatabaseProperties",
-            modelProperties: {
-                edition: {
-                    readOnly: true,
-                    serializedName: "edition",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serviceLevelObjective: {
-                    readOnly: true,
-                    serializedName: "serviceLevelObjective",
-                    type: {
-                        name: "String"
-                    }
-                },
-                elasticPoolName: {
-                    readOnly: true,
-                    serializedName: "elasticPoolName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastAvailableBackupDate: {
-                    readOnly: true,
-                    serializedName: "lastAvailableBackupDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
-        }
-    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -1593,71 +1556,6 @@
                         name: "DateTime"
                     }
                 } })
-        }
-    };
-    var RestorableDroppedDatabaseProperties = {
-        serializedName: "RestorableDroppedDatabaseProperties",
-        type: {
-            name: "Composite",
-            className: "RestorableDroppedDatabaseProperties",
-            modelProperties: {
-                databaseName: {
-                    readOnly: true,
-                    serializedName: "databaseName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                edition: {
-                    readOnly: true,
-                    serializedName: "edition",
-                    type: {
-                        name: "String"
-                    }
-                },
-                maxSizeBytes: {
-                    readOnly: true,
-                    serializedName: "maxSizeBytes",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serviceLevelObjective: {
-                    readOnly: true,
-                    serializedName: "serviceLevelObjective",
-                    type: {
-                        name: "String"
-                    }
-                },
-                elasticPoolName: {
-                    readOnly: true,
-                    serializedName: "elasticPoolName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationDate: {
-                    readOnly: true,
-                    serializedName: "creationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                deletionDate: {
-                    readOnly: true,
-                    serializedName: "deletionDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                earliestRestoreDate: {
-                    readOnly: true,
-                    serializedName: "earliestRestoreDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
         }
     };
     var RestorableDroppedDatabase = {
@@ -1812,27 +1710,6 @@
             }
         }
     };
-    var ServerConnectionPolicyProperties = {
-        serializedName: "ServerConnectionPolicyProperties",
-        type: {
-            name: "Composite",
-            className: "ServerConnectionPolicyProperties",
-            modelProperties: {
-                connectionType: {
-                    required: true,
-                    serializedName: "connectionType",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Default",
-                            "Proxy",
-                            "Redirect"
-                        ]
-                    }
-                }
-            }
-        }
-    };
     var ServerConnectionPolicy = {
         serializedName: "ServerConnectionPolicy",
         type: {
@@ -1862,77 +1739,6 @@
                         ]
                     }
                 } })
-        }
-    };
-    var DatabaseSecurityAlertPolicyProperties = {
-        serializedName: "DatabaseSecurityAlertPolicyProperties",
-        type: {
-            name: "Composite",
-            className: "DatabaseSecurityAlertPolicyProperties",
-            modelProperties: {
-                state: {
-                    required: true,
-                    serializedName: "state",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "New",
-                            "Enabled",
-                            "Disabled"
-                        ]
-                    }
-                },
-                disabledAlerts: {
-                    serializedName: "disabledAlerts",
-                    type: {
-                        name: "String"
-                    }
-                },
-                emailAddresses: {
-                    serializedName: "emailAddresses",
-                    type: {
-                        name: "String"
-                    }
-                },
-                emailAccountAdmins: {
-                    serializedName: "emailAccountAdmins",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Enabled",
-                            "Disabled"
-                        ]
-                    }
-                },
-                storageEndpoint: {
-                    serializedName: "storageEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccountAccessKey: {
-                    serializedName: "storageAccountAccessKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                retentionDays: {
-                    serializedName: "retentionDays",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                useServerDefault: {
-                    serializedName: "useServerDefault",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Enabled",
-                            "Disabled"
-                        ]
-                    }
-                }
-            }
         }
     };
     var DatabaseSecurityAlertPolicy = {
@@ -2008,46 +1814,6 @@
                 } })
         }
     };
-    var DataMaskingPolicyProperties = {
-        serializedName: "DataMaskingPolicyProperties",
-        type: {
-            name: "Composite",
-            className: "DataMaskingPolicyProperties",
-            modelProperties: {
-                dataMaskingState: {
-                    required: true,
-                    serializedName: "dataMaskingState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Disabled",
-                            "Enabled"
-                        ]
-                    }
-                },
-                exemptPrincipals: {
-                    serializedName: "exemptPrincipals",
-                    type: {
-                        name: "String"
-                    }
-                },
-                applicationPrincipals: {
-                    readOnly: true,
-                    serializedName: "applicationPrincipals",
-                    type: {
-                        name: "String"
-                    }
-                },
-                maskingLevel: {
-                    readOnly: true,
-                    serializedName: "maskingLevel",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var DataMaskingPolicy = {
         serializedName: "DataMaskingPolicy",
         type: {
@@ -2093,104 +1859,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var DataMaskingRuleProperties = {
-        serializedName: "DataMaskingRuleProperties",
-        type: {
-            name: "Composite",
-            className: "DataMaskingRuleProperties",
-            modelProperties: {
-                id: {
-                    readOnly: true,
-                    serializedName: "id",
-                    type: {
-                        name: "String"
-                    }
-                },
-                aliasName: {
-                    serializedName: "aliasName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                ruleState: {
-                    serializedName: "ruleState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Disabled",
-                            "Enabled"
-                        ]
-                    }
-                },
-                schemaName: {
-                    required: true,
-                    serializedName: "schemaName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                tableName: {
-                    required: true,
-                    serializedName: "tableName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                columnName: {
-                    required: true,
-                    serializedName: "columnName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                maskingFunction: {
-                    required: true,
-                    serializedName: "maskingFunction",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Default",
-                            "CCN",
-                            "Email",
-                            "Number",
-                            "SSN",
-                            "Text"
-                        ]
-                    }
-                },
-                numberFrom: {
-                    serializedName: "numberFrom",
-                    type: {
-                        name: "String"
-                    }
-                },
-                numberTo: {
-                    serializedName: "numberTo",
-                    type: {
-                        name: "String"
-                    }
-                },
-                prefixSize: {
-                    serializedName: "prefixSize",
-                    type: {
-                        name: "String"
-                    }
-                },
-                suffixSize: {
-                    serializedName: "suffixSize",
-                    type: {
-                        name: "String"
-                    }
-                },
-                replacementString: {
-                    serializedName: "replacementString",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var DataMaskingRule = {
@@ -2290,29 +1958,6 @@
                 } })
         }
     };
-    var FirewallRuleProperties = {
-        serializedName: "FirewallRuleProperties",
-        type: {
-            name: "Composite",
-            className: "FirewallRuleProperties",
-            modelProperties: {
-                startIpAddress: {
-                    required: true,
-                    serializedName: "startIpAddress",
-                    type: {
-                        name: "String"
-                    }
-                },
-                endIpAddress: {
-                    required: true,
-                    serializedName: "endIpAddress",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var FirewallRule = {
         serializedName: "FirewallRule",
         type: {
@@ -2345,33 +1990,6 @@
                 } })
         }
     };
-    var GeoBackupPolicyProperties = {
-        serializedName: "GeoBackupPolicyProperties",
-        type: {
-            name: "Composite",
-            className: "GeoBackupPolicyProperties",
-            modelProperties: {
-                state: {
-                    required: true,
-                    serializedName: "state",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Disabled",
-                            "Enabled"
-                        ]
-                    }
-                },
-                storageType: {
-                    readOnly: true,
-                    serializedName: "storageType",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var GeoBackupPolicy = {
         serializedName: "GeoBackupPolicy",
         type: {
@@ -2402,81 +2020,6 @@
                 }, location: {
                     readOnly: true,
                     serializedName: "location",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
-    var ExportRequest = {
-        serializedName: "ExportRequest",
-        type: {
-            name: "Composite",
-            className: "ExportRequest",
-            modelProperties: {
-                storageKeyType: {
-                    required: true,
-                    serializedName: "storageKeyType",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "StorageAccessKey",
-                            "SharedAccessKey"
-                        ]
-                    }
-                },
-                storageKey: {
-                    required: true,
-                    serializedName: "storageKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageUri: {
-                    required: true,
-                    serializedName: "storageUri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                administratorLogin: {
-                    required: true,
-                    serializedName: "administratorLogin",
-                    type: {
-                        name: "String"
-                    }
-                },
-                administratorLoginPassword: {
-                    required: true,
-                    serializedName: "administratorLoginPassword",
-                    type: {
-                        name: "String"
-                    }
-                },
-                authenticationType: {
-                    serializedName: "authenticationType",
-                    defaultValue: 'SQL',
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "SQL",
-                            "ADPassword"
-                        ]
-                    }
-                }
-            }
-        }
-    };
-    var ImportExtensionProperties = {
-        serializedName: "ImportExtensionProperties",
-        type: {
-            name: "Composite",
-            className: "ImportExtensionProperties",
-            modelProperties: __assign({}, ExportRequest.type.modelProperties, { operationMode: {
-                    required: true,
-                    isConstant: true,
-                    serializedName: "operationMode",
-                    defaultValue: 'Import',
                     type: {
                         name: "String"
                     }
@@ -2563,78 +2106,6 @@
             }
         }
     };
-    var ImportExportResponseProperties = {
-        serializedName: "ImportExportResponseProperties",
-        type: {
-            name: "Composite",
-            className: "ImportExportResponseProperties",
-            modelProperties: {
-                requestType: {
-                    readOnly: true,
-                    serializedName: "requestType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                requestId: {
-                    readOnly: true,
-                    serializedName: "requestId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                serverName: {
-                    readOnly: true,
-                    serializedName: "serverName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                databaseName: {
-                    readOnly: true,
-                    serializedName: "databaseName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    readOnly: true,
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastModifiedTime: {
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "String"
-                    }
-                },
-                queuedTime: {
-                    readOnly: true,
-                    serializedName: "queuedTime",
-                    type: {
-                        name: "String"
-                    }
-                },
-                blobUri: {
-                    readOnly: true,
-                    serializedName: "blobUri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                errorMessage: {
-                    readOnly: true,
-                    serializedName: "errorMessage",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var ImportExportResponse = {
         serializedName: "ImportExportResponse",
         type: {
@@ -2695,6 +2166,65 @@
                         name: "String"
                     }
                 } })
+        }
+    };
+    var ExportRequest = {
+        serializedName: "ExportRequest",
+        type: {
+            name: "Composite",
+            className: "ExportRequest",
+            modelProperties: {
+                storageKeyType: {
+                    required: true,
+                    serializedName: "storageKeyType",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "StorageAccessKey",
+                            "SharedAccessKey"
+                        ]
+                    }
+                },
+                storageKey: {
+                    required: true,
+                    serializedName: "storageKey",
+                    type: {
+                        name: "String"
+                    }
+                },
+                storageUri: {
+                    required: true,
+                    serializedName: "storageUri",
+                    type: {
+                        name: "String"
+                    }
+                },
+                administratorLogin: {
+                    required: true,
+                    serializedName: "administratorLogin",
+                    type: {
+                        name: "String"
+                    }
+                },
+                administratorLoginPassword: {
+                    required: true,
+                    serializedName: "administratorLoginPassword",
+                    type: {
+                        name: "String"
+                    }
+                },
+                authenticationType: {
+                    serializedName: "authenticationType",
+                    defaultValue: 'SQL',
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "SQL",
+                            "ADPassword"
+                        ]
+                    }
+                }
+            }
         }
     };
     var ImportRequest = {
@@ -2962,100 +2492,6 @@
             }
         }
     };
-    var RecommendedElasticPoolProperties = {
-        serializedName: "RecommendedElasticPoolProperties",
-        type: {
-            name: "Composite",
-            className: "RecommendedElasticPoolProperties",
-            modelProperties: {
-                databaseEdition: {
-                    readOnly: true,
-                    serializedName: "databaseEdition",
-                    type: {
-                        name: "String"
-                    }
-                },
-                dtu: {
-                    serializedName: "dtu",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                databaseDtuMin: {
-                    serializedName: "databaseDtuMin",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                databaseDtuMax: {
-                    serializedName: "databaseDtuMax",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                storageMB: {
-                    serializedName: "storageMB",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                observationPeriodStart: {
-                    readOnly: true,
-                    serializedName: "observationPeriodStart",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                observationPeriodEnd: {
-                    readOnly: true,
-                    serializedName: "observationPeriodEnd",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                maxObservedDtu: {
-                    readOnly: true,
-                    serializedName: "maxObservedDtu",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                maxObservedStorageMB: {
-                    readOnly: true,
-                    serializedName: "maxObservedStorageMB",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                databases: {
-                    readOnly: true,
-                    serializedName: "databases",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "TrackedResource"
-                            }
-                        }
-                    }
-                },
-                metrics: {
-                    readOnly: true,
-                    serializedName: "metrics",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "RecommendedElasticPoolMetric"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var RecommendedElasticPool = {
         serializedName: "RecommendedElasticPool",
         type: {
@@ -3136,99 +2572,6 @@
                         }
                     }
                 } })
-        }
-    };
-    var ReplicationLinkProperties = {
-        serializedName: "ReplicationLinkProperties",
-        type: {
-            name: "Composite",
-            className: "ReplicationLinkProperties",
-            modelProperties: {
-                isTerminationAllowed: {
-                    readOnly: true,
-                    serializedName: "isTerminationAllowed",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                replicationMode: {
-                    readOnly: true,
-                    serializedName: "replicationMode",
-                    type: {
-                        name: "String"
-                    }
-                },
-                partnerServer: {
-                    readOnly: true,
-                    serializedName: "partnerServer",
-                    type: {
-                        name: "String"
-                    }
-                },
-                partnerDatabase: {
-                    readOnly: true,
-                    serializedName: "partnerDatabase",
-                    type: {
-                        name: "String"
-                    }
-                },
-                partnerLocation: {
-                    readOnly: true,
-                    serializedName: "partnerLocation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                role: {
-                    readOnly: true,
-                    serializedName: "role",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Primary",
-                            "Secondary",
-                            "NonReadableSecondary",
-                            "Source",
-                            "Copy"
-                        ]
-                    }
-                },
-                partnerRole: {
-                    readOnly: true,
-                    serializedName: "partnerRole",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Primary",
-                            "Secondary",
-                            "NonReadableSecondary",
-                            "Source",
-                            "Copy"
-                        ]
-                    }
-                },
-                startTime: {
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                percentComplete: {
-                    readOnly: true,
-                    serializedName: "percentComplete",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                replicationState: {
-                    readOnly: true,
-                    serializedName: "replicationState",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var ReplicationLink = {
@@ -3319,45 +2662,6 @@
                 } })
         }
     };
-    var ServerAdministratorProperties = {
-        serializedName: "ServerAdministratorProperties",
-        type: {
-            name: "Composite",
-            className: "ServerAdministratorProperties",
-            modelProperties: {
-                administratorType: {
-                    required: true,
-                    isConstant: true,
-                    serializedName: "administratorType",
-                    defaultValue: 'ActiveDirectory',
-                    type: {
-                        name: "String"
-                    }
-                },
-                login: {
-                    required: true,
-                    serializedName: "login",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sid: {
-                    required: true,
-                    serializedName: "sid",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                tenantId: {
-                    required: true,
-                    serializedName: "tenantId",
-                    type: {
-                        name: "Uuid"
-                    }
-                }
-            }
-        }
-    };
     var ServerAzureADAdministrator = {
         serializedName: "ServerAzureADAdministrator",
         type: {
@@ -3392,29 +2696,6 @@
                 } })
         }
     };
-    var ServerCommunicationLinkProperties = {
-        serializedName: "ServerCommunicationLinkProperties",
-        type: {
-            name: "Composite",
-            className: "ServerCommunicationLinkProperties",
-            modelProperties: {
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                partnerServer: {
-                    required: true,
-                    serializedName: "partnerServer",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var ServerCommunicationLink = {
         serializedName: "ServerCommunicationLink",
         type: {
@@ -3445,53 +2726,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var ServiceObjectiveProperties = {
-        serializedName: "ServiceObjectiveProperties",
-        type: {
-            name: "Composite",
-            className: "ServiceObjectiveProperties",
-            modelProperties: {
-                serviceObjectiveName: {
-                    readOnly: true,
-                    serializedName: "serviceObjectiveName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isDefault: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "isDefault",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                isSystem: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "isSystem",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                description: {
-                    readOnly: true,
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                enabled: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "enabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
         }
     };
     var ServiceObjective = {
@@ -3533,156 +2767,6 @@
                         name: "Boolean"
                     }
                 } })
-        }
-    };
-    var ElasticPoolActivityProperties = {
-        serializedName: "ElasticPoolActivityProperties",
-        type: {
-            name: "Composite",
-            className: "ElasticPoolActivityProperties",
-            modelProperties: {
-                endTime: {
-                    readOnly: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                errorCode: {
-                    readOnly: true,
-                    serializedName: "errorCode",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                errorMessage: {
-                    readOnly: true,
-                    serializedName: "errorMessage",
-                    type: {
-                        name: "String"
-                    }
-                },
-                errorSeverity: {
-                    readOnly: true,
-                    serializedName: "errorSeverity",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                operation: {
-                    readOnly: true,
-                    serializedName: "operation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                operationId: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "operationId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                percentComplete: {
-                    readOnly: true,
-                    serializedName: "percentComplete",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                requestedDatabaseDtuMax: {
-                    readOnly: true,
-                    serializedName: "requestedDatabaseDtuMax",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                requestedDatabaseDtuMin: {
-                    readOnly: true,
-                    serializedName: "requestedDatabaseDtuMin",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                requestedDtu: {
-                    readOnly: true,
-                    serializedName: "requestedDtu",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                requestedElasticPoolName: {
-                    readOnly: true,
-                    serializedName: "requestedElasticPoolName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                requestedStorageLimitInGB: {
-                    readOnly: true,
-                    serializedName: "requestedStorageLimitInGB",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                elasticPoolName: {
-                    readOnly: true,
-                    serializedName: "elasticPoolName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverName: {
-                    readOnly: true,
-                    serializedName: "serverName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                requestedStorageLimitInMB: {
-                    readOnly: true,
-                    serializedName: "requestedStorageLimitInMB",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                requestedDatabaseDtuGuarantee: {
-                    readOnly: true,
-                    serializedName: "requestedDatabaseDtuGuarantee",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                requestedDatabaseDtuCap: {
-                    readOnly: true,
-                    serializedName: "requestedDatabaseDtuCap",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                requestedDtuGuarantee: {
-                    readOnly: true,
-                    serializedName: "requestedDtuGuarantee",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
         }
     };
     var ElasticPoolActivity = {
@@ -3817,121 +2901,6 @@
                         name: "Number"
                     }
                 } })
-        }
-    };
-    var ElasticPoolDatabaseActivityProperties = {
-        serializedName: "ElasticPoolDatabaseActivityProperties",
-        type: {
-            name: "Composite",
-            className: "ElasticPoolDatabaseActivityProperties",
-            modelProperties: {
-                databaseName: {
-                    readOnly: true,
-                    serializedName: "databaseName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                endTime: {
-                    readOnly: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                errorCode: {
-                    readOnly: true,
-                    serializedName: "errorCode",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                errorMessage: {
-                    readOnly: true,
-                    serializedName: "errorMessage",
-                    type: {
-                        name: "String"
-                    }
-                },
-                errorSeverity: {
-                    readOnly: true,
-                    serializedName: "errorSeverity",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                operation: {
-                    readOnly: true,
-                    serializedName: "operation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                operationId: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "operationId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                percentComplete: {
-                    readOnly: true,
-                    serializedName: "percentComplete",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                requestedElasticPoolName: {
-                    readOnly: true,
-                    serializedName: "requestedElasticPoolName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                currentElasticPoolName: {
-                    readOnly: true,
-                    serializedName: "currentElasticPoolName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                currentServiceObjective: {
-                    readOnly: true,
-                    serializedName: "currentServiceObjective",
-                    type: {
-                        name: "String"
-                    }
-                },
-                requestedServiceObjective: {
-                    readOnly: true,
-                    serializedName: "requestedServiceObjective",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverName: {
-                    readOnly: true,
-                    serializedName: "serverName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var ElasticPoolDatabaseActivity = {
@@ -4075,145 +3044,6 @@
             }
         }
     };
-    var RecommendedIndexProperties = {
-        serializedName: "RecommendedIndexProperties",
-        type: {
-            name: "Composite",
-            className: "RecommendedIndexProperties",
-            modelProperties: {
-                action: {
-                    readOnly: true,
-                    serializedName: "action",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Create",
-                            "Drop",
-                            "Rebuild"
-                        ]
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Active",
-                            "Pending",
-                            "Executing",
-                            "Verifying",
-                            "Pending Revert",
-                            "Reverting",
-                            "Reverted",
-                            "Ignored",
-                            "Expired",
-                            "Blocked",
-                            "Success"
-                        ]
-                    }
-                },
-                created: {
-                    readOnly: true,
-                    serializedName: "created",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModified: {
-                    readOnly: true,
-                    serializedName: "lastModified",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                indexType: {
-                    readOnly: true,
-                    serializedName: "indexType",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "CLUSTERED",
-                            "NONCLUSTERED",
-                            "COLUMNSTORE",
-                            "CLUSTERED COLUMNSTORE"
-                        ]
-                    }
-                },
-                schema: {
-                    readOnly: true,
-                    serializedName: "schema",
-                    type: {
-                        name: "String"
-                    }
-                },
-                table: {
-                    readOnly: true,
-                    serializedName: "table",
-                    type: {
-                        name: "String"
-                    }
-                },
-                columns: {
-                    readOnly: true,
-                    serializedName: "columns",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                includedColumns: {
-                    readOnly: true,
-                    serializedName: "includedColumns",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                indexScript: {
-                    readOnly: true,
-                    serializedName: "indexScript",
-                    type: {
-                        name: "String"
-                    }
-                },
-                estimatedImpact: {
-                    readOnly: true,
-                    serializedName: "estimatedImpact",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "OperationImpact"
-                            }
-                        }
-                    }
-                },
-                reportedImpact: {
-                    readOnly: true,
-                    serializedName: "reportedImpact",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "OperationImpact"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var RecommendedIndex = {
         serializedName: "RecommendedIndex",
         type: {
@@ -4340,25 +3170,6 @@
                 } })
         }
     };
-    var TransparentDataEncryptionProperties = {
-        serializedName: "TransparentDataEncryptionProperties",
-        type: {
-            name: "Composite",
-            className: "TransparentDataEncryptionProperties",
-            modelProperties: {
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Enabled",
-                            "Disabled"
-                        ]
-                    }
-                }
-            }
-        }
-    };
     var TransparentDataEncryption = {
         serializedName: "TransparentDataEncryption",
         type: {
@@ -4407,155 +3218,6 @@
                     nullable: false,
                     readOnly: true,
                     serializedName: "inRangeTimeRatio",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
-    var ServiceTierAdvisorProperties = {
-        serializedName: "ServiceTierAdvisorProperties",
-        type: {
-            name: "Composite",
-            className: "ServiceTierAdvisorProperties",
-            modelProperties: {
-                observationPeriodStart: {
-                    readOnly: true,
-                    serializedName: "observationPeriodStart",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                observationPeriodEnd: {
-                    readOnly: true,
-                    serializedName: "observationPeriodEnd",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                activeTimeRatio: {
-                    readOnly: true,
-                    serializedName: "activeTimeRatio",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                minDtu: {
-                    readOnly: true,
-                    serializedName: "minDtu",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                avgDtu: {
-                    readOnly: true,
-                    serializedName: "avgDtu",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                maxDtu: {
-                    readOnly: true,
-                    serializedName: "maxDtu",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                maxSizeInGB: {
-                    readOnly: true,
-                    serializedName: "maxSizeInGB",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                serviceLevelObjectiveUsageMetrics: {
-                    readOnly: true,
-                    serializedName: "serviceLevelObjectiveUsageMetrics",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "SloUsageMetric"
-                            }
-                        }
-                    }
-                },
-                currentServiceLevelObjective: {
-                    readOnly: true,
-                    serializedName: "currentServiceLevelObjective",
-                    type: {
-                        name: "String"
-                    }
-                },
-                currentServiceLevelObjectiveId: {
-                    readOnly: true,
-                    serializedName: "currentServiceLevelObjectiveId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                usageBasedRecommendationServiceLevelObjective: {
-                    readOnly: true,
-                    serializedName: "usageBasedRecommendationServiceLevelObjective",
-                    type: {
-                        name: "String"
-                    }
-                },
-                usageBasedRecommendationServiceLevelObjectiveId: {
-                    readOnly: true,
-                    serializedName: "usageBasedRecommendationServiceLevelObjectiveId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                databaseSizeBasedRecommendationServiceLevelObjective: {
-                    readOnly: true,
-                    serializedName: "databaseSizeBasedRecommendationServiceLevelObjective",
-                    type: {
-                        name: "String"
-                    }
-                },
-                databaseSizeBasedRecommendationServiceLevelObjectiveId: {
-                    readOnly: true,
-                    serializedName: "databaseSizeBasedRecommendationServiceLevelObjectiveId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                disasterPlanBasedRecommendationServiceLevelObjective: {
-                    readOnly: true,
-                    serializedName: "disasterPlanBasedRecommendationServiceLevelObjective",
-                    type: {
-                        name: "String"
-                    }
-                },
-                disasterPlanBasedRecommendationServiceLevelObjectiveId: {
-                    readOnly: true,
-                    serializedName: "disasterPlanBasedRecommendationServiceLevelObjectiveId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                overallRecommendationServiceLevelObjective: {
-                    readOnly: true,
-                    serializedName: "overallRecommendationServiceLevelObjective",
-                    type: {
-                        name: "String"
-                    }
-                },
-                overallRecommendationServiceLevelObjectiveId: {
-                    readOnly: true,
-                    serializedName: "overallRecommendationServiceLevelObjectiveId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                confidence: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "confidence",
                     type: {
                         name: "Number"
                     }
@@ -4690,29 +3352,6 @@
                         name: "Number"
                     }
                 } })
-        }
-    };
-    var TransparentDataEncryptionActivityProperties = {
-        serializedName: "TransparentDataEncryptionActivityProperties",
-        type: {
-            name: "Composite",
-            className: "TransparentDataEncryptionActivityProperties",
-            modelProperties: {
-                status: {
-                    readOnly: true,
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                percentComplete: {
-                    readOnly: true,
-                    serializedName: "percentComplete",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
         }
     };
     var TransparentDataEncryptionActivity = {
@@ -4911,52 +3550,6 @@
             }
         }
     };
-    var DatabaseAutomaticTuningProperties = {
-        serializedName: "DatabaseAutomaticTuningProperties",
-        type: {
-            name: "Composite",
-            className: "DatabaseAutomaticTuningProperties",
-            modelProperties: {
-                desiredState: {
-                    serializedName: "desiredState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Inherit",
-                            "Custom",
-                            "Auto",
-                            "Unspecified"
-                        ]
-                    }
-                },
-                actualState: {
-                    readOnly: true,
-                    serializedName: "actualState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Inherit",
-                            "Custom",
-                            "Auto",
-                            "Unspecified"
-                        ]
-                    }
-                },
-                options: {
-                    serializedName: "options",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "AutomaticTuningOptions"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var DatabaseAutomaticTuning = {
         serializedName: "DatabaseAutomaticTuning",
         type: {
@@ -4997,49 +3590,6 @@
                         }
                     }
                 } })
-        }
-    };
-    var EncryptionProtectorProperties = {
-        serializedName: "EncryptionProtectorProperties",
-        type: {
-            name: "Composite",
-            className: "EncryptionProtectorProperties",
-            modelProperties: {
-                subregion: {
-                    readOnly: true,
-                    serializedName: "subregion",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverKeyName: {
-                    serializedName: "serverKeyName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverKeyType: {
-                    required: true,
-                    serializedName: "serverKeyType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uri: {
-                    readOnly: true,
-                    serializedName: "uri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                thumbprint: {
-                    readOnly: true,
-                    serializedName: "thumbprint",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var EncryptionProtector = {
@@ -5157,68 +3707,6 @@
             }
         }
     };
-    var FailoverGroupProperties = {
-        serializedName: "FailoverGroupProperties",
-        type: {
-            name: "Composite",
-            className: "FailoverGroupProperties",
-            modelProperties: {
-                readWriteEndpoint: {
-                    required: true,
-                    serializedName: "readWriteEndpoint",
-                    type: {
-                        name: "Composite",
-                        className: "FailoverGroupReadWriteEndpoint"
-                    }
-                },
-                readOnlyEndpoint: {
-                    serializedName: "readOnlyEndpoint",
-                    type: {
-                        name: "Composite",
-                        className: "FailoverGroupReadOnlyEndpoint"
-                    }
-                },
-                replicationRole: {
-                    readOnly: true,
-                    serializedName: "replicationRole",
-                    type: {
-                        name: "String"
-                    }
-                },
-                replicationState: {
-                    readOnly: true,
-                    serializedName: "replicationState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                partnerServers: {
-                    required: true,
-                    serializedName: "partnerServers",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "PartnerInfo"
-                            }
-                        }
-                    }
-                },
-                databases: {
-                    serializedName: "databases",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var FailoverGroup = {
         serializedName: "FailoverGroup",
         type: {
@@ -5288,40 +3776,6 @@
                         }
                     }
                 } })
-        }
-    };
-    var FailoverGroupUpdateProperties = {
-        serializedName: "FailoverGroupUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "FailoverGroupUpdateProperties",
-            modelProperties: {
-                readWriteEndpoint: {
-                    serializedName: "readWriteEndpoint",
-                    type: {
-                        name: "Composite",
-                        className: "FailoverGroupReadWriteEndpoint"
-                    }
-                },
-                readOnlyEndpoint: {
-                    serializedName: "readOnlyEndpoint",
-                    type: {
-                        name: "Composite",
-                        className: "FailoverGroupReadOnlyEndpoint"
-                    }
-                },
-                databases: {
-                    serializedName: "databases",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var FailoverGroupUpdate = {
@@ -5433,85 +3887,6 @@
                     serializedName: "capacity",
                     type: {
                         name: "Number"
-                    }
-                }
-            }
-        }
-    };
-    var ManagedInstanceProperties = {
-        serializedName: "ManagedInstanceProperties",
-        type: {
-            name: "Composite",
-            className: "ManagedInstanceProperties",
-            modelProperties: {
-                fullyQualifiedDomainName: {
-                    readOnly: true,
-                    serializedName: "fullyQualifiedDomainName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                administratorLogin: {
-                    serializedName: "administratorLogin",
-                    type: {
-                        name: "String"
-                    }
-                },
-                administratorLoginPassword: {
-                    serializedName: "administratorLoginPassword",
-                    type: {
-                        name: "String"
-                    }
-                },
-                subnetId: {
-                    serializedName: "subnetId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                licenseType: {
-                    serializedName: "licenseType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                vCores: {
-                    serializedName: "vCores",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                storageSizeInGB: {
-                    serializedName: "storageSizeInGB",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                collation: {
-                    readOnly: true,
-                    serializedName: "collation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                dnsZone: {
-                    readOnly: true,
-                    serializedName: "dnsZone",
-                    type: {
-                        name: "String"
-                    }
-                },
-                dnsZonePartner: {
-                    serializedName: "dnsZonePartner",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -5773,47 +4148,6 @@
             }
         }
     };
-    var ServerKeyProperties = {
-        serializedName: "ServerKeyProperties",
-        type: {
-            name: "Composite",
-            className: "ServerKeyProperties",
-            modelProperties: {
-                subregion: {
-                    readOnly: true,
-                    serializedName: "subregion",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverKeyType: {
-                    required: true,
-                    serializedName: "serverKeyType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uri: {
-                    serializedName: "uri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                thumbprint: {
-                    serializedName: "thumbprint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationDate: {
-                    serializedName: "creationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
-        }
-    };
     var ServerKey = {
         serializedName: "ServerKey",
         type: {
@@ -5858,47 +4192,6 @@
                         name: "DateTime"
                     }
                 } })
-        }
-    };
-    var ServerProperties = {
-        serializedName: "ServerProperties",
-        type: {
-            name: "Composite",
-            className: "ServerProperties",
-            modelProperties: {
-                administratorLogin: {
-                    serializedName: "administratorLogin",
-                    type: {
-                        name: "String"
-                    }
-                },
-                administratorLoginPassword: {
-                    serializedName: "administratorLoginPassword",
-                    type: {
-                        name: "String"
-                    }
-                },
-                version: {
-                    serializedName: "version",
-                    type: {
-                        name: "String"
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                fullyQualifiedDomainName: {
-                    readOnly: true,
-                    serializedName: "fullyQualifiedDomainName",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var Server = {
@@ -6000,63 +4293,6 @@
             }
         }
     };
-    var SyncAgentProperties = {
-        serializedName: "SyncAgentProperties",
-        type: {
-            name: "Composite",
-            className: "SyncAgentProperties",
-            modelProperties: {
-                name: {
-                    readOnly: true,
-                    serializedName: "name",
-                    type: {
-                        name: "String"
-                    }
-                },
-                syncDatabaseId: {
-                    serializedName: "syncDatabaseId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastAliveTime: {
-                    readOnly: true,
-                    serializedName: "lastAliveTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isUpToDate: {
-                    readOnly: true,
-                    serializedName: "isUpToDate",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                expiryTime: {
-                    readOnly: true,
-                    serializedName: "expiryTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                version: {
-                    readOnly: true,
-                    serializedName: "version",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var SyncAgent = {
         serializedName: "SyncAgent",
         type: {
@@ -6115,57 +4351,6 @@
                 syncAgentKey: {
                     readOnly: true,
                     serializedName: "syncAgentKey",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var SyncAgentLinkedDatabaseProperties = {
-        serializedName: "SyncAgentLinkedDatabaseProperties",
-        type: {
-            name: "Composite",
-            className: "SyncAgentLinkedDatabaseProperties",
-            modelProperties: {
-                databaseType: {
-                    readOnly: true,
-                    serializedName: "databaseType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                databaseId: {
-                    readOnly: true,
-                    serializedName: "databaseId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    readOnly: true,
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverName: {
-                    readOnly: true,
-                    serializedName: "serverName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                databaseName: {
-                    readOnly: true,
-                    serializedName: "databaseName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userName: {
-                    readOnly: true,
-                    serializedName: "userName",
                     type: {
                         name: "String"
                     }
@@ -6502,66 +4687,6 @@
             }
         }
     };
-    var SyncGroupProperties = {
-        serializedName: "SyncGroupProperties",
-        type: {
-            name: "Composite",
-            className: "SyncGroupProperties",
-            modelProperties: {
-                interval: {
-                    serializedName: "interval",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                lastSyncTime: {
-                    readOnly: true,
-                    serializedName: "lastSyncTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                conflictResolutionPolicy: {
-                    serializedName: "conflictResolutionPolicy",
-                    type: {
-                        name: "String"
-                    }
-                },
-                syncDatabaseId: {
-                    serializedName: "syncDatabaseId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                hubDatabaseUserName: {
-                    serializedName: "hubDatabaseUserName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                hubDatabasePassword: {
-                    serializedName: "hubDatabasePassword",
-                    type: {
-                        name: "String"
-                    }
-                },
-                syncState: {
-                    readOnly: true,
-                    serializedName: "syncState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                schema: {
-                    serializedName: "schema",
-                    type: {
-                        name: "Composite",
-                        className: "SyncGroupSchema"
-                    }
-                }
-            }
-        }
-    };
     var SyncGroup = {
         serializedName: "SyncGroup",
         type: {
@@ -6611,70 +4736,6 @@
                         className: "SyncGroupSchema"
                     }
                 } })
-        }
-    };
-    var SyncMemberProperties = {
-        serializedName: "SyncMemberProperties",
-        type: {
-            name: "Composite",
-            className: "SyncMemberProperties",
-            modelProperties: {
-                databaseType: {
-                    serializedName: "databaseType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                syncAgentId: {
-                    serializedName: "syncAgentId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sqlServerDatabaseId: {
-                    serializedName: "sqlServerDatabaseId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                serverName: {
-                    serializedName: "serverName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                databaseName: {
-                    serializedName: "databaseName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "String"
-                    }
-                },
-                syncDirection: {
-                    serializedName: "syncDirection",
-                    type: {
-                        name: "String"
-                    }
-                },
-                syncState: {
-                    readOnly: true,
-                    serializedName: "syncState",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var SyncMember = {
@@ -6731,43 +4792,6 @@
                 } })
         }
     };
-    var SubscriptionUsageProperties = {
-        serializedName: "SubscriptionUsageProperties",
-        type: {
-            name: "Composite",
-            className: "SubscriptionUsageProperties",
-            modelProperties: {
-                displayName: {
-                    readOnly: true,
-                    serializedName: "displayName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                currentValue: {
-                    readOnly: true,
-                    serializedName: "currentValue",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                limit: {
-                    readOnly: true,
-                    serializedName: "limit",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                unit: {
-                    readOnly: true,
-                    serializedName: "unit",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var SubscriptionUsage = {
         serializedName: "SubscriptionUsage",
         type: {
@@ -6800,35 +4824,6 @@
                 } })
         }
     };
-    var VirtualNetworkRuleProperties = {
-        serializedName: "VirtualNetworkRuleProperties",
-        type: {
-            name: "Composite",
-            className: "VirtualNetworkRuleProperties",
-            modelProperties: {
-                virtualNetworkSubnetId: {
-                    required: true,
-                    serializedName: "virtualNetworkSubnetId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                ignoreMissingVnetServiceEndpoint: {
-                    serializedName: "ignoreMissingVnetServiceEndpoint",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var VirtualNetworkRule = {
         serializedName: "VirtualNetworkRule",
         type: {
@@ -6852,73 +4847,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var ExtendedDatabaseBlobAuditingPolicyProperties = {
-        serializedName: "ExtendedDatabaseBlobAuditingPolicyProperties",
-        type: {
-            name: "Composite",
-            className: "ExtendedDatabaseBlobAuditingPolicyProperties",
-            modelProperties: {
-                predicateExpression: {
-                    serializedName: "predicateExpression",
-                    type: {
-                        name: "String"
-                    }
-                },
-                state: {
-                    required: true,
-                    serializedName: "state",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Enabled",
-                            "Disabled"
-                        ]
-                    }
-                },
-                storageEndpoint: {
-                    serializedName: "storageEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccountAccessKey: {
-                    serializedName: "storageAccountAccessKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                retentionDays: {
-                    serializedName: "retentionDays",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                auditActionsAndGroups: {
-                    serializedName: "auditActionsAndGroups",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                storageAccountSubscriptionId: {
-                    serializedName: "storageAccountSubscriptionId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                isStorageSecondaryKeyInUse: {
-                    serializedName: "isStorageSecondaryKeyInUse",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
         }
     };
     var ExtendedDatabaseBlobAuditingPolicy = {
@@ -6979,73 +4907,6 @@
                 } })
         }
     };
-    var ExtendedServerBlobAuditingPolicyProperties = {
-        serializedName: "ExtendedServerBlobAuditingPolicyProperties",
-        type: {
-            name: "Composite",
-            className: "ExtendedServerBlobAuditingPolicyProperties",
-            modelProperties: {
-                predicateExpression: {
-                    serializedName: "predicateExpression",
-                    type: {
-                        name: "String"
-                    }
-                },
-                state: {
-                    required: true,
-                    serializedName: "state",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Enabled",
-                            "Disabled"
-                        ]
-                    }
-                },
-                storageEndpoint: {
-                    serializedName: "storageEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccountAccessKey: {
-                    serializedName: "storageAccountAccessKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                retentionDays: {
-                    serializedName: "retentionDays",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                auditActionsAndGroups: {
-                    serializedName: "auditActionsAndGroups",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                storageAccountSubscriptionId: {
-                    serializedName: "storageAccountSubscriptionId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                isStorageSecondaryKeyInUse: {
-                    serializedName: "isStorageSecondaryKeyInUse",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
     var ExtendedServerBlobAuditingPolicy = {
         serializedName: "ExtendedServerBlobAuditingPolicy",
         type: {
@@ -7104,67 +4965,6 @@
                 } })
         }
     };
-    var ServerBlobAuditingPolicyProperties = {
-        serializedName: "ServerBlobAuditingPolicyProperties",
-        type: {
-            name: "Composite",
-            className: "ServerBlobAuditingPolicyProperties",
-            modelProperties: {
-                state: {
-                    required: true,
-                    serializedName: "state",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Enabled",
-                            "Disabled"
-                        ]
-                    }
-                },
-                storageEndpoint: {
-                    serializedName: "storageEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccountAccessKey: {
-                    serializedName: "storageAccountAccessKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                retentionDays: {
-                    serializedName: "retentionDays",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                auditActionsAndGroups: {
-                    serializedName: "auditActionsAndGroups",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                storageAccountSubscriptionId: {
-                    serializedName: "storageAccountSubscriptionId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                isStorageSecondaryKeyInUse: {
-                    serializedName: "isStorageSecondaryKeyInUse",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
     var ServerBlobAuditingPolicy = {
         serializedName: "ServerBlobAuditingPolicy",
         type: {
@@ -7216,67 +5016,6 @@
                         name: "Boolean"
                     }
                 } })
-        }
-    };
-    var DatabaseBlobAuditingPolicyProperties = {
-        serializedName: "DatabaseBlobAuditingPolicyProperties",
-        type: {
-            name: "Composite",
-            className: "DatabaseBlobAuditingPolicyProperties",
-            modelProperties: {
-                state: {
-                    required: true,
-                    serializedName: "state",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Enabled",
-                            "Disabled"
-                        ]
-                    }
-                },
-                storageEndpoint: {
-                    serializedName: "storageEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccountAccessKey: {
-                    serializedName: "storageAccountAccessKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                retentionDays: {
-                    serializedName: "retentionDays",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                auditActionsAndGroups: {
-                    serializedName: "auditActionsAndGroups",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                storageAccountSubscriptionId: {
-                    serializedName: "storageAccountSubscriptionId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                isStorageSecondaryKeyInUse: {
-                    serializedName: "isStorageSecondaryKeyInUse",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
         }
     };
     var DatabaseBlobAuditingPolicy = {
@@ -7359,28 +5098,6 @@
             }
         }
     };
-    var DatabaseVulnerabilityAssessmentRuleBaselineProperties = {
-        serializedName: "DatabaseVulnerabilityAssessmentRuleBaselineProperties",
-        type: {
-            name: "Composite",
-            className: "DatabaseVulnerabilityAssessmentRuleBaselineProperties",
-            modelProperties: {
-                baselineResults: {
-                    required: true,
-                    serializedName: "baselineResults",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "DatabaseVulnerabilityAssessmentRuleBaselineItem"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var DatabaseVulnerabilityAssessmentRuleBaseline = {
         serializedName: "DatabaseVulnerabilityAssessmentRuleBaseline",
         type: {
@@ -7434,41 +5151,6 @@
             }
         }
     };
-    var DatabaseVulnerabilityAssessmentProperties = {
-        serializedName: "DatabaseVulnerabilityAssessmentProperties",
-        type: {
-            name: "Composite",
-            className: "DatabaseVulnerabilityAssessmentProperties",
-            modelProperties: {
-                storageContainerPath: {
-                    required: true,
-                    serializedName: "storageContainerPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageContainerSasKey: {
-                    serializedName: "storageContainerSasKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccountAccessKey: {
-                    serializedName: "storageAccountAccessKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                recurringScans: {
-                    serializedName: "recurringScans",
-                    type: {
-                        name: "Composite",
-                        className: "VulnerabilityAssessmentRecurringScansProperties"
-                    }
-                }
-            }
-        }
-    };
     var DatabaseVulnerabilityAssessment = {
         serializedName: "DatabaseVulnerabilityAssessment",
         type: {
@@ -7497,29 +5179,6 @@
                         className: "VulnerabilityAssessmentRecurringScansProperties"
                     }
                 } })
-        }
-    };
-    var JobAgentProperties = {
-        serializedName: "JobAgentProperties",
-        type: {
-            name: "Composite",
-            className: "JobAgentProperties",
-            modelProperties: {
-                databaseId: {
-                    required: true,
-                    serializedName: "databaseId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var JobAgent = {
@@ -7563,29 +5222,6 @@
                                 name: "String"
                             }
                         }
-                    }
-                }
-            }
-        }
-    };
-    var JobCredentialProperties = {
-        serializedName: "JobCredentialProperties",
-        type: {
-            name: "Composite",
-            className: "JobCredentialProperties",
-            modelProperties: {
-                username: {
-                    required: true,
-                    serializedName: "username",
-                    type: {
-                        name: "String"
-                    }
-                },
-                password: {
-                    required: true,
-                    serializedName: "password",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -7636,106 +5272,6 @@
                     serializedName: "databaseName",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var JobExecutionProperties = {
-        serializedName: "JobExecutionProperties",
-        type: {
-            name: "Composite",
-            className: "JobExecutionProperties",
-            modelProperties: {
-                jobVersion: {
-                    readOnly: true,
-                    serializedName: "jobVersion",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                stepName: {
-                    readOnly: true,
-                    serializedName: "stepName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                stepId: {
-                    readOnly: true,
-                    serializedName: "stepId",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                jobExecutionId: {
-                    readOnly: true,
-                    serializedName: "jobExecutionId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                lifecycle: {
-                    readOnly: true,
-                    serializedName: "lifecycle",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createTime: {
-                    readOnly: true,
-                    serializedName: "createTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                startTime: {
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    readOnly: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                currentAttempts: {
-                    serializedName: "currentAttempts",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                currentAttemptStartTime: {
-                    readOnly: true,
-                    serializedName: "currentAttemptStartTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastMessage: {
-                    readOnly: true,
-                    serializedName: "lastMessage",
-                    type: {
-                        name: "String"
-                    }
-                },
-                target: {
-                    readOnly: true,
-                    serializedName: "target",
-                    type: {
-                        name: "Composite",
-                        className: "JobExecutionTarget"
                     }
                 }
             }
@@ -7868,36 +5404,6 @@
                     serializedName: "interval",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var JobProperties = {
-        serializedName: "JobProperties",
-        type: {
-            name: "Composite",
-            className: "JobProperties",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    defaultValue: '',
-                    type: {
-                        name: "String"
-                    }
-                },
-                version: {
-                    readOnly: true,
-                    serializedName: "version",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                schedule: {
-                    serializedName: "schedule",
-                    type: {
-                        name: "Composite",
-                        className: "JobSchedule"
                     }
                 }
             }
@@ -8066,57 +5572,6 @@
             }
         }
     };
-    var JobStepProperties = {
-        serializedName: "JobStepProperties",
-        type: {
-            name: "Composite",
-            className: "JobStepProperties",
-            modelProperties: {
-                stepId: {
-                    serializedName: "stepId",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                targetGroup: {
-                    required: true,
-                    serializedName: "targetGroup",
-                    type: {
-                        name: "String"
-                    }
-                },
-                credential: {
-                    required: true,
-                    serializedName: "credential",
-                    type: {
-                        name: "String"
-                    }
-                },
-                action: {
-                    required: true,
-                    serializedName: "action",
-                    type: {
-                        name: "Composite",
-                        className: "JobStepAction"
-                    }
-                },
-                output: {
-                    serializedName: "output",
-                    type: {
-                        name: "Composite",
-                        className: "JobStepOutput"
-                    }
-                },
-                executionOptions: {
-                    serializedName: "executionOptions",
-                    type: {
-                        name: "Composite",
-                        className: "JobStepExecutionOptions"
-                    }
-                }
-            }
-        }
-    };
     var JobStep = {
         serializedName: "JobStep",
         type: {
@@ -8218,28 +5673,6 @@
             }
         }
     };
-    var JobTargetGroupProperties = {
-        serializedName: "JobTargetGroupProperties",
-        type: {
-            name: "Composite",
-            className: "JobTargetGroupProperties",
-            modelProperties: {
-                members: {
-                    required: true,
-                    serializedName: "members",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "JobTarget"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var JobTargetGroup = {
         serializedName: "JobTargetGroup",
         type: {
@@ -8266,57 +5699,6 @@
             name: "Composite",
             className: "JobVersion",
             modelProperties: __assign({}, ProxyResource.type.modelProperties)
-        }
-    };
-    var LongTermRetentionBackupProperties = {
-        serializedName: "LongTermRetentionBackupProperties",
-        type: {
-            name: "Composite",
-            className: "LongTermRetentionBackupProperties",
-            modelProperties: {
-                serverName: {
-                    readOnly: true,
-                    serializedName: "serverName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverCreateTime: {
-                    readOnly: true,
-                    serializedName: "serverCreateTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                databaseName: {
-                    readOnly: true,
-                    serializedName: "databaseName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                databaseDeletionTime: {
-                    readOnly: true,
-                    serializedName: "databaseDeletionTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                backupTime: {
-                    readOnly: true,
-                    serializedName: "backupTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                backupExpirationTime: {
-                    readOnly: true,
-                    serializedName: "backupExpirationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
         }
     };
     var LongTermRetentionBackup = {
@@ -8363,39 +5745,6 @@
                 } })
         }
     };
-    var LongTermRetentionPolicyProperties = {
-        serializedName: "LongTermRetentionPolicyProperties",
-        type: {
-            name: "Composite",
-            className: "LongTermRetentionPolicyProperties",
-            modelProperties: {
-                weeklyRetention: {
-                    serializedName: "weeklyRetention",
-                    type: {
-                        name: "String"
-                    }
-                },
-                monthlyRetention: {
-                    serializedName: "monthlyRetention",
-                    type: {
-                        name: "String"
-                    }
-                },
-                yearlyRetention: {
-                    serializedName: "yearlyRetention",
-                    type: {
-                        name: "String"
-                    }
-                },
-                weekOfYear: {
-                    serializedName: "weekOfYear",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
     var BackupLongTermRetentionPolicy = {
         serializedName: "BackupLongTermRetentionPolicy",
         type: {
@@ -8433,92 +5782,6 @@
                 lastBackupName: {
                     required: true,
                     serializedName: "lastBackupName",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var ManagedDatabaseProperties = {
-        serializedName: "ManagedDatabaseProperties",
-        type: {
-            name: "Composite",
-            className: "ManagedDatabaseProperties",
-            modelProperties: {
-                collation: {
-                    serializedName: "collation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    readOnly: true,
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationDate: {
-                    readOnly: true,
-                    serializedName: "creationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                earliestRestorePoint: {
-                    readOnly: true,
-                    serializedName: "earliestRestorePoint",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                restorePointInTime: {
-                    serializedName: "restorePointInTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                defaultSecondaryLocation: {
-                    readOnly: true,
-                    serializedName: "defaultSecondaryLocation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                catalogCollation: {
-                    serializedName: "catalogCollation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createMode: {
-                    serializedName: "createMode",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageContainerUri: {
-                    serializedName: "storageContainerUri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sourceDatabaseId: {
-                    serializedName: "sourceDatabaseId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageContainerSasToken: {
-                    serializedName: "storageContainerSasToken",
-                    type: {
-                        name: "String"
-                    }
-                },
-                failoverGroupId: {
-                    readOnly: true,
-                    serializedName: "failoverGroupId",
                     type: {
                         name: "String"
                     }
@@ -8746,50 +6009,6 @@
             }
         }
     };
-    var AutomaticTuningServerProperties = {
-        serializedName: "AutomaticTuningServerProperties",
-        type: {
-            name: "Composite",
-            className: "AutomaticTuningServerProperties",
-            modelProperties: {
-                desiredState: {
-                    serializedName: "desiredState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Custom",
-                            "Auto",
-                            "Unspecified"
-                        ]
-                    }
-                },
-                actualState: {
-                    readOnly: true,
-                    serializedName: "actualState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Custom",
-                            "Auto",
-                            "Unspecified"
-                        ]
-                    }
-                },
-                options: {
-                    serializedName: "options",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "AutomaticTuningServerOptions"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var ServerAutomaticTuning = {
         serializedName: "ServerAutomaticTuning",
         type: {
@@ -8830,22 +6049,6 @@
                 } })
         }
     };
-    var ServerDnsAliasProperties = {
-        serializedName: "ServerDnsAliasProperties",
-        type: {
-            name: "Composite",
-            className: "ServerDnsAliasProperties",
-            modelProperties: {
-                azureDnsRecord: {
-                    readOnly: true,
-                    serializedName: "azureDnsRecord",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var ServerDnsAlias = {
         serializedName: "ServerDnsAlias",
         type: {
@@ -8870,73 +6073,6 @@
                     serializedName: "oldServerDnsAliasId",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var SecurityAlertPolicyProperties = {
-        serializedName: "SecurityAlertPolicyProperties",
-        type: {
-            name: "Composite",
-            className: "SecurityAlertPolicyProperties",
-            modelProperties: {
-                state: {
-                    required: true,
-                    serializedName: "state",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "New",
-                            "Enabled",
-                            "Disabled"
-                        ]
-                    }
-                },
-                disabledAlerts: {
-                    serializedName: "disabledAlerts",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                emailAddresses: {
-                    serializedName: "emailAddresses",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                emailAccountAdmins: {
-                    serializedName: "emailAccountAdmins",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                storageEndpoint: {
-                    serializedName: "storageEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccountAccessKey: {
-                    serializedName: "storageAccountAccessKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                retentionDays: {
-                    serializedName: "retentionDays",
-                    type: {
-                        name: "Number"
                     }
                 }
             }
@@ -9001,47 +6137,6 @@
                 } })
         }
     };
-    var RestorePointProperties = {
-        serializedName: "RestorePointProperties",
-        type: {
-            name: "Composite",
-            className: "RestorePointProperties",
-            modelProperties: {
-                restorePointType: {
-                    readOnly: true,
-                    serializedName: "restorePointType",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "CONTINUOUS",
-                            "DISCRETE"
-                        ]
-                    }
-                },
-                earliestRestoreDate: {
-                    readOnly: true,
-                    serializedName: "earliestRestoreDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                restorePointCreationDate: {
-                    readOnly: true,
-                    serializedName: "restorePointCreationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                restorePointLabel: {
-                    readOnly: true,
-                    serializedName: "restorePointLabel",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var RestorePoint = {
         serializedName: "RestorePoint",
         type: {
@@ -9095,113 +6190,6 @@
                     serializedName: "restorePointLabel",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var DatabaseOperationProperties = {
-        serializedName: "DatabaseOperationProperties",
-        type: {
-            name: "Composite",
-            className: "DatabaseOperationProperties",
-            modelProperties: {
-                databaseName: {
-                    readOnly: true,
-                    serializedName: "databaseName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                operation: {
-                    readOnly: true,
-                    serializedName: "operation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                operationFriendlyName: {
-                    readOnly: true,
-                    serializedName: "operationFriendlyName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                percentComplete: {
-                    readOnly: true,
-                    serializedName: "percentComplete",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                serverName: {
-                    readOnly: true,
-                    serializedName: "serverName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                errorCode: {
-                    readOnly: true,
-                    serializedName: "errorCode",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                errorDescription: {
-                    readOnly: true,
-                    serializedName: "errorDescription",
-                    type: {
-                        name: "String"
-                    }
-                },
-                errorSeverity: {
-                    readOnly: true,
-                    serializedName: "errorSeverity",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                isUserError: {
-                    readOnly: true,
-                    serializedName: "isUserError",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                estimatedCompletionTime: {
-                    readOnly: true,
-                    serializedName: "estimatedCompletionTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    readOnly: true,
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isCancellable: {
-                    readOnly: true,
-                    serializedName: "isCancellable",
-                    type: {
-                        name: "Boolean"
                     }
                 }
             }
@@ -9297,113 +6285,6 @@
                         name: "Boolean"
                     }
                 } })
-        }
-    };
-    var ElasticPoolOperationProperties = {
-        serializedName: "ElasticPoolOperationProperties",
-        type: {
-            name: "Composite",
-            className: "ElasticPoolOperationProperties",
-            modelProperties: {
-                elasticPoolName: {
-                    readOnly: true,
-                    serializedName: "elasticPoolName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                operation: {
-                    readOnly: true,
-                    serializedName: "operation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                operationFriendlyName: {
-                    readOnly: true,
-                    serializedName: "operationFriendlyName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                percentComplete: {
-                    readOnly: true,
-                    serializedName: "percentComplete",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                serverName: {
-                    readOnly: true,
-                    serializedName: "serverName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                errorCode: {
-                    readOnly: true,
-                    serializedName: "errorCode",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                errorDescription: {
-                    readOnly: true,
-                    serializedName: "errorDescription",
-                    type: {
-                        name: "String"
-                    }
-                },
-                errorSeverity: {
-                    readOnly: true,
-                    serializedName: "errorSeverity",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                isUserError: {
-                    readOnly: true,
-                    serializedName: "isUserError",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                estimatedCompletionTime: {
-                    readOnly: true,
-                    serializedName: "estimatedCompletionTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    readOnly: true,
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isCancellable: {
-                    readOnly: true,
-                    serializedName: "isCancellable",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
         }
     };
     var ElasticPoolOperation = {
@@ -10421,182 +7302,6 @@
             }
         }
     };
-    var DatabaseProperties = {
-        serializedName: "DatabaseProperties",
-        type: {
-            name: "Composite",
-            className: "DatabaseProperties",
-            modelProperties: {
-                createMode: {
-                    serializedName: "createMode",
-                    type: {
-                        name: "String"
-                    }
-                },
-                collation: {
-                    serializedName: "collation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                maxSizeBytes: {
-                    serializedName: "maxSizeBytes",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                sampleName: {
-                    serializedName: "sampleName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                elasticPoolId: {
-                    serializedName: "elasticPoolId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sourceDatabaseId: {
-                    serializedName: "sourceDatabaseId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    readOnly: true,
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                databaseId: {
-                    readOnly: true,
-                    serializedName: "databaseId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                creationDate: {
-                    readOnly: true,
-                    serializedName: "creationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                currentServiceObjectiveName: {
-                    readOnly: true,
-                    serializedName: "currentServiceObjectiveName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                requestedServiceObjectiveName: {
-                    readOnly: true,
-                    serializedName: "requestedServiceObjectiveName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                defaultSecondaryLocation: {
-                    readOnly: true,
-                    serializedName: "defaultSecondaryLocation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                failoverGroupId: {
-                    readOnly: true,
-                    serializedName: "failoverGroupId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                restorePointInTime: {
-                    serializedName: "restorePointInTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                sourceDatabaseDeletionDate: {
-                    serializedName: "sourceDatabaseDeletionDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                recoveryServicesRecoveryPointId: {
-                    serializedName: "recoveryServicesRecoveryPointId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                longTermRetentionBackupResourceId: {
-                    serializedName: "longTermRetentionBackupResourceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                recoverableDatabaseId: {
-                    serializedName: "recoverableDatabaseId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                restorableDroppedDatabaseId: {
-                    serializedName: "restorableDroppedDatabaseId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                catalogCollation: {
-                    serializedName: "catalogCollation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                zoneRedundant: {
-                    serializedName: "zoneRedundant",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                licenseType: {
-                    serializedName: "licenseType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                maxLogSizeBytes: {
-                    readOnly: true,
-                    serializedName: "maxLogSizeBytes",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                earliestRestoreDate: {
-                    readOnly: true,
-                    serializedName: "earliestRestoreDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                readScale: {
-                    serializedName: "readScale",
-                    type: {
-                        name: "String"
-                    }
-                },
-                currentSku: {
-                    readOnly: true,
-                    serializedName: "currentSku",
-                    type: {
-                        name: "Composite",
-                        className: "Sku"
-                    }
-                }
-            }
-        }
-    };
     var Database = {
         serializedName: "Database",
         type: {
@@ -10995,54 +7700,6 @@
             }
         }
     };
-    var ElasticPoolProperties = {
-        serializedName: "ElasticPoolProperties",
-        type: {
-            name: "Composite",
-            className: "ElasticPoolProperties",
-            modelProperties: {
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationDate: {
-                    readOnly: true,
-                    serializedName: "creationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                maxSizeBytes: {
-                    serializedName: "maxSizeBytes",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                perDatabaseSettings: {
-                    serializedName: "perDatabaseSettings",
-                    type: {
-                        name: "Composite",
-                        className: "ElasticPoolPerDatabaseSettings"
-                    }
-                },
-                zoneRedundant: {
-                    serializedName: "zoneRedundant",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                licenseType: {
-                    serializedName: "licenseType",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var ElasticPool = {
         serializedName: "ElasticPool",
         type: {
@@ -11094,40 +7751,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var ElasticPoolUpdateProperties = {
-        serializedName: "ElasticPoolUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ElasticPoolUpdateProperties",
-            modelProperties: {
-                maxSizeBytes: {
-                    serializedName: "maxSizeBytes",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                perDatabaseSettings: {
-                    serializedName: "perDatabaseSettings",
-                    type: {
-                        name: "Composite",
-                        className: "ElasticPoolPerDatabaseSettings"
-                    }
-                },
-                zoneRedundant: {
-                    serializedName: "zoneRedundant",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                licenseType: {
-                    serializedName: "licenseType",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var ElasticPoolUpdate = {
@@ -11205,77 +7828,6 @@
             }
         }
     };
-    var VulnerabilityAssessmentScanRecordProperties = {
-        serializedName: "VulnerabilityAssessmentScanRecordProperties",
-        type: {
-            name: "Composite",
-            className: "VulnerabilityAssessmentScanRecordProperties",
-            modelProperties: {
-                scanId: {
-                    readOnly: true,
-                    serializedName: "scanId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                triggerType: {
-                    readOnly: true,
-                    serializedName: "triggerType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    readOnly: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                errors: {
-                    readOnly: true,
-                    serializedName: "errors",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "VulnerabilityAssessmentScanError"
-                            }
-                        }
-                    }
-                },
-                storageContainerPath: {
-                    readOnly: true,
-                    serializedName: "storageContainerPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                numberOfFailedSecurityChecks: {
-                    readOnly: true,
-                    serializedName: "numberOfFailedSecurityChecks",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
     var VulnerabilityAssessmentScanRecord = {
         serializedName: "VulnerabilityAssessmentScanRecord",
         type: {
@@ -11336,22 +7888,6 @@
                         name: "Number"
                     }
                 } })
-        }
-    };
-    var DatabaseVulnerabilityAssessmentScanExportProperties = {
-        serializedName: "DatabaseVulnerabilityAssessmentScanExportProperties",
-        type: {
-            name: "Composite",
-            className: "DatabaseVulnerabilityAssessmentScanExportProperties",
-            modelProperties: {
-                exportedReportLocation: {
-                    readOnly: true,
-                    serializedName: "exportedReportLocation",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var DatabaseVulnerabilityAssessmentScansExport = {
@@ -11448,70 +7984,6 @@
             }
         }
     };
-    var InstanceFailoverGroupProperties = {
-        serializedName: "InstanceFailoverGroupProperties",
-        type: {
-            name: "Composite",
-            className: "InstanceFailoverGroupProperties",
-            modelProperties: {
-                readWriteEndpoint: {
-                    required: true,
-                    serializedName: "readWriteEndpoint",
-                    type: {
-                        name: "Composite",
-                        className: "InstanceFailoverGroupReadWriteEndpoint"
-                    }
-                },
-                readOnlyEndpoint: {
-                    serializedName: "readOnlyEndpoint",
-                    type: {
-                        name: "Composite",
-                        className: "InstanceFailoverGroupReadOnlyEndpoint"
-                    }
-                },
-                replicationRole: {
-                    readOnly: true,
-                    serializedName: "replicationRole",
-                    type: {
-                        name: "String"
-                    }
-                },
-                replicationState: {
-                    readOnly: true,
-                    serializedName: "replicationState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                partnerRegions: {
-                    required: true,
-                    serializedName: "partnerRegions",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "PartnerRegionInfo"
-                            }
-                        }
-                    }
-                },
-                managedInstancePairs: {
-                    required: true,
-                    serializedName: "managedInstancePairs",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ManagedInstancePairInfo"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var InstanceFailoverGroup = {
         serializedName: "InstanceFailoverGroup",
         type: {
@@ -11569,21 +8041,6 @@
                 } })
         }
     };
-    var BackupShortTermRetentionPolicyProperties = {
-        serializedName: "BackupShortTermRetentionPolicyProperties",
-        type: {
-            name: "Composite",
-            className: "BackupShortTermRetentionPolicyProperties",
-            modelProperties: {
-                retentionDays: {
-                    serializedName: "retentionDays",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
     var BackupShortTermRetentionPolicy = {
         serializedName: "BackupShortTermRetentionPolicy",
         type: {
@@ -11595,28 +8052,6 @@
                         name: "Number"
                     }
                 } })
-        }
-    };
-    var TdeCertificateProperties = {
-        serializedName: "TdeCertificateProperties",
-        type: {
-            name: "Composite",
-            className: "TdeCertificateProperties",
-            modelProperties: {
-                privateBlob: {
-                    required: true,
-                    serializedName: "privateBlob",
-                    type: {
-                        name: "String"
-                    }
-                },
-                certPassword: {
-                    serializedName: "certPassword",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var TdeCertificate = {
@@ -11636,42 +8071,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var ManagedInstanceKeyProperties = {
-        serializedName: "ManagedInstanceKeyProperties",
-        type: {
-            name: "Composite",
-            className: "ManagedInstanceKeyProperties",
-            modelProperties: {
-                serverKeyType: {
-                    required: true,
-                    serializedName: "serverKeyType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uri: {
-                    serializedName: "uri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                thumbprint: {
-                    readOnly: true,
-                    serializedName: "thumbprint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationDate: {
-                    readOnly: true,
-                    serializedName: "creationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
         }
     };
     var ManagedInstanceKey = {
@@ -11709,42 +8108,6 @@
                         name: "DateTime"
                     }
                 } })
-        }
-    };
-    var ManagedInstanceEncryptionProtectorProperties = {
-        serializedName: "ManagedInstanceEncryptionProtectorProperties",
-        type: {
-            name: "Composite",
-            className: "ManagedInstanceEncryptionProtectorProperties",
-            modelProperties: {
-                serverKeyName: {
-                    serializedName: "serverKeyName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverKeyType: {
-                    required: true,
-                    serializedName: "serverKeyType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uri: {
-                    readOnly: true,
-                    serializedName: "uri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                thumbprint: {
-                    readOnly: true,
-                    serializedName: "thumbprint",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var ManagedInstanceEncryptionProtector = {
@@ -13208,32 +9571,22 @@
     var mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
         BaseResource: BaseResource,
-        RecoverableDatabaseProperties: RecoverableDatabaseProperties,
         Resource: Resource,
         ProxyResource: ProxyResource,
         RecoverableDatabase: RecoverableDatabase,
-        RestorableDroppedDatabaseProperties: RestorableDroppedDatabaseProperties,
         RestorableDroppedDatabase: RestorableDroppedDatabase,
         TrackedResource: TrackedResource,
         CheckNameAvailabilityRequest: CheckNameAvailabilityRequest,
         CheckNameAvailabilityResponse: CheckNameAvailabilityResponse,
-        ServerConnectionPolicyProperties: ServerConnectionPolicyProperties,
         ServerConnectionPolicy: ServerConnectionPolicy,
-        DatabaseSecurityAlertPolicyProperties: DatabaseSecurityAlertPolicyProperties,
         DatabaseSecurityAlertPolicy: DatabaseSecurityAlertPolicy,
-        DataMaskingPolicyProperties: DataMaskingPolicyProperties,
         DataMaskingPolicy: DataMaskingPolicy,
-        DataMaskingRuleProperties: DataMaskingRuleProperties,
         DataMaskingRule: DataMaskingRule,
-        FirewallRuleProperties: FirewallRuleProperties,
         FirewallRule: FirewallRule,
-        GeoBackupPolicyProperties: GeoBackupPolicyProperties,
         GeoBackupPolicy: GeoBackupPolicy,
-        ExportRequest: ExportRequest,
-        ImportExtensionProperties: ImportExtensionProperties,
         ImportExtensionRequest: ImportExtensionRequest,
-        ImportExportResponseProperties: ImportExportResponseProperties,
         ImportExportResponse: ImportExportResponse,
+        ExportRequest: ExportRequest,
         ImportRequest: ImportRequest,
         MetricValue: MetricValue,
         MetricName: MetricName,
@@ -13241,60 +9594,40 @@
         MetricAvailability: MetricAvailability,
         MetricDefinition: MetricDefinition,
         RecommendedElasticPoolMetric: RecommendedElasticPoolMetric,
-        RecommendedElasticPoolProperties: RecommendedElasticPoolProperties,
         RecommendedElasticPool: RecommendedElasticPool,
-        ReplicationLinkProperties: ReplicationLinkProperties,
         ReplicationLink: ReplicationLink,
-        ServerAdministratorProperties: ServerAdministratorProperties,
         ServerAzureADAdministrator: ServerAzureADAdministrator,
-        ServerCommunicationLinkProperties: ServerCommunicationLinkProperties,
         ServerCommunicationLink: ServerCommunicationLink,
-        ServiceObjectiveProperties: ServiceObjectiveProperties,
         ServiceObjective: ServiceObjective,
-        ElasticPoolActivityProperties: ElasticPoolActivityProperties,
         ElasticPoolActivity: ElasticPoolActivity,
-        ElasticPoolDatabaseActivityProperties: ElasticPoolDatabaseActivityProperties,
         ElasticPoolDatabaseActivity: ElasticPoolDatabaseActivity,
         OperationImpact: OperationImpact,
-        RecommendedIndexProperties: RecommendedIndexProperties,
         RecommendedIndex: RecommendedIndex,
-        TransparentDataEncryptionProperties: TransparentDataEncryptionProperties,
         TransparentDataEncryption: TransparentDataEncryption,
         SloUsageMetric: SloUsageMetric,
-        ServiceTierAdvisorProperties: ServiceTierAdvisorProperties,
         ServiceTierAdvisor: ServiceTierAdvisor,
-        TransparentDataEncryptionActivityProperties: TransparentDataEncryptionActivityProperties,
         TransparentDataEncryptionActivity: TransparentDataEncryptionActivity,
         ServerUsage: ServerUsage,
         DatabaseUsage: DatabaseUsage,
         AutomaticTuningOptions: AutomaticTuningOptions,
-        DatabaseAutomaticTuningProperties: DatabaseAutomaticTuningProperties,
         DatabaseAutomaticTuning: DatabaseAutomaticTuning,
-        EncryptionProtectorProperties: EncryptionProtectorProperties,
         EncryptionProtector: EncryptionProtector,
         FailoverGroupReadWriteEndpoint: FailoverGroupReadWriteEndpoint,
         FailoverGroupReadOnlyEndpoint: FailoverGroupReadOnlyEndpoint,
         PartnerInfo: PartnerInfo,
-        FailoverGroupProperties: FailoverGroupProperties,
         FailoverGroup: FailoverGroup,
-        FailoverGroupUpdateProperties: FailoverGroupUpdateProperties,
         FailoverGroupUpdate: FailoverGroupUpdate,
         ResourceIdentity: ResourceIdentity,
         Sku: Sku,
-        ManagedInstanceProperties: ManagedInstanceProperties,
         ManagedInstance: ManagedInstance,
         ManagedInstanceUpdate: ManagedInstanceUpdate,
         OperationDisplay: OperationDisplay,
         Operation: Operation,
-        ServerKeyProperties: ServerKeyProperties,
         ServerKey: ServerKey,
-        ServerProperties: ServerProperties,
         Server: Server,
         ServerUpdate: ServerUpdate,
-        SyncAgentProperties: SyncAgentProperties,
         SyncAgent: SyncAgent,
         SyncAgentKeyProperties: SyncAgentKeyProperties,
-        SyncAgentLinkedDatabaseProperties: SyncAgentLinkedDatabaseProperties,
         SyncAgentLinkedDatabase: SyncAgentLinkedDatabase,
         SyncDatabaseIdProperties: SyncDatabaseIdProperties,
         SyncFullSchemaTableColumn: SyncFullSchemaTableColumn,
@@ -13304,70 +9637,45 @@
         SyncGroupSchemaTableColumn: SyncGroupSchemaTableColumn,
         SyncGroupSchemaTable: SyncGroupSchemaTable,
         SyncGroupSchema: SyncGroupSchema,
-        SyncGroupProperties: SyncGroupProperties,
         SyncGroup: SyncGroup,
-        SyncMemberProperties: SyncMemberProperties,
         SyncMember: SyncMember,
-        SubscriptionUsageProperties: SubscriptionUsageProperties,
         SubscriptionUsage: SubscriptionUsage,
-        VirtualNetworkRuleProperties: VirtualNetworkRuleProperties,
         VirtualNetworkRule: VirtualNetworkRule,
-        ExtendedDatabaseBlobAuditingPolicyProperties: ExtendedDatabaseBlobAuditingPolicyProperties,
         ExtendedDatabaseBlobAuditingPolicy: ExtendedDatabaseBlobAuditingPolicy,
-        ExtendedServerBlobAuditingPolicyProperties: ExtendedServerBlobAuditingPolicyProperties,
         ExtendedServerBlobAuditingPolicy: ExtendedServerBlobAuditingPolicy,
-        ServerBlobAuditingPolicyProperties: ServerBlobAuditingPolicyProperties,
         ServerBlobAuditingPolicy: ServerBlobAuditingPolicy,
-        DatabaseBlobAuditingPolicyProperties: DatabaseBlobAuditingPolicyProperties,
         DatabaseBlobAuditingPolicy: DatabaseBlobAuditingPolicy,
         DatabaseVulnerabilityAssessmentRuleBaselineItem: DatabaseVulnerabilityAssessmentRuleBaselineItem,
-        DatabaseVulnerabilityAssessmentRuleBaselineProperties: DatabaseVulnerabilityAssessmentRuleBaselineProperties,
         DatabaseVulnerabilityAssessmentRuleBaseline: DatabaseVulnerabilityAssessmentRuleBaseline,
         VulnerabilityAssessmentRecurringScansProperties: VulnerabilityAssessmentRecurringScansProperties,
-        DatabaseVulnerabilityAssessmentProperties: DatabaseVulnerabilityAssessmentProperties,
         DatabaseVulnerabilityAssessment: DatabaseVulnerabilityAssessment,
-        JobAgentProperties: JobAgentProperties,
         JobAgent: JobAgent,
         JobAgentUpdate: JobAgentUpdate,
-        JobCredentialProperties: JobCredentialProperties,
         JobCredential: JobCredential,
         JobExecutionTarget: JobExecutionTarget,
-        JobExecutionProperties: JobExecutionProperties,
         JobExecution: JobExecution,
         JobSchedule: JobSchedule,
-        JobProperties: JobProperties,
         Job: Job,
         JobStepAction: JobStepAction,
         JobStepOutput: JobStepOutput,
         JobStepExecutionOptions: JobStepExecutionOptions,
-        JobStepProperties: JobStepProperties,
         JobStep: JobStep,
         JobTarget: JobTarget,
-        JobTargetGroupProperties: JobTargetGroupProperties,
         JobTargetGroup: JobTargetGroup,
         JobVersion: JobVersion,
-        LongTermRetentionBackupProperties: LongTermRetentionBackupProperties,
         LongTermRetentionBackup: LongTermRetentionBackup,
-        LongTermRetentionPolicyProperties: LongTermRetentionPolicyProperties,
         BackupLongTermRetentionPolicy: BackupLongTermRetentionPolicy,
         CompleteDatabaseRestoreDefinition: CompleteDatabaseRestoreDefinition,
-        ManagedDatabaseProperties: ManagedDatabaseProperties,
         ManagedDatabase: ManagedDatabase,
         ManagedDatabaseUpdate: ManagedDatabaseUpdate,
         AutomaticTuningServerOptions: AutomaticTuningServerOptions,
-        AutomaticTuningServerProperties: AutomaticTuningServerProperties,
         ServerAutomaticTuning: ServerAutomaticTuning,
-        ServerDnsAliasProperties: ServerDnsAliasProperties,
         ServerDnsAlias: ServerDnsAlias,
         ServerDnsAliasAcquisition: ServerDnsAliasAcquisition,
-        SecurityAlertPolicyProperties: SecurityAlertPolicyProperties,
         ServerSecurityAlertPolicy: ServerSecurityAlertPolicy,
-        RestorePointProperties: RestorePointProperties,
         RestorePoint: RestorePoint,
         CreateDatabaseRestorePointDefinition: CreateDatabaseRestorePointDefinition,
-        DatabaseOperationProperties: DatabaseOperationProperties,
         DatabaseOperation: DatabaseOperation,
-        ElasticPoolOperationProperties: ElasticPoolOperationProperties,
         ElasticPoolOperation: ElasticPoolOperation,
         MaxSizeCapability: MaxSizeCapability,
         LogSizeCapability: LogSizeCapability,
@@ -13386,33 +9694,23 @@
         ManagedInstanceEditionCapability: ManagedInstanceEditionCapability,
         ManagedInstanceVersionCapability: ManagedInstanceVersionCapability,
         LocationCapabilities: LocationCapabilities,
-        DatabaseProperties: DatabaseProperties,
         Database: Database,
         DatabaseUpdate: DatabaseUpdate,
         ResourceMoveDefinition: ResourceMoveDefinition,
         ElasticPoolPerDatabaseSettings: ElasticPoolPerDatabaseSettings,
-        ElasticPoolProperties: ElasticPoolProperties,
         ElasticPool: ElasticPool,
-        ElasticPoolUpdateProperties: ElasticPoolUpdateProperties,
         ElasticPoolUpdate: ElasticPoolUpdate,
         VulnerabilityAssessmentScanError: VulnerabilityAssessmentScanError,
-        VulnerabilityAssessmentScanRecordProperties: VulnerabilityAssessmentScanRecordProperties,
         VulnerabilityAssessmentScanRecord: VulnerabilityAssessmentScanRecord,
-        DatabaseVulnerabilityAssessmentScanExportProperties: DatabaseVulnerabilityAssessmentScanExportProperties,
         DatabaseVulnerabilityAssessmentScansExport: DatabaseVulnerabilityAssessmentScansExport,
         InstanceFailoverGroupReadWriteEndpoint: InstanceFailoverGroupReadWriteEndpoint,
         InstanceFailoverGroupReadOnlyEndpoint: InstanceFailoverGroupReadOnlyEndpoint,
         PartnerRegionInfo: PartnerRegionInfo,
         ManagedInstancePairInfo: ManagedInstancePairInfo,
-        InstanceFailoverGroupProperties: InstanceFailoverGroupProperties,
         InstanceFailoverGroup: InstanceFailoverGroup,
-        BackupShortTermRetentionPolicyProperties: BackupShortTermRetentionPolicyProperties,
         BackupShortTermRetentionPolicy: BackupShortTermRetentionPolicy,
-        TdeCertificateProperties: TdeCertificateProperties,
         TdeCertificate: TdeCertificate,
-        ManagedInstanceKeyProperties: ManagedInstanceKeyProperties,
         ManagedInstanceKey: ManagedInstanceKey,
-        ManagedInstanceEncryptionProtectorProperties: ManagedInstanceEncryptionProtectorProperties,
         ManagedInstanceEncryptionProtector: ManagedInstanceEncryptionProtector,
         RecoverableDatabaseListResult: RecoverableDatabaseListResult,
         RestorableDroppedDatabaseListResult: RestorableDroppedDatabaseListResult,
@@ -16515,7 +12813,6 @@
         DataMaskingRule: DataMaskingRule,
         FirewallRule: FirewallRule,
         GeoBackupPolicy: GeoBackupPolicy,
-        ImportExtensionProperties: ImportExtensionProperties,
         RecommendedElasticPool: RecommendedElasticPool,
         RecommendedElasticPoolMetric: RecommendedElasticPoolMetric,
         ReplicationLink: ReplicationLink,

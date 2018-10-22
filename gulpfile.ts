@@ -6,7 +6,7 @@
 
 import { getCommandLineOptions, Argv } from "./.scripts/commandLine";
 import { endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
-import { findMissingSdks } from "./.scripts/generateSdks";
+import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
 import { generateTsReadme, generateMissingSdk, generateAllMissingSdks, regenerate, generateSdk } from "./.scripts/gulp";
 import { findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
 import { Logger } from "./.scripts/logger";
@@ -212,8 +212,7 @@ gulp.task("generate-all-missing-sdks", async () => {
       .usage("gulp find-missing-sdks")
       .argv;
 
-    const azureRestApiSpecsRepositoryPath = argv.azureRestAPISpecsRoot;
-    await generateAllMissingSdks(argv.azureSDKForJSRepoRoot, azureRestApiSpecsRepositoryPath, argv["skip-spec"], argv["skip-sdk"]);
+    await generateAllMissingSdks(argv.azureSDKForJSRepoRoot, argv.azureRestAPISpecsRoot, argv["skip-spec"], argv["skip-sdk"]);
   } catch (error) {
     _logger.logError(error);
   }
@@ -261,4 +260,22 @@ gulp.task("regenerate", async () => {
       reject(error)
     });
   });
+});
+
+gulp.task("find-wrong-packages", async () => {
+  _logger.log(`Passed arguments: ${Argv.print()}`);
+  const argv = Argv.construct(Argv.Options.Repository, Argv.Options.Generate)
+    .usage("gulp find-missing-sdks")
+    .argv;
+
+  const incorrectPackages = await findWrongPackages(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot);
+
+  _logger.log(`Found ${incorrectPackages.length} incorrect packages`.red);
+  for (const incorrectPackage of incorrectPackages) {
+    _logger.log(`${incorrectPackage.package.name}`.bgRed);
+    _logger.log(`  Reason:      ${incorrectPackage.message}`);
+    _logger.log(`  Output path: ${incorrectPackage.package.outputPath}`.gray);
+    _logger.log(`  Readme path: ${incorrectPackage.package.readmePath}`.gray);
+    _logger.log();
+  }
 });

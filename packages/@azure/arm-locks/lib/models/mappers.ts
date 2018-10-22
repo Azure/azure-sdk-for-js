@@ -30,41 +30,6 @@ export const ManagementLockOwner: msRest.CompositeMapper = {
   }
 };
 
-export const ManagementLockProperties: msRest.CompositeMapper = {
-  serializedName: "ManagementLockProperties",
-  type: {
-    name: "Composite",
-    className: "ManagementLockProperties",
-    modelProperties: {
-      level: {
-        required: true,
-        serializedName: "level",
-        type: {
-          name: "String"
-        }
-      },
-      notes: {
-        serializedName: "notes",
-        type: {
-          name: "String"
-        }
-      },
-      owners: {
-        serializedName: "owners",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ManagementLockOwner"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ManagementLockObject: msRest.CompositeMapper = {
   serializedName: "ManagementLockObject",
   type: {

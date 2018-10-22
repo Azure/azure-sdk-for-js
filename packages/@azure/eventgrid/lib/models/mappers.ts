@@ -1758,6 +1758,11 @@ export const MediaJobOutput: msRest.CompositeMapper = {
   serializedName: "MediaJobOutput",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "@odata.type",
+      clientName: "odatatype"
+    },
+    uberParent: "MediaJobOutput",
     className: "MediaJobOutput",
     modelProperties: {
       error: {
@@ -1795,6 +1800,13 @@ export const MediaJobOutput: msRest.CompositeMapper = {
             "Scheduled"
           ]
         }
+      },
+      odatatype: {
+        required: true,
+        serializedName: "@odata\\.type",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1804,6 +1816,8 @@ export const MediaJobOutputAsset: msRest.CompositeMapper = {
   serializedName: "#Microsoft.Media.JobOutputAsset",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: MediaJobOutput.type.polymorphicDiscriminator,
+    uberParent: "MediaJobOutput",
     className: "MediaJobOutputAsset",
     modelProperties: {
       ...MediaJobOutput.type.modelProperties,
@@ -1844,6 +1858,11 @@ export const MediaJobOutputStateChangeEventData: msRest.CompositeMapper = {
         serializedName: "output",
         type: {
           name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "@odata.type",
+            clientName: "odatatype"
+          },
+          uberParent: "MediaJobOutput",
           className: "MediaJobOutput"
         }
       },
@@ -1909,6 +1928,11 @@ export const MediaJobFinishedEventData: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "@odata.type",
+                clientName: "odatatype"
+              },
+              uberParent: "MediaJobOutput",
               className: "MediaJobOutput"
             }
           }
@@ -1932,6 +1956,11 @@ export const MediaJobCanceledEventData: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "@odata.type",
+                clientName: "odatatype"
+              },
+              uberParent: "MediaJobOutput",
               className: "MediaJobOutput"
             }
           }
@@ -1955,6 +1984,11 @@ export const MediaJobErroredEventData: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "@odata.type",
+                clientName: "odatatype"
+              },
+              uberParent: "MediaJobOutput",
               className: "MediaJobOutput"
             }
           }
@@ -2531,4 +2565,9 @@ export const MediaLiveEventTrackDiscontinuityDetectedEventData: msRest.Composite
       }
     }
   }
+};
+
+export const discriminators = {
+  'MediaJobOutput' : MediaJobOutput,
+  'MediaJobOutput.#Microsoft.Media.JobOutputAsset' : MediaJobOutputAsset
 };

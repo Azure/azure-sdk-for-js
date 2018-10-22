@@ -360,104 +360,6 @@
                 } })
         }
     };
-    var NamespaceProperties = {
-        serializedName: "NamespaceProperties",
-        type: {
-            name: "Composite",
-            className: "NamespaceProperties",
-            modelProperties: {
-                name: {
-                    serializedName: "name",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                region: {
-                    serializedName: "region",
-                    type: {
-                        name: "String"
-                    }
-                },
-                metricId: {
-                    readOnly: true,
-                    serializedName: "metricId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdAt: {
-                    serializedName: "createdAt",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                updatedAt: {
-                    serializedName: "updatedAt",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                serviceBusEndpoint: {
-                    serializedName: "serviceBusEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                subscriptionId: {
-                    serializedName: "subscriptionId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                scaleUnit: {
-                    serializedName: "scaleUnit",
-                    type: {
-                        name: "String"
-                    }
-                },
-                enabled: {
-                    serializedName: "enabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                critical: {
-                    serializedName: "critical",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                dataCenter: {
-                    serializedName: "dataCenter",
-                    type: {
-                        name: "String"
-                    }
-                },
-                namespaceType: {
-                    serializedName: "namespaceType",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Messaging",
-                            "NotificationHub"
-                        ]
-                    }
-                }
-            }
-        }
-    };
     var NamespaceCreateOrUpdateParameters = {
         serializedName: "NamespaceCreateOrUpdateParameters",
         type: {
@@ -874,63 +776,6 @@
             }
         }
     };
-    var ApnsCredentialProperties = {
-        serializedName: "ApnsCredentialProperties",
-        type: {
-            name: "Composite",
-            className: "ApnsCredentialProperties",
-            modelProperties: {
-                apnsCertificate: {
-                    serializedName: "apnsCertificate",
-                    type: {
-                        name: "String"
-                    }
-                },
-                certificateKey: {
-                    serializedName: "certificateKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                endpoint: {
-                    serializedName: "endpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                thumbprint: {
-                    serializedName: "thumbprint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                keyId: {
-                    serializedName: "keyId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                appName: {
-                    serializedName: "appName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                appId: {
-                    serializedName: "appId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                token: {
-                    serializedName: "token",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var ApnsCredential = {
         serializedName: "ApnsCredential",
         type: {
@@ -988,33 +833,6 @@
             }
         }
     };
-    var WnsCredentialProperties = {
-        serializedName: "WnsCredentialProperties",
-        type: {
-            name: "Composite",
-            className: "WnsCredentialProperties",
-            modelProperties: {
-                packageSid: {
-                    serializedName: "packageSid",
-                    type: {
-                        name: "String"
-                    }
-                },
-                secretKey: {
-                    serializedName: "secretKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                windowsLiveEndpoint: {
-                    serializedName: "windowsLiveEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var WnsCredential = {
         serializedName: "WnsCredential",
         type: {
@@ -1042,27 +860,6 @@
             }
         }
     };
-    var GcmCredentialProperties = {
-        serializedName: "GcmCredentialProperties",
-        type: {
-            name: "Composite",
-            className: "GcmCredentialProperties",
-            modelProperties: {
-                gcmEndpoint: {
-                    serializedName: "gcmEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                googleApiKey: {
-                    serializedName: "googleApiKey",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var GcmCredential = {
         serializedName: "GcmCredential",
         type: {
@@ -1077,33 +874,6 @@
                 },
                 googleApiKey: {
                     serializedName: "properties.googleApiKey",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var MpnsCredentialProperties = {
-        serializedName: "MpnsCredentialProperties",
-        type: {
-            name: "Composite",
-            className: "MpnsCredentialProperties",
-            modelProperties: {
-                mpnsCertificate: {
-                    serializedName: "mpnsCertificate",
-                    type: {
-                        name: "String"
-                    }
-                },
-                certificateKey: {
-                    serializedName: "certificateKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                thumbprint: {
-                    serializedName: "thumbprint",
                     type: {
                         name: "String"
                     }
@@ -1138,33 +908,6 @@
             }
         }
     };
-    var AdmCredentialProperties = {
-        serializedName: "AdmCredentialProperties",
-        type: {
-            name: "Composite",
-            className: "AdmCredentialProperties",
-            modelProperties: {
-                clientId: {
-                    serializedName: "clientId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                clientSecret: {
-                    serializedName: "clientSecret",
-                    type: {
-                        name: "String"
-                    }
-                },
-                authTokenUrl: {
-                    serializedName: "authTokenUrl",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var AdmCredential = {
         serializedName: "AdmCredential",
         type: {
@@ -1185,33 +928,6 @@
                 },
                 authTokenUrl: {
                     serializedName: "properties.authTokenUrl",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var BaiduCredentialProperties = {
-        serializedName: "BaiduCredentialProperties",
-        type: {
-            name: "Composite",
-            className: "BaiduCredentialProperties",
-            modelProperties: {
-                baiduApiKey: {
-                    serializedName: "baiduApiKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                baiduEndPoint: {
-                    serializedName: "baiduEndPoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                baiduSecretKey: {
-                    serializedName: "baiduSecretKey",
                     type: {
                         name: "String"
                     }
@@ -1241,81 +957,6 @@
                     serializedName: "properties.baiduSecretKey",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var NotificationHubProperties = {
-        serializedName: "NotificationHubProperties",
-        type: {
-            name: "Composite",
-            className: "NotificationHubProperties",
-            modelProperties: {
-                name: {
-                    serializedName: "name",
-                    type: {
-                        name: "String"
-                    }
-                },
-                registrationTtl: {
-                    serializedName: "registrationTtl",
-                    type: {
-                        name: "String"
-                    }
-                },
-                authorizationRules: {
-                    serializedName: "authorizationRules",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "SharedAccessAuthorizationRuleProperties"
-                            }
-                        }
-                    }
-                },
-                apnsCredential: {
-                    serializedName: "apnsCredential",
-                    type: {
-                        name: "Composite",
-                        className: "ApnsCredential"
-                    }
-                },
-                wnsCredential: {
-                    serializedName: "wnsCredential",
-                    type: {
-                        name: "Composite",
-                        className: "WnsCredential"
-                    }
-                },
-                gcmCredential: {
-                    serializedName: "gcmCredential",
-                    type: {
-                        name: "Composite",
-                        className: "GcmCredential"
-                    }
-                },
-                mpnsCredential: {
-                    serializedName: "mpnsCredential",
-                    type: {
-                        name: "Composite",
-                        className: "MpnsCredential"
-                    }
-                },
-                admCredential: {
-                    serializedName: "admCredential",
-                    type: {
-                        name: "Composite",
-                        className: "AdmCredential"
-                    }
-                },
-                baiduCredential: {
-                    serializedName: "baiduCredential",
-                    type: {
-                        name: "Composite",
-                        className: "BaiduCredential"
                     }
                 }
             }
@@ -1516,33 +1157,6 @@
                 } })
         }
     };
-    var DebugSendResult = {
-        serializedName: "DebugSendResult",
-        type: {
-            name: "Composite",
-            className: "DebugSendResult",
-            modelProperties: {
-                success: {
-                    serializedName: "success",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                failure: {
-                    serializedName: "failure",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                results: {
-                    serializedName: "results",
-                    type: {
-                        name: "Object"
-                    }
-                }
-            }
-        }
-    };
     var DebugSendResponse = {
         serializedName: "DebugSendResponse",
         type: {
@@ -1564,57 +1178,6 @@
                         name: "Object"
                     }
                 } })
-        }
-    };
-    var PnsCredentialsProperties = {
-        serializedName: "PnsCredentialsProperties",
-        type: {
-            name: "Composite",
-            className: "PnsCredentialsProperties",
-            modelProperties: {
-                apnsCredential: {
-                    serializedName: "apnsCredential",
-                    type: {
-                        name: "Composite",
-                        className: "ApnsCredential"
-                    }
-                },
-                wnsCredential: {
-                    serializedName: "wnsCredential",
-                    type: {
-                        name: "Composite",
-                        className: "WnsCredential"
-                    }
-                },
-                gcmCredential: {
-                    serializedName: "gcmCredential",
-                    type: {
-                        name: "Composite",
-                        className: "GcmCredential"
-                    }
-                },
-                mpnsCredential: {
-                    serializedName: "mpnsCredential",
-                    type: {
-                        name: "Composite",
-                        className: "MpnsCredential"
-                    }
-                },
-                admCredential: {
-                    serializedName: "admCredential",
-                    type: {
-                        name: "Composite",
-                        className: "AdmCredential"
-                    }
-                },
-                baiduCredential: {
-                    serializedName: "baiduCredential",
-                    type: {
-                        name: "Composite",
-                        className: "BaiduCredential"
-                    }
-                }
-            }
         }
     };
     var PnsCredentialsResource = {
@@ -1797,7 +1360,6 @@
         CheckAvailabilityParameters: CheckAvailabilityParameters,
         Resource: Resource,
         CheckAvailabilityResult: CheckAvailabilityResult,
-        NamespaceProperties: NamespaceProperties,
         NamespaceCreateOrUpdateParameters: NamespaceCreateOrUpdateParameters,
         NamespacePatchParameters: NamespacePatchParameters,
         NamespaceResource: NamespaceResource,
@@ -1806,25 +1368,16 @@
         SharedAccessAuthorizationRuleResource: SharedAccessAuthorizationRuleResource,
         ResourceListKeys: ResourceListKeys,
         PolicykeyResource: PolicykeyResource,
-        ApnsCredentialProperties: ApnsCredentialProperties,
         ApnsCredential: ApnsCredential,
-        WnsCredentialProperties: WnsCredentialProperties,
         WnsCredential: WnsCredential,
-        GcmCredentialProperties: GcmCredentialProperties,
         GcmCredential: GcmCredential,
-        MpnsCredentialProperties: MpnsCredentialProperties,
         MpnsCredential: MpnsCredential,
-        AdmCredentialProperties: AdmCredentialProperties,
         AdmCredential: AdmCredential,
-        BaiduCredentialProperties: BaiduCredentialProperties,
         BaiduCredential: BaiduCredential,
-        NotificationHubProperties: NotificationHubProperties,
         NotificationHubCreateOrUpdateParameters: NotificationHubCreateOrUpdateParameters,
         NotificationHubPatchParameters: NotificationHubPatchParameters,
         NotificationHubResource: NotificationHubResource,
-        DebugSendResult: DebugSendResult,
         DebugSendResponse: DebugSendResponse,
-        PnsCredentialsProperties: PnsCredentialsProperties,
         PnsCredentialsResource: PnsCredentialsResource,
         SubResource: SubResource,
         OperationListResult: OperationListResult,
@@ -2050,7 +1603,6 @@
         BaiduCredential: BaiduCredential,
         NotificationHubPatchParameters: NotificationHubPatchParameters,
         NotificationHubResource: NotificationHubResource,
-        DebugSendResult: DebugSendResult,
         DebugSendResponse: DebugSendResponse,
         PnsCredentialsResource: PnsCredentialsResource,
         SubResource: SubResource
@@ -2644,7 +2196,6 @@
         PnsCredentialsResource: PnsCredentialsResource,
         NamespaceCreateOrUpdateParameters: NamespaceCreateOrUpdateParameters,
         NamespaceResource: NamespaceResource,
-        DebugSendResult: DebugSendResult,
         SubResource: SubResource
     });
 

@@ -38,42 +38,6 @@ export interface ContainerHostMapping {
 
 /**
  * @interface
- * An interface representing ControllerProperties.
- */
-export interface ControllerProperties {
-  /**
-   * @member {ProvisioningState} [provisioningState] Provisioning state of the
-   * Azure Dev Spaces Controller. Possible values include: 'Succeeded',
-   * 'Failed', 'Canceled', 'Updating', 'Creating', 'Deleting', 'Deleted'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * @member {string} hostSuffix DNS suffix for public endpoints running in the
-   * Azure Dev Spaces Controller.
-   */
-  hostSuffix: string;
-  /**
-   * @member {string} [dataPlaneFqdn] DNS name for accessing DataPlane services
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly dataPlaneFqdn?: string;
-  /**
-   * @member {string} targetContainerHostResourceId Resource ID of the target
-   * container host
-   */
-  targetContainerHostResourceId: string;
-  /**
-   * @member {string} targetContainerHostCredentialsBase64 Credentials of the
-   * target container host (base64).
-   */
-  targetContainerHostCredentialsBase64: string;
-}
-
-/**
- * @interface
  * An interface representing Sku.
  * Model representing SKU for Azure Dev Spaces Controller.
  *

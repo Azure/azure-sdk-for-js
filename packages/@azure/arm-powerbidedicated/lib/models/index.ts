@@ -125,51 +125,6 @@ export interface Resource extends BaseResource {
 
 /**
  * @interface
- * An interface representing DedicatedCapacityMutableProperties.
- * An object that represents a set of mutable Dedicated capacity resource
- * properties.
- *
- */
-export interface DedicatedCapacityMutableProperties {
-  /**
-   * @member {DedicatedCapacityAdministrators} [administration] A collection of
-   * Dedicated capacity administrators
-   */
-  administration?: DedicatedCapacityAdministrators;
-}
-
-/**
- * @interface
- * An interface representing DedicatedCapacityProperties.
- * Properties of Dedicated Capacity resource.
- *
- * @extends DedicatedCapacityMutableProperties
- */
-export interface DedicatedCapacityProperties extends DedicatedCapacityMutableProperties {
-  /**
-   * @member {State} [state] The current state of PowerBI Dedicated resource.
-   * The state is to indicate more states outside of resource provisioning.
-   * Possible values include: 'Deleting', 'Succeeded', 'Failed', 'Paused',
-   * 'Suspended', 'Provisioning', 'Updating', 'Suspending', 'Pausing',
-   * 'Resuming', 'Preparing', 'Scaling'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: State;
-  /**
-   * @member {ProvisioningState} [provisioningState] The current deployment
-   * state of PowerBI Dedicatedresource. The provisioningState is to indicate
-   * states for resource provisioning. Possible values include: 'Deleting',
-   * 'Succeeded', 'Failed', 'Paused', 'Suspended', 'Provisioning', 'Updating',
-   * 'Suspending', 'Pausing', 'Resuming', 'Preparing', 'Scaling'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/**
- * @interface
  * An interface representing DedicatedCapacity.
  * Represents an instance of a Dedicated Capacity resource.
  *

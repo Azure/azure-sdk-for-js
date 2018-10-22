@@ -15994,72 +15994,6 @@ export interface ChaosRestartNodeFaultScheduledEvent {
 
 /**
  * @interface
- * An interface representing ServiceReplicaProperties.
- * Describes the properties of a service replica.
- *
- */
-export interface ServiceReplicaProperties {
-  /**
-   * @member {OperatingSystemTypes} osType The Operating system type required
-   * by the code in service. Possible values include: 'Linux', 'Windows'
-   */
-  osType: OperatingSystemTypes;
-  /**
-   * @member {ContainerCodePackageProperties[]} codePackages Describes the set
-   * of code packages that forms the service. A code package describes the
-   * container and the properties for running it. All the code packages are
-   * started together on the same host and share the same context (network,
-   * process etc.).
-   */
-  codePackages: ContainerCodePackageProperties[];
-  /**
-   * @member {NetworkRef[]} [networkRefs] The names of the private networks
-   * that this service needs to be part of.
-   */
-  networkRefs?: NetworkRef[];
-  /**
-   * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
-   * DiagnosticsDescription.
-   */
-  diagnostics?: DiagnosticsRef;
-}
-
-/**
- * @interface
- * An interface representing ServiceResourceProperties.
- * This type describes properties of a service resource.
- *
- * @extends ServiceReplicaProperties
- */
-export interface ServiceResourceProperties extends ServiceReplicaProperties {
-  /**
-   * @member {string} [description] User readable description of the service.
-   */
-  description?: string;
-  /**
-   * @member {number} [replicaCount] The number of replicas of the service to
-   * create. Defaults to 1 if not specified.
-   */
-  replicaCount?: number;
-  /**
-   * @member {HealthState} [healthState] The health state of a Service Fabric
-   * entity such as Cluster, Node, Application, Service, Partition, Replica
-   * etc. Possible values include: 'Invalid', 'Ok', 'Warning', 'Error',
-   * 'Unknown'
-   */
-  healthState?: HealthState;
-  /**
-   * @member {ServiceResourceStatus} [status] Represents the status of the
-   * service. Possible values include: 'Unknown', 'Active', 'Upgrading',
-   * 'Deleting', 'Creating', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: ServiceResourceStatus;
-}
-
-/**
- * @interface
  * An interface representing ServiceResourceDescription.
  * Describes a service fabric service resource.
  *
@@ -16166,72 +16100,6 @@ export interface DiagnosticsDescription {
 
 /**
  * @interface
- * An interface representing ApplicationProperties.
- * This type describes properties of an application resource.
- *
- */
-export interface ApplicationProperties {
-  /**
-   * @member {string} [description] User readable description of the
-   * application.
-   */
-  description?: string;
-  /**
-   * @member {string} [debugParams] Internal use.
-   */
-  debugParams?: string;
-  /**
-   * @member {ServiceResourceDescription[]} [services] describes the services
-   * in the application.
-   */
-  services?: ServiceResourceDescription[];
-  /**
-   * @member {HealthState} [healthState] Describes the health state of an
-   * application resource. Possible values include: 'Invalid', 'Ok', 'Warning',
-   * 'Error', 'Unknown'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly healthState?: HealthState;
-  /**
-   * @member {string} [unhealthyEvaluation] When the application's health state
-   * is not 'Ok', this additional details from service fabric Health Manager
-   * for the user to know why the application is marked unhealthy.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly unhealthyEvaluation?: string;
-  /**
-   * @member {ApplicationResourceStatus} [status] Status of the application
-   * resource. Possible values include: 'Invalid', 'Ready', 'Upgrading',
-   * 'Creating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: ApplicationResourceStatus;
-  /**
-   * @member {string} [statusDetails] Gives additional information about the
-   * current status of the application deployment.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly statusDetails?: string;
-  /**
-   * @member {string[]} [serviceNames] Names of the services in the
-   * application.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly serviceNames?: string[];
-  /**
-   * @member {DiagnosticsDescription} [diagnostics] Describes the diagnostics
-   * definition and usage for an application resource.
-   */
-  diagnostics?: DiagnosticsDescription;
-}
-
-/**
- * @interface
  * An interface representing ApplicationResourceDescription.
  * Describes a service fabric application resource.
  *
@@ -16328,6 +16196,38 @@ export interface PagedServiceResourceDescriptionList {
 
 /**
  * @interface
+ * An interface representing ServiceReplicaProperties.
+ * Describes the properties of a service replica.
+ *
+ */
+export interface ServiceReplicaProperties {
+  /**
+   * @member {OperatingSystemTypes} osType The Operating system type required
+   * by the code in service. Possible values include: 'Linux', 'Windows'
+   */
+  osType: OperatingSystemTypes;
+  /**
+   * @member {ContainerCodePackageProperties[]} codePackages Describes the set
+   * of code packages that forms the service. A code package describes the
+   * container and the properties for running it. All the code packages are
+   * started together on the same host and share the same context (network,
+   * process etc.).
+   */
+  codePackages: ContainerCodePackageProperties[];
+  /**
+   * @member {NetworkRef[]} [networkRefs] The names of the private networks
+   * that this service needs to be part of.
+   */
+  networkRefs?: NetworkRef[];
+  /**
+   * @member {DiagnosticsRef} [diagnostics] Reference to sinks in
+   * DiagnosticsDescription.
+   */
+  diagnostics?: DiagnosticsRef;
+}
+
+/**
+ * @interface
  * An interface representing ServiceResourceReplicaDescription.
  * Describes a replica of a service resource.
  *
@@ -16388,24 +16288,6 @@ export interface VolumeProviderParametersAzureFile {
    * provides storage for the volume.
    */
   shareName: string;
-}
-
-/**
- * @interface
- * An interface representing VolumeProperties.
- * This type describes properties of a volume resource.
- *
- */
-export interface VolumeProperties {
-  /**
-   * @member {string} [description] User readable description of the volume.
-   */
-  description?: string;
-  /**
-   * @member {VolumeProviderParametersAzureFile} [azureFileParameters] This
-   * type describes a volume provided by an Azure Files file share.
-   */
-  azureFileParameters?: VolumeProviderParametersAzureFile;
 }
 
 /**
