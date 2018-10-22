@@ -14,47 +14,6 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const AppProperties: msRest.CompositeMapper = {
-  serializedName: "AppProperties",
-  type: {
-    name: "Composite",
-    className: "AppProperties",
-    modelProperties: {
-      applicationId: {
-        readOnly: true,
-        serializedName: "applicationId",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        constraints: {
-          Pattern: /^.{1,200}$/
-        },
-        type: {
-          name: "String"
-        }
-      },
-      subdomain: {
-        serializedName: "subdomain",
-        constraints: {
-          Pattern: /^[a-z0-9-]{1,63}$/
-        },
-        type: {
-          name: "String"
-        }
-      },
-      template: {
-        serializedName: "template",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const AppSkuInfo: msRest.CompositeMapper = {
   serializedName: "AppSkuInfo",
   type: {

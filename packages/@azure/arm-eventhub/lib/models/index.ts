@@ -86,57 +86,6 @@ export interface Sku {
 
 /**
  * @interface
- * An interface representing EHNamespaceProperties.
- * Namespace properties supplied for create namespace operation.
- *
- */
-export interface EHNamespaceProperties {
-  /**
-   * @member {string} [provisioningState] Provisioning state of the Namespace.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * @member {Date} [createdAt] The time the Namespace was created.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createdAt?: Date;
-  /**
-   * @member {Date} [updatedAt] The time the Namespace was updated.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly updatedAt?: Date;
-  /**
-   * @member {string} [serviceBusEndpoint] Endpoint you can use to perform
-   * Service Bus operations.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly serviceBusEndpoint?: string;
-  /**
-   * @member {string} [metricId] Identifier for Azure Insights metrics.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly metricId?: string;
-  /**
-   * @member {boolean} [isAutoInflateEnabled] Value that indicates whether
-   * AutoInflate is enabled for eventhub namespace.
-   */
-  isAutoInflateEnabled?: boolean;
-  /**
-   * @member {number} [maximumThroughputUnits] Upper limit of throughput units
-   * when AutoInflate is enabled, vaule should be within 0 to 20 throughput
-   * units. ( '0' if AutoInflateEnabled = true)
-   */
-  maximumThroughputUnits?: number;
-}
-
-/**
- * @interface
  * An interface representing EHNamespace.
  * Single Namespace item in List or Get Operation
  *
@@ -189,19 +138,6 @@ export interface EHNamespace extends TrackedResource {
    * units. ( '0' if AutoInflateEnabled = true)
    */
   maximumThroughputUnits?: number;
-}
-
-/**
- * @interface
- * An interface representing AuthorizationRuleProperties.
- * Properties supplied to create or update AuthorizationRule
- *
- */
-export interface AuthorizationRuleProperties {
-  /**
-   * @member {AccessRights[]} rights The rights associated with the rule.
-   */
-  rights: AccessRights[];
 }
 
 /**
@@ -297,33 +233,6 @@ export interface RegenerateAccessKeyParameters {
 
 /**
  * @interface
- * An interface representing DestinationProperties.
- * Properties describing the storage account, blob container and acrchive anme
- * format for capture destination
- *
- */
-export interface DestinationProperties {
-  /**
-   * @member {string} [storageAccountResourceId] Resource id of the storage
-   * account to be used to create the blobs
-   */
-  storageAccountResourceId?: string;
-  /**
-   * @member {string} [blobContainer] Blob container Name
-   */
-  blobContainer?: string;
-  /**
-   * @member {string} [archiveNameFormat] Blob naming convention for archive,
-   * e.g.
-   * {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}.
-   * Here all the parameters (Namespace,EventHub .. etc) are mandatory
-   * irrespective of order
-   */
-  archiveNameFormat?: string;
-}
-
-/**
- * @interface
  * An interface representing Destination.
  * Capture storage details for capture description
  *
@@ -392,56 +301,6 @@ export interface CaptureDescription {
 
 /**
  * @interface
- * An interface representing EventhubProperties.
- * Properties supplied to the Create Or Update Event Hub operation.
- *
- */
-export interface EventhubProperties {
-  /**
-   * @member {string[]} [partitionIds] Current number of shards on the Event
-   * Hub.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly partitionIds?: string[];
-  /**
-   * @member {Date} [createdAt] Exact time the Event Hub was created.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createdAt?: Date;
-  /**
-   * @member {Date} [updatedAt] The exact time the message was updated.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly updatedAt?: Date;
-  /**
-   * @member {number} [messageRetentionInDays] Number of days to retain the
-   * events for this Event Hub, value should be 1 to 7 days
-   */
-  messageRetentionInDays?: number;
-  /**
-   * @member {number} [partitionCount] Number of partitions created for the
-   * Event Hub, allowed values are from 1 to 32 partitions.
-   */
-  partitionCount?: number;
-  /**
-   * @member {EntityStatus} [status] Enumerates the possible values for the
-   * status of the Event Hub. Possible values include: 'Active', 'Disabled',
-   * 'Restoring', 'SendDisabled', 'ReceiveDisabled', 'Creating', 'Deleting',
-   * 'Renaming', 'Unknown'
-   */
-  status?: EntityStatus;
-  /**
-   * @member {CaptureDescription} [captureDescription] Properties of capture
-   * description
-   */
-  captureDescription?: CaptureDescription;
-}
-
-/**
- * @interface
  * An interface representing Eventhub.
  * Single item in List or Get Event Hub operation
  *
@@ -489,34 +348,6 @@ export interface Eventhub extends Resource {
    * description
    */
   captureDescription?: CaptureDescription;
-}
-
-/**
- * @interface
- * An interface representing ConsumerGroupProperties.
- * Single item in List or Get Consumer group operation
- *
- */
-export interface ConsumerGroupProperties {
-  /**
-   * @member {Date} [createdAt] Exact time the message was created.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createdAt?: Date;
-  /**
-   * @member {Date} [updatedAt] The exact time the message was updated.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly updatedAt?: Date;
-  /**
-   * @member {string} [userMetadata] Usermetadata is a placeholder to store
-   * user-defined string data with maximum length 1024. e.g. it can be used to
-   * store descriptive data, such as list of teams and their contact
-   * information also user-defined configuration settings can be stored.
-   */
-  userMetadata?: string;
 }
 
 /**
@@ -658,50 +489,6 @@ export interface ErrorResponse {
 
 /**
  * @interface
- * An interface representing ArmDisasterRecoveryProperties.
- * Properties required to the Create Or Update Alias(Disaster Recovery
- * configurations)
- *
- */
-export interface ArmDisasterRecoveryProperties {
-  /**
-   * @member {ProvisioningStateDR} [provisioningState] Provisioning state of
-   * the Alias(Disaster Recovery configuration) - possible values 'Accepted' or
-   * 'Succeeded' or 'Failed'. Possible values include: 'Accepted', 'Succeeded',
-   * 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: ProvisioningStateDR;
-  /**
-   * @member {string} [partnerNamespace] ARM Id of the Primary/Secondary
-   * eventhub namespace name, which is part of GEO DR pairning
-   */
-  partnerNamespace?: string;
-  /**
-   * @member {string} [alternateName] Alternate name specified when alias and
-   * namespace names are same.
-   */
-  alternateName?: string;
-  /**
-   * @member {RoleDisasterRecovery} [role] role of namespace in GEO DR -
-   * possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'.
-   * Possible values include: 'Primary', 'PrimaryNotReplicating', 'Secondary'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly role?: RoleDisasterRecovery;
-  /**
-   * @member {number} [pendingReplicationOperationsCount] Number of entities
-   * pending to be replicated.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly pendingReplicationOperationsCount?: number;
-}
-
-/**
- * @interface
  * An interface representing ArmDisasterRecovery.
  * Single item in List or Get Alias(Disaster Recovery configuration) operation
  *
@@ -775,37 +562,6 @@ export interface MessagingRegions extends TrackedResource {
    * @member {MessagingRegionsProperties} [properties]
    */
   properties?: MessagingRegionsProperties;
-}
-
-/**
- * @interface
- * An interface representing MessagingPlanProperties.
- */
-export interface MessagingPlanProperties {
-  /**
-   * @member {number} [sku] Sku type
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly sku?: number;
-  /**
-   * @member {number} [selectedEventHubUnit] Selected event hub unit
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly selectedEventHubUnit?: number;
-  /**
-   * @member {Date} [updatedAt] The exact time the messaging plan was updated.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly updatedAt?: Date;
-  /**
-   * @member {number} [revision] revision number
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly revision?: number;
 }
 
 /**
