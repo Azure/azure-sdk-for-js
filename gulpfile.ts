@@ -269,6 +269,8 @@ gulp.task("find-wrong-packages", async () => {
     .argv;
 
   const incorrectPackages = await findWrongPackages(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot);
+
+  _logger.log(`Found ${incorrectPackages.length} incorrect packages`.red);
   for (const incorrectPackage of incorrectPackages) {
     _logger.log(`${incorrectPackage.package.name}`.bgRed);
     _logger.log(`  Reason:      ${incorrectPackage.message}`);
