@@ -8709,7 +8709,7 @@
      * regenerated.
      */
     var packageName = "@azure/arm-monitor";
-    var packageVersion = "1.1.0-preview";
+    var packageVersion = "1.0.0-preview";
     var MonitorManagementClientContext = /** @class */ (function (_super) {
         __extends(MonitorManagementClientContext, _super);
         /**
