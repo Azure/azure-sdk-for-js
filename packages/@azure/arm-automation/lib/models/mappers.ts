@@ -3129,11 +3129,11 @@ export const TaskProperties: msRest.CompositeMapper = {
   }
 };
 
-export const TasksProperties: msRest.CompositeMapper = {
-  serializedName: "tasksProperties",
+export const SoftwareUpdateConfigurationTasks: msRest.CompositeMapper = {
+  serializedName: "softwareUpdateConfigurationTasks",
   type: {
     name: "Composite",
-    className: "TasksProperties",
+    className: "SoftwareUpdateConfigurationTasks",
     modelProperties: {
       preTask: {
         serializedName: "preTask",
@@ -3244,7 +3244,7 @@ export const SoftwareUpdateConfiguration: msRest.CompositeMapper = {
         serializedName: "properties.tasks",
         type: {
           name: "Composite",
-          className: "TasksProperties"
+          className: "SoftwareUpdateConfigurationTasks"
         }
       }
     }

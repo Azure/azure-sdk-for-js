@@ -44,7 +44,7 @@ export {
   AzureQueryProperties,
   TagSettingsProperties,
   ScheduleProperties,
-  TasksProperties,
+  SoftwareUpdateConfigurationTasks,
   TaskProperties,
   SourceControl,
   Job,

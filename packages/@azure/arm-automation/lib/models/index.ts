@@ -2253,17 +2253,17 @@ export interface TaskProperties {
 
 /**
  * @interface
- * An interface representing TasksProperties.
+ * An interface representing SoftwareUpdateConfigurationTasks.
  * Task properties of the software update configuration.
  *
  */
-export interface TasksProperties {
+export interface SoftwareUpdateConfigurationTasks {
   /**
-   * @member {TaskProperties} [preTask] Pre task object.
+   * @member {TaskProperties} [preTask] Pre task properties.
    */
   preTask?: TaskProperties;
   /**
-   * @member {TaskProperties} [postTask] Post task object.
+   * @member {TaskProperties} [postTask] Post task properties.
    */
   postTask?: TaskProperties;
 }
@@ -2316,7 +2316,7 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
    */
   error?: ErrorResponse;
   /**
-   * @member {Date} [creationTime] Creation time of there source, which only
+   * @member {Date} [creationTime] Creation time of the resource, which only
    * appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
@@ -2344,10 +2344,10 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
    */
   readonly lastModifiedBy?: string;
   /**
-   * @member {TasksProperties} [tasks] Tasks information for the Software
-   * update configuration.
+   * @member {SoftwareUpdateConfigurationTasks} [tasks] Tasks information for
+   * the Software update configuration.
    */
-  tasks?: TasksProperties;
+  tasks?: SoftwareUpdateConfigurationTasks;
 }
 
 /**
@@ -2492,7 +2492,7 @@ export interface SoftareUpdateConfigurationRunTaskProperties {
 export interface SoftareUpdateConfigurationRunTasks {
   /**
    * @member {SoftareUpdateConfigurationRunTaskProperties} [preTask] Pre task
-   * object.
+   * properties.
    */
   preTask?: SoftareUpdateConfigurationRunTaskProperties;
   /**
