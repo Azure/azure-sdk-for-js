@@ -14,55 +14,6 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const ApplianceProperties: msRest.CompositeMapper = {
-  serializedName: "ApplianceProperties",
-  type: {
-    name: "Composite",
-    className: "ApplianceProperties",
-    modelProperties: {
-      managedResourceGroupId: {
-        required: true,
-        serializedName: "managedResourceGroupId",
-        type: {
-          name: "String"
-        }
-      },
-      applianceDefinitionId: {
-        serializedName: "applianceDefinitionId",
-        type: {
-          name: "String"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Object"
-        }
-      },
-      outputs: {
-        readOnly: true,
-        serializedName: "outputs",
-        type: {
-          name: "Object"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      uiDefinitionUri: {
-        serializedName: "uiDefinitionUri",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Plan: msRest.CompositeMapper = {
   serializedName: "Plan",
   type: {
@@ -252,54 +203,6 @@ export const Appliance: msRest.CompositeMapper = {
   }
 };
 
-export const AppliancePropertiesPatchable: msRest.CompositeMapper = {
-  serializedName: "AppliancePropertiesPatchable",
-  type: {
-    name: "Composite",
-    className: "AppliancePropertiesPatchable",
-    modelProperties: {
-      managedResourceGroupId: {
-        serializedName: "managedResourceGroupId",
-        type: {
-          name: "String"
-        }
-      },
-      applianceDefinitionId: {
-        serializedName: "applianceDefinitionId",
-        type: {
-          name: "String"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Object"
-        }
-      },
-      outputs: {
-        readOnly: true,
-        serializedName: "outputs",
-        type: {
-          name: "Object"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      uiDefinitionUri: {
-        serializedName: "uiDefinitionUri",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PlanPatchable: msRest.CompositeMapper = {
   serializedName: "PlanPatchable",
   type: {
@@ -455,72 +358,6 @@ export const ApplianceArtifact: msRest.CompositeMapper = {
             "Template",
             "Custom"
           ]
-        }
-      }
-    }
-  }
-};
-
-export const ApplianceDefinitionProperties: msRest.CompositeMapper = {
-  serializedName: "ApplianceDefinitionProperties",
-  type: {
-    name: "Composite",
-    className: "ApplianceDefinitionProperties",
-    modelProperties: {
-      lockLevel: {
-        required: true,
-        serializedName: "lockLevel",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "CanNotDelete",
-            "ReadOnly",
-            "None"
-          ]
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      authorizations: {
-        required: true,
-        serializedName: "authorizations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ApplianceProviderAuthorization"
-            }
-          }
-        }
-      },
-      artifacts: {
-        serializedName: "artifacts",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ApplianceArtifact"
-            }
-          }
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      packageFileUri: {
-        required: true,
-        serializedName: "packageFileUri",
-        type: {
-          name: "String"
         }
       }
     }

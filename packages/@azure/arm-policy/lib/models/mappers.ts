@@ -14,63 +14,6 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const PolicyAssignmentProperties: msRest.CompositeMapper = {
-  serializedName: "PolicyAssignmentProperties",
-  type: {
-    name: "Composite",
-    className: "PolicyAssignmentProperties",
-    modelProperties: {
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      policyDefinitionId: {
-        serializedName: "policyDefinitionId",
-        type: {
-          name: "String"
-        }
-      },
-      scope: {
-        serializedName: "scope",
-        type: {
-          name: "String"
-        }
-      },
-      notScopes: {
-        serializedName: "notScopes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Object"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      metadata: {
-        serializedName: "metadata",
-        type: {
-          name: "Object"
-        }
-      }
-    }
-  }
-};
-
 export const PolicySku: msRest.CompositeMapper = {
   serializedName: "PolicySku",
   type: {
@@ -254,58 +197,6 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const PolicyDefinitionProperties: msRest.CompositeMapper = {
-  serializedName: "PolicyDefinitionProperties",
-  type: {
-    name: "Composite",
-    className: "PolicyDefinitionProperties",
-    modelProperties: {
-      policyType: {
-        serializedName: "policyType",
-        type: {
-          name: "String"
-        }
-      },
-      mode: {
-        serializedName: "mode",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      policyRule: {
-        serializedName: "policyRule",
-        type: {
-          name: "Object"
-        }
-      },
-      metadata: {
-        serializedName: "metadata",
-        type: {
-          name: "Object"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Object"
-        }
-      }
-    }
-  }
-};
-
 export const PolicyDefinition: msRest.CompositeMapper = {
   serializedName: "PolicyDefinition",
   type: {
@@ -395,59 +286,6 @@ export const PolicyDefinitionReference: msRest.CompositeMapper = {
         serializedName: "parameters",
         type: {
           name: "Object"
-        }
-      }
-    }
-  }
-};
-
-export const PolicySetDefinitionProperties: msRest.CompositeMapper = {
-  serializedName: "PolicySetDefinitionProperties",
-  type: {
-    name: "Composite",
-    className: "PolicySetDefinitionProperties",
-    modelProperties: {
-      policyType: {
-        serializedName: "policyType",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      metadata: {
-        serializedName: "metadata",
-        type: {
-          name: "Object"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Object"
-        }
-      },
-      policyDefinitions: {
-        required: true,
-        serializedName: "policyDefinitions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PolicyDefinitionReference"
-            }
-          }
         }
       }
     }
