@@ -150,7 +150,7 @@ async function findPackagesWithIncorrectOutput(packageInfos: PackageInfo[]): Pro
         if (!fssync.existsSync(packageInfo.outputPath)) {
             incorrectPackages.push({
                 package: packageInfo,
-                message: "Output path doesn't exists"
+                message: "Output path in azure-sdk-for-js repository doesn't exists. Hint: try regenerating the package."
             });
         }
     }
@@ -164,7 +164,7 @@ async function findPackagesWithoutMatchingReadmes(readmePackageInfos: PackageInf
     return faultyPackages.map(pkg => {
         return {
             package: pkg,
-            message: "Package exists in packages folder but no matching readme found"
+            message: "Package exists in packages folder but no matching readme.typescript.md found. Hint: add readme.typescript.md based on existing readme.nodejs.md."
         }
     });
 }
@@ -175,7 +175,7 @@ async function findPackagesWithoutMatchingPackageJson(readmePackageInfos: Packag
     return faultyPackages.map(pkg => {
         return {
             package: pkg,
-            message: "Readme file with the name exists, but no matching package.json exists"
+            message: "Readme file with the name exists, but no matching package.json exists. Hint: try regenerating the package."
         }
     });
 }
@@ -196,7 +196,7 @@ async function getPackageJsons(azureSdkForJsRoot: string): Promise<string[]> {
     const allChildDirectories = await findChildDirectoriesRecursively(packagesPath);
     const packagesJsonPaths = allChildDirectories
         .map(dir => path.resolve(dir, "package.json"))
-        .filter(path => fssync.existsSync(path));
+        .filter(path => !path.includes("node_modules") && fssync.existsSync(path));
 
     _logger.logTrace(`Found ${packagesJsonPaths.length} package.json files`);
     return packagesJsonPaths;
