@@ -2295,15 +2295,15 @@ export interface SoftwareUpdateConfiguration extends BaseResource {
    */
   readonly type?: string;
   /**
-   * @member {UpdateConfiguration} [updateConfiguration] update specific
+   * @member {UpdateConfiguration} updateConfiguration update specific
    * properties for the Software update configuration
    */
-  updateConfiguration?: UpdateConfiguration;
+  updateConfiguration: UpdateConfiguration;
   /**
-   * @member {ScheduleProperties} [scheduleInfo] Schedule information for the
+   * @member {ScheduleProperties} scheduleInfo Schedule information for the
    * Software update configuration
    */
-  scheduleInfo?: ScheduleProperties;
+  scheduleInfo: ScheduleProperties;
   /**
    * @member {string} [provisioningState] Provisioning state for the software
    * update configuration, which only appears in the response.

@@ -3181,6 +3181,7 @@ export const SoftwareUpdateConfiguration: msRest.CompositeMapper = {
         }
       },
       updateConfiguration: {
+        required: true,
         serializedName: "properties.updateConfiguration",
         type: {
           name: "Composite",
@@ -3188,6 +3189,7 @@ export const SoftwareUpdateConfiguration: msRest.CompositeMapper = {
         }
       },
       scheduleInfo: {
+        required: true,
         serializedName: "properties.scheduleInfo",
         type: {
           name: "Composite",
