@@ -299,66 +299,6 @@
             }
         }
     };
-    var EHNamespaceProperties = {
-        serializedName: "EHNamespace_properties",
-        type: {
-            name: "Composite",
-            className: "EHNamespaceProperties",
-            modelProperties: {
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdAt: {
-                    readOnly: true,
-                    serializedName: "createdAt",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                updatedAt: {
-                    readOnly: true,
-                    serializedName: "updatedAt",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                serviceBusEndpoint: {
-                    readOnly: true,
-                    serializedName: "serviceBusEndpoint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                metricId: {
-                    readOnly: true,
-                    serializedName: "metricId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isAutoInflateEnabled: {
-                    serializedName: "isAutoInflateEnabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                maximumThroughputUnits: {
-                    serializedName: "maximumThroughputUnits",
-                    constraints: {
-                        InclusiveMaximum: 20,
-                        InclusiveMinimum: 0
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
     var EHNamespace = {
         serializedName: "EHNamespace",
         type: {
@@ -415,27 +355,6 @@
                         name: "Number"
                     }
                 } })
-        }
-    };
-    var AuthorizationRuleProperties = {
-        serializedName: "AuthorizationRule_properties",
-        type: {
-            name: "Composite",
-            className: "AuthorizationRuleProperties",
-            modelProperties: {
-                rights: {
-                    required: true,
-                    serializedName: "rights",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var AuthorizationRule = {
@@ -541,33 +460,6 @@
             }
         }
     };
-    var DestinationProperties = {
-        serializedName: "Destination_properties",
-        type: {
-            name: "Composite",
-            className: "DestinationProperties",
-            modelProperties: {
-                storageAccountResourceId: {
-                    serializedName: "storageAccountResourceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                blobContainer: {
-                    serializedName: "blobContainer",
-                    type: {
-                        name: "String"
-                    }
-                },
-                archiveNameFormat: {
-                    serializedName: "archiveNameFormat",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Destination = {
         serializedName: "Destination",
         type: {
@@ -653,83 +545,6 @@
             }
         }
     };
-    var EventhubProperties = {
-        serializedName: "Eventhub_properties",
-        type: {
-            name: "Composite",
-            className: "EventhubProperties",
-            modelProperties: {
-                partitionIds: {
-                    readOnly: true,
-                    serializedName: "partitionIds",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                createdAt: {
-                    readOnly: true,
-                    serializedName: "createdAt",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                updatedAt: {
-                    readOnly: true,
-                    serializedName: "updatedAt",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                messageRetentionInDays: {
-                    serializedName: "messageRetentionInDays",
-                    constraints: {
-                        InclusiveMinimum: 1
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                },
-                partitionCount: {
-                    serializedName: "partitionCount",
-                    constraints: {
-                        InclusiveMinimum: 1
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                },
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Active",
-                            "Disabled",
-                            "Restoring",
-                            "SendDisabled",
-                            "ReceiveDisabled",
-                            "Creating",
-                            "Deleting",
-                            "Renaming",
-                            "Unknown"
-                        ]
-                    }
-                },
-                captureDescription: {
-                    serializedName: "captureDescription",
-                    type: {
-                        name: "Composite",
-                        className: "CaptureDescription"
-                    }
-                }
-            }
-        }
-    };
     var Eventhub = {
         serializedName: "Eventhub",
         type: {
@@ -797,35 +612,6 @@
                         className: "CaptureDescription"
                     }
                 } })
-        }
-    };
-    var ConsumerGroupProperties = {
-        serializedName: "ConsumerGroup_properties",
-        type: {
-            name: "Composite",
-            className: "ConsumerGroupProperties",
-            modelProperties: {
-                createdAt: {
-                    readOnly: true,
-                    serializedName: "createdAt",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                updatedAt: {
-                    readOnly: true,
-                    serializedName: "updatedAt",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                userMetadata: {
-                    serializedName: "userMetadata",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var ConsumerGroup = {
@@ -979,58 +765,6 @@
             }
         }
     };
-    var ArmDisasterRecoveryProperties = {
-        serializedName: "ArmDisasterRecovery_properties",
-        type: {
-            name: "Composite",
-            className: "ArmDisasterRecoveryProperties",
-            modelProperties: {
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Accepted",
-                            "Succeeded",
-                            "Failed"
-                        ]
-                    }
-                },
-                partnerNamespace: {
-                    serializedName: "partnerNamespace",
-                    type: {
-                        name: "String"
-                    }
-                },
-                alternateName: {
-                    serializedName: "alternateName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                role: {
-                    readOnly: true,
-                    serializedName: "role",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Primary",
-                            "PrimaryNotReplicating",
-                            "Secondary"
-                        ]
-                    }
-                },
-                pendingReplicationOperationsCount: {
-                    readOnly: true,
-                    serializedName: "pendingReplicationOperationsCount",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
     var ArmDisasterRecovery = {
         serializedName: "ArmDisasterRecovery",
         type: {
@@ -1112,43 +846,6 @@
                         className: "MessagingRegionsProperties"
                     }
                 } })
-        }
-    };
-    var MessagingPlanProperties = {
-        serializedName: "MessagingPlan_properties",
-        type: {
-            name: "Composite",
-            className: "MessagingPlanProperties",
-            modelProperties: {
-                sku: {
-                    readOnly: true,
-                    serializedName: "sku",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                selectedEventHubUnit: {
-                    readOnly: true,
-                    serializedName: "selectedEventHubUnit",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                updatedAt: {
-                    readOnly: true,
-                    serializedName: "updatedAt",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                revision: {
-                    readOnly: true,
-                    serializedName: "revision",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
         }
     };
     var MessagingPlan = {
@@ -1383,29 +1080,22 @@
         Resource: Resource,
         TrackedResource: TrackedResource,
         Sku: Sku,
-        EHNamespaceProperties: EHNamespaceProperties,
         EHNamespace: EHNamespace,
-        AuthorizationRuleProperties: AuthorizationRuleProperties,
         AuthorizationRule: AuthorizationRule,
         AccessKeys: AccessKeys,
         RegenerateAccessKeyParameters: RegenerateAccessKeyParameters,
-        DestinationProperties: DestinationProperties,
         Destination: Destination,
         CaptureDescription: CaptureDescription,
-        EventhubProperties: EventhubProperties,
         Eventhub: Eventhub,
-        ConsumerGroupProperties: ConsumerGroupProperties,
         ConsumerGroup: ConsumerGroup,
         CheckNameAvailabilityParameter: CheckNameAvailabilityParameter,
         CheckNameAvailabilityResult: CheckNameAvailabilityResult,
         OperationDisplay: OperationDisplay,
         Operation: Operation,
         ErrorResponse: ErrorResponse,
-        ArmDisasterRecoveryProperties: ArmDisasterRecoveryProperties,
         ArmDisasterRecovery: ArmDisasterRecovery,
         MessagingRegionsProperties: MessagingRegionsProperties,
         MessagingRegions: MessagingRegions,
-        MessagingPlanProperties: MessagingPlanProperties,
         MessagingPlan: MessagingPlan,
         OperationListResult: OperationListResult,
         EHNamespaceListResult: EHNamespaceListResult,
