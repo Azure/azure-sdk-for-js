@@ -16,50 +16,6 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
- * An interface representing ApplianceProperties.
- * The appliance properties.
- *
- */
-export interface ApplianceProperties {
-  /**
-   * @member {string} managedResourceGroupId The managed resource group Id.
-   */
-  managedResourceGroupId: string;
-  /**
-   * @member {string} [applianceDefinitionId] The fully qualified path of
-   * appliance definition Id.
-   */
-  applianceDefinitionId?: string;
-  /**
-   * @member {any} [parameters] Name and value pairs that define the appliance
-   * parameters. It can be a JObject or a well formed JSON string.
-   */
-  parameters?: any;
-  /**
-   * @member {any} [outputs] Name and value pairs that define the appliance
-   * outputs.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly outputs?: any;
-  /**
-   * @member {ProvisioningState} [provisioningState] The appliance provisioning
-   * state. Possible values include: 'Accepted', 'Running', 'Ready',
-   * 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed',
-   * 'Succeeded', 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * @member {string} [uiDefinitionUri] The blob URI where the UI definition
-   * file is located.
-   */
-  uiDefinitionUri?: string;
-}
-
-/**
- * @interface
  * An interface representing Plan.
  * Plan for the appliance.
  *
@@ -202,50 +158,6 @@ export interface Appliance extends GenericResource {
 
 /**
  * @interface
- * An interface representing AppliancePropertiesPatchable.
- * The appliance properties.
- *
- */
-export interface AppliancePropertiesPatchable {
-  /**
-   * @member {string} [managedResourceGroupId] The managed resource group Id.
-   */
-  managedResourceGroupId?: string;
-  /**
-   * @member {string} [applianceDefinitionId] The fully qualified path of
-   * appliance definition Id.
-   */
-  applianceDefinitionId?: string;
-  /**
-   * @member {any} [parameters] Name and value pairs that define the appliance
-   * parameters. It can be a JObject or a well formed JSON string.
-   */
-  parameters?: any;
-  /**
-   * @member {any} [outputs] Name and value pairs that define the appliance
-   * outputs.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly outputs?: any;
-  /**
-   * @member {ProvisioningState} [provisioningState] The appliance provisioning
-   * state. Possible values include: 'Accepted', 'Running', 'Ready',
-   * 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed',
-   * 'Succeeded', 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * @member {string} [uiDefinitionUri] The blob URI where the UI definition
-   * file is located.
-   */
-  uiDefinitionUri?: string;
-}
-
-/**
- * @interface
  * An interface representing PlanPatchable.
  * Plan for the appliance.
  *
@@ -369,44 +281,6 @@ export interface ApplianceArtifact {
    * Possible values include: 'Template', 'Custom'
    */
   type?: ApplianceArtifactType;
-}
-
-/**
- * @interface
- * An interface representing ApplianceDefinitionProperties.
- * The appliance definition properties.
- *
- */
-export interface ApplianceDefinitionProperties {
-  /**
-   * @member {ApplianceLockLevel} lockLevel The appliance lock level. Possible
-   * values include: 'CanNotDelete', 'ReadOnly', 'None'
-   */
-  lockLevel: ApplianceLockLevel;
-  /**
-   * @member {string} [displayName] The appliance definition display name.
-   */
-  displayName?: string;
-  /**
-   * @member {ApplianceProviderAuthorization[]} authorizations The appliance
-   * provider authorizations.
-   */
-  authorizations: ApplianceProviderAuthorization[];
-  /**
-   * @member {ApplianceArtifact[]} [artifacts] The collection of appliance
-   * artifacts. The portal will use the files specified as artifacts to
-   * construct the user experience of creating an appliance from an appliance
-   * definition.
-   */
-  artifacts?: ApplianceArtifact[];
-  /**
-   * @member {string} [description] The appliance definition description.
-   */
-  description?: string;
-  /**
-   * @member {string} packageFileUri The appliance definition package file Uri.
-   */
-  packageFileUri: string;
 }
 
 /**
