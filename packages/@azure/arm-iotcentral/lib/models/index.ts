@@ -135,6 +135,38 @@ export interface AppPatch {
 
 /**
  * @interface
+ * An interface representing ErrorResponseBody.
+ * Details of error response.
+ *
+ */
+export interface ErrorResponseBody {
+  /**
+   * @member {string} [code] The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly code?: string;
+  /**
+   * @member {string} [message] The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly message?: string;
+  /**
+   * @member {string} [target] The target of the particular error.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly target?: string;
+  /**
+   * @member {ErrorResponseBody[]} [details] A list of additional details about
+   * the error.
+   */
+  details?: ErrorResponseBody[];
+}
+
+/**
+ * @interface
  * An interface representing ErrorDetails.
  * Error details.
  *
@@ -158,6 +190,11 @@ export interface ErrorDetails {
    * the server.**
    */
   readonly target?: string;
+  /**
+   * @member {ErrorResponseBody[]} [details] A list of additional details about
+   * the error.
+   */
+  details?: ErrorResponseBody[];
 }
 
 /**
@@ -226,16 +263,21 @@ export interface OperationInputs {
    * check.
    */
   name: string;
+  /**
+   * @member {string} [type] The type of the IoT Central resource to query.
+   * Default value: 'IoTApps' .
+   */
+  type?: string;
 }
 
 /**
  * @interface
- * An interface representing AppNameAvailabilityInfo.
- * The properties indicating whether a given IoT Central application name is
- * available.
+ * An interface representing AppAvailabilityInfo.
+ * The properties indicating whether a given IoT Central application name or
+ * subdomain is available.
  *
  */
-export interface AppNameAvailabilityInfo {
+export interface AppAvailabilityInfo {
   /**
    * @member {boolean} [nameAvailable] The value which indicates whether the
    * provided name is available.
@@ -244,16 +286,17 @@ export interface AppNameAvailabilityInfo {
    */
   readonly nameAvailable?: boolean;
   /**
-   * @member {AppNameUnavailabilityReason} [reason] The reason for
-   * unavailability. Possible values include: 'Invalid', 'AlreadyExists'
+   * @member {string} [reason] The reason for unavailability.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly reason?: AppNameUnavailabilityReason;
+  readonly reason?: string;
   /**
    * @member {string} [message] The detailed reason message.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
    */
-  message?: string;
+  readonly message?: string;
 }
 
 /**
@@ -313,17 +356,6 @@ export interface OperationListResult extends Array<Operation> {
 export enum AppSku {
   F1 = 'F1',
   S1 = 'S1',
-}
-
-/**
- * Defines values for AppNameUnavailabilityReason.
- * Possible values include: 'Invalid', 'AlreadyExists'
- * @readonly
- * @enum {string}
- */
-export enum AppNameUnavailabilityReason {
-  Invalid = 'Invalid',
-  AlreadyExists = 'AlreadyExists',
 }
 
 /**
@@ -424,7 +456,7 @@ export type AppsListByResourceGroupResponse = AppListResult & {
 /**
  * Contains response data for the checkNameAvailability operation.
  */
-export type AppsCheckNameAvailabilityResponse = AppNameAvailabilityInfo & {
+export type AppsCheckNameAvailabilityResponse = AppAvailabilityInfo & {
   /**
    * The underlying HTTP response.
    */
@@ -436,7 +468,26 @@ export type AppsCheckNameAvailabilityResponse = AppNameAvailabilityInfo & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AppNameAvailabilityInfo;
+      parsedBody: AppAvailabilityInfo;
+    };
+};
+
+/**
+ * Contains response data for the checkSubdomainAvailability operation.
+ */
+export type AppsCheckSubdomainAvailabilityResponse = AppAvailabilityInfo & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AppAvailabilityInfo;
     };
 };
 

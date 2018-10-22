@@ -11,7 +11,7 @@
 import * as msRest from "ms-rest-js";
 import * as msRestAzure from "ms-rest-azure-js";
 
-const packageName = "keyvault";
+const packageName = "@azure/keyvault";
 const packageVersion = "1.0.0";
 
 export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
@@ -26,9 +26,7 @@ export class KeyVaultClientContext extends msRestAzure.AzureServiceClient {
 
   /**
    * Initializes a new instance of the KeyVaultClient class.
-   *
    * @param credentials Credentials needed for the client to connect to Azure.
-   *
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, options?: msRestAzure.AzureServiceClientOptions) {

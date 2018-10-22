@@ -76,47 +76,6 @@ export interface ResourceNamespacePatch extends Resource {
 
 /**
  * @interface
- * An interface representing HybridConnectionProperties.
- * Properties of the HybridConnection.
- *
- */
-export interface HybridConnectionProperties {
-  /**
-   * @member {Date} [createdAt] The time the hybrid connection was created.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createdAt?: Date;
-  /**
-   * @member {Date} [updatedAt] The time the namespace was updated.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly updatedAt?: Date;
-  /**
-   * @member {number} [listenerCount] The number of listeners for this hybrid
-   * connection. Note that min : 1 and max:25 are supported.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly listenerCount?: number;
-  /**
-   * @member {boolean} [requiresClientAuthorization] Returns true if client
-   * authorization is needed for this hybrid connection; otherwise, false.
-   */
-  requiresClientAuthorization?: boolean;
-  /**
-   * @member {string} [userMetadata] The usermetadata is a placeholder to store
-   * user-defined string data for the hybrid connection endpoint. For example,
-   * it can be used to store descriptive data, such as a list of teams and
-   * their contact information. Also, user-defined configuration settings can
-   * be stored.
-   */
-  userMetadata?: string;
-}
-
-/**
- * @interface
  * An interface representing HybridConnection.
  * Description of hybrid connection resource.
  *
@@ -153,63 +112,6 @@ export interface HybridConnection extends Resource {
    * it can be used to store descriptive data, such as a list of teams and
    * their contact information. Also, user-defined configuration settings can
    * be stored.
-   */
-  userMetadata?: string;
-}
-
-/**
- * @interface
- * An interface representing WcfRelayProperties.
- * Properties of the WCF relay.
- *
- */
-export interface WcfRelayProperties {
-  /**
-   * @member {boolean} [isDynamic] Returns true if the relay is dynamic;
-   * otherwise, false.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isDynamic?: boolean;
-  /**
-   * @member {Date} [createdAt] The time the WCF relay was created.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createdAt?: Date;
-  /**
-   * @member {Date} [updatedAt] The time the namespace was updated.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly updatedAt?: Date;
-  /**
-   * @member {number} [listenerCount] The number of listeners for this relay.
-   * Note that min :1 and max:25 are supported.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly listenerCount?: number;
-  /**
-   * @member {Relaytype} [relayType] WCF relay type. Possible values include:
-   * 'NetTcp', 'Http'
-   */
-  relayType?: Relaytype;
-  /**
-   * @member {boolean} [requiresClientAuthorization] Returns true if client
-   * authorization is needed for this relay; otherwise, false.
-   */
-  requiresClientAuthorization?: boolean;
-  /**
-   * @member {boolean} [requiresTransportSecurity] Returns true if transport
-   * security is needed for this relay; otherwise, false.
-   */
-  requiresTransportSecurity?: boolean;
-  /**
-   * @member {string} [userMetadata] The usermetadata is a placeholder to store
-   * user-defined string data for the WCF Relay endpoint. For example, it can
-   * be used to store descriptive data, such as list of teams and their contact
-   * information. Also, user-defined configuration settings can be stored.
    */
   userMetadata?: string;
 }
@@ -284,48 +186,6 @@ export interface Sku {
    * 'Standard'
    */
   tier?: SkuTier;
-}
-
-/**
- * @interface
- * An interface representing RelayNamespaceProperties.
- * Properties of the namespace.
- *
- */
-export interface RelayNamespaceProperties {
-  /**
-   * @member {ProvisioningStateEnum} [provisioningState] Possible values
-   * include: 'Created', 'Succeeded', 'Deleted', 'Failed', 'Updating',
-   * 'Unknown'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: ProvisioningStateEnum;
-  /**
-   * @member {Date} [createdAt] The time the namespace was created.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createdAt?: Date;
-  /**
-   * @member {Date} [updatedAt] The time the namespace was updated.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly updatedAt?: Date;
-  /**
-   * @member {string} [serviceBusEndpoint] Endpoint you can use to perform
-   * Service Bus operations.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly serviceBusEndpoint?: string;
-  /**
-   * @member {string} [metricId] Identifier for Azure Insights metrics.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly metricId?: string;
 }
 
 /**
@@ -420,19 +280,6 @@ export interface RelayUpdateParameters extends ResourceNamespacePatch {
    * the server.**
    */
   readonly metricId?: string;
-}
-
-/**
- * @interface
- * An interface representing AuthorizationRuleProperties.
- * Authorization rule properties.
- *
- */
-export interface AuthorizationRuleProperties {
-  /**
-   * @member {AccessRights[]} rights The rights associated with the rule.
-   */
-  rights: AccessRights[];
 }
 
 /**
