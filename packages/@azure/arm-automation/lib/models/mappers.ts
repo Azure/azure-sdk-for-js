@@ -2988,8 +2988,8 @@ export const AzureQueryProperties: msRest.CompositeMapper = {
           }
         }
       },
-      location: {
-        serializedName: "location",
+      locations: {
+        serializedName: "locations",
         type: {
           name: "Sequence",
           element: {

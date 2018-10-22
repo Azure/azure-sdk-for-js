@@ -2166,9 +2166,9 @@ export interface AzureQueryProperties {
    */
   scope?: string[];
   /**
-   * @member {string[]} [location] List of locations to scope the query to.
+   * @member {string[]} [locations] List of locations to scope the query to.
    */
-  location?: string[];
+  locations?: string[];
   /**
    * @member {TagSettingsProperties} [tagSettings] Tag settings for the VM.
    */
