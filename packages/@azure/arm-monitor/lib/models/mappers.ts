@@ -2021,6 +2021,30 @@ export const AzureFunctionReceiver: msRest.CompositeMapper = {
   }
 };
 
+export const ArmRoleReceiver: msRest.CompositeMapper = {
+  serializedName: "ArmRoleReceiver",
+  type: {
+    name: "Composite",
+    className: "ArmRoleReceiver",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      roleId: {
+        required: true,
+        serializedName: "roleId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ActionGroupResource: msRest.CompositeMapper = {
   serializedName: "ActionGroupResource",
   type: {
@@ -2150,6 +2174,18 @@ export const ActionGroupResource: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "AzureFunctionReceiver"
+            }
+          }
+        }
+      },
+      armRoleReceivers: {
+        serializedName: "properties.armRoleReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ArmRoleReceiver"
             }
           }
         }
