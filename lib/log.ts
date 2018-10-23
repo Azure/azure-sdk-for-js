@@ -72,3 +72,9 @@ export const ns = debugModule("azure:service-bus:namespace");
  * log statements for servicebusMessage
  */
 export const message = debugModule("azure:service-bus:servicebusMessage");
+
+/**
+ * @ignore
+ * log statements for servicebusMessage
+ */
+export const map = debugModule("azure:service-bus:concurrentMap");

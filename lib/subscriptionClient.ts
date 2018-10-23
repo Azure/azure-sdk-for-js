@@ -6,7 +6,7 @@ import { ConnectionContext } from "./connectionContext";
 import { ReceiveOptions, OnError, OnMessage } from ".";
 import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
-import { Message } from "./message";
+import { ServiceBusMessage } from "./serviceBusMessage";
 import { Client } from "./client";
 import { ReceiveMode } from "./messageReceiver";
 
@@ -126,9 +126,9 @@ export class SubscriptionClient extends Client {
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    * @param {ReceiveOptions} [options]      Options for how you'd like to connect.
    *
-   * @returns {Promise<Message[]>} A promise that resolves with an array of Message objects.
+   * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<Message[]> {
+  async receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]> {
     if (!this._context.batchingReceiver ||
       (this._context.batchingReceiver && !this._context.batchingReceiver.isOpen()) ||
       (this._context.batchingReceiver && !this._context.batchingReceiver.isReceivingMessages)) {

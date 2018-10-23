@@ -9,9 +9,9 @@ export {
   AmqpError, Delivery, Dictionary, MessageProperties, MessageHeader
 } from "rhea-promise";
 export {
-  Message, ReceivedSBMessage, ServiceBusMessage, ServiceBusDeliveryAnnotations,
+  ServiceBusMessage, ReceivedMessageInfo, SendableMessageInfo, ServiceBusDeliveryAnnotations,
   ServiceBusMessageAnnotations, DeadLetterOptions
-} from "./message";
+} from "./serviceBusMessage";
 export { ReceiveHandler } from "./streamingReceiver";
 export { ReceiveOptions, OnError, OnMessage, ReceiveMode } from "./messageReceiver";
 export { QueueClientOptions, QueueClient } from "./queueClient";
