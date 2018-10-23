@@ -312,6 +312,17 @@
         LinuxUpdateClasses["Other"] = "Other";
     })(LinuxUpdateClasses || (LinuxUpdateClasses = {}));
     /**
+     * Defines values for TagOperators.
+     * Possible values include: 'All', 'Any'
+     * @readonly
+     * @enum {string}
+     */
+    var TagOperators;
+    (function (TagOperators) {
+        TagOperators["All"] = "All";
+        TagOperators["Any"] = "Any";
+    })(TagOperators || (TagOperators = {}));
+    /**
      * Defines values for SourceType.
      * Possible values include: 'VsoGit', 'VsoTfvc', 'GitHub'
      * There could be more values for this enum apart from the ones defined here.If
@@ -624,6 +635,7 @@
         get OperatingSystemType () { return OperatingSystemType; },
         get WindowsUpdateClasses () { return WindowsUpdateClasses; },
         get LinuxUpdateClasses () { return LinuxUpdateClasses; },
+        get TagOperators () { return TagOperators; },
         get SourceType () { return SourceType; },
         get TokenType () { return TokenType; },
         get ProvisioningState () { return ProvisioningState; },
@@ -674,57 +686,6 @@
                     serializedName: "capacity",
                     type: {
                         name: "Number"
-                    }
-                }
-            }
-        }
-    };
-    var AutomationAccountProperties = {
-        serializedName: "AutomationAccountProperties",
-        type: {
-            name: "Composite",
-            className: "AutomationAccountProperties",
-            modelProperties: {
-                sku: {
-                    serializedName: "sku",
-                    type: {
-                        name: "Composite",
-                        className: "Sku"
-                    }
-                },
-                lastModifiedBy: {
-                    serializedName: "lastModifiedBy",
-                    type: {
-                        name: "String"
-                    }
-                },
-                state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -830,22 +791,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var AutomationAccountCreateOrUpdateProperties = {
-        serializedName: "AutomationAccountCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "AutomationAccountCreateOrUpdateProperties",
-            modelProperties: {
-                sku: {
-                    serializedName: "sku",
-                    type: {
-                        name: "Composite",
-                        className: "Sku"
-                    }
-                }
-            }
         }
     };
     var AutomationAccountCreateOrUpdateParameters = {
@@ -1100,22 +1045,6 @@
             }
         }
     };
-    var AutomationAccountUpdateProperties = {
-        serializedName: "AutomationAccountUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "AutomationAccountUpdateProperties",
-            modelProperties: {
-                sku: {
-                    serializedName: "sku",
-                    type: {
-                        name: "Composite",
-                        className: "Sku"
-                    }
-                }
-            }
-        }
-    };
     var AutomationAccountUpdateParameters = {
         serializedName: "AutomationAccountUpdateParameters",
         type: {
@@ -1184,41 +1113,6 @@
             }
         }
     };
-    var CertificateCreateOrUpdateProperties = {
-        serializedName: "CertificateCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "CertificateCreateOrUpdateProperties",
-            modelProperties: {
-                base64Value: {
-                    required: true,
-                    serializedName: "base64Value",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                thumbprint: {
-                    serializedName: "thumbprint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isExportable: {
-                    nullable: false,
-                    serializedName: "isExportable",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
     var CertificateCreateOrUpdateParameters = {
         serializedName: "CertificateCreateOrUpdateParameters",
         type: {
@@ -1256,60 +1150,6 @@
                     serializedName: "properties.isExportable",
                     type: {
                         name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
-    var CertificateProperties = {
-        serializedName: "CertificateProperties",
-        type: {
-            name: "Composite",
-            className: "CertificateProperties",
-            modelProperties: {
-                thumbprint: {
-                    readOnly: true,
-                    serializedName: "thumbprint",
-                    type: {
-                        name: "String"
-                    }
-                },
-                expiryTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "expiryTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                isExportable: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "isExportable",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -1362,21 +1202,6 @@
                 } })
         }
     };
-    var CertificateUpdateProperties = {
-        serializedName: "CertificateUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "CertificateUpdateProperties",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var CertificateUpdateParameters = {
         serializedName: "CertificateUpdateParameters",
         type: {
@@ -1408,40 +1233,6 @@
                     serializedName: "name",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var ConnectionCreateOrUpdateProperties = {
-        serializedName: "ConnectionCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ConnectionCreateOrUpdateProperties",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                connectionType: {
-                    required: true,
-                    serializedName: "connectionType",
-                    type: {
-                        name: "Composite",
-                        className: "ConnectionTypeAssociationProperty"
-                    }
-                },
-                fieldDefinitionValues: {
-                    serializedName: "fieldDefinitionValues",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
                     }
                 }
             }
@@ -1483,56 +1274,6 @@
                                 name: "String"
                             }
                         }
-                    }
-                }
-            }
-        }
-    };
-    var ConnectionProperties = {
-        serializedName: "ConnectionProperties",
-        type: {
-            name: "Composite",
-            className: "ConnectionProperties",
-            modelProperties: {
-                connectionType: {
-                    serializedName: "connectionType",
-                    type: {
-                        name: "Composite",
-                        className: "ConnectionTypeAssociationProperty"
-                    }
-                },
-                fieldDefinitionValues: {
-                    readOnly: true,
-                    serializedName: "fieldDefinitionValues",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -1580,32 +1321,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var ConnectionUpdateProperties = {
-        serializedName: "ConnectionUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ConnectionUpdateProperties",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                fieldDefinitionValues: {
-                    serializedName: "fieldDefinitionValues",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var ConnectionUpdateParameters = {
@@ -1661,55 +1376,6 @@
                 type: {
                     required: true,
                     serializedName: "type",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var ConnectionTypeProperties = {
-        serializedName: "ConnectionTypeProperties",
-        type: {
-            name: "Composite",
-            className: "ConnectionTypeProperties",
-            modelProperties: {
-                isGlobal: {
-                    serializedName: "isGlobal",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                fieldDefinitions: {
-                    readOnly: true,
-                    serializedName: "fieldDefinitions",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "FieldDefinition"
-                            }
-                        }
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    serializedName: "description",
                     type: {
                         name: "String"
                     }
@@ -1787,34 +1453,6 @@
             }
         }
     };
-    var ConnectionTypeCreateOrUpdateProperties = {
-        serializedName: "ConnectionTypeCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ConnectionTypeCreateOrUpdateProperties",
-            modelProperties: {
-                isGlobal: {
-                    serializedName: "isGlobal",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                fieldDefinitions: {
-                    required: true,
-                    serializedName: "fieldDefinitions",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "FieldDefinition"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var ConnectionTypeCreateOrUpdateParameters = {
         serializedName: "ConnectionTypeCreateOrUpdateParameters",
         type: {
@@ -1845,35 +1483,6 @@
                                 className: "FieldDefinition"
                             }
                         }
-                    }
-                }
-            }
-        }
-    };
-    var CredentialCreateOrUpdateProperties = {
-        serializedName: "CredentialCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "CredentialCreateOrUpdateProperties",
-            modelProperties: {
-                userName: {
-                    required: true,
-                    serializedName: "userName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                password: {
-                    required: true,
-                    serializedName: "password",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -1915,44 +1524,6 @@
             }
         }
     };
-    var CredentialProperties = {
-        serializedName: "CredentialProperties",
-        type: {
-            name: "Composite",
-            className: "CredentialProperties",
-            modelProperties: {
-                userName: {
-                    readOnly: true,
-                    serializedName: "userName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Credential = {
         serializedName: "Credential",
         type: {
@@ -1984,33 +1555,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var CredentialUpdateProperties = {
-        serializedName: "CredentialUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "CredentialUpdateProperties",
-            modelProperties: {
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var CredentialUpdateParameters = {
@@ -2136,53 +1680,6 @@
             }
         }
     };
-    var DscConfigurationCreateOrUpdateProperties = {
-        serializedName: "DscConfigurationCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "DscConfigurationCreateOrUpdateProperties",
-            modelProperties: {
-                logVerbose: {
-                    serializedName: "logVerbose",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                logProgress: {
-                    serializedName: "logProgress",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                source: {
-                    required: true,
-                    serializedName: "source",
-                    type: {
-                        name: "Composite",
-                        className: "ContentSource"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "DscConfigurationParameter"
-                            }
-                        }
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var DscConfigurationCreateOrUpdateParameters = {
         serializedName: "DscConfigurationCreateOrUpdateParameters",
         type: {
@@ -2248,88 +1745,6 @@
                                 name: "String"
                             }
                         }
-                    }
-                }
-            }
-        }
-    };
-    var DscConfigurationProperties = {
-        serializedName: "DscConfigurationProperties",
-        type: {
-            name: "Composite",
-            className: "DscConfigurationProperties",
-            modelProperties: {
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Succeeded"
-                        ]
-                    }
-                },
-                jobCount: {
-                    serializedName: "jobCount",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "DscConfigurationParameter"
-                            }
-                        }
-                    }
-                },
-                source: {
-                    serializedName: "source",
-                    type: {
-                        name: "Composite",
-                        className: "ContentSource"
-                    }
-                },
-                state: {
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                logVerbose: {
-                    serializedName: "logVerbose",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                nodeConfigurationCount: {
-                    nullable: false,
-                    serializedName: "nodeConfigurationCount",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -2617,52 +2032,6 @@
             }
         }
     };
-    var JobScheduleProperties = {
-        serializedName: "JobScheduleProperties",
-        type: {
-            name: "Composite",
-            className: "JobScheduleProperties",
-            modelProperties: {
-                jobScheduleId: {
-                    serializedName: "jobScheduleId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                schedule: {
-                    serializedName: "schedule",
-                    type: {
-                        name: "Composite",
-                        className: "ScheduleAssociationProperty"
-                    }
-                },
-                runbook: {
-                    serializedName: "runbook",
-                    type: {
-                        name: "Composite",
-                        className: "RunbookAssociationProperty"
-                    }
-                },
-                runOn: {
-                    serializedName: "runOn",
-                    type: {
-                        name: "String"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var JobSchedule = {
         serializedName: "JobSchedule",
         type: {
@@ -2718,48 +2087,6 @@
                 },
                 parameters: {
                     serializedName: "properties.parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
-    var JobScheduleCreateProperties = {
-        serializedName: "JobScheduleCreateProperties",
-        type: {
-            name: "Composite",
-            className: "JobScheduleCreateProperties",
-            modelProperties: {
-                schedule: {
-                    required: true,
-                    serializedName: "schedule",
-                    type: {
-                        name: "Composite",
-                        className: "ScheduleAssociationProperty"
-                    }
-                },
-                runbook: {
-                    required: true,
-                    serializedName: "runbook",
-                    type: {
-                        name: "Composite",
-                        className: "RunbookAssociationProperty"
-                    }
-                },
-                runOn: {
-                    serializedName: "runOn",
-                    type: {
-                        name: "String"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
                     type: {
                         name: "Dictionary",
                         value: {
@@ -2968,65 +2295,6 @@
             }
         }
     };
-    var ActivityProperties = {
-        serializedName: "ActivityProperties",
-        type: {
-            name: "Composite",
-            className: "ActivityProperties",
-            modelProperties: {
-                definition: {
-                    serializedName: "definition",
-                    type: {
-                        name: "String"
-                    }
-                },
-                parameterSets: {
-                    serializedName: "parameterSets",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ActivityParameterSet"
-                            }
-                        }
-                    }
-                },
-                outputTypes: {
-                    serializedName: "outputTypes",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ActivityOutputType"
-                            }
-                        }
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Activity = {
         serializedName: "Activity",
         type: {
@@ -3148,103 +2416,6 @@
             }
         }
     };
-    var ModuleProperties = {
-        serializedName: "ModuleProperties",
-        type: {
-            name: "Composite",
-            className: "ModuleProperties",
-            modelProperties: {
-                isGlobal: {
-                    serializedName: "isGlobal",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                version: {
-                    serializedName: "version",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sizeInBytes: {
-                    serializedName: "sizeInBytes",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                activityCount: {
-                    serializedName: "activityCount",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Created",
-                            "Creating",
-                            "StartingImportModuleRunbook",
-                            "RunningImportModuleRunbook",
-                            "ContentRetrieved",
-                            "ContentDownloaded",
-                            "ContentValidated",
-                            "ConnectionTypeImported",
-                            "ContentStored",
-                            "ModuleDataStored",
-                            "ActivitiesStored",
-                            "ModuleImportRunbookComplete",
-                            "Succeeded",
-                            "Failed",
-                            "Cancelled",
-                            "Updating"
-                        ]
-                    }
-                },
-                contentLink: {
-                    serializedName: "contentLink",
-                    type: {
-                        name: "Composite",
-                        className: "ContentLink"
-                    }
-                },
-                error: {
-                    serializedName: "error",
-                    type: {
-                        name: "Composite",
-                        className: "ModuleErrorInfo"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isComposite: {
-                    serializedName: "isComposite",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
     var Module = {
         serializedName: "Module",
         type: {
@@ -3335,23 +2506,6 @@
                 } })
         }
     };
-    var ModuleCreateOrUpdateProperties = {
-        serializedName: "ModuleCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ModuleCreateOrUpdateProperties",
-            modelProperties: {
-                contentLink: {
-                    required: true,
-                    serializedName: "contentLink",
-                    type: {
-                        name: "Composite",
-                        className: "ContentLink"
-                    }
-                }
-            }
-        }
-    };
     var ModuleCreateOrUpdateParameters = {
         serializedName: "ModuleCreateOrUpdateParameters",
         type: {
@@ -3387,22 +2541,6 @@
                                 name: "String"
                             }
                         }
-                    }
-                }
-            }
-        }
-    };
-    var ModuleUpdateProperties = {
-        serializedName: "ModuleUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ModuleUpdateProperties",
-            modelProperties: {
-                contentLink: {
-                    serializedName: "contentLink",
-                    type: {
-                        name: "Composite",
-                        className: "ContentLink"
                     }
                 }
             }
@@ -3527,62 +2665,6 @@
                                 className: "AdvancedScheduleMonthlyOccurrence"
                             }
                         }
-                    }
-                }
-            }
-        }
-    };
-    var ScheduleCreateOrUpdateProperties = {
-        serializedName: "ScheduleCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ScheduleCreateOrUpdateProperties",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    required: true,
-                    nullable: false,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                expiryTime: {
-                    nullable: true,
-                    serializedName: "expiryTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                interval: {
-                    serializedName: "interval",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                frequency: {
-                    required: true,
-                    serializedName: "frequency",
-                    type: {
-                        name: "String"
-                    }
-                },
-                timeZone: {
-                    serializedName: "timeZone",
-                    type: {
-                        name: "String"
-                    }
-                },
-                advancedSchedule: {
-                    serializedName: "advancedSchedule",
-                    type: {
-                        name: "Composite",
-                        className: "AdvancedSchedule"
                     }
                 }
             }
@@ -3844,27 +2926,6 @@
                 } })
         }
     };
-    var ScheduleUpdateProperties = {
-        serializedName: "ScheduleUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ScheduleUpdateProperties",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isEnabled: {
-                    serializedName: "isEnabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
     var ScheduleUpdateParameters = {
         serializedName: "ScheduleUpdateParameters",
         type: {
@@ -3885,33 +2946,6 @@
                 },
                 isEnabled: {
                     serializedName: "properties.isEnabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
-    var VariableCreateOrUpdateProperties = {
-        serializedName: "VariableCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "VariableCreateOrUpdateProperties",
-            modelProperties: {
-                value: {
-                    serializedName: "value",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isEncrypted: {
-                    serializedName: "isEncrypted",
                     type: {
                         name: "Boolean"
                     }
@@ -3953,48 +2987,6 @@
             }
         }
     };
-    var VariableProperties = {
-        serializedName: "VariableProperties",
-        type: {
-            name: "Composite",
-            className: "VariableProperties",
-            modelProperties: {
-                value: {
-                    serializedName: "value",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isEncrypted: {
-                    nullable: true,
-                    serializedName: "isEncrypted",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Variable = {
         serializedName: "Variable",
         type: {
@@ -4031,27 +3023,6 @@
                 } })
         }
     };
-    var VariableUpdateProperties = {
-        serializedName: "VariableUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "VariableUpdateProperties",
-            modelProperties: {
-                value: {
-                    serializedName: "value",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var VariableUpdateParameters = {
         serializedName: "VariableUpdateParameters",
         type: {
@@ -4072,92 +3043,6 @@
                 },
                 description: {
                     serializedName: "properties.description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var WebhookProperties = {
-        serializedName: "WebhookProperties",
-        type: {
-            name: "Composite",
-            className: "WebhookProperties",
-            modelProperties: {
-                isEnabled: {
-                    serializedName: "isEnabled",
-                    defaultValue: false,
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                uri: {
-                    serializedName: "uri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                expiryTime: {
-                    nullable: false,
-                    serializedName: "expiryTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastInvokedTime: {
-                    nullable: true,
-                    serializedName: "lastInvokedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                runbook: {
-                    serializedName: "runbook",
-                    type: {
-                        name: "Composite",
-                        className: "RunbookAssociationProperty"
-                    }
-                },
-                runOn: {
-                    serializedName: "runOn",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedBy: {
-                    serializedName: "lastModifiedBy",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
                     type: {
                         name: "String"
                     }
@@ -4239,44 +3124,6 @@
                 } })
         }
     };
-    var WebhookUpdateProperties = {
-        serializedName: "WebhookUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "WebhookUpdateProperties",
-            modelProperties: {
-                isEnabled: {
-                    serializedName: "isEnabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                runOn: {
-                    serializedName: "runOn",
-                    type: {
-                        name: "String"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var WebhookUpdateParameters = {
         serializedName: "WebhookUpdateParameters",
         type: {
@@ -4314,58 +3161,6 @@
                 },
                 description: {
                     serializedName: "properties.description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var WebhookCreateOrUpdateProperties = {
-        serializedName: "WebhookCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "WebhookCreateOrUpdateProperties",
-            modelProperties: {
-                isEnabled: {
-                    serializedName: "isEnabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                uri: {
-                    serializedName: "uri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                expiryTime: {
-                    nullable: false,
-                    serializedName: "expiryTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                runbook: {
-                    serializedName: "runbook",
-                    type: {
-                        name: "Composite",
-                        className: "RunbookAssociationProperty"
-                    }
-                },
-                runOn: {
-                    serializedName: "runOn",
                     type: {
                         name: "String"
                     }
@@ -4425,80 +3220,6 @@
                 },
                 runOn: {
                     serializedName: "properties.runOn",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var WatcherProperties = {
-        serializedName: "WatcherProperties",
-        type: {
-            name: "Composite",
-            className: "WatcherProperties",
-            modelProperties: {
-                executionFrequencyInSeconds: {
-                    serializedName: "executionFrequencyInSeconds",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                scriptName: {
-                    serializedName: "scriptName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                scriptParameters: {
-                    serializedName: "scriptParameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                scriptRunOn: {
-                    serializedName: "scriptRunOn",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    readOnly: true,
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedBy: {
-                    readOnly: true,
-                    serializedName: "lastModifiedBy",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
                     type: {
                         name: "String"
                     }
@@ -4573,21 +3294,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var WatcherUpdateProperties = {
-        serializedName: "WatcherUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "WatcherUpdateProperties",
-            modelProperties: {
-                executionFrequencyInSeconds: {
-                    serializedName: "executionFrequencyInSeconds",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
         }
     };
     var WatcherUpdateParameters = {
@@ -4697,6 +3403,100 @@
             }
         }
     };
+    var TagSettingsProperties = {
+        serializedName: "TagSettingsProperties",
+        type: {
+            name: "Composite",
+            className: "TagSettingsProperties",
+            modelProperties: {
+                tags: {
+                    serializedName: "tags",
+                    type: {
+                        name: "Dictionary",
+                        value: {
+                            type: {
+                                name: "Sequence",
+                                element: {
+                                    type: {
+                                        name: "String"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                filterOperator: {
+                    serializedName: "filterOperator",
+                    type: {
+                        name: "Enum",
+                        allowedValues: [
+                            "All",
+                            "Any"
+                        ]
+                    }
+                }
+            }
+        }
+    };
+    var AzureQueryProperties = {
+        serializedName: "AzureQueryProperties",
+        type: {
+            name: "Composite",
+            className: "AzureQueryProperties",
+            modelProperties: {
+                scope: {
+                    serializedName: "scope",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                location: {
+                    serializedName: "location",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "String"
+                            }
+                        }
+                    }
+                },
+                tagSettings: {
+                    serializedName: "tagSettings",
+                    type: {
+                        name: "Composite",
+                        className: "TagSettingsProperties"
+                    }
+                }
+            }
+        }
+    };
+    var TargetProperties = {
+        serializedName: "TargetProperties",
+        type: {
+            name: "Composite",
+            className: "TargetProperties",
+            modelProperties: {
+                azureQueries: {
+                    serializedName: "azureQueries",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "AzureQueryProperties"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
     var UpdateConfiguration = {
         serializedName: "updateConfiguration",
         type: {
@@ -4755,74 +3555,12 @@
                             }
                         }
                     }
-                }
-            }
-        }
-    };
-    var SoftwareUpdateConfigurationProperties = {
-        serializedName: "softwareUpdateConfigurationProperties",
-        type: {
-            name: "Composite",
-            className: "SoftwareUpdateConfigurationProperties",
-            modelProperties: {
-                updateConfiguration: {
-                    required: true,
-                    serializedName: "updateConfiguration",
+                },
+                targets: {
+                    serializedName: "targets",
                     type: {
                         name: "Composite",
-                        className: "UpdateConfiguration"
-                    }
-                },
-                scheduleInfo: {
-                    required: true,
-                    serializedName: "scheduleInfo",
-                    type: {
-                        name: "Composite",
-                        className: "ScheduleProperties"
-                    }
-                },
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                error: {
-                    serializedName: "error",
-                    type: {
-                        name: "Composite",
-                        className: "ErrorResponse"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                createdBy: {
-                    readOnly: true,
-                    serializedName: "createdBy",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedBy: {
-                    readOnly: true,
-                    serializedName: "lastModifiedBy",
-                    type: {
-                        name: "String"
+                        className: "TargetProperties"
                     }
                 }
             }
@@ -4944,65 +3682,6 @@
             }
         }
     };
-    var SoftwareUpdateConfigurationCollectionItemProperties = {
-        serializedName: "softwareUpdateConfigurationCollectionItemProperties",
-        type: {
-            name: "Composite",
-            className: "SoftwareUpdateConfigurationCollectionItemProperties",
-            modelProperties: {
-                updateConfiguration: {
-                    serializedName: "updateConfiguration",
-                    type: {
-                        name: "Composite",
-                        className: "CollectionItemUpdateConfiguration"
-                    }
-                },
-                frequency: {
-                    serializedName: "frequency",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    nullable: false,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                nextRun: {
-                    nullable: true,
-                    serializedName: "nextRun",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
-        }
-    };
     var SoftwareUpdateConfigurationCollectionItem = {
         serializedName: "softwareUpdateConfigurationCollectionItem",
         type: {
@@ -5106,103 +3785,6 @@
                 name: {
                     readOnly: true,
                     serializedName: "name",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var SoftwareUpdateConfigurationRunProperties = {
-        serializedName: "softwareUpdateConfigurationRunProperties",
-        type: {
-            name: "Composite",
-            className: "SoftwareUpdateConfigurationRunProperties",
-            modelProperties: {
-                softwareUpdateConfiguration: {
-                    serializedName: "softwareUpdateConfiguration",
-                    type: {
-                        name: "Composite",
-                        className: "UpdateConfigurationNavigation"
-                    }
-                },
-                status: {
-                    readOnly: true,
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                configuredDuration: {
-                    readOnly: true,
-                    serializedName: "configuredDuration",
-                    type: {
-                        name: "String"
-                    }
-                },
-                osType: {
-                    readOnly: true,
-                    serializedName: "osType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                computerCount: {
-                    readOnly: true,
-                    serializedName: "computerCount",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                failedCount: {
-                    readOnly: true,
-                    serializedName: "failedCount",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                createdBy: {
-                    readOnly: true,
-                    serializedName: "createdBy",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedBy: {
-                    readOnly: true,
-                    serializedName: "lastModifiedBy",
                     type: {
                         name: "String"
                     }
@@ -5357,124 +3939,6 @@
                 id: {
                     readOnly: true,
                     serializedName: "id",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var UpdateConfigurationMachineRunProperties = {
-        serializedName: "updateConfigurationMachineRunProperties",
-        type: {
-            name: "Composite",
-            className: "UpdateConfigurationMachineRunProperties",
-            modelProperties: {
-                targetComputer: {
-                    readOnly: true,
-                    serializedName: "targetComputer",
-                    type: {
-                        name: "String"
-                    }
-                },
-                targetComputerType: {
-                    readOnly: true,
-                    serializedName: "targetComputerType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                softwareUpdateConfiguration: {
-                    serializedName: "softwareUpdateConfiguration",
-                    type: {
-                        name: "Composite",
-                        className: "UpdateConfigurationNavigation"
-                    }
-                },
-                status: {
-                    readOnly: true,
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                osType: {
-                    readOnly: true,
-                    serializedName: "osType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                correlationId: {
-                    readOnly: true,
-                    serializedName: "correlationId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                sourceComputerId: {
-                    readOnly: true,
-                    serializedName: "sourceComputerId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                startTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                configuredDuration: {
-                    readOnly: true,
-                    serializedName: "configuredDuration",
-                    type: {
-                        name: "String"
-                    }
-                },
-                job: {
-                    serializedName: "job",
-                    type: {
-                        name: "Composite",
-                        className: "JobNavigation"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                createdBy: {
-                    readOnly: true,
-                    serializedName: "createdBy",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedBy: {
-                    readOnly: true,
-                    serializedName: "lastModifiedBy",
                     type: {
                         name: "String"
                     }
@@ -5641,71 +4105,6 @@
             }
         }
     };
-    var SourceControlProperties = {
-        serializedName: "SourceControlProperties",
-        type: {
-            name: "Composite",
-            className: "SourceControlProperties",
-            modelProperties: {
-                repoUrl: {
-                    serializedName: "repoUrl",
-                    type: {
-                        name: "String"
-                    }
-                },
-                branch: {
-                    serializedName: "branch",
-                    type: {
-                        name: "String"
-                    }
-                },
-                folderPath: {
-                    serializedName: "folderPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                autoSync: {
-                    serializedName: "autoSync",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                publishRunbook: {
-                    serializedName: "publishRunbook",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                sourceType: {
-                    serializedName: "sourceType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
-        }
-    };
     var SourceControl = {
         serializedName: "SourceControl",
         type: {
@@ -5794,52 +4193,6 @@
             }
         }
     };
-    var SourceControlUpdateProperties = {
-        serializedName: "SourceControlUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "SourceControlUpdateProperties",
-            modelProperties: {
-                branch: {
-                    serializedName: "branch",
-                    type: {
-                        name: "String"
-                    }
-                },
-                folderPath: {
-                    serializedName: "folderPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                autoSync: {
-                    serializedName: "autoSync",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                publishRunbook: {
-                    serializedName: "publishRunbook",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                securityToken: {
-                    serializedName: "securityToken",
-                    type: {
-                        name: "Composite",
-                        className: "SourceControlSecurityTokenProperties"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var SourceControlUpdateParameters = {
         serializedName: "SourceControlUpdateParameters",
         type: {
@@ -5879,76 +4232,6 @@
                 },
                 description: {
                     serializedName: "properties.description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var SourceControlCreateOrUpdateProperties = {
-        serializedName: "SourceControlCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "SourceControlCreateOrUpdateProperties",
-            modelProperties: {
-                repoUrl: {
-                    serializedName: "repoUrl",
-                    constraints: {
-                        MaxLength: 2000
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                branch: {
-                    serializedName: "branch",
-                    constraints: {
-                        MaxLength: 255
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                folderPath: {
-                    serializedName: "folderPath",
-                    constraints: {
-                        MaxLength: 255
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                autoSync: {
-                    serializedName: "autoSync",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                publishRunbook: {
-                    serializedName: "publishRunbook",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                sourceType: {
-                    serializedName: "sourceType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                securityToken: {
-                    serializedName: "securityToken",
-                    type: {
-                        name: "Composite",
-                        className: "SourceControlSecurityTokenProperties"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    constraints: {
-                        MaxLength: 512
-                    },
                     type: {
                         name: "String"
                     }
@@ -6019,57 +4302,6 @@
                     constraints: {
                         MaxLength: 512
                     },
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var SourceControlSyncJobProperties = {
-        serializedName: "SourceControlSyncJobProperties",
-        type: {
-            name: "Composite",
-            className: "SourceControlSyncJobProperties",
-            modelProperties: {
-                sourceControlSyncJobId: {
-                    serializedName: "sourceControlSyncJobId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                syncType: {
-                    serializedName: "syncType",
                     type: {
                         name: "String"
                     }
@@ -6149,25 +4381,6 @@
             }
         }
     };
-    var SourceControlSyncJobCreateProperties = {
-        serializedName: "SourceControlSyncJobCreateProperties",
-        type: {
-            name: "Composite",
-            className: "SourceControlSyncJobCreateProperties",
-            modelProperties: {
-                commitId: {
-                    required: true,
-                    serializedName: "commitId",
-                    constraints: {
-                        MinLength: 0
-                    },
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var SourceControlSyncJobCreateParameters = {
         serializedName: "SourceControlSyncJobCreateParameters",
         type: {
@@ -6180,63 +4393,6 @@
                     constraints: {
                         MinLength: 0
                     },
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var SourceControlSyncJobByIdProperties = {
-        serializedName: "SourceControlSyncJobByIdProperties",
-        type: {
-            name: "Composite",
-            className: "SourceControlSyncJobByIdProperties",
-            modelProperties: {
-                sourceControlSyncJobId: {
-                    serializedName: "sourceControlSyncJobId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                syncType: {
-                    serializedName: "syncType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                exception: {
-                    serializedName: "exception",
                     type: {
                         name: "String"
                     }
@@ -6307,41 +4463,6 @@
             }
         }
     };
-    var SourceControlSyncJobStreamProperties = {
-        serializedName: "SourceControlSyncJobStreamProperties",
-        type: {
-            name: "Composite",
-            className: "SourceControlSyncJobStreamProperties",
-            modelProperties: {
-                sourceControlSyncJobStreamId: {
-                    serializedName: "sourceControlSyncJobStreamId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                summary: {
-                    serializedName: "summary",
-                    type: {
-                        name: "String"
-                    }
-                },
-                time: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "time",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                streamType: {
-                    serializedName: "streamType",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var SourceControlSyncJobStream = {
         serializedName: "SourceControlSyncJobStream",
         type: {
@@ -6379,58 +4500,6 @@
                     serializedName: "properties.streamType",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var SourceControlSyncJobStreamByIdProperties = {
-        serializedName: "SourceControlSyncJobStreamByIdProperties",
-        type: {
-            name: "Composite",
-            className: "SourceControlSyncJobStreamByIdProperties",
-            modelProperties: {
-                sourceControlSyncJobStreamId: {
-                    serializedName: "sourceControlSyncJobStreamId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                summary: {
-                    serializedName: "summary",
-                    type: {
-                        name: "String"
-                    }
-                },
-                time: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "time",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                streamType: {
-                    serializedName: "streamType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                streamText: {
-                    serializedName: "streamText",
-                    type: {
-                        name: "String"
-                    }
-                },
-                value: {
-                    serializedName: "value",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
                     }
                 }
             }
@@ -6495,57 +4564,6 @@
             }
         }
     };
-    var JobStreamProperties = {
-        serializedName: "JobStreamProperties",
-        type: {
-            name: "Composite",
-            className: "JobStreamProperties",
-            modelProperties: {
-                jobStreamId: {
-                    serializedName: "jobStreamId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                time: {
-                    nullable: false,
-                    serializedName: "time",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                streamType: {
-                    serializedName: "streamType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                streamText: {
-                    serializedName: "streamText",
-                    type: {
-                        name: "String"
-                    }
-                },
-                summary: {
-                    serializedName: "summary",
-                    type: {
-                        name: "String"
-                    }
-                },
-                value: {
-                    serializedName: "value",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var JobStream = {
         serializedName: "JobStream",
         type: {
@@ -6598,111 +4616,6 @@
                                 name: "Object"
                             }
                         }
-                    }
-                }
-            }
-        }
-    };
-    var JobProperties = {
-        serializedName: "JobProperties",
-        type: {
-            name: "Composite",
-            className: "JobProperties",
-            modelProperties: {
-                runbook: {
-                    serializedName: "runbook",
-                    type: {
-                        name: "Composite",
-                        className: "RunbookAssociationProperty"
-                    }
-                },
-                startedBy: {
-                    serializedName: "startedBy",
-                    type: {
-                        name: "String"
-                    }
-                },
-                runOn: {
-                    serializedName: "runOn",
-                    type: {
-                        name: "String"
-                    }
-                },
-                jobId: {
-                    nullable: false,
-                    serializedName: "jobId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                statusDetails: {
-                    serializedName: "statusDetails",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    nullable: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    nullable: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                exception: {
-                    serializedName: "exception",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastStatusModifiedTime: {
-                    nullable: true,
-                    serializedName: "lastStatusModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -6798,83 +4711,6 @@
                 } })
         }
     };
-    var JobCollectionItemProperties = {
-        serializedName: "JobCollectionItemProperties",
-        type: {
-            name: "Composite",
-            className: "JobCollectionItemProperties",
-            modelProperties: {
-                runbook: {
-                    readOnly: true,
-                    serializedName: "runbook",
-                    type: {
-                        name: "Composite",
-                        className: "RunbookAssociationProperty"
-                    }
-                },
-                jobId: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "jobId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                status: {
-                    readOnly: true,
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                runOn: {
-                    serializedName: "runOn",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var JobCollectionItem = {
         serializedName: "JobCollectionItem",
         type: {
@@ -6940,39 +4776,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var JobCreateProperties = {
-        serializedName: "JobCreateProperties",
-        type: {
-            name: "Composite",
-            className: "JobCreateProperties",
-            modelProperties: {
-                runbook: {
-                    serializedName: "runbook",
-                    type: {
-                        name: "Composite",
-                        className: "RunbookAssociationProperty"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                runOn: {
-                    serializedName: "runOn",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var JobCreateParameters = {
@@ -7399,21 +5202,6 @@
             }
         }
     };
-    var DscNodeConfigurationAssociationProperty = {
-        serializedName: "DscNodeConfigurationAssociationProperty",
-        type: {
-            name: "Composite",
-            className: "DscNodeConfigurationAssociationProperty",
-            modelProperties: {
-                name: {
-                    serializedName: "name",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var DscNodeExtensionHandlerAssociationProperty = {
         serializedName: "DscNodeExtensionHandlerAssociationProperty",
         type: {
@@ -7430,83 +5218,6 @@
                     serializedName: "version",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var DscNodeProperties = {
-        serializedName: "DscNodeProperties",
-        type: {
-            name: "Composite",
-            className: "DscNodeProperties",
-            modelProperties: {
-                lastSeen: {
-                    nullable: false,
-                    serializedName: "lastSeen",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                registrationTime: {
-                    nullable: false,
-                    serializedName: "registrationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                ip: {
-                    serializedName: "ip",
-                    type: {
-                        name: "String"
-                    }
-                },
-                accountId: {
-                    serializedName: "accountId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                name: {
-                    serializedName: "nodeConfiguration.name",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                nodeId: {
-                    serializedName: "nodeId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                etag: {
-                    serializedName: "etag",
-                    type: {
-                        name: "String"
-                    }
-                },
-                totalCount: {
-                    serializedName: "totalCount",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                extensionHandler: {
-                    serializedName: "extensionHandler",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "DscNodeExtensionHandlerAssociationProperty"
-                            }
-                        }
                     }
                 }
             }
@@ -7646,119 +5357,6 @@
             }
         }
     };
-    var DscCompilationJobProperties = {
-        serializedName: "DscCompilationJobProperties",
-        type: {
-            name: "Composite",
-            className: "DscCompilationJobProperties",
-            modelProperties: {
-                configuration: {
-                    serializedName: "configuration",
-                    type: {
-                        name: "Composite",
-                        className: "DscConfigurationAssociationProperty"
-                    }
-                },
-                startedBy: {
-                    readOnly: true,
-                    serializedName: "startedBy",
-                    type: {
-                        name: "String"
-                    }
-                },
-                jobId: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "jobId",
-                    type: {
-                        name: "Uuid"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                runOn: {
-                    serializedName: "runOn",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                statusDetails: {
-                    serializedName: "statusDetails",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "startTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "endTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                exception: {
-                    readOnly: true,
-                    serializedName: "exception",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    readOnly: true,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastStatusModifiedTime: {
-                    nullable: true,
-                    readOnly: true,
-                    serializedName: "lastStatusModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var DscCompilationJob = {
         serializedName: "DscCompilationJob",
         type: {
@@ -7857,40 +5455,6 @@
                 } })
         }
     };
-    var DscCompilationJobCreateProperties = {
-        serializedName: "DscCompilationJobCreateProperties",
-        type: {
-            name: "Composite",
-            className: "DscCompilationJobCreateProperties",
-            modelProperties: {
-                configuration: {
-                    required: true,
-                    serializedName: "configuration",
-                    type: {
-                        name: "Composite",
-                        className: "DscConfigurationAssociationProperty"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                incrementNodeConfigurationBuild: {
-                    serializedName: "incrementNodeConfigurationBuild",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
     var DscCompilationJobCreateParameters = {
         serializedName: "DscCompilationJobCreateParameters",
         type: {
@@ -7948,54 +5512,6 @@
             }
         }
     };
-    var DscNodeConfigurationProperties = {
-        serializedName: "DscNodeConfigurationProperties",
-        type: {
-            name: "Composite",
-            className: "DscNodeConfigurationProperties",
-            modelProperties: {
-                lastModifiedTime: {
-                    nullable: false,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                configuration: {
-                    serializedName: "configuration",
-                    type: {
-                        name: "Composite",
-                        className: "DscConfigurationAssociationProperty"
-                    }
-                },
-                source: {
-                    serializedName: "source",
-                    type: {
-                        name: "String"
-                    }
-                },
-                nodeCount: {
-                    serializedName: "nodeCount",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                incrementNodeConfigurationBuild: {
-                    serializedName: "incrementNodeConfigurationBuild",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
     var DscNodeConfiguration = {
         serializedName: "DscNodeConfiguration",
         type: {
@@ -8035,37 +5551,6 @@
                         name: "Boolean"
                     }
                 } })
-        }
-    };
-    var DscNodeConfigurationCreateOrUpdateParametersProperties = {
-        serializedName: "DscNodeConfigurationCreateOrUpdateParametersProperties",
-        type: {
-            name: "Composite",
-            className: "DscNodeConfigurationCreateOrUpdateParametersProperties",
-            modelProperties: {
-                source: {
-                    required: true,
-                    serializedName: "source",
-                    type: {
-                        name: "Composite",
-                        className: "ContentSource"
-                    }
-                },
-                configuration: {
-                    required: true,
-                    serializedName: "configuration",
-                    type: {
-                        name: "Composite",
-                        className: "DscConfigurationAssociationProperty"
-                    }
-                },
-                incrementNodeConfigurationBuild: {
-                    serializedName: "incrementNodeConfigurationBuild",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
         }
     };
     var DscNodeConfigurationCreateOrUpdateParameters = {
@@ -8272,123 +5757,6 @@
             }
         }
     };
-    var RunbookProperties = {
-        serializedName: "RunbookProperties",
-        type: {
-            name: "Composite",
-            className: "RunbookProperties",
-            modelProperties: {
-                runbookType: {
-                    serializedName: "runbookType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                publishContentLink: {
-                    serializedName: "publishContentLink",
-                    type: {
-                        name: "Composite",
-                        className: "ContentLink"
-                    }
-                },
-                state: {
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                },
-                logVerbose: {
-                    serializedName: "logVerbose",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                logProgress: {
-                    serializedName: "logProgress",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                logActivityTrace: {
-                    serializedName: "logActivityTrace",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                jobCount: {
-                    serializedName: "jobCount",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                parameters: {
-                    serializedName: "parameters",
-                    type: {
-                        name: "Dictionary",
-                        value: {
-                            type: {
-                                name: "Composite",
-                                className: "RunbookParameter"
-                            }
-                        }
-                    }
-                },
-                outputTypes: {
-                    serializedName: "outputTypes",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                draft: {
-                    serializedName: "draft",
-                    type: {
-                        name: "Composite",
-                        className: "RunbookDraft"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Succeeded"
-                        ]
-                    }
-                },
-                lastModifiedBy: {
-                    serializedName: "lastModifiedBy",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationTime: {
-                    nullable: false,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                lastModifiedTime: {
-                    nullable: false,
-                    serializedName: "lastModifiedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Runbook = {
         serializedName: "Runbook",
         type: {
@@ -8495,60 +5863,6 @@
                 } })
         }
     };
-    var RunbookCreateOrUpdateProperties = {
-        serializedName: "RunbookCreateOrUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "RunbookCreateOrUpdateProperties",
-            modelProperties: {
-                logVerbose: {
-                    serializedName: "logVerbose",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                logProgress: {
-                    serializedName: "logProgress",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                runbookType: {
-                    required: true,
-                    serializedName: "runbookType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                draft: {
-                    serializedName: "draft",
-                    type: {
-                        name: "Composite",
-                        className: "RunbookDraft"
-                    }
-                },
-                publishContentLink: {
-                    serializedName: "publishContentLink",
-                    type: {
-                        name: "Composite",
-                        className: "ContentLink"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                logActivityTrace: {
-                    serializedName: "logActivityTrace",
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
     var RunbookCreateOrUpdateParameters = {
         serializedName: "RunbookCreateOrUpdateParameters",
         type: {
@@ -8621,39 +5935,6 @@
                                 name: "String"
                             }
                         }
-                    }
-                }
-            }
-        }
-    };
-    var RunbookUpdateProperties = {
-        serializedName: "RunbookUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "RunbookUpdateProperties",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                logVerbose: {
-                    serializedName: "logVerbose",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                logProgress: {
-                    serializedName: "logProgress",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                logActivityTrace: {
-                    serializedName: "logActivityTrace",
-                    type: {
-                        name: "Number"
                     }
                 }
             }
@@ -8906,23 +6187,6 @@
                     serializedName: "runbookContent",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var PythonPackageCreateProperties = {
-        serializedName: "PythonPackageCreateProperties",
-        type: {
-            name: "Composite",
-            className: "PythonPackageCreateProperties",
-            modelProperties: {
-                contentLink: {
-                    required: true,
-                    serializedName: "contentLink",
-                    type: {
-                        name: "Composite",
-                        className: "ContentLink"
                     }
                 }
             }
@@ -9763,11 +7027,9 @@
         CloudError: CloudError,
         BaseResource: BaseResource,
         Sku: Sku,
-        AutomationAccountProperties: AutomationAccountProperties,
         Resource: Resource,
         TrackedResource: TrackedResource,
         AutomationAccount: AutomationAccount,
-        AutomationAccountCreateOrUpdateProperties: AutomationAccountCreateOrUpdateProperties,
         AutomationAccountCreateOrUpdateParameters: AutomationAccountCreateOrUpdateParameters,
         OperationDisplay: OperationDisplay,
         Operation: Operation,
@@ -9776,40 +7038,26 @@
         Usage: Usage,
         Key: Key,
         KeyListResult: KeyListResult,
-        AutomationAccountUpdateProperties: AutomationAccountUpdateProperties,
         AutomationAccountUpdateParameters: AutomationAccountUpdateParameters,
         ProxyResource: ProxyResource,
         ErrorResponse: ErrorResponse,
-        CertificateCreateOrUpdateProperties: CertificateCreateOrUpdateProperties,
         CertificateCreateOrUpdateParameters: CertificateCreateOrUpdateParameters,
-        CertificateProperties: CertificateProperties,
         Certificate: Certificate,
-        CertificateUpdateProperties: CertificateUpdateProperties,
         CertificateUpdateParameters: CertificateUpdateParameters,
         ConnectionTypeAssociationProperty: ConnectionTypeAssociationProperty,
-        ConnectionCreateOrUpdateProperties: ConnectionCreateOrUpdateProperties,
         ConnectionCreateOrUpdateParameters: ConnectionCreateOrUpdateParameters,
-        ConnectionProperties: ConnectionProperties,
         Connection: Connection,
-        ConnectionUpdateProperties: ConnectionUpdateProperties,
         ConnectionUpdateParameters: ConnectionUpdateParameters,
         FieldDefinition: FieldDefinition,
-        ConnectionTypeProperties: ConnectionTypeProperties,
         ConnectionType: ConnectionType,
-        ConnectionTypeCreateOrUpdateProperties: ConnectionTypeCreateOrUpdateProperties,
         ConnectionTypeCreateOrUpdateParameters: ConnectionTypeCreateOrUpdateParameters,
-        CredentialCreateOrUpdateProperties: CredentialCreateOrUpdateProperties,
         CredentialCreateOrUpdateParameters: CredentialCreateOrUpdateParameters,
-        CredentialProperties: CredentialProperties,
         Credential: Credential,
-        CredentialUpdateProperties: CredentialUpdateProperties,
         CredentialUpdateParameters: CredentialUpdateParameters,
         ContentHash: ContentHash,
         ContentSource: ContentSource,
         DscConfigurationParameter: DscConfigurationParameter,
-        DscConfigurationCreateOrUpdateProperties: DscConfigurationCreateOrUpdateProperties,
         DscConfigurationCreateOrUpdateParameters: DscConfigurationCreateOrUpdateParameters,
-        DscConfigurationProperties: DscConfigurationProperties,
         DscConfiguration: DscConfiguration,
         DscConfigurationUpdateParameters: DscConfigurationUpdateParameters,
         RunAsCredentialAssociationProperty: RunAsCredentialAssociationProperty,
@@ -9818,91 +7066,62 @@
         HybridRunbookWorkerGroupUpdateParameters: HybridRunbookWorkerGroupUpdateParameters,
         ScheduleAssociationProperty: ScheduleAssociationProperty,
         RunbookAssociationProperty: RunbookAssociationProperty,
-        JobScheduleProperties: JobScheduleProperties,
         JobSchedule: JobSchedule,
-        JobScheduleCreateProperties: JobScheduleCreateProperties,
         JobScheduleCreateParameters: JobScheduleCreateParameters,
         LinkedWorkspace: LinkedWorkspace,
         ActivityParameterValidationSet: ActivityParameterValidationSet,
         ActivityParameter: ActivityParameter,
         ActivityParameterSet: ActivityParameterSet,
         ActivityOutputType: ActivityOutputType,
-        ActivityProperties: ActivityProperties,
         Activity: Activity,
         ModuleErrorInfo: ModuleErrorInfo,
         ContentLink: ContentLink,
-        ModuleProperties: ModuleProperties,
         Module: Module,
-        ModuleCreateOrUpdateProperties: ModuleCreateOrUpdateProperties,
         ModuleCreateOrUpdateParameters: ModuleCreateOrUpdateParameters,
-        ModuleUpdateProperties: ModuleUpdateProperties,
         ModuleUpdateParameters: ModuleUpdateParameters,
         TypeField: TypeField,
         AdvancedScheduleMonthlyOccurrence: AdvancedScheduleMonthlyOccurrence,
         AdvancedSchedule: AdvancedSchedule,
-        ScheduleCreateOrUpdateProperties: ScheduleCreateOrUpdateProperties,
         ScheduleCreateOrUpdateParameters: ScheduleCreateOrUpdateParameters,
         ScheduleProperties: ScheduleProperties,
         Schedule: Schedule,
-        ScheduleUpdateProperties: ScheduleUpdateProperties,
         ScheduleUpdateParameters: ScheduleUpdateParameters,
-        VariableCreateOrUpdateProperties: VariableCreateOrUpdateProperties,
         VariableCreateOrUpdateParameters: VariableCreateOrUpdateParameters,
-        VariableProperties: VariableProperties,
         Variable: Variable,
-        VariableUpdateProperties: VariableUpdateProperties,
         VariableUpdateParameters: VariableUpdateParameters,
-        WebhookProperties: WebhookProperties,
         Webhook: Webhook,
-        WebhookUpdateProperties: WebhookUpdateProperties,
         WebhookUpdateParameters: WebhookUpdateParameters,
-        WebhookCreateOrUpdateProperties: WebhookCreateOrUpdateProperties,
         WebhookCreateOrUpdateParameters: WebhookCreateOrUpdateParameters,
-        WatcherProperties: WatcherProperties,
         Watcher: Watcher,
-        WatcherUpdateProperties: WatcherUpdateProperties,
         WatcherUpdateParameters: WatcherUpdateParameters,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TagSettingsProperties: TagSettingsProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TargetProperties: TargetProperties,
         UpdateConfiguration: UpdateConfiguration,
-        SoftwareUpdateConfigurationProperties: SoftwareUpdateConfigurationProperties,
         SoftwareUpdateConfiguration: SoftwareUpdateConfiguration,
         CollectionItemUpdateConfiguration: CollectionItemUpdateConfiguration,
-        SoftwareUpdateConfigurationCollectionItemProperties: SoftwareUpdateConfigurationCollectionItemProperties,
         SoftwareUpdateConfigurationCollectionItem: SoftwareUpdateConfigurationCollectionItem,
         SoftwareUpdateConfigurationListResult: SoftwareUpdateConfigurationListResult,
         UpdateConfigurationNavigation: UpdateConfigurationNavigation,
-        SoftwareUpdateConfigurationRunProperties: SoftwareUpdateConfigurationRunProperties,
         SoftwareUpdateConfigurationRun: SoftwareUpdateConfigurationRun,
         SoftwareUpdateConfigurationRunListResult: SoftwareUpdateConfigurationRunListResult,
         JobNavigation: JobNavigation,
-        UpdateConfigurationMachineRunProperties: UpdateConfigurationMachineRunProperties,
         SoftwareUpdateConfigurationMachineRun: SoftwareUpdateConfigurationMachineRun,
         SoftwareUpdateConfigurationMachineRunListResult: SoftwareUpdateConfigurationMachineRunListResult,
-        SourceControlProperties: SourceControlProperties,
         SourceControl: SourceControl,
         SourceControlSecurityTokenProperties: SourceControlSecurityTokenProperties,
-        SourceControlUpdateProperties: SourceControlUpdateProperties,
         SourceControlUpdateParameters: SourceControlUpdateParameters,
-        SourceControlCreateOrUpdateProperties: SourceControlCreateOrUpdateProperties,
         SourceControlCreateOrUpdateParameters: SourceControlCreateOrUpdateParameters,
-        SourceControlSyncJobProperties: SourceControlSyncJobProperties,
         SourceControlSyncJob: SourceControlSyncJob,
-        SourceControlSyncJobCreateProperties: SourceControlSyncJobCreateProperties,
         SourceControlSyncJobCreateParameters: SourceControlSyncJobCreateParameters,
-        SourceControlSyncJobByIdProperties: SourceControlSyncJobByIdProperties,
         SourceControlSyncJobById: SourceControlSyncJobById,
-        SourceControlSyncJobStreamProperties: SourceControlSyncJobStreamProperties,
         SourceControlSyncJobStream: SourceControlSyncJobStream,
-        SourceControlSyncJobStreamByIdProperties: SourceControlSyncJobStreamByIdProperties,
         SourceControlSyncJobStreamById: SourceControlSyncJobStreamById,
-        JobStreamProperties: JobStreamProperties,
         JobStream: JobStream,
-        JobProperties: JobProperties,
         Job: Job,
-        JobCollectionItemProperties: JobCollectionItemProperties,
         JobCollectionItem: JobCollectionItem,
-        JobCreateProperties: JobCreateProperties,
         JobCreateParameters: JobCreateParameters,
         DscReportError: DscReportError,
         DscReportResourceNavigation: DscReportResourceNavigation,
@@ -9911,39 +7130,29 @@
         DscNodeReport: DscNodeReport,
         AgentRegistrationKeys: AgentRegistrationKeys,
         AgentRegistration: AgentRegistration,
-        DscNodeConfigurationAssociationProperty: DscNodeConfigurationAssociationProperty,
         DscNodeExtensionHandlerAssociationProperty: DscNodeExtensionHandlerAssociationProperty,
-        DscNodeProperties: DscNodeProperties,
         DscNode: DscNode,
         AgentRegistrationRegenerateKeyParameter: AgentRegistrationRegenerateKeyParameter,
         DscNodeUpdateParametersProperties: DscNodeUpdateParametersProperties,
         DscNodeUpdateParameters: DscNodeUpdateParameters,
         DscConfigurationAssociationProperty: DscConfigurationAssociationProperty,
-        DscCompilationJobProperties: DscCompilationJobProperties,
         DscCompilationJob: DscCompilationJob,
-        DscCompilationJobCreateProperties: DscCompilationJobCreateProperties,
         DscCompilationJobCreateParameters: DscCompilationJobCreateParameters,
-        DscNodeConfigurationProperties: DscNodeConfigurationProperties,
         DscNodeConfiguration: DscNodeConfiguration,
-        DscNodeConfigurationCreateOrUpdateParametersProperties: DscNodeConfigurationCreateOrUpdateParametersProperties,
         DscNodeConfigurationCreateOrUpdateParameters: DscNodeConfigurationCreateOrUpdateParameters,
         NodeCountProperties: NodeCountProperties,
         NodeCount: NodeCount,
         NodeCounts: NodeCounts,
         RunbookParameter: RunbookParameter,
         RunbookDraft: RunbookDraft,
-        RunbookProperties: RunbookProperties,
         Runbook: Runbook,
-        RunbookCreateOrUpdateProperties: RunbookCreateOrUpdateProperties,
         RunbookCreateOrUpdateParameters: RunbookCreateOrUpdateParameters,
-        RunbookUpdateProperties: RunbookUpdateProperties,
         RunbookUpdateParameters: RunbookUpdateParameters,
         RunbookDraftUndoEditResult: RunbookDraftUndoEditResult,
         TestJobCreateParameters: TestJobCreateParameters,
         TestJob: TestJob,
         RunbookCreateOrUpdateDraftProperties: RunbookCreateOrUpdateDraftProperties,
         RunbookCreateOrUpdateDraftParameters: RunbookCreateOrUpdateDraftParameters,
-        PythonPackageCreateProperties: PythonPackageCreateProperties,
         PythonPackageCreateParameters: PythonPackageCreateParameters,
         PythonPackageUpdateParameters: PythonPackageUpdateParameters,
         RunbookDraftReplaceContentHeaders: RunbookDraftReplaceContentHeaders,
@@ -10021,6 +7230,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -11117,6 +8329,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -11397,6 +8612,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -11885,6 +9103,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -12168,6 +9389,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -13103,6 +10327,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -13562,6 +10789,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -13843,6 +11073,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -14123,6 +11356,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -14441,6 +11677,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -14757,6 +11996,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         AdvancedSchedule: AdvancedSchedule,
         AdvancedScheduleMonthlyOccurrence: AdvancedScheduleMonthlyOccurrence,
@@ -15225,6 +12467,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         Job: Job,
         JobCollectionItem: JobCollectionItem,
@@ -15822,6 +13067,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         DscNode: DscNode,
@@ -16453,6 +13701,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -16876,6 +14127,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -17213,6 +14467,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -17780,6 +15037,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,
@@ -18486,6 +15746,9 @@
         UpdateConfiguration: UpdateConfiguration,
         WindowsProperties: WindowsProperties,
         LinuxProperties: LinuxProperties,
+        TargetProperties: TargetProperties,
+        AzureQueryProperties: AzureQueryProperties,
+        TagSettingsProperties: TagSettingsProperties,
         ScheduleProperties: ScheduleProperties,
         SourceControl: SourceControl,
         Job: Job,

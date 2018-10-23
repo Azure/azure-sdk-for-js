@@ -65,23 +65,6 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
-export const LinkedServiceProperties: msRest.CompositeMapper = {
-  serializedName: "LinkedServiceProperties",
-  type: {
-    name: "Composite",
-    className: "LinkedServiceProperties",
-    modelProperties: {
-      resourceId: {
-        required: true,
-        serializedName: "resourceId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const LinkedService: msRest.CompositeMapper = {
   serializedName: "LinkedService",
   type: {
@@ -264,64 +247,6 @@ export const UsageMetric: msRest.CompositeMapper = {
   }
 };
 
-export const ManagementGroupProperties: msRest.CompositeMapper = {
-  serializedName: "ManagementGroupProperties",
-  type: {
-    name: "Composite",
-    className: "ManagementGroupProperties",
-    modelProperties: {
-      serverCount: {
-        serializedName: "serverCount",
-        type: {
-          name: "Number"
-        }
-      },
-      isGateway: {
-        serializedName: "isGateway",
-        type: {
-          name: "Boolean"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      created: {
-        serializedName: "created",
-        type: {
-          name: "DateTime"
-        }
-      },
-      dataReceived: {
-        serializedName: "dataReceived",
-        type: {
-          name: "DateTime"
-        }
-      },
-      version: {
-        serializedName: "version",
-        type: {
-          name: "String"
-        }
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ManagementGroup: msRest.CompositeMapper = {
   serializedName: "ManagementGroup",
   type: {
@@ -391,57 +316,6 @@ export const Sku: msRest.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const WorkspaceProperties: msRest.CompositeMapper = {
-  serializedName: "WorkspaceProperties",
-  type: {
-    name: "Composite",
-    className: "WorkspaceProperties",
-    modelProperties: {
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      source: {
-        serializedName: "source",
-        type: {
-          name: "String"
-        }
-      },
-      customerId: {
-        serializedName: "customerId",
-        type: {
-          name: "String"
-        }
-      },
-      portalUrl: {
-        serializedName: "portalUrl",
-        type: {
-          name: "String"
-        }
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
-      },
-      retentionInDays: {
-        serializedName: "retentionInDays",
-        constraints: {
-          InclusiveMaximum: 730,
-          InclusiveMinimum: -1
-        },
-        type: {
-          name: "Number"
         }
       }
     }

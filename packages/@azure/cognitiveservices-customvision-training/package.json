@@ -1,0 +1,41 @@
+{
+  "name": "@azure/cognitiveservices-customvision-training",
+  "author": "Microsoft Corporation",
+  "description": "TrainingAPIClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0",
+  "dependencies": {
+    "ms-rest-js": "^1.0.455",
+    "tslib": "^1.9.3"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/cognitiveservices-customvision-training.js",
+  "module": "./esm/trainingAPIClient.js",
+  "types": "./esm/trainingAPIClient.d.ts",
+  "devDependencies": {
+    "typescript": "^3.1.1",
+    "rollup": "^0.66.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "uglify-js": "^3.4.9"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/cognitiveservices-customvision-training",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-customvision-training.js.map'\" -o ./dist/cognitiveservices-customvision-training.min.js ./dist/cognitiveservices-customvision-training.js",
+    "prepare": "npm run build"
+  },
+  "sideEffects": false
+}

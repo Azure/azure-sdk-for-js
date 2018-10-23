@@ -28,7 +28,6 @@ export {
   ContainerEvent,
   DiagnosticsRef,
   NetworkRef,
-  CloudError,
-  ServiceResourceProperties
+  CloudError
 } from "../models/mappers";
 

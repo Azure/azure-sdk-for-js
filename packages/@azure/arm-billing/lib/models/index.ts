@@ -16,21 +16,6 @@ export { BaseResource, CloudError };
 
 /**
  * @interface
- * An interface representing EnrollmentAccountProperties.
- * The properties of the enrollment account.
- *
- */
-export interface EnrollmentAccountProperties {
-  /**
-   * @member {string} [principalName] The account owner's principal name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly principalName?: string;
-}
-
-/**
- * @interface
  * An interface representing Resource.
  * The Resource model definition.
  *
@@ -71,35 +56,6 @@ export interface EnrollmentAccount extends Resource {
    * the server.**
    */
   readonly principalName?: string;
-}
-
-/**
- * @interface
- * An interface representing BillingPeriodProperties.
- * The properties of the billing period.
- *
- */
-export interface BillingPeriodProperties {
-  /**
-   * @member {Date} [billingPeriodStartDate] The start of the date range
-   * covered by the billing period.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly billingPeriodStartDate?: Date;
-  /**
-   * @member {Date} [billingPeriodEndDate] The end of the date range covered by
-   * the billing period.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly billingPeriodEndDate?: Date;
-  /**
-   * @member {string[]} [invoiceIds] Array of invoice ids that associated with.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly invoiceIds?: string[];
 }
 
 /**
@@ -195,42 +151,6 @@ export interface ErrorResponse {
    * @member {ErrorDetails} [error] The details of the error.
    */
   error?: ErrorDetails;
-}
-
-/**
- * @interface
- * An interface representing InvoiceProperties.
- * The properties of the invoice.
- *
- */
-export interface InvoiceProperties {
-  /**
-   * @member {DownloadUrl} [downloadUrl] A secure link to download the PDF
-   * version of an invoice. The link will cease to work after its expiry time
-   * is reached.
-   */
-  downloadUrl?: DownloadUrl;
-  /**
-   * @member {Date} [invoicePeriodStartDate] The start of the date range
-   * covered by the invoice.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly invoicePeriodStartDate?: Date;
-  /**
-   * @member {Date} [invoicePeriodEndDate] The end of the date range covered by
-   * the invoice.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly invoicePeriodEndDate?: Date;
-  /**
-   * @member {string[]} [billingPeriodIds] Array of billing perdiod ids that
-   * the invoice is attributed to.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly billingPeriodIds?: string[];
 }
 
 /**

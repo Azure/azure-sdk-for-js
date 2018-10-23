@@ -4,76 +4,22 @@
  * license information.
  */
 
-import { contains, endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
-import { getCommandLineOptions } from "./.scripts/commandLine";
-import { findAzureRestApiSpecsRepositoryPath, findMissingSdks } from "./.scripts/generateSdks";
-import {
-  generateTsReadme,
-  generateSdk,
-  generateMissingSdk,
-  generateAllMissingSdks,
-  regenerate,
-} from "./.scripts/gulp";
-import {
-  getPackageNamesFromReadmeTypeScriptMdFileContents,
-  findReadmeTypeScriptMdFilePaths,
-  getAbsolutePackageFolderPathFromReadmeFileContents,
-} from "./.scripts/readme";
-import { getLogger, LoggingLevel } from "./.scripts/logger";
+import { getCommandLineOptions, Argv } from "./.scripts/commandLine";
+import { endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
+import { findMissingSdks, findWrongPackages } from "./.scripts/packages";
+import { generateTsReadme, generateMissingSdk, generateAllMissingSdks, regenerate, generateSdk } from "./.scripts/gulp";
+import { findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageFolderPathFromPackageArgument } from "./.scripts/readme";
+import { Logger } from "./.scripts/logger";
 import * as fs from "fs";
 import * as gulp from "gulp";
 import * as path from "path";
-import * as yargs from "yargs";
 import { execSync } from "child_process";
+import { getDataFromPullRequest } from "./.scripts/github";
 
-const _logger = getLogger();
 const args = getCommandLineOptions();
-const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
-const azureRestAPISpecsRoot: string =
-  args["azure-rest-api-specs-root"] ||
-  path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
-
-const commonArgv = yargs.options({
-  "logging-level": {
-    alias: ["l", "loggingLevel"],
-    default: "info",
-    choices: ["all", "trace", "debug", "info", "warn", "error"],
-    coerce: (str) => LoggingLevel[str],
-  }
-}).help("?")
-  .showHelpOnFail(true, "Invalid usage. Run with -? to see help.");
-
-function getPackageFolderPathFromPackageArgument(): string | undefined {
-  let packageFolderPath: string | undefined;
-
-  if (!args.package) {
-    _logger.log(`No --package specified.`);
-  } else {
-    const typeScriptReadmeFilePaths: string[] = findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot);
-
-    let foundPackage = false;
-
-    for (const typeScriptReadmeFilePath of typeScriptReadmeFilePaths) {
-      const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
-      const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-
-      if (contains(packageNames, args.package)) {
-        foundPackage = true;
-
-        packageFolderPath = getAbsolutePackageFolderPathFromReadmeFileContents(
-          azureSDKForJSRepoRoot,
-          typeScriptReadmeFileContents
-        );
-      }
-    }
-
-    if (!foundPackage) {
-      _logger.log(`No package found with the name "${args.package}".`);
-    }
-  }
-
-  return packageFolderPath;
-}
+const _logger = Logger.get();
+const azureSDKForJSRepoRoot: string = process.argv["azure-sdk-for-js-repo-root"] || __dirname;
+const azureRestAPISpecsRoot: string = process.argv["azure-rest-api-specs-root"] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
 
 gulp.task('default', () => {
   _logger.log('gulp build --package <package-name>');
@@ -99,16 +45,26 @@ gulp.task('default', () => {
   _logger.log('    Don\'t actually publish packages, but just indicate which packages would be published.');
 });
 
-gulp.task("install", () => {
-  const packageFolderPath: string | undefined = getPackageFolderPathFromPackageArgument();
+gulp.task("install", async () => {
+  _logger.log(`Passed arguments: ${Argv.print()}`);
+  const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
+    .usage("gulp install --package @azure/arm-mariadb")
+    .argv;
+
+  const packageFolderPath: string | undefined = await getPackageFolderPathFromPackageArgument(argv.package, argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot);
   if (packageFolderPath) {
     _logger.logWithPath(packageFolderPath, "npm install");
     npmInstall(packageFolderPath);
   }
 });
 
-gulp.task("build", () => {
-  const packageFolderPath: string | undefined = getPackageFolderPathFromPackageArgument();
+gulp.task("build", async () => {
+  _logger.log(`Passed arguments: ${Argv.print()}`);
+  const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
+    .usage("gulp build --package @azure/arm-mariadb")
+    .argv;
+
+  const packageFolderPath: string | undefined = await getPackageFolderPathFromPackageArgument(argv.package, argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot);
   if (packageFolderPath) {
     _logger.logWithPath(packageFolderPath, "npm run build");
     npmRunBuild(packageFolderPath);
@@ -117,8 +73,12 @@ gulp.task("build", () => {
 
 // This task is used to generate libraries based on the mappings specified above.
 gulp.task('codegen', async () => {
-  _logger.log(`Passed arguments: ${process.argv}`);
-  await generateSdk(azureRestAPISpecsRoot, azureSDKForJSRepoRoot, args.package);
+  _logger.log(`Passed arguments: ${Argv.print()}`);
+  const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
+    .usage("gulp codegen --package @azure/arm-mariadb")
+    .argv;
+
+  await generateSdk(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot, argv.package);
 });
 
 gulp.task('publish', () => {
@@ -200,9 +160,12 @@ gulp.task('publish', () => {
 
 gulp.task("find-missing-sdks", async () => {
   try {
-    _logger.log(`Passed arguments: ${process.argv}`);
+    _logger.log(`Passed arguments: ${Argv.print()}`);
+    const argv = Argv.construct(Argv.Options.Repository)
+      .usage("gulp find-missing-sdks")
+      .argv;
 
-    const azureRestApiSpecsRepositoryPath = await findAzureRestApiSpecsRepositoryPath();
+    const azureRestApiSpecsRepositoryPath = argv.azureRestAPISpecsRoot;
     _logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
     await findMissingSdks(azureRestApiSpecsRepositoryPath);
@@ -211,10 +174,19 @@ gulp.task("find-missing-sdks", async () => {
   }
 });
 
-gulp.task("generate-ts-readme", async () => {
+gulp.task("generate-readme", async () => {
   try {
-    _logger.log(`Passed arguments: ${process.argv}`);
-    await generateTsReadme(args.package, args.getSdkType());
+    _logger.log(`Passed arguments: ${Argv.print()}`);
+    const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository)
+      .options({
+        "spec-directory": {
+          alias: "dir",
+          description: "Forces generating readme in the specified directory"
+        }
+      }).usage("gulp generate-readme --package @azure/arm-mariadb --type rm")
+      .argv;
+
+    await generateTsReadme(argv.package, argv.type, argv.azureRestAPISpecsRoot, argv.dir);
   }
   catch (error) {
     _logger.logError(error);
@@ -223,8 +195,12 @@ gulp.task("generate-ts-readme", async () => {
 
 gulp.task("generate-missing-sdk", async () => {
   try {
-    _logger.log(`Passed arguments: ${process.argv}`);
-    await generateMissingSdk(azureSDKForJSRepoRoot, args.package, args.getSdkType());
+    _logger.log(`Passed arguments: ${Argv.print()}`);
+    const argv = Argv.construct(Argv.Options.Package, Argv.Options.Repository, Argv.Options.Generate)
+      .usage("gulp generate-missing-sdk --package @azure/arm-mariadb --type rm")
+      .argv;
+
+    await generateMissingSdk(argv.azureSDKForJSRepoRoot, argv.package, argv.type, argv["skip-spec"], argv["skip-sdk"]);
   }
   catch (error) {
     _logger.logError(error);
@@ -233,9 +209,12 @@ gulp.task("generate-missing-sdk", async () => {
 
 gulp.task("generate-all-missing-sdks", async () => {
   try {
-    _logger.log(`Passed arguments: ${process.argv}`);
-    const azureRestApiSpecsRepositoryPath = await findAzureRestApiSpecsRepositoryPath();
-    await generateAllMissingSdks(azureSDKForJSRepoRoot, azureRestApiSpecsRepositoryPath);
+    _logger.log(`Passed arguments: ${Argv.print()}`);
+    const argv = Argv.construct(Argv.Options.Repository, Argv.Options.Generate)
+      .usage("gulp find-missing-sdks")
+      .argv;
+
+    await generateAllMissingSdks(argv.azureSDKForJSRepoRoot, argv.azureRestAPISpecsRoot, argv["skip-spec"], argv["skip-sdk"]);
   } catch (error) {
     _logger.logError(error);
   }
@@ -243,45 +222,62 @@ gulp.task("generate-all-missing-sdks", async () => {
 
 gulp.task("regenerate", async () => {
   return new Promise((resolve, reject) => {
-    const argv = commonArgv.options({
-      "branch": {
-        alias: "b",
-        string: true,
-        required: true,
-        description: "Name of the AutoPR branch"
-      },
-      "package": {
-        alias: "p",
-        string: true,
-        required: true,
-        description: "Name of the regenerated package"
-      },
-      "skip-version-bump": {
-        boolean: true,
-        description: "Determines if version bumping should be skipped"
-      },
-      "azure-sdk-for-js-root": {
-        alias: "sdk",
-        string: true,
-        default: azureSDKForJSRepoRoot,
-        description: "Path to the azure-sdk-for-js repository"
-      },
-      "azure-rest-api-specs-root": {
-        alias: "specs",
-        string: true,
-        default: azureRestAPISpecsRoot,
-        description: "Path to the azure-rest-api-specs repository"
-      }
-    }).usage("gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
+    const argv = Argv.construct(Argv.Options.Repository)
+      .options({
+        "branch": {
+          alias: "b",
+          string: true,
+          description: "Name of the AutoPR branch",
+          implies: "package"
+        },
+        "package": {
+          alias: "p",
+          string: true,
+          description: "Name of the regenerated package"
+        },
+        "pull-request": {
+          alias: "pr",
+          string: true,
+          description: "URL to GitHub pull request",
+          conflicts: ["branch", "package"]
+        },
+        "skip-version-bump": {
+          boolean: true,
+          description: "Determines if version bumping should be skipped"
+        },
+        "request-review": {
+          boolean: true,
+          description: "Determines if review should be automatically requested on matching pull request"
+        }
+      }).usage("gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
-    regenerate(
-        argv.branch,
-        argv.package,
-        argv["azure-sdk-for-js-root"],
-        argv["azure-rest-api-specs-root"],
-        argv["skip-version-bump"]
-      )
-      .then(() => resolve(), reject)
-      .catch(reject);
+    getDataFromPullRequest(argv["pull-request"]).then(data => {
+      const branchName = argv.branch || data.branchName;
+      const packageName = argv.package || data.packageName;
+
+      regenerate(branchName, packageName, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], data.prId, argv["skip-version-bump"], argv["request-review"])
+        .then(_ => resolve(),
+          error => reject(error));
+    }).catch(error => {
+      reject(error)
+    });
   });
+});
+
+gulp.task("find-wrong-packages", async () => {
+  _logger.log(`Passed arguments: ${Argv.print()}`);
+  const argv = Argv.construct(Argv.Options.Repository, Argv.Options.Generate)
+    .usage("gulp find-missing-sdks")
+    .argv;
+
+  const incorrectPackages = await findWrongPackages(argv.azureRestAPISpecsRoot, argv.azureSDKForJSRepoRoot);
+
+  _logger.log(`Found ${incorrectPackages.length} incorrect packages`.red);
+  for (const incorrectPackage of incorrectPackages) {
+    _logger.log(`${incorrectPackage.package.name}`.bgRed);
+    _logger.log(`  Reason:      ${incorrectPackage.message}`);
+    _logger.log(`  Output path: ${incorrectPackage.package.outputPath}`.gray);
+    _logger.log(`  Readme path: ${incorrectPackage.package.readmePath}`.gray);
+    _logger.log();
+  }
 });

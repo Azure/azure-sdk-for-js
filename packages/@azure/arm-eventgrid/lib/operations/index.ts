@@ -8,6 +8,8 @@
  * regenerated.
  */
 
+export * from "./domains";
+export * from "./domainTopics";
 export * from "./eventSubscriptions";
 export * from "./operations";
 export * from "./topics";

@@ -1316,32 +1316,798 @@ export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
  */
 export interface MediaJobStateChangeEventData {
   /**
-   * @member {JobState} [previousState] The previous state of the Job. Possible
-   * values include: 'Canceled', 'Canceling', 'Error', 'Finished',
+   * @member {MediaJobState} [previousState] The previous state of the Job.
+   * Possible values include: 'Canceled', 'Canceling', 'Error', 'Finished',
    * 'Processing', 'Queued', 'Scheduled'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly previousState?: JobState;
+  readonly previousState?: MediaJobState;
   /**
-   * @member {JobState} [state] The new state of the Job. Possible values
+   * @member {MediaJobState} [state] The new state of the Job. Possible values
    * include: 'Canceled', 'Canceling', 'Error', 'Finished', 'Processing',
    * 'Queued', 'Scheduled'
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly state?: JobState;
+  readonly state?: MediaJobState;
+  /**
+   * @member {{ [propertyName: string]: string }} [correlationData] Gets the
+   * Job correlation data.
+   */
+  correlationData?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobErrorDetail.
+ * Details of JobOutput errors.
+ *
+ */
+export interface MediaJobErrorDetail {
+  /**
+   * @member {string} [code] Code describing the error detail.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly code?: string;
+  /**
+   * @member {string} [message] A human-readable representation of the error.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly message?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobError.
+ * Details of JobOutput errors.
+ *
+ */
+export interface MediaJobError {
+  /**
+   * @member {MediaJobErrorCode} [code] Error code describing the error.
+   * Possible values include: 'ServiceError', 'ServiceTransientError',
+   * 'DownloadNotAccessible', 'DownloadTransientError', 'UploadNotAccessible',
+   * 'UploadTransientError', 'ConfigurationUnsupported', 'ContentMalformed',
+   * 'ContentUnsupported'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly code?: MediaJobErrorCode;
+  /**
+   * @member {string} [message] A human-readable language-dependent
+   * representation of the error.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly message?: string;
+  /**
+   * @member {MediaJobErrorCategory} [category] Helps with categorization of
+   * errors. Possible values include: 'Service', 'Download', 'Upload',
+   * 'Configuration', 'Content'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly category?: MediaJobErrorCategory;
+  /**
+   * @member {MediaJobRetry} [retry] Indicates that it may be possible to retry
+   * the Job. If retry is unsuccessful, please contact Azure support via Azure
+   * Portal. Possible values include: 'DoNotRetry', 'MayRetry'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly retry?: MediaJobRetry;
+  /**
+   * @member {MediaJobErrorDetail[]} [details] An array of details about
+   * specific errors that led to this reported error.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly details?: MediaJobErrorDetail[];
+}
+
+/**
+ * Contains the possible cases for MediaJobOutput.
+ */
+export type MediaJobOutputUnion = MediaJobOutput | MediaJobOutputAsset;
+
+/**
+ * @interface
+ * An interface representing MediaJobOutput.
+ * The event data for a Job output.
+ *
+ */
+export interface MediaJobOutput {
+  /**
+   * @member {string} odatatype Polymorphic Discriminator
+   */
+  odatatype: "MediaJobOutput";
+  /**
+   * @member {MediaJobError} [error] Gets the Job output error.
+   */
+  error?: MediaJobError;
+  /**
+   * @member {string} [label] Gets the Job output label.
+   */
+  label?: string;
+  /**
+   * @member {number} progress Gets the Job output progress.
+   */
+  progress: number;
+  /**
+   * @member {MediaJobState} state Gets the Job output state. Possible values
+   * include: 'Canceled', 'Canceling', 'Error', 'Finished', 'Processing',
+   * 'Queued', 'Scheduled'
+   */
+  state: MediaJobState;
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobOutputAsset.
+ * The event data for a Job output asset.
+ *
+ */
+export interface MediaJobOutputAsset {
+  /**
+   * @member {string} odatatype Polymorphic Discriminator
+   */
+  odatatype: "#Microsoft.Media.JobOutputAsset";
+  /**
+   * @member {MediaJobError} [error] Gets the Job output error.
+   */
+  error?: MediaJobError;
+  /**
+   * @member {string} [label] Gets the Job output label.
+   */
+  label?: string;
+  /**
+   * @member {number} progress Gets the Job output progress.
+   */
+  progress: number;
+  /**
+   * @member {MediaJobState} state Gets the Job output state. Possible values
+   * include: 'Canceled', 'Canceling', 'Error', 'Finished', 'Processing',
+   * 'Queued', 'Scheduled'
+   */
+  state: MediaJobState;
+  /**
+   * @member {string} [assetName] Gets the Job output asset name.
+   */
+  assetName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobOutputStateChangeEventData.
+ * Schema of the Data property of an EventGridEvent for a
+ * Microsoft.Media.JobOutputStateChange event.
+ *
+ */
+export interface MediaJobOutputStateChangeEventData {
+  /**
+   * @member {MediaJobState} [previousState] The previous state of the Job.
+   * Possible values include: 'Canceled', 'Canceling', 'Error', 'Finished',
+   * 'Processing', 'Queued', 'Scheduled'
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly previousState?: MediaJobState;
+  /**
+   * @member {MediaJobOutputUnion} [output] Gets the output.
+   */
+  output?: MediaJobOutputUnion;
+  /**
+   * @member {{ [propertyName: string]: string }} [jobCorrelationData] Gets the
+   * Job correlation data.
+   */
+  jobCorrelationData?: { [propertyName: string]: string };
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobScheduledEventData.
+ * Job scheduled event data
+ *
+ * @extends MediaJobStateChangeEventData
+ */
+export interface MediaJobScheduledEventData extends MediaJobStateChangeEventData {
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobProcessingEventData.
+ * Job processing event data
+ *
+ * @extends MediaJobStateChangeEventData
+ */
+export interface MediaJobProcessingEventData extends MediaJobStateChangeEventData {
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobCancelingEventData.
+ * Job canceling event data
+ *
+ * @extends MediaJobStateChangeEventData
+ */
+export interface MediaJobCancelingEventData extends MediaJobStateChangeEventData {
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobFinishedEventData.
+ * Job finished event data
+ *
+ * @extends MediaJobStateChangeEventData
+ */
+export interface MediaJobFinishedEventData extends MediaJobStateChangeEventData {
+  /**
+   * @member {MediaJobOutputUnion[]} [outputs] Gets the Job outputs.
+   */
+  outputs?: MediaJobOutputUnion[];
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobCanceledEventData.
+ * Job canceled event data
+ *
+ * @extends MediaJobStateChangeEventData
+ */
+export interface MediaJobCanceledEventData extends MediaJobStateChangeEventData {
+  /**
+   * @member {MediaJobOutputUnion[]} [outputs] Gets the Job outputs.
+   */
+  outputs?: MediaJobOutputUnion[];
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobErroredEventData.
+ * Job error state event data
+ *
+ * @extends MediaJobStateChangeEventData
+ */
+export interface MediaJobErroredEventData extends MediaJobStateChangeEventData {
+  /**
+   * @member {MediaJobOutputUnion[]} [outputs] Gets the Job outputs.
+   */
+  outputs?: MediaJobOutputUnion[];
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobOutputCanceledEventData.
+ * Job output canceled event data
+ *
+ * @extends MediaJobOutputStateChangeEventData
+ */
+export interface MediaJobOutputCanceledEventData extends MediaJobOutputStateChangeEventData {
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobOutputCancelingEventData.
+ * Job output canceling event data
+ *
+ * @extends MediaJobOutputStateChangeEventData
+ */
+export interface MediaJobOutputCancelingEventData extends MediaJobOutputStateChangeEventData {
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobOutputErroredEventData.
+ * Job output error event data
+ *
+ * @extends MediaJobOutputStateChangeEventData
+ */
+export interface MediaJobOutputErroredEventData extends MediaJobOutputStateChangeEventData {
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobOutputFinishedEventData.
+ * Job output finished event data
+ *
+ * @extends MediaJobOutputStateChangeEventData
+ */
+export interface MediaJobOutputFinishedEventData extends MediaJobOutputStateChangeEventData {
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobOutputProcessingEventData.
+ * Job output processing event data
+ *
+ * @extends MediaJobOutputStateChangeEventData
+ */
+export interface MediaJobOutputProcessingEventData extends MediaJobOutputStateChangeEventData {
+}
+
+/**
+ * @interface
+ * An interface representing MediaJobOutputScheduledEventData.
+ * Job output scheduled event data
+ *
+ * @extends MediaJobOutputStateChangeEventData
+ */
+export interface MediaJobOutputScheduledEventData extends MediaJobOutputStateChangeEventData {
+}
+
+/**
+ * @interface
+ * An interface representing MediaLiveEventEncoderConnectedEventData.
+ * Encoder connect event data.
+ *
+ */
+export interface MediaLiveEventEncoderConnectedEventData {
+  /**
+   * @member {string} [ingestUrl] Gets the ingest URL provided by the live
+   * event.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ingestUrl?: string;
+  /**
+   * @member {string} [streamId] Gets the stream Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly streamId?: string;
+  /**
+   * @member {string} [encoderIp] Gets the remote IP.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly encoderIp?: string;
+  /**
+   * @member {string} [encoderPort] Gets the remote port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly encoderPort?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MediaLiveEventConnectionRejectedEventData.
+ * Encoder connection rejected event data.
+ *
+ */
+export interface MediaLiveEventConnectionRejectedEventData {
+  /**
+   * @member {string} [ingestUrl] Gets the ingest URL provided by the live
+   * event.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ingestUrl?: string;
+  /**
+   * @member {string} [streamId] Gets the stream Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly streamId?: string;
+  /**
+   * @member {string} [encoderIp] Gets the remote IP.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly encoderIp?: string;
+  /**
+   * @member {string} [encoderPort] Gets the remote port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly encoderPort?: string;
+  /**
+   * @member {string} [resultCode] Gets the result code.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resultCode?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MediaLiveEventEncoderDisconnectedEventData.
+ * Encoder disconnected event data.
+ *
+ */
+export interface MediaLiveEventEncoderDisconnectedEventData {
+  /**
+   * @member {string} [ingestUrl] Gets the ingest URL provided by the live
+   * event.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ingestUrl?: string;
+  /**
+   * @member {string} [streamId] Gets the stream Id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly streamId?: string;
+  /**
+   * @member {string} [encoderIp] Gets the remote IP.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly encoderIp?: string;
+  /**
+   * @member {string} [encoderPort] Gets the remote port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly encoderPort?: string;
+  /**
+   * @member {string} [resultCode] Gets the result code.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resultCode?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MediaLiveEventIncomingStreamReceivedEventData.
+ * Encoder connect event data.
+ *
+ */
+export interface MediaLiveEventIncomingStreamReceivedEventData {
+  /**
+   * @member {string} [ingestUrl] Gets the ingest URL provided by the live
+   * event.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly ingestUrl?: string;
+  /**
+   * @member {string} [trackType] Gets the type of the track (Audio / Video).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly trackType?: string;
+  /**
+   * @member {string} [trackName] Gets the track name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly trackName?: string;
+  /**
+   * @member {number} [bitrate] Gets the bitrate of the track.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly bitrate?: number;
+  /**
+   * @member {string} [encoderIp] Gets the remote IP.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly encoderIp?: string;
+  /**
+   * @member {string} [encoderPort] Gets the remote port.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly encoderPort?: string;
+  /**
+   * @member {string} [timestamp] Gets the first timestamp of the data chunk
+   * received.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timestamp?: string;
+  /**
+   * @member {string} [duration] Gets the duration of the first data chunk.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly duration?: string;
+  /**
+   * @member {string} [timescale] Gets the timescale in which timestamp is
+   * represented.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timescale?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MediaLiveEventIncomingStreamsOutOfSyncEventData.
+ * Incoming streams out of sync event data.
+ *
+ */
+export interface MediaLiveEventIncomingStreamsOutOfSyncEventData {
+  /**
+   * @member {string} [minLastTimestamp] Gets the minimum last timestamp
+   * received.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly minLastTimestamp?: string;
+  /**
+   * @member {string} [typeOfStreamWithMinLastTimestamp] Gets the type of
+   * stream with minimum last timestamp.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly typeOfStreamWithMinLastTimestamp?: string;
+  /**
+   * @member {string} [maxLastTimestamp] Gets the maximum timestamp among all
+   * the tracks (audio or video).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly maxLastTimestamp?: string;
+  /**
+   * @member {string} [typeOfStreamWithMaxLastTimestamp] Gets the type of
+   * stream with maximum last timestamp.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly typeOfStreamWithMaxLastTimestamp?: string;
+  /**
+   * @member {string} [timescaleOfMinLastTimestamp] Gets the timescale in which
+   * "MinLastTimestamp" is represented.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timescaleOfMinLastTimestamp?: string;
+  /**
+   * @member {string} [timescaleOfMaxLastTimestamp] Gets the timescale in which
+   * "MaxLastTimestamp" is represented.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timescaleOfMaxLastTimestamp?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MediaLiveEventIncomingVideoStreamsOutOfSyncEventData.
+ * Incoming video stream out of synch event data.
+ *
+ */
+export interface MediaLiveEventIncomingVideoStreamsOutOfSyncEventData {
+  /**
+   * @member {string} [firstTimestamp] Gets the first timestamp received for
+   * one of the quality levels.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly firstTimestamp?: string;
+  /**
+   * @member {string} [firstDuration] Gets the duration of the data chunk with
+   * first timestamp.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly firstDuration?: string;
+  /**
+   * @member {string} [secondTimestamp] Gets the timestamp received for some
+   * other quality levels.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly secondTimestamp?: string;
+  /**
+   * @member {string} [secondDuration] Gets the duration of the data chunk with
+   * second timestamp.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly secondDuration?: string;
+  /**
+   * @member {string} [timescale] Gets the timescale in which both the
+   * timestamps and durations are represented.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timescale?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MediaLiveEventIncomingDataChunkDroppedEventData.
+ * Ingest fragment dropped event event data.
+ *
+ */
+export interface MediaLiveEventIncomingDataChunkDroppedEventData {
+  /**
+   * @member {string} [timestamp] Gets the timestamp of the data chunk dropped.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timestamp?: string;
+  /**
+   * @member {string} [trackType] Gets the type of the track (Audio / Video).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly trackType?: string;
+  /**
+   * @member {number} [bitrate] Gets the bitrate of the track.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly bitrate?: number;
+  /**
+   * @member {string} [timescale] Gets the timescale of the Timestamp.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timescale?: string;
+  /**
+   * @member {string} [resultCode] Gets the result code for fragment drop
+   * operation.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly resultCode?: string;
+  /**
+   * @member {string} [trackName] Gets the name of the track for which fragment
+   * is dropped.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly trackName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MediaLiveEventIngestHeartbeatEventData.
+ * Ingest fragment dropped event event data.
+ *
+ */
+export interface MediaLiveEventIngestHeartbeatEventData {
+  /**
+   * @member {string} [trackType] Gets the type of the track (Audio / Video).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly trackType?: string;
+  /**
+   * @member {string} [trackName] Gets the track name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly trackName?: string;
+  /**
+   * @member {number} [bitrate] Gets the bitrate of the track.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly bitrate?: number;
+  /**
+   * @member {number} [incomingBitrate] Gets the incoming bitrate.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly incomingBitrate?: number;
+  /**
+   * @member {string} [lastTimestamp] Gets the last timestamp.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly lastTimestamp?: string;
+  /**
+   * @member {string} [timescale] Gets the timescale of the last timestamp.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timescale?: string;
+  /**
+   * @member {number} [overlapCount] Gets the fragment Overlap count.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly overlapCount?: number;
+  /**
+   * @member {number} [discontinuityCount] Gets the fragment Discontinuity
+   * count.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly discontinuityCount?: number;
+  /**
+   * @member {number} [nonincreasingCount] Gets Non increasing count.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly nonincreasingCount?: number;
+  /**
+   * @member {boolean} [unexpectedBitrate] Gets a value indicating whether
+   * unexpected bitrate is present or not.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly unexpectedBitrate?: boolean;
+  /**
+   * @member {string} [state] Gets the state of the live event.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly state?: string;
+  /**
+   * @member {boolean} [healthy] Gets a value indicating whether preview is
+   * healthy or not.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly healthy?: boolean;
+}
+
+/**
+ * @interface
+ * An interface representing MediaLiveEventTrackDiscontinuityDetectedEventData.
+ * Ingest track discontinuity detected event data.
+ *
+ */
+export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
+  /**
+   * @member {string} [trackType] Gets the type of the track (Audio / Video).
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly trackType?: string;
+  /**
+   * @member {string} [trackName] Gets the track name.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly trackName?: string;
+  /**
+   * @member {number} [bitrate] Gets the bitrate.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly bitrate?: number;
+  /**
+   * @member {string} [previousTimestamp] Gets the timestamp of the previous
+   * fragment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly previousTimestamp?: string;
+  /**
+   * @member {string} [newTimestamp] Gets the timestamp of the current
+   * fragment.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly newTimestamp?: string;
+  /**
+   * @member {string} [timescale] Gets the timescale in which both timestamps
+   * and discontinuity gap are represented.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly timescale?: string;
+  /**
+   * @member {string} [discontinuityGap] Gets the discontinuity gap between
+   * PreviousTimestamp and NewTimestamp.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly discontinuityGap?: string;
 }
 
 
 /**
- * Defines values for JobState.
+ * Defines values for MediaJobState.
  * Possible values include: 'Canceled', 'Canceling', 'Error', 'Finished',
  * 'Processing', 'Queued', 'Scheduled'
  * @readonly
  * @enum {string}
  */
-export enum JobState {
+export enum MediaJobState {
   /**
    * The job was canceled. This is a final state for the job.
    */
@@ -1373,4 +2139,112 @@ export enum JobState {
    * transient state, between queued and processing states.
    */
   Scheduled = 'Scheduled',
+}
+
+/**
+ * Defines values for MediaJobErrorCode.
+ * Possible values include: 'ServiceError', 'ServiceTransientError',
+ * 'DownloadNotAccessible', 'DownloadTransientError', 'UploadNotAccessible',
+ * 'UploadTransientError', 'ConfigurationUnsupported', 'ContentMalformed',
+ * 'ContentUnsupported'
+ * @readonly
+ * @enum {string}
+ */
+export enum MediaJobErrorCode {
+  /**
+   * Fatal service error, please contact support.
+   */
+  ServiceError = 'ServiceError',
+  /**
+   * Transient error, please retry, if retry is unsuccessful, please contact
+   * support.
+   */
+  ServiceTransientError = 'ServiceTransientError',
+  /**
+   * While trying to download the input files, the files were not accessible,
+   * please check the availability of the source.
+   */
+  DownloadNotAccessible = 'DownloadNotAccessible',
+  /**
+   * While trying to download the input files, there was an issue during
+   * transfer (storage service, network errors), see details and check your
+   * source.
+   */
+  DownloadTransientError = 'DownloadTransientError',
+  /**
+   * While trying to upload the output files, the destination was not
+   * reachable, please check the availability of the destination.
+   */
+  UploadNotAccessible = 'UploadNotAccessible',
+  /**
+   * While trying to upload the output files, there was an issue during
+   * transfer (storage service, network errors), see details and check your
+   * destination.
+   */
+  UploadTransientError = 'UploadTransientError',
+  /**
+   * There was a problem with the combination of input files and the
+   * configuration settings applied, fix the configuration settings and retry
+   * with the same input, or change input to match the configuration.
+   */
+  ConfigurationUnsupported = 'ConfigurationUnsupported',
+  /**
+   * There was a problem with the input content (for example: zero byte files,
+   * or corrupt/non-decodable files), check the input files.
+   */
+  ContentMalformed = 'ContentMalformed',
+  /**
+   * There was a problem with the format of the input (not valid media file, or
+   * an unsupported file/codec), check the validity of the input files.
+   */
+  ContentUnsupported = 'ContentUnsupported',
+}
+
+/**
+ * Defines values for MediaJobErrorCategory.
+ * Possible values include: 'Service', 'Download', 'Upload', 'Configuration',
+ * 'Content'
+ * @readonly
+ * @enum {string}
+ */
+export enum MediaJobErrorCategory {
+  /**
+   * The error is service related.
+   */
+  Service = 'Service',
+  /**
+   * The error is download related.
+   */
+  Download = 'Download',
+  /**
+   * The error is upload related.
+   */
+  Upload = 'Upload',
+  /**
+   * The error is configuration related.
+   */
+  Configuration = 'Configuration',
+  /**
+   * The error is related to data in the input files.
+   */
+  Content = 'Content',
+}
+
+/**
+ * Defines values for MediaJobRetry.
+ * Possible values include: 'DoNotRetry', 'MayRetry'
+ * @readonly
+ * @enum {string}
+ */
+export enum MediaJobRetry {
+  /**
+   * Issue needs to be investigated and then the job resubmitted with
+   * corrections or retried once the underlying issue has been corrected.
+   */
+  DoNotRetry = 'DoNotRetry',
+  /**
+   * Issue may be resolved after waiting for a period of time and resubmitting
+   * the same Job.
+   */
+  MayRetry = 'MayRetry',
 }

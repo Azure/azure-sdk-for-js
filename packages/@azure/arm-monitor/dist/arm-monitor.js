@@ -906,62 +906,6 @@
             }
         }
     };
-    var AutoscaleSetting = {
-        serializedName: "AutoscaleSetting",
-        type: {
-            name: "Composite",
-            className: "AutoscaleSetting",
-            modelProperties: {
-                profiles: {
-                    required: true,
-                    serializedName: "profiles",
-                    constraints: {
-                        MaxItems: 20
-                    },
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "AutoscaleProfile"
-                            }
-                        }
-                    }
-                },
-                notifications: {
-                    serializedName: "notifications",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "AutoscaleNotification"
-                            }
-                        }
-                    }
-                },
-                enabled: {
-                    serializedName: "enabled",
-                    defaultValue: true,
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                name: {
-                    serializedName: "name",
-                    type: {
-                        name: "String"
-                    }
-                },
-                targetResourceUri: {
-                    serializedName: "targetResourceUri",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var AutoscaleSettingResource = {
         serializedName: "AutoscaleSettingResource",
         type: {
@@ -1555,72 +1499,6 @@
                 } })
         }
     };
-    var AlertRule = {
-        serializedName: "AlertRule",
-        type: {
-            name: "Composite",
-            className: "AlertRule",
-            modelProperties: {
-                name: {
-                    required: true,
-                    serializedName: "name",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isEnabled: {
-                    required: true,
-                    serializedName: "isEnabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                condition: {
-                    required: true,
-                    serializedName: "condition",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "odata.type",
-                            clientName: "odatatype"
-                        },
-                        uberParent: "RuleCondition",
-                        className: "RuleCondition"
-                    }
-                },
-                actions: {
-                    serializedName: "actions",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                polymorphicDiscriminator: {
-                                    serializedName: "odata.type",
-                                    clientName: "odatatype"
-                                },
-                                uberParent: "RuleAction",
-                                className: "RuleAction"
-                            }
-                        }
-                    }
-                },
-                lastUpdatedTime: {
-                    readOnly: true,
-                    serializedName: "lastUpdatedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                }
-            }
-        }
-    };
     var AlertRuleResource = {
         serializedName: "AlertRuleResource",
         type: {
@@ -1778,59 +1656,6 @@
                     },
                     type: {
                         name: "Number"
-                    }
-                }
-            }
-        }
-    };
-    var LogProfileProperties = {
-        serializedName: "LogProfileProperties",
-        type: {
-            name: "Composite",
-            className: "LogProfileProperties",
-            modelProperties: {
-                storageAccountId: {
-                    serializedName: "storageAccountId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serviceBusRuleId: {
-                    serializedName: "serviceBusRuleId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                locations: {
-                    required: true,
-                    serializedName: "locations",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                categories: {
-                    required: true,
-                    serializedName: "categories",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                retentionPolicy: {
-                    required: true,
-                    serializedName: "retentionPolicy",
-                    type: {
-                        name: "Composite",
-                        className: "RetentionPolicy"
                     }
                 }
             }
@@ -2041,69 +1866,6 @@
             }
         }
     };
-    var DiagnosticSettings = {
-        serializedName: "DiagnosticSettings",
-        type: {
-            name: "Composite",
-            className: "DiagnosticSettings",
-            modelProperties: {
-                storageAccountId: {
-                    serializedName: "storageAccountId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serviceBusRuleId: {
-                    serializedName: "serviceBusRuleId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                eventHubAuthorizationRuleId: {
-                    serializedName: "eventHubAuthorizationRuleId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                eventHubName: {
-                    serializedName: "eventHubName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                metrics: {
-                    serializedName: "metrics",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "MetricSettings"
-                            }
-                        }
-                    }
-                },
-                logs: {
-                    serializedName: "logs",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LogSettings"
-                            }
-                        }
-                    }
-                },
-                workspaceId: {
-                    serializedName: "workspaceId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var DiagnosticSettingsResource = {
         serializedName: "DiagnosticSettingsResource",
         type: {
@@ -2175,26 +1937,6 @@
                                 className: "DiagnosticSettingsResource"
                             }
                         }
-                    }
-                }
-            }
-        }
-    };
-    var DiagnosticSettingsCategory = {
-        serializedName: "DiagnosticSettingsCategory",
-        type: {
-            name: "Composite",
-            className: "DiagnosticSettingsCategory",
-            modelProperties: {
-                categoryType: {
-                    nullable: false,
-                    serializedName: "categoryType",
-                    type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Metrics",
-                            "Logs"
-                        ]
                     }
                 }
             }
@@ -2552,136 +2294,24 @@
             }
         }
     };
-    var ActionGroup = {
-        serializedName: "ActionGroup",
+    var ArmRoleReceiver = {
+        serializedName: "ArmRoleReceiver",
         type: {
             name: "Composite",
-            className: "ActionGroup",
+            className: "ArmRoleReceiver",
             modelProperties: {
-                groupShortName: {
+                name: {
                     required: true,
-                    serializedName: "groupShortName",
-                    constraints: {
-                        MaxLength: 12
-                    },
+                    serializedName: "name",
                     type: {
                         name: "String"
                     }
                 },
-                enabled: {
+                roleId: {
                     required: true,
-                    serializedName: "enabled",
-                    defaultValue: true,
+                    serializedName: "roleId",
                     type: {
-                        name: "Boolean"
-                    }
-                },
-                emailReceivers: {
-                    serializedName: "emailReceivers",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "EmailReceiver"
-                            }
-                        }
-                    }
-                },
-                smsReceivers: {
-                    serializedName: "smsReceivers",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "SmsReceiver"
-                            }
-                        }
-                    }
-                },
-                webhookReceivers: {
-                    serializedName: "webhookReceivers",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "WebhookReceiver"
-                            }
-                        }
-                    }
-                },
-                itsmReceivers: {
-                    serializedName: "itsmReceivers",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ItsmReceiver"
-                            }
-                        }
-                    }
-                },
-                azureAppPushReceivers: {
-                    serializedName: "azureAppPushReceivers",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "AzureAppPushReceiver"
-                            }
-                        }
-                    }
-                },
-                automationRunbookReceivers: {
-                    serializedName: "automationRunbookReceivers",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "AutomationRunbookReceiver"
-                            }
-                        }
-                    }
-                },
-                voiceReceivers: {
-                    serializedName: "voiceReceivers",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "VoiceReceiver"
-                            }
-                        }
-                    }
-                },
-                logicAppReceivers: {
-                    serializedName: "logicAppReceivers",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LogicAppReceiver"
-                            }
-                        }
-                    }
-                },
-                azureFunctionReceivers: {
-                    serializedName: "azureFunctionReceivers",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "AzureFunctionReceiver"
-                            }
-                        }
+                        name: "String"
                     }
                 }
             }
@@ -2807,6 +2437,17 @@
                             }
                         }
                     }
+                }, armRoleReceivers: {
+                    serializedName: "properties.armRoleReceivers",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ArmRoleReceiver"
+                            }
+                        }
+                    }
                 } })
         }
     };
@@ -2821,22 +2462,6 @@
                     serializedName: "receiverName",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var ActionGroupPatch = {
-        serializedName: "ActionGroupPatch",
-        type: {
-            name: "Composite",
-            className: "ActionGroupPatch",
-            modelProperties: {
-                enabled: {
-                    serializedName: "enabled",
-                    defaultValue: true,
-                    type: {
-                        name: "Boolean"
                     }
                 }
             }
@@ -2962,56 +2587,6 @@
             }
         }
     };
-    var ActivityLogAlert = {
-        serializedName: "ActivityLogAlert",
-        type: {
-            name: "Composite",
-            className: "ActivityLogAlert",
-            modelProperties: {
-                scopes: {
-                    required: true,
-                    serializedName: "scopes",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                enabled: {
-                    serializedName: "enabled",
-                    defaultValue: true,
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                condition: {
-                    required: true,
-                    serializedName: "condition",
-                    type: {
-                        name: "Composite",
-                        className: "ActivityLogAlertAllOfCondition"
-                    }
-                },
-                actions: {
-                    required: true,
-                    serializedName: "actions",
-                    type: {
-                        name: "Composite",
-                        className: "ActivityLogAlertActionList"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var ActivityLogAlertResource = {
         serializedName: "ActivityLogAlertResource",
         type: {
@@ -3054,22 +2629,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var ActivityLogAlertPatch = {
-        serializedName: "ActivityLogAlertPatch",
-        type: {
-            name: "Composite",
-            className: "ActivityLogAlertPatch",
-            modelProperties: {
-                enabled: {
-                    serializedName: "enabled",
-                    defaultValue: true,
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
         }
     };
     var ActivityLogAlertPatchBody = {
@@ -3805,68 +3364,6 @@
             }
         }
     };
-    var BaselineProperties = {
-        serializedName: "BaselineProperties",
-        type: {
-            name: "Composite",
-            className: "BaselineProperties",
-            modelProperties: {
-                timespan: {
-                    serializedName: "timespan",
-                    type: {
-                        name: "String"
-                    }
-                },
-                interval: {
-                    serializedName: "interval",
-                    type: {
-                        name: "TimeSpan"
-                    }
-                },
-                aggregation: {
-                    serializedName: "aggregation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                timestamps: {
-                    serializedName: "timestamps",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "DateTime"
-                            }
-                        }
-                    }
-                },
-                baseline: {
-                    serializedName: "baseline",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "Baseline"
-                            }
-                        }
-                    }
-                },
-                metadata: {
-                    serializedName: "metadata",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "BaselineMetadataValue"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var BaselineResponse = {
         serializedName: "BaselineResponse",
         type: {
@@ -4083,116 +3580,6 @@
             additionalProperties: {
                 type: {
                     name: "Object"
-                }
-            }
-        }
-    };
-    var MetricAlertProperties = {
-        serializedName: "MetricAlertProperties",
-        type: {
-            name: "Composite",
-            className: "MetricAlertProperties",
-            modelProperties: {
-                description: {
-                    required: true,
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                severity: {
-                    required: true,
-                    serializedName: "severity",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                enabled: {
-                    required: true,
-                    serializedName: "enabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                scopes: {
-                    serializedName: "scopes",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                evaluationFrequency: {
-                    required: true,
-                    serializedName: "evaluationFrequency",
-                    type: {
-                        name: "TimeSpan"
-                    }
-                },
-                windowSize: {
-                    required: true,
-                    serializedName: "windowSize",
-                    type: {
-                        name: "TimeSpan"
-                    }
-                },
-                targetResourceType: {
-                    serializedName: "targetResourceType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                targetResourceRegion: {
-                    serializedName: "targetResourceRegion",
-                    type: {
-                        name: "String"
-                    }
-                },
-                criteria: {
-                    required: true,
-                    serializedName: "criteria",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "odata.type",
-                            clientName: "odatatype"
-                        },
-                        uberParent: "MetricAlertCriteria",
-                        className: "MetricAlertCriteria",
-                        additionalProperties: {
-                            type: {
-                                name: "Object"
-                            }
-                        }
-                    }
-                },
-                autoMitigate: {
-                    serializedName: "autoMitigate",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                actions: {
-                    serializedName: "actions",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "MetricAlertAction"
-                            }
-                        }
-                    }
-                },
-                lastUpdatedTime: {
-                    readOnly: true,
-                    serializedName: "lastUpdatedTime",
-                    type: {
-                        name: "DateTime"
-                    }
                 }
             }
         }
@@ -4760,69 +4147,6 @@
             }
         }
     };
-    var LogSearchRule = {
-        serializedName: "LogSearchRule",
-        type: {
-            name: "Composite",
-            className: "LogSearchRule",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                enabled: {
-                    serializedName: "enabled",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastUpdatedTime: {
-                    readOnly: true,
-                    serializedName: "lastUpdatedTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                source: {
-                    required: true,
-                    serializedName: "source",
-                    type: {
-                        name: "Composite",
-                        className: "Source"
-                    }
-                },
-                schedule: {
-                    serializedName: "schedule",
-                    type: {
-                        name: "Composite",
-                        className: "Schedule"
-                    }
-                },
-                action: {
-                    required: true,
-                    serializedName: "action",
-                    type: {
-                        name: "Composite",
-                        polymorphicDiscriminator: {
-                            serializedName: "odata.type",
-                            clientName: "odatatype"
-                        },
-                        uberParent: "Action",
-                        className: "Action"
-                    }
-                }
-            }
-        }
-    };
     var LogSearchRuleResource = {
         serializedName: "LogSearchRuleResource",
         type: {
@@ -4876,21 +4200,6 @@
                         className: "Action"
                     }
                 } })
-        }
-    };
-    var LogSearchRulePatch = {
-        serializedName: "LogSearchRulePatch",
-        type: {
-            name: "Composite",
-            className: "LogSearchRulePatch",
-            modelProperties: {
-                enabled: {
-                    serializedName: "enabled",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var LogSearchRuleResourcePatch = {
@@ -5486,7 +4795,6 @@
         EmailNotification: EmailNotification,
         WebhookNotification: WebhookNotification,
         AutoscaleNotification: AutoscaleNotification,
-        AutoscaleSetting: AutoscaleSetting,
         AutoscaleSettingResource: AutoscaleSettingResource,
         AutoscaleSettingResourcePatch: AutoscaleSettingResourcePatch,
         ErrorResponse: ErrorResponse,
@@ -5506,20 +4814,16 @@
         RuleAction: RuleAction,
         RuleEmailAction: RuleEmailAction,
         RuleWebhookAction: RuleWebhookAction,
-        AlertRule: AlertRule,
         AlertRuleResource: AlertRuleResource,
         AlertRuleResourcePatch: AlertRuleResourcePatch,
         RetentionPolicy: RetentionPolicy,
-        LogProfileProperties: LogProfileProperties,
         LogProfileResource: LogProfileResource,
         LogProfileResourcePatch: LogProfileResourcePatch,
         ProxyOnlyResource: ProxyOnlyResource,
         MetricSettings: MetricSettings,
         LogSettings: LogSettings,
-        DiagnosticSettings: DiagnosticSettings,
         DiagnosticSettingsResource: DiagnosticSettingsResource,
         DiagnosticSettingsResourceCollection: DiagnosticSettingsResourceCollection,
-        DiagnosticSettingsCategory: DiagnosticSettingsCategory,
         DiagnosticSettingsCategoryResource: DiagnosticSettingsCategoryResource,
         DiagnosticSettingsCategoryResourceCollection: DiagnosticSettingsCategoryResourceCollection,
         EmailReceiver: EmailReceiver,
@@ -5531,18 +4835,15 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
-        ActionGroup: ActionGroup,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActionGroupResource: ActionGroupResource,
         EnableRequest: EnableRequest,
-        ActionGroupPatch: ActionGroupPatch,
         ActionGroupPatchBody: ActionGroupPatchBody,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertActionGroup: ActivityLogAlertActionGroup,
         ActivityLogAlertActionList: ActivityLogAlertActionList,
-        ActivityLogAlert: ActivityLogAlert,
         ActivityLogAlertResource: ActivityLogAlertResource,
-        ActivityLogAlertPatch: ActivityLogAlertPatch,
         ActivityLogAlertPatchBody: ActivityLogAlertPatchBody,
         LocalizableString: LocalizableString,
         SenderAuthorization: SenderAuthorization,
@@ -5557,13 +4858,11 @@
         Response: Response,
         BaselineMetadataValue: BaselineMetadataValue,
         Baseline: Baseline,
-        BaselineProperties: BaselineProperties,
         BaselineResponse: BaselineResponse,
         TimeSeriesInformation: TimeSeriesInformation,
         CalculateBaselineResponse: CalculateBaselineResponse,
         MetricAlertAction: MetricAlertAction,
         MetricAlertCriteria: MetricAlertCriteria,
-        MetricAlertProperties: MetricAlertProperties,
         MetricAlertResource: MetricAlertResource,
         MetricAlertResourcePatch: MetricAlertResourcePatch,
         MetricAlertStatusProperties: MetricAlertStatusProperties,
@@ -5577,9 +4876,7 @@
         Source: Source,
         Schedule: Schedule,
         Action: Action,
-        LogSearchRule: LogSearchRule,
         LogSearchRuleResource: LogSearchRuleResource,
-        LogSearchRulePatch: LogSearchRulePatch,
         LogSearchRuleResourcePatch: LogSearchRuleResourcePatch,
         LogMetricTrigger: LogMetricTrigger,
         TriggerCondition: TriggerCondition,
@@ -5655,6 +4952,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -5783,7 +5081,7 @@
             required: true,
             isConstant: true,
             serializedName: "api-version",
-            defaultValue: '2018-03-01',
+            defaultValue: '2018-09-01',
             type: {
                 name: "String"
             }
@@ -5831,13 +5129,25 @@
             required: true,
             isConstant: true,
             serializedName: "api-version",
-            defaultValue: '2018-04-16',
+            defaultValue: '2018-03-01',
             type: {
                 name: "String"
             }
         }
     };
     var apiVersion8 = {
+        parameterPath: "apiVersion",
+        mapper: {
+            required: true,
+            isConstant: true,
+            serializedName: "api-version",
+            defaultValue: '2018-04-16',
+            type: {
+                name: "String"
+            }
+        }
+    };
+    var apiVersion9 = {
         parameterPath: "apiVersion",
         mapper: {
             required: true,
@@ -6595,6 +5905,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -6890,6 +6201,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -7148,6 +6460,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -7377,6 +6690,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -7517,6 +6831,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ErrorResponse: ErrorResponse,
         ActionGroupPatchBody: ActionGroupPatchBody,
         ActionGroupList: ActionGroupList,
@@ -7886,6 +7201,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         MetricAlertResource: MetricAlertResource,
         MetricAlertCriteria: MetricAlertCriteria,
         MetricAlertAction: MetricAlertAction,
@@ -8706,6 +8022,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -8808,7 +8125,7 @@
             subscriptionId
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8831,7 +8148,7 @@
             resourceGroupName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8855,7 +8172,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8879,7 +8196,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8907,7 +8224,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8935,7 +8252,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -9014,7 +8331,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -9039,7 +8356,7 @@
             statusName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -9109,6 +8426,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -9212,7 +8530,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion7
+            apiVersion8
         ],
         headerParameters: [
             acceptLanguage
@@ -9243,7 +8561,7 @@
             subscriptionId
         ],
         queryParameters: [
-            apiVersion7
+            apiVersion8
         ],
         headerParameters: [
             acceptLanguage
@@ -9267,7 +8585,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion7
+            apiVersion8
         ],
         headerParameters: [
             acceptLanguage
@@ -9295,7 +8613,7 @@
             subscriptionId
         ],
         queryParameters: [
-            apiVersion7
+            apiVersion8
         ],
         headerParameters: [
             acceptLanguage
@@ -9316,7 +8634,7 @@
             subscriptionId
         ],
         queryParameters: [
-            apiVersion7,
+            apiVersion8,
             filter
         ],
         headerParameters: [
@@ -9340,7 +8658,7 @@
             subscriptionId
         ],
         queryParameters: [
-            apiVersion7,
+            apiVersion8,
             filter
         ],
         headerParameters: [
@@ -9410,7 +8728,7 @@
             resourceUri
         ],
         queryParameters: [
-            apiVersion8,
+            apiVersion9,
             startTime
         ],
         headerParameters: [

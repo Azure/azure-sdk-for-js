@@ -137,10 +137,9 @@ Want to get started hacking on the code, super! Follow the following instruction
 instructions expect you have Git and a supported version of Node installed.
 
 1. Fork it
-2. Git Clone your fork (`git clone {your repo} --recursive`)
+2. Git Clone your fork (`git clone https://github.com/Azure/azure-sdk-for-js.git --recursive`)
 3. Move into SDK directory (`cd azure-sdk-for-js`)
 4. Install all dependencies (`npm install`)
-5. Run the tests (`npm test`). You should see all tests passing.
 
 ### Contributing Code to the Project
 You found something you'd like to change, great! Please submit a pull request and we'll do our best to work with you to
