@@ -228,11 +228,10 @@ export function findReadmeTypeScriptMdFilePaths(azureRestAPISpecsRoot: string): 
 }
 
 export function getOutputFolderFromReadmeTypeScriptMdFileContents(readmeTypeScriptMdFileContents: string): string {
-    return readmeTypeScriptMdFileContents.match(/output-folder: (\S*)/)[1];
+    return readmeTypeScriptMdFileContents.match(/output-folder: (\S*)/)[1].replace(/\"/g, "");
 }
 
 export function getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot: string, typeScriptReadmeFileContents: string): string {
     const outputFolderPath: string = getOutputFolderFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
-    const outputFolderPathRelativeToAzureSDKForJSRepoRoot: string = outputFolderPath.substring('$(typescript-sdks-folder)/'.length + 1, outputFolderPath.length - 1);
-    return path.resolve(azureSDKForJSRepoRoot, outputFolderPathRelativeToAzureSDKForJSRepoRoot);
+    return outputFolderPath.replace("$(typescript-sdks-folder)", azureSDKForJSRepoRoot);
 }

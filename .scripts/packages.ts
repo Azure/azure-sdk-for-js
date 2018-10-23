@@ -223,22 +223,26 @@ async function getPackageInformationFromReadmeFiles(azureRestApiSpecsRoot: strin
     for (const typescriptReadmePath of typescriptReadmePaths) {
         const packageInfo = await getPackageMetadataFromReadmeFile(azureSdkForJsRoot, azureRestApiSpecsRoot, typescriptReadmePath);
         _logger.logTrace(`Extracted ${JSON.stringify(packageInfo)} info from ${typescriptReadmePath}`);
-        packageInfos.push(packageInfo);
+        packageInfos.push(...packageInfo);
     }
 
     return packageInfos;
 }
 
-async function getPackageMetadataFromReadmeFile(azureSdkForJsRoot: string, azureRestApiSpecsRoot: string, tsReadmePath: string): Promise<PackageInfo> {
+async function getPackageMetadataFromReadmeFile(azureSdkForJsRoot: string, azureRestApiSpecsRoot: string, tsReadmePath: string): Promise<PackageInfo[]> {
     const readmeBuffer = await fs.readFile(tsReadmePath);
     const readmeContent = readmeBuffer.toString()
     const absoluteOutputPath = getAbsolutePackageFolderPathFromReadmeFileContents(azureSdkForJsRoot, readmeContent);
     const packageNames = getPackageNamesFromReadmeTypeScriptMdFileContents(readmeContent);
     const packageName = packageNames.length == 1 ? packageNames[0] : JSON.stringify(packageNames);
 
-    return {
-        name: packageName,
-        outputPath: absoluteOutputPath,
-        readmePath: tsReadmePath.replace(azureRestApiSpecsRoot, "")
-    };
+    const packageInfos = packageNames.map(name => {
+        return {
+            name: name,
+            outputPath: absoluteOutputPath,
+            readmePath: tsReadmePath.replace(azureRestApiSpecsRoot, "")
+        }
+    });
+
+    return packageInfos;
 }
