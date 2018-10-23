@@ -7,8 +7,18 @@
 import { contains, endsWith, npmInstall, npmRunBuild } from "./.scripts/common";
 import { getCommandLineOptions } from "./.scripts/commandLine";
 import { findAzureRestApiSpecsRepositoryPath, findMissingSdks } from "./.scripts/generateSdks";
-import { generateTsReadme, generateSdk, generateMissingSdk, generateAllMissingSdks, regenerate } from "./.scripts/gulp";
-import { getPackageNamesFromReadmeTypeScriptMdFileContents, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents } from "./.scripts/readme";
+import {
+  generateTsReadme,
+  generateSdk,
+  generateMissingSdk,
+  generateAllMissingSdks,
+  regenerate,
+} from "./.scripts/gulp";
+import {
+  getPackageNamesFromReadmeTypeScriptMdFileContents,
+  findReadmeTypeScriptMdFilePaths,
+  getAbsolutePackageFolderPathFromReadmeFileContents,
+} from "./.scripts/readme";
 import { getLogger, LoggingLevel } from "./.scripts/logger";
 import * as fs from "fs";
 import * as gulp from "gulp";
@@ -19,7 +29,9 @@ import { execSync } from "child_process";
 const _logger = getLogger();
 const args = getCommandLineOptions();
 const azureSDKForJSRepoRoot: string = args["azure-sdk-for-js-repo-root"] || __dirname;
-const azureRestAPISpecsRoot: string = args["azure-rest-api-specs-root"] || path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
+const azureRestAPISpecsRoot: string =
+  args["azure-rest-api-specs-root"] ||
+  path.resolve(azureSDKForJSRepoRoot, '..', 'azure-rest-api-specs');
 
 const commonArgv = yargs.options({
   "logging-level": {
@@ -41,16 +53,17 @@ function getPackageFolderPathFromPackageArgument(): string | undefined {
 
     let foundPackage = false;
 
-    for (let i = 0; i < typeScriptReadmeFilePaths.length; ++i) {
-      const typeScriptReadmeFilePath: string = typeScriptReadmeFilePaths[i];
-
+    for (const typeScriptReadmeFilePath of typeScriptReadmeFilePaths) {
       const typeScriptReadmeFileContents: string = fs.readFileSync(typeScriptReadmeFilePath, 'utf8');
       const packageNames: string[] = getPackageNamesFromReadmeTypeScriptMdFileContents(typeScriptReadmeFileContents);
 
       if (contains(packageNames, args.package)) {
         foundPackage = true;
 
-        packageFolderPath = getAbsolutePackageFolderPathFromReadmeFileContents(azureSDKForJSRepoRoot, typeScriptReadmeFileContents);
+        packageFolderPath = getAbsolutePackageFolderPathFromReadmeFileContents(
+          azureSDKForJSRepoRoot,
+          typeScriptReadmeFileContents
+        );
       }
     }
 
@@ -145,7 +158,9 @@ gulp.task('publish', () => {
           else {
             let npmPackageVersion: string;
             try {
-              const npmViewResult: { [propertyName: string]: any } = JSON.parse(execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString());
+              const npmViewResult: { [propertyName: string]: any } = JSON.parse(
+                execSync(`npm view ${packageName} --json`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString()
+              );
               npmPackageVersion = npmViewResult['dist-tags']['latest'];
             }
             catch (error) {
@@ -259,11 +274,14 @@ gulp.task("regenerate", async () => {
       }
     }).usage("gulp regenerate --branch 'restapi_auto_daschult/sql'").argv;
 
-    regenerate(argv.branch, argv.package, argv["azure-sdk-for-js-root"], argv["azure-rest-api-specs-root"], argv["skip-version-bump"])
-      .then(_ => resolve(),
-        error => reject(error))
-      .catch(error => {
-        reject(error)
-      });
+    regenerate(
+        argv.branch,
+        argv.package,
+        argv["azure-sdk-for-js-root"],
+        argv["azure-rest-api-specs-root"],
+        argv["skip-version-bump"]
+      )
+      .then(() => resolve(), reject)
+      .catch(reject);
   });
 });
