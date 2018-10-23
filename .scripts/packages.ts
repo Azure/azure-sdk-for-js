@@ -221,9 +221,9 @@ async function getPackageInformationFromReadmeFiles(azureRestApiSpecsRoot: strin
     const packageInfos = [];
 
     for (const typescriptReadmePath of typescriptReadmePaths) {
-        const packageInfo = await getPackageMetadataFromReadmeFile(azureSdkForJsRoot, azureRestApiSpecsRoot, typescriptReadmePath);
-        _logger.logTrace(`Extracted ${JSON.stringify(packageInfo)} info from ${typescriptReadmePath}`);
-        packageInfos.push(...packageInfo);
+        const newPackageInfos: PackageInfo[] = await getPackageMetadataFromReadmeFile(azureSdkForJsRoot, azureRestApiSpecsRoot, typescriptReadmePath);
+        _logger.logTrace(`Extracted ${JSON.stringify(newPackageInfos)} info from ${typescriptReadmePath}`);
+        packageInfos.push(...newPackageInfos);
     }
 
     return packageInfos;
