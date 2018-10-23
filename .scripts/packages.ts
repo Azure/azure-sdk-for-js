@@ -8,9 +8,10 @@ import * as fssync from "fs";
 import { promises as fs } from "fs";
 import * as path from "path";
 import { SdkType, parseSdkType } from "./commandLine";
-import { pathExists, isDirectory, arrayContains, getChildDirectories } from "./common";
+import { pathExists, isDirectory, arrayContains, getChildDirectories, execute } from "./common";
 import { Logger } from "./logger";
 import { doesReadmeMdFileSpecifiesTypescriptSdk, findReadmeTypeScriptMdFilePaths, getOutputFolderFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents } from "./readme";
+import { exec, ExecException } from "child_process";
 
 export type SdkInfo = { sdkName: string; sdkType: SdkType };
 export type PackageInfo = {
@@ -23,6 +24,7 @@ export type PackageInfo = {
 export type PackageFault = {
     package: PackageInfo
     message?: string;
+    details?: string;
 };
 
 const specificationsSegment = "specification";
@@ -137,10 +139,12 @@ export async function findWrongPackages(azureRestApiSpecsRoot: string, azureSdkF
     const noOutputPackages = await findPackagesWithIncorrectOutput(readmePackageInfos);
     const noMatchingReadmes = await findPackagesWithoutMatchingReadmes(readmePackageInfos, jsonPackageInfos);
     const noMatchingPackageJsons = await findPackagesWithoutMatchingPackageJson(readmePackageInfos, jsonPackageInfos);
+    const notBuildingPackages = await getNotBuildingPackages(azureSdkForJsRoot, jsonPackageInfos);
 
     return noOutputPackages
         .concat(noMatchingReadmes)
-        .concat(noMatchingPackageJsons);
+        .concat(noMatchingPackageJsons)
+        .concat(notBuildingPackages);
 }
 
 async function findPackagesWithIncorrectOutput(packageInfos: PackageInfo[]): Promise<PackageFault[]> {
@@ -210,7 +214,7 @@ async function getPackageInfoFromPackageJson(packageJsonPath: string, azureSdkFo
         name: packageJson.name,
         version: packageJson.version,
         dependencies: packageJson.dependencies,
-        outputPath: packageJsonPath.replace("/package.json", "").replace(azureSdkForJsRoot, "")
+        outputPath: packageJsonPath.replace(`${path.sep}package.json`, "").replace(new RegExp(`${azureSdkForJsRoot}(\\${path.sep})?`), "")
     };
 }
 
@@ -241,4 +245,35 @@ async function getPackageMetadataFromReadmeFile(azureSdkForJsRoot: string, azure
         outputPath: absoluteOutputPath,
         readmePath: tsReadmePath.replace(azureRestApiSpecsRoot, "")
     };
+}
+
+async function getNotBuildingPackages(azureSdkForJsRoot: string, jsonPackageInfos: PackageInfo[]): Promise<PackageFault[]> {
+    const faultyPackages: PackageFault[] = [];
+    for (const packageInfo of jsonPackageInfos) {
+        const packagePath = path.resolve(azureSdkForJsRoot, packageInfo.outputPath);
+        _logger.logTrace(`Building ${packagePath} directory.`);
+        const error = await buildAndGetErrorOutput(packagePath);
+        if (error) {
+            faultyPackages.push({
+                package: packageInfo,
+                message: "Package doesn't build correctly. Look into details property to see build failures",
+                details: error
+            });
+        }
+    }
+
+    _logger.logTrace(`Found ${faultyPackages.length} packages that don't build correctly`);
+    return faultyPackages;
+}
+
+async function buildAndGetErrorOutput(packagePath: string): Promise<string | undefined> {
+    return new Promise<string | undefined>((resolve, reject) => {
+        exec("npm install && npm run build", { cwd: packagePath }, (error: ExecException, stdout: string, stderr: string) => {
+            if (error) {
+                resolve(`Status code: ${error.code}\n\tOutput: ${stdout}\n\tMessage: ${error.message}`);
+            } else {
+                resolve(undefined);
+            }
+        });
+    });
 }
