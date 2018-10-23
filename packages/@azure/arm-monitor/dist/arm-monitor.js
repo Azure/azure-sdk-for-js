@@ -2294,6 +2294,29 @@
             }
         }
     };
+    var ArmRoleReceiver = {
+        serializedName: "ArmRoleReceiver",
+        type: {
+            name: "Composite",
+            className: "ArmRoleReceiver",
+            modelProperties: {
+                name: {
+                    required: true,
+                    serializedName: "name",
+                    type: {
+                        name: "String"
+                    }
+                },
+                roleId: {
+                    required: true,
+                    serializedName: "roleId",
+                    type: {
+                        name: "String"
+                    }
+                }
+            }
+        }
+    };
     var ActionGroupResource = {
         serializedName: "ActionGroupResource",
         type: {
@@ -2411,6 +2434,17 @@
                             type: {
                                 name: "Composite",
                                 className: "AzureFunctionReceiver"
+                            }
+                        }
+                    }
+                }, armRoleReceivers: {
+                    serializedName: "properties.armRoleReceivers",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ArmRoleReceiver"
                             }
                         }
                     }
@@ -4801,6 +4835,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActionGroupResource: ActionGroupResource,
         EnableRequest: EnableRequest,
         ActionGroupPatchBody: ActionGroupPatchBody,
@@ -4917,6 +4952,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -5045,7 +5081,7 @@
             required: true,
             isConstant: true,
             serializedName: "api-version",
-            defaultValue: '2018-03-01',
+            defaultValue: '2018-09-01',
             type: {
                 name: "String"
             }
@@ -5093,13 +5129,25 @@
             required: true,
             isConstant: true,
             serializedName: "api-version",
-            defaultValue: '2018-04-16',
+            defaultValue: '2018-03-01',
             type: {
                 name: "String"
             }
         }
     };
     var apiVersion8 = {
+        parameterPath: "apiVersion",
+        mapper: {
+            required: true,
+            isConstant: true,
+            serializedName: "api-version",
+            defaultValue: '2018-04-16',
+            type: {
+                name: "String"
+            }
+        }
+    };
+    var apiVersion9 = {
         parameterPath: "apiVersion",
         mapper: {
             required: true,
@@ -5857,6 +5905,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -6152,6 +6201,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -6410,6 +6460,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -6639,6 +6690,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -6779,6 +6831,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ErrorResponse: ErrorResponse,
         ActionGroupPatchBody: ActionGroupPatchBody,
         ActionGroupList: ActionGroupList,
@@ -7148,6 +7201,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         MetricAlertResource: MetricAlertResource,
         MetricAlertCriteria: MetricAlertCriteria,
         MetricAlertAction: MetricAlertAction,
@@ -7968,6 +8022,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -8070,7 +8125,7 @@
             subscriptionId
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8093,7 +8148,7 @@
             resourceGroupName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8117,7 +8172,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8141,7 +8196,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8169,7 +8224,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8197,7 +8252,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8276,7 +8331,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8301,7 +8356,7 @@
             statusName
         ],
         queryParameters: [
-            apiVersion3
+            apiVersion7
         ],
         headerParameters: [
             acceptLanguage
@@ -8371,6 +8426,7 @@
         VoiceReceiver: VoiceReceiver,
         LogicAppReceiver: LogicAppReceiver,
         AzureFunctionReceiver: AzureFunctionReceiver,
+        ArmRoleReceiver: ArmRoleReceiver,
         ActivityLogAlertResource: ActivityLogAlertResource,
         ActivityLogAlertAllOfCondition: ActivityLogAlertAllOfCondition,
         ActivityLogAlertLeafCondition: ActivityLogAlertLeafCondition,
@@ -8474,7 +8530,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion7
+            apiVersion8
         ],
         headerParameters: [
             acceptLanguage
@@ -8505,7 +8561,7 @@
             subscriptionId
         ],
         queryParameters: [
-            apiVersion7
+            apiVersion8
         ],
         headerParameters: [
             acceptLanguage
@@ -8529,7 +8585,7 @@
             ruleName
         ],
         queryParameters: [
-            apiVersion7
+            apiVersion8
         ],
         headerParameters: [
             acceptLanguage
@@ -8557,7 +8613,7 @@
             subscriptionId
         ],
         queryParameters: [
-            apiVersion7
+            apiVersion8
         ],
         headerParameters: [
             acceptLanguage
@@ -8578,7 +8634,7 @@
             subscriptionId
         ],
         queryParameters: [
-            apiVersion7,
+            apiVersion8,
             filter
         ],
         headerParameters: [
@@ -8602,7 +8658,7 @@
             subscriptionId
         ],
         queryParameters: [
-            apiVersion7,
+            apiVersion8,
             filter
         ],
         headerParameters: [
@@ -8672,7 +8728,7 @@
             resourceUri
         ],
         queryParameters: [
-            apiVersion8,
+            apiVersion9,
             startTime
         ],
         headerParameters: [
