@@ -2497,7 +2497,7 @@ export interface SoftareUpdateConfigurationRunTasks {
   preTask?: SoftareUpdateConfigurationRunTaskProperties;
   /**
    * @member {SoftareUpdateConfigurationRunTaskProperties} [postTask] Post task
-   * object.
+   * properties.
    */
   postTask?: SoftareUpdateConfigurationRunTaskProperties;
 }
@@ -2996,7 +2996,7 @@ export interface SourceControlSyncJob {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'IncrementalSync', 'FullSync'
+   * 'PartialSync', 'FullSync'
    */
   syncType?: SyncType;
 }
@@ -3055,7 +3055,7 @@ export interface SourceControlSyncJobById {
   readonly endTime?: Date;
   /**
    * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'IncrementalSync', 'FullSync'
+   * 'PartialSync', 'FullSync'
    */
   syncType?: SyncType;
   /**
@@ -5772,7 +5772,7 @@ export enum ProvisioningState {
 
 /**
  * Defines values for SyncType.
- * Possible values include: 'IncrementalSync', 'FullSync'
+ * Possible values include: 'PartialSync', 'FullSync'
  * There could be more values for this enum apart from the ones defined here.If
  * you want to set a value that is not from the known values then you can do
  * the following:
@@ -5781,7 +5781,7 @@ export enum ProvisioningState {
  * @enum {string}
  */
 export enum SyncType {
-  IncrementalSync = 'IncrementalSync',
+  PartialSync = 'PartialSync',
   FullSync = 'FullSync',
 }
 
