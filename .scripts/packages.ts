@@ -8,9 +8,9 @@ import * as fssync from "fs";
 import { promises as fs } from "fs";
 import * as path from "path";
 import { SdkType, parseSdkType } from "./commandLine";
-import { pathExists, isDirectory, arrayContains, getChildDirectories, execute } from "./common";
+import { pathExists, isDirectory, arrayContains, getChildDirectories } from "./common";
 import { Logger } from "./logger";
-import { doesReadmeMdFileSpecifiesTypescriptSdk, findReadmeTypeScriptMdFilePaths, getOutputFolderFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents } from "./readme";
+import { doesReadmeMdFileSpecifiesTypescriptSdk, findReadmeTypeScriptMdFilePaths, getAbsolutePackageFolderPathFromReadmeFileContents, getPackageNamesFromReadmeTypeScriptMdFileContents } from "./readme";
 import { exec, ExecException } from "child_process";
 
 export type SdkInfo = { sdkName: string; sdkType: SdkType };
@@ -139,7 +139,7 @@ export async function findWrongPackages(azureRestApiSpecsRoot: string, azureSdkF
     const noOutputPackages = await findPackagesWithIncorrectOutput(readmePackageInfos);
     const noMatchingReadmes = await findPackagesWithoutMatchingReadmes(readmePackageInfos, jsonPackageInfos);
     const noMatchingPackageJsons = await findPackagesWithoutMatchingPackageJson(readmePackageInfos, jsonPackageInfos);
-    const notBuildingPackages = await getNotBuildingPackages(azureSdkForJsRoot, jsonPackageInfos);
+    const notBuildingPackages = await getPackagesWithBuildErrors(azureSdkForJsRoot, jsonPackageInfos);
 
     return noOutputPackages
         .concat(noMatchingReadmes)
@@ -247,7 +247,7 @@ async function getPackageMetadataFromReadmeFile(azureSdkForJsRoot: string, azure
     };
 }
 
-async function getNotBuildingPackages(azureSdkForJsRoot: string, jsonPackageInfos: PackageInfo[]): Promise<PackageFault[]> {
+async function getPackagesWithBuildErrors(azureSdkForJsRoot: string, jsonPackageInfos: PackageInfo[]): Promise<PackageFault[]> {
     const faultyPackages: PackageFault[] = [];
     for (const packageInfo of jsonPackageInfos) {
         const packagePath = path.resolve(azureSdkForJsRoot, packageInfo.outputPath);
@@ -267,8 +267,8 @@ async function getNotBuildingPackages(azureSdkForJsRoot: string, jsonPackageInfo
 }
 
 async function buildAndGetErrorOutput(packagePath: string): Promise<string | undefined> {
-    return new Promise<string | undefined>((resolve, reject) => {
-        exec("npm install && npm run build", { cwd: packagePath }, (error: ExecException, stdout: string, stderr: string) => {
+    return new Promise<string | undefined>((resolve) => {
+        exec("npm install && npm run build", { cwd: packagePath }, (error: ExecException, stdout: string) => {
             if (error) {
                 resolve(`Status code: ${error.code}\n\tOutput: ${stdout}\n\tMessage: ${error.message}`);
             } else {
