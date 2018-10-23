@@ -1638,7 +1638,936 @@ export const MediaJobStateChangeEventData: msRest.CompositeMapper = {
             "Scheduled"
           ]
         }
+      },
+      correlationData: {
+        serializedName: "correlationData",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
+};
+
+export const MediaJobErrorDetail: msRest.CompositeMapper = {
+  serializedName: "MediaJobErrorDetail",
+  type: {
+    name: "Composite",
+    className: "MediaJobErrorDetail",
+    modelProperties: {
+      code: {
+        readOnly: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobError: msRest.CompositeMapper = {
+  serializedName: "MediaJobError",
+  type: {
+    name: "Composite",
+    className: "MediaJobError",
+    modelProperties: {
+      code: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "code",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "ServiceError",
+            "ServiceTransientError",
+            "DownloadNotAccessible",
+            "DownloadTransientError",
+            "UploadNotAccessible",
+            "UploadTransientError",
+            "ConfigurationUnsupported",
+            "ContentMalformed",
+            "ContentUnsupported"
+          ]
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      category: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "category",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Service",
+            "Download",
+            "Upload",
+            "Configuration",
+            "Content"
+          ]
+        }
+      },
+      retry: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "retry",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "DoNotRetry",
+            "MayRetry"
+          ]
+        }
+      },
+      details: {
+        readOnly: true,
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MediaJobErrorDetail"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobOutput: msRest.CompositeMapper = {
+  serializedName: "MediaJobOutput",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "@odata.type",
+      clientName: "odatatype"
+    },
+    uberParent: "MediaJobOutput",
+    className: "MediaJobOutput",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "MediaJobError"
+        }
+      },
+      label: {
+        serializedName: "label",
+        type: {
+          name: "String"
+        }
+      },
+      progress: {
+        required: true,
+        serializedName: "progress",
+        type: {
+          name: "Number"
+        }
+      },
+      state: {
+        required: true,
+        serializedName: "state",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Canceled",
+            "Canceling",
+            "Error",
+            "Finished",
+            "Processing",
+            "Queued",
+            "Scheduled"
+          ]
+        }
+      },
+      odatatype: {
+        required: true,
+        serializedName: "@odata\\.type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobOutputAsset: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputAsset",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: MediaJobOutput.type.polymorphicDiscriminator,
+    uberParent: "MediaJobOutput",
+    className: "MediaJobOutputAsset",
+    modelProperties: {
+      ...MediaJobOutput.type.modelProperties,
+      assetName: {
+        serializedName: "assetName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobOutputStateChangeEventData: msRest.CompositeMapper = {
+  serializedName: "MediaJobOutputStateChangeEventData",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputStateChangeEventData",
+    modelProperties: {
+      previousState: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "previousState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Canceled",
+            "Canceling",
+            "Error",
+            "Finished",
+            "Processing",
+            "Queued",
+            "Scheduled"
+          ]
+        }
+      },
+      output: {
+        serializedName: "output",
+        type: {
+          name: "Composite",
+          polymorphicDiscriminator: {
+            serializedName: "@odata.type",
+            clientName: "odatatype"
+          },
+          uberParent: "MediaJobOutput",
+          className: "MediaJobOutput"
+        }
+      },
+      jobCorrelationData: {
+        serializedName: "jobCorrelationData",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobScheduledEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobScheduled",
+  type: {
+    name: "Composite",
+    className: "MediaJobScheduledEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobProcessingEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobProcessing",
+  type: {
+    name: "Composite",
+    className: "MediaJobProcessingEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobCancelingEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobCanceling",
+  type: {
+    name: "Composite",
+    className: "MediaJobCancelingEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobFinishedEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobFinished",
+  type: {
+    name: "Composite",
+    className: "MediaJobFinishedEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties,
+      outputs: {
+        serializedName: "outputs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "@odata.type",
+                clientName: "odatatype"
+              },
+              uberParent: "MediaJobOutput",
+              className: "MediaJobOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobCanceledEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobCanceled",
+  type: {
+    name: "Composite",
+    className: "MediaJobCanceledEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties,
+      outputs: {
+        serializedName: "outputs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "@odata.type",
+                clientName: "odatatype"
+              },
+              uberParent: "MediaJobOutput",
+              className: "MediaJobOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobErroredEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobErrored",
+  type: {
+    name: "Composite",
+    className: "MediaJobErroredEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties,
+      outputs: {
+        serializedName: "outputs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              polymorphicDiscriminator: {
+                serializedName: "@odata.type",
+                clientName: "odatatype"
+              },
+              uberParent: "MediaJobOutput",
+              className: "MediaJobOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobOutputCanceledEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputCanceled",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputCanceledEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputCancelingEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputCanceling",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputCancelingEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputErroredEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputErrored",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputErroredEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputFinishedEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputFinished",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputFinishedEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputProcessingEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputProcessing",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputProcessingEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputScheduledEventData: msRest.CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputScheduled",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputScheduledEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaLiveEventEncoderConnectedEventData: msRest.CompositeMapper = {
+  serializedName: "MediaLiveEventEncoderConnectedEventData",
+  type: {
+    name: "Composite",
+    className: "MediaLiveEventEncoderConnectedEventData",
+    modelProperties: {
+      ingestUrl: {
+        readOnly: true,
+        serializedName: "ingestUrl",
+        type: {
+          name: "String"
+        }
+      },
+      streamId: {
+        readOnly: true,
+        serializedName: "streamId",
+        type: {
+          name: "String"
+        }
+      },
+      encoderIp: {
+        readOnly: true,
+        serializedName: "encoderIp",
+        type: {
+          name: "String"
+        }
+      },
+      encoderPort: {
+        readOnly: true,
+        serializedName: "encoderPort",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaLiveEventConnectionRejectedEventData: msRest.CompositeMapper = {
+  serializedName: "MediaLiveEventConnectionRejectedEventData",
+  type: {
+    name: "Composite",
+    className: "MediaLiveEventConnectionRejectedEventData",
+    modelProperties: {
+      ingestUrl: {
+        readOnly: true,
+        serializedName: "ingestUrl",
+        type: {
+          name: "String"
+        }
+      },
+      streamId: {
+        readOnly: true,
+        serializedName: "streamId",
+        type: {
+          name: "String"
+        }
+      },
+      encoderIp: {
+        readOnly: true,
+        serializedName: "encoderIp",
+        type: {
+          name: "String"
+        }
+      },
+      encoderPort: {
+        readOnly: true,
+        serializedName: "encoderPort",
+        type: {
+          name: "String"
+        }
+      },
+      resultCode: {
+        readOnly: true,
+        serializedName: "resultCode",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaLiveEventEncoderDisconnectedEventData: msRest.CompositeMapper = {
+  serializedName: "MediaLiveEventEncoderDisconnectedEventData",
+  type: {
+    name: "Composite",
+    className: "MediaLiveEventEncoderDisconnectedEventData",
+    modelProperties: {
+      ingestUrl: {
+        readOnly: true,
+        serializedName: "ingestUrl",
+        type: {
+          name: "String"
+        }
+      },
+      streamId: {
+        readOnly: true,
+        serializedName: "streamId",
+        type: {
+          name: "String"
+        }
+      },
+      encoderIp: {
+        readOnly: true,
+        serializedName: "encoderIp",
+        type: {
+          name: "String"
+        }
+      },
+      encoderPort: {
+        readOnly: true,
+        serializedName: "encoderPort",
+        type: {
+          name: "String"
+        }
+      },
+      resultCode: {
+        readOnly: true,
+        serializedName: "resultCode",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaLiveEventIncomingStreamReceivedEventData: msRest.CompositeMapper = {
+  serializedName: "MediaLiveEventIncomingStreamReceivedEventData",
+  type: {
+    name: "Composite",
+    className: "MediaLiveEventIncomingStreamReceivedEventData",
+    modelProperties: {
+      ingestUrl: {
+        readOnly: true,
+        serializedName: "ingestUrl",
+        type: {
+          name: "String"
+        }
+      },
+      trackType: {
+        readOnly: true,
+        serializedName: "trackType",
+        type: {
+          name: "String"
+        }
+      },
+      trackName: {
+        readOnly: true,
+        serializedName: "trackName",
+        type: {
+          name: "String"
+        }
+      },
+      bitrate: {
+        readOnly: true,
+        serializedName: "bitrate",
+        type: {
+          name: "Number"
+        }
+      },
+      encoderIp: {
+        readOnly: true,
+        serializedName: "encoderIp",
+        type: {
+          name: "String"
+        }
+      },
+      encoderPort: {
+        readOnly: true,
+        serializedName: "encoderPort",
+        type: {
+          name: "String"
+        }
+      },
+      timestamp: {
+        readOnly: true,
+        serializedName: "timestamp",
+        type: {
+          name: "String"
+        }
+      },
+      duration: {
+        readOnly: true,
+        serializedName: "duration",
+        type: {
+          name: "String"
+        }
+      },
+      timescale: {
+        readOnly: true,
+        serializedName: "timescale",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaLiveEventIncomingStreamsOutOfSyncEventData: msRest.CompositeMapper = {
+  serializedName: "MediaLiveEventIncomingStreamsOutOfSyncEventData",
+  type: {
+    name: "Composite",
+    className: "MediaLiveEventIncomingStreamsOutOfSyncEventData",
+    modelProperties: {
+      minLastTimestamp: {
+        readOnly: true,
+        serializedName: "minLastTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      typeOfStreamWithMinLastTimestamp: {
+        readOnly: true,
+        serializedName: "typeOfStreamWithMinLastTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      maxLastTimestamp: {
+        readOnly: true,
+        serializedName: "maxLastTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      typeOfStreamWithMaxLastTimestamp: {
+        readOnly: true,
+        serializedName: "typeOfStreamWithMaxLastTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      timescaleOfMinLastTimestamp: {
+        readOnly: true,
+        serializedName: "timescaleOfMinLastTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      timescaleOfMaxLastTimestamp: {
+        readOnly: true,
+        serializedName: "timescaleOfMaxLastTimestamp",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaLiveEventIncomingVideoStreamsOutOfSyncEventData: msRest.CompositeMapper = {
+  serializedName: "MediaLiveEventIncomingVideoStreamsOutOfSyncEventData",
+  type: {
+    name: "Composite",
+    className: "MediaLiveEventIncomingVideoStreamsOutOfSyncEventData",
+    modelProperties: {
+      firstTimestamp: {
+        readOnly: true,
+        serializedName: "firstTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      firstDuration: {
+        readOnly: true,
+        serializedName: "firstDuration",
+        type: {
+          name: "String"
+        }
+      },
+      secondTimestamp: {
+        readOnly: true,
+        serializedName: "secondTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      secondDuration: {
+        readOnly: true,
+        serializedName: "secondDuration",
+        type: {
+          name: "String"
+        }
+      },
+      timescale: {
+        readOnly: true,
+        serializedName: "timescale",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaLiveEventIncomingDataChunkDroppedEventData: msRest.CompositeMapper = {
+  serializedName: "MediaLiveEventIncomingDataChunkDroppedEventData",
+  type: {
+    name: "Composite",
+    className: "MediaLiveEventIncomingDataChunkDroppedEventData",
+    modelProperties: {
+      timestamp: {
+        readOnly: true,
+        serializedName: "timestamp",
+        type: {
+          name: "String"
+        }
+      },
+      trackType: {
+        readOnly: true,
+        serializedName: "trackType",
+        type: {
+          name: "String"
+        }
+      },
+      bitrate: {
+        readOnly: true,
+        serializedName: "bitrate",
+        type: {
+          name: "Number"
+        }
+      },
+      timescale: {
+        readOnly: true,
+        serializedName: "timescale",
+        type: {
+          name: "String"
+        }
+      },
+      resultCode: {
+        readOnly: true,
+        serializedName: "resultCode",
+        type: {
+          name: "String"
+        }
+      },
+      trackName: {
+        readOnly: true,
+        serializedName: "trackName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaLiveEventIngestHeartbeatEventData: msRest.CompositeMapper = {
+  serializedName: "MediaLiveEventIngestHeartbeatEventData",
+  type: {
+    name: "Composite",
+    className: "MediaLiveEventIngestHeartbeatEventData",
+    modelProperties: {
+      trackType: {
+        readOnly: true,
+        serializedName: "trackType",
+        type: {
+          name: "String"
+        }
+      },
+      trackName: {
+        readOnly: true,
+        serializedName: "trackName",
+        type: {
+          name: "String"
+        }
+      },
+      bitrate: {
+        readOnly: true,
+        serializedName: "bitrate",
+        type: {
+          name: "Number"
+        }
+      },
+      incomingBitrate: {
+        readOnly: true,
+        serializedName: "incomingBitrate",
+        type: {
+          name: "Number"
+        }
+      },
+      lastTimestamp: {
+        readOnly: true,
+        serializedName: "lastTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      timescale: {
+        readOnly: true,
+        serializedName: "timescale",
+        type: {
+          name: "String"
+        }
+      },
+      overlapCount: {
+        readOnly: true,
+        serializedName: "overlapCount",
+        type: {
+          name: "Number"
+        }
+      },
+      discontinuityCount: {
+        readOnly: true,
+        serializedName: "discontinuityCount",
+        type: {
+          name: "Number"
+        }
+      },
+      nonincreasingCount: {
+        readOnly: true,
+        serializedName: "nonincreasingCount",
+        type: {
+          name: "Number"
+        }
+      },
+      unexpectedBitrate: {
+        readOnly: true,
+        serializedName: "unexpectedBitrate",
+        type: {
+          name: "Boolean"
+        }
+      },
+      state: {
+        readOnly: true,
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      healthy: {
+        readOnly: true,
+        serializedName: "healthy",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const MediaLiveEventTrackDiscontinuityDetectedEventData: msRest.CompositeMapper = {
+  serializedName: "MediaLiveEventTrackDiscontinuityDetectedEventData",
+  type: {
+    name: "Composite",
+    className: "MediaLiveEventTrackDiscontinuityDetectedEventData",
+    modelProperties: {
+      trackType: {
+        readOnly: true,
+        serializedName: "trackType",
+        type: {
+          name: "String"
+        }
+      },
+      trackName: {
+        readOnly: true,
+        serializedName: "trackName",
+        type: {
+          name: "String"
+        }
+      },
+      bitrate: {
+        readOnly: true,
+        serializedName: "bitrate",
+        type: {
+          name: "Number"
+        }
+      },
+      previousTimestamp: {
+        readOnly: true,
+        serializedName: "previousTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      newTimestamp: {
+        readOnly: true,
+        serializedName: "newTimestamp",
+        type: {
+          name: "String"
+        }
+      },
+      timescale: {
+        readOnly: true,
+        serializedName: "timescale",
+        type: {
+          name: "String"
+        }
+      },
+      discontinuityGap: {
+        readOnly: true,
+        serializedName: "discontinuityGap",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const discriminators = {
+  'MediaJobOutput' : MediaJobOutput,
+  'MediaJobOutput.#Microsoft.Media.JobOutputAsset' : MediaJobOutputAsset
 };

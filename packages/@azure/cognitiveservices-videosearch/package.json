@@ -1,0 +1,41 @@
+{
+  "name": "@azure/cognitiveservices-videosearch",
+  "author": "Microsoft Corporation",
+  "description": "VideoSearchAPIClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0",
+  "dependencies": {
+    "ms-rest-js": "^1.0.455",
+    "tslib": "^1.9.3"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/cognitiveservices-videosearch.js",
+  "module": "./esm/videoSearchAPIClient.js",
+  "types": "./esm/videoSearchAPIClient.d.ts",
+  "devDependencies": {
+    "typescript": "^3.1.1",
+    "rollup": "^0.66.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "uglify-js": "^3.4.9"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/packages/@azure/cognitiveservices-videosearch",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-videosearch.js.map'\" -o ./dist/cognitiveservices-videosearch.min.js ./dist/cognitiveservices-videosearch.js",
+    "prepare": "npm run build"
+  },
+  "sideEffects": false
+}

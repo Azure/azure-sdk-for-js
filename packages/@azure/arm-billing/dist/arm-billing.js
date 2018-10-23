@@ -78,22 +78,6 @@
      */
     var CloudError = msRestAzure.CloudErrorMapper;
     var BaseResource = msRestAzure.BaseResourceMapper;
-    var EnrollmentAccountProperties = {
-        serializedName: "EnrollmentAccountProperties",
-        type: {
-            name: "Composite",
-            className: "EnrollmentAccountProperties",
-            modelProperties: {
-                principalName: {
-                    readOnly: true,
-                    serializedName: "principalName",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -136,41 +120,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var BillingPeriodProperties = {
-        serializedName: "BillingPeriodProperties",
-        type: {
-            name: "Composite",
-            className: "BillingPeriodProperties",
-            modelProperties: {
-                billingPeriodStartDate: {
-                    readOnly: true,
-                    serializedName: "billingPeriodStartDate",
-                    type: {
-                        name: "Date"
-                    }
-                },
-                billingPeriodEndDate: {
-                    readOnly: true,
-                    serializedName: "billingPeriodEndDate",
-                    type: {
-                        name: "Date"
-                    }
-                },
-                invoiceIds: {
-                    readOnly: true,
-                    serializedName: "invoiceIds",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                }
-            }
         }
     };
     var BillingPeriod = {
@@ -268,48 +217,6 @@
                     type: {
                         name: "Composite",
                         className: "ErrorDetails"
-                    }
-                }
-            }
-        }
-    };
-    var InvoiceProperties = {
-        serializedName: "InvoiceProperties",
-        type: {
-            name: "Composite",
-            className: "InvoiceProperties",
-            modelProperties: {
-                downloadUrl: {
-                    serializedName: "downloadUrl",
-                    type: {
-                        name: "Composite",
-                        className: "DownloadUrl"
-                    }
-                },
-                invoicePeriodStartDate: {
-                    readOnly: true,
-                    serializedName: "invoicePeriodStartDate",
-                    type: {
-                        name: "Date"
-                    }
-                },
-                invoicePeriodEndDate: {
-                    readOnly: true,
-                    serializedName: "invoicePeriodEndDate",
-                    type: {
-                        name: "Date"
-                    }
-                },
-                billingPeriodIds: {
-                    readOnly: true,
-                    serializedName: "billingPeriodIds",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
                     }
                 }
             }
@@ -525,15 +432,12 @@
     var mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
         BaseResource: BaseResource,
-        EnrollmentAccountProperties: EnrollmentAccountProperties,
         Resource: Resource,
         EnrollmentAccount: EnrollmentAccount,
-        BillingPeriodProperties: BillingPeriodProperties,
         BillingPeriod: BillingPeriod,
         DownloadUrl: DownloadUrl,
         ErrorDetails: ErrorDetails,
         ErrorResponse: ErrorResponse,
-        InvoiceProperties: InvoiceProperties,
         Invoice: Invoice,
         OperationDisplay: OperationDisplay,
         Operation: Operation,

@@ -38,46 +38,6 @@ export interface Sku {
 
 /**
  * @interface
- * An interface representing AutomationAccountProperties.
- * Definition of the account property.
- *
- */
-export interface AutomationAccountProperties {
-  /**
-   * @member {Sku} [sku] Gets or sets the SKU of account.
-   */
-  sku?: Sku;
-  /**
-   * @member {string} [lastModifiedBy] Gets or sets the last modified by.
-   */
-  lastModifiedBy?: string;
-  /**
-   * @member {AutomationAccountState} [state] Gets status of account. Possible
-   * values include: 'Ok', 'Unavailable', 'Suspended'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly state?: AutomationAccountState;
-  /**
-   * @member {Date} [creationTime] Gets the creation time.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets the last modified time.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * @member {string} [description] Gets or sets the description.
-   */
-  description?: string;
-}
-
-/**
- * @interface
  * An interface representing Resource.
  * The core properties of ARM resources
  *
@@ -165,19 +125,6 @@ export interface AutomationAccount extends TrackedResource {
    * @member {string} [etag] Gets or sets the etag of the resource.
    */
   etag?: string;
-}
-
-/**
- * @interface
- * An interface representing AutomationAccountCreateOrUpdateProperties.
- * The parameters supplied to the create or update account properties.
- *
- */
-export interface AutomationAccountCreateOrUpdateProperties {
-  /**
-   * @member {Sku} [sku] Gets or sets account SKU.
-   */
-  sku?: Sku;
 }
 
 /**
@@ -381,19 +328,6 @@ export interface KeyListResult {
 
 /**
  * @interface
- * An interface representing AutomationAccountUpdateProperties.
- * The parameters supplied to the update account properties.
- *
- */
-export interface AutomationAccountUpdateProperties {
-  /**
-   * @member {Sku} [sku] Gets or sets account SKU.
-   */
-  sku?: Sku;
-}
-
-/**
- * @interface
  * An interface representing AutomationAccountUpdateParameters.
  * The parameters supplied to the update automation account operation.
  *
@@ -448,35 +382,6 @@ export interface ErrorResponse {
 
 /**
  * @interface
- * An interface representing CertificateCreateOrUpdateProperties.
- * The properties of the create certificate operation.
- *
- */
-export interface CertificateCreateOrUpdateProperties {
-  /**
-   * @member {string} base64Value Gets or sets the base64 encoded value of the
-   * certificate.
-   */
-  base64Value: string;
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * certificate.
-   */
-  description?: string;
-  /**
-   * @member {string} [thumbprint] Gets or sets the thumbprint of the
-   * certificate.
-   */
-  thumbprint?: string;
-  /**
-   * @member {boolean} [isExportable] Gets or sets the is exportable flag of
-   * the certificate.
-   */
-  isExportable?: boolean;
-}
-
-/**
- * @interface
  * An interface representing CertificateCreateOrUpdateParameters.
  * The parameters supplied to the create or update or replace certificate
  * operation.
@@ -507,50 +412,6 @@ export interface CertificateCreateOrUpdateParameters {
    * the certificate.
    */
   isExportable?: boolean;
-}
-
-/**
- * @interface
- * An interface representing CertificateProperties.
- * Properties of the certificate.
- *
- */
-export interface CertificateProperties {
-  /**
-   * @member {string} [thumbprint] Gets the thumbprint of the certificate.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly thumbprint?: string;
-  /**
-   * @member {Date} [expiryTime] Gets the expiry time of the certificate.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly expiryTime?: Date;
-  /**
-   * @member {boolean} [isExportable] Gets the is exportable flag of the
-   * certificate.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly isExportable?: boolean;
-  /**
-   * @member {Date} [creationTime] Gets the creation time.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets the last modified time.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * @member {string} [description] Gets or sets the description.
-   */
-  description?: string;
 }
 
 /**
@@ -600,20 +461,6 @@ export interface Certificate extends ProxyResource {
 
 /**
  * @interface
- * An interface representing CertificateUpdateProperties.
- * The properties of the update certificate operation
- *
- */
-export interface CertificateUpdateProperties {
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * certificate.
-   */
-  description?: string;
-}
-
-/**
- * @interface
  * An interface representing CertificateUpdateParameters.
  * The parameters supplied to the update certificate operation.
  *
@@ -645,30 +492,6 @@ export interface ConnectionTypeAssociationProperty {
 
 /**
  * @interface
- * An interface representing ConnectionCreateOrUpdateProperties.
- * The properties of the create connection properties
- *
- */
-export interface ConnectionCreateOrUpdateProperties {
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * connection.
-   */
-  description?: string;
-  /**
-   * @member {ConnectionTypeAssociationProperty} connectionType Gets or sets
-   * the connectionType of the connection.
-   */
-  connectionType: ConnectionTypeAssociationProperty;
-  /**
-   * @member {{ [propertyName: string]: string }} [fieldDefinitionValues] Gets
-   * or sets the field definition properties of the connection.
-   */
-  fieldDefinitionValues?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
  * An interface representing ConnectionCreateOrUpdateParameters.
  * The parameters supplied to the create or update connection operation.
  *
@@ -693,43 +516,6 @@ export interface ConnectionCreateOrUpdateParameters {
    * or sets the field definition properties of the connection.
    */
   fieldDefinitionValues?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * An interface representing ConnectionProperties.
- * Definition of the connection properties.
- *
- */
-export interface ConnectionProperties {
-  /**
-   * @member {ConnectionTypeAssociationProperty} [connectionType] Gets or sets
-   * the connectionType of the connection.
-   */
-  connectionType?: ConnectionTypeAssociationProperty;
-  /**
-   * @member {{ [propertyName: string]: string }} [fieldDefinitionValues] Gets
-   * the field definition values of the connection.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly fieldDefinitionValues?: { [propertyName: string]: string };
-  /**
-   * @member {Date} [creationTime] Gets the creation time.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets the last modified time.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * @member {string} [description] Gets or sets the description.
-   */
-  description?: string;
 }
 
 /**
@@ -768,25 +554,6 @@ export interface Connection extends ProxyResource {
    * @member {string} [description] Gets or sets the description.
    */
   description?: string;
-}
-
-/**
- * @interface
- * An interface representing ConnectionUpdateProperties.
- * The properties of the update connection operation.
- *
- */
-export interface ConnectionUpdateProperties {
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * connection.
-   */
-  description?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [fieldDefinitionValues] Gets
-   * or sets the field definition values of the connection.
-   */
-  fieldDefinitionValues?: { [propertyName: string]: string };
 }
 
 /**
@@ -834,41 +601,6 @@ export interface FieldDefinition {
    * definition.
    */
   type: string;
-}
-
-/**
- * @interface
- * An interface representing ConnectionTypeProperties.
- * Properties of the connection type.
- *
- */
-export interface ConnectionTypeProperties {
-  /**
-   * @member {boolean} [isGlobal] Gets or sets a Boolean value to indicate if
-   * the connection type is global.
-   */
-  isGlobal?: boolean;
-  /**
-   * @member {{ [propertyName: string]: FieldDefinition }} [fieldDefinitions]
-   * Gets the field definitions of the connection type.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly fieldDefinitions?: { [propertyName: string]: FieldDefinition };
-  /**
-   * @member {Date} [creationTime] Gets the creation time.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets or sets the last modified time.
-   */
-  lastModifiedTime?: Date;
-  /**
-   * @member {string} [description] Gets or sets the description.
-   */
-  description?: string;
 }
 
 /**
@@ -926,25 +658,6 @@ export interface ConnectionType {
 
 /**
  * @interface
- * An interface representing ConnectionTypeCreateOrUpdateProperties.
- * The properties of the create connection type.
- *
- */
-export interface ConnectionTypeCreateOrUpdateProperties {
-  /**
-   * @member {boolean} [isGlobal] Gets or sets a Boolean value to indicate if
-   * the connection type is global.
-   */
-  isGlobal?: boolean;
-  /**
-   * @member {{ [propertyName: string]: FieldDefinition }} fieldDefinitions
-   * Gets or sets the field definitions of the connection type.
-   */
-  fieldDefinitions: { [propertyName: string]: FieldDefinition };
-}
-
-/**
- * @interface
  * An interface representing ConnectionTypeCreateOrUpdateParameters.
  * The parameters supplied to the create or update connection type operation.
  *
@@ -964,28 +677,6 @@ export interface ConnectionTypeCreateOrUpdateParameters {
    * Gets or sets the field definitions of the connection type.
    */
   fieldDefinitions: { [propertyName: string]: FieldDefinition };
-}
-
-/**
- * @interface
- * An interface representing CredentialCreateOrUpdateProperties.
- * The properties of the create cerdential operation.
- *
- */
-export interface CredentialCreateOrUpdateProperties {
-  /**
-   * @member {string} userName Gets or sets the user name of the credential.
-   */
-  userName: string;
-  /**
-   * @member {string} password Gets or sets the password of the credential.
-   */
-  password: string;
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * credential.
-   */
-  description?: string;
 }
 
 /**
@@ -1010,37 +701,6 @@ export interface CredentialCreateOrUpdateParameters {
   /**
    * @member {string} [description] Gets or sets the description of the
    * credential.
-   */
-  description?: string;
-}
-
-/**
- * @interface
- * An interface representing CredentialProperties.
- * Definition of the credential properties
- *
- */
-export interface CredentialProperties {
-  /**
-   * @member {string} [userName] Gets the user name of the credential.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly userName?: string;
-  /**
-   * @member {Date} [creationTime] Gets the creation time.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets the last modified time.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * @member {string} [description] Gets or sets the description.
    */
   description?: string;
 }
@@ -1073,28 +733,6 @@ export interface Credential extends ProxyResource {
   readonly lastModifiedTime?: Date;
   /**
    * @member {string} [description] Gets or sets the description.
-   */
-  description?: string;
-}
-
-/**
- * @interface
- * An interface representing CredentialUpdateProperties.
- * The properties of the Update credential
- *
- */
-export interface CredentialUpdateProperties {
-  /**
-   * @member {string} [userName] Gets or sets the user name of the credential.
-   */
-  userName?: string;
-  /**
-   * @member {string} [password] Gets or sets the password of the credential.
-   */
-  password?: string;
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * credential.
    */
   description?: string;
 }
@@ -1199,37 +837,6 @@ export interface DscConfigurationParameter {
 
 /**
  * @interface
- * An interface representing DscConfigurationCreateOrUpdateProperties.
- * The properties to create or update configuration.
- *
- */
-export interface DscConfigurationCreateOrUpdateProperties {
-  /**
-   * @member {boolean} [logVerbose] Gets or sets verbose log option.
-   */
-  logVerbose?: boolean;
-  /**
-   * @member {boolean} [logProgress] Gets or sets progress log option.
-   */
-  logProgress?: boolean;
-  /**
-   * @member {ContentSource} source Gets or sets the source.
-   */
-  source: ContentSource;
-  /**
-   * @member {{ [propertyName: string]: DscConfigurationParameter }}
-   * [parameters] Gets or sets the configuration parameters.
-   */
-  parameters?: { [propertyName: string]: DscConfigurationParameter };
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * configuration.
-   */
-  description?: string;
-}
-
-/**
- * @interface
  * An interface representing DscConfigurationCreateOrUpdateParameters.
  * The parameters supplied to the create or update configuration operation.
  *
@@ -1270,61 +877,6 @@ export interface DscConfigurationCreateOrUpdateParameters {
    * attached to the resource.
    */
   tags?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * An interface representing DscConfigurationProperties.
- * Definition of the configuration property type.
- *
- */
-export interface DscConfigurationProperties {
-  /**
-   * @member {DscConfigurationProvisioningState} [provisioningState] Gets or
-   * sets the provisioning state of the configuration. Possible values include:
-   * 'Succeeded'
-   */
-  provisioningState?: DscConfigurationProvisioningState;
-  /**
-   * @member {number} [jobCount] Gets or sets the job count of the
-   * configuration.
-   */
-  jobCount?: number;
-  /**
-   * @member {{ [propertyName: string]: DscConfigurationParameter }}
-   * [parameters] Gets or sets the configuration parameters.
-   */
-  parameters?: { [propertyName: string]: DscConfigurationParameter };
-  /**
-   * @member {ContentSource} [source] Gets or sets the source.
-   */
-  source?: ContentSource;
-  /**
-   * @member {DscConfigurationState} [state] Gets or sets the state of the
-   * configuration. Possible values include: 'New', 'Edit', 'Published'
-   */
-  state?: DscConfigurationState;
-  /**
-   * @member {boolean} [logVerbose] Gets or sets verbose log option.
-   */
-  logVerbose?: boolean;
-  /**
-   * @member {Date} [creationTime] Gets or sets the creation time.
-   */
-  creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets or sets the last modified time.
-   */
-  lastModifiedTime?: Date;
-  /**
-   * @member {number} [nodeConfigurationCount] Gets the number of compiled node
-   * configurations.
-   */
-  nodeConfigurationCount?: number;
-  /**
-   * @member {string} [description] Gets or sets the description.
-   */
-  description?: string;
 }
 
 /**
@@ -1540,38 +1092,6 @@ export interface RunbookAssociationProperty {
 
 /**
  * @interface
- * An interface representing JobScheduleProperties.
- * Definition of job schedule parameters.
- *
- */
-export interface JobScheduleProperties {
-  /**
-   * @member {string} [jobScheduleId] Gets or sets the id of job schedule.
-   */
-  jobScheduleId?: string;
-  /**
-   * @member {ScheduleAssociationProperty} [schedule] Gets or sets the
-   * schedule.
-   */
-  schedule?: ScheduleAssociationProperty;
-  /**
-   * @member {RunbookAssociationProperty} [runbook] Gets or sets the runbook.
-   */
-  runbook?: RunbookAssociationProperty;
-  /**
-   * @member {string} [runOn] Gets or sets the hybrid worker group that the
-   * scheduled job should run on.
-   */
-  runOn?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
-   * parameters of the job schedule.
-   */
-  parameters?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
  * An interface representing JobSchedule.
  * Definition of the job schedule.
  *
@@ -1616,33 +1136,6 @@ export interface JobSchedule {
   /**
    * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
    * parameters of the job schedule.
-   */
-  parameters?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * An interface representing JobScheduleCreateProperties.
- * The parameters supplied to the create job schedule operation.
- *
- */
-export interface JobScheduleCreateProperties {
-  /**
-   * @member {ScheduleAssociationProperty} schedule Gets or sets the schedule.
-   */
-  schedule: ScheduleAssociationProperty;
-  /**
-   * @member {RunbookAssociationProperty} runbook Gets or sets the runbook.
-   */
-  runbook: RunbookAssociationProperty;
-  /**
-   * @member {string} [runOn] Gets or sets the hybrid worker group that the
-   * scheduled job should run on.
-   */
-  runOn?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets a
-   * list of job properties.
    */
   parameters?: { [propertyName: string]: string };
 }
@@ -1808,41 +1301,6 @@ export interface ActivityOutputType {
 
 /**
  * @interface
- * An interface representing ActivityProperties.
- * Properties of the activity.
- *
- */
-export interface ActivityProperties {
-  /**
-   * @member {string} [definition] Gets or sets the user name of the activity.
-   */
-  definition?: string;
-  /**
-   * @member {ActivityParameterSet[]} [parameterSets] Gets or sets the
-   * parameter sets of the activity.
-   */
-  parameterSets?: ActivityParameterSet[];
-  /**
-   * @member {ActivityOutputType[]} [outputTypes] Gets or sets the output types
-   * of the activity.
-   */
-  outputTypes?: ActivityOutputType[];
-  /**
-   * @member {Date} [creationTime] Gets or sets the creation time.
-   */
-  creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets or sets the last modified time.
-   */
-  lastModifiedTime?: Date;
-  /**
-   * @member {string} [description] Gets or sets the description.
-   */
-  description?: string;
-}
-
-/**
- * @interface
  * An interface representing Activity.
  * Definition of the activity.
  *
@@ -1926,70 +1384,6 @@ export interface ContentLink {
 
 /**
  * @interface
- * An interface representing ModuleProperties.
- * Definition of the module property type.
- *
- */
-export interface ModuleProperties {
-  /**
-   * @member {boolean} [isGlobal] Gets or sets the isGlobal flag of the module.
-   */
-  isGlobal?: boolean;
-  /**
-   * @member {string} [version] Gets or sets the version of the module.
-   */
-  version?: string;
-  /**
-   * @member {number} [sizeInBytes] Gets or sets the size in bytes of the
-   * module.
-   */
-  sizeInBytes?: number;
-  /**
-   * @member {number} [activityCount] Gets or sets the activity count of the
-   * module.
-   */
-  activityCount?: number;
-  /**
-   * @member {ModuleProvisioningState} [provisioningState] Gets or sets the
-   * provisioning state of the module. Possible values include: 'Created',
-   * 'Creating', 'StartingImportModuleRunbook', 'RunningImportModuleRunbook',
-   * 'ContentRetrieved', 'ContentDownloaded', 'ContentValidated',
-   * 'ConnectionTypeImported', 'ContentStored', 'ModuleDataStored',
-   * 'ActivitiesStored', 'ModuleImportRunbookComplete', 'Succeeded', 'Failed',
-   * 'Cancelled', 'Updating'
-   */
-  provisioningState?: ModuleProvisioningState;
-  /**
-   * @member {ContentLink} [contentLink] Gets or sets the contentLink of the
-   * module.
-   */
-  contentLink?: ContentLink;
-  /**
-   * @member {ModuleErrorInfo} [error] Gets or sets the error info of the
-   * module.
-   */
-  error?: ModuleErrorInfo;
-  /**
-   * @member {Date} [creationTime] Gets or sets the creation time.
-   */
-  creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets or sets the last modified time.
-   */
-  lastModifiedTime?: Date;
-  /**
-   * @member {string} [description] Gets or sets the description.
-   */
-  description?: string;
-  /**
-   * @member {boolean} [isComposite] Gets or sets type of module, if its
-   * composite or not.
-   */
-  isComposite?: boolean;
-}
-
-/**
- * @interface
  * An interface representing Module.
  * Definition of the module type.
  *
@@ -2059,19 +1453,6 @@ export interface Module extends TrackedResource {
 
 /**
  * @interface
- * An interface representing ModuleCreateOrUpdateProperties.
- * The parameters supplied to the create or update module properties.
- *
- */
-export interface ModuleCreateOrUpdateProperties {
-  /**
-   * @member {ContentLink} contentLink Gets or sets the module content link.
-   */
-  contentLink: ContentLink;
-}
-
-/**
- * @interface
  * An interface representing ModuleCreateOrUpdateParameters.
  * The parameters supplied to the create or update module operation.
  *
@@ -2094,19 +1475,6 @@ export interface ModuleCreateOrUpdateParameters {
    * attached to the resource.
    */
   tags?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * An interface representing ModuleUpdateProperties.
- * The parameters supplied to the update properties.
- *
- */
-export interface ModuleUpdateProperties {
-  /**
-   * @member {ContentLink} [contentLink] Gets or sets the module content link.
-   */
-  contentLink?: ContentLink;
 }
 
 /**
@@ -2195,46 +1563,6 @@ export interface AdvancedSchedule {
    * Occurrences of days within a month.
    */
   monthlyOccurrences?: AdvancedScheduleMonthlyOccurrence[];
-}
-
-/**
- * @interface
- * An interface representing ScheduleCreateOrUpdateProperties.
- * The parameters supplied to the create or update schedule operation.
- *
- */
-export interface ScheduleCreateOrUpdateProperties {
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * schedule.
-   */
-  description?: string;
-  /**
-   * @member {Date} startTime Gets or sets the start time of the schedule.
-   */
-  startTime: Date;
-  /**
-   * @member {Date} [expiryTime] Gets or sets the end time of the schedule.
-   */
-  expiryTime?: Date;
-  /**
-   * @member {any} [interval] Gets or sets the interval of the schedule.
-   */
-  interval?: any;
-  /**
-   * @member {ScheduleFrequency} frequency Possible values include: 'OneTime',
-   * 'Day', 'Hour', 'Week', 'Month'
-   */
-  frequency: ScheduleFrequency;
-  /**
-   * @member {string} [timeZone] Gets or sets the time zone of the schedule.
-   */
-  timeZone?: string;
-  /**
-   * @member {AdvancedSchedule} [advancedSchedule] Gets or sets the
-   * AdvancedSchedule.
-   */
-  advancedSchedule?: AdvancedSchedule;
 }
 
 /**
@@ -2432,25 +1760,6 @@ export interface Schedule extends ProxyResource {
 
 /**
  * @interface
- * An interface representing ScheduleUpdateProperties.
- * The parameters supplied to the update schedule operation.
- *
- */
-export interface ScheduleUpdateProperties {
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * schedule.
-   */
-  description?: string;
-  /**
-   * @member {boolean} [isEnabled] Gets or sets a value indicating whether this
-   * schedule is enabled.
-   */
-  isEnabled?: boolean;
-}
-
-/**
- * @interface
  * An interface representing ScheduleUpdateParameters.
  * The parameters supplied to the update schedule operation.
  *
@@ -2470,29 +1779,6 @@ export interface ScheduleUpdateParameters {
    * schedule is enabled.
    */
   isEnabled?: boolean;
-}
-
-/**
- * @interface
- * An interface representing VariableCreateOrUpdateProperties.
- * The properties of the create variable operation.
- *
- */
-export interface VariableCreateOrUpdateProperties {
-  /**
-   * @member {string} [value] Gets or sets the value of the variable.
-   */
-  value?: string;
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * variable.
-   */
-  description?: string;
-  /**
-   * @member {boolean} [isEncrypted] Gets or sets the encrypted flag of the
-   * variable.
-   */
-  isEncrypted?: boolean;
 }
 
 /**
@@ -2520,36 +1806,6 @@ export interface VariableCreateOrUpdateParameters {
    * variable.
    */
   isEncrypted?: boolean;
-}
-
-/**
- * @interface
- * An interface representing VariableProperties.
- * Definition of the varible properties
- *
- */
-export interface VariableProperties {
-  /**
-   * @member {string} [value] Gets or sets the value of the variable.
-   */
-  value?: string;
-  /**
-   * @member {boolean} [isEncrypted] Gets or sets the encrypted flag of the
-   * variable.
-   */
-  isEncrypted?: boolean;
-  /**
-   * @member {Date} [creationTime] Gets or sets the creation time.
-   */
-  creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets or sets the last modified time.
-   */
-  lastModifiedTime?: Date;
-  /**
-   * @member {string} [description] Gets or sets the description.
-   */
-  description?: string;
 }
 
 /**
@@ -2585,24 +1841,6 @@ export interface Variable extends ProxyResource {
 
 /**
  * @interface
- * An interface representing VariableUpdateProperties.
- * The properties of the update variable
- *
- */
-export interface VariableUpdateProperties {
-  /**
-   * @member {string} [value] Gets or sets the value of the variable.
-   */
-  value?: string;
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * variable.
-   */
-  description?: string;
-}
-
-/**
- * @interface
  * An interface representing VariableUpdateParameters.
  * The parameters supplied to the update variable operation.
  *
@@ -2619,65 +1857,6 @@ export interface VariableUpdateParameters {
   /**
    * @member {string} [description] Gets or sets the description of the
    * variable.
-   */
-  description?: string;
-}
-
-/**
- * @interface
- * An interface representing WebhookProperties.
- * Definition of the webhook properties
- *
- */
-export interface WebhookProperties {
-  /**
-   * @member {boolean} [isEnabled] Gets or sets the value of the enabled flag
-   * of the webhook. Default value: false .
-   */
-  isEnabled?: boolean;
-  /**
-   * @member {string} [uri] Gets or sets the webhook uri.
-   */
-  uri?: string;
-  /**
-   * @member {Date} [expiryTime] Gets or sets the expiry time.
-   */
-  expiryTime?: Date;
-  /**
-   * @member {Date} [lastInvokedTime] Gets or sets the last invoked time.
-   */
-  lastInvokedTime?: Date;
-  /**
-   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
-   * parameters of the job that is created when the webhook calls the runbook
-   * it is associated with.
-   */
-  parameters?: { [propertyName: string]: string };
-  /**
-   * @member {RunbookAssociationProperty} [runbook] Gets or sets the runbook
-   * the webhook is associated with.
-   */
-  runbook?: RunbookAssociationProperty;
-  /**
-   * @member {string} [runOn] Gets or sets the name of the hybrid worker group
-   * the webhook job will run on.
-   */
-  runOn?: string;
-  /**
-   * @member {Date} [creationTime] Gets or sets the creation time.
-   */
-  creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets or sets the last modified time.
-   */
-  lastModifiedTime?: Date;
-  /**
-   * @member {string} [lastModifiedBy] Details of the user who last modified
-   * the Webhook
-   */
-  lastModifiedBy?: string;
-  /**
-   * @member {string} [description] Gets or sets the description.
    */
   description?: string;
 }
@@ -2744,35 +1923,6 @@ export interface Webhook extends ProxyResource {
 
 /**
  * @interface
- * An interface representing WebhookUpdateProperties.
- * The properties of the update webhook.
- *
- */
-export interface WebhookUpdateProperties {
-  /**
-   * @member {boolean} [isEnabled] Gets or sets the value of the enabled flag
-   * of webhook.
-   */
-  isEnabled?: boolean;
-  /**
-   * @member {string} [runOn] Gets or sets the name of the hybrid worker group
-   * the webhook job will run on.
-   */
-  runOn?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
-   * parameters of the job.
-   */
-  parameters?: { [propertyName: string]: string };
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * webhook.
-   */
-  description?: string;
-}
-
-/**
- * @interface
  * An interface representing WebhookUpdateParameters.
  * The parameters supplied to the update webhook operation.
  *
@@ -2802,42 +1952,6 @@ export interface WebhookUpdateParameters {
    * webhook.
    */
   description?: string;
-}
-
-/**
- * @interface
- * An interface representing WebhookCreateOrUpdateProperties.
- * The properties of the create webhook operation.
- *
- */
-export interface WebhookCreateOrUpdateProperties {
-  /**
-   * @member {boolean} [isEnabled] Gets or sets the value of the enabled flag
-   * of webhook.
-   */
-  isEnabled?: boolean;
-  /**
-   * @member {string} [uri] Gets or sets the uri.
-   */
-  uri?: string;
-  /**
-   * @member {Date} [expiryTime] Gets or sets the expiry time.
-   */
-  expiryTime?: Date;
-  /**
-   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
-   * parameters of the job.
-   */
-  parameters?: { [propertyName: string]: string };
-  /**
-   * @member {RunbookAssociationProperty} [runbook] Gets or sets the runbook.
-   */
-  runbook?: RunbookAssociationProperty;
-  /**
-   * @member {string} [runOn] Gets or sets the name of the hybrid worker group
-   * the webhook job will run on.
-   */
-  runOn?: string;
 }
 
 /**
@@ -2878,64 +1992,6 @@ export interface WebhookCreateOrUpdateParameters {
    * the webhook job will run on.
    */
   runOn?: string;
-}
-
-/**
- * @interface
- * An interface representing WatcherProperties.
- * Definition of the watcher properties
- *
- */
-export interface WatcherProperties {
-  /**
-   * @member {number} [executionFrequencyInSeconds] Gets or sets the frequency
-   * at which the watcher is invoked.
-   */
-  executionFrequencyInSeconds?: number;
-  /**
-   * @member {string} [scriptName] Gets or sets the name of the script the
-   * watcher is attached to, i.e. the name of an existing runbook.
-   */
-  scriptName?: string;
-  /**
-   * @member {{ [propertyName: string]: string }} [scriptParameters] Gets or
-   * sets the parameters of the script.
-   */
-  scriptParameters?: { [propertyName: string]: string };
-  /**
-   * @member {string} [scriptRunOn] Gets or sets the name of the hybrid worker
-   * group the watcher will run on.
-   */
-  scriptRunOn?: string;
-  /**
-   * @member {string} [status] Gets the current status of the watcher.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: string;
-  /**
-   * @member {Date} [creationTime] Gets or sets the creation time.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets or sets the last modified time.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * @member {string} [lastModifiedBy] Details of the user who last modified
-   * the watcher.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedBy?: string;
-  /**
-   * @member {string} [description] Gets or sets the description.
-   */
-  description?: string;
 }
 
 /**
@@ -2999,20 +2055,6 @@ export interface Watcher extends TrackedResource {
    * @member {string} [etag] Gets or sets the etag of the resource.
    */
   etag?: string;
-}
-
-/**
- * @interface
- * An interface representing WatcherUpdateProperties.
- * The properties of the update watcher operation.
- *
- */
-export interface WatcherUpdateProperties {
-  /**
-   * @member {number} [executionFrequencyInSeconds] Gets or sets the frequency
-   * at which the watcher is invoked.
-   */
-  executionFrequencyInSeconds?: number;
 }
 
 /**
@@ -3095,6 +2137,60 @@ export interface LinuxProperties {
 
 /**
  * @interface
+ * An interface representing TagSettingsProperties.
+ * Tag filter information for the VM.
+ *
+ */
+export interface TagSettingsProperties {
+  /**
+   * @member {{ [propertyName: string]: string[] }} [tags] Dictionary of tags
+   * with its list of values.
+   */
+  tags?: { [propertyName: string]: string[] };
+  /**
+   * @member {TagOperators} [filterOperator] Filter VMs by Any or All specified
+   * tags. Possible values include: 'All', 'Any'
+   */
+  filterOperator?: TagOperators;
+}
+
+/**
+ * @interface
+ * An interface representing AzureQueryProperties.
+ * Azure query for the update configuration.
+ *
+ */
+export interface AzureQueryProperties {
+  /**
+   * @member {string[]} [scope] List of Subscription or Resource Group ARM Ids.
+   */
+  scope?: string[];
+  /**
+   * @member {string[]} [location] List of locations to scope the query to.
+   */
+  location?: string[];
+  /**
+   * @member {TagSettingsProperties} [tagSettings] Tag settings for the VM.
+   */
+  tagSettings?: TagSettingsProperties;
+}
+
+/**
+ * @interface
+ * An interface representing TargetProperties.
+ * Group specific to the update configuration.
+ *
+ */
+export interface TargetProperties {
+  /**
+   * @member {AzureQueryProperties[]} [azureQueries] List of Azure queries in
+   * the software update configuration.
+   */
+  azureQueries?: AzureQueryProperties[];
+}
+
+/**
+ * @interface
  * An interface representing UpdateConfiguration.
  * Update specifc properties of the software update configuration.
  *
@@ -3130,64 +2226,11 @@ export interface UpdateConfiguration {
    * machines targeted by the software update configuration.
    */
   nonAzureComputerNames?: string[];
-}
-
-/**
- * @interface
- * An interface representing SoftwareUpdateConfigurationProperties.
- * Software update configuration properties.
- *
- */
-export interface SoftwareUpdateConfigurationProperties {
   /**
-   * @member {UpdateConfiguration} updateConfiguration update specific
-   * properties for the Software update configuration
+   * @member {TargetProperties} [targets] Group targets for the software update
+   * configuration.
    */
-  updateConfiguration: UpdateConfiguration;
-  /**
-   * @member {ScheduleProperties} scheduleInfo Schedule information for the
-   * Software update configuration
-   */
-  scheduleInfo: ScheduleProperties;
-  /**
-   * @member {string} [provisioningState] Provisioning state for the software
-   * update configuration, which only appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * @member {ErrorResponse} [error] detailes of provisioning error
-   */
-  error?: ErrorResponse;
-  /**
-   * @member {Date} [creationTime] Creation time of theresource, which only
-   * appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {string} [createdBy] createdBy property, which only appears in the
-   * response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createdBy?: string;
-  /**
-   * @member {Date} [lastModifiedTime] Last time resource was modified, which
-   * only appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * @member {string} [lastModifiedBy] lastModifiedBy property, which only
-   * appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedBy?: string;
+  targets?: TargetProperties;
 }
 
 /**
@@ -3290,55 +2333,6 @@ export interface CollectionItemUpdateConfiguration {
 
 /**
  * @interface
- * An interface representing SoftwareUpdateConfigurationCollectionItemProperties.
- * Software update configuration collection item properties.
- *
- */
-export interface SoftwareUpdateConfigurationCollectionItemProperties {
-  /**
-   * @member {CollectionItemUpdateConfiguration} [updateConfiguration] Update
-   * specific properties of the software update configuration.
-   */
-  updateConfiguration?: CollectionItemUpdateConfiguration;
-  /**
-   * @member {ScheduleFrequency} [frequency] execution frequency of the
-   * schedule associated with the software update configuration. Possible
-   * values include: 'OneTime', 'Day', 'Hour', 'Week', 'Month'
-   */
-  frequency?: ScheduleFrequency;
-  /**
-   * @member {Date} [startTime] the start time of the update.
-   */
-  startTime?: Date;
-  /**
-   * @member {Date} [creationTime] Creation time of the software update
-   * configuration, which only appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Last time software update configuration
-   * was modified, which only appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * @member {string} [provisioningState] Provisioning state for the software
-   * update configuration, which only appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * @member {Date} [nextRun] ext run time of the update.
-   */
-  nextRun?: Date;
-}
-
-/**
- * @interface
  * An interface representing SoftwareUpdateConfigurationCollectionItem.
  * Software update configuration collection item properties.
  *
@@ -3426,95 +2420,6 @@ export interface UpdateConfigurationNavigation {
    * the server.**
    */
   readonly name?: string;
-}
-
-/**
- * @interface
- * An interface representing SoftwareUpdateConfigurationRunProperties.
- * Software update configuration properties.
- *
- */
-export interface SoftwareUpdateConfigurationRunProperties {
-  /**
-   * @member {UpdateConfigurationNavigation} [softwareUpdateConfiguration]
-   * software update configuration triggered this run
-   */
-  softwareUpdateConfiguration?: UpdateConfigurationNavigation;
-  /**
-   * @member {string} [status] Status of the software update configuration run.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: string;
-  /**
-   * @member {string} [configuredDuration] configured duration for the software
-   * update configuration run.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly configuredDuration?: string;
-  /**
-   * @member {string} [osType] Operating system target of the software update
-   * configuration triggered this run
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly osType?: string;
-  /**
-   * @member {Date} [startTime] Etart time of the software update configuration
-   * run.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * @member {Date} [endTime] End time of the software update configuration
-   * run.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly endTime?: Date;
-  /**
-   * @member {number} [computerCount] Number of computers in the software
-   * update configuration run.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly computerCount?: number;
-  /**
-   * @member {number} [failedCount] Number of computers with failed status.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly failedCount?: number;
-  /**
-   * @member {Date} [creationTime] Creation time of theresource, which only
-   * appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {string} [createdBy] createdBy property, which only appears in the
-   * response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createdBy?: string;
-  /**
-   * @member {Date} [lastModifiedTime] Last time resource was modified, which
-   * only appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * @member {string} [lastModifiedBy] lastModifiedBy property, which only
-   * appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedBy?: string;
 }
 
 /**
@@ -3650,114 +2555,6 @@ export interface JobNavigation {
    * the server.**
    */
   readonly id?: string;
-}
-
-/**
- * @interface
- * An interface representing UpdateConfigurationMachineRunProperties.
- * Software update configuration machine run properties.
- *
- */
-export interface UpdateConfigurationMachineRunProperties {
-  /**
-   * @member {string} [targetComputer] name of the updated computer
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly targetComputer?: string;
-  /**
-   * @member {string} [targetComputerType] type of the updated computer.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly targetComputerType?: string;
-  /**
-   * @member {UpdateConfigurationNavigation} [softwareUpdateConfiguration]
-   * software update configuration triggered this run
-   */
-  softwareUpdateConfiguration?: UpdateConfigurationNavigation;
-  /**
-   * @member {string} [status] Status of the software update configuration
-   * machine run.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: string;
-  /**
-   * @member {string} [osType] Operating system target of the software update
-   * configuration triggered this run
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly osType?: string;
-  /**
-   * @member {string} [correlationId] correlation id of the software update
-   * configuration machine run
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly correlationId?: string;
-  /**
-   * @member {string} [sourceComputerId] source computer id of the software
-   * update configuration machine run
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly sourceComputerId?: string;
-  /**
-   * @member {Date} [startTime] Start time of the software update configuration
-   * machine run.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * @member {Date} [endTime] End time of the software update configuration
-   * machine run.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly endTime?: Date;
-  /**
-   * @member {string} [configuredDuration] configured duration for the software
-   * update configuration run.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly configuredDuration?: string;
-  /**
-   * @member {JobNavigation} [job] Job associated with the software update
-   * configuration machine run
-   */
-  job?: JobNavigation;
-  /**
-   * @member {Date} [creationTime] Creation time of theresource, which only
-   * appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {string} [createdBy] createdBy property, which only appears in the
-   * response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly createdBy?: string;
-  /**
-   * @member {Date} [lastModifiedTime] Last time resource was modified, which
-   * only appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * @member {string} [lastModifiedBy] lastModifiedBy property, which only
-   * appears in the response.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedBy?: string;
 }
 
 /**
@@ -3902,55 +2699,6 @@ export interface SoftwareUpdateConfigurationMachineRunListResult {
 
 /**
  * @interface
- * An interface representing SourceControlProperties.
- * Definition of the source control properties
- *
- */
-export interface SourceControlProperties {
-  /**
-   * @member {string} [repoUrl] The repo url of the source control.
-   */
-  repoUrl?: string;
-  /**
-   * @member {string} [branch] The repo branch of the source control. Include
-   * branch as empty string for VsoTfvc.
-   */
-  branch?: string;
-  /**
-   * @member {string} [folderPath] The folder path of the source control.
-   */
-  folderPath?: string;
-  /**
-   * @member {boolean} [autoSync] The auto sync of the source control. Default
-   * is false.
-   */
-  autoSync?: boolean;
-  /**
-   * @member {boolean} [publishRunbook] The auto publish of the source control.
-   * Default is true.
-   */
-  publishRunbook?: boolean;
-  /**
-   * @member {SourceType} [sourceType] The source type. Must be one of VsoGit,
-   * VsoTfvc, GitHub. Possible values include: 'VsoGit', 'VsoTfvc', 'GitHub'
-   */
-  sourceType?: SourceType;
-  /**
-   * @member {string} [description] The description.
-   */
-  description?: string;
-  /**
-   * @member {Date} [creationTime] The creation time.
-   */
-  creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] The last modified time.
-   */
-  lastModifiedTime?: Date;
-}
-
-/**
- * @interface
  * An interface representing SourceControl.
  * Definition of the source control.
  *
@@ -4022,43 +2770,6 @@ export interface SourceControlSecurityTokenProperties {
 
 /**
  * @interface
- * An interface representing SourceControlUpdateProperties.
- * The properties of the update source control
- *
- */
-export interface SourceControlUpdateProperties {
-  /**
-   * @member {string} [branch] The repo branch of the source control.
-   */
-  branch?: string;
-  /**
-   * @member {string} [folderPath] The folder path of the source control. Path
-   * must be relative.
-   */
-  folderPath?: string;
-  /**
-   * @member {boolean} [autoSync] The auto sync of the source control. Default
-   * is false.
-   */
-  autoSync?: boolean;
-  /**
-   * @member {boolean} [publishRunbook] The auto publish of the source control.
-   * Default is true.
-   */
-  publishRunbook?: boolean;
-  /**
-   * @member {SourceControlSecurityTokenProperties} [securityToken] The
-   * authorization token for the repo of the source control.
-   */
-  securityToken?: SourceControlSecurityTokenProperties;
-  /**
-   * @member {string} [description] The user description of the source control.
-   */
-  description?: string;
-}
-
-/**
- * @interface
  * An interface representing SourceControlUpdateParameters.
  * The parameters supplied to the update source control operation.
  *
@@ -4083,54 +2794,6 @@ export interface SourceControlUpdateParameters {
    * Default is true.
    */
   publishRunbook?: boolean;
-  /**
-   * @member {SourceControlSecurityTokenProperties} [securityToken] The
-   * authorization token for the repo of the source control.
-   */
-  securityToken?: SourceControlSecurityTokenProperties;
-  /**
-   * @member {string} [description] The user description of the source control.
-   */
-  description?: string;
-}
-
-/**
- * @interface
- * An interface representing SourceControlCreateOrUpdateProperties.
- * The properties of the create source control operation.
- *
- */
-export interface SourceControlCreateOrUpdateProperties {
-  /**
-   * @member {string} [repoUrl] The repo url of the source control.
-   */
-  repoUrl?: string;
-  /**
-   * @member {string} [branch] The repo branch of the source control. Include
-   * branch as empty string for VsoTfvc.
-   */
-  branch?: string;
-  /**
-   * @member {string} [folderPath] The folder path of the source control. Path
-   * must be relative.
-   */
-  folderPath?: string;
-  /**
-   * @member {boolean} [autoSync] The auto async of the source control. Default
-   * is false.
-   */
-  autoSync?: boolean;
-  /**
-   * @member {boolean} [publishRunbook] The auto publish of the source control.
-   * Default is true.
-   */
-  publishRunbook?: boolean;
-  /**
-   * @member {SourceType} [sourceType] The source type. Must be one of VsoGit,
-   * VsoTfvc, GitHub, case sensitive. Possible values include: 'VsoGit',
-   * 'VsoTfvc', 'GitHub'
-   */
-  sourceType?: SourceType;
   /**
    * @member {SourceControlSecurityTokenProperties} [securityToken] The
    * authorization token for the repo of the source control.
@@ -4188,47 +2851,6 @@ export interface SourceControlCreateOrUpdateParameters {
    * @member {string} [description] The user description of the source control.
    */
   description?: string;
-}
-
-/**
- * @interface
- * An interface representing SourceControlSyncJobProperties.
- * Definition of source control sync job properties.
- *
- */
-export interface SourceControlSyncJobProperties {
-  /**
-   * @member {string} [sourceControlSyncJobId] The source control sync job id.
-   */
-  sourceControlSyncJobId?: string;
-  /**
-   * @member {Date} [creationTime] The creation time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {ProvisioningState} [provisioningState] The provisioning state of
-   * the job. Possible values include: 'Completed', 'Failed', 'Running'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * @member {Date} [startTime] The start time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * @member {Date} [endTime] The end time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly endTime?: Date;
-  /**
-   * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'PartialSync', 'FullSync'
-   */
-  syncType?: SyncType;
 }
 
 /**
@@ -4292,20 +2914,6 @@ export interface SourceControlSyncJob {
 
 /**
  * @interface
- * An interface representing SourceControlSyncJobCreateProperties.
- * Definition of create source control sync job properties.
- *
- */
-export interface SourceControlSyncJobCreateProperties {
-  /**
-   * @member {string} commitId The commit id of the source control sync job. If
-   * not syncing to a commitId, enter an empty string.
-   */
-  commitId: string;
-}
-
-/**
- * @interface
  * An interface representing SourceControlSyncJobCreateParameters.
  * The parameters supplied to the create source control sync job operation.
  *
@@ -4316,52 +2924,6 @@ export interface SourceControlSyncJobCreateParameters {
    * not syncing to a commitId, enter an empty string.
    */
   commitId: string;
-}
-
-/**
- * @interface
- * An interface representing SourceControlSyncJobByIdProperties.
- * Definition of source control sync job properties.
- *
- */
-export interface SourceControlSyncJobByIdProperties {
-  /**
-   * @member {string} [sourceControlSyncJobId] The source control sync job id.
-   */
-  sourceControlSyncJobId?: string;
-  /**
-   * @member {Date} [creationTime] The creation time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {ProvisioningState} [provisioningState] The provisioning state of
-   * the job. Possible values include: 'Completed', 'Failed', 'Running'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * @member {Date} [startTime] The start time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * @member {Date} [endTime] The end time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly endTime?: Date;
-  /**
-   * @member {SyncType} [syncType] The sync type. Possible values include:
-   * 'PartialSync', 'FullSync'
-   */
-  syncType?: SyncType;
-  /**
-   * @member {string} [exception] The exceptions that occured while running the
-   * sync job.
-   */
-  exception?: string;
 }
 
 /**
@@ -4416,34 +2978,6 @@ export interface SourceControlSyncJobById {
 
 /**
  * @interface
- * An interface representing SourceControlSyncJobStreamProperties.
- * Definition of source control sync job stream properties.
- *
- */
-export interface SourceControlSyncJobStreamProperties {
-  /**
-   * @member {string} [sourceControlSyncJobStreamId] The sync job stream id.
-   */
-  sourceControlSyncJobStreamId?: string;
-  /**
-   * @member {string} [summary] The summary of the sync job stream.
-   */
-  summary?: string;
-  /**
-   * @member {Date} [time] The time of the sync job stream.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly time?: Date;
-  /**
-   * @member {StreamType} [streamType] The type of the sync job stream.
-   * Possible values include: 'Error', 'Output'
-   */
-  streamType?: StreamType;
-}
-
-/**
- * @interface
  * An interface representing SourceControlSyncJobStream.
  * Definition of the source control sync job stream.
  *
@@ -4474,43 +3008,6 @@ export interface SourceControlSyncJobStream {
    * Possible values include: 'Error', 'Output'
    */
   streamType?: StreamType;
-}
-
-/**
- * @interface
- * An interface representing SourceControlSyncJobStreamByIdProperties.
- * Definition of source control sync job stream by id properties.
- *
- */
-export interface SourceControlSyncJobStreamByIdProperties {
-  /**
-   * @member {string} [sourceControlSyncJobStreamId] The sync job stream id.
-   */
-  sourceControlSyncJobStreamId?: string;
-  /**
-   * @member {string} [summary] The summary of the sync job stream.
-   */
-  summary?: string;
-  /**
-   * @member {Date} [time] The time of the sync job stream.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly time?: Date;
-  /**
-   * @member {StreamType} [streamType] The type of the sync job stream.
-   * Possible values include: 'Error', 'Output'
-   */
-  streamType?: StreamType;
-  /**
-   * @member {string} [streamText] The text of the sync job stream.
-   */
-  streamText?: string;
-  /**
-   * @member {{ [propertyName: string]: any }} [value] The values of the job
-   * stream.
-   */
-  value?: { [propertyName: string]: any };
 }
 
 /**
@@ -4558,42 +3055,6 @@ export interface SourceControlSyncJobStreamById {
 
 /**
  * @interface
- * An interface representing JobStreamProperties.
- * Definition of the job stream.
- *
- */
-export interface JobStreamProperties {
-  /**
-   * @member {string} [jobStreamId] Gets or sets the id of the job stream.
-   */
-  jobStreamId?: string;
-  /**
-   * @member {Date} [time] Gets or sets the creation time of the job.
-   */
-  time?: Date;
-  /**
-   * @member {JobStreamType} [streamType] Gets or sets the stream type.
-   * Possible values include: 'Progress', 'Output', 'Warning', 'Error',
-   * 'Debug', 'Verbose', 'Any'
-   */
-  streamType?: JobStreamType;
-  /**
-   * @member {string} [streamText] Gets or sets the stream text.
-   */
-  streamText?: string;
-  /**
-   * @member {string} [summary] Gets or sets the summary.
-   */
-  summary?: string;
-  /**
-   * @member {{ [propertyName: string]: any }} [value] Gets or sets the values
-   * of the job stream.
-   */
-  value?: { [propertyName: string]: any };
-}
-
-/**
- * @interface
  * An interface representing JobStream.
  * Definition of the job stream.
  *
@@ -4630,81 +3091,6 @@ export interface JobStream {
    * of the job stream.
    */
   value?: { [propertyName: string]: any };
-}
-
-/**
- * @interface
- * An interface representing JobProperties.
- * Definition of job properties.
- *
- */
-export interface JobProperties {
-  /**
-   * @member {RunbookAssociationProperty} [runbook] Gets or sets the runbook.
-   */
-  runbook?: RunbookAssociationProperty;
-  /**
-   * @member {string} [startedBy] Gets or sets the job started by.
-   */
-  startedBy?: string;
-  /**
-   * @member {string} [runOn] Gets or sets the runOn which specifies the group
-   * name where the job is to be executed.
-   */
-  runOn?: string;
-  /**
-   * @member {string} [jobId] Gets or sets the id of the job.
-   */
-  jobId?: string;
-  /**
-   * @member {Date} [creationTime] Gets or sets the creation time of the job.
-   */
-  creationTime?: Date;
-  /**
-   * @member {JobStatus} [status] Gets or sets the status of the job. Possible
-   * values include: 'New', 'Activating', 'Running', 'Completed', 'Failed',
-   * 'Stopped', 'Blocked', 'Suspended', 'Disconnected', 'Suspending',
-   * 'Stopping', 'Resuming', 'Removing'
-   */
-  status?: JobStatus;
-  /**
-   * @member {string} [statusDetails] Gets or sets the status details of the
-   * job.
-   */
-  statusDetails?: string;
-  /**
-   * @member {Date} [startTime] Gets or sets the start time of the job.
-   */
-  startTime?: Date;
-  /**
-   * @member {Date} [endTime] Gets or sets the end time of the job.
-   */
-  endTime?: Date;
-  /**
-   * @member {string} [exception] Gets or sets the exception of the job.
-   */
-  exception?: string;
-  /**
-   * @member {Date} [lastModifiedTime] Gets or sets the last modified time of
-   * the job.
-   */
-  lastModifiedTime?: Date;
-  /**
-   * @member {Date} [lastStatusModifiedTime] Gets or sets the last status
-   * modified time of the job.
-   */
-  lastStatusModifiedTime?: Date;
-  /**
-   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
-   * parameters of the job.
-   */
-  parameters?: { [propertyName: string]: string };
-  /**
-   * @member {JobProvisioningState} [provisioningState] The current
-   * provisioning state of the job. Possible values include: 'Failed',
-   * 'Succeeded', 'Suspended', 'Processing'
-   */
-  provisioningState?: JobProvisioningState;
 }
 
 /**
@@ -4785,71 +3171,6 @@ export interface Job extends ProxyResource {
 
 /**
  * @interface
- * An interface representing JobCollectionItemProperties.
- * Job collection item properties.
- *
- */
-export interface JobCollectionItemProperties {
-  /**
-   * @member {RunbookAssociationProperty} [runbook] The runbook association.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly runbook?: RunbookAssociationProperty;
-  /**
-   * @member {string} [jobId] The id of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly jobId?: string;
-  /**
-   * @member {Date} [creationTime] The creation time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {JobStatus} [status] The status of the job. Possible values
-   * include: 'New', 'Activating', 'Running', 'Completed', 'Failed', 'Stopped',
-   * 'Blocked', 'Suspended', 'Disconnected', 'Suspending', 'Stopping',
-   * 'Resuming', 'Removing'
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly status?: JobStatus;
-  /**
-   * @member {Date} [startTime] The start time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * @member {Date} [endTime] The end time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly endTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] The last modified time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * @member {string} [provisioningState] The provisioning state of a resource.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * @member {string} [runOn] Specifies the runOn group name where the job was
-   * executed.
-   */
-  runOn?: string;
-}
-
-/**
- * @interface
  * An interface representing JobCollectionItem.
  * Job collection item properties.
  *
@@ -4910,27 +3231,6 @@ export interface JobCollectionItem extends ProxyResource {
   /**
    * @member {string} [runOn] Specifies the runOn group name where the job was
    * executed.
-   */
-  runOn?: string;
-}
-
-/**
- * @interface
- * An interface representing JobCreateProperties.
- */
-export interface JobCreateProperties {
-  /**
-   * @member {RunbookAssociationProperty} [runbook] Gets or sets the runbook.
-   */
-  runbook?: RunbookAssociationProperty;
-  /**
-   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
-   * parameters of the job.
-   */
-  parameters?: { [propertyName: string]: string };
-  /**
-   * @member {string} [runOn] Gets or sets the runOn which specifies the group
-   * name where the job is to be executed.
    */
   runOn?: string;
 }
@@ -5248,20 +3548,6 @@ export interface AgentRegistration {
 
 /**
  * @interface
- * An interface representing DscNodeConfigurationAssociationProperty.
- * The dsc nodeconfiguration property associated with the entity.
- *
- */
-export interface DscNodeConfigurationAssociationProperty {
-  /**
-   * @member {string} [name] Gets or sets the name of the dsc
-   * nodeconfiguration.
-   */
-  name?: string;
-}
-
-/**
- * @interface
  * An interface representing DscNodeExtensionHandlerAssociationProperty.
  * The dsc extensionHandler property associated with the node
  *
@@ -5276,59 +3562,6 @@ export interface DscNodeExtensionHandlerAssociationProperty {
    * handler.
    */
   version?: string;
-}
-
-/**
- * @interface
- * An interface representing DscNodeProperties.
- * The properties of a DscNode
- *
- */
-export interface DscNodeProperties {
-  /**
-   * @member {Date} [lastSeen] Gets or sets the last seen time of the node.
-   */
-  lastSeen?: Date;
-  /**
-   * @member {Date} [registrationTime] Gets or sets the registration time of
-   * the node.
-   */
-  registrationTime?: Date;
-  /**
-   * @member {string} [ip] Gets or sets the ip of the node.
-   */
-  ip?: string;
-  /**
-   * @member {string} [accountId] Gets or sets the account id of the node.
-   */
-  accountId?: string;
-  /**
-   * @member {string} [name] Gets or sets the name of the dsc
-   * nodeconfiguration.
-   */
-  name?: string;
-  /**
-   * @member {string} [status] Gets or sets the status of the node.
-   */
-  status?: string;
-  /**
-   * @member {string} [nodeId] Gets or sets the node id.
-   */
-  nodeId?: string;
-  /**
-   * @member {string} [etag] Gets or sets the etag of the resource.
-   */
-  etag?: string;
-  /**
-   * @member {number} [totalCount] Gets the total number of records matching
-   * filter criteria.
-   */
-  totalCount?: number;
-  /**
-   * @member {DscNodeExtensionHandlerAssociationProperty[]} [extensionHandler]
-   * Gets or sets the list of extensionHandler properties for a Node.
-   */
-  extensionHandler?: DscNodeExtensionHandlerAssociationProperty[];
 }
 
 /**
@@ -5444,97 +3677,6 @@ export interface DscConfigurationAssociationProperty {
 
 /**
  * @interface
- * An interface representing DscCompilationJobProperties.
- * Definition of Dsc Compilation job properties.
- *
- */
-export interface DscCompilationJobProperties {
-  /**
-   * @member {DscConfigurationAssociationProperty} [configuration] Gets or sets
-   * the configuration.
-   */
-  configuration?: DscConfigurationAssociationProperty;
-  /**
-   * @member {string} [startedBy] Gets the compilation job started by.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly startedBy?: string;
-  /**
-   * @member {string} [jobId] Gets the id of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly jobId?: string;
-  /**
-   * @member {Date} [creationTime] Gets the creation time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * @member {JobProvisioningState} [provisioningState] The current
-   * provisioning state of the job. Possible values include: 'Failed',
-   * 'Succeeded', 'Suspended', 'Processing'
-   */
-  provisioningState?: JobProvisioningState;
-  /**
-   * @member {string} [runOn] Gets or sets the runOn which specifies the group
-   * name where the job is to be executed.
-   */
-  runOn?: string;
-  /**
-   * @member {JobStatus} [status] Gets or sets the status of the job. Possible
-   * values include: 'New', 'Activating', 'Running', 'Completed', 'Failed',
-   * 'Stopped', 'Blocked', 'Suspended', 'Disconnected', 'Suspending',
-   * 'Stopping', 'Resuming', 'Removing'
-   */
-  status?: JobStatus;
-  /**
-   * @member {string} [statusDetails] Gets or sets the status details of the
-   * job.
-   */
-  statusDetails?: string;
-  /**
-   * @member {Date} [startTime] Gets the start time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * @member {Date} [endTime] Gets the end time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly endTime?: Date;
-  /**
-   * @member {string} [exception] Gets the exception of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly exception?: string;
-  /**
-   * @member {Date} [lastModifiedTime] Gets the last modified time of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * @member {Date} [lastStatusModifiedTime] Gets the last status modified time
-   * of the job.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly lastStatusModifiedTime?: Date;
-  /**
-   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
-   * parameters of the job.
-   */
-  parameters?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
  * An interface representing DscCompilationJob.
  * Definition of the Dsc Compilation job.
  *
@@ -5627,30 +3769,6 @@ export interface DscCompilationJob extends ProxyResource {
 
 /**
  * @interface
- * An interface representing DscCompilationJobCreateProperties.
- * The parameters supplied to the create compilation job operation.
- *
- */
-export interface DscCompilationJobCreateProperties {
-  /**
-   * @member {DscConfigurationAssociationProperty} configuration Gets or sets
-   * the configuration.
-   */
-  configuration: DscConfigurationAssociationProperty;
-  /**
-   * @member {{ [propertyName: string]: string }} [parameters] Gets or sets the
-   * parameters of the job.
-   */
-  parameters?: { [propertyName: string]: string };
-  /**
-   * @member {boolean} [incrementNodeConfigurationBuild] If a new build version
-   * of NodeConfiguration is required.
-   */
-  incrementNodeConfigurationBuild?: boolean;
-}
-
-/**
- * @interface
  * An interface representing DscCompilationJobCreateParameters.
  * The parameters supplied to the create compilation job operation.
  *
@@ -5688,42 +3806,6 @@ export interface DscCompilationJobCreateParameters {
 
 /**
  * @interface
- * An interface representing DscNodeConfigurationProperties.
- * Properties for the DscNodeConfiguration
- *
- */
-export interface DscNodeConfigurationProperties {
-  /**
-   * @member {Date} [lastModifiedTime] Gets or sets the last modified time.
-   */
-  lastModifiedTime?: Date;
-  /**
-   * @member {Date} [creationTime] Gets or sets creation time.
-   */
-  creationTime?: Date;
-  /**
-   * @member {DscConfigurationAssociationProperty} [configuration] Gets or sets
-   * the configuration of the node.
-   */
-  configuration?: DscConfigurationAssociationProperty;
-  /**
-   * @member {string} [source] Source of node configuration.
-   */
-  source?: string;
-  /**
-   * @member {number} [nodeCount] Number of nodes with this nodeconfiguration
-   * assigned
-   */
-  nodeCount?: number;
-  /**
-   * @member {boolean} [incrementNodeConfigurationBuild] If a new build version
-   * of NodeConfiguration is required.
-   */
-  incrementNodeConfigurationBuild?: boolean;
-}
-
-/**
- * @interface
  * An interface representing DscNodeConfiguration.
  * Definition of the dsc node configuration.
  *
@@ -5752,30 +3834,6 @@ export interface DscNodeConfiguration extends ProxyResource {
    * assigned
    */
   nodeCount?: number;
-  /**
-   * @member {boolean} [incrementNodeConfigurationBuild] If a new build version
-   * of NodeConfiguration is required.
-   */
-  incrementNodeConfigurationBuild?: boolean;
-}
-
-/**
- * @interface
- * An interface representing DscNodeConfigurationCreateOrUpdateParametersProperties.
- * The parameter properties supplied to the create or update node configuration
- * operation.
- *
- */
-export interface DscNodeConfigurationCreateOrUpdateParametersProperties {
-  /**
-   * @member {ContentSource} source Gets or sets the source.
-   */
-  source: ContentSource;
-  /**
-   * @member {DscConfigurationAssociationProperty} configuration Gets or sets
-   * the configuration of the node.
-   */
-  configuration: DscConfigurationAssociationProperty;
   /**
    * @member {boolean} [incrementNodeConfigurationBuild] If a new build version
    * of NodeConfiguration is required.
@@ -5926,82 +3984,6 @@ export interface RunbookDraft {
 
 /**
  * @interface
- * An interface representing RunbookProperties.
- * Definition of the runbook property type.
- *
- */
-export interface RunbookProperties {
-  /**
-   * @member {RunbookTypeEnum} [runbookType] Gets or sets the type of the
-   * runbook. Possible values include: 'Script', 'Graph', 'PowerShellWorkflow',
-   * 'PowerShell', 'GraphPowerShellWorkflow', 'GraphPowerShell'
-   */
-  runbookType?: RunbookTypeEnum;
-  /**
-   * @member {ContentLink} [publishContentLink] Gets or sets the published
-   * runbook content link.
-   */
-  publishContentLink?: ContentLink;
-  /**
-   * @member {RunbookState} [state] Gets or sets the state of the runbook.
-   * Possible values include: 'New', 'Edit', 'Published'
-   */
-  state?: RunbookState;
-  /**
-   * @member {boolean} [logVerbose] Gets or sets verbose log option.
-   */
-  logVerbose?: boolean;
-  /**
-   * @member {boolean} [logProgress] Gets or sets progress log option.
-   */
-  logProgress?: boolean;
-  /**
-   * @member {number} [logActivityTrace] Gets or sets the option to log
-   * activity trace of the runbook.
-   */
-  logActivityTrace?: number;
-  /**
-   * @member {number} [jobCount] Gets or sets the job count of the runbook.
-   */
-  jobCount?: number;
-  /**
-   * @member {{ [propertyName: string]: RunbookParameter }} [parameters] Gets
-   * or sets the runbook parameters.
-   */
-  parameters?: { [propertyName: string]: RunbookParameter };
-  /**
-   * @member {string[]} [outputTypes] Gets or sets the runbook output types.
-   */
-  outputTypes?: string[];
-  /**
-   * @member {RunbookDraft} [draft] Gets or sets the draft runbook properties.
-   */
-  draft?: RunbookDraft;
-  /**
-   * @member {RunbookProvisioningState} [provisioningState] Gets or sets the
-   * provisioning state of the runbook. Possible values include: 'Succeeded'
-   */
-  provisioningState?: RunbookProvisioningState;
-  /**
-   * @member {string} [lastModifiedBy] Gets or sets the last modified by.
-   */
-  lastModifiedBy?: string;
-  /**
-   * @member {Date} [creationTime] Gets or sets the creation time.
-   */
-  creationTime?: Date;
-  /**
-   * @member {Date} [lastModifiedTime] Gets or sets the last modified time.
-   */
-  lastModifiedTime?: Date;
-  /**
-   * @member {string} [description] Gets or sets the description.
-   */
-  description?: string;
-}
-
-/**
- * @interface
  * An interface representing Runbook.
  * Definition of the runbook type.
  *
@@ -6083,48 +4065,6 @@ export interface Runbook extends TrackedResource {
 
 /**
  * @interface
- * An interface representing RunbookCreateOrUpdateProperties.
- * The parameters supplied to the create or update runbook properties.
- *
- */
-export interface RunbookCreateOrUpdateProperties {
-  /**
-   * @member {boolean} [logVerbose] Gets or sets verbose log option.
-   */
-  logVerbose?: boolean;
-  /**
-   * @member {boolean} [logProgress] Gets or sets progress log option.
-   */
-  logProgress?: boolean;
-  /**
-   * @member {RunbookTypeEnum} runbookType Gets or sets the type of the
-   * runbook. Possible values include: 'Script', 'Graph', 'PowerShellWorkflow',
-   * 'PowerShell', 'GraphPowerShellWorkflow', 'GraphPowerShell'
-   */
-  runbookType: RunbookTypeEnum;
-  /**
-   * @member {RunbookDraft} [draft] Gets or sets the draft runbook properties.
-   */
-  draft?: RunbookDraft;
-  /**
-   * @member {ContentLink} [publishContentLink] Gets or sets the published
-   * runbook content link.
-   */
-  publishContentLink?: ContentLink;
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * runbook.
-   */
-  description?: string;
-  /**
-   * @member {number} [logActivityTrace] Gets or sets the activity-level
-   * tracing options of the runbook.
-   */
-  logActivityTrace?: number;
-}
-
-/**
- * @interface
  * An interface representing RunbookCreateOrUpdateParameters.
  * The parameters supplied to the create or update runbook operation.
  *
@@ -6176,33 +4116,6 @@ export interface RunbookCreateOrUpdateParameters {
    * attached to the resource.
    */
   tags?: { [propertyName: string]: string };
-}
-
-/**
- * @interface
- * An interface representing RunbookUpdateProperties.
- * The parameters supplied to the update runbook properties.
- *
- */
-export interface RunbookUpdateProperties {
-  /**
-   * @member {string} [description] Gets or sets the description of the
-   * runbook.
-   */
-  description?: string;
-  /**
-   * @member {boolean} [logVerbose] Gets or sets verbose log option.
-   */
-  logVerbose?: boolean;
-  /**
-   * @member {boolean} [logProgress] Gets or sets progress log option.
-   */
-  logProgress?: boolean;
-  /**
-   * @member {number} [logActivityTrace] Gets or sets the activity-level
-   * tracing options of the runbook.
-   */
-  logActivityTrace?: number;
 }
 
 /**
@@ -6402,19 +4315,6 @@ export interface RunbookCreateOrUpdateDraftParameters {
    * @member {string} runbookContent Content of the Runbook.
    */
   runbookContent: string;
-}
-
-/**
- * @interface
- * An interface representing PythonPackageCreateProperties.
- * The parameters supplied to the create or update module properties.
- *
- */
-export interface PythonPackageCreateProperties {
-  /**
-   * @member {ContentLink} contentLink Gets or sets the module content link.
-   */
-  contentLink: ContentLink;
 }
 
 /**
@@ -7720,6 +5620,17 @@ export enum LinuxUpdateClasses {
   Critical = 'Critical',
   Security = 'Security',
   Other = 'Other',
+}
+
+/**
+ * Defines values for TagOperators.
+ * Possible values include: 'All', 'Any'
+ * @readonly
+ * @enum {string}
+ */
+export enum TagOperators {
+  All = 'All',
+  Any = 'Any',
 }
 
 /**

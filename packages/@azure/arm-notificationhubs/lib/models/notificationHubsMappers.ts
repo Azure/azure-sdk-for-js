@@ -35,7 +35,6 @@ export {
   PnsCredentialsResource,
   NamespaceCreateOrUpdateParameters,
   NamespaceResource,
-  DebugSendResult,
   SubResource
 } from "../models/mappers";
 
