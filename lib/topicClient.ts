@@ -5,7 +5,7 @@ import * as log from "./log";
 import { Delivery } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { MessageSender } from "./messageSender";
-import { ServiceBusMessage } from "./message";
+import { SendableMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 
 
@@ -52,7 +52,7 @@ export class TopicClient extends Client {
    * @param {any} data  Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
-  async send(data: ServiceBusMessage): Promise<Delivery> {
+  async send(data: SendableMessageInfo): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.send(data);
   }
@@ -67,7 +67,7 @@ export class TopicClient extends Client {
    *
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: ServiceBusMessage[]): Promise<Delivery> {
+  async sendBatch(datas: SendableMessageInfo[]): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.sendBatch(datas);
   }

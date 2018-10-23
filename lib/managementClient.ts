@@ -3,15 +3,43 @@
 import * as Long from "long";
 import {
   EventContext, SenderEvents, ReceiverEvents, SenderOptions, ReceiverOptions, types,
-  message as RheaMessageUtil, generate_uuid, string_to_uuid
+  message as RheaMessageUtil, generate_uuid, Dictionary, string_to_uuid
 } from "rhea-promise";
 import {
   defaultLock, translate, Constants, RequestResponseLink, ConditionErrorNameMapper, AmqpMessage
 } from "@azure/amqp-common";
 import { ClientEntityContext } from "./clientEntityContext";
-import { ReceivedSBMessage, Message, ServiceBusMessage } from "./message";
+import { ReceivedMessageInfo, ServiceBusMessage, SendableMessageInfo } from "./serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
 import * as log from "./log";
+import { ReceiveMode } from "./messageReceiver";
+import { reorderLockTokens } from "./util/utils";
+
+export enum DispositionStatus {
+  completed = "completed",
+  defered = "defered",
+  suspended = "suspended",
+  abandoned = "abandoned",
+  renewed = "renewed"
+}
+
+export interface DispositionStatusOptions {
+  /**
+   * @property [propertiesToModify] A dictionary of Service Bus brokered message properties
+   * to modify.
+   */
+  propertiesToModify?: Dictionary<any>;
+  /**
+   * @property [deadLetterReason] The deadletter reason. May be set if disposition status
+   * is set to suspended.
+   */
+  deadLetterReason?: string;
+  /**
+   * @property [deadLetterDescription] The deadletter description. May be set if disposition status
+   * is set to suspended.
+   */
+  deadLetterDescription?: string;
+}
 
 export interface ManagementClientOptions {
   address?: string;
@@ -96,7 +124,7 @@ export class ManagementClient extends LinkEntity {
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peek(messageCount?: number): Promise<ReceivedSBMessage[]> {
+  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
     return await this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
   }
 
@@ -106,7 +134,7 @@ export class ManagementClient extends LinkEntity {
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedSBMessage[]> {
+  async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedMessageInfo[]> {
     if (fromSequenceNumber == undefined || !Long.isLong(fromSequenceNumber)) {
       throw new Error("'fromSequenceNumber' is a required parameter and must be an instance of 'Long'.");
     }
@@ -114,7 +142,7 @@ export class ManagementClient extends LinkEntity {
       throw new Error("'messageCount' must be of type 'number'.");
     }
     if (messageCount == undefined) messageCount = 1;
-    const messageList: ReceivedSBMessage[] = [];
+    const messageList: ReceivedMessageInfo[] = [];
     try {
       const messageBody: any = {};
       messageBody[Constants.fromSequenceNumber] =
@@ -129,6 +157,7 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt("Peek by sequence number request: %O.", request);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
@@ -138,7 +167,7 @@ export class ManagementClient extends LinkEntity {
         const messages = result.body.messages as { message: Buffer }[];
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
-          const message = ReceivedSBMessage.fromAmqpMessage(decodedMessage as any);
+          const message = ReceivedMessageInfo.fromAmqpMessage(decodedMessage as any);
           message.body = this._context.namespace.dataTransformer.decode(message.body);
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
@@ -166,47 +195,24 @@ export class ManagementClient extends LinkEntity {
    * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
    * LockDuration set on the Entity.
    *
-   * @param {string | Message} lockTokenOrMessage Lock token of the message or the message itself.
+   * @param {string | ServiceBusMessage} lockTokenOrMessage Lock token of the message or
+   * the message itself.
    * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewLock(lockTokenOrMessage: string | Message): Promise<any> {
+  async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
     if (!lockTokenOrMessage) {
-      throw new Error("'lockToken' is a required parameter.");
+      throw new Error("'lockTokenOrMessage' is a required parameter.");
     }
     if (typeof lockTokenOrMessage !== "object" && typeof lockTokenOrMessage !== "string") {
       throw new Error("'lockTokenOrMessage must be of type 'string' or of type 'object'.");
     }
 
-    const lockToken: string = (lockTokenOrMessage as Message).lockToken
-      ? (lockTokenOrMessage as Message).lockToken as string
+    const lockToken: string = (lockTokenOrMessage as ServiceBusMessage).lockToken
+      ? (lockTokenOrMessage as ServiceBusMessage).lockToken as string
       : lockTokenOrMessage as string;
     try {
-      const lockTokenBytes = string_to_uuid(lockToken);
-      const reorderedLockToken = Buffer.from([
-        lockTokenBytes[3],
-        lockTokenBytes[2],
-        lockTokenBytes[1],
-        lockTokenBytes[0],
-
-        lockTokenBytes[5],
-        lockTokenBytes[4],
-
-        lockTokenBytes[7],
-        lockTokenBytes[6],
-
-        lockTokenBytes[8],
-        lockTokenBytes[9],
-
-        lockTokenBytes[10],
-        lockTokenBytes[11],
-        lockTokenBytes[12],
-        lockTokenBytes[13],
-        lockTokenBytes[14],
-        lockTokenBytes[15]
-      ]);
-
       const messageBody: any = {};
-      messageBody[Constants.lockTokens] = types.wrap_array([reorderedLockToken], 0x98, undefined);
+      messageBody[Constants.lockTokens] = types.wrap_array(reorderLockTokens([lockToken]), 0x98, undefined);
       const request: AmqpMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -215,13 +221,14 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt("Renew Lock request: %O.", request);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
       const result = await this._mgmtReqResLink!.sendRequest(request);
       const lockedUntilUtc = new Date(result.body.expirations[0]);
       if (typeof lockTokenOrMessage === "object") {
-        (lockTokenOrMessage as Message).lockedUntilUtc = lockedUntilUtc;
+        (lockTokenOrMessage as ServiceBusMessage).lockedUntilUtc = lockedUntilUtc;
       }
       return lockedUntilUtc;
     } catch (err) {
@@ -235,13 +242,13 @@ export class ManagementClient extends LinkEntity {
   /**
    * Schedules a message to appear on Service Bus at a later time.
    *
-   * @param {ServiceBusMessage} message message that needs to be scheduled.
+   * @param {SendableMessageInfo} message message that needs to be scheduled.
    * @param {Date} scheduledEnqueueTimeUtc The UTC time at which the message should be available
    * for processing.
    * @returns {Promise<number>} Promise<number> The sequence number of the message that was
    * scheduled.
    */
-  async scheduleMessage(message: ServiceBusMessage, scheduledEnqueueTimeUtc: Date): Promise<Long> {
+  async scheduleMessage(message: SendableMessageInfo, scheduledEnqueueTimeUtc: Date): Promise<Long> {
     if (typeof message !== "object") {
       throw new Error("'message' is a required parameter and must be of type 'object'.");
     }
@@ -256,8 +263,8 @@ export class ManagementClient extends LinkEntity {
     }
     message.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
     if (!message.messageId) message.messageId = generate_uuid();
-    ServiceBusMessage.validate(message);
-    const amqpMessage = ServiceBusMessage.toAmqpMessage(message);
+    SendableMessageInfo.validate(message);
+    const amqpMessage = SendableMessageInfo.toAmqpMessage(message);
 
     try {
       const entry: any = {
@@ -285,6 +292,7 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt("Schedule message request: %O.", request);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
@@ -307,7 +315,7 @@ export class ManagementClient extends LinkEntity {
    * @param {Long} sequenceNumber The sequence number of the message to be cancelled.
    * @returns {Promise<void>} Promise<void>
    */
-  async cancelScheduleMessage(sequenceNumber: Long): Promise<void> {
+  async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
     if (!Long.isLong(sequenceNumber)) {
       throw new Error("'sequenceNumber' is a required parameter and must be an instance of 'Long'.");
     }
@@ -325,6 +333,7 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt("Cancel scheduled message request: %O.", request);
       log.mgmt("[%s] Acquiring lock to get the management req res link.",
         this._context.namespace.connectionId);
       await defaultLock.acquire(this.managementLock, () => { return this._init(); });
@@ -332,7 +341,142 @@ export class ManagementClient extends LinkEntity {
       await this._mgmtReqResLink!.sendRequest(request);
     } catch (err) {
       const error = translate(err);
-      log.error("An error occurred while making the request to cancel the scheduled message to " +
+      log.error("An error occurred while sending the request to cancel the scheduled message to " +
+        "$management endpoint: %O", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Receives a specific deferred message identified by `sequenceNumber` of the `Message`.
+   * @param sequenceNumber The sequence number of the message that will be received.
+   * @param receiveMode The mode in which the receiver was created.
+   * @returns Promise<ServiceBusMessage | undefined>
+   * - Returns `ServiceBusMessage` identified by sequence number.
+   * - Returns `undefined` if no such message is found.
+   * - Throws an error if the message has not been deferred.
+   */
+  async receiveDeferredMessage(sequenceNumber: Long, receiveMode: ReceiveMode): Promise<ServiceBusMessage | undefined> {
+    if (!Long.isLong(sequenceNumber)) {
+      throw new Error("'sequenceNumber' is a required parameter and must be an instance of 'Long'.");
+    }
+    let message: ServiceBusMessage | undefined = undefined;
+    const messages = await this.receiveDeferredMessages([sequenceNumber], receiveMode);
+    if (messages.length) {
+      message = messages[0];
+    }
+    return message;
+  }
+
+  /**
+   * Receives a list of deferred messages identified by `sequenceNumbers`.
+   * @param sequenceNumbers A list containing the sequence numbers to receive.
+   * @param receiveMode The mode in which the receiver was created.
+   * @returns Promise<ServiceBusMessage[]>
+   * - Returns a list of messages identified by the given sequenceNumbers.
+   * - Returns an empty list if no messages are found.
+   * - Throws an error if the messages have not been deferred.
+   */
+  async receiveDeferredMessages(sequenceNumbers: Long[], receiveMode: ReceiveMode): Promise<ServiceBusMessage[]> {
+    if (!Array.isArray(sequenceNumbers)) {
+      throw new Error("'sequenceNumbers' is a required parameter and must be of type 'Array'.");
+    }
+
+    if (typeof receiveMode !== 'number') {
+      throw new Error("'receiveMode' is a required parameter with value 1 or 2.");
+    }
+
+    const messageList: ServiceBusMessage[] = [];
+
+    try {
+      const messageBody: any = {};
+      messageBody["sequence-numbers"] = types.wrap_array(sequenceNumbers.map((i) => { return Buffer.from(i.toBytesBE()); }), 0x81, undefined);
+      const receiverSettleMode: number = receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1;
+      messageBody[Constants.receiverSettleMode] = types.wrap_ubyte(receiverSettleMode);
+      const request: AmqpMessage = {
+        body: messageBody,
+        message_id: generate_uuid(),
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.receiveBySequenceNumber
+        }
+      };
+      request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt("Receive deferred messages request: %O.", request);
+      log.mgmt("[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId);
+      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+
+      const result = await this._mgmtReqResLink!.sendRequest(request);
+      const messages = result.body.messages as { message: Buffer, "lock-token": Buffer }[];
+      for (const msg of messages) {
+        const decodedMessage = RheaMessageUtil.decode(msg.message);
+        const message = new ServiceBusMessage(this._context, decodedMessage as any,
+          { tag: msg["lock-token"] } as any);
+        this._context.requestResponseLockedMessages.set(message.lockToken!, message.lockedUntilUtc!);
+        messageList.push(message);
+      }
+      return messageList;
+    } catch (err) {
+      const error = translate(err);
+      log.error("An error occurred while sending the request to receive deferred messages to " +
+        "$management endpoint: %O", error);
+      throw error;
+    }
+  }
+
+  /**
+   * Updates the disposition status of deferred messages.
+   *
+   * @param lockTokens Message lock tokens to update disposition status.
+   * @param dispositionStatus The disposition status to be set
+   * @param options Optional parameters that can be provided while updating the disposition status.
+   *
+   * @returns Promise<void>
+   */
+  async updateDispositionStatus(lockTokens: string[], dispositionStatus: DispositionStatus,
+    options?: DispositionStatusOptions): Promise<void> {
+    if (!Array.isArray(lockTokens)) {
+      throw new Error("'lockTokens' is a required parameter and must be of type 'Array'.");
+    }
+    if (!dispositionStatus || typeof dispositionStatus !== "string") {
+      throw new Error("'dispositionStatus' is a required parameter and must be of type 'string'.");
+    }
+    if (!options) options = {};
+    try {
+      const messageBody: any = {};
+      const lockTokenBuffer: Buffer[] = [];
+      for (const lockToken of lockTokens) {
+        lockTokenBuffer.push(string_to_uuid(lockToken));
+      }
+      messageBody[Constants.lockTokens] = types.wrap_array(lockTokenBuffer, 0x98, undefined);
+      messageBody[Constants.dispositionStatus] = dispositionStatus;
+      if (options.deadLetterDescription != undefined) {
+        messageBody[Constants.deadLetterDescription] = options.deadLetterDescription;
+      }
+      if (options.deadLetterReason != undefined) {
+        messageBody[Constants.deadLetterReason] = options.deadLetterReason;
+      }
+      if (options.propertiesToModify != undefined) {
+        messageBody[Constants.propertiesToModify] = options.propertiesToModify;
+      }
+      const request: AmqpMessage = {
+        body: messageBody,
+        message_id: generate_uuid(),
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.updateDisposition
+        }
+      };
+      request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt("Update disposition status request: %O.", request);
+      log.mgmt("[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId);
+      await defaultLock.acquire(this.managementLock, () => { return this._init(); });
+      await this._mgmtReqResLink!.sendRequest(request);
+    } catch (err) {
+      const error = translate(err);
+      log.error("An error occurred while sending the request to update disposition status to " +
         "$management endpoint: %O", error);
       throw error;
     }

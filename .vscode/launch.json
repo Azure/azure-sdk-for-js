@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Debug sample",
-            "program": "${workspaceFolder}/examples/simpleReceive.ts",
+            "program": "${workspaceFolder}/examples/simpleSend.ts",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"

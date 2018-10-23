@@ -112,7 +112,7 @@ export class Namespace {
         // Close management sessions
         for (const id of Object.keys(this._context.clients)) {
           const client = this._context.clients[id];
-          await (client as any)._context.managementSession.close();
+          await (client as any)._context.managementClient.close();
         }
 
         await this._context.connection.close();

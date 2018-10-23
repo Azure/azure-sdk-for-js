@@ -1,4 +1,4 @@
-import { OnMessage, OnError, MessagingError, delay, Message, ReceiveMode, Namespace } from "../lib";
+import { OnMessage, OnError, MessagingError, delay, ServiceBusMessage, ReceiveMode, Namespace } from "../lib";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -13,7 +13,7 @@ let ns: Namespace;
 async function main(): Promise<void> {
   ns = Namespace.createFromConnectionString(str);
   const client = ns.createQueueClient(path, { receiveMode: ReceiveMode.peekLock });
-  const onMessage: OnMessage = async (brokeredMessage: Message) => {
+  const onMessage: OnMessage = async (brokeredMessage: ServiceBusMessage) => {
     console.log(">>> Message: ", brokeredMessage);
     console.log("### Actual message:", brokeredMessage.body ? brokeredMessage.body.toString() : null);
     const result = await client.renewLock(brokeredMessage.lockToken!);

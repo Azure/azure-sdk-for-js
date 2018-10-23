@@ -8,7 +8,7 @@ import { MessageSender } from "./messageSender";
 import { ReceiveOptions, OnError, OnMessage } from ".";
 import { StreamingReceiver, ReceiveHandler, MessageHandlerOptions } from "./streamingReceiver";
 import { BatchingReceiver } from "./batchingReceiver";
-import { Message, ServiceBusMessage, ReceivedSBMessage } from "./message";
+import { ServiceBusMessage, SendableMessageInfo, ReceivedMessageInfo } from "./serviceBusMessage";
 import { Client } from "./client";
 import { ReceiveMode } from "./messageReceiver";
 import * as Long from "long";
@@ -78,7 +78,7 @@ export class QueueClient extends Client {
    * @param {any} data  Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<Delivery>} Promise<Delivery>
    */
-  async send(data: ServiceBusMessage): Promise<Delivery> {
+  async send(data: SendableMessageInfo): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.send(data);
   }
@@ -87,12 +87,12 @@ export class QueueClient extends Client {
    * Send a batch of Message to the ServiceBus Queue. The "message_annotations", "application_properties"
    * and "properties" of the first message will be set as that of the envelope (batch message).
    *
-   * @param {Array<Message>} datas  An array of Message objects to be sent in a Batch
+   * @param {Array<ServiceBusMessage>} datas  An array of Message objects to be sent in a Batch
    * message.
    *
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  async sendBatch(datas: ServiceBusMessage[]): Promise<Delivery> {
+  async sendBatch(datas: SendableMessageInfo[]): Promise<Delivery> {
     const sender = MessageSender.create(this._context);
     return await sender.sendBatch(datas);
   }
@@ -149,8 +149,8 @@ export class QueueClient extends Client {
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peek(messageCount?: number): Promise<ReceivedSBMessage[]> {
-    return await this._context.managementSession!.peek(messageCount);
+  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    return await this._context.managementClient!.peek(messageCount);
   }
 
   /**
@@ -159,8 +159,8 @@ export class QueueClient extends Client {
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedSBMessage[]> {
-    return await this._context.managementSession!.peekBySequenceNumber(fromSequenceNumber, messageCount);
+  async peekBySequenceNumber(fromSequenceNumber: Long, messageCount?: number): Promise<ReceivedMessageInfo[]> {
+    return await this._context.managementClient!.peekBySequenceNumber(fromSequenceNumber, messageCount);
   }
 
   /**
@@ -170,9 +170,9 @@ export class QueueClient extends Client {
    * @param {number} [maxWaitTimeInSeconds] The maximum wait time in seconds for which the Receiver
    * should wait to receiver the said amount of messages. If not provided, it defaults to 60 seconds.
    *
-   * @returns {Promise<Message[]>} A promise that resolves with an array of Message objects.
+   * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
    */
-  async receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<Message[]> {
+  async receiveBatch(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]> {
     if (!this._context.batchingReceiver ||
       (this._context.batchingReceiver && !this._context.batchingReceiver.isOpen()) ||
       (this._context.batchingReceiver && !this._context.batchingReceiver.isReceivingMessages)) {
@@ -210,24 +210,24 @@ export class QueueClient extends Client {
    * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
    * LockDuration set on the Entity.
    *
-   * @param {string | Message} lockTokenOrMessage Lock token of the message or the message itself.
+   * @param {string | ServiceBusMessage} lockTokenOrMessage Lock token of the message or the message itself.
    * @returns {Promise<Date>} Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewLock(lockTokenOrMessage: string | Message): Promise<any> {
-    return await this._context.managementSession!.renewLock(lockTokenOrMessage);
+  async renewLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
+    return await this._context.managementClient!.renewLock(lockTokenOrMessage);
   }
 
   /**
    * Schedules a message to appear on Service Bus at a later time.
    *
-   * @param {ServiceBusMessage} message message that needs to be scheduled.
+   * @param {SendableMessageInfo} message message that needs to be scheduled.
    * @param scheduledEnqueueTimeUtc The UTC time at which the message should be available
    * for processing.
    * @returns {Promise<Long>} Promise<Long> The sequence number of the message that was
    * scheduled.
    */
-  async scheduleMessage(message: ServiceBusMessage, scheduledEnqueueTimeUtc: Date): Promise<Long> {
-    return await this._context.managementSession!.scheduleMessage(message, scheduledEnqueueTimeUtc);
+  async scheduleMessage(message: SendableMessageInfo, scheduledEnqueueTimeUtc: Date): Promise<Long> {
+    return await this._context.managementClient!.scheduleMessage(message, scheduledEnqueueTimeUtc);
   }
 
   /**
@@ -236,6 +236,38 @@ export class QueueClient extends Client {
    * @returns {Promise<void>} Promise<void>
    */
   async cancelScheduleMessage(sequenceNumber: Long): Promise<void> {
-    return await this._context.managementSession!.cancelScheduleMessage(sequenceNumber);
+    return await this._context.managementClient!.cancelScheduledMessage(sequenceNumber);
+  }
+
+  /**
+   * Receives a specific deferred message identified by `sequenceNumber` of the `Message`.
+   * @param sequenceNumber The sequence number of the message that will be received.
+   * @returns Promise<ServiceBusMessage | undefined>
+   * - Returns `Message` identified by sequence number.
+   * - Returns `undefined` if no such message is found.
+   * - Throws an error if the message has not been deferred.
+   */
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+    if (this.receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+    return await this._context.managementClient!.receiveDeferredMessage(sequenceNumber,
+      this.receiveMode);
+  }
+
+  /**
+   * Receives a list of deferred messages identified by `sequenceNumbers`.
+   * @param sequenceNumbers A list containing the sequence numbers to receive.
+   * @returns {Promise<ReceivedMessageInfo[]>} Promise<ReceivedSBMessage[]>
+   * - Returns a list of messages identified by the given sequenceNumbers.
+   * - Returns an empty list if no messages are found.
+   * - Throws an error if the messages have not been deferred.
+   */
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ReceivedMessageInfo[]> {
+    if (this.receiveMode !== ReceiveMode.peekLock) {
+      throw new Error("The operation is only supported in 'PeekLock' receive mode.");
+    }
+    return await this._context.managementClient!.receiveDeferredMessages(sequenceNumbers,
+      this.receiveMode);
   }
 }
