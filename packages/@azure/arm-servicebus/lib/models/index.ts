@@ -194,6 +194,21 @@ export interface SBNamespaceUpdateParameters extends ResourceNamespacePatch {
 
 /**
  * @interface
+ * An interface representing SBNamespaceMigrate.
+ * Namespace Migrate Object
+ *
+ */
+export interface SBNamespaceMigrate {
+  /**
+   * @member {NameSpaceType} targetNamespaceType Type of namespaces. Possible
+   * values include: 'Messaging', 'NotificationHub', 'Mixed', 'EventHub',
+   * 'Relay'
+   */
+  targetNamespaceType: NameSpaceType;
+}
+
+/**
+ * @interface
  * An interface representing SBAuthorizationRule.
  * Description of a namespace authorization rule.
  *
@@ -1542,6 +1557,21 @@ export enum SkuTier {
   Basic = 'Basic',
   Standard = 'Standard',
   Premium = 'Premium',
+}
+
+/**
+ * Defines values for NameSpaceType.
+ * Possible values include: 'Messaging', 'NotificationHub', 'Mixed',
+ * 'EventHub', 'Relay'
+ * @readonly
+ * @enum {string}
+ */
+export enum NameSpaceType {
+  Messaging = 'Messaging',
+  NotificationHub = 'NotificationHub',
+  Mixed = 'Mixed',
+  EventHub = 'EventHub',
+  Relay = 'Relay',
 }
 
 /**
