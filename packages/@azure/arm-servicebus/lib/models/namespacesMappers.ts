@@ -24,6 +24,7 @@ export {
   SBAuthorizationRule,
   AccessKeys,
   RegenerateAccessKeyParameters,
+  SBNamespaceMigrate,
   IpFilterRuleListResult,
   IpFilterRule,
   VirtualNetworkRuleListResult,
