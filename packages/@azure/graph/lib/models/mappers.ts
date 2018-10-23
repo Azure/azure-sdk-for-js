@@ -14,44 +14,6 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const ErrorMessage: msRest.CompositeMapper = {
-  serializedName: "ErrorMessage",
-  type: {
-    name: "Composite",
-    className: "ErrorMessage",
-    modelProperties: {
-      message: {
-        serializedName: "value",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const OdataError: msRest.CompositeMapper = {
-  serializedName: "OdataError",
-  type: {
-    name: "Composite",
-    className: "OdataError",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message.value",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const GraphError: msRest.CompositeMapper = {
   serializedName: "GraphError",
   type: {

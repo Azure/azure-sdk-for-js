@@ -77,21 +77,9 @@
         AppSku["F1"] = "F1";
         AppSku["S1"] = "S1";
     })(AppSku || (AppSku = {}));
-    /**
-     * Defines values for AppNameUnavailabilityReason.
-     * Possible values include: 'Invalid', 'AlreadyExists'
-     * @readonly
-     * @enum {string}
-     */
-    var AppNameUnavailabilityReason;
-    (function (AppNameUnavailabilityReason) {
-        AppNameUnavailabilityReason["Invalid"] = "Invalid";
-        AppNameUnavailabilityReason["AlreadyExists"] = "AlreadyExists";
-    })(AppNameUnavailabilityReason || (AppNameUnavailabilityReason = {}));
 
     var index = /*#__PURE__*/Object.freeze({
-        get AppSku () { return AppSku; },
-        get AppNameUnavailabilityReason () { return AppNameUnavailabilityReason; }
+        get AppSku () { return AppSku; }
     });
 
     /*
@@ -105,46 +93,6 @@
      */
     var CloudError = msRestAzure.CloudErrorMapper;
     var BaseResource = msRestAzure.BaseResourceMapper;
-    var AppProperties = {
-        serializedName: "AppProperties",
-        type: {
-            name: "Composite",
-            className: "AppProperties",
-            modelProperties: {
-                applicationId: {
-                    readOnly: true,
-                    serializedName: "applicationId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                displayName: {
-                    serializedName: "displayName",
-                    constraints: {
-                        Pattern: /^.{1,200}$/
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                subdomain: {
-                    serializedName: "subdomain",
-                    constraints: {
-                        Pattern: /^[a-z0-9-]{1,63}$/
-                    },
-                    type: {
-                        name: "String"
-                    }
-                },
-                template: {
-                    serializedName: "template",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var AppSkuInfo = {
         serializedName: "AppSkuInfo",
         type: {
@@ -305,11 +253,11 @@
             }
         }
     };
-    var ErrorDetails = {
-        serializedName: "ErrorDetails",
+    var ErrorResponseBody = {
+        serializedName: "ErrorResponseBody",
         type: {
             name: "Composite",
-            className: "ErrorDetails",
+            className: "ErrorResponseBody",
             modelProperties: {
                 code: {
                     readOnly: true,
@@ -330,6 +278,60 @@
                     serializedName: "target",
                     type: {
                         name: "String"
+                    }
+                },
+                details: {
+                    serializedName: "details",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ErrorResponseBody"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    var ErrorDetails = {
+        serializedName: "ErrorDetails",
+        type: {
+            name: "Composite",
+            className: "ErrorDetails",
+            modelProperties: {
+                code: {
+                    readOnly: true,
+                    serializedName: "error.code",
+                    type: {
+                        name: "String"
+                    }
+                },
+                message: {
+                    readOnly: true,
+                    serializedName: "error.message",
+                    type: {
+                        name: "String"
+                    }
+                },
+                target: {
+                    readOnly: true,
+                    serializedName: "error.target",
+                    type: {
+                        name: "String"
+                    }
+                },
+                details: {
+                    serializedName: "error.details",
+                    type: {
+                        name: "Sequence",
+                        element: {
+                            type: {
+                                name: "Composite",
+                                className: "ErrorResponseBody"
+                            }
+                        }
                     }
                 }
             }
@@ -404,6 +406,16 @@
                 name: {
                     required: true,
                     serializedName: "name",
+                    constraints: {
+                        Pattern: /^[a-z0-9-]{1,63}$/
+                    },
+                    type: {
+                        name: "String"
+                    }
+                },
+                type: {
+                    serializedName: "type",
+                    defaultValue: 'IoTApps',
                     type: {
                         name: "String"
                     }
@@ -411,11 +423,11 @@
             }
         }
     };
-    var AppNameAvailabilityInfo = {
-        serializedName: "AppNameAvailabilityInfo",
+    var AppAvailabilityInfo = {
+        serializedName: "AppAvailabilityInfo",
         type: {
             name: "Composite",
-            className: "AppNameAvailabilityInfo",
+            className: "AppAvailabilityInfo",
             modelProperties: {
                 nameAvailable: {
                     readOnly: true,
@@ -428,14 +440,11 @@
                     readOnly: true,
                     serializedName: "reason",
                     type: {
-                        name: "Enum",
-                        allowedValues: [
-                            "Invalid",
-                            "AlreadyExists"
-                        ]
+                        name: "String"
                     }
                 },
                 message: {
+                    readOnly: true,
                     serializedName: "message",
                     type: {
                         name: "String"
@@ -503,16 +512,16 @@
     var mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
         BaseResource: BaseResource,
-        AppProperties: AppProperties,
         AppSkuInfo: AppSkuInfo,
         Resource: Resource,
         App: App,
         AppPatch: AppPatch,
+        ErrorResponseBody: ErrorResponseBody,
         ErrorDetails: ErrorDetails,
         OperationDisplay: OperationDisplay,
         Operation: Operation,
         OperationInputs: OperationInputs,
-        AppNameAvailabilityInfo: AppNameAvailabilityInfo,
+        AppAvailabilityInfo: AppAvailabilityInfo,
         AppListResult: AppListResult,
         OperationListResult: OperationListResult
     });
@@ -533,10 +542,11 @@
         BaseResource: BaseResource,
         AppSkuInfo: AppSkuInfo,
         ErrorDetails: ErrorDetails,
+        ErrorResponseBody: ErrorResponseBody,
         AppPatch: AppPatch,
         AppListResult: AppListResult,
         OperationInputs: OperationInputs,
-        AppNameAvailabilityInfo: AppNameAvailabilityInfo
+        AppAvailabilityInfo: AppAvailabilityInfo
     });
 
     /*
@@ -686,11 +696,17 @@
                 options: options
             }, listByResourceGroupOperationSpec, callback);
         };
-        Apps.prototype.checkNameAvailability = function (name, options, callback) {
+        Apps.prototype.checkNameAvailability = function (operationInputs, options, callback) {
             return this.client.sendOperationRequest({
-                name: name,
+                operationInputs: operationInputs,
                 options: options
             }, checkNameAvailabilityOperationSpec, callback);
+        };
+        Apps.prototype.checkSubdomainAvailability = function (operationInputs, options, callback) {
+            return this.client.sendOperationRequest({
+                operationInputs: operationInputs,
+                options: options
+            }, checkSubdomainAvailabilityOperationSpec, callback);
         };
         /**
          * Create or update the metadata of an IoT Central application. The usual pattern to modify a
@@ -841,14 +857,38 @@
             acceptLanguage
         ],
         requestBody: {
-            parameterPath: {
-                name: "name"
-            },
+            parameterPath: "operationInputs",
             mapper: __assign({}, OperationInputs, { required: true })
         },
         responses: {
             200: {
-                bodyMapper: AppNameAvailabilityInfo
+                bodyMapper: AppAvailabilityInfo
+            },
+            default: {
+                bodyMapper: ErrorDetails
+            }
+        },
+        serializer: serializer
+    };
+    var checkSubdomainAvailabilityOperationSpec = {
+        httpMethod: "POST",
+        path: "subscriptions/{subscriptionId}/providers/Microsoft.IoTCentral/checkSubdomainAvailability",
+        urlParameters: [
+            subscriptionId
+        ],
+        queryParameters: [
+            apiVersion
+        ],
+        headerParameters: [
+            acceptLanguage
+        ],
+        requestBody: {
+            parameterPath: "operationInputs",
+            mapper: __assign({}, OperationInputs, { required: true })
+        },
+        responses: {
+            200: {
+                bodyMapper: AppAvailabilityInfo
             },
             default: {
                 bodyMapper: ErrorDetails
@@ -996,7 +1036,8 @@
         OperationListResult: OperationListResult,
         Operation: Operation,
         OperationDisplay: OperationDisplay,
-        ErrorDetails: ErrorDetails
+        ErrorDetails: ErrorDetails,
+        ErrorResponseBody: ErrorResponseBody
     });
 
     /*

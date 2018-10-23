@@ -14,119 +14,6 @@ import * as msRest from "ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const FrontDoorUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "FrontDoorUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "FrontDoorUpdateParameters",
-    modelProperties: {
-      friendlyName: {
-        serializedName: "friendlyName",
-        type: {
-          name: "String"
-        }
-      },
-      routingRules: {
-        serializedName: "routingRules",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RoutingRule"
-            }
-          }
-        }
-      },
-      loadBalancingSettings: {
-        serializedName: "loadBalancingSettings",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LoadBalancingSettingsModel"
-            }
-          }
-        }
-      },
-      healthProbeSettings: {
-        serializedName: "healthProbeSettings",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HealthProbeSettingsModel"
-            }
-          }
-        }
-      },
-      backendPools: {
-        serializedName: "backendPools",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BackendPool"
-            }
-          }
-        }
-      },
-      frontendEndpoints: {
-        serializedName: "frontendEndpoints",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FrontendEndpoint"
-            }
-          }
-        }
-      },
-      enabledState: {
-        serializedName: "enabledState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const FrontDoorProperties: msRest.CompositeMapper = {
-  serializedName: "FrontDoorProperties",
-  type: {
-    name: "Composite",
-    className: "FrontDoorProperties",
-    modelProperties: {
-      ...FrontDoorUpdateParameters.type.modelProperties,
-      resourceState: {
-        serializedName: "resourceState",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      cname: {
-        readOnly: true,
-        serializedName: "cname",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -278,99 +165,6 @@ export const FrontDoor: msRest.CompositeMapper = {
   }
 };
 
-export const RoutingRuleUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "RoutingRuleUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "RoutingRuleUpdateParameters",
-    modelProperties: {
-      frontendEndpoints: {
-        serializedName: "frontendEndpoints",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubResource"
-            }
-          }
-        }
-      },
-      acceptedProtocols: {
-        serializedName: "acceptedProtocols",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      patternsToMatch: {
-        serializedName: "patternsToMatch",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      customForwardingPath: {
-        serializedName: "customForwardingPath",
-        type: {
-          name: "String"
-        }
-      },
-      forwardingProtocol: {
-        serializedName: "forwardingProtocol",
-        type: {
-          name: "String"
-        }
-      },
-      cacheConfiguration: {
-        serializedName: "cacheConfiguration",
-        type: {
-          name: "Composite",
-          className: "CacheConfiguration"
-        }
-      },
-      backendPool: {
-        serializedName: "backendPool",
-        type: {
-          name: "Composite",
-          className: "SubResource"
-        }
-      },
-      enabledState: {
-        serializedName: "enabledState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RoutingRuleProperties: msRest.CompositeMapper = {
-  serializedName: "RoutingRuleProperties",
-  type: {
-    name: "Composite",
-    className: "RoutingRuleProperties",
-    modelProperties: {
-      ...RoutingRuleUpdateParameters.type.modelProperties,
-      resourceState: {
-        serializedName: "resourceState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const SubResource: msRest.CompositeMapper = {
   serializedName: "SubResource",
   type: {
@@ -483,51 +277,6 @@ export const RoutingRule: msRest.CompositeMapper = {
   }
 };
 
-export const LoadBalancingSettingsUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "LoadBalancingSettingsUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "LoadBalancingSettingsUpdateParameters",
-    modelProperties: {
-      sampleSize: {
-        serializedName: "sampleSize",
-        type: {
-          name: "Number"
-        }
-      },
-      successfulSamplesRequired: {
-        serializedName: "successfulSamplesRequired",
-        type: {
-          name: "Number"
-        }
-      },
-      additionalLatencyMilliseconds: {
-        serializedName: "additionalLatencyMilliseconds",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const LoadBalancingSettingsProperties: msRest.CompositeMapper = {
-  serializedName: "LoadBalancingSettingsProperties",
-  type: {
-    name: "Composite",
-    className: "LoadBalancingSettingsProperties",
-    modelProperties: {
-      ...LoadBalancingSettingsUpdateParameters.type.modelProperties,
-      resourceState: {
-        serializedName: "resourceState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const LoadBalancingSettingsModel: msRest.CompositeMapper = {
   serializedName: "LoadBalancingSettingsModel",
   type: {
@@ -576,51 +325,6 @@ export const LoadBalancingSettingsModel: msRest.CompositeMapper = {
   }
 };
 
-export const HealthProbeSettingsUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "HealthProbeSettingsUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "HealthProbeSettingsUpdateParameters",
-    modelProperties: {
-      path: {
-        serializedName: "path",
-        type: {
-          name: "String"
-        }
-      },
-      protocol: {
-        serializedName: "protocol",
-        type: {
-          name: "String"
-        }
-      },
-      intervalInSeconds: {
-        serializedName: "intervalInSeconds",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const HealthProbeSettingsProperties: msRest.CompositeMapper = {
-  serializedName: "HealthProbeSettingsProperties",
-  type: {
-    name: "Composite",
-    className: "HealthProbeSettingsProperties",
-    modelProperties: {
-      ...HealthProbeSettingsUpdateParameters.type.modelProperties,
-      resourceState: {
-        serializedName: "resourceState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const HealthProbeSettingsModel: msRest.CompositeMapper = {
   serializedName: "HealthProbeSettingsModel",
   type: {
@@ -661,59 +365,6 @@ export const HealthProbeSettingsModel: msRest.CompositeMapper = {
       type: {
         readOnly: true,
         serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BackendPoolUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "BackendPoolUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "BackendPoolUpdateParameters",
-    modelProperties: {
-      backends: {
-        serializedName: "backends",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Backend"
-            }
-          }
-        }
-      },
-      loadBalancingSettings: {
-        serializedName: "loadBalancingSettings",
-        type: {
-          name: "Composite",
-          className: "SubResource"
-        }
-      },
-      healthProbeSettings: {
-        serializedName: "healthProbeSettings",
-        type: {
-          name: "Composite",
-          className: "SubResource"
-        }
-      }
-    }
-  }
-};
-
-export const BackendPoolProperties: msRest.CompositeMapper = {
-  serializedName: "BackendPoolProperties",
-  type: {
-    name: "Composite",
-    className: "BackendPoolProperties",
-    modelProperties: {
-      ...BackendPoolUpdateParameters.type.modelProperties,
-      resourceState: {
-        serializedName: "resourceState",
         type: {
           name: "String"
         }
@@ -794,51 +445,6 @@ export const KeyVaultCertificateSourceParametersVault: msRest.CompositeMapper = 
   }
 };
 
-export const KeyVaultCertificateSourceParameters: msRest.CompositeMapper = {
-  serializedName: "KeyVaultCertificateSourceParameters",
-  type: {
-    name: "Composite",
-    className: "KeyVaultCertificateSourceParameters",
-    modelProperties: {
-      vault: {
-        serializedName: "vault",
-        type: {
-          name: "Composite",
-          className: "KeyVaultCertificateSourceParametersVault"
-        }
-      },
-      secretName: {
-        serializedName: "secretName",
-        type: {
-          name: "String"
-        }
-      },
-      secretVersion: {
-        serializedName: "secretVersion",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const FrontDoorCertificateSourceParameters: msRest.CompositeMapper = {
-  serializedName: "FrontDoorCertificateSourceParameters",
-  type: {
-    name: "Composite",
-    className: "FrontDoorCertificateSourceParameters",
-    modelProperties: {
-      certificateType: {
-        serializedName: "certificateType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CustomHttpsConfiguration: msRest.CompositeMapper = {
   serializedName: "CustomHttpsConfiguration",
   type: {
@@ -880,80 +486,6 @@ export const CustomHttpsConfiguration: msRest.CompositeMapper = {
         serializedName: "frontDoorCertificateSourceParameters.certificateType",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const FrontendEndpointUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "FrontendEndpointUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "FrontendEndpointUpdateParameters",
-    modelProperties: {
-      hostName: {
-        serializedName: "hostName",
-        type: {
-          name: "String"
-        }
-      },
-      sessionAffinityEnabledState: {
-        serializedName: "sessionAffinityEnabledState",
-        type: {
-          name: "String"
-        }
-      },
-      sessionAffinityTtlSeconds: {
-        serializedName: "sessionAffinityTtlSeconds",
-        type: {
-          name: "Number"
-        }
-      },
-      webApplicationFirewallPolicyLink: {
-        serializedName: "webApplicationFirewallPolicyLink",
-        type: {
-          name: "Composite",
-          className: "FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink"
-        }
-      }
-    }
-  }
-};
-
-export const FrontendEndpointProperties: msRest.CompositeMapper = {
-  serializedName: "FrontendEndpointProperties",
-  type: {
-    name: "Composite",
-    className: "FrontendEndpointProperties",
-    modelProperties: {
-      ...FrontendEndpointUpdateParameters.type.modelProperties,
-      resourceState: {
-        serializedName: "resourceState",
-        type: {
-          name: "String"
-        }
-      },
-      customHttpsProvisioningState: {
-        readOnly: true,
-        serializedName: "customHttpsProvisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      customHttpsProvisioningSubstate: {
-        readOnly: true,
-        serializedName: "customHttpsProvisioningSubstate",
-        type: {
-          name: "String"
-        }
-      },
-      customHttpsConfiguration: {
-        readOnly: true,
-        serializedName: "customHttpsConfiguration",
-        type: {
-          name: "Composite",
-          className: "CustomHttpsConfiguration"
         }
       }
     }
@@ -1037,6 +569,88 @@ export const FrontendEndpoint: msRest.CompositeMapper = {
   }
 };
 
+export const FrontDoorUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "FrontDoorUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "FrontDoorUpdateParameters",
+    modelProperties: {
+      friendlyName: {
+        serializedName: "friendlyName",
+        type: {
+          name: "String"
+        }
+      },
+      routingRules: {
+        serializedName: "routingRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RoutingRule"
+            }
+          }
+        }
+      },
+      loadBalancingSettings: {
+        serializedName: "loadBalancingSettings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LoadBalancingSettingsModel"
+            }
+          }
+        }
+      },
+      healthProbeSettings: {
+        serializedName: "healthProbeSettings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthProbeSettingsModel"
+            }
+          }
+        }
+      },
+      backendPools: {
+        serializedName: "backendPools",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BackendPool"
+            }
+          }
+        }
+      },
+      frontendEndpoints: {
+        serializedName: "frontendEndpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FrontendEndpoint"
+            }
+          }
+        }
+      },
+      enabledState: {
+        serializedName: "enabledState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PurgeParameters: msRest.CompositeMapper = {
   serializedName: "PurgeParameters",
   type: {
@@ -1073,6 +687,82 @@ export const CacheConfiguration: msRest.CompositeMapper = {
       },
       dynamicCompression: {
         serializedName: "dynamicCompression",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RoutingRuleUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "RoutingRuleUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "RoutingRuleUpdateParameters",
+    modelProperties: {
+      frontendEndpoints: {
+        serializedName: "frontendEndpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
+      acceptedProtocols: {
+        serializedName: "acceptedProtocols",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      patternsToMatch: {
+        serializedName: "patternsToMatch",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      customForwardingPath: {
+        serializedName: "customForwardingPath",
+        type: {
+          name: "String"
+        }
+      },
+      forwardingProtocol: {
+        serializedName: "forwardingProtocol",
+        type: {
+          name: "String"
+        }
+      },
+      cacheConfiguration: {
+        serializedName: "cacheConfiguration",
+        type: {
+          name: "Composite",
+          className: "CacheConfiguration"
+        }
+      },
+      backendPool: {
+        serializedName: "backendPool",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      enabledState: {
+        serializedName: "enabledState",
         type: {
           name: "String"
         }
@@ -1149,6 +839,98 @@ export const Backend: msRest.CompositeMapper = {
   }
 };
 
+export const LoadBalancingSettingsUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "LoadBalancingSettingsUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "LoadBalancingSettingsUpdateParameters",
+    modelProperties: {
+      sampleSize: {
+        serializedName: "sampleSize",
+        type: {
+          name: "Number"
+        }
+      },
+      successfulSamplesRequired: {
+        serializedName: "successfulSamplesRequired",
+        type: {
+          name: "Number"
+        }
+      },
+      additionalLatencyMilliseconds: {
+        serializedName: "additionalLatencyMilliseconds",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HealthProbeSettingsUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "HealthProbeSettingsUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "HealthProbeSettingsUpdateParameters",
+    modelProperties: {
+      path: {
+        serializedName: "path",
+        type: {
+          name: "String"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
+        type: {
+          name: "String"
+        }
+      },
+      intervalInSeconds: {
+        serializedName: "intervalInSeconds",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const BackendPoolUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "BackendPoolUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "BackendPoolUpdateParameters",
+    modelProperties: {
+      backends: {
+        serializedName: "backends",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Backend"
+            }
+          }
+        }
+      },
+      loadBalancingSettings: {
+        serializedName: "loadBalancingSettings",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      healthProbeSettings: {
+        serializedName: "healthProbeSettings",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      }
+    }
+  }
+};
+
 export const FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink: msRest.CompositeMapper = {
   serializedName: "FrontendEndpointUpdateParameters_webApplicationFirewallPolicyLink",
   type: {
@@ -1159,6 +941,41 @@ export const FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink: m
         serializedName: "id",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FrontendEndpointUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "FrontendEndpointUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "FrontendEndpointUpdateParameters",
+    modelProperties: {
+      hostName: {
+        serializedName: "hostName",
+        type: {
+          name: "String"
+        }
+      },
+      sessionAffinityEnabledState: {
+        serializedName: "sessionAffinityEnabledState",
+        type: {
+          name: "String"
+        }
+      },
+      sessionAffinityTtlSeconds: {
+        serializedName: "sessionAffinityTtlSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      webApplicationFirewallPolicyLink: {
+        serializedName: "webApplicationFirewallPolicyLink",
+        type: {
+          name: "Composite",
+          className: "FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink"
         }
       }
     }
@@ -1644,51 +1461,6 @@ export const ManagedRuleSets: msRest.CompositeMapper = {
               className: "ManagedRuleSet"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const WebApplicationFirewallPolicyPropertiesFormat: msRest.CompositeMapper = {
-  serializedName: "WebApplicationFirewallPolicyPropertiesFormat",
-  type: {
-    name: "Composite",
-    className: "WebApplicationFirewallPolicyPropertiesFormat",
-    modelProperties: {
-      policySettings: {
-        serializedName: "policySettings",
-        type: {
-          name: "Composite",
-          className: "PolicySettings"
-        }
-      },
-      customRules: {
-        serializedName: "customRules",
-        type: {
-          name: "Composite",
-          className: "CustomRules"
-        }
-      },
-      managedRules: {
-        serializedName: "managedRules",
-        type: {
-          name: "Composite",
-          className: "ManagedRuleSets"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      resourceState: {
-        readOnly: true,
-        serializedName: "resourceState",
-        type: {
-          name: "String"
         }
       }
     }

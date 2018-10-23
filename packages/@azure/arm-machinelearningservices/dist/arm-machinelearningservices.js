@@ -203,84 +203,6 @@
             }
         }
     };
-    var WorkspaceProperties = {
-        serializedName: "WorkspaceProperties",
-        type: {
-            name: "Composite",
-            className: "WorkspaceProperties",
-            modelProperties: {
-                workspaceId: {
-                    readOnly: true,
-                    serializedName: "workspaceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                friendlyName: {
-                    serializedName: "friendlyName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationTime: {
-                    readOnly: true,
-                    serializedName: "creationTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                batchaiWorkspace: {
-                    serializedName: "batchaiWorkspace",
-                    type: {
-                        name: "String"
-                    }
-                },
-                keyVault: {
-                    serializedName: "keyVault",
-                    type: {
-                        name: "String"
-                    }
-                },
-                applicationInsights: {
-                    serializedName: "applicationInsights",
-                    type: {
-                        name: "String"
-                    }
-                },
-                containerRegistry: {
-                    serializedName: "containerRegistry",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccount: {
-                    serializedName: "storageAccount",
-                    type: {
-                        name: "String"
-                    }
-                },
-                discoveryUrl: {
-                    serializedName: "discoveryUrl",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -400,27 +322,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var WorkspacePropertiesUpdateParameters = {
-        serializedName: "WorkspacePropertiesUpdateParameters",
-        type: {
-            name: "Composite",
-            className: "WorkspacePropertiesUpdateParameters",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                friendlyName: {
-                    serializedName: "friendlyName",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var WorkspaceUpdateParameters = {
@@ -1319,10 +1220,8 @@
         BaseResource: BaseResource,
         OperationDisplay: OperationDisplay,
         Operation: Operation,
-        WorkspaceProperties: WorkspaceProperties,
         Resource: Resource,
         Workspace: Workspace,
-        WorkspacePropertiesUpdateParameters: WorkspacePropertiesUpdateParameters,
         WorkspaceUpdateParameters: WorkspaceUpdateParameters,
         Identity: Identity,
         Password: Password,

@@ -30,6 +30,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const domainName: msRest.OperationURLParameter = {
+  parameterPath: "domainName",
+  mapper: {
+    required: true,
+    serializedName: "domainName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const eventSubscriptionName: msRest.OperationURLParameter = {
   parameterPath: "eventSubscriptionName",
   mapper: {

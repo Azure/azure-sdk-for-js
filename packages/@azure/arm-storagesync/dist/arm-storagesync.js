@@ -309,29 +309,6 @@
             }
         }
     };
-    var StorageSyncServiceProperties = {
-        serializedName: "StorageSyncServiceProperties",
-        type: {
-            name: "Composite",
-            className: "StorageSyncServiceProperties",
-            modelProperties: {
-                storageSyncServiceStatus: {
-                    readOnly: true,
-                    serializedName: "storageSyncServiceStatus",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                storageSyncServiceUid: {
-                    readOnly: true,
-                    serializedName: "storageSyncServiceUid",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -406,28 +383,6 @@
                 } })
         }
     };
-    var SyncGroupProperties = {
-        serializedName: "SyncGroupProperties",
-        type: {
-            name: "Composite",
-            className: "SyncGroupProperties",
-            modelProperties: {
-                uniqueId: {
-                    serializedName: "uniqueId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                syncGroupStatus: {
-                    readOnly: true,
-                    serializedName: "syncGroupStatus",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var ProxyResource = {
         serializedName: "ProxyResource",
         type: {
@@ -453,70 +408,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var CloudEndpointProperties = {
-        serializedName: "CloudEndpointProperties",
-        type: {
-            name: "Composite",
-            className: "CloudEndpointProperties",
-            modelProperties: {
-                storageAccountResourceId: {
-                    serializedName: "storageAccountResourceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccountShareName: {
-                    serializedName: "storageAccountShareName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccountTenantId: {
-                    serializedName: "storageAccountTenantId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                partnershipId: {
-                    serializedName: "partnershipId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                friendlyName: {
-                    serializedName: "friendlyName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                backupEnabled: {
-                    readOnly: true,
-                    serializedName: "backupEnabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastWorkflowId: {
-                    serializedName: "lastWorkflowId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastOperationName: {
-                    serializedName: "lastOperationName",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var CloudEndpoint = {
@@ -640,33 +531,6 @@
                 } })
         }
     };
-    var CloudEndpointCreateParametersProperties = {
-        serializedName: "CloudEndpointCreateParametersProperties",
-        type: {
-            name: "Composite",
-            className: "CloudEndpointCreateParametersProperties",
-            modelProperties: {
-                storageAccountResourceId: {
-                    serializedName: "storageAccountResourceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccountShareName: {
-                    serializedName: "storageAccountShareName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageAccountTenantId: {
-                    serializedName: "storageAccountTenantId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var CloudEndpointCreateParameters = {
         serializedName: "CloudEndpointCreateParameters",
         type: {
@@ -688,59 +552,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var ServerEndpointCreateParametersProperties = {
-        serializedName: "ServerEndpointCreateParametersProperties",
-        type: {
-            name: "Composite",
-            className: "ServerEndpointCreateParametersProperties",
-            modelProperties: {
-                serverLocalPath: {
-                    serializedName: "serverLocalPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                cloudTiering: {
-                    serializedName: "cloudTiering",
-                    type: {
-                        name: "String"
-                    }
-                },
-                volumeFreeSpacePercent: {
-                    serializedName: "volumeFreeSpacePercent",
-                    constraints: {
-                        InclusiveMaximum: 100,
-                        InclusiveMinimum: 0
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                },
-                tierFilesOlderThanDays: {
-                    serializedName: "tierFilesOlderThanDays",
-                    constraints: {
-                        InclusiveMaximum: 2147483647,
-                        InclusiveMinimum: 0
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                },
-                friendlyName: {
-                    serializedName: "friendlyName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverResourceId: {
-                    serializedName: "serverResourceId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var ServerEndpointCreateParameters = {
@@ -795,71 +606,8 @@
             name: "Composite",
             className: "TriggerRolloverRequest",
             modelProperties: {
-                certificateData: {
-                    serializedName: "certificateData",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var RegisteredServerCreateParametersProperties = {
-        serializedName: "RegisteredServerCreateParametersProperties",
-        type: {
-            name: "Composite",
-            className: "RegisteredServerCreateParametersProperties",
-            modelProperties: {
                 serverCertificate: {
                     serializedName: "serverCertificate",
-                    type: {
-                        name: "String"
-                    }
-                },
-                agentVersion: {
-                    serializedName: "agentVersion",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverOSVersion: {
-                    serializedName: "serverOSVersion",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastHeartBeat: {
-                    serializedName: "lastHeartBeat",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverRole: {
-                    serializedName: "serverRole",
-                    type: {
-                        name: "String"
-                    }
-                },
-                clusterId: {
-                    serializedName: "clusterId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                clusterName: {
-                    serializedName: "clusterName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverId: {
-                    serializedName: "serverId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                friendlyName: {
-                    serializedName: "friendlyName",
                     type: {
                         name: "String"
                     }
@@ -920,41 +668,6 @@
                 } })
         }
     };
-    var ServerEndpointUpdateProperties = {
-        serializedName: "ServerEndpointUpdateProperties",
-        type: {
-            name: "Composite",
-            className: "ServerEndpointUpdateProperties",
-            modelProperties: {
-                cloudTiering: {
-                    serializedName: "cloudTiering",
-                    type: {
-                        name: "String"
-                    }
-                },
-                volumeFreeSpacePercent: {
-                    serializedName: "volumeFreeSpacePercent",
-                    constraints: {
-                        InclusiveMaximum: 100,
-                        InclusiveMinimum: 0
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                },
-                tierFilesOlderThanDays: {
-                    serializedName: "tierFilesOlderThanDays",
-                    constraints: {
-                        InclusiveMaximum: 2147483647,
-                        InclusiveMinimum: 0
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                }
-            }
-        }
-    };
     var ServerEndpointUpdateParameters = {
         serializedName: "ServerEndpointUpdateParameters",
         type: {
@@ -985,83 +698,6 @@
                     },
                     type: {
                         name: "Number"
-                    }
-                }
-            }
-        }
-    };
-    var ServerEndpointProperties = {
-        serializedName: "ServerEndpointProperties",
-        type: {
-            name: "Composite",
-            className: "ServerEndpointProperties",
-            modelProperties: {
-                serverLocalPath: {
-                    serializedName: "serverLocalPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                cloudTiering: {
-                    serializedName: "cloudTiering",
-                    type: {
-                        name: "String"
-                    }
-                },
-                volumeFreeSpacePercent: {
-                    serializedName: "volumeFreeSpacePercent",
-                    constraints: {
-                        InclusiveMaximum: 100,
-                        InclusiveMinimum: 0
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                },
-                tierFilesOlderThanDays: {
-                    serializedName: "tierFilesOlderThanDays",
-                    constraints: {
-                        InclusiveMaximum: 2147483647,
-                        InclusiveMinimum: 0
-                    },
-                    type: {
-                        name: "Number"
-                    }
-                },
-                friendlyName: {
-                    serializedName: "friendlyName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverResourceId: {
-                    serializedName: "serverResourceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastWorkflowId: {
-                    serializedName: "lastWorkflowId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastOperationName: {
-                    serializedName: "lastOperationName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                syncStatus: {
-                    serializedName: "syncStatus",
-                    type: {
-                        name: "Object"
                     }
                 }
             }
@@ -1131,129 +767,6 @@
                         name: "Object"
                     }
                 } })
-        }
-    };
-    var RegisteredServerProperties = {
-        serializedName: "RegisteredServerProperties",
-        type: {
-            name: "Composite",
-            className: "RegisteredServerProperties",
-            modelProperties: {
-                serverCertificate: {
-                    serializedName: "serverCertificate",
-                    type: {
-                        name: "String"
-                    }
-                },
-                agentVersion: {
-                    serializedName: "agentVersion",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverOSVersion: {
-                    serializedName: "serverOSVersion",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverManagementtErrorCode: {
-                    serializedName: "serverManagementtErrorCode",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                lastHeartBeat: {
-                    serializedName: "lastHeartBeat",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverRole: {
-                    serializedName: "serverRole",
-                    type: {
-                        name: "String"
-                    }
-                },
-                clusterId: {
-                    serializedName: "clusterId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                clusterName: {
-                    serializedName: "clusterName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serverId: {
-                    serializedName: "serverId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                storageSyncServiceUid: {
-                    serializedName: "storageSyncServiceUid",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastWorkflowId: {
-                    serializedName: "lastWorkflowId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastOperationName: {
-                    serializedName: "lastOperationName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                discoveryEndpointUri: {
-                    serializedName: "discoveryEndpointUri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                resourceLocation: {
-                    serializedName: "resourceLocation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                serviceLocation: {
-                    serializedName: "serviceLocation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                friendlyName: {
-                    serializedName: "friendlyName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                managementEndpointUri: {
-                    serializedName: "managementEndpointUri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                monitoringConfiguration: {
-                    serializedName: "monitoringConfiguration",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var RegisteredServer = {
@@ -1380,45 +893,6 @@
                                 name: "String"
                             }
                         }
-                    }
-                }
-            }
-        }
-    };
-    var WorkflowProperties = {
-        serializedName: "WorkflowProperties",
-        type: {
-            name: "Composite",
-            className: "WorkflowProperties",
-            modelProperties: {
-                lastStepName: {
-                    serializedName: "lastStepName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                operation: {
-                    serializedName: "operation",
-                    type: {
-                        name: "String"
-                    }
-                },
-                steps: {
-                    serializedName: "steps",
-                    type: {
-                        name: "String"
-                    }
-                },
-                lastOperationId: {
-                    serializedName: "lastOperationId",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -1772,22 +1246,6 @@
             modelProperties: {
                 azureFileShare: {
                     serializedName: "azureFileShare",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var PostBackupResponseProperties = {
-        serializedName: "PostBackupResponseProperties",
-        type: {
-            name: "Composite",
-            className: "PostBackupResponseProperties",
-            modelProperties: {
-                cloudEndpointName: {
-                    readOnly: true,
-                    serializedName: "cloudEndpointName",
                     type: {
                         name: "String"
                     }
@@ -2831,33 +2289,23 @@
         StorageSyncApiError: StorageSyncApiError,
         StorageSyncError: StorageSyncError,
         SubscriptionState: SubscriptionState,
-        StorageSyncServiceProperties: StorageSyncServiceProperties,
         Resource: Resource,
         TrackedResource: TrackedResource,
         StorageSyncService: StorageSyncService,
-        SyncGroupProperties: SyncGroupProperties,
         ProxyResource: ProxyResource,
         SyncGroup: SyncGroup,
-        CloudEndpointProperties: CloudEndpointProperties,
         CloudEndpoint: CloudEndpoint,
         RecallActionParameters: RecallActionParameters,
         StorageSyncServiceCreateParameters: StorageSyncServiceCreateParameters,
         SyncGroupCreateParameters: SyncGroupCreateParameters,
-        CloudEndpointCreateParametersProperties: CloudEndpointCreateParametersProperties,
         CloudEndpointCreateParameters: CloudEndpointCreateParameters,
-        ServerEndpointCreateParametersProperties: ServerEndpointCreateParametersProperties,
         ServerEndpointCreateParameters: ServerEndpointCreateParameters,
         TriggerRolloverRequest: TriggerRolloverRequest,
-        RegisteredServerCreateParametersProperties: RegisteredServerCreateParametersProperties,
         RegisteredServerCreateParameters: RegisteredServerCreateParameters,
-        ServerEndpointUpdateProperties: ServerEndpointUpdateProperties,
         ServerEndpointUpdateParameters: ServerEndpointUpdateParameters,
-        ServerEndpointProperties: ServerEndpointProperties,
         ServerEndpoint: ServerEndpoint,
-        RegisteredServerProperties: RegisteredServerProperties,
         RegisteredServer: RegisteredServer,
         ResourcesMoveInfo: ResourcesMoveInfo,
-        WorkflowProperties: WorkflowProperties,
         Workflow: Workflow,
         OperationDisplayInfo: OperationDisplayInfo,
         OperationEntity: OperationEntity,
@@ -2868,7 +2316,6 @@
         PostRestoreRequest: PostRestoreRequest,
         PreRestoreRequest: PreRestoreRequest,
         BackupRequest: BackupRequest,
-        PostBackupResponseProperties: PostBackupResponseProperties,
         PostBackupResponse: PostBackupResponse,
         StorageSyncServiceUpdateParameters: StorageSyncServiceUpdateParameters,
         AzureEntityResource: AzureEntityResource,

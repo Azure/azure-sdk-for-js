@@ -599,86 +599,6 @@
             }
         }
     };
-    var ScheduleProperties = {
-        serializedName: "ScheduleProperties",
-        type: {
-            name: "Composite",
-            className: "ScheduleProperties",
-            modelProperties: {
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                taskType: {
-                    serializedName: "taskType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                weeklyRecurrence: {
-                    serializedName: "weeklyRecurrence",
-                    type: {
-                        name: "Composite",
-                        className: "WeekDetails"
-                    }
-                },
-                dailyRecurrence: {
-                    serializedName: "dailyRecurrence",
-                    type: {
-                        name: "Composite",
-                        className: "DayDetails"
-                    }
-                },
-                hourlyRecurrence: {
-                    serializedName: "hourlyRecurrence",
-                    type: {
-                        name: "Composite",
-                        className: "HourDetails"
-                    }
-                },
-                timeZoneId: {
-                    serializedName: "timeZoneId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                notificationSettings: {
-                    serializedName: "notificationSettings",
-                    type: {
-                        name: "Composite",
-                        className: "NotificationSettings"
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                targetResourceId: {
-                    serializedName: "targetResourceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -794,29 +714,6 @@
                 } })
         }
     };
-    var ApplicableScheduleProperties = {
-        serializedName: "ApplicableScheduleProperties",
-        type: {
-            name: "Composite",
-            className: "ApplicableScheduleProperties",
-            modelProperties: {
-                labVmsShutdown: {
-                    serializedName: "labVmsShutdown",
-                    type: {
-                        name: "Composite",
-                        className: "Schedule"
-                    }
-                },
-                labVmsStartup: {
-                    serializedName: "labVmsStartup",
-                    type: {
-                        name: "Composite",
-                        className: "Schedule"
-                    }
-                }
-            }
-        }
-    };
     var ApplicableSchedule = {
         serializedName: "ApplicableSchedule",
         type: {
@@ -920,79 +817,6 @@
             }
         }
     };
-    var SchedulePropertiesFragment = {
-        serializedName: "SchedulePropertiesFragment",
-        type: {
-            name: "Composite",
-            className: "SchedulePropertiesFragment",
-            modelProperties: {
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                taskType: {
-                    serializedName: "taskType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                weeklyRecurrence: {
-                    serializedName: "weeklyRecurrence",
-                    type: {
-                        name: "Composite",
-                        className: "WeekDetailsFragment"
-                    }
-                },
-                dailyRecurrence: {
-                    serializedName: "dailyRecurrence",
-                    type: {
-                        name: "Composite",
-                        className: "DayDetailsFragment"
-                    }
-                },
-                hourlyRecurrence: {
-                    serializedName: "hourlyRecurrence",
-                    type: {
-                        name: "Composite",
-                        className: "HourDetailsFragment"
-                    }
-                },
-                timeZoneId: {
-                    serializedName: "timeZoneId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                notificationSettings: {
-                    serializedName: "notificationSettings",
-                    type: {
-                        name: "Composite",
-                        className: "NotificationSettingsFragment"
-                    }
-                },
-                targetResourceId: {
-                    serializedName: "targetResourceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var ScheduleFragment = {
         serializedName: "ScheduleFragment",
         type: {
@@ -1053,29 +877,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var ApplicableSchedulePropertiesFragment = {
-        serializedName: "ApplicableSchedulePropertiesFragment",
-        type: {
-            name: "Composite",
-            className: "ApplicableSchedulePropertiesFragment",
-            modelProperties: {
-                labVmsShutdown: {
-                    serializedName: "labVmsShutdown",
-                    type: {
-                        name: "Composite",
-                        className: "ScheduleFragment"
-                    }
-                },
-                labVmsStartup: {
-                    serializedName: "labVmsStartup",
-                    type: {
-                        name: "Composite",
-                        className: "ScheduleFragment"
-                    }
-                }
-            }
         }
     };
     var ApplicableScheduleFragment = {
@@ -1212,70 +1013,6 @@
             }
         }
     };
-    var ArmTemplateProperties = {
-        serializedName: "ArmTemplateProperties",
-        type: {
-            name: "Composite",
-            className: "ArmTemplateProperties",
-            modelProperties: {
-                displayName: {
-                    readOnly: true,
-                    serializedName: "displayName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    readOnly: true,
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                publisher: {
-                    readOnly: true,
-                    serializedName: "publisher",
-                    type: {
-                        name: "String"
-                    }
-                },
-                icon: {
-                    readOnly: true,
-                    serializedName: "icon",
-                    type: {
-                        name: "String"
-                    }
-                },
-                contents: {
-                    readOnly: true,
-                    serializedName: "contents",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                parametersValueFilesInfo: {
-                    readOnly: true,
-                    serializedName: "parametersValueFilesInfo",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ParametersValueFileInfo"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
     var ArmTemplate = {
         serializedName: "ArmTemplate",
         type: {
@@ -1369,71 +1106,6 @@
                     serializedName: "value",
                     type: {
                         name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var ArtifactProperties = {
-        serializedName: "ArtifactProperties",
-        type: {
-            name: "Composite",
-            className: "ArtifactProperties",
-            modelProperties: {
-                title: {
-                    readOnly: true,
-                    serializedName: "title",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    readOnly: true,
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                publisher: {
-                    readOnly: true,
-                    serializedName: "publisher",
-                    type: {
-                        name: "String"
-                    }
-                },
-                filePath: {
-                    readOnly: true,
-                    serializedName: "filePath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                icon: {
-                    readOnly: true,
-                    serializedName: "icon",
-                    type: {
-                        name: "String"
-                    }
-                },
-                targetOsType: {
-                    readOnly: true,
-                    serializedName: "targetOsType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                parameters: {
-                    readOnly: true,
-                    serializedName: "parameters",
-                    type: {
-                        name: "Object"
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
                     }
                 }
             }
@@ -1621,82 +1293,6 @@
             }
         }
     };
-    var ArtifactSourceProperties = {
-        serializedName: "ArtifactSourceProperties",
-        type: {
-            name: "Composite",
-            className: "ArtifactSourceProperties",
-            modelProperties: {
-                displayName: {
-                    serializedName: "displayName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uri: {
-                    serializedName: "uri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sourceType: {
-                    serializedName: "sourceType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                folderPath: {
-                    serializedName: "folderPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                armTemplateFolderPath: {
-                    serializedName: "armTemplateFolderPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                branchRef: {
-                    serializedName: "branchRef",
-                    type: {
-                        name: "String"
-                    }
-                },
-                securityToken: {
-                    serializedName: "securityToken",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var ArtifactSource = {
         serializedName: "ArtifactSource",
         type: {
@@ -1759,75 +1355,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var ArtifactSourcePropertiesFragment = {
-        serializedName: "ArtifactSourcePropertiesFragment",
-        type: {
-            name: "Composite",
-            className: "ArtifactSourcePropertiesFragment",
-            modelProperties: {
-                displayName: {
-                    serializedName: "displayName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uri: {
-                    serializedName: "uri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sourceType: {
-                    serializedName: "sourceType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                folderPath: {
-                    serializedName: "folderPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                armTemplateFolderPath: {
-                    serializedName: "armTemplateFolderPath",
-                    type: {
-                        name: "String"
-                    }
-                },
-                branchRef: {
-                    serializedName: "branchRef",
-                    type: {
-                        name: "String"
-                    }
-                },
-                securityToken: {
-                    serializedName: "securityToken",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var ArtifactSourceFragment = {
@@ -2343,66 +1870,6 @@
             }
         }
     };
-    var CustomImageProperties = {
-        serializedName: "CustomImageProperties",
-        type: {
-            name: "Composite",
-            className: "CustomImageProperties",
-            modelProperties: {
-                vm: {
-                    serializedName: "vm",
-                    type: {
-                        name: "Composite",
-                        className: "CustomImagePropertiesFromVm"
-                    }
-                },
-                vhd: {
-                    serializedName: "vhd",
-                    type: {
-                        name: "Composite",
-                        className: "CustomImagePropertiesCustom"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                author: {
-                    serializedName: "author",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationDate: {
-                    readOnly: true,
-                    serializedName: "creationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                managedImageId: {
-                    serializedName: "managedImageId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var CustomImage = {
         serializedName: "CustomImage",
         type: {
@@ -2512,76 +1979,6 @@
             }
         }
     };
-    var DiskProperties = {
-        serializedName: "DiskProperties",
-        type: {
-            name: "Composite",
-            className: "DiskProperties",
-            modelProperties: {
-                diskType: {
-                    serializedName: "diskType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                diskSizeGiB: {
-                    serializedName: "diskSizeGiB",
-                    type: {
-                        name: "Number"
-                    }
-                },
-                leasedByLabVmId: {
-                    serializedName: "leasedByLabVmId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                diskBlobName: {
-                    serializedName: "diskBlobName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                diskUri: {
-                    serializedName: "diskUri",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                hostCaching: {
-                    serializedName: "hostCaching",
-                    type: {
-                        name: "String"
-                    }
-                },
-                managedDiskId: {
-                    serializedName: "managedDiskId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Disk = {
         serializedName: "Disk",
         type: {
@@ -2663,54 +2060,6 @@
                                 className: "ArmTemplateParameterProperties"
                             }
                         }
-                    }
-                }
-            }
-        }
-    };
-    var EnvironmentProperties = {
-        serializedName: "EnvironmentProperties",
-        type: {
-            name: "Composite",
-            className: "EnvironmentProperties",
-            modelProperties: {
-                deploymentProperties: {
-                    serializedName: "deploymentProperties",
-                    type: {
-                        name: "Composite",
-                        className: "EnvironmentDeploymentProperties"
-                    }
-                },
-                armTemplateDisplayName: {
-                    serializedName: "armTemplateDisplayName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                resourceGroupId: {
-                    readOnly: true,
-                    serializedName: "resourceGroupId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdByUser: {
-                    readOnly: true,
-                    serializedName: "createdByUser",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
                     }
                 }
             }
@@ -3118,213 +2467,6 @@
             }
         }
     };
-    var LabVirtualMachineCreationParameterProperties = {
-        serializedName: "LabVirtualMachineCreationParameterProperties",
-        type: {
-            name: "Composite",
-            className: "LabVirtualMachineCreationParameterProperties",
-            modelProperties: {
-                bulkCreationParameters: {
-                    serializedName: "bulkCreationParameters",
-                    type: {
-                        name: "Composite",
-                        className: "BulkCreationParameters"
-                    }
-                },
-                notes: {
-                    serializedName: "notes",
-                    type: {
-                        name: "String"
-                    }
-                },
-                ownerObjectId: {
-                    serializedName: "ownerObjectId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                ownerUserPrincipalName: {
-                    serializedName: "ownerUserPrincipalName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdByUserId: {
-                    serializedName: "createdByUserId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdByUser: {
-                    serializedName: "createdByUser",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdDate: {
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                customImageId: {
-                    serializedName: "customImageId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                osType: {
-                    serializedName: "osType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                size: {
-                    serializedName: "size",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sshKey: {
-                    serializedName: "sshKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isAuthenticationWithSshKey: {
-                    serializedName: "isAuthenticationWithSshKey",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                fqdn: {
-                    serializedName: "fqdn",
-                    type: {
-                        name: "String"
-                    }
-                },
-                labSubnetName: {
-                    serializedName: "labSubnetName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                labVirtualNetworkId: {
-                    serializedName: "labVirtualNetworkId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                disallowPublicIpAddress: {
-                    serializedName: "disallowPublicIpAddress",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                artifacts: {
-                    serializedName: "artifacts",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ArtifactInstallProperties"
-                            }
-                        }
-                    }
-                },
-                artifactDeploymentStatus: {
-                    serializedName: "artifactDeploymentStatus",
-                    type: {
-                        name: "Composite",
-                        className: "ArtifactDeploymentStatusProperties"
-                    }
-                },
-                galleryImageReference: {
-                    serializedName: "galleryImageReference",
-                    type: {
-                        name: "Composite",
-                        className: "GalleryImageReference"
-                    }
-                },
-                computeVm: {
-                    serializedName: "computeVm",
-                    type: {
-                        name: "Composite",
-                        className: "ComputeVmProperties"
-                    }
-                },
-                networkInterface: {
-                    serializedName: "networkInterface",
-                    type: {
-                        name: "Composite",
-                        className: "NetworkInterfaceProperties"
-                    }
-                },
-                applicableSchedule: {
-                    serializedName: "applicableSchedule",
-                    type: {
-                        name: "Composite",
-                        className: "ApplicableSchedule"
-                    }
-                },
-                expirationDate: {
-                    serializedName: "expirationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                allowClaim: {
-                    serializedName: "allowClaim",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                storageType: {
-                    serializedName: "storageType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                virtualMachineCreationSource: {
-                    serializedName: "virtualMachineCreationSource",
-                    type: {
-                        name: "String"
-                    }
-                },
-                environmentId: {
-                    serializedName: "environmentId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var LabVirtualMachineCreationParameter = {
         serializedName: "LabVirtualMachineCreationParameter",
         type: {
@@ -3570,66 +2712,6 @@
             }
         }
     };
-    var FormulaProperties = {
-        serializedName: "FormulaProperties",
-        type: {
-            name: "Composite",
-            className: "FormulaProperties",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                author: {
-                    serializedName: "author",
-                    type: {
-                        name: "String"
-                    }
-                },
-                osType: {
-                    serializedName: "osType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                creationDate: {
-                    readOnly: true,
-                    serializedName: "creationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                formulaContent: {
-                    serializedName: "formulaContent",
-                    type: {
-                        name: "Composite",
-                        className: "LabVirtualMachineCreationParameter"
-                    }
-                },
-                vm: {
-                    serializedName: "vm",
-                    type: {
-                        name: "Composite",
-                        className: "FormulaPropertiesFromVm"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Formula = {
         serializedName: "Formula",
         type: {
@@ -3679,53 +2761,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var GalleryImageProperties = {
-        serializedName: "GalleryImageProperties",
-        type: {
-            name: "Composite",
-            className: "GalleryImageProperties",
-            modelProperties: {
-                author: {
-                    serializedName: "author",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                imageReference: {
-                    serializedName: "imageReference",
-                    type: {
-                        name: "Composite",
-                        className: "GalleryImageReference"
-                    }
-                },
-                icon: {
-                    serializedName: "icon",
-                    type: {
-                        name: "String"
-                    }
-                },
-                enabled: {
-                    serializedName: "enabled",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
         }
     };
     var GalleryImage = {
@@ -3957,81 +2992,6 @@
             }
         }
     };
-    var LabProperties = {
-        serializedName: "LabProperties",
-        type: {
-            name: "Composite",
-            className: "LabProperties",
-            modelProperties: {
-                defaultStorageAccount: {
-                    readOnly: true,
-                    serializedName: "defaultStorageAccount",
-                    type: {
-                        name: "String"
-                    }
-                },
-                defaultPremiumStorageAccount: {
-                    readOnly: true,
-                    serializedName: "defaultPremiumStorageAccount",
-                    type: {
-                        name: "String"
-                    }
-                },
-                artifactsStorageAccount: {
-                    readOnly: true,
-                    serializedName: "artifactsStorageAccount",
-                    type: {
-                        name: "String"
-                    }
-                },
-                premiumDataDiskStorageAccount: {
-                    readOnly: true,
-                    serializedName: "premiumDataDiskStorageAccount",
-                    type: {
-                        name: "String"
-                    }
-                },
-                vaultName: {
-                    readOnly: true,
-                    serializedName: "vaultName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                labStorageType: {
-                    serializedName: "labStorageType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                premiumDataDisks: {
-                    serializedName: "premiumDataDisks",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Lab = {
         serializedName: "Lab",
         type: {
@@ -4252,92 +3212,6 @@
             }
         }
     };
-    var LabCostProperties = {
-        serializedName: "LabCostProperties",
-        type: {
-            name: "Composite",
-            className: "LabCostProperties",
-            modelProperties: {
-                targetCost: {
-                    serializedName: "targetCost",
-                    type: {
-                        name: "Composite",
-                        className: "TargetCostProperties"
-                    }
-                },
-                labCostSummary: {
-                    readOnly: true,
-                    serializedName: "labCostSummary",
-                    type: {
-                        name: "Composite",
-                        className: "LabCostSummaryProperties"
-                    }
-                },
-                labCostDetails: {
-                    readOnly: true,
-                    serializedName: "labCostDetails",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LabCostDetailsProperties"
-                            }
-                        }
-                    }
-                },
-                resourceCosts: {
-                    readOnly: true,
-                    serializedName: "resourceCosts",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "LabResourceCostProperties"
-                            }
-                        }
-                    }
-                },
-                currencyCode: {
-                    serializedName: "currencyCode",
-                    type: {
-                        name: "String"
-                    }
-                },
-                startDateTime: {
-                    serializedName: "startDateTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                endDateTime: {
-                    serializedName: "endDateTime",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                createdDate: {
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var LabCost = {
         serializedName: "LabCost",
         type: {
@@ -4413,39 +3287,6 @@
                 } })
         }
     };
-    var LabPropertiesFragment = {
-        serializedName: "LabPropertiesFragment",
-        type: {
-            name: "Composite",
-            className: "LabPropertiesFragment",
-            modelProperties: {
-                labStorageType: {
-                    serializedName: "labStorageType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                premiumDataDisks: {
-                    serializedName: "premiumDataDisks",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var LabFragment = {
         serializedName: "LabFragment",
         type: {
@@ -4482,213 +3323,6 @@
             modelProperties: {
                 id: {
                     serializedName: "id",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var LabVirtualMachineProperties = {
-        serializedName: "LabVirtualMachineProperties",
-        type: {
-            name: "Composite",
-            className: "LabVirtualMachineProperties",
-            modelProperties: {
-                notes: {
-                    serializedName: "notes",
-                    type: {
-                        name: "String"
-                    }
-                },
-                ownerObjectId: {
-                    serializedName: "ownerObjectId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                ownerUserPrincipalName: {
-                    serializedName: "ownerUserPrincipalName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdByUserId: {
-                    serializedName: "createdByUserId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdByUser: {
-                    serializedName: "createdByUser",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdDate: {
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                computeId: {
-                    readOnly: true,
-                    serializedName: "computeId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                customImageId: {
-                    serializedName: "customImageId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                osType: {
-                    serializedName: "osType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                size: {
-                    serializedName: "size",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sshKey: {
-                    serializedName: "sshKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isAuthenticationWithSshKey: {
-                    serializedName: "isAuthenticationWithSshKey",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                fqdn: {
-                    serializedName: "fqdn",
-                    type: {
-                        name: "String"
-                    }
-                },
-                labSubnetName: {
-                    serializedName: "labSubnetName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                labVirtualNetworkId: {
-                    serializedName: "labVirtualNetworkId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                disallowPublicIpAddress: {
-                    serializedName: "disallowPublicIpAddress",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                artifacts: {
-                    serializedName: "artifacts",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ArtifactInstallProperties"
-                            }
-                        }
-                    }
-                },
-                artifactDeploymentStatus: {
-                    serializedName: "artifactDeploymentStatus",
-                    type: {
-                        name: "Composite",
-                        className: "ArtifactDeploymentStatusProperties"
-                    }
-                },
-                galleryImageReference: {
-                    serializedName: "galleryImageReference",
-                    type: {
-                        name: "Composite",
-                        className: "GalleryImageReference"
-                    }
-                },
-                computeVm: {
-                    serializedName: "computeVm",
-                    type: {
-                        name: "Composite",
-                        className: "ComputeVmProperties"
-                    }
-                },
-                networkInterface: {
-                    serializedName: "networkInterface",
-                    type: {
-                        name: "Composite",
-                        className: "NetworkInterfaceProperties"
-                    }
-                },
-                applicableSchedule: {
-                    serializedName: "applicableSchedule",
-                    type: {
-                        name: "Composite",
-                        className: "ApplicableSchedule"
-                    }
-                },
-                expirationDate: {
-                    serializedName: "expirationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                allowClaim: {
-                    serializedName: "allowClaim",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                storageType: {
-                    serializedName: "storageType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                virtualMachineCreationSource: {
-                    serializedName: "virtualMachineCreationSource",
-                    type: {
-                        name: "String"
-                    }
-                },
-                environmentId: {
-                    serializedName: "environmentId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
                     type: {
                         name: "String"
                     }
@@ -4956,206 +3590,6 @@
             }
         }
     };
-    var LabVirtualMachinePropertiesFragment = {
-        serializedName: "LabVirtualMachinePropertiesFragment",
-        type: {
-            name: "Composite",
-            className: "LabVirtualMachinePropertiesFragment",
-            modelProperties: {
-                notes: {
-                    serializedName: "notes",
-                    type: {
-                        name: "String"
-                    }
-                },
-                ownerObjectId: {
-                    serializedName: "ownerObjectId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                ownerUserPrincipalName: {
-                    serializedName: "ownerUserPrincipalName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdByUserId: {
-                    serializedName: "createdByUserId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdByUser: {
-                    serializedName: "createdByUser",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdDate: {
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                customImageId: {
-                    serializedName: "customImageId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                osType: {
-                    serializedName: "osType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                size: {
-                    serializedName: "size",
-                    type: {
-                        name: "String"
-                    }
-                },
-                userName: {
-                    serializedName: "userName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                password: {
-                    serializedName: "password",
-                    type: {
-                        name: "String"
-                    }
-                },
-                sshKey: {
-                    serializedName: "sshKey",
-                    type: {
-                        name: "String"
-                    }
-                },
-                isAuthenticationWithSshKey: {
-                    serializedName: "isAuthenticationWithSshKey",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                fqdn: {
-                    serializedName: "fqdn",
-                    type: {
-                        name: "String"
-                    }
-                },
-                labSubnetName: {
-                    serializedName: "labSubnetName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                labVirtualNetworkId: {
-                    serializedName: "labVirtualNetworkId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                disallowPublicIpAddress: {
-                    serializedName: "disallowPublicIpAddress",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                artifacts: {
-                    serializedName: "artifacts",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ArtifactInstallPropertiesFragment"
-                            }
-                        }
-                    }
-                },
-                artifactDeploymentStatus: {
-                    serializedName: "artifactDeploymentStatus",
-                    type: {
-                        name: "Composite",
-                        className: "ArtifactDeploymentStatusPropertiesFragment"
-                    }
-                },
-                galleryImageReference: {
-                    serializedName: "galleryImageReference",
-                    type: {
-                        name: "Composite",
-                        className: "GalleryImageReferenceFragment"
-                    }
-                },
-                computeVm: {
-                    serializedName: "computeVm",
-                    type: {
-                        name: "Composite",
-                        className: "ComputeVmPropertiesFragment"
-                    }
-                },
-                networkInterface: {
-                    serializedName: "networkInterface",
-                    type: {
-                        name: "Composite",
-                        className: "NetworkInterfacePropertiesFragment"
-                    }
-                },
-                applicableSchedule: {
-                    serializedName: "applicableSchedule",
-                    type: {
-                        name: "Composite",
-                        className: "ApplicableScheduleFragment"
-                    }
-                },
-                expirationDate: {
-                    serializedName: "expirationDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                allowClaim: {
-                    serializedName: "allowClaim",
-                    type: {
-                        name: "Boolean"
-                    }
-                },
-                storageType: {
-                    serializedName: "storageType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                virtualMachineCreationSource: {
-                    serializedName: "virtualMachineCreationSource",
-                    type: {
-                        name: "String"
-                    }
-                },
-                environmentId: {
-                    serializedName: "environmentId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var LabVirtualMachineFragment = {
         serializedName: "LabVirtualMachineFragment",
         type: {
@@ -5325,58 +3759,6 @@
                 } })
         }
     };
-    var NotificationChannelProperties = {
-        serializedName: "NotificationChannelProperties",
-        type: {
-            name: "Composite",
-            className: "NotificationChannelProperties",
-            modelProperties: {
-                webHookUrl: {
-                    serializedName: "webHookUrl",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                events: {
-                    serializedName: "events",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "Event"
-                            }
-                        }
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var NotificationChannel = {
         serializedName: "NotificationChannel",
         type: {
@@ -5420,51 +3802,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var NotificationChannelPropertiesFragment = {
-        serializedName: "NotificationChannelPropertiesFragment",
-        type: {
-            name: "Composite",
-            className: "NotificationChannelPropertiesFragment",
-            modelProperties: {
-                webHookUrl: {
-                    serializedName: "webHookUrl",
-                    type: {
-                        name: "String"
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                events: {
-                    serializedName: "events",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "EventFragment"
-                            }
-                        }
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var NotificationChannelFragment = {
@@ -5631,70 +3968,6 @@
             }
         }
     };
-    var PolicyProperties = {
-        serializedName: "PolicyProperties",
-        type: {
-            name: "Composite",
-            className: "PolicyProperties",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                factName: {
-                    serializedName: "factName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                factData: {
-                    serializedName: "factData",
-                    type: {
-                        name: "String"
-                    }
-                },
-                threshold: {
-                    serializedName: "threshold",
-                    type: {
-                        name: "String"
-                    }
-                },
-                evaluatorType: {
-                    serializedName: "evaluatorType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var Policy = {
         serializedName: "Policy",
         type: {
@@ -5747,63 +4020,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var PolicyPropertiesFragment = {
-        serializedName: "PolicyPropertiesFragment",
-        type: {
-            name: "Composite",
-            className: "PolicyPropertiesFragment",
-            modelProperties: {
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                status: {
-                    serializedName: "status",
-                    type: {
-                        name: "String"
-                    }
-                },
-                factName: {
-                    serializedName: "factName",
-                    type: {
-                        name: "String"
-                    }
-                },
-                factData: {
-                    serializedName: "factData",
-                    type: {
-                        name: "String"
-                    }
-                },
-                threshold: {
-                    serializedName: "threshold",
-                    type: {
-                        name: "String"
-                    }
-                },
-                evaluatorType: {
-                    serializedName: "evaluatorType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var PolicyFragment = {
@@ -5910,33 +4126,6 @@
                 },
                 targetResourceId: {
                     serializedName: "targetResourceId",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
-    var SecretProperties = {
-        serializedName: "SecretProperties",
-        type: {
-            name: "Composite",
-            className: "SecretProperties",
-            modelProperties: {
-                value: {
-                    serializedName: "value",
-                    type: {
-                        name: "String"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
                     type: {
                         name: "String"
                     }
@@ -6304,48 +4493,6 @@
             }
         }
     };
-    var UserProperties = {
-        serializedName: "UserProperties",
-        type: {
-            name: "Composite",
-            className: "UserProperties",
-            modelProperties: {
-                identity: {
-                    serializedName: "identity",
-                    type: {
-                        name: "Composite",
-                        className: "UserIdentity"
-                    }
-                },
-                secretStore: {
-                    serializedName: "secretStore",
-                    type: {
-                        name: "Composite",
-                        className: "UserSecretStore"
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var User = {
         serializedName: "User",
         type: {
@@ -6442,41 +4589,6 @@
             }
         }
     };
-    var UserPropertiesFragment = {
-        serializedName: "UserPropertiesFragment",
-        type: {
-            name: "Composite",
-            className: "UserPropertiesFragment",
-            modelProperties: {
-                identity: {
-                    serializedName: "identity",
-                    type: {
-                        name: "Composite",
-                        className: "UserIdentityFragment"
-                    }
-                },
-                secretStore: {
-                    serializedName: "secretStore",
-                    type: {
-                        name: "Composite",
-                        className: "UserSecretStoreFragment"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var UserFragment = {
         serializedName: "UserFragment",
         type: {
@@ -6505,82 +4617,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var VirtualNetworkProperties = {
-        serializedName: "VirtualNetworkProperties",
-        type: {
-            name: "Composite",
-            className: "VirtualNetworkProperties",
-            modelProperties: {
-                allowedSubnets: {
-                    serializedName: "allowedSubnets",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "Subnet"
-                            }
-                        }
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                externalProviderResourceId: {
-                    serializedName: "externalProviderResourceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                externalSubnets: {
-                    serializedName: "externalSubnets",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ExternalSubnet"
-                            }
-                        }
-                    }
-                },
-                subnetOverrides: {
-                    serializedName: "subnetOverrides",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "SubnetOverride"
-                            }
-                        }
-                    }
-                },
-                createdDate: {
-                    readOnly: true,
-                    serializedName: "createdDate",
-                    type: {
-                        name: "DateTime"
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var VirtualNetwork = {
@@ -6648,75 +4684,6 @@
                         name: "String"
                     }
                 } })
-        }
-    };
-    var VirtualNetworkPropertiesFragment = {
-        serializedName: "VirtualNetworkPropertiesFragment",
-        type: {
-            name: "Composite",
-            className: "VirtualNetworkPropertiesFragment",
-            modelProperties: {
-                allowedSubnets: {
-                    serializedName: "allowedSubnets",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "SubnetFragment"
-                            }
-                        }
-                    }
-                },
-                description: {
-                    serializedName: "description",
-                    type: {
-                        name: "String"
-                    }
-                },
-                externalProviderResourceId: {
-                    serializedName: "externalProviderResourceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                externalSubnets: {
-                    serializedName: "externalSubnets",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ExternalSubnetFragment"
-                            }
-                        }
-                    }
-                },
-                subnetOverrides: {
-                    serializedName: "subnetOverrides",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "SubnetOverrideFragment"
-                            }
-                        }
-                    }
-                },
-                provisioningState: {
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                uniqueIdentifier: {
-                    serializedName: "uniqueIdentifier",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
         }
     };
     var VirtualNetworkFragment = {
@@ -7302,36 +5269,28 @@
         DayDetails: DayDetails,
         HourDetails: HourDetails,
         NotificationSettings: NotificationSettings,
-        ScheduleProperties: ScheduleProperties,
         Resource: Resource,
         Schedule: Schedule,
-        ApplicableScheduleProperties: ApplicableScheduleProperties,
         ApplicableSchedule: ApplicableSchedule,
         WeekDetailsFragment: WeekDetailsFragment,
         DayDetailsFragment: DayDetailsFragment,
         HourDetailsFragment: HourDetailsFragment,
         NotificationSettingsFragment: NotificationSettingsFragment,
-        SchedulePropertiesFragment: SchedulePropertiesFragment,
         ScheduleFragment: ScheduleFragment,
-        ApplicableSchedulePropertiesFragment: ApplicableSchedulePropertiesFragment,
         ApplicableScheduleFragment: ApplicableScheduleFragment,
         ArtifactParameterProperties: ArtifactParameterProperties,
         ArtifactInstallProperties: ArtifactInstallProperties,
         ApplyArtifactsRequest: ApplyArtifactsRequest,
         ParametersValueFileInfo: ParametersValueFileInfo,
-        ArmTemplateProperties: ArmTemplateProperties,
         ArmTemplate: ArmTemplate,
         ArmTemplateInfo: ArmTemplateInfo,
         ArmTemplateParameterProperties: ArmTemplateParameterProperties,
-        ArtifactProperties: ArtifactProperties,
         Artifact: Artifact,
         ArtifactDeploymentStatusProperties: ArtifactDeploymentStatusProperties,
         ArtifactDeploymentStatusPropertiesFragment: ArtifactDeploymentStatusPropertiesFragment,
         ArtifactParameterPropertiesFragment: ArtifactParameterPropertiesFragment,
         ArtifactInstallPropertiesFragment: ArtifactInstallPropertiesFragment,
-        ArtifactSourceProperties: ArtifactSourceProperties,
         ArtifactSource: ArtifactSource,
-        ArtifactSourcePropertiesFragment: ArtifactSourcePropertiesFragment,
         ArtifactSourceFragment: ArtifactSourceFragment,
         AttachDiskProperties: AttachDiskProperties,
         AttachNewDataDiskOptions: AttachNewDataDiskOptions,
@@ -7348,15 +5307,12 @@
         LinuxOsInfo: LinuxOsInfo,
         CustomImagePropertiesFromVm: CustomImagePropertiesFromVm,
         CustomImagePropertiesCustom: CustomImagePropertiesCustom,
-        CustomImageProperties: CustomImageProperties,
         CustomImage: CustomImage,
         DataDiskProperties: DataDiskProperties,
         DetachDataDiskProperties: DetachDataDiskProperties,
         DetachDiskProperties: DetachDiskProperties,
-        DiskProperties: DiskProperties,
         Disk: Disk,
         EnvironmentDeploymentProperties: EnvironmentDeploymentProperties,
-        EnvironmentProperties: EnvironmentProperties,
         DtlEnvironment: DtlEnvironment,
         EvaluatePoliciesProperties: EvaluatePoliciesProperties,
         EvaluatePoliciesRequest: EvaluatePoliciesRequest,
@@ -7372,12 +5328,9 @@
         InboundNatRule: InboundNatRule,
         SharedPublicIpAddressConfiguration: SharedPublicIpAddressConfiguration,
         NetworkInterfaceProperties: NetworkInterfaceProperties,
-        LabVirtualMachineCreationParameterProperties: LabVirtualMachineCreationParameterProperties,
         LabVirtualMachineCreationParameter: LabVirtualMachineCreationParameter,
         FormulaPropertiesFromVm: FormulaPropertiesFromVm,
-        FormulaProperties: FormulaProperties,
         Formula: Formula,
-        GalleryImageProperties: GalleryImageProperties,
         GalleryImage: GalleryImage,
         GalleryImageReferenceFragment: GalleryImageReferenceFragment,
         ParameterInfo: ParameterInfo,
@@ -7386,40 +5339,30 @@
         GenerateUploadUriResponse: GenerateUploadUriResponse,
         IdentityProperties: IdentityProperties,
         InboundNatRuleFragment: InboundNatRuleFragment,
-        LabProperties: LabProperties,
         Lab: Lab,
         TargetCostProperties: TargetCostProperties,
         LabCostSummaryProperties: LabCostSummaryProperties,
         LabCostDetailsProperties: LabCostDetailsProperties,
         LabResourceCostProperties: LabResourceCostProperties,
-        LabCostProperties: LabCostProperties,
         LabCost: LabCost,
-        LabPropertiesFragment: LabPropertiesFragment,
         LabFragment: LabFragment,
         LabVhd: LabVhd,
-        LabVirtualMachineProperties: LabVirtualMachineProperties,
         LabVirtualMachine: LabVirtualMachine,
         SharedPublicIpAddressConfigurationFragment: SharedPublicIpAddressConfigurationFragment,
         NetworkInterfacePropertiesFragment: NetworkInterfacePropertiesFragment,
-        LabVirtualMachinePropertiesFragment: LabVirtualMachinePropertiesFragment,
         LabVirtualMachineFragment: LabVirtualMachineFragment,
-        NotificationChannelProperties: NotificationChannelProperties,
         NotificationChannel: NotificationChannel,
-        NotificationChannelPropertiesFragment: NotificationChannelPropertiesFragment,
         NotificationChannelFragment: NotificationChannelFragment,
         NotifyParameters: NotifyParameters,
         OperationError: OperationError,
         OperationMetadataDisplay: OperationMetadataDisplay,
         OperationMetadata: OperationMetadata,
         OperationResult: OperationResult,
-        PolicyProperties: PolicyProperties,
         Policy: Policy,
-        PolicyPropertiesFragment: PolicyPropertiesFragment,
         PolicyFragment: PolicyFragment,
         Port: Port,
         PortFragment: PortFragment,
         RetargetScheduleProperties: RetargetScheduleProperties,
-        SecretProperties: SecretProperties,
         Secret: Secret,
         ServiceRunner: ServiceRunner,
         ShutdownNotificationContent: ShutdownNotificationContent,
@@ -7431,15 +5374,11 @@
         SubnetOverrideFragment: SubnetOverrideFragment,
         UserIdentity: UserIdentity,
         UserSecretStore: UserSecretStore,
-        UserProperties: UserProperties,
         User: User,
         UserIdentityFragment: UserIdentityFragment,
         UserSecretStoreFragment: UserSecretStoreFragment,
-        UserPropertiesFragment: UserPropertiesFragment,
         UserFragment: UserFragment,
-        VirtualNetworkProperties: VirtualNetworkProperties,
         VirtualNetwork: VirtualNetwork,
-        VirtualNetworkPropertiesFragment: VirtualNetworkPropertiesFragment,
         VirtualNetworkFragment: VirtualNetworkFragment,
         ProviderOperationResult: ProviderOperationResult,
         ResponseWithContinuationLab: ResponseWithContinuationLab,

@@ -78,63 +78,6 @@
      */
     var CloudError = msRestAzure.CloudErrorMapper;
     var BaseResource = msRestAzure.BaseResourceMapper;
-    var AgreementProperties = {
-        serializedName: "AgreementProperties",
-        type: {
-            name: "Composite",
-            className: "AgreementProperties",
-            modelProperties: {
-                publisher: {
-                    serializedName: "publisher",
-                    type: {
-                        name: "String"
-                    }
-                },
-                product: {
-                    serializedName: "product",
-                    type: {
-                        name: "String"
-                    }
-                },
-                plan: {
-                    serializedName: "plan",
-                    type: {
-                        name: "String"
-                    }
-                },
-                licenseTextLink: {
-                    serializedName: "licenseTextLink",
-                    type: {
-                        name: "String"
-                    }
-                },
-                privacyPolicyLink: {
-                    serializedName: "privacyPolicyLink",
-                    type: {
-                        name: "String"
-                    }
-                },
-                retrieveDatetime: {
-                    serializedName: "retrieveDatetime",
-                    type: {
-                        name: "String"
-                    }
-                },
-                signature: {
-                    serializedName: "signature",
-                    type: {
-                        name: "String"
-                    }
-                },
-                accepted: {
-                    serializedName: "accepted",
-                    type: {
-                        name: "Boolean"
-                    }
-                }
-            }
-        }
-    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -333,7 +276,6 @@
     var mappers = /*#__PURE__*/Object.freeze({
         CloudError: CloudError,
         BaseResource: BaseResource,
-        AgreementProperties: AgreementProperties,
         Resource: Resource,
         AgreementTerms: AgreementTerms,
         ErrorResponseError: ErrorResponseError,
