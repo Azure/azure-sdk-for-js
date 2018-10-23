@@ -130,30 +130,6 @@ export const SubscriptionState: msRest.CompositeMapper = {
   }
 };
 
-export const StorageSyncServiceProperties: msRest.CompositeMapper = {
-  serializedName: "StorageSyncServiceProperties",
-  type: {
-    name: "Composite",
-    className: "StorageSyncServiceProperties",
-    modelProperties: {
-      storageSyncServiceStatus: {
-        readOnly: true,
-        serializedName: "storageSyncServiceStatus",
-        type: {
-          name: "Number"
-        }
-      },
-      storageSyncServiceUid: {
-        readOnly: true,
-        serializedName: "storageSyncServiceUid",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -239,29 +215,6 @@ export const StorageSyncService: msRest.CompositeMapper = {
   }
 };
 
-export const SyncGroupProperties: msRest.CompositeMapper = {
-  serializedName: "SyncGroupProperties",
-  type: {
-    name: "Composite",
-    className: "SyncGroupProperties",
-    modelProperties: {
-      uniqueId: {
-        serializedName: "uniqueId",
-        type: {
-          name: "String"
-        }
-      },
-      syncGroupStatus: {
-        readOnly: true,
-        serializedName: "syncGroupStatus",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ProxyResource: msRest.CompositeMapper = {
   serializedName: "ProxyResource",
   type: {
@@ -289,71 +242,6 @@ export const SyncGroup: msRest.CompositeMapper = {
       syncGroupStatus: {
         readOnly: true,
         serializedName: "properties.syncGroupStatus",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CloudEndpointProperties: msRest.CompositeMapper = {
-  serializedName: "CloudEndpointProperties",
-  type: {
-    name: "Composite",
-    className: "CloudEndpointProperties",
-    modelProperties: {
-      storageAccountResourceId: {
-        serializedName: "storageAccountResourceId",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountShareName: {
-        serializedName: "storageAccountShareName",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountTenantId: {
-        serializedName: "storageAccountTenantId",
-        type: {
-          name: "String"
-        }
-      },
-      partnershipId: {
-        serializedName: "partnershipId",
-        type: {
-          name: "String"
-        }
-      },
-      friendlyName: {
-        serializedName: "friendlyName",
-        type: {
-          name: "String"
-        }
-      },
-      backupEnabled: {
-        readOnly: true,
-        serializedName: "backupEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      lastWorkflowId: {
-        serializedName: "lastWorkflowId",
-        type: {
-          name: "String"
-        }
-      },
-      lastOperationName: {
-        serializedName: "lastOperationName",
         type: {
           name: "String"
         }
@@ -501,34 +389,6 @@ export const SyncGroupCreateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const CloudEndpointCreateParametersProperties: msRest.CompositeMapper = {
-  serializedName: "CloudEndpointCreateParametersProperties",
-  type: {
-    name: "Composite",
-    className: "CloudEndpointCreateParametersProperties",
-    modelProperties: {
-      storageAccountResourceId: {
-        serializedName: "storageAccountResourceId",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountShareName: {
-        serializedName: "storageAccountShareName",
-        type: {
-          name: "String"
-        }
-      },
-      storageAccountTenantId: {
-        serializedName: "storageAccountTenantId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CloudEndpointCreateParameters: msRest.CompositeMapper = {
   serializedName: "CloudEndpointCreateParameters",
   type: {
@@ -550,60 +410,6 @@ export const CloudEndpointCreateParameters: msRest.CompositeMapper = {
       },
       storageAccountTenantId: {
         serializedName: "properties.storageAccountTenantId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ServerEndpointCreateParametersProperties: msRest.CompositeMapper = {
-  serializedName: "ServerEndpointCreateParametersProperties",
-  type: {
-    name: "Composite",
-    className: "ServerEndpointCreateParametersProperties",
-    modelProperties: {
-      serverLocalPath: {
-        serializedName: "serverLocalPath",
-        type: {
-          name: "String"
-        }
-      },
-      cloudTiering: {
-        serializedName: "cloudTiering",
-        type: {
-          name: "String"
-        }
-      },
-      volumeFreeSpacePercent: {
-        serializedName: "volumeFreeSpacePercent",
-        constraints: {
-          InclusiveMaximum: 100,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      tierFilesOlderThanDays: {
-        serializedName: "tierFilesOlderThanDays",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      friendlyName: {
-        serializedName: "friendlyName",
-        type: {
-          name: "String"
-        }
-      },
-      serverResourceId: {
-        serializedName: "serverResourceId",
         type: {
           name: "String"
         }
@@ -673,72 +479,8 @@ export const TriggerRolloverRequest: msRest.CompositeMapper = {
     name: "Composite",
     className: "TriggerRolloverRequest",
     modelProperties: {
-      certificateData: {
-        serializedName: "certificateData",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RegisteredServerCreateParametersProperties: msRest.CompositeMapper = {
-  serializedName: "RegisteredServerCreateParametersProperties",
-  type: {
-    name: "Composite",
-    className: "RegisteredServerCreateParametersProperties",
-    modelProperties: {
       serverCertificate: {
         serializedName: "serverCertificate",
-        type: {
-          name: "String"
-        }
-      },
-      agentVersion: {
-        serializedName: "agentVersion",
-        type: {
-          name: "String"
-        }
-      },
-      serverOSVersion: {
-        serializedName: "serverOSVersion",
-        type: {
-          name: "String"
-        }
-      },
-      lastHeartBeat: {
-        serializedName: "lastHeartBeat",
-        type: {
-          name: "String"
-        }
-      },
-      serverRole: {
-        serializedName: "serverRole",
-        type: {
-          name: "String"
-        }
-      },
-      clusterId: {
-        serializedName: "clusterId",
-        type: {
-          name: "String"
-        }
-      },
-      clusterName: {
-        serializedName: "clusterName",
-        type: {
-          name: "String"
-        }
-      },
-      serverId: {
-        serializedName: "serverId",
-        type: {
-          name: "String"
-        }
-      },
-      friendlyName: {
-        serializedName: "friendlyName",
         type: {
           name: "String"
         }
@@ -812,42 +554,6 @@ export const RegisteredServerCreateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const ServerEndpointUpdateProperties: msRest.CompositeMapper = {
-  serializedName: "ServerEndpointUpdateProperties",
-  type: {
-    name: "Composite",
-    className: "ServerEndpointUpdateProperties",
-    modelProperties: {
-      cloudTiering: {
-        serializedName: "cloudTiering",
-        type: {
-          name: "String"
-        }
-      },
-      volumeFreeSpacePercent: {
-        serializedName: "volumeFreeSpacePercent",
-        constraints: {
-          InclusiveMaximum: 100,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      tierFilesOlderThanDays: {
-        serializedName: "tierFilesOlderThanDays",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const ServerEndpointUpdateParameters: msRest.CompositeMapper = {
   serializedName: "ServerEndpointUpdateParameters",
   type: {
@@ -878,84 +584,6 @@ export const ServerEndpointUpdateParameters: msRest.CompositeMapper = {
         },
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ServerEndpointProperties: msRest.CompositeMapper = {
-  serializedName: "ServerEndpointProperties",
-  type: {
-    name: "Composite",
-    className: "ServerEndpointProperties",
-    modelProperties: {
-      serverLocalPath: {
-        serializedName: "serverLocalPath",
-        type: {
-          name: "String"
-        }
-      },
-      cloudTiering: {
-        serializedName: "cloudTiering",
-        type: {
-          name: "String"
-        }
-      },
-      volumeFreeSpacePercent: {
-        serializedName: "volumeFreeSpacePercent",
-        constraints: {
-          InclusiveMaximum: 100,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      tierFilesOlderThanDays: {
-        serializedName: "tierFilesOlderThanDays",
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      friendlyName: {
-        serializedName: "friendlyName",
-        type: {
-          name: "String"
-        }
-      },
-      serverResourceId: {
-        serializedName: "serverResourceId",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      lastWorkflowId: {
-        serializedName: "lastWorkflowId",
-        type: {
-          name: "String"
-        }
-      },
-      lastOperationName: {
-        serializedName: "lastOperationName",
-        type: {
-          name: "String"
-        }
-      },
-      syncStatus: {
-        serializedName: "syncStatus",
-        type: {
-          name: "Object"
         }
       }
     }
@@ -1035,130 +663,6 @@ export const ServerEndpoint: msRest.CompositeMapper = {
         serializedName: "properties.syncStatus",
         type: {
           name: "Object"
-        }
-      }
-    }
-  }
-};
-
-export const RegisteredServerProperties: msRest.CompositeMapper = {
-  serializedName: "RegisteredServerProperties",
-  type: {
-    name: "Composite",
-    className: "RegisteredServerProperties",
-    modelProperties: {
-      serverCertificate: {
-        serializedName: "serverCertificate",
-        type: {
-          name: "String"
-        }
-      },
-      agentVersion: {
-        serializedName: "agentVersion",
-        type: {
-          name: "String"
-        }
-      },
-      serverOSVersion: {
-        serializedName: "serverOSVersion",
-        type: {
-          name: "String"
-        }
-      },
-      serverManagementtErrorCode: {
-        serializedName: "serverManagementtErrorCode",
-        type: {
-          name: "Number"
-        }
-      },
-      lastHeartBeat: {
-        serializedName: "lastHeartBeat",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      serverRole: {
-        serializedName: "serverRole",
-        type: {
-          name: "String"
-        }
-      },
-      clusterId: {
-        serializedName: "clusterId",
-        type: {
-          name: "String"
-        }
-      },
-      clusterName: {
-        serializedName: "clusterName",
-        type: {
-          name: "String"
-        }
-      },
-      serverId: {
-        serializedName: "serverId",
-        type: {
-          name: "String"
-        }
-      },
-      storageSyncServiceUid: {
-        serializedName: "storageSyncServiceUid",
-        type: {
-          name: "String"
-        }
-      },
-      lastWorkflowId: {
-        serializedName: "lastWorkflowId",
-        type: {
-          name: "String"
-        }
-      },
-      lastOperationName: {
-        serializedName: "lastOperationName",
-        type: {
-          name: "String"
-        }
-      },
-      discoveryEndpointUri: {
-        serializedName: "discoveryEndpointUri",
-        type: {
-          name: "String"
-        }
-      },
-      resourceLocation: {
-        serializedName: "resourceLocation",
-        type: {
-          name: "String"
-        }
-      },
-      serviceLocation: {
-        serializedName: "serviceLocation",
-        type: {
-          name: "String"
-        }
-      },
-      friendlyName: {
-        serializedName: "friendlyName",
-        type: {
-          name: "String"
-        }
-      },
-      managementEndpointUri: {
-        serializedName: "managementEndpointUri",
-        type: {
-          name: "String"
-        }
-      },
-      monitoringConfiguration: {
-        serializedName: "monitoringConfiguration",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1311,46 +815,6 @@ export const ResourcesMoveInfo: msRest.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const WorkflowProperties: msRest.CompositeMapper = {
-  serializedName: "WorkflowProperties",
-  type: {
-    name: "Composite",
-    className: "WorkflowProperties",
-    modelProperties: {
-      lastStepName: {
-        serializedName: "lastStepName",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      operation: {
-        serializedName: "operation",
-        type: {
-          name: "String"
-        }
-      },
-      steps: {
-        serializedName: "steps",
-        type: {
-          name: "String"
-        }
-      },
-      lastOperationId: {
-        serializedName: "lastOperationId",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1721,23 +1185,6 @@ export const BackupRequest: msRest.CompositeMapper = {
     modelProperties: {
       azureFileShare: {
         serializedName: "azureFileShare",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PostBackupResponseProperties: msRest.CompositeMapper = {
-  serializedName: "PostBackupResponseProperties",
-  type: {
-    name: "Composite",
-    className: "PostBackupResponseProperties",
-    modelProperties: {
-      cloudEndpointName: {
-        readOnly: true,
-        serializedName: "cloudEndpointName",
         type: {
           name: "String"
         }

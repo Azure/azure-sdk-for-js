@@ -206,43 +206,6 @@ export const IngressConfig: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkResourceProperties: msRest.CompositeMapper = {
-  serializedName: "NetworkResourceProperties",
-  type: {
-    name: "Composite",
-    className: "NetworkResourceProperties",
-    modelProperties: {
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      addressPrefix: {
-        required: true,
-        serializedName: "addressPrefix",
-        type: {
-          name: "String"
-        }
-      },
-      ingressConfig: {
-        serializedName: "ingressConfig",
-        type: {
-          name: "Composite",
-          className: "IngressConfig"
-        }
-      }
-    }
-  }
-};
-
 export const NetworkResourceDescription: msRest.CompositeMapper = {
   serializedName: "NetworkResourceDescription",
   type: {
@@ -341,45 +304,6 @@ export const VolumeProviderParametersAzureFile: msRest.CompositeMapper = {
   }
 };
 
-export const VolumeResourceProperties: msRest.CompositeMapper = {
-  serializedName: "VolumeResourceProperties",
-  type: {
-    name: "Composite",
-    className: "VolumeResourceProperties",
-    modelProperties: {
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      provider: {
-        required: true,
-        isConstant: true,
-        serializedName: "provider",
-        defaultValue: 'SFAzureFile',
-        type: {
-          name: "String"
-        }
-      },
-      azureFileParameters: {
-        serializedName: "azureFileParameters",
-        type: {
-          name: "Composite",
-          className: "VolumeProviderParametersAzureFile"
-        }
-      }
-    }
-  }
-};
-
 export const VolumeResourceDescription: msRest.CompositeMapper = {
   serializedName: "VolumeResourceDescription",
   type: {
@@ -446,91 +370,6 @@ export const VolumeProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VolumeProviderParametersAzureFile"
-        }
-      }
-    }
-  }
-};
-
-export const ServiceReplicaProperties: msRest.CompositeMapper = {
-  serializedName: "ServiceReplicaProperties",
-  type: {
-    name: "Composite",
-    className: "ServiceReplicaProperties",
-    modelProperties: {
-      osType: {
-        required: true,
-        serializedName: "osType",
-        type: {
-          name: "String"
-        }
-      },
-      codePackages: {
-        required: true,
-        serializedName: "codePackages",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ContainerCodePackageProperties"
-            }
-          }
-        }
-      },
-      networkRefs: {
-        serializedName: "networkRefs",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NetworkRef"
-            }
-          }
-        }
-      },
-      diagnostics: {
-        serializedName: "diagnostics",
-        type: {
-          name: "Composite",
-          className: "DiagnosticsRef"
-        }
-      }
-    }
-  }
-};
-
-export const ServiceResourceProperties: msRest.CompositeMapper = {
-  serializedName: "ServiceResourceProperties",
-  type: {
-    name: "Composite",
-    className: "ServiceResourceProperties",
-    modelProperties: {
-      ...ServiceReplicaProperties.type.modelProperties,
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      replicaCount: {
-        serializedName: "replicaCount",
-        type: {
-          name: "Number"
-        }
-      },
-      healthState: {
-        serializedName: "healthState",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        readOnly: true,
-        serializedName: "status",
-        type: {
-          name: "String"
         }
       }
     }
@@ -684,94 +523,6 @@ export const DiagnosticsDescription: msRest.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const ApplicationResourceProperties: msRest.CompositeMapper = {
-  serializedName: "ApplicationResourceProperties",
-  type: {
-    name: "Composite",
-    className: "ApplicationResourceProperties",
-    modelProperties: {
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      debugParams: {
-        serializedName: "debugParams",
-        type: {
-          name: "String"
-        }
-      },
-      services: {
-        serializedName: "services",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ServiceResourceDescription"
-            }
-          }
-        }
-      },
-      healthState: {
-        readOnly: true,
-        serializedName: "healthState",
-        type: {
-          name: "String"
-        }
-      },
-      unhealthyEvaluation: {
-        readOnly: true,
-        serializedName: "unhealthyEvaluation",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        readOnly: true,
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      statusDetails: {
-        readOnly: true,
-        serializedName: "statusDetails",
-        type: {
-          name: "String"
-        }
-      },
-      serviceNames: {
-        readOnly: true,
-        serializedName: "serviceNames",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      diagnostics: {
-        serializedName: "diagnostics",
-        type: {
-          name: "Composite",
-          className: "DiagnosticsDescription"
         }
       }
     }
@@ -1550,6 +1301,55 @@ export const ContainerCodePackageProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ContainerInstanceView"
+        }
+      },
+      diagnostics: {
+        serializedName: "diagnostics",
+        type: {
+          name: "Composite",
+          className: "DiagnosticsRef"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceReplicaProperties: msRest.CompositeMapper = {
+  serializedName: "ServiceReplicaProperties",
+  type: {
+    name: "Composite",
+    className: "ServiceReplicaProperties",
+    modelProperties: {
+      osType: {
+        required: true,
+        serializedName: "osType",
+        type: {
+          name: "String"
+        }
+      },
+      codePackages: {
+        required: true,
+        serializedName: "codePackages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContainerCodePackageProperties"
+            }
+          }
+        }
+      },
+      networkRefs: {
+        serializedName: "networkRefs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkRef"
+            }
+          }
         }
       },
       diagnostics: {

@@ -5,7 +5,7 @@
  */
 
 import { SdkType } from "./commandLine";
-import { findSdkDirectory, saveContentToFile, findMissingSdks } from "./generateSdks";
+import { findSdkDirectory, saveContentToFile, findMissingSdks } from "./packages";
 import { copyExistingNodeJsReadme, updateTypeScriptReadmeFile, findReadmeTypeScriptMdFilePaths, getPackageNamesFromReadmeTypeScriptMdFileContents, getAbsolutePackageFolderPathFromReadmeFileContents, updateMainReadmeFile, getSinglePackageName } from "./readme";
 import * as fs from "fs";
 import * as path from "path";
@@ -184,7 +184,7 @@ export async function regenerate(branchName: string, packageName: string, azureS
     _logger.log(`Checked out ${branchName} branch`);
 
     const localBranch = remoteBranch.convertTo(BranchLocation.Local);
-    await rebaseBranch(azureSdkForJsRepository, localBranch);
+    await mergeMasterIntoBranch(azureSdkForJsRepository, localBranch);
     _logger.log(`Merged master into ${localBranch.shorthand()} successfully`);
 
     if (skipVersionBump) {

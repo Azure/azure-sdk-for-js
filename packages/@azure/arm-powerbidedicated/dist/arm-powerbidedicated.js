@@ -280,42 +280,6 @@
             }
         }
     };
-    var DedicatedCapacityMutableProperties = {
-        serializedName: "DedicatedCapacityMutableProperties",
-        type: {
-            name: "Composite",
-            className: "DedicatedCapacityMutableProperties",
-            modelProperties: {
-                administration: {
-                    serializedName: "administration",
-                    type: {
-                        name: "Composite",
-                        className: "DedicatedCapacityAdministrators"
-                    }
-                }
-            }
-        }
-    };
-    var DedicatedCapacityProperties = {
-        serializedName: "DedicatedCapacityProperties",
-        type: {
-            name: "Composite",
-            className: "DedicatedCapacityProperties",
-            modelProperties: __assign({}, DedicatedCapacityMutableProperties.type.modelProperties, { state: {
-                    readOnly: true,
-                    serializedName: "state",
-                    type: {
-                        name: "String"
-                    }
-                }, provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                } })
-        }
-    };
     var DedicatedCapacity = {
         serializedName: "DedicatedCapacity",
         type: {
@@ -588,8 +552,6 @@
         Operation: Operation,
         ResourceSku: ResourceSku,
         Resource: Resource,
-        DedicatedCapacityMutableProperties: DedicatedCapacityMutableProperties,
-        DedicatedCapacityProperties: DedicatedCapacityProperties,
         DedicatedCapacity: DedicatedCapacity,
         DedicatedCapacityAdministrators: DedicatedCapacityAdministrators,
         DedicatedCapacityUpdateParameters: DedicatedCapacityUpdateParameters,

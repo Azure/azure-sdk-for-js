@@ -352,57 +352,6 @@
             }
         }
     };
-    var HanaInstanceProperties = {
-        serializedName: "HanaInstanceProperties",
-        type: {
-            name: "Composite",
-            className: "HanaInstanceProperties",
-            modelProperties: {
-                hardwareProfile: {
-                    serializedName: "hardwareProfile",
-                    type: {
-                        name: "Composite",
-                        className: "HardwareProfile"
-                    }
-                },
-                storageProfile: {
-                    serializedName: "storageProfile",
-                    type: {
-                        name: "Composite",
-                        className: "StorageProfile"
-                    }
-                },
-                osProfile: {
-                    serializedName: "osProfile",
-                    type: {
-                        name: "Composite",
-                        className: "OSProfile"
-                    }
-                },
-                networkProfile: {
-                    serializedName: "networkProfile",
-                    type: {
-                        name: "Composite",
-                        className: "NetworkProfile"
-                    }
-                },
-                hanaInstanceId: {
-                    readOnly: true,
-                    serializedName: "hanaInstanceId",
-                    type: {
-                        name: "String"
-                    }
-                },
-                powerState: {
-                    readOnly: true,
-                    serializedName: "powerState",
-                    type: {
-                        name: "String"
-                    }
-                }
-            }
-        }
-    };
     var HanaInstance = {
         serializedName: "HanaInstance",
         type: {
@@ -594,7 +543,6 @@
         OSProfile: OSProfile,
         IpAddress: IpAddress,
         NetworkProfile: NetworkProfile,
-        HanaInstanceProperties: HanaInstanceProperties,
         HanaInstance: HanaInstance,
         Display: Display,
         Operation: Operation,

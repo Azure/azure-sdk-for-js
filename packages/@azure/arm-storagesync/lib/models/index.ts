@@ -105,27 +105,6 @@ export interface SubscriptionState {
 
 /**
  * @interface
- * An interface representing StorageSyncServiceProperties.
- * Storage Sync Service Properties object.
- *
- */
-export interface StorageSyncServiceProperties {
-  /**
-   * @member {number} [storageSyncServiceStatus] Storage Sync service status.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly storageSyncServiceStatus?: number;
-  /**
-   * @member {string} [storageSyncServiceUid] Storage Sync service Uid
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly storageSyncServiceUid?: string;
-}
-
-/**
- * @interface
  * An interface representing Resource.
  * @extends BaseResource
  */
@@ -194,25 +173,6 @@ export interface StorageSyncService extends TrackedResource {
 
 /**
  * @interface
- * An interface representing SyncGroupProperties.
- * SyncGroup Properties object.
- *
- */
-export interface SyncGroupProperties {
-  /**
-   * @member {string} [uniqueId] Unique Id
-   */
-  uniqueId?: string;
-  /**
-   * @member {string} [syncGroupStatus] Sync group status
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly syncGroupStatus?: string;
-}
-
-/**
- * @interface
  * An interface representing ProxyResource.
  * The resource model definition for a ARM proxy resource. It will have
  * everything other than required location and tags
@@ -240,53 +200,6 @@ export interface SyncGroup extends ProxyResource {
    * the server.**
    */
   readonly syncGroupStatus?: string;
-}
-
-/**
- * @interface
- * An interface representing CloudEndpointProperties.
- * CloudEndpoint Properties object.
- *
- */
-export interface CloudEndpointProperties {
-  /**
-   * @member {string} [storageAccountResourceId] Storage Account Resource Id
-   */
-  storageAccountResourceId?: string;
-  /**
-   * @member {string} [storageAccountShareName] Storage Account Share name
-   */
-  storageAccountShareName?: string;
-  /**
-   * @member {string} [storageAccountTenantId] Storage Account Tenant Id
-   */
-  storageAccountTenantId?: string;
-  /**
-   * @member {string} [partnershipId] Partnership Id
-   */
-  partnershipId?: string;
-  /**
-   * @member {string} [friendlyName] Friendly Name
-   */
-  friendlyName?: string;
-  /**
-   * @member {boolean} [backupEnabled] Backup Enabled
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly backupEnabled?: boolean;
-  /**
-   * @member {string} [provisioningState] CloudEndpoint Provisioning State
-   */
-  provisioningState?: string;
-  /**
-   * @member {string} [lastWorkflowId] CloudEndpoint lastWorkflowId
-   */
-  lastWorkflowId?: string;
-  /**
-   * @member {string} [lastOperationName] Resource Last Operation Name
-   */
-  lastOperationName?: string;
 }
 
 /**
@@ -400,27 +313,6 @@ export interface SyncGroupCreateParameters extends ProxyResource {
 
 /**
  * @interface
- * An interface representing CloudEndpointCreateParametersProperties.
- * CloudEndpoint Properties object.
- *
- */
-export interface CloudEndpointCreateParametersProperties {
-  /**
-   * @member {string} [storageAccountResourceId] Storage Account Resource Id
-   */
-  storageAccountResourceId?: string;
-  /**
-   * @member {string} [storageAccountShareName] Storage Account Share name
-   */
-  storageAccountShareName?: string;
-  /**
-   * @member {string} [storageAccountTenantId] Storage Account Tenant Id
-   */
-  storageAccountTenantId?: string;
-}
-
-/**
- * @interface
  * An interface representing CloudEndpointCreateParameters.
  * The parameters used when creating a cloud endpoint.
  *
@@ -439,41 +331,6 @@ export interface CloudEndpointCreateParameters extends ProxyResource {
    * @member {string} [storageAccountTenantId] Storage Account Tenant Id
    */
   storageAccountTenantId?: string;
-}
-
-/**
- * @interface
- * An interface representing ServerEndpointCreateParametersProperties.
- * ServerEndpoint Properties object.
- *
- */
-export interface ServerEndpointCreateParametersProperties {
-  /**
-   * @member {string} [serverLocalPath] Server Local path.
-   */
-  serverLocalPath?: string;
-  /**
-   * @member {CloudTiering} [cloudTiering] Cloud Tiering. Possible values
-   * include: 'on', 'off'
-   */
-  cloudTiering?: CloudTiering;
-  /**
-   * @member {number} [volumeFreeSpacePercent] Level of free space to be
-   * maintained by Cloud Tiering if it is enabled.
-   */
-  volumeFreeSpacePercent?: number;
-  /**
-   * @member {number} [tierFilesOlderThanDays] Tier files older than days.
-   */
-  tierFilesOlderThanDays?: number;
-  /**
-   * @member {string} [friendlyName] Friendly Name
-   */
-  friendlyName?: string;
-  /**
-   * @member {string} [serverResourceId] Server Resource Id.
-   */
-  serverResourceId?: string;
 }
 
 /**
@@ -520,52 +377,9 @@ export interface ServerEndpointCreateParameters extends ProxyResource {
  */
 export interface TriggerRolloverRequest {
   /**
-   * @member {string} [certificateData] Certificate Data
-   */
-  certificateData?: string;
-}
-
-/**
- * @interface
- * An interface representing RegisteredServerCreateParametersProperties.
- */
-export interface RegisteredServerCreateParametersProperties {
-  /**
-   * @member {string} [serverCertificate] Registered Server Certificate
+   * @member {string} [serverCertificate] Certificate Data
    */
   serverCertificate?: string;
-  /**
-   * @member {string} [agentVersion] Registered Server Agent Version
-   */
-  agentVersion?: string;
-  /**
-   * @member {string} [serverOSVersion] Registered Server OS Version
-   */
-  serverOSVersion?: string;
-  /**
-   * @member {string} [lastHeartBeat] Registered Server last heart beat
-   */
-  lastHeartBeat?: string;
-  /**
-   * @member {string} [serverRole] Registered Server serverRole
-   */
-  serverRole?: string;
-  /**
-   * @member {string} [clusterId] Registered Server clusterId
-   */
-  clusterId?: string;
-  /**
-   * @member {string} [clusterName] Registered Server clusterName
-   */
-  clusterName?: string;
-  /**
-   * @member {string} [serverId] Registered Server serverId
-   */
-  serverId?: string;
-  /**
-   * @member {string} [friendlyName] Friendly Name
-   */
-  friendlyName?: string;
 }
 
 /**
@@ -616,29 +430,6 @@ export interface RegisteredServerCreateParameters extends ProxyResource {
 
 /**
  * @interface
- * An interface representing ServerEndpointUpdateProperties.
- * ServerEndpoint Update Properties object.
- *
- */
-export interface ServerEndpointUpdateProperties {
-  /**
-   * @member {CloudTiering1} [cloudTiering] Cloud Tiering. Possible values
-   * include: 'on', 'off'
-   */
-  cloudTiering?: CloudTiering1;
-  /**
-   * @member {number} [volumeFreeSpacePercent] Level of free space to be
-   * maintained by Cloud Tiering if it is enabled.
-   */
-  volumeFreeSpacePercent?: number;
-  /**
-   * @member {number} [tierFilesOlderThanDays] Tier files older than days.
-   */
-  tierFilesOlderThanDays?: number;
-}
-
-/**
- * @interface
  * An interface representing ServerEndpointUpdateParameters.
  * Parameters for updating an Server Endpoint.
  *
@@ -658,57 +449,6 @@ export interface ServerEndpointUpdateParameters {
    * @member {number} [tierFilesOlderThanDays] Tier files older than days.
    */
   tierFilesOlderThanDays?: number;
-}
-
-/**
- * @interface
- * An interface representing ServerEndpointProperties.
- * ServerEndpoint Properties object.
- *
- */
-export interface ServerEndpointProperties {
-  /**
-   * @member {string} [serverLocalPath] Server Local path.
-   */
-  serverLocalPath?: string;
-  /**
-   * @member {CloudTiering2} [cloudTiering] Cloud Tiering. Possible values
-   * include: 'on', 'off'
-   */
-  cloudTiering?: CloudTiering2;
-  /**
-   * @member {number} [volumeFreeSpacePercent] Level of free space to be
-   * maintained by Cloud Tiering if it is enabled.
-   */
-  volumeFreeSpacePercent?: number;
-  /**
-   * @member {number} [tierFilesOlderThanDays] Tier files older than days.
-   */
-  tierFilesOlderThanDays?: number;
-  /**
-   * @member {string} [friendlyName] Friendly Name
-   */
-  friendlyName?: string;
-  /**
-   * @member {string} [serverResourceId] Server Resource Id.
-   */
-  serverResourceId?: string;
-  /**
-   * @member {string} [provisioningState] ServerEndpoint Provisioning State
-   */
-  provisioningState?: string;
-  /**
-   * @member {string} [lastWorkflowId] ServerEndpoint lastWorkflowId
-   */
-  lastWorkflowId?: string;
-  /**
-   * @member {string} [lastOperationName] Resource Last Operation Name
-   */
-  lastOperationName?: string;
-  /**
-   * @member {any} [syncStatus] Sync Health Status
-   */
-  syncStatus?: any;
 }
 
 /**
@@ -761,93 +501,6 @@ export interface ServerEndpoint extends ProxyResource {
    * @member {any} [syncStatus] Sync Health Status
    */
   syncStatus?: any;
-}
-
-/**
- * @interface
- * An interface representing RegisteredServerProperties.
- * RegisteredServer Properties object.
- *
- */
-export interface RegisteredServerProperties {
-  /**
-   * @member {string} [serverCertificate] Registered Server Certificate
-   */
-  serverCertificate?: string;
-  /**
-   * @member {string} [agentVersion] Registered Server Agent Version
-   */
-  agentVersion?: string;
-  /**
-   * @member {string} [serverOSVersion] Registered Server OS Version
-   */
-  serverOSVersion?: string;
-  /**
-   * @member {number} [serverManagementtErrorCode] Registered Server Management
-   * Error Code
-   */
-  serverManagementtErrorCode?: number;
-  /**
-   * @member {string} [lastHeartBeat] Registered Server last heart beat
-   */
-  lastHeartBeat?: string;
-  /**
-   * @member {string} [provisioningState] Registered Server Provisioning State
-   */
-  provisioningState?: string;
-  /**
-   * @member {string} [serverRole] Registered Server serverRole
-   */
-  serverRole?: string;
-  /**
-   * @member {string} [clusterId] Registered Server clusterId
-   */
-  clusterId?: string;
-  /**
-   * @member {string} [clusterName] Registered Server clusterName
-   */
-  clusterName?: string;
-  /**
-   * @member {string} [serverId] Registered Server serverId
-   */
-  serverId?: string;
-  /**
-   * @member {string} [storageSyncServiceUid] Registered Server
-   * storageSyncServiceUid
-   */
-  storageSyncServiceUid?: string;
-  /**
-   * @member {string} [lastWorkflowId] Registered Server lastWorkflowId
-   */
-  lastWorkflowId?: string;
-  /**
-   * @member {string} [lastOperationName] Resource Last Operation Name
-   */
-  lastOperationName?: string;
-  /**
-   * @member {string} [discoveryEndpointUri] Resource discoveryEndpointUri
-   */
-  discoveryEndpointUri?: string;
-  /**
-   * @member {string} [resourceLocation] Resource Location
-   */
-  resourceLocation?: string;
-  /**
-   * @member {string} [serviceLocation] Service Location
-   */
-  serviceLocation?: string;
-  /**
-   * @member {string} [friendlyName] Friendly Name
-   */
-  friendlyName?: string;
-  /**
-   * @member {string} [managementEndpointUri] Management Endpoint Uri
-   */
-  managementEndpointUri?: string;
-  /**
-   * @member {string} [monitoringConfiguration] Monitoring Configuration
-   */
-  monitoringConfiguration?: string;
 }
 
 /**
@@ -953,37 +606,6 @@ export interface ResourcesMoveInfo {
    * @member {string[]} [resources] Collection of Resources.
    */
   resources?: string[];
-}
-
-/**
- * @interface
- * An interface representing WorkflowProperties.
- * Workflow Properties object.
- *
- */
-export interface WorkflowProperties {
-  /**
-   * @member {string} [lastStepName] last step name
-   */
-  lastStepName?: string;
-  /**
-   * @member {Status} [status] workflow status. Possible values include:
-   * 'active', 'expired', 'succeeded', 'aborted', 'failed'
-   */
-  status?: Status;
-  /**
-   * @member {Operation} [operation] operation direction. Possible values
-   * include: 'do', 'undo', 'cancel'
-   */
-  operation?: Operation;
-  /**
-   * @member {string} [steps] workflow steps
-   */
-  steps?: string;
-  /**
-   * @member {string} [lastOperationId] workflow last operation identifier.
-   */
-  lastOperationId?: string;
 }
 
 /**
@@ -1260,21 +882,6 @@ export interface BackupRequest {
    * @member {string} [azureFileShare] Azure File Share.
    */
   azureFileShare?: string;
-}
-
-/**
- * @interface
- * An interface representing PostBackupResponseProperties.
- * Post Backup Response Properties object.
- *
- */
-export interface PostBackupResponseProperties {
-  /**
-   * @member {string} [cloudEndpointName] cloud endpoint Name.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly cloudEndpointName?: string;
 }
 
 /**

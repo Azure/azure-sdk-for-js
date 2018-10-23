@@ -605,99 +605,6 @@
             }
         }
     };
-    var ContainerProperties = {
-        serializedName: "ContainerProperties",
-        type: {
-            name: "Composite",
-            className: "ContainerProperties",
-            modelProperties: {
-                image: {
-                    required: true,
-                    serializedName: "image",
-                    type: {
-                        name: "String"
-                    }
-                },
-                command: {
-                    serializedName: "command",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "String"
-                            }
-                        }
-                    }
-                },
-                ports: {
-                    serializedName: "ports",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ContainerPort"
-                            }
-                        }
-                    }
-                },
-                environmentVariables: {
-                    serializedName: "environmentVariables",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "EnvironmentVariable"
-                            }
-                        }
-                    }
-                },
-                instanceView: {
-                    readOnly: true,
-                    serializedName: "instanceView",
-                    type: {
-                        name: "Composite",
-                        className: "ContainerPropertiesInstanceView"
-                    }
-                },
-                resources: {
-                    required: true,
-                    serializedName: "resources",
-                    type: {
-                        name: "Composite",
-                        className: "ResourceRequirements"
-                    }
-                },
-                volumeMounts: {
-                    serializedName: "volumeMounts",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "VolumeMount"
-                            }
-                        }
-                    }
-                },
-                livenessProbe: {
-                    serializedName: "livenessProbe",
-                    type: {
-                        name: "Composite",
-                        className: "ContainerProbe"
-                    }
-                },
-                readinessProbe: {
-                    serializedName: "readinessProbe",
-                    type: {
-                        name: "Composite",
-                        className: "ContainerProbe"
-                    }
-                }
-            }
-        }
-    };
     var Container = {
         serializedName: "Container",
         type: {
@@ -1178,101 +1085,6 @@
             }
         }
     };
-    var ContainerGroupProperties = {
-        serializedName: "ContainerGroup_properties",
-        type: {
-            name: "Composite",
-            className: "ContainerGroupProperties",
-            modelProperties: {
-                provisioningState: {
-                    readOnly: true,
-                    serializedName: "provisioningState",
-                    type: {
-                        name: "String"
-                    }
-                },
-                containers: {
-                    required: true,
-                    serializedName: "containers",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "Container"
-                            }
-                        }
-                    }
-                },
-                imageRegistryCredentials: {
-                    serializedName: "imageRegistryCredentials",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "ImageRegistryCredential"
-                            }
-                        }
-                    }
-                },
-                restartPolicy: {
-                    serializedName: "restartPolicy",
-                    type: {
-                        name: "String"
-                    }
-                },
-                ipAddress: {
-                    serializedName: "ipAddress",
-                    type: {
-                        name: "Composite",
-                        className: "IpAddress"
-                    }
-                },
-                osType: {
-                    required: true,
-                    serializedName: "osType",
-                    type: {
-                        name: "String"
-                    }
-                },
-                volumes: {
-                    serializedName: "volumes",
-                    type: {
-                        name: "Sequence",
-                        element: {
-                            type: {
-                                name: "Composite",
-                                className: "Volume"
-                            }
-                        }
-                    }
-                },
-                instanceView: {
-                    readOnly: true,
-                    serializedName: "instanceView",
-                    type: {
-                        name: "Composite",
-                        className: "ContainerGroupPropertiesInstanceView"
-                    }
-                },
-                diagnostics: {
-                    serializedName: "diagnostics",
-                    type: {
-                        name: "Composite",
-                        className: "ContainerGroupDiagnostics"
-                    }
-                },
-                networkProfile: {
-                    serializedName: "networkProfile",
-                    type: {
-                        name: "Composite",
-                        className: "ContainerGroupNetworkProfile"
-                    }
-                }
-            }
-        }
-    };
     var Resource = {
         serializedName: "Resource",
         type: {
@@ -1705,7 +1517,6 @@
         ContainerExec: ContainerExec,
         ContainerHttpGet: ContainerHttpGet,
         ContainerProbe: ContainerProbe,
-        ContainerProperties: ContainerProperties,
         Container: Container,
         AzureFileVolume: AzureFileVolume,
         GitRepoVolume: GitRepoVolume,
@@ -1719,7 +1530,6 @@
         LogAnalytics: LogAnalytics,
         ContainerGroupDiagnostics: ContainerGroupDiagnostics,
         ContainerGroupNetworkProfile: ContainerGroupNetworkProfile,
-        ContainerGroupProperties: ContainerGroupProperties,
         Resource: Resource,
         ContainerGroup: ContainerGroup,
         OperationDisplay: OperationDisplay,

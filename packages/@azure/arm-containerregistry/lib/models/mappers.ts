@@ -281,23 +281,6 @@ export const OperationServiceSpecificationDefinition: msRest.CompositeMapper = {
   }
 };
 
-export const OperationPropertiesDefinition: msRest.CompositeMapper = {
-  serializedName: "OperationPropertiesDefinition",
-  type: {
-    name: "Composite",
-    className: "OperationPropertiesDefinition",
-    modelProperties: {
-      serviceSpecification: {
-        serializedName: "serviceSpecification",
-        type: {
-          name: "Composite",
-          className: "OperationServiceSpecificationDefinition"
-        }
-      }
-    }
-  }
-};
-
 export const OperationDefinition: msRest.CompositeMapper = {
   serializedName: "OperationDefinition",
   type: {
@@ -406,59 +389,6 @@ export const StorageAccountProperties: msRest.CompositeMapper = {
   }
 };
 
-export const RegistryProperties: msRest.CompositeMapper = {
-  serializedName: "RegistryProperties",
-  type: {
-    name: "Composite",
-    className: "RegistryProperties",
-    modelProperties: {
-      loginServer: {
-        readOnly: true,
-        serializedName: "loginServer",
-        type: {
-          name: "String"
-        }
-      },
-      creationDate: {
-        readOnly: true,
-        serializedName: "creationDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        readOnly: true,
-        serializedName: "status",
-        type: {
-          name: "Composite",
-          className: "Status"
-        }
-      },
-      adminUserEnabled: {
-        serializedName: "adminUserEnabled",
-        defaultValue: false,
-        type: {
-          name: "Boolean"
-        }
-      },
-      storageAccount: {
-        serializedName: "storageAccount",
-        type: {
-          name: "Composite",
-          className: "StorageAccountProperties"
-        }
-      }
-    }
-  }
-};
-
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -561,29 +491,6 @@ export const Registry: msRest.CompositeMapper = {
       },
       storageAccount: {
         serializedName: "properties.storageAccount",
-        type: {
-          name: "Composite",
-          className: "StorageAccountProperties"
-        }
-      }
-    }
-  }
-};
-
-export const RegistryPropertiesUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "RegistryPropertiesUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "RegistryPropertiesUpdateParameters",
-    modelProperties: {
-      adminUserEnabled: {
-        serializedName: "adminUserEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      storageAccount: {
-        serializedName: "storageAccount",
         type: {
           name: "Composite",
           className: "StorageAccountProperties"
@@ -827,31 +734,6 @@ export const RegistryPolicies: msRest.CompositeMapper = {
   }
 };
 
-export const ReplicationProperties: msRest.CompositeMapper = {
-  serializedName: "ReplicationProperties",
-  type: {
-    name: "Composite",
-    className: "ReplicationProperties",
-    modelProperties: {
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        readOnly: true,
-        serializedName: "status",
-        type: {
-          name: "Composite",
-          className: "Status"
-        }
-      }
-    }
-  }
-};
-
 export const Replication: msRest.CompositeMapper = {
   serializedName: "Replication",
   type: {
@@ -899,47 +781,6 @@ export const ReplicationUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const WebhookProperties: msRest.CompositeMapper = {
-  serializedName: "WebhookProperties",
-  type: {
-    name: "Composite",
-    className: "WebhookProperties",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      scope: {
-        serializedName: "scope",
-        type: {
-          name: "String"
-        }
-      },
-      actions: {
-        required: true,
-        serializedName: "actions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Webhook: msRest.CompositeMapper = {
   serializedName: "Webhook",
   type: {
@@ -976,58 +817,6 @@ export const Webhook: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const WebhookPropertiesCreateParameters: msRest.CompositeMapper = {
-  serializedName: "WebhookPropertiesCreateParameters",
-  type: {
-    name: "Composite",
-    className: "WebhookPropertiesCreateParameters",
-    modelProperties: {
-      serviceUri: {
-        required: true,
-        serializedName: "serviceUri",
-        type: {
-          name: "String"
-        }
-      },
-      customHeaders: {
-        serializedName: "customHeaders",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      scope: {
-        serializedName: "scope",
-        type: {
-          name: "String"
-        }
-      },
-      actions: {
-        required: true,
-        serializedName: "actions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
@@ -1091,56 +880,6 @@ export const WebhookCreateParameters: msRest.CompositeMapper = {
       actions: {
         required: true,
         serializedName: "properties.actions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const WebhookPropertiesUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "WebhookPropertiesUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "WebhookPropertiesUpdateParameters",
-    modelProperties: {
-      serviceUri: {
-        serializedName: "serviceUri",
-        type: {
-          name: "String"
-        }
-      },
-      customHeaders: {
-        serializedName: "customHeaders",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      scope: {
-        serializedName: "scope",
-        type: {
-          name: "String"
-        }
-      },
-      actions: {
-        serializedName: "actions",
         type: {
           name: "Sequence",
           element: {
@@ -1755,117 +1494,6 @@ export const AgentProperties: msRest.CompositeMapper = {
   }
 };
 
-export const RunProperties: msRest.CompositeMapper = {
-  serializedName: "RunProperties",
-  type: {
-    name: "Composite",
-    className: "RunProperties",
-    modelProperties: {
-      runId: {
-        serializedName: "runId",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      lastUpdatedTime: {
-        serializedName: "lastUpdatedTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      runType: {
-        serializedName: "runType",
-        type: {
-          name: "String"
-        }
-      },
-      createTime: {
-        serializedName: "createTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      startTime: {
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      finishTime: {
-        serializedName: "finishTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      outputImages: {
-        serializedName: "outputImages",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ImageDescriptor"
-            }
-          }
-        }
-      },
-      task: {
-        serializedName: "task",
-        type: {
-          name: "String"
-        }
-      },
-      imageUpdateTrigger: {
-        serializedName: "imageUpdateTrigger",
-        type: {
-          name: "Composite",
-          className: "ImageUpdateTrigger"
-        }
-      },
-      sourceTrigger: {
-        serializedName: "sourceTrigger",
-        type: {
-          name: "Composite",
-          className: "SourceTriggerDescriptor"
-        }
-      },
-      isArchiveEnabled: {
-        serializedName: "isArchiveEnabled",
-        defaultValue: false,
-        type: {
-          name: "Boolean"
-        }
-      },
-      platform: {
-        serializedName: "platform",
-        type: {
-          name: "Composite",
-          className: "PlatformProperties"
-        }
-      },
-      agentConfiguration: {
-        serializedName: "agentConfiguration",
-        type: {
-          name: "Composite",
-          className: "AgentProperties"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ProxyResource: msRest.CompositeMapper = {
   serializedName: "ProxyResource",
   type: {
@@ -2383,82 +2011,6 @@ export const TriggerProperties: msRest.CompositeMapper = {
   }
 };
 
-export const TaskProperties: msRest.CompositeMapper = {
-  serializedName: "TaskProperties",
-  type: {
-    name: "Composite",
-    className: "TaskProperties",
-    modelProperties: {
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      creationDate: {
-        readOnly: true,
-        serializedName: "creationDate",
-        type: {
-          name: "DateTime"
-        }
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      platform: {
-        required: true,
-        serializedName: "platform",
-        type: {
-          name: "Composite",
-          className: "PlatformProperties"
-        }
-      },
-      agentConfiguration: {
-        serializedName: "agentConfiguration",
-        type: {
-          name: "Composite",
-          className: "AgentProperties"
-        }
-      },
-      timeout: {
-        serializedName: "timeout",
-        defaultValue: 3600,
-        constraints: {
-          InclusiveMaximum: 28800,
-          InclusiveMinimum: 300
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      step: {
-        required: true,
-        serializedName: "step",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "TaskStepProperties",
-          className: "TaskStepProperties"
-        }
-      },
-      trigger: {
-        serializedName: "trigger",
-        type: {
-          name: "Composite",
-          className: "TriggerProperties"
-        }
-      }
-    }
-  }
-};
-
 export const Task: msRest.CompositeMapper = {
   serializedName: "Task",
   type: {
@@ -2760,61 +2312,6 @@ export const TriggerUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "BaseImageTriggerUpdateParameters"
-        }
-      }
-    }
-  }
-};
-
-export const TaskPropertiesUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "TaskPropertiesUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "TaskPropertiesUpdateParameters",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      platform: {
-        serializedName: "platform",
-        type: {
-          name: "Composite",
-          className: "PlatformUpdateParameters"
-        }
-      },
-      agentConfiguration: {
-        serializedName: "agentConfiguration",
-        type: {
-          name: "Composite",
-          className: "AgentProperties"
-        }
-      },
-      timeout: {
-        serializedName: "timeout",
-        type: {
-          name: "Number"
-        }
-      },
-      step: {
-        serializedName: "step",
-        type: {
-          name: "Composite",
-          polymorphicDiscriminator: {
-            serializedName: "type",
-            clientName: "type"
-          },
-          uberParent: "TaskStepUpdateParameters",
-          className: "TaskStepUpdateParameters"
-        }
-      },
-      trigger: {
-        serializedName: "trigger",
-        type: {
-          name: "Composite",
-          className: "TriggerUpdateParameters"
         }
       }
     }

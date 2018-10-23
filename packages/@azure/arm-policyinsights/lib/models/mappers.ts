@@ -236,63 +236,6 @@ export const RemediationDeploymentSummary: msRest.CompositeMapper = {
   }
 };
 
-export const RemediationProperties: msRest.CompositeMapper = {
-  serializedName: "RemediationProperties",
-  type: {
-    name: "Composite",
-    className: "RemediationProperties",
-    modelProperties: {
-      policyAssignmentId: {
-        serializedName: "policyAssignmentId",
-        type: {
-          name: "String"
-        }
-      },
-      policyDefinitionReferenceId: {
-        serializedName: "policyDefinitionReferenceId",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      createdOn: {
-        readOnly: true,
-        serializedName: "createdOn",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastUpdatedOn: {
-        readOnly: true,
-        serializedName: "lastUpdatedOn",
-        type: {
-          name: "DateTime"
-        }
-      },
-      filters: {
-        serializedName: "filters",
-        type: {
-          name: "Composite",
-          className: "RemediationFilters"
-        }
-      },
-      deploymentStatus: {
-        serializedName: "deploymentStatus",
-        type: {
-          name: "Composite",
-          className: "RemediationDeploymentSummary"
-        }
-      }
-    }
-  }
-};
-
 export const Remediation: msRest.CompositeMapper = {
   serializedName: "Remediation",
   type: {
